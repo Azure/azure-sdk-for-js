@@ -1,6 +1,6 @@
 # Release History
     
-## 31.0.0 (2022-11-30)
+## 30.1.0 (2022-12-13)
     
 **Features**
 
@@ -10,16 +10,12 @@
   - Added Interface PublicIPAddressesDdosProtectionStatusHeaders
   - Added Interface PublicIPAddressesDeleteHeaders
   - Interface BackendAddressPool has a new optional parameter virtualNetwork
-  - Interface DdosProtectionPlan has a new optional parameter publicIPAddresses
   - Interface NetworkVirtualAppliance has a new optional parameter delegation
   - Interface NetworkVirtualAppliance has a new optional parameter deploymentType
   - Interface NetworkVirtualAppliance has a new optional parameter partnerManagedResource
   - Interface PolicySettings has a new optional parameter customBlockResponseBody
   - Interface PolicySettings has a new optional parameter customBlockResponseStatusCode
-
-**Breaking Changes**
-
-  - Interface DdosProtectionPlan no longer has parameter publicIpAddresses
+  - Added function getContinuationToken
     
     
 ## 30.0.0 (2022-09-29)

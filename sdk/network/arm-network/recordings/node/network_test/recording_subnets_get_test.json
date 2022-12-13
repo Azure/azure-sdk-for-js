@@ -8,8 +8,8 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-network/31.0.0 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "123e86a3-053d-4418-b777-67aa958a0e67"
+        "User-Agent": "azsdk-js-arm-network/30.1.0 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "032cdb81-b949-4645-a267-76dfdfa05597"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,8 +17,8 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 30 Nov 2022 07:34:47 GMT",
-        "ETag": "W/\u0022edba5830-577e-415a-a308-2522768bb621\u0022",
+        "Date": "Tue, 13 Dec 2022 09:21:20 GMT",
+        "ETag": "W/\u00228a361e0b-25a6-4280-8fc0-17a874796cca\u0022",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": [
@@ -29,16 +29,16 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-arm-service-request-id": "d54ecc68-4c6a-460a-bae0-404cd175ac6c",
-        "x-ms-correlation-request-id": "cd980ff4-262c-429d-bf54-f5cf91ad132b",
+        "x-ms-arm-service-request-id": "d132022f-098b-4e3a-a314-5710ef18de18",
+        "x-ms-correlation-request-id": "c4f70cae-3c32-437c-a054-1acd1a1a0a6e",
         "x-ms-ratelimit-remaining-subscription-reads": "11992",
-        "x-ms-request-id": "ab1c3ff0-642c-4d79-bc20-318c51ea23da",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20221130T073447Z:cd980ff4-262c-429d-bf54-f5cf91ad132b"
+        "x-ms-request-id": "f7bda0ae-6cea-4db2-b257-636731a110db",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221213T092121Z:c4f70cae-3c32-437c-a054-1acd1a1a0a6e"
       },
       "ResponseBody": {
         "name": "subnetzzz",
         "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/virtualNetworks/virtualnetworkzzz/subnets/subnetzzz",
-        "etag": "W/\u0022edba5830-577e-415a-a308-2522768bb621\u0022",
+        "etag": "W/\u00228a361e0b-25a6-4280-8fc0-17a874796cca\u0022",
         "properties": {
           "provisioningState": "Succeeded",
           "addressPrefix": "10.0.0.0/24",

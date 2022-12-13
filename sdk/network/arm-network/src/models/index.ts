@@ -1203,15 +1203,15 @@ export interface DdosProtectionPlan {
    */
   readonly provisioningState?: ProvisioningState;
   /**
-   * The list of public IPs associated with the DDoS protection plan resource. This list is read-only.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly publicIPAddresses?: SubResource[];
-  /**
    * The list of virtual networks associated with the DDoS protection plan resource. This list is read-only.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly virtualNetworks?: SubResource[];
+  /**
+   * The list of public IPs associated with the DDoS protection plan resource. This list is read-only.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly publicIpAddresses?: SubResource[];
 }
 
 /** A list of DDoS protection plans. */
