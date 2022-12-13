@@ -5,17 +5,29 @@ import { ChildProcess, spawn, SpawnOptions } from "child_process";
 import { IncomingMessage, request, RequestOptions } from "http";
 import { createPrinter } from "./printer";
 import { resolveRoot } from "./resolveProject";
-import { readFile } from "fs/promises";
 import fs from "fs-extra";
 import path from "path";
+import axios from "axios";
+import decompress from "decompress";
 
 const log = createPrinter("test-proxy");
 
-const TEST_PROXY_ARTIFACT_BASE_URL = "http://localhost:8081/";
-
-interface TestProxyArtifact {
+/**
+ * Represents a test proxy binary artifact archive that is built against a specific platform and architecture.
+ */
+interface TestProxyBinary {
   /**
-   * File name of the artifact archive to download.
+   * The platform targeted by this artifact. For example, "win32", "darwin" (macOS), "linux".
+   */
+  platform: string;
+
+  /**
+   * The architecture supported by this artifact. For example, "x64" or "arm64".
+   */
+  architecture: string;
+
+  /**
+   * File name of the binary archive to download.
    */
   fileName: string;
 
@@ -25,34 +37,50 @@ interface TestProxyArtifact {
   executableLocation: string;
 }
 
-const TEST_PROXY_ARTIFACTS: Record<string, Record<string, TestProxyArtifact>> = {
-  win32: {
-    x64: { fileName: "test-proxy-standalone-win-x64.zip", executableLocation: "test-proxy.exe" },
+/**
+ * Set of available test proxy artifact bundles for download.
+ */
+const AVAILABLE_TEST_PROXY_BINARIES: TestProxyBinary[] = [
+  {
+    platform: "win32",
+    architecture: "x64",
+    fileName: "test-proxy-standalone-win-x64.zip",
+    executableLocation: "test-proxy.exe",
   },
-  linux: {
-    x64: {
-      fileName: "test-proxy-standalone-linux-x64.tar.gz",
-      executableLocation: "tools/test-proxy/linux-x64/test-proxy",
-    },
-    arm64: {
-      fileName: "test-proxy-standalone-linux-arm64.tar.gz",
-      executableLocation: "tools/test-proxy/linux-arm64/test-proxy",
-    },
+  {
+    platform: "linux",
+    architecture: "x64",
+    fileName: "test-proxy-standalone-linux-x64.tar.gz",
+    executableLocation: "tools/test-proxy/linux-x64/test-proxy",
   },
-  darwin: {
-    x64: {
-      fileName: "test-proxy-standalone-osx-x64.tar.gz",
-      executableLocation: "tools/test-proxy/osx-x64/test-proxy",
-    },
-    arm64: {
-      fileName: "test-proxy-standalone-osx-x64.tar.gz",
-      executableLocation: "tools/test-proxy/osx-arm64/test-proxy",
-    },
+  {
+    platform: "linux",
+    architecture: "arm64",
+    fileName: "test-proxy-standalone-linux-arm64.tar.gz",
+    executableLocation: "tools/test-proxy/linux-arm64/test-proxy",
   },
-};
+  {
+    platform: "darwin",
+    architecture: "x64",
+    fileName: "test-proxy-standalone-osx-x64.tar.gz",
+    executableLocation: "tools/test-proxy/osx-x64/test-proxy",
+  },
+  {
+    platform: "darwin",
+    architecture: "arm64",
+    fileName: "test-proxy-standalone-osx-x64.tar.gz",
+    executableLocation: "tools/test-proxy/osx-arm64/test-proxy",
+  },
+];
 
-function getTestProxyArtifact(): TestProxyArtifact {
-  const result = TEST_PROXY_ARTIFACTS[process.platform]?.[process.arch];
+/**
+ * Gets a test proxy artifact supported by the current environment.
+ */
+function getTestProxyBinary(): TestProxyBinary {
+  const result = AVAILABLE_TEST_PROXY_BINARIES.find(
+    ({ platform, architecture }) => platform === process.platform && architecture === process.arch
+  );
+
   if (!result) {
     throw new Error(
       `Unsupported platform/architecture combination: ${process.platform}/${process.arch}`
@@ -62,68 +90,48 @@ function getTestProxyArtifact(): TestProxyArtifact {
   return result;
 }
 
+/**
+ * Gets the download URL for a specific binary and version.
+ */
+function getDownloadUrl(binary: TestProxyBinary, version: string): string {
+  return `https://github.com/Azure/azure-sdk-tools/releases/download/test-proxy_${version}/${binary.fileName}`;
+}
+
+async function downloadTestProxy(downloadLocation: string, downloadUrl: string): Promise<void> {
+  log(`Downloading test proxy binary from ${downloadUrl}`);
+  const { data } = await axios.get<ArrayBuffer>(downloadUrl, { responseType: "arraybuffer" });
+  log(`Extracting test proxy binary to ${downloadLocation}`);
+  await decompress(Buffer.from(data), downloadLocation);
+}
+
+/**
+ * Gets the path to the test-proxy executable. If the test-proxy executable has not been downloaded already, it will first be downloaded.
+ */
 export async function getTestProxyExecutable(): Promise<string> {
   const targetVersion = await getTargetVersion();
-  const downloadDir = path.join(await resolveRoot(), ".test-proxy");
-  const artifact = await getTestProxyArtifact();
-  const dirWithVersion = path.join(downloadDir, targetVersion);
+  const binary = await getTestProxyBinary();
 
-  const executable = path.join(dirWithVersion, artifact.executableLocation);
+  // The artifact is downloaded and extracted to <sdk root>/.test-proxy/<version>/.
+  const downloadLocation = path.join(await resolveRoot(), ".test-proxy");
+  const downloadLocationWithVersion = path.join(downloadLocation, targetVersion);
+  const executableLocation = path.join(downloadLocationWithVersion, binary.executableLocation);
 
-  // If we don't have the version that we're targeting downloaded, nuke the entire folder and redownload. This has the side effect of removing old test proxy versions
-  // that we don't want.
-  if (!(await fs.pathExists(executable))) {
-    await fs.remove(downloadDir);
+  // Check the executable is already downloaded and is, in fact, executable. If it's not, download it.
+  try {
+    await fs.access(executableLocation, fs.constants.X_OK);
+  } catch {
+    // Nuking the root .test-proxy folder, without the version, ensures that older versions of the test proxy
+    // get cleaned up, so we don't end up with a ton of different test proxy versions using up disk space.
+    await fs.remove(downloadLocation);
 
-    await fs.ensureDir(dirWithVersion);
+    await fs.mkdirp(downloadLocationWithVersion);
+    await downloadTestProxy(downloadLocationWithVersion, getDownloadUrl(binary, targetVersion));
 
-    // download to dirWithVersion & extract
-    console.log(`Downloading test proxy ${targetVersion}...`);
-
-    // All reasonable development operating systems (including Windows 10+), have both curl and tar installed
-    const curl = runCommand(
-      "curl",
-      [
-        // Flags in order: progress bar, follow redirects, don't use .curlrc, output to standard output
-        "-#Lqo-",
-        // URL to download from
-        `${TEST_PROXY_ARTIFACT_BASE_URL}${artifact.fileName}`,
-      ],
-      {
-        cwd: dirWithVersion,
-        stdio: [
-          "ignore", // stdin can be ignored
-          "pipe", // pipe stdout to tar
-          "inherit", // pass stderr to process.stderr
-        ],
-      }
-    );
-
-    // tar on windows can extract a .zip fine, and of course works with .tar.gz on Linux/Mac.
-    const tar = runCommand(
-      "tar",
-      [
-        "--strip-components=8", // the packaged tarballs currently have like 8 layers of unnecessary nesting, this parameter removes them
-        "-zxf",
-        "-",
-      ],
-      {
-        cwd: dirWithVersion,
-        stdio: [
-          "pipe", // stdin comes from curl
-          "inherit", // stdout and stderr to console
-          "inherit",
-        ],
-      }
-    );
-
-    // set up the pipe
-    curl.command.stdout!.pipe(tar.command.stdin!);
-
-    await tar.result;
+    // Try again to make sure that it downloaded properly.
+    await fs.access(executableLocation, fs.constants.X_OK);
   }
 
-  return executable;
+  return executableLocation;
 }
 
 export interface CommandRun {
@@ -150,7 +158,7 @@ export function runCommand(
         if (exitCode === 0) {
           resolve();
         } else if (!signal) {
-          reject(new Error(`Command exited with code ${exitCode}`));
+          reject(new Error(`${executable} exited with code ${exitCode}`));
         }
       });
     }),
@@ -170,6 +178,8 @@ export async function startTestProxy(): Promise<TestProxyHandle> {
     "start",
     "-l",
     await resolveRoot(),
+    `http://0.0.0.0:${process.env.TEST_PROXY_HTTP_PORT ?? 5000}/`,
+    `http://0.0.0.0:${process.env.TEST_PROXY_HTTPS_PORT ?? 5001}/`,
   ]);
 
   const log = fs.createWriteStream("./testProxyOutput.log", { flags: "a" });
@@ -186,10 +196,8 @@ export async function startTestProxy(): Promise<TestProxyHandle> {
 
 export async function isProxyToolActive(): Promise<boolean> {
   try {
-    await makeRequest(
-      `http://localhost:${process.env.TEST_PROXY_HTTP_PORT ?? 5000}/info/available`,
-      {}
-    );
+    await axios.get(`http://localhost:${process.env.TEST_PROXY_HTTP_PORT ?? 5000}/info/available`);
+
     log.info(
       `Proxy tool seems to be active at http://localhost:${
         process.env.TEST_PROXY_HTTP_PORT ?? 5000
