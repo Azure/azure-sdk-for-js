@@ -11464,7 +11464,7 @@ packages:
     dev: false
 
   file:projects/arm-containerservice.tgz:
-    resolution: {integrity: sha512-3M3pGHPJwocU7TyW+7Npd2ym5wOvRl1oIsE3hUX6fH3TeevmPqbg0OiA6yaAfxu1lBCeQWdzeiDQXWule2Wm0w==, tarball: file:projects/arm-containerservice.tgz}
+    resolution: {integrity: sha512-u8Q/ZMZWrM/gxNj8Yg4LjzEwKTVWnUKkqEL61IUUzCmdzUT4nIrwMcwSafa3CbuhQDboKO7dq+uA8tWf2eR1VA==, tarball: file:projects/arm-containerservice.tgz}
     name: '@rush-temp/arm-containerservice'
     version: 0.0.0
     dependencies:
@@ -11494,7 +11494,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
       nyc: 14.1.1
-      prettier: 2.2.1
+      prettier: 2.8.0
       rimraf: 3.0.2
       source-map-support: 0.5.21
       tslib: 2.4.1
