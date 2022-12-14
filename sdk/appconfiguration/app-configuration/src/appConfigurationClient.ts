@@ -199,7 +199,9 @@ export class AppConfigurationClient {
           return response;
         } catch (error) {
           const err = error as RestError;
-          err.message = `Status ${err.statusCode}: Setting was already present`;
+          if (err.statusCode === 412) {
+            err.message = `Status 412: Setting was already present`;
+          }
           throw err;
         }
         throw new Error("Unreachable code");
