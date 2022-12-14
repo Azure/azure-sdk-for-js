@@ -3,7 +3,7 @@
 
 import { AzureKeyCredential } from "@azure/core-auth";
 import { assert } from "chai";
-import { parseConnectionString } from "../src/credential/connectionString";
+import { parseConnectionString } from "../../src";
 
 const CONNECTION_STRING =
   "endpoint=https://contoso.communicationservices.azure.com:443/;accesskey=secret";
