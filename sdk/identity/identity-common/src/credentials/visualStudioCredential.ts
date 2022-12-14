@@ -16,7 +16,6 @@ import { checkTenantId } from "../util/tenantIdUtils";
 import fs from "fs";
 import os from "os";
 import path from "path";
-import { VSCodeCredentialFinder } from "./visualStudioCodeCredentialPlugin";
 
 const CommonTenantId = "common";
 const AzureAccountClientId = "aebc6443-996d-45c2-90f0-388ff96faa56"; // VSC: 'aebc6443-996d-45c2-90f0-388ff96faa56'

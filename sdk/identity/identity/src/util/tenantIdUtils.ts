@@ -2,21 +2,8 @@
 // Licensed under the MIT license.
 
 import { ALL_TENANTS, DeveloperSignOnClientId } from "../constants";
-import { CredentialLogger, formatError } from "./logging";
+import { CredentialLogger } from "@azure/identity-common";
 export { processMultiTenantRequest } from "./processMultiTenantRequest";
-
-/**
- * @internal
- */
-export function checkTenantId(logger: CredentialLogger, tenantId: string): void {
-  if (!tenantId.match(/^[0-9a-zA-Z-.:/]+$/)) {
-    const error = new Error(
-      "Invalid tenant id provided. You can locate your tenant id by following the instructions listed here: https://docs.microsoft.com/partner-center/find-ids-and-domain-names."
-    );
-    logger.info(formatError("", error));
-    throw error;
-  }
-}
 
 /**
  * @internal

@@ -53,24 +53,6 @@ export interface MsalNodeOptions extends MsalFlowOptions {
 }
 
 /**
- * The current persistence provider, undefined by default.
- * @internal
- */
-let persistenceProvider:
-  | ((options?: TokenCachePersistenceOptions) => Promise<msalCommon.ICachePlugin>)
-  | undefined = undefined;
-
-/**
- * An object that allows setting the persistence provider.
- * @internal
- */
-export const msalNodeFlowCacheControl = {
-  setPersistence(pluginProvider: Exclude<typeof persistenceProvider, undefined>): void {
-    persistenceProvider = pluginProvider;
-  },
-};
-
-/**
  * MSAL partial base client for Node.js.
  *
  * It completes the input configuration with some default values.
