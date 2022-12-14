@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Deletes a static member.
  *
  * @summary Deletes a static member.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkManagerStaticMemberDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/NetworkManagerStaticMemberDelete.json
  */
 async function staticMembersDelete() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

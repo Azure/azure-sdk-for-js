@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Update a DDoS protection plan tags.
  *
  * @summary Update a DDoS protection plan tags.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/DdosProtectionPlanUpdateTags.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/DdosProtectionPlanUpdateTags.json
  */
 async function dDoSProtectionPlanUpdateTags() {
   const subscriptionId = "subid";

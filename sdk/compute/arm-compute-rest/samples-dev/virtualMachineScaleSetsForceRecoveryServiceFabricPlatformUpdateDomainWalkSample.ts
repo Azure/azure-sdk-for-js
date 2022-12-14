@@ -23,9 +23,10 @@ async function virtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDo
   const subscriptionId = "";
   const resourceGroupName = "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaaaa";
-  const options: VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkParameters = {
-    queryParameters: { "api-version": "2022-08-01", platformUpdateDomain: 30 },
-  };
+  const options: VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkParameters =
+    {
+      queryParameters: { "api-version": "2022-08-01", platformUpdateDomain: 30 },
+    };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/forceRecoveryServiceFabricPlatformUpdateDomainWalk",
@@ -52,9 +53,10 @@ async function virtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDo
   const subscriptionId = "";
   const resourceGroupName = "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaa";
-  const options: VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkParameters = {
-    queryParameters: { "api-version": "2022-08-01", platformUpdateDomain: 9 },
-  };
+  const options: VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkParameters =
+    {
+      queryParameters: { "api-version": "2022-08-01", platformUpdateDomain: 9 },
+    };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/forceRecoveryServiceFabricPlatformUpdateDomainWalk",

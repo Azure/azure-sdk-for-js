@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Gets all default security rules in a network security group.
  *
  * @summary Gets all default security rules in a network security group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/DefaultSecurityRuleList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/DefaultSecurityRuleList.json
  */
 async function defaultSecurityRuleList() {
   const subscriptionId = "subid";
