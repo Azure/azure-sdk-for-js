@@ -39,8 +39,7 @@ async function createNewCloudServiceWithMultipleRoles() {
                     name: "contosofe",
                     properties: {
                       publicIPAddress: {
-                        id:
-                          "/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Network/publicIPAddresses/contosopublicip",
+                        id: "/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Network/publicIPAddresses/contosopublicip",
                       },
                     },
                   },
@@ -108,8 +107,7 @@ async function createNewCloudServiceWithSingleRole() {
                     name: "myfe",
                     properties: {
                       publicIPAddress: {
-                        id:
-                          "/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Network/publicIPAddresses/myPublicIP",
+                        id: "/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Network/publicIPAddresses/myPublicIP",
                       },
                     },
                   },
@@ -173,8 +171,7 @@ async function createNewCloudServiceWithSingleRoleAndCertificateFromKeyVault() {
                     name: "contosofe",
                     properties: {
                       publicIPAddress: {
-                        id:
-                          "/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Network/publicIPAddresses/contosopublicip",
+                        id: "/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Network/publicIPAddresses/contosopublicip",
                       },
                     },
                   },
@@ -187,8 +184,7 @@ async function createNewCloudServiceWithSingleRoleAndCertificateFromKeyVault() {
           secrets: [
             {
               sourceVault: {
-                id:
-                  "/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.KeyVault/vaults/{keyvault-name}",
+                id: "/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.KeyVault/vaults/{keyvault-name}",
               },
               vaultCertificates: [
                 {
@@ -270,8 +266,7 @@ async function createNewCloudServiceWithSingleRoleAndRdpExtension() {
                     name: "contosofe",
                     properties: {
                       publicIPAddress: {
-                        id:
-                          "/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Network/publicIPAddresses/contosopublicip",
+                        id: "/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Network/publicIPAddresses/contosopublicip",
                       },
                     },
                   },

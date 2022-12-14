@@ -59,6 +59,7 @@ import { FeatureFlagValue } from "./featureFlag";
 import { SecretReferenceValue } from "./secretReference";
 import { appConfigKeyCredentialPolicy } from "./appConfigCredential";
 import { tracingClient } from "./internal/tracing";
+import { logger } from "./logger";
 
 const apiVersion = "1.0";
 const ConnectionStringRegex = /Endpoint=(.*);Id=(.*);Secret=(.*)/;
@@ -181,6 +182,7 @@ export class AppConfigurationClient {
       options,
       async (updatedOptions) => {
         const keyValue = serializeAsConfigurationSettingParam(configurationSetting);
+        logger.info("[addConfigurationSetting] Creating a key value pair");
         const originalResponse = await this.client.putKeyValue(configurationSetting.key, {
           ifNoneMatch: "*",
           label: configurationSetting.label,
@@ -213,6 +215,7 @@ export class AppConfigurationClient {
       options,
       async (updatedOptions) => {
         let status;
+        logger.info("[deleteConfigurationSetting] Deleting key value pair");
         const originalResponse = await this.client.deleteKeyValue(id.key, {
           label: id.label,
           ...updatedOptions,
@@ -248,6 +251,7 @@ export class AppConfigurationClient {
       options,
       async (updatedOptions) => {
         let status;
+        logger.info("[getConfigurationSetting] Getting key value pair");
         const originalResponse = await this.client.getKeyValue(id.key, {
           ...updatedOptions,
           label: id.label,
@@ -412,6 +416,7 @@ export class AppConfigurationClient {
       options,
       async (updatedOptions) => {
         const keyValue = serializeAsConfigurationSettingParam(configurationSetting);
+        logger.info("[setConfigurationSetting] Setting new key value");
         const response = transformKeyValueResponse(
           await this.client.putKeyValue(configurationSetting.key, {
             ...updatedOptions,
@@ -441,12 +446,14 @@ export class AppConfigurationClient {
       async (newOptions) => {
         let response;
         if (readOnly) {
+          logger.info("[setReadOnly] Setting read-only status to ${readOnly}");
           response = await this.client.putLock(id.key, {
             ...newOptions,
             label: id.label,
             ...checkAndFormatIfAndIfNoneMatch(id, options),
           });
         } else {
+          logger.info("[setReadOnly] Deleting read-only lock");
           response = await this.client.deleteLock(id.key, {
             ...newOptions,
             label: id.label,

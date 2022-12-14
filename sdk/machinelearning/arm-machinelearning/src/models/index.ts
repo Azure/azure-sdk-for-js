@@ -808,16 +808,16 @@ export interface ComputeResourceSchema {
 export interface Compute {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   computeType:
-  | "AKS"
-  | "Kubernetes"
-  | "AmlCompute"
-  | "ComputeInstance"
-  | "VirtualMachine"
-  | "HDInsight"
-  | "DataFactory"
-  | "Databricks"
-  | "DataLakeAnalytics"
-  | "SynapseSpark";
+    | "AKS"
+    | "Kubernetes"
+    | "AmlCompute"
+    | "ComputeInstance"
+    | "VirtualMachine"
+    | "HDInsight"
+    | "DataFactory"
+    | "Databricks"
+    | "DataLakeAnalytics"
+    | "SynapseSpark";
   /** Location for the underlying compute */
   computeLocation?: string;
   /**
@@ -1205,11 +1205,11 @@ export interface DatastoreResourceArmPaginatedResult {
 export interface DatastoreCredentials {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   credentialsType:
-  | "AccountKey"
-  | "Certificate"
-  | "None"
-  | "Sas"
-  | "ServicePrincipal";
+    | "AccountKey"
+    | "Certificate"
+    | "None"
+    | "Sas"
+    | "ServicePrincipal";
 }
 
 /** Base definition for datastore secrets. */
@@ -2231,12 +2231,12 @@ export interface ForecastHorizon {
 export interface JobOutput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   jobOutputType:
-  | "custom_model"
-  | "mlflow_model"
-  | "mltable"
-  | "triton_model"
-  | "uri_file"
-  | "uri_folder";
+    | "custom_model"
+    | "mlflow_model"
+    | "mltable"
+    | "triton_model"
+    | "uri_file"
+    | "uri_folder";
   /** Description for the output. */
   description?: string;
 }
@@ -2248,16 +2248,16 @@ export interface JobOutput {
 export interface AutoMLVertical {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   taskType:
-  | "Classification"
-  | "Forecasting"
-  | "ImageClassification"
-  | "ImageClassificationMultilabel"
-  | "ImageInstanceSegmentation"
-  | "ImageObjectDetection"
-  | "Regression"
-  | "TextClassification"
-  | "TextClassificationMultilabel"
-  | "TextNER";
+    | "Classification"
+    | "Forecasting"
+    | "ImageClassification"
+    | "ImageClassificationMultilabel"
+    | "ImageInstanceSegmentation"
+    | "ImageObjectDetection"
+    | "Regression"
+    | "TextClassification"
+    | "TextClassificationMultilabel"
+    | "TextNER";
   /** Log verbosity for the job. */
   logVerbosity?: LogVerbosity;
   /**
@@ -2273,13 +2273,13 @@ export interface AutoMLVertical {
 export interface JobInput {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   jobInputType:
-  | "mltable"
-  | "custom_model"
-  | "mlflow_model"
-  | "literal"
-  | "triton_model"
-  | "uri_file"
-  | "uri_folder";
+    | "mltable"
+    | "custom_model"
+    | "mlflow_model"
+    | "literal"
+    | "triton_model"
+    | "uri_file"
+    | "uri_folder";
   /** Description for the input. */
   description?: string;
 }
@@ -3080,7 +3080,7 @@ export interface SynapseSpark extends Compute {
 /** Secrets related to a Machine Learning compute based on AKS. */
 export interface AksComputeSecrets
   extends ComputeSecrets,
-  AksComputeSecretsProperties {
+    AksComputeSecretsProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   computeType: "AKS";
 }
@@ -3088,7 +3088,7 @@ export interface AksComputeSecrets
 /** Secrets related to a Machine Learning compute based on AKS. */
 export interface VirtualMachineSecrets
   extends ComputeSecrets,
-  VirtualMachineSecretsSchema {
+    VirtualMachineSecretsSchema {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   computeType: "VirtualMachine";
 }
@@ -3096,7 +3096,7 @@ export interface VirtualMachineSecrets
 /** Secrets related to a Machine Learning compute based on Databricks. */
 export interface DatabricksComputeSecrets
   extends ComputeSecrets,
-  DatabricksComputeSecretsProperties {
+    DatabricksComputeSecretsProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   computeType: "Databricks";
 }
@@ -3207,7 +3207,7 @@ export interface OutputPathAssetReference extends AssetReferenceBase {
 }
 
 export interface DeploymentResourceConfiguration
-  extends ResourceConfiguration { }
+  extends ResourceConfiguration {}
 
 export interface JobResourceConfiguration extends ResourceConfiguration {
   /** Extra arguments to pass to the Docker run command. This would override any parameters that have already been set by the system, or in this section. This parameter is only supported for Azure ML compute types. */
@@ -3548,29 +3548,29 @@ export interface CronTrigger extends TriggerBase {
   expression: string;
 }
 
-export interface MLTableJobInput extends AssetJobInput, JobInput { }
+export interface MLTableJobInput extends AssetJobInput, JobInput {}
 
-export interface CustomModelJobInput extends AssetJobInput, JobInput { }
+export interface CustomModelJobInput extends AssetJobInput, JobInput {}
 
-export interface MLFlowModelJobInput extends AssetJobInput, JobInput { }
+export interface MLFlowModelJobInput extends AssetJobInput, JobInput {}
 
-export interface TritonModelJobInput extends AssetJobInput, JobInput { }
+export interface TritonModelJobInput extends AssetJobInput, JobInput {}
 
-export interface UriFileJobInput extends AssetJobInput, JobInput { }
+export interface UriFileJobInput extends AssetJobInput, JobInput {}
 
-export interface UriFolderJobInput extends AssetJobInput, JobInput { }
+export interface UriFolderJobInput extends AssetJobInput, JobInput {}
 
-export interface CustomModelJobOutput extends AssetJobOutput, JobOutput { }
+export interface CustomModelJobOutput extends AssetJobOutput, JobOutput {}
 
-export interface MLFlowModelJobOutput extends AssetJobOutput, JobOutput { }
+export interface MLFlowModelJobOutput extends AssetJobOutput, JobOutput {}
 
-export interface MLTableJobOutput extends AssetJobOutput, JobOutput { }
+export interface MLTableJobOutput extends AssetJobOutput, JobOutput {}
 
-export interface TritonModelJobOutput extends AssetJobOutput, JobOutput { }
+export interface TritonModelJobOutput extends AssetJobOutput, JobOutput {}
 
-export interface UriFileJobOutput extends AssetJobOutput, JobOutput { }
+export interface UriFileJobOutput extends AssetJobOutput, JobOutput {}
 
-export interface UriFolderJobOutput extends AssetJobOutput, JobOutput { }
+export interface UriFolderJobOutput extends AssetJobOutput, JobOutput {}
 
 /** Forecast horizon determined automatically by system. */
 export interface AutoForecastHorizon extends ForecastHorizon {
@@ -3612,7 +3612,7 @@ export interface Forecasting extends TableVertical, AutoMLVertical {
  */
 export interface ImageClassification
   extends ImageClassificationBase,
-  AutoMLVertical {
+    AutoMLVertical {
   /** Primary metric to optimize for this task. */
   primaryMetric?: ClassificationPrimaryMetrics;
 }
@@ -3623,7 +3623,7 @@ export interface ImageClassification
  */
 export interface ImageClassificationMultilabel
   extends ImageClassificationBase,
-  AutoMLVertical {
+    AutoMLVertical {
   /** Primary metric to optimize for this task. */
   primaryMetric?: ClassificationMultilabelPrimaryMetrics;
 }
@@ -3634,7 +3634,7 @@ export interface ImageClassificationMultilabel
  */
 export interface ImageInstanceSegmentation
   extends ImageObjectDetectionBase,
-  AutoMLVertical {
+    AutoMLVertical {
   /** Primary metric to optimize for this task. */
   primaryMetric?: InstanceSegmentationPrimaryMetrics;
 }
@@ -3645,7 +3645,7 @@ export interface ImageInstanceSegmentation
  */
 export interface ImageObjectDetection
   extends ImageObjectDetectionBase,
-  AutoMLVertical {
+    AutoMLVertical {
   /** Primary metric to optimize for this task. */
   primaryMetric?: ObjectDetectionPrimaryMetrics;
 }
@@ -3673,7 +3673,7 @@ export interface TextClassification extends NlpVertical, AutoMLVertical {
  */
 export interface TextClassificationMultilabel
   extends NlpVertical,
-  AutoMLVertical {
+    AutoMLVertical {
   /**
    * Primary metric for Text-Classification-Multilabel task.
    * Currently only Accuracy is supported as primary metric, hence user need not set it explicitly.
@@ -3845,7 +3845,7 @@ export interface TableVerticalFeaturizationSettings
 }
 
 export interface NlpVerticalFeaturizationSettings
-  extends FeaturizationSettings { }
+  extends FeaturizationSettings {}
 
 /** MPI distribution configuration. */
 export interface Mpi extends DistributionConfiguration {
@@ -4165,13 +4165,13 @@ export interface ManagedOnlineDeployment extends OnlineDeploymentProperties {
 }
 
 /** Container for code asset versions. */
-export interface CodeContainerProperties extends AssetContainer { }
+export interface CodeContainerProperties extends AssetContainer {}
 
 /**
  * Component container definition.
  * <see href="https://docs.microsoft.com/en-us/azure/machine-learning/reference-yaml-component-command" />
  */
-export interface ComponentContainerProperties extends AssetContainer { }
+export interface ComponentContainerProperties extends AssetContainer {}
 
 /** Container for data asset versions. */
 export interface DataContainerProperties extends AssetContainer {
@@ -4180,9 +4180,9 @@ export interface DataContainerProperties extends AssetContainer {
 }
 
 /** Container for environment specification versions. */
-export interface EnvironmentContainerProperties extends AssetContainer { }
+export interface EnvironmentContainerProperties extends AssetContainer {}
 
-export interface ModelContainerProperties extends AssetContainer { }
+export interface ModelContainerProperties extends AssetContainer {}
 
 /** Code asset version details. */
 export interface CodeVersionProperties extends AssetBase {
@@ -7503,14 +7503,14 @@ export type SkuTier = "Free" | "Basic" | "Standard" | "Premium";
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type OperationsListResponse = AmlOperationListResult;
 
 /** Optional parameters. */
 export interface WorkspacesGetOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type WorkspacesGetResponse = Workspace;
@@ -7574,7 +7574,7 @@ export type WorkspacesDiagnoseResponse = DiagnoseResponseResult;
 
 /** Optional parameters. */
 export interface WorkspacesListKeysOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listKeys operation. */
 export type WorkspacesListKeysResponse = ListWorkspaceKeysResult;
@@ -7600,7 +7600,7 @@ export type WorkspacesListBySubscriptionResponse = WorkspaceListResult;
 
 /** Optional parameters. */
 export interface WorkspacesListNotebookAccessTokenOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNotebookAccessToken operation. */
 export type WorkspacesListNotebookAccessTokenResponse = NotebookAccessTokenResult;
@@ -7619,21 +7619,21 @@ export type WorkspacesPrepareNotebookResponse = NotebookResourceInfo;
 
 /** Optional parameters. */
 export interface WorkspacesListStorageAccountKeysOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listStorageAccountKeys operation. */
 export type WorkspacesListStorageAccountKeysResponse = ListStorageAccountKeysResult;
 
 /** Optional parameters. */
 export interface WorkspacesListNotebookKeysOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNotebookKeys operation. */
 export type WorkspacesListNotebookKeysResponse = ListNotebookKeysResult;
 
 /** Optional parameters. */
 export interface WorkspacesListOutboundNetworkDependenciesEndpointsOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listOutboundNetworkDependenciesEndpoints operation. */
 export type WorkspacesListOutboundNetworkDependenciesEndpointsResponse = ExternalFqdnResponse;
@@ -7659,41 +7659,41 @@ export interface WorkspacesListBySubscriptionNextOptionalParams
 export type WorkspacesListBySubscriptionNextResponse = WorkspaceListResult;
 
 /** Optional parameters. */
-export interface UsagesListOptionalParams extends coreClient.OperationOptions { }
+export interface UsagesListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type UsagesListResponse = ListUsagesResult;
 
 /** Optional parameters. */
 export interface UsagesListNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type UsagesListNextResponse = ListUsagesResult;
 
 /** Optional parameters. */
 export interface VirtualMachineSizesListOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type VirtualMachineSizesListResponse = VirtualMachineSizeListResult;
 
 /** Optional parameters. */
 export interface QuotasUpdateOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type QuotasUpdateResponse = UpdateWorkspaceQuotasResult;
 
 /** Optional parameters. */
-export interface QuotasListOptionalParams extends coreClient.OperationOptions { }
+export interface QuotasListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type QuotasListResponse = ListWorkspaceQuotas;
 
 /** Optional parameters. */
 export interface QuotasListNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type QuotasListNextResponse = ListWorkspaceQuotas;
@@ -7708,7 +7708,7 @@ export interface ComputeListOptionalParams extends coreClient.OperationOptions {
 export type ComputeListResponse = PaginatedComputeResourcesList;
 
 /** Optional parameters. */
-export interface ComputeGetOptionalParams extends coreClient.OperationOptions { }
+export interface ComputeGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type ComputeGetResponse = ComputeResource;
@@ -7748,14 +7748,14 @@ export interface ComputeDeleteOptionalParams
 
 /** Optional parameters. */
 export interface ComputeListNodesOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNodes operation. */
 export type ComputeListNodesResponse = AmlComputeNodesInformation;
 
 /** Optional parameters. */
 export interface ComputeListKeysOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listKeys operation. */
 export type ComputeListKeysResponse = ComputeSecretsUnion;
@@ -7798,60 +7798,60 @@ export type ComputeListNextResponse = PaginatedComputeResourcesList;
 
 /** Optional parameters. */
 export interface ComputeListNodesNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNodesNext operation. */
 export type ComputeListNodesNextResponse = AmlComputeNodesInformation;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsListOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsGetOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsDeleteOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface PrivateLinkResourcesListOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type PrivateLinkResourcesListResponse = PrivateLinkResourceListResult;
 
 /** Optional parameters. */
 export interface WorkspaceConnectionsCreateOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the create operation. */
 export type WorkspaceConnectionsCreateResponse = WorkspaceConnectionPropertiesV2BasicResource;
 
 /** Optional parameters. */
 export interface WorkspaceConnectionsGetOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type WorkspaceConnectionsGetResponse = WorkspaceConnectionPropertiesV2BasicResource;
 
 /** Optional parameters. */
 export interface WorkspaceConnectionsDeleteOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface WorkspaceConnectionsListOptionalParams
@@ -7900,7 +7900,7 @@ export interface BatchEndpointsDeleteOptionalParams
 
 /** Optional parameters. */
 export interface BatchEndpointsGetOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type BatchEndpointsGetResponse = BatchEndpoint;
@@ -7931,7 +7931,7 @@ export type BatchEndpointsCreateOrUpdateResponse = BatchEndpoint;
 
 /** Optional parameters. */
 export interface BatchEndpointsListKeysOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listKeys operation. */
 export type BatchEndpointsListKeysResponse = EndpointAuthKeys;
@@ -7973,7 +7973,7 @@ export interface BatchDeploymentsDeleteOptionalParams
 
 /** Optional parameters. */
 export interface BatchDeploymentsGetOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type BatchDeploymentsGetResponse = BatchDeployment;
@@ -8028,18 +8028,18 @@ export type CodeContainersListResponse = CodeContainerResourceArmPaginatedResult
 
 /** Optional parameters. */
 export interface CodeContainersDeleteOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface CodeContainersGetOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type CodeContainersGetResponse = CodeContainer;
 
 /** Optional parameters. */
 export interface CodeContainersCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type CodeContainersCreateOrUpdateResponse = CodeContainer;
@@ -8070,18 +8070,18 @@ export type CodeVersionsListResponse = CodeVersionResourceArmPaginatedResult;
 
 /** Optional parameters. */
 export interface CodeVersionsDeleteOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface CodeVersionsGetOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type CodeVersionsGetResponse = CodeVersion;
 
 /** Optional parameters. */
 export interface CodeVersionsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type CodeVersionsCreateOrUpdateResponse = CodeVersion;
@@ -8114,18 +8114,18 @@ export type ComponentContainersListResponse = ComponentContainerResourceArmPagin
 
 /** Optional parameters. */
 export interface ComponentContainersDeleteOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface ComponentContainersGetOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type ComponentContainersGetResponse = ComponentContainer;
 
 /** Optional parameters. */
 export interface ComponentContainersCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type ComponentContainersCreateOrUpdateResponse = ComponentContainer;
@@ -8160,18 +8160,18 @@ export type ComponentVersionsListResponse = ComponentVersionResourceArmPaginated
 
 /** Optional parameters. */
 export interface ComponentVersionsDeleteOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface ComponentVersionsGetOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type ComponentVersionsGetResponse = ComponentVersion;
 
 /** Optional parameters. */
 export interface ComponentVersionsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type ComponentVersionsCreateOrUpdateResponse = ComponentVersion;
@@ -8206,18 +8206,18 @@ export type DataContainersListResponse = DataContainerResourceArmPaginatedResult
 
 /** Optional parameters. */
 export interface DataContainersDeleteOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface DataContainersGetOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type DataContainersGetResponse = DataContainer;
 
 /** Optional parameters. */
 export interface DataContainersCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type DataContainersCreateOrUpdateResponse = DataContainer;
@@ -8257,18 +8257,18 @@ export type DataVersionsListResponse = DataVersionBaseResourceArmPaginatedResult
 
 /** Optional parameters. */
 export interface DataVersionsDeleteOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface DataVersionsGetOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type DataVersionsGetResponse = DataVersionBase;
 
 /** Optional parameters. */
 export interface DataVersionsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type DataVersionsCreateOrUpdateResponse = DataVersionBase;
@@ -8318,11 +8318,11 @@ export type DatastoresListResponse = DatastoreResourceArmPaginatedResult;
 
 /** Optional parameters. */
 export interface DatastoresDeleteOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface DatastoresGetOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type DatastoresGetResponse = Datastore;
@@ -8339,7 +8339,7 @@ export type DatastoresCreateOrUpdateResponse = Datastore;
 
 /** Optional parameters. */
 export interface DatastoresListSecretsOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSecrets operation. */
 export type DatastoresListSecretsResponse = DatastoreSecretsUnion;
@@ -8380,18 +8380,18 @@ export type EnvironmentContainersListResponse = EnvironmentContainerResourceArmP
 
 /** Optional parameters. */
 export interface EnvironmentContainersDeleteOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface EnvironmentContainersGetOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type EnvironmentContainersGetResponse = EnvironmentContainer;
 
 /** Optional parameters. */
 export interface EnvironmentContainersCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type EnvironmentContainersCreateOrUpdateResponse = EnvironmentContainer;
@@ -8426,18 +8426,18 @@ export type EnvironmentVersionsListResponse = EnvironmentVersionResourceArmPagin
 
 /** Optional parameters. */
 export interface EnvironmentVersionsDeleteOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface EnvironmentVersionsGetOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type EnvironmentVersionsGetResponse = EnvironmentVersion;
 
 /** Optional parameters. */
 export interface EnvironmentVersionsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type EnvironmentVersionsCreateOrUpdateResponse = EnvironmentVersion;
@@ -8482,14 +8482,14 @@ export interface JobsDeleteOptionalParams extends coreClient.OperationOptions {
 }
 
 /** Optional parameters. */
-export interface JobsGetOptionalParams extends coreClient.OperationOptions { }
+export interface JobsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type JobsGetResponse = JobBase;
 
 /** Optional parameters. */
 export interface JobsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type JobsCreateOrUpdateResponse = JobBase;
@@ -8534,18 +8534,18 @@ export type ModelContainersListResponse = ModelContainerResourceArmPaginatedResu
 
 /** Optional parameters. */
 export interface ModelContainersDeleteOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface ModelContainersGetOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type ModelContainersGetResponse = ModelContainer;
 
 /** Optional parameters. */
 export interface ModelContainersCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type ModelContainersCreateOrUpdateResponse = ModelContainer;
@@ -8594,18 +8594,18 @@ export type ModelVersionsListResponse = ModelVersionResourceArmPaginatedResult;
 
 /** Optional parameters. */
 export interface ModelVersionsDeleteOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface ModelVersionsGetOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type ModelVersionsGetResponse = ModelVersion;
 
 /** Optional parameters. */
 export interface ModelVersionsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type ModelVersionsCreateOrUpdateResponse = ModelVersion;
@@ -8671,7 +8671,7 @@ export interface OnlineEndpointsDeleteOptionalParams
 
 /** Optional parameters. */
 export interface OnlineEndpointsGetOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type OnlineEndpointsGetResponse = OnlineEndpoint;
@@ -8702,7 +8702,7 @@ export type OnlineEndpointsCreateOrUpdateResponse = OnlineEndpoint;
 
 /** Optional parameters. */
 export interface OnlineEndpointsListKeysOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listKeys operation. */
 export type OnlineEndpointsListKeysResponse = EndpointAuthKeys;
@@ -8718,7 +8718,7 @@ export interface OnlineEndpointsRegenerateKeysOptionalParams
 
 /** Optional parameters. */
 export interface OnlineEndpointsGetTokenOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getToken operation. */
 export type OnlineEndpointsGetTokenResponse = EndpointAuthToken;
@@ -8770,7 +8770,7 @@ export interface OnlineDeploymentsDeleteOptionalParams
 
 /** Optional parameters. */
 export interface OnlineDeploymentsGetOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type OnlineDeploymentsGetResponse = OnlineDeployment;
@@ -8801,7 +8801,7 @@ export type OnlineDeploymentsCreateOrUpdateResponse = OnlineDeployment;
 
 /** Optional parameters. */
 export interface OnlineDeploymentsGetLogsOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getLogs operation. */
 export type OnlineDeploymentsGetLogsResponse = DeploymentLogs;
@@ -8867,7 +8867,7 @@ export interface SchedulesDeleteOptionalParams
 
 /** Optional parameters. */
 export interface SchedulesGetOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type SchedulesGetResponse = Schedule;
@@ -8898,14 +8898,14 @@ export type SchedulesListNextResponse = ScheduleResourceArmPaginatedResult;
 
 /** Optional parameters. */
 export interface WorkspaceFeaturesListOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type WorkspaceFeaturesListResponse = ListAmlUserFeatureResult;
 
 /** Optional parameters. */
 export interface WorkspaceFeaturesListNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type WorkspaceFeaturesListNextResponse = ListAmlUserFeatureResult;

@@ -1,6 +1,6 @@
 # Release History
 
-## 6.0.2 (Unreleased)
+## 6.1.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,29 @@
 
 ### Other Changes
 
+## 6.1.0 (2022-12-02)
+    
+**Features**
+
+  - Added Interface Configuration
+  - Added Interface Database
+  - Added Interface FirewallRule
+  - Added Interface LogFile
+  - Added Interface PrivateEndpointConnection
+  - Added Interface PrivateLinkResource
+  - Added Interface ProxyResource
+  - Added Interface RecoverableServerResource
+  - Added Interface Server
+  - Added Interface ServerAdministratorResource
+  - Added Interface ServerKey
+  - Added Interface ServerPropertiesForDefaultCreate
+  - Added Interface ServerPropertiesForGeoRestore
+  - Added Interface ServerPropertiesForReplica
+  - Added Interface ServerPropertiesForRestore
+  - Added Interface ServerSecurityAlertPolicy
+  - Added Interface TrackedResource
+  - Added Interface VirtualNetworkRule
+    
 ## 6.0.1 (2022-04-28)
 
 **Features**

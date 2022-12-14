@@ -28,14 +28,14 @@ export interface CloudError {
 }
 
 // @public
-export type Configuration = ProxyResource & {
-    value?: string;
-    readonly description?: string;
-    readonly defaultValue?: string;
-    readonly dataType?: string;
+export interface Configuration extends ProxyResource {
     readonly allowedValues?: string;
+    readonly dataType?: string;
+    readonly defaultValue?: string;
+    readonly description?: string;
     source?: string;
-};
+    value?: string;
+}
 
 // @public
 export interface ConfigurationListResult {
@@ -77,10 +77,10 @@ export type ConfigurationsListByServerResponse = ConfigurationListResult;
 export type CreateMode = string;
 
 // @public
-export type Database = ProxyResource & {
+export interface Database extends ProxyResource {
     charset?: string;
     collation?: string;
-};
+}
 
 // @public
 export interface DatabaseListResult {
@@ -142,10 +142,10 @@ export interface ErrorResponse {
 }
 
 // @public
-export type FirewallRule = ProxyResource & {
-    startIpAddress: string;
+export interface FirewallRule extends ProxyResource {
     endIpAddress: string;
-};
+    startIpAddress: string;
+}
 
 // @public
 export interface FirewallRuleListResult {
@@ -195,6 +195,9 @@ export type FirewallRulesListByServerResponse = FirewallRuleListResult;
 export type GeoRedundantBackup = string;
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export type IdentityType = string;
 
 // @public
@@ -202,27 +205,20 @@ export type InfrastructureEncryption = string;
 
 // @public
 export enum KnownCreateMode {
-    // (undocumented)
     Default = "Default",
-    // (undocumented)
     GeoRestore = "GeoRestore",
-    // (undocumented)
     PointInTimeRestore = "PointInTimeRestore",
-    // (undocumented)
     Replica = "Replica"
 }
 
 // @public
 export enum KnownGeoRedundantBackup {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownIdentityType {
-    // (undocumented)
     SystemAssigned = "SystemAssigned"
 }
 
@@ -234,135 +230,94 @@ export enum KnownInfrastructureEncryption {
 
 // @public
 export enum KnownMinimalTlsVersionEnum {
-    // (undocumented)
     TLS10 = "TLS1_0",
-    // (undocumented)
     TLS11 = "TLS1_1",
-    // (undocumented)
     TLS12 = "TLS1_2",
-    // (undocumented)
     TLSEnforcementDisabled = "TLSEnforcementDisabled"
 }
 
 // @public
 export enum KnownOperationOrigin {
-    // (undocumented)
     NotSpecified = "NotSpecified",
-    // (undocumented)
     System = "system",
-    // (undocumented)
     User = "user"
 }
 
 // @public
 export enum KnownPrivateEndpointProvisioningState {
-    // (undocumented)
     Approving = "Approving",
-    // (undocumented)
     Dropping = "Dropping",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Ready = "Ready",
-    // (undocumented)
     Rejecting = "Rejecting"
 }
 
 // @public
 export enum KnownPrivateLinkServiceConnectionStateActionsRequire {
-    // (undocumented)
     None = "None"
 }
 
 // @public
 export enum KnownPrivateLinkServiceConnectionStateStatus {
-    // (undocumented)
     Approved = "Approved",
-    // (undocumented)
     Disconnected = "Disconnected",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Rejected = "Rejected"
 }
 
 // @public
 export enum KnownPublicNetworkAccessEnum {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownSecurityAlertPolicyName {
-    // (undocumented)
     Default = "Default"
 }
 
 // @public
 export enum KnownServerKeyType {
-    // (undocumented)
     AzureKeyVault = "AzureKeyVault"
 }
 
 // @public
 export enum KnownServerState {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Dropping = "Dropping",
-    // (undocumented)
     Inaccessible = "Inaccessible",
-    // (undocumented)
     Ready = "Ready"
 }
 
 // @public
 export enum KnownServerVersion {
-    // (undocumented)
     Eleven = "11",
-    // (undocumented)
     Nine5 = "9.5",
-    // (undocumented)
     Nine6 = "9.6",
-    // (undocumented)
     Ten = "10",
-    // (undocumented)
     Ten0 = "10.0",
-    // (undocumented)
     Ten2 = "10.2"
 }
 
 // @public
 export enum KnownSkuTier {
-    // (undocumented)
     Basic = "Basic",
-    // (undocumented)
     GeneralPurpose = "GeneralPurpose",
-    // (undocumented)
     MemoryOptimized = "MemoryOptimized"
 }
 
 // @public
 export enum KnownStorageAutogrow {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownVirtualNetworkRuleState {
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Initializing = "Initializing",
-    // (undocumented)
     InProgress = "InProgress",
-    // (undocumented)
     Ready = "Ready",
-    // (undocumented)
     Unknown = "Unknown"
 }
 
@@ -379,13 +334,13 @@ export interface LocationBasedPerformanceTierListOptionalParams extends coreClie
 export type LocationBasedPerformanceTierListResponse = PerformanceTierListResult;
 
 // @public
-export type LogFile = ProxyResource & {
-    sizeInKB?: number;
+export interface LogFile extends ProxyResource {
     readonly createdTime?: Date;
     readonly lastModifiedTime?: Date;
+    sizeInKB?: number;
     typePropertiesType?: string;
     url?: string;
-};
+}
 
 // @public
 export interface LogFileListResult {
@@ -539,11 +494,11 @@ export interface PostgreSQLManagementClientOptionalParams extends coreClient.Ser
 }
 
 // @public
-export type PrivateEndpointConnection = ProxyResource & {
+export interface PrivateEndpointConnection extends ProxyResource {
     privateEndpoint?: PrivateEndpointProperty;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionStateProperty;
     readonly provisioningState?: string;
-};
+}
 
 // @public
 export interface PrivateEndpointConnectionListResult {
@@ -617,9 +572,9 @@ export interface PrivateEndpointProperty {
 export type PrivateEndpointProvisioningState = string;
 
 // @public
-export type PrivateLinkResource = ProxyResource & {
+export interface PrivateLinkResource extends ProxyResource {
     readonly properties?: PrivateLinkResourceProperties;
-};
+}
 
 // @public
 export interface PrivateLinkResourceListResult {
@@ -674,20 +629,21 @@ export interface PrivateLinkServiceConnectionStateProperty {
 export type PrivateLinkServiceConnectionStateStatus = string;
 
 // @public
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {
+}
 
 // @public
 export type PublicNetworkAccessEnum = string;
 
 // @public
-export type RecoverableServerResource = ProxyResource & {
+export interface RecoverableServerResource extends ProxyResource {
+    readonly edition?: string;
+    readonly hardwareGeneration?: string;
     readonly lastAvailableBackupDateTime?: string;
     readonly serviceLevelObjective?: string;
-    readonly edition?: string;
     readonly vCore?: number;
-    readonly hardwareGeneration?: string;
     readonly version?: string;
-};
+}
 
 // @public
 export interface RecoverableServers {
@@ -731,33 +687,33 @@ export interface ResourceIdentity {
 export type SecurityAlertPolicyName = string;
 
 // @public
-export type Server = TrackedResource & {
-    identity?: ResourceIdentity;
-    sku?: Sku;
+export interface Server extends TrackedResource {
     administratorLogin?: string;
-    version?: ServerVersion;
-    sslEnforcement?: SslEnforcementEnum;
-    minimalTlsVersion?: MinimalTlsVersionEnum;
     readonly byokEnforcement?: string;
-    infrastructureEncryption?: InfrastructureEncryption;
-    userVisibleState?: ServerState;
-    fullyQualifiedDomainName?: string;
     earliestRestoreDate?: Date;
-    storageProfile?: StorageProfile;
-    replicationRole?: string;
+    fullyQualifiedDomainName?: string;
+    identity?: ResourceIdentity;
+    infrastructureEncryption?: InfrastructureEncryption;
     masterServerId?: string;
-    replicaCapacity?: number;
-    publicNetworkAccess?: PublicNetworkAccessEnum;
+    minimalTlsVersion?: MinimalTlsVersionEnum;
     readonly privateEndpointConnections?: ServerPrivateEndpointConnection[];
-};
+    publicNetworkAccess?: PublicNetworkAccessEnum;
+    replicaCapacity?: number;
+    replicationRole?: string;
+    sku?: Sku;
+    sslEnforcement?: SslEnforcementEnum;
+    storageProfile?: StorageProfile;
+    userVisibleState?: ServerState;
+    version?: ServerVersion;
+}
 
 // @public
-export type ServerAdministratorResource = ProxyResource & {
+export interface ServerAdministratorResource extends ProxyResource {
     administratorType?: "ActiveDirectory";
     login?: string;
     sid?: string;
     tenantId?: string;
-};
+}
 
 // @public
 export interface ServerAdministratorResourceListResult {
@@ -827,12 +783,12 @@ export interface ServerForCreate {
 }
 
 // @public
-export type ServerKey = ProxyResource & {
+export interface ServerKey extends ProxyResource {
+    readonly creationDate?: Date;
     readonly kind?: string;
     serverKeyType?: ServerKeyType;
     uri?: string;
-    readonly creationDate?: Date;
-};
+}
 
 // @public
 export interface ServerKeyListResult {
@@ -944,30 +900,30 @@ export interface ServerPropertiesForCreate {
 export type ServerPropertiesForCreateUnion = ServerPropertiesForCreate | ServerPropertiesForDefaultCreate | ServerPropertiesForRestore | ServerPropertiesForGeoRestore | ServerPropertiesForReplica;
 
 // @public
-export type ServerPropertiesForDefaultCreate = ServerPropertiesForCreate & {
-    createMode: "Default";
+export interface ServerPropertiesForDefaultCreate extends ServerPropertiesForCreate {
     administratorLogin: string;
     administratorLoginPassword: string;
-};
+    createMode: "Default";
+}
 
 // @public
-export type ServerPropertiesForGeoRestore = ServerPropertiesForCreate & {
+export interface ServerPropertiesForGeoRestore extends ServerPropertiesForCreate {
     createMode: "GeoRestore";
     sourceServerId: string;
-};
+}
 
 // @public
-export type ServerPropertiesForReplica = ServerPropertiesForCreate & {
+export interface ServerPropertiesForReplica extends ServerPropertiesForCreate {
     createMode: "Replica";
     sourceServerId: string;
-};
+}
 
 // @public
-export type ServerPropertiesForRestore = ServerPropertiesForCreate & {
+export interface ServerPropertiesForRestore extends ServerPropertiesForCreate {
     createMode: "PointInTimeRestore";
-    sourceServerId: string;
     restorePointInTime: Date;
-};
+    sourceServerId: string;
+}
 
 // @public
 export interface Servers {
@@ -1038,15 +994,15 @@ export interface ServerSecurityAlertPoliciesListByServerOptionalParams extends c
 export type ServerSecurityAlertPoliciesListByServerResponse = ServerSecurityAlertPolicyListResult;
 
 // @public
-export type ServerSecurityAlertPolicy = ProxyResource & {
-    state?: ServerSecurityAlertPolicyState;
+export interface ServerSecurityAlertPolicy extends ProxyResource {
     disabledAlerts?: string[];
-    emailAddresses?: string[];
     emailAccountAdmins?: boolean;
-    storageEndpoint?: string;
-    storageAccountAccessKey?: string;
+    emailAddresses?: string[];
     retentionDays?: number;
-};
+    state?: ServerSecurityAlertPolicyState;
+    storageAccountAccessKey?: string;
+    storageEndpoint?: string;
+}
 
 // @public
 export interface ServerSecurityAlertPolicyListResult {
@@ -1149,19 +1105,19 @@ export interface TagsObject {
 }
 
 // @public
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
+    location: string;
     tags?: {
         [propertyName: string]: string;
     };
-    location: string;
-};
+}
 
 // @public
-export type VirtualNetworkRule = ProxyResource & {
-    virtualNetworkSubnetId?: string;
+export interface VirtualNetworkRule extends ProxyResource {
     ignoreMissingVnetServiceEndpoint?: boolean;
     readonly state?: VirtualNetworkRuleState;
-};
+    virtualNetworkSubnetId?: string;
+}
 
 // @public
 export interface VirtualNetworkRuleListResult {

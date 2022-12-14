@@ -9,6 +9,7 @@
 ### Bugs Fixed
 
 - Fix an issue in `RequestResponseLink` where sender error is not rejected [PR #23646](https://github.com/Azure/azure-sdk-for-js/pull/23646).
+- Fix an memory leak in `CancellableAsyncLockImpl` where elements are never removed from the map [PR# 24133](https://github.com/Azure/azure-sdk-for-js/pull/24133).
 
 ### Other Changes
 
