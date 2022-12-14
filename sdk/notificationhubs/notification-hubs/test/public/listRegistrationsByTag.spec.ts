@@ -48,7 +48,7 @@ describe("listRegistrationsByTag()", () => {
     if (!isNode) {
       return;
     }
-    
+
     for (const registrationId of registrationIds) {
       await deleteRegistration(context, registrationId);
     }

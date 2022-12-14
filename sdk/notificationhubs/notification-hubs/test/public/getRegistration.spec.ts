@@ -46,7 +46,7 @@ describe("getRegistration", () => {
     if (!isNode) {
       return;
     }
-    
+
     await deleteRegistration(context, registrationId);
     await recorder.stop();
   });
