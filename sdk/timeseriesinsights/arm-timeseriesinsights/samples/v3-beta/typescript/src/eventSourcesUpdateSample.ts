@@ -26,6 +26,7 @@ async function updateEventSource() {
   const environmentName = "env1";
   const eventSourceName = "es1";
   const eventSourceUpdateParameters: EventSourceUpdateParametersUnion = {
+    kind: "Microsoft.EventHub",
     tags: { someKey: "someValue" }
   };
   const credential = new DefaultAzureCredential();

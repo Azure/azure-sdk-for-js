@@ -8,11 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  EventSourceUpdateParametersUnion,
-  TimeSeriesInsightsClient
-} from "@azure/arm-timeseriesinsights";
-import { DefaultAzureCredential } from "@azure/identity";
+const { TimeSeriesInsightsClient } = require("@azure/arm-timeseriesinsights");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to Updates the event source with the specified name in the specified subscription, resource group, and environment.
@@ -25,9 +22,9 @@ async function updateEventSource() {
   const resourceGroupName = "rg1";
   const environmentName = "env1";
   const eventSourceName = "es1";
-  const eventSourceUpdateParameters: EventSourceUpdateParametersUnion = {
+  const eventSourceUpdateParameters = {
     kind: "Microsoft.EventHub",
-    tags: { someKey: "someValue" }
+    tags: { someKey: "someValue" },
   };
   const credential = new DefaultAzureCredential();
   const client = new TimeSeriesInsightsClient(credential, subscriptionId);

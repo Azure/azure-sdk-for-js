@@ -8,8 +8,11 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-const { TimeSeriesInsightsClient } = require("@azure/arm-timeseriesinsights");
-const { DefaultAzureCredential } = require("@azure/identity");
+import {
+  EnvironmentUpdateParametersUnion,
+  TimeSeriesInsightsClient
+} from "@azure/arm-timeseriesinsights";
+import { DefaultAzureCredential } from "@azure/identity";
 
 /**
  * This sample demonstrates how to Updates the environment with the specified name in the specified subscription and resource group.
@@ -21,8 +24,9 @@ async function environmentsUpdate() {
   const subscriptionId = "subid";
   const resourceGroupName = "rg1";
   const environmentName = "env1";
-  const environmentUpdateParameters = {
-    tags: { someTag: "someTagValue" },
+  const environmentUpdateParameters: EnvironmentUpdateParametersUnion = {
+    kind: "Gen1",
+    tags: { someTag: "someTagValue" }
   };
   const credential = new DefaultAzureCredential();
   const client = new TimeSeriesInsightsClient(credential, subscriptionId);
