@@ -5,6 +5,7 @@ import { randomBytes } from "crypto";
 import * as fs from "fs";
 import * as path from "path";
 import * as http from "http";
+import { config } from "dotenv";
 
 import { SimpleTokenCredential } from "./testutils.common";
 import { StoragePipelineOptions, StorageSharedKeyCredential } from "../../src";
@@ -24,7 +25,7 @@ import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { DefaultAzureCredential } from "@azure/identity";
 
 export * from "./testutils.common";
-
+config();
 if (isPlaybackMode()) {
   // workaround for nock bug
   // remove this after migrating to test-recorder v2

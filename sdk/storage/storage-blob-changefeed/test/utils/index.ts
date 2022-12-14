@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import * as http from "http";
+import { config } from "dotenv";
 import { SimpleTokenCredential } from "./testutils.common";
 import {
   StorageSharedKeyCredential,
@@ -12,6 +13,7 @@ import { BlobChangeFeedClient } from "../../src";
 import { TokenCredential } from "@azure/core-http";
 import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 
+config();
 if (isPlaybackMode()) {
   // workaround for nock bug
   // remove this after migrating to test-recorder v2
