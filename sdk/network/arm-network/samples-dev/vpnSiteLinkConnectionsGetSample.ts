@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Retrieves the details of a vpn site link connection.
  *
  * @summary Retrieves the details of a vpn site link connection.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VpnSiteLinkConnectionGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/VpnSiteLinkConnectionGet.json
  */
 async function vpnSiteLinkConnectionGet() {
   const subscriptionId = "subid";

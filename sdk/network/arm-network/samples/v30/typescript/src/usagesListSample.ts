@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to List network usages for a subscription.
  *
  * @summary List network usages for a subscription.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/UsageList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/UsageList.json
  */
 async function listUsages() {
   const subscriptionId = "subid";
@@ -35,7 +35,7 @@ listUsages().catch(console.error);
  * This sample demonstrates how to List network usages for a subscription.
  *
  * @summary List network usages for a subscription.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/UsageListSpacedLocation.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/UsageListSpacedLocation.json
  */
 async function listUsagesSpacedLocation() {
   const subscriptionId = "subid";

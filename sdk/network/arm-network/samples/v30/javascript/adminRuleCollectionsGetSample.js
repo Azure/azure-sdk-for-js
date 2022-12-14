@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Gets a network manager security admin configuration rule collection.
  *
  * @summary Gets a network manager security admin configuration rule collection.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkManagerAdminRuleCollectionGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/NetworkManagerAdminRuleCollectionGet.json
  */
 async function getsSecurityAdminRuleCollection() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

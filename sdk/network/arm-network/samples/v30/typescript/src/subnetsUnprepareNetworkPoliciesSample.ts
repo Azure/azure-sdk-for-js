@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Unprepares a subnet by removing network intent policies.
  *
  * @summary Unprepares a subnet by removing network intent policies.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/SubnetUnprepareNetworkPolicies.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/SubnetUnprepareNetworkPolicies.json
  */
 async function unprepareNetworkPolicies() {
   const subscriptionId = "subid";
