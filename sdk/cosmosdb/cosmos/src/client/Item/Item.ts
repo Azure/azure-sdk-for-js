@@ -41,8 +41,8 @@ export class Item {
   constructor(
     public readonly container: Container,
     public readonly id: string,
-    partitionKey: PartitionKey | undefined,
-    private readonly clientContext: ClientContext
+    private readonly clientContext: ClientContext,
+    partitionKey?: PartitionKey,
   ) {
     this.partitionKey = partitionKey === undefined ? undefined :  convertToInternalPartitionKey(partitionKey);
   }

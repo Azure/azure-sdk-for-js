@@ -7,7 +7,7 @@ import { NonePartitionKeyLiteral, PartitionKey, PartitionKeyDefinition, Primitiv
 import { RequestOptions } from "..";
 import { PatchRequestBody } from "./patch";
 import { v4 } from "uuid";
-import { stripUndefined } from "./typeChecks";
+import { assertNotUndefined } from "./typeChecks";
 const uuid = v4;
 
 export type Operation =
@@ -195,7 +195,7 @@ export function prepareOperations(
       case BulkOperationType.Create:
       case BulkOperationType.Replace:
       case BulkOperationType.Upsert:
-        partitionKey = stripUndefined(extractPartitionKey(operationInput.resourceBody, definition), "");
+        partitionKey = assertNotUndefined(extractPartitionKey(operationInput.resourceBody, definition), "");
         break;
       case BulkOperationType.Read:
       case BulkOperationType.Delete:

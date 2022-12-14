@@ -24,7 +24,7 @@ import {
   decorateBatchOperation,
   hasResource,
 } from "../../utils/batch";
-import { stripUndefined } from "../../utils/typeChecks";
+import { assertNotUndefined } from "../../utils/typeChecks";
 import { hashPartitionKey } from "../../utils/hashing/hash";
 import { PartitionKey, PartitionKeyDefinition } from "../../documents";
 
@@ -288,8 +288,8 @@ export class Items {
     const ref = new Item(
       this.container,
       (response.result as any).id,
+      this.clientContext,
       partitionKey,
-      this.clientContext
     );
     return new ItemResponse(
       response.result,
@@ -360,8 +360,8 @@ export class Items {
     const ref = new Item(
       this.container,
       (response.result as any).id,
+      this.clientContext,
       partitionKey,
-      this.clientContext
     );
     return new ItemResponse(
       response.result,
@@ -409,7 +409,7 @@ export class Items {
       .readPartitionKeyRanges()
       .fetchAll();
     const { resource } = await this.container.readPartitionKeyDefinition();
-    const partitionDefinition = stripUndefined(resource, "PartitionKeyDefinition.");
+    const partitionDefinition = assertNotUndefined(resource, "PartitionKeyDefinition.");
     const batches: Batch[] = partitionKeyRanges.map((keyRange: PartitionKeyRange) => {
       return {
         min: keyRange.minInclusive,
@@ -471,8 +471,8 @@ export class Items {
     operations
       .forEach((operationInput, index: number) => {
         const { operation, partitionKey } = prepareOperations(operationInput, partitionDefinition, options);
-        const hashed = hashPartitionKey(stripUndefined(partitionKey, "undefined value for PartitionKey not expected during grouping of bulk operations."), partitionDefinition);
-        const batchForKey = stripUndefined(batches.find((batch: Batch) => {
+        const hashed = hashPartitionKey(assertNotUndefined(partitionKey, "undefined value for PartitionKey not expected during grouping of bulk operations."), partitionDefinition);
+        const batchForKey = assertNotUndefined(batches.find((batch: Batch) => {
           return isKeyInRange(batch.min, batch.max, hashed);
         }), "No suitable Batch found.");
         batchForKey.operations.push(operation);

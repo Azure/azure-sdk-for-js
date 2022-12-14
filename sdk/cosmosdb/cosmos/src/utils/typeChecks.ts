@@ -13,7 +13,7 @@ export type NonUndefinable<T> = T extends undefined ? never : T;
  * @param msg - Error Message to throw if value is undefined.
  * @returns 
  */
-export function stripUndefined<T>(value: T, msg?: string): NonUndefinable<T> {
+export function assertNotUndefined<T>(value: T, msg?: string): NonUndefinable<T> {
     if (value !== undefined) {
         return value as NonUndefinable<T>;
     }
