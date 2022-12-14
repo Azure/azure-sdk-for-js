@@ -32,8 +32,7 @@ async function createPeering() {
         allowGatewayTransit: false,
         allowVirtualNetworkAccess: true,
         remoteVirtualNetwork: {
-          id:
-            "/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet2",
+          id: "/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet2",
         },
         useRemoteGateways: false,
       },
@@ -75,8 +74,7 @@ async function createPeeringWithRemoteVirtualNetworkEncryption() {
         allowGatewayTransit: false,
         allowVirtualNetworkAccess: true,
         remoteVirtualNetwork: {
-          id:
-            "/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet2",
+          id: "/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet2",
         },
         useRemoteGateways: false,
       },
@@ -118,8 +116,7 @@ async function syncPeering() {
         allowGatewayTransit: false,
         allowVirtualNetworkAccess: true,
         remoteVirtualNetwork: {
-          id:
-            "/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet2",
+          id: "/subscriptions/subid/resourceGroups/peerTest/providers/Microsoft.Network/virtualNetworks/vnet2",
         },
         useRemoteGateways: false,
       },

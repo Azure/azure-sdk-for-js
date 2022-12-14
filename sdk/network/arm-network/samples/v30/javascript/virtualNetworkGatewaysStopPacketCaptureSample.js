@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Stops packet capture on virtual network gateway in the specified resource group.
  *
  * @summary Stops packet capture on virtual network gateway in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkGatewayStopPacketCapture.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/VirtualNetworkGatewayStopPacketCapture.json
  */
 async function stopPacketCaptureOnVirtualNetworkGateway() {
   const subscriptionId = "subid";

@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Delete specified connection created by this subscription.
  *
  * @summary Delete specified connection created by this subscription.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkManagerConnectionSubscriptionDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/NetworkManagerConnectionSubscriptionDelete.json
  */
 async function deleteSubscriptionNetworkManagerConnection() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

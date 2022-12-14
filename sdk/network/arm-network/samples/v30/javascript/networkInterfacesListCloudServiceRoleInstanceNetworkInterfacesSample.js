@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Gets information about all network interfaces in a role instance in a cloud service.
  *
  * @summary Gets information about all network interfaces in a role instance in a cloud service.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/CloudServiceRoleInstanceNetworkInterfaceList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/CloudServiceRoleInstanceNetworkInterfaceList.json
  */
 async function listCloudServiceRoleInstanceNetworkInterfaces() {
   const subscriptionId = "subid";
