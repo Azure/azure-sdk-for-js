@@ -72,6 +72,7 @@ export interface ListOfferingsOptions extends OperationOptions {
 export {
   PhoneNumberAdministrativeDivision,
   PhoneNumberAssignmentType,
+  PhoneNumberAreaCode,
   PhoneNumberCapabilities,
   PhoneNumberCapabilitiesRequest,
   PhoneNumberCapabilityType,

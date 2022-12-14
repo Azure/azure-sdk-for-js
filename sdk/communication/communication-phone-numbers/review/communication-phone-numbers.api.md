@@ -16,11 +16,6 @@ import { PollOperationState } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export interface AreaCodeItem {
-    areaCode?: string;
-}
-
-// @public
 export interface BeginPurchasePhoneNumbersOptions extends OperationOptions {
 }
 
@@ -73,6 +68,11 @@ export interface ListTollFreeAreaCodesOptions extends OperationOptions {
 export interface PhoneNumberAdministrativeDivision {
     abbreviatedName: string;
     localizedName: string;
+}
+
+// @public
+export interface PhoneNumberAreaCode {
+    areaCode?: string;
 }
 
 // @public
@@ -131,10 +131,10 @@ export class PhoneNumbersClient {
     beginUpdatePhoneNumberCapabilities(phoneNumber: string, request: PhoneNumberCapabilitiesRequest, options?: BeginUpdatePhoneNumberCapabilitiesOptions): Promise<PollerLike<PollOperationState<PurchasedPhoneNumber>, PurchasedPhoneNumber>>;
     getPurchasedPhoneNumber(phoneNumber: string, options?: GetPurchasedPhoneNumberOptions): Promise<PurchasedPhoneNumber>;
     listAvailableCountries(options?: ListAvailableCountriesOptions): PagedAsyncIterableIterator<PhoneNumberCountry>;
-    listAvailableGeographicAreaCodes(countryCode: string, options?: ListGeographicAreaCodesOptions): PagedAsyncIterableIterator<AreaCodeItem>;
+    listAvailableGeographicAreaCodes(countryCode: string, options?: ListGeographicAreaCodesOptions): PagedAsyncIterableIterator<PhoneNumberAreaCode>;
     listAvailableLocalities(countryCode: string, options?: ListLocalitiesOptions): PagedAsyncIterableIterator<PhoneNumberLocality>;
     listAvailableOfferings(countryCode: string, options?: ListOfferingsOptions): PagedAsyncIterableIterator<PhoneNumberOffering>;
-    listAvailableTollFreeAreaCodes(countryCode: string, options?: ListTollFreeAreaCodesOptions): PagedAsyncIterableIterator<AreaCodeItem>;
+    listAvailableTollFreeAreaCodes(countryCode: string, options?: ListTollFreeAreaCodesOptions): PagedAsyncIterableIterator<PhoneNumberAreaCode>;
     listPurchasedPhoneNumbers(options?: ListPurchasedPhoneNumbersOptions): PagedAsyncIterableIterator<PurchasedPhoneNumber>;
 }
 
@@ -145,11 +145,9 @@ export interface PhoneNumbersClientOptions extends CommonClientOptions {
 
 // @public
 export interface PhoneNumberSearchRequest {
-    administrativeDivision?: string;
     areaCode?: string;
     assignmentType: PhoneNumberAssignmentType;
     capabilities: PhoneNumberCapabilities;
-    locality?: string;
     phoneNumberType: PhoneNumberType;
     quantity?: number;
 }
@@ -167,11 +165,11 @@ export interface PhoneNumberSearchResult {
 
 // @public
 export interface PhoneNumbersListAreaCodesOptionalParams extends coreClient.OperationOptions {
+    acceptLanguage?: string;
     administrativeDivision?: string;
     assignmentType?: PhoneNumberAssignmentType;
     locality?: string;
     maxPageSize?: number;
-    phoneNumberType?: PhoneNumberType;
     skip?: number;
 }
 
