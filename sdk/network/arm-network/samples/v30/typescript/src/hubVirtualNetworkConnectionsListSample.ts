@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Retrieves the details of all HubVirtualNetworkConnections.
  *
  * @summary Retrieves the details of all HubVirtualNetworkConnections.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/HubVirtualNetworkConnectionList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/HubVirtualNetworkConnectionList.json
  */
 async function hubVirtualNetworkConnectionList() {
   const subscriptionId = "subid";

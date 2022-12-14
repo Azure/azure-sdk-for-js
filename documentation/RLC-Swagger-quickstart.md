@@ -47,7 +47,7 @@ We are working on to automatically generate everything right now, but currently 
     security: AADToken
     security-scopes: https://farmbeats.azure.net/.default
     use-extension:
-      "@autorest/typescript": "6.0.0-rc.1"
+      "@autorest/typescript": "6.0.0-rc.5"
     ```
     ~~~
 

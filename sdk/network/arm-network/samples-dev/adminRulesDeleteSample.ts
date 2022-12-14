@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Deletes an admin rule.
  *
  * @summary Deletes an admin rule.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkManagerAdminRuleDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/NetworkManagerAdminRuleDelete.json
  */
 async function deletesAnAdminRule() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

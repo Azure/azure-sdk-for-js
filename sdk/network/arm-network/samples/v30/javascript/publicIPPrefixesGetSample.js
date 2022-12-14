@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Gets the specified public IP prefix in a specified resource group.
  *
  * @summary Gets the specified public IP prefix in a specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/PublicIpPrefixGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/PublicIpPrefixGet.json
  */
 async function getPublicIPPrefix() {
   const subscriptionId = "subid";

@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Updates a virtual network gateway connection tags.
  *
  * @summary Updates a virtual network gateway connection tags.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkGatewayConnectionUpdateTags.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/VirtualNetworkGatewayConnectionUpdateTags.json
  */
 async function updateVirtualNetworkGatewayConnectionTags() {
   const subscriptionId = "subid";

@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Gets all public IP addresses in a resource group.
  *
  * @summary Gets all public IP addresses in a resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/PublicIpAddressList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/PublicIpAddressList.json
  */
 async function listResourceGroupPublicIPAddresses() {
   const subscriptionId = "subid";

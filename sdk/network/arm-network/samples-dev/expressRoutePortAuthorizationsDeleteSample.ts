@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Deletes the specified authorization from the specified express route port.
  *
  * @summary Deletes the specified authorization from the specified express route port.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ExpressRoutePortAuthorizationDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/ExpressRoutePortAuthorizationDelete.json
  */
 async function deleteExpressRoutePortAuthorization() {
   const subscriptionId = "subid";

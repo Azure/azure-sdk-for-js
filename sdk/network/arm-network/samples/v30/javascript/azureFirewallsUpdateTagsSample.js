@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Updates tags of an Azure Firewall resource.
  *
  * @summary Updates tags of an Azure Firewall resource.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/AzureFirewallUpdateTags.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/AzureFirewallUpdateTags.json
  */
 async function updateAzureFirewallTags() {
   const subscriptionId = "subid";

@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Creates a hub virtual network connection if it doesn't exist else updates the existing one.
  *
  * @summary Creates a hub virtual network connection if it doesn't exist else updates the existing one.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/HubVirtualNetworkConnectionPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/HubVirtualNetworkConnectionPut.json
  */
 async function hubVirtualNetworkConnectionPut() {
   const subscriptionId = "subid";
