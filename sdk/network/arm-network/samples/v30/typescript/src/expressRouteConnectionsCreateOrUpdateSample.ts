@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Creates a connection between an ExpressRoute gateway and an ExpressRoute circuit.
  *
  * @summary Creates a connection between an ExpressRoute gateway and an ExpressRoute circuit.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ExpressRouteConnectionCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/ExpressRouteConnectionCreate.json
  */
 async function expressRouteConnectionCreate() {
   const subscriptionId = "subid";

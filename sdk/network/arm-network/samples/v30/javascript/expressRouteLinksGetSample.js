@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Retrieves the specified ExpressRouteLink resource.
  *
  * @summary Retrieves the specified ExpressRouteLink resource.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ExpressRouteLinkGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/ExpressRouteLinkGet.json
  */
 async function expressRouteLinkGet() {
   const subscriptionId = "subid";

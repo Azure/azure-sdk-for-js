@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Get VPN client connection health detail per P2S client connection of the virtual network gateway in the specified resource group.
  *
  * @summary Get VPN client connection health detail per P2S client connection of the virtual network gateway in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkGatewayGetVpnclientConnectionHealth.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/VirtualNetworkGatewayGetVpnclientConnectionHealth.json
  */
 async function getVirtualNetworkGatewayVpnclientConnectionHealth() {
   const subscriptionId = "subid";

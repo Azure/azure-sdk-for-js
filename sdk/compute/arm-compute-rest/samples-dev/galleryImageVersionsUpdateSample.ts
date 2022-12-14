@@ -41,8 +41,7 @@ async function updateASimpleGalleryImageVersionManagedImageAsSource() {
         },
         storageProfile: {
           source: {
-            id:
-              "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/images/{imageName}",
+            id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/images/{imageName}",
           },
         },
       },

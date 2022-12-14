@@ -31,8 +31,7 @@ async function vpnServerConfigurationCreate() {
         configurationPolicyGroups: [
           {
             name: "policyGroup1",
-            id:
-              "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnServerConfigurations/vpnServerConfiguration1/vpnServerConfigurationPolicyGroups/policyGroup1",
+            id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnServerConfigurations/vpnServerConfiguration1/vpnServerConfigurationPolicyGroups/policyGroup1",
             properties: {
               isDefault: true,
               policyMembers: [
@@ -47,8 +46,7 @@ async function vpnServerConfigurationCreate() {
           },
           {
             name: "policyGroup2",
-            id:
-              "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnServerConfigurations/vpnServerConfiguration1/vpnServerConfigurationPolicyGroups/policyGroup2",
+            id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnServerConfigurations/vpnServerConfiguration1/vpnServerConfigurationPolicyGroups/policyGroup2",
             properties: {
               isDefault: true,
               policyMembers: [
