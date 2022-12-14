@@ -1,120 +1,252 @@
 {
- "recordings": [
-  {
-   "method": "POST",
-   "url": "https://endpoint/availablePhoneNumbers/countries/US/:search",
-   "query": {
-    "api-version": "2022-12-01"
-   },
-   "requestBody": "{\"phoneNumberType\":\"tollFree\",\"assignmentType\":\"application\",\"capabilities\":{\"calling\":\"outbound\",\"sms\":\"none\"},\"quantity\":1}",
-   "status": 202,
-   "response": "",
-   "responseHeaders": {
-    "access-control-expose-headers": "Location,Operation-Location,operation-id,search-id",
-    "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-12-01",
-    "content-length": "0",
-    "date": "Thu, 08 Dec 2022 16:04:36 GMT",
-    "location": "/availablePhoneNumbers/searchResults/sanitized?api-version=2022-12-01",
-    "ms-cv": "x3Iv8lHEmUaXS9nY+m7Bzw.0",
-    "operation-id": "search_sanitized",
-    "operation-location": "/phoneNumbers/operations/search_sanitized?api-version=2022-12-01",
-    "search-id": "sanitized",
-    "strict-transport-security": "max-age=2592000",
-    "x-azure-ref": "0EQuSYwAAAACX62uU6raqRb+DFCPfEcMiTUVYMzFFREdFMDQwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
-    "x-cache": "CONFIG_NOCACHE",
-    "x-processing-time": "2418ms"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/phoneNumbers/operations/search_sanitized",
-   "query": {
-    "api-version": "2022-12-01"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"operationType\":\"search\",\"status\":\"running\",\"resourceLocation\":\"/availablePhoneNumbers/searchResults/sanitized?api-version=2022-12-01\",\"createdDateTime\":\"2022-12-08T16:04:35.7957175+00:00\",\"id\":\"search_sanitized\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
-   "responseHeaders": {
-    "access-control-expose-headers": "Location",
-    "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-11-15-preview, 2022-12-01",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 08 Dec 2022 16:04:36 GMT",
-    "location": "/availablePhoneNumbers/searchResults/sanitized?api-version=2022-12-01",
-    "ms-cv": "3UYEsxXnD0aTSgVMmWyjNg.0",
-    "strict-transport-security": "max-age=2592000",
-    "x-azure-ref": "0FAuSYwAAAACpFgEzU6RbRbu8722KC71HTUVYMzFFREdFMDQwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
-    "x-cache": "CONFIG_NOCACHE",
-    "x-processing-time": "627ms"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/phoneNumbers/operations/search_sanitized",
-   "query": {
-    "api-version": "2022-12-01"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"operationType\":\"search\",\"status\":\"running\",\"resourceLocation\":\"/availablePhoneNumbers/searchResults/sanitized?api-version=2022-12-01\",\"createdDateTime\":\"2022-12-08T16:04:35.7957175+00:00\",\"id\":\"search_sanitized\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
-   "responseHeaders": {
-    "access-control-expose-headers": "Location",
-    "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-11-15-preview, 2022-12-01",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 08 Dec 2022 16:04:37 GMT",
-    "location": "/availablePhoneNumbers/searchResults/sanitized?api-version=2022-12-01",
-    "ms-cv": "uu/vQRaHRk+i4xNuTApqvQ.0",
-    "strict-transport-security": "max-age=2592000",
-    "x-azure-ref": "0FQuSYwAAAAAn+Se28iJbSr5QAVAUvLuyTUVYMzFFREdFMDQwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
-    "x-cache": "CONFIG_NOCACHE",
-    "x-processing-time": "492ms"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/phoneNumbers/operations/search_sanitized",
-   "query": {
-    "api-version": "2022-12-01"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"operationType\":\"search\",\"status\":\"succeeded\",\"resourceLocation\":\"/availablePhoneNumbers/searchResults/sanitized?api-version=2022-12-01\",\"createdDateTime\":\"2022-12-08T16:04:35.7957175+00:00\",\"id\":\"search_sanitized\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
-   "responseHeaders": {
-    "access-control-expose-headers": "Location",
-    "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-11-15-preview, 2022-12-01",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 08 Dec 2022 16:04:39 GMT",
-    "location": "/availablePhoneNumbers/searchResults/sanitized?api-version=2022-12-01",
-    "ms-cv": "hgNL4OryU0C7hin1gYhJ4g.0",
-    "strict-transport-security": "max-age=2592000",
-    "x-azure-ref": "0FwuSYwAAAACAFyPJi3mrT7YaSLgd19zoTUVYMzFFREdFMDQwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
-    "x-cache": "CONFIG_NOCACHE",
-    "x-processing-time": "502ms"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/availablePhoneNumbers/searchResults/sanitized",
-   "query": {
-    "api-version": "2022-12-01"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"searchId\":\"sanitized\",\"phoneNumbers\":[\"+14155550100\"],\"phoneNumberType\":\"tollFree\",\"assignmentType\":\"application\",\"capabilities\":{\"calling\":\"outbound\",\"sms\":\"none\"},\"cost\":{\"amount\":2.0,\"currencyCode\":\"USD\",\"billingFrequency\":\"monthly\"},\"searchExpiresBy\":\"2022-12-08T16:20:37.9217038+00:00\"}",
-   "responseHeaders": {
-    "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-12-01",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 08 Dec 2022 16:04:42 GMT",
-    "ms-cv": "Td/WwwXB+0aR4g+HdocIeQ.0",
-    "strict-transport-security": "max-age=2592000",
-    "x-azure-ref": "0GguSYwAAAAAo1OPAkWbLRIFSdwPH7tfyTUVYMzFFREdFMDQwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
-    "x-cache": "CONFIG_NOCACHE",
-    "x-processing-time": "942ms"
-   }
-  }
- ],
- "uniqueTestInfo": {
-  "uniqueName": {},
-  "newDate": {}
- },
- "hash": "9442c43ae11a0869c2b1a10b96165777"
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/availablePhoneNumbers/countries/US/:search?api-version=2022-12-01",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "125",
+        "Content-Type": "application/json",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/108.0.5351.0 Safari/537.36",
+        "x-ms-client-request-id": "sanitized",
+        "x-ms-content-sha256": "um69rwCQDfoJlf7RIyaR7E83TxRZJQn/i\u002BrWwWXvDMo=",
+        "x-ms-date": "Wed, 14 Dec 2022 23:41:29 GMT",
+        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
+      },
+      "RequestBody": {
+        "phoneNumberType": "tollFree",
+        "assignmentType": "application",
+        "capabilities": {
+          "calling": "outbound",
+          "sms": "none"
+        },
+        "quantity": 1
+      },
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Access-Control-Expose-Headers": "Location,Operation-Location,operation-id,search-id",
+        "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-12-01",
+        "Content-Length": "0",
+        "Date": "Wed, 14 Dec 2022 23:41:29 GMT",
+        "Location": "/availablePhoneNumbers/searchResults/sanitized?api-version=2022-12-01",
+        "MS-CV": "Do0HbvbphE61AgumJ4tNVw.0",
+        "operation-id": "search_sanitized",
+        "Operation-Location": "/phoneNumbers/operations/search_sanitized?api-version=2022-12-01",
+        "search-id": "sanitized",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0KF\u002BaYwAAAABRd56HDLY9QYADQXm2awh0TUVYMzFFREdFMDQxNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "1168ms"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/phoneNumbers/operations/search_sanitized?api-version=2022-12-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/108.0.5351.0 Safari/537.36",
+        "x-ms-client-request-id": "sanitized",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Wed, 14 Dec 2022 23:41:30 GMT",
+        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Access-Control-Expose-Headers": "Location",
+        "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-11-15-preview, 2022-12-01",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 14 Dec 2022 23:41:29 GMT",
+        "Location": "/availablePhoneNumbers/searchResults/sanitized?api-version=2022-12-01",
+        "MS-CV": "ljxh36vWuEi7e9mpY2gfVw.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0Kl\u002BaYwAAAACVWGY3SJh0SKxAX4vayqfPTUVYMzFFREdFMDQxNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "288ms"
+      },
+      "ResponseBody": {
+        "operationType": "search",
+        "status": "notStarted",
+        "resourceLocation": "/availablePhoneNumbers/searchResults/sanitized?api-version=2022-12-01",
+        "createdDateTime": "2022-12-14T23:41:29.7639978\u002B00:00",
+        "id": "search_sanitized",
+        "lastActionDateTime": "0001-01-01T00:00:00\u002B00:00"
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/phoneNumbers/operations/search_sanitized?api-version=2022-12-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/108.0.5351.0 Safari/537.36",
+        "x-ms-client-request-id": "sanitized",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Wed, 14 Dec 2022 23:41:30 GMT",
+        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Access-Control-Expose-Headers": "Location",
+        "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-11-15-preview, 2022-12-01",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 14 Dec 2022 23:41:30 GMT",
+        "Location": "/availablePhoneNumbers/searchResults/sanitized?api-version=2022-12-01",
+        "MS-CV": "qSudSco3IkeG1hwNlyVcrw.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0Kl\u002BaYwAAAACZhrAsI0B7R5HIAj4wsG6aTUVYMzFFREdFMDQxNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "207ms"
+      },
+      "ResponseBody": {
+        "operationType": "search",
+        "status": "running",
+        "resourceLocation": "/availablePhoneNumbers/searchResults/sanitized?api-version=2022-12-01",
+        "createdDateTime": "2022-12-14T23:41:29.7639978\u002B00:00",
+        "id": "search_sanitized",
+        "lastActionDateTime": "0001-01-01T00:00:00\u002B00:00"
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/phoneNumbers/operations/search_sanitized?api-version=2022-12-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/108.0.5351.0 Safari/537.36",
+        "x-ms-client-request-id": "sanitized",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Wed, 14 Dec 2022 23:41:33 GMT",
+        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Access-Control-Expose-Headers": "Location",
+        "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-11-15-preview, 2022-12-01",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 14 Dec 2022 23:41:32 GMT",
+        "Location": "/availablePhoneNumbers/searchResults/sanitized?api-version=2022-12-01",
+        "MS-CV": "fZ01OBDEYEi/tcrT8TugNg.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0LF\u002BaYwAAAABj4CnVJHSMS459IhWJN8O2TUVYMzFFREdFMDQxNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "202ms"
+      },
+      "ResponseBody": {
+        "operationType": "search",
+        "status": "succeeded",
+        "resourceLocation": "/availablePhoneNumbers/searchResults/sanitized?api-version=2022-12-01",
+        "createdDateTime": "2022-12-14T23:41:29.7639978\u002B00:00",
+        "id": "search_sanitized",
+        "lastActionDateTime": "0001-01-01T00:00:00\u002B00:00"
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/availablePhoneNumbers/searchResults/sanitized?api-version=2022-12-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/108.0.5351.0 Safari/537.36",
+        "x-ms-client-request-id": "sanitized",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Wed, 14 Dec 2022 23:41:33 GMT",
+        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-12-01",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 14 Dec 2022 23:41:33 GMT",
+        "MS-CV": "374tGA8B3EyTwFXb0Gsjug.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0LF\u002BaYwAAAAAkLo6kd0LSQay\u002Bac/VVUWZTUVYMzFFREdFMDQxNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "596ms"
+      },
+      "ResponseBody": {
+        "searchId": "sanitized",
+        "phoneNumbers": [
+          "\u002B14155550100"
+        ],
+        "phoneNumberType": "tollFree",
+        "assignmentType": "application",
+        "capabilities": {
+          "calling": "outbound",
+          "sms": "none"
+        },
+        "cost": {
+          "amount": 2.0,
+          "currencyCode": "USD",
+          "billingFrequency": "monthly"
+        },
+        "searchExpiresBy": "2022-12-14T23:57:31.5547797\u002B00:00"
+      }
+    }
+  ],
+  "Variables": {}
 }

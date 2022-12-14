@@ -1,29 +1,58 @@
 {
- "recordings": [
-  {
-   "method": "GET",
-   "url": "https://endpoint/phoneNumbers/%2B14155550100",
-   "query": {
-    "api-version": "2022-12-01"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"id\":\"14155550100\",\"phoneNumber\":\"+14155550100\",\"countryCode\":\"US\",\"phoneNumberType\":\"geographic\",\"capabilities\":{\"calling\":\"inbound+outbound\",\"sms\":\"none\"},\"assignmentType\":\"application\",\"purchaseDate\":\"2021-06-24T15:18:14.7689633+00:00\",\"cost\":{\"amount\":1.0,\"currencyCode\":\"USD\",\"billingFrequency\":\"monthly\"}}",
-   "responseHeaders": {
-    "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-12-01",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 08 Dec 2022 16:04:10 GMT",
-    "ms-cv": "8u04lue/9UCOSqqQcvJD8Q.0",
-    "strict-transport-security": "max-age=2592000",
-    "x-azure-ref": "0+AqSYwAAAAC7qiUbrspHTJUpQ5lij3WTTUVYMzFFREdFMDQwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
-    "x-cache": "CONFIG_NOCACHE",
-    "x-processing-time": "1548ms"
-   }
-  }
- ],
- "uniqueTestInfo": {
-  "uniqueName": {},
-  "newDate": {}
- },
- "hash": "dfa25d7a491b6db3233381759e90355a"
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/phoneNumbers/%2B14155550100?api-version=2022-12-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/108.0.5351.0 Safari/537.36",
+        "x-ms-client-request-id": "sanitized",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Wed, 14 Dec 2022 23:41:16 GMT",
+        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-12-01",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 14 Dec 2022 23:41:16 GMT",
+        "MS-CV": "IjMaDKFDTEmSgLMwkzBo3w.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0HF\u002BaYwAAAACDEGxKIbvjS6TxAEAtdUu7TUVYMzFFREdFMDQxNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "744ms"
+      },
+      "ResponseBody": {
+        "id": "14155550100",
+        "phoneNumber": "\u002B14155550100",
+        "countryCode": "US",
+        "phoneNumberType": "geographic",
+        "capabilities": {
+          "calling": "inbound\u002Boutbound",
+          "sms": "none"
+        },
+        "assignmentType": "application",
+        "purchaseDate": "2021-06-24T15:18:14.7689633\u002B00:00",
+        "cost": {
+          "amount": 1.0,
+          "currencyCode": "USD",
+          "billingFrequency": "monthly"
+        }
+      }
+    }
+  ],
+  "Variables": {}
 }

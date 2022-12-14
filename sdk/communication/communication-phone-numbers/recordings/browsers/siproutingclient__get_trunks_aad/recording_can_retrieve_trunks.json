@@ -16,26 +16,26 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/108.0.5351.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.3 OS/Win32"
+        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 02 Dec 2022 00:18:09 GMT",
-        "MS-CV": "5izASgyy/0iTF7awELmyrw.0",
+        "Date": "Wed, 14 Dec 2022 23:41:44 GMT",
+        "MS-CV": "TZ8tu\u002BovjkGJ2VC2tVM2fw.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0QUSJYwAAAACw1TLiPjMVR4FfZiveZnSPUFJHMDFFREdFMDkwNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0OV\u002BaYwAAAACOUN\u002B56Fv\u002BR7H872Af\u002BIquTUVYMzFFREdFMDQxNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "93ms"
+        "X-Processing-Time": "51ms"
       },
       "ResponseBody": {
         "trunks": {
-          "test.29ac8ed2bdd449b1a4e4bc943ced3f97.com": {
+          "test.249de83cd4b548deb42b0925f3351ac7.com": {
             "sipSignalingPort": 4567
           }
         },
@@ -44,9 +44,9 @@
     }
   ],
   "Variables": {
-    "fqdn-1": "test.965e47c6bca44bbf9f2f6f59dbfc06d3.com",
-    "fqdn-2": "test.6c7243650b4e4948a6962c663d21078f.com",
-    "fqdn-3": "test.8f24837a45254f29868d4eee8c3ac1e1.com",
-    "fqdn-4": "test.941031a8200d41c2a561892571f22167.com"
+    "fqdn-1": "test.ebe8df0461964312aa6cb1f5fc7bc4cb.com",
+    "fqdn-2": "test.5f331d2b16fc467790c9472f8c1edb1d.com",
+    "fqdn-3": "test.f125715ba0554427969eea435ba9b053.com",
+    "fqdn-4": "test.0c4216fb45fd432cb9b0667cf544aab3.com"
   }
 }

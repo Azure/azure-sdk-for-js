@@ -16,22 +16,22 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/108.0.5351.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.3 OS/Win32"
+        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 02 Dec 2022 00:18:05 GMT",
-        "MS-CV": "ItBVj98RiUmtSNtwO0vzQg.0",
+        "Date": "Wed, 14 Dec 2022 23:41:43 GMT",
+        "MS-CV": "dS23bIeUaESZnyvBg/SHvg.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0PkSJYwAAAABo3i8ah2xTQLxdkVQbSONKUFJHMDFFREdFMDkwNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0OF\u002BaYwAAAABfInnthBXnRbzQveIjGfSTTUVYMzFFREdFMDQxNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "100ms"
+        "X-Processing-Time": "50ms"
       },
       "ResponseBody": {
         "trunks": {},
@@ -40,9 +40,9 @@
     }
   ],
   "Variables": {
-    "fqdn-1": "test.00f0c52f6d73440f907b788e748c8c2c.com",
-    "fqdn-2": "test.af319074c8b643ae8be7759d19e386b3.com",
-    "fqdn-3": "test.74a4475fa5a145cda3eb2d479f0b33cb.com",
-    "fqdn-4": "test.09490999f5d14a7c962ff2e8364af755.com"
+    "fqdn-1": "test.f83092f89f4d493d8bc352da582cd385.com",
+    "fqdn-2": "test.c648c995a47141ce9d8e069693143a8f.com",
+    "fqdn-3": "test.f2e102d3d8b84699908ae257f32c6a89.com",
+    "fqdn-4": "test.e7344f096562401085f03ca8f0c099d4.com"
   }
 }

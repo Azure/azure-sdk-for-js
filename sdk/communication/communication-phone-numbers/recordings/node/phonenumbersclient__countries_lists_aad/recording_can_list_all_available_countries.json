@@ -1,0 +1,67 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/availablePhoneNumbers/countries?skip=0\u0026maxPageSize=100\u0026api-version=2022-12-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "sanitized"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2022-12-01",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 14 Dec 2022 23:39:10 GMT",
+        "MS-CV": "WR1d630yDUGzR4v7gK6PWA.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0m16aYwAAAADPLI74U9\u002BiT5DI1Lj7UniOTUVYMzFFREdFMDQyMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "3564ms"
+      },
+      "ResponseBody": {
+        "countries": [
+          {
+            "localizedName": "Canada",
+            "countryCode": "CA"
+          },
+          {
+            "localizedName": "Denmark",
+            "countryCode": "DK"
+          },
+          {
+            "localizedName": "Ireland",
+            "countryCode": "IE"
+          },
+          {
+            "localizedName": "Italy",
+            "countryCode": "IT"
+          },
+          {
+            "localizedName": "Puerto Rico",
+            "countryCode": "PR"
+          },
+          {
+            "localizedName": "Sweden",
+            "countryCode": "SE"
+          },
+          {
+            "localizedName": "United Kingdom",
+            "countryCode": "GB"
+          },
+          {
+            "localizedName": "United States",
+            "countryCode": "US"
+          }
+        ],
+        "nextLink": null
+      }
+    }
+  ],
+  "Variables": {}
+}
