@@ -199,6 +199,7 @@ export class AppConfigurationClient {
           return response;
         } catch (error) {
           const err = error as RestError;
+          // Service does not return an error message. Raise a 412 error similar to .NET
           if (err.statusCode === 412) {
             err.message = `Status 412: Setting was already present`;
           }
