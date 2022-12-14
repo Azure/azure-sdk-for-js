@@ -4015,7 +4015,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20221212
+      typescript: 5.0.0-dev.20221213
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -9076,8 +9076,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20221212:
-    resolution: {integrity: sha512-bnSpGyeM4wf0n7H5Tv4oWf3dPiEpUh2bBLbrLkJ9LsCQVdedHQwC52H3gtWEPT/yt4XCiDtfqjZTGHXxEtDn7A==}
+  /typescript/5.0.0-dev.20221213:
+    resolution: {integrity: sha512-CONCSaeW3yqMVDra8geo9H+hDek37C1z/b05gWtzTJP4vVQ+exSRJmPNqhvuGyEs5En8wcjH/iXVGYQymJC4aQ==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -15437,7 +15437,7 @@ packages:
     dev: false
 
   file:projects/arm-videoanalyzer.tgz:
-    resolution: {integrity: sha512-y5SJ1hGXuXzATD4JKa0wVHWC4v+lw2J77So+br0/9LfArAfBytZB+gYUMXiE/UIFXS8A9t4NMxq1ZeI3x8Ejow==, tarball: file:projects/arm-videoanalyzer.tgz}
+    resolution: {integrity: sha512-1EYx4WwHGdnbO0TMu1py0Z3DuwL2TWAarXJWYFh7bqXlphK3Caxw2FpQ6hLJsrZeyaKKFCtXbYvRXDxAFv7KIA==, tarball: file:projects/arm-videoanalyzer.tgz}
     name: '@rush-temp/arm-videoanalyzer'
     version: 0.0.0
     dependencies:
@@ -15446,19 +15446,22 @@ packages:
       '@microsoft/api-extractor': 7.33.6
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@2.79.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.4
+      '@types/node': 14.18.33
+      chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - encoding
       - supports-color
     dev: false
 
