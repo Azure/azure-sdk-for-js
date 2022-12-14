@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Orders } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -65,11 +66,15 @@ export class OrdersImpl implements Orders {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByDataBoxEdgeDevicePagingPage(
           deviceName,
           resourceGroupName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -78,15 +83,22 @@ export class OrdersImpl implements Orders {
   private async *listByDataBoxEdgeDevicePagingPage(
     deviceName: string,
     resourceGroupName: string,
-    options?: OrdersListByDataBoxEdgeDeviceOptionalParams
+    options?: OrdersListByDataBoxEdgeDeviceOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Order[]> {
-    let result = await this._listByDataBoxEdgeDevice(
-      deviceName,
-      resourceGroupName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: OrdersListByDataBoxEdgeDeviceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByDataBoxEdgeDevice(
+        deviceName,
+        resourceGroupName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByDataBoxEdgeDeviceNext(
         deviceName,
@@ -95,7 +107,9 @@ export class OrdersImpl implements Orders {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 

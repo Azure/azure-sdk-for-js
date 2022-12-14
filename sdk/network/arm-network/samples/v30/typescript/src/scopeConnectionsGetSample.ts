@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Get specified scope connection created by this Network Manager.
  *
  * @summary Get specified scope connection created by this Network Manager.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkManagerScopeConnectionGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/NetworkManagerScopeConnectionGet.json
  */
 async function getNetworkManagerScopeConnection() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

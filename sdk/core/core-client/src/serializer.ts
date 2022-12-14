@@ -433,10 +433,11 @@ function serializeBasicTypes(typeName: string, objectName: string, value: any): 
         !(value instanceof ArrayBuffer) &&
         !ArrayBuffer.isView(value) &&
         // File objects count as a type of Blob, so we want to use instanceof explicitly
-        !((typeof Blob === "function" || typeof Blob === "object") && value instanceof Blob)
+        !((typeof Blob === "function" || typeof Blob === "object") && value instanceof Blob) &&
+        objectType !== "function"
       ) {
         throw new Error(
-          `${objectName} must be a string, Blob, ArrayBuffer, ArrayBufferView, or NodeJS.ReadableStream.`
+          `${objectName} must be a string, Blob, ArrayBuffer, ArrayBufferView, NodeJS.ReadableStream, or () => NodeJS.ReadableStream.`
         );
       }
     }
@@ -859,6 +860,7 @@ function deserializeCompositeType(
   objectName: string,
   options: RequiredSerializerOptions
 ): any {
+  const xmlCharKey = options.xml.xmlCharKey ?? XML_CHARKEY;
   if (getPolymorphicDiscriminatorRecursively(serializer, mapper)) {
     mapper = getPolymorphicMapper(serializer, mapper, responseBody, "serializedName");
   }
@@ -901,6 +903,14 @@ function deserializeCompositeType(
           propertyObjectName,
           options
         );
+      } else if (propertyMapper.xmlIsMsText) {
+        if (responseBody[xmlCharKey] !== undefined) {
+          instance[key] = responseBody[xmlCharKey];
+        } else if (typeof responseBody === "string") {
+          // The special case where xml parser parses "<Name>content</Name>" into JSON of
+          //   `{ name: "content"}` instead of `{ name: { "_": "content" }}`
+          instance[key] = responseBody;
+        }
       } else {
         const propertyName = xmlElementName || xmlName || serializedName;
         if (propertyMapper.xmlIsWrapped) {
@@ -926,6 +936,7 @@ function deserializeCompositeType(
             propertyObjectName,
             options
           );
+          handledPropertyNames.push(xmlName!);
         } else {
           const property = responseBody[propertyName!];
           instance[key] = serializer.deserialize(
@@ -934,6 +945,7 @@ function deserializeCompositeType(
             propertyObjectName,
             options
           );
+          handledPropertyNames.push(propertyName!);
         }
       }
     } else {

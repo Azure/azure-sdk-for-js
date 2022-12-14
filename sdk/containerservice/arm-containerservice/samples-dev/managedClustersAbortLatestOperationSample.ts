@@ -12,10 +12,10 @@ import { ContainerServiceClient } from "@azure/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to Aborting last running operation on managed cluster.  We return a 204 no content code here to indicate that the operation has been accepted and an abort will be attempted but is not guaranteed to complete successfully. Please look up the provisioning state of the managed cluster to keep track of whether it changes to Canceled. A canceled provisioning state indicates that the abort was successful
+ * This sample demonstrates how to Aborts the currently running operation on the managed cluster. The Managed Cluster will be moved to a Canceling state and eventually to a Canceled state when cancellation finishes. If the operation completes before cancellation can take place, an error is returned.
  *
- * @summary Aborting last running operation on managed cluster.  We return a 204 no content code here to indicate that the operation has been accepted and an abort will be attempted but is not guaranteed to complete successfully. Please look up the provisioning state of the managed cluster to keep track of whether it changes to Canceled. A canceled provisioning state indicates that the abort was successful
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-09-02-preview/examples/ManagedClustersAbortOperation.json
+ * @summary Aborts the currently running operation on the managed cluster. The Managed Cluster will be moved to a Canceling state and eventually to a Canceled state when cancellation finishes. If the operation completes before cancellation can take place, an error is returned.
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-10-02-preview/examples/ManagedClustersAbortOperation.json
  */
 async function abortOperationOnManagedCluster() {
   const subscriptionId = "subid1";
@@ -23,7 +23,7 @@ async function abortOperationOnManagedCluster() {
   const resourceName = "clustername1";
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceClient(credential, subscriptionId);
-  const result = await client.managedClusters.abortLatestOperation(
+  const result = await client.managedClusters.beginAbortLatestOperationAndWait(
     resourceGroupName,
     resourceName
   );

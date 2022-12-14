@@ -185,10 +185,9 @@ async function main() {
     throw routeDirectionBatchInitRes.body.error;
   }
 
-  const {
-    summary,
-    batchItems,
-  } = (routeDirectionBatchInitRes as RouteRequestRouteDirectionsBatchSync200Response).body;
+  const { summary, batchItems } = (
+    routeDirectionBatchInitRes as RouteRequestRouteDirectionsBatchSync200Response
+  ).body;
   console.log(`${summary.successfulRequests}/${summary.totalRequests} requests succeeded.`);
   batchItems.forEach((item, index) => {
     if (item.response.error) {

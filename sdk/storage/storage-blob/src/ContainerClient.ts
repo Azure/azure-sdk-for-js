@@ -776,6 +776,7 @@ export class ContainerClient extends StorageClient {
    * Creates a new container under the specified account. If the container with
    * the same name already exists, the operation fails.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-container
+   * Naming rules: @see https://learn.microsoft.com/rest/api/storageservices/naming-and-referencing-containers--blobs--and-metadata
    *
    * @param options - Options to Container Create operation.
    *
@@ -812,6 +813,7 @@ export class ContainerClient extends StorageClient {
    * Creates a new container under the specified account. If the container with
    * the same name already exists, it is not changed.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-container
+   * Naming rules: @see https://learn.microsoft.com/rest/api/storageservices/naming-and-referencing-containers--blobs--and-metadata
    *
    * @param options -
    */

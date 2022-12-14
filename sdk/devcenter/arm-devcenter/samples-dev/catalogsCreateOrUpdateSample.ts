@@ -15,13 +15,13 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Creates or updates a catalog.
  *
  * @summary Creates or updates a catalog.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-10-12-preview/examples/Catalogs_CreateAdo.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-11-11-preview/examples/Catalogs_CreateAdo.json
  */
 async function catalogsCreateOrUpdateAdo() {
-  const subscriptionId = "{subscriptionId}";
+  const subscriptionId = "0ac520ee-14c0-480f-b6c9-0a90c58ffff";
   const resourceGroupName = "rg1";
   const devCenterName = "Contoso";
-  const catalogName = "{catalogName}";
+  const catalogName = "CentralCatalog";
   const body: Catalog = {
     adoGit: {
       path: "/templates",
@@ -49,13 +49,13 @@ catalogsCreateOrUpdateAdo().catch(console.error);
  * This sample demonstrates how to Creates or updates a catalog.
  *
  * @summary Creates or updates a catalog.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-10-12-preview/examples/Catalogs_CreateGitHub.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-11-11-preview/examples/Catalogs_CreateGitHub.json
  */
 async function catalogsCreateOrUpdateGitHub() {
-  const subscriptionId = "{subscriptionId}";
+  const subscriptionId = "0ac520ee-14c0-480f-b6c9-0a90c58ffff";
   const resourceGroupName = "rg1";
   const devCenterName = "Contoso";
-  const catalogName = "{catalogName}";
+  const catalogName = "CentralCatalog";
   const body: Catalog = {
     gitHub: {
       path: "/templates",

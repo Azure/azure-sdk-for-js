@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Lists all of the protection policies within a resource group.
  *
  * @summary Lists all of the protection policies within a resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/WafListPolicies.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/WafListPolicies.json
  */
 async function listsAllWafPoliciesInAResourceGroup() {
   const subscriptionId = "subid";

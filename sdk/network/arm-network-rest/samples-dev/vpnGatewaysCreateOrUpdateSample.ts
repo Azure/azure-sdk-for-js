@@ -47,8 +47,7 @@ async function vpnGatewayPut() {
             name: "vpnConnection1",
             properties: {
               remoteVpnSite: {
-                id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnSites/vpnSite1",
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnSites/vpnSite1",
               },
               vpnLinkConnections: [
                 {
@@ -57,15 +56,13 @@ async function vpnGatewayPut() {
                     connectionBandwidth: 200,
                     egressNatRules: [
                       {
-                        id:
-                          "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnGateways/gateway1/natRules/nat03",
+                        id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnGateways/gateway1/natRules/nat03",
                       },
                     ],
                     sharedKey: "key",
                     vpnConnectionProtocolType: "IKEv2",
                     vpnSiteLink: {
-                      id:
-                        "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnSites/vpnSite1/vpnSiteLinks/siteLink1",
+                      id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnSites/vpnSite1/vpnSiteLinks/siteLink1",
                     },
                   },
                 },
@@ -88,8 +85,7 @@ async function vpnGatewayPut() {
           },
         ],
         virtualHub: {
-          id:
-            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1",
+          id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1",
         },
       },
       tags: { key1: "value1" },

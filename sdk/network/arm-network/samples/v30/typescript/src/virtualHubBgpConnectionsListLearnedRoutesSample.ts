@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Retrieves a list of routes the virtual hub bgp connection has learned.
  *
  * @summary Retrieves a list of routes the virtual hub bgp connection has learned.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualRouterPeerListLearnedRoute.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/VirtualRouterPeerListLearnedRoute.json
  */
 async function virtualRouterPeerListLearnedRoutes() {
   const subscriptionId = "subid";

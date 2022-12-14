@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Gets all virtual network gateways by resource group.
  *
  * @summary Gets all virtual network gateways by resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkGatewayList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/VirtualNetworkGatewayList.json
  */
 async function listVirtualNetworkGatewaysinResourceGroup() {
   const subscriptionId = "subid";
