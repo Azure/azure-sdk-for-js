@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Creates or updates scope connection from Network Manager
  *
  * @summary Creates or updates scope connection from Network Manager
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkManagerScopeConnectionPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/NetworkManagerScopeConnectionPut.json
  */
 async function createOrUpdateNetworkManagerScopeConnection() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

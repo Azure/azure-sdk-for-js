@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Gets the specified nat gateway in a specified resource group.
  *
  * @summary Gets the specified nat gateway in a specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NatGatewayGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/NatGatewayGet.json
  */
 async function getNatGateway() {
   const subscriptionId = "subid";

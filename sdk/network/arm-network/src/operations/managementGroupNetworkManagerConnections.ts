@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ManagementGroupNetworkManagerConnections } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,12 +17,12 @@ import {
   NetworkManagerConnection,
   ManagementGroupNetworkManagerConnectionsListNextOptionalParams,
   ManagementGroupNetworkManagerConnectionsListOptionalParams,
+  ManagementGroupNetworkManagerConnectionsListResponse,
   ManagementGroupNetworkManagerConnectionsCreateOrUpdateOptionalParams,
   ManagementGroupNetworkManagerConnectionsCreateOrUpdateResponse,
   ManagementGroupNetworkManagerConnectionsGetOptionalParams,
   ManagementGroupNetworkManagerConnectionsGetResponse,
   ManagementGroupNetworkManagerConnectionsDeleteOptionalParams,
-  ManagementGroupNetworkManagerConnectionsListResponse,
   ManagementGroupNetworkManagerConnectionsListNextResponse
 } from "../models";
 
@@ -57,19 +58,29 @@ export class ManagementGroupNetworkManagerConnectionsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(managementGroupId, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(managementGroupId, options, settings);
       }
     };
   }
 
   private async *listPagingPage(
     managementGroupId: string,
-    options?: ManagementGroupNetworkManagerConnectionsListOptionalParams
+    options?: ManagementGroupNetworkManagerConnectionsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<NetworkManagerConnection[]> {
-    let result = await this._list(managementGroupId, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ManagementGroupNetworkManagerConnectionsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(managementGroupId, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         managementGroupId,
@@ -77,7 +88,9 @@ export class ManagementGroupNetworkManagerConnectionsImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -198,7 +211,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters33,
+  requestBody: Parameters.parameters34,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
