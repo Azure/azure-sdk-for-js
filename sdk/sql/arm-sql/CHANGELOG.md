@@ -1,6 +1,6 @@
 # Release History
     
-## 10.0.0-beta.1 (2022-12-14)
+## 9.1.0-beta.1 (2022-12-14)
     
 **Features**
 
@@ -118,9 +118,6 @@
   - Added Interface WorkloadClassifier
   - Added Interface WorkloadGroup
   - Added function getContinuationToken
-
-**Breaking Changes**
-
   - Interface DatabaseColumnsListByDatabaseNextOptionalParams no longer has parameter column
   - Interface DatabaseColumnsListByDatabaseNextOptionalParams no longer has parameter orderBy
   - Interface DatabaseColumnsListByDatabaseNextOptionalParams no longer has parameter schema
