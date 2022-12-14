@@ -23,7 +23,7 @@ parameters:
 extends:
   template: /eng/pipelines/templates/jobs/perf.yml
   parameters:
-    ServiceDirectory: monitor
+    ServiceDirectory: monitor/monitor-ingestion
     Services: "^monitor-ingestion$"
     PackageVersions: ${{ parameters.PackageVersions }}
     Tests: ${{ parameters.Tests }}
