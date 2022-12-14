@@ -23,7 +23,7 @@ async function createJobExecution() {
   const serverName = "server1";
   const jobAgentName = "agent1";
   const jobName = "job1";
-  const jobExecutionId = "5A86BF65-43AC-F258-2524-9E92992F97CA";
+  const jobExecutionId = "5555-6666-7777-8888-999999999999";
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.jobExecutions.beginCreateOrUpdateAndWait(

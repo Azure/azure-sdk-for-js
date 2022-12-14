@@ -100,9 +100,7 @@ import {
   UpdateLongTermRetentionBackupParameters as UpdateLongTermRetentionBackupParametersMapper,
   ManagedInstance as ManagedInstanceMapper,
   ManagedInstanceUpdate as ManagedInstanceUpdateMapper,
-  ServerConnectionPolicy as ServerConnectionPolicyMapper,
-  DistributedAvailabilityGroup as DistributedAvailabilityGroupMapper,
-  ServerTrustCertificate as ServerTrustCertificateMapper
+  ServerConnectionPolicy as ServerConnectionPolicyMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -1876,36 +1874,4 @@ export const connectionPolicyName: OperationURLParameter = {
 export const parameters88: OperationParameter = {
   parameterPath: "parameters",
   mapper: ServerConnectionPolicyMapper
-};
-
-export const distributedAvailabilityGroupName: OperationURLParameter = {
-  parameterPath: "distributedAvailabilityGroupName",
-  mapper: {
-    serializedName: "distributedAvailabilityGroupName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters89: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: DistributedAvailabilityGroupMapper
-};
-
-export const certificateName: OperationURLParameter = {
-  parameterPath: "certificateName",
-  mapper: {
-    serializedName: "certificateName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters90: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: ServerTrustCertificateMapper
 };

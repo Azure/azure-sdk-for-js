@@ -85,6 +85,7 @@ import {
   ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesImpl,
   ManagedServerSecurityAlertPoliciesImpl,
   OperationsImpl,
+  OperationsHealthOperationsImpl,
   PrivateEndpointConnectionsImpl,
   PrivateLinkResourcesImpl,
   RecoverableManagedDatabasesImpl,
@@ -127,9 +128,7 @@ import {
   ManagedInstancesImpl,
   RestorableDroppedDatabasesImpl,
   RestorableDroppedManagedDatabasesImpl,
-  ServerConnectionPoliciesImpl,
-  DistributedAvailabilityGroupsImpl,
-  ServerTrustCertificatesImpl
+  ServerConnectionPoliciesImpl
 } from "./operations";
 import {
   RecoverableDatabases,
@@ -207,6 +206,7 @@ import {
   ManagedRestorableDroppedDatabaseBackupShortTermRetentionPolicies,
   ManagedServerSecurityAlertPolicies,
   Operations,
+  OperationsHealthOperations,
   PrivateEndpointConnections,
   PrivateLinkResources,
   RecoverableManagedDatabases,
@@ -249,9 +249,7 @@ import {
   ManagedInstances,
   RestorableDroppedDatabases,
   RestorableDroppedManagedDatabases,
-  ServerConnectionPolicies,
-  DistributedAvailabilityGroups,
-  ServerTrustCertificates
+  ServerConnectionPolicies
 } from "./operationsInterfaces";
 import { SqlManagementClientOptionalParams } from "./models";
 
@@ -478,6 +476,7 @@ export class SqlManagementClient extends coreClient.ServiceClient {
       this
     );
     this.operations = new OperationsImpl(this);
+    this.operationsHealthOperations = new OperationsHealthOperationsImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
     this.recoverableManagedDatabases = new RecoverableManagedDatabasesImpl(
@@ -545,10 +544,6 @@ export class SqlManagementClient extends coreClient.ServiceClient {
       this
     );
     this.serverConnectionPolicies = new ServerConnectionPoliciesImpl(this);
-    this.distributedAvailabilityGroups = new DistributedAvailabilityGroupsImpl(
-      this
-    );
-    this.serverTrustCertificates = new ServerTrustCertificatesImpl(this);
   }
 
   recoverableDatabases: RecoverableDatabases;
@@ -626,6 +621,7 @@ export class SqlManagementClient extends coreClient.ServiceClient {
   managedRestorableDroppedDatabaseBackupShortTermRetentionPolicies: ManagedRestorableDroppedDatabaseBackupShortTermRetentionPolicies;
   managedServerSecurityAlertPolicies: ManagedServerSecurityAlertPolicies;
   operations: Operations;
+  operationsHealthOperations: OperationsHealthOperations;
   privateEndpointConnections: PrivateEndpointConnections;
   privateLinkResources: PrivateLinkResources;
   recoverableManagedDatabases: RecoverableManagedDatabases;
@@ -669,6 +665,4 @@ export class SqlManagementClient extends coreClient.ServiceClient {
   restorableDroppedDatabases: RestorableDroppedDatabases;
   restorableDroppedManagedDatabases: RestorableDroppedManagedDatabases;
   serverConnectionPolicies: ServerConnectionPolicies;
-  distributedAvailabilityGroups: DistributedAvailabilityGroups;
-  serverTrustCertificates: ServerTrustCertificates;
 }

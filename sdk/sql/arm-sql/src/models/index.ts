@@ -2361,6 +2361,20 @@ export interface OperationDisplay {
   readonly description?: string;
 }
 
+/** A list of service health statuses in a location. */
+export interface OperationsHealthListResult {
+  /**
+   * Array of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: OperationsHealth[];
+  /**
+   * Link to retrieve next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
 /** Properties of a private endpoint connection. */
 export interface PrivateEndpointConnectionProperties {
   /** Private endpoint which the connection belongs to. */
@@ -3912,34 +3926,6 @@ export interface ServerConnectionPolicyListResult {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly value?: ServerConnectionPolicy[];
-  /**
-   * Link to retrieve next page of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** A list of distributed availability groups in instance. */
-export interface DistributedAvailabilityGroupsListResult {
-  /**
-   * Array of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: DistributedAvailabilityGroup[];
-  /**
-   * Link to retrieve next page of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** A list of the server trust certificates which are used for secure communication between SQL On-Prem instance and the given Sql Managed Instance. */
-export interface ServerTrustCertificatesListResult {
-  /**
-   * Array of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: ServerTrustCertificate[];
   /**
    * Link to retrieve next page of results.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5922,6 +5908,25 @@ export interface ManagedServerSecurityAlertPolicy extends ProxyResource {
   readonly creationTime?: Date;
 }
 
+/** Operations health status in a location. */
+export interface OperationsHealth extends ProxyResource {
+  /**
+   * Operation name for the service
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly namePropertiesName?: string;
+  /**
+   * Operation health status of the service.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly health?: string;
+  /**
+   * Health status description.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
+}
+
 /** A private endpoint connection */
 export interface PrivateEndpointConnection extends ProxyResource {
   /** Private endpoint which the connection belongs to. */
@@ -6932,61 +6937,6 @@ export interface ServerConnectionPolicy extends ProxyResource {
   readonly kind?: string;
   /** The server connection type. */
   connectionType?: ServerConnectionType;
-}
-
-/** Distributed availability group between box and Sql Managed Instance. */
-export interface DistributedAvailabilityGroup extends ProxyResource {
-  /** The name of the target database */
-  targetDatabase?: string;
-  /** The source endpoint */
-  sourceEndpoint?: string;
-  /** The primary availability group name */
-  primaryAvailabilityGroupName?: string;
-  /** The secondary availability group name */
-  secondaryAvailabilityGroupName?: string;
-  /** The replication mode of a distributed availability group. Parameter will be ignored during link creation. */
-  replicationMode?: ReplicationMode;
-  /**
-   * The distributed availability group id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly distributedAvailabilityGroupId?: string;
-  /**
-   * The source replica id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly sourceReplicaId?: string;
-  /**
-   * The target replica id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly targetReplicaId?: string;
-  /**
-   * The link state
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly linkState?: string;
-  /**
-   * The last hardened lsn
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastHardenedLsn?: string;
-}
-
-/** Server trust certificate imported from box to enable connection between box and Sql Managed Instance. */
-export interface ServerTrustCertificate extends ProxyResource {
-  /** The certificate public blob */
-  publicBlob?: string;
-  /**
-   * The certificate thumbprint
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly thumbprint?: string;
-  /**
-   * The certificate name
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly certificateName?: string;
 }
 
 /** An elastic pool. */
@@ -8845,8 +8795,8 @@ export enum KnownSyncMemberDbType {
  */
 export type SyncMemberDbType = string;
 
-/** Known values of {@link SyncGroupsType} that the service accepts. */
-export enum KnownSyncGroupsType {
+/** Known values of {@link Enum60} that the service accepts. */
+export enum KnownEnum60 {
   /** All */
   All = "All",
   /** Error */
@@ -8858,8 +8808,8 @@ export enum KnownSyncGroupsType {
 }
 
 /**
- * Defines values for SyncGroupsType. \
- * {@link KnownSyncGroupsType} can be used interchangeably with SyncGroupsType,
+ * Defines values for Enum60. \
+ * {@link KnownEnum60} can be used interchangeably with Enum60,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **All** \
@@ -8867,7 +8817,7 @@ export enum KnownSyncGroupsType {
  * **Warning** \
  * **Success**
  */
-export type SyncGroupsType = string;
+export type Enum60 = string;
 
 /** Known values of {@link SyncGroupLogType} that the service accepts. */
 export enum KnownSyncGroupLogType {
@@ -9780,24 +9730,6 @@ export enum KnownServerConnectionType {
  * **Proxy**
  */
 export type ServerConnectionType = string;
-
-/** Known values of {@link ReplicationMode} that the service accepts. */
-export enum KnownReplicationMode {
-  /** Async */
-  Async = "Async",
-  /** Sync */
-  Sync = "Sync"
-}
-
-/**
- * Defines values for ReplicationMode. \
- * {@link KnownReplicationMode} can be used interchangeably with ReplicationMode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Async** \
- * **Sync**
- */
-export type ReplicationMode = string;
 
 /** Known values of {@link ServiceObjectiveName} that the service accepts. */
 export enum KnownServiceObjectiveName {
@@ -12722,6 +12654,20 @@ export interface OperationsListNextOptionalParams
 export type OperationsListNextResponse = OperationListResult;
 
 /** Optional parameters. */
+export interface OperationsHealthListByLocationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByLocation operation. */
+export type OperationsHealthListByLocationResponse = OperationsHealthListResult;
+
+/** Optional parameters. */
+export interface OperationsHealthListByLocationNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByLocationNext operation. */
+export type OperationsHealthListByLocationNextResponse = OperationsHealthListResult;
+
+/** Optional parameters. */
 export interface PrivateEndpointConnectionsGetOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -14692,102 +14638,6 @@ export interface ServerConnectionPoliciesListByServerNextOptionalParams
 
 /** Contains response data for the listByServerNext operation. */
 export type ServerConnectionPoliciesListByServerNextResponse = ServerConnectionPolicyListResult;
-
-/** Optional parameters. */
-export interface DistributedAvailabilityGroupsListByInstanceOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByInstance operation. */
-export type DistributedAvailabilityGroupsListByInstanceResponse = DistributedAvailabilityGroupsListResult;
-
-/** Optional parameters. */
-export interface DistributedAvailabilityGroupsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type DistributedAvailabilityGroupsGetResponse = DistributedAvailabilityGroup;
-
-/** Optional parameters. */
-export interface DistributedAvailabilityGroupsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type DistributedAvailabilityGroupsCreateOrUpdateResponse = DistributedAvailabilityGroup;
-
-/** Optional parameters. */
-export interface DistributedAvailabilityGroupsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface DistributedAvailabilityGroupsUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the update operation. */
-export type DistributedAvailabilityGroupsUpdateResponse = DistributedAvailabilityGroup;
-
-/** Optional parameters. */
-export interface DistributedAvailabilityGroupsListByInstanceNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByInstanceNext operation. */
-export type DistributedAvailabilityGroupsListByInstanceNextResponse = DistributedAvailabilityGroupsListResult;
-
-/** Optional parameters. */
-export interface ServerTrustCertificatesGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type ServerTrustCertificatesGetResponse = ServerTrustCertificate;
-
-/** Optional parameters. */
-export interface ServerTrustCertificatesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type ServerTrustCertificatesCreateOrUpdateResponse = ServerTrustCertificate;
-
-/** Optional parameters. */
-export interface ServerTrustCertificatesDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface ServerTrustCertificatesListByInstanceOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByInstance operation. */
-export type ServerTrustCertificatesListByInstanceResponse = ServerTrustCertificatesListResult;
-
-/** Optional parameters. */
-export interface ServerTrustCertificatesListByInstanceNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByInstanceNext operation. */
-export type ServerTrustCertificatesListByInstanceNextResponse = ServerTrustCertificatesListResult;
 
 /** Optional parameters. */
 export interface SqlManagementClientOptionalParams

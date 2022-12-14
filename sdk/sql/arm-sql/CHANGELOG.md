@@ -1,11 +1,9 @@
 # Release History
     
-## 10.0.0-beta.1 (2022-12-12)
+## 10.0.0-beta.1 (2022-12-14)
     
 **Features**
 
-  - Added operation group DistributedAvailabilityGroups
-  - Added operation group ServerTrustCertificates
   - Added Interface Advisor
   - Added Interface BackupShortTermRetentionPolicy
   - Added Interface Database
@@ -25,14 +23,6 @@
   - Added Interface DataMaskingRule
   - Added Interface DataWarehouseUserActivities
   - Added Interface DeletedServer
-  - Added Interface DistributedAvailabilityGroup
-  - Added Interface DistributedAvailabilityGroupsCreateOrUpdateOptionalParams
-  - Added Interface DistributedAvailabilityGroupsDeleteOptionalParams
-  - Added Interface DistributedAvailabilityGroupsGetOptionalParams
-  - Added Interface DistributedAvailabilityGroupsListByInstanceNextOptionalParams
-  - Added Interface DistributedAvailabilityGroupsListByInstanceOptionalParams
-  - Added Interface DistributedAvailabilityGroupsListResult
-  - Added Interface DistributedAvailabilityGroupsUpdateOptionalParams
   - Added Interface ElasticPool
   - Added Interface ElasticPoolActivity
   - Added Interface ElasticPoolDatabaseActivity
@@ -79,6 +69,7 @@
   - Added Interface ManagedInstanceVulnerabilityAssessment
   - Added Interface ManagedServerSecurityAlertPolicy
   - Added Interface ManagedTransparentDataEncryption
+  - Added Interface OperationsHealth
   - Added Interface OutboundFirewallRule
   - Added Interface PrivateEndpointConnection
   - Added Interface PrivateLinkResource
@@ -108,13 +99,6 @@
   - Added Interface ServerKey
   - Added Interface ServerOperation
   - Added Interface ServerSecurityAlertPolicy
-  - Added Interface ServerTrustCertificate
-  - Added Interface ServerTrustCertificatesCreateOrUpdateOptionalParams
-  - Added Interface ServerTrustCertificatesDeleteOptionalParams
-  - Added Interface ServerTrustCertificatesGetOptionalParams
-  - Added Interface ServerTrustCertificatesListByInstanceNextOptionalParams
-  - Added Interface ServerTrustCertificatesListByInstanceOptionalParams
-  - Added Interface ServerTrustCertificatesListResult
   - Added Interface ServerTrustGroup
   - Added Interface ServerVulnerabilityAssessment
   - Added Interface ServiceObjective
@@ -133,26 +117,10 @@
   - Added Interface VulnerabilityAssessmentScanRecord
   - Added Interface WorkloadClassifier
   - Added Interface WorkloadGroup
-  - Added Type Alias DistributedAvailabilityGroupsCreateOrUpdateResponse
-  - Added Type Alias DistributedAvailabilityGroupsGetResponse
-  - Added Type Alias DistributedAvailabilityGroupsListByInstanceNextResponse
-  - Added Type Alias DistributedAvailabilityGroupsListByInstanceResponse
-  - Added Type Alias DistributedAvailabilityGroupsUpdateResponse
-  - Added Type Alias ReplicationMode
-  - Added Type Alias ServerTrustCertificatesCreateOrUpdateResponse
-  - Added Type Alias ServerTrustCertificatesGetResponse
-  - Added Type Alias ServerTrustCertificatesListByInstanceNextResponse
-  - Added Type Alias ServerTrustCertificatesListByInstanceResponse
-  - Added Type Alias SyncGroupsType
-  - Class SqlManagementClient has a new parameter distributedAvailabilityGroups
-  - Class SqlManagementClient has a new parameter serverTrustCertificates
-  - Added Enum KnownReplicationMode
-  - Added Enum KnownSyncGroupsType
+  - Added function getContinuationToken
 
 **Breaking Changes**
 
-  - Removed operation group OperationsHealthOperations
-  - Operation SyncGroups.listLogs has a new signature
   - Interface DatabaseColumnsListByDatabaseNextOptionalParams no longer has parameter column
   - Interface DatabaseColumnsListByDatabaseNextOptionalParams no longer has parameter orderBy
   - Interface DatabaseColumnsListByDatabaseNextOptionalParams no longer has parameter schema
@@ -264,8 +232,6 @@
   - Interface ServersListNextOptionalParams no longer has parameter expand
   - Interface SyncGroupsListLogsNextOptionalParams no longer has parameter continuationToken
   - Interface UsagesListByInstancePoolNextOptionalParams no longer has parameter expandChildren
-  - Class SqlManagementClient no longer has parameter operationsHealthOperations
-  - Removed Enum KnownEnum60
     
 ## 9.0.1 (2022-05-01)
 
