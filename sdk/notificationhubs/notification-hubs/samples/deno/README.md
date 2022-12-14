@@ -1,7 +1,6 @@
 # Azure Notification Hubs Samples for Deno
 
-These are the samples for [Deno](https://deno.land/) with Azure Notification
-Hubs.
+These are the samples for [Deno](https://deno.land/) with Azure Notification Hubs.  Deno 1.28.2+ has support for [npm compatibility](https://deno.land/manual@v1.28.3/node/npm_specifiers) which allows for direct usage of the Azure SDK for Notification Hubs.  Note that our core works against Node LTS versions and if an error is encountered, the developer should be encouraged to file an issue with [Deno directly](https://github.com/denoland/deno) or with the [Deno Standard Library](https://github.com/denoland/deno_std).
 
 ## Running Samples
 

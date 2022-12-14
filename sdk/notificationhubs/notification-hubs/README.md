@@ -22,6 +22,9 @@ Key links:
 
 - [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
 - Latest versions of Safari, Chrome, Edge, and Firefox.
+- [React Native](https://reactnative.dev/)
+- [Deno (1.28.2+ experimental support)](https://deno.land/)
+  - See [Deno Examples](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/notificationhubs/notification-hubs/samples/deno/README.md) for more information.
 
 See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
 
