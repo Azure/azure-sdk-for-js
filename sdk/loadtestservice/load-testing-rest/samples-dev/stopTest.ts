@@ -54,7 +54,7 @@ async function main() {
   if (testRunCreationResult.body.testRunId === undefined)
     throw new Error("Test Run ID returned as undefined.");
 
-  // Checking the test run status and printing metrics
+  // Checking the test run status
   var testStatus = null;
   var getTestRunResult;
   const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));

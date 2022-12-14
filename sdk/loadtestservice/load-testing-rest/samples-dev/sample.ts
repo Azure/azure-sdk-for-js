@@ -59,6 +59,7 @@ async function main() {
   }
 
   // Getting the Validation Status of file
+  // We need to validate JMX input script.
 
   let fileValidationResult;
   let validationStatus = null;

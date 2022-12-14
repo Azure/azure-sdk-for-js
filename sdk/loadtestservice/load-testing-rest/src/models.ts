@@ -1,6 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { OperationState, SimplePollerLike } from "@azure/core-lro";
+import { OperationOptions } from "@azure/core-client";
+import { TestRunGet200Response, TestUploadFile201Response } from "./responses";
+
 /** Load test model */
 export interface Test {
   /** Pass fail criteria for a test. */
@@ -392,4 +396,24 @@ export interface TestRunServerMetricConfig {
   lastModifiedDateTime?: Date | string;
   /** The user that last modified. */
   lastModifiedBy?: string;
+}
+
+/**
+ * Describes a poller for NotificationHubJob types.
+ */
+export type FileUploadAndValidatePoller = SimplePollerLike<
+  OperationState<TestUploadFile201Response>,
+  TestUploadFile201Response
+>;
+
+export type TestRunStatusPoller = SimplePollerLike<
+  OperationState<TestRunGet200Response>,
+  TestRunGet200Response
+>;
+
+export interface PolledOperationOptions extends OperationOptions {
+  /**
+   * Time delay between poll requests, in milliseconds.
+   */
+  updateIntervalInMs?: number;
 }

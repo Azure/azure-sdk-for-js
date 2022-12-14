@@ -5,7 +5,11 @@ import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 import { CancelOnProgress, OperationState, SimplePollerLike } from "@azure/core-lro";
 import { FileUploadAndValidatePoller, PolledOperationOptions } from "./models";
 import { AzureLoadTestingClient } from "./index.js";
-import { TestUploadFile201Response } from "./responses";
+import {
+  TestGetFile200Response,
+  TestGetFileDefaultResponse,
+  TestUploadFile201Response,
+} from "./responses";
 import { isUnexpected } from "./isUnexpected";
 import { ReadStream } from "fs";
 
@@ -32,7 +36,6 @@ export async function beginFileValidation(
   if (isUnexpected(fileUploadResult)) {
     throw fileUploadResult.body.error;
   }
-  let fileValidationResponse: TestUploadFile201Response;
 
   type Handler = (state: OperationState<TestUploadFile201Response>) => void;
 
@@ -48,12 +51,14 @@ export async function beginFileValidation(
   const abortController = new AbortController();
   const currentPollIntervalInMs = polledOperationOptions.updateIntervalInMs ?? 2000;
 
-  const poller: SimplePollerLike<
-    OperationState<TestUploadFile201Response>,
-    TestUploadFile201Response
-  > = {
+  const poller: SimplePollerLike<OperationState<TestGetFile200Response>, TestGetFile200Response> = {
     async poll(_options?: { abortSignal?: AbortSignalLike }): Promise<void> {
-      await client.path("/tests/{testId}/files/{fileName}", testId, fileName).get();
+      let fileValidationResponse = await client
+        .path("/tests/{testId}/files/{fileName}", testId, fileName)
+        .get();
+      if (isUnexpected(fileValidationResponse)) {
+        throw fileValidationResponse.body.error;
+      }
       if (
         fileValidationResponse.body.validationStatus === "VALIDATION_INITIATED" ||
         fileValidationResponse.body.validationStatus === "NOT_VALIDATED"
@@ -76,9 +81,9 @@ export async function beginFileValidation(
 
       await processProgressCallbacks();
 
-      if (state.status === "canceled") {
-        throw new Error("Operation was canceled");
-      }
+      //if (state.status === "canceled") {
+      //  throw new Error("Operation was canceled");
+      //}
       if (state.status === "failed") {
         throw state.error;
       }
