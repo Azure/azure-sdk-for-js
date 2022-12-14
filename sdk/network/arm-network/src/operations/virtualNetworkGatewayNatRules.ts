@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { VirtualNetworkGatewayNatRules } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,12 +19,12 @@ import {
   VirtualNetworkGatewayNatRule,
   VirtualNetworkGatewayNatRulesListByVirtualNetworkGatewayNextOptionalParams,
   VirtualNetworkGatewayNatRulesListByVirtualNetworkGatewayOptionalParams,
+  VirtualNetworkGatewayNatRulesListByVirtualNetworkGatewayResponse,
   VirtualNetworkGatewayNatRulesGetOptionalParams,
   VirtualNetworkGatewayNatRulesGetResponse,
   VirtualNetworkGatewayNatRulesCreateOrUpdateOptionalParams,
   VirtualNetworkGatewayNatRulesCreateOrUpdateResponse,
   VirtualNetworkGatewayNatRulesDeleteOptionalParams,
-  VirtualNetworkGatewayNatRulesListByVirtualNetworkGatewayResponse,
   VirtualNetworkGatewayNatRulesListByVirtualNetworkGatewayNextResponse
 } from "../models";
 
@@ -64,11 +65,15 @@ export class VirtualNetworkGatewayNatRulesImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByVirtualNetworkGatewayPagingPage(
           resourceGroupName,
           virtualNetworkGatewayName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -77,15 +82,22 @@ export class VirtualNetworkGatewayNatRulesImpl
   private async *listByVirtualNetworkGatewayPagingPage(
     resourceGroupName: string,
     virtualNetworkGatewayName: string,
-    options?: VirtualNetworkGatewayNatRulesListByVirtualNetworkGatewayOptionalParams
+    options?: VirtualNetworkGatewayNatRulesListByVirtualNetworkGatewayOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<VirtualNetworkGatewayNatRule[]> {
-    let result = await this._listByVirtualNetworkGateway(
-      resourceGroupName,
-      virtualNetworkGatewayName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: VirtualNetworkGatewayNatRulesListByVirtualNetworkGatewayResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByVirtualNetworkGateway(
+        resourceGroupName,
+        virtualNetworkGatewayName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByVirtualNetworkGatewayNext(
         resourceGroupName,
@@ -94,7 +106,9 @@ export class VirtualNetworkGatewayNatRulesImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 

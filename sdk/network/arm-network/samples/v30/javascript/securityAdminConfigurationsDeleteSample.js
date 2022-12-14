@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Deletes a network manager security admin configuration.
  *
  * @summary Deletes a network manager security admin configuration.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkManagerSecurityAdminConfigurationDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/NetworkManagerSecurityAdminConfigurationDelete.json
  */
 async function deleteNetworkManagerSecurityAdminConfiguration() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

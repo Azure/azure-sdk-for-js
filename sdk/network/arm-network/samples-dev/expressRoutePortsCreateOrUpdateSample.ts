@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Creates or updates the specified ExpressRoutePort resource.
  *
  * @summary Creates or updates the specified ExpressRoutePort resource.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ExpressRoutePortCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/ExpressRoutePortCreate.json
  */
 async function expressRoutePortCreate() {
   const subscriptionId = "subid";
@@ -44,7 +44,7 @@ expressRoutePortCreate().catch(console.error);
  * This sample demonstrates how to Creates or updates the specified ExpressRoutePort resource.
  *
  * @summary Creates or updates the specified ExpressRoutePort resource.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ExpressRoutePortUpdateLink.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/ExpressRoutePortUpdateLink.json
  */
 async function expressRoutePortUpdateLink() {
   const subscriptionId = "subid";

@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Creates or updates a network security group in the specified resource group.
  *
  * @summary Creates or updates a network security group in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkSecurityGroupCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/NetworkSecurityGroupCreate.json
  */
 async function createNetworkSecurityGroup() {
   const subscriptionId = "subid";
@@ -41,7 +41,7 @@ createNetworkSecurityGroup().catch(console.error);
  * This sample demonstrates how to Creates or updates a network security group in the specified resource group.
  *
  * @summary Creates or updates a network security group in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkSecurityGroupCreateWithRule.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/NetworkSecurityGroupCreateWithRule.json
  */
 async function createNetworkSecurityGroupWithRule() {
   const subscriptionId = "subid";

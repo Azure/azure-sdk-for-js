@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Deletes a HubVirtualNetworkConnection.
  *
  * @summary Deletes a HubVirtualNetworkConnection.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/HubVirtualNetworkConnectionDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/HubVirtualNetworkConnectionDelete.json
  */
 async function hubVirtualNetworkConnectionDelete() {
   const subscriptionId = "subid";

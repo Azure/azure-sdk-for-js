@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Retrieves the details of all RouteMaps.
  *
  * @summary Retrieves the details of all RouteMaps.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/RouteMapList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/RouteMapList.json
  */
 async function routeMapList() {
   const subscriptionId = "subid";

@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Update a DDoS custom policy tags.
  *
  * @summary Update a DDoS custom policy tags.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/DdosCustomPolicyUpdateTags.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/DdosCustomPolicyUpdateTags.json
  */
 async function dDoSCustomPolicyUpdateTags() {
   const subscriptionId = "subid";

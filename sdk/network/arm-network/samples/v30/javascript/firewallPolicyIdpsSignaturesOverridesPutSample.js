@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Will override/create a new signature overrides for the policy's IDPS
  *
  * @summary Will override/create a new signature overrides for the policy's IDPS
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/FirewallPolicySignatureOverridesPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/FirewallPolicySignatureOverridesPut.json
  */
 async function putSignatureOverrides() {
   const subscriptionId = "e747cc13-97d4-4a79-b463-42d7f4e558f2";

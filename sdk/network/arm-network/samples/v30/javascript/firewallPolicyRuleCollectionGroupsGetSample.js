@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Gets the specified FirewallPolicyRuleCollectionGroup.
  *
  * @summary Gets the specified FirewallPolicyRuleCollectionGroup.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/FirewallPolicyNatRuleCollectionGroupGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/FirewallPolicyNatRuleCollectionGroupGet.json
  */
 async function getFirewallPolicyNatRuleCollectionGroup() {
   const subscriptionId = "subid";
@@ -38,7 +38,7 @@ getFirewallPolicyNatRuleCollectionGroup().catch(console.error);
  * This sample demonstrates how to Gets the specified FirewallPolicyRuleCollectionGroup.
  *
  * @summary Gets the specified FirewallPolicyRuleCollectionGroup.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/FirewallPolicyRuleCollectionGroupGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/FirewallPolicyRuleCollectionGroupGet.json
  */
 async function getFirewallPolicyRuleCollectionGroup() {
   const subscriptionId = "subid";
@@ -61,7 +61,7 @@ getFirewallPolicyRuleCollectionGroup().catch(console.error);
  * This sample demonstrates how to Gets the specified FirewallPolicyRuleCollectionGroup.
  *
  * @summary Gets the specified FirewallPolicyRuleCollectionGroup.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/FirewallPolicyRuleCollectionGroupWithIpGroupsGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/FirewallPolicyRuleCollectionGroupWithIpGroupsGet.json
  */
 async function getFirewallPolicyRuleCollectionGroupWithIPGroups() {
   const subscriptionId = "subid";
@@ -84,7 +84,7 @@ getFirewallPolicyRuleCollectionGroupWithIPGroups().catch(console.error);
  * This sample demonstrates how to Gets the specified FirewallPolicyRuleCollectionGroup.
  *
  * @summary Gets the specified FirewallPolicyRuleCollectionGroup.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/FirewallPolicyRuleCollectionGroupWithWebCategoriesGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/FirewallPolicyRuleCollectionGroupWithWebCategoriesGet.json
  */
 async function getFirewallPolicyRuleCollectionGroupWithWebCategories() {
   const subscriptionId = "e747cc13-97d4-4a79-b463-42d7f4e558f2";
