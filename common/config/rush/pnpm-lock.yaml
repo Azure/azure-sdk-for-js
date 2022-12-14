@@ -3736,7 +3736,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20221222
+      typescript: 5.0.0-dev.20221223
     dev: false
 
   /downlevel-dts/0.7.0:
@@ -8440,8 +8440,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20221222:
-    resolution: {integrity: sha512-9YjbBpzM8BrO3WcbFEE63qQtipPlBP+WFmQDpI/j1W1DInACLJESbWsVAeYBC6PUvIBMzKIVO33cJUUv2l/pmw==}
+  /typescript/5.0.0-dev.20221223:
+    resolution: {integrity: sha512-wdv6oGuCZ1Uhp0VWufyM2PmVOhUNtg8VAT3NeAsYT8m4D0ZEe1+oZXnJaPmv8icwmKFrzTF7eKaX543gC5by5g==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -8565,7 +8565,7 @@ packages:
     dev: false
 
   /utils-merge/1.0.1:
-    resolution: {integrity: sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==}
+    resolution: {integrity: sha1-n5VxD1CiZ5R7LMwSR0HBAoQn5xM=}
     engines: {node: '>= 0.4.0'}
     dev: false
 
@@ -19487,7 +19487,7 @@ packages:
     dev: false
 
   file:projects/web-pubsub-client.tgz:
-    resolution: {integrity: sha512-6PPAGRU137SPwjZ7bhod+glarcGPxbbvYE8M65zJ/mWIRTjiDqCuSrpfd5u72Q8ztPOGSXCpUdikAMi4N+Av4w==, tarball: file:projects/web-pubsub-client.tgz}
+    resolution: {integrity: sha512-R2OwEbHPwcpoAdIfHzEc2rWiAgowix3g7Q1hwAAppDLZERji8z8mqQJGX9IE4dxOzcXECC/qvlCPTrHo+nv2xg==, tarball: file:projects/web-pubsub-client.tgz}
     name: '@rush-temp/web-pubsub-client'
     version: 0.0.0
     dependencies:
@@ -19500,7 +19500,7 @@ packages:
       '@types/express-serve-static-core': 4.17.31
       '@types/jsonwebtoken': 8.5.9
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 18.11.9
       '@types/sinon': 9.0.11
       '@types/ws': 7.4.7
       buffer: 6.0.3

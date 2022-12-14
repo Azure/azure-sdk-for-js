@@ -7,11 +7,26 @@
 
 const { WebPubSubClient } = require("@azure/web-pubsub-client");
 const { WebPubSubServiceClient } = require("@azure/web-pubsub");
+const { parseArgs } = require("node:util");
 
 require("dotenv").config();
 
-const hubName = "sample_chat";
-const groupName = "testGroup";
+const options = {
+  hubName: {
+    type: "string",
+  },
+  groupName: {
+    type: "string",
+  },
+};
+
+const { values } = parseArgs({
+  options,
+});
+
+const hubName = values.hubName ?? "sample_chat";
+const groupName = values.groupName ?? "testGroup";
+
 const serviceClient = new WebPubSubServiceClient(process.env.WPS_CONNECTION_STRING, hubName);
 
 const fetchClientAccessUrl = async (_) => {

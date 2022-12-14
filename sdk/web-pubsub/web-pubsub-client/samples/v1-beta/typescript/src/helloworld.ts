@@ -12,11 +12,26 @@ import {
   GetClientAccessUrlOptions,
 } from "@azure/web-pubsub-client";
 import { WebPubSubServiceClient } from "@azure/web-pubsub";
+import { parseArgs, ParseArgsConfig } from "node:util";
 
 require("dotenv").config();
 
-const hubName = "sample_chat";
-const groupName = "testGroup";
+const options: ParseArgsConfig["options"] = {
+  hubName: {
+    type: "string",
+  },
+  groupName: {
+    type: "string",
+  },
+};
+
+const { values } = parseArgs({
+  options,
+});
+
+const hubName: string = (values.hubName as string) ?? "sample_chat";
+const groupName: string = (values.groupName as string) ?? "testGroup";
+
 const serviceClient = new WebPubSubServiceClient(process.env.WPS_CONNECTION_STRING!, hubName);
 
 const fetchClientAccessUrl = async (_: GetClientAccessUrlOptions) => {
