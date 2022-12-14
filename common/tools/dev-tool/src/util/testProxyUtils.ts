@@ -138,11 +138,7 @@ export interface CommandRun {
   command: ChildProcess;
 }
 
-function runCommand(
-  executable: string,
-  argv: string[],
-  options: SpawnOptions = {}
-): CommandRun {
+function runCommand(executable: string, argv: string[], options: SpawnOptions = {}): CommandRun {
   const command = spawn(executable, argv, options);
 
   // Stop on exit
@@ -178,7 +174,7 @@ export async function startTestProxy(): Promise<TestProxyHandle> {
     "-l",
     await resolveRoot(),
     `http://0.0.0.0:${process.env.TEST_PROXY_HTTP_PORT ?? 5000}/`,
-    `http://0.0.0.0:${process.env.TEST_PROXY_HTTPS_PORT ?? 5001}/`,
+    `https://0.0.0.0:${process.env.TEST_PROXY_HTTPS_PORT ?? 5001}/`,
   ]);
 
   const log = fs.createWriteStream("./testProxyOutput.log", { flags: "a" });
