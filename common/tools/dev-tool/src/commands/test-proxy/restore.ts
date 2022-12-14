@@ -6,7 +6,7 @@ import { runTestProxyCommand } from "../../util/testProxyUtils";
 
 export const commandInfo = makeCommandInfo(
   "test-proxy",
-  "Restore the assets, referenced by assets.json, from git.",
+  "restore the assets, referenced by assets.json, from git",
   {}
 );
 

@@ -6,7 +6,7 @@ import { runTestProxyCommand } from "../../util/testProxyUtils";
 
 export const commandInfo = makeCommandInfo(
   "test-proxy",
-  "Push the assets, referenced by assets.json, into git.",
+  "pushes the assets, referenced by assets.json, into git",
   {}
 );
 

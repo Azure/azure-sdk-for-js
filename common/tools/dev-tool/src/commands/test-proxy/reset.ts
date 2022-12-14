@@ -6,7 +6,7 @@ import { runTestProxyCommand } from "../../util/testProxyUtils";
 
 export const commandInfo = makeCommandInfo(
   "test-proxy",
-  "Reset the assets, referenced by assets.json, from git to their original files referenced by the tag. Will prompt if there's pending changes.",
+  "reset the assets, referenced by assets.json, from git to their original files referenced by the tag. Will prompt if there's pending changes",
   {}
 );
 

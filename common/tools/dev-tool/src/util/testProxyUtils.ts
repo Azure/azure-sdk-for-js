@@ -138,7 +138,7 @@ export interface CommandRun {
   command: ChildProcess;
 }
 
-export function runCommand(
+function runCommand(
   executable: string,
   argv: string[],
   options: SpawnOptions = {}
