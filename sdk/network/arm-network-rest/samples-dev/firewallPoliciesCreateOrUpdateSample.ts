@@ -46,22 +46,19 @@ async function createFirewallPolicy() {
           isEnabled: true,
           logAnalyticsResources: {
             defaultWorkspaceId: {
-              id:
-                "/subscriptions/subid/resourcegroups/rg1/providers/microsoft.operationalinsights/workspaces/defaultWorkspace",
+              id: "/subscriptions/subid/resourcegroups/rg1/providers/microsoft.operationalinsights/workspaces/defaultWorkspace",
             },
             workspaces: [
               {
                 region: "westus",
                 workspaceId: {
-                  id:
-                    "/subscriptions/subid/resourcegroups/rg1/providers/microsoft.operationalinsights/workspaces/workspace1",
+                  id: "/subscriptions/subid/resourcegroups/rg1/providers/microsoft.operationalinsights/workspaces/workspace1",
                 },
               },
               {
                 region: "eastus",
                 workspaceId: {
-                  id:
-                    "/subscriptions/subid/resourcegroups/rg1/providers/microsoft.operationalinsights/workspaces/workspace2",
+                  id: "/subscriptions/subid/resourcegroups/rg1/providers/microsoft.operationalinsights/workspaces/workspace2",
                 },
               },
             ],

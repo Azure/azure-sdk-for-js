@@ -1,19 +1,20 @@
 {
-  "name": "azure-arm-hardwaresecuritymodules-samples-js",
+  "name": "@azure-samples/quantum-jobs-js",
   "private": true,
   "version": "1.0.0",
-  "description": " client library samples for JavaScript",
+  "description": "Samples for the azure/quantum-jobs client library for Javascript",
   "engines": {
     "node": ">=14.0.0"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
-    "directory": "sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules"
+    "directory": "sdk/quantum/quantum-jobs"
   },
   "keywords": [
     "node",
     "azure",
+    "cloud",
     "typescript",
     "browser",
     "isomorphic"
@@ -23,10 +24,10 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules",
+  "main": "quantumJobs.js",
   "dependencies": {
-    "@azure/arm-hardwaresecuritymodules": "latest",
-    "dotenv": "latest",
-    "@azure/identity": "^2.0.1"
+    "@azure/identity": "^2.0.1",
+    "@azure/quantum-jobs": "latest",
+    "@azure/storage-blob": "latest"
   }
 }
