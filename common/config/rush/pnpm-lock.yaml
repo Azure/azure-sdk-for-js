@@ -2862,7 +2862,7 @@ packages:
     dev: false
 
   /array-flatten/1.1.1:
-    resolution: {integrity: sha512-PCVAQswWemu6UdxsDFFX/+gVeYqKAod3D3UVm91jHwynguOwAvYPhx8nNlM++NqRcK6CxxpUafjmhIdKiHibqg==}
+    resolution: {integrity: sha1-ml9pkFGx5wczKPKgCJaLZOopVdI=}
     dev: false
 
   /array-includes/3.1.6:
@@ -3101,7 +3101,7 @@ packages:
     dev: false
 
   /buffer-equal-constant-time/1.0.1:
-    resolution: {integrity: sha512-zRpUiDwd/xk6ADqPMATG8vc9VPrkck7T07OIx0gnjmJAnHnTVXNQG3vfvWNuiZIkwu9KrKdA1iJKfsfTVxE6NA==}
+    resolution: {integrity: sha1-+OcRMvf/5uAaXJaXpMbz5I1cyBk=}
     dev: false
 
   /buffer-from/1.1.2:
@@ -3258,7 +3258,7 @@ packages:
     dev: false
 
   /charenc/0.0.2:
-    resolution: {integrity: sha512-yrLQ/yVUFXkzg7EDQsPieE/53+0RlaWTs+wBrvW36cyilJ2SaDWfl4Yj7MtLTXleV9uEKefbAGUPv2/iWSooRA==}
+    resolution: {integrity: sha1-wKHS86cJLgN3S/qD8UwPxXkKhmc=}
     dev: false
 
   /check-error/1.0.2:
@@ -3403,7 +3403,7 @@ packages:
     dev: false
 
   /concat-map/0.0.1:
-    resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
+    resolution: {integrity: sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=}
     dev: false
 
   /concurrently/6.5.1:
@@ -3464,7 +3464,7 @@ packages:
     dev: false
 
   /cookie-signature/1.0.6:
-    resolution: {integrity: sha512-QADzlaHc8icV8I7vbaJXJwod9HWYp8uCqf1xa4OfNu1T7JVxQIrUgOWtHdNDtPiywmFbiS12VjotIXLrKM3orQ==}
+    resolution: {integrity: sha1-4wOogrNCzD7oylE6eZmXNNqzriw=}
     dev: false
 
   /cookie/0.4.2:
@@ -3576,7 +3576,7 @@ packages:
     dev: false
 
   /crypt/0.0.2:
-    resolution: {integrity: sha512-mCxBlsHFYh9C+HVpiEacem8FEBnMXgU9gy4zmNC+SXAZNB/1idgp/aulFJ4FgCi7GPEVbfyng092GqL2k2rmow==}
+    resolution: {integrity: sha1-iNf/fsDfuG9xPch7u0LQRNPmxBs=}
     dev: false
 
   /csv-parse/5.3.3:
@@ -3830,7 +3830,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20221213
+      typescript: 5.0.0-dev.20221214
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -3849,11 +3849,11 @@ packages:
     dev: false
 
   /edge-launcher/1.2.2:
-    resolution: {integrity: sha512-JcD5WBi3BHZXXVSSeEhl6sYO8g5cuynk/hifBzds2Bp4JdzCGLNMHgMCKu5DvrO1yatMgF0goFsxXRGus0yh1g==}
+    resolution: {integrity: sha1-60Cq+9Bnpup27/+rBke81VCbN7I=}
     dev: false
 
   /ee-first/1.1.1:
-    resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
+    resolution: {integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=}
     dev: false
 
   /electron-to-chromium/1.4.284:
@@ -4329,10 +4329,6 @@ packages:
     engines: {node: '>=4.0'}
     dev: false
 
-  /estree-walker/0.6.1:
-    resolution: {integrity: sha512-SqmZANLWS0mnatqbSfRP5g8OXZC12Fgg1IwNtLsyHDzJizORW4khDfjPqJZsemPWBB2uqykUah5YpQ6epsqC/w==}
-    dev: false
-
   /estree-walker/1.0.1:
     resolution: {integrity: sha512-1fMXF3YP4pZZVozF8j/ZLfvnR8NSIljt56UhbZ5PeeDmmGHpgpdwQt7ITlGvYaQukCvuBRMLEiKiYC+oeIg4cg==}
     dev: false
@@ -4735,7 +4731,7 @@ packages:
     dev: false
 
   /fresh/0.5.2:
-    resolution: {integrity: sha512-zJ2mQYM18rEFOudeV4GShTGIQ7RbzA7ozbU9I/XBpm7kqgMywgmylMwXHxZJmkVoYkna9d2pVXVXPdYTP9ej8Q==}
+    resolution: {integrity: sha1-PYyt2Q2XZWn6g1qx+OSyOhBWBac=}
     engines: {node: '>= 0.6'}
     dev: false
 
@@ -4875,7 +4871,7 @@ packages:
     dev: false
 
   /github-from-package/0.0.0:
-    resolution: {integrity: sha512-SyHy3T1v2NUXn29OsWdxmK6RwHD+vkj3v8en8AOBZ1wBQ/hCAQ5bAQTD02kW4W9tUp/3Qh6J8r9EvntiyCmOOw==}
+    resolution: {integrity: sha1-l/tdlr/eiXMxPyDoKI75oWf6ZM4=}
     dev: false
 
   /glob-parent/5.1.2:
@@ -6294,7 +6290,7 @@ packages:
     dev: false
 
   /media-typer/0.3.0:
-    resolution: {integrity: sha512-dq+qelQ9akHpcOl/gUVRTxVIOkAJ1wR3QAvb4RsVjS8oVoFjDGTc679wJYmUmknUF5HwMLOgb5O+a3KxfWapPQ==}
+    resolution: {integrity: sha1-hxDXrwqmJvj/+hzgAWhUUmMlV0g=}
     engines: {node: '>= 0.6'}
     dev: false
 
@@ -6304,7 +6300,7 @@ packages:
     dev: false
 
   /merge-descriptors/1.0.1:
-    resolution: {integrity: sha512-cCi6g3/Zr1iqQi6ySbseM1Xvooa98N0w31jzUYrXPX2xqObmFGHJ0tQ5u74H3mVh7wLouTseZyYIq39g8cNp1w==}
+    resolution: {integrity: sha1-sAqqVW3YtEVoFQ7J0blT8/kMu2E=}
     dev: false
 
   /merge-source-map/1.1.0:
@@ -6720,7 +6716,7 @@ packages:
     dev: false
 
   /noms/0.0.0:
-    resolution: {integrity: sha512-lNDU9VJaOPxUmXcLb+HQFeUgQQPtMI24Gt6hgfuMHRJgMRHMF/qZ4HJD3GDru4sSw9IQl2jPjAYnQrdIeLbwow==}
+    resolution: {integrity: sha1-2o69nzr51nYJGbJ9nNyAkqczKFk=}
     dependencies:
       inherits: 2.0.4
       readable-stream: 1.0.34
@@ -7558,11 +7554,6 @@ packages:
     engines: {node: '>=8'}
     dev: false
 
-  /resolve-url/0.2.1:
-    resolution: {integrity: sha512-ZuF55hVUQaaczgOIwqWzkEcEidmlD/xl44x1UZnhOXcYuFN2S6+rcxpG+C1N3So0wvNI3DmJICUFfu2SxhBmvg==}
-    deprecated: https://github.com/lydell/resolve-url#deprecated
-    dev: false
-
   /resolve/1.17.0:
     resolution: {integrity: sha512-ic+7JYiV8Vi2yzQGFWOkiZD5Z9z7O2Zhm9XMaTxdJExKasieFCr+yXZ/WmXsckHiKl12ar0y6XiXDx3m4RHn1w==}
     dependencies:
@@ -7649,28 +7640,6 @@ packages:
     resolution: {integrity: sha512-rZqFD43y4U9nSqVq3iyWBiDwmBQJY8Txi04yI9jTKD3xcl7CbFjh1qRpQshUB3sONLubDzm7vJiwB+1MEGv67w==}
     dev: false
 
-  /rollup-plugin-sourcemaps/0.4.2_rollup@1.32.1:
-    resolution: {integrity: sha512-pHUvzofmQx/C3zCkX14h9J9MbRfMjaARED8j8qOY+au4prtk2d567GD29WAHQTeGsDAVeStms3cPnRboC41YzA==}
-    engines: {node: '>=4.5.0', npm: '>=2.15.9'}
-    peerDependencies:
-      rollup: '>=0.31.2'
-    dependencies:
-      rollup: 1.32.1
-      rollup-pluginutils: 2.8.2
-      source-map-resolve: 0.5.3
-    dev: false
-
-  /rollup-plugin-sourcemaps/0.4.2_rollup@2.79.1:
-    resolution: {integrity: sha512-pHUvzofmQx/C3zCkX14h9J9MbRfMjaARED8j8qOY+au4prtk2d567GD29WAHQTeGsDAVeStms3cPnRboC41YzA==}
-    engines: {node: '>=4.5.0', npm: '>=2.15.9'}
-    peerDependencies:
-      rollup: '>=0.31.2'
-    dependencies:
-      rollup: 2.79.1
-      rollup-pluginutils: 2.8.2
-      source-map-resolve: 0.5.3
-    dev: false
-
   /rollup-plugin-sourcemaps/0.6.3_7459fe0d37cbbca90688e529585c250d:
     resolution: {integrity: sha512-paFu+nT1xvuO1tPFYXGe+XnQvg4Hjqv/eIhG8i5EspfYYPBKL57X7iVbfv55aNVASg3dzWvES9dmWsL2KhfByw==}
     engines: {node: '>=10.0.0'}
@@ -7684,6 +7653,21 @@ packages:
       '@rollup/pluginutils': 3.1.0_rollup@2.79.1
       '@types/node': 14.18.34
       rollup: 2.79.1
+      source-map-resolve: 0.6.0
+    dev: false
+
+  /rollup-plugin-sourcemaps/0.6.3_rollup@1.32.1:
+    resolution: {integrity: sha512-paFu+nT1xvuO1tPFYXGe+XnQvg4Hjqv/eIhG8i5EspfYYPBKL57X7iVbfv55aNVASg3dzWvES9dmWsL2KhfByw==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      '@types/node': '>=10.0.0'
+      rollup: '>=0.31.2'
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+    dependencies:
+      '@rollup/pluginutils': 3.1.0_rollup@1.32.1
+      rollup: 1.32.1
       source-map-resolve: 0.6.0
     dev: false
 
@@ -7716,12 +7700,6 @@ packages:
       rollup: 2.79.1
       source-map: 0.7.4
       yargs: 17.6.2
-    dev: false
-
-  /rollup-pluginutils/2.8.2:
-    resolution: {integrity: sha512-EEp9NhnUkwY8aif6bxgovPHMoMoNr2FulJziTndpt5H9RdwC47GSGuII9XxpSdzVGM0GWrNPHV6ie1LTNJPaLQ==}
-    dependencies:
-      estree-walker: 0.6.1
     dev: false
 
   /rollup/1.32.1:
@@ -8015,17 +7993,6 @@ packages:
       - utf-8-validate
     dev: false
 
-  /source-map-resolve/0.5.3:
-    resolution: {integrity: sha512-Htz+RnsXWk5+P2slx5Jh3Q66vhQj1Cllm0zvnaY98+NFx+Dv2CF/f5O/t8x+KaNdrdIAsruNzoh/KpialbqAnw==}
-    deprecated: See https://github.com/lydell/source-map-resolve#deprecated
-    dependencies:
-      atob: 2.1.2
-      decode-uri-component: 0.2.2
-      resolve-url: 0.2.1
-      source-map-url: 0.4.1
-      urix: 0.1.0
-    dev: false
-
   /source-map-resolve/0.6.0:
     resolution: {integrity: sha512-KXBr9d/fO/bWo97NXsPIAW1bFSBOuCnjbNTBMO7N59hsv5i9yzRDfcYwwt0l04+VqnKC+EwzvJZIP/qkuMgR/w==}
     deprecated: See https://github.com/lydell/source-map-resolve#deprecated
@@ -8039,11 +8006,6 @@ packages:
     dependencies:
       buffer-from: 1.1.2
       source-map: 0.6.1
-    dev: false
-
-  /source-map-url/0.4.1:
-    resolution: {integrity: sha512-cPiFOTLUKvJFIg4SKVScy4ilPPW6rFgMgfuZJPNoDuMs3nC1HbMUycBoJw77xFIp6z1UJQJOfx6C9GMH80DiTw==}
-    deprecated: See https://github.com/lydell/source-map-url#deprecated
     dev: false
 
   /source-map/0.6.1:
@@ -8770,8 +8732,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20221213:
-    resolution: {integrity: sha512-CONCSaeW3yqMVDra8geo9H+hDek37C1z/b05gWtzTJP4vVQ+exSRJmPNqhvuGyEs5En8wcjH/iXVGYQymJC4aQ==}
+  /typescript/5.0.0-dev.20221214:
+    resolution: {integrity: sha512-sg2HlS57Zxo1AbNpq+lUY9yHR3qA8DmP2nS8KBkvGO86PXCYtWYxkPhbwV8KtAlU50GNmj20fEVJK7kxvZdXfw==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -8861,11 +8823,6 @@ packages:
       punycode: 2.1.1
     dev: false
 
-  /urix/0.1.0:
-    resolution: {integrity: sha512-Am1ousAhSLBeB9cG/7k7r2R0zj50uDRlZHPGbazid5s9rlF1F/QKYObEKSIunSjIOkJZqwRRLpvewjEkM7pSqg==}
-    deprecated: Please see https://github.com/lydell/urix#deprecated
-    dev: false
-
   /url-parse/1.5.10:
     resolution: {integrity: sha512-WypcfiRhfeUP9vvF0j6rw0J3hrWrw6iZv3+22h6iRMJ/8z1Tj6XfLP4DsUix5MhMPnXpiHDoKyoZ/bdCkwBCiQ==}
     dependencies:
@@ -8895,7 +8852,7 @@ packages:
     dev: false
 
   /utils-merge/1.0.1:
-    resolution: {integrity: sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==}
+    resolution: {integrity: sha1-n5VxD1CiZ5R7LMwSR0HBAoQn5xM=}
     engines: {node: '>= 0.4.0'}
     dev: false
 
@@ -10332,7 +10289,7 @@ packages:
     dev: false
 
   file:projects/arm-authorization.tgz:
-    resolution: {integrity: sha512-oG5I0FW25UWY/8ljPqLbsppt3PB54BTNzZCyWhvQY1J3b1UgUt7Ty0KemX/a6MiukKlizslI6D4DBuDChWXVBg==, tarball: file:projects/arm-authorization.tgz}
+    resolution: {integrity: sha512-a279eju1IqROwR2QZTVCiOFVazJCP5W4jh3htV1oDJxbsP8fLYMy62M1Lk8wWNd+bZiUuq0kMwdDQL3mWGgNtg==, tarball: file:projects/arm-authorization.tgz}
     name: '@rush-temp/arm-authorization'
     version: 0.0.0
     dependencies:
@@ -10343,10 +10300,12 @@ packages:
       '@rollup/plugin-node-resolve': 8.4.0_rollup@2.79.1
       mkdirp: 1.0.4
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
       tslib: 2.4.1
       typescript: 4.2.4
       uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - '@types/node'
     dev: false
 
   file:projects/arm-automanage.tgz:
@@ -13866,7 +13825,7 @@ packages:
     dev: false
 
   file:projects/arm-recoveryservices-siterecovery.tgz:
-    resolution: {integrity: sha512-OMD3ghzpcA4UhqCKXTEoG6liATiq2Nu9YNLRW/KrslIhzHcXfxbNdNWjnWacgiWydGDHJ2ly1I0cnevipRNsBA==, tarball: file:projects/arm-recoveryservices-siterecovery.tgz}
+    resolution: {integrity: sha512-+AnZLJfTJyoInmwhckuUkm/F0YeJ5uqG5LaKh4MNjOYBwc7g+fWQZTPvUtBIBSpw0pwNltSih/Yx1FbsWEyc9Q==, tarball: file:projects/arm-recoveryservices-siterecovery.tgz}
     name: '@rush-temp/arm-recoveryservices-siterecovery'
     version: 0.0.0
     dependencies:
@@ -13882,11 +13841,12 @@ packages:
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 1.32.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@1.32.1
       tslib: 2.4.1
       typescript: 4.2.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
+      - '@types/node'
       - encoding
       - supports-color
     dev: false
@@ -14561,7 +14521,7 @@ packages:
     dev: false
 
   file:projects/arm-servicemap.tgz:
-    resolution: {integrity: sha512-aomEi543MuJCN0FlNDcxUMUM0mta5ZqaNIZsYnAMY8HvFF2Or/twn/XlOxg89WnYZwr+YM0LTaHcfL5RFOQzMQ==, tarball: file:projects/arm-servicemap.tgz}
+    resolution: {integrity: sha512-4+xXH4FlR+48b78z/UthL7uwFoUNerD+fEWAD+epa9UiwN3z2mrrYkG/dtj467WmQv79FIF5UXl1isoUgC68DQ==, tarball: file:projects/arm-servicemap.tgz}
     name: '@rush-temp/arm-servicemap'
     version: 0.0.0
     dependencies:
@@ -14577,11 +14537,12 @@ packages:
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 1.32.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@1.32.1
       tslib: 2.4.1
       typescript: 4.2.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
+      - '@types/node'
       - encoding
       - supports-color
     dev: false
@@ -15073,7 +15034,7 @@ packages:
     dev: false
 
   file:projects/arm-videoanalyzer.tgz:
-    resolution: {integrity: sha512-y5SJ1hGXuXzATD4JKa0wVHWC4v+lw2J77So+br0/9LfArAfBytZB+gYUMXiE/UIFXS8A9t4NMxq1ZeI3x8Ejow==, tarball: file:projects/arm-videoanalyzer.tgz}
+    resolution: {integrity: sha512-91XusxPdNGawWv5bSAVbc2Pp/NICmNTZVol2RR22gr3MvDcS8PUuQVfQQtqTq48Td6iMr0XRLH+l/hBO0Qc40g==, tarball: file:projects/arm-videoanalyzer.tgz}
     name: '@rush-temp/arm-videoanalyzer'
     version: 0.0.0
     dependencies:
@@ -15089,11 +15050,12 @@ packages:
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
       tslib: 2.4.1
       typescript: 4.2.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
+      - '@types/node'
       - encoding
       - supports-color
     dev: false
@@ -15683,7 +15645,7 @@ packages:
     dev: false
 
   file:projects/communication-rooms.tgz:
-    resolution: {integrity: sha512-lEzSLkRu+lvfpF5+CCS2gZBsePd83N9snbeMwCMZFNaTZBY5SWJaa5XlhD5cUN0r+VhJqjoe+lMkUbN/eBHczQ==, tarball: file:projects/communication-rooms.tgz}
+    resolution: {integrity: sha512-NWZ2ssXOK6YpcKDdoJZNo6MHkYG8t32Zcr/qubRsyUantrZ8HUVAwPE4c0E+FJOrPnMJC7tNLnBSES76iyrBlg==, tarball: file:projects/communication-rooms.tgz}
     name: '@rush-temp/communication-rooms'
     version: 0.0.0
     dependencies:
@@ -15704,13 +15666,14 @@ packages:
       prettier: 2.8.1
       rimraf: 3.0.2
       rollup: 1.32.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@1.32.1
       sinon: 14.0.2
       tslib: 1.14.1
       typescript: 4.2.4
       uglify-js: 3.17.4
       uuid: 8.3.2
     transitivePeerDependencies:
+      - '@types/node'
       - bufferutil
       - debug
       - supports-color
