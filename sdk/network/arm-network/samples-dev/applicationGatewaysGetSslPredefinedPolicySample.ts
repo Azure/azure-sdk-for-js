@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Gets Ssl predefined policy with the specified policy name.
  *
  * @summary Gets Ssl predefined policy with the specified policy name.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ApplicationGatewayAvailableSslOptionsPredefinedPolicyGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/ApplicationGatewayAvailableSslOptionsPredefinedPolicyGet.json
  */
 async function getAvailableSslPredefinedPolicyByName() {
   const subscriptionId = "subid";

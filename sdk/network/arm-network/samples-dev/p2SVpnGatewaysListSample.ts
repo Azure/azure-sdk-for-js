@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Lists all the P2SVpnGateways in a subscription.
  *
  * @summary Lists all the P2SVpnGateways in a subscription.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/P2SVpnGatewayList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/P2SVpnGatewayList.json
  */
 async function p2SVpnGatewayListBySubscription() {
   const subscriptionId = "subid";

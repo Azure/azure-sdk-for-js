@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Gets the specified Peer Express Route Circuit Connection from the specified express route circuit.
  *
  * @summary Gets the specified Peer Express Route Circuit Connection from the specified express route circuit.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/PeerExpressRouteCircuitConnectionGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/PeerExpressRouteCircuitConnectionGet.json
  */
 async function peerExpressRouteCircuitConnectionGet() {
   const subscriptionId = "subid1";

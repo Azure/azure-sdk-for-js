@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Deletes the specified rule from a route filter.
  *
  * @summary Deletes the specified rule from a route filter.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/RouteFilterRuleDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/RouteFilterRuleDelete.json
  */
 async function routeFilterRuleDelete() {
   const subscriptionId = "subid";

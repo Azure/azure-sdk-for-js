@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { VirtualRouterPeerings } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,12 +19,12 @@ import {
   VirtualRouterPeering,
   VirtualRouterPeeringsListNextOptionalParams,
   VirtualRouterPeeringsListOptionalParams,
+  VirtualRouterPeeringsListResponse,
   VirtualRouterPeeringsDeleteOptionalParams,
   VirtualRouterPeeringsGetOptionalParams,
   VirtualRouterPeeringsGetResponse,
   VirtualRouterPeeringsCreateOrUpdateOptionalParams,
   VirtualRouterPeeringsCreateOrUpdateResponse,
-  VirtualRouterPeeringsListResponse,
   VirtualRouterPeeringsListNextResponse
 } from "../models";
 
@@ -63,11 +64,15 @@ export class VirtualRouterPeeringsImpl implements VirtualRouterPeerings {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listPagingPage(
           resourceGroupName,
           virtualRouterName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -76,15 +81,18 @@ export class VirtualRouterPeeringsImpl implements VirtualRouterPeerings {
   private async *listPagingPage(
     resourceGroupName: string,
     virtualRouterName: string,
-    options?: VirtualRouterPeeringsListOptionalParams
+    options?: VirtualRouterPeeringsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<VirtualRouterPeering[]> {
-    let result = await this._list(
-      resourceGroupName,
-      virtualRouterName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: VirtualRouterPeeringsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, virtualRouterName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -93,7 +101,9 @@ export class VirtualRouterPeeringsImpl implements VirtualRouterPeerings {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -429,7 +439,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorModel
     }
   },
-  requestBody: Parameters.parameters79,
+  requestBody: Parameters.parameters80,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

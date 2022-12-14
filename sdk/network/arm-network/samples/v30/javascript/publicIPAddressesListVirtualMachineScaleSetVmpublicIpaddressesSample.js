@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Gets information about all public IP addresses in a virtual machine IP configuration in a virtual machine scale set.
  *
  * @summary Gets information about all public IP addresses in a virtual machine IP configuration in a virtual machine scale set.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VmssVmPublicIpList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/VmssVmPublicIpList.json
  */
 async function listVmssvmPublicIP() {
   const subscriptionId = "subid";

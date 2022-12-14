@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Gets the specified Virtual Router Peering.
  *
  * @summary Gets the specified Virtual Router Peering.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualRouterPeeringGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/VirtualRouterPeeringGet.json
  */
 async function getVirtualRouterPeering() {
   const subscriptionId = "subid";

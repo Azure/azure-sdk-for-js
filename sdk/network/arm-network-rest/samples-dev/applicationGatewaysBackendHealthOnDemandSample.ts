@@ -28,12 +28,10 @@ async function testBackendHealth() {
     body: {
       path: "/",
       backendAddressPool: {
-        id:
-          "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendaddressPools/MFAnalyticsPool",
+        id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendaddressPools/MFAnalyticsPool",
       },
       backendHttpSettings: {
-        id:
-          "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendHttpSettingsCollection/MFPoolSettings",
+        id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendHttpSettingsCollection/MFPoolSettings",
       },
       pickHostNameFromBackendHttpSettings: true,
       timeout: 30,

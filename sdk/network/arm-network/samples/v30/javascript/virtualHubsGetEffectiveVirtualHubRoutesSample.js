@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Gets the effective routes configured for the Virtual Hub resource or the specified resource .
  *
  * @summary Gets the effective routes configured for the Virtual Hub resource or the specified resource .
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/EffectiveRoutesListForConnection.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/EffectiveRoutesListForConnection.json
  */
 async function effectiveRoutesForAConnectionResource() {
   const subscriptionId = "subid";
@@ -45,7 +45,7 @@ effectiveRoutesForAConnectionResource().catch(console.error);
  * This sample demonstrates how to Gets the effective routes configured for the Virtual Hub resource or the specified resource .
  *
  * @summary Gets the effective routes configured for the Virtual Hub resource or the specified resource .
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/EffectiveRoutesListForRouteTable.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/EffectiveRoutesListForRouteTable.json
  */
 async function effectiveRoutesForARouteTableResource() {
   const subscriptionId = "subid";
@@ -75,7 +75,7 @@ effectiveRoutesForARouteTableResource().catch(console.error);
  * This sample demonstrates how to Gets the effective routes configured for the Virtual Hub resource or the specified resource .
  *
  * @summary Gets the effective routes configured for the Virtual Hub resource or the specified resource .
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/EffectiveRoutesListForVirtualHub.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/EffectiveRoutesListForVirtualHub.json
  */
 async function effectiveRoutesForTheVirtualHub() {
   const subscriptionId = "subid";
