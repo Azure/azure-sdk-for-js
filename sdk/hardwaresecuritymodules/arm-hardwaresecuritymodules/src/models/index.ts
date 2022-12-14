@@ -395,20 +395,14 @@ export type DedicatedHsmListOutboundNetworkDependenciesEndpointsResponse = Outbo
 
 /** Optional parameters. */
 export interface DedicatedHsmListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Maximum number of results to return. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type DedicatedHsmListByResourceGroupNextResponse = DedicatedHsmListResult;
 
 /** Optional parameters. */
 export interface DedicatedHsmListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Maximum number of results to return. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type DedicatedHsmListBySubscriptionNextResponse = DedicatedHsmListResult;

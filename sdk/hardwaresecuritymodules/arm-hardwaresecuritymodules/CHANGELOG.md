@@ -1,10 +1,17 @@
 # Release History
     
-## 1.1.0 (2022-11-23)
+## 2.0.0 (2022-12-14)
     
 **Features**
 
   - Added Interface DedicatedHsm
+  - Added function getContinuationToken
+
+**Breaking Changes**
+
+  - Interface DedicatedHsmListByResourceGroupNextOptionalParams no longer has parameter top
+  - Interface DedicatedHsmListBySubscriptionNextOptionalParams no longer has parameter top
+  - Type of parameter isDataAction of interface DedicatedHsmOperation is changed from string to boolean
     
     
 ## 1.0.0 (2022-03-30)

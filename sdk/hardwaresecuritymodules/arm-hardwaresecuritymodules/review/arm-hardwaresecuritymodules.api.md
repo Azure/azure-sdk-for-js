@@ -76,7 +76,6 @@ export type DedicatedHsmGetResponse = DedicatedHsm;
 
 // @public
 export interface DedicatedHsmListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -92,7 +91,6 @@ export type DedicatedHsmListByResourceGroupResponse = DedicatedHsmListResult;
 
 // @public
 export interface DedicatedHsmListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
