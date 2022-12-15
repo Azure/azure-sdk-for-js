@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Updates a IpAllocation tags.
  *
  * @summary Updates a IpAllocation tags.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/IpAllocationUpdateTags.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/IpAllocationUpdateTags.json
  */
 async function updateVirtualNetworkTags() {
   const subscriptionId = "subid";

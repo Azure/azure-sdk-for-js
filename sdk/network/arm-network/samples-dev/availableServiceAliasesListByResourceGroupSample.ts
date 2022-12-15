@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Gets all available service aliases for this resource group in this region.
  *
  * @summary Gets all available service aliases for this resource group in this region.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/AvailableServiceAliasesListByResourceGroup.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/AvailableServiceAliasesListByResourceGroup.json
  */
 async function getAvailableServiceAliasesInTheResourceGroup() {
   const subscriptionId = "subId";
