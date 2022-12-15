@@ -100,7 +100,7 @@ export default leafCommand(commandInfo, async () => {
   );
 
   log.info("Testing TypeScript minimum version:", tsMin.version);
-  const minResult = testTsMin(resolveTypes(tsMin.version, defaultTypesFile));
+  const minResult = testTsMin(resolveTypes(tsMin.version));
   if (minResult) {
     log.success(`TypeScript ${tsMin.version} OK.`);
   } else {
@@ -108,7 +108,7 @@ export default leafCommand(commandInfo, async () => {
   }
 
   log.info("Testing TypeScript maximum version:", tsMax.version);
-  const maxResult = testTsMax(resolveTypes(tsMax.version, defaultTypesFile));
+  const maxResult = testTsMax(resolveTypes(tsMax.version));
   if (maxResult) {
     log.success(`TypeScript ${tsMax.version} OK.`);
   } else {
@@ -117,32 +117,37 @@ export default leafCommand(commandInfo, async () => {
 
   return minResult && maxResult;
 
-  function resolveTypes(tsVersion: string, fileName: string): string[] {
-    if (!projectInfo.packageJson.typesVersions) return [fileName];
+  // Inline helper function to pick a types file for a given version of TypeScript
+  function resolveTypes(tsVersion: string): string[] {
+    // No typesVersions
+    if (!projectInfo.packageJson.typesVersions) return [defaultTypesFile];
 
+    // Look for an entry with a key that our version of TS satisfies
     const firstMatchingVersion = Object.entries(projectInfo.packageJson.typesVersions!).find(
       ([v]) => semver.satisfies(tsVersion, v)
     );
 
     if (firstMatchingVersion === undefined) {
       log.info(`Package's 'typesVersions' did not match TypeScript version ${tsVersion}.`);
-      log.info("Resolved types file:", fileName);
-      return [fileName];
+      log.info("Resolved types file:", defaultTypesFile);
+      return [defaultTypesFile];
     }
 
     const [matchingSelector, versions] = firstMatchingVersion;
 
+    // Now try to match and expand the matching typesVersions mapping using the default file as an input, then pick the
+    // first one that actually matched.
     const resultFiles = Object.entries(versions)
-      .map(([pattern, entries]) => matchAndExpandMapping(fileName, pattern, entries))
+      .map(([pattern, entries]) => matchAndExpandMapping(defaultTypesFile, pattern, entries))
       .find((results) => results !== null) as string[] | undefined;
 
     if (resultFiles === undefined) {
       log.warn(
         `Package's 'typesVersions' entry "${matchingSelector}" matched TypeScript version ${tsVersion},`,
-        `but no pattern in this entry matched the file: ${fileName}`
+        `but no pattern in this entry matched the file: ${defaultTypesFile}`
       );
-      log.info("Resolved types file:", fileName);
-      return [fileName];
+      log.info("Resolved types file:", defaultTypesFile);
+      return [defaultTypesFile];
     }
 
     log.info(`Resolved file names: ${resultFiles.join(", ")}`);
