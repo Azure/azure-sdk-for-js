@@ -3,7 +3,7 @@
 ## 1.4.1 (Unreleased)
 
 ### Features Added
-- Add dependency on `@azure\logger` to help with debugging. [#23860](https://github.com/Azure/azure-sdk-for-js/pull/23860)
+- Add dependency on `@azure/logger` to help with debugging. [#23860](https://github.com/Azure/azure-sdk-for-js/pull/23860)
 
 ### Breaking Changes
 
