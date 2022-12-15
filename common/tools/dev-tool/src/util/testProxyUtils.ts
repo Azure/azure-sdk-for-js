@@ -133,7 +133,7 @@ export async function getTestProxyExecutable(): Promise<string> {
   return executableLocation;
 }
 
-export interface CommandRun {
+interface CommandRun {
   result: Promise<void>;
   command: ChildProcess;
 }
@@ -164,11 +164,11 @@ export async function runTestProxyCommand(argv: string[]): Promise<void> {
   return runCommand(await getTestProxyExecutable(), argv, { stdio: "inherit" }).result;
 }
 
-export interface TestProxyHandle {
+export interface TestProxy {
   stop(): Promise<void>;
 }
 
-export async function startTestProxy(): Promise<TestProxyHandle> {
+export async function startTestProxy(): Promise<TestProxy> {
   const testProxy = await runCommand(await getTestProxyExecutable(), [
     "start",
     "-l",
