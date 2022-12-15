@@ -26,13 +26,13 @@ matrix([[true, false]], async function (useAad) {
     });
 
     it("can list all geographic area codes", async function () {
-      var availableLocalities = await client.listAvailableLocalities("US");
-      var locality = await availableLocalities.next();
+      const availableLocalities = await client.listAvailableLocalities("US");
+      const locality = await availableLocalities.next();
       const request: PhoneNumbersListAreaCodesOptionalParams = {
         locality: locality.value.localizedName
       };
       const areaCodes = await client.listAvailableGeographicAreaCodes("US", request);
-      for await (var areaCode of areaCodes) {
+      for await (const areaCode of areaCodes) {
         assert.isNotNull(areaCode)
       }
     }).timeout(60000);
@@ -65,7 +65,7 @@ matrix([[true, false]], async function (useAad) {
         },
       ];
       const areaCodes = await client.listAvailableTollFreeAreaCodes("US");
-      for await (var areaCode of areaCodes) {
+      for await (const areaCode of areaCodes) {
         assert.deepInclude(tollFreeAreaCodesList, areaCode);
       }
     }).timeout(60000);

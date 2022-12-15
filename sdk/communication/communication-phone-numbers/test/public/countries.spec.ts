@@ -41,11 +41,11 @@ matrix([[true, false]], async function (useAad) {
         },
       ];
       const responseCountries = [];
-      for await (var country of client.listAvailableCountries()) {
+      for await (const country of client.listAvailableCountries()) {
         responseCountries.push(country);
       }
-      for (var country of countriesList) {
-        assert.deepInclude(responseCountries, country);
+      for (const currentCountry of countriesList) {
+        assert.deepInclude(responseCountries, currentCountry);
       }
       setLogLevel("error");
     }).timeout(60000);

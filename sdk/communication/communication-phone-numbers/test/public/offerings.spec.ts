@@ -29,7 +29,7 @@ matrix([[true, false]], async function (useAad) {
 
     it("can list available offerings", async function () {
       const responseOfferings = [];
-      for await (var offering of client.listAvailableOfferings("US")) {
+      for await (const offering of client.listAvailableOfferings("US")) {
         responseOfferings.push(offering);
       }
       assert.isNotEmpty(responseOfferings);

@@ -27,20 +27,20 @@ matrix([[true, false]], async function (useAad) {
 
     it("can list available localities", async function () {
       const responseLocalities = [];
-      for await (var locality of client.listAvailableLocalities("US")) {
+      for await (const locality of client.listAvailableLocalities("US")) {
         responseLocalities.push(locality);
       }
       assert.isNotEmpty(responseLocalities);
     }).timeout(60000);
 
     it("can list available localities with administrative division", async function () {
-      var availableLocalities = await client.listAvailableLocalities("US");
-      var firstLocality = await availableLocalities.next();
+      const availableLocalities = await client.listAvailableLocalities("US");
+      const firstLocality = await availableLocalities.next();
       const request: ListLocalitiesOptions = {
         administrativeDivision: firstLocality.value.administrativeDivision.abbreviatedName,
       };
 
-      for await (var locality of client.listAvailableLocalities("US", request)) {
+      for await (const locality of client.listAvailableLocalities("US", request)) {
         assert.equal(locality.administrativeDivision?.abbreviatedName, firstLocality.value.administrativeDivision.abbreviatedName);
       }
     }).timeout(60000);
