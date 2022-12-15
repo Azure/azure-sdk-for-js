@@ -9,6 +9,6 @@
       "@azure/identity": ["./src/index"]
     }
   },
-  "include": ["src/**/*", "test/**/*", "samples-dev/**/*.ts"],
+  "include": ["src/**/*", "test/**/*", "samples-dev/**/*.ts", "src/util/logging.ts"],
   "exclude": ["test/manual*/**/*", "node_modules"]
 }

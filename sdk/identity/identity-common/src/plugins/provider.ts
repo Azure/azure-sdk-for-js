@@ -26,6 +26,7 @@ export interface CachePluginControl {
  */
 export interface VisualStudioCodeCredentialControl {
   setVsCodeCredentialFinder(finder: VSCodeCredentialFinder): void;
+  getVsCodeCredentialFinder(): VSCodeCredentialFinder|undefined;
 }
 
 /**

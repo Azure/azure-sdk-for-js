@@ -9,7 +9,7 @@
         "@azure/identity-common": ["./src/index"]
       }
     },
-    "include": ["src/**/*", "test/**/*", "samples-dev/**/*.ts"],
+    "include": ["src/**/*", "test/**/*", "samples-dev/**/*.ts", "../identity/src/util/logging.ts", "../identity/src/util/logging.ts"],
     "exclude": ["test/manual*/**/*", "node_modules"]
   }
   

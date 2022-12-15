@@ -11,24 +11,16 @@ import { AzureAuthorityHosts } from "../constants";
 import { CredentialUnavailableError } from "../errors";
 import { IdentityClient } from "../client/identityClient";
 import { VisualStudioCodeCredentialOptions } from "./visualStudioCodeCredentialOptions";
-import { VSCodeCredentialFinder } from "./visualStudioCodeCredentialPlugin";
 import { checkTenantId } from "../util/tenantIdUtils";
 import fs from "fs";
 import os from "os";
 import path from "path";
-import { VSCodeCredentialFinder } from "./visualStudioCodeCredentialPlugin";
+
+import { vsCodeCredentialControl } from "../../../identity-common/src/credentials/vsCodeCredentialControl";
 
 const CommonTenantId = "common";
 const AzureAccountClientId = "aebc6443-996d-45c2-90f0-388ff96faa56"; // VSC: 'aebc6443-996d-45c2-90f0-388ff96faa56'
 const logger = credentialLogger("VisualStudioCodeCredential");
-
-let findCredentials: VSCodeCredentialFinder | undefined = undefined;
-
-export const vsCodeCredentialControl = {
-  setVsCodeCredentialFinder(finder: VSCodeCredentialFinder): void {
-    findCredentials = finder;
-  },
-};
 
 // Map of unsupported Tenant IDs and the errors we will be throwing.
 const unsupportedTenantIds: Record<string, string> = {
@@ -184,7 +176,7 @@ export class VisualStudioCodeCredential implements TokenCredential {
     const tenantId =
       processMultiTenantRequest(this.tenantId, options, this.additionallyAllowedTenantIds) ||
       this.tenantId;
-
+    const findCredentials =  vsCodeCredentialControl.getVsCodeCredentialFinder();
     if (findCredentials === undefined) {
       throw new CredentialUnavailableError(
         [
