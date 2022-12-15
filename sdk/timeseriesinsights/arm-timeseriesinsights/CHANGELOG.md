@@ -1,6 +1,6 @@
 # Release History
     
-## 3.0.0-beta.1 (2022-12-14)
+## 2.1.0-beta.2 (2022-12-15)
     
 **Features**
 
@@ -62,11 +62,6 @@
   - Added Enum KnownPrivateEndpointServiceConnectionStatus
   - Added Enum KnownPublicNetworkAccess
   - Added function getContinuationToken
-
-**Breaking Changes**
-
-  - Class TimeSeriesInsightsClient has a new required parameter privateEndpointConnections
-  - Class TimeSeriesInsightsClient has a new required parameter privateLinkResources
     
     
 ## 2.0.0 (2022-01-21)

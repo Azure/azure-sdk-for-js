@@ -3830,7 +3830,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20221213
+      typescript: 5.0.0-dev.20221215
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -8770,8 +8770,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20221213:
-    resolution: {integrity: sha512-CONCSaeW3yqMVDra8geo9H+hDek37C1z/b05gWtzTJP4vVQ+exSRJmPNqhvuGyEs5En8wcjH/iXVGYQymJC4aQ==}
+  /typescript/5.0.0-dev.20221215:
+    resolution: {integrity: sha512-c4J+NP7IxANpf/vw1dGIbXNzewcl6PEjRo8MR/DXHZJgNIZZBmtgq0AcR27+jnUZsXhuXIVjmNPTxcNNJpnPqw==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -15014,7 +15014,7 @@ packages:
     dev: false
 
   file:projects/arm-timeseriesinsights.tgz:
-    resolution: {integrity: sha512-EUnJ1+bdPNRzip8N8o6dgR1gzQ9pZ0ancW9JzNybeQnTyyu1UyfhEIRa2g2G7EsJStMHYjhE2+Psqb/ZX2ceXA==, tarball: file:projects/arm-timeseriesinsights.tgz}
+    resolution: {integrity: sha512-qi5knLnZo/7bN/PSVS0PxqjF2RebhomqqwmHbrT0DiIQQoim3mimN1dkNwcgacVTvTOWRt1dbvy1sHv741ECng==, tarball: file:projects/arm-timeseriesinsights.tgz}
     name: '@rush-temp/arm-timeseriesinsights'
     version: 0.0.0
     dependencies:
@@ -15029,6 +15029,7 @@ packages:
       '@types/node': 14.18.34
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
