@@ -31,8 +31,7 @@ async function createAConfidentialVMSupportedDiskEncryptedWithCustomerManagedKey
         creationData: {
           createOption: "FromImage",
           imageReference: {
-            id:
-              "/Subscriptions/{subscriptionId}/Providers/Microsoft.Compute/Locations/westus/Publishers/{publisher}/ArtifactTypes/VMImage/Offers/{offer}/Skus/{sku}/Versions/1.0.0",
+            id: "/Subscriptions/{subscriptionId}/Providers/Microsoft.Compute/Locations/westus/Publishers/{publisher}/ArtifactTypes/VMImage/Offers/{offer}/Skus/{sku}/Versions/1.0.0",
           },
         },
         osType: "Windows",
@@ -359,8 +358,7 @@ async function createAManagedDiskFromAPlatformImage() {
         creationData: {
           createOption: "FromImage",
           imageReference: {
-            id:
-              "/Subscriptions/{subscriptionId}/Providers/Microsoft.Compute/Locations/westus/Publishers/{publisher}/ArtifactTypes/VMImage/Offers/{offer}/Skus/{sku}/Versions/1.0.0",
+            id: "/Subscriptions/{subscriptionId}/Providers/Microsoft.Compute/Locations/westus/Publishers/{publisher}/ArtifactTypes/VMImage/Offers/{offer}/Skus/{sku}/Versions/1.0.0",
           },
         },
         osType: "Windows",
@@ -485,8 +483,7 @@ async function createAManagedDiskFromAnAzureComputeGalleryImage() {
         creationData: {
           createOption: "FromImage",
           galleryImageReference: {
-            id:
-              "/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Providers/Microsoft.Compute/Galleries/{galleryName}/Images/{imageName}/Versions/1.0.0",
+            id: "/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Providers/Microsoft.Compute/Galleries/{galleryName}/Images/{imageName}/Versions/1.0.0",
           },
         },
         osType: "Windows",
@@ -714,8 +711,7 @@ async function createAManagedDiskWithSecurityProfile() {
         creationData: {
           createOption: "FromImage",
           imageReference: {
-            id:
-              "/Subscriptions/{subscriptionId}/Providers/Microsoft.Compute/Locations/uswest/Publishers/Microsoft/ArtifactTypes/VMImage/Offers/{offer}",
+            id: "/Subscriptions/{subscriptionId}/Providers/Microsoft.Compute/Locations/uswest/Publishers/Microsoft/ArtifactTypes/VMImage/Offers/{offer}",
           },
         },
         osType: "Windows",

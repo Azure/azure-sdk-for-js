@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Gets the specified virtual network by resource group.
  *
  * @summary Gets the specified virtual network by resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/VirtualNetworkGet.json
  */
 async function getVirtualNetwork() {
   const subscriptionId = "subid";
@@ -36,7 +36,7 @@ getVirtualNetwork().catch(console.error);
  * This sample demonstrates how to Gets the specified virtual network by resource group.
  *
  * @summary Gets the specified virtual network by resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkGetWithSubnetDelegation.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/VirtualNetworkGetWithSubnetDelegation.json
  */
 async function getVirtualNetworkWithADelegatedSubnet() {
   const subscriptionId = "subId";
@@ -57,7 +57,7 @@ getVirtualNetworkWithADelegatedSubnet().catch(console.error);
  * This sample demonstrates how to Gets the specified virtual network by resource group.
  *
  * @summary Gets the specified virtual network by resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkGetWithServiceAssociationLink.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/VirtualNetworkGetWithServiceAssociationLink.json
  */
 async function getVirtualNetworkWithServiceAssociationLinks() {
   const subscriptionId = "subId";

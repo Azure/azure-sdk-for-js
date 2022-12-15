@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Updates tags of a Security Partner Provider resource.
  *
  * @summary Updates tags of a Security Partner Provider resource.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/SecurityPartnerProviderUpdateTags.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/SecurityPartnerProviderUpdateTags.json
  */
 async function updateSecurityPartnerProviderTags() {
   const subscriptionId = "subid";
