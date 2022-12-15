@@ -29,11 +29,11 @@ matrix([[true, false]], async function (useAad) {
       const availableLocalities = await client.listAvailableLocalities("US");
       const locality = await availableLocalities.next();
       const request: PhoneNumbersListAreaCodesOptionalParams = {
-        locality: locality.value.localizedName
+        locality: locality.value.localizedName,
       };
       const areaCodes = await client.listAvailableGeographicAreaCodes("US", request);
       for await (const areaCode of areaCodes) {
-        assert.isNotNull(areaCode)
+        assert.isNotNull(areaCode);
       }
     }).timeout(60000);
 

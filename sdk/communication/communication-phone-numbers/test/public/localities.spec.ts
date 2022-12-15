@@ -41,7 +41,10 @@ matrix([[true, false]], async function (useAad) {
       };
 
       for await (const locality of client.listAvailableLocalities("US", request)) {
-        assert.equal(locality.administrativeDivision?.abbreviatedName, firstLocality.value.administrativeDivision.abbreviatedName);
+        assert.equal(
+          locality.administrativeDivision?.abbreviatedName,
+          firstLocality.value.administrativeDivision.abbreviatedName
+        );
       }
     }).timeout(60000);
   });

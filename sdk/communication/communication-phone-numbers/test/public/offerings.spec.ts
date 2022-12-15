@@ -5,9 +5,7 @@ import { matrix } from "@azure/test-utils";
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
-import {
-  PhoneNumbersClient,
-} from "../../src";
+import { PhoneNumbersClient } from "../../src";
 import { createRecordedClient, createRecordedClientWithToken } from "./utils/recordedClient";
 
 matrix([[true, false]], async function (useAad) {
