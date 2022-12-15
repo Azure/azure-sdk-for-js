@@ -14,9 +14,12 @@ import { OperationsDiscovery, OperationsListOptionalParams } from "../models";
 export interface Operations {
   /**
    * Operation to return the list of available operations.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
    * @param options The options parameters.
    */
   list(
+    resourceGroupName: string,
     options?: OperationsListOptionalParams
   ): PagedAsyncIterableIterator<OperationsDiscovery>;
 }
