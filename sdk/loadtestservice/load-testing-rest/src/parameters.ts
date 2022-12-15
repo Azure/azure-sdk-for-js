@@ -20,9 +20,10 @@ export interface AppComponentCreateOrUpdateAppComponentsMediaTypesParam {
   contentType?: "application/merge-patch+json";
 }
 
-export type AppComponentCreateOrUpdateAppComponentsParameters = AppComponentCreateOrUpdateAppComponentsMediaTypesParam &
-  AppComponentCreateOrUpdateAppComponentsBodyParam &
-  RequestParameters;
+export type AppComponentCreateOrUpdateAppComponentsParameters =
+  AppComponentCreateOrUpdateAppComponentsMediaTypesParam &
+    AppComponentCreateOrUpdateAppComponentsBodyParam &
+    RequestParameters;
 export type AppComponentDeleteAppComponentsParameters = RequestParameters;
 export type AppComponentGetAppComponentByNameParameters = RequestParameters;
 
@@ -50,9 +51,10 @@ export interface ServerMetricsCreateOrUpdateServerMetricsConfigMediaTypesParam {
   contentType?: "application/merge-patch+json";
 }
 
-export type ServerMetricsCreateOrUpdateServerMetricsConfigParameters = ServerMetricsCreateOrUpdateServerMetricsConfigMediaTypesParam &
-  ServerMetricsCreateOrUpdateServerMetricsConfigBodyParam &
-  RequestParameters;
+export type ServerMetricsCreateOrUpdateServerMetricsConfigParameters =
+  ServerMetricsCreateOrUpdateServerMetricsConfigMediaTypesParam &
+    ServerMetricsCreateOrUpdateServerMetricsConfigBodyParam &
+    RequestParameters;
 export type ServerMetricsGetServerMetricsConfigByNameParameters = RequestParameters;
 export type ServerMetricsDeleteServerMetricsConfigParameters = RequestParameters;
 
@@ -67,8 +69,8 @@ export interface ServerMetricsGetServerMetricsConfigQueryParam {
   queryParameters?: ServerMetricsGetServerMetricsConfigQueryParamProperties;
 }
 
-export type ServerMetricsGetServerMetricsConfigParameters = ServerMetricsGetServerMetricsConfigQueryParam &
-  RequestParameters;
+export type ServerMetricsGetServerMetricsConfigParameters =
+  ServerMetricsGetServerMetricsConfigQueryParam & RequestParameters;
 export type ServerMetricsGetServerDefaultMetricsConfigParameters = RequestParameters;
 export type ServerMetricsListSupportedResourceTypesParameters = RequestParameters;
 
@@ -220,7 +222,8 @@ export interface TestRunGetTestRunClientMetricsMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type TestRunGetTestRunClientMetricsParameters = TestRunGetTestRunClientMetricsMediaTypesParam &
-  TestRunGetTestRunClientMetricsBodyParam &
-  RequestParameters;
+export type TestRunGetTestRunClientMetricsParameters =
+  TestRunGetTestRunClientMetricsMediaTypesParam &
+    TestRunGetTestRunClientMetricsBodyParam &
+    RequestParameters;
 export type TestRunGetTestRunClientMetricsFiltersParameters = RequestParameters;

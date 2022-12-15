@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to List all the ExpressRoutePort resources in the specified resource group.
  *
  * @summary List all the ExpressRoutePort resources in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ExpressRoutePortListByResourceGroup.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/ExpressRoutePortListByResourceGroup.json
  */
 async function expressRoutePortListByResourceGroup() {
   const subscriptionId = "subid";

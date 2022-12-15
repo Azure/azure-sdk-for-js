@@ -34,8 +34,7 @@ async function createVirtualNetworkGatewayConnectionS2S() {
         dpdTimeoutSeconds: 30,
         egressNatRules: [
           {
-            id:
-              "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/natRules/natRule2",
+            id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/natRules/natRule2",
           },
         ],
         enableBgp: false,
@@ -53,14 +52,12 @@ async function createVirtualNetworkGatewayConnectionS2S() {
         ],
         ingressNatRules: [
           {
-            id:
-              "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/natRules/natRule1",
+            id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/natRules/natRule1",
           },
         ],
         ipsecPolicies: [],
         localNetworkGateway2: {
-          id:
-            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/localNetworkGateways/localgw",
+          id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/localNetworkGateways/localgw",
           location: "centralus",
           properties: {
             gatewayIpAddress: "x.x.x.x",
@@ -73,8 +70,7 @@ async function createVirtualNetworkGatewayConnectionS2S() {
         trafficSelectorPolicies: [],
         usePolicyBasedTrafficSelectors: false,
         virtualNetworkGateway1: {
-          id:
-            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw",
+          id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw",
           location: "centralus",
           properties: {
             activeActive: false,
@@ -88,17 +84,14 @@ async function createVirtualNetworkGatewayConnectionS2S() {
             ipConfigurations: [
               {
                 name: "gwipconfig1",
-                id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/ipConfigurations/gwipconfig1",
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/ipConfigurations/gwipconfig1",
                 properties: {
                   privateIPAllocationMethod: "Dynamic",
                   publicIPAddress: {
-                    id:
-                      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/gwpip",
+                    id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/gwpip",
                   },
                   subnet: {
-                    id:
-                      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/GatewaySubnet",
+                    id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/GatewaySubnet",
                   },
                 },
               },

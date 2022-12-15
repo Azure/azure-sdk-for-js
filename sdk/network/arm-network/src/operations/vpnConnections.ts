@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { VpnConnections } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,6 +19,7 @@ import {
   VpnConnection,
   VpnConnectionsListByVpnGatewayNextOptionalParams,
   VpnConnectionsListByVpnGatewayOptionalParams,
+  VpnConnectionsListByVpnGatewayResponse,
   VpnConnectionsGetOptionalParams,
   VpnConnectionsGetResponse,
   VpnConnectionsCreateOrUpdateOptionalParams,
@@ -27,7 +29,6 @@ import {
   VpnConnectionsStartPacketCaptureResponse,
   VpnConnectionsStopPacketCaptureOptionalParams,
   VpnConnectionsStopPacketCaptureResponse,
-  VpnConnectionsListByVpnGatewayResponse,
   VpnConnectionsListByVpnGatewayNextResponse
 } from "../models";
 
@@ -67,11 +68,15 @@ export class VpnConnectionsImpl implements VpnConnections {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByVpnGatewayPagingPage(
           resourceGroupName,
           gatewayName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -80,15 +85,22 @@ export class VpnConnectionsImpl implements VpnConnections {
   private async *listByVpnGatewayPagingPage(
     resourceGroupName: string,
     gatewayName: string,
-    options?: VpnConnectionsListByVpnGatewayOptionalParams
+    options?: VpnConnectionsListByVpnGatewayOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<VpnConnection[]> {
-    let result = await this._listByVpnGateway(
-      resourceGroupName,
-      gatewayName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: VpnConnectionsListByVpnGatewayResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByVpnGateway(
+        resourceGroupName,
+        gatewayName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByVpnGatewayNext(
         resourceGroupName,
@@ -97,7 +109,9 @@ export class VpnConnectionsImpl implements VpnConnections {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -655,7 +669,7 @@ const startPacketCaptureOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters82,
+  requestBody: Parameters.parameters83,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -689,7 +703,7 @@ const stopPacketCaptureOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters83,
+  requestBody: Parameters.parameters84,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

@@ -63,8 +63,7 @@ async function createAVmssWithAnExtensionThatHasSuppressFailuresEnabled() {
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
                         },
                       },
                     },
@@ -148,8 +147,7 @@ async function createAVmssWithAnExtensionWithProtectedSettingsFromKeyVault() {
                     secretUrl:
                       "https://kvName.vault.azure.net/secrets/secretName/79b88b3a6f5440ffb2e73e44a0db712e",
                     sourceVault: {
-                      id:
-                        "/subscriptions/a53f7094-a16c-47af-abe4-b05c05d0d79a/resourceGroups/myResourceGroup/providers/Microsoft.KeyVault/vaults/kvName",
+                      id: "/subscriptions/a53f7094-a16c-47af-abe4-b05c05d0d79a/resourceGroups/myResourceGroup/providers/Microsoft.KeyVault/vaults/kvName",
                     },
                   },
                   publisher: "{extension-Publisher}",
@@ -170,8 +168,7 @@ async function createAVmssWithAnExtensionWithProtectedSettingsFromKeyVault() {
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
                         },
                       },
                     },
@@ -249,8 +246,7 @@ async function createACustomImageScaleSetFromAnUnmanagedGeneralizedOSImage() {
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
                         },
                       },
                     },
@@ -271,8 +267,7 @@ async function createACustomImageScaleSetFromAnUnmanagedGeneralizedOSImage() {
               caching: "ReadWrite",
               createOption: "FromImage",
               image: {
-                uri:
-                  "http://{existing-storage-account-name}.blob.core.windows.net/{existing-container-name}/{existing-generalized-os-image-blob-name}.vhd",
+                uri: "http://{existing-storage-account-name}.blob.core.windows.net/{existing-container-name}/{existing-generalized-os-image-blob-name}.vhd",
               },
             },
           },
@@ -326,8 +321,7 @@ async function createAPlatformImageScaleSetWithUnmanagedOSDisks() {
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
                         },
                       },
                     },
@@ -412,8 +406,7 @@ async function createAScaleSetFromACustomImage() {
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
                         },
                       },
                     },
@@ -430,8 +423,7 @@ async function createAScaleSetFromACustomImage() {
           },
           storageProfile: {
             imageReference: {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/{existing-custom-image-name}",
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/{existing-custom-image-name}",
             },
             osDisk: {
               caching: "ReadWrite",
@@ -489,8 +481,7 @@ async function createAScaleSetFromAGeneralizedSharedImage() {
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
                         },
                       },
                     },
@@ -507,8 +498,7 @@ async function createAScaleSetFromAGeneralizedSharedImage() {
           },
           storageProfile: {
             imageReference: {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/mySharedGallery/images/mySharedImage",
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/mySharedGallery/images/mySharedImage",
             },
             osDisk: {
               caching: "ReadWrite",
@@ -566,8 +556,7 @@ async function createAScaleSetFromASpecializedSharedImage() {
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
                         },
                       },
                     },
@@ -579,8 +568,7 @@ async function createAScaleSetFromASpecializedSharedImage() {
           },
           storageProfile: {
             imageReference: {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/mySharedGallery/images/mySharedImage",
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/mySharedGallery/images/mySharedImage",
             },
             osDisk: {
               caching: "ReadWrite",
@@ -640,8 +628,7 @@ async function createAScaleSetWhereNicConfigHasDisableTcpStateTrackingProperty()
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
                         },
                       },
                     },
@@ -662,8 +649,7 @@ async function createAScaleSetWhereNicConfigHasDisableTcpStateTrackingProperty()
                         primary: true,
                         privateIPAddressVersion: "IPv4",
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-fpga-subnet-name2}",
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-fpga-subnet-name2}",
                         },
                       },
                     },
@@ -680,8 +666,7 @@ async function createAScaleSetWhereNicConfigHasDisableTcpStateTrackingProperty()
           },
           storageProfile: {
             imageReference: {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/{existing-custom-image-name}",
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/{existing-custom-image-name}",
             },
             osDisk: {
               caching: "ReadWrite",
@@ -757,8 +742,7 @@ async function createAScaleSetWithApplicationProfile() {
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
                         },
                       },
                     },
@@ -839,8 +823,7 @@ async function createAScaleSetWithDiskControllerType() {
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
                         },
                       },
                     },
@@ -920,8 +903,7 @@ async function createAScaleSetWithDiskEncryptionSetResourceInOSDiskAndDataDisk()
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
                         },
                       },
                     },
@@ -945,24 +927,21 @@ async function createAScaleSetWithDiskEncryptionSetResourceInOSDiskAndDataDisk()
                 lun: 0,
                 managedDisk: {
                   diskEncryptionSet: {
-                    id:
-                      "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}",
+                    id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}",
                   },
                   storageAccountType: "Standard_LRS",
                 },
               },
             ],
             imageReference: {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/{existing-custom-image-name}",
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/{existing-custom-image-name}",
             },
             osDisk: {
               caching: "ReadWrite",
               createOption: "FromImage",
               managedDisk: {
                 diskEncryptionSet: {
-                  id:
-                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}",
+                  id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}",
                 },
                 storageAccountType: "Standard_LRS",
               },
@@ -1018,8 +997,7 @@ async function createAScaleSetWithFpgaNetworkInterfaces() {
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
                         },
                       },
                     },
@@ -1040,8 +1018,7 @@ async function createAScaleSetWithFpgaNetworkInterfaces() {
                         primary: true,
                         privateIPAddressVersion: "IPv4",
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-fpga-subnet-name}",
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-fpga-subnet-name}",
                         },
                       },
                     },
@@ -1058,8 +1035,7 @@ async function createAScaleSetWithFpgaNetworkInterfaces() {
           },
           storageProfile: {
             imageReference: {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/{existing-custom-image-name}",
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/{existing-custom-image-name}",
             },
             osDisk: {
               caching: "ReadWrite",
@@ -1122,8 +1098,7 @@ async function createAScaleSetWithHostEncryptionUsingEncryptionAtHostProperty() 
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
                         },
                       },
                     },
@@ -1202,8 +1177,7 @@ async function createAScaleSetWithSecurityTypeAsConfidentialVM() {
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
                         },
                       },
                     },
@@ -1288,8 +1262,7 @@ async function createAScaleSetWithUefiSettingsOfSecureBootAndVTpm() {
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
                         },
                       },
                     },
@@ -1376,8 +1349,7 @@ async function createAScaleSetWithAMarketplaceImagePlan() {
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
                         },
                       },
                     },
@@ -1456,13 +1428,11 @@ async function createAScaleSetWithAnAzureApplicationGateway() {
                       properties: {
                         applicationGatewayBackendAddressPools: [
                           {
-                            id:
-                              "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/applicationGateways/{existing-application-gateway-name}/backendAddressPools/{existing-backend-address-pool-name}",
+                            id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/applicationGateways/{existing-application-gateway-name}/backendAddressPools/{existing-backend-address-pool-name}",
                           },
                         ],
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
                         },
                       },
                     },
@@ -1541,14 +1511,12 @@ async function createAScaleSetWithAnAzureLoadBalancer() {
                       properties: {
                         loadBalancerBackendAddressPools: [
                           {
-                            id:
-                              "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/loadBalancers/{existing-load-balancer-name}/backendAddressPools/{existing-backend-address-pool-name}",
+                            id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/loadBalancers/{existing-load-balancer-name}/backendAddressPools/{existing-backend-address-pool-name}",
                           },
                         ],
                         loadBalancerInboundNatPools: [
                           {
-                            id:
-                              "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/loadBalancers/{existing-load-balancer-name}/inboundNatPools/{existing-nat-pool-name}",
+                            id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/loadBalancers/{existing-load-balancer-name}/inboundNatPools/{existing-nat-pool-name}",
                           },
                         ],
                         publicIPAddressConfiguration: {
@@ -1556,8 +1524,7 @@ async function createAScaleSetWithAnAzureLoadBalancer() {
                           properties: { publicIPAddressVersion: "IPv4" },
                         },
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
                         },
                       },
                     },
@@ -1636,8 +1603,7 @@ async function createAScaleSetWithAutomaticRepairsEnabled() {
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
                         },
                       },
                     },
@@ -1721,8 +1687,7 @@ async function createAScaleSetWithBootDiagnostics() {
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
                         },
                       },
                     },
@@ -1800,8 +1765,7 @@ async function createAScaleSetWithEmptyDataDisksOnEachVM() {
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
                         },
                       },
                     },
@@ -1889,8 +1853,7 @@ async function createAScaleSetWithEphemeralOSDisksUsingPlacementProperty() {
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
                         },
                       },
                     },
@@ -1974,8 +1937,7 @@ async function createAScaleSetWithEphemeralOSDisks() {
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
                         },
                       },
                     },
@@ -2075,8 +2037,7 @@ async function createAScaleSetWithExtensionTimeBudget() {
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
                         },
                       },
                     },
@@ -2155,8 +2116,7 @@ async function createAScaleSetWithManagedBootDiagnostics() {
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
                         },
                       },
                     },
@@ -2234,8 +2194,7 @@ async function createAScaleSetWithPasswordAuthentication() {
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
                         },
                       },
                     },
@@ -2313,8 +2272,7 @@ async function createAScaleSetWithPremiumStorage() {
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
                         },
                       },
                     },
@@ -2398,8 +2356,7 @@ async function createAScaleSetWithPriorityMixPolicy() {
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
                         },
                       },
                     },
@@ -2479,8 +2436,7 @@ async function createAScaleSetWithScaleInPolicy() {
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
                         },
                       },
                     },
@@ -2561,8 +2517,7 @@ async function createAScaleSetWithSpotRestorePolicy() {
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
                         },
                       },
                     },
@@ -2641,8 +2596,7 @@ async function createAScaleSetWithSshAuthentication() {
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
                         },
                       },
                     },
@@ -2731,8 +2685,7 @@ async function createAScaleSetWithTerminateScheduledEventsEnabled() {
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
                         },
                       },
                     },
@@ -2816,8 +2769,7 @@ async function createAScaleSetWithUserData() {
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
                         },
                       },
                     },
@@ -2896,8 +2848,7 @@ async function createAScaleSetWithVirtualMachinesInDifferentZones() {
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
                         },
                       },
                     },
@@ -2984,8 +2935,7 @@ async function createAScaleSetWithVMSizeProperties() {
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
                         },
                       },
                     },
@@ -3055,8 +3005,7 @@ async function createOrUpdateAScaleSetWithCapacityReservation() {
         virtualMachineProfile: {
           capacityReservation: {
             capacityReservationGroup: {
-              id:
-                "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/CapacityReservationGroups/{crgName}",
+              id: "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/CapacityReservationGroups/{crgName}",
             },
           },
           networkProfile: {
@@ -3070,8 +3019,7 @@ async function createOrUpdateAScaleSetWithCapacityReservation() {
                       name: "{vmss-name}",
                       properties: {
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
                         },
                       },
                     },

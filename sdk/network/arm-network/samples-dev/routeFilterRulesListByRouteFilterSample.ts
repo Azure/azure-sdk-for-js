@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Gets all RouteFilterRules in a route filter.
  *
  * @summary Gets all RouteFilterRules in a route filter.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/RouteFilterRuleListByRouteFilter.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/RouteFilterRuleListByRouteFilter.json
  */
 async function routeFilterRuleListByRouteFilter() {
   const subscriptionId = "subid";
