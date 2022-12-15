@@ -1,0 +1,56 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Sql/servers?api-version=2021-02-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-sql/9.1.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "ff288db9-337a-43f6-b459-beed718fa8f1"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 15 Dec 2022 05:49:30 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "4ac7e7f5-2a25-472b-a07a-f7c0b10fea2f",
+        "x-ms-ratelimit-remaining-subscription-reads": "11981",
+        "x-ms-request-id": "55696053-eb83-45a9-99b8-a72a1a6c23bc",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221215T054931Z:4ac7e7f5-2a25-472b-a07a-f7c0b10fea2f"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "kind": "v12.0",
+            "properties": {
+              "administratorLogin": "dummylogin",
+              "version": "12.0",
+              "state": "Ready",
+              "fullyQualifiedDomainName": "myserverppp.database.windows.net",
+              "privateEndpointConnections": [],
+              "publicNetworkAccess": "Enabled",
+              "restrictOutboundNetworkAccess": "Disabled"
+            },
+            "location": "eastus",
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Sql/servers/myserverppp",
+            "name": "myserverppp",
+            "type": "Microsoft.Sql/servers"
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

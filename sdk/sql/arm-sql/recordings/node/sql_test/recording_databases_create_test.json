@@ -1,0 +1,347 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Sql/servers/myserverppp/databases/mydatabasezzzz?api-version=2021-05-01-preview",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "59",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-sql/9.1.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "dbcf0ec0-709b-4daa-9566-fb67e170515c"
+      },
+      "RequestBody": {
+        "location": "eastus",
+        "properties": {
+          "readScale": "Disabled"
+        }
+      },
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Azure-AsyncOperation": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Sql/locations/eastus/databaseAzureAsyncOperation/0a4e2a92-adf5-4332-8a55-7e7cd5181e38?api-version=2021-05-01-preview",
+        "Cache-Control": "no-cache",
+        "Content-Length": "75",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 15 Dec 2022 05:48:22 GMT",
+        "Expires": "-1",
+        "Location": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Sql/locations/eastus/databaseOperationResults/0a4e2a92-adf5-4332-8a55-7e7cd5181e38?api-version=2021-05-01-preview",
+        "Pragma": "no-cache",
+        "Retry-After": "15",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "774ec299-80b2-4388-839e-631f6acfe8f3",
+        "x-ms-ratelimit-remaining-subscription-writes": "1198",
+        "x-ms-request-id": "0a4e2a92-adf5-4332-8a55-7e7cd5181e38",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221215T054823Z:774ec299-80b2-4388-839e-631f6acfe8f3"
+      },
+      "ResponseBody": {
+        "operation": "CreateLogicalDatabase",
+        "startTime": "2022-12-15T05:48:23.09Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Sql/locations/eastus/databaseAzureAsyncOperation/0a4e2a92-adf5-4332-8a55-7e7cd5181e38?api-version=2021-05-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-sql/9.1.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "5357b3e5-6c7d-4bc3-be64-137ecadd00d4"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 15 Dec 2022 05:48:23 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Retry-After": "15",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "54071adb-d3c5-43e9-a051-8ea8c3cc03e8",
+        "x-ms-ratelimit-remaining-subscription-reads": "11990",
+        "x-ms-request-id": "e0ad6eee-d8c1-4ddb-96be-bceb90dfd2e4",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221215T054823Z:54071adb-d3c5-43e9-a051-8ea8c3cc03e8"
+      },
+      "ResponseBody": {
+        "name": "0a4e2a92-adf5-4332-8a55-7e7cd5181e38",
+        "status": "InProgress",
+        "startTime": "2022-12-15T05:48:23.09Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Sql/locations/eastus/databaseAzureAsyncOperation/0a4e2a92-adf5-4332-8a55-7e7cd5181e38?api-version=2021-05-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-sql/9.1.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "d29b6c66-4866-41ad-a0ff-215ea5606076"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 15 Dec 2022 05:48:23 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Retry-After": "15",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "047887ea-9636-48c3-8804-d979f9f4da8b",
+        "x-ms-ratelimit-remaining-subscription-reads": "11989",
+        "x-ms-request-id": "fac81b58-5ae4-4071-9c97-82da442a1f82",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221215T054823Z:047887ea-9636-48c3-8804-d979f9f4da8b"
+      },
+      "ResponseBody": {
+        "name": "0a4e2a92-adf5-4332-8a55-7e7cd5181e38",
+        "status": "InProgress",
+        "startTime": "2022-12-15T05:48:23.09Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Sql/locations/eastus/databaseAzureAsyncOperation/0a4e2a92-adf5-4332-8a55-7e7cd5181e38?api-version=2021-05-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-sql/9.1.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "9d01754f-78a4-433a-82ff-d448a35da75b"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 15 Dec 2022 05:48:38 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Retry-After": "15",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "4f641ec5-6731-4f04-9d27-08e071de67d3",
+        "x-ms-ratelimit-remaining-subscription-reads": "11988",
+        "x-ms-request-id": "0a41b738-b2fd-454d-8009-ed962cd5eee4",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221215T054839Z:4f641ec5-6731-4f04-9d27-08e071de67d3"
+      },
+      "ResponseBody": {
+        "name": "0a4e2a92-adf5-4332-8a55-7e7cd5181e38",
+        "status": "InProgress",
+        "startTime": "2022-12-15T05:48:23.09Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Sql/locations/eastus/databaseAzureAsyncOperation/0a4e2a92-adf5-4332-8a55-7e7cd5181e38?api-version=2021-05-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-sql/9.1.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "249081a3-8ea7-4225-9a27-443e59cdc961"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 15 Dec 2022 05:48:54 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Retry-After": "15",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "e3f7bfef-b642-43f7-9cf4-e19b0dcbd27a",
+        "x-ms-ratelimit-remaining-subscription-reads": "11987",
+        "x-ms-request-id": "7ceac0e6-b36e-4dff-8ad0-ab7191025673",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221215T054855Z:e3f7bfef-b642-43f7-9cf4-e19b0dcbd27a"
+      },
+      "ResponseBody": {
+        "name": "0a4e2a92-adf5-4332-8a55-7e7cd5181e38",
+        "status": "InProgress",
+        "startTime": "2022-12-15T05:48:23.09Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Sql/locations/eastus/databaseAzureAsyncOperation/0a4e2a92-adf5-4332-8a55-7e7cd5181e38?api-version=2021-05-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-sql/9.1.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "0059a5b7-11aa-4dd0-8f55-a32be63bea96"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 15 Dec 2022 05:49:10 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Retry-After": "15",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "f8f37b57-44cf-4c7e-aa07-96f05c02c1f9",
+        "x-ms-ratelimit-remaining-subscription-reads": "11986",
+        "x-ms-request-id": "5a0c203f-3994-4326-9e38-ea25cf37fef4",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221215T054910Z:f8f37b57-44cf-4c7e-aa07-96f05c02c1f9"
+      },
+      "ResponseBody": {
+        "name": "0a4e2a92-adf5-4332-8a55-7e7cd5181e38",
+        "status": "InProgress",
+        "startTime": "2022-12-15T05:48:23.09Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Sql/locations/eastus/databaseAzureAsyncOperation/0a4e2a92-adf5-4332-8a55-7e7cd5181e38?api-version=2021-05-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-sql/9.1.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "4749c2b9-2eff-49cb-a64a-8d755c5c1516"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 15 Dec 2022 05:49:25 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Retry-After": "15",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "1f28245c-fe0b-40ba-946f-04c2e8560781",
+        "x-ms-ratelimit-remaining-subscription-reads": "11985",
+        "x-ms-request-id": "dd4bb1e9-2388-4d38-a208-cb5a77c8a1f4",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221215T054926Z:1f28245c-fe0b-40ba-946f-04c2e8560781"
+      },
+      "ResponseBody": {
+        "name": "0a4e2a92-adf5-4332-8a55-7e7cd5181e38",
+        "status": "Succeeded",
+        "startTime": "2022-12-15T05:48:23.09Z"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Sql/servers/myserverppp/databases/mydatabasezzzz?api-version=2021-05-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-sql/9.1.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "56c74495-f56a-4cfa-8cba-40e31fd352bb"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 15 Dec 2022 05:49:25 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "89db0c8f-590b-4ded-8a86-5fab63b35234",
+        "x-ms-ratelimit-remaining-subscription-reads": "11984",
+        "x-ms-request-id": "589e9536-838a-4ee0-b7aa-c08bddedbaab",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221215T054926Z:89db0c8f-590b-4ded-8a86-5fab63b35234"
+      },
+      "ResponseBody": {
+        "sku": {
+          "name": "GP_Gen5",
+          "tier": "GeneralPurpose",
+          "family": "Gen5",
+          "capacity": 2
+        },
+        "kind": "v12.0,user,vcore",
+        "properties": {
+          "collation": "SQL_Latin1_General_CP1_CI_AS",
+          "maxSizeBytes": 34359738368,
+          "status": "Online",
+          "databaseId": "6c6ca44e-6e2e-47b4-9cad-4caf792b3ff0",
+          "creationDate": "2022-12-15T05:49:10.09Z",
+          "currentServiceObjectiveName": "GP_Gen5_2",
+          "requestedServiceObjectiveName": "GP_Gen5_2",
+          "defaultSecondaryLocation": "westus",
+          "catalogCollation": "SQL_Latin1_General_CP1_CI_AS",
+          "zoneRedundant": false,
+          "licenseType": "LicenseIncluded",
+          "maxLogSizeBytes": 193273528320,
+          "readScale": "Disabled",
+          "currentSku": {
+            "name": "GP_Gen5",
+            "tier": "GeneralPurpose",
+            "family": "Gen5",
+            "capacity": 2
+          },
+          "currentBackupStorageRedundancy": "Geo",
+          "requestedBackupStorageRedundancy": "Geo",
+          "maintenanceConfigurationId": "/subscriptions/azure_subscription_id/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_Default",
+          "isLedgerOn": false,
+          "isInfraEncryptionEnabled": false
+        },
+        "location": "eastus",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Sql/servers/myserverppp/databases/mydatabasezzzz",
+        "name": "mydatabasezzzz",
+        "type": "Microsoft.Sql/servers/databases"
+      }
+    }
+  ],
+  "Variables": {}
+}
