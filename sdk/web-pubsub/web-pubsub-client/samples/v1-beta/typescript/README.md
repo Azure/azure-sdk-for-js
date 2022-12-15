@@ -64,3 +64,8 @@ npx cross-env WPS_CONNECTION_STRING="<wps connection string>" node dist/hellowor
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
+
+[helloworld]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/web-pubsub/web-pubsub-client/samples/v1-beta/typescript/src/helloworld.ts
+[freesub]: https://azure.microsoft.com/free/
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/web-pubsub/web-pubsub-client/README.md
+[typescript]: https://www.typescriptlang.org/docs/home.html
