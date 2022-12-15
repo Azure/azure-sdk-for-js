@@ -4,7 +4,8 @@
   "description": "A helpful command for azure-sdk-for-js developers",
   "sdk-type": "utility",
   "bin": {
-    "dev-tool": "launch.js"
+    "dev-tool": "launch.js",
+    "dtx": "dtx.js"
   },
   "files": [
     "src"
@@ -52,6 +53,7 @@
     "yaml": "~1.10.0"
   },
   "devDependencies": {
+    "@microsoft/api-extractor": "^7.31.1",
     "@rollup/plugin-commonjs": "^21.0.1",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-multi-entry": "^4.1.0",
@@ -63,11 +65,17 @@
     "@types/mocha": "^7.0.2",
     "@types/node": "^14.0.0",
     "@types/prettier": "^2.0.1",
+    "autorest": "^3.5.1",
     "builtin-modules": "^3.1.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
+    "cross-env": "^7.0.3",
+    "downlevel-dts": "~0.7.0",
     "eslint": "^8.0.0",
+    "mkdirp": "^1.0.4",
     "mocha": "^7.1.1",
+    "nyc": "^15.1.0",
+    "karma": "^6.3.9",
     "rimraf": "^3.0.0",
     "rollup": "^2.78.0",
     "rollup-plugin-polyfill-node": "^0.8.0",
