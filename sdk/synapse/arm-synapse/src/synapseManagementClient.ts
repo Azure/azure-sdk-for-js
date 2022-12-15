@@ -15,7 +15,7 @@ import {
   IpFirewallRulesImpl,
   KeysImpl,
   PrivateEndpointConnectionsImpl,
-  PrivateLinkResourcesOperationsImpl,
+  PrivateLinkResourcesImpl,
   PrivateLinkHubPrivateLinkResourcesImpl,
   PrivateLinkHubsImpl,
   PrivateEndpointConnectionsPrivateLinkHubImpl,
@@ -55,7 +55,6 @@ import {
   WorkspaceManagedSqlServerEncryptionProtectorImpl,
   WorkspaceManagedSqlServerUsagesImpl,
   WorkspaceManagedSqlServerRecoverableSqlPoolsImpl,
-  WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsImpl,
   WorkspacesImpl,
   WorkspaceAadAdminsImpl,
   WorkspaceSqlAadAdminsImpl,
@@ -82,8 +81,7 @@ import {
   KustoPoolDatabasesImpl,
   KustoPoolDataConnectionsImpl,
   KustoPoolPrincipalAssignmentsImpl,
-  KustoPoolDatabasePrincipalAssignmentsImpl,
-  KustoPoolPrivateLinkResourcesOperationsImpl
+  KustoPoolDatabasePrincipalAssignmentsImpl
 } from "./operations";
 import {
   AzureADOnlyAuthentications,
@@ -91,7 +89,7 @@ import {
   IpFirewallRules,
   Keys,
   PrivateEndpointConnections,
-  PrivateLinkResourcesOperations,
+  PrivateLinkResources,
   PrivateLinkHubPrivateLinkResources,
   PrivateLinkHubs,
   PrivateEndpointConnectionsPrivateLinkHub,
@@ -131,7 +129,6 @@ import {
   WorkspaceManagedSqlServerEncryptionProtector,
   WorkspaceManagedSqlServerUsages,
   WorkspaceManagedSqlServerRecoverableSqlPools,
-  WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettings,
   Workspaces,
   WorkspaceAadAdmins,
   WorkspaceSqlAadAdmins,
@@ -158,8 +155,7 @@ import {
   KustoPoolDatabases,
   KustoPoolDataConnections,
   KustoPoolPrincipalAssignments,
-  KustoPoolDatabasePrincipalAssignments,
-  KustoPoolPrivateLinkResourcesOperations
+  KustoPoolDatabasePrincipalAssignments
 } from "./operationsInterfaces";
 import { SynapseManagementClientOptionalParams } from "./models";
 
@@ -194,7 +190,7 @@ export class SynapseManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-synapse/9.0.0-beta.1`;
+    const packageDetails = `azsdk-js-arm-synapse/8.1.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -252,9 +248,7 @@ export class SynapseManagementClient extends coreClient.ServiceClient {
     this.ipFirewallRules = new IpFirewallRulesImpl(this);
     this.keys = new KeysImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
-    this.privateLinkResourcesOperations = new PrivateLinkResourcesOperationsImpl(
-      this
-    );
+    this.privateLinkResources = new PrivateLinkResourcesImpl(this);
     this.privateLinkHubPrivateLinkResources = new PrivateLinkHubPrivateLinkResourcesImpl(
       this
     );
@@ -332,9 +326,6 @@ export class SynapseManagementClient extends coreClient.ServiceClient {
     this.workspaceManagedSqlServerRecoverableSqlPools = new WorkspaceManagedSqlServerRecoverableSqlPoolsImpl(
       this
     );
-    this.workspaceManagedSqlServerDedicatedSQLMinimalTlsSettings = new WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsImpl(
-      this
-    );
     this.workspaces = new WorkspacesImpl(this);
     this.workspaceAadAdmins = new WorkspaceAadAdminsImpl(this);
     this.workspaceSqlAadAdmins = new WorkspaceSqlAadAdminsImpl(this);
@@ -384,9 +375,6 @@ export class SynapseManagementClient extends coreClient.ServiceClient {
     this.kustoPoolDatabasePrincipalAssignments = new KustoPoolDatabasePrincipalAssignmentsImpl(
       this
     );
-    this.kustoPoolPrivateLinkResourcesOperations = new KustoPoolPrivateLinkResourcesOperationsImpl(
-      this
-    );
   }
 
   azureADOnlyAuthentications: AzureADOnlyAuthentications;
@@ -394,7 +382,7 @@ export class SynapseManagementClient extends coreClient.ServiceClient {
   ipFirewallRules: IpFirewallRules;
   keys: Keys;
   privateEndpointConnections: PrivateEndpointConnections;
-  privateLinkResourcesOperations: PrivateLinkResourcesOperations;
+  privateLinkResources: PrivateLinkResources;
   privateLinkHubPrivateLinkResources: PrivateLinkHubPrivateLinkResources;
   privateLinkHubs: PrivateLinkHubs;
   privateEndpointConnectionsPrivateLinkHub: PrivateEndpointConnectionsPrivateLinkHub;
@@ -434,7 +422,6 @@ export class SynapseManagementClient extends coreClient.ServiceClient {
   workspaceManagedSqlServerEncryptionProtector: WorkspaceManagedSqlServerEncryptionProtector;
   workspaceManagedSqlServerUsages: WorkspaceManagedSqlServerUsages;
   workspaceManagedSqlServerRecoverableSqlPools: WorkspaceManagedSqlServerRecoverableSqlPools;
-  workspaceManagedSqlServerDedicatedSQLMinimalTlsSettings: WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettings;
   workspaces: Workspaces;
   workspaceAadAdmins: WorkspaceAadAdmins;
   workspaceSqlAadAdmins: WorkspaceSqlAadAdmins;
@@ -462,5 +449,4 @@ export class SynapseManagementClient extends coreClient.ServiceClient {
   kustoPoolDataConnections: KustoPoolDataConnections;
   kustoPoolPrincipalAssignments: KustoPoolPrincipalAssignments;
   kustoPoolDatabasePrincipalAssignments: KustoPoolDatabasePrincipalAssignments;
-  kustoPoolPrivateLinkResourcesOperations: KustoPoolPrivateLinkResourcesOperations;
 }

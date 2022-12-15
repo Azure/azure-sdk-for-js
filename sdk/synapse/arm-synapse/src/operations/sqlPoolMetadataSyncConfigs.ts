@@ -89,9 +89,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.MetadataSyncConfig
     },
-    404: {
-      isError: true
-    },
+    404: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
@@ -115,9 +113,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.MetadataSyncConfig
     },
-    404: {
-      isError: true
-    },
+    404: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
     }

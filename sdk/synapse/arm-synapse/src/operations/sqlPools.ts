@@ -162,93 +162,17 @@ export class SqlPoolsImpl implements SqlPools {
    * @param sqlPoolInfo The updated SQL pool properties
    * @param options The options parameters.
    */
-  async beginUpdate(
-    resourceGroupName: string,
-    workspaceName: string,
-    sqlPoolName: string,
-    sqlPoolInfo: SqlPoolPatchInfo,
-    options?: SqlPoolsUpdateOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<SqlPoolsUpdateResponse>,
-      SqlPoolsUpdateResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<SqlPoolsUpdateResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, sqlPoolName, sqlPoolInfo, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Apply a partial update to a SQL pool
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
-   * @param sqlPoolName SQL pool name
-   * @param sqlPoolInfo The updated SQL pool properties
-   * @param options The options parameters.
-   */
-  async beginUpdateAndWait(
+  update(
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
     sqlPoolInfo: SqlPoolPatchInfo,
     options?: SqlPoolsUpdateOptionalParams
   ): Promise<SqlPoolsUpdateResponse> {
-    const poller = await this.beginUpdate(
-      resourceGroupName,
-      workspaceName,
-      sqlPoolName,
-      sqlPoolInfo,
-      options
+    return this.client.sendOperationRequest(
+      { resourceGroupName, workspaceName, sqlPoolName, sqlPoolInfo, options },
+      updateOperationSpec
     );
-    return poller.pollUntilDone();
   }
 
   /**
@@ -716,15 +640,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.SqlPool
     },
-    201: {
-      bodyMapper: Mappers.SqlPool
-    },
-    202: {
-      bodyMapper: Mappers.SqlPool
-    },
-    204: {
-      bodyMapper: Mappers.SqlPool
-    },
+    202: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
@@ -759,9 +675,6 @@ const createOperationSpec: coreClient.OperationSpec = {
     204: {
       bodyMapper: Mappers.SqlPool
     },
-    404: {
-      isError: true
-    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
@@ -785,16 +698,24 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   httpMethod: "DELETE",
   responses: {
     200: {
-      bodyMapper: Mappers.SqlPool
+      bodyMapper: {
+        type: { name: "Dictionary", value: { type: { name: "any" } } }
+      }
     },
     201: {
-      bodyMapper: Mappers.SqlPool
+      bodyMapper: {
+        type: { name: "Dictionary", value: { type: { name: "any" } } }
+      }
     },
     202: {
-      bodyMapper: Mappers.SqlPool
+      bodyMapper: {
+        type: { name: "Dictionary", value: { type: { name: "any" } } }
+      }
     },
     204: {
-      bodyMapper: Mappers.SqlPool
+      bodyMapper: {
+        type: { name: "Dictionary", value: { type: { name: "any" } } }
+      }
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -839,16 +760,24 @@ const pauseOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.SqlPool
+      bodyMapper: {
+        type: { name: "Dictionary", value: { type: { name: "any" } } }
+      }
     },
     201: {
-      bodyMapper: Mappers.SqlPool
+      bodyMapper: {
+        type: { name: "Dictionary", value: { type: { name: "any" } } }
+      }
     },
     202: {
-      bodyMapper: Mappers.SqlPool
+      bodyMapper: {
+        type: { name: "Dictionary", value: { type: { name: "any" } } }
+      }
     },
     204: {
-      bodyMapper: Mappers.SqlPool
+      bodyMapper: {
+        type: { name: "Dictionary", value: { type: { name: "any" } } }
+      }
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -871,16 +800,24 @@ const resumeOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.SqlPool
+      bodyMapper: {
+        type: { name: "Dictionary", value: { type: { name: "any" } } }
+      }
     },
     201: {
-      bodyMapper: Mappers.SqlPool
+      bodyMapper: {
+        type: { name: "Dictionary", value: { type: { name: "any" } } }
+      }
     },
     202: {
-      bodyMapper: Mappers.SqlPool
+      bodyMapper: {
+        type: { name: "Dictionary", value: { type: { name: "any" } } }
+      }
     },
     204: {
-      bodyMapper: Mappers.SqlPool
+      bodyMapper: {
+        type: { name: "Dictionary", value: { type: { name: "any" } } }
+      }
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
