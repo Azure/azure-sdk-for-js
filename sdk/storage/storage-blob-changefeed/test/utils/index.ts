@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as http from "http";
+import { config } from "dotenv";
 import { SimpleTokenCredential } from "./testutils.common";
 import {
   StorageSharedKeyCredential,
@@ -10,15 +10,9 @@ import {
 } from "@azure/storage-blob";
 import { BlobChangeFeedClient } from "../../src";
 import { TokenCredential } from "@azure/core-http";
-import { env, isPlaybackMode } from "@azure-tools/test-recorder";
+import { env } from "@azure-tools/test-recorder";
 
-if (isPlaybackMode()) {
-  // workaround for nock bug
-  // remove this after migrating to test-recorder v2
-  http.IncomingMessage.prototype.destroy = function () {
-    return this;
-  };
-}
+config();
 
 export * from "./testutils.common";
 

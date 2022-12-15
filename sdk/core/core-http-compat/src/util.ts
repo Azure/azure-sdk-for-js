@@ -10,8 +10,14 @@ import {
 import { AbortSignalLike } from "@azure/abort-controller";
 import { HttpHeaders as HttpHeadersV2, PipelineRequest } from "@azure/core-rest-pipeline";
 
+// We use a custom symbol to cache a reference to the original request without
+// exposing it on the public interface.
 const originalRequestSymbol = Symbol("Original PipelineRequest");
 type CompatWebResourceLike = WebResourceLike & { [originalRequestSymbol]?: PipelineRequest };
+// Symbol.for() will return the same symbol if it's already been created
+// This particular one is used in core-client to handle the case of when a request is
+// cloned but we need to retrieve the OperationSpec and OperationArguments from the
+// original request.
 const originalClientRequestSymbol = Symbol.for("@azure/core-client original request");
 type PipelineRequestWithOriginal = PipelineRequest & {
   [originalClientRequestSymbol]?: PipelineRequest;

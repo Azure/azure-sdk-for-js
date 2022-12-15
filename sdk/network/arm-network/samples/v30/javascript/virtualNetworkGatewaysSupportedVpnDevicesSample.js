@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Gets a xml format representation for supported vpn devices.
  *
  * @summary Gets a xml format representation for supported vpn devices.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkGatewaySupportedVpnDevice.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/VirtualNetworkGatewaySupportedVpnDevice.json
  */
 async function listVirtualNetworkGatewaySupportedVpnDevices() {
   const subscriptionId = "subid";

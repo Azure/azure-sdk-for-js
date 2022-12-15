@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ExpressRouteCrossConnectionPeerings } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -64,11 +65,15 @@ export class ExpressRouteCrossConnectionPeeringsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listPagingPage(
           resourceGroupName,
           crossConnectionName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -77,15 +82,22 @@ export class ExpressRouteCrossConnectionPeeringsImpl
   private async *listPagingPage(
     resourceGroupName: string,
     crossConnectionName: string,
-    options?: ExpressRouteCrossConnectionPeeringsListOptionalParams
+    options?: ExpressRouteCrossConnectionPeeringsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ExpressRouteCrossConnectionPeering[]> {
-    let result = await this._list(
-      resourceGroupName,
-      crossConnectionName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ExpressRouteCrossConnectionPeeringsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(
+        resourceGroupName,
+        crossConnectionName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -94,7 +106,9 @@ export class ExpressRouteCrossConnectionPeeringsImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 

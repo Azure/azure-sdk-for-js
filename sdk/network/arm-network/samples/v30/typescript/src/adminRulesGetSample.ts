@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Gets a network manager security configuration admin rule.
  *
  * @summary Gets a network manager security configuration admin rule.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkManagerAdminRuleGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/NetworkManagerAdminRuleGet.json
  */
 async function getsSecurityAdminRule() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
@@ -42,7 +42,7 @@ getsSecurityAdminRule().catch(console.error);
  * This sample demonstrates how to Gets a network manager security configuration admin rule.
  *
  * @summary Gets a network manager security configuration admin rule.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkManagerDefaultAdminRuleGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/NetworkManagerDefaultAdminRuleGet.json
  */
 async function getsSecurityDefaultAdminRule() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

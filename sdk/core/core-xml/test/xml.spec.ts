@@ -160,7 +160,7 @@ describe("XML serializer", function () {
       });
     });
 
-    it("should not parse a nested XML document", async function () {
+    it("should not parse a nested XML document when including root node", async function () {
       const xml = `<NotificationDetails><NotificationBody>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;toast&gt;&lt;visual&gt;&lt;binding template="ToastText01"&gt;&lt;text id="1"&gt;Hello from a .NET App!&lt;/text&gt;&lt;/binding&gt;&lt;/visual&gt;&lt;/toast&gt;</NotificationBody></NotificationDetails>`;
       const json = await parseXML(xml);
       assert.deepStrictEqual(json, {

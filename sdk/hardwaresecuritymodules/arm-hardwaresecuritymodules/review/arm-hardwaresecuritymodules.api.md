@@ -38,14 +38,14 @@ export interface AzureDedicatedHSMResourceProviderOptionalParams extends coreCli
 }
 
 // @public
-export type DedicatedHsm = Resource & {
-    readonly systemData?: SystemData;
-    networkProfile?: NetworkProfile;
+export interface DedicatedHsm extends Resource {
     managementNetworkProfile?: NetworkProfile;
+    networkProfile?: NetworkProfile;
+    readonly provisioningState?: JsonWebKeyType;
     stampId?: string;
     readonly statusMessage?: string;
-    readonly provisioningState?: JsonWebKeyType;
-};
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface DedicatedHsmCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
@@ -76,7 +76,6 @@ export type DedicatedHsmGetResponse = DedicatedHsm;
 
 // @public
 export interface DedicatedHsmListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -92,7 +91,6 @@ export type DedicatedHsmListByResourceGroupResponse = DedicatedHsmListResult;
 
 // @public
 export interface DedicatedHsmListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -129,7 +127,7 @@ export interface DedicatedHsmListResult {
 // @public
 export interface DedicatedHsmOperation {
     display?: DedicatedHsmOperationDisplay;
-    readonly isDataAction?: string;
+    readonly isDataAction?: boolean;
     name?: string;
 }
 
@@ -201,6 +199,9 @@ export interface ErrorModel {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export type IdentityType = string;
 
 // @public
@@ -208,13 +209,9 @@ export type JsonWebKeyType = string;
 
 // @public
 export enum KnownIdentityType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 

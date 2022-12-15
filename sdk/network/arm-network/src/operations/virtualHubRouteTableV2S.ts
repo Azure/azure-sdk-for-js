@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { VirtualHubRouteTableV2S } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,12 +19,12 @@ import {
   VirtualHubRouteTableV2,
   VirtualHubRouteTableV2SListNextOptionalParams,
   VirtualHubRouteTableV2SListOptionalParams,
+  VirtualHubRouteTableV2SListResponse,
   VirtualHubRouteTableV2SGetOptionalParams,
   VirtualHubRouteTableV2SGetResponse,
   VirtualHubRouteTableV2SCreateOrUpdateOptionalParams,
   VirtualHubRouteTableV2SCreateOrUpdateResponse,
   VirtualHubRouteTableV2SDeleteOptionalParams,
-  VirtualHubRouteTableV2SListResponse,
   VirtualHubRouteTableV2SListNextResponse
 } from "../models";
 
@@ -59,8 +60,16 @@ export class VirtualHubRouteTableV2SImpl implements VirtualHubRouteTableV2S {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, virtualHubName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          virtualHubName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -68,11 +77,18 @@ export class VirtualHubRouteTableV2SImpl implements VirtualHubRouteTableV2S {
   private async *listPagingPage(
     resourceGroupName: string,
     virtualHubName: string,
-    options?: VirtualHubRouteTableV2SListOptionalParams
+    options?: VirtualHubRouteTableV2SListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<VirtualHubRouteTableV2[]> {
-    let result = await this._list(resourceGroupName, virtualHubName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: VirtualHubRouteTableV2SListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, virtualHubName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -81,7 +97,9 @@ export class VirtualHubRouteTableV2SImpl implements VirtualHubRouteTableV2S {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
