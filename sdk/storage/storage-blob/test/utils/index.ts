@@ -4,7 +4,6 @@
 import { randomBytes } from "crypto";
 import * as fs from "fs";
 import * as path from "path";
-import * as http from "http";
 import { config } from "dotenv";
 
 import { SimpleTokenCredential } from "./testutils.common";
@@ -21,18 +20,11 @@ import {
 } from "../../src";
 import { extractConnectionStringParts } from "../../src/utils/utils.common";
 import { AccessToken, TokenCredential } from "@azure/core-auth";
-import { env, isPlaybackMode } from "@azure-tools/test-recorder";
+import { env } from "@azure-tools/test-recorder";
 import { DefaultAzureCredential } from "@azure/identity";
 
 export * from "./testutils.common";
 config();
-if (isPlaybackMode()) {
-  // workaround for nock bug
-  // remove this after migrating to test-recorder v2
-  http.IncomingMessage.prototype.destroy = function () {
-    return this;
-  };
-}
 
 export function getGenericCredential(accountType: string): StorageSharedKeyCredential {
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
