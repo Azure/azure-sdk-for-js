@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Sims } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,15 +17,15 @@ import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
   Sim,
-  SimsListBySimGroupNextOptionalParams,
-  SimsListBySimGroupOptionalParams,
+  SimsListByGroupNextOptionalParams,
+  SimsListByGroupOptionalParams,
+  SimsListByGroupResponse,
   SimsDeleteOptionalParams,
   SimsGetOptionalParams,
   SimsGetResponse,
   SimsCreateOrUpdateOptionalParams,
   SimsCreateOrUpdateResponse,
-  SimsListBySimGroupResponse,
-  SimsListBySimGroupNextResponse
+  SimsListByGroupNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -46,12 +47,12 @@ export class SimsImpl implements Sims {
    * @param simGroupName The name of the SIM Group.
    * @param options The options parameters.
    */
-  public listBySimGroup(
+  public listByGroup(
     resourceGroupName: string,
     simGroupName: string,
-    options?: SimsListBySimGroupOptionalParams
+    options?: SimsListByGroupOptionalParams
   ): PagedAsyncIterableIterator<Sim> {
-    const iter = this.listBySimGroupPagingAll(
+    const iter = this.listByGroupPagingAll(
       resourceGroupName,
       simGroupName,
       options
@@ -63,46 +64,59 @@ export class SimsImpl implements Sims {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listBySimGroupPagingPage(
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByGroupPagingPage(
           resourceGroupName,
           simGroupName,
-          options
+          options,
+          settings
         );
       }
     };
   }
 
-  private async *listBySimGroupPagingPage(
+  private async *listByGroupPagingPage(
     resourceGroupName: string,
     simGroupName: string,
-    options?: SimsListBySimGroupOptionalParams
+    options?: SimsListByGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Sim[]> {
-    let result = await this._listBySimGroup(
-      resourceGroupName,
-      simGroupName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: SimsListByGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByGroup(
+        resourceGroupName,
+        simGroupName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
-      result = await this._listBySimGroupNext(
+      result = await this._listByGroupNext(
         resourceGroupName,
         simGroupName,
         continuationToken,
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
-  private async *listBySimGroupPagingAll(
+  private async *listByGroupPagingAll(
     resourceGroupName: string,
     simGroupName: string,
-    options?: SimsListBySimGroupOptionalParams
+    options?: SimsListByGroupOptionalParams
   ): AsyncIterableIterator<Sim> {
-    for await (const page of this.listBySimGroupPagingPage(
+    for await (const page of this.listByGroupPagingPage(
       resourceGroupName,
       simGroupName,
       options
@@ -322,33 +336,33 @@ export class SimsImpl implements Sims {
    * @param simGroupName The name of the SIM Group.
    * @param options The options parameters.
    */
-  private _listBySimGroup(
+  private _listByGroup(
     resourceGroupName: string,
     simGroupName: string,
-    options?: SimsListBySimGroupOptionalParams
-  ): Promise<SimsListBySimGroupResponse> {
+    options?: SimsListByGroupOptionalParams
+  ): Promise<SimsListByGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, simGroupName, options },
-      listBySimGroupOperationSpec
+      listByGroupOperationSpec
     );
   }
 
   /**
-   * ListBySimGroupNext
+   * ListByGroupNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param simGroupName The name of the SIM Group.
-   * @param nextLink The nextLink from the previous successful call to the ListBySimGroup method.
+   * @param nextLink The nextLink from the previous successful call to the ListByGroup method.
    * @param options The options parameters.
    */
-  private _listBySimGroupNext(
+  private _listByGroupNext(
     resourceGroupName: string,
     simGroupName: string,
     nextLink: string,
-    options?: SimsListBySimGroupNextOptionalParams
-  ): Promise<SimsListBySimGroupNextResponse> {
+    options?: SimsListByGroupNextOptionalParams
+  ): Promise<SimsListByGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, simGroupName, nextLink, options },
-      listBySimGroupNextOperationSpec
+      listByGroupNextOperationSpec
     );
   }
 }
@@ -423,7 +437,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters6,
+  requestBody: Parameters.parameters8,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -436,7 +450,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const listBySimGroupOperationSpec: coreClient.OperationSpec = {
+const listByGroupOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/simGroups/{simGroupName}/sims",
   httpMethod: "GET",
@@ -458,7 +472,7 @@ const listBySimGroupOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const listBySimGroupNextOperationSpec: coreClient.OperationSpec = {
+const listByGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
@@ -469,7 +483,6 @@ const listBySimGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
