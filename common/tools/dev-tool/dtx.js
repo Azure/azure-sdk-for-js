@@ -4,7 +4,7 @@
 // Licensed under the MIT license.
 
 /**
- * This command is an alias for `dev-tool run`
+ * This command is an alias for `dev-tool run vendored`
  */
 
 const path = require("path");
