@@ -16,27 +16,27 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-12-01",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 14 Dec 2022 23:39:14 GMT",
-        "MS-CV": "Enl8hx8SokGcIJO7nJK9\u002BQ.0",
+        "Date": "Thu, 15 Dec 2022 20:11:43 GMT",
+        "MS-CV": "LBTFnLq7O0e/w4DJJsXjqQ.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0ol6aYwAAAABt1UwIxwQNRoYaBY/KpmhLTUVYMzFFREdFMDQyMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0fn\u002BbYwAAAAB3pQjTSBBJSYIycKQ6uE/QTUVYMzFFREdFMDQxNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "1583ms"
+        "X-Processing-Time": "1693ms"
       },
       "ResponseBody": {
         "id": "14155550100",
         "phoneNumber": "\u002B14155550100",
         "countryCode": "US",
-        "phoneNumberType": "geographic",
+        "phoneNumberType": "tollFree",
         "capabilities": {
-          "calling": "inbound\u002Boutbound",
-          "sms": "none"
+          "calling": "none",
+          "sms": "outbound"
         },
         "assignmentType": "application",
-        "purchaseDate": "2021-06-24T15:18:14.7689633\u002B00:00",
+        "purchaseDate": "2021-06-23T23:31:24.7610118\u002B00:00",
         "cost": {
-          "amount": 1.0,
+          "amount": 2.0,
           "currencyCode": "USD",
           "billingFrequency": "monthly"
         }

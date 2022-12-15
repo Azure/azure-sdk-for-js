@@ -16,13 +16,13 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-03-07, 2022-12-01",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 14 Dec 2022 23:39:42 GMT",
-        "MS-CV": "PTCTBNI00UyD9wsQmJA1oQ.0",
+        "Date": "Thu, 15 Dec 2022 20:14:03 GMT",
+        "MS-CV": "CgxadGQCX0aeaDSTOuL14w.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0vV6aYwAAAABY7w4R4DE3SYgHW6xMDVGDTUVYMzFFREdFMDQyMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0CoCbYwAAAAAJIqa613I/Q4WWL7Yy7ouFTUVYMzFFREdFMDQxNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "845ms"
+        "X-Processing-Time": "960ms"
       },
       "ResponseBody": {
         "phoneNumberOfferings": [

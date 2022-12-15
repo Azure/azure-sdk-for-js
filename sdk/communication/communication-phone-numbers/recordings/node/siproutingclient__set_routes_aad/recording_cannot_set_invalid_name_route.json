@@ -25,13 +25,13 @@
       "StatusCode": 422,
       "ResponseHeaders": {
         "Content-Type": "application/json",
-        "Date": "Wed, 14 Dec 2022 23:40:04 GMT",
-        "MS-CV": "iR/6LIn9QkmMWOyGbWkiEg.0",
+        "Date": "Thu, 15 Dec 2022 20:14:31 GMT",
+        "MS-CV": "uijtScuqEUWTDYoaJHjieg.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "01F6aYwAAAABsvXLn2sF7Q5Qm/4MCJHRbTUVYMzFFREdFMDQyMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0J4CbYwAAAACaDHAcvKeuTI7sQBDdUIoYTUVYMzFFREdFMDQxNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "46ms"
+        "X-Processing-Time": "32ms"
       },
       "ResponseBody": {
         "error": {
@@ -60,17 +60,17 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 14 Dec 2022 23:40:04 GMT",
-        "MS-CV": "Ms0CeGEGQESsLojALLJm4w.0",
+        "Date": "Thu, 15 Dec 2022 20:14:31 GMT",
+        "MS-CV": "Un6nIvG1fUKotCW6vB69/g.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "01F6aYwAAAABPG67ePDf0SKuPwzCRIQMJTUVYMzFFREdFMDQyMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0J4CbYwAAAAB7EiyEqfdvQouymi2sPBF0TUVYMzFFREdFMDQxNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "104ms"
+        "X-Processing-Time": "103ms"
       },
       "ResponseBody": {
         "trunks": {
-          "test.f5b2ef8a48834e0998c8ecf3af7dd150.com": {
+          "test.13cbf5f1e50b49e58cf765fd0ce901eb.com": {
             "sipSignalingPort": 5678
           }
         },
@@ -79,7 +79,7 @@
     }
   ],
   "Variables": {
-    "fqdn-1": "test.8298241aab4547149b0500f2700311a4.com",
-    "fqdn-2": "test.cc35e29ef0e14091b23c97765c01dd28.com"
+    "fqdn-1": "test.ba6da7905d344e2ea9e139ac3bf5c46e.com",
+    "fqdn-2": "test.3c29b0f7b43d47ffbc2bfb9c71031f6b.com"
   }
 }

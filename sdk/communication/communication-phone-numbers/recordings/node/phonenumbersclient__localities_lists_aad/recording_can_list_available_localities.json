@@ -16,13 +16,13 @@
       "ResponseHeaders": {
         "api-supported-versions": "2022-12-01",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 14 Dec 2022 23:39:25 GMT",
-        "MS-CV": "JYj2fL82u0qHXYSpgZGo\u002Bg.0",
+        "Date": "Thu, 15 Dec 2022 20:11:58 GMT",
+        "MS-CV": "\u002B3HNqWSLSUCeA\u002BUw2G5HsQ.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0rV6aYwAAAABXQs3CUoBBTqR3xGoBkliNTUVYMzFFREdFMDQyMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0jn\u002BbYwAAAAB82eVT7UlQQ5tPL5Pak9LxTUVYMzFFREdFMDQxNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "331ms"
+        "X-Processing-Time": "1051ms"
       },
       "ResponseBody": {
         "phoneNumberLocalities": [
@@ -391,6 +391,13 @@
             }
           },
           {
+            "localizedName": "Big Rock",
+            "administrativeDivision": {
+              "localizedName": "IL",
+              "abbreviatedName": "IL"
+            }
+          },
+          {
             "localizedName": "Champaign",
             "administrativeDivision": {
               "localizedName": "IL",
@@ -718,13 +725,6 @@
               "localizedName": "MS",
               "abbreviatedName": "MS"
             }
-          },
-          {
-            "localizedName": "Jackson",
-            "administrativeDivision": {
-              "localizedName": "MS",
-              "abbreviatedName": "MS"
-            }
           }
         ],
         "nextLink": "/availablePhoneNumbers/countries/US/localities?skip=100\u0026maxPageSize=100\u0026api-version=2022-12-01"
@@ -746,16 +746,23 @@
       "ResponseHeaders": {
         "api-supported-versions": "2022-12-01",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 14 Dec 2022 23:39:26 GMT",
-        "MS-CV": "IJR\u002B7B/ZD02fJiiaN7Owkg.0",
+        "Date": "Thu, 15 Dec 2022 20:11:59 GMT",
+        "MS-CV": "VgaaJF92ZU6YGXfUrkohzQ.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0rV6aYwAAAABOgqXmZ/ldTofRgT\u002Bd0t7yTUVYMzFFREdFMDQyMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0j3\u002BbYwAAAAAsXWVz7J4tT4zcygH07RCwTUVYMzFFREdFMDQxNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "310ms"
+        "X-Processing-Time": "680ms"
       },
       "ResponseBody": {
         "phoneNumberLocalities": [
+          {
+            "localizedName": "Jackson",
+            "administrativeDivision": {
+              "localizedName": "MS",
+              "abbreviatedName": "MS"
+            }
+          },
           {
             "localizedName": "Starkville",
             "administrativeDivision": {
@@ -1142,6 +1149,13 @@
             }
           },
           {
+            "localizedName": "Abilene",
+            "administrativeDivision": {
+              "localizedName": "TX",
+              "abbreviatedName": "TX"
+            }
+          },
+          {
             "localizedName": "Austin",
             "administrativeDivision": {
               "localizedName": "TX",
@@ -1157,6 +1171,13 @@
           },
           {
             "localizedName": "Corpus Christi",
+            "administrativeDivision": {
+              "localizedName": "TX",
+              "abbreviatedName": "TX"
+            }
+          },
+          {
+            "localizedName": "Denton",
             "administrativeDivision": {
               "localizedName": "TX",
               "abbreviatedName": "TX"
@@ -1289,7 +1310,7 @@
             }
           },
           {
-            "localizedName": "Seattle",
+            "localizedName": "Spokane",
             "administrativeDivision": {
               "localizedName": "WA",
               "abbreviatedName": "WA"

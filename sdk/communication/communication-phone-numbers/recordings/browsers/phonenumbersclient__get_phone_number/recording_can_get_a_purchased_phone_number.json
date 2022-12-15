@@ -19,7 +19,7 @@
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/108.0.5351.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Wed, 14 Dec 2022 23:41:16 GMT",
+        "x-ms-date": "Thu, 15 Dec 2022 20:15:56 GMT",
         "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
       },
       "RequestBody": null,
@@ -27,27 +27,27 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-12-01",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 14 Dec 2022 23:41:16 GMT",
-        "MS-CV": "IjMaDKFDTEmSgLMwkzBo3w.0",
+        "Date": "Thu, 15 Dec 2022 20:15:57 GMT",
+        "MS-CV": "81TmVzbIdEaUqDKF1VlFjw.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0HF\u002BaYwAAAACDEGxKIbvjS6TxAEAtdUu7TUVYMzFFREdFMDQxNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0e4CbYwAAAABpGplvxIInQLm1cU9Am9gwTUVYMzFFREdFMDMxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "744ms"
+        "X-Processing-Time": "2826ms"
       },
       "ResponseBody": {
         "id": "14155550100",
         "phoneNumber": "\u002B14155550100",
         "countryCode": "US",
-        "phoneNumberType": "geographic",
+        "phoneNumberType": "tollFree",
         "capabilities": {
-          "calling": "inbound\u002Boutbound",
-          "sms": "none"
+          "calling": "none",
+          "sms": "outbound"
         },
         "assignmentType": "application",
-        "purchaseDate": "2021-06-24T15:18:14.7689633\u002B00:00",
+        "purchaseDate": "2021-06-23T23:31:24.7610118\u002B00:00",
         "cost": {
-          "amount": 1.0,
+          "amount": 2.0,
           "currencyCode": "USD",
           "billingFrequency": "monthly"
         }

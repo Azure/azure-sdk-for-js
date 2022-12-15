@@ -16,13 +16,13 @@
       "ResponseHeaders": {
         "api-supported-versions": "2022-12-01",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 14 Dec 2022 23:39:26 GMT",
-        "MS-CV": "\u002BxBbTyMrSU6ulLtwuaANUw.0",
+        "Date": "Thu, 15 Dec 2022 20:12:00 GMT",
+        "MS-CV": "zYsY189KYkm\u002B5azUau\u002BSuw.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0rl6aYwAAAABGVpzaRG1STJ3PBh1ndjplTUVYMzFFREdFMDQyMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0kH\u002BbYwAAAABhPbsChXqNR49P57pObelkTUVYMzFFREdFMDQxNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "306ms"
+        "X-Processing-Time": "682ms"
       },
       "ResponseBody": {
         "phoneNumberLocalities": [
@@ -391,6 +391,13 @@
             }
           },
           {
+            "localizedName": "Big Rock",
+            "administrativeDivision": {
+              "localizedName": "IL",
+              "abbreviatedName": "IL"
+            }
+          },
+          {
             "localizedName": "Champaign",
             "administrativeDivision": {
               "localizedName": "IL",
@@ -718,13 +725,6 @@
               "localizedName": "MS",
               "abbreviatedName": "MS"
             }
-          },
-          {
-            "localizedName": "Jackson",
-            "administrativeDivision": {
-              "localizedName": "MS",
-              "abbreviatedName": "MS"
-            }
           }
         ],
         "nextLink": "/availablePhoneNumbers/countries/US/localities?skip=100\u0026maxPageSize=100\u0026api-version=2022-12-01"
@@ -746,13 +746,13 @@
       "ResponseHeaders": {
         "api-supported-versions": "2022-12-01",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 14 Dec 2022 23:39:27 GMT",
-        "MS-CV": "jWzMUtHLAUi5cCEccml/3A.0",
+        "Date": "Thu, 15 Dec 2022 20:12:01 GMT",
+        "MS-CV": "p7w27qpT7U2/1BJjpI1eog.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0r16aYwAAAAB/fuMWRpRFRYJ\u002B53CQuipZTUVYMzFFREdFMDQyMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0kX\u002BbYwAAAABw02u5YvRrRb3iXdHGgy7MTUVYMzFFREdFMDQxNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "319ms"
+        "X-Processing-Time": "708ms"
       },
       "ResponseBody": {
         "phoneNumberLocalities": [
