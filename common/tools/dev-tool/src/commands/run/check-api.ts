@@ -78,6 +78,7 @@ function testTsMin(filePaths: string[]): boolean {
   ];
 
   if (diagnostics.length > 0) {
+    // No special logging here, just dump the diagnostics to the console as they are already formatted.
     console.log(tsMin.formatDiagnosticsWithColorAndContext(diagnostics, host));
   }
 
@@ -97,8 +98,6 @@ export default leafCommand(commandInfo, async () => {
     process.cwd(),
     path.resolve(process.cwd(), projectInfo.packageJson.types)
   );
-
-  console.log(defaultTypesFile);
 
   log.info("Testing TypeScript minimum version:", tsMin.version);
   const minResult = testTsMin(resolveTypes(tsMin.version, defaultTypesFile));
@@ -153,39 +152,76 @@ export default leafCommand(commandInfo, async () => {
   }
 });
 
+/**
+ * Implements a best-effort matching and expansion of `typesVersions` from package.json.
+ *
+ * This implementation may not be exactly correct, but it's close to what the TypeScript compiler does and definitely
+ * works for basic typesVersions entries like what we use in the Azure SDK for JavaScript.
+ *
+ * This is similar to a very basic implementation of regular expression capture groups, and an alternative could be to
+ * translate the typesVersions patterns into regular expressions with capture groups.
+ *
+ * @param candidate - the string to match the mapping against (i.e. the types file the downstream package tried to load)
+ * @param pattern - the typesVersions pattern, a key in the typesVersions map for a particular version selector
+ * @param targets - the typesVersions values for a particular version selector, which will have their asterisks replaced
+ * @returns null if the candidate does not match the pattern, otherwise the `targets` with asterisks substituted for
+ *          sequential match groups in the candidate
+ */
 function matchAndExpandMapping(
   candidate: string,
   pattern: string,
-  results: string[]
+  targets: string[]
 ): string[] | null {
-  const patternSlug = pattern.split("*");
+  // The basic structure of this algorithm is to split the input pattern by "*", then sequentially remove each split
+  // fragment from the candidate. The parts that aren't matched by split fragments in the candidate are then stored
+  // in an array as substitution values to be used later when processing the results.
+  const patternGroups = pattern.split("*");
 
-  let processed = candidate;
+  let remainder = candidate;
   const substitutionGroups: string[] = [];
 
-  if (patternSlug.length === 1) {
-    // Special case
-    if (patternSlug[0] === processed) return results;
+  // Special case, no "*" in pattern and nothing to expand.
+  if (patternGroups.length === 1) {
+    // The pattern matches the candidate exactly
+    if (patternGroups[0] === remainder) return targets;
 
+    // Doesn't match, so no results.
     return null;
   }
 
-  if (!processed.startsWith(patternSlug[0])) return null;
+  // We need to bootstrap the algorithm by checking the first entry. We special-cased length = 1 above so we know there
+  // is at least one fragment.
 
-  processed = processed.replace(patternSlug[0], "");
+  // Bootstrapping is required because the pattern has odd parity. The interpretation of the pattern is an array of
+  // strings that must match exactly interspersed by capture groups. This will always be an odd number of total
+  // elements. We either need to special-case the first element and then iteratively handle capture groups then
+  // elements or special case the last element and iteratively handle elements then capture groups. I've chosen to do
+  // the former because it seems more straightforward for the basic case of a single element.
 
-  for (const item of patternSlug.slice(1)) {
-    const startIdx = item === "" ? processed.length : processed.indexOf(item);
+  // If there was a prefix, remove it from the remainder and consider it "matched". The loop below starts with
+  if (!remainder.startsWith(patternGroups[0])) return null;
+  remainder = remainder.replace(patternGroups[0], "");
 
+  for (const item of patternGroups.slice(1)) {
+    // Find the location of the pattern fragment in the remainder. If it isn't found (-1), the pattern doesn't match.
+    const startIdx = item === "" ? remainder.length : remainder.indexOf(item);
     if (startIdx === -1) return null;
 
-    const matchValue = processed.slice(0, startIdx);
+    // If we found a match for the pattern fragment, we use its index to slice the substitution group out. The
+    // substitution value appears _before_ the pattern fragment does. Wherever the fragment appears, the text that
+    // appears in front of it is the substitution value.
+    const matchValue = remainder.slice(0, startIdx);
     substitutionGroups.push(matchValue);
 
-    processed = processed.slice(startIdx).replace(item, "");
+    // Finally, get rid of the substitution group (slice from the pattern fragment index) and remove the pattern
+    // fragment itself (replace it with an empty string).
+    remainder = remainder.slice(startIdx).replace(item, "");
   }
 
-  return results.map((fn) => {
+  // Now that we have the substitutionGroups, substituting them into the targets is easy. We won't account for malformed
+  // entries here. We'll just iteratively replace asterisks in the name with substitution groups. By this point we are
+  // done checking for a match, so we just return the result value. The function is infallible from here.
+  return targets.map((fn) => {
     for (const group of substitutionGroups) {
       fn = fn.replace("*", group);
     }
