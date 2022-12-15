@@ -8,12 +8,16 @@
 const { WebPubSubClient } = require("@azure/web-pubsub-client");
 const { WebPubSubServiceClient } = require("@azure/web-pubsub");
 
-const serviceClient = new WebPubSubServiceClient(process.env.WPS_CONNECTION_STRING, "chat");
+require("dotenv").config();
 
-let fetchClientAccessUrl = async (_) => {
+const hubName = "sample_chat";
+const groupName = "testGroup";
+const serviceClient = new WebPubSubServiceClient(process.env.WPS_CONNECTION_STRING, hubName);
+
+const fetchClientAccessUrl = async (_) => {
   return (
     await serviceClient.getClientAccessToken({
-      roles: ["webpubsub.joinLeaveGroup", "webpubsub.sendToGroup"],
+      roles: [`webpubsub.joinLeaveGroup.${groupName}`, `webpubsub.sendToGroup.${groupName}`],
     })
   ).url;
 };
@@ -42,28 +46,28 @@ async function main() {
   client.on("group-message", (e) => {
     if (e.message.data instanceof ArrayBuffer) {
       console.log(
-        `Received message from testGroup ${Buffer.from(e.message.data).toString("base64")}`
+        `Received message from ${groupName} ${Buffer.from(e.message.data).toString("base64")}`
       );
     } else {
-      console.log(`Received message from testGroup ${e.message.data}`);
+      console.log(`Received message from ${groupName} ${e.message.data}`);
     }
   });
 
   await client.start();
 
-  await client.joinGroup("testGroup");
-  await client.sendToGroup("testGroup", "hello world", "text", {
+  await client.joinGroup(groupName);
+  await client.sendToGroup(groupName, "hello world", "text", {
     fireAndForget: true,
   });
-  await client.sendToGroup("testGroup", { a: 12, b: "hello" }, "json");
-  await client.sendToGroup("testGroup", "hello json", "json");
+  await client.sendToGroup(groupName, { a: 12, b: "hello" }, "json");
+  await client.sendToGroup(groupName, "hello json", "json");
   var buf = Buffer.from("aGVsbG9w", "base64");
   await client.sendToGroup(
-    "testGroup",
+    groupName,
     buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength),
     "binary"
   );
-  delay(1000);
+  await delay(1000);
   await client.stop();
 }
 

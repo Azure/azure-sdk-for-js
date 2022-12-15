@@ -7,7 +7,7 @@
   "module": "dist-esm/src/index.js",
   "browser": {
     "buffer": "buffer",
-    "ws": "./src/ws.browser.js",
+    "ws": "./dist-esm/src/ws.browser.js",
     "./dist-esm/src/websocket/sendData.js": "./dist-esm/src/websocket/sendData.browser.js"
   },
   "types": "types/web-pubsub-client.d.ts",
