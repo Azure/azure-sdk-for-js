@@ -61,14 +61,14 @@ const AVAILABLE_TEST_PROXY_BINARIES: TestProxyBinary[] = [
   {
     platform: "darwin",
     architecture: "x64",
-    fileName: "test-proxy-standalone-osx-x64.tar.gz",
-    executableLocation: "tools/test-proxy/osx-x64/test-proxy",
+    fileName: "test-proxy-standalone-osx-x64.zip",
+    executableLocation: "test-proxy",
   },
   {
     platform: "darwin",
     architecture: "arm64",
-    fileName: "test-proxy-standalone-osx-x64.tar.gz",
-    executableLocation: "tools/test-proxy/osx-arm64/test-proxy",
+    fileName: "test-proxy-standalone-osx-arm64.zip",
+    executableLocation: "test-proxy",
   },
 ];
 
@@ -126,8 +126,8 @@ export async function getTestProxyExecutable(): Promise<string> {
     await fs.mkdirp(downloadLocationWithVersion);
     await downloadTestProxy(downloadLocationWithVersion, getDownloadUrl(binary, targetVersion));
 
-    // Try again to make sure that it downloaded properly.
-    await fs.access(executableLocation, fs.constants.X_OK);
+    // Mark the executable as executable by all
+    await fs.chmod(executableLocation, 0o755);
   }
 
   return executableLocation;
