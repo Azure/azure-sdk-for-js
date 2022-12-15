@@ -225,7 +225,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
       before(() => {
         sandbox = sinon.createSandbox();
         process.env.WEBSITE_SITE_NAME = "test";
-        statsbeat = new StatsbeatMetrics({ ...options, collectionInterval: 100 });
+        statsbeat = new StatsbeatMetrics({ ...options, networkCollectionInterval: 100 });
       });
 
       afterEach(() => {
