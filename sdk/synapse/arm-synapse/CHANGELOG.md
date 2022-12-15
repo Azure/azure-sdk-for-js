@@ -1,6 +1,6 @@
 # Release History
     
-## 8.1.0-beta.1 (2022-12-15)
+## 8.1.0-beta.2 (2022-12-15)
     
 **Features**
 
