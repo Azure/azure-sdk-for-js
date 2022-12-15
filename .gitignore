@@ -159,9 +159,6 @@ tsdoc-metadata.json
 # locally cloned assets
 .assets
 
-# downloaded test proxy executable
-.test-proxy
-
 # autorest generated files
 swagger/*.json
 

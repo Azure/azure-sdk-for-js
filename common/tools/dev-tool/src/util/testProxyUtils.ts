@@ -8,8 +8,10 @@ import fs from "fs-extra";
 import path from "path";
 import axios from "axios";
 import decompress from "decompress";
+import envPaths from "env-paths";
 
 const log = createPrinter("test-proxy");
+const downloadLocation = path.join(envPaths("azsdk-dev-tool").cache, "test-proxy");
 
 /**
  * Represents a test proxy binary artifact archive that is built against a specific platform and architecture.
@@ -111,7 +113,6 @@ export async function getTestProxyExecutable(): Promise<string> {
   const binary = await getTestProxyBinary();
 
   // The artifact is downloaded and extracted to <sdk root>/.test-proxy/<version>/.
-  const downloadLocation = path.join(await resolveRoot(), ".test-proxy");
   const downloadLocationWithVersion = path.join(downloadLocation, targetVersion);
   const executableLocation = path.join(downloadLocationWithVersion, binary.executableLocation);
 
