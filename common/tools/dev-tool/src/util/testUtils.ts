@@ -27,7 +27,6 @@ async function shouldRunProxyTool(): Promise<boolean> {
 export async function runTestsWithProxyTool(
   testCommandObj: Partial<ConcurrentlyCommand> & { command: string }
 ): Promise<boolean> {
-  let concurrentlyOptions: Partial<ConcurrentlyOptions> | undefined;
   let testProxy: TestProxy | undefined = undefined;
   if (
     await shouldRunProxyTool() // Boolean to figure out if we need to run just the mocha command or the test-proxy too
@@ -35,7 +34,7 @@ export async function runTestsWithProxyTool(
     testProxy = await startTestProxy();
   }
 
-  await concurrently([testCommandObj], concurrentlyOptions).result;
+  await concurrently([testCommandObj]).result;
 
   if (testProxy) {
     log("Stopping the test proxy");
