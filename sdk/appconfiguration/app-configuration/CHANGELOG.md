@@ -1,8 +1,9 @@
 # Release History
 
-## 1.4.0-beta.2 (Unreleased)
+## 1.4.1 (Unreleased)
 
 ### Features Added
+- Add dependency on `@azure\logger` to help with debugging. [#23860](https://github.com/Azure/azure-sdk-for-js/pull/23860)
 
 ### Breaking Changes
 
@@ -11,6 +12,8 @@
 ### Other Changes
 
 - Update `@azure/core-paging` dependency to the latest version (1.4.0). Notable changes include using the `getPagedAsyncIterator` method. [#23479](https://github.com/Azure/azure-sdk-for-js/pull/23479)
+
+- Provide helpful debugging error message for `412` status code with `Setting was already present`. [#24207](https://github.com/Azure/azure-sdk-for-js/pull/24207)
 
 ## 1.4.0-beta.1 (2022-05-10)
 
