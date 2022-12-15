@@ -1282,6 +1282,22 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/storage-blob/12.12.0:
+    resolution: {integrity: sha512-o/Mf6lkyYG/eBW4/hXB9864RxVNmAkcKHjsGR6Inlp5hupa3exjSyH2KjO3tLO//YGA+tS+17hM2bxRl9Sn16g==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-http': 2.3.1
+      '@azure/core-lro': 2.4.0
+      '@azure/core-paging': 1.4.0
+      '@azure/core-tracing': 1.0.0-preview.13
+      '@azure/logger': 1.0.3
+      events: 3.3.0
+      tslib: 2.4.1
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
   /@azure/web-pubsub/1.1.0:
     resolution: {integrity: sha512-tGXFNw6UI6D2dl1EoPX/BAdkZWCnk3JI5QIyRp3wzmcWfZuXXAYXlKs3Hb1gWm3wbxZ1xf0Po5CQxqHhRW/zMw==}
     engines: {node: '>=14.0.0'}
@@ -3878,7 +3894,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20221213
+      typescript: 5.0.0-dev.20221214
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -8886,8 +8902,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20221213:
-    resolution: {integrity: sha512-CONCSaeW3yqMVDra8geo9H+hDek37C1z/b05gWtzTJP4vVQ+exSRJmPNqhvuGyEs5En8wcjH/iXVGYQymJC4aQ==}
+  /typescript/5.0.0-dev.20221214:
+    resolution: {integrity: sha512-sg2HlS57Zxo1AbNpq+lUY9yHR3qA8DmP2nS8KBkvGO86PXCYtWYxkPhbwV8KtAlU50GNmj20fEVJK7kxvZdXfw==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -18598,11 +18614,12 @@ packages:
     dev: false
 
   file:projects/perf-storage-blob.tgz:
-    resolution: {integrity: sha512-kI/qJeEMQ1YPbHIB1MBdNx128oCKfr7p3dO4eyS+1hTEVTpUdRmffqa6OqAa+DNSSr4BWd9LEbVqMo1VLJaypw==, tarball: file:projects/perf-storage-blob.tgz}
+    resolution: {integrity: sha512-nAacmiM0W49SM5uo56PmioVpCfiil9r2wtkMtYzBNf4sYxpR1tIgncB893IHAeAIhANaqOkEuov/cjInzMv8lQ==, tarball: file:projects/perf-storage-blob.tgz}
     name: '@rush-temp/perf-storage-blob'
     version: 0.0.0
     dependencies:
       '@azure/core-http': 2.3.1
+      '@azure/storage-blob': 12.12.0
       '@types/node': 14.18.33
       '@types/node-fetch': 2.6.2
       '@types/uuid': 8.3.4
