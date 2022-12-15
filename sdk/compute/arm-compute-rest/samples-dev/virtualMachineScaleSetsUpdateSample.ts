@@ -45,8 +45,7 @@ async function virtualMachineScaleSetsUpdateMaximumSetGen() {
         doNotRunExtensionsOnOverprovisionedVMs: true,
         overprovision: true,
         proximityPlacementGroup: {
-          id:
-            "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot",
+          id: "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot",
         },
         scaleInPolicy: { forceDeletion: true, rules: ["OldestVM"] },
         singlePlacementGroup: true,
@@ -96,8 +95,7 @@ async function virtualMachineScaleSetsUpdateMaximumSetGen() {
           licenseType: "aaaaaaaaaaaa",
           networkProfile: {
             healthProbe: {
-              id:
-                "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/disk123",
+              id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/disk123",
             },
             networkApiVersion: "2020-11-01",
             networkInterfaceConfigurations: [
@@ -117,26 +115,22 @@ async function virtualMachineScaleSetsUpdateMaximumSetGen() {
                       properties: {
                         applicationGatewayBackendAddressPools: [
                           {
-                            id:
-                              "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot",
+                            id: "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot",
                           },
                         ],
                         applicationSecurityGroups: [
                           {
-                            id:
-                              "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot",
+                            id: "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot",
                           },
                         ],
                         loadBalancerBackendAddressPools: [
                           {
-                            id:
-                              "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot",
+                            id: "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot",
                           },
                         ],
                         loadBalancerInboundNatPools: [
                           {
-                            id:
-                              "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot",
+                            id: "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot",
                           },
                         ],
                         primary: true,
@@ -152,15 +146,13 @@ async function virtualMachineScaleSetsUpdateMaximumSetGen() {
                           },
                         },
                         subnet: {
-                          id:
-                            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/disk123",
+                          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/disk123",
                         },
                       },
                     },
                   ],
                   networkSecurityGroup: {
-                    id:
-                      "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot",
+                    id: "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot",
                   },
                   primary: true,
                 },
@@ -189,8 +181,7 @@ async function virtualMachineScaleSetsUpdateMaximumSetGen() {
             secrets: [
               {
                 sourceVault: {
-                  id:
-                    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
+                  id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
                 },
                 vaultCertificates: [
                   {
@@ -263,8 +254,7 @@ async function virtualMachineScaleSetsUpdateMaximumSetGen() {
               caching: "ReadWrite",
               diskSizeGB: 6,
               image: {
-                uri:
-                  "http://{existing-storage-account-name}.blob.core.windows.net/{existing-container-name}/myDisk.vhd",
+                uri: "http://{existing-storage-account-name}.blob.core.windows.net/{existing-container-name}/myDisk.vhd",
               },
               managedDisk: {
                 diskEncryptionSet: { id: "aaaaaaaaaaaa" },

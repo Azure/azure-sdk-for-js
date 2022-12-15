@@ -18,30 +18,34 @@ import {
   AttachedDataNetworksImpl,
   DataNetworksImpl,
   MobileNetworksImpl,
-  SitesImpl,
-  SimGroupsImpl,
-  SimsImpl,
   OperationsImpl,
   PacketCoreControlPlanesImpl,
+  PacketCoreControlPlaneOperationsImpl,
   PacketCoreControlPlaneVersionsImpl,
   PacketCoreDataPlanesImpl,
   ServicesImpl,
+  SimsImpl,
+  SimOperationsImpl,
+  SimGroupsImpl,
   SimPoliciesImpl,
+  SitesImpl,
   SlicesImpl
 } from "./operations";
 import {
   AttachedDataNetworks,
   DataNetworks,
   MobileNetworks,
-  Sites,
-  SimGroups,
-  Sims,
   Operations,
   PacketCoreControlPlanes,
+  PacketCoreControlPlaneOperations,
   PacketCoreControlPlaneVersions,
   PacketCoreDataPlanes,
   Services,
+  Sims,
+  SimOperations,
+  SimGroups,
   SimPolicies,
+  Sites,
   Slices
 } from "./operationsInterfaces";
 import { MobileNetworkManagementClientOptionalParams } from "./models";
@@ -78,22 +82,19 @@ export class MobileNetworkManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-mobilenetwork/1.0.0-beta.4`;
+    const packageDetails = `azsdk-js-arm-mobilenetwork/1.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
         : `${packageDetails}`;
 
-    if (!options.credentialScopes) {
-      options.credentialScopes = ["https://management.azure.com/.default"];
-    }
     const optionsWithDefaults = {
       ...defaults,
       ...options,
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri:
+      endpoint:
         options.endpoint ?? options.baseUri ?? "https://management.azure.com"
     };
     super(optionsWithDefaults);
@@ -119,7 +120,9 @@ export class MobileNetworkManagementClient extends coreClient.ServiceClient {
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
           credential: credentials,
-          scopes: `${optionsWithDefaults.credentialScopes}`,
+          scopes:
+            optionsWithDefaults.credentialScopes ??
+            `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
               coreClient.authorizeRequestOnClaimChallenge
@@ -132,21 +135,25 @@ export class MobileNetworkManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-04-01-preview";
+    this.apiVersion = options.apiVersion || "2022-11-01";
     this.attachedDataNetworks = new AttachedDataNetworksImpl(this);
     this.dataNetworks = new DataNetworksImpl(this);
     this.mobileNetworks = new MobileNetworksImpl(this);
-    this.sites = new SitesImpl(this);
-    this.simGroups = new SimGroupsImpl(this);
-    this.sims = new SimsImpl(this);
     this.operations = new OperationsImpl(this);
     this.packetCoreControlPlanes = new PacketCoreControlPlanesImpl(this);
+    this.packetCoreControlPlaneOperations = new PacketCoreControlPlaneOperationsImpl(
+      this
+    );
     this.packetCoreControlPlaneVersions = new PacketCoreControlPlaneVersionsImpl(
       this
     );
     this.packetCoreDataPlanes = new PacketCoreDataPlanesImpl(this);
     this.services = new ServicesImpl(this);
+    this.sims = new SimsImpl(this);
+    this.simOperations = new SimOperationsImpl(this);
+    this.simGroups = new SimGroupsImpl(this);
     this.simPolicies = new SimPoliciesImpl(this);
+    this.sites = new SitesImpl(this);
     this.slices = new SlicesImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
@@ -182,14 +189,16 @@ export class MobileNetworkManagementClient extends coreClient.ServiceClient {
   attachedDataNetworks: AttachedDataNetworks;
   dataNetworks: DataNetworks;
   mobileNetworks: MobileNetworks;
-  sites: Sites;
-  simGroups: SimGroups;
-  sims: Sims;
   operations: Operations;
   packetCoreControlPlanes: PacketCoreControlPlanes;
+  packetCoreControlPlaneOperations: PacketCoreControlPlaneOperations;
   packetCoreControlPlaneVersions: PacketCoreControlPlaneVersions;
   packetCoreDataPlanes: PacketCoreDataPlanes;
   services: Services;
+  sims: Sims;
+  simOperations: SimOperations;
+  simGroups: SimGroups;
   simPolicies: SimPolicies;
+  sites: Sites;
   slices: Slices;
 }

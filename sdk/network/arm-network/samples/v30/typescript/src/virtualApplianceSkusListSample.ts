@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to List all SKUs available for a virtual appliance.
  *
  * @summary List all SKUs available for a virtual appliance.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkVirtualApplianceSkuList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/NetworkVirtualApplianceSkuList.json
  */
 async function networkVirtualApplianceSkuListResult() {
   const subscriptionId = "subid";

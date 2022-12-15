@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Gives the list of VpnServerConfigurations associated with Virtual Wan in a resource group.
  *
  * @summary Gives the list of VpnServerConfigurations associated with Virtual Wan in a resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/GetVirtualWanVpnServerConfigurations.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/GetVirtualWanVpnServerConfigurations.json
  */
 async function getVirtualWanVpnServerConfigurations() {
   const subscriptionId = "subid";

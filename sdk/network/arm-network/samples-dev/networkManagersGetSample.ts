@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Gets the specified Network Manager.
  *
  * @summary Gets the specified Network Manager.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkManagerGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/NetworkManagerGet.json
  */
 async function networkManagersGet() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

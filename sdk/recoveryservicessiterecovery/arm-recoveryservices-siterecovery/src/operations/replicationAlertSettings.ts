@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ReplicationAlertSettings } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -40,12 +41,17 @@ export class ReplicationAlertSettingsImpl implements ReplicationAlertSettings {
 
   /**
    * Gets the list of email notification(alert) configurations for the vault.
+   * @param resourceName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
    * @param options The options parameters.
    */
   public list(
+    resourceName: string,
+    resourceGroupName: string,
     options?: ReplicationAlertSettingsListOptionalParams
   ): PagedAsyncIterableIterator<Alert> {
-    const iter = this.listPagingAll(options);
+    const iter = this.listPagingAll(resourceName, resourceGroupName, options);
     return {
       next() {
         return iter.next();
@@ -53,86 +59,139 @@ export class ReplicationAlertSettingsImpl implements ReplicationAlertSettings {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceName,
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listPagingPage(
-    options?: ReplicationAlertSettingsListOptionalParams
+    resourceName: string,
+    resourceGroupName: string,
+    options?: ReplicationAlertSettingsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Alert[]> {
-    let result = await this._list(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listNext(continuationToken, options);
+    let result: ReplicationAlertSettingsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceName, resourceGroupName, options);
+      let page = result.value || [];
       continuationToken = result.nextLink;
-      yield result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listNext(
+        resourceName,
+        resourceGroupName,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
   private async *listPagingAll(
+    resourceName: string,
+    resourceGroupName: string,
     options?: ReplicationAlertSettingsListOptionalParams
   ): AsyncIterableIterator<Alert> {
-    for await (const page of this.listPagingPage(options)) {
+    for await (const page of this.listPagingPage(
+      resourceName,
+      resourceGroupName,
+      options
+    )) {
       yield* page;
     }
   }
 
   /**
    * Gets the list of email notification(alert) configurations for the vault.
+   * @param resourceName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
    * @param options The options parameters.
    */
   private _list(
+    resourceName: string,
+    resourceGroupName: string,
     options?: ReplicationAlertSettingsListOptionalParams
   ): Promise<ReplicationAlertSettingsListResponse> {
-    return this.client.sendOperationRequest({ options }, listOperationSpec);
+    return this.client.sendOperationRequest(
+      { resourceName, resourceGroupName, options },
+      listOperationSpec
+    );
   }
 
   /**
    * Gets the details of the specified email notification(alert) configuration.
+   * @param resourceName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
    * @param alertSettingName The name of the email notification configuration.
    * @param options The options parameters.
    */
   get(
+    resourceName: string,
+    resourceGroupName: string,
     alertSettingName: string,
     options?: ReplicationAlertSettingsGetOptionalParams
   ): Promise<ReplicationAlertSettingsGetResponse> {
     return this.client.sendOperationRequest(
-      { alertSettingName, options },
+      { resourceName, resourceGroupName, alertSettingName, options },
       getOperationSpec
     );
   }
 
   /**
    * Create or update an email notification(alert) configuration.
+   * @param resourceName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
    * @param alertSettingName The name of the email notification(alert) configuration.
    * @param request The input to configure the email notification(alert).
    * @param options The options parameters.
    */
   create(
+    resourceName: string,
+    resourceGroupName: string,
     alertSettingName: string,
     request: ConfigureAlertRequest,
     options?: ReplicationAlertSettingsCreateOptionalParams
   ): Promise<ReplicationAlertSettingsCreateResponse> {
     return this.client.sendOperationRequest(
-      { alertSettingName, request, options },
+      { resourceName, resourceGroupName, alertSettingName, request, options },
       createOperationSpec
     );
   }
 
   /**
    * ListNext
+   * @param resourceName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
+    resourceName: string,
+    resourceGroupName: string,
     nextLink: string,
     options?: ReplicationAlertSettingsListNextOptionalParams
   ): Promise<ReplicationAlertSettingsListNextResponse> {
     return this.client.sendOperationRequest(
-      { nextLink, options },
+      { resourceName, resourceGroupName, nextLink, options },
       listNextOperationSpec
     );
   }
@@ -209,7 +268,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AlertCollection
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

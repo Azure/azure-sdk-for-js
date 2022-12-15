@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { RecoveryPoints } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -37,18 +38,25 @@ export class RecoveryPointsImpl implements RecoveryPoints {
 
   /**
    * Lists the available recovery points for a replication protected item.
+   * @param resourceName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
    * @param fabricName The fabric name.
    * @param protectionContainerName The protection container name.
    * @param replicatedProtectedItemName The replication protected item name.
    * @param options The options parameters.
    */
   public listByReplicationProtectedItems(
+    resourceName: string,
+    resourceGroupName: string,
     fabricName: string,
     protectionContainerName: string,
     replicatedProtectedItemName: string,
     options?: RecoveryPointsListByReplicationProtectedItemsOptionalParams
   ): PagedAsyncIterableIterator<RecoveryPoint> {
     const iter = this.listByReplicationProtectedItemsPagingAll(
+      resourceName,
+      resourceGroupName,
       fabricName,
       protectionContainerName,
       replicatedProtectedItemName,
@@ -61,33 +69,52 @@ export class RecoveryPointsImpl implements RecoveryPoints {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByReplicationProtectedItemsPagingPage(
+          resourceName,
+          resourceGroupName,
           fabricName,
           protectionContainerName,
           replicatedProtectedItemName,
-          options
+          options,
+          settings
         );
       }
     };
   }
 
   private async *listByReplicationProtectedItemsPagingPage(
+    resourceName: string,
+    resourceGroupName: string,
     fabricName: string,
     protectionContainerName: string,
     replicatedProtectedItemName: string,
-    options?: RecoveryPointsListByReplicationProtectedItemsOptionalParams
+    options?: RecoveryPointsListByReplicationProtectedItemsOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<RecoveryPoint[]> {
-    let result = await this._listByReplicationProtectedItems(
-      fabricName,
-      protectionContainerName,
-      replicatedProtectedItemName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: RecoveryPointsListByReplicationProtectedItemsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByReplicationProtectedItems(
+        resourceName,
+        resourceGroupName,
+        fabricName,
+        protectionContainerName,
+        replicatedProtectedItemName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByReplicationProtectedItemsNext(
+        resourceName,
+        resourceGroupName,
         fabricName,
         protectionContainerName,
         replicatedProtectedItemName,
@@ -95,17 +122,23 @@ export class RecoveryPointsImpl implements RecoveryPoints {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
   private async *listByReplicationProtectedItemsPagingAll(
+    resourceName: string,
+    resourceGroupName: string,
     fabricName: string,
     protectionContainerName: string,
     replicatedProtectedItemName: string,
     options?: RecoveryPointsListByReplicationProtectedItemsOptionalParams
   ): AsyncIterableIterator<RecoveryPoint> {
     for await (const page of this.listByReplicationProtectedItemsPagingPage(
+      resourceName,
+      resourceGroupName,
       fabricName,
       protectionContainerName,
       replicatedProtectedItemName,
@@ -117,12 +150,17 @@ export class RecoveryPointsImpl implements RecoveryPoints {
 
   /**
    * Lists the available recovery points for a replication protected item.
+   * @param resourceName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
    * @param fabricName The fabric name.
    * @param protectionContainerName The protection container name.
    * @param replicatedProtectedItemName The replication protected item name.
    * @param options The options parameters.
    */
   private _listByReplicationProtectedItems(
+    resourceName: string,
+    resourceGroupName: string,
     fabricName: string,
     protectionContainerName: string,
     replicatedProtectedItemName: string,
@@ -130,6 +168,8 @@ export class RecoveryPointsImpl implements RecoveryPoints {
   ): Promise<RecoveryPointsListByReplicationProtectedItemsResponse> {
     return this.client.sendOperationRequest(
       {
+        resourceName,
+        resourceGroupName,
         fabricName,
         protectionContainerName,
         replicatedProtectedItemName,
@@ -141,6 +181,9 @@ export class RecoveryPointsImpl implements RecoveryPoints {
 
   /**
    * Get the details of specified recovery point.
+   * @param resourceName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
    * @param fabricName The fabric name.
    * @param protectionContainerName The protection container name.
    * @param replicatedProtectedItemName The replication protected item name.
@@ -148,6 +191,8 @@ export class RecoveryPointsImpl implements RecoveryPoints {
    * @param options The options parameters.
    */
   get(
+    resourceName: string,
+    resourceGroupName: string,
     fabricName: string,
     protectionContainerName: string,
     replicatedProtectedItemName: string,
@@ -156,6 +201,8 @@ export class RecoveryPointsImpl implements RecoveryPoints {
   ): Promise<RecoveryPointsGetResponse> {
     return this.client.sendOperationRequest(
       {
+        resourceName,
+        resourceGroupName,
         fabricName,
         protectionContainerName,
         replicatedProtectedItemName,
@@ -168,6 +215,9 @@ export class RecoveryPointsImpl implements RecoveryPoints {
 
   /**
    * ListByReplicationProtectedItemsNext
+   * @param resourceName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
    * @param fabricName The fabric name.
    * @param protectionContainerName The protection container name.
    * @param replicatedProtectedItemName The replication protected item name.
@@ -176,6 +226,8 @@ export class RecoveryPointsImpl implements RecoveryPoints {
    * @param options The options parameters.
    */
   private _listByReplicationProtectedItemsNext(
+    resourceName: string,
+    resourceGroupName: string,
     fabricName: string,
     protectionContainerName: string,
     replicatedProtectedItemName: string,
@@ -184,6 +236,8 @@ export class RecoveryPointsImpl implements RecoveryPoints {
   ): Promise<RecoveryPointsListByReplicationProtectedItemsNextResponse> {
     return this.client.sendOperationRequest(
       {
+        resourceName,
+        resourceGroupName,
         fabricName,
         protectionContainerName,
         replicatedProtectedItemName,
@@ -250,7 +304,6 @@ const listByReplicationProtectedItemsNextOperationSpec: coreClient.OperationSpec
       bodyMapper: Mappers.RecoveryPointCollection
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
