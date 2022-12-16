@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Get the specified network security rule.
  *
  * @summary Get the specified network security rule.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkSecurityGroupRuleGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/NetworkSecurityGroupRuleGet.json
  */
 async function getNetworkSecurityRuleInNetworkSecurityGroup() {
   const subscriptionId = "subid";

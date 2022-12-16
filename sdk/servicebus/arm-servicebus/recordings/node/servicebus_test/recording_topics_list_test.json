@@ -1,0 +1,72 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ServiceBus/namespaces/mynamespacexxx/topics?api-version=2021-11-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-servicebus/6.1.0 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "7cc8b6f9-be0e-46da-9115-c9dd359d70f4"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 13 Dec 2022 03:07:08 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "26e1e319-70b5-4fae-982f-24207e7b3f01",
+        "x-ms-inline-count": "",
+        "x-ms-ratelimit-remaining-subscription-reads": "11979",
+        "x-ms-request-id": "26e1e319-70b5-4fae-982f-24207e7b3f01",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221213T030709Z:26e1e319-70b5-4fae-982f-24207e7b3f01"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ServiceBus/namespaces/mynamespacexxx/topics/mytopic",
+            "name": "mytopic",
+            "type": "Microsoft.ServiceBus/namespaces/topics",
+            "location": "eastus",
+            "properties": {
+              "maxMessageSizeInKilobytes": 256,
+              "defaultMessageTimeToLive": "P10675199DT2H48M5.4775807S",
+              "maxSizeInMegabytes": 1024,
+              "requiresDuplicateDetection": false,
+              "duplicateDetectionHistoryTimeWindow": "PT10M",
+              "enableBatchedOperations": true,
+              "sizeInBytes": 0,
+              "status": "Active",
+              "supportOrdering": true,
+              "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S",
+              "enablePartitioning": false,
+              "enableExpress": true,
+              "createdAt": "2022-12-13T03:07:05.907Z",
+              "updatedAt": "2022-12-13T03:07:05.93Z",
+              "accessedAt": "0001-01-01T00:00:00Z",
+              "subscriptionCount": 0,
+              "countDetails": {
+                "activeMessageCount": 0,
+                "deadLetterMessageCount": 0,
+                "scheduledMessageCount": 0,
+                "transferMessageCount": 0,
+                "transferDeadLetterMessageCount": 0
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}
