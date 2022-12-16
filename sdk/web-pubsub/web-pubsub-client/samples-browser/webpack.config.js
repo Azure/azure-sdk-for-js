@@ -10,8 +10,7 @@ module.exports = {
   resolve: {
     extensions: [".ts", ".js"],
     fallback: {
-      "events": require.resolve("events/"),
-      "ws": false
+      "events": require.resolve("events/")
     }
   },
   plugins: [

@@ -79,7 +79,7 @@ export interface NaptConfiguration {
    * (Ports under 1,024 should not be used because these are special purpose ports reserved by IANA. Ports 50,000 and above are reserved for non-NAPT use.)
    */
   portRange?: PortRange;
-  /** The minimum time (in seconds) that will pass before a port that was used by a closed pinhole can be recycled for use by another pinhole. All hold times must be minimum 1 second. */
+  /** The minimum time (in seconds) that will pass before a port that was used by a closed pinhole can be recycled for use by another pinhole. All hold times must be at least 1 second. */
   portReuseHoldTime?: PortReuseHoldTimes;
   /** Maximum number of UDP and TCP pinholes that can be open simultaneously on the core interface. For 5G networks, this is the N6 interface. For 4G networks, this is the SGi interface. */
   pinholeLimits?: number;
@@ -109,11 +109,11 @@ export interface PortReuseHoldTimes {
 
 /** Expiry times of inactive NAPT pinholes, in seconds. All timers must be at least 1 second. */
 export interface PinholeTimeouts {
-  /** Pinhole timeout for TCP pinholes in seconds. Default for TCP is 2 hours 4 minutes, as per RFC 5382 section 5. */
+  /** Pinhole timeout for TCP pinholes in seconds. Default for TCP is 3 minutes. */
   tcp?: number;
-  /** Pinhole timeout for UDP pinholes in seconds. Default for UDP is 5 minutes, as per RFC 4787 section 4.3. */
+  /** Pinhole timeout for UDP pinholes in seconds. Default for UDP is 30 seconds. */
   udp?: number;
-  /** Pinhole timeout for ICMP pinholes in seconds. Default for ICMP Echo is 60 seconds, as per RFC 5508 section 3.2. */
+  /** Pinhole timeout for ICMP pinholes in seconds. Default for ICMP Echo is 30 seconds. */
   icmp?: number;
 }
 
@@ -204,134 +204,6 @@ export interface MobileNetworkListResult {
   readonly nextLink?: string;
 }
 
-/** Response for list SIM IDs API service call. */
-export interface SimIdListResult {
-  /** A list of SIM IDs. */
-  value?: SubResource[];
-  /**
-   * The URL to get the next set of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Reference to another sub resource. */
-export interface SubResource {
-  /** Resource ID. */
-  id: string;
-}
-
-/** Response for sites API service call. */
-export interface SiteListResult {
-  /** A list of sites in a mobile network. */
-  value?: Site[];
-  /**
-   * The URL to get the next set of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** An Azure key vault key. */
-export interface KeyVaultKey {
-  /** The key URL, unversioned. For example: https://contosovault.vault.azure.net/keys/azureKey. */
-  keyUrl?: string;
-}
-
-/** Reference to a mobile network resource. */
-export interface MobileNetworkResourceId {
-  /** Mobile network resource ID. */
-  id: string;
-}
-
-/** Managed service identity (system assigned and/or user assigned identities) */
-export interface ManagedServiceIdentity {
-  /**
-   * The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalId?: string;
-  /**
-   * The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly tenantId?: string;
-  /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
-  type: ManagedServiceIdentityType;
-  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
-}
-
-/** User assigned identity properties */
-export interface UserAssignedIdentity {
-  /**
-   * The principal ID of the assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalId?: string;
-  /**
-   * The client ID of the assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly clientId?: string;
-}
-
-/** Response for list SIM groups API service call. */
-export interface SimGroupListResult {
-  /** A list of SIM groups in a resource group. */
-  value?: SimGroup[];
-  /**
-   * The URL to get the next set of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Reference to a SIM policy resource. */
-export interface SimPolicyResourceId {
-  /** SIM policy resource ID. */
-  id: string;
-}
-
-/** Static IP configuration for a SIM, scoped to a particular attached data network and slice. */
-export interface SimStaticIpProperties {
-  /** The attached data network on which the static IP address will be used. The combination of attached data network and slice defines the network scope of the IP address. */
-  attachedDataNetwork?: AttachedDataNetworkResourceId;
-  /** The network slice on which the static IP address will be used. The combination of attached data network and slice defines the network scope of the IP address. */
-  slice?: SliceResourceId;
-  /** The static IP configuration for the SIM to use at the defined network scope. */
-  staticIp?: SimStaticIpPropertiesStaticIp;
-}
-
-/** Reference to an attached data network resource. */
-export interface AttachedDataNetworkResourceId {
-  /** Attached data network resource ID. */
-  id: string;
-}
-
-/** Reference to a slice resource. */
-export interface SliceResourceId {
-  /** Slice resource ID. */
-  id: string;
-}
-
-/** The static IP configuration for the SIM to use at the defined network scope. */
-export interface SimStaticIpPropertiesStaticIp {
-  /** The IPv4 address assigned to the SIM at this network scope. This address must be in the userEquipmentStaticAddressPoolPrefix defined in the attached data network. */
-  ipv4Address?: string;
-}
-
-/** Response for list SIMs API service call. */
-export interface SimListResult {
-  /** A list of SIMs in a resource group. */
-  value?: Sim[];
-  /**
-   * The URL to get the next set of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
 /** List of the operations. */
 export interface OperationList {
   /**
@@ -374,21 +246,54 @@ export interface OperationDisplay {
   description?: string;
 }
 
+/** The installation state of the packet core. */
+export interface Installation {
+  /** Installation state */
+  state?: InstallationState;
+  /** A reference to an in-progress installation operation */
+  operation?: AsyncOperationId;
+}
+
+/** Reference to an Azure Async Operation ID. */
+export interface AsyncOperationId {
+  /** Azure Async Operation ID. */
+  id: string;
+}
+
+/** Reference to a site resource. */
+export interface SiteResourceId {
+  /** Site resource ID. */
+  id: string;
+}
+
 /** The platform where the packet core is deployed. */
 export interface PlatformConfiguration {
   /** The platform type where packet core is deployed. */
   type: PlatformType;
-  /** The Azure Stack Edge device where where the packet core is deployed. If the device is part of a fault tolerant pair, either device in the pair can be specified. */
+  /** The Azure Stack Edge device where the packet core is deployed. If the device is part of a fault tolerant pair, either device in the pair can be specified. */
   azureStackEdgeDevice?: AzureStackEdgeDeviceResourceId;
+  /**
+   * The Azure Stack Edge devices where the packet core is deployed. If the packet core is deployed across multiple devices, all devices will appear in this list.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly azureStackEdgeDevices?: AzureStackEdgeDeviceResourceId[];
+  /** The Azure Stack HCI cluster where the packet core is deployed. */
+  azureStackHciCluster?: AzureStackHCIClusterResourceId;
   /** Azure Arc connected cluster where the packet core is deployed. */
   connectedCluster?: ConnectedClusterResourceId;
   /** Azure Arc custom location where the packet core is deployed. */
   customLocation?: CustomLocationResourceId;
 }
 
-/** Reference to an Azure Arc custom location resource. */
+/** Reference to an Azure Stack Edge device resource. */
 export interface AzureStackEdgeDeviceResourceId {
   /** Azure Stack Edge device resource ID. */
+  id: string;
+}
+
+/** Reference to an Azure Stack HCI cluster resource. */
+export interface AzureStackHCIClusterResourceId {
+  /** Azure Stack HCI cluster resource ID. */
   id: string;
 }
 
@@ -406,14 +311,67 @@ export interface CustomLocationResourceId {
 
 /** The kubernetes ingress configuration to control access to packet core diagnostics over local APIs. */
 export interface LocalDiagnosticsAccessConfiguration {
+  /** How to authenticate users who access local diagnostics APIs. */
+  authenticationType: AuthenticationType;
   /** The HTTPS server TLS certificate used to secure local access to diagnostics. */
-  httpsServerCertificate?: KeyVaultCertificate;
+  httpsServerCertificate?: HttpsServerCertificate;
 }
 
-/** An Azure key vault certificate. */
-export interface KeyVaultCertificate {
+/** HTTPS server certificate configuration. */
+export interface HttpsServerCertificate {
   /** The certificate URL, unversioned. For example: https://contosovault.vault.azure.net/certificates/ingress. */
-  certificateUrl?: string;
+  certificateUrl: string;
+  /**
+   * The provisioning state of the certificate.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioning?: CertificateProvisioning;
+}
+
+/** Certificate provisioning state */
+export interface CertificateProvisioning {
+  /**
+   * The certificate's provisioning state
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly state?: CertificateProvisioningState;
+  /**
+   * Reason for certificate provisioning failure.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly reason?: string;
+}
+
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface ManagedServiceIdentity {
+  /**
+   * The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
+  type: ManagedServiceIdentityType;
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
+}
+
+/** User assigned identity properties */
+export interface UserAssignedIdentity {
+  /**
+   * The principal ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The client ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
 }
 
 /** Response for packet core control planes API service call. */
@@ -425,6 +383,50 @@ export interface PacketCoreControlPlaneListResult {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
+}
+
+/** The current status of an async operation. */
+export interface AsyncOperationStatus {
+  /** Fully qualified ID for the async operation. */
+  id?: string;
+  /** Name of the async operation. */
+  name?: string;
+  /** The operation status. */
+  status: string;
+  /** Fully qualified ID for the resource that this async operation status relates to. */
+  resourceId?: string;
+  /** The start time of the operation. */
+  startTime?: Date;
+  /** The end time of the operation. */
+  endTime?: Date;
+  /** Percentage of the operation that is complete. */
+  percentComplete?: number;
+  /** Properties returned by the resource provider on a successful operation */
+  properties?: Record<string, unknown>;
+  /** If present, details of the operation error. */
+  error?: ErrorDetail;
+}
+
+/** Packet core control plane collect diagnostics package options */
+export interface PacketCoreControlPlaneCollectDiagnosticsPackage {
+  /** The Storage Account Blob URL to upload the diagnostics package to. */
+  storageAccountBlobUrl: string;
+}
+
+/** Platform specific packet core control plane version properties. */
+export interface Platform {
+  /** The platform type where this version can be deployed. */
+  platformType?: PlatformType;
+  /** The state of this packet core control plane version on this platform. */
+  versionState?: VersionState;
+  /** The minimum software version of the platform where this packet core version can be deployed. */
+  minimumPlatformSoftwareVersion?: string;
+  /** The maximum software version of the platform where this packet core version can be deployed. */
+  maximumPlatformSoftwareVersion?: string;
+  /** Indicates whether this is the recommended version for this platform. */
+  recommendedVersion?: RecommendedVersion;
+  /** Indicates whether this version is obsoleted for this platform. */
+  obsoleteVersion?: ObsoleteVersion;
 }
 
 /** Response for packet core control plane version API service call. */
@@ -510,11 +512,240 @@ export interface ServiceListResult {
   readonly nextLink?: string;
 }
 
+/** Common SIM properties. */
+export interface CommonSimPropertiesFormat {
+  /**
+   * The provisioning state of the SIM resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * The state of the SIM resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly simState?: SimState;
+  /**
+   * A dictionary of sites to the provisioning state of this SIM on that site.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly siteProvisioningState?: {
+    [propertyName: string]: SiteProvisioningState;
+  };
+  /** The international mobile subscriber identity (IMSI) for the SIM. */
+  internationalMobileSubscriberIdentity: string;
+  /** The integrated circuit card ID (ICCID) for the SIM. */
+  integratedCircuitCardIdentifier?: string;
+  /** An optional free-form text field that can be used to record the device type this SIM is associated with, for example 'Video camera'. The Azure portal allows SIMs to be grouped and filtered based on this value. */
+  deviceType?: string;
+  /** The SIM policy used by this SIM. The SIM policy must be in the same location as the SIM. */
+  simPolicy?: SimPolicyResourceId;
+  /** A list of static IP addresses assigned to this SIM. Each address is assigned at a defined network scope, made up of {attached data network, slice}. */
+  staticIpConfiguration?: SimStaticIpProperties[];
+  /**
+   * The name of the SIM vendor who provided this SIM, if any.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly vendorName?: string;
+  /**
+   * The public key fingerprint of the SIM vendor who provided this SIM, if any.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly vendorKeyFingerprint?: string;
+}
+
+/** Reference to a SIM policy resource. */
+export interface SimPolicyResourceId {
+  /** SIM policy resource ID. */
+  id: string;
+}
+
+/** Static IP configuration for a SIM, scoped to a particular attached data network and slice. */
+export interface SimStaticIpProperties {
+  /** The attached data network on which the static IP address will be used. The combination of attached data network and slice defines the network scope of the IP address. The attached data network must be in the same location as the SIM. */
+  attachedDataNetwork?: AttachedDataNetworkResourceId;
+  /** The network slice on which the static IP address will be used. The combination of attached data network and slice defines the network scope of the IP address. The slice must be in the same location as the SIM. */
+  slice?: SliceResourceId;
+  /** The static IP configuration for the SIM to use at the defined network scope. */
+  staticIp?: SimStaticIpPropertiesStaticIp;
+}
+
+/** Reference to an attached data network resource. */
+export interface AttachedDataNetworkResourceId {
+  /** Attached data network resource ID. */
+  id: string;
+}
+
+/** Reference to a slice resource. */
+export interface SliceResourceId {
+  /** Slice resource ID. */
+  id: string;
+}
+
+/** The static IP configuration for the SIM to use at the defined network scope. */
+export interface SimStaticIpPropertiesStaticIp {
+  /** The IPv4 address assigned to the SIM at this network scope. This address must be in the userEquipmentStaticAddressPoolPrefix defined in the attached data network. */
+  ipv4Address?: string;
+}
+
+/** Response for list SIMs API service call. */
+export interface SimListResult {
+  /** A list of SIMs in a resource group. */
+  value?: Sim[];
+  /**
+   * The URL to get the next set of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** The SIMs to upload. */
+export interface SimUploadList {
+  /** A list of SIMs to upload. */
+  sims: SimNameAndProperties[];
+}
+
+/** SIM name and properties. */
+export interface SimNameAndProperties {
+  /** The name of the SIM. */
+  name: string;
+  /**
+   * The provisioning state of the SIM resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * The state of the SIM resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly simState?: SimState;
+  /**
+   * A dictionary of sites to the provisioning state of this SIM on that site.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly siteProvisioningState?: {
+    [propertyName: string]: SiteProvisioningState;
+  };
+  /** The international mobile subscriber identity (IMSI) for the SIM. */
+  internationalMobileSubscriberIdentity: string;
+  /** The integrated circuit card ID (ICCID) for the SIM. */
+  integratedCircuitCardIdentifier?: string;
+  /** An optional free-form text field that can be used to record the device type this SIM is associated with, for example 'Video camera'. The Azure portal allows SIMs to be grouped and filtered based on this value. */
+  deviceType?: string;
+  /** The SIM policy used by this SIM. The SIM policy must be in the same location as the SIM. */
+  simPolicy?: SimPolicyResourceId;
+  /** A list of static IP addresses assigned to this SIM. Each address is assigned at a defined network scope, made up of {attached data network, slice}. */
+  staticIpConfiguration?: SimStaticIpProperties[];
+  /**
+   * The name of the SIM vendor who provided this SIM, if any.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly vendorName?: string;
+  /**
+   * The public key fingerprint of the SIM vendor who provided this SIM, if any.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly vendorKeyFingerprint?: string;
+  /** The Ki value for the SIM. */
+  authenticationKey?: string;
+  /** The Opc value for the SIM. */
+  operatorKeyCode?: string;
+}
+
+/** The SIMs to delete. */
+export interface SimDeleteList {
+  /** A list of SIM resource names to delete. */
+  sims: string[];
+}
+
+/** The SIMs to upload. The SIM credentials must be encrypted. */
+export interface EncryptedSimUploadList {
+  /** The upload file format version. */
+  version: number;
+  /** An identifier for the Azure SIM onboarding public key used for encrypted upload. */
+  azureKeyIdentifier: number;
+  /** The fingerprint of the SIM vendor public key. The private counterpart is used for signing the encrypted transport key. */
+  vendorKeyFingerprint: string;
+  /** The transport key used for encrypting SIM credentials, encrypted using the SIM onboarding public key. */
+  encryptedTransportKey: string;
+  /** The encrypted transport key, signed using the SIM vendor private key. */
+  signedTransportKey: string;
+  /** A list of SIMs to upload, with encrypted properties. */
+  sims: SimNameAndEncryptedProperties[];
+}
+
+/** SIM name and encrypted properties. */
+export interface SimNameAndEncryptedProperties {
+  /** The name of the SIM. */
+  name: string;
+  /**
+   * The provisioning state of the SIM resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * The state of the SIM resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly simState?: SimState;
+  /**
+   * A dictionary of sites to the provisioning state of this SIM on that site.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly siteProvisioningState?: {
+    [propertyName: string]: SiteProvisioningState;
+  };
+  /** The international mobile subscriber identity (IMSI) for the SIM. */
+  internationalMobileSubscriberIdentity: string;
+  /** The integrated circuit card ID (ICCID) for the SIM. */
+  integratedCircuitCardIdentifier?: string;
+  /** An optional free-form text field that can be used to record the device type this SIM is associated with, for example 'Video camera'. The Azure portal allows SIMs to be grouped and filtered based on this value. */
+  deviceType?: string;
+  /** The SIM policy used by this SIM. The SIM policy must be in the same location as the SIM. */
+  simPolicy?: SimPolicyResourceId;
+  /** A list of static IP addresses assigned to this SIM. Each address is assigned at a defined network scope, made up of {attached data network, slice}. */
+  staticIpConfiguration?: SimStaticIpProperties[];
+  /**
+   * The name of the SIM vendor who provided this SIM, if any.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly vendorName?: string;
+  /**
+   * The public key fingerprint of the SIM vendor who provided this SIM, if any.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly vendorKeyFingerprint?: string;
+  /** The encrypted SIM credentials. */
+  encryptedCredentials?: string;
+}
+
+/** An Azure key vault key. */
+export interface KeyVaultKey {
+  /** The key URL, unversioned. For example: https://contosovault.vault.azure.net/keys/azureKey. */
+  keyUrl?: string;
+}
+
+/** Reference to a mobile network resource. */
+export interface MobileNetworkResourceId {
+  /** Mobile network resource ID. */
+  id: string;
+}
+
+/** Response for list SIM groups API service call. */
+export interface SimGroupListResult {
+  /** A list of SIM groups in a resource group. */
+  value?: SimGroup[];
+  /**
+   * The URL to get the next set of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
 /** Per-slice settings */
 export interface SliceConfiguration {
-  /** A reference to the slice that these settings apply to */
+  /** A reference to the slice that these settings apply to. The slice must be in the same location as the SIM policy. */
   slice: SliceResourceId;
-  /** The default data network to use if the UE does not explicitly specify it. Configuration for this object must exist in the `dataNetworkConfigurations` map. */
+  /** The default data network to use if the UE does not explicitly specify it. Configuration for this object must exist in the `dataNetworkConfigurations` map. The data network must be in the same location as the SIM policy. */
   defaultDataNetwork: DataNetworkResourceId;
   /** The allowed data networks and the settings to use for them. The list must not contain duplicate items and must contain at least one item. */
   dataNetworkConfigurations: DataNetworkConfiguration[];
@@ -528,7 +759,7 @@ export interface DataNetworkResourceId {
 
 /** Settings controlling data network use */
 export interface DataNetworkConfiguration {
-  /** A reference to the data network that these settings apply to */
+  /** A reference to the data network that these settings apply to. The data network must be in the same location as the SIM policy. */
   dataNetwork: DataNetworkResourceId;
   /** Aggregate maximum bit rate across all non-GBR QoS flows of a given PDU session. See 3GPP TS23.501 section 5.7.2.6 for a full description of the Session-AMBR. */
   sessionAmbr: Ambr;
@@ -544,8 +775,10 @@ export interface DataNetworkConfiguration {
   defaultSessionType?: PduSessionType;
   /** Allowed session types in addition to the default session type. Must not duplicate the default session type. */
   additionalAllowedSessionTypes?: PduSessionType[];
-  /** List of services that can be used as part of this SIM policy. The list must not contain duplicate items and must contain at least one item. */
+  /** List of services that can be used as part of this SIM policy. The list must not contain duplicate items and must contain at least one item. The services must be in the same location as the SIM policy. */
   allowedServices: ServiceResourceId[];
+  /** The maximum number of downlink packets to buffer at the user plane for High Latency Communication - Extended Buffering. See 3GPP TS29.272 v15.10.0 section 7.3.188 for a full description. This maximum is not guaranteed because there is a internal limit on buffered packets across all PDU sessions. */
+  maximumNumberOfBufferedPackets?: number;
 }
 
 /** Reference to a service resource. */
@@ -558,6 +791,23 @@ export interface ServiceResourceId {
 export interface SimPolicyListResult {
   /** A list of SIM policies. */
   value?: SimPolicy[];
+  /**
+   * The URL to get the next set of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Reference to another sub resource. */
+export interface SubResource {
+  /** Resource ID. */
+  id: string;
+}
+
+/** Response for sites API service call. */
+export interface SiteListResult {
+  /** A list of sites in a mobile network. */
+  value?: Site[];
   /**
    * The URL to get the next set of results.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -617,7 +867,22 @@ export interface PccRuleQosPolicy extends QosPolicy {
   guaranteedBitRate?: Ambr;
 }
 
-/** Attached data network resource. */
+/** SIM properties. */
+export interface SimPropertiesFormat extends CommonSimPropertiesFormat {
+  /** The Ki value for the SIM. */
+  authenticationKey?: string;
+  /** The Opc value for the SIM. */
+  operatorKeyCode?: string;
+}
+
+/** Encrypted SIM properties. */
+export interface EncryptedSimPropertiesFormat
+  extends CommonSimPropertiesFormat {
+  /** The encrypted SIM credentials. */
+  encryptedCredentials?: string;
+}
+
+/** Attached data network resource. Must be created in the same location as its parent packet core data plane. */
 export interface AttachedDataNetwork extends TrackedResource {
   /**
    * The provisioning state of the attached data network resource.
@@ -626,8 +891,8 @@ export interface AttachedDataNetwork extends TrackedResource {
   readonly provisioningState?: ProvisioningState;
   /** The user plane interface on the data network. For 5G networks, this is the N6 interface. For 4G networks, this is the SGi interface. */
   userPlaneDataInterface: InterfaceProperties;
-  /** The DNS servers to signal to UEs to use for this attached data network. */
-  dnsAddresses?: string[];
+  /** The DNS servers to signal to UEs to use for this attached data network. This configuration is mandatory - if you don't want DNS servers, you must provide an empty array. */
+  dnsAddresses: string[];
   /**
    * The network address and port translation (NAPT) configuration.
    * If this is not specified, the attached data network will use a default NAPT configuration with NAPT enabled.
@@ -647,7 +912,7 @@ export interface AttachedDataNetwork extends TrackedResource {
   userEquipmentStaticAddressPoolPrefix?: string[];
 }
 
-/** Data network resource. */
+/** Data network resource. Must be created in the same location as its parent mobile network. */
 export interface DataNetwork extends TrackedResource {
   /**
    * The provisioning state of the data network resource.
@@ -674,32 +939,6 @@ export interface MobileNetwork extends TrackedResource {
   readonly serviceKey?: string;
 }
 
-/** Site resource. */
-export interface Site extends TrackedResource {
-  /**
-   * The provisioning state of the site resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /** An array of IDs of the network functions deployed on the site, maintained by the user. */
-  networkFunctions?: SubResource[];
-}
-
-/** SIM group resource. */
-export interface SimGroup extends TrackedResource {
-  /** The identity used to retrieve the encryption key from Azure key vault. */
-  identity?: ManagedServiceIdentity;
-  /**
-   * The provisioning state of the SIM group resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /** A key to encrypt the SIM data that belongs to this SIM group. */
-  encryptionKey?: KeyVaultKey;
-  /** Mobile network that this SIM belongs to */
-  mobileNetwork?: MobileNetworkResourceId;
-}
-
 /** Packet core control plane resource. */
 export interface PacketCoreControlPlane extends TrackedResource {
   /** The identity used to retrieve the ingress certificate from Azure key vault. */
@@ -709,25 +948,37 @@ export interface PacketCoreControlPlane extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
-  /** Mobile network in which this packet core control plane is deployed. */
-  mobileNetwork: MobileNetworkResourceId;
+  /**
+   * The installation state of the packet core control plane resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly installation?: Installation;
+  /** Site(s) under which this packet core control plane should be deployed. The sites must be in the same location as the packet core control plane. */
+  sites: SiteResourceId[];
   /** The platform where the packet core is deployed. */
-  platform?: PlatformConfiguration;
+  platform: PlatformConfiguration;
   /** The core network technology generation (5G core or EPC / 4G core). */
   coreNetworkTechnology?: CoreNetworkType;
   /** The version of the packet core software that is deployed. */
   version?: string;
+  /**
+   * The previous version of the packet core software that was deployed. Used when performing the rollback action.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly rollbackVersion?: string;
   /** The control plane interface on the access network. For 5G networks, this is the N2 interface. For 4G networks, this is the S1-MME interface. */
   controlPlaneAccessInterface: InterfaceProperties;
   /** The SKU defining the throughput and SIM allowances for this packet core control plane deployment. */
   sku: BillingSku;
+  /** The MTU (in bytes) signaled to the UE. The same MTU is set on the user plane data links for all data networks. The MTU set on the user plane access link is calculated to be 60 bytes greater than this value to allow for GTP encapsulation. */
+  ueMtu?: number;
   /** The kubernetes ingress configuration to control access to packet core diagnostics over local APIs. */
-  localDiagnosticsAccess?: LocalDiagnosticsAccessConfiguration;
+  localDiagnosticsAccess: LocalDiagnosticsAccessConfiguration;
   /** Settings to allow interoperability with third party components e.g. RANs and UEs. */
   interopSettings?: Record<string, unknown>;
 }
 
-/** Packet core data plane resource. */
+/** Packet core data plane resource. Must be created in the same location as its parent packet core control plane. */
 export interface PacketCoreDataPlane extends TrackedResource {
   /**
    * The provisioning state of the packet core data plane resource.
@@ -738,7 +989,7 @@ export interface PacketCoreDataPlane extends TrackedResource {
   userPlaneAccessInterface: InterfaceProperties;
 }
 
-/** Service resource. */
+/** Service resource. Must be created in the same location as its parent mobile network. */
 export interface Service extends TrackedResource {
   /**
    * The provisioning state of the service resource.
@@ -753,6 +1004,21 @@ export interface Service extends TrackedResource {
   pccRules: PccRuleConfiguration[];
 }
 
+/** SIM group resource. */
+export interface SimGroup extends TrackedResource {
+  /** The identity used to retrieve the encryption key from Azure key vault. */
+  identity?: ManagedServiceIdentity;
+  /**
+   * The provisioning state of the SIM group resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** A key to encrypt the SIM data that belongs to this SIM group. */
+  encryptionKey?: KeyVaultKey;
+  /** Mobile network that this SIM group belongs to. The mobile network must be in the same location as the SIM group. */
+  mobileNetwork?: MobileNetworkResourceId;
+}
+
 /** SIM policy resource. */
 export interface SimPolicy extends TrackedResource {
   /**
@@ -760,9 +1026,16 @@ export interface SimPolicy extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * A dictionary of sites to the provisioning state of this SIM policy on that site.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly siteProvisioningState?: {
+    [propertyName: string]: SiteProvisioningState;
+  };
   /** Aggregate maximum bit rate across all non-GBR QoS flows of all PDU sessions of a given UE. See 3GPP TS23.501 section 5.7.2.6 for a full description of the UE-AMBR. */
   ueAmbr: Ambr;
-  /** The default slice to use if the UE does not explicitly specify it. This slice must exist in the `sliceConfigurations` map. */
+  /** The default slice to use if the UE does not explicitly specify it. This slice must exist in the `sliceConfigurations` map. The slice must be in the same location as the SIM policy. */
   defaultSlice: SliceResourceId;
   /** RAT/Frequency Selection Priority Index, defined in 3GPP TS 36.413. This is an optional setting and by default is unspecified. */
   rfspIndex?: number;
@@ -772,7 +1045,21 @@ export interface SimPolicy extends TrackedResource {
   sliceConfigurations: SliceConfiguration[];
 }
 
-/** Network slice resource. */
+/** Site resource. Must be created in the same location as its parent mobile network. */
+export interface Site extends TrackedResource {
+  /**
+   * The provisioning state of the site resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * An array of IDs of the network functions deployed in the site. Deleting the site will delete any network functions that are deployed in the site.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly networkFunctions?: SubResource[];
+}
+
+/** Network slice resource. Must be created in the same location as its parent mobile network. */
 export interface Slice extends TrackedResource {
   /**
    * The provisioning state of the network slice resource.
@@ -783,6 +1070,17 @@ export interface Slice extends TrackedResource {
   snssai: Snssai;
   /** An optional description for this network slice. */
   description?: string;
+}
+
+/** Packet core control plane version resource. */
+export interface PacketCoreControlPlaneVersion extends ProxyResource {
+  /**
+   * The provisioning state of the packet core control plane version resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** Platform specific packet core control plane version properties. */
+  platforms?: Platform[];
 }
 
 /** SIM resource. */
@@ -797,33 +1095,37 @@ export interface Sim extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly simState?: SimState;
+  /**
+   * A dictionary of sites to the provisioning state of this SIM on that site.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly siteProvisioningState?: {
+    [propertyName: string]: SiteProvisioningState;
+  };
   /** The international mobile subscriber identity (IMSI) for the SIM. */
   internationalMobileSubscriberIdentity: string;
   /** The integrated circuit card ID (ICCID) for the SIM. */
   integratedCircuitCardIdentifier?: string;
+  /** An optional free-form text field that can be used to record the device type this SIM is associated with, for example 'Video camera'. The Azure portal allows SIMs to be grouped and filtered based on this value. */
+  deviceType?: string;
+  /** The SIM policy used by this SIM. The SIM policy must be in the same location as the SIM. */
+  simPolicy?: SimPolicyResourceId;
+  /** A list of static IP addresses assigned to this SIM. Each address is assigned at a defined network scope, made up of {attached data network, slice}. */
+  staticIpConfiguration?: SimStaticIpProperties[];
+  /**
+   * The name of the SIM vendor who provided this SIM, if any.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly vendorName?: string;
+  /**
+   * The public key fingerprint of the SIM vendor who provided this SIM, if any.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly vendorKeyFingerprint?: string;
   /** The Ki value for the SIM. */
   authenticationKey?: string;
   /** The Opc value for the SIM. */
   operatorKeyCode?: string;
-  /** An optional free-form text field that can be used to record the device type this SIM is associated with, for example 'Video camera'. The Azure portal allows SIMs to be grouped and filtered based on this value. */
-  deviceType?: string;
-  /** The SIM policy used by this SIM. */
-  simPolicy?: SimPolicyResourceId;
-  /** A list of static IP addresses assigned to this SIM. Each address is assigned at a defined network scope, made up of {attached data network, slice}. */
-  staticIpConfiguration?: SimStaticIpProperties[];
-}
-
-/** Packet core control plane version resource. */
-export interface PacketCoreControlPlaneVersion extends ProxyResource {
-  /**
-   * The provisioning state of the packet core control plane version resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /** The state of this packet core control plane version. */
-  versionState?: VersionState;
-  /** Indicates whether this is the recommended version to use for new packet core control plane deployments. */
-  recommendedVersion?: RecommendedVersion;
 }
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
@@ -901,6 +1203,135 @@ export enum KnownCreatedByType {
  */
 export type CreatedByType = string;
 
+/** Known values of {@link InstallationState} that the service accepts. */
+export enum KnownInstallationState {
+  /** The packet core is uninstalled. */
+  Uninstalled = "Uninstalled",
+  /** The packet core is installing. */
+  Installing = "Installing",
+  /** The packet core is installed. */
+  Installed = "Installed",
+  /** The packet core is updating its configuration. */
+  Updating = "Updating",
+  /** The packet core is upgrading to a different software version. */
+  Upgrading = "Upgrading",
+  /** The packet core is uninstalling. */
+  Uninstalling = "Uninstalling",
+  /** The packet core is reinstalling. */
+  Reinstalling = "Reinstalling",
+  /** The packet core is rolling back to its previous version. */
+  RollingBack = "RollingBack",
+  /** The packet core is in failed state. */
+  Failed = "Failed"
+}
+
+/**
+ * Defines values for InstallationState. \
+ * {@link KnownInstallationState} can be used interchangeably with InstallationState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Uninstalled**: The packet core is uninstalled. \
+ * **Installing**: The packet core is installing. \
+ * **Installed**: The packet core is installed. \
+ * **Updating**: The packet core is updating its configuration. \
+ * **Upgrading**: The packet core is upgrading to a different software version. \
+ * **Uninstalling**: The packet core is uninstalling. \
+ * **Reinstalling**: The packet core is reinstalling. \
+ * **RollingBack**: The packet core is rolling back to its previous version. \
+ * **Failed**: The packet core is in failed state.
+ */
+export type InstallationState = string;
+
+/** Known values of {@link PlatformType} that the service accepts. */
+export enum KnownPlatformType {
+  /** If this option is chosen, you must set one of "azureStackEdgeDevice", "connectedCluster" or "customLocation". If multiple are set, they must be consistent with each other. */
+  AKSHCI = "AKS-HCI",
+  /** If this option is chosen, you must set one of "azureStackHciCluster", "connectedCluster" or "customLocation". If multiple are set, they must be consistent with each other. */
+  ThreePAzureStackHCI = "3P-AZURE-STACK-HCI"
+}
+
+/**
+ * Defines values for PlatformType. \
+ * {@link KnownPlatformType} can be used interchangeably with PlatformType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AKS-HCI**: If this option is chosen, you must set one of "azureStackEdgeDevice", "connectedCluster" or "customLocation". If multiple are set, they must be consistent with each other. \
+ * **3P-AZURE-STACK-HCI**: If this option is chosen, you must set one of "azureStackHciCluster", "connectedCluster" or "customLocation". If multiple are set, they must be consistent with each other.
+ */
+export type PlatformType = string;
+
+/** Known values of {@link BillingSku} that the service accepts. */
+export enum KnownBillingSku {
+  /** 100 Mbps, 20 active SIMs plan */
+  G0 = "G0",
+  /** 1 Gbps, 100 active SIMs plan */
+  G1 = "G1",
+  /** 2 Gbps, 200 active SIMs plan */
+  G2 = "G2",
+  /** 3 Gbps, 300 active SIMs plan */
+  G3 = "G3",
+  /** 4 Gbps, 400 active SIMs plan */
+  G4 = "G4",
+  /** 5 Gbps, 500 active SIMs plan */
+  G5 = "G5",
+  /** 10 Gbps, 1000 active SIMs plan */
+  G10 = "G10"
+}
+
+/**
+ * Defines values for BillingSku. \
+ * {@link KnownBillingSku} can be used interchangeably with BillingSku,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **G0**: 100 Mbps, 20 active SIMs plan \
+ * **G1**: 1 Gbps, 100 active SIMs plan \
+ * **G2**: 2 Gbps, 200 active SIMs plan \
+ * **G3**: 3 Gbps, 300 active SIMs plan \
+ * **G4**: 4 Gbps, 400 active SIMs plan \
+ * **G5**: 5 Gbps, 500 active SIMs plan \
+ * **G10**: 10 Gbps, 1000 active SIMs plan
+ */
+export type BillingSku = string;
+
+/** Known values of {@link AuthenticationType} that the service accepts. */
+export enum KnownAuthenticationType {
+  /** Use AAD SSO to authenticate the user (this requires internet access). */
+  AAD = "AAD",
+  /** Use locally stored passwords to authenticate the user. */
+  Password = "Password"
+}
+
+/**
+ * Defines values for AuthenticationType. \
+ * {@link KnownAuthenticationType} can be used interchangeably with AuthenticationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AAD**: Use AAD SSO to authenticate the user (this requires internet access). \
+ * **Password**: Use locally stored passwords to authenticate the user.
+ */
+export type AuthenticationType = string;
+
+/** Known values of {@link CertificateProvisioningState} that the service accepts. */
+export enum KnownCertificateProvisioningState {
+  /** The certificate has not been provisioned. */
+  NotProvisioned = "NotProvisioned",
+  /** The certificate has been provisioned. */
+  Provisioned = "Provisioned",
+  /** The certificate failed to be provisioned. The "reason" property explains why. */
+  Failed = "Failed"
+}
+
+/**
+ * Defines values for CertificateProvisioningState. \
+ * {@link KnownCertificateProvisioningState} can be used interchangeably with CertificateProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotProvisioned**: The certificate has not been provisioned. \
+ * **Provisioned**: The certificate has been provisioned. \
+ * **Failed**: The certificate failed to be provisioned. The "reason" property explains why.
+ */
+export type CertificateProvisioningState = string;
+
 /** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
 export enum KnownManagedServiceIdentityType {
   /** None */
@@ -924,96 +1355,6 @@ export enum KnownManagedServiceIdentityType {
  * **SystemAssigned,UserAssigned**
  */
 export type ManagedServiceIdentityType = string;
-
-/** Known values of {@link SimState} that the service accepts. */
-export enum KnownSimState {
-  /** The SIM is disabled because not all configuration required for enabling is present. */
-  Disabled = "Disabled",
-  /** The SIM is enabled. */
-  Enabled = "Enabled",
-  /** The SIM cannot be enabled because some of the associated configuration is invalid. */
-  Invalid = "Invalid"
-}
-
-/**
- * Defines values for SimState. \
- * {@link KnownSimState} can be used interchangeably with SimState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Disabled**: The SIM is disabled because not all configuration required for enabling is present. \
- * **Enabled**: The SIM is enabled. \
- * **Invalid**: The SIM cannot be enabled because some of the associated configuration is invalid.
- */
-export type SimState = string;
-
-/** Known values of {@link PlatformType} that the service accepts. */
-export enum KnownPlatformType {
-  /** If this option is chosen, you must set one of "azureStackEdgeDevice", "connectedCluster" or "customLocation". If multiple are set then "customLocation" will take precedence over "connectedCluster" which takes precedence over "azureStackEdgeDevice". */
-  AKSHCI = "AKS-HCI",
-  /** If this option is chosen, you must set one of "connectedCluster" or "customLocation". If multiple are set then "customLocation" will take precedence over "connectedCluster". */
-  BaseVM = "BaseVM"
-}
-
-/**
- * Defines values for PlatformType. \
- * {@link KnownPlatformType} can be used interchangeably with PlatformType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **AKS-HCI**: If this option is chosen, you must set one of "azureStackEdgeDevice", "connectedCluster" or "customLocation". If multiple are set then "customLocation" will take precedence over "connectedCluster" which takes precedence over "azureStackEdgeDevice". \
- * **BaseVM**: If this option is chosen, you must set one of "connectedCluster" or "customLocation". If multiple are set then "customLocation" will take precedence over "connectedCluster".
- */
-export type PlatformType = string;
-
-/** Known values of {@link CoreNetworkType} that the service accepts. */
-export enum KnownCoreNetworkType {
-  /** 5G core */
-  FiveGC = "5GC",
-  /** EPC / 4G core */
-  EPC = "EPC"
-}
-
-/**
- * Defines values for CoreNetworkType. \
- * {@link KnownCoreNetworkType} can be used interchangeably with CoreNetworkType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **5GC**: 5G core \
- * **EPC**: EPC \/ 4G core
- */
-export type CoreNetworkType = string;
-
-/** Known values of {@link BillingSku} that the service accepts. */
-export enum KnownBillingSku {
-  /** Evaluation package plan */
-  EvaluationPackage = "EvaluationPackage",
-  /** Flagship starter package plan */
-  FlagshipStarterPackage = "FlagshipStarterPackage",
-  /** Edge site 2Gbps plan */
-  EdgeSite2Gbps = "EdgeSite2GBPS",
-  /** Edge site 3Gbps plan */
-  EdgeSite3Gbps = "EdgeSite3GBPS",
-  /** Edge site 4Gbps plan */
-  EdgeSite4Gbps = "EdgeSite4GBPS",
-  /** Medium package plan */
-  MediumPackage = "MediumPackage",
-  /** Large package plan */
-  LargePackage = "LargePackage"
-}
-
-/**
- * Defines values for BillingSku. \
- * {@link KnownBillingSku} can be used interchangeably with BillingSku,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **EvaluationPackage**: Evaluation package plan \
- * **FlagshipStarterPackage**: Flagship starter package plan \
- * **EdgeSite2GBPS**: Edge site 2Gbps plan \
- * **EdgeSite3GBPS**: Edge site 3Gbps plan \
- * **EdgeSite4GBPS**: Edge site 4Gbps plan \
- * **MediumPackage**: Medium package plan \
- * **LargePackage**: Large package plan
- */
-export type BillingSku = string;
 
 /** Known values of {@link VersionState} that the service accepts. */
 export enum KnownVersionState {
@@ -1062,6 +1403,24 @@ export enum KnownRecommendedVersion {
  * **NotRecommended**: This is not the recommended version to use for new packet core control plane deployments.
  */
 export type RecommendedVersion = string;
+
+/** Known values of {@link ObsoleteVersion} that the service accepts. */
+export enum KnownObsoleteVersion {
+  /** This version is obsolete for use in new packet core control plane deployments. */
+  Obsolete = "Obsolete",
+  /** This version is not obsolete for use in new packet core control plane deployments. */
+  NotObsolete = "NotObsolete"
+}
+
+/**
+ * Defines values for ObsoleteVersion. \
+ * {@link KnownObsoleteVersion} can be used interchangeably with ObsoleteVersion,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Obsolete**: This version is obsolete for use in new packet core control plane deployments. \
+ * **NotObsolete**: This version is not obsolete for use in new packet core control plane deployments.
+ */
+export type ObsoleteVersion = string;
 
 /** Known values of {@link PreemptionCapability} that the service accepts. */
 export enum KnownPreemptionCapability {
@@ -1138,6 +1497,57 @@ export enum KnownSdfDirection {
  */
 export type SdfDirection = string;
 
+/** Known values of {@link SimState} that the service accepts. */
+export enum KnownSimState {
+  /** The SIM is disabled because not all configuration required for enabling is present. */
+  Disabled = "Disabled",
+  /** The SIM is enabled. */
+  Enabled = "Enabled",
+  /** The SIM cannot be enabled because some of the associated configuration is invalid. */
+  Invalid = "Invalid"
+}
+
+/**
+ * Defines values for SimState. \
+ * {@link KnownSimState} can be used interchangeably with SimState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled**: The SIM is disabled because not all configuration required for enabling is present. \
+ * **Enabled**: The SIM is enabled. \
+ * **Invalid**: The SIM cannot be enabled because some of the associated configuration is invalid.
+ */
+export type SimState = string;
+
+/** Known values of {@link SiteProvisioningState} that the service accepts. */
+export enum KnownSiteProvisioningState {
+  /** The resource should not be provisioned on this site. */
+  NotApplicable = "NotApplicable",
+  /** The resource is being added to this site. */
+  Adding = "Adding",
+  /** The resource is being updated on this site. */
+  Updating = "Updating",
+  /** The resource is being deleted from this site. */
+  Deleting = "Deleting",
+  /** The resource is provisioned on this site. */
+  Provisioned = "Provisioned",
+  /** The resource failed to be provisioned on this site. */
+  Failed = "Failed"
+}
+
+/**
+ * Defines values for SiteProvisioningState. \
+ * {@link KnownSiteProvisioningState} can be used interchangeably with SiteProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotApplicable**: The resource should not be provisioned on this site. \
+ * **Adding**: The resource is being added to this site. \
+ * **Updating**: The resource is being updated on this site. \
+ * **Deleting**: The resource is being deleted from this site. \
+ * **Provisioned**: The resource is provisioned on this site. \
+ * **Failed**: The resource failed to be provisioned on this site.
+ */
+export type SiteProvisioningState = string;
+
 /** Known values of {@link PduSessionType} that the service accepts. */
 export enum KnownPduSessionType {
   /** IPv4 */
@@ -1155,6 +1565,8 @@ export enum KnownPduSessionType {
  * **IPv6**
  */
 export type PduSessionType = string;
+/** Defines values for CoreNetworkType. */
+export type CoreNetworkType = "5GC" | "EPC";
 
 /** Optional parameters. */
 export interface AttachedDataNetworksDeleteOptionalParams
@@ -1304,18 +1716,6 @@ export interface MobileNetworksListByResourceGroupOptionalParams
 export type MobileNetworksListByResourceGroupResponse = MobileNetworkListResult;
 
 /** Optional parameters. */
-export interface MobileNetworksListSimIdsOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the listSimIds operation. */
-export type MobileNetworksListSimIdsResponse = SimIdListResult;
-
-/** Optional parameters. */
 export interface MobileNetworksListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -1328,156 +1728,6 @@ export interface MobileNetworksListByResourceGroupNextOptionalParams
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type MobileNetworksListByResourceGroupNextResponse = MobileNetworkListResult;
-
-/** Optional parameters. */
-export interface SitesDeleteOptionalParams extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface SitesGetOptionalParams extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type SitesGetResponse = Site;
-
-/** Optional parameters. */
-export interface SitesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type SitesCreateOrUpdateResponse = Site;
-
-/** Optional parameters. */
-export interface SitesUpdateTagsOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the updateTags operation. */
-export type SitesUpdateTagsResponse = Site;
-
-/** Optional parameters. */
-export interface SitesListByMobileNetworkOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByMobileNetwork operation. */
-export type SitesListByMobileNetworkResponse = SiteListResult;
-
-/** Optional parameters. */
-export interface SitesListByMobileNetworkNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByMobileNetworkNext operation. */
-export type SitesListByMobileNetworkNextResponse = SiteListResult;
-
-/** Optional parameters. */
-export interface SimGroupsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface SimGroupsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type SimGroupsGetResponse = SimGroup;
-
-/** Optional parameters. */
-export interface SimGroupsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type SimGroupsCreateOrUpdateResponse = SimGroup;
-
-/** Optional parameters. */
-export interface SimGroupsUpdateTagsOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the updateTags operation. */
-export type SimGroupsUpdateTagsResponse = SimGroup;
-
-/** Optional parameters. */
-export interface SimGroupsListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySubscription operation. */
-export type SimGroupsListBySubscriptionResponse = SimGroupListResult;
-
-/** Optional parameters. */
-export interface SimGroupsListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroup operation. */
-export type SimGroupsListByResourceGroupResponse = SimGroupListResult;
-
-/** Optional parameters. */
-export interface SimGroupsListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySubscriptionNext operation. */
-export type SimGroupsListBySubscriptionNextResponse = SimGroupListResult;
-
-/** Optional parameters. */
-export interface SimGroupsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroupNext operation. */
-export type SimGroupsListByResourceGroupNextResponse = SimGroupListResult;
-
-/** Optional parameters. */
-export interface SimsDeleteOptionalParams extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface SimsGetOptionalParams extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type SimsGetResponse = Sim;
-
-/** Optional parameters. */
-export interface SimsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type SimsCreateOrUpdateResponse = Sim;
-
-/** Optional parameters. */
-export interface SimsListBySimGroupOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySimGroup operation. */
-export type SimsListBySimGroupResponse = SimListResult;
-
-/** Optional parameters. */
-export interface SimsListBySimGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySimGroupNext operation. */
-export type SimsListBySimGroupNextResponse = SimListResult;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
@@ -1557,6 +1807,42 @@ export interface PacketCoreControlPlanesListByResourceGroupNextOptionalParams
 export type PacketCoreControlPlanesListByResourceGroupNextResponse = PacketCoreControlPlaneListResult;
 
 /** Optional parameters. */
+export interface PacketCoreControlPlaneRollbackOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the rollback operation. */
+export type PacketCoreControlPlaneRollbackResponse = AsyncOperationStatus;
+
+/** Optional parameters. */
+export interface PacketCoreControlPlaneReinstallOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the reinstall operation. */
+export type PacketCoreControlPlaneReinstallResponse = AsyncOperationStatus;
+
+/** Optional parameters. */
+export interface PacketCoreControlPlaneCollectDiagnosticsPackageOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the collectDiagnosticsPackage operation. */
+export type PacketCoreControlPlaneCollectDiagnosticsPackageResponse = AsyncOperationStatus;
+
+/** Optional parameters. */
 export interface PacketCoreControlPlaneVersionsGetOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -1564,18 +1850,18 @@ export interface PacketCoreControlPlaneVersionsGetOptionalParams
 export type PacketCoreControlPlaneVersionsGetResponse = PacketCoreControlPlaneVersion;
 
 /** Optional parameters. */
-export interface PacketCoreControlPlaneVersionsListByResourceGroupOptionalParams
+export interface PacketCoreControlPlaneVersionsListOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listByResourceGroup operation. */
-export type PacketCoreControlPlaneVersionsListByResourceGroupResponse = PacketCoreControlPlaneVersionListResult;
+/** Contains response data for the list operation. */
+export type PacketCoreControlPlaneVersionsListResponse = PacketCoreControlPlaneVersionListResult;
 
 /** Optional parameters. */
-export interface PacketCoreControlPlaneVersionsListByResourceGroupNextOptionalParams
+export interface PacketCoreControlPlaneVersionsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listByResourceGroupNext operation. */
-export type PacketCoreControlPlaneVersionsListByResourceGroupNextResponse = PacketCoreControlPlaneVersionListResult;
+/** Contains response data for the listNext operation. */
+export type PacketCoreControlPlaneVersionsListNextResponse = PacketCoreControlPlaneVersionListResult;
 
 /** Optional parameters. */
 export interface PacketCoreDataPlanesDeleteOptionalParams
@@ -1676,6 +1962,145 @@ export interface ServicesListByMobileNetworkNextOptionalParams
 export type ServicesListByMobileNetworkNextResponse = ServiceListResult;
 
 /** Optional parameters. */
+export interface SimsDeleteOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface SimsGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SimsGetResponse = Sim;
+
+/** Optional parameters. */
+export interface SimsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type SimsCreateOrUpdateResponse = Sim;
+
+/** Optional parameters. */
+export interface SimsListByGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByGroup operation. */
+export type SimsListByGroupResponse = SimListResult;
+
+/** Optional parameters. */
+export interface SimsListByGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByGroupNext operation. */
+export type SimsListByGroupNextResponse = SimListResult;
+
+/** Optional parameters. */
+export interface SimBulkUploadOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the bulkUpload operation. */
+export type SimBulkUploadResponse = AsyncOperationStatus;
+
+/** Optional parameters. */
+export interface SimBulkDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the bulkDelete operation. */
+export type SimBulkDeleteResponse = AsyncOperationStatus;
+
+/** Optional parameters. */
+export interface SimBulkUploadEncryptedOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the bulkUploadEncrypted operation. */
+export type SimBulkUploadEncryptedResponse = AsyncOperationStatus;
+
+/** Optional parameters. */
+export interface SimGroupsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface SimGroupsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SimGroupsGetResponse = SimGroup;
+
+/** Optional parameters. */
+export interface SimGroupsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type SimGroupsCreateOrUpdateResponse = SimGroup;
+
+/** Optional parameters. */
+export interface SimGroupsUpdateTagsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the updateTags operation. */
+export type SimGroupsUpdateTagsResponse = SimGroup;
+
+/** Optional parameters. */
+export interface SimGroupsListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscription operation. */
+export type SimGroupsListBySubscriptionResponse = SimGroupListResult;
+
+/** Optional parameters. */
+export interface SimGroupsListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type SimGroupsListByResourceGroupResponse = SimGroupListResult;
+
+/** Optional parameters. */
+export interface SimGroupsListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type SimGroupsListBySubscriptionNextResponse = SimGroupListResult;
+
+/** Optional parameters. */
+export interface SimGroupsListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type SimGroupsListByResourceGroupNextResponse = SimGroupListResult;
+
+/** Optional parameters. */
 export interface SimPoliciesDeleteOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -1723,6 +2148,53 @@ export interface SimPoliciesListByMobileNetworkNextOptionalParams
 
 /** Contains response data for the listByMobileNetworkNext operation. */
 export type SimPoliciesListByMobileNetworkNextResponse = SimPolicyListResult;
+
+/** Optional parameters. */
+export interface SitesDeleteOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface SitesGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SitesGetResponse = Site;
+
+/** Optional parameters. */
+export interface SitesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type SitesCreateOrUpdateResponse = Site;
+
+/** Optional parameters. */
+export interface SitesUpdateTagsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the updateTags operation. */
+export type SitesUpdateTagsResponse = Site;
+
+/** Optional parameters. */
+export interface SitesListByMobileNetworkOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByMobileNetwork operation. */
+export type SitesListByMobileNetworkResponse = SiteListResult;
+
+/** Optional parameters. */
+export interface SitesListByMobileNetworkNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByMobileNetworkNext operation. */
+export type SitesListByMobileNetworkNextResponse = SiteListResult;
 
 /** Optional parameters. */
 export interface SlicesDeleteOptionalParams
