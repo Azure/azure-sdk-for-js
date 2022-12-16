@@ -32,12 +32,12 @@ matrix([[true, false]], async function (useAad) {
     let domain10 = "";
     let domain11 = "";
 
-    //to be removed once API is finished
+    // to be removed once API is finished
     before(async function() {
       console.log("SipRoutingClient - set domain will be skiped because of not finished API");
       this.skip();
 
-      //will be executed when "skip" part is removed in future
+      // will be executed when "skip" part is removed in future
       if (!isPlaybackMode()) {
         await clearSipConfiguration();
       }
@@ -68,7 +68,7 @@ matrix([[true, false]], async function (useAad) {
     });
 
     it("can set a new domain", async () => {
-      let domainToSet = domain1;
+      const domainToSet = domain1;
       const domain: SipDomain = { domainUri: domainToSet, enabled: true };
 
       const setDomain = await client.setDomain(domain);
@@ -79,7 +79,7 @@ matrix([[true, false]], async function (useAad) {
     });
 
     it("can set an existing domain", async () => {
-      let domainToSet = domain2;
+      const domainToSet = domain2;
       const domain: SipDomain = { domainUri: domainToSet, enabled: true };
       await client.setDomain(domain);
 
@@ -188,8 +188,8 @@ matrix([[true, false]], async function (useAad) {
     });
 
     it("cannot set trunks without enabled domain", async () => {
-      let domainUri = domain11;
-      let domains: SipDomain[] = [
+      const domainUri = domain11;
+      const domains: SipDomain[] = [
         {domainUri: domainUri, enabled: false}
       ];
       await client.setDomains(domains);
@@ -213,7 +213,7 @@ matrix([[true, false]], async function (useAad) {
   });
 });
 
-function generateTrunk(domain: string) {
+function generateTrunk(domain: string) : string {
   const length = 12;
   let random = 0;
   do {

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 // Licensed under the MIT license.
 
 import { assert } from "chai";
@@ -13,7 +16,7 @@ import {
   clearSipConfiguration} from "./utils/recordedClient";
 
 matrix([[true, false]], async function (useAad) {
-  describe(`SipRoutingClient - get domains${useAad ? " [AAD]": ""}`, function(){
+  describe(`SipRoutingClient - get domains${useAad ? " [AAD]" : ""}`, function(){
     let client: SipRoutingClient;
     let recorder: Recorder;
     let firstDomain = "";
@@ -21,12 +24,12 @@ matrix([[true, false]], async function (useAad) {
     let thirdDomain = "";
     let forthDomain = "";
 
-    //to be removed once API is finished
+    // to be removed once API is finished
     before(async function() {
       console.log("SipRoutingClient - get domain will be skiped because of not finished API");
       this.skip();
 
-      //will be executed when "skip" part is removed in future
+      // will be executed when "skip" part is removed in future
       if (!isPlaybackMode()) {
         await clearSipConfiguration();
       }
