@@ -1553,6 +1553,26 @@ interface Response_2<T> {
 export { Response_2 as Response }
 
 // @public
+export class RestError extends Error {
+    constructor(options?: RestErrorOptions);
+    code?: string;
+    details?: unknown;
+    request?: unknown;
+    response?: unknown;
+    statusCode?: number;
+}
+
+// @public
+export interface RestErrorOptions {
+    code?: string;
+    details?: unknown;
+    message?: string;
+    request?: unknown;
+    response?: unknown;
+    statusCode?: number;
+}
+
+// @public
 export interface RetryOptions {
     fixedRetryIntervalInMilliseconds: number;
     maxRetryAttemptCount: number;

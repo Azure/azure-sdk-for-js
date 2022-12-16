@@ -18,6 +18,7 @@ import { Response as CosmosResponse } from "./Response";
 import { TimeoutError } from "./TimeoutError";
 import { getCachedDefaultHttpClient } from "../utils/cachedClient";
 import { AzureLogger, createClientLogger } from "@azure/logger";
+import { RestError } from "./RestError";
 
 const logger: AzureLogger = createClientLogger("RequestHandler");
 
@@ -92,7 +93,12 @@ async function httpRequest(requestContext: RequestContext): Promise<{
       // If the user didn't cancel, it must be an abort we called due to timeout
       throw new TimeoutError();
     }
-    throw error;
+    else if (error.name === "RestError") {
+      throw new RestError(error);
+    }
+    else {
+      throw error;
+    }
   }
 
   clearTimeout(timeout);
