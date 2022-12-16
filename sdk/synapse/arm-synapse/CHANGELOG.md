@@ -1,9 +1,10 @@
 # Release History
     
-## 8.1.0-beta.2 (2022-12-15)
+## 8.1.0-beta.2 (2022-12-16)
     
 **Features**
 
+  - Added operation group WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettings
   - Added Interface AttachedDatabaseConfiguration
   - Added Interface AzureADOnlyAuthentication
   - Added Interface AzureEntityResource
@@ -17,6 +18,9 @@
   - Added Interface DataMaskingPolicy
   - Added Interface DataMaskingRule
   - Added Interface DataWarehouseUserActivities
+  - Added Interface DedicatedSQLminimalTlsSettings
+  - Added Interface DedicatedSQLminimalTlsSettingsListResult
+  - Added Interface DedicatedSQLminimalTlsSettingsPatchInfo
   - Added Interface EncryptionProtector
   - Added Interface EnvironmentVariableSetup
   - Added Interface EventGridDataConnection
@@ -83,6 +87,16 @@
   - Added Interface WorkloadGroup
   - Added Interface Workspace
   - Added Interface WorkspaceAadAdminInfo
+  - Added Interface WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsGetOptionalParams
+  - Added Interface WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsListNextOptionalParams
+  - Added Interface WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsListOptionalParams
+  - Added Interface WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsUpdateOptionalParams
+  - Added Type Alias DedicatedSQLMinimalTlsSettingsName
+  - Added Type Alias WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsGetResponse
+  - Added Type Alias WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsListNextResponse
+  - Added Type Alias WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsListResponse
+  - Added Type Alias WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsUpdateResponse
+  - Added Enum KnownDedicatedSQLMinimalTlsSettingsName
   - Added function getContinuationToken
   - Interface SqlPoolSchemasListNextOptionalParams no longer has parameter filter
   - Interface SqlPoolSensitivityLabelsListCurrentNextOptionalParams no longer has parameter filter

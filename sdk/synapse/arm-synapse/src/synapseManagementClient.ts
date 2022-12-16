@@ -55,6 +55,7 @@ import {
   WorkspaceManagedSqlServerEncryptionProtectorImpl,
   WorkspaceManagedSqlServerUsagesImpl,
   WorkspaceManagedSqlServerRecoverableSqlPoolsImpl,
+  WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsImpl,
   WorkspacesImpl,
   WorkspaceAadAdminsImpl,
   WorkspaceSqlAadAdminsImpl,
@@ -129,6 +130,7 @@ import {
   WorkspaceManagedSqlServerEncryptionProtector,
   WorkspaceManagedSqlServerUsages,
   WorkspaceManagedSqlServerRecoverableSqlPools,
+  WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettings,
   Workspaces,
   WorkspaceAadAdmins,
   WorkspaceSqlAadAdmins,
@@ -326,6 +328,9 @@ export class SynapseManagementClient extends coreClient.ServiceClient {
     this.workspaceManagedSqlServerRecoverableSqlPools = new WorkspaceManagedSqlServerRecoverableSqlPoolsImpl(
       this
     );
+    this.workspaceManagedSqlServerDedicatedSQLMinimalTlsSettings = new WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsImpl(
+      this
+    );
     this.workspaces = new WorkspacesImpl(this);
     this.workspaceAadAdmins = new WorkspaceAadAdminsImpl(this);
     this.workspaceSqlAadAdmins = new WorkspaceSqlAadAdminsImpl(this);
@@ -422,6 +427,7 @@ export class SynapseManagementClient extends coreClient.ServiceClient {
   workspaceManagedSqlServerEncryptionProtector: WorkspaceManagedSqlServerEncryptionProtector;
   workspaceManagedSqlServerUsages: WorkspaceManagedSqlServerUsages;
   workspaceManagedSqlServerRecoverableSqlPools: WorkspaceManagedSqlServerRecoverableSqlPools;
+  workspaceManagedSqlServerDedicatedSQLMinimalTlsSettings: WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettings;
   workspaces: Workspaces;
   workspaceAadAdmins: WorkspaceAadAdmins;
   workspaceSqlAadAdmins: WorkspaceSqlAadAdmins;
