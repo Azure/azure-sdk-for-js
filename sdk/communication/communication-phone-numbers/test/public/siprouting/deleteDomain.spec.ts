@@ -23,12 +23,12 @@ matrix([[true, false]], async function (useAad) {
     let firstDomain = "";
     let secondDomain = "";
     
-    //to be removed once API is finished
+    // to be removed once API is finished
     before(async function() {
         console.log("SipRoutingClient - delete domain will be skiped because of not finished API");
         this.skip();
         
-        //will be executed when "skip" part is removed in future
+        // will be executed when "skip" part is removed in future
         if (!isPlaybackMode()) {
           await clearSipConfiguration();
         }
@@ -69,8 +69,8 @@ matrix([[true, false]], async function (useAad) {
     });
 
     it("cannot delete domain if depended trunks exist", async () => {
-      let domainUri = secondDomain;
-      let domain: SipDomain = {
+      const domainUri = secondDomain;
+      const domain: SipDomain = {
         domainUri: domainUri,
         enabled: true
       }
@@ -97,7 +97,7 @@ matrix([[true, false]], async function (useAad) {
   });
 });
 
-function generateTrunk(domain: string) {
+function generateTrunk(domain: string) : string {
   const length = 12;
   let random = 0;
   do {
