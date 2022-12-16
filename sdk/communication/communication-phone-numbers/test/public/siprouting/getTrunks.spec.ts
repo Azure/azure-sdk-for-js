@@ -61,7 +61,11 @@ matrix([[true, false]], async function (useAad) {
     });
 
     it("can retrieve an existing trunk", async () => {
-      await client.setTrunk({ fqdn: fourthFqdn, sipSignalingPort: 4567, enabled: false } as SipTrunk);
+      await client.setTrunk({
+        fqdn: fourthFqdn,
+        sipSignalingPort: 4567,
+        enabled: false,
+      } as SipTrunk);
 
       const trunk = await client.getTrunk(fourthFqdn);
 

@@ -8,12 +8,13 @@ import { SipRoutingClient } from "../../../src";
 
 import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { SipDomain, SipTrunk } from "../../../src/models";
-import { 
-  createRecordedClient, 
-  createRecordedClientWithToken, 
-  getUniqueDomain, 
+import {
+  createRecordedClient,
+  createRecordedClientWithToken,
+  getUniqueDomain,
   resetUniqueDomains,
-  clearSipConfiguration } from "./utils/recordedClient";
+  clearSipConfiguration,
+} from "./utils/recordedClient";
 import { matrix } from "@azure/test-utils";
 
 matrix([[true, false]], async function (useAad) {
@@ -33,7 +34,7 @@ matrix([[true, false]], async function (useAad) {
     let domain11 = "";
 
     // to be removed once API is finished
-    before(async function() {
+    before(async function () {
       console.log("SipRoutingClient - set domain will be skiped because of not finished API");
       this.skip();
 
@@ -47,17 +48,17 @@ matrix([[true, false]], async function (useAad) {
       ({ client, recorder } = useAad
         ? await createRecordedClientWithToken(this)
         : await createRecordedClient(this));
-        domain1 = getUniqueDomain(recorder);
-        domain2 = getUniqueDomain(recorder);
-        domain3 = getUniqueDomain(recorder);
-        domain4 = getUniqueDomain(recorder);
-        domain5 = getUniqueDomain(recorder);
-        domain6 = getUniqueDomain(recorder);
-        domain7 = getUniqueDomain(recorder);
-        domain8 = getUniqueDomain(recorder);
-        domain9 = getUniqueDomain(recorder);
-        domain10 = getUniqueDomain(recorder);
-        domain11 = getUniqueDomain(recorder);
+      domain1 = getUniqueDomain(recorder);
+      domain2 = getUniqueDomain(recorder);
+      domain3 = getUniqueDomain(recorder);
+      domain4 = getUniqueDomain(recorder);
+      domain5 = getUniqueDomain(recorder);
+      domain6 = getUniqueDomain(recorder);
+      domain7 = getUniqueDomain(recorder);
+      domain8 = getUniqueDomain(recorder);
+      domain9 = getUniqueDomain(recorder);
+      domain10 = getUniqueDomain(recorder);
+      domain11 = getUniqueDomain(recorder);
     });
 
     afterEach(async function (this: Context) {
@@ -97,7 +98,7 @@ matrix([[true, false]], async function (useAad) {
 
       const domains: SipDomain[] = [
         { domainUri: domain3, enabled: true },
-        { domainUri: domain4, enabled: true},
+        { domainUri: domain4, enabled: true },
       ];
 
       const setDomains = await client.setDomains(domains);
@@ -172,7 +173,7 @@ matrix([[true, false]], async function (useAad) {
       const expectedTrunks: SipTrunk[] = [
         { fqdn: domain9, sipSignalingPort: 8239, enabled: true },
         { fqdn: domain10, sipSignalingPort: 7348, enabled: true },
-      ];      
+      ];
 
       try {
         await client.setTrunks(expectedTrunks);
@@ -189,14 +190,12 @@ matrix([[true, false]], async function (useAad) {
 
     it("cannot set trunks without enabled domain", async () => {
       const domainUri = domain11;
-      const domains: SipDomain[] = [
-        {domainUri: domainUri, enabled: false}
-      ];
+      const domains: SipDomain[] = [{ domainUri: domainUri, enabled: false }];
       await client.setDomains(domains);
-      
+
       const expectedTrunks: SipTrunk[] = [
         { fqdn: generateTrunk(domainUri), sipSignalingPort: 8239, enabled: true },
-      ];      
+      ];
 
       try {
         await client.setTrunks(expectedTrunks);
@@ -213,7 +212,7 @@ matrix([[true, false]], async function (useAad) {
   });
 });
 
-function generateTrunk(domain: string) : string {
+function generateTrunk(domain: string): string {
   const length = 12;
   let random = 0;
   do {

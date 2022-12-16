@@ -34,12 +34,12 @@ export async function main() {
     {
       fqdn: firstTrunkFqdn,
       sipSignalingPort: 1234,
-      enabled: true
+      enabled: true,
     },
     {
       fqdn: secondTrunkFqdn,
       sipSignalingPort: 1234,
-      enabled: true
+      enabled: true,
     },
   ]);
 
@@ -63,7 +63,7 @@ export async function main() {
   await client.setTrunk({
     fqdn: firstTrunkFqdn,
     sipSignalingPort: 4321,
-    enabled: true
+    enabled: true,
   });
 
   // Get trunks

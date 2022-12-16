@@ -8,15 +8,16 @@ import { Context } from "mocha";
 import { matrix } from "@azure/test-utils";
 import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { SipDomain, SipRoutingClient } from "../../../src/sipRoutingClient";
-import { 
-  createRecordedClient, 
-  createRecordedClientWithToken, 
-  getUniqueDomain, 
+import {
+  createRecordedClient,
+  createRecordedClientWithToken,
+  getUniqueDomain,
   resetUniqueDomains,
-  clearSipConfiguration} from "./utils/recordedClient";
+  clearSipConfiguration,
+} from "./utils/recordedClient";
 
 matrix([[true, false]], async function (useAad) {
-  describe(`SipRoutingClient - get domains${useAad ? " [AAD]" : ""}`, function(){
+  describe(`SipRoutingClient - get domains${useAad ? " [AAD]" : ""}`, function () {
     let client: SipRoutingClient;
     let recorder: Recorder;
     let firstDomain = "";
@@ -25,7 +26,7 @@ matrix([[true, false]], async function (useAad) {
     let forthDomain = "";
 
     // to be removed once API is finished
-    before(async function() {
+    before(async function () {
       console.log("SipRoutingClient - get domain will be skiped because of not finished API");
       this.skip();
 
@@ -39,10 +40,10 @@ matrix([[true, false]], async function (useAad) {
       ({ client, recorder } = useAad
         ? await createRecordedClientWithToken(this)
         : await createRecordedClient(this));
-        firstDomain = getUniqueDomain(recorder);
-        secondDomain = getUniqueDomain(recorder);
-        thirdDomain = getUniqueDomain(recorder);
-        forthDomain = getUniqueDomain(recorder);
+      firstDomain = getUniqueDomain(recorder);
+      secondDomain = getUniqueDomain(recorder);
+      thirdDomain = getUniqueDomain(recorder);
+      forthDomain = getUniqueDomain(recorder);
     });
 
     afterEach(async function (this: Context) {
@@ -51,8 +52,8 @@ matrix([[true, false]], async function (useAad) {
       }
       resetUniqueDomains();
     });
-    
-    it("cannot retrieve a not existing domain", async() => {
+
+    it("cannot retrieve a not existing domain", async () => {
       await client.setDomain({ domainUri: firstDomain, enabled: true } as SipDomain);
 
       const domain = await client.getDomain(firstDomain);
