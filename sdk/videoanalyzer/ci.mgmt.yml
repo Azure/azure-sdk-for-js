@@ -1,5 +1,5 @@
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
-                
+
 trigger:
   branches:
     include:
@@ -9,8 +9,6 @@ trigger:
   paths:
     include:
       - sdk/videoanalyzer/ci.mgmt.yml
-      - sdk/videoanalyzer/arm-videoanalyzer/
-      - sdk/videoanalyzer/arm-videoanalyzer
 pr:
   branches:
     include:
@@ -23,8 +21,6 @@ pr:
   paths:
     include:
       - sdk/videoanalyzer/ci.mgmt.yml
-      - sdk/videoanalyzer/arm-videoanalyzer/
-      - sdk/videoanalyzer/arm-videoanalyzer
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
