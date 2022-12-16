@@ -866,10 +866,10 @@ export interface TokenKey {
 }
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {}
 
 /** The Private Endpoint Connection resource. */
-export type PrivateEndpointConnection = Resource & {
+export interface PrivateEndpointConnection extends Resource {
   /** The resource of private end point. */
   privateEndpoint?: PrivateEndpoint;
   /** A collection of information about the state of the connection between service consumer and provider. */
@@ -879,18 +879,18 @@ export type PrivateEndpointConnection = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
-};
+}
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The geo-location where the resource lives */
   location: string;
-};
+}
 
 /** A private link resource */
-export type PrivateLinkResource = Resource & {
+export interface PrivateLinkResource extends Resource {
   /**
    * The private link resource group id.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -903,39 +903,39 @@ export type PrivateLinkResource = Resource & {
   readonly requiredMembers?: string[];
   /** The private link resource Private link DNS zone name. */
   requiredZoneNames?: string[];
-};
+}
 
 /** Base class for topology source nodes. */
-export type SourceNodeBase = NodeBase & {
+export interface SourceNodeBase extends NodeBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type:
     | "#Microsoft.VideoAnalyzer.SourceNodeBase"
     | "#Microsoft.VideoAnalyzer.RtspSource"
     | "#Microsoft.VideoAnalyzer.VideoSource";
-};
+}
 
 /** Base class for topology processor nodes. */
-export type ProcessorNodeBase = NodeBase & {
+export interface ProcessorNodeBase extends NodeBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type:
     | "#Microsoft.VideoAnalyzer.ProcessorNodeBase"
     | "#Microsoft.VideoAnalyzer.EncoderProcessor";
   /** An array of upstream node references within the topology to be used as inputs for this node. */
   inputs: NodeInput[];
-};
+}
 
 /** Base class for topology sink nodes. */
-export type SinkNodeBase = NodeBase & {
+export interface SinkNodeBase extends NodeBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type:
     | "#Microsoft.VideoAnalyzer.SinkNodeBase"
     | "#Microsoft.VideoAnalyzer.VideoSink";
   /** An array of upstream node references within the topology to be used as inputs for this node. */
   inputs: NodeInput[];
-};
+}
 
 /** Properties for access validation based on JSON Web Tokens (JWT). */
-export type JwtAuthentication = AuthenticationBase & {
+export interface JwtAuthentication extends AuthenticationBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "#Microsoft.VideoAnalyzer.JwtAuthentication";
   /** List of expected token issuers. Token issuer is valid if it matches at least one of the given values. */
@@ -946,92 +946,92 @@ export type JwtAuthentication = AuthenticationBase & {
   claims?: TokenClaim[];
   /** List of keys which can be used to validate access tokens. Having multiple keys allow for seamless key rotation of the token signing key. Token signature must match exactly one key. */
   keys?: TokenKeyUnion[];
-};
+}
 
 /** Unsecured endpoint describes an endpoint that the pipeline can connect to over clear transport (no encryption in transit). */
-export type UnsecuredEndpoint = EndpointBase & {
+export interface UnsecuredEndpoint extends EndpointBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "#Microsoft.VideoAnalyzer.UnsecuredEndpoint";
-};
+}
 
 /** TLS endpoint describes an endpoint that the pipeline can connect to over TLS transport (data is encrypted in transit). */
-export type TlsEndpoint = EndpointBase & {
+export interface TlsEndpoint extends EndpointBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "#Microsoft.VideoAnalyzer.TlsEndpoint";
   /** List of trusted certificate authorities when authenticating a TLS connection. A null list designates that Azure Video Analyzer's list of trusted authorities should be used. */
   trustedCertificates?: CertificateSourceUnion;
   /** Validation options to use when authenticating a TLS connection. By default, strict validation is used. */
   validationOptions?: TlsValidationOptions;
-};
+}
 
 /** Username and password credentials. */
-export type UsernamePasswordCredentials = CredentialsBase & {
+export interface UsernamePasswordCredentials extends CredentialsBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "#Microsoft.VideoAnalyzer.UsernamePasswordCredentials";
   /** Username to be presented as part of the credentials. */
   username: string;
   /** Password to be presented as part of the credentials. It is recommended that this value is parameterized as a secret string in order to prevent this value to be returned as part of the resource on API requests. */
   password: string;
-};
+}
 
 /** A remote tunnel securely established using IoT Hub device information. */
-export type SecureIotDeviceRemoteTunnel = TunnelBase & {
+export interface SecureIotDeviceRemoteTunnel extends TunnelBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "#Microsoft.VideoAnalyzer.SecureIotDeviceRemoteTunnel";
   /** Name of the IoT Hub. */
   iotHubName: string;
   /** The IoT device id to use when establishing the remote tunnel. This string is case-sensitive. */
   deviceId: string;
-};
+}
 
 /** A list of PEM formatted certificates. */
-export type PemCertificateList = CertificateSource & {
+export interface PemCertificateList extends CertificateSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "#Microsoft.VideoAnalyzer.PemCertificateList";
   /** PEM formatted public certificates. One certificate per entry. */
   certificates: string[];
-};
+}
 
 /** A sequence of absolute datetime ranges as a string. The datetime values should follow IS08601, and the sum of the ranges should add up to 24 hours or less. Currently, there can be only one range specified in the sequence. */
-export type VideoSequenceAbsoluteTimeMarkers = TimeSequenceBase & {
+export interface VideoSequenceAbsoluteTimeMarkers extends TimeSequenceBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "#Microsoft.VideoAnalyzer.VideoSequenceAbsoluteTimeMarkers";
   /** The sequence of datetime ranges. Example: '[["2021-10-05T03:30:00Z", "2021-10-05T03:40:00Z"]]'. */
   ranges: string;
-};
+}
 
 /** Describes a built-in preset for encoding the input content using the encoder processor. */
-export type EncoderSystemPreset = EncoderPresetBase & {
+export interface EncoderSystemPreset extends EncoderPresetBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "#Microsoft.VideoAnalyzer.EncoderSystemPreset";
   /** Name of the built-in encoding preset. */
   name: EncoderSystemPresetType;
-};
+}
 
 /** Describes a custom preset for encoding the input content using the encoder processor. */
-export type EncoderCustomPreset = EncoderPresetBase & {
+export interface EncoderCustomPreset extends EncoderPresetBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "#Microsoft.VideoAnalyzer.EncoderCustomPreset";
   /** Describes a custom preset for encoding audio. */
   audioEncoder?: AudioEncoderBaseUnion;
   /** Describes a custom preset for encoding video. */
   videoEncoder?: VideoEncoderBaseUnion;
-};
+}
 
 /** A custom preset for encoding audio with the AAC codec. */
-export type AudioEncoderAac = AudioEncoderBase & {
+export interface AudioEncoderAac extends AudioEncoderBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "#Microsoft.VideoAnalyzer.AudioEncoderAac";
-};
+}
 
 /** A custom preset for encoding video with the H.264 (AVC) codec. */
-export type VideoEncoderH264 = VideoEncoderBase & {
+export interface VideoEncoderH264 extends VideoEncoderBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "#Microsoft.VideoAnalyzer.VideoEncoderH264";
-};
+}
 
 /** Required validation properties for tokens generated with RSA algorithm. */
-export type RsaTokenKey = TokenKey & {
+export interface RsaTokenKey extends TokenKey {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "#Microsoft.VideoAnalyzer.RsaTokenKey";
   /** RSA algorithm to be used: RS256, RS384 or RS512. */
@@ -1040,10 +1040,10 @@ export type RsaTokenKey = TokenKey & {
   n: string;
   /** RSA public key exponent. */
   e: string;
-};
+}
 
 /** Required validation properties for tokens generated with Elliptical Curve algorithm. */
-export type EccTokenKey = TokenKey & {
+export interface EccTokenKey extends TokenKey {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "#Microsoft.VideoAnalyzer.EccTokenKey";
   /** Elliptical curve algorithm to be used: ES256, ES384 or ES512. */
@@ -1052,16 +1052,16 @@ export type EccTokenKey = TokenKey & {
   x: string;
   /** Y coordinate. */
   y: string;
-};
+}
 
 /** The representation of an edge module. */
-export type EdgeModuleEntity = ProxyResource & {
+export interface EdgeModuleEntity extends ProxyResource {
   /**
    * Internal ID generated for the instance of the Video Analyzer edge module.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly edgeModuleId?: string;
-};
+}
 
 /**
  * Pipeline topology describes the processing steps to be applied when processing content for a particular outcome. The topology should be defined according to the scenario to be achieved and can be reused across many pipeline instances which share the same processing characteristics. For instance, a pipeline topology which captures content from a RTSP camera and archives the content can be reused across many different cameras, as long as the same processing is to be applied across all the cameras. Individual instance properties can be defined through the use of user-defined parameters, which allow for a topology to be parameterized. This allows  individual pipelines refer to different values, such as individual cameras' RTSP endpoints and credentials. Overall a topology is composed of the following:
@@ -1071,7 +1071,7 @@ export type EdgeModuleEntity = ProxyResource & {
  *   - Processors: list of nodes which perform data analysis or transformations.
  *   - Sinks: list of one or more data sinks which allow for data to be stored or exported to other destinations.
  */
-export type PipelineTopology = ProxyResource & {
+export interface PipelineTopology extends ProxyResource {
   /** Topology kind. */
   kind: Kind;
   /** Describes the properties of a SKU. */
@@ -1086,7 +1086,7 @@ export type PipelineTopology = ProxyResource & {
   processors?: ProcessorNodeBaseUnion[];
   /** List of the topology sink nodes. Sink nodes allow pipeline data to be stored or exported. */
   sinks?: SinkNodeBaseUnion[];
-};
+}
 
 /**
  * Pipeline topology describes the processing steps to be applied when processing content for a particular outcome. The topology should be defined according to the scenario to be achieved and can be reused across many pipeline instances which share the same processing characteristics. For instance, a pipeline topology which captures content from a RTSP camera and archives the content can be reused across many different cameras, as long as the same processing is to be applied across all the cameras. Individual instance properties can be defined through the use of user-defined parameters, which allow for a topology to be parameterized. This allows  individual pipelines refer to different values, such as individual cameras' RTSP endpoints and credentials. Overall a topology is composed of the following:
@@ -1096,7 +1096,7 @@ export type PipelineTopology = ProxyResource & {
  *   - Processors: list of nodes which perform data analysis or transformations.
  *   - Sinks: list of one or more data sinks which allow for data to be stored or exported to other destinations.
  */
-export type PipelineTopologyUpdate = ProxyResource & {
+export interface PipelineTopologyUpdate extends ProxyResource {
   /** Topology kind. */
   kind?: Kind;
   /** Describes the properties of a SKU. */
@@ -1111,10 +1111,10 @@ export type PipelineTopologyUpdate = ProxyResource & {
   processors?: ProcessorNodeBaseUnion[];
   /** List of the topology sink nodes. Sink nodes allow pipeline data to be stored or exported. */
   sinks?: SinkNodeBaseUnion[];
-};
+}
 
 /** Live pipeline represents a unique instance of a live topology, used for real-time ingestion, archiving and publishing of content for a unique RTSP camera. */
-export type LivePipeline = ProxyResource & {
+export interface LivePipeline extends ProxyResource {
   /** The reference to an existing pipeline topology defined for real-time content processing. When activated, this live pipeline will process content according to the pipeline topology definition. */
   topologyName?: string;
   /** An optional description for the pipeline. */
@@ -1128,10 +1128,10 @@ export type LivePipeline = ProxyResource & {
   readonly state?: LivePipelineState;
   /** List of the instance level parameter values for the user-defined topology parameters. A pipeline can only define or override parameters values for parameters which have been declared in the referenced topology. Topology parameters without a default value must be defined. Topology parameters with a default value can be optionally be overridden. */
   parameters?: ParameterDefinition[];
-};
+}
 
 /** Live pipeline represents a unique instance of a live topology, used for real-time ingestion, archiving and publishing of content for a unique RTSP camera. */
-export type LivePipelineUpdate = ProxyResource & {
+export interface LivePipelineUpdate extends ProxyResource {
   /** The reference to an existing pipeline topology defined for real-time content processing. When activated, this live pipeline will process content according to the pipeline topology definition. */
   topologyName?: string;
   /** An optional description for the pipeline. */
@@ -1145,10 +1145,10 @@ export type LivePipelineUpdate = ProxyResource & {
   readonly state?: LivePipelineState;
   /** List of the instance level parameter values for the user-defined topology parameters. A pipeline can only define or override parameters values for parameters which have been declared in the referenced topology. Topology parameters without a default value must be defined. Topology parameters with a default value can be optionally be overridden. */
   parameters?: ParameterDefinition[];
-};
+}
 
 /** Pipeline job represents a unique instance of a batch topology, used for offline processing of selected portions of archived content. */
-export type PipelineJob = ProxyResource & {
+export interface PipelineJob extends ProxyResource {
   /** Reference to an existing pipeline topology. When activated, this pipeline job will process content according to the pipeline topology definition. */
   topologyName?: string;
   /** An optional description for the pipeline. */
@@ -1170,10 +1170,10 @@ export type PipelineJob = ProxyResource & {
   readonly error?: PipelineJobError;
   /** List of the instance level parameter values for the user-defined topology parameters. A pipeline can only define or override parameters values for parameters which have been declared in the referenced topology. Topology parameters without a default value must be defined. Topology parameters with a default value can be optionally be overridden. */
   parameters?: ParameterDefinition[];
-};
+}
 
 /** Pipeline job represents a unique instance of a batch topology, used for offline processing of selected portions of archived content. */
-export type PipelineJobUpdate = ProxyResource & {
+export interface PipelineJobUpdate extends ProxyResource {
   /** Reference to an existing pipeline topology. When activated, this pipeline job will process content according to the pipeline topology definition. */
   topologyName?: string;
   /** An optional description for the pipeline. */
@@ -1195,10 +1195,10 @@ export type PipelineJobUpdate = ProxyResource & {
   readonly error?: PipelineJobError;
   /** List of the instance level parameter values for the user-defined topology parameters. A pipeline can only define or override parameters values for parameters which have been declared in the referenced topology. Topology parameters without a default value must be defined. Topology parameters with a default value can be optionally be overridden. */
   parameters?: ParameterDefinition[];
-};
+}
 
 /** Represents a video resource within Azure Video Analyzer. Videos can be ingested from RTSP cameras through live pipelines or can be created by exporting sequences from existing captured video through a pipeline job. Videos ingested through live pipelines can be streamed through Azure Video Analyzer Player Widget or compatible players. Exported videos can be downloaded as MP4 files. */
-export type VideoEntity = ProxyResource & {
+export interface VideoEntity extends ProxyResource {
   /** Optional video title provided by the user. Value can be up to 256 characters long. */
   title?: string;
   /** Optional video description provided by the user. Value can be up to 2048 characters long. */
@@ -1222,18 +1222,18 @@ export type VideoEntity = ProxyResource & {
   mediaInfo?: VideoMediaInfo;
   /** Video archival properties. */
   archival?: VideoArchival;
-};
+}
 
 /** Access policies help define the authentication rules, and control access to specific video resources. */
-export type AccessPolicyEntity = ProxyResource & {
+export interface AccessPolicyEntity extends ProxyResource {
   /** Defines the access level granted by this policy. */
   role?: AccessPolicyRole;
   /** Authentication method to be used when validating client API access. */
   authentication?: AuthenticationBaseUnion;
-};
+}
 
 /** The Video Analyzer account. */
-export type VideoAnalyzer = TrackedResource & {
+export interface VideoAnalyzer extends TrackedResource {
   /** The identities associated to the Video Analyzer resource. */
   identity?: VideoAnalyzerIdentity;
   /** The storage accounts for this resource. */
@@ -1261,38 +1261,38 @@ export type VideoAnalyzer = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
-};
+}
 
 /** RTSP source allows for media from an RTSP camera or generic RTSP server to be ingested into a pipeline. */
-export type RtspSource = SourceNodeBase & {
+export interface RtspSource extends SourceNodeBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "#Microsoft.VideoAnalyzer.RtspSource";
   /** Network transport utilized by the RTSP and RTP exchange: TCP or HTTP. When using TCP, the RTP packets are interleaved on the TCP RTSP connection. When using HTTP, the RTSP messages are exchanged through long lived HTTP connections, and the RTP packages are interleaved in the HTTP connections alongside the RTSP messages. */
   transport?: RtspTransport;
   /** RTSP endpoint information for Video Analyzer to connect to. This contains the required information for Video Analyzer to connect to RTSP cameras and/or generic RTSP servers. */
   endpoint: EndpointBaseUnion;
-};
+}
 
 /** Video source allows for content from a Video Analyzer video resource to be ingested into a pipeline. Currently supported only with batch pipelines. */
-export type VideoSource = SourceNodeBase & {
+export interface VideoSource extends SourceNodeBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "#Microsoft.VideoAnalyzer.VideoSource";
   /** Name of the Video Analyzer video resource to be used as the source. */
   videoName: string;
   /** Describes a sequence of datetime ranges. The video source only picks up recorded media within these ranges. */
   timeSequences: TimeSequenceBaseUnion;
-};
+}
 
 /** Encoder processor allows for encoding of the input content. For example, it can used to change the resolution from 4K to 1280x720. */
-export type EncoderProcessor = ProcessorNodeBase & {
+export interface EncoderProcessor extends ProcessorNodeBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "#Microsoft.VideoAnalyzer.EncoderProcessor";
   /** The encoder preset, which defines the recipe or instructions on how the input content should be processed. */
   preset: EncoderPresetBaseUnion;
-};
+}
 
 /** Video sink in a live topology allows for video and audio to be captured, optionally archived, and published via a video resource. If archiving is enabled, this results in a video of type 'archive'. If used in a batch topology, this allows for video and audio to be stored as a file, and published via a video resource of type 'file' */
-export type VideoSink = SinkNodeBase & {
+export interface VideoSink extends SinkNodeBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "#Microsoft.VideoAnalyzer.VideoSink";
   /** Name of a new or existing video resource used to capture and publish content. Note: if downstream of RTSP source, and if disableArchive is set to true, then no content is archived. */
@@ -1301,7 +1301,7 @@ export type VideoSink = SinkNodeBase & {
   videoCreationProperties?: VideoCreationProperties;
   /** Options to change how the video sink publishes content via the video resource. This property is only allowed for topologies where "kind" is set to "live". */
   videoPublishingOptions?: VideoPublishingOptions;
-};
+}
 
 /** Defines headers for VideoAnalyzers_createOrUpdate operation. */
 export interface VideoAnalyzersCreateOrUpdateHeaders {
@@ -1335,9 +1335,13 @@ export interface PrivateEndpointConnectionsCreateOrUpdateHeaders {
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -1610,8 +1614,11 @@ export type ProvisioningState = string;
 
 /** Known values of {@link PrivateEndpointServiceConnectionStatus} that the service accepts. */
 export enum KnownPrivateEndpointServiceConnectionStatus {
+  /** Pending */
   Pending = "Pending",
+  /** Approved */
   Approved = "Approved",
+  /** Rejected */
   Rejected = "Rejected"
 }
 
@@ -1628,9 +1635,13 @@ export type PrivateEndpointServiceConnectionStatus = string;
 
 /** Known values of {@link PrivateEndpointConnectionProvisioningState} that the service accepts. */
 export enum KnownPrivateEndpointConnectionProvisioningState {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Creating */
   Creating = "Creating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Failed */
   Failed = "Failed"
 }
 
@@ -1648,7 +1659,9 @@ export type PrivateEndpointConnectionProvisioningState = string;
 
 /** Known values of {@link CheckNameAvailabilityReason} that the service accepts. */
 export enum KnownCheckNameAvailabilityReason {
+  /** Invalid */
   Invalid = "Invalid",
+  /** AlreadyExists */
   AlreadyExists = "AlreadyExists"
 }
 
@@ -1837,10 +1850,7 @@ export type EdgeModulesListProvisioningTokenResponse = EdgeModuleProvisioningTok
 
 /** Optional parameters. */
 export interface EdgeModulesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Specifies a non-negative integer n that limits the number of items returned from a collection. The service returns the number of available items up to but not greater than the specified value n. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type EdgeModulesListNextResponse = EdgeModuleEntityCollection;
@@ -1884,12 +1894,7 @@ export type PipelineTopologiesUpdateResponse = PipelineTopology;
 
 /** Optional parameters. */
 export interface PipelineTopologiesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Specifies a non-negative integer n that limits the number of items returned from a collection. The service returns the number of available items up to but not greater than the specified value n. */
-  top?: number;
-  /** Restricts the set of items returned. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type PipelineTopologiesListNextResponse = PipelineTopologyCollection;
@@ -1951,12 +1956,7 @@ export interface LivePipelinesDeactivateOptionalParams
 
 /** Optional parameters. */
 export interface LivePipelinesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Specifies a non-negative integer n that limits the number of items returned from a collection. The service returns the number of available items up to but not greater than the specified value n. */
-  top?: number;
-  /** Restricts the set of items returned. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type LivePipelinesListNextResponse = LivePipelineCollection;
@@ -2009,12 +2009,7 @@ export interface PipelineJobsCancelOptionalParams
 
 /** Optional parameters. */
 export interface PipelineJobsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Specifies a non-negative integer n that limits the number of items returned from a collection. The service returns the number of available items up to but not greater than the specified value n. */
-  top?: number;
-  /** Restricts the set of items returned. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type PipelineJobsListNextResponse = PipelineJobCollection;
@@ -2207,10 +2202,7 @@ export type VideosListContentTokenResponse = VideoContentToken;
 
 /** Optional parameters. */
 export interface VideosListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Specifies a non-negative integer n that limits the number of items returned from a collection. The service returns the number of available items up to but not greater than the specified value n. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type VideosListNextResponse = VideoEntityCollection;
@@ -2252,10 +2244,7 @@ export type AccessPoliciesUpdateResponse = AccessPolicyEntity;
 
 /** Optional parameters. */
 export interface AccessPoliciesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Specifies a non-negative integer n that limits the number of items returned from a collection. The service returns the number of available items up to but not greater than the specified value n. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type AccessPoliciesListNextResponse = AccessPolicyEntityCollection;
