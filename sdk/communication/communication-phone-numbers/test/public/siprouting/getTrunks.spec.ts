@@ -51,6 +51,7 @@ matrix([[true, false]], async function (useAad) {
 
     it("cannot retrieve a not existing trunk", async () => {
       try {
+        await client.setTrunks([]);
         await client.getTrunk("not.existing.fqdn");
       } catch (error: any) {
         assert.equal(error.code, "NotFound");
@@ -60,13 +61,13 @@ matrix([[true, false]], async function (useAad) {
     });
 
     it("can retrieve an existing trunk", async () => {
-      await client.setTrunk({ fqdn: fourthFqdn, sipSignalingPort: 4567 } as SipTrunk);
+      await client.setTrunk({ fqdn: fourthFqdn, sipSignalingPort: 4567, enabled: false } as SipTrunk);
 
       const trunk = await client.getTrunk(fourthFqdn);
 
       assert.isNotNull(trunk);
       assert.equal(trunk?.sipSignalingPort, 4567);
-      assert.equal(trunk?.enabled, true);
+      assert.equal(trunk?.enabled, false);
     });
 
     it("can retrieve trunks", async () => {
@@ -85,9 +86,9 @@ matrix([[true, false]], async function (useAad) {
 
     it("can retrieve not empty trunks", async () => {
       const expectedTrunks = [
-        { fqdn: firstFqdn, sipSignalingPort: 1239 },
-        { fqdn: secondFqdn, sipSignalingPort: 2348 },
-        { fqdn: thirdFqdn, sipSignalingPort: 3457 },
+        { fqdn: firstFqdn, sipSignalingPort: 1239, enabled: false },
+        { fqdn: secondFqdn, sipSignalingPort: 2348, enabled: false },
+        { fqdn: thirdFqdn, sipSignalingPort: 3457, enabled: false },
       ];
       await client.setTrunks(expectedTrunks);
 

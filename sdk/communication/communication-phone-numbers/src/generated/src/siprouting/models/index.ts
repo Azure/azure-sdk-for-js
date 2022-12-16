@@ -97,7 +97,7 @@ export interface SipConfigurationPatch {
    * Domains that will be validated and used.
    * Map key is domain.
    */
-  domains?: { [propertyName: string]: DomainPatch };
+  domains?: { [propertyName: string]: DomainPatch | null };
   /**
    * SIP trunks for routing calls.
    * Map key is trunk's FQDN (1-249 characters).
@@ -150,7 +150,7 @@ export interface SipRoutingPatchOptionalParams
    * Domains that will be validated and used.
    * Map key is domain.
    */
-  domains?: { [propertyName: string]: DomainPatch };
+  domains?: { [propertyName: string]: DomainPatch | null };
   /**
    * SIP trunks for routing calls.
    * Map key is trunk's FQDN (1-249 characters).
