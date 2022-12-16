@@ -27,9 +27,6 @@
   - Added Interface Updates
   - Added Interface Volume
   - Added Interface VolumeContainer
-
-**Breaking Changes**
-
   - Interface AlertsListByManagerNextOptionalParams no longer has parameter filter
   - Interface BackupsListByDeviceNextOptionalParams no longer has parameter filter
   - Interface JobsListByDeviceNextOptionalParams no longer has parameter filter
