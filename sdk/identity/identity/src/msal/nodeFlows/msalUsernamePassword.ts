@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import * as msalNode from "@azure/msal-node";
-import { MsalNode, MsalNodeOptions } from "./msalNodeCommon";
+import { MsalNode, MsalNodeOptions } from "../../../../identity-common/src/msal/nodeFlows/msalNodeCommon";
 import { AccessToken } from "@azure/core-auth";
 import { CredentialFlowGetTokenOptions } from "../credentials";
 

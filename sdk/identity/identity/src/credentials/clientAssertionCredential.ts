@@ -5,10 +5,10 @@ import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth"
 import {
   processMultiTenantRequest,
   resolveAddionallyAllowedTenantIds,
-} from "../util/tenantIdUtils";
+} from "../../../identity-common/src/util/tenantIdUtils";
 import { ClientAssertionCredentialOptions } from "./clientAssertionCredentialOptions";
 import { MsalClientAssertion } from "../msal/nodeFlows/msalClientAssertion";
-import { MsalFlow } from "../msal/flows";
+import { MsalFlow } from "../../../identity-common/src/msal/flows";
 import { credentialLogger } from "../util/logging";
 import { tracingClient } from "../util/tracing";
 

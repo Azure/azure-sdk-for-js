@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { processMultiTenantRequest } from "../../../src/util/tenantIdUtils";
+import { processMultiTenantRequest } from "../../../../identity-common/src/util/tenantIdUtils";
 
 describe("Identity utilities (Node.js only)", function () {
   describe("validateMultiTenantRequest (Node.js only)", function () {

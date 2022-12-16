@@ -7,9 +7,9 @@ import { credentialLogger, formatError, formatSuccess } from "../util/logging";
 import {
   processMultiTenantRequest,
   resolveAddionallyAllowedTenantIds,
-} from "../util/tenantIdUtils";
+} from "../../../identity-common/src/util/tenantIdUtils";
 import { ClientSecretCredentialOptions } from "./clientSecretCredentialOptions";
-import { IdentityClient } from "../client/identityClient";
+import { IdentityClient } from "../../../identity-common/src/client/identityClient";
 import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
 import { tracingClient } from "../util/tracing";
 

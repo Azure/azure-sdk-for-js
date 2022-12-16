@@ -2,14 +2,14 @@
 // Licensed under the MIT license.
 
 import * as msalNode from "@azure/msal-node";
-import { MsalNode, MsalNodeOptions } from "./msalNodeCommon";
+import { MsalNode, MsalNodeOptions } from "../../../../identity-common/src/msal/nodeFlows/msalNodeCommon";
 import { credentialLogger, formatError, formatSuccess } from "../../util/logging";
 import { AccessToken } from "@azure/core-auth";
 import { CredentialFlowGetTokenOptions } from "../credentials";
-import { CredentialUnavailableError } from "../../errors";
+import { CredentialUnavailableError } from "../../../../identity-common/src/errors";
 import { Socket } from "net";
 import http from "http";
-import { msalToPublic } from "../utils";
+import { msalToPublic } from "../../../../identity-common/src/msal/utils";
 import open from "open";
 import stoppable from "stoppable";
 

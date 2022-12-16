@@ -21,13 +21,13 @@ import {
   resolveTenantId,
 } from "../../util/tenantIdUtils";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { AuthenticationRecord } from "../types";
+import { AuthenticationRecord } from "../../../../identity/src/msal/types";
 import { AuthenticationRequiredError } from "../../errors";
-import { CredentialFlowGetTokenOptions } from "../credentials";
+import { CredentialFlowGetTokenOptions } from "../../../../identity/src/msal/credentials";
 import { DeveloperSignOnClientId } from "../../constants";
 import { IdentityClient } from "../../client/identityClient";
 import { LogPolicyOptions } from "@azure/core-rest-pipeline";
-import { MultiTenantTokenCredentialOptions } from "../../credentials/multiTenantTokenCredentialOptions";
+import { MultiTenantTokenCredentialOptions } from "../../../../identity/src/credentials/multiTenantTokenCredentialOptions";
 import { RegionalAuthority } from "../../regionalAuthority";
 import { TokenCachePersistenceOptions } from "./tokenCachePersistenceOptions";
 

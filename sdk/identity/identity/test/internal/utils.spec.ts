@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { getAuthority } from "../../src/msal/utils";
-import { processMultiTenantRequest } from "../../src/util/tenantIdUtils";
+import { getAuthority } from "../../../identity-common/src/msal/utils";
+import { processMultiTenantRequest } from "../../../identity-common/src/util/tenantIdUtils";
 
 describe("Identity utilities", function () {
   describe("validateMultiTenantRequest", function () {

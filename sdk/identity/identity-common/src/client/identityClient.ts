@@ -13,15 +13,15 @@ import {
 } from "@azure/core-rest-pipeline";
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 import { AuthenticationError, AuthenticationErrorName } from "../errors";
-import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
+import { getIdentityTokenEndpointSuffix } from "../../../identity/src/util/identityTokenEndpoint";
 import { DefaultAuthorityHost, SDK_VERSION } from "../constants";
-import { tracingClient } from "../util/tracing";
-import { logger } from "../util/logging";
+import { tracingClient } from "../../../identity/src/util/tracing";
+import { logger } from "../../../identity/src/util/logging";
 import { TokenCredentialOptions } from "../tokenCredentialOptions";
 import {
   TokenResponseParsedBody,
   parseExpiresOn,
-} from "../credentials/managedIdentityCredential/utils";
+} from "../../../identity/src/credentials/managedIdentityCredential/utils";
 
 const noCorrelationId = "noCorrelationId";
 

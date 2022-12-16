@@ -2,13 +2,13 @@
 // Licensed under the MIT license.
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import { AuthenticationError, CredentialUnavailableError } from "../errors";
+import { AuthenticationError, CredentialUnavailableError } from "../../../identity-common/src/errors";
 import { credentialLogger, formatError, formatSuccess, processEnvVars } from "../util/logging";
 import { ClientCertificateCredential } from "./clientCertificateCredential";
 import { ClientSecretCredential } from "./clientSecretCredential";
 import { EnvironmentCredentialOptions } from "./environmentCredentialOptions";
 import { UsernamePasswordCredential } from "./usernamePasswordCredential";
-import { checkTenantId } from "../util/tenantIdUtils";
+import { checkTenantId } from "../../../identity-common/src/util/tenantIdUtils";
 import { tracingClient } from "../util/tracing";
 
 /**

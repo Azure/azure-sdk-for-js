@@ -5,12 +5,12 @@ import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth"
 import { credentialLogger, formatError, formatSuccess } from "../util/logging";
 import { ensureValidScope, getScopeResource } from "../util/scopeUtils";
 import { AzureCliCredentialOptions } from "./azureCliCredentialOptions";
-import { CredentialUnavailableError } from "../errors";
+import { CredentialUnavailableError } from "../../../identity-common/src/errors";
 import child_process from "child_process";
 import {
   processMultiTenantRequest,
   resolveAddionallyAllowedTenantIds,
-} from "../util/tenantIdUtils";
+} from "../../../identity-common/src/util/tenantIdUtils";
 import { tracingClient } from "../util/tracing";
 
 /**

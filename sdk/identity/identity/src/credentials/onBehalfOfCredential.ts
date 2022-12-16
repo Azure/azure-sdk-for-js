@@ -10,9 +10,9 @@ import {
 import {
   processMultiTenantRequest,
   resolveAddionallyAllowedTenantIds,
-} from "../util/tenantIdUtils";
+} from "../../../identity-common/src/util/tenantIdUtils";
 import { CredentialPersistenceOptions } from "./credentialPersistenceOptions";
-import { MsalFlow } from "../msal/flows";
+import { MsalFlow } from "../../../identity-common/src/msal/flows";
 import { MsalOnBehalfOf } from "../msal/nodeFlows/msalOnBehalfOf";
 import { MultiTenantTokenCredentialOptions } from "./multiTenantTokenCredentialOptions";
 import { credentialLogger } from "../util/logging";

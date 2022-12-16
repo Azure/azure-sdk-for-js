@@ -11,9 +11,9 @@ import {
 import {
   processMultiTenantRequest,
   resolveAddionallyAllowedTenantIds,
-} from "../util/tenantIdUtils";
+} from "../../../identity-common/src/util/tenantIdUtils";
 import { AuthenticationRecord } from "../msal/types";
-import { MsalFlow } from "../msal/flows";
+import { MsalFlow } from "../../../identity-common/src/msal/flows";
 import { MsalOpenBrowser } from "../msal/nodeFlows/msalOpenBrowser";
 import { credentialLogger } from "../util/logging";
 import { ensureScopes } from "../util/scopeUtils";

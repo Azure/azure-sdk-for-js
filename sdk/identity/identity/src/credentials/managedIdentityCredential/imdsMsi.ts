@@ -9,7 +9,7 @@ import {
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
 import { credentialLogger } from "../../util/logging";
-import { AuthenticationError } from "../../errors";
+import { AuthenticationError } from "../../../../identity-common/src/errors";
 import { tracingClient } from "../../util/tracing";
 import { imdsApiVersion, imdsEndpointPath, imdsHost } from "./constants";
 import { MSI, MSIConfiguration } from "./models";

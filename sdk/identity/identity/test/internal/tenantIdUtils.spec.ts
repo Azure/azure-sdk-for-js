@@ -5,8 +5,8 @@ import {
   checkTenantId,
   resolveAddionallyAllowedTenantIds,
   resolveTenantId,
-} from "../../src/util/tenantIdUtils";
-import { DeveloperSignOnClientId } from "../../src/constants";
+} from "../../../identity-common/src/util/tenantIdUtils";
+import { DeveloperSignOnClientId } from "../../../identity-common/src/constants";
 import { assert } from "@azure/test-utils";
 import { credentialLogger } from "../../src/util/logging";
 

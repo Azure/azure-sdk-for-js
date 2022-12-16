@@ -3,7 +3,7 @@
 
 import { AccessToken, TokenCredential } from "@azure/core-auth";
 
-import { TokenCredentialOptions } from "../../tokenCredentialOptions";
+import { TokenCredentialOptions } from "../../../../identity-common/src/tokenCredentialOptions";
 import { credentialLogger, formatError } from "../../util/logging";
 
 const BrowserNotSupportedError = new Error(

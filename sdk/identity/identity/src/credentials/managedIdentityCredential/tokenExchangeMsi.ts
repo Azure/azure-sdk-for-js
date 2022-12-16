@@ -9,7 +9,7 @@ import {
 } from "@azure/core-rest-pipeline";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { promisify } from "util";
-import { DefaultAuthorityHost } from "../../constants";
+import { DefaultAuthorityHost } from "../../../../identity-common/src/constants";
 import { credentialLogger } from "../../util/logging";
 import { MSI, MSIConfiguration } from "./models";
 

@@ -3,10 +3,10 @@
 
 import * as msalBrowser from "@azure/msal-browser";
 import { MsalBrowser, MsalBrowserFlowOptions } from "./msalBrowserCommon";
-import { defaultLoggerCallback, msalToPublic, publicToMsal, getMSALLogLevel } from "../utils";
+import { defaultLoggerCallback, msalToPublic, publicToMsal, getMSALLogLevel } from "../../../../identity-common/src/msal/utils";
 import { AccessToken } from "@azure/core-auth";
 import { AuthenticationRecord } from "../types";
-import { AuthenticationRequiredError } from "../../errors";
+import { AuthenticationRequiredError } from "../../../../identity-common/src/errors";
 import { CredentialFlowGetTokenOptions } from "../credentials";
 import { getLogLevel } from "@azure/logger";
 

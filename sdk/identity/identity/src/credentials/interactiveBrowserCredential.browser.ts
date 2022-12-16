@@ -10,11 +10,11 @@ import { credentialLogger, formatError } from "../util/logging";
 import {
   processMultiTenantRequest,
   resolveAddionallyAllowedTenantIds,
-} from "../util/tenantIdUtils";
+} from "../../../identity-common/src/util/tenantIdUtils";
 import { AuthenticationRecord } from "../msal/types";
 import { MSALAuthCode } from "../msal/browserFlows/msalAuthCode";
 import { MsalBrowserFlowOptions } from "../msal/browserFlows/msalBrowserCommon";
-import { MsalFlow } from "../msal/flows";
+import { MsalFlow } from "../../../identity-common/src/msal/flows";
 import { ensureScopes } from "../util/scopeUtils";
 import { tracingClient } from "../util/tracing";
 

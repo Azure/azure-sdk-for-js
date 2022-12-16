@@ -8,9 +8,9 @@ import {
 } from "@azure/core-rest-pipeline";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { readFile } from "fs";
-import { AuthenticationError } from "../../errors";
+import { AuthenticationError } from "../../../../identity-common/src/errors";
 import { credentialLogger } from "../../util/logging";
-import { IdentityClient } from "../../client/identityClient";
+import { IdentityClient } from "../../../../identity-common/src/client/identityClient";
 import { mapScopesToResource } from "./utils";
 import { MSI, MSIConfiguration } from "./models";
 import { azureArcAPIVersion } from "./constants";

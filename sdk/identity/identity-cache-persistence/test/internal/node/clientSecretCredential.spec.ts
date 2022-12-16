@@ -5,9 +5,9 @@
 /* eslint-disable sort-imports */
 
 import { ClientSecretCredential, TokenCachePersistenceOptions } from "../../../../identity/src";
-import { MsalTestCleanup, msalNodeTestSetup } from "../../../../identity/test/msalTestUtils";
+import { MsalTestCleanup, msalNodeTestSetup } from "../../../../identity-common/test/msalTestUtils";
 import { Recorder, env } from "@azure-tools/test-recorder";
-import { MsalNode } from "../../../../identity/src/msal/nodeFlows/msalNodeCommon";
+import { MsalNode } from "../../../../identity-common/src/msal/nodeFlows/msalNodeCommon";
 import { createPersistence } from "./setup.spec";
 import { ConfidentialClientApplication } from "@azure/msal-node";
 import Sinon from "sinon";

@@ -5,11 +5,11 @@ import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth"
 import {
   processMultiTenantRequest,
   resolveAddionallyAllowedTenantIds,
-} from "../util/tenantIdUtils";
+} from "../../../identity-common/src/util/tenantIdUtils";
 import { AuthorizationCodeCredentialOptions } from "./authorizationCodeCredentialOptions";
 import { MsalAuthorizationCode } from "../msal/nodeFlows/msalAuthorizationCode";
-import { MsalFlow } from "../msal/flows";
-import { checkTenantId } from "../util/tenantIdUtils";
+import { MsalFlow } from "../../../identity-common/src/msal/flows";
+import { checkTenantId } from "../../../identity-common/src/util/tenantIdUtils";
 import { credentialLogger } from "../util/logging";
 import { ensureScopes } from "../util/scopeUtils";
 import { tracingClient } from "../util/tracing";

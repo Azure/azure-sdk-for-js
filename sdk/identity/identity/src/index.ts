@@ -17,11 +17,11 @@ export {
   CredentialUnavailableErrorName,
   AuthenticationRequiredError,
   AuthenticationRequiredErrorOptions,
-} from "./errors";
+} from "../../identity-common/src/errors";
 
 export { AuthenticationRecord } from "./msal/types";
-export { serializeAuthenticationRecord, deserializeAuthenticationRecord } from "./msal/utils";
-export { TokenCredentialOptions } from "./tokenCredentialOptions";
+export { serializeAuthenticationRecord, deserializeAuthenticationRecord } from "../../identity-common/src/msal/utils";
+export { TokenCredentialOptions } from "../../identity-common/src/tokenCredentialOptions";
 export { MultiTenantTokenCredentialOptions } from "./credentials/multiTenantTokenCredentialOptions";
 
 // TODO: Export again once we're ready to release this feature.
@@ -89,12 +89,12 @@ export { VisualStudioCodeCredential } from "./credentials/visualStudioCodeCreden
 export { VisualStudioCodeCredentialOptions } from "./credentials/visualStudioCodeCredentialOptions";
 export { OnBehalfOfCredential } from "./credentials/onBehalfOfCredential";
 
-export { TokenCachePersistenceOptions } from "./msal/nodeFlows/tokenCachePersistenceOptions";
+export { TokenCachePersistenceOptions } from "../../identity-common/src/msal/nodeFlows/tokenCachePersistenceOptions";
 
 export { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
 export { logger } from "./util/logging";
 
-export { AzureAuthorityHosts } from "./constants";
+export { AzureAuthorityHosts } from "../../identity-common/src/constants";
 
 /**
  * Returns a new instance of the {@link DefaultAzureCredential}.

@@ -6,7 +6,7 @@ import {
   ClientCertificatePEMCertificate,
   ClientCertificatePEMCertificatePath,
 } from "../../credentials/clientCertificateCredential";
-import { MsalNode, MsalNodeOptions } from "./msalNodeCommon";
+import { MsalNode, MsalNodeOptions } from "../../../../identity-common/src/msal/nodeFlows/msalNodeCommon";
 import { createHash, createPrivateKey } from "crypto";
 import { AccessToken } from "@azure/core-auth";
 import { ClientCredentialRequest } from "@azure/msal-node";

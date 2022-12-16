@@ -9,6 +9,6 @@
       "@azure/identity": ["./src/index"]
     }
   },
-  "include": ["src/**/*", "test/**/*", "samples-dev/**/*.ts", "src/util/logging.ts"],
+  "include": ["src/**/*", "test/**/*", "samples-dev/**/*.ts", "src/util/logging.ts", "../identity-common/src/msal/nodeFlows/msalNodeCommon.ts", "../identity-common/src/util/tenantIdUtils.ts", "../identity-common/src/msal/flows.ts", "../identity-common/src/msal/utils.ts", "../identity-common/src/errors.ts", "../identity-common/src/client/identityClient.ts", "../identity-common/src/tokenCredentialOptions.ts", "../identity-common/src/regionalAuthority.ts", "../identity-common/src/msal/nodeFlows/tokenCachePersistenceOptions.ts", "../identity-common/src/constants.ts", "../identity-common/test/msalTestUtils.ts"],
   "exclude": ["test/manual*/**/*", "node_modules"]
 }

@@ -3,13 +3,13 @@
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 
-import { IdentityClient } from "../../client/identityClient";
-import { TokenCredentialOptions } from "../../tokenCredentialOptions";
+import { IdentityClient } from "../../../../identity-common/src/client/identityClient";
+import { TokenCredentialOptions } from "../../../../identity-common/src/tokenCredentialOptions";
 import {
   AuthenticationError,
   AuthenticationRequiredError,
   CredentialUnavailableError,
-} from "../../errors";
+} from "../../../../identity-common/src/errors";
 import { credentialLogger, formatError, formatSuccess } from "../../util/logging";
 import { appServiceMsi2017 } from "./appServiceMsi2017";
 import { tracingClient } from "../../util/tracing";
@@ -21,7 +21,7 @@ import { tokenExchangeMsi } from "./tokenExchangeMsi";
 import { fabricMsi } from "./fabricMsi";
 import { appServiceMsi2019 } from "./appServiceMsi2019";
 import { AppTokenProviderParameters, ConfidentialClientApplication } from "@azure/msal-node";
-import { DeveloperSignOnClientId } from "../../constants";
+import { DeveloperSignOnClientId } from "../../../../identity-common/src/constants";
 import { MsalResult, MsalToken } from "../../msal/types";
 
 const logger = credentialLogger("ManagedIdentityCredential");

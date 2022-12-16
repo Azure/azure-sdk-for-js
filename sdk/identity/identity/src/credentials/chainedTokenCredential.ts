@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import { AggregateAuthenticationError, CredentialUnavailableError } from "../errors";
+import { AggregateAuthenticationError, CredentialUnavailableError } from "../../../identity-common/src/errors";
 import { credentialLogger, formatError, formatSuccess } from "../util/logging";
 import { tracingClient } from "../util/tracing";
 

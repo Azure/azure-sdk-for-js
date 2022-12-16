@@ -6,10 +6,10 @@ import {
   checkTenantId,
   processMultiTenantRequest,
   resolveAddionallyAllowedTenantIds,
-} from "../util/tenantIdUtils";
+} from "../../../identity-common/src/util/tenantIdUtils";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 import { credentialLogger, formatSuccess } from "../util/logging";
-import { IdentityClient } from "../client/identityClient";
+import { IdentityClient } from "../../../identity-common/src/client/identityClient";
 import { UsernamePasswordCredentialOptions } from "./usernamePasswordCredentialOptions";
 import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
 import { tracingClient } from "../util/tracing";

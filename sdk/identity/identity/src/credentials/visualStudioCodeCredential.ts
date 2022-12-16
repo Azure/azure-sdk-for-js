@@ -6,12 +6,12 @@ import { credentialLogger, formatError, formatSuccess } from "../util/logging";
 import {
   processMultiTenantRequest,
   resolveAddionallyAllowedTenantIds,
-} from "../util/tenantIdUtils";
-import { AzureAuthorityHosts } from "../constants";
-import { CredentialUnavailableError } from "../errors";
-import { IdentityClient } from "../client/identityClient";
+} from "../../../identity-common/src/util/tenantIdUtils";
+import { AzureAuthorityHosts } from "../../../identity-common/src/constants";
+import { CredentialUnavailableError } from "../../../identity-common/src/errors";
+import { IdentityClient } from "../../../identity-common/src/client/identityClient";
 import { VisualStudioCodeCredentialOptions } from "./visualStudioCodeCredentialOptions";
-import { checkTenantId } from "../util/tenantIdUtils";
+import { checkTenantId } from "../../../identity-common/src/util/tenantIdUtils";
 import fs from "fs";
 import os from "os";
 import path from "path";
