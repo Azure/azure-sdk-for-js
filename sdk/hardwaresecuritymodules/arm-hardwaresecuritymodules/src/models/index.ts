@@ -22,7 +22,7 @@ export interface DedicatedHsmOperation {
    * Gets or sets a value indicating whether it is a data plane action
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly isDataAction?: string;
+  readonly isDataAction?: boolean;
   /** The display string. */
   display?: DedicatedHsmOperationDisplay;
 }
@@ -203,7 +203,7 @@ export interface ResourceListResult {
 }
 
 /** Resource information with extended details. */
-export type DedicatedHsm = Resource & {
+export interface DedicatedHsm extends Resource {
   /**
    * Metadata pertaining to creation and last modification of the resource
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -225,13 +225,17 @@ export type DedicatedHsm = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: JsonWebKeyType;
-};
+}
 
 /** Known values of {@link IdentityType} that the service accepts. */
 export enum KnownIdentityType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -391,20 +395,14 @@ export type DedicatedHsmListOutboundNetworkDependenciesEndpointsResponse = Outbo
 
 /** Optional parameters. */
 export interface DedicatedHsmListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Maximum number of results to return. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type DedicatedHsmListByResourceGroupNextResponse = DedicatedHsmListResult;
 
 /** Optional parameters. */
 export interface DedicatedHsmListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Maximum number of results to return. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type DedicatedHsmListBySubscriptionNextResponse = DedicatedHsmListResult;

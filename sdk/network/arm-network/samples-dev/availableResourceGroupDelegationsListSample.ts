@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Gets all of the available subnet delegations for this resource group in this region.
  *
  * @summary Gets all of the available subnet delegations for this resource group in this region.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/AvailableDelegationsResourceGroupGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/AvailableDelegationsResourceGroupGet.json
  */
 async function getAvailableDelegationsInTheResourceGroup() {
   const subscriptionId = "subId";

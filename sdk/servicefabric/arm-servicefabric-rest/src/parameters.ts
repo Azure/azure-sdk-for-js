@@ -57,9 +57,10 @@ export interface ClustersListUpgradableVersionsMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type ClustersListUpgradableVersionsParameters = ClustersListUpgradableVersionsMediaTypesParam &
-  ClustersListUpgradableVersionsBodyParam &
-  RequestParameters;
+export type ClustersListUpgradableVersionsParameters =
+  ClustersListUpgradableVersionsMediaTypesParam &
+    ClustersListUpgradableVersionsBodyParam &
+    RequestParameters;
 export type ClusterVersionsGetParameters = RequestParameters;
 export type ClusterVersionsGetByEnvironmentParameters = RequestParameters;
 export type ClusterVersionsListParameters = RequestParameters;
@@ -77,9 +78,10 @@ export interface ApplicationTypesCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type ApplicationTypesCreateOrUpdateParameters = ApplicationTypesCreateOrUpdateMediaTypesParam &
-  ApplicationTypesCreateOrUpdateBodyParam &
-  RequestParameters;
+export type ApplicationTypesCreateOrUpdateParameters =
+  ApplicationTypesCreateOrUpdateMediaTypesParam &
+    ApplicationTypesCreateOrUpdateBodyParam &
+    RequestParameters;
 export type ApplicationTypesDeleteParameters = RequestParameters;
 export type ApplicationTypesListParameters = RequestParameters;
 export type ApplicationTypeVersionsGetParameters = RequestParameters;
@@ -94,9 +96,10 @@ export interface ApplicationTypeVersionsCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type ApplicationTypeVersionsCreateOrUpdateParameters = ApplicationTypeVersionsCreateOrUpdateMediaTypesParam &
-  ApplicationTypeVersionsCreateOrUpdateBodyParam &
-  RequestParameters;
+export type ApplicationTypeVersionsCreateOrUpdateParameters =
+  ApplicationTypeVersionsCreateOrUpdateMediaTypesParam &
+    ApplicationTypeVersionsCreateOrUpdateBodyParam &
+    RequestParameters;
 export type ApplicationTypeVersionsDeleteParameters = RequestParameters;
 export type ApplicationTypeVersionsListParameters = RequestParameters;
 export type ApplicationsGetParameters = RequestParameters;

@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { MigrationConfigs } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -62,8 +63,16 @@ export class MigrationConfigsImpl implements MigrationConfigs {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, namespaceName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          namespaceName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -71,11 +80,18 @@ export class MigrationConfigsImpl implements MigrationConfigs {
   private async *listPagingPage(
     resourceGroupName: string,
     namespaceName: string,
-    options?: MigrationConfigsListOptionalParams
+    options?: MigrationConfigsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<MigrationConfigProperties[]> {
-    let result = await this._list(resourceGroupName, namespaceName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: MigrationConfigsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, namespaceName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -84,7 +100,9 @@ export class MigrationConfigsImpl implements MigrationConfigs {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -470,7 +488,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Create or update a connection monitor.
  *
  * @summary Create or update a connection monitor.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkWatcherConnectionMonitorCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/NetworkWatcherConnectionMonitorCreate.json
  */
 async function createConnectionMonitorV1() {
   const subscriptionId = "subid";
@@ -66,7 +66,7 @@ createConnectionMonitorV1().catch(console.error);
  * This sample demonstrates how to Create or update a connection monitor.
  *
  * @summary Create or update a connection monitor.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkWatcherConnectionMonitorV2Create.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/NetworkWatcherConnectionMonitorV2Create.json
  */
 async function createConnectionMonitorV2() {
   const subscriptionId = "subid";

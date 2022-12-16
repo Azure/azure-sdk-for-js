@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { TimeSeriesInsightsClient } from "@azure/arm-timeseriesinsights";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Lists all the available access policies associated with the environment.
@@ -18,8 +21,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/timeseriesinsights/resource-manager/Microsoft.TimeSeriesInsights/preview/2021-03-31-preview/examples/AccessPoliciesListByEnvironment.json
  */
 async function accessPoliciesByEnvironment() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId =
+    process.env["TIMESERIESINSIGHTS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["TIMESERIESINSIGHTS_RESOURCE_GROUP"] || "rg1";
   const environmentName = "env1";
   const credential = new DefaultAzureCredential();
   const client = new TimeSeriesInsightsClient(credential, subscriptionId);
@@ -30,4 +35,8 @@ async function accessPoliciesByEnvironment() {
   console.log(result);
 }
 
-accessPoliciesByEnvironment().catch(console.error);
+async function main() {
+  accessPoliciesByEnvironment();
+}
+
+main().catch(console.error);

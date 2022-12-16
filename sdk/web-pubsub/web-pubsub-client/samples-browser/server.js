@@ -2,8 +2,6 @@ const express = require('express');
 const { WebPubSubServiceClient } = require('@azure/web-pubsub');
 require('dotenv').config({ path: './sample.env' })
 
-console.log(process.env);
-
 const app = express();
 const hubName = 'sample_chat';
 const port = 8080;

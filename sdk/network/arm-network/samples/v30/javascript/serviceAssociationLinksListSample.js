@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Gets a list of service association links for a subnet.
  *
  * @summary Gets a list of service association links for a subnet.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkGetServiceAssociationLinks.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/VirtualNetworkGetServiceAssociationLinks.json
  */
 async function getServiceAssociationLinks() {
   const subscriptionId = "subid";

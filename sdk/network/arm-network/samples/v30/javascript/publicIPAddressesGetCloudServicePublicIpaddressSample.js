@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Get the specified public IP address in a cloud service.
  *
  * @summary Get the specified public IP address in a cloud service.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/CloudServicePublicIpGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/CloudServicePublicIpGet.json
  */
 async function getVmssPublicIP() {
   const subscriptionId = "subid";
