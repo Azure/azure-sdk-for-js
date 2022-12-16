@@ -45,9 +45,7 @@ export class SipRoutingImpl implements SipRouting {
   patch(
     options?: SipRoutingPatchOptionalParams
   ): Promise<SipRoutingPatchResponse> {
-    console.log("===========patch begin 2");
     return this.client.sendOperationRequest({ options }, patchOperationSpec);
-    console.log("===========patch end 2");
   }
 }
 // Operation Specifications

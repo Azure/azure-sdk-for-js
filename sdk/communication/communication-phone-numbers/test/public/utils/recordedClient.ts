@@ -16,7 +16,7 @@ import { parseConnectionString } from "@azure/communication-common";
 import { TokenCredential } from "@azure/identity";
 import { isNode } from "@azure/test-utils";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { createMSUserAgentPolicy } from "../siprouting/utils/msUserAgentPolicy";
+import { createMSUserAgentPolicy } from "./msUserAgentPolicy";
 import { AdditionalPolicyConfig } from "@azure/core-client";
 
 if (isNode) {

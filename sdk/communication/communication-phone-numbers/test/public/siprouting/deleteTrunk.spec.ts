@@ -47,7 +47,7 @@ matrix([[true, false]], async function (useAad) {
       const trunk: SipTrunk = {
         fqdn: testFqdn,
         sipSignalingPort: 5678,
-        enabled: true
+        enabled: false
       };
       const storedTrunk = await client.setTrunk(trunk);
       assert.deepEqual(storedTrunk, trunk);

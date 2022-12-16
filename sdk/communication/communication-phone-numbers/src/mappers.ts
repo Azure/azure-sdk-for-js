@@ -34,7 +34,7 @@ export function transformIntoRestModel(trunks: SipTrunk[]): {
 } {
   const result: { [propertyName: string]: RestSipTrunk } = {};
 
-  trunks.forEach((trunk: SipTrunk) => {
+  trunks.forEach((trunk: SipTrunk) => {    
     result[trunk.fqdn] = { sipSignalingPort: trunk.sipSignalingPort, enabled: trunk.enabled } as RestSipTrunk;
   });
 
