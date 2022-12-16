@@ -3830,7 +3830,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20221213
+      typescript: 5.0.0-dev.20221216
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -8770,8 +8770,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20221213:
-    resolution: {integrity: sha512-CONCSaeW3yqMVDra8geo9H+hDek37C1z/b05gWtzTJP4vVQ+exSRJmPNqhvuGyEs5En8wcjH/iXVGYQymJC4aQ==}
+  /typescript/5.0.0-dev.20221216:
+    resolution: {integrity: sha512-69mskYxo8qKjwdtzRxpbZrueutt4BTbbTUlZvcl8Lu5pM42ZJ7GuJw6ZLb6GVUx6T8/dk46erSFT3O4SNCi7LA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -14531,7 +14531,7 @@ packages:
     dev: false
 
   file:projects/arm-servicelinker.tgz:
-    resolution: {integrity: sha512-IWsIdoTdLQzu5+kKQKOiFfE5acI0qr6sWzmqpPd2uZYVQ9auVGX6L4zSlWPfjEw5lsI1qj4f2Uhmtoff2N/I1Q==, tarball: file:projects/arm-servicelinker.tgz}
+    resolution: {integrity: sha512-tpFQYqdAiszu4CbTiUKhFrquhleuBzaYh03cJeSeMnkmhb7fJ6V5dkw8mdvOfJWx336ri2Kw1S7j3MLSswWguw==, tarball: file:projects/arm-servicelinker.tgz}
     name: '@rush-temp/arm-servicelinker'
     version: 0.0.0
     dependencies:
@@ -14546,6 +14546,7 @@ packages:
       '@types/node': 14.18.34
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2

@@ -127,7 +127,6 @@ export enum KnownClientType {
     Dotnet = "dotnet",
     Go = "go",
     Java = "java",
-    KafkaSpringBoot = "kafka-springBoot",
     Nodejs = "nodejs",
     None = "none",
     Php = "php",

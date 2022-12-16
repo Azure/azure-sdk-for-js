@@ -1,6 +1,6 @@
 # Release History
     
-## 2.1.0 (2022-12-12)
+## 2.1.0 (2022-12-16)
     
 **Features**
 
@@ -18,7 +18,7 @@
   - Added Interface SystemAssignedIdentityAuthInfo
   - Added Interface UserAssignedIdentityAuthInfo
   - Added Interface ValueSecretInfo
-  - Enum KnownClientType has a new value KafkaSpringBoot
+  - Added function getContinuationToken
     
     
 ## 2.0.0 (2022-05-16)
