@@ -1,0 +1,115 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Sql/servers/myserverppp/databases?api-version=2021-05-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-sql/9.1.0 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "ae40b508-1a48-42ac-938f-9bb279296d0c"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 15 Dec 2022 06:16:04 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "ac8b5204-1d22-4307-8e7c-a283c5bc24fe",
+        "x-ms-ratelimit-remaining-subscription-reads": "11980",
+        "x-ms-request-id": "031116d6-dbd7-4d46-bf78-b5adf091c73e",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221215T061605Z:ac8b5204-1d22-4307-8e7c-a283c5bc24fe"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "sku": {
+              "name": "GP_Gen5",
+              "tier": "GeneralPurpose",
+              "family": "Gen5",
+              "capacity": 2
+            },
+            "kind": "v12.0,user,vcore",
+            "properties": {
+              "collation": "SQL_Latin1_General_CP1_CI_AS",
+              "maxSizeBytes": 34359738368,
+              "status": "Online",
+              "databaseId": "128fc881-8e0e-4f67-8ca6-25cb58340f29",
+              "creationDate": "2022-12-15T06:15:56.653Z",
+              "currentServiceObjectiveName": "GP_Gen5_2",
+              "requestedServiceObjectiveName": "GP_Gen5_2",
+              "defaultSecondaryLocation": "westus",
+              "catalogCollation": "SQL_Latin1_General_CP1_CI_AS",
+              "zoneRedundant": false,
+              "licenseType": "LicenseIncluded",
+              "maxLogSizeBytes": 193273528320,
+              "readScale": "Disabled",
+              "currentSku": {
+                "name": "GP_Gen5",
+                "tier": "GeneralPurpose",
+                "family": "Gen5",
+                "capacity": 2
+              },
+              "currentBackupStorageRedundancy": "Geo",
+              "requestedBackupStorageRedundancy": "Geo",
+              "maintenanceConfigurationId": "/subscriptions/azure_subscription_id/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_Default",
+              "isLedgerOn": false,
+              "isInfraEncryptionEnabled": false
+            },
+            "location": "eastus",
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Sql/servers/myserverppp/databases/mydatabasezzzz",
+            "name": "mydatabasezzzz",
+            "type": "Microsoft.Sql/servers/databases"
+          },
+          {
+            "sku": {
+              "name": "System",
+              "tier": "System",
+              "capacity": 0
+            },
+            "kind": "v12.0,system",
+            "managedBy": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Sql/servers/myserverppp",
+            "properties": {
+              "collation": "SQL_Latin1_General_CP1_CI_AS",
+              "maxSizeBytes": 53687091200,
+              "status": "Online",
+              "databaseId": "058c5eed-b84b-4f70-a448-f4156b1d9e54",
+              "creationDate": "2022-12-15T06:15:00.027Z",
+              "currentServiceObjectiveName": "System2",
+              "requestedServiceObjectiveName": "System2",
+              "defaultSecondaryLocation": "westus",
+              "catalogCollation": "SQL_Latin1_General_CP1_CI_AS",
+              "zoneRedundant": false,
+              "readScale": "Disabled",
+              "currentSku": {
+                "name": "System",
+                "tier": "System",
+                "capacity": 0
+              },
+              "currentBackupStorageRedundancy": "Local",
+              "requestedBackupStorageRedundancy": "Local",
+              "maintenanceConfigurationId": "/subscriptions/azure_subscription_id/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_Default",
+              "isLedgerOn": false,
+              "isInfraEncryptionEnabled": false
+            },
+            "location": "eastus",
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Sql/servers/myserverppp/databases/master",
+            "name": "master",
+            "type": "Microsoft.Sql/servers/databases"
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}
