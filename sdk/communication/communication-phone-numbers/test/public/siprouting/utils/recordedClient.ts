@@ -18,7 +18,7 @@ import { TokenCredential } from "@azure/identity";
 import { isNode } from "@azure/test-utils";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { v4 as uuid } from "uuid";
-import { createMSUserAgentPolicy } from './msUserAgentPolicy';
+import { createMSUserAgentPolicy } from "./msUserAgentPolicy";
 import { AdditionalPolicyConfig } from "@azure/core-client";
 
 if (isNode) {
@@ -80,14 +80,15 @@ export async function createRecorder(context: Test | undefined): Promise<Recorde
 }
 
 export async function createRecordedClient(
-  context: Context, mockedAPI: boolean = false
+  context: Context,
+  mockedAPI: boolean = false
 ): Promise<RecordedClient<SipRoutingClient>> {
   const recorder = await createRecorder(context.currentTest);
   const policies = getAdditionalPolicies(mockedAPI);
 
   const client = new SipRoutingClient(
     assertEnvironmentVariable("COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING"),
-    recorder.configureClientOptions({ "additionalPolicies": policies})
+    recorder.configureClientOptions({ additionalPolicies: policies })
   );
 
   return { client, recorder };
@@ -102,11 +103,12 @@ export function createMockToken(): TokenCredential {
 }
 
 export async function createRecordedClientWithToken(
-  context: Context, mockedAPI: boolean = false
+  context: Context,
+  mockedAPI: boolean = false
 ): Promise<RecordedClient<SipRoutingClient>> {
   const recorder = await createRecorder(context.currentTest);
   const policies = getAdditionalPolicies(mockedAPI);
- 
+
   let credential: TokenCredential;
   const endpoint = parseConnectionString(
     assertEnvironmentVariable("COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING")
@@ -118,7 +120,11 @@ export async function createRecordedClientWithToken(
     credential = createTestCredential();
   }
 
-  const client = new SipRoutingClient(endpoint, credential, recorder.configureClientOptions({ "additionalPolicies": policies}));
+  const client = new SipRoutingClient(
+    endpoint,
+    credential,
+    recorder.configureClientOptions({ additionalPolicies: policies })
+  );
 
   // casting is a workaround to enable min-max testing
   return { client, recorder };
@@ -152,7 +158,7 @@ export function resetUniqueDomains(): void {
   domainNumber = 1;
 }
 
-export function getAdditionalPolicies(mockedApi: boolean):AdditionalPolicyConfig[] {  
+export function getAdditionalPolicies(mockedApi: boolean): AdditionalPolicyConfig[] {
   const additionalPolicies: AdditionalPolicyConfig[] = [
     {
       policy: createMSUserAgentPolicy(mockedApi),

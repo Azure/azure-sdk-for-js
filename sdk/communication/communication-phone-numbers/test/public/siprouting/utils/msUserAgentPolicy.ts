@@ -9,7 +9,7 @@ import {
 } from "@azure/core-rest-pipeline";
 import { env } from "@azure-tools/test-recorder";
 
-export function createMSUserAgentPolicy(mockedUserAgent:boolean): PipelinePolicy {
+export function createMSUserAgentPolicy(mockedUserAgent: boolean): PipelinePolicy {
   const userAgentKey = "x-ms-useragent";
   const userAgentValue = "acs-mock-test";
   return {
@@ -19,7 +19,7 @@ export function createMSUserAgentPolicy(mockedUserAgent:boolean): PipelinePolicy
       if (useragent) {
         request.headers.set(userAgentKey, useragent);
       }
-      if(mockedUserAgent){
+      if (mockedUserAgent) {
         request.headers.set(userAgentKey, userAgentValue);
       }
 
