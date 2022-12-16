@@ -123,7 +123,7 @@ export function transformDomainsIntoRestModel(domains: SipDomain[]): {
  * @internal
  * Transforming SIP domains REST model to SDK model
  */
- export function transformDomainsFromRestModel(
+export function transformDomainsFromRestModel(
   domains: { [propertyName: string]: RestSipDomain } | undefined
 ): SipDomain[] {
   const result: SipDomain[] = [];
@@ -143,7 +143,7 @@ export function transformDomainsIntoRestModel(domains: SipDomain[]): {
  * @internal
  * Transforming SIP domains SDK model to REST model
  */
- export function transformDomainsIntoRestModel(domains: SipDomain[]): {
+export function transformDomainsIntoRestModel(domains: SipDomain[]): {
   [propertyName: string]: RestSipDomain;
 } {
   const result: { [propertyName: string]: RestSipDomain } = {};

@@ -103,18 +103,22 @@ export class SipRoutingClient {
     this.client.pipeline.addPolicy(authPolicy);
   }
 
-   /**
+  /**
    * Gets the SIP domains.
    * @param options - The options parameters.
    */
-    public async getDomains(options: OperationOptions = {}): Promise<SipDomain[]> {
-      return tracingClient.withSpan("SipRoutingClient-getDomains", options, async (updatedOptions) => {
+  public async getDomains(options: OperationOptions = {}): Promise<SipDomain[]> {
+    return tracingClient.withSpan(
+      "SipRoutingClient-getDomains",
+      options,
+      async (updatedOptions) => {
         const config = await this.client.sipRouting.get(updatedOptions);
         return transformDomainsFromRestModel(config.domains);
-      });
-    }
+      }
+    );
+  }
 
-    /**
+  /**
    * Gets the SIP domain.
    * @param domainUri - The domain's uri.
    * @param options - The options parameters.
