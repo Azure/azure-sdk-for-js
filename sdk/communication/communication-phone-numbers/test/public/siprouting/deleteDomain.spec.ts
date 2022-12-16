@@ -65,7 +65,6 @@ matrix([[true, false]], async function (useAad) {
 
     it("cannot delete non existing domain but succeeds", async () => {
       await client.setDomains([]);
-
       const storedDomain = await client.deleteDomain("notExisting.fqdn.com");
       assert.isNotNull(storedDomain);
       assert.isEmpty(storedDomain);

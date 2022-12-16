@@ -20,7 +20,6 @@ import {
 } from "./mappers";
 import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import { tracingClient } from "./generated/src/tracing";
-import { domain } from "process";
 
 export * from "./models";
 
@@ -318,7 +317,6 @@ export class SipRoutingClient {
       const storedTrunk = transformFromRestModel(config.trunks).find(
         (value: SipTrunk) => value.fqdn === trunk.fqdn
       );
-      console.log("===========patch transform");
       if (storedTrunk) {
         return storedTrunk;
       }
