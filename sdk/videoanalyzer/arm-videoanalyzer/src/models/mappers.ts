@@ -766,6 +766,7 @@ export const MetricSpecification: coreClient.CompositeMapper = {
       lockAggregationType: {
         serializedName: "lockAggregationType",
         readOnly: true,
+        nullable: true,
         type: {
           name: "String"
         }
@@ -1077,6 +1078,7 @@ export const GroupLevelAccessControl: coreClient.CompositeMapper = {
     modelProperties: {
       publicNetworkAccess: {
         serializedName: "publicNetworkAccess",
+        nullable: true,
         type: {
           name: "String"
         }
@@ -1246,6 +1248,7 @@ export const VideoAnalyzerUpdate: coreClient.CompositeMapper = {
       },
       publicNetworkAccess: {
         serializedName: "properties.publicNetworkAccess",
+        nullable: true,
         type: {
           name: "String"
         }
@@ -3085,6 +3088,7 @@ export const VideoAnalyzer: coreClient.CompositeMapper = {
       },
       publicNetworkAccess: {
         serializedName: "properties.publicNetworkAccess",
+        nullable: true,
         type: {
           name: "String"
         }
@@ -3125,8 +3129,8 @@ export const RtspSource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "RtspSource",
-    uberParent: "NodeBase",
-    polymorphicDiscriminator: NodeBase.type.polymorphicDiscriminator,
+    uberParent: "SourceNodeBase",
+    polymorphicDiscriminator: SourceNodeBase.type.polymorphicDiscriminator,
     modelProperties: {
       ...SourceNodeBase.type.modelProperties,
       transport: {
@@ -3151,8 +3155,8 @@ export const VideoSource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "VideoSource",
-    uberParent: "NodeBase",
-    polymorphicDiscriminator: NodeBase.type.polymorphicDiscriminator,
+    uberParent: "SourceNodeBase",
+    polymorphicDiscriminator: SourceNodeBase.type.polymorphicDiscriminator,
     modelProperties: {
       ...SourceNodeBase.type.modelProperties,
       videoName: {
@@ -3178,8 +3182,8 @@ export const EncoderProcessor: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "EncoderProcessor",
-    uberParent: "NodeBase",
-    polymorphicDiscriminator: NodeBase.type.polymorphicDiscriminator,
+    uberParent: "ProcessorNodeBase",
+    polymorphicDiscriminator: ProcessorNodeBase.type.polymorphicDiscriminator,
     modelProperties: {
       ...ProcessorNodeBase.type.modelProperties,
       preset: {
@@ -3198,8 +3202,8 @@ export const VideoSink: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "VideoSink",
-    uberParent: "NodeBase",
-    polymorphicDiscriminator: NodeBase.type.polymorphicDiscriminator,
+    uberParent: "SinkNodeBase",
+    polymorphicDiscriminator: SinkNodeBase.type.polymorphicDiscriminator,
     modelProperties: {
       ...SinkNodeBase.type.modelProperties,
       videoName: {
@@ -3336,8 +3340,8 @@ export let discriminators = {
   "VideoEncoderBase.#Microsoft.VideoAnalyzer.VideoEncoderH264": VideoEncoderH264,
   "TokenKey.#Microsoft.VideoAnalyzer.RsaTokenKey": RsaTokenKey,
   "TokenKey.#Microsoft.VideoAnalyzer.EccTokenKey": EccTokenKey,
-  "NodeBase.#Microsoft.VideoAnalyzer.RtspSource": RtspSource,
-  "NodeBase.#Microsoft.VideoAnalyzer.VideoSource": VideoSource,
-  "NodeBase.#Microsoft.VideoAnalyzer.EncoderProcessor": EncoderProcessor,
-  "NodeBase.#Microsoft.VideoAnalyzer.VideoSink": VideoSink
+  "SourceNodeBase.#Microsoft.VideoAnalyzer.RtspSource": RtspSource,
+  "SourceNodeBase.#Microsoft.VideoAnalyzer.VideoSource": VideoSource,
+  "ProcessorNodeBase.#Microsoft.VideoAnalyzer.EncoderProcessor": EncoderProcessor,
+  "SinkNodeBase.#Microsoft.VideoAnalyzer.VideoSink": VideoSink
 };

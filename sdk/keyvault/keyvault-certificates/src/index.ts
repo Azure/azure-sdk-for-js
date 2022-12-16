@@ -101,7 +101,7 @@ import {
 import { KeyVaultClient } from "./generated/keyVaultClient";
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
-import { createKeyVaultChallengeCallbacks } from "../../keyvault-common/src";
+import { createKeyVaultChallengeCallbacks } from "@azure/keyvault-common";
 import { CreateCertificatePoller } from "./lro/create/poller";
 import { CertificateOperationPoller } from "./lro/operation/poller";
 import { DeleteCertificatePoller } from "./lro/delete/poller";

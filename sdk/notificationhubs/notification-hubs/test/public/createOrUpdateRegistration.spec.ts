@@ -1,55 +1,60 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { EnvVarKeys, getEnvVars } from "../utils/testUtils.js";
 import {
   NotificationHubsClientContext,
-  createClientContext,
   createOrUpdateRegistration,
   createRegistrationId,
   deleteRegistration,
   getRegistration,
 } from "@azure/notification-hubs/api";
 import { assert, isNode } from "@azure/test-utils";
+import { Recorder } from "@azure-tools/test-recorder";
 import { createAppleRegistrationDescription } from "@azure/notification-hubs/models";
+import { createRecordedClientContext } from "./utils/recordedClient.js";
 
-if (isNode) {
-  const env = getEnvVars();
-
-  // Define connection string and hub name
-  const connectionString = env[EnvVarKeys.NOTIFICATIONHUBS_CONNECTION_STRING];
-  const hubName = env[EnvVarKeys.NOTIFICATION_HUB_NAME];
-
-  // Define message constants
-  const DUMMY_DEVICE = "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0";
-  const deviceToken = env[EnvVarKeys.APNS_DEVICE_TOKEN] || DUMMY_DEVICE;
-
+describe("createRegistrationId()", () => {
   let registrationId: string;
+  let recorder: Recorder;
   let context: NotificationHubsClientContext;
+  const deviceToken = "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0";
 
-  describe("createRegistrationId()", () => {
-    beforeEach(async () => {
-      context = createClientContext(connectionString, hubName);
+  beforeEach(async function (this: Mocha.Context) {
+    if (!isNode) {
+      return;
+    }
 
-      registrationId = await createRegistrationId(context);
+    recorder = new Recorder(this.currentTest);
+    await recorder.setMatcher("BodilessMatcher");
+    context = await createRecordedClientContext(recorder);
 
-      const registration = createAppleRegistrationDescription({
-        registrationId,
-        deviceToken,
-        tags: ["likes_football", "likes_hockey"],
-      });
+    registrationId = await createRegistrationId(context);
 
-      await createOrUpdateRegistration(context, registration);
+    const registration = createAppleRegistrationDescription({
+      registrationId,
+      deviceToken,
+      tags: ["likes_football", "likes_hockey"],
     });
 
-    afterEach(async () => {
-      await deleteRegistration(context, registrationId);
-    });
-
-    it("should get a registration by the given registration ID", async () => {
-      const registration = await getRegistration(context!, registrationId!);
-
-      assert.equal(registration.registrationId, registrationId);
-    });
+    await createOrUpdateRegistration(context, registration);
   });
-}
+
+  afterEach(async () => {
+    if (!isNode) {
+      return;
+    }
+
+    await deleteRegistration(context, registrationId);
+    await recorder.stop();
+  });
+
+  it("should get a registration by the given registration ID", async function () {
+    if (!isNode) {
+      this.skip();
+    }
+
+    const registration = await getRegistration(context!, registrationId!);
+
+    assert.equal(registration.registrationId, registrationId);
+  });
+});
