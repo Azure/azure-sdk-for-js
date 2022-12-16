@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 // Licensed under the MIT license.
 
 import { assert } from "chai";
@@ -12,7 +15,7 @@ import {
   resetUniqueDomains } from "./utils/recordedClient";
 
 matrix([[true, false]], async function (useAad) {
-  describe(`SipRoutingClient - domains mocked tests${useAad ? " [AAD]": ""}`, function(){
+  describe(`SipRoutingClient - domains mocked tests${useAad ? " [AAD]" : ""}`, function(){
     let client: SipRoutingClient;
     let recorder: Recorder;
     let firstDomain = "";
@@ -41,7 +44,7 @@ matrix([[true, false]], async function (useAad) {
     });
 
     it("set domain successful", async () => {
-      let domainToSet = firstDomain;
+      const domainToSet = firstDomain;
       const domain: SipDomain = { domainUri: domainToSet, enabled: true };
 
       const setDomain = await client.setDomain(domain);
@@ -49,7 +52,7 @@ matrix([[true, false]], async function (useAad) {
     });
 
     it("delete domain successful", async () => {
-      let domainUri = "contoso.com";
+      const domainUri = "contoso.com";
       try{
         await client.deleteDomain(domainUri);
       } catch(error: any){
