@@ -3,32 +3,56 @@
 import { assert } from "chai";
 import { Context } from "mocha";
 import { matrix } from "@azure/test-utils";
-import { Recorder } from "@azure-tools/test-recorder";
+import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { SipDomain, SipRoutingClient } from "../../../src/sipRoutingClient";
-import { createRecordedClient, createRecordedClientWithToken } from "./utils/recordedClient";
+import { 
+  createRecordedClient, 
+  createRecordedClientWithToken, 
+  getUniqueDomain, 
+  resetUniqueDomains,
+  clearSipConfiguration} from "./utils/recordedClient";
 
 matrix([[true, false]], async function (useAad) {
   describe(`SipRoutingClient - get domains${useAad ? " [AAD]": ""}`, function(){
     let client: SipRoutingClient;
     let recorder: Recorder;
+    let firstDomain = "";
+    let secondDomain = "";
+    let thirdDomain = "";
+    let forthDomain = "";
+
+    //to be removed once API is finished
+    before(async function() {
+      console.log("SipRoutingClient - get domain will be skiped because of not finished API");
+      this.skip();
+
+      //will be executed when "skip" part is removed in future
+      if (!isPlaybackMode()) {
+        await clearSipConfiguration();
+      }
+    });
 
     beforeEach(async function (this: Context) {
       ({ client, recorder } = useAad
         ? await createRecordedClientWithToken(this)
         : await createRecordedClient(this));
+        firstDomain = getUniqueDomain(recorder);
+        secondDomain = getUniqueDomain(recorder);
+        thirdDomain = getUniqueDomain(recorder);
+        forthDomain = getUniqueDomain(recorder);
     });
 
     afterEach(async function (this: Context) {
       if (!this.currentTest?.isPending()) {
         await recorder.stop();
       }
+      resetUniqueDomains();
     });
     
     it("cannot retrieve a not existing domain", async() => {
-      let domainToSet = generateDomain("first");
-      await client.setDomain({ domainUri: domainToSet, enabled: true } as SipDomain);
+      await client.setDomain({ domainUri: firstDomain, enabled: true } as SipDomain);
 
-      const domain = await client.getDomain(domainToSet);
+      const domain = await client.getDomain(firstDomain);
 
       assert.isNotNull(domain);
       assert.equal(domain?.enabled, true);
@@ -50,9 +74,9 @@ matrix([[true, false]], async function (useAad) {
 
     it("can retrieve not empty domains", async () => {
       const expectedDomains = [
-        { domainUri: generateDomain("second"), enabled: true },
-        { domainUri: generateDomain("second"), enabled: true },
-        { domainUri: generateDomain("second"), enabled: true },
+        { domainUri: secondDomain, enabled: true },
+        { domainUri: thirdDomain, enabled: true },
+        { domainUri: forthDomain, enabled: true },
       ];
       await client.setDomains(expectedDomains);
 
@@ -64,13 +88,3 @@ matrix([[true, false]], async function (useAad) {
     });
   });
 });
-
-//move to recordedClient when changes from master are merged
-function generateDomain(order: string) {
-  const length = 12;
-  let random = 0;
-  do {
-    random = Math.floor(Math.random() * 10 ** length);
-  } while (random < 10 ** (length - 1));
-  return `${order}${random}.com`;
-}

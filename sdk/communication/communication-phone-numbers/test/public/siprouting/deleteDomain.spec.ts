@@ -6,51 +6,70 @@ import { Context } from "mocha";
 
 import { SipRoutingClient } from "../../../src";
 
-import { Recorder } from "@azure-tools/test-recorder";
+import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { SipDomain, SipTrunk } from "../../../src/models";
-import { createRecordedClient, createRecordedClientWithToken } from "./utils/recordedClient";
+import { 
+  createRecordedClient, 
+  createRecordedClientWithToken, 
+  getUniqueDomain, 
+  resetUniqueDomains,
+  clearSipConfiguration } from "./utils/recordedClient";
 import { matrix } from "@azure/test-utils";
 
 matrix([[true, false]], async function (useAad) {
-  describe(`SipRoutingClient - delete trunk${useAad ? " [AAD]" : ""}`, function () {
+  describe(`SipRoutingClient - delete domain${useAad ? " [AAD]" : ""}`, function () {
     let client: SipRoutingClient;
     let recorder: Recorder;
-
+    let firstDomain = "";
+    let secondDomain = "";
+    
+    //to be removed once API is finished
+    before(async function() {
+        console.log("SipRoutingClient - delete domain will be skiped because of not finished API");
+        this.skip();
+        
+        //will be executed when "skip" part is removed in future
+        if (!isPlaybackMode()) {
+          await clearSipConfiguration();
+        }
+    });
+    
     beforeEach(async function (this: Context) {
       ({ client, recorder } = useAad
         ? await createRecordedClientWithToken(this)
         : await createRecordedClient(this));
+        firstDomain = getUniqueDomain(recorder);
+        secondDomain = getUniqueDomain(recorder);
     });
 
     afterEach(async function (this: Context) {
       if (!this.currentTest?.isPending()) {
         await recorder.stop();
       }
+      resetUniqueDomains();
     });
 
     it("can delete an existing domain", async () => {
       const domain: SipDomain = {
-        domainUri: generateDomain("tenth"),
+        domainUri: firstDomain,
         enabled: true
       };
       
-      const storedDomain = await client.setDomain(domain);
-      assert.deepEqual(storedDomain, domain);
+      await client.setDomain(domain);
+      await client.deleteDomain(firstDomain);
       assert.exists((await client.getDomains()).find((value) => value.domainUri === domain.domainUri));
     });
 
     it("cannot delete non existing domain but succeeds", async () => {
       await client.setDomains([]);
-      const domainUri = generateDomain("eleventh");
       
-      const storedDomain = await client.deleteDomain(domainUri);
+      const storedDomain = await client.deleteDomain("notExisting.fqdn.com");
       assert.isNotNull(storedDomain);
-      assert.isArray(storedDomain);
       assert.isEmpty(storedDomain);
     });
 
     it("cannot delete domain if depended trunks exist", async () => {
-      let domainUri = generateDomain("twelfth");
+      let domainUri = secondDomain;
       let domain: SipDomain = {
         domainUri: domainUri,
         enabled: true
@@ -78,21 +97,11 @@ matrix([[true, false]], async function (useAad) {
   });
 });
 
-//move to recordedClient when changes from master are merged
-function generateDomain(order: string) {
-  const length = 12;
-  let random = 0;
-  do {
-    random = Math.floor(Math.random() * 10 ** length);
-  } while (random < 10 ** (length - 1));
-  return `${order}${random}.com`;
-}
-
 function generateTrunk(domain: string) {
   const length = 12;
   let random = 0;
   do {
     random = Math.floor(Math.random() * 10 ** length);
   } while (random < 10 ** (length - 1));
-  return `${random}.${domain}.com`;
+  return `${random}.${domain}`;
 }

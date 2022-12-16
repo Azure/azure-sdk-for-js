@@ -12,10 +12,9 @@ import { logger } from "./utils";
 import { SipRoutingClient as SipRoutingGeneratedClient } from "./generated/src/siprouting/sipRoutingClient";
 import { SipConfigurationPatch, SipRoutingError } from "./generated/src/siprouting/models";
 import { SipDomain, SipTrunk, SipTrunkRoute } from "./models";
-import { transformFromRestModel, transformIntoRestModel, transformDomainsFromRestModel } from "./mappers";
+import { transformFromRestModel, transformIntoRestModel, transformDomainsFromRestModel, transformDomainsIntoRestModel } from "./mappers";
 import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import { tracingClient } from "./generated/src/tracing";
-import { domain } from "process";
 
 export * from "./models";
 
@@ -173,7 +172,7 @@ export class SipRoutingClient {
    */
    public async setDomains(domains: SipDomain[], options: OperationOptions = {}): Promise<SipDomain[]> {
     return tracingClient.withSpan("SipRoutingClient-setDomains", options, async (updatedOptions) => {
-      const patch: SipConfigurationPatch = { domains: transformDomainsFromRestModel(domains) };
+      const patch: SipConfigurationPatch = { domains: transformDomainsIntoRestModel(domains) };
       let config = await this.client.sipRouting.get(updatedOptions);
       const storedDomains = transformDomainsFromRestModel(config.domains).map((domain) => domain.domainUri);
       const setDomains = domains.map((domain) => domain.domainUri);
@@ -205,7 +204,7 @@ export class SipRoutingClient {
    public async setDomain(domain: SipDomain, options: OperationOptions = {}): Promise<SipDomain> {
     return tracingClient.withSpan("SipRoutingClient-setDomain", options, async (updatedOptions) => {
       const patch: SipConfigurationPatch = {
-        domains: transformDomainsFromRestModel([domain]),
+        domains: transformDomainsIntoRestModel([domain])
       };
       const payload = {
         ...updatedOptions,
@@ -268,13 +267,10 @@ export class SipRoutingClient {
         ...updatedOptions,
         ...patch,
       };
-      console.log("===========patch begin");
       const config = await this.client.sipRouting.patch(payload);
-      console.log("===========patch end");
       const storedTrunk = transformFromRestModel(config.trunks).find(
         (value: SipTrunk) => value.fqdn === trunk.fqdn
       );
-      console.log("===========patch transform");
       if (storedTrunk) {
         return storedTrunk;
       }
