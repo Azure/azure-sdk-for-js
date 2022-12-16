@@ -39,7 +39,6 @@ export type AccessPoliciesGetResponse = AccessPolicyEntity;
 
 // @public
 export interface AccessPoliciesListNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -64,10 +63,10 @@ export type AccessPoliciesUpdateResponse = AccessPolicyEntity;
 export type AccessPolicyEccAlgo = string;
 
 // @public
-export type AccessPolicyEntity = ProxyResource & {
-    role?: AccessPolicyRole;
+export interface AccessPolicyEntity extends ProxyResource {
     authentication?: AuthenticationBaseUnion;
-};
+    role?: AccessPolicyRole;
+}
 
 // @public
 export interface AccessPolicyEntityCollection {
@@ -96,9 +95,9 @@ export type AccountEncryptionKeyType = string;
 export type ActionType = string;
 
 // @public
-export type AudioEncoderAac = AudioEncoderBase & {
+export interface AudioEncoderAac extends AudioEncoderBase {
     type: "#Microsoft.VideoAnalyzer.AudioEncoderAac";
-};
+}
 
 // @public
 export interface AudioEncoderBase {
@@ -153,17 +152,17 @@ export interface CredentialsBase {
 export type CredentialsBaseUnion = CredentialsBase | UsernamePasswordCredentials;
 
 // @public
-export type EccTokenKey = TokenKey & {
-    type: "#Microsoft.VideoAnalyzer.EccTokenKey";
+export interface EccTokenKey extends TokenKey {
     alg: AccessPolicyEccAlgo;
+    type: "#Microsoft.VideoAnalyzer.EccTokenKey";
     x: string;
     y: string;
-};
+}
 
 // @public
-export type EdgeModuleEntity = ProxyResource & {
+export interface EdgeModuleEntity extends ProxyResource {
     readonly edgeModuleId?: string;
-};
+}
 
 // @public
 export interface EdgeModuleEntityCollection {
@@ -206,7 +205,6 @@ export type EdgeModulesGetResponse = EdgeModuleEntity;
 
 // @public
 export interface EdgeModulesListNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -228,11 +226,11 @@ export type EdgeModulesListProvisioningTokenResponse = EdgeModuleProvisioningTok
 export type EdgeModulesListResponse = EdgeModuleEntityCollection;
 
 // @public
-export type EncoderCustomPreset = EncoderPresetBase & {
-    type: "#Microsoft.VideoAnalyzer.EncoderCustomPreset";
+export interface EncoderCustomPreset extends EncoderPresetBase {
     audioEncoder?: AudioEncoderBaseUnion;
+    type: "#Microsoft.VideoAnalyzer.EncoderCustomPreset";
     videoEncoder?: VideoEncoderBaseUnion;
-};
+}
 
 // @public
 export interface EncoderPresetBase {
@@ -243,16 +241,16 @@ export interface EncoderPresetBase {
 export type EncoderPresetBaseUnion = EncoderPresetBase | EncoderSystemPreset | EncoderCustomPreset;
 
 // @public
-export type EncoderProcessor = ProcessorNodeBase & {
-    type: "#Microsoft.VideoAnalyzer.EncoderProcessor";
+export interface EncoderProcessor extends ProcessorNodeBase {
     preset: EncoderPresetBaseUnion;
-};
+    type: "#Microsoft.VideoAnalyzer.EncoderProcessor";
+}
 
 // @public
-export type EncoderSystemPreset = EncoderPresetBase & {
-    type: "#Microsoft.VideoAnalyzer.EncoderSystemPreset";
+export interface EncoderSystemPreset extends EncoderPresetBase {
     name: EncoderSystemPresetType;
-};
+    type: "#Microsoft.VideoAnalyzer.EncoderSystemPreset";
+}
 
 // @public
 export type EncoderSystemPresetType = string;
@@ -295,6 +293,9 @@ export interface ErrorResponse {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export interface GroupLevelAccessControl {
     publicNetworkAccess?: PublicNetworkAccess;
 }
@@ -307,13 +308,13 @@ export interface IotHub {
 }
 
 // @public
-export type JwtAuthentication = AuthenticationBase & {
-    type: "#Microsoft.VideoAnalyzer.JwtAuthentication";
-    issuers?: string[];
+export interface JwtAuthentication extends AuthenticationBase {
     audiences?: string[];
     claims?: TokenClaim[];
+    issuers?: string[];
     keys?: TokenKeyUnion[];
-};
+    type: "#Microsoft.VideoAnalyzer.JwtAuthentication";
+}
 
 // @public
 export interface KeyVaultProperties {
@@ -356,21 +357,15 @@ export enum KnownActionType {
 
 // @public
 export enum KnownCheckNameAvailabilityReason {
-    // (undocumented)
     AlreadyExists = "AlreadyExists",
-    // (undocumented)
     Invalid = "Invalid"
 }
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
@@ -429,23 +424,16 @@ export enum KnownPipelineJobState {
 
 // @public
 export enum KnownPrivateEndpointConnectionProvisioningState {
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownPrivateEndpointServiceConnectionStatus {
-    // (undocumented)
     Approved = "Approved",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Rejected = "Rejected"
 }
 
@@ -503,13 +491,13 @@ export interface ListProvisioningTokenInput {
 }
 
 // @public
-export type LivePipeline = ProxyResource & {
-    topologyName?: string;
-    description?: string;
+export interface LivePipeline extends ProxyResource {
     bitrateKbps?: number;
-    readonly state?: LivePipelineState;
+    description?: string;
     parameters?: ParameterDefinition[];
-};
+    readonly state?: LivePipelineState;
+    topologyName?: string;
+}
 
 // @public
 export interface LivePipelineCollection {
@@ -581,8 +569,6 @@ export type LivePipelinesGetResponse = LivePipeline;
 
 // @public
 export interface LivePipelinesListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -608,13 +594,13 @@ export interface LivePipelinesUpdateOptionalParams extends coreClient.OperationO
 export type LivePipelinesUpdateResponse = LivePipeline;
 
 // @public
-export type LivePipelineUpdate = ProxyResource & {
-    topologyName?: string;
-    description?: string;
+export interface LivePipelineUpdate extends ProxyResource {
     bitrateKbps?: number;
-    readonly state?: LivePipelineState;
+    description?: string;
     parameters?: ParameterDefinition[];
-};
+    readonly state?: LivePipelineState;
+    topologyName?: string;
+}
 
 // @public
 export interface Locations {
@@ -762,20 +748,20 @@ export interface ParameterDefinition {
 export type ParameterType = string;
 
 // @public
-export type PemCertificateList = CertificateSource & {
-    type: "#Microsoft.VideoAnalyzer.PemCertificateList";
+export interface PemCertificateList extends CertificateSource {
     certificates: string[];
-};
+    type: "#Microsoft.VideoAnalyzer.PemCertificateList";
+}
 
 // @public
-export type PipelineJob = ProxyResource & {
-    topologyName?: string;
+export interface PipelineJob extends ProxyResource {
     description?: string;
-    readonly state?: PipelineJobState;
-    readonly expiration?: Date;
     readonly error?: PipelineJobError;
+    readonly expiration?: Date;
     parameters?: ParameterDefinition[];
-};
+    readonly state?: PipelineJobState;
+    topologyName?: string;
+}
 
 // @public
 export interface PipelineJobCollection {
@@ -845,8 +831,6 @@ export type PipelineJobsGetResponse = PipelineJob;
 
 // @public
 export interface PipelineJobsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -872,14 +856,14 @@ export interface PipelineJobsUpdateOptionalParams extends coreClient.OperationOp
 export type PipelineJobsUpdateResponse = PipelineJob;
 
 // @public
-export type PipelineJobUpdate = ProxyResource & {
-    topologyName?: string;
+export interface PipelineJobUpdate extends ProxyResource {
     description?: string;
-    readonly state?: PipelineJobState;
-    readonly expiration?: Date;
     readonly error?: PipelineJobError;
+    readonly expiration?: Date;
     parameters?: ParameterDefinition[];
-};
+    readonly state?: PipelineJobState;
+    topologyName?: string;
+}
 
 // @public
 export interface PipelineTopologies {
@@ -910,8 +894,6 @@ export type PipelineTopologiesGetResponse = PipelineTopology;
 
 // @public
 export interface PipelineTopologiesListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
 }
 
 // @public
@@ -934,15 +916,15 @@ export interface PipelineTopologiesUpdateOptionalParams extends coreClient.Opera
 export type PipelineTopologiesUpdateResponse = PipelineTopology;
 
 // @public
-export type PipelineTopology = ProxyResource & {
-    kind: Kind;
-    sku: Sku;
+export interface PipelineTopology extends ProxyResource {
     description?: string;
+    kind: Kind;
     parameters?: ParameterDeclaration[];
-    sources?: SourceNodeBaseUnion[];
     processors?: ProcessorNodeBaseUnion[];
     sinks?: SinkNodeBaseUnion[];
-};
+    sku: Sku;
+    sources?: SourceNodeBaseUnion[];
+}
 
 // @public
 export interface PipelineTopologyCollection {
@@ -951,15 +933,15 @@ export interface PipelineTopologyCollection {
 }
 
 // @public
-export type PipelineTopologyUpdate = ProxyResource & {
-    kind?: Kind;
-    sku?: Sku;
+export interface PipelineTopologyUpdate extends ProxyResource {
     description?: string;
+    kind?: Kind;
     parameters?: ParameterDeclaration[];
-    sources?: SourceNodeBaseUnion[];
     processors?: ProcessorNodeBaseUnion[];
     sinks?: SinkNodeBaseUnion[];
-};
+    sku?: Sku;
+    sources?: SourceNodeBaseUnion[];
+}
 
 // @public
 export interface PrivateEndpoint {
@@ -967,11 +949,11 @@ export interface PrivateEndpoint {
 }
 
 // @public
-export type PrivateEndpointConnection = Resource & {
+export interface PrivateEndpointConnection extends Resource {
     privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
     readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
-};
+}
 
 // @public
 export interface PrivateEndpointConnectionListResult {
@@ -1025,11 +1007,11 @@ export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionLi
 export type PrivateEndpointServiceConnectionStatus = string;
 
 // @public
-export type PrivateLinkResource = Resource & {
+export interface PrivateLinkResource extends Resource {
     readonly groupId?: string;
     readonly requiredMembers?: string[];
     requiredZoneNames?: string[];
-};
+}
 
 // @public
 export interface PrivateLinkResourceListResult {
@@ -1064,10 +1046,10 @@ export interface PrivateLinkServiceConnectionState {
 }
 
 // @public
-export type ProcessorNodeBase = NodeBase & {
-    type: "#Microsoft.VideoAnalyzer.ProcessorNodeBase" | "#Microsoft.VideoAnalyzer.EncoderProcessor";
+export interface ProcessorNodeBase extends NodeBase {
     inputs: NodeInput[];
-};
+    type: "#Microsoft.VideoAnalyzer.ProcessorNodeBase" | "#Microsoft.VideoAnalyzer.EncoderProcessor";
+}
 
 // @public (undocumented)
 export type ProcessorNodeBaseUnion = ProcessorNodeBase | EncoderProcessor;
@@ -1081,7 +1063,8 @@ export interface Properties {
 export type ProvisioningState = string;
 
 // @public
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {
+}
 
 // @public
 export type PublicNetworkAccess = string;
@@ -1100,29 +1083,29 @@ export interface ResourceIdentity {
 }
 
 // @public
-export type RsaTokenKey = TokenKey & {
-    type: "#Microsoft.VideoAnalyzer.RsaTokenKey";
+export interface RsaTokenKey extends TokenKey {
     alg: AccessPolicyRsaAlgo;
-    n: string;
     e: string;
-};
+    n: string;
+    type: "#Microsoft.VideoAnalyzer.RsaTokenKey";
+}
 
 // @public
-export type RtspSource = SourceNodeBase & {
-    type: "#Microsoft.VideoAnalyzer.RtspSource";
-    transport?: RtspTransport;
+export interface RtspSource extends SourceNodeBase {
     endpoint: EndpointBaseUnion;
-};
+    transport?: RtspTransport;
+    type: "#Microsoft.VideoAnalyzer.RtspSource";
+}
 
 // @public
 export type RtspTransport = string;
 
 // @public
-export type SecureIotDeviceRemoteTunnel = TunnelBase & {
-    type: "#Microsoft.VideoAnalyzer.SecureIotDeviceRemoteTunnel";
-    iotHubName: string;
+export interface SecureIotDeviceRemoteTunnel extends TunnelBase {
     deviceId: string;
-};
+    iotHubName: string;
+    type: "#Microsoft.VideoAnalyzer.SecureIotDeviceRemoteTunnel";
+}
 
 // @public
 export interface ServiceSpecification {
@@ -1131,10 +1114,10 @@ export interface ServiceSpecification {
 }
 
 // @public
-export type SinkNodeBase = NodeBase & {
-    type: "#Microsoft.VideoAnalyzer.SinkNodeBase" | "#Microsoft.VideoAnalyzer.VideoSink";
+export interface SinkNodeBase extends NodeBase {
     inputs: NodeInput[];
-};
+    type: "#Microsoft.VideoAnalyzer.SinkNodeBase" | "#Microsoft.VideoAnalyzer.VideoSink";
+}
 
 // @public (undocumented)
 export type SinkNodeBaseUnion = SinkNodeBase | VideoSink;
@@ -1152,9 +1135,9 @@ export type SkuName = string;
 export type SkuTier = string;
 
 // @public
-export type SourceNodeBase = NodeBase & {
+export interface SourceNodeBase extends NodeBase {
     type: "#Microsoft.VideoAnalyzer.SourceNodeBase" | "#Microsoft.VideoAnalyzer.RtspSource" | "#Microsoft.VideoAnalyzer.VideoSource";
-};
+}
 
 // @public (undocumented)
 export type SourceNodeBaseUnion = SourceNodeBase | RtspSource | VideoSource;
@@ -1185,11 +1168,11 @@ export interface TimeSequenceBase {
 export type TimeSequenceBaseUnion = TimeSequenceBase | VideoSequenceAbsoluteTimeMarkers;
 
 // @public
-export type TlsEndpoint = EndpointBase & {
-    type: "#Microsoft.VideoAnalyzer.TlsEndpoint";
+export interface TlsEndpoint extends EndpointBase {
     trustedCertificates?: CertificateSourceUnion;
+    type: "#Microsoft.VideoAnalyzer.TlsEndpoint";
     validationOptions?: TlsValidationOptions;
-};
+}
 
 // @public
 export interface TlsValidationOptions {
@@ -1213,12 +1196,12 @@ export interface TokenKey {
 export type TokenKeyUnion = TokenKey | RsaTokenKey | EccTokenKey;
 
 // @public
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
+    location: string;
     tags?: {
         [propertyName: string]: string;
     };
-    location: string;
-};
+}
 
 // @public
 export interface TunnelBase {
@@ -1229,9 +1212,9 @@ export interface TunnelBase {
 export type TunnelBaseUnion = TunnelBase | SecureIotDeviceRemoteTunnel;
 
 // @public
-export type UnsecuredEndpoint = EndpointBase & {
+export interface UnsecuredEndpoint extends EndpointBase {
     type: "#Microsoft.VideoAnalyzer.UnsecuredEndpoint";
-};
+}
 
 // @public
 export interface UserAssignedManagedIdentity {
@@ -1240,24 +1223,24 @@ export interface UserAssignedManagedIdentity {
 }
 
 // @public
-export type UsernamePasswordCredentials = CredentialsBase & {
+export interface UsernamePasswordCredentials extends CredentialsBase {
+    password: string;
     type: "#Microsoft.VideoAnalyzer.UsernamePasswordCredentials";
     username: string;
-    password: string;
-};
+}
 
 // @public
-export type VideoAnalyzer = TrackedResource & {
-    identity?: VideoAnalyzerIdentity;
-    storageAccounts?: StorageAccount[];
-    readonly endpoints?: Endpoint[];
+export interface VideoAnalyzer extends TrackedResource {
     encryption?: AccountEncryption;
+    readonly endpoints?: Endpoint[];
+    identity?: VideoAnalyzerIdentity;
     iotHubs?: IotHub[];
-    publicNetworkAccess?: PublicNetworkAccess;
     networkAccessControl?: NetworkAccessControl;
-    readonly provisioningState?: ProvisioningState;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
-};
+    readonly provisioningState?: ProvisioningState;
+    publicNetworkAccess?: PublicNetworkAccess;
+    storageAccounts?: StorageAccount[];
+}
 
 // @public
 export interface VideoAnalyzerCollection {
@@ -1495,20 +1478,20 @@ export interface VideoEncoderBase {
 export type VideoEncoderBaseUnion = VideoEncoderBase | VideoEncoderH264;
 
 // @public
-export type VideoEncoderH264 = VideoEncoderBase & {
+export interface VideoEncoderH264 extends VideoEncoderBase {
     type: "#Microsoft.VideoAnalyzer.VideoEncoderH264";
-};
+}
 
 // @public
-export type VideoEntity = ProxyResource & {
-    title?: string;
-    description?: string;
-    readonly typePropertiesType?: VideoType;
-    readonly flags?: VideoFlags;
-    readonly contentUrls?: VideoContentUrls;
-    mediaInfo?: VideoMediaInfo;
+export interface VideoEntity extends ProxyResource {
     archival?: VideoArchival;
-};
+    readonly contentUrls?: VideoContentUrls;
+    description?: string;
+    readonly flags?: VideoFlags;
+    mediaInfo?: VideoMediaInfo;
+    title?: string;
+    readonly typePropertiesType?: VideoType;
+}
 
 // @public
 export interface VideoEntityCollection {
@@ -1573,10 +1556,10 @@ export interface VideosDeleteOptionalParams extends coreClient.OperationOptions 
 }
 
 // @public
-export type VideoSequenceAbsoluteTimeMarkers = TimeSequenceBase & {
-    type: "#Microsoft.VideoAnalyzer.VideoSequenceAbsoluteTimeMarkers";
+export interface VideoSequenceAbsoluteTimeMarkers extends TimeSequenceBase {
     ranges: string;
-};
+    type: "#Microsoft.VideoAnalyzer.VideoSequenceAbsoluteTimeMarkers";
+}
 
 // @public
 export interface VideosGetOptionalParams extends coreClient.OperationOptions {
@@ -1586,12 +1569,12 @@ export interface VideosGetOptionalParams extends coreClient.OperationOptions {
 export type VideosGetResponse = VideoEntity;
 
 // @public
-export type VideoSink = SinkNodeBase & {
+export interface VideoSink extends SinkNodeBase {
     type: "#Microsoft.VideoAnalyzer.VideoSink";
-    videoName: string;
     videoCreationProperties?: VideoCreationProperties;
+    videoName: string;
     videoPublishingOptions?: VideoPublishingOptions;
-};
+}
 
 // @public
 export interface VideosListContentTokenOptionalParams extends coreClient.OperationOptions {
@@ -1602,7 +1585,6 @@ export type VideosListContentTokenResponse = VideoContentToken;
 
 // @public
 export interface VideosListNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -1617,11 +1599,11 @@ export interface VideosListOptionalParams extends coreClient.OperationOptions {
 export type VideosListResponse = VideoEntityCollection;
 
 // @public
-export type VideoSource = SourceNodeBase & {
+export interface VideoSource extends SourceNodeBase {
+    timeSequences: TimeSequenceBaseUnion;
     type: "#Microsoft.VideoAnalyzer.VideoSource";
     videoName: string;
-    timeSequences: TimeSequenceBaseUnion;
-};
+}
 
 // @public
 export interface VideosUpdateOptionalParams extends coreClient.OperationOptions {
