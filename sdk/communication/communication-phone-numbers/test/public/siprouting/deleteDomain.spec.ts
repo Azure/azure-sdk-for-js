@@ -8,12 +8,13 @@ import { SipRoutingClient } from "../../../src";
 
 import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { SipDomain, SipTrunk } from "../../../src/models";
-import { 
-  createRecordedClient, 
-  createRecordedClientWithToken, 
-  getUniqueDomain, 
+import {
+  createRecordedClient,
+  createRecordedClientWithToken,
+  getUniqueDomain,
   resetUniqueDomains,
-  clearSipConfiguration } from "./utils/recordedClient";
+  clearSipConfiguration,
+} from "./utils/recordedClient";
 import { matrix } from "@azure/test-utils";
 
 matrix([[true, false]], async function (useAad) {
@@ -22,24 +23,24 @@ matrix([[true, false]], async function (useAad) {
     let recorder: Recorder;
     let firstDomain = "";
     let secondDomain = "";
-    
+
     // to be removed once API is finished
-    before(async function() {
-        console.log("SipRoutingClient - delete domain will be skiped because of not finished API");
-        this.skip();
-        
-        // will be executed when "skip" part is removed in future
-        if (!isPlaybackMode()) {
-          await clearSipConfiguration();
-        }
+    before(async function () {
+      console.log("SipRoutingClient - delete domain will be skiped because of not finished API");
+      this.skip();
+
+      // will be executed when "skip" part is removed in future
+      if (!isPlaybackMode()) {
+        await clearSipConfiguration();
+      }
     });
-    
+
     beforeEach(async function (this: Context) {
       ({ client, recorder } = useAad
         ? await createRecordedClientWithToken(this)
         : await createRecordedClient(this));
-        firstDomain = getUniqueDomain(recorder);
-        secondDomain = getUniqueDomain(recorder);
+      firstDomain = getUniqueDomain(recorder);
+      secondDomain = getUniqueDomain(recorder);
     });
 
     afterEach(async function (this: Context) {
@@ -52,17 +53,19 @@ matrix([[true, false]], async function (useAad) {
     it("can delete an existing domain", async () => {
       const domain: SipDomain = {
         domainUri: firstDomain,
-        enabled: true
+        enabled: true,
       };
-      
+
       await client.setDomain(domain);
       await client.deleteDomain(firstDomain);
-      assert.exists((await client.getDomains()).find((value) => value.domainUri === domain.domainUri));
+      assert.exists(
+        (await client.getDomains()).find((value) => value.domainUri === domain.domainUri)
+      );
     });
 
     it("cannot delete non existing domain but succeeds", async () => {
       await client.setDomains([]);
-      
+
       const storedDomain = await client.deleteDomain("notExisting.fqdn.com");
       assert.isNotNull(storedDomain);
       assert.isEmpty(storedDomain);
@@ -72,19 +75,19 @@ matrix([[true, false]], async function (useAad) {
       const domainUri = secondDomain;
       const domain: SipDomain = {
         domainUri: domainUri,
-        enabled: true
-      }
+        enabled: true,
+      };
       const trunk: SipTrunk = {
         fqdn: generateTrunk(domainUri),
         sipSignalingPort: 5678,
-        enabled: true
+        enabled: true,
       };
       await client.setDomain(domain);
       await client.setTrunk(trunk);
-      
+
       try {
         await client.deleteDomain(domainUri);
-      } catch(error: any) {
+      } catch (error: any) {
         assert.equal(error.code, "UnprocessableConfiguration");
         const storedDomains = await client.getDomains();
         assert.isNotNull(storedDomains);
@@ -97,7 +100,7 @@ matrix([[true, false]], async function (useAad) {
   });
 });
 
-function generateTrunk(domain: string) : string {
+function generateTrunk(domain: string): string {
   const length = 12;
   let random = 0;
   do {

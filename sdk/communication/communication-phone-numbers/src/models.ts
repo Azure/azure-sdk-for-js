@@ -115,7 +115,7 @@ export interface SipTrunk {
 /**
  * Represents a SIP domain for routing calls. See RFC 4904.
  */
- export interface SipDomain {
+export interface SipDomain {
   /**
    * Gets or sets domain uri.
    */

@@ -2,7 +2,10 @@
 // Licensed under the MIT license.
 
 import { SipDomain, SipTrunk } from "./models";
-import { SipTrunk as RestSipTrunk, SipDomain as RestSipDomain } from "./generated/src/siprouting/models";
+import {
+  SipTrunk as RestSipTrunk,
+  SipDomain as RestSipDomain,
+} from "./generated/src/siprouting/models";
 
 /**
  * @internal
@@ -34,8 +37,11 @@ export function transformIntoRestModel(trunks: SipTrunk[]): {
 } {
   const result: { [propertyName: string]: RestSipTrunk } = {};
 
-  trunks.forEach((trunk: SipTrunk) => {    
-    result[trunk.fqdn] = { sipSignalingPort: trunk.sipSignalingPort, enabled: trunk.enabled } as RestSipTrunk;
+  trunks.forEach((trunk: SipTrunk) => {
+    result[trunk.fqdn] = {
+      sipSignalingPort: trunk.sipSignalingPort,
+      enabled: trunk.enabled,
+    } as RestSipTrunk;
   });
 
   return result;
@@ -45,7 +51,7 @@ export function transformIntoRestModel(trunks: SipTrunk[]): {
  * @internal
  * Transforming SIP domains REST model to SDK model
  */
- export function transformDomainsFromRestModel(
+export function transformDomainsFromRestModel(
   domains: { [propertyName: string]: RestSipDomain } | undefined
 ): SipDomain[] {
   const result: SipDomain[] = [];
@@ -65,7 +71,7 @@ export function transformIntoRestModel(trunks: SipTrunk[]): {
  * @internal
  * Transforming SIP domains SDK model to REST model
  */
- export function transformDomainsIntoRestModel(domains: SipDomain[]): {
+export function transformDomainsIntoRestModel(domains: SipDomain[]): {
   [propertyName: string]: RestSipDomain;
 } {
   const result: { [propertyName: string]: RestSipDomain } = {};

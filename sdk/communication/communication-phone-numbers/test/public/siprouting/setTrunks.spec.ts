@@ -222,12 +222,12 @@ matrix([[true, false]], async function (useAad) {
         {
           fqdn: getUniqueFqdn(recorder),
           sipSignalingPort: 5678,
-          enabled: false
+          enabled: false,
         },
         {
           fqdn: getUniqueFqdn(recorder),
           sipSignalingPort: 5678,
-          enabled: false
+          enabled: false,
         },
       ];
       await client.setTrunks(trunks);

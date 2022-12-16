@@ -8,14 +8,15 @@ import { Context } from "mocha";
 import { matrix } from "@azure/test-utils";
 import { Recorder } from "@azure-tools/test-recorder";
 import { SipDomain, SipRoutingClient } from "../../../src/sipRoutingClient";
-import { 
-  createRecordedClient, 
-  createRecordedClientWithToken, 
+import {
+  createRecordedClient,
+  createRecordedClientWithToken,
   getUniqueDomain,
-  resetUniqueDomains } from "./utils/recordedClient";
+  resetUniqueDomains,
+} from "./utils/recordedClient";
 
 matrix([[true, false]], async function (useAad) {
-  describe(`SipRoutingClient - domains mocked tests${useAad ? " [AAD]" : ""}`, function(){
+  describe(`SipRoutingClient - domains mocked tests${useAad ? " [AAD]" : ""}`, function () {
     let client: SipRoutingClient;
     let recorder: Recorder;
     let firstDomain = "";
@@ -24,7 +25,7 @@ matrix([[true, false]], async function (useAad) {
       ({ client, recorder } = useAad
         ? await createRecordedClientWithToken(this, true)
         : await createRecordedClient(this, true));
-        firstDomain = getUniqueDomain(recorder);
+      firstDomain = getUniqueDomain(recorder);
     });
 
     afterEach(async function (this: Context) {
@@ -33,9 +34,8 @@ matrix([[true, false]], async function (useAad) {
       }
       resetUniqueDomains();
     });
-    
-    
-    it("get domain successful", async() => {      
+
+    it("get domain successful", async () => {
       const domain = await client.getDomain("contoso.com");
 
       assert.isNotNull(domain);
@@ -53,11 +53,11 @@ matrix([[true, false]], async function (useAad) {
 
     it("delete domain successful", async () => {
       const domainUri = "contoso.com";
-      try{
+      try {
         await client.deleteDomain(domainUri);
-      } catch(error: any){
+      } catch (error: any) {
         assert.fail("Delete domain");
-      }      
+      }
     });
   });
 });

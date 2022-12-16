@@ -107,7 +107,7 @@ matrix([[true, false]], async function (useAad) {
       const trunk: SipTrunk = {
         fqdn: firstFqdn,
         sipSignalingPort: 5678,
-        enabled: false
+        enabled: false,
       };
       await client.setTrunk(trunk);
 
@@ -264,12 +264,12 @@ matrix([[true, false]], async function (useAad) {
         {
           fqdn: getUniqueFqdn(recorder),
           sipSignalingPort: 5678,
-          enabled: false
+          enabled: false,
         },
         {
           fqdn: getUniqueFqdn(recorder),
           sipSignalingPort: 5678,
-          enabled: false
+          enabled: false,
         },
       ];
       await client.setTrunks(trunks);

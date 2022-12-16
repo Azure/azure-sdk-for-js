@@ -93,8 +93,8 @@ export async function createRecordedClient(
 
   const client = new PhoneNumbersClient(
     env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ?? "",
-    recorder.configureClientOptions({ "additionalPolicies": policies})
-    );
+    recorder.configureClientOptions({ additionalPolicies: policies })
+  );
 
   // casting is a workaround to enable min-max testing
   return { client, recorder };
@@ -134,7 +134,7 @@ export const testPollerOptions = {
   pollInterval: isPlaybackMode() ? 0 : undefined,
 };
 
-export function getAdditionalPolicies():AdditionalPolicyConfig[] {  
+export function getAdditionalPolicies(): AdditionalPolicyConfig[] {
   return [
     {
       policy: createMSUserAgentPolicy(),
