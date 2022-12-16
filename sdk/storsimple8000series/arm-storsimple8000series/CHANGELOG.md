@@ -1,15 +1,37 @@
 # Release History
+    
+## 2.1.0 (2022-12-12)
+    
+**Features**
 
-## 2.0.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface AccessControlRecord
+  - Added Interface Alert
+  - Added Interface AlertSettings
+  - Added Interface Backup
+  - Added Interface BackupPolicy
+  - Added Interface BackupSchedule
+  - Added Interface BandwidthSetting
+  - Added Interface CloudApplianceConfiguration
+  - Added Interface ConfigureDeviceRequest
+  - Added Interface ControllerPowerStateChangeRequest
+  - Added Interface Device
+  - Added Interface EncryptionSettings
+  - Added Interface HardwareComponentGroup
+  - Added Interface Job
+  - Added Interface Manager
+  - Added Interface ManagerExtendedInfo
+  - Added Interface NetworkSettings
+  - Added Interface SecuritySettings
+  - Added Interface StorageAccountCredential
+  - Added Interface TimeSettings
+  - Added Interface Updates
+  - Added Interface Volume
+  - Added Interface VolumeContainer
+  - Interface AlertsListByManagerNextOptionalParams no longer has parameter filter
+  - Interface BackupsListByDeviceNextOptionalParams no longer has parameter filter
+  - Interface JobsListByDeviceNextOptionalParams no longer has parameter filter
+  - Interface JobsListByManagerNextOptionalParams no longer has parameter filter
+    
 ## 2.0.1 (2022-05-05)
 
 **Features**
