@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/sip?api-version=2021-05-01-preview",
+      "RequestUri": "https://endpoint/sip?api-version=2022-09-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -27,6 +27,7 @@
         "X-Processing-Time": "62ms"
       },
       "ResponseBody": {
+        "domains": {},
         "trunks": {
           "test.e47613539fb34daa9c3049ad90564213.com": {
             "sipSignalingPort": 4567

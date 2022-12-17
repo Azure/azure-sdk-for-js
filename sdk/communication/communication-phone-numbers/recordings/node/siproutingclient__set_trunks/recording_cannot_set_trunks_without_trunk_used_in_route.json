@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/sip?api-version=2021-05-01-preview",
+      "RequestUri": "https://endpoint/sip?api-version=2022-09-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -27,19 +27,20 @@
         "X-Processing-Time": "105ms"
       },
       "ResponseBody": {
+        "domains": {},
         "trunks": {},
         "routes": []
       }
     },
     {
-      "RequestUri": "https://endpoint/sip?api-version=2021-05-01-preview",
+      "RequestUri": "https://endpoint/sip?api-version=2022-09-01-preview",
       "RequestMethod": "PATCH",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "152",
+        "Content-Length": "184",
         "Content-Type": "application/merge-patch\u002Bjson",
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
         "x-ms-client-request-id": "sanitized",
@@ -69,6 +70,7 @@
         "X-Processing-Time": "801ms"
       },
       "ResponseBody": {
+        "domains": {},
         "trunks": {
           "test.4b8537fd8a534696962eb6e54c03d798.com": {
             "sipSignalingPort": 8239
@@ -81,7 +83,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/sip?api-version=2021-05-01-preview",
+      "RequestUri": "https://endpoint/sip?api-version=2022-09-01-preview",
       "RequestMethod": "PATCH",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -110,9 +112,7 @@
             "description": "mySecondRoute\u0027s description",
             "name": "mySecondRoute",
             "numberPattern": "^\u002B[1-9][0-9]{3,23}$",
-            "trunks": [
-              "test.4b8537fd8a534696962eb6e54c03d798.com"
-            ]
+            "trunks": ["test.4b8537fd8a534696962eb6e54c03d798.com"]
           }
         ]
       },
@@ -129,6 +129,7 @@
         "X-Processing-Time": "343ms"
       },
       "ResponseBody": {
+        "domains": {},
         "trunks": {
           "test.4b8537fd8a534696962eb6e54c03d798.com": {
             "sipSignalingPort": 8239
@@ -151,15 +152,13 @@
             "description": "mySecondRoute\u0027s description",
             "name": "mySecondRoute",
             "numberPattern": "^\u002B[1-9][0-9]{3,23}$",
-            "trunks": [
-              "test.4b8537fd8a534696962eb6e54c03d798.com"
-            ]
+            "trunks": ["test.4b8537fd8a534696962eb6e54c03d798.com"]
           }
         ]
       }
     },
     {
-      "RequestUri": "https://endpoint/sip?api-version=2021-05-01-preview",
+      "RequestUri": "https://endpoint/sip?api-version=2022-09-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -185,6 +184,7 @@
         "X-Processing-Time": "105ms"
       },
       "ResponseBody": {
+        "domains": {},
         "trunks": {
           "test.4b8537fd8a534696962eb6e54c03d798.com": {
             "sipSignalingPort": 8239
@@ -207,22 +207,20 @@
             "description": "mySecondRoute\u0027s description",
             "name": "mySecondRoute",
             "numberPattern": "^\u002B[1-9][0-9]{3,23}$",
-            "trunks": [
-              "test.4b8537fd8a534696962eb6e54c03d798.com"
-            ]
+            "trunks": ["test.4b8537fd8a534696962eb6e54c03d798.com"]
           }
         ]
       }
     },
     {
-      "RequestUri": "https://endpoint/sip?api-version=2021-05-01-preview",
+      "RequestUri": "https://endpoint/sip?api-version=2022-09-01-preview",
       "RequestMethod": "PATCH",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "131",
+        "Content-Length": "147",
         "Content-Type": "application/merge-patch\u002Bjson",
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
         "x-ms-client-request-id": "sanitized",
@@ -261,7 +259,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/sip?api-version=2021-05-01-preview",
+      "RequestUri": "https://endpoint/sip?api-version=2022-09-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -287,6 +285,7 @@
         "X-Processing-Time": "103ms"
       },
       "ResponseBody": {
+        "domains": {},
         "trunks": {
           "test.4b8537fd8a534696962eb6e54c03d798.com": {
             "sipSignalingPort": 8239
@@ -309,9 +308,7 @@
             "description": "mySecondRoute\u0027s description",
             "name": "mySecondRoute",
             "numberPattern": "^\u002B[1-9][0-9]{3,23}$",
-            "trunks": [
-              "test.4b8537fd8a534696962eb6e54c03d798.com"
-            ]
+            "trunks": ["test.4b8537fd8a534696962eb6e54c03d798.com"]
           }
         ]
       }

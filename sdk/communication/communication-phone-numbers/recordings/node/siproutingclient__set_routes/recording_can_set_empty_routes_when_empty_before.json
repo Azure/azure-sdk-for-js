@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/sip?api-version=2021-05-01-preview",
+      "RequestUri": "https://endpoint/sip?api-version=2022-09-01-preview",
       "RequestMethod": "PATCH",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -31,6 +31,7 @@
         "X-Processing-Time": "196ms"
       },
       "ResponseBody": {
+        "domains": {},
         "trunks": {
           "test.cee88f5ac66a4c9c80acaa945cb02e59.com": {
             "sipSignalingPort": 5678
@@ -40,7 +41,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/sip?api-version=2021-05-01-preview",
+      "RequestUri": "https://endpoint/sip?api-version=2022-09-01-preview",
       "RequestMethod": "PATCH",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -70,6 +71,7 @@
         "X-Processing-Time": "188ms"
       },
       "ResponseBody": {
+        "domains": {},
         "trunks": {
           "test.cee88f5ac66a4c9c80acaa945cb02e59.com": {
             "sipSignalingPort": 5678
@@ -79,7 +81,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/sip?api-version=2021-05-01-preview",
+      "RequestUri": "https://endpoint/sip?api-version=2022-09-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -105,6 +107,7 @@
         "X-Processing-Time": "106ms"
       },
       "ResponseBody": {
+        "domains": {},
         "trunks": {
           "test.cee88f5ac66a4c9c80acaa945cb02e59.com": {
             "sipSignalingPort": 5678

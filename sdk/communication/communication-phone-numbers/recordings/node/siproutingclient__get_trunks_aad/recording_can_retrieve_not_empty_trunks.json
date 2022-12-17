@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/sip?api-version=2021-05-01-preview",
+      "RequestUri": "https://endpoint/sip?api-version=2022-09-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -25,19 +25,20 @@
         "X-Processing-Time": "57ms"
       },
       "ResponseBody": {
+        "domains": {},
         "trunks": {},
         "routes": []
       }
     },
     {
-      "RequestUri": "https://endpoint/sip?api-version=2021-05-01-preview",
+      "RequestUri": "https://endpoint/sip?api-version=2022-09-01-preview",
       "RequestMethod": "PATCH",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "222",
+        "Content-Length": "270",
         "Content-Type": "application/merge-patch\u002Bjson",
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
         "x-ms-client-request-id": "sanitized"
@@ -68,6 +69,7 @@
         "X-Processing-Time": "386ms"
       },
       "ResponseBody": {
+        "domains": {},
         "trunks": {
           "test.3661d4f977524c089206e093d93a9698.com": {
             "sipSignalingPort": 1239
@@ -83,7 +85,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/sip?api-version=2021-05-01-preview",
+      "RequestUri": "https://endpoint/sip?api-version=2022-09-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -107,6 +109,7 @@
         "X-Processing-Time": "53ms"
       },
       "ResponseBody": {
+        "domains": {},
         "trunks": {
           "test.3661d4f977524c089206e093d93a9698.com": {
             "sipSignalingPort": 1239

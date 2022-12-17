@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/sip?api-version=2021-05-01-preview",
+      "RequestUri": "https://endpoint/sip?api-version=2022-09-01-preview",
       "RequestMethod": "PATCH",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -20,9 +20,7 @@
           {
             "name": "invalidRoutingTrunkRoute",
             "numberPattern": "^\u002B[1-9][0-9]{3,23}$",
-            "trunks": [
-              "notExisting.fqdn.com"
-            ]
+            "trunks": ["notExisting.fqdn.com"]
           }
         ]
       },
@@ -50,7 +48,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/sip?api-version=2021-05-01-preview",
+      "RequestUri": "https://endpoint/sip?api-version=2022-09-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -76,6 +74,7 @@
         "X-Processing-Time": "101ms"
       },
       "ResponseBody": {
+        "domains": {},
         "trunks": {
           "test.04465c5abbd347729d2405171375b8e3.com": {
             "sipSignalingPort": 8239
