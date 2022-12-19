@@ -8204,7 +8204,7 @@ export const Database: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "Database",
-    uberParent: "Resource",
+    uberParent: "ProxyResource",
     polymorphicDiscriminator: {
       serializedName: "kind",
       clientName: "kind"
@@ -8240,7 +8240,7 @@ export const DataConnection: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DataConnection",
-    uberParent: "Resource",
+    uberParent: "ProxyResource",
     polymorphicDiscriminator: {
       serializedName: "kind",
       clientName: "kind"
@@ -8926,8 +8926,8 @@ export const ReadWriteDatabase: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ReadWriteDatabase",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "Database",
+    polymorphicDiscriminator: Database.type.polymorphicDiscriminator,
     modelProperties: {
       ...Database.type.modelProperties,
       provisioningState: {
@@ -8972,8 +8972,8 @@ export const ReadOnlyFollowingDatabase: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ReadOnlyFollowingDatabase",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "Database",
+    polymorphicDiscriminator: Database.type.polymorphicDiscriminator,
     modelProperties: {
       ...Database.type.modelProperties,
       provisioningState: {
@@ -9033,8 +9033,8 @@ export const EventHubDataConnection: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "EventHubDataConnection",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "DataConnection",
+    polymorphicDiscriminator: DataConnection.type.polymorphicDiscriminator,
     modelProperties: {
       ...DataConnection.type.modelProperties,
       eventHubResourceId: {
@@ -9106,8 +9106,8 @@ export const IotHubDataConnection: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "IotHubDataConnection",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "DataConnection",
+    polymorphicDiscriminator: DataConnection.type.polymorphicDiscriminator,
     modelProperties: {
       ...DataConnection.type.modelProperties,
       iotHubResourceId: {
@@ -9173,8 +9173,8 @@ export const EventGridDataConnection: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "EventGridDataConnection",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "DataConnection",
+    polymorphicDiscriminator: DataConnection.type.polymorphicDiscriminator,
     modelProperties: {
       ...DataConnection.type.modelProperties,
       storageAccountResourceId: {
@@ -9381,11 +9381,11 @@ export let discriminators = {
   "CustomSetupBase.ComponentSetup": ComponentSetup,
   "LinkedIntegrationRuntimeType.Key": LinkedIntegrationRuntimeKeyAuthorization,
   "LinkedIntegrationRuntimeType.RBAC": LinkedIntegrationRuntimeRbacAuthorization,
-  "Resource.Database": Database,
-  "Resource.DataConnection": DataConnection,
-  "Resource.ReadWrite": ReadWriteDatabase,
-  "Resource.ReadOnlyFollowing": ReadOnlyFollowingDatabase,
-  "Resource.EventHub": EventHubDataConnection,
-  "Resource.IotHub": IotHubDataConnection,
-  "Resource.EventGrid": EventGridDataConnection
+  "ProxyResource.Database": Database,
+  "ProxyResource.DataConnection": DataConnection,
+  "Database.ReadWrite": ReadWriteDatabase,
+  "Database.ReadOnlyFollowing": ReadOnlyFollowingDatabase,
+  "DataConnection.EventHub": EventHubDataConnection,
+  "DataConnection.IotHub": IotHubDataConnection,
+  "DataConnection.EventGrid": EventGridDataConnection
 };

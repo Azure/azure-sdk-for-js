@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { GeoBackupPolicy, SynapseManagementClient } from "@azure/arm-synapse";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Updates a SQL Pool geo backup policy.
@@ -18,8 +21,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/CreateOrUpdateGeoBackupPolicies.json
  */
 async function createGeoBackupPolicy() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "testrg";
+  const subscriptionId =
+    process.env["SYNAPSE_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName = process.env["SYNAPSE_RESOURCE_GROUP"] || "testrg";
   const workspaceName = "testws";
   const sqlPoolName = "testdw";
   const geoBackupPolicyName = "Default";
@@ -36,4 +41,8 @@ async function createGeoBackupPolicy() {
   console.log(result);
 }
 
-createGeoBackupPolicy().catch(console.error);
+async function main() {
+  createGeoBackupPolicy();
+}
+
+main().catch(console.error);

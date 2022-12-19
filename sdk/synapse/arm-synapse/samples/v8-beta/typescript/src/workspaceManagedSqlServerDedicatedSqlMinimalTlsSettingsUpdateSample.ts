@@ -13,6 +13,9 @@ import {
   SynapseManagementClient
 } from "@azure/arm-synapse";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Update workspace managed sql server's minimal tls settings.
@@ -21,8 +24,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/UpdateWorkspaceManagedSqlServerDedicatedSQLminimalTlsSettings.json
  */
 async function updateTlsVersionOfTheWorkspaceManagedSqlServer() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "workspace-6852";
+  const subscriptionId =
+    process.env["SYNAPSE_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SYNAPSE_RESOURCE_GROUP"] || "workspace-6852";
   const workspaceName = "workspace-2080";
   const dedicatedSQLminimalTlsSettingsName = "default";
   const parameters: DedicatedSQLminimalTlsSettings = {
@@ -39,4 +45,8 @@ async function updateTlsVersionOfTheWorkspaceManagedSqlServer() {
   console.log(result);
 }
 
-updateTlsVersionOfTheWorkspaceManagedSqlServer().catch(console.error);
+async function main() {
+  updateTlsVersionOfTheWorkspaceManagedSqlServer();
+}
+
+main().catch(console.error);

@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { SynapseManagementClient } = require("@azure/arm-synapse");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Remove a list of language extensions that can run within KQL queries.
@@ -18,10 +19,11 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/preview/2021-06-01-preview/examples/KustoPoolLanguageExtensionsRemove.json
  */
 async function kustoPoolRemoveLanguageExtensions() {
-  const subscriptionId = "12345678-1234-1234-1234-123456789098";
+  const subscriptionId =
+    process.env["SYNAPSE_SUBSCRIPTION_ID"] || "12345678-1234-1234-1234-123456789098";
   const workspaceName = "kustorptest";
   const kustoPoolName = "kustoclusterrptest4";
-  const resourceGroupName = "kustorptest";
+  const resourceGroupName = process.env["SYNAPSE_RESOURCE_GROUP"] || "kustorptest";
   const languageExtensionsToRemove = {
     value: [{ languageExtensionName: "PYTHON" }, { languageExtensionName: "R" }],
   };
@@ -36,4 +38,8 @@ async function kustoPoolRemoveLanguageExtensions() {
   console.log(result);
 }
 
-kustoPoolRemoveLanguageExtensions().catch(console.error);
+async function main() {
+  kustoPoolRemoveLanguageExtensions();
+}
+
+main().catch(console.error);
