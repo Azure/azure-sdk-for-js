@@ -3,7 +3,7 @@
 
 import { OperationState, SimplePollerLike } from "@azure/core-lro";
 import { OperationOptions } from "@azure/core-client";
-import { TestRunGet200Response, TestUploadFile201Response } from "./responses";
+import { TestGetFile200Response, TestRunGet200Response } from "./responses";
 
 /** Load test model */
 export interface Test {
@@ -402,8 +402,8 @@ export interface TestRunServerMetricConfig {
  * Describes a poller for NotificationHubJob types.
  */
 export type FileUploadAndValidatePoller = SimplePollerLike<
-  OperationState<TestUploadFile201Response>,
-  TestUploadFile201Response
+  OperationState<TestGetFile200Response>,
+  TestGetFile200Response
 >;
 
 export type TestRunStatusPoller = SimplePollerLike<

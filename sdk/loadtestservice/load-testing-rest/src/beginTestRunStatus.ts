@@ -9,7 +9,7 @@ import { TestRunGet200Response } from "./responses";
 import { isUnexpected } from "./isUnexpected";
 
 /**
- * Submits a Notification Hub job and creates a poller to poll for results.
+ * Creates a poller to poll for test run status.
  * @param client - The Load Testing client.
  * @param options - The operation options.
  * @returns A poller which can be called to poll until completion of the job.

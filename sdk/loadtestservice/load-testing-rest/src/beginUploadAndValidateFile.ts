@@ -7,14 +7,12 @@ import { FileUploadAndValidatePoller, PolledOperationOptions } from "./models";
 import { AzureLoadTestingClient } from "./index.js";
 import {
   TestGetFile200Response,
-  TestGetFileDefaultResponse,
-  TestUploadFile201Response,
 } from "./responses";
 import { isUnexpected } from "./isUnexpected";
 import { ReadStream } from "fs";
 
 /**
- * Submits a Notification Hub job and creates a poller to poll for results.
+ * Uploads a file and creates a poller to poll for validation.
  * @param client - The Load Testing client.
  * @param options - The operation options.
  * @returns A poller which can be called to poll until completion of the job.
@@ -37,16 +35,16 @@ export async function beginFileValidation(
     throw fileUploadResult.body.error;
   }
 
-  type Handler = (state: OperationState<TestUploadFile201Response>) => void;
+  type Handler = (state: OperationState<TestGetFile200Response>) => void;
 
-  const state: OperationState<TestUploadFile201Response> = {
+  const state: OperationState<TestGetFile200Response> = {
     status: "notStarted",
   };
 
   const progressCallbacks = new Map<symbol, Handler>();
   const processProgressCallbacks = async (): Promise<void> =>
     progressCallbacks.forEach((h) => h(state));
-  let resultPromise: Promise<TestUploadFile201Response> | undefined;
+  let resultPromise: Promise<TestGetFile200Response> | undefined;
   let cancelJob: (() => void) | undefined;
   const abortController = new AbortController();
   const currentPollIntervalInMs = polledOperationOptions.updateIntervalInMs ?? 2000;
@@ -81,9 +79,6 @@ export async function beginFileValidation(
 
       await processProgressCallbacks();
 
-      //if (state.status === "canceled") {
-      //  throw new Error("Operation was canceled");
-      //}
       if (state.status === "failed") {
         throw state.error;
       }
@@ -91,7 +86,7 @@ export async function beginFileValidation(
 
     pollUntilDone(pollOptions?: {
       abortSignal?: AbortSignalLike;
-    }): Promise<TestUploadFile201Response> {
+    }): Promise<TestGetFile200Response> {
       return (resultPromise ??= (async () => {
         const { abortSignal: inputAbortSignal } = pollOptions || {};
         const { signal: abortSignal } = inputAbortSignal
@@ -108,7 +103,7 @@ export async function beginFileValidation(
         }
         switch (state.status) {
           case "succeeded": {
-            return poller.getResult() as TestUploadFile201Response;
+            return poller.getResult() as TestGetFile200Response;
           }
           case "canceled": {
             throw new Error("Operation was canceled");
@@ -128,7 +123,7 @@ export async function beginFileValidation(
     },
 
     onProgress(
-      callback: (state: OperationState<TestUploadFile201Response>) => void
+      callback: (state: OperationState<TestGetFile200Response>) => void
     ): CancelOnProgress {
       const s = Symbol();
       progressCallbacks.set(s, callback);
@@ -149,11 +144,11 @@ export async function beginFileValidation(
       return resultPromise === undefined;
     },
 
-    getOperationState(): OperationState<TestUploadFile201Response> {
+    getOperationState(): OperationState<TestGetFile200Response> {
       return state;
     },
 
-    getResult(): TestUploadFile201Response | undefined {
+    getResult(): TestGetFile200Response | undefined {
       return state.result;
     },
 
