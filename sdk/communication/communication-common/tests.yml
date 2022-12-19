@@ -21,4 +21,5 @@ stages:
             - $(sub-config-communication-int-test-resources-js)
           MatrixFilters:
             - TestType=^(?!browser).*
+            - DependencyVersion=^(?!\s*$).+
       Clouds: Public,PPE,Int
