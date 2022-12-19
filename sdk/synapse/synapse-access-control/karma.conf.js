@@ -4,12 +4,6 @@
 // https://github.com/karma-runner/karma-chrome-launcher
 process.env.CHROME_BIN = require("puppeteer").executablePath();
 require("dotenv").config();
-const {
-  jsonRecordingFilterFunction,
-  isPlaybackMode,
-  isSoftRecordMode,
-  isRecordMode
-} = require("@azure-tools/test-recorder");
 
 module.exports = function(config) {
   config.set({
@@ -40,7 +34,7 @@ module.exports = function(config) {
     files: [
       "dist-test/index.browser.js",
       { pattern: "dist-test/index.browser.js.map", type: "html", included: false, served: true }
-    ].concat(isPlaybackMode() || isSoftRecordMode() ? ["recordings/browsers/**/*.json"] : []),
+    ].concat(["recordings/browsers/**/*.json"] : []),
 
     // list of files / patterns to exclude
     exclude: [],
@@ -49,7 +43,6 @@ module.exports = function(config) {
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
       "**/*.js": ["sourcemap", "env"],
-      "recordings/browsers/**/*.json": ["json"]
       // IMPORTANT: COMMENT following line if you want to debug in your browsers!!
       // Preprocess source file to calculate code coverage, however this will make source file unreadable
       // "dist-test/index.js": ["coverage"]

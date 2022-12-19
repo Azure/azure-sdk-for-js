@@ -7,8 +7,8 @@ describe("Access Control smoke", () => {
   let recorder: Recorder;
   let client: AccessControlClient;
 
-  beforeEach(function() {
-    recorder = createRecorder(this);
+  beforeEach(async function() {
+    recorder = await createRecorder(this);
     client = createClient(recorder.configureClientOptions({}));
   });
 

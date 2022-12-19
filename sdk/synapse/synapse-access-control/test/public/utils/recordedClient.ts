@@ -8,10 +8,9 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import { AccessControlClient, AccessControlClientOptionalParams } from "../../../src";
 import {
   Recorder,
+  RecorderStartOptions,
   env,
-  isLiveMode,
 } from "@azure-tools/test-recorder";
-import { createXhrHttpClient, isNode } from "@azure/test-utils";
 
 
 // export const environmentSetup: RecorderEnvironmentSetup = {
@@ -35,8 +34,6 @@ import { createXhrHttpClient, isNode } from "@azure/test-utils";
 // };
 
 export function createClient(options?: AccessControlClientOptionalParams): AccessControlClient {
-  const httpClient = isNode || isLiveMode() ? undefined : createXhrHttpClient();
-
   let credential = createTestCredential();
   // credential = new ClientSecretCredential(
   //   env.AZURE_TENANT_ID,
@@ -46,7 +43,7 @@ export function createClient(options?: AccessControlClientOptionalParams): Acces
   // );
 
   let endpoint = env.ENDPOINT ? env.ENDPOINT : "endpoint";
-  return new AccessControlClient(credential, endpoint, { ...options, httpClient });
+  return new AccessControlClient(credential, endpoint, { ...options });
 }
 
 /**
@@ -54,6 +51,29 @@ export function createClient(options?: AccessControlClientOptionalParams): Acces
  * Should be called first in the test suite to make sure environment variables are
  * read before they are being used.
  */
-export function createRecorder(context: Context): Recorder {
-  return new Recorder(context.currentTest);
+export async function createRecorder(context: Context): Promise<Recorder> {
+  const recorderStartOptions: RecorderStartOptions = {
+    envSetupForPlayback: {
+      AZURE_CLIENT_ID: "azure_client_id",
+      AZURE_CLIENT_SECRET: "azure_client_secret",
+      AZURE_TENANT_ID: "azuretenantid",
+    },
+  };
+  const recorder = new Recorder(context.currentTest);
+  await recorder.start(recorderStartOptions);
+  recorder.addSanitizers({
+    generalSanitizers:[
+      {
+        regex: true,
+        target: `/"access_token"\s?:\s?"[^"]*"/g`,
+        value: `"access_token":"access_token"`,
+      },
+      {
+        target: "testaccount.dev.azuresynapse.net:44,3",
+        value: "testaccount.dev.azuresynapse.net"
+      }
+    ]
+  })
+  return recorder;
+
 }
