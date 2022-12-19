@@ -78,8 +78,6 @@
     "chai-as-promised": "^7.1.1",
     "cross-env": "^7.0.2",
     "karma-edge-launcher": "^0.4.2",
-    "karma-json-preprocessor": "^0.3.3",
-    "karma-json-to-file-reporter": "^1.0.1",
     "karma-source-map-support": "~1.4.0",
     "sinon": "^9.0.2",
     "source-map-support": "^0.5.9",
