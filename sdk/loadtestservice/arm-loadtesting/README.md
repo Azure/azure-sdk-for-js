@@ -66,7 +66,7 @@ const client = new LoadTestClient(new DefaultAzureCredential(), subscriptionId);
 
 ### Create an Azure Load Testing resource
 
-Create a new basic Azure Load Testing resource.
+Create a new Azure Load Testing resource.
 ```javascript
 loadTestResourceCreatePayload = {
   location: "westus2"
