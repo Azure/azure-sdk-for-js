@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { SqlPoolSensitivityLabels } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,12 +17,12 @@ import {
   SensitivityLabel,
   SqlPoolSensitivityLabelsListCurrentNextOptionalParams,
   SqlPoolSensitivityLabelsListCurrentOptionalParams,
+  SqlPoolSensitivityLabelsListCurrentResponse,
   SqlPoolSensitivityLabelsListRecommendedNextOptionalParams,
   SqlPoolSensitivityLabelsListRecommendedOptionalParams,
-  SqlPoolSensitivityLabelsListCurrentResponse,
+  SqlPoolSensitivityLabelsListRecommendedResponse,
   SensitivityLabelUpdateList,
   SqlPoolSensitivityLabelsUpdateOptionalParams,
-  SqlPoolSensitivityLabelsListRecommendedResponse,
   SqlPoolSensitivityLabelsCreateOrUpdateOptionalParams,
   SqlPoolSensitivityLabelsCreateOrUpdateResponse,
   SqlPoolSensitivityLabelsDeleteOptionalParams,
@@ -73,12 +74,16 @@ export class SqlPoolSensitivityLabelsImpl implements SqlPoolSensitivityLabels {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listCurrentPagingPage(
           resourceGroupName,
           workspaceName,
           sqlPoolName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -88,16 +93,23 @@ export class SqlPoolSensitivityLabelsImpl implements SqlPoolSensitivityLabels {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolSensitivityLabelsListCurrentOptionalParams
+    options?: SqlPoolSensitivityLabelsListCurrentOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<SensitivityLabel[]> {
-    let result = await this._listCurrent(
-      resourceGroupName,
-      workspaceName,
-      sqlPoolName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: SqlPoolSensitivityLabelsListCurrentResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listCurrent(
+        resourceGroupName,
+        workspaceName,
+        sqlPoolName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listCurrentNext(
         resourceGroupName,
@@ -107,7 +119,9 @@ export class SqlPoolSensitivityLabelsImpl implements SqlPoolSensitivityLabels {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -153,12 +167,16 @@ export class SqlPoolSensitivityLabelsImpl implements SqlPoolSensitivityLabels {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listRecommendedPagingPage(
           resourceGroupName,
           workspaceName,
           sqlPoolName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -168,16 +186,23 @@ export class SqlPoolSensitivityLabelsImpl implements SqlPoolSensitivityLabels {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolSensitivityLabelsListRecommendedOptionalParams
+    options?: SqlPoolSensitivityLabelsListRecommendedOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<SensitivityLabel[]> {
-    let result = await this._listRecommended(
-      resourceGroupName,
-      workspaceName,
-      sqlPoolName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: SqlPoolSensitivityLabelsListRecommendedResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listRecommended(
+        resourceGroupName,
+        workspaceName,
+        sqlPoolName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listRecommendedNext(
         resourceGroupName,
@@ -187,7 +212,9 @@ export class SqlPoolSensitivityLabelsImpl implements SqlPoolSensitivityLabels {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -673,7 +700,6 @@ const listCurrentNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -694,12 +720,6 @@ const listRecommendedNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.includeDisabledRecommendations,
-    Parameters.skipToken
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

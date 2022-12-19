@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { SynapseManagementClient } from "@azure/arm-synapse";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to List all SQL pools
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/ListSqlPoolsInWorkspace.json
  */
 async function listSqlAnalyticsPoolsInAWorkspace() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "sqlcrudtest-6845";
+  const subscriptionId =
+    process.env["SYNAPSE_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SYNAPSE_RESOURCE_GROUP"] || "sqlcrudtest-6845";
   const workspaceName = "sqlcrudtest-7177";
   const credential = new DefaultAzureCredential();
   const client = new SynapseManagementClient(credential, subscriptionId);
@@ -32,8 +38,6 @@ async function listSqlAnalyticsPoolsInAWorkspace() {
   }
   console.log(resArray);
 }
-
-listSqlAnalyticsPoolsInAWorkspace().catch(console.error);
 
 /**
  * This sample demonstrates how to List all SQL pools
@@ -42,8 +46,11 @@ listSqlAnalyticsPoolsInAWorkspace().catch(console.error);
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/ListSqlPoolsInWorkspaceWithFilter.json
  */
 async function listSqlAnalyticsPoolsInAWorkspaceWithFilter() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "sqlcrudtest-6845";
+  const subscriptionId =
+    process.env["SYNAPSE_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SYNAPSE_RESOURCE_GROUP"] || "sqlcrudtest-6845";
   const workspaceName = "sqlcrudtest-7177";
   const credential = new DefaultAzureCredential();
   const client = new SynapseManagementClient(credential, subscriptionId);
@@ -57,4 +64,9 @@ async function listSqlAnalyticsPoolsInAWorkspaceWithFilter() {
   console.log(resArray);
 }
 
-listSqlAnalyticsPoolsInAWorkspaceWithFilter().catch(console.error);
+async function main() {
+  listSqlAnalyticsPoolsInAWorkspace();
+  listSqlAnalyticsPoolsInAWorkspaceWithFilter();
+}
+
+main().catch(console.error);

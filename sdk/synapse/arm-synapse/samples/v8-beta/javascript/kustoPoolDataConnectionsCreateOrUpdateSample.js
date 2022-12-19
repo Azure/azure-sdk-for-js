@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { SynapseManagementClient } = require("@azure/arm-synapse");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Creates or updates a data connection.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/preview/2021-06-01-preview/examples/KustoPoolDataConnectionsCreateOrUpdate.json
  */
 async function kustoPoolDataConnectionsCreateOrUpdateJson() {
-  const subscriptionId = "12345678-1234-1234-1234-123456789098";
-  const resourceGroupName = "kustorptest";
+  const subscriptionId =
+    process.env["SYNAPSE_SUBSCRIPTION_ID"] || "12345678-1234-1234-1234-123456789098";
+  const resourceGroupName = process.env["SYNAPSE_RESOURCE_GROUP"] || "kustorptest";
   const workspaceName = "synapseWorkspaceName";
   const kustoPoolName = "kustoclusterrptest4";
   const databaseName = "KustoDatabase8";
@@ -44,4 +46,8 @@ async function kustoPoolDataConnectionsCreateOrUpdateJson() {
   console.log(result);
 }
 
-kustoPoolDataConnectionsCreateOrUpdateJson().catch(console.error);
+async function main() {
+  kustoPoolDataConnectionsCreateOrUpdateJson();
+}
+
+main().catch(console.error);

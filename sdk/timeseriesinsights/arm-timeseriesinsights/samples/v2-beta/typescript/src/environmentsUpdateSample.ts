@@ -13,6 +13,9 @@ import {
   TimeSeriesInsightsClient
 } from "@azure/arm-timeseriesinsights";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Updates the environment with the specified name in the specified subscription and resource group.
@@ -21,10 +24,13 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/timeseriesinsights/resource-manager/Microsoft.TimeSeriesInsights/preview/2021-03-31-preview/examples/EnvironmentsPatchTags.json
  */
 async function environmentsUpdate() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId =
+    process.env["TIMESERIESINSIGHTS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["TIMESERIESINSIGHTS_RESOURCE_GROUP"] || "rg1";
   const environmentName = "env1";
   const environmentUpdateParameters: EnvironmentUpdateParametersUnion = {
+    kind: "Gen1",
     tags: { someTag: "someTagValue" }
   };
   const credential = new DefaultAzureCredential();
@@ -37,4 +43,8 @@ async function environmentsUpdate() {
   console.log(result);
 }
 
-environmentsUpdate().catch(console.error);
+async function main() {
+  environmentsUpdate();
+}
+
+main().catch(console.error);
