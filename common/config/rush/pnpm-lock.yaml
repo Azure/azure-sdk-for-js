@@ -3784,7 +3784,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20221216
+      typescript: 5.0.0-dev.20221218
     dev: false
 
   /downlevel-dts/0.7.0:
@@ -8488,8 +8488,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20221216:
-    resolution: {integrity: sha512-69mskYxo8qKjwdtzRxpbZrueutt4BTbbTUlZvcl8Lu5pM42ZJ7GuJw6ZLb6GVUx6T8/dk46erSFT3O4SNCi7LA==}
+  /typescript/5.0.0-dev.20221218:
+    resolution: {integrity: sha512-H9OjIoDzurBIgB+Gq/9aAudpSKtfaN+dRCwWc/Ugg8B6/p5VA5KFlnwm2sLjOyTzApusKKUJUpV+u/hXEfxaOA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -17875,7 +17875,7 @@ packages:
     dev: false
 
   file:projects/perf-app-configuration.tgz:
-    resolution: {integrity: sha512-b33BULpxOX6J9dR9f56lJ7afd7XBXxEQZBtZwG3pq0Slu6LjWh717zNT0t+HV/uNPpDTUySako6JAzVPT5yJWQ==, tarball: file:projects/perf-app-configuration.tgz}
+    resolution: {integrity: sha512-zONfA8eryfXMv7dDQ8oOicWovwpUCIiVTvvt/1ikDN+WhJAqABG129yjG5q5EdMJMjD4LT1tjau/Iio+BniaTw==, tarball: file:projects/perf-app-configuration.tgz}
     name: '@rush-temp/perf-app-configuration'
     version: 0.0.0
     dependencies:
@@ -17893,7 +17893,6 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
-      - encoding
       - supports-color
     dev: false
 
@@ -18265,7 +18264,7 @@ packages:
     dev: false
 
   file:projects/perf-template.tgz:
-    resolution: {integrity: sha512-vkGuclIBHH0EYig/IAlJuKXo0FPxnqH3LWulE/Ibe4LUnjHFEv6qTEtps9HpSL/UhkERBiBJo5o7wsNO/ElgwA==, tarball: file:projects/perf-template.tgz}
+    resolution: {integrity: sha512-MZxB6rQNQjf8AA07H9444XgoA7iVdfreodIdV8wSq3nlpT5Bt5GuvZgnCGTPeiMs3myDHPKBrEePVuWJFMh1ZQ==, tarball: file:projects/perf-template.tgz}
     name: '@rush-temp/perf-template'
     version: 0.0.0
     dependencies:
@@ -18284,7 +18283,6 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
-      - encoding
       - supports-color
     dev: false
 
@@ -19497,7 +19495,7 @@ packages:
     dev: false
 
   file:projects/web-pubsub-client.tgz:
-    resolution: {integrity: sha512-BaXlmmYXObE1EpkoP9aqWhkevioqvUZl/0xgVypimq2wPZqDHJzS7+v/G2o+pPrtIA0xdP/mE4qAITgw3d71Jg==, tarball: file:projects/web-pubsub-client.tgz}
+    resolution: {integrity: sha512-6PPAGRU137SPwjZ7bhod+glarcGPxbbvYE8M65zJ/mWIRTjiDqCuSrpfd5u72Q8ztPOGSXCpUdikAMi4N+Av4w==, tarball: file:projects/web-pubsub-client.tgz}
     name: '@rush-temp/web-pubsub-client'
     version: 0.0.0
     dependencies:
@@ -19505,6 +19503,7 @@ packages:
       '@azure/web-pubsub': 1.1.0
       '@microsoft/api-extractor': 7.33.6
       '@types/chai': 4.3.4
+      '@types/chai-as-promised': 7.1.5
       '@types/express': 4.17.14
       '@types/express-serve-static-core': 4.17.31
       '@types/jsonwebtoken': 8.5.9
