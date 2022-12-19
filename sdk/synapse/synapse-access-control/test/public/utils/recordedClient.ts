@@ -12,38 +12,12 @@ import {
   env,
 } from "@azure-tools/test-recorder";
 
-
-// export const environmentSetup: RecorderEnvironmentSetup = {
-//   replaceableVariables,
-//   customizationsOnRecordings: [
-//     (recording: string): string =>
-//       recording.replace(/"access_token"\s?:\s?"[^"]*"/g, `"access_token":"access_token"`),
-//     // If we put ENDPOINT in replaceableVariables above, it will not capture
-//     // the endpoint string used with nock, which will be expanded to
-//     // https://<endpoint>:443/ and therefore will not match, so we have to do
-//     // this instead.
-//     (recording: string): string => {
-//       const replaced = recording.replace(
-//         "testaccount.dev.azuresynapse.net:443",
-//         "testaccount.dev.azuresynapse.net"
-//       );
-//       return replaced;
-//     },
-//   ],
-//   queryParametersToSkip: [],
-// };
-
 export function createClient(options?: AccessControlClientOptionalParams): AccessControlClient {
   let credential = createTestCredential();
-  // credential = new ClientSecretCredential(
-  //   env.AZURE_TENANT_ID,
-  //   env.AZURE_CLIENT_ID,
-  //   env.AZURE_CLIENT_SECRET,
-  //   { httpClient }
-  // );
-
-  let endpoint = env.ENDPOINT ? env.ENDPOINT : "endpoint";
-  return new AccessControlClient(credential, endpoint, { ...options });
+  if (!env.ENDPOINT){
+    throw new Error ("Endpoint cannot be empty")
+  }
+  return new AccessControlClient(credential, env.ENDPOINT, { ...options });
 }
 
 /**
