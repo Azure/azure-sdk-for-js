@@ -3786,7 +3786,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20221215
+      typescript: 5.0.0-dev.20221218
     dev: false
 
   /downlevel-dts/0.7.0:
@@ -8490,8 +8490,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20221215:
-    resolution: {integrity: sha512-c4J+NP7IxANpf/vw1dGIbXNzewcl6PEjRo8MR/DXHZJgNIZZBmtgq0AcR27+jnUZsXhuXIVjmNPTxcNNJpnPqw==}
+  /typescript/5.0.0-dev.20221218:
+    resolution: {integrity: sha512-H9OjIoDzurBIgB+Gq/9aAudpSKtfaN+dRCwWc/Ugg8B6/p5VA5KFlnwm2sLjOyTzApusKKUJUpV+u/hXEfxaOA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -9991,7 +9991,7 @@ packages:
     dev: false
 
   file:projects/arm-authorization-profile-2020-09-01-hybrid.tgz:
-    resolution: {integrity: sha512-qkNdkK2xrC1E4v0Q37U2JJBI9LCwLTIlks3/anrG2SM6FSwR2N/ZA0ltRnDZtP3cpSW9CRiEo7Mj0eOBm/or0g==, tarball: file:projects/arm-authorization-profile-2020-09-01-hybrid.tgz}
+    resolution: {integrity: sha512-SuwN4FnyqC5zSSTUXYhOXdZD9+tjgVBM7CYTPn37TdiFWSCctsuI3RQFYjhqNa+7nLEvSPcZz0zfRtUDTLahNw==, tarball: file:projects/arm-authorization-profile-2020-09-01-hybrid.tgz}
     name: '@rush-temp/arm-authorization-profile-2020-09-01-hybrid'
     version: 0.0.0
     dependencies:
@@ -10002,18 +10002,20 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.4
+      '@types/node': 14.18.33
+      chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
