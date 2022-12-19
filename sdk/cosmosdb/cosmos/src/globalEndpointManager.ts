@@ -70,7 +70,7 @@ export class GlobalEndpointManager {
     await this.refreshEndpointList();
     const location = this.readableLocations.find((loc) => loc.databaseAccountEndpoint === endpoint);
     if (location) {
-      location.unavailable = true;
+      location.unavailable = {"timestamp": Date.now()};
     }
   }
 
@@ -80,7 +80,7 @@ export class GlobalEndpointManager {
       (loc) => loc.databaseAccountEndpoint === endpoint
     );
     if (location) {
-      location.unavailable = true;
+      location.unavailable = {"timestamp": Date.now()};
     }
   }
 
@@ -126,13 +126,15 @@ export class GlobalEndpointManager {
       ? this.readableLocations
       : this.writeableLocations;
 
+    //TODO: replace 30000 with an value taken from config
+    locations.forEach((loc) => { if(loc.unavailable && (Date.now() - loc.unavailable?.timestamp) > 30000) loc.unavailable = undefined; })
     let location;
     // If we have preferred locations, try each one in order and use the first available one
     if (this.preferredLocations && this.preferredLocations.length > 0) {
       for (const preferredLocation of this.preferredLocations) {
         location = locations.find(
           (loc) =>
-            loc.unavailable !== true &&
+            loc.unavailable == undefined &&
             normalizeEndpoint(loc.name) === normalizeEndpoint(preferredLocation)
         );
         if (location) {
@@ -144,7 +146,7 @@ export class GlobalEndpointManager {
     // If no preferred locations or one did not match, just grab the first one that is available
     if (!location) {
       location = locations.find((loc) => {
-        return loc.unavailable !== true;
+        return loc.unavailable == undefined;
       });
     }
 
