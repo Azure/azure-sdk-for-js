@@ -1,8 +1,8 @@
 # Release History
     
-## 3.0.0 (2022-12-19)
+## 2.1.0 (2022-12-19)
     
-**Breaking Changes**
+**Features**
 
   - Interface ProviderOperationsMetadataListNextOptionalParams no longer has parameter expand
   - Interface RoleAssignmentsListForResourceGroupNextOptionalParams no longer has parameter filter
