@@ -97,5 +97,9 @@ export class DatabaseAccount {
 export interface Location {
   name: string;
   databaseAccountEndpoint: string;
-  unavailable?: boolean;
+  unavailable?: Unavailable;
+}
+
+export interface Unavailable {
+  timestamp: number;
 }
