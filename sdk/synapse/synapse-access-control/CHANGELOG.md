@@ -5,6 +5,7 @@
 ### Features Added
 
 - Updated to `@azure/core-tracing` 1.0.
+- Migrate to `@auzre-tools/test-recorder` v2. [PR #24281](https://github.com/Azure/azure-sdk-for-js/pull/24281)
 
 ### Breaking Changes
 
