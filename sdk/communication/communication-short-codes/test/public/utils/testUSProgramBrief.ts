@@ -183,16 +183,6 @@ export async function doesProgramBriefExist(
   }
 }
 
-export async function findProgramBriefWithId(id: string, client: ShortCodesClient): Promise<USProgramBrief | null> {
-  for await (const programBrief of client.listUSProgramBriefs()) {
-    if (programBrief.id.toLowerCase() == id.toLowerCase()) {
-      return programBrief;
-    }
-  }
-
-  return null;
-}
-
 export async function runTestCleaningLeftovers(testProgramBriefId: string, client: ShortCodesClient, testLogic: () => Promise<void>) {
   try {
     await tryDeleteLeftOversFromPreviousTests(client);
@@ -206,9 +196,7 @@ export async function runTestCleaningLeftovers(testProgramBriefId: string, clien
 async function tryDeleteLeftOversFromPreviousTests(client: ShortCodesClient): Promise<void> {
   try {
     for await (const programBrief of client.listUSProgramBriefs()) {
-      if (programBrief.programDetails?.name?.toLowerCase() == TestProgramBriefName.toLocaleLowerCase()
-        && programBrief.companyInformation?.name?.toLowerCase() == TestCompanyName.toLowerCase()
-        && programBrief.statusUpdatedDate) {
+      if (isLeftOver(programBrief) && isOldEnoughToDelete(programBrief)) {
         await tryDeleteProgramBrief(programBrief.id, client);
       }
     }
@@ -217,7 +205,35 @@ async function tryDeleteLeftOversFromPreviousTests(client: ShortCodesClient): Pr
   }
 }
 
-function isOldEnoughToDelete()
+function isLeftOver(programBrief: USProgramBrief): boolean {
+  return programBrief.programDetails?.name?.toLowerCase() == TestProgramBriefName.toLocaleLowerCase()
+    && programBrief.companyInformation?.name?.toLowerCase() == TestCompanyName.toLowerCase();
+}
+
+function isOldEnoughToDelete(programBrief: USProgramBrief): boolean {
+  // Recording files are meant to be reused for a long time, which means that they will eventually
+  // get desynchronized. In those cases, we don't want to try to delete anything.
+  if (isPlaybackMode()) {
+    return false;
+  }
+
+  if (!programBrief.statusUpdatedDate) {
+    return false;
+  }
+
+  var howManyDaysSinceLastUpdate = getDateDifferenceInDays(programBrief.statusUpdatedDate);
+
+  return howManyDaysSinceLastUpdate >= 1;
+}
+
+function getDateDifferenceInDays(date: Date): number {
+  var now = new Date();
+
+  var utcThis = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours(), now.getMinutes(), now.getSeconds(), now.getMilliseconds());
+  var utcOther = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds());
+
+  return (utcThis - utcOther) / 86400000;
+}
 
 async function tryDeleteProgramBrief(id: string, client: ShortCodesClient): Promise<void> {
   try {
