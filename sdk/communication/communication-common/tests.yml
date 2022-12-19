@@ -11,10 +11,14 @@ stages:
             - $(sub-config-azure-cloud-test-resources)
             - $(sub-config-communication-services-cloud-test-resources-common)
             - $(sub-config-communication-services-cloud-test-resources-js)
+          MatrixFilters:
+            - DependencyVersion=^.+$  
         PPE:
           SubscriptionConfigurations:
             - $(sub-config-communication-ppe-test-resources-common)
             - $(sub-config-communication-ppe-test-resources-js)
+          MatrixFilters:
+            - DependencyVersion=^.+$  
         Int:
           SubscriptionConfigurations:
             - $(sub-config-communication-int-test-resources-common)
