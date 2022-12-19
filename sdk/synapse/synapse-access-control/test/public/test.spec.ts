@@ -9,7 +9,7 @@ describe("Access Control smoke", () => {
 
   beforeEach(function() {
     recorder = createRecorder(this);
-    client = createClient();
+    client = createClient(recorder.configureClientOptions({}));
   });
 
   afterEach(async () => {

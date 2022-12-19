@@ -3,58 +3,50 @@
 
 import "./env";
 
+import { Context } from "mocha";
+import { createTestCredential } from "@azure-tools/test-credential";
 import { AccessControlClient, AccessControlClientOptionalParams } from "../../../src";
-import { ClientSecretCredential, TokenCredential } from "@azure/identity";
 import {
   Recorder,
-  RecorderEnvironmentSetup,
   env,
   isLiveMode,
-  record,
 } from "@azure-tools/test-recorder";
 import { createXhrHttpClient, isNode } from "@azure/test-utils";
 
-import { Context } from "mocha";
 
-const replaceableVariables: { [k: string]: string } = {
-  AZURE_CLIENT_ID: "azure_client_id",
-  AZURE_CLIENT_SECRET: "azure_client_secret",
-  AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  ENDPOINT: "https://testaccount.dev.azuresynapse.net",
-};
-
-export const environmentSetup: RecorderEnvironmentSetup = {
-  replaceableVariables,
-  customizationsOnRecordings: [
-    (recording: string): string =>
-      recording.replace(/"access_token"\s?:\s?"[^"]*"/g, `"access_token":"access_token"`),
-    // If we put ENDPOINT in replaceableVariables above, it will not capture
-    // the endpoint string used with nock, which will be expanded to
-    // https://<endpoint>:443/ and therefore will not match, so we have to do
-    // this instead.
-    (recording: string): string => {
-      const replaced = recording.replace(
-        "testaccount.dev.azuresynapse.net:443",
-        "testaccount.dev.azuresynapse.net"
-      );
-      return replaced;
-    },
-  ],
-  queryParametersToSkip: [],
-};
+// export const environmentSetup: RecorderEnvironmentSetup = {
+//   replaceableVariables,
+//   customizationsOnRecordings: [
+//     (recording: string): string =>
+//       recording.replace(/"access_token"\s?:\s?"[^"]*"/g, `"access_token":"access_token"`),
+//     // If we put ENDPOINT in replaceableVariables above, it will not capture
+//     // the endpoint string used with nock, which will be expanded to
+//     // https://<endpoint>:443/ and therefore will not match, so we have to do
+//     // this instead.
+//     (recording: string): string => {
+//       const replaced = recording.replace(
+//         "testaccount.dev.azuresynapse.net:443",
+//         "testaccount.dev.azuresynapse.net"
+//       );
+//       return replaced;
+//     },
+//   ],
+//   queryParametersToSkip: [],
+// };
 
 export function createClient(options?: AccessControlClientOptionalParams): AccessControlClient {
-  let credential: TokenCredential;
   const httpClient = isNode || isLiveMode() ? undefined : createXhrHttpClient();
 
-  credential = new ClientSecretCredential(
-    env.AZURE_TENANT_ID,
-    env.AZURE_CLIENT_ID,
-    env.AZURE_CLIENT_SECRET,
-    { httpClient }
-  );
+  let credential = createTestCredential();
+  // credential = new ClientSecretCredential(
+  //   env.AZURE_TENANT_ID,
+  //   env.AZURE_CLIENT_ID,
+  //   env.AZURE_CLIENT_SECRET,
+  //   { httpClient }
+  // );
 
-  return new AccessControlClient(credential, env.ENDPOINT, { ...options, httpClient });
+  let endpoint = env.ENDPOINT ? env.ENDPOINT : "endpoint";
+  return new AccessControlClient(credential, endpoint, { ...options, httpClient });
 }
 
 /**
@@ -63,5 +55,5 @@ export function createClient(options?: AccessControlClientOptionalParams): Acces
  * read before they are being used.
  */
 export function createRecorder(context: Context): Recorder {
-  return record(context, environmentSetup);
+  return new Recorder(context.currentTest);
 }
