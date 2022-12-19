@@ -1,4 +1,4 @@
-# Azure LoadTest client library for JavaScript
+# Azure Load Testing client library for JavaScript
 
 This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure LoadTest client.
 
