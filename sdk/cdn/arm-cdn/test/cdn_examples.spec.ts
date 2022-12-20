@@ -134,11 +134,17 @@ describe("CDN test", () => {
     assert.equal(res.type, "Microsoft.Cdn/profiles/endpoints");
   });
 
-  it.skip("customDomains enable test", async function () {
+  it("customDomains enable test", async function () {
     // 1. we need to add a custom name https://learn.microsoft.com/en-us/azure/cdn/cdn-map-content-to-custom-domain?tabs=azure-dns%2Cazure-portal%2Cazure-portal-cleanup
     // 2. then enable the https https://learn.microsoft.com/en-us/azure/cdn/cdn-custom-ssl?tabs=option-1-default-enable-https-with-a-cdn-managed-certificate
-    const res = await client.customDomains.beginEnableCustomHttpsAndWait(resourceGroup, profileName, endpointName, "www-qiaozha-xyz");
-    assert.equal(res.name, "www-qiaozha-xyz");
+    const defaultSetting = { "certificateSource": "Cdn", "protocolType": "IPBased", "certificateSourceParameters": { "typeName": "CdnCertificateSourceParameters", "certificateType": "Shared" } };
+    try {
+      await client.customDomains.beginEnableCustomHttpsAndWait(resourceGroup, profileName, endpointName, "www-qiaozha-xyz");
+    } catch (error) {
+      // ensure we set the default value into the request body
+      assert.deepEqual(JSON.parse((error as any).request.body), defaultSetting);
+    }
+
   });
 
   it("endpoints delete test", async function () {
