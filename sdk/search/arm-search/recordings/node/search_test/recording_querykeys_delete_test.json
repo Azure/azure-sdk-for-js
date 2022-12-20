@@ -1,167 +1,126 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Search/searchServices/myjssearchservicexx/deleteQueryKey/testjskey?api-version=2020-08-01",
-      "RequestMethod": "DELETE",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Search/searchServices/myjssearchservicexxx/listQueryKeys?api-version=2020-08-01",
+      "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-search/3.1.0 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "ddd403e0-f014-46c3-b930-cfc322482de0"
+        "Content-Length": "0",
+        "User-Agent": "azsdk-js-arm-search/3.1.0 core-rest-pipeline/1.10.1 Node/v18.12.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "bc548b37-8a22-4c38-9d37-e0a1e7fb5754"
       },
       "RequestBody": null,
-      "StatusCode": 500,
+      "StatusCode": 200,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
-        "Connection": "close",
-        "Content-Language": "en",
-        "Content-Length": "151",
+        "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 07 Dec 2022 08:58:25 GMT",
-        "elapsed-time": "154",
+        "Date": "Tue, 20 Dec 2022 07:28:47 GMT",
+        "elapsed-time": "127",
         "Expires": "-1",
         "Pragma": "no-cache",
-        "request-id": "ddd403e0-f014-46c3-b930-cfc322482de0",
+        "request-id": "bc548b37-8a22-4c38-9d37-e0a1e7fb5754",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": [
+          "Accept-Encoding",
+          "Accept-Encoding"
+        ],
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "e0771a72-2efd-410e-9ecc-4dfd3e000699",
-        "x-ms-failure-cause": "service",
-        "x-ms-ratelimit-remaining-subscription-deletes": "14999",
-        "x-ms-request-id": "ddd403e0-f014-46c3-b930-cfc322482de0",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20221207T085825Z:e0771a72-2efd-410e-9ecc-4dfd3e000699"
+        "x-ms-correlation-request-id": "4c35f013-f0a6-4606-9ed0-cb40522b8a05",
+        "x-ms-ratelimit-remaining-subscription-writes": "1194",
+        "x-ms-request-id": "bc548b37-8a22-4c38-9d37-e0a1e7fb5754",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221220T072848Z:4c35f013-f0a6-4606-9ed0-cb40522b8a05"
       },
       "ResponseBody": {
-        "error": {
-          "code": "InternalServerError",
-          "message": "An error has occured. RequestId: e0771a72-2efd-410e-9ecc-4dfd3e000699",
-          "target": null,
-          "details": null
-        }
+        "value": [
+          {
+            "name": null,
+            "key": "Rrw8IlQgUyW0TEmyR6iMJ80CaZSwqyAWKDRPDKntLLAzSeBtcvYg"
+          },
+          {
+            "name": "testjskey",
+            "key": "Ry6d14Q7F6Isa9JIVYeDm9lWkUJfJ5Ga8UqH2RVSyIAzSeCOCJh3"
+          }
+        ],
+        "nextLink": null
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Search/searchServices/myjssearchservicexx/deleteQueryKey/testjskey?api-version=2020-08-01",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Search/searchServices/myjssearchservicexxx/deleteQueryKey/Ry6d14Q7F6Isa9JIVYeDm9lWkUJfJ5Ga8UqH2RVSyIAzSeCOCJh3?api-version=2020-08-01",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-search/3.1.0 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "ddd403e0-f014-46c3-b930-cfc322482de0"
+        "User-Agent": "azsdk-js-arm-search/3.1.0 core-rest-pipeline/1.10.1 Node/v18.12.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "68fe194c-973b-4de1-8cc2-954af2913aea"
       },
       "RequestBody": null,
-      "StatusCode": 500,
+      "StatusCode": 204,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
-        "Connection": "close",
-        "Content-Language": "en",
-        "Content-Length": "151",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 07 Dec 2022 08:58:28 GMT",
-        "elapsed-time": "236",
+        "Date": "Tue, 20 Dec 2022 07:28:49 GMT",
+        "elapsed-time": "141",
         "Expires": "-1",
         "Pragma": "no-cache",
-        "request-id": "ddd403e0-f014-46c3-b930-cfc322482de0",
+        "request-id": "68fe194c-973b-4de1-8cc2-954af2913aea",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "e48dc631-d0d4-48d6-977f-233888290750",
-        "x-ms-failure-cause": "service",
-        "x-ms-ratelimit-remaining-subscription-deletes": "14999",
-        "x-ms-request-id": "ddd403e0-f014-46c3-b930-cfc322482de0",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20221207T085829Z:e48dc631-d0d4-48d6-977f-233888290750"
+        "x-ms-correlation-request-id": "a1c8c848-889c-4c74-9378-9e4fc0a2ea58",
+        "x-ms-ratelimit-remaining-subscription-deletes": "14998",
+        "x-ms-request-id": "68fe194c-973b-4de1-8cc2-954af2913aea",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221220T072849Z:a1c8c848-889c-4c74-9378-9e4fc0a2ea58"
       },
-      "ResponseBody": {
-        "error": {
-          "code": "InternalServerError",
-          "message": "An error has occured. RequestId: e48dc631-d0d4-48d6-977f-233888290750",
-          "target": null,
-          "details": null
-        }
-      }
+      "ResponseBody": null
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Search/searchServices/myjssearchservicexx/deleteQueryKey/testjskey?api-version=2020-08-01",
-      "RequestMethod": "DELETE",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Search/searchServices/myjssearchservicexxx/listQueryKeys?api-version=2020-08-01",
+      "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-search/3.1.0 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "ddd403e0-f014-46c3-b930-cfc322482de0"
+        "Content-Length": "0",
+        "User-Agent": "azsdk-js-arm-search/3.1.0 core-rest-pipeline/1.10.1 Node/v18.12.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "95240a3a-7b74-4c82-99cb-f6891c3588c4"
       },
       "RequestBody": null,
-      "StatusCode": 500,
+      "StatusCode": 200,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
-        "Connection": "close",
-        "Content-Language": "en",
-        "Content-Length": "151",
+        "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 07 Dec 2022 08:58:33 GMT",
-        "elapsed-time": "153",
+        "Date": "Tue, 20 Dec 2022 07:28:49 GMT",
+        "elapsed-time": "144",
         "Expires": "-1",
         "Pragma": "no-cache",
-        "request-id": "ddd403e0-f014-46c3-b930-cfc322482de0",
+        "request-id": "95240a3a-7b74-4c82-99cb-f6891c3588c4",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": [
+          "Accept-Encoding",
+          "Accept-Encoding"
+        ],
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "afe20a3b-9bc9-4eb9-9bbf-2f24750dfcbe",
-        "x-ms-failure-cause": "service",
-        "x-ms-ratelimit-remaining-subscription-deletes": "14999",
-        "x-ms-request-id": "ddd403e0-f014-46c3-b930-cfc322482de0",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20221207T085833Z:afe20a3b-9bc9-4eb9-9bbf-2f24750dfcbe"
+        "x-ms-correlation-request-id": "c19de451-8198-47e6-b270-489a8e067b5e",
+        "x-ms-ratelimit-remaining-subscription-writes": "1193",
+        "x-ms-request-id": "95240a3a-7b74-4c82-99cb-f6891c3588c4",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221220T072850Z:c19de451-8198-47e6-b270-489a8e067b5e"
       },
       "ResponseBody": {
-        "error": {
-          "code": "InternalServerError",
-          "message": "An error has occured. RequestId: afe20a3b-9bc9-4eb9-9bbf-2f24750dfcbe",
-          "target": null,
-          "details": null
-        }
-      }
-    },
-    {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Search/searchServices/myjssearchservicexx/deleteQueryKey/testjskey?api-version=2020-08-01",
-      "RequestMethod": "DELETE",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-search/3.1.0 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "ddd403e0-f014-46c3-b930-cfc322482de0"
-      },
-      "RequestBody": null,
-      "StatusCode": 500,
-      "ResponseHeaders": {
-        "Cache-Control": "no-cache",
-        "Connection": "close",
-        "Content-Language": "en",
-        "Content-Length": "151",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 07 Dec 2022 08:58:39 GMT",
-        "elapsed-time": "171",
-        "Expires": "-1",
-        "Pragma": "no-cache",
-        "request-id": "ddd403e0-f014-46c3-b930-cfc322482de0",
-        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "1c8b85f8-470f-46db-b896-0d310b057a37",
-        "x-ms-failure-cause": "service",
-        "x-ms-ratelimit-remaining-subscription-deletes": "14999",
-        "x-ms-request-id": "ddd403e0-f014-46c3-b930-cfc322482de0",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20221207T085840Z:1c8b85f8-470f-46db-b896-0d310b057a37"
-      },
-      "ResponseBody": {
-        "error": {
-          "code": "InternalServerError",
-          "message": "An error has occured. RequestId: 1c8b85f8-470f-46db-b896-0d310b057a37",
-          "target": null,
-          "details": null
-        }
+        "value": [
+          {
+            "name": null,
+            "key": "Rrw8IlQgUyW0TEmyR6iMJ80CaZSwqyAWKDRPDKntLLAzSeBtcvYg"
+          }
+        ],
+        "nextLink": null
       }
     }
   ],

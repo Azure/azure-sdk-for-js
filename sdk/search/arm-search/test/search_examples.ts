@@ -41,6 +41,7 @@ describe("Search test", () => {
   let resourceGroup: string;
   let searchServiceName: string;
   let keyname: string;
+  let keyvalue: string;
 
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
@@ -51,7 +52,7 @@ describe("Search test", () => {
     client = new SearchManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "eastus";
     resourceGroup = "myjstest";
-    searchServiceName = "myjssearchservicexx"
+    searchServiceName = "myjssearchservicexxx"
     keyname = "testjskey";
   });
 
@@ -87,7 +88,8 @@ describe("Search test", () => {
 
   it("queryKeys create test", async function () {
     const res = await client.queryKeys.create(resourceGroup, searchServiceName, keyname);
-    assert.notEqual(res.key, "");
+    keyvalue = res.key || "";
+    assert.equal(res.name, keyname);
   });
 
   it("queryKeys list test", async function () {
@@ -99,16 +101,25 @@ describe("Search test", () => {
   });
 
   it("queryKeys delete test", async function () {
-    const res = await client.queryKeys.delete(resourceGroup, searchServiceName, keyname);
-    const resArray = new Array();
+    let resArray = new Array();
     for await (let item of client.queryKeys.listBySearchService(resourceGroup, searchServiceName)) {
       resArray.push(item);
     }
-    assert.equal(resArray.length, 2);
+    const len = resArray.length;
+    // At least one query key
+    assert.isTrue(len > 0);
+    // Delete the query key by key not by keyname
+    await client.queryKeys.delete(resourceGroup, searchServiceName, keyvalue);
+    resArray = new Array();
+    for await (let item of client.queryKeys.listBySearchService(resourceGroup, searchServiceName)) {
+      resArray.push(item);
+    }
+    // The key number is reduced to len - 1
+    assert.equal(resArray.length, len - 1);
   });
 
   it("services delete test", async function () {
-    const res = await client.services.delete(resourceGroup, searchServiceName);
+    await client.services.delete(resourceGroup, searchServiceName);
     const resArray = new Array();
     for await (let item of client.services.listByResourceGroup(resourceGroup)) {
       resArray.push(item);

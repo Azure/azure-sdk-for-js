@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Search/searchServices/myjssearchservicexx?api-version=2020-08-01",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Search/searchServices/myjssearchservicexxx?api-version=2020-08-01",
       "RequestMethod": "PUT",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -10,8 +10,8 @@
         "Connection": "keep-alive",
         "Content-Length": "122",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-arm-search/3.1.0 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "c963d7e3-8489-43e8-8c58-c1cfedb7f4cf"
+        "User-Agent": "azsdk-js-arm-search/3.1.0 core-rest-pipeline/1.10.1 Node/v18.12.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "8d2afa5a-2262-4be2-8b84-ace11efdf914"
       },
       "RequestBody": {
         "location": "eastus",
@@ -27,24 +27,24 @@
       "StatusCode": 201,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
-        "Content-Length": "537",
+        "Content-Length": "539",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 07 Dec 2022 08:58:17 GMT",
-        "elapsed-time": "4335",
-        "ETag": "W/\u0022datetime\u00272022-12-07T08%3A58%3A16.3292519Z\u0027\u0022",
+        "Date": "Tue, 20 Dec 2022 07:28:39 GMT",
+        "elapsed-time": "4106",
+        "ETag": "W/\u0022datetime\u00272022-12-20T07%3A28%3A38.3528914Z\u0027\u0022",
         "Expires": "-1",
         "Pragma": "no-cache",
-        "request-id": "c963d7e3-8489-43e8-8c58-c1cfedb7f4cf",
+        "request-id": "8d2afa5a-2262-4be2-8b84-ace11efdf914",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "e6a84622-5aff-4646-8900-0b5b1446474a",
-        "x-ms-ratelimit-remaining-subscription-writes": "1199",
-        "x-ms-request-id": "c963d7e3-8489-43e8-8c58-c1cfedb7f4cf",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20221207T085817Z:e6a84622-5aff-4646-8900-0b5b1446474a"
+        "x-ms-correlation-request-id": "a4426b3f-c454-4e7e-9a36-9b8e75cd66a8",
+        "x-ms-ratelimit-remaining-subscription-writes": "1198",
+        "x-ms-request-id": "8d2afa5a-2262-4be2-8b84-ace11efdf914",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221220T072840Z:a4426b3f-c454-4e7e-9a36-9b8e75cd66a8"
       },
       "ResponseBody": {
-        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Search/searchServices/myjssearchservicexx",
-        "name": "myjssearchservicexx",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Search/searchServices/myjssearchservicexxx",
+        "name": "myjssearchservicexxx",
         "type": "Microsoft.Search/searchServices",
         "location": "East US",
         "properties": {
