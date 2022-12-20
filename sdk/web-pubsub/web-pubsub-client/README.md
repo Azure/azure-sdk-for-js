@@ -95,7 +95,7 @@ For the full code samples, please reach to [samples-browser](https://github.com/
 
 ### Join group and send message to group
 
-The client can only receive messages from groups that it has joined and you need to add a handler to specify the logic when receiving messages.
+The client can only receive messages from groups that it has joined and you need to add a callback to specify the logic when receiving messages.
 
 ```js
 client.on("group-message", (e) => {
@@ -139,7 +139,7 @@ Connections to Web PubSub can belong to one user. A user might have multiple con
 
 ## Client Lifetime
 
-Each of the Web PubSub client is safe to cache and use as a singleton for the lifetime of the application. The registered event handlers share the same lifetime with the client. Which means you can add or remove event handlers at anytime and the registration status won't change after reconnection or even stopping the client.
+Each of the Web PubSub client is safe to cache and use as a singleton for the lifetime of the application. The registered event callbacks share the same lifetime with the client. Which means you can add or remove callbacks at anytime and the registration status won't change after reconnection or even stopping the client.
 
 ## Examples
 
@@ -154,7 +154,7 @@ const client = new WebPubSubClient("<client-access-url>", { protocol: WebPubSubJ
 
 ### Consume messages from server and from groups
 
-Client can add handler to consume messages from server and from groups. Please note, client can only receive group messages that it has joined.
+Client can add callbacks to consume messages from server and from groups. Please note, client can only receive group messages that it has joined.
 
 ```js
 client.on("server-message", (e) => {
@@ -166,7 +166,7 @@ client.on("group-message", (e) => {
 });
 ```
 
-### Add handler for handing connected, disconnected and stopped events
+### Add callbacks for connected, disconnected and stopped events
 
 When a client connection is connected to the service and received connected message from the service, the connected event will be triggered.
 
@@ -194,7 +194,7 @@ client.on("stopped", _ => {
 
 ### Auto rejoin group and handle rejoin failure
 
-When a client connection has dropped and fails to recover, all group context will be clean up in the service side. That means when the client reconnects, it needs to rejoin groups. By default, the client enabled `autoRejoinGroup` options. However, this feature has limitation. The client can only rejoin groups that it's originally joined by then client rather than joined by server side. And rejoin group operations may fail due to various reason, e.g. the client don't have the permission to join group. In such case, uses need to add a handler to handle the failure.
+When a client connection has dropped and fails to recover, all group context will be clean up in the service side. That means when the client reconnects, it needs to rejoin groups. By default, the client enabled `autoRejoinGroup` options. However, this feature has limitation. The client can only rejoin groups that it's originally joined by then client rather than joined by server side. And rejoin group operations may fail due to various reason, e.g. the client don't have the permission to join group. In such case, uses need to add a callback to handle the failure.
 
 ```js
 // By default autoRejoinGroups=true. You can disable it by setting to false.
