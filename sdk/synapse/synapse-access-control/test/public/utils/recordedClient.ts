@@ -14,10 +14,7 @@ import {
 
 export function createClient(options?: AccessControlClientOptionalParams): AccessControlClient {
   let credential = createTestCredential();
-  if (!env.ENDPOINT){
-    throw new Error ("Endpoint cannot be empty")
-  }
-  return new AccessControlClient(credential, env.ENDPOINT, { ...options });
+  return new AccessControlClient(credential, env.ENDPOINT as string, { ...options });
 }
 
 /**
