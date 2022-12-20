@@ -100,6 +100,6 @@ export interface Location {
   unavailable?: Unavailable;
 }
 
-export interface Unavailable {
+interface Unavailable {
   timestamp: number;
 }

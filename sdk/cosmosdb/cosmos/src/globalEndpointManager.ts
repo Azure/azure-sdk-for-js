@@ -133,7 +133,7 @@ export class GlobalEndpointManager {
       for (const preferredLocation of this.preferredLocations) {
         location = locations.find(
           (loc) =>
-            loc.unavailable == undefined &&
+            loc.unavailable === undefined &&
             normalizeEndpoint(loc.name) === normalizeEndpoint(preferredLocation)
         );
         if (location) {
@@ -145,7 +145,7 @@ export class GlobalEndpointManager {
     // If no preferred locations or one did not match, just grab the first one that is available
     if (!location) {
       location = locations.find((loc) => {
-        return loc.unavailable == undefined;
+        return loc.unavailable === undefined;
       });
     }
     return location ? location.databaseAccountEndpoint : this.defaultEndpoint;
