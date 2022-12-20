@@ -102,5 +102,5 @@ describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Progr
         "Delete program brief was unsuccessful, program brief is still returned"
       );
     });
-  }).timeout(35000);
+  }).timeout(50000);
 });

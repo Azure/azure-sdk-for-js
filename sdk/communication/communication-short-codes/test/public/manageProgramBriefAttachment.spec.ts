@@ -103,5 +103,5 @@ describe(`ShortCodesClient - manage Attachments`, function () {
         "Delete program brief was unsuccessful, program brief is still returned"
       );
     });
-  }).timeout(50000);
+  }).timeout(80000);
 });
