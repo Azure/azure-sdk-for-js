@@ -27,7 +27,8 @@ export async function createRecorder(context: Context): Promise<Recorder> {
     envSetupForPlayback: {
       AZURE_CLIENT_ID: "azure_client_id",
       AZURE_CLIENT_SECRET: "azure_client_secret",
-      AZURE_TENANT_ID: "azuretenantid",
+      AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
+      ENDPOINT: "https://testaccount.dev.azuresynapse.net"
     },
   };
   const recorder = new Recorder(context.currentTest);
