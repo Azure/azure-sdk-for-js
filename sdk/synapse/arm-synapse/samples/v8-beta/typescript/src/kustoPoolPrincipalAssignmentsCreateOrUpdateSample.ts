@@ -13,6 +13,9 @@ import {
   SynapseManagementClient
 } from "@azure/arm-synapse";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create a Kusto pool principalAssignment.
@@ -21,11 +24,14 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/preview/2021-06-01-preview/examples/KustoPoolPrincipalAssignmentsCreateOrUpdate.json
  */
 async function kustoPoolPrincipalAssignmentsCreateOrUpdate() {
-  const subscriptionId = "12345678-1234-1234-1234-123456789098";
+  const subscriptionId =
+    process.env["SYNAPSE_SUBSCRIPTION_ID"] ||
+    "12345678-1234-1234-1234-123456789098";
   const workspaceName = "synapseWorkspaceName";
   const kustoPoolName = "kustoclusterrptest4";
   const principalAssignmentName = "kustoprincipal1";
-  const resourceGroupName = "kustorptest";
+  const resourceGroupName =
+    process.env["SYNAPSE_RESOURCE_GROUP"] || "kustorptest";
   const parameters: ClusterPrincipalAssignment = {
     principalId: "87654321-1234-1234-1234-123456789123",
     principalType: "App",
@@ -44,4 +50,8 @@ async function kustoPoolPrincipalAssignmentsCreateOrUpdate() {
   console.log(result);
 }
 
-kustoPoolPrincipalAssignmentsCreateOrUpdate().catch(console.error);
+async function main() {
+  kustoPoolPrincipalAssignmentsCreateOrUpdate();
+}
+
+main().catch(console.error);
