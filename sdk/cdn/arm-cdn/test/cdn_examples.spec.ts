@@ -29,7 +29,7 @@ const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback: replaceableVariables
 };
 
-describe("Cdn test", () => {
+describe("CDN test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: CdnManagementClient;
@@ -117,7 +117,7 @@ describe("Cdn test", () => {
     assert.equal(resArray.length, 1);
   });
 
-  it("profiles upeate test", async function () {
+  it("profiles update test", async function () {
     const res = await client.profiles.beginUpdateAndWait(resourceGroup, profileName, { tags: { additional_properties: "Tag1" } });
   });
 
@@ -129,14 +129,14 @@ describe("Cdn test", () => {
     assert.equal(resArray.length, 1);
   });
 
-  it("endpoints upeate test", async function () {
+  it("endpoints update test", async function () {
     const res = await client.endpoints.beginUpdateAndWait(resourceGroup, profileName, endpointName, { tags: { additional_properties: "Tag1" } });
     assert.equal(res.type, "Microsoft.Cdn/profiles/endpoints");
   });
 
   it.skip("customDomains enable test", async function () {
-    const res = await client.customDomains.beginEnableCustomHttpsAndWait(resourceGroup, profileName, endpointName, "www.qiaozha.com");
-    assert.equal(res.name, "www.qiaozha.com");
+    const res = await client.customDomains.beginEnableCustomHttpsAndWait(resourceGroup, profileName, endpointName, "www-qiaozha-xyz");
+    assert.equal(res.name, "www-qiaozha-xyz");
   });
 
   it("endpoints delete test", async function () {
