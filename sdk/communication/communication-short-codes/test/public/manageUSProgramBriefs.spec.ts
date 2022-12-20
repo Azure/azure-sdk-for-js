@@ -69,7 +69,8 @@ describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Progr
       if (uspb.programDetails) {
         uspb.programDetails.callToActionUrl = updateRequest.body?.programDetails?.callToActionUrl;
         uspb.programDetails.privacyPolicyUrl = updateRequest.body?.programDetails?.privacyPolicyUrl;
-        uspb.programDetails.termsOfServiceUrl = updateRequest.body?.programDetails?.termsOfServiceUrl;
+        uspb.programDetails.termsOfServiceUrl =
+          updateRequest.body?.programDetails?.termsOfServiceUrl;
       }
 
       const updateResult = await client.upsertUSProgramBrief(uspb.id, updateRequest);

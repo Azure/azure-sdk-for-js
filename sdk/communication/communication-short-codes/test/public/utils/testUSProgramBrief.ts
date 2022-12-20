@@ -183,7 +183,11 @@ export async function doesProgramBriefExist(
   }
 }
 
-export async function runTestCleaningLeftovers(testProgramBriefId: string, client: ShortCodesClient, testLogic: () => Promise<void>) {
+export async function runTestCleaningLeftovers(
+  testProgramBriefId: string,
+  client: ShortCodesClient,
+  testLogic: () => Promise<void>
+): Promise<void> {
   try {
     await tryDeleteLeftOversFromPreviousTests(client);
     await testLogic();
@@ -206,8 +210,10 @@ async function tryDeleteLeftOversFromPreviousTests(client: ShortCodesClient): Pr
 }
 
 function isLeftOver(programBrief: USProgramBrief): boolean {
-  return programBrief.programDetails?.name?.toLowerCase() == TestProgramBriefName.toLocaleLowerCase()
-    && programBrief.companyInformation?.name?.toLowerCase() == TestCompanyName.toLowerCase();
+  return (
+    programBrief.programDetails?.name?.toLowerCase() === TestProgramBriefName.toLocaleLowerCase() &&
+    programBrief.companyInformation?.name?.toLowerCase() === TestCompanyName.toLowerCase()
+  );
 }
 
 function isOldEnoughToDelete(programBrief: USProgramBrief): boolean {
@@ -221,16 +227,32 @@ function isOldEnoughToDelete(programBrief: USProgramBrief): boolean {
     return false;
   }
 
-  var howManyDaysSinceLastUpdate = getDateDifferenceInDays(programBrief.statusUpdatedDate);
+  const howManyDaysSinceLastUpdate = getDateDifferenceInDays(programBrief.statusUpdatedDate);
 
   return howManyDaysSinceLastUpdate >= 1;
 }
 
 function getDateDifferenceInDays(date: Date): number {
-  var now = new Date();
+  const now = new Date();
 
-  var utcThis = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours(), now.getMinutes(), now.getSeconds(), now.getMilliseconds());
-  var utcOther = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds(), date.getMilliseconds());
+  const utcThis = Date.UTC(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate(),
+    now.getHours(),
+    now.getMinutes(),
+    now.getSeconds(),
+    now.getMilliseconds()
+  );
+  const utcOther = Date.UTC(
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate(),
+    date.getHours(),
+    date.getMinutes(),
+    date.getSeconds(),
+    date.getMilliseconds()
+  );
 
   return (utcThis - utcOther) / 86400000;
 }

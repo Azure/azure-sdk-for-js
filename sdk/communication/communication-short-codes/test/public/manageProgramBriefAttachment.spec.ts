@@ -7,7 +7,11 @@ import {
   getProgramBriefAttachmentWithId,
   getTestProgramBriefAttachment,
 } from "./utils/testProgramBriefAttachment";
-import { doesProgramBriefExist, getTestUSProgramBrief, runTestCleaningLeftovers } from "./utils/testUSProgramBrief";
+import {
+  doesProgramBriefExist,
+  getTestUSProgramBrief,
+  runTestCleaningLeftovers,
+} from "./utils/testUSProgramBrief";
 import { Context } from "mocha";
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
@@ -75,7 +79,11 @@ describe(`ShortCodesClient - manage Attachments`, function () {
       assert.equal(existingAttachment.fileType, attachment.fileType);
       assert.equal(existingAttachment.type, attachment.type);
 
-      const listedAttachment = await getProgramBriefAttachmentWithId(client, uspb.id, attachment.id);
+      const listedAttachment = await getProgramBriefAttachmentWithId(
+        client,
+        uspb.id,
+        attachment.id
+      );
 
       assert.isOk(listedAttachment);
 
