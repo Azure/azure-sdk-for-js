@@ -1,5 +1,20 @@
 # Release History
     
+## 2.1.0 (2022-12-20)
+    
+**Features**
+
+  - Added Interface PrivateEndpointConnection
+  - Added Interface PrivateLinkResource
+  - Added Interface Secret
+  - Added Interface SecretAttributes
+  - Added function getContinuationToken
+  - Interface SecretsListNextOptionalParams no longer has parameter top
+  - Interface VaultsListByResourceGroupNextOptionalParams no longer has parameter top
+  - Interface VaultsListBySubscriptionNextOptionalParams no longer has parameter top
+  - Interface VaultsListNextOptionalParams no longer has parameter top
+    
+    
 ## 2.0.0 (2022-03-09)
 
 The package of @azure/arm-keyvault-profile-2020-09-01-hybrid is using our next generation design principles since version 2.0.0, which contains breaking changes.
