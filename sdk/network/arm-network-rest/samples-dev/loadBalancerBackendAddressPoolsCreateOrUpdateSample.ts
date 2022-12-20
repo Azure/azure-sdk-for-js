@@ -34,8 +34,7 @@ async function updateLoadBalancerBackendPoolWithBackendAddressesContainingVirtua
             properties: {
               ipAddress: "10.0.0.4",
               virtualNetwork: {
-                id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb",
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb",
               },
             },
           },
@@ -44,8 +43,7 @@ async function updateLoadBalancerBackendPoolWithBackendAddressesContainingVirtua
             properties: {
               ipAddress: "10.0.0.5",
               virtualNetwork: {
-                id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb",
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb",
               },
             },
           },

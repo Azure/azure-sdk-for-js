@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Gets the route table summary associated with the express route cross connection in a resource group.
  *
  * @summary Gets the route table summary associated with the express route cross connection in a resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ExpressRouteCrossConnectionsRouteTableSummary.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/ExpressRouteCrossConnectionsRouteTableSummary.json
  */
 async function getExpressRouteCrossConnectionsRouteTableSummary() {
   const subscriptionId = "subid";

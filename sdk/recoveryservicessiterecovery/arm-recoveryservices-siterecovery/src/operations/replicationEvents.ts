@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ReplicationEvents } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -37,12 +38,17 @@ export class ReplicationEventsImpl implements ReplicationEvents {
 
   /**
    * Gets the list of Azure Site Recovery events for the vault.
+   * @param resourceName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
    * @param options The options parameters.
    */
   public list(
+    resourceName: string,
+    resourceGroupName: string,
     options?: ReplicationEventsListOptionalParams
   ): PagedAsyncIterableIterator<Event> {
-    const iter = this.listPagingAll(options);
+    const iter = this.listPagingAll(resourceName, resourceGroupName, options);
     return {
       next() {
         return iter.next();
@@ -50,69 +56,117 @@ export class ReplicationEventsImpl implements ReplicationEvents {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceName,
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listPagingPage(
-    options?: ReplicationEventsListOptionalParams
+    resourceName: string,
+    resourceGroupName: string,
+    options?: ReplicationEventsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Event[]> {
-    let result = await this._list(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listNext(continuationToken, options);
+    let result: ReplicationEventsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceName, resourceGroupName, options);
+      let page = result.value || [];
       continuationToken = result.nextLink;
-      yield result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listNext(
+        resourceName,
+        resourceGroupName,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
   private async *listPagingAll(
+    resourceName: string,
+    resourceGroupName: string,
     options?: ReplicationEventsListOptionalParams
   ): AsyncIterableIterator<Event> {
-    for await (const page of this.listPagingPage(options)) {
+    for await (const page of this.listPagingPage(
+      resourceName,
+      resourceGroupName,
+      options
+    )) {
       yield* page;
     }
   }
 
   /**
    * Gets the list of Azure Site Recovery events for the vault.
+   * @param resourceName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
    * @param options The options parameters.
    */
   private _list(
+    resourceName: string,
+    resourceGroupName: string,
     options?: ReplicationEventsListOptionalParams
   ): Promise<ReplicationEventsListResponse> {
-    return this.client.sendOperationRequest({ options }, listOperationSpec);
+    return this.client.sendOperationRequest(
+      { resourceName, resourceGroupName, options },
+      listOperationSpec
+    );
   }
 
   /**
    * The operation to get the details of an Azure Site recovery event.
+   * @param resourceName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
    * @param eventName The name of the Azure Site Recovery event.
    * @param options The options parameters.
    */
   get(
+    resourceName: string,
+    resourceGroupName: string,
     eventName: string,
     options?: ReplicationEventsGetOptionalParams
   ): Promise<ReplicationEventsGetResponse> {
     return this.client.sendOperationRequest(
-      { eventName, options },
+      { resourceName, resourceGroupName, eventName, options },
       getOperationSpec
     );
   }
 
   /**
    * ListNext
+   * @param resourceName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
+    resourceName: string,
+    resourceGroupName: string,
     nextLink: string,
     options?: ReplicationEventsListNextOptionalParams
   ): Promise<ReplicationEventsListNextResponse> {
     return this.client.sendOperationRequest(
-      { nextLink, options },
+      { resourceName, resourceGroupName, nextLink, options },
       listNextOperationSpec
     );
   }
@@ -167,7 +221,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.EventCollection
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

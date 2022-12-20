@@ -13,6 +13,9 @@ import {
   SynapseManagementClient
 } from "@azure/arm-synapse";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create an integration runtime
@@ -21,8 +24,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/preview/2021-06-01-preview/examples/IntegrationRuntimes_Create.json
  */
 async function createIntegrationRuntime() {
-  const subscriptionId = "12345678-1234-1234-1234-12345678abc";
-  const resourceGroupName = "exampleResourceGroup";
+  const subscriptionId =
+    process.env["SYNAPSE_SUBSCRIPTION_ID"] ||
+    "12345678-1234-1234-1234-12345678abc";
+  const resourceGroupName =
+    process.env["SYNAPSE_RESOURCE_GROUP"] || "exampleResourceGroup";
   const workspaceName = "exampleWorkspace";
   const integrationRuntimeName = "exampleIntegrationRuntime";
   const integrationRuntime: IntegrationRuntimeResource = {
@@ -42,4 +48,8 @@ async function createIntegrationRuntime() {
   console.log(result);
 }
 
-createIntegrationRuntime().catch(console.error);
+async function main() {
+  createIntegrationRuntime();
+}
+
+main().catch(console.error);

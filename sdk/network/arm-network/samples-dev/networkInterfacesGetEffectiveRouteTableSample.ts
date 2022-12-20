@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Gets all route tables applied to a network interface.
  *
  * @summary Gets all route tables applied to a network interface.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkInterfaceEffectiveRouteTableList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/NetworkInterfaceEffectiveRouteTableList.json
  */
 async function showNetworkInterfaceEffectiveRouteTables() {
   const subscriptionId = "subid";

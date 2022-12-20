@@ -239,8 +239,7 @@ async function createVirtualNetworkWithServiceEndpointsAndServiceEndpointPolicy(
               addressPrefix: "10.0.0.0/16",
               serviceEndpointPolicies: [
                 {
-                  id:
-                    "/subscriptions/subid/resourceGroups/vnetTest/providers/Microsoft.Network/serviceEndpointPolicies/ServiceEndpointPolicy1",
+                  id: "/subscriptions/subid/resourceGroups/vnetTest/providers/Microsoft.Network/serviceEndpointPolicies/ServiceEndpointPolicy1",
                 },
               ],
               serviceEndpoints: [{ service: "Microsoft.Storage" }],

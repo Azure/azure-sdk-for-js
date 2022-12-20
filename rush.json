@@ -755,11 +755,6 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure-tools/testing-recorder-new",
-      "projectFolder": "sdk/test-utils/testing-recorder-new",
-      "versionPolicyName": "test"
-    },
-    {
       "packageName": "@azure/eslint-plugin-azure-sdk",
       "projectFolder": "common/tools/eslint-plugin-azure-sdk",
       "versionPolicyName": "utility"
@@ -1122,11 +1117,6 @@
     {
       "packageName": "@azure/arm-databricks",
       "projectFolder": "sdk/databricks/arm-databricks",
-      "versionPolicyName": "management"
-    },
-    {
-      "packageName": "@azure/arm-videoanalyzer",
-      "projectFolder": "sdk/videoanalyzer/arm-videoanalyzer",
       "versionPolicyName": "management"
     },
     {
@@ -1938,6 +1928,11 @@
       "packageName": "@azure/web-pubsub-client",
       "projectFolder": "sdk/web-pubsub/web-pubsub-client",
       "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/arm-billingbenefits",
+      "projectFolder": "sdk/billingbenefits/arm-billingbenefits",
+      "versionPolicyName": "management"
     }
   ]
 }

@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { SqlPoolSchemas } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -61,12 +62,16 @@ export class SqlPoolSchemasImpl implements SqlPoolSchemas {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listPagingPage(
           resourceGroupName,
           workspaceName,
           sqlPoolName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -76,16 +81,23 @@ export class SqlPoolSchemasImpl implements SqlPoolSchemas {
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolSchemasListOptionalParams
+    options?: SqlPoolSchemasListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<SqlPoolSchema[]> {
-    let result = await this._list(
-      resourceGroupName,
-      workspaceName,
-      sqlPoolName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: SqlPoolSchemasListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(
+        resourceGroupName,
+        workspaceName,
+        sqlPoolName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -95,7 +107,9 @@ export class SqlPoolSchemasImpl implements SqlPoolSchemas {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -231,7 +245,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

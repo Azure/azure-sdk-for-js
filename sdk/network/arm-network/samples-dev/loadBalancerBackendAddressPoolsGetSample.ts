@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Gets load balancer backend address pool.
  *
  * @summary Gets load balancer backend address pool.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LBBackendAddressPoolWithBackendAddressesGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/LBBackendAddressPoolWithBackendAddressesGet.json
  */
 async function loadBalancerWithBackendAddressPoolWithBackendAddresses() {
   const subscriptionId = "subid";
@@ -38,7 +38,7 @@ loadBalancerWithBackendAddressPoolWithBackendAddresses().catch(console.error);
  * This sample demonstrates how to Gets load balancer backend address pool.
  *
  * @summary Gets load balancer backend address pool.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LoadBalancerBackendAddressPoolGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/LoadBalancerBackendAddressPoolGet.json
  */
 async function loadBalancerBackendAddressPoolGet() {
   const subscriptionId = "subid";

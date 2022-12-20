@@ -32,7 +32,7 @@ We are working on to automatically generate everything right now, but currently 
    ```json
    "dependencies": {
      ...
-     "@azure-tools/cadl-typescript": "1.0.0-beta.5"
+     "@azure-tools/cadl-typescript": "1.0.0-beta.6"
    },
    ```
 

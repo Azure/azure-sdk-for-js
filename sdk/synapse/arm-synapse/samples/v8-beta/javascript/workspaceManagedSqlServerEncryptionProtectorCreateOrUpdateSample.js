@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { SynapseManagementClient } = require("@azure/arm-synapse");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Updates workspace managed sql server's encryption protector.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/WorkspaceManagedSqlServerEncryptionProtectorCreateOrUpdateKeyVault.json
  */
 async function updateTheEncryptionProtectorToKeyVault() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "wsg-7398";
+  const subscriptionId =
+    process.env["SYNAPSE_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName = process.env["SYNAPSE_RESOURCE_GROUP"] || "wsg-7398";
   const workspaceName = "testWorkspace";
   const encryptionProtectorName = "current";
   const parameters = {
@@ -38,8 +40,6 @@ async function updateTheEncryptionProtectorToKeyVault() {
   console.log(result);
 }
 
-updateTheEncryptionProtectorToKeyVault().catch(console.error);
-
 /**
  * This sample demonstrates how to Updates workspace managed sql server's encryption protector.
  *
@@ -47,8 +47,9 @@ updateTheEncryptionProtectorToKeyVault().catch(console.error);
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/WorkspaceManagedSqlServerEncryptionProtectorCreateOrUpdateServiceManaged.json
  */
 async function updateTheEncryptionProtectorToServiceManaged() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "wsg-7398";
+  const subscriptionId =
+    process.env["SYNAPSE_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName = process.env["SYNAPSE_RESOURCE_GROUP"] || "wsg-7398";
   const workspaceName = "testWorkspace";
   const encryptionProtectorName = "current";
   const parameters = {
@@ -67,4 +68,9 @@ async function updateTheEncryptionProtectorToServiceManaged() {
   console.log(result);
 }
 
-updateTheEncryptionProtectorToServiceManaged().catch(console.error);
+async function main() {
+  updateTheEncryptionProtectorToKeyVault();
+  updateTheEncryptionProtectorToServiceManaged();
+}
+
+main().catch(console.error);

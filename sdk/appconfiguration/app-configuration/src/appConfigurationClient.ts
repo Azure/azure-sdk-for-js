@@ -38,7 +38,11 @@ import {
   deserializationPolicyName,
 } from "@azure/core-client";
 import { PagedAsyncIterableIterator, PagedResult, getPagedAsyncIterator } from "@azure/core-paging";
-import { PipelinePolicy, bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
+import {
+  PipelinePolicy,
+  bearerTokenAuthenticationPolicy,
+  RestError,
+} from "@azure/core-rest-pipeline";
 import { SyncTokens, syncTokenPolicy } from "./internal/synctokenpolicy";
 import { TokenCredential, isTokenCredential } from "@azure/core-auth";
 import {
@@ -183,15 +187,25 @@ export class AppConfigurationClient {
       async (updatedOptions) => {
         const keyValue = serializeAsConfigurationSettingParam(configurationSetting);
         logger.info("[addConfigurationSetting] Creating a key value pair");
-        const originalResponse = await this.client.putKeyValue(configurationSetting.key, {
-          ifNoneMatch: "*",
-          label: configurationSetting.label,
-          entity: keyValue,
-          ...updatedOptions,
-        });
-        const response = transformKeyValueResponse(originalResponse);
-        assertResponse(response);
-        return response;
+        try {
+          const originalResponse = await this.client.putKeyValue(configurationSetting.key, {
+            ifNoneMatch: "*",
+            label: configurationSetting.label,
+            entity: keyValue,
+            ...updatedOptions,
+          });
+          const response = transformKeyValueResponse(originalResponse);
+          assertResponse(response);
+          return response;
+        } catch (error) {
+          const err = error as RestError;
+          // Service does not return an error message. Raise a 412 error similar to .NET
+          if (err.statusCode === 412) {
+            err.message = `Status 412: Setting was already present`;
+          }
+          throw err;
+        }
+        throw new Error("Unreachable code");
       }
     );
   }

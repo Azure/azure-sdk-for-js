@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Gets the specified network profile in a specified resource group.
  *
  * @summary Gets the specified network profile in a specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkProfileGetConfigOnly.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/NetworkProfileGetConfigOnly.json
  */
 async function getNetworkProfile() {
   const subscriptionId = "subid";
@@ -36,7 +36,7 @@ getNetworkProfile().catch(console.error);
  * This sample demonstrates how to Gets the specified network profile in a specified resource group.
  *
  * @summary Gets the specified network profile in a specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkProfileGetWithContainerNic.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/NetworkProfileGetWithContainerNic.json
  */
 async function getNetworkProfileWithContainerNetworkInterfaces() {
   const subscriptionId = "subid";

@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Deletes the specified tap configuration from the NetworkInterface.
  *
  * @summary Deletes the specified tap configuration from the NetworkInterface.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkInterfaceTapConfigurationDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/NetworkInterfaceTapConfigurationDelete.json
  */
 async function deleteTapConfiguration() {
   const subscriptionId = "subid";
