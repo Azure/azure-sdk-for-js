@@ -3,7 +3,7 @@
 import { OperationType, ResourceType, isReadRequest } from "./common";
 import { CosmosClientOptions } from "./CosmosClientOptions";
 import { Location, DatabaseAccount } from "./documents";
-import { RequestOptions } from "./index";
+import { Constants, RequestOptions } from "./index";
 import { ResourceResponse } from "./request";
 
 /**
@@ -70,7 +70,7 @@ export class GlobalEndpointManager {
     await this.refreshEndpointList();
     const location = this.readableLocations.find((loc) => loc.databaseAccountEndpoint === endpoint);
     if (location) {
-      location.unavailable = {"timestamp": Date.now()};
+      location.unavailable = { timestamp: Date.now() };
     }
   }
 
@@ -80,7 +80,7 @@ export class GlobalEndpointManager {
       (loc) => loc.databaseAccountEndpoint === endpoint
     );
     if (location) {
-      location.unavailable = {"timestamp": Date.now()};
+      location.unavailable = { timestamp: Date.now() };
     }
   }
 
@@ -126,8 +126,7 @@ export class GlobalEndpointManager {
       ? this.readableLocations
       : this.writeableLocations;
 
-    //TODO: replace 30000 with an value taken from config
-    locations.forEach((loc) => { if(loc.unavailable && (Date.now() - loc.unavailable?.timestamp) > 30000) loc.unavailable = undefined; })
+    this.refreshUnavailableLocations(locations);
     let location;
     // If we have preferred locations, try each one in order and use the first available one
     if (this.preferredLocations && this.preferredLocations.length > 0) {
@@ -149,8 +148,17 @@ export class GlobalEndpointManager {
         return loc.unavailable == undefined;
       });
     }
-
     return location ? location.databaseAccountEndpoint : this.defaultEndpoint;
+  }
+
+  private refreshUnavailableLocations(locations: Location[]) {
+    locations.forEach((loc) => {
+      if (
+        loc.unavailable &&
+        Date.now() - loc.unavailable?.timestamp > Constants.LocationUnavailableExpirationTime
+      )
+        loc.unavailable = undefined;
+    });
   }
 
   /**

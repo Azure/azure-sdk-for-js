@@ -97,4 +97,35 @@ describe("GlobalEndpointManager", function () {
       );
     });
   });
+  describe("#markCurrentLocationUnavailableForRead", function () {
+    it("should mark the current location unavailable for read", async function () {
+      const gem = new GlobalEndpointManager(
+        {
+          endpoint: "https://test.documents.azure.com:443/",
+          key: masterKey,
+          connectionPolicy: {
+            enableEndpointDiscovery: true,
+            preferredLocations: ["East US 2", "West US 2"],
+          },
+        },
+        async () => {
+          const response: ResourceResponse<DatabaseAccount> = new ResourceResponse(
+            new DatabaseAccount(databaseAccountBody, headers),
+            headers,
+            200
+          );
+          return response;
+        }
+      );
+      // We don't block on init for database account calls
+      await gem.markCurrentLocationUnavailableForRead(
+        "https://test-westus2.documents.azure.com:443/"
+      );
+
+      /* As we have marked current location unavailable for read,
+        next read should go to the next location or default endpoint
+      */
+      assert.equal(await gem.getReadEndpoint(), "https://test.documents.azure.com:443/");
+    });
+  });
 });
