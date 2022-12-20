@@ -135,6 +135,8 @@ describe("CDN test", () => {
   });
 
   it.skip("customDomains enable test", async function () {
+    // 1. we need to add a custom name https://learn.microsoft.com/en-us/azure/cdn/cdn-map-content-to-custom-domain?tabs=azure-dns%2Cazure-portal%2Cazure-portal-cleanup
+    // 2. then enable the https https://learn.microsoft.com/en-us/azure/cdn/cdn-custom-ssl?tabs=option-1-default-enable-https-with-a-cdn-managed-certificate
     const res = await client.customDomains.beginEnableCustomHttpsAndWait(resourceGroup, profileName, endpointName, "www-qiaozha-xyz");
     assert.equal(res.name, "www-qiaozha-xyz");
   });
