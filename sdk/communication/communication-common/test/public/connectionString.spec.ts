@@ -16,10 +16,7 @@ describe("ConnectionString", () => {
     /* Instead of 'instanceOf' check (as the AzureKeyCredential object might be referenced from different package version), 
        we are manually checking if object has same properties (includes both fields (objects) and functions) 
        as AzureKeyCredential object. */
-    assertPropertyNames(
-      AzureKeyCredential.prototype, 
-      Object.getPrototypeOf(credential)
-    );
+    assertPropertyNames(AzureKeyCredential.prototype, Object.getPrototypeOf(credential));
   });
 
   it("throws if invalid connection string", () => {
