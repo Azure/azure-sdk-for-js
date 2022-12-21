@@ -119,11 +119,11 @@ A connection, also known as a client or a client connection, represents an indiv
 
 ### Recovery
 
-If using reliable protocols, a new WebSocket will try to reconnect using the connection ID of the lost connection. If the WebSocket connection is successfully connected, the connection is recovered. And all group contexts will be recovered, and unreceived messages will be resent.
+If using reliable protocols, a new WebSocket tries to establish using the connection ID of the lost connection. If the new WebSocket connection is successfully connected, the connection is recovered. And all group contexts will be recovered, and unreceived messages will be resent. If the service returns WebSocket error code `1008` or the recovery attemption lasts more than 30 seconds, the recovery fails.
 
 ### Reconnect
 
-Reconnection happens when client connection drops and not recoverable. Reconnection just like a new connection which has a new connection ID. After reconnection, the group context or unreceived messages are lost. Client connection needs to rejoin groups. By default, client library rejoin group after reconnection.
+Reconnection happens when client connection drops and fails to recover. Reconnection just like a new connection which has a new connection ID. After reconnection, the group context or unreceived messages are lost. Client connection needs to rejoin groups. By default, client library rejoin group after reconnection.
 
 ### Hub
 
@@ -150,6 +150,9 @@ You can change the subprotocol to be used in client. By default, the client uses
 ```js
 // Change to use json.webpubsub.azure.v1
 const client = new WebPubSubClient("<client-access-url>", { protocol: WebPubSubJsonProtocol() });
+
+// Change to use json.reliable.webpubsub.azure.v1
+const client = new WebPubSubClient("<client-access-url>", { protocol: WebPubSubJsonReliableProtocol() });
 ```
 
 ### Consume messages from server and from groups
@@ -168,7 +171,7 @@ client.on("group-message", (e) => {
 
 ### Add callbacks for connected, disconnected and stopped events
 
-When a client connection is connected to the service and received connected message from the service, the connected event will be triggered.
+When a client connection is connected to the service, the `connected` event is triggered once it received the connected message from the service.
 
 ```js
 client.on("connected", (e) => {
@@ -176,7 +179,7 @@ client.on("connected", (e) => {
 });
 ```
 
-When a client connection is disconnected and not recoverable, the disconnected event will be triggered.
+When a client connection is disconnected and fails to recover, the disconnected event is triggered.
 
 ```js
 client.on("disconnected", (e) => {
