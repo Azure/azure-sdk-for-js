@@ -21,19 +21,20 @@
     "testApplicationOid": {
       "type": "string",
       "metadata": {
-        "description": "The AAD Client ID of the test application service principal."
+        "description": "The client OID to grant access to test resources."
       }
     },
     "tenantId": {
       "type": "string",
+      "defaultValue": "72f988bf-86f1-41af-91ab-2d7cd011db47",
       "metadata": {
-        "description": "The tenant id to which the application and resources belong."
+        "description": "The tenant ID to which the application and resources belong."
       }
     },
     "testApplicationId": {
       "type": "string",
       "metadata": {
-        "description": "The application client id used to run tests."
+        "description": "The application client ID used to run tests."
       }
     },
     "testApplicationSecret": {
@@ -42,25 +43,41 @@
         "description": "The application client secret used to run tests."
       }
     },
+    "enableVersioning": {
+      "type": "bool",
+      "defaultValue": false
+    },
     "cognitiveServicesEndpointSuffix": {
       "type": "string",
       "defaultValue": ".cognitiveservices.azure.com"
-    },
-    "storageEndpointSuffix": {
-      "type": "string",
-      "defaultValue": "core.windows.net",
-      "metadata": {
-        "description": "Storage endpoint suffix. The default value uses Azure Public Cloud (core.windows.net)"
-      }
     }
   },
   "variables": {
     "taRoleId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/a97b65f3-24c7-4388-baec-2e87135dc908')]",
     "cognitiveAccountName": "[format('textanalytics-{0}', parameters('baseName'))]",
     "cognitiveApiVersion": "2022-12-01",
+    "storageApiVersion": "2022-09-01",
     "storageAccountName": "[parameters('baseName')]",
-    "storageApiVersion": "2022-05-01",
-    "authorizationApiVersion": "2018-01-01-preview",
+    "authorizationApiVersion": "2018-09-01-preview",
+    "blobDataContributorRoleId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/ba92f5b4-2d11-453d-a403-e96b0029c9fe')]",
+    "blobDataOwnerRoleId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/b7e6dc6d-f1e8-4753-8033-0f276bb0955b')]",
+    "encryption": {
+      "services": {
+        "file": {
+          "enabled": true
+        },
+        "blob": {
+          "enabled": true
+        }
+      },
+      "keySource": "Microsoft.Storage"
+    },
+    "networkAcls": {
+      "bypass": "AzureServices",
+      "virtualNetworkRules": [],
+      "ipRules": [],
+      "defaultAction": "Allow"
+    },
     "containerName": "documents"
   },
   "resources": [
@@ -86,7 +103,7 @@
     },
     {
       "type": "Microsoft.CognitiveServices/accounts/providers/roleAssignments",
-      "apiVersion": "2018-09-01-preview",
+      "apiVersion": "[variables('authorizationApiVersion')]",
       "name": "[format('{0}/Microsoft.Authorization/{1}', variables('cognitiveAccountName'), guid(variables('cognitiveAccountName')))]",
       "dependsOn": [
         "[resourceId('Microsoft.CognitiveServices/accounts', variables('cognitiveAccountName'))]"
@@ -107,37 +124,69 @@
       },
       "kind": "StorageV2",
       "properties": {
-        "dnsEndpointType": "Standard",
-        "defaultToOAuthAuthentication": false,
-        "publicNetworkAccess": "Enabled",
-        "allowCrossTenantReplication": true,
-        "privateEndpointConnections": [],
-        "minimumTlsVersion": "TLS1_2",
-        "allowBlobPublicAccess": true,
-        "allowSharedKeyAccess": true,
-        "networkAcls": {
-          "bypass": "AzureServices",
-          "virtualNetworkRules": [],
-          "ipRules": [],
-          "defaultAction": "Allow"
-        },
+        "networkAcls": "[variables('networkAcls')]",
         "supportsHttpsTrafficOnly": true,
-        "encryption": {
-          "requireInfrastructureEncryption": false,
-          "services": {
-            "file": {
-              "keyType": "Account",
-              "enabled": true
+        "encryption": "[variables('encryption')]",
+        "accessTier": "Hot"
+      },
+      "resources": [
+        {
+          "name": "default",
+          "type": "blobServices",
+          "apiVersion": "[variables('storageApiVersion')]",
+          "dependsOn": ["[variables('storageAccountName')]"],
+          "properties": {
+            "isVersioningEnabled": "[parameters('enableVersioning')]",
+            "cors": {
+              "corsRules": [
+                {
+                  "allowedOrigins": ["*"],
+                  "allowedMethods": [
+                    "DELETE",
+                    "GET",
+                    "HEAD",
+                    "MERGE",
+                    "POST",
+                    "OPTIONS",
+                    "PUT",
+                    "PATCH"
+                  ],
+                  "maxAgeInSeconds": 86400,
+                  "exposedHeaders": ["*"],
+                  "allowedHeaders": ["*"]
+                }
+              ]
             },
-            "blob": {
-              "keyType": "Account",
-              "enabled": true
+            "lastAccessTimeTrackingPolicy": {
+              "enable": true,
+              "name": "AccessTimeTracking",
+              "trackingGranularityInDays": 1,
+              "blobType": ["blockBlob"]
             }
           },
-          "keySource": "Microsoft.Storage"
+          "resources": []
         },
-        "accessTier": "Hot",
-      }
+        {
+          "name": "default",
+          "type": "fileServices",
+          "apiVersion": "[variables('storageApiVersion')]",
+          "dependsOn": ["[variables('storageAccountName')]"],
+          "properties": {
+            "cors": {
+              "corsRules": [
+                {
+                  "allowedOrigins": ["*"],
+                  "allowedMethods": ["DELETE", "GET", "HEAD", "MERGE", "POST", "OPTIONS", "PUT"],
+                  "maxAgeInSeconds": 86400,
+                  "exposedHeaders": ["*"],
+                  "allowedHeaders": ["*"]
+                }
+              ]
+            }
+          },
+          "resources": []
+        }
+      ]
     },
     {
       "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
@@ -164,6 +213,9 @@
         "userOwnedStorage": [{
           "resourceId": "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]"
         }]
+      },
+      "identity": {
+        "type": "SystemAssigned"
       }
     }
   ],
