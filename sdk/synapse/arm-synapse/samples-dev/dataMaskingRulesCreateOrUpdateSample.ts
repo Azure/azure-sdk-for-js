@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { DataMaskingRule, SynapseManagementClient } from "@azure/arm-synapse";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates or updates a Sql pool data masking rule.
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/DataMaskingRuleCreateOrUpdateDefaultMax.json
  */
 async function createOrUpdateDataMaskingRuleForDefaultMax() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "sqlcrudtest-6852";
+  const subscriptionId =
+    process.env["SYNAPSE_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SYNAPSE_RESOURCE_GROUP"] || "sqlcrudtest-6852";
   const workspaceName = "sqlcrudtest-2080";
   const sqlPoolName = "sqlcrudtest-331";
   const dataMaskingRuleName = "rule1";
@@ -43,8 +49,6 @@ async function createOrUpdateDataMaskingRuleForDefaultMax() {
   console.log(result);
 }
 
-createOrUpdateDataMaskingRuleForDefaultMax().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates or updates a Sql pool data masking rule.
  *
@@ -52,8 +56,11 @@ createOrUpdateDataMaskingRuleForDefaultMax().catch(console.error);
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/DataMaskingRuleCreateOrUpdateDefaultMin.json
  */
 async function createOrUpdateDataMaskingRuleForDefaultMin() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "sqlcrudtest-6852";
+  const subscriptionId =
+    process.env["SYNAPSE_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SYNAPSE_RESOURCE_GROUP"] || "sqlcrudtest-6852";
   const workspaceName = "sqlcrudtest-2080";
   const sqlPoolName = "sqlcrudtest-331";
   const dataMaskingRuleName = "rule1";
@@ -75,8 +82,6 @@ async function createOrUpdateDataMaskingRuleForDefaultMin() {
   console.log(result);
 }
 
-createOrUpdateDataMaskingRuleForDefaultMin().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates or updates a Sql pool data masking rule.
  *
@@ -84,8 +89,11 @@ createOrUpdateDataMaskingRuleForDefaultMin().catch(console.error);
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/DataMaskingRuleCreateOrUpdateNumber.json
  */
 async function createOrUpdateDataMaskingRuleForNumbers() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "sqlcrudtest-6852";
+  const subscriptionId =
+    process.env["SYNAPSE_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SYNAPSE_RESOURCE_GROUP"] || "sqlcrudtest-6852";
   const workspaceName = "sqlcrudtest-2080";
   const sqlPoolName = "sqlcrudtest-331";
   const dataMaskingRuleName = "rule1";
@@ -109,8 +117,6 @@ async function createOrUpdateDataMaskingRuleForNumbers() {
   console.log(result);
 }
 
-createOrUpdateDataMaskingRuleForNumbers().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates or updates a Sql pool data masking rule.
  *
@@ -118,8 +124,11 @@ createOrUpdateDataMaskingRuleForNumbers().catch(console.error);
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/DataMaskingRuleCreateOrUpdateText.json
  */
 async function createOrUpdateDataMaskingRuleForText() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "sqlcrudtest-6852";
+  const subscriptionId =
+    process.env["SYNAPSE_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SYNAPSE_RESOURCE_GROUP"] || "sqlcrudtest-6852";
   const workspaceName = "sqlcrudtest-2080";
   const sqlPoolName = "sqlcrudtest-331";
   const dataMaskingRuleName = "rule1";
@@ -144,4 +153,11 @@ async function createOrUpdateDataMaskingRuleForText() {
   console.log(result);
 }
 
-createOrUpdateDataMaskingRuleForText().catch(console.error);
+async function main() {
+  createOrUpdateDataMaskingRuleForDefaultMax();
+  createOrUpdateDataMaskingRuleForDefaultMin();
+  createOrUpdateDataMaskingRuleForNumbers();
+  createOrUpdateDataMaskingRuleForText();
+}
+
+main().catch(console.error);

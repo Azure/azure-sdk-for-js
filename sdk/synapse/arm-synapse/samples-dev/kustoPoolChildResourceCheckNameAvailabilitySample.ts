@@ -13,6 +13,9 @@ import {
   SynapseManagementClient
 } from "@azure/arm-synapse";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Checks that the Kusto Pool child resource name is valid and is not already in use.
@@ -21,10 +24,13 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/preview/2021-06-01-preview/examples/KustoPoolAttachedDatabaseConfigurationCheckNameAvailability.json
  */
 async function kustoPoolAttachedDatabaseConfigurationCheckNameAvailability() {
-  const subscriptionId = "12345678-1234-1234-1234-123456789098";
+  const subscriptionId =
+    process.env["SYNAPSE_SUBSCRIPTION_ID"] ||
+    "12345678-1234-1234-1234-123456789098";
   const workspaceName = "kustorptest";
   const kustoPoolName = "kustoclusterrptest4";
-  const resourceGroupName = "kustorptest";
+  const resourceGroupName =
+    process.env["SYNAPSE_RESOURCE_GROUP"] || "kustorptest";
   const resourceName: DatabaseCheckNameRequest = {
     name: "adc1",
     type:
@@ -41,10 +47,6 @@ async function kustoPoolAttachedDatabaseConfigurationCheckNameAvailability() {
   console.log(result);
 }
 
-kustoPoolAttachedDatabaseConfigurationCheckNameAvailability().catch(
-  console.error
-);
-
 /**
  * This sample demonstrates how to Checks that the Kusto Pool child resource name is valid and is not already in use.
  *
@@ -52,10 +54,13 @@ kustoPoolAttachedDatabaseConfigurationCheckNameAvailability().catch(
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/preview/2021-06-01-preview/examples/KustoPoolDatabasesCheckNameAvailability.json
  */
 async function kustoPoolDatabasesCheckNameAvailability() {
-  const subscriptionId = "12345678-1234-1234-1234-123456789098";
+  const subscriptionId =
+    process.env["SYNAPSE_SUBSCRIPTION_ID"] ||
+    "12345678-1234-1234-1234-123456789098";
   const workspaceName = "synapseWorkspaceName";
   const kustoPoolName = "kustoclusterrptest4";
-  const resourceGroupName = "kustorptest";
+  const resourceGroupName =
+    process.env["SYNAPSE_RESOURCE_GROUP"] || "kustorptest";
   const resourceName: DatabaseCheckNameRequest = {
     name: "database1",
     type: "Microsoft.Synapse/workspaces/kustoPools/databases"
@@ -71,4 +76,9 @@ async function kustoPoolDatabasesCheckNameAvailability() {
   console.log(result);
 }
 
-kustoPoolDatabasesCheckNameAvailability().catch(console.error);
+async function main() {
+  kustoPoolAttachedDatabaseConfigurationCheckNameAvailability();
+  kustoPoolDatabasesCheckNameAvailability();
+}
+
+main().catch(console.error);

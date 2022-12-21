@@ -3736,7 +3736,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20221220
+      typescript: 5.0.0-dev.20221221
     dev: false
 
   /downlevel-dts/0.7.0:
@@ -8440,8 +8440,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20221220:
-    resolution: {integrity: sha512-B074yB3K1oONVp/C4v0OGDPqnp6RIvvBEDhFb+C+n5e1clP2TR0FNevkQ9qAmtIAOK5lNQseaFSm4ElzdTf0Bg==}
+  /typescript/5.0.0-dev.20221221:
+    resolution: {integrity: sha512-QpKFAtn9fFixtDNPVmOYlpmSGh1N/YP5vJq5xX5yVUiPOUrsAsEQFJxqBkGiiKrZAI132fVyM32GrhUXorp2gQ==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -9843,7 +9843,7 @@ packages:
     dev: false
 
   file:projects/arm-appservice-profile-2020-09-01-hybrid.tgz:
-    resolution: {integrity: sha512-5MygL1hdb+v5sTzCGHfUVLFZjxzWkSlG8RH7EuVbaU8oxNQrpMpqYrG1/DgjwuMnaHUIZNjyav8c+eh7nnZT9Q==, tarball: file:projects/arm-appservice-profile-2020-09-01-hybrid.tgz}
+    resolution: {integrity: sha512-4hgR3nTbpaNCjhsBvryqC6HtxauC2JPA+wVySCBSc6RUkW4Z+rWC2PAGX66QSd/XV8vnrbmHWWMkf/J1Aw7AwQ==, tarball: file:projects/arm-appservice-profile-2020-09-01-hybrid.tgz}
     name: '@rush-temp/arm-appservice-profile-2020-09-01-hybrid'
     version: 0.0.0
     dependencies:
@@ -9854,18 +9854,20 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.4
+      '@types/node': 14.18.33
+      chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
@@ -9939,7 +9941,7 @@ packages:
     dev: false
 
   file:projects/arm-authorization-profile-2020-09-01-hybrid.tgz:
-    resolution: {integrity: sha512-qkNdkK2xrC1E4v0Q37U2JJBI9LCwLTIlks3/anrG2SM6FSwR2N/ZA0ltRnDZtP3cpSW9CRiEo7Mj0eOBm/or0g==, tarball: file:projects/arm-authorization-profile-2020-09-01-hybrid.tgz}
+    resolution: {integrity: sha512-SuwN4FnyqC5zSSTUXYhOXdZD9+tjgVBM7CYTPn37TdiFWSCctsuI3RQFYjhqNa+7nLEvSPcZz0zfRtUDTLahNw==, tarball: file:projects/arm-authorization-profile-2020-09-01-hybrid.tgz}
     name: '@rush-temp/arm-authorization-profile-2020-09-01-hybrid'
     version: 0.0.0
     dependencies:
@@ -9950,18 +9952,20 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.4
+      '@types/node': 14.18.33
+      chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
@@ -10257,7 +10261,7 @@ packages:
     dev: false
 
   file:projects/arm-cdn.tgz:
-    resolution: {integrity: sha512-F3H7Zl/SExczoMqSQxxrVljhQDGlDfdAajS0GnoQ25rn6h3655ssBFWS9kns8FiefPimqlIox8ptdTrAB8K7WA==, tarball: file:projects/arm-cdn.tgz}
+    resolution: {integrity: sha512-3EmqlLRRsj230G6MJzFhs8btQYnJ1r7to768+8MySdKOVne4wX4cXxOSpVmR6cEUBkSp7mqmrS//5bTXLwFeyg==, tarball: file:projects/arm-cdn.tgz}
     name: '@rush-temp/arm-cdn'
     version: 0.0.0
     dependencies:
@@ -10268,18 +10272,19 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.4
+      '@types/node': 14.18.33
+      chai: 4.3.7
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
@@ -10393,7 +10398,7 @@ packages:
     dev: false
 
   file:projects/arm-commerce-profile-2020-09-01-hybrid.tgz:
-    resolution: {integrity: sha512-k+sV8xO6YyYDcty4EfUymWWzpR5rBP/WnTBlPHMqG+3RXZyce8deQnQJKevOTPv1o1uQNhzwxkcDSrxnu1y9jw==, tarball: file:projects/arm-commerce-profile-2020-09-01-hybrid.tgz}
+    resolution: {integrity: sha512-U9Q9QlA0JYRNANmV5FiVoAvBYyXsd4GInoGP5aQhVAL2A1N6GQcyOGvH03zm5NBKrR+W+RU3WP8WFShW6hpxQA==, tarball: file:projects/arm-commerce-profile-2020-09-01-hybrid.tgz}
     name: '@rush-temp/arm-commerce-profile-2020-09-01-hybrid'
     version: 0.0.0
     dependencies:
@@ -10404,18 +10409,20 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.4
+      '@types/node': 14.18.33
+      chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
@@ -10531,7 +10538,7 @@ packages:
     dev: false
 
   file:projects/arm-compute-profile-2020-09-01-hybrid.tgz:
-    resolution: {integrity: sha512-DWlew1VsOFbfvamVVvZm/ioj5NaILePfoEOFdEG4P8LyBMAR3Z+c7BJFNt4gTEzzefeK2G+fxDwUuRIz7S6w+g==, tarball: file:projects/arm-compute-profile-2020-09-01-hybrid.tgz}
+    resolution: {integrity: sha512-ulg+sgzXZwUU0lDu7Um7/HCU9NIXktZ1K7E2NUiQFk6+FFe9D1rT6066pV4uPaKwebXwNBe8DyaR8UVn2VuWTA==, tarball: file:projects/arm-compute-profile-2020-09-01-hybrid.tgz}
     name: '@rush-temp/arm-compute-profile-2020-09-01-hybrid'
     version: 0.0.0
     dependencies:
@@ -10542,18 +10549,20 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.4
+      '@types/node': 14.18.33
+      chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
@@ -13974,7 +13983,7 @@ packages:
     dev: false
 
   file:projects/arm-search.tgz:
-    resolution: {integrity: sha512-iOwGP7Z5Vm24UkzTDGIpO5uMHmgdyZ+eADOwvuzoJvvZFGJ3Yokmza0LvOwSmR1ZUi9QhdHzxmcU8YIQ6Qltrw==, tarball: file:projects/arm-search.tgz}
+    resolution: {integrity: sha512-DI1uNXcsqTZ9Ck9yCPW2LKnZK3dON9+hDPsjIton0TyXpM1G9T4+3MIacE6Rm97PxliJccXNrwzg9Y88TiSTCg==, tarball: file:projects/arm-search.tgz}
     name: '@rush-temp/arm-search'
     version: 0.0.0
     dependencies:
@@ -13985,18 +13994,19 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.4
+      '@types/node': 14.18.33
+      chai: 4.3.7
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
@@ -14677,7 +14687,7 @@ packages:
     dev: false
 
   file:projects/arm-synapse.tgz:
-    resolution: {integrity: sha512-jweJRopzNOZvC2sEpiPUsUrcnVcTL8n2ywSNf/YzZb0Iu9vp8b10F0CEaJ+DpQ18pIjfmHXlFHySnuuhw8AMeA==, tarball: file:projects/arm-synapse.tgz}
+    resolution: {integrity: sha512-Hr69M835rmk5CBhOpM331KYs3qJKVtJe5ryZoNM6AV3MAWqSThH6tiyM0UFG6RiP+neZr8FyxfmOXOKUfgm/KA==, tarball: file:projects/arm-synapse.tgz}
     name: '@rush-temp/arm-synapse'
     version: 0.0.0
     dependencies:
@@ -14688,18 +14698,20 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.4
+      '@types/node': 14.18.33
+      chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
@@ -19447,7 +19459,7 @@ packages:
     dev: false
 
   file:projects/web-pubsub-client.tgz:
-    resolution: {integrity: sha512-BaXlmmYXObE1EpkoP9aqWhkevioqvUZl/0xgVypimq2wPZqDHJzS7+v/G2o+pPrtIA0xdP/mE4qAITgw3d71Jg==, tarball: file:projects/web-pubsub-client.tgz}
+    resolution: {integrity: sha512-6PPAGRU137SPwjZ7bhod+glarcGPxbbvYE8M65zJ/mWIRTjiDqCuSrpfd5u72Q8ztPOGSXCpUdikAMi4N+Av4w==, tarball: file:projects/web-pubsub-client.tgz}
     name: '@rush-temp/web-pubsub-client'
     version: 0.0.0
     dependencies:
@@ -19455,6 +19467,7 @@ packages:
       '@azure/web-pubsub': 1.1.0
       '@microsoft/api-extractor': 7.33.6
       '@types/chai': 4.3.4
+      '@types/chai-as-promised': 7.1.5
       '@types/express': 4.17.14
       '@types/express-serve-static-core': 4.17.31
       '@types/jsonwebtoken': 8.5.9

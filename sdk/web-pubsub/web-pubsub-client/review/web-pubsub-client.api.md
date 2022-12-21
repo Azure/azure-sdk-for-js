@@ -263,6 +263,7 @@ export interface WebPubSubClientOptions {
     autoRestoreGroups?: boolean;
     messageRetryOptions?: WebPubSubRetryOptions;
     protocol?: WebPubSubClientProtocol;
+    reconnectRetryOptions?: WebPubSubRetryOptions;
 }
 
 // @public

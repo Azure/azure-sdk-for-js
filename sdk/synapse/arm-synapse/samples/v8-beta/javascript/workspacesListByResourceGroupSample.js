@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { SynapseManagementClient } = require("@azure/arm-synapse");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Returns a list of workspaces in a resource group
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/ListWorkspacesInResourceGroup.json
  */
 async function listWorkspacesInResourceGroup() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "resourceGroup1";
+  const subscriptionId =
+    process.env["SYNAPSE_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName = process.env["SYNAPSE_RESOURCE_GROUP"] || "resourceGroup1";
   const credential = new DefaultAzureCredential();
   const client = new SynapseManagementClient(credential, subscriptionId);
   const resArray = new Array();
@@ -29,4 +31,8 @@ async function listWorkspacesInResourceGroup() {
   console.log(resArray);
 }
 
-listWorkspacesInResourceGroup().catch(console.error);
+async function main() {
+  listWorkspacesInResourceGroup();
+}
+
+main().catch(console.error);

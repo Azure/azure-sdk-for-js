@@ -2028,23 +2028,23 @@ export interface DiskEncryptionSetList {
   nextLink?: string;
 }
 
-export type SubResourceWithColocationStatus = SubResource & {
+export interface SubResourceWithColocationStatus extends SubResource {
   /** Describes colocation status of a resource in the Proximity Placement Group. */
   colocationStatus?: InstanceViewStatus;
-};
+}
 
 /** Virtual machine image resource information. */
-export type VirtualMachineImageResource = SubResource & {
+export interface VirtualMachineImageResource extends SubResource {
   /** The name of the resource. */
   name: string;
   /** The supported Azure location of the resource. */
   location: string;
   /** Specifies the tags that are assigned to the virtual machine. For more information about using tags, see [Using tags to organize your Azure resources](https://docs.microsoft.com/azure/azure-resource-manager/resource-group-using-tags.md). */
   tags?: { [propertyName: string]: string };
-};
+}
 
 /** Specifies information about the image to use. You can specify information about platform images, marketplace images, or virtual machine images. This element is required when you want to use a platform image, marketplace image, or virtual machine image, but is not used in other creation operations. NOTE: Image reference publisher and offer can only be set when you create the scale set. */
-export type ImageReference = SubResource & {
+export interface ImageReference extends SubResource {
   /** The image publisher. */
   publisher?: string;
   /** Specifies the offer of the platform image or marketplace image used to create the virtual machine. */
@@ -2058,27 +2058,27 @@ export type ImageReference = SubResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly exactVersion?: string;
-};
+}
 
 /** Describes the parameter of customer managed disk encryption set resource id that can be specified for disk. <br><br> NOTE: The disk encryption set resource id can only be specified for managed disk. Please refer https://aka.ms/mdssewithcmkoverview for more details. */
-export type DiskEncryptionSetParameters = SubResource & {};
+export interface DiskEncryptionSetParameters extends SubResource {}
 
 /** The parameters of a managed disk. */
-export type ManagedDiskParameters = SubResource & {
+export interface ManagedDiskParameters extends SubResource {
   /** Specifies the storage account type for the managed disk. Managed OS disk storage account type can only be set when you create the scale set. NOTE: UltraSSD_LRS can only be used with data disks, it cannot be used with OS Disk. */
   storageAccountType?: StorageAccountTypes;
   /** Specifies the customer managed disk encryption set resource id for the managed disk. */
   diskEncryptionSet?: DiskEncryptionSetParameters;
-};
+}
 
 /** Describes a network interface reference. */
-export type NetworkInterfaceReference = SubResource & {
+export interface NetworkInterfaceReference extends SubResource {
   /** Specifies the primary network interface in case the virtual machine has more than 1 network interface. */
   primary?: boolean;
-};
+}
 
 /** Output of virtual machine capture operation. */
-export type VirtualMachineCaptureResult = SubResource & {
+export interface VirtualMachineCaptureResult extends SubResource {
   /**
    * the schema of the captured virtual machine
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2099,10 +2099,10 @@ export type VirtualMachineCaptureResult = SubResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resources?: Record<string, unknown>[];
-};
+}
 
 /** Describes a virtual machine scale set network profile's IP configuration. */
-export type VirtualMachineScaleSetIPConfiguration = SubResource & {
+export interface VirtualMachineScaleSetIPConfiguration extends SubResource {
   /** The IP configuration name. */
   name: string;
   /** Specifies the identifier of the subnet. */
@@ -2121,10 +2121,11 @@ export type VirtualMachineScaleSetIPConfiguration = SubResource & {
   loadBalancerBackendAddressPools?: SubResource[];
   /** Specifies an array of references to inbound Nat pools of the load balancers. A scale set can reference inbound nat pools of one public and one internal load balancer. Multiple scale sets cannot use the same basic sku load balancer. */
   loadBalancerInboundNatPools?: SubResource[];
-};
+}
 
 /** Describes a virtual machine scale set network profile's network configurations. */
-export type VirtualMachineScaleSetNetworkConfiguration = SubResource & {
+export interface VirtualMachineScaleSetNetworkConfiguration
+  extends SubResource {
   /** The network configuration name. */
   name: string;
   /** Specifies the primary network interface in case the virtual machine has more than 1 network interface. */
@@ -2141,10 +2142,11 @@ export type VirtualMachineScaleSetNetworkConfiguration = SubResource & {
   ipConfigurations?: VirtualMachineScaleSetIPConfiguration[];
   /** Whether IP forwarding enabled on this NIC. */
   enableIPForwarding?: boolean;
-};
+}
 
 /** Describes a virtual machine scale set network profile's IP configuration. NOTE: The subnet of a scale set may be modified as long as the original subnet and the new subnet are in the same virtual network */
-export type VirtualMachineScaleSetUpdateIPConfiguration = SubResource & {
+export interface VirtualMachineScaleSetUpdateIPConfiguration
+  extends SubResource {
   /** The IP configuration name. */
   name?: string;
   /** The subnet. */
@@ -2163,10 +2165,11 @@ export type VirtualMachineScaleSetUpdateIPConfiguration = SubResource & {
   loadBalancerBackendAddressPools?: SubResource[];
   /** The load balancer inbound nat pools. */
   loadBalancerInboundNatPools?: SubResource[];
-};
+}
 
 /** Describes a virtual machine scale set network profile's network configurations. */
-export type VirtualMachineScaleSetUpdateNetworkConfiguration = SubResource & {
+export interface VirtualMachineScaleSetUpdateNetworkConfiguration
+  extends SubResource {
   /** The network configuration name. */
   name?: string;
   /** Whether this is a primary NIC on a virtual machine. */
@@ -2183,10 +2186,10 @@ export type VirtualMachineScaleSetUpdateNetworkConfiguration = SubResource & {
   ipConfigurations?: VirtualMachineScaleSetUpdateIPConfiguration[];
   /** Whether IP forwarding enabled on this NIC. */
   enableIPForwarding?: boolean;
-};
+}
 
 /** Specifies information about the availability set that the virtual machine should be assigned to. Virtual machines specified in the same availability set are allocated to different nodes to maximize availability. For more information about availability sets, see [Manage the availability of virtual machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-manage-availability?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json). <br><br> For more information on Azure planned maintenance, see [Planned maintenance for virtual machines in Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-planned-maintenance?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json) <br><br> Currently, a VM can only be added to availability set at creation time. An existing VM cannot be added to an availability set. */
-export type AvailabilitySet = Resource & {
+export interface AvailabilitySet extends Resource {
   /** Sku of the availability set, only name is required to be set. See AvailabilitySetSkuTypes for possible set of values. Use 'Aligned' for virtual machines with managed disks and 'Classic' for virtual machines with unmanaged disks. Default value is 'Classic'. */
   sku?: Sku;
   /** Update Domain count. */
@@ -2202,10 +2205,10 @@ export type AvailabilitySet = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly statuses?: InstanceViewStatus[];
-};
+}
 
 /** Specifies information about the proximity placement group. */
-export type ProximityPlacementGroup = Resource & {
+export interface ProximityPlacementGroup extends Resource {
   /** Specifies the type of the proximity placement group. <br><br> Possible values are: <br><br> **Standard** : Co-locate resources within an Azure region or Availability Zone. <br><br> **Ultra** : For future use. */
   proximityPlacementGroupType?: ProximityPlacementGroupType;
   /**
@@ -2225,10 +2228,10 @@ export type ProximityPlacementGroup = Resource & {
   readonly availabilitySets?: SubResourceWithColocationStatus[];
   /** Describes colocation status of the Proximity Placement Group. */
   colocationStatus?: InstanceViewStatus;
-};
+}
 
 /** Specifies information about the dedicated host group that the dedicated hosts should be assigned to. <br><br> Currently, a dedicated host can only be added to a dedicated host group at creation time. An existing dedicated host cannot be added to another dedicated host group. */
-export type DedicatedHostGroup = Resource & {
+export interface DedicatedHostGroup extends Resource {
   /** Availability Zone to use for this host group. Only single zone is supported. The zone can be assigned only during creation. If not provided, the group supports all zones in the region. If provided, enforces each host in the group to be in the same zone. */
   zones?: string[];
   /** Number of fault domains that the host group can span. */
@@ -2245,10 +2248,10 @@ export type DedicatedHostGroup = Resource & {
   readonly instanceView?: DedicatedHostGroupInstanceView;
   /** Specifies whether virtual machines or virtual machine scale sets can be placed automatically on the dedicated host group. Automatic placement means resources are allocated on dedicated hosts, that are chosen by Azure, under the dedicated host group. The value is defaulted to 'false' when not provided. <br><br>Minimum api-version: 2020-06-01. */
   supportAutomaticPlacement?: boolean;
-};
+}
 
 /** Specifies information about the Dedicated host. */
-export type DedicatedHost = Resource & {
+export interface DedicatedHost extends Resource {
   /** SKU of the dedicated host for Hardware Generation and VM family. Only name is required to be set. List Microsoft.Compute SKUs for a list of possible values. */
   sku: Sku;
   /** Fault domain of the dedicated host within a dedicated host group. */
@@ -2282,16 +2285,16 @@ export type DedicatedHost = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly instanceView?: DedicatedHostInstanceView;
-};
+}
 
 /** Specifies information about the SSH public key. */
-export type SshPublicKeyResource = Resource & {
+export interface SshPublicKeyResource extends Resource {
   /** SSH public key used to authenticate to a virtual machine through ssh. If this property is not initially provided when the resource is created, the publicKey property will be populated when generateKeyPair is called. If the public key is provided upon resource creation, the provided public key needs to be at least 2048-bit and in ssh-rsa format. */
   publicKey?: string;
-};
+}
 
 /** Describes a Virtual Machine Extension Image. */
-export type VirtualMachineExtensionImage = Resource & {
+export interface VirtualMachineExtensionImage extends Resource {
   /** The operating system this extension supports. */
   operatingSystem?: string;
   /** The type of role (IaaS or PaaS) this extension supports. */
@@ -2302,10 +2305,10 @@ export type VirtualMachineExtensionImage = Resource & {
   vmScaleSetEnabled?: boolean;
   /** Whether the handler can support multiple extensions. */
   supportsMultipleExtensions?: boolean;
-};
+}
 
 /** Describes a Virtual Machine Extension. */
-export type VirtualMachineExtension = Resource & {
+export interface VirtualMachineExtension extends Resource {
   /** How the extension handler should be forced to update even if the extension configuration has not changed. */
   forceUpdateTag?: string;
   /** The name of the extension handler publisher. */
@@ -2329,10 +2332,10 @@ export type VirtualMachineExtension = Resource & {
   readonly provisioningState?: string;
   /** The virtual machine extension instance view. */
   instanceView?: VirtualMachineExtensionInstanceView;
-};
+}
 
 /** Describes a Virtual Machine. */
-export type VirtualMachine = Resource & {
+export interface VirtualMachine extends Resource {
   /** Specifies information about the marketplace image used to create the virtual machine. This element is only used for marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic use.  In the Azure portal, find the marketplace image that you want to use and then click **Want to deploy programmatically, Get Started ->**. Enter any required information and then click **Save**. */
   plan?: Plan;
   /**
@@ -2393,10 +2396,10 @@ export type VirtualMachine = Resource & {
   readonly vmId?: string;
   /** Specifies the time alloted for all extensions to start. The time duration should be between 15 minutes and 120 minutes (inclusive) and should be specified in ISO 8601 format. The default value is 90 minutes (PT1H30M). <br><br> Minimum api-version: 2020-06-01 */
   extensionsTimeBudget?: string;
-};
+}
 
 /** The source user image virtual hard disk. The virtual hard disk will be copied before being attached to the virtual machine. If SourceImage is provided, the destination virtual hard drive must not exist. */
-export type Image = Resource & {
+export interface Image extends Resource {
   /** The source virtual machine from which Image is created. */
   sourceVirtualMachine?: SubResource;
   /** Specifies the storage settings for the virtual machine disks. */
@@ -2408,10 +2411,10 @@ export type Image = Resource & {
   readonly provisioningState?: string;
   /** Gets the HyperVGenerationType of the VirtualMachine created from the image */
   hyperVGeneration?: HyperVGenerationTypes;
-};
+}
 
 /** Describes a Virtual Machine Scale Set. */
-export type VirtualMachineScaleSet = Resource & {
+export interface VirtualMachineScaleSet extends Resource {
   /** The virtual machine scale set sku. */
   sku?: Sku;
   /** Specifies information about the marketplace image used to create the virtual machine. This element is only used for marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic use.  In the Azure portal, find the marketplace image that you want to use and then click **Want to deploy programmatically, Get Started ->**. Enter any required information and then click **Save**. */
@@ -2454,10 +2457,10 @@ export type VirtualMachineScaleSet = Resource & {
   additionalCapabilities?: AdditionalCapabilities;
   /** Specifies the scale-in policy that decides which virtual machines are chosen for removal when a Virtual Machine Scale Set is scaled-in. */
   scaleInPolicy?: ScaleInPolicy;
-};
+}
 
 /** The status of the latest virtual machine scale set rolling upgrade. */
-export type RollingUpgradeStatusInfo = Resource & {
+export interface RollingUpgradeStatusInfo extends Resource {
   /**
    * The rolling upgrade policies applied for this upgrade.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2478,10 +2481,10 @@ export type RollingUpgradeStatusInfo = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly error?: ApiError;
-};
+}
 
 /** Describes a virtual machine scale set virtual machine. */
-export type VirtualMachineScaleSetVM = Resource & {
+export interface VirtualMachineScaleSetVM extends Resource {
   /**
    * The virtual machine instance ID.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2551,10 +2554,10 @@ export type VirtualMachineScaleSetVM = Resource & {
   readonly modelDefinitionApplied?: string;
   /** Specifies the protection policy of the virtual machine. */
   protectionPolicy?: VirtualMachineScaleSetVMProtectionPolicy;
-};
+}
 
 /** Disk resource. */
-export type Disk = Resource & {
+export interface Disk extends Resource {
   /**
    * A relative URI containing the ID of the VM that has the disk attached.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2605,10 +2608,10 @@ export type Disk = Resource & {
   readonly diskState?: DiskState;
   /** Encryption property can be used to encrypt data at rest with customer managed keys or platform managed keys. */
   encryption?: Encryption;
-};
+}
 
 /** Snapshot resource. */
-export type Snapshot = Resource & {
+export interface Snapshot extends Resource {
   /**
    * Unused. Always Null.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2650,10 +2653,10 @@ export type Snapshot = Resource & {
   incremental?: boolean;
   /** Encryption property can be used to encrypt data at rest with customer managed keys or platform managed keys. */
   encryption?: Encryption;
-};
+}
 
 /** disk encryption set resource. */
-export type DiskEncryptionSet = Resource & {
+export interface DiskEncryptionSet extends Resource {
   /** The managed identity for the disk encryption set. It should be given permission on the key vault before it can be used to encrypt disks. */
   identity?: EncryptionSetIdentity;
   /** The key vault key which is currently used by this disk encryption set. */
@@ -2668,10 +2671,10 @@ export type DiskEncryptionSet = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: string;
-};
+}
 
 /** Specifies information about the availability set that the virtual machine should be assigned to. Only tags may be updated. */
-export type AvailabilitySetUpdate = UpdateResource & {
+export interface AvailabilitySetUpdate extends UpdateResource {
   /** Sku of the availability set */
   sku?: Sku;
   /** Update Domain count. */
@@ -2687,13 +2690,13 @@ export type AvailabilitySetUpdate = UpdateResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly statuses?: InstanceViewStatus[];
-};
+}
 
 /** Specifies information about the proximity placement group. */
-export type ProximityPlacementGroupUpdate = UpdateResource & {};
+export interface ProximityPlacementGroupUpdate extends UpdateResource {}
 
 /** Specifies information about the dedicated host group that the dedicated host should be assigned to. Only tags may be updated. */
-export type DedicatedHostGroupUpdate = UpdateResource & {
+export interface DedicatedHostGroupUpdate extends UpdateResource {
   /** Availability Zone to use for this host group. Only single zone is supported. The zone can be assigned only during creation. If not provided, the group supports all zones in the region. If provided, enforces each host in the group to be in the same zone. */
   zones?: string[];
   /** Number of fault domains that the host group can span. */
@@ -2710,10 +2713,10 @@ export type DedicatedHostGroupUpdate = UpdateResource & {
   readonly instanceView?: DedicatedHostGroupInstanceView;
   /** Specifies whether virtual machines or virtual machine scale sets can be placed automatically on the dedicated host group. Automatic placement means resources are allocated on dedicated hosts, that are chosen by Azure, under the dedicated host group. The value is defaulted to 'false' when not provided. <br><br>Minimum api-version: 2020-06-01. */
   supportAutomaticPlacement?: boolean;
-};
+}
 
 /** Specifies information about the dedicated host. Only tags, autoReplaceOnFailure and licenseType may be updated. */
-export type DedicatedHostUpdate = UpdateResource & {
+export interface DedicatedHostUpdate extends UpdateResource {
   /** Fault domain of the dedicated host within a dedicated host group. */
   platformFaultDomain?: number;
   /** Specifies whether the dedicated host should be replaced automatically in case of a failure. The value is defaulted to 'true' when not provided. */
@@ -2745,16 +2748,16 @@ export type DedicatedHostUpdate = UpdateResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly instanceView?: DedicatedHostInstanceView;
-};
+}
 
 /** Specifies information about the SSH public key. */
-export type SshPublicKeyUpdateResource = UpdateResource & {
+export interface SshPublicKeyUpdateResource extends UpdateResource {
   /** SSH public key used to authenticate to a virtual machine through ssh. If this property is not initially provided when the resource is created, the publicKey property will be populated when generateKeyPair is called. If the public key is provided upon resource creation, the provided public key needs to be at least 2048-bit and in ssh-rsa format. */
   publicKey?: string;
-};
+}
 
 /** Describes a Virtual Machine Extension. */
-export type VirtualMachineExtensionUpdate = UpdateResource & {
+export interface VirtualMachineExtensionUpdate extends UpdateResource {
   /** How the extension handler should be forced to update even if the extension configuration has not changed. */
   forceUpdateTag?: string;
   /** The name of the extension handler publisher. */
@@ -2771,10 +2774,10 @@ export type VirtualMachineExtensionUpdate = UpdateResource & {
   settings?: Record<string, unknown>;
   /** The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all. */
   protectedSettings?: Record<string, unknown>;
-};
+}
 
 /** The source user image virtual hard disk. Only tags may be updated. */
-export type ImageUpdate = UpdateResource & {
+export interface ImageUpdate extends UpdateResource {
   /** The source virtual machine from which Image is created. */
   sourceVirtualMachine?: SubResource;
   /** Specifies the storage settings for the virtual machine disks. */
@@ -2786,10 +2789,10 @@ export type ImageUpdate = UpdateResource & {
   readonly provisioningState?: string;
   /** Gets the HyperVGenerationType of the VirtualMachine created from the image */
   hyperVGeneration?: HyperVGenerationTypes;
-};
+}
 
 /** Describes a Virtual Machine Update. */
-export type VirtualMachineUpdate = UpdateResource & {
+export interface VirtualMachineUpdate extends UpdateResource {
   /** Specifies information about the marketplace image used to create the virtual machine. This element is only used for marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic use.  In the Azure portal, find the marketplace image that you want to use and then click **Want to deploy programmatically, Get Started ->**. Enter any required information and then click **Save**. */
   plan?: Plan;
   /** The identity of the virtual machine, if configured. */
@@ -2845,10 +2848,10 @@ export type VirtualMachineUpdate = UpdateResource & {
   readonly vmId?: string;
   /** Specifies the time alloted for all extensions to start. The time duration should be between 15 minutes and 120 minutes (inclusive) and should be specified in ISO 8601 format. The default value is 90 minutes (PT1H30M). <br><br> Minimum api-version: 2020-06-01 */
   extensionsTimeBudget?: string;
-};
+}
 
 /** Describes a Virtual Machine Scale Set. */
-export type VirtualMachineScaleSetUpdate = UpdateResource & {
+export interface VirtualMachineScaleSetUpdate extends UpdateResource {
   /** The virtual machine scale set sku. */
   sku?: Sku;
   /** The purchase plan when deploying a virtual machine scale set from VM Marketplace images. */
@@ -2873,10 +2876,10 @@ export type VirtualMachineScaleSetUpdate = UpdateResource & {
   scaleInPolicy?: ScaleInPolicy;
   /** Specifies information about the proximity placement group that the virtual machine scale set should be assigned to. <br><br>Minimum api-version: 2018-04-01. */
   proximityPlacementGroup?: SubResource;
-};
+}
 
 /** Describes a Virtual Machine Scale Set Extension. */
-export type VirtualMachineScaleSetExtension = SubResourceReadOnly & {
+export interface VirtualMachineScaleSetExtension extends SubResourceReadOnly {
   /** The name of the extension. */
   name?: string;
   /**
@@ -2907,10 +2910,11 @@ export type VirtualMachineScaleSetExtension = SubResourceReadOnly & {
   readonly provisioningState?: string;
   /** Collection of extension names after which this extension needs to be provisioned. */
   provisionAfterExtensions?: string[];
-};
+}
 
 /** Describes a Virtual Machine Scale Set Extension. */
-export type VirtualMachineScaleSetExtensionUpdate = SubResourceReadOnly & {
+export interface VirtualMachineScaleSetExtensionUpdate
+  extends SubResourceReadOnly {
   /**
    * The name of the extension.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2944,10 +2948,10 @@ export type VirtualMachineScaleSetExtensionUpdate = SubResourceReadOnly & {
   readonly provisioningState?: string;
   /** Collection of extension names after which this extension needs to be provisioned. */
   provisionAfterExtensions?: string[];
-};
+}
 
 /** Describes a VMSS VM Extension. */
-export type VirtualMachineScaleSetVMExtension = SubResourceReadOnly & {
+export interface VirtualMachineScaleSetVMExtension extends SubResourceReadOnly {
   /**
    * The name of the extension.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2981,10 +2985,11 @@ export type VirtualMachineScaleSetVMExtension = SubResourceReadOnly & {
   readonly provisioningState?: string;
   /** The virtual machine extension instance view. */
   instanceView?: VirtualMachineExtensionInstanceView;
-};
+}
 
 /** Describes a VMSS VM Extension. */
-export type VirtualMachineScaleSetVMExtensionUpdate = SubResourceReadOnly & {
+export interface VirtualMachineScaleSetVMExtensionUpdate
+  extends SubResourceReadOnly {
   /**
    * The name of the extension.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -3011,45 +3016,47 @@ export type VirtualMachineScaleSetVMExtensionUpdate = SubResourceReadOnly & {
   settings?: Record<string, unknown>;
   /** The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all. */
   protectedSettings?: Record<string, unknown>;
-};
+}
 
 /** The instance view of a dedicated host that includes the name of the dedicated host. It is used for the response to the instance view of a dedicated host group. */
-export type DedicatedHostInstanceViewWithName = DedicatedHostInstanceView & {
+export interface DedicatedHostInstanceViewWithName
+  extends DedicatedHostInstanceView {
   /**
    * The name of the dedicated host.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
-};
+}
 
 /** Describes an Operating System disk. */
-export type ImageOSDisk = ImageDisk & {
+export interface ImageOSDisk extends ImageDisk {
   /** This property allows you to specify the type of the OS that is included in the disk if creating a VM from a custom image. <br><br> Possible values are: <br><br> **Windows** <br><br> **Linux** */
   osType: OperatingSystemTypes;
   /** The OS State. */
   osState: OperatingSystemStateTypes;
-};
+}
 
 /** Describes a data disk. */
-export type ImageDataDisk = ImageDisk & {
+export interface ImageDataDisk extends ImageDisk {
   /** Specifies the logical unit number of the data disk. This value is used to identify data disks within the VM and therefore must be unique for each data disk attached to a VM. */
   lun: number;
-};
+}
 
 /** Describes a Virtual Machine Scale Set VM Reimage Parameters. */
-export type VirtualMachineScaleSetVMReimageParameters = VirtualMachineReimageParameters & {};
+export interface VirtualMachineScaleSetVMReimageParameters
+  extends VirtualMachineReimageParameters {}
 
 /** Api request input for LogAnalytics getRequestRateByInterval Api. */
-export type RequestRateByIntervalInput = LogAnalyticsInputBase & {
+export interface RequestRateByIntervalInput extends LogAnalyticsInputBase {
   /** Interval value in minutes used to create LogAnalytics call rate logs. */
   intervalLength: IntervalInMins;
-};
+}
 
 /** Api request input for LogAnalytics getThrottledRequests Api. */
-export type ThrottledRequestsInput = LogAnalyticsInputBase & {};
+export interface ThrottledRequestsInput extends LogAnalyticsInputBase {}
 
 /** Describes a Virtual Machine Image. */
-export type VirtualMachineImage = VirtualMachineImageResource & {
+export interface VirtualMachineImage extends VirtualMachineImageResource {
   /** Used for establishing the purchase context of any 3rd Party artifact through MarketPlace. */
   plan?: PurchasePlan;
   /** Contains the os disk image information. */
@@ -3061,17 +3068,20 @@ export type VirtualMachineImage = VirtualMachineImageResource & {
   hyperVGeneration?: HyperVGenerationTypes;
   /** Specifies disallowed configuration for the VirtualMachine created from the image */
   disallowed?: DisallowedConfiguration;
-};
+}
 
 /** Describes a Virtual Machine Scale Set VM Reimage Parameters. */
-export type VirtualMachineScaleSetReimageParameters = VirtualMachineScaleSetVMReimageParameters & {
+export interface VirtualMachineScaleSetReimageParameters
+  extends VirtualMachineScaleSetVMReimageParameters {
   /** The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set. */
   instanceIds?: string[];
-};
+}
 
 /** Known values of {@link ProximityPlacementGroupType} that the service accepts. */
 export enum KnownProximityPlacementGroupType {
+  /** Standard */
   Standard = "Standard",
+  /** Ultra */
   Ultra = "Ultra"
 }
 
@@ -3087,7 +3097,9 @@ export type ProximityPlacementGroupType = string;
 
 /** Known values of {@link HyperVGenerationTypes} that the service accepts. */
 export enum KnownHyperVGenerationTypes {
+  /** V1 */
   V1 = "V1",
+  /** V2 */
   V2 = "V2"
 }
 
@@ -3103,7 +3115,9 @@ export type HyperVGenerationTypes = string;
 
 /** Known values of {@link VmDiskTypes} that the service accepts. */
 export enum KnownVmDiskTypes {
+  /** None */
   None = "None",
+  /** Unmanaged */
   Unmanaged = "Unmanaged"
 }
 
@@ -3119,171 +3133,337 @@ export type VmDiskTypes = string;
 
 /** Known values of {@link VirtualMachineSizeTypes} that the service accepts. */
 export enum KnownVirtualMachineSizeTypes {
+  /** BasicA0 */
   BasicA0 = "Basic_A0",
+  /** BasicA1 */
   BasicA1 = "Basic_A1",
+  /** BasicA2 */
   BasicA2 = "Basic_A2",
+  /** BasicA3 */
   BasicA3 = "Basic_A3",
+  /** BasicA4 */
   BasicA4 = "Basic_A4",
+  /** StandardA0 */
   StandardA0 = "Standard_A0",
+  /** StandardA1 */
   StandardA1 = "Standard_A1",
+  /** StandardA2 */
   StandardA2 = "Standard_A2",
+  /** StandardA3 */
   StandardA3 = "Standard_A3",
+  /** StandardA4 */
   StandardA4 = "Standard_A4",
+  /** StandardA5 */
   StandardA5 = "Standard_A5",
+  /** StandardA6 */
   StandardA6 = "Standard_A6",
+  /** StandardA7 */
   StandardA7 = "Standard_A7",
+  /** StandardA8 */
   StandardA8 = "Standard_A8",
+  /** StandardA9 */
   StandardA9 = "Standard_A9",
+  /** StandardA10 */
   StandardA10 = "Standard_A10",
+  /** StandardA11 */
   StandardA11 = "Standard_A11",
+  /** StandardA1V2 */
   StandardA1V2 = "Standard_A1_v2",
+  /** StandardA2V2 */
   StandardA2V2 = "Standard_A2_v2",
+  /** StandardA4V2 */
   StandardA4V2 = "Standard_A4_v2",
+  /** StandardA8V2 */
   StandardA8V2 = "Standard_A8_v2",
+  /** StandardA2MV2 */
   StandardA2MV2 = "Standard_A2m_v2",
+  /** StandardA4MV2 */
   StandardA4MV2 = "Standard_A4m_v2",
+  /** StandardA8MV2 */
   StandardA8MV2 = "Standard_A8m_v2",
+  /** StandardB1S */
   StandardB1S = "Standard_B1s",
+  /** StandardB1Ms */
   StandardB1Ms = "Standard_B1ms",
+  /** StandardB2S */
   StandardB2S = "Standard_B2s",
+  /** StandardB2Ms */
   StandardB2Ms = "Standard_B2ms",
+  /** StandardB4Ms */
   StandardB4Ms = "Standard_B4ms",
+  /** StandardB8Ms */
   StandardB8Ms = "Standard_B8ms",
+  /** StandardD1 */
   StandardD1 = "Standard_D1",
+  /** StandardD2 */
   StandardD2 = "Standard_D2",
+  /** StandardD3 */
   StandardD3 = "Standard_D3",
+  /** StandardD4 */
   StandardD4 = "Standard_D4",
+  /** StandardD11 */
   StandardD11 = "Standard_D11",
+  /** StandardD12 */
   StandardD12 = "Standard_D12",
+  /** StandardD13 */
   StandardD13 = "Standard_D13",
+  /** StandardD14 */
   StandardD14 = "Standard_D14",
+  /** StandardD1V2 */
   StandardD1V2 = "Standard_D1_v2",
+  /** StandardD2V2 */
   StandardD2V2 = "Standard_D2_v2",
+  /** StandardD3V2 */
   StandardD3V2 = "Standard_D3_v2",
+  /** StandardD4V2 */
   StandardD4V2 = "Standard_D4_v2",
+  /** StandardD5V2 */
   StandardD5V2 = "Standard_D5_v2",
+  /** StandardD2V3 */
   StandardD2V3 = "Standard_D2_v3",
+  /** StandardD4V3 */
   StandardD4V3 = "Standard_D4_v3",
+  /** StandardD8V3 */
   StandardD8V3 = "Standard_D8_v3",
+  /** StandardD16V3 */
   StandardD16V3 = "Standard_D16_v3",
+  /** StandardD32V3 */
   StandardD32V3 = "Standard_D32_v3",
+  /** StandardD64V3 */
   StandardD64V3 = "Standard_D64_v3",
+  /** StandardD2SV3 */
   StandardD2SV3 = "Standard_D2s_v3",
+  /** StandardD4SV3 */
   StandardD4SV3 = "Standard_D4s_v3",
+  /** StandardD8SV3 */
   StandardD8SV3 = "Standard_D8s_v3",
+  /** StandardD16SV3 */
   StandardD16SV3 = "Standard_D16s_v3",
+  /** StandardD32SV3 */
   StandardD32SV3 = "Standard_D32s_v3",
+  /** StandardD64SV3 */
   StandardD64SV3 = "Standard_D64s_v3",
+  /** StandardD11V2 */
   StandardD11V2 = "Standard_D11_v2",
+  /** StandardD12V2 */
   StandardD12V2 = "Standard_D12_v2",
+  /** StandardD13V2 */
   StandardD13V2 = "Standard_D13_v2",
+  /** StandardD14V2 */
   StandardD14V2 = "Standard_D14_v2",
+  /** StandardD15V2 */
   StandardD15V2 = "Standard_D15_v2",
+  /** StandardDS1 */
   StandardDS1 = "Standard_DS1",
+  /** StandardDS2 */
   StandardDS2 = "Standard_DS2",
+  /** StandardDS3 */
   StandardDS3 = "Standard_DS3",
+  /** StandardDS4 */
   StandardDS4 = "Standard_DS4",
+  /** StandardDS11 */
   StandardDS11 = "Standard_DS11",
+  /** StandardDS12 */
   StandardDS12 = "Standard_DS12",
+  /** StandardDS13 */
   StandardDS13 = "Standard_DS13",
+  /** StandardDS14 */
   StandardDS14 = "Standard_DS14",
+  /** StandardDS1V2 */
   StandardDS1V2 = "Standard_DS1_v2",
+  /** StandardDS2V2 */
   StandardDS2V2 = "Standard_DS2_v2",
+  /** StandardDS3V2 */
   StandardDS3V2 = "Standard_DS3_v2",
+  /** StandardDS4V2 */
   StandardDS4V2 = "Standard_DS4_v2",
+  /** StandardDS5V2 */
   StandardDS5V2 = "Standard_DS5_v2",
+  /** StandardDS11V2 */
   StandardDS11V2 = "Standard_DS11_v2",
+  /** StandardDS12V2 */
   StandardDS12V2 = "Standard_DS12_v2",
+  /** StandardDS13V2 */
   StandardDS13V2 = "Standard_DS13_v2",
+  /** StandardDS14V2 */
   StandardDS14V2 = "Standard_DS14_v2",
+  /** StandardDS15V2 */
   StandardDS15V2 = "Standard_DS15_v2",
+  /** StandardDS134V2 */
   StandardDS134V2 = "Standard_DS13-4_v2",
+  /** StandardDS132V2 */
   StandardDS132V2 = "Standard_DS13-2_v2",
+  /** StandardDS148V2 */
   StandardDS148V2 = "Standard_DS14-8_v2",
+  /** StandardDS144V2 */
   StandardDS144V2 = "Standard_DS14-4_v2",
+  /** StandardE2V3 */
   StandardE2V3 = "Standard_E2_v3",
+  /** StandardE4V3 */
   StandardE4V3 = "Standard_E4_v3",
+  /** StandardE8V3 */
   StandardE8V3 = "Standard_E8_v3",
+  /** StandardE16V3 */
   StandardE16V3 = "Standard_E16_v3",
+  /** StandardE32V3 */
   StandardE32V3 = "Standard_E32_v3",
+  /** StandardE64V3 */
   StandardE64V3 = "Standard_E64_v3",
+  /** StandardE2SV3 */
   StandardE2SV3 = "Standard_E2s_v3",
+  /** StandardE4SV3 */
   StandardE4SV3 = "Standard_E4s_v3",
+  /** StandardE8SV3 */
   StandardE8SV3 = "Standard_E8s_v3",
+  /** StandardE16SV3 */
   StandardE16SV3 = "Standard_E16s_v3",
+  /** StandardE32SV3 */
   StandardE32SV3 = "Standard_E32s_v3",
+  /** StandardE64SV3 */
   StandardE64SV3 = "Standard_E64s_v3",
+  /** StandardE3216V3 */
   StandardE3216V3 = "Standard_E32-16_v3",
+  /** StandardE328SV3 */
   StandardE328SV3 = "Standard_E32-8s_v3",
+  /** StandardE6432SV3 */
   StandardE6432SV3 = "Standard_E64-32s_v3",
+  /** StandardE6416SV3 */
   StandardE6416SV3 = "Standard_E64-16s_v3",
+  /** StandardF1 */
   StandardF1 = "Standard_F1",
+  /** StandardF2 */
   StandardF2 = "Standard_F2",
+  /** StandardF4 */
   StandardF4 = "Standard_F4",
+  /** StandardF8 */
   StandardF8 = "Standard_F8",
+  /** StandardF16 */
   StandardF16 = "Standard_F16",
+  /** StandardF1S */
   StandardF1S = "Standard_F1s",
+  /** StandardF2S */
   StandardF2S = "Standard_F2s",
+  /** StandardF4S */
   StandardF4S = "Standard_F4s",
+  /** StandardF8S */
   StandardF8S = "Standard_F8s",
+  /** StandardF16S */
   StandardF16S = "Standard_F16s",
+  /** StandardF2SV2 */
   StandardF2SV2 = "Standard_F2s_v2",
+  /** StandardF4SV2 */
   StandardF4SV2 = "Standard_F4s_v2",
+  /** StandardF8SV2 */
   StandardF8SV2 = "Standard_F8s_v2",
+  /** StandardF16SV2 */
   StandardF16SV2 = "Standard_F16s_v2",
+  /** StandardF32SV2 */
   StandardF32SV2 = "Standard_F32s_v2",
+  /** StandardF64SV2 */
   StandardF64SV2 = "Standard_F64s_v2",
+  /** StandardF72SV2 */
   StandardF72SV2 = "Standard_F72s_v2",
+  /** StandardG1 */
   StandardG1 = "Standard_G1",
+  /** StandardG2 */
   StandardG2 = "Standard_G2",
+  /** StandardG3 */
   StandardG3 = "Standard_G3",
+  /** StandardG4 */
   StandardG4 = "Standard_G4",
+  /** StandardG5 */
   StandardG5 = "Standard_G5",
+  /** StandardGS1 */
   StandardGS1 = "Standard_GS1",
+  /** StandardGS2 */
   StandardGS2 = "Standard_GS2",
+  /** StandardGS3 */
   StandardGS3 = "Standard_GS3",
+  /** StandardGS4 */
   StandardGS4 = "Standard_GS4",
+  /** StandardGS5 */
   StandardGS5 = "Standard_GS5",
+  /** StandardGS48 */
   StandardGS48 = "Standard_GS4-8",
+  /** StandardGS44 */
   StandardGS44 = "Standard_GS4-4",
+  /** StandardGS516 */
   StandardGS516 = "Standard_GS5-16",
+  /** StandardGS58 */
   StandardGS58 = "Standard_GS5-8",
+  /** StandardH8 */
   StandardH8 = "Standard_H8",
+  /** StandardH16 */
   StandardH16 = "Standard_H16",
+  /** StandardH8M */
   StandardH8M = "Standard_H8m",
+  /** StandardH16M */
   StandardH16M = "Standard_H16m",
+  /** StandardH16R */
   StandardH16R = "Standard_H16r",
+  /** StandardH16Mr */
   StandardH16Mr = "Standard_H16mr",
+  /** StandardL4S */
   StandardL4S = "Standard_L4s",
+  /** StandardL8S */
   StandardL8S = "Standard_L8s",
+  /** StandardL16S */
   StandardL16S = "Standard_L16s",
+  /** StandardL32S */
   StandardL32S = "Standard_L32s",
+  /** StandardM64S */
   StandardM64S = "Standard_M64s",
+  /** StandardM64Ms */
   StandardM64Ms = "Standard_M64ms",
+  /** StandardM128S */
   StandardM128S = "Standard_M128s",
+  /** StandardM128Ms */
   StandardM128Ms = "Standard_M128ms",
+  /** StandardM6432Ms */
   StandardM6432Ms = "Standard_M64-32ms",
+  /** StandardM6416Ms */
   StandardM6416Ms = "Standard_M64-16ms",
+  /** StandardM12864Ms */
   StandardM12864Ms = "Standard_M128-64ms",
+  /** StandardM12832Ms */
   StandardM12832Ms = "Standard_M128-32ms",
+  /** StandardNC6 */
   StandardNC6 = "Standard_NC6",
+  /** StandardNC12 */
   StandardNC12 = "Standard_NC12",
+  /** StandardNC24 */
   StandardNC24 = "Standard_NC24",
+  /** StandardNC24R */
   StandardNC24R = "Standard_NC24r",
+  /** StandardNC6SV2 */
   StandardNC6SV2 = "Standard_NC6s_v2",
+  /** StandardNC12SV2 */
   StandardNC12SV2 = "Standard_NC12s_v2",
+  /** StandardNC24SV2 */
   StandardNC24SV2 = "Standard_NC24s_v2",
+  /** StandardNC24RsV2 */
   StandardNC24RsV2 = "Standard_NC24rs_v2",
+  /** StandardNC6SV3 */
   StandardNC6SV3 = "Standard_NC6s_v3",
+  /** StandardNC12SV3 */
   StandardNC12SV3 = "Standard_NC12s_v3",
+  /** StandardNC24SV3 */
   StandardNC24SV3 = "Standard_NC24s_v3",
+  /** StandardNC24RsV3 */
   StandardNC24RsV3 = "Standard_NC24rs_v3",
+  /** StandardND6S */
   StandardND6S = "Standard_ND6s",
+  /** StandardND12S */
   StandardND12S = "Standard_ND12s",
+  /** StandardND24S */
   StandardND24S = "Standard_ND24s",
+  /** StandardND24Rs */
   StandardND24Rs = "Standard_ND24rs",
+  /** StandardNV6 */
   StandardNV6 = "Standard_NV6",
+  /** StandardNV12 */
   StandardNV12 = "Standard_NV12",
+  /** StandardNV24 */
   StandardNV24 = "Standard_NV24"
 }
 
@@ -3463,6 +3643,7 @@ export type VirtualMachineSizeTypes = string;
 
 /** Known values of {@link DiffDiskOptions} that the service accepts. */
 export enum KnownDiffDiskOptions {
+  /** Local */
   Local = "Local"
 }
 
@@ -3477,7 +3658,9 @@ export type DiffDiskOptions = string;
 
 /** Known values of {@link DiffDiskPlacement} that the service accepts. */
 export enum KnownDiffDiskPlacement {
+  /** CacheDisk */
   CacheDisk = "CacheDisk",
+  /** ResourceDisk */
   ResourceDisk = "ResourceDisk"
 }
 
@@ -3493,8 +3676,11 @@ export type DiffDiskPlacement = string;
 
 /** Known values of {@link DiskCreateOptionTypes} that the service accepts. */
 export enum KnownDiskCreateOptionTypes {
+  /** FromImage */
   FromImage = "FromImage",
+  /** Empty */
   Empty = "Empty",
+  /** Attach */
   Attach = "Attach"
 }
 
@@ -3511,9 +3697,13 @@ export type DiskCreateOptionTypes = string;
 
 /** Known values of {@link StorageAccountTypes} that the service accepts. */
 export enum KnownStorageAccountTypes {
+  /** StandardLRS */
   StandardLRS = "Standard_LRS",
+  /** PremiumLRS */
   PremiumLRS = "Premium_LRS",
+  /** StandardSSDLRS */
   StandardSSDLRS = "StandardSSD_LRS",
+  /** UltraSSDLRS */
   UltraSSDLRS = "UltraSSD_LRS"
 }
 
@@ -3531,8 +3721,11 @@ export type StorageAccountTypes = string;
 
 /** Known values of {@link InGuestPatchMode} that the service accepts. */
 export enum KnownInGuestPatchMode {
+  /** Manual */
   Manual = "Manual",
+  /** AutomaticByOS */
   AutomaticByOS = "AutomaticByOS",
+  /** AutomaticByPlatform */
   AutomaticByPlatform = "AutomaticByPlatform"
 }
 
@@ -3549,8 +3742,11 @@ export type InGuestPatchMode = string;
 
 /** Known values of {@link VirtualMachinePriorityTypes} that the service accepts. */
 export enum KnownVirtualMachinePriorityTypes {
+  /** Regular */
   Regular = "Regular",
+  /** Low */
   Low = "Low",
+  /** Spot */
   Spot = "Spot"
 }
 
@@ -3567,7 +3763,9 @@ export type VirtualMachinePriorityTypes = string;
 
 /** Known values of {@link VirtualMachineEvictionPolicyTypes} that the service accepts. */
 export enum KnownVirtualMachineEvictionPolicyTypes {
+  /** Deallocate */
   Deallocate = "Deallocate",
+  /** Delete */
   Delete = "Delete"
 }
 
@@ -3583,7 +3781,9 @@ export type VirtualMachineEvictionPolicyTypes = string;
 
 /** Known values of {@link HyperVGenerationType} that the service accepts. */
 export enum KnownHyperVGenerationType {
+  /** V1 */
   V1 = "V1",
+  /** V2 */
   V2 = "V2"
 }
 
@@ -3599,9 +3799,13 @@ export type HyperVGenerationType = string;
 
 /** Known values of {@link PatchOperationStatus} that the service accepts. */
 export enum KnownPatchOperationStatus {
+  /** InProgress */
   InProgress = "InProgress",
+  /** Failed */
   Failed = "Failed",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** CompletedWithWarnings */
   CompletedWithWarnings = "CompletedWithWarnings"
 }
 
@@ -3619,10 +3823,15 @@ export type PatchOperationStatus = string;
 
 /** Known values of {@link RebootStatus} that the service accepts. */
 export enum KnownRebootStatus {
+  /** NotNeeded */
   NotNeeded = "NotNeeded",
+  /** Required */
   Required = "Required",
+  /** Started */
   Started = "Started",
+  /** Failed */
   Failed = "Failed",
+  /** Completed */
   Completed = "Completed"
 }
 
@@ -3641,8 +3850,11 @@ export type RebootStatus = string;
 
 /** Known values of {@link SoftwareUpdateRebootBehavior} that the service accepts. */
 export enum KnownSoftwareUpdateRebootBehavior {
+  /** NeverReboots */
   NeverReboots = "NeverReboots",
+  /** AlwaysRequiresReboot */
   AlwaysRequiresReboot = "AlwaysRequiresReboot",
+  /** CanRequestReboot */
   CanRequestReboot = "CanRequestReboot"
 }
 
@@ -3659,11 +3871,17 @@ export type SoftwareUpdateRebootBehavior = string;
 
 /** Known values of {@link PatchAssessmentState} that the service accepts. */
 export enum KnownPatchAssessmentState {
+  /** Installed */
   Installed = "Installed",
+  /** Failed */
   Failed = "Failed",
+  /** Excluded */
   Excluded = "Excluded",
+  /** NotSelected */
   NotSelected = "NotSelected",
+  /** Pending */
   Pending = "Pending",
+  /** Available */
   Available = "Available"
 }
 
@@ -3683,7 +3901,9 @@ export type PatchAssessmentState = string;
 
 /** Known values of {@link IPVersion} that the service accepts. */
 export enum KnownIPVersion {
+  /** IPv4 */
   IPv4 = "IPv4",
+  /** IPv6 */
   IPv6 = "IPv6"
 }
 
@@ -3699,8 +3919,11 @@ export type IPVersion = string;
 
 /** Known values of {@link VirtualMachineScaleSetScaleInRules} that the service accepts. */
 export enum KnownVirtualMachineScaleSetScaleInRules {
+  /** Default */
   Default = "Default",
+  /** OldestVM */
   OldestVM = "OldestVM",
+  /** NewestVM */
   NewestVM = "NewestVM"
 }
 
@@ -3717,7 +3940,9 @@ export type VirtualMachineScaleSetScaleInRules = string;
 
 /** Known values of {@link OrchestrationServiceNames} that the service accepts. */
 export enum KnownOrchestrationServiceNames {
+  /** AutomaticRepairs */
   AutomaticRepairs = "AutomaticRepairs",
+  /** DummyOrchestrationServiceName */
   DummyOrchestrationServiceName = "DummyOrchestrationServiceName"
 }
 
@@ -3733,8 +3958,11 @@ export type OrchestrationServiceNames = string;
 
 /** Known values of {@link OrchestrationServiceState} that the service accepts. */
 export enum KnownOrchestrationServiceState {
+  /** NotRunning */
   NotRunning = "NotRunning",
+  /** Running */
   Running = "Running",
+  /** Suspended */
   Suspended = "Suspended"
 }
 
@@ -3751,7 +3979,9 @@ export type OrchestrationServiceState = string;
 
 /** Known values of {@link OrchestrationServiceStateAction} that the service accepts. */
 export enum KnownOrchestrationServiceStateAction {
+  /** Resume */
   Resume = "Resume",
+  /** Suspend */
   Suspend = "Suspend"
 }
 
@@ -3791,7 +4021,9 @@ export type DiskStorageAccountTypes = string;
 
 /** Known values of {@link HyperVGeneration} that the service accepts. */
 export enum KnownHyperVGeneration {
+  /** V1 */
   V1 = "V1",
+  /** V2 */
   V2 = "V2"
 }
 
@@ -3888,8 +4120,11 @@ export type EncryptionType = string;
 
 /** Known values of {@link AccessLevel} that the service accepts. */
 export enum KnownAccessLevel {
+  /** None */
   None = "None",
+  /** Read */
   Read = "Read",
+  /** Write */
   Write = "Write"
 }
 
@@ -3927,6 +4162,7 @@ export type SnapshotStorageAccountTypes = string;
 
 /** Known values of {@link DiskEncryptionSetIdentityType} that the service accepts. */
 export enum KnownDiskEncryptionSetIdentityType {
+  /** SystemAssigned */
   SystemAssigned = "SystemAssigned"
 }
 
@@ -3941,7 +4177,9 @@ export type DiskEncryptionSetIdentityType = string;
 
 /** Known values of {@link AvailabilitySetSkuTypes} that the service accepts. */
 export enum KnownAvailabilitySetSkuTypes {
+  /** Classic */
   Classic = "Classic",
+  /** Aligned */
   Aligned = "Aligned"
 }
 
@@ -4068,10 +4306,7 @@ export type AvailabilitySetsListAvailableSizesResponse = VirtualMachineSizeListR
 
 /** Optional parameters. */
 export interface AvailabilitySetsListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The expand expression to apply to the operation. Allowed values are 'instanceView'. */
-  expand?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type AvailabilitySetsListBySubscriptionNextResponse = AvailabilitySetListResult;
@@ -4661,10 +4896,7 @@ export type VirtualMachinesListNextResponse = VirtualMachineListResult;
 
 /** Optional parameters. */
 export interface VirtualMachinesListAllNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** statusOnly=true enables fetching run time status of all Virtual Machines in the subscription. */
-  statusOnly?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAllNext operation. */
 export type VirtualMachinesListAllNextResponse = VirtualMachineListResult;
@@ -5261,14 +5493,7 @@ export interface VirtualMachineScaleSetVMsSimulateEvictionOptionalParams
 
 /** Optional parameters. */
 export interface VirtualMachineScaleSetVMsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The expand expression to apply to the operation. Allowed values are 'instanceView'. */
-  expand?: string;
-  /** The filter to apply to the operation. Allowed values are 'startswith(instanceView/statuses/code, 'PowerState') eq true', 'properties/latestModelApplied eq true', 'properties/latestModelApplied eq false'. */
-  filter?: string;
-  /** The list parameters. Allowed values are 'instanceView', 'instanceView/statuses'. */
-  select?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type VirtualMachineScaleSetVMsListNextResponse = VirtualMachineScaleSetVMListResult;
