@@ -150,7 +150,9 @@ You can change the subprotocol to be used in client. By default, the client uses
 ```js
 // Change to use json.webpubsub.azure.v1
 const client = new WebPubSubClient("<client-access-url>", { protocol: WebPubSubJsonProtocol() });
+```
 
+```js
 // Change to use json.reliable.webpubsub.azure.v1
 const client = new WebPubSubClient("<client-access-url>", { protocol: WebPubSubJsonReliableProtocol() });
 ```
