@@ -1,4 +1,4 @@
-# client library samples for TypeScript (Beta)
+# client library samples for TypeScript
 
 These sample programs show how to use the TypeScript client libraries for in some common scenarios.
 
@@ -87,38 +87,38 @@ npx cross-env IOTHUB_SUBSCRIPTION_ID="<iothub subscription id>" IOTHUB_RESOURCE_
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[certificatescreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2-beta/typescript/src/certificatesCreateOrUpdateSample.ts
-[certificatesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2-beta/typescript/src/certificatesDeleteSample.ts
-[certificatesgenerateverificationcodesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2-beta/typescript/src/certificatesGenerateVerificationCodeSample.ts
-[certificatesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2-beta/typescript/src/certificatesGetSample.ts
-[certificateslistbyiothubsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2-beta/typescript/src/certificatesListByIotHubSample.ts
-[certificatesverifysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2-beta/typescript/src/certificatesVerifySample.ts
-[iothubmanualfailoversample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2-beta/typescript/src/iotHubManualFailoverSample.ts
-[iothubresourcechecknameavailabilitysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2-beta/typescript/src/iotHubResourceCheckNameAvailabilitySample.ts
-[iothubresourcecreateeventhubconsumergroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2-beta/typescript/src/iotHubResourceCreateEventHubConsumerGroupSample.ts
-[iothubresourcecreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2-beta/typescript/src/iotHubResourceCreateOrUpdateSample.ts
-[iothubresourcedeleteeventhubconsumergroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2-beta/typescript/src/iotHubResourceDeleteEventHubConsumerGroupSample.ts
-[iothubresourcedeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2-beta/typescript/src/iotHubResourceDeleteSample.ts
-[iothubresourceexportdevicessample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2-beta/typescript/src/iotHubResourceExportDevicesSample.ts
-[iothubresourcegetendpointhealthsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2-beta/typescript/src/iotHubResourceGetEndpointHealthSample.ts
-[iothubresourcegeteventhubconsumergroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2-beta/typescript/src/iotHubResourceGetEventHubConsumerGroupSample.ts
-[iothubresourcegetjobsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2-beta/typescript/src/iotHubResourceGetJobSample.ts
-[iothubresourcegetkeysforkeynamesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2-beta/typescript/src/iotHubResourceGetKeysForKeyNameSample.ts
-[iothubresourcegetquotametricssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2-beta/typescript/src/iotHubResourceGetQuotaMetricsSample.ts
-[iothubresourcegetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2-beta/typescript/src/iotHubResourceGetSample.ts
-[iothubresourcegetstatssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2-beta/typescript/src/iotHubResourceGetStatsSample.ts
-[iothubresourcegetvalidskussample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2-beta/typescript/src/iotHubResourceGetValidSkusSample.ts
-[iothubresourceimportdevicessample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2-beta/typescript/src/iotHubResourceImportDevicesSample.ts
-[iothubresourcelistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2-beta/typescript/src/iotHubResourceListByResourceGroupSample.ts
-[iothubresourcelistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2-beta/typescript/src/iotHubResourceListBySubscriptionSample.ts
-[iothubresourcelisteventhubconsumergroupssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2-beta/typescript/src/iotHubResourceListEventHubConsumerGroupsSample.ts
-[iothubresourcelistjobssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2-beta/typescript/src/iotHubResourceListJobsSample.ts
-[iothubresourcelistkeyssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2-beta/typescript/src/iotHubResourceListKeysSample.ts
-[iothubresourcetestallroutessample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2-beta/typescript/src/iotHubResourceTestAllRoutesSample.ts
-[iothubresourcetestroutesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2-beta/typescript/src/iotHubResourceTestRouteSample.ts
-[iothubresourceupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2-beta/typescript/src/iotHubResourceUpdateSample.ts
-[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2-beta/typescript/src/operationsListSample.ts
-[resourceprovidercommongetsubscriptionquotasample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2-beta/typescript/src/resourceProviderCommonGetSubscriptionQuotaSample.ts
+[certificatescreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2/typescript/src/certificatesCreateOrUpdateSample.ts
+[certificatesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2/typescript/src/certificatesDeleteSample.ts
+[certificatesgenerateverificationcodesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2/typescript/src/certificatesGenerateVerificationCodeSample.ts
+[certificatesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2/typescript/src/certificatesGetSample.ts
+[certificateslistbyiothubsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2/typescript/src/certificatesListByIotHubSample.ts
+[certificatesverifysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2/typescript/src/certificatesVerifySample.ts
+[iothubmanualfailoversample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2/typescript/src/iotHubManualFailoverSample.ts
+[iothubresourcechecknameavailabilitysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2/typescript/src/iotHubResourceCheckNameAvailabilitySample.ts
+[iothubresourcecreateeventhubconsumergroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2/typescript/src/iotHubResourceCreateEventHubConsumerGroupSample.ts
+[iothubresourcecreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2/typescript/src/iotHubResourceCreateOrUpdateSample.ts
+[iothubresourcedeleteeventhubconsumergroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2/typescript/src/iotHubResourceDeleteEventHubConsumerGroupSample.ts
+[iothubresourcedeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2/typescript/src/iotHubResourceDeleteSample.ts
+[iothubresourceexportdevicessample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2/typescript/src/iotHubResourceExportDevicesSample.ts
+[iothubresourcegetendpointhealthsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2/typescript/src/iotHubResourceGetEndpointHealthSample.ts
+[iothubresourcegeteventhubconsumergroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2/typescript/src/iotHubResourceGetEventHubConsumerGroupSample.ts
+[iothubresourcegetjobsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2/typescript/src/iotHubResourceGetJobSample.ts
+[iothubresourcegetkeysforkeynamesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2/typescript/src/iotHubResourceGetKeysForKeyNameSample.ts
+[iothubresourcegetquotametricssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2/typescript/src/iotHubResourceGetQuotaMetricsSample.ts
+[iothubresourcegetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2/typescript/src/iotHubResourceGetSample.ts
+[iothubresourcegetstatssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2/typescript/src/iotHubResourceGetStatsSample.ts
+[iothubresourcegetvalidskussample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2/typescript/src/iotHubResourceGetValidSkusSample.ts
+[iothubresourceimportdevicessample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2/typescript/src/iotHubResourceImportDevicesSample.ts
+[iothubresourcelistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2/typescript/src/iotHubResourceListByResourceGroupSample.ts
+[iothubresourcelistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2/typescript/src/iotHubResourceListBySubscriptionSample.ts
+[iothubresourcelisteventhubconsumergroupssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2/typescript/src/iotHubResourceListEventHubConsumerGroupsSample.ts
+[iothubresourcelistjobssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2/typescript/src/iotHubResourceListJobsSample.ts
+[iothubresourcelistkeyssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2/typescript/src/iotHubResourceListKeysSample.ts
+[iothubresourcetestallroutessample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2/typescript/src/iotHubResourceTestAllRoutesSample.ts
+[iothubresourcetestroutesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2/typescript/src/iotHubResourceTestRouteSample.ts
+[iothubresourceupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2/typescript/src/iotHubResourceUpdateSample.ts
+[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2/typescript/src/operationsListSample.ts
+[resourceprovidercommongetsubscriptionquotasample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/samples/v2/typescript/src/resourceProviderCommonGetSubscriptionQuotaSample.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-iothub-profile-2020-09-01-hybrid?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/README.md
