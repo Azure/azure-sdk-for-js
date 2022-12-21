@@ -45,19 +45,51 @@
     "cognitiveServicesEndpointSuffix": {
       "type": "string",
       "defaultValue": ".cognitiveservices.azure.com"
+    },
+    "storageEndpointSuffix": {
+      "type": "string",
+      "defaultValue": "core.windows.net",
+      "metadata": {
+        "description": "Storage endpoint suffix. The default value uses Azure Public Cloud (core.windows.net)"
+      }
     }
   },
   "variables": {
     "taRoleId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/a97b65f3-24c7-4388-baec-2e87135dc908')]",
-    "accountName": "[format('textanalytics-{0}', parameters('baseName'))]"
+    "cognitiveAccountName": "[format('textanalytics-{0}', parameters('baseName'))]",
+    "cognitiveApiVersion": "2022-12-01",
+    "storageAccountName": "[parameters('baseName')]",
+    "storageApiVersion": "2022-05-01",
+    "authorizationApiVersion": "2018-01-01-preview",
+    "containerName": "documents"
   },
   "resources": [
     {
+      "type": "Microsoft.Authorization/roleAssignments",
+      "apiVersion": "[variables('authorizationApiVersion')]",
+      "name": "[guid(concat('blobDataContributorRoleId', variables('storageAccountName')))]",
+      "dependsOn": ["[variables('storageAccountName')]"],
+      "properties": {
+        "roleDefinitionId": "[variables('blobDataContributorRoleId')]",
+        "principalId": "[parameters('testApplicationOid')]"
+      }
+    },
+    {
+      "type": "Microsoft.Authorization/roleAssignments",
+      "apiVersion": "[variables('authorizationApiVersion')]",
+      "name": "[guid(concat('blobDataOwnerRoleId', variables('storageAccountName')))]",
+      "dependsOn": ["[variables('storageAccountName')]"],
+      "properties": {
+        "roleDefinitionId": "[variables('blobDataOwnerRoleId')]",
+        "principalId": "[parameters('testApplicationOid')]"
+      }
+    },
+    {
       "type": "Microsoft.CognitiveServices/accounts/providers/roleAssignments",
       "apiVersion": "2018-09-01-preview",
-      "name": "[format('{0}/Microsoft.Authorization/{1}', variables('accountName'), guid(variables('accountName')))]",
+      "name": "[format('{0}/Microsoft.Authorization/{1}', variables('cognitiveAccountName'), guid(variables('cognitiveAccountName')))]",
       "dependsOn": [
-        "[resourceId('Microsoft.CognitiveServices/accounts', variables('accountName'))]"
+        "[resourceId('Microsoft.CognitiveServices/accounts', variables('cognitiveAccountName'))]"
       ],
       "properties": {
         "principalId": "[parameters('testApplicationOid')]",
@@ -65,16 +97,73 @@
       }
     },
     {
+      "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "[variables('storageApiVersion')]",
+      "name": "[variables('storageAccountName')]",
+      "location": "[parameters('location')]",
+      "sku": {
+        "name": "Standard_RAGRS",
+        "tier": "Standard"
+      },
+      "kind": "StorageV2",
+      "properties": {
+        "dnsEndpointType": "Standard",
+        "defaultToOAuthAuthentication": false,
+        "publicNetworkAccess": "Enabled",
+        "allowCrossTenantReplication": true,
+        "privateEndpointConnections": [],
+        "minimumTlsVersion": "TLS1_2",
+        "allowBlobPublicAccess": true,
+        "allowSharedKeyAccess": true,
+        "networkAcls": {
+          "bypass": "AzureServices",
+          "virtualNetworkRules": [],
+          "ipRules": [],
+          "defaultAction": "Allow"
+        },
+        "supportsHttpsTrafficOnly": true,
+        "encryption": {
+          "requireInfrastructureEncryption": false,
+          "services": {
+            "file": {
+              "keyType": "Account",
+              "enabled": true
+            },
+            "blob": {
+              "keyType": "Account",
+              "enabled": true
+            }
+          },
+          "keySource": "Microsoft.Storage"
+        },
+        "accessTier": "Hot",
+      }
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
+      "apiVersion": "[variables('storageApiVersion')]",
+      "name": "[format('{0}/default/{1}', variables('storageAccountName'), variables('containerName'))]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]"
+      ]
+    },
+    {
       "type": "Microsoft.CognitiveServices/accounts",
-      "name": "[variables('accountName')]",
-      "apiVersion": "2017-04-18",
+      "name": "[variables('cognitiveAccountName')]",
+      "apiVersion": "[variables('cognitiveApiVersion')]",
       "sku": {
         "name": "S"
       },
       "kind": "TextAnalytics",
       "location": "[parameters('location')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]"
+      ],
       "properties": {
-        "customSubDomainName": "[variables('accountName')]"
+        "customSubDomainName": "[variables('cognitiveAccountName')]",
+        "userOwnedStorage": [{
+          "resourceId": "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]"
+        }]
       }
     }
   ],
@@ -93,15 +182,19 @@
     },
     "LANGUAGE_API_KEY": {
       "type": "string",
-      "value": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', variables('accountName')), '2017-04-18').key1]"
+      "value": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', variables('cognitiveAccountName')), variables('cognitiveApiVersion')).key1]"
     },
     "LANGUAGE_API_KEY_ALT": {
       "type": "string",
-      "value": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', variables('accountName')), '2017-04-18').key2]"
+      "value": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', variables('cognitiveAccountName')), variables('cognitiveApiVersion')).key2]"
     },
     "ENDPOINT": {
       "type": "string",
-      "value": "[concat('https://', variables('accountName'), parameters('cognitiveServicesEndpointSuffix'), '/')]"
+      "value": "[concat('https://', variables('cognitiveAccountName'), parameters('cognitiveServicesEndpointSuffix'), '/')]"
+    },
+    "STORAGE_ACCOUNT_NAME": {
+      "type": "string",
+      "value": "[variables('storageAccountName')]"
     }
   }
 }
