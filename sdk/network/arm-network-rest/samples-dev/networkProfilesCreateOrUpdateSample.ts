@@ -36,8 +36,7 @@ async function createNetworkProfileDefaults() {
                   name: "ipconfig1",
                   properties: {
                     subnet: {
-                      id:
-                        "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/networkProfileVnet/subnets/networkProfileSubnet1",
+                      id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/networkProfileVnet/subnets/networkProfileSubnet1",
                     },
                   },
                 },

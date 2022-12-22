@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Lists all connection monitors for the specified Network Watcher.
  *
  * @summary Lists all connection monitors for the specified Network Watcher.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkWatcherConnectionMonitorList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/NetworkWatcherConnectionMonitorList.json
  */
 async function listConnectionMonitors() {
   const subscriptionId = "subid";

@@ -511,10 +511,10 @@ export interface ResourceProviderOperationDisplay {
 }
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {}
 
 /** The Extension object. */
-export type Extension = ProxyResource & {
+export interface Extension extends ProxyResource {
   /** Identity of the Extension resource */
   identity?: Identity;
   /**
@@ -565,10 +565,10 @@ export type Extension = ProxyResource & {
   readonly packageUri?: string;
   /** Identity of the Extension resource in an AKS cluster */
   aksAssignedIdentity?: ExtensionPropertiesAksAssignedIdentity;
-};
+}
 
 /** The Flux Configuration object returned in Get & Put response. */
-export type FluxConfiguration = ProxyResource & {
+export interface FluxConfiguration extends ProxyResource {
   /**
    * Top level metadata https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/common-api-contracts.md#system-metadata-for-all-azure-resources
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -630,10 +630,10 @@ export type FluxConfiguration = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly errorMessage?: string;
-};
+}
 
 /** The SourceControl Configuration object returned in Get & Put response. */
-export type SourceControlConfiguration = ProxyResource & {
+export interface SourceControlConfiguration extends ProxyResource {
   /**
    * Top level metadata https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/common-api-contracts.md#system-metadata-for-all-azure-resources
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -674,15 +674,21 @@ export type SourceControlConfiguration = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly complianceStatus?: ComplianceStatus;
-};
+}
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Creating */
   Creating = "Creating",
+  /** Updating */
   Updating = "Updating",
+  /** Deleting */
   Deleting = "Deleting"
 }
 
@@ -702,8 +708,11 @@ export type ProvisioningState = string;
 
 /** Known values of {@link LevelType} that the service accepts. */
 export enum KnownLevelType {
+  /** Error */
   Error = "Error",
+  /** Warning */
   Warning = "Warning",
+  /** Information */
   Information = "Information"
 }
 
@@ -720,9 +729,13 @@ export type LevelType = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -740,7 +753,9 @@ export type CreatedByType = string;
 
 /** Known values of {@link ScopeType} that the service accepts. */
 export enum KnownScopeType {
+  /** Cluster */
   Cluster = "cluster",
+  /** Namespace */
   Namespace = "namespace"
 }
 
@@ -756,7 +771,9 @@ export type ScopeType = string;
 
 /** Known values of {@link SourceKindType} that the service accepts. */
 export enum KnownSourceKindType {
+  /** GitRepository */
   GitRepository = "GitRepository",
+  /** Bucket */
   Bucket = "Bucket"
 }
 
@@ -772,10 +789,15 @@ export type SourceKindType = string;
 
 /** Known values of {@link FluxComplianceState} that the service accepts. */
 export enum KnownFluxComplianceState {
+  /** Compliant */
   Compliant = "Compliant",
+  /** NonCompliant */
   NonCompliant = "Non-Compliant",
+  /** Pending */
   Pending = "Pending",
+  /** Suspended */
   Suspended = "Suspended",
+  /** Unknown */
   Unknown = "Unknown"
 }
 
@@ -794,6 +816,7 @@ export type FluxComplianceState = string;
 
 /** Known values of {@link OperatorType} that the service accepts. */
 export enum KnownOperatorType {
+  /** Flux */
   Flux = "Flux"
 }
 
@@ -808,7 +831,9 @@ export type OperatorType = string;
 
 /** Known values of {@link OperatorScopeType} that the service accepts. */
 export enum KnownOperatorScopeType {
+  /** Cluster */
   Cluster = "cluster",
+  /** Namespace */
   Namespace = "namespace"
 }
 
@@ -824,10 +849,15 @@ export type OperatorScopeType = string;
 
 /** Known values of {@link ProvisioningStateType} that the service accepts. */
 export enum KnownProvisioningStateType {
+  /** Accepted */
   Accepted = "Accepted",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Running */
   Running = "Running",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed"
 }
 
@@ -846,10 +876,15 @@ export type ProvisioningStateType = string;
 
 /** Known values of {@link ComplianceStateType} that the service accepts. */
 export enum KnownComplianceStateType {
+  /** Pending */
   Pending = "Pending",
+  /** Compliant */
   Compliant = "Compliant",
+  /** Noncompliant */
   Noncompliant = "Noncompliant",
+  /** Installed */
   Installed = "Installed",
+  /** Failed */
   Failed = "Failed"
 }
 
@@ -868,8 +903,11 @@ export type ComplianceStateType = string;
 
 /** Known values of {@link MessageLevelType} that the service accepts. */
 export enum KnownMessageLevelType {
+  /** Error */
   Error = "Error",
+  /** Warning */
   Warning = "Warning",
+  /** Information */
   Information = "Information"
 }
 
@@ -886,8 +924,11 @@ export type MessageLevelType = string;
 
 /** Known values of {@link KustomizationValidationType} that the service accepts. */
 export enum KnownKustomizationValidationType {
+  /** None */
   None = "none",
+  /** Client */
   Client = "client",
+  /** Server */
   Server = "server"
 }
 

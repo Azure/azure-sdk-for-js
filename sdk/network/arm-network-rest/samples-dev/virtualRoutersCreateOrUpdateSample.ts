@@ -29,8 +29,7 @@ async function createVirtualRouter() {
       location: "West US",
       properties: {
         hostedGateway: {
-          id:
-            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vnetGateway",
+          id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vnetGateway",
         },
       },
       tags: { key1: "value1" },

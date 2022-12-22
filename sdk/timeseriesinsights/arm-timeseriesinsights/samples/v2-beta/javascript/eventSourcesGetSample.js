@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { TimeSeriesInsightsClient } = require("@azure/arm-timeseriesinsights");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets the event source with the specified name in the specified environment.
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/timeseriesinsights/resource-manager/Microsoft.TimeSeriesInsights/preview/2021-03-31-preview/examples/EventSourcesGetEventHub.json
  */
 async function getEventHubEventSource() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["TIMESERIESINSIGHTS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["TIMESERIESINSIGHTS_RESOURCE_GROUP"] || "rg1";
   const environmentName = "env1";
   const eventSourceName = "es1";
   const credential = new DefaultAzureCredential();
@@ -28,4 +29,8 @@ async function getEventHubEventSource() {
   console.log(result);
 }
 
-getEventHubEventSource().catch(console.error);
+async function main() {
+  getEventHubEventSource();
+}
+
+main().catch(console.error);

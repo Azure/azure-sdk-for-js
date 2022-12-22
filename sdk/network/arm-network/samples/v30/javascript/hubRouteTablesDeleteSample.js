@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Deletes a RouteTable.
  *
  * @summary Deletes a RouteTable.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/HubRouteTableDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/HubRouteTableDelete.json
  */
 async function routeTableDelete() {
   const subscriptionId = "subid";

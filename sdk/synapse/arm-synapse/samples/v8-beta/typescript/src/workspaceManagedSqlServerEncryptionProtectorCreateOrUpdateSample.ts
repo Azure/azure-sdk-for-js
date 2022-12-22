@@ -13,6 +13,9 @@ import {
   SynapseManagementClient
 } from "@azure/arm-synapse";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Updates workspace managed sql server's encryption protector.
@@ -21,8 +24,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/WorkspaceManagedSqlServerEncryptionProtectorCreateOrUpdateKeyVault.json
  */
 async function updateTheEncryptionProtectorToKeyVault() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "wsg-7398";
+  const subscriptionId =
+    process.env["SYNAPSE_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName = process.env["SYNAPSE_RESOURCE_GROUP"] || "wsg-7398";
   const workspaceName = "testWorkspace";
   const encryptionProtectorName = "current";
   const parameters: EncryptionProtector = {
@@ -40,8 +45,6 @@ async function updateTheEncryptionProtectorToKeyVault() {
   console.log(result);
 }
 
-updateTheEncryptionProtectorToKeyVault().catch(console.error);
-
 /**
  * This sample demonstrates how to Updates workspace managed sql server's encryption protector.
  *
@@ -49,8 +52,10 @@ updateTheEncryptionProtectorToKeyVault().catch(console.error);
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/WorkspaceManagedSqlServerEncryptionProtectorCreateOrUpdateServiceManaged.json
  */
 async function updateTheEncryptionProtectorToServiceManaged() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "wsg-7398";
+  const subscriptionId =
+    process.env["SYNAPSE_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName = process.env["SYNAPSE_RESOURCE_GROUP"] || "wsg-7398";
   const workspaceName = "testWorkspace";
   const encryptionProtectorName = "current";
   const parameters: EncryptionProtector = {
@@ -68,4 +73,9 @@ async function updateTheEncryptionProtectorToServiceManaged() {
   console.log(result);
 }
 
-updateTheEncryptionProtectorToServiceManaged().catch(console.error);
+async function main() {
+  updateTheEncryptionProtectorToKeyVault();
+  updateTheEncryptionProtectorToServiceManaged();
+}
+
+main().catch(console.error);

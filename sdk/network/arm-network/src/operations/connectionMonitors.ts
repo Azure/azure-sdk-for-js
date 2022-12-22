@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { ConnectionMonitors } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,6 +17,7 @@ import { LroImpl } from "../lroImpl";
 import {
   ConnectionMonitorResult,
   ConnectionMonitorsListOptionalParams,
+  ConnectionMonitorsListResponse,
   ConnectionMonitor,
   ConnectionMonitorsCreateOrUpdateOptionalParams,
   ConnectionMonitorsCreateOrUpdateResponse,
@@ -29,8 +30,7 @@ import {
   ConnectionMonitorsStopOptionalParams,
   ConnectionMonitorsStartOptionalParams,
   ConnectionMonitorsQueryOptionalParams,
-  ConnectionMonitorsQueryResponse,
-  ConnectionMonitorsListResponse
+  ConnectionMonitorsQueryResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -69,11 +69,15 @@ export class ConnectionMonitorsImpl implements ConnectionMonitors {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listPagingPage(
           resourceGroupName,
           networkWatcherName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -82,13 +86,11 @@ export class ConnectionMonitorsImpl implements ConnectionMonitors {
   private async *listPagingPage(
     resourceGroupName: string,
     networkWatcherName: string,
-    options?: ConnectionMonitorsListOptionalParams
+    options?: ConnectionMonitorsListOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<ConnectionMonitorResult[]> {
-    let result = await this._list(
-      resourceGroupName,
-      networkWatcherName,
-      options
-    );
+    let result: ConnectionMonitorsListResponse;
+    result = await this._list(resourceGroupName, networkWatcherName, options);
     yield result.value || [];
   }
 
@@ -654,7 +656,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters56,
+  requestBody: Parameters.parameters57,
   queryParameters: [Parameters.apiVersion, Parameters.migrate],
   urlParameters: [
     Parameters.$host,

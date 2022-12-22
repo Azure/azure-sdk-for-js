@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { VirtualNetworkLinks } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,6 +19,7 @@ import {
   VirtualNetworkLink,
   VirtualNetworkLinksListNextOptionalParams,
   VirtualNetworkLinksListOptionalParams,
+  VirtualNetworkLinksListResponse,
   VirtualNetworkLinksCreateOrUpdateOptionalParams,
   VirtualNetworkLinksCreateOrUpdateResponse,
   VirtualNetworkLinksUpdateOptionalParams,
@@ -25,7 +27,6 @@ import {
   VirtualNetworkLinksDeleteOptionalParams,
   VirtualNetworkLinksGetOptionalParams,
   VirtualNetworkLinksGetResponse,
-  VirtualNetworkLinksListResponse,
   VirtualNetworkLinksListNextResponse
 } from "../models";
 
@@ -65,8 +66,16 @@ export class VirtualNetworkLinksImpl implements VirtualNetworkLinks {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, privateZoneName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          privateZoneName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -74,11 +83,18 @@ export class VirtualNetworkLinksImpl implements VirtualNetworkLinks {
   private async *listPagingPage(
     resourceGroupName: string,
     privateZoneName: string,
-    options?: VirtualNetworkLinksListOptionalParams
+    options?: VirtualNetworkLinksListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<VirtualNetworkLink[]> {
-    let result = await this._list(resourceGroupName, privateZoneName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: VirtualNetworkLinksListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, privateZoneName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -87,7 +103,9 @@ export class VirtualNetworkLinksImpl implements VirtualNetworkLinks {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 

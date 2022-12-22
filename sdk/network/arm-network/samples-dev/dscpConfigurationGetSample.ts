@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Gets a DSCP Configuration.
  *
  * @summary Gets a DSCP Configuration.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/DscpConfigurationGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/DscpConfigurationGet.json
  */
 async function getDscpConfiguration() {
   const subscriptionId = "subid";

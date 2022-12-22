@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { CloudAppliances } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -58,11 +58,15 @@ export class CloudAppliancesImpl implements CloudAppliances {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listSupportedConfigurationsPagingPage(
           resourceGroupName,
           managerName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -71,9 +75,11 @@ export class CloudAppliancesImpl implements CloudAppliances {
   private async *listSupportedConfigurationsPagingPage(
     resourceGroupName: string,
     managerName: string,
-    options?: CloudAppliancesListSupportedConfigurationsOptionalParams
+    options?: CloudAppliancesListSupportedConfigurationsOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<CloudApplianceConfiguration[]> {
-    let result = await this._listSupportedConfigurations(
+    let result: CloudAppliancesListSupportedConfigurationsResponse;
+    result = await this._listSupportedConfigurations(
       resourceGroupName,
       managerName,
       options

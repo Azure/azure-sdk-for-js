@@ -1925,7 +1925,7 @@ matrix(
               ],
             }),
             {
-              messagePattern: /Unexpected end of JSON input/,
+              name: "SyntaxError",
             }
           );
         });
@@ -1980,7 +1980,7 @@ matrix(
               ],
             }),
             {
-              messagePattern: /Unexpected end of JSON input/,
+              name: "SyntaxError",
             }
           );
         });
@@ -2059,7 +2059,7 @@ matrix(
               ],
             }),
             {
-              messagePattern: /Unexpected end of JSON input/,
+              name: "SyntaxError",
             }
           );
         });
@@ -2138,7 +2138,7 @@ matrix(
               ],
             }),
             {
-              messagePattern: /Unexpected end of JSON input/,
+              name: "SyntaxError",
             }
           );
         });

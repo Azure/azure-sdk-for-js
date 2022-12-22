@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Deletes the Bastion Shareable Links for all the VMs specified in the request.
  *
  * @summary Deletes the Bastion Shareable Links for all the VMs specified in the request.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/BastionShareableLinkDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/BastionShareableLinkDelete.json
  */
 async function deleteBastionShareableLinksForTheRequestVMS() {
   const subscriptionId = "subid";

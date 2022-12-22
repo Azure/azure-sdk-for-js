@@ -19,7 +19,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Creates or updates an admin rule.
  *
  * @summary Creates or updates an admin rule.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkManagerDefaultAdminRulePut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/NetworkManagerDefaultAdminRulePut.json
  */
 async function createADefaultAdminRule() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
@@ -51,7 +51,7 @@ createADefaultAdminRule().catch(console.error);
  * This sample demonstrates how to Creates or updates an admin rule.
  *
  * @summary Creates or updates an admin rule.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkManagerAdminRulePut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/NetworkManagerAdminRulePut.json
  */
 async function createAnAdminRule() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

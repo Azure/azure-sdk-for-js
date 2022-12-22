@@ -56,6 +56,9 @@ export interface CloudErrorBody {
 export type CreatedByType = string;
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export interface Identity {
     readonly principalId?: string;
     readonly tenantId?: string;
@@ -64,21 +67,15 @@ export interface Identity {
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownNameUnavailableReason {
-    // (undocumented)
     AlreadyExists = "AlreadyExists",
-    // (undocumented)
     Invalid = "Invalid"
 }
 
@@ -148,19 +145,21 @@ export interface MixedRealityClientOptionalParams extends coreClient.ServiceClie
 export type NameUnavailableReason = string;
 
 // @public
-export type ObjectAnchorsAccount = TrackedResource & {
+export interface ObjectAnchorsAccount extends TrackedResource {
+    readonly accountDomain?: string;
+    readonly accountId?: string;
+    // (undocumented)
     identity?: ObjectAnchorsAccountIdentity;
+    kind?: Sku;
     plan?: Identity;
     sku?: Sku;
-    kind?: Sku;
-    readonly systemData?: SystemData;
     storageAccountName?: string;
-    readonly accountId?: string;
-    readonly accountDomain?: string;
-};
+    readonly systemData?: SystemData;
+}
 
 // @public (undocumented)
-export type ObjectAnchorsAccountIdentity = Identity & {};
+export interface ObjectAnchorsAccountIdentity extends Identity {
+}
 
 // @public
 export interface ObjectAnchorsAccountPage {
@@ -295,16 +294,16 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 export type OperationsListResponse = OperationPage;
 
 // @public
-export type RemoteRenderingAccount = TrackedResource & {
+export interface RemoteRenderingAccount extends TrackedResource {
+    readonly accountDomain?: string;
+    readonly accountId?: string;
     identity?: Identity;
+    kind?: Sku;
     plan?: Identity;
     sku?: Sku;
-    kind?: Sku;
-    readonly systemData?: SystemData;
     storageAccountName?: string;
-    readonly accountId?: string;
-    readonly accountDomain?: string;
-};
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface RemoteRenderingAccountPage {
@@ -420,16 +419,16 @@ export interface Sku {
 export type SkuTier = "Free" | "Basic" | "Standard" | "Premium";
 
 // @public
-export type SpatialAnchorsAccount = TrackedResource & {
+export interface SpatialAnchorsAccount extends TrackedResource {
+    readonly accountDomain?: string;
+    readonly accountId?: string;
     identity?: Identity;
+    kind?: Sku;
     plan?: Identity;
     sku?: Sku;
-    kind?: Sku;
-    readonly systemData?: SystemData;
     storageAccountName?: string;
-    readonly accountId?: string;
-    readonly accountDomain?: string;
-};
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface SpatialAnchorsAccountPage {
@@ -527,12 +526,12 @@ export interface SystemData {
 }
 
 // @public
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
+    location: string;
     tags?: {
         [propertyName: string]: string;
     };
-    location: string;
-};
+}
 
 // (No @packageDocumentation comment for this package)
 
