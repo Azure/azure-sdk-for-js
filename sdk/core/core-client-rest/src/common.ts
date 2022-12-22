@@ -274,5 +274,5 @@ export interface ErrorModel {
   /** An array of details about specific errors that led to this reported error. */
   details: Array<ErrorModel>;
   /** An object containing more specific information than the current object about the error. */
-  cause?: unknown;
+  cause?: ErrorModel;
 }

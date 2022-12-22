@@ -48,7 +48,7 @@ export function createRestError(message: string, response: PathUncheckedResponse
 
 // @public
 export interface ErrorModel {
-    cause?: unknown;
+    cause?: ErrorModel;
     code: string;
     details: Array<ErrorModel>;
     message: string;
