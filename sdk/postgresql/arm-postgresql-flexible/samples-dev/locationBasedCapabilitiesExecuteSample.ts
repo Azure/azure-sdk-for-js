@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { PostgreSQLManagementFlexibleServerClient } from "@azure/arm-postgresql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Get capabilities at specified location in a given subscription.
@@ -18,7 +21,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2021-06-01/examples/CapabilitiesByLocation.json
  */
 async function capabilitiesList() {
-  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const subscriptionId =
+    process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
+    "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const locationName = "westus";
   const credential = new DefaultAzureCredential();
   const client = new PostgreSQLManagementFlexibleServerClient(
@@ -34,4 +39,8 @@ async function capabilitiesList() {
   console.log(resArray);
 }
 
-capabilitiesList().catch(console.error);
+async function main() {
+  capabilitiesList();
+}
+
+main().catch(console.error);
