@@ -13438,7 +13438,7 @@ packages:
     dev: false
 
   file:projects/arm-postgresql-flexible.tgz:
-    resolution: {integrity: sha512-+4ZsSAlzBc9H+Lb/drKyoyIPW1xp/5ijxaTokvtS0e20AZdoEvZfJ3sLq/Aoa68x69wo9dUx/+xNvOPlGcLogg==, tarball: file:projects/arm-postgresql-flexible.tgz}
+    resolution: {integrity: sha512-jdFQE2aDxnLQq2q6peHgplVa0kp4gJ0xoRb2ajCDuA0vJR5oxN7o/3vgWYW9Hg+B/A7bCpxQIoQji4mXzcn++g==, tarball: file:projects/arm-postgresql-flexible.tgz}
     name: '@rush-temp/arm-postgresql-flexible'
     version: 0.0.0
     dependencies:
@@ -13449,18 +13449,20 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.4
+      '@types/node': 14.18.33
+      chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
