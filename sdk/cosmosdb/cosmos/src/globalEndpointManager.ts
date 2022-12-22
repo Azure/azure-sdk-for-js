@@ -156,8 +156,9 @@ export class GlobalEndpointManager {
       if (
         loc.unavailable &&
         Date.now() - loc.unavailable?.timestamp > Constants.LocationUnavailableExpirationTime
-      )
+      ) {
         loc.unavailable = undefined;
+      }
     });
   }
 

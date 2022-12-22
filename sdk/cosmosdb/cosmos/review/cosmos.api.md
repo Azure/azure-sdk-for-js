@@ -400,6 +400,7 @@ export const Constants: {
     };
     WritableLocations: string;
     ReadableLocations: string;
+    LocationUnavailableExpirationTime: number;
     ENABLE_MULTIPLE_WRITABLE_LOCATIONS: string;
     DefaultUnavailableLocationExpirationTimeMS: number;
     ThrottleRetryCount: string;
@@ -940,8 +941,10 @@ interface Location_2 {
     databaseAccountEndpoint: string;
     // (undocumented)
     name: string;
+    // Warning: (ae-forgotten-export) The symbol "Unavailable" needs to be exported by the entry point index.d.ts
+    //
     // (undocumented)
-    unavailable?: boolean;
+    unavailable?: Unavailable;
 }
 export { Location_2 as Location }
 
