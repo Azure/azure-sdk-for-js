@@ -1855,20 +1855,6 @@ packages:
     engines: {node: '>=14'}
     dev: false
 
-  /@rollup/plugin-commonjs/11.0.2_rollup@1.32.1:
-    resolution: {integrity: sha512-MPYGZr0qdbV5zZj8/2AuomVpnRVXRU5XKXb3HVniwRoRCreGlf5kOE081isNWeiLIi6IYkwTX9zE0/c7V8g81g==}
-    engines: {node: '>= 8.0.0'}
-    peerDependencies:
-      rollup: ^1.20.0
-    dependencies:
-      '@rollup/pluginutils': 3.1.0_rollup@1.32.1
-      estree-walker: 1.0.1
-      is-reference: 1.2.1
-      magic-string: 0.25.9
-      resolve: 1.22.1
-      rollup: 1.32.1
-    dev: false
-
   /@rollup/plugin-commonjs/21.1.0_rollup@2.79.1:
     resolution: {integrity: sha512-6ZtHx3VHIp2ReNNDxHjuUml6ur+WcQ28N1yHgCQwsbNkQg2suhxGMDQGJOn/KuDxKtd1xuZP5xSTwBA4GQ8hbA==}
     engines: {node: '>= 8.0.0'}
@@ -1912,15 +1898,6 @@ packages:
       rollup: 2.79.1
     dev: false
 
-  /@rollup/plugin-json/4.1.0_rollup@1.32.1:
-    resolution: {integrity: sha512-yfLbTdNS6amI/2OpmbiBoW12vngr5NW2jCJVZSBEz+H5KfUJZ2M7sDjk0U6GOOdCWFVScShte29o9NezJ53TPw==}
-    peerDependencies:
-      rollup: ^1.20.0 || ^2.0.0
-    dependencies:
-      '@rollup/pluginutils': 3.1.0_rollup@1.32.1
-      rollup: 1.32.1
-    dev: false
-
   /@rollup/plugin-json/4.1.0_rollup@2.79.1:
     resolution: {integrity: sha512-yfLbTdNS6amI/2OpmbiBoW12vngr5NW2jCJVZSBEz+H5KfUJZ2M7sDjk0U6GOOdCWFVScShte29o9NezJ53TPw==}
     peerDependencies:
@@ -1928,15 +1905,6 @@ packages:
     dependencies:
       '@rollup/pluginutils': 3.1.0_rollup@2.79.1
       rollup: 2.79.1
-    dev: false
-
-  /@rollup/plugin-multi-entry/3.0.1_rollup@1.32.1:
-    resolution: {integrity: sha512-Gcp9E8y68Kx+Jo8zy/ZpiiAkb0W01cSqnxOz6h9bPR7MU3gaoTEdRf7xXYplwli1SBFEswXX588ESj+50Brfxw==}
-    peerDependencies:
-      rollup: ^1.20.0 || ^2.0.0
-    dependencies:
-      matched: 1.0.2
-      rollup: 1.32.1
     dev: false
 
   /@rollup/plugin-multi-entry/3.0.1_rollup@2.79.1:
@@ -1987,22 +1955,6 @@ packages:
       is-module: 1.0.0
       resolve: 1.22.1
       rollup: 2.79.1
-    dev: false
-
-  /@rollup/plugin-node-resolve/8.4.0_rollup@1.32.1:
-    resolution: {integrity: sha512-LFqKdRLn0ShtQyf6SBYO69bGE1upV6wUhBX0vFOUnLAyzx5cwp8svA0eHUnu8+YU57XOkrMtfG63QOpQx25pHQ==}
-    engines: {node: '>= 8.0.0'}
-    peerDependencies:
-      rollup: ^1.20.0||^2.0.0
-    dependencies:
-      '@rollup/pluginutils': 3.1.0_rollup@1.32.1
-      '@types/resolve': 1.17.1
-      builtin-modules: 3.3.0
-      deep-freeze: 0.0.1
-      deepmerge: 4.2.2
-      is-module: 1.0.0
-      resolve: 1.22.1
-      rollup: 1.32.1
     dev: false
 
   /@rollup/plugin-node-resolve/8.4.0_rollup@2.79.1:
@@ -3784,7 +3736,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20221219
+      typescript: 5.0.0-dev.20221221
     dev: false
 
   /downlevel-dts/0.7.0:
@@ -8488,8 +8440,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20221219:
-    resolution: {integrity: sha512-/ZglDGQtpeVudCAVJuEdM8K8vUCA1yPMpsk3y08/ZXn6dxk/D1hy59FEI25/EHqsACElN++9CoKzkJS1wBTiRw==}
+  /typescript/5.0.0-dev.20221221:
+    resolution: {integrity: sha512-QpKFAtn9fFixtDNPVmOYlpmSGh1N/YP5vJq5xX5yVUiPOUrsAsEQFJxqBkGiiKrZAI132fVyM32GrhUXorp2gQ==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -14331,29 +14283,30 @@ packages:
     dev: false
 
   file:projects/arm-servicemap.tgz:
-    resolution: {integrity: sha512-4+xXH4FlR+48b78z/UthL7uwFoUNerD+fEWAD+epa9UiwN3z2mrrYkG/dtj467WmQv79FIF5UXl1isoUgC68DQ==, tarball: file:projects/arm-servicemap.tgz}
+    resolution: {integrity: sha512-93Pw86xW9VLMzt+2vrKnk5GfRECnyVk92vf6rGgGQwTQVLPZbeYHgfb9fPxmJyQyz6UoU6vX7j5mqwVbZJrnWA==, tarball: file:projects/arm-servicemap.tgz}
     name: '@rush-temp/arm-servicemap'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.33.6
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.4
+      '@types/node': 14.18.33
+      chai: 4.3.7
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 1.32.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@1.32.1
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
-      - encoding
       - supports-color
     dev: false
 
