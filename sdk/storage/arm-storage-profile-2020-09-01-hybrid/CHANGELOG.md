@@ -1,15 +1,20 @@
 # Release History
+    
+## 2.1.0 (2022-12-22)
+    
+**Features**
 
-## 2.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface BlobInventoryPolicy
+  - Added Interface EncryptionScope
+  - Added Interface ManagementPolicy
+  - Added Interface ObjectReplicationPolicy
+  - Added Interface PrivateEndpointConnection
+  - Added Interface PrivateLinkResource
+  - Added Interface StorageAccount
+  - Added Interface TrackedResource
+  - Added function getContinuationToken
+    
+    
 ## 2.0.0 (2022-03-09)
 
 The package of @azure/arm-storage-profile-2020-09-01-hybrid is using our next generation design principles since version 2.0.0, which contains breaking changes.
