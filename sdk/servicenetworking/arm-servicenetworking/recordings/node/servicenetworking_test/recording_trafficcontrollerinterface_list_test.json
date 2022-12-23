@@ -1,0 +1,39 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ServiceNetworking/trafficControllers?api-version=2022-10-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-servicenetworking/1.0.0-beta.1 core-rest-pipeline/1.10.1 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "261c43a5-e1ff-4184-bc6f-d3747731acf9"
+      },
+      "RequestBody": null,
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "174",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 23 Dec 2022 06:06:58 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "d3b984b6-4f82-49d8-b9dd-725e45d00279",
+        "x-ms-failure-cause": "gateway",
+        "x-ms-request-id": "d3b984b6-4f82-49d8-b9dd-725e45d00279",
+        "x-ms-routing-request-id": "KOREASOUTH:20221223T060659Z:d3b984b6-4f82-49d8-b9dd-725e45d00279"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "InvalidResourceType",
+          "message": "The resource type could not be found in the namespace \u0027Microsoft.ServiceNetworking\u0027 for api version \u00272022-10-01-preview\u0027."
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

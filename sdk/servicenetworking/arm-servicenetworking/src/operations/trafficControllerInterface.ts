@@ -12,7 +12,7 @@ import { TrafficControllerInterface } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { TrafficController } from "../trafficController";
+import { ServiceNetworkingManagementClient } from "../serviceNetworkingManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -39,13 +39,13 @@ import {
 /** Class containing TrafficControllerInterface operations. */
 export class TrafficControllerInterfaceImpl
   implements TrafficControllerInterface {
-  private readonly client: TrafficController;
+  private readonly client: ServiceNetworkingManagementClient;
 
   /**
    * Initialize a new instance of the class TrafficControllerInterface class.
    * @param client Reference to the service client
    */
-  constructor(client: TrafficController) {
+  constructor(client: ServiceNetworkingManagementClient) {
     this.client = client;
   }
 

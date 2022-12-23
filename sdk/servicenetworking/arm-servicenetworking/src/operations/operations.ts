@@ -12,7 +12,7 @@ import { Operations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { TrafficController } from "../trafficController";
+import { ServiceNetworkingManagementClient } from "../serviceNetworkingManagementClient";
 import {
   Operation,
   OperationsListNextOptionalParams,
@@ -24,13 +24,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Operations operations. */
 export class OperationsImpl implements Operations {
-  private readonly client: TrafficController;
+  private readonly client: ServiceNetworkingManagementClient;
 
   /**
    * Initialize a new instance of the class Operations class.
    * @param client Reference to the service client
    */
-  constructor(client: TrafficController) {
+  constructor(client: ServiceNetworkingManagementClient) {
     this.client = client;
   }
 

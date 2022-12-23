@@ -615,7 +615,7 @@ export interface FrontendsInterfaceListByTrafficControllerNextOptionalParams
 export type FrontendsInterfaceListByTrafficControllerNextResponse = FrontendListResult;
 
 /** Optional parameters. */
-export interface TrafficControllerOptionalParams
+export interface ServiceNetworkingManagementClientOptionalParams
   extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;

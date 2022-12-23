@@ -26,15 +26,15 @@ import {
   AssociationsInterface,
   FrontendsInterface
 } from "./operationsInterfaces";
-import { TrafficControllerOptionalParams } from "./models";
+import { ServiceNetworkingManagementClientOptionalParams } from "./models";
 
-export class TrafficController extends coreClient.ServiceClient {
+export class ServiceNetworkingManagementClient extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
   subscriptionId: string;
 
   /**
-   * Initializes a new instance of the TrafficController class.
+   * Initializes a new instance of the ServiceNetworkingManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param subscriptionId The ID of the target subscription.
    * @param options The parameter options
@@ -42,7 +42,7 @@ export class TrafficController extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: TrafficControllerOptionalParams
+    options?: ServiceNetworkingManagementClientOptionalParams
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -55,7 +55,7 @@ export class TrafficController extends coreClient.ServiceClient {
     if (!options) {
       options = {};
     }
-    const defaults: TrafficControllerOptionalParams = {
+    const defaults: ServiceNetworkingManagementClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
       credential: credentials
     };
