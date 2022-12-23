@@ -184,6 +184,7 @@ specifiers:
   '@rush-temp/arm-servicefabricmesh': file:./projects/arm-servicefabricmesh.tgz
   '@rush-temp/arm-servicelinker': file:./projects/arm-servicelinker.tgz
   '@rush-temp/arm-servicemap': file:./projects/arm-servicemap.tgz
+  '@rush-temp/arm-servicenetworking': file:./projects/arm-servicenetworking.tgz
   '@rush-temp/arm-signalr': file:./projects/arm-signalr.tgz
   '@rush-temp/arm-sql': file:./projects/arm-sql.tgz
   '@rush-temp/arm-sqlvirtualmachine': file:./projects/arm-sqlvirtualmachine.tgz
@@ -508,6 +509,7 @@ dependencies:
   '@rush-temp/arm-servicefabricmesh': file:projects/arm-servicefabricmesh.tgz
   '@rush-temp/arm-servicelinker': file:projects/arm-servicelinker.tgz
   '@rush-temp/arm-servicemap': file:projects/arm-servicemap.tgz
+  '@rush-temp/arm-servicenetworking': file:projects/arm-servicenetworking.tgz
   '@rush-temp/arm-signalr': file:projects/arm-signalr.tgz
   '@rush-temp/arm-sql': file:projects/arm-sql.tgz
   '@rush-temp/arm-sqlvirtualmachine': file:projects/arm-sqlvirtualmachine.tgz
@@ -3784,7 +3786,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20221221
+      typescript: 5.0.0-dev.20221222
     dev: false
 
   /downlevel-dts/0.7.0:
@@ -8488,8 +8490,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20221221:
-    resolution: {integrity: sha512-QpKFAtn9fFixtDNPVmOYlpmSGh1N/YP5vJq5xX5yVUiPOUrsAsEQFJxqBkGiiKrZAI132fVyM32GrhUXorp2gQ==}
+  /typescript/5.0.0-dev.20221222:
+    resolution: {integrity: sha512-9YjbBpzM8BrO3WcbFEE63qQtipPlBP+WFmQDpI/j1W1DInACLJESbWsVAeYBC6PUvIBMzKIVO33cJUUv2l/pmw==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -14362,6 +14364,34 @@ packages:
     transitivePeerDependencies:
       - '@types/node'
       - encoding
+      - supports-color
+    dev: false
+
+  file:projects/arm-servicenetworking.tgz:
+    resolution: {integrity: sha512-KmXp95WWRJmEYhuz36o2gZWiBvVZRPfF5Owepiz3LgaHJ1OPjIbwmmFQ4u8k4xLw16c4AguM1UpsrfakYp/I/Q==, tarball: file:projects/arm-servicenetworking.tgz}
+    name: '@rush-temp/arm-servicenetworking'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.33.6
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.4
+      '@types/node': 14.18.33
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 8.6.0
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
+      tslib: 2.4.1
+      typescript: 4.8.4
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
       - supports-color
     dev: false
 
