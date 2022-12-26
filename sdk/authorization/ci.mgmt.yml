@@ -11,6 +11,7 @@ trigger:
       - sdk/authorization/ci.mgmt.yml
       - sdk/authorization/arm-authorization/
       - sdk/authorization/arm-authorization-profile-2020-09-01-hybrid
+      - sdk/authorization/arm-authorization
 pr:
   branches:
     include:
@@ -25,6 +26,7 @@ pr:
       - sdk/authorization/ci.mgmt.yml
       - sdk/authorization/arm-authorization/
       - sdk/authorization/arm-authorization-profile-2020-09-01-hybrid
+      - sdk/authorization/arm-authorization
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

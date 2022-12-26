@@ -1957,22 +1957,6 @@ packages:
       rollup: 2.79.1
     dev: false
 
-  /@rollup/plugin-node-resolve/8.4.0_rollup@2.79.1:
-    resolution: {integrity: sha512-LFqKdRLn0ShtQyf6SBYO69bGE1upV6wUhBX0vFOUnLAyzx5cwp8svA0eHUnu8+YU57XOkrMtfG63QOpQx25pHQ==}
-    engines: {node: '>= 8.0.0'}
-    peerDependencies:
-      rollup: ^1.20.0||^2.0.0
-    dependencies:
-      '@rollup/pluginutils': 3.1.0_rollup@2.79.1
-      '@types/resolve': 1.17.1
-      builtin-modules: 3.3.0
-      deep-freeze: 0.0.1
-      deepmerge: 4.2.2
-      is-module: 1.0.0
-      resolve: 1.22.1
-      rollup: 2.79.1
-    dev: false
-
   /@rollup/plugin-replace/2.4.2_rollup@2.79.1:
     resolution: {integrity: sha512-IGcu+cydlUMZ5En85jxHH4qj2hta/11BHq95iHEyb2sbgiN0eCdzvUcHw5gt9pBL5lTi4JDYJ1acCoMGpTvEZg==}
     peerDependencies:
@@ -3604,10 +3588,6 @@ packages:
     engines: {node: '>=4.0.0'}
     dev: false
 
-  /deep-freeze/0.0.1:
-    resolution: {integrity: sha512-Z+z8HiAvsGwmjqlphnHW5oz6yWlOwu6EQfFTjmeTWlDeda3FS2yv3jhq35TX/ewmsnqB+RX2IdsIOyjJCQN5tg==}
-    dev: false
-
   /deep-is/0.1.4:
     resolution: {integrity: sha512-oIPzksmTg4/MriiaYGO+okXDT7ztn/w3Eptv/+gSIdMdKsJo0u4CfYNFJPy+4SKMuCqGw2wxnA+URMg3t8a/bQ==}
     dev: false
@@ -3736,7 +3716,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20221222
+      typescript: 5.0.0-dev.20221225
     dev: false
 
   /downlevel-dts/0.7.0:
@@ -8440,8 +8420,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20221222:
-    resolution: {integrity: sha512-9YjbBpzM8BrO3WcbFEE63qQtipPlBP+WFmQDpI/j1W1DInACLJESbWsVAeYBC6PUvIBMzKIVO33cJUUv2l/pmw==}
+  /typescript/5.0.0-dev.20221225:
+    resolution: {integrity: sha512-qA0i0nGnjLmLQZ6g6dL9B7u2Vs+aZiaR/HGS8LIdE3ypTXAJCk2qwozV+FF4eR0rwqpK3cpB7d3kSPHHRYti8w==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -9970,23 +9950,31 @@ packages:
     dev: false
 
   file:projects/arm-authorization.tgz:
-    resolution: {integrity: sha512-a279eju1IqROwR2QZTVCiOFVazJCP5W4jh3htV1oDJxbsP8fLYMy62M1Lk8wWNd+bZiUuq0kMwdDQL3mWGgNtg==, tarball: file:projects/arm-authorization.tgz}
+    resolution: {integrity: sha512-0yeFid/o7ubq+sZInyR+7LavWTe8N/rR5jGl7Fy8d9gkRf92RdFAgRbgBix8kJip5tdAXYbzPhnkEVmP3EWjVw==, tarball: file:projects/arm-authorization.tgz}
     name: '@rush-temp/arm-authorization'
     version: 0.0.0
     dependencies:
+      '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.33.6
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@2.79.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.4
+      '@types/node': 14.18.33
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
+      - supports-color
     dev: false
 
   file:projects/arm-automanage.tgz:
