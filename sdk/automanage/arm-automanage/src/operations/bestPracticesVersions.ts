@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { BestPracticesVersions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -15,9 +15,9 @@ import { AutomanageClient } from "../automanageClient";
 import {
   BestPractice,
   BestPracticesVersionsListByTenantOptionalParams,
+  BestPracticesVersionsListByTenantResponse,
   BestPracticesVersionsGetOptionalParams,
-  BestPracticesVersionsGetResponse,
-  BestPracticesVersionsListByTenantResponse
+  BestPracticesVersionsGetResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -50,17 +50,22 @@ export class BestPracticesVersionsImpl implements BestPracticesVersions {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByTenantPagingPage(bestPracticeName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByTenantPagingPage(bestPracticeName, options, settings);
       }
     };
   }
 
   private async *listByTenantPagingPage(
     bestPracticeName: string,
-    options?: BestPracticesVersionsListByTenantOptionalParams
+    options?: BestPracticesVersionsListByTenantOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<BestPractice[]> {
-    let result = await this._listByTenant(bestPracticeName, options);
+    let result: BestPracticesVersionsListByTenantResponse;
+    result = await this._listByTenant(bestPracticeName, options);
     yield result.value || [];
   }
 

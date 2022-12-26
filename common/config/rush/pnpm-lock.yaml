@@ -3716,7 +3716,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20221225
+      typescript: 5.0.0-dev.20221226
     dev: false
 
   /downlevel-dts/0.7.0:
@@ -8420,8 +8420,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20221225:
-    resolution: {integrity: sha512-qA0i0nGnjLmLQZ6g6dL9B7u2Vs+aZiaR/HGS8LIdE3ypTXAJCk2qwozV+FF4eR0rwqpK3cpB7d3kSPHHRYti8w==}
+  /typescript/5.0.0-dev.20221226:
+    resolution: {integrity: sha512-InxD6NrcHRNrl1T3aakg3iHHqEUhbGIcHlbZzCJfK3sqQsVJMYCBxgASWEdgr8F0FiEK3wd9CQMYNdxS+Dmwdw==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -9978,7 +9978,7 @@ packages:
     dev: false
 
   file:projects/arm-automanage.tgz:
-    resolution: {integrity: sha512-d09zkWw8MHd3iUJt8bpBnaS7fQgDSwBHhmg8pvooJqkhBXkYn8abh3os0zvYooHXWIVIXtMoOD96pLM7I8WwpQ==, tarball: file:projects/arm-automanage.tgz}
+    resolution: {integrity: sha512-XVhO5BeYUxUIP6LbiTeuWpQEbx+Bhd7SoG11rcKBNB+9V4BtfVBq0dqYbjtfZrI5wVbnA34dEOwX/2VPg8So2w==, tarball: file:projects/arm-automanage.tgz}
     name: '@rush-temp/arm-automanage'
     version: 0.0.0
     dependencies:
@@ -9989,18 +9989,19 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
+      '@types/node': 14.18.33
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.6.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
