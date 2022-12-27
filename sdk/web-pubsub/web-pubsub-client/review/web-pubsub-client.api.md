@@ -274,6 +274,20 @@ export interface WebPubSubClientProtocol {
     writeMessage(message: WebPubSubMessage): string | ArrayBuffer;
 }
 
+// @public (undocumented)
+export enum WebPubSubClientState {
+    // (undocumented)
+    Connected = "Connected",
+    // (undocumented)
+    Connecting = "Connecting",
+    // (undocumented)
+    Disconnected = "Disconnected",
+    // (undocumented)
+    Recovering = "Recovering",
+    // (undocumented)
+    Stopped = "Stopped"
+}
+
 // @public
 export type WebPubSubDataType =
 /**

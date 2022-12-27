@@ -42,7 +42,7 @@ import { WebPubSubClientCredential } from "./webPubSubClientCredential";
 import { WebSocketClientFactory } from "./websocket/websocketClient";
 import { WebSocketClientFactoryLike, WebSocketClientLike } from "./websocket/websocketClientLike";
 
-enum WebPubSubClientState {
+export enum WebPubSubClientState {
   Stopped = "Stopped",
   Disconnected = "Disconnected",
   Connecting = "Connecting",
