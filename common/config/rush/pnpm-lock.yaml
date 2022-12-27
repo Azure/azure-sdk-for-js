@@ -10006,7 +10006,7 @@ packages:
     dev: false
 
   file:projects/arm-automation.tgz:
-    resolution: {integrity: sha512-se+HMDJ7ppAPOm1KCZ2BT339u4YIIwptATWNMsW4fk5gexUm1blKA3HykmTpMXo+6x9Og5gg3wbc0nA7yOChcQ==, tarball: file:projects/arm-automation.tgz}
+    resolution: {integrity: sha512-q5hKTf5xi/9t7k4oYVB/nBupYo8/QXYyVP86lgYKw2UU+IFpFeTNCKYu13fMF8OYw0epNe960M15dGBEDeZhMQ==, tarball: file:projects/arm-automation.tgz}
     name: '@rush-temp/arm-automation'
     version: 0.0.0
     dependencies:
@@ -10017,18 +10017,19 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
+      '@types/node': 14.18.33
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.6.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
