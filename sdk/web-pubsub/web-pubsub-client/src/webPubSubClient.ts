@@ -69,7 +69,7 @@ export class WebPubSubClient {
   private readonly _reconnectRetryPolicy: RetryPolicy;
 
   private readonly _emitter: EventEmitter = new EventEmitter();
-  private _state: WebPubSubClientState;
+  public _state: WebPubSubClientState;
   private _isStopping: boolean = false;
   private _ackId: number;
 

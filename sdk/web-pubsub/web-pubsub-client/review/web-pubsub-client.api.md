@@ -249,6 +249,8 @@ export class WebPubSubClient {
     sendEvent(eventName: string, content: JSONTypes | ArrayBuffer, dataType: WebPubSubDataType, options?: SendEventOptions): Promise<WebPubSubResult>;
     sendToGroup(groupName: string, content: JSONTypes | ArrayBuffer, dataType: WebPubSubDataType, options?: SendToGroupOptions): Promise<void | WebPubSubResult>;
     start(options?: StartOptions): Promise<void>;
+    // (undocumented)
+    _state: WebPubSubClientState;
     stop(): void;
 }
 
