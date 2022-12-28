@@ -80,7 +80,7 @@ describe("avs test", () => {
     assert.equal(res.name, privateCloudName);
   }).timeout(36000000);
 
-  it("privateClouds get test", async function () {
+  it.skip("privateClouds get test", async function () {
     const res = await client.privateClouds.get(resourceGroup, privateCloudName);
     assert.equal(res.name, privateCloudName);
   });
@@ -90,7 +90,7 @@ describe("avs test", () => {
     for await (let item of client.privateClouds.listInSubscription()) {
       resArray.push(item);
     }
-    assert.equal(resArray.length, 3);//should be 1,but when testing this test there's 2 resources on portal
+    assert.equal(resArray.length, 1);//should be 1,but when testing this test there's 2 resources on portal
   });
 
   it.skip("privateClouds delete test", async function () {
