@@ -48,8 +48,7 @@ const customFormat = "Custom";
  * @returns corresponding content-type value
  */
 export function buildContentType(format: string): string {
-  const lowercaseFormat = format.toLowerCase();
-  return lowercaseFormat === customFormat.toLowerCase()
+  return format.toLowerCase() === customFormat.toLowerCase()
     ? customContentType
     : `application/json; serialization=${format}`;
 }
