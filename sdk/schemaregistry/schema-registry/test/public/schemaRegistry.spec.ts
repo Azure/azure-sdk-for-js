@@ -99,7 +99,6 @@ function getDefinition(format: Format): string {
         ],
       });
     case "Json":
-    case "Custom":
       // The service supports JSON Schema Draft 3, https://datatracker.ietf.org/doc/html/draft-zyp-json-schema-03
       return JSON.stringify({
         $schema: "https://json-schema.org/draft/2020-12/schema",
@@ -118,6 +117,26 @@ function getDefinition(format: Format): string {
           },
         },
       });
+    case "Custom":
+      // Parquet
+      return `ID: int64
+CODE_GENDER: string
+FLAG_OWN_CAR: string
+FLAG_OWN_REALTY: string
+CNT_CHILDREN: int64
+AMT_INCOME_TOTAL: double
+NAME_INCOME_TYPE: string
+NAME_EDUCATION_TYPE: string
+NAME_FAMILY_STATUS: string
+NAME_HOUSING_TYPE: string
+DAYS_BIRTH: int64
+DAYS_EMPLOYED: int64
+FLAG_MOBIL: int64
+FLAG_WORK_PHONE: int64
+FLAG_PHONE: int64
+FLAG_EMAIL: int64
+OCCUPATION_TYPE: string
+CNT_FAM_MEMBERS: double`;
   }
 }
 
@@ -132,7 +151,6 @@ function getWhitespaceDefinition(format: Format): string {
         "}\n"
       );
     case "Json":
-    case "Custom":
       return (
         "{\n" +
         '  "$schema": "https://json-schema.org/draft/2020-12/schema",\n' +
@@ -142,6 +160,8 @@ function getWhitespaceDefinition(format: Format): string {
         '  "properties": [{ "X": { "type": "string" } }]\n' +
         "}\n"
       );
+    case "Custom":
+      throw Error("Custom doesn't support normalization");
   }
 }
 
@@ -274,7 +294,13 @@ describe("SchemaRegistryClient", function () {
         });
 
         it("schema with whitespace", async function (this: Context) {
+          /**
+           * Custom: The service doesn't validate/modify the schema.
+           * Json: The service currently validates the input schema to have no
+           * new lines.
+           */
           if (format !== KnownSchemaFormats.Avro) this.skip();
+
           const schema2 = {
             name: "azsdk_js_test2",
             groupName,
