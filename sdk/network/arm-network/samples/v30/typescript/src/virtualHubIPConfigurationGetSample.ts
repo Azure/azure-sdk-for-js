@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Retrieves the details of a Virtual Hub Ip configuration.
  *
  * @summary Retrieves the details of a Virtual Hub Ip configuration.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualHubIpConfigurationGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/VirtualHubIpConfigurationGet.json
  */
 async function virtualHubVirtualHubRouteTableV2Get() {
   const subscriptionId = "subid";

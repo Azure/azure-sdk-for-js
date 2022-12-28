@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Retrieves the current status of IDPS signatures for the relevant policy
  *
  * @summary Retrieves the current status of IDPS signatures for the relevant policy
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/FirewallPolicyQuerySignatureOverrides.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/FirewallPolicyQuerySignatureOverrides.json
  */
 async function querySignatureOverrides() {
   const subscriptionId = "e747cc13-97d4-4a79-b463-42d7f4e558f2";

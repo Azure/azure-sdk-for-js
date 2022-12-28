@@ -81,8 +81,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingVMAsSource() {
         },
         storageProfile: {
           source: {
-            id:
-              "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/virtualMachines/{vmName}",
+            id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/virtualMachines/{vmName}",
           },
         },
       },
@@ -174,8 +173,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingManagedImageAsSource
         },
         storageProfile: {
           source: {
-            id:
-              "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/images/{imageName}",
+            id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/images/{imageName}",
           },
         },
       },
@@ -261,16 +259,14 @@ async function createOrUpdateASimpleGalleryImageVersionUsingMixOfDisksAndSnapsho
               hostCaching: "None",
               lun: 1,
               source: {
-                id:
-                  "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/disks/{dataDiskName}",
+                id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/disks/{dataDiskName}",
               },
             },
           ],
           osDiskImage: {
             hostCaching: "ReadOnly",
             source: {
-              id:
-                "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/snapshots/{osSnapshotName}",
+              id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/snapshots/{osSnapshotName}",
             },
           },
         },
@@ -318,8 +314,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingShallowReplicationMo
         },
         storageProfile: {
           source: {
-            id:
-              "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/images/{imageName}",
+            id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/images/{imageName}",
           },
         },
       },
@@ -411,8 +406,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingSharedImageAsSource(
         },
         storageProfile: {
           source: {
-            id:
-              "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/images/{imageDefinitionName}/versions/{versionName}",
+            id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/images/{imageDefinitionName}/versions/{versionName}",
           },
         },
       },
@@ -498,16 +492,14 @@ async function createOrUpdateASimpleGalleryImageVersionUsingSnapshotsAsASource()
               hostCaching: "None",
               lun: 1,
               source: {
-                id:
-                  "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/disks/{dataDiskName}",
+                id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/disks/{dataDiskName}",
               },
             },
           ],
           osDiskImage: {
             hostCaching: "ReadOnly",
             source: {
-              id:
-                "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/snapshots/{osSnapshotName}",
+              id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/snapshots/{osSnapshotName}",
             },
           },
         },
@@ -581,20 +573,16 @@ async function createOrUpdateASimpleGalleryImageVersionUsingVhdAsASource() {
               hostCaching: "None",
               lun: 1,
               source: {
-                id:
-                  "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/{storageAccount}",
-                uri:
-                  "https://gallerysourcencus.blob.core.windows.net/myvhds/Windows-Server-2012-R2-20171216-en.us-128GB.vhd",
+                id: "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/{storageAccount}",
+                uri: "https://gallerysourcencus.blob.core.windows.net/myvhds/Windows-Server-2012-R2-20171216-en.us-128GB.vhd",
               },
             },
           ],
           osDiskImage: {
             hostCaching: "ReadOnly",
             source: {
-              id:
-                "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/{storageAccount}",
-              uri:
-                "https://gallerysourcencus.blob.core.windows.net/myvhds/Windows-Server-2012-R2-20171216-en.us-128GB.vhd",
+              id: "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/{storageAccount}",
+              uri: "https://gallerysourcencus.blob.core.windows.net/myvhds/Windows-Server-2012-R2-20171216-en.us-128GB.vhd",
             },
           },
         },
@@ -687,8 +675,7 @@ async function createOrUpdateASimpleGalleryImageVersionWithTargetExtendedLocatio
         },
         storageProfile: {
           source: {
-            id:
-              "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/images/{imageName}",
+            id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/images/{imageName}",
           },
         },
       },

@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Gets information about all public IP addresses on a cloud service level.
  *
  * @summary Gets information about all public IP addresses on a cloud service level.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/CloudServicePublicIpListAll.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/CloudServicePublicIpListAll.json
  */
 async function listVmssPublicIP() {
   const subscriptionId = "subid";

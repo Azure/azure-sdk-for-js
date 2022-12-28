@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { TableOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,6 +17,7 @@ import {
   Table,
   TableListNextOptionalParams,
   TableListOptionalParams,
+  TableListResponse,
   TableCreateOptionalParams,
   TableCreateResponse,
   TableUpdateOptionalParams,
@@ -23,7 +25,6 @@ import {
   TableGetOptionalParams,
   TableGetResponse,
   TableDeleteOptionalParams,
-  TableListResponse,
   TableListNextResponse
 } from "../models";
 
@@ -62,8 +63,16 @@ export class TableOperationsImpl implements TableOperations {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, accountName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          accountName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -71,11 +80,18 @@ export class TableOperationsImpl implements TableOperations {
   private async *listPagingPage(
     resourceGroupName: string,
     accountName: string,
-    options?: TableListOptionalParams
+    options?: TableListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Table[]> {
-    let result = await this._list(resourceGroupName, accountName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: TableListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, accountName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -84,7 +100,9 @@ export class TableOperationsImpl implements TableOperations {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 

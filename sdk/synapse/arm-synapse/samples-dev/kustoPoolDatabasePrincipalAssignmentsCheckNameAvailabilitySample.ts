@@ -13,6 +13,9 @@ import {
   SynapseManagementClient
 } from "@azure/arm-synapse";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Checks that the database principal assignment is valid and is not already in use.
@@ -21,11 +24,14 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/preview/2021-06-01-preview/examples/KustoPoolDatabasePrincipalAssignmentsCheckNameAvailability.json
  */
 async function kustoPoolDatabasePrincipalAssignmentsCheckNameAvailability() {
-  const subscriptionId = "12345678-1234-1234-1234-123456789098";
+  const subscriptionId =
+    process.env["SYNAPSE_SUBSCRIPTION_ID"] ||
+    "12345678-1234-1234-1234-123456789098";
   const workspaceName = "synapseWorkspaceName";
   const kustoPoolName = "kustoclusterrptest4";
   const databaseName = "Kustodatabase8";
-  const resourceGroupName = "kustorptest";
+  const resourceGroupName =
+    process.env["SYNAPSE_RESOURCE_GROUP"] || "kustorptest";
   const principalAssignmentName: DatabasePrincipalAssignmentCheckNameRequest = {
     name: "kustoprincipal1",
     type:
@@ -43,6 +49,8 @@ async function kustoPoolDatabasePrincipalAssignmentsCheckNameAvailability() {
   console.log(result);
 }
 
-kustoPoolDatabasePrincipalAssignmentsCheckNameAvailability().catch(
-  console.error
-);
+async function main() {
+  kustoPoolDatabasePrincipalAssignmentsCheckNameAvailability();
+}
+
+main().catch(console.error);

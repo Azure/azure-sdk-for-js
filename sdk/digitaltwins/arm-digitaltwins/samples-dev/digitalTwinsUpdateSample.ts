@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Update metadata of DigitalTwinsInstance.
  *
  * @summary Update metadata of DigitalTwinsInstance.
- * x-ms-original-file: specification/digitaltwins/resource-manager/Microsoft.DigitalTwins/stable/2022-05-31/examples/DigitalTwinsPatch_example.json
+ * x-ms-original-file: specification/digitaltwins/resource-manager/Microsoft.DigitalTwins/stable/2022-10-31/examples/DigitalTwinsPatch_example.json
  */
 async function patchADigitalTwinsInstanceResource() {
   const subscriptionId = "50016170-c839-41ba-a724-51e9df440b9e";
@@ -46,7 +46,7 @@ patchADigitalTwinsInstanceResource().catch(console.error);
  * This sample demonstrates how to Update metadata of DigitalTwinsInstance.
  *
  * @summary Update metadata of DigitalTwinsInstance.
- * x-ms-original-file: specification/digitaltwins/resource-manager/Microsoft.DigitalTwins/stable/2022-05-31/examples/DigitalTwinsPatch_WithIdentity_example.json
+ * x-ms-original-file: specification/digitaltwins/resource-manager/Microsoft.DigitalTwins/stable/2022-10-31/examples/DigitalTwinsPatch_WithIdentity_example.json
  */
 async function patchADigitalTwinsInstanceResourceWithIdentity() {
   const subscriptionId = "50016170-c839-41ba-a724-51e9df440b9e";
@@ -74,7 +74,7 @@ patchADigitalTwinsInstanceResourceWithIdentity().catch(console.error);
  * This sample demonstrates how to Update metadata of DigitalTwinsInstance.
  *
  * @summary Update metadata of DigitalTwinsInstance.
- * x-ms-original-file: specification/digitaltwins/resource-manager/Microsoft.DigitalTwins/stable/2022-05-31/examples/DigitalTwinsPatch_WithPublicNetworkAccess.json
+ * x-ms-original-file: specification/digitaltwins/resource-manager/Microsoft.DigitalTwins/stable/2022-10-31/examples/DigitalTwinsPatch_WithPublicNetworkAccess.json
  */
 async function patchADigitalTwinsInstanceResourceWithPublicNetworkAccessProperty() {
   const subscriptionId = "50016170-c839-41ba-a724-51e9df440b9e";

@@ -46,12 +46,10 @@ async function updateVirtualNetworkGateway() {
             properties: {
               privateIPAllocationMethod: "Dynamic",
               publicIPAddress: {
-                id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/gwpip",
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/gwpip",
               },
               subnet: {
-                id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/GatewaySubnet",
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/GatewaySubnet",
               },
             },
           },
@@ -59,8 +57,7 @@ async function updateVirtualNetworkGateway() {
         natRules: [
           {
             name: "natRule1",
-            id:
-              "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/natRules/natRule1",
+            id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/natRules/natRule1",
             properties: {
               type: "Static",
               externalMappings: [{ addressSpace: "50.0.0.0/24" }],
@@ -71,8 +68,7 @@ async function updateVirtualNetworkGateway() {
           },
           {
             name: "natRule2",
-            id:
-              "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/natRules/natRule2",
+            id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/natRules/natRule2",
             properties: {
               type: "Static",
               externalMappings: [{ addressSpace: "30.0.0.0/24" }],

@@ -1,6 +1,6 @@
 {
   "name": "@azure/keyvault-common",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "Common internal functionality for all of the Azure Key Vault clients in the Azure SDK for JavaScript",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
@@ -74,7 +74,7 @@
     "mocha": "^7.1.1",
     "mocha-junit-reporter": "^2.0.0",
     "nyc": "^15.0.0",
-    "puppeteer": "^14.0.0",
+    "puppeteer": "^19.2.2",
     "sinon": "^9.0.2",
     "source-map-support": "^0.5.9",
     "typescript": "~4.6.0"

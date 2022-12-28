@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to List of AvailableProviderOperations
  *
  * @summary List of AvailableProviderOperations
- * x-ms-original-file: specification/storSimple1200Series/resource-manager/Microsoft.StorSimple/stable/2016-10-01/examples/OperationsList.json
+ * x-ms-original-file: specification/storsimple1200series/resource-manager/Microsoft.StorSimple/stable/2016-10-01/examples/OperationsList.json
  */
 async function operationsList() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { CollectorPolicies } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -24,6 +25,9 @@ import {
   CollectorPoliciesCreateOrUpdateOptionalParams,
   CollectorPoliciesCreateOrUpdateResponse,
   CollectorPoliciesDeleteOptionalParams,
+  TagsObject,
+  CollectorPoliciesUpdateTagsOptionalParams,
+  CollectorPoliciesUpdateTagsResponse,
   CollectorPoliciesListNextResponse
 } from "../models";
 
@@ -63,11 +67,15 @@ export class CollectorPoliciesImpl implements CollectorPolicies {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listPagingPage(
           resourceGroupName,
           azureTrafficCollectorName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -76,15 +84,22 @@ export class CollectorPoliciesImpl implements CollectorPolicies {
   private async *listPagingPage(
     resourceGroupName: string,
     azureTrafficCollectorName: string,
-    options?: CollectorPoliciesListOptionalParams
+    options?: CollectorPoliciesListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<CollectorPolicy[]> {
-    let result = await this._list(
-      resourceGroupName,
-      azureTrafficCollectorName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: CollectorPoliciesListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(
+        resourceGroupName,
+        azureTrafficCollectorName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -93,7 +108,9 @@ export class CollectorPoliciesImpl implements CollectorPolicies {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -157,12 +174,14 @@ export class CollectorPoliciesImpl implements CollectorPolicies {
    * @param resourceGroupName The name of the resource group.
    * @param azureTrafficCollectorName Azure Traffic Collector name
    * @param collectorPolicyName Collector Policy Name
+   * @param location Resource location.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     azureTrafficCollectorName: string,
     collectorPolicyName: string,
+    location: string,
     options?: CollectorPoliciesCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
@@ -215,6 +234,7 @@ export class CollectorPoliciesImpl implements CollectorPolicies {
         resourceGroupName,
         azureTrafficCollectorName,
         collectorPolicyName,
+        location,
         options
       },
       createOrUpdateOperationSpec
@@ -233,18 +253,21 @@ export class CollectorPoliciesImpl implements CollectorPolicies {
    * @param resourceGroupName The name of the resource group.
    * @param azureTrafficCollectorName Azure Traffic Collector name
    * @param collectorPolicyName Collector Policy Name
+   * @param location Resource location.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     azureTrafficCollectorName: string,
     collectorPolicyName: string,
+    location: string,
     options?: CollectorPoliciesCreateOrUpdateOptionalParams
   ): Promise<CollectorPoliciesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       azureTrafficCollectorName,
       collectorPolicyName,
+      location,
       options
     );
     return poller.pollUntilDone();
@@ -344,6 +367,33 @@ export class CollectorPoliciesImpl implements CollectorPolicies {
   }
 
   /**
+   * Updates the specified Collector Policy tags.
+   * @param resourceGroupName The name of the resource group.
+   * @param azureTrafficCollectorName Azure Traffic Collector name
+   * @param collectorPolicyName Collector Policy Name
+   * @param parameters Parameters supplied to update Collector Policy tags.
+   * @param options The options parameters.
+   */
+  updateTags(
+    resourceGroupName: string,
+    azureTrafficCollectorName: string,
+    collectorPolicyName: string,
+    parameters: TagsObject,
+    options?: CollectorPoliciesUpdateTagsOptionalParams
+  ): Promise<CollectorPoliciesUpdateTagsResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        azureTrafficCollectorName,
+        collectorPolicyName,
+        parameters,
+        options
+      },
+      updateTagsOperationSpec
+    );
+  }
+
+  /**
    * ListNext
    * @param resourceGroupName The name of the resource group.
    * @param azureTrafficCollectorName Azure Traffic Collector name
@@ -433,6 +483,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: {
     parameterPath: {
+      location: ["location"],
+      tags: ["options", "tags"],
       ingestionPolicy: ["options", "ingestionPolicy"],
       emissionPolicies: ["options", "emissionPolicies"]
     },
@@ -472,6 +524,31 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.collectorPolicyName
   ],
   headerParameters: [Parameters.accept],
+  serializer
+};
+const updateTagsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkFunction/azureTrafficCollectors/{azureTrafficCollectorName}/collectorPolicies/{collectorPolicyName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CollectorPolicy
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.parameters1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.azureTrafficCollectorName,
+    Parameters.collectorPolicyName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {

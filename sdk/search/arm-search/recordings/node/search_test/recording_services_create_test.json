@@ -1,0 +1,72 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Search/searchServices/myjssearchservicexxx?api-version=2020-08-01",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "122",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-search/3.1.0 core-rest-pipeline/1.10.1 Node/v18.12.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "8d2afa5a-2262-4be2-8b84-ace11efdf914"
+      },
+      "RequestBody": {
+        "location": "eastus",
+        "sku": {
+          "name": "standard"
+        },
+        "properties": {
+          "replicaCount": 1,
+          "partitionCount": 1,
+          "hostingMode": "default"
+        }
+      },
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "539",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 20 Dec 2022 07:28:39 GMT",
+        "elapsed-time": "4106",
+        "ETag": "W/\u0022datetime\u00272022-12-20T07%3A28%3A38.3528914Z\u0027\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "request-id": "8d2afa5a-2262-4be2-8b84-ace11efdf914",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "a4426b3f-c454-4e7e-9a36-9b8e75cd66a8",
+        "x-ms-ratelimit-remaining-subscription-writes": "1198",
+        "x-ms-request-id": "8d2afa5a-2262-4be2-8b84-ace11efdf914",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221220T072840Z:a4426b3f-c454-4e7e-9a36-9b8e75cd66a8"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Search/searchServices/myjssearchservicexxx",
+        "name": "myjssearchservicexxx",
+        "type": "Microsoft.Search/searchServices",
+        "location": "East US",
+        "properties": {
+          "replicaCount": 1,
+          "partitionCount": 1,
+          "status": "running",
+          "statusDetails": "",
+          "provisioningState": "succeeded",
+          "hostingMode": "default",
+          "publicNetworkAccess": "Enabled",
+          "networkRuleSet": {
+            "ipRules": [],
+            "bypass": "None"
+          },
+          "privateEndpointConnections": [],
+          "sharedPrivateLinkResources": []
+        },
+        "sku": {
+          "name": "standard"
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

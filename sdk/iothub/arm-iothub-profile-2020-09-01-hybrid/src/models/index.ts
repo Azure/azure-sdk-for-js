@@ -940,19 +940,22 @@ export interface FailoverInput {
 }
 
 /** The description of the IoT hub. */
-export type IotHubDescription = Resource & {
+export interface IotHubDescription extends Resource {
   /** The Etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal ETag convention. */
   etag?: string;
   /** IotHub properties */
   properties?: IotHubProperties;
   /** IotHub SKU info */
   sku: IotHubSkuInfo;
-};
+}
 
 /** Known values of {@link RoutingStorageContainerPropertiesEncoding} that the service accepts. */
 export enum KnownRoutingStorageContainerPropertiesEncoding {
+  /** Avro */
   Avro = "Avro",
+  /** AvroDeflate */
   AvroDeflate = "AvroDeflate",
+  /** Json */
   Json = "JSON"
 }
 
@@ -969,11 +972,17 @@ export type RoutingStorageContainerPropertiesEncoding = string;
 
 /** Known values of {@link RoutingSource} that the service accepts. */
 export enum KnownRoutingSource {
+  /** Invalid */
   Invalid = "Invalid",
+  /** DeviceMessages */
   DeviceMessages = "DeviceMessages",
+  /** TwinChangeEvents */
   TwinChangeEvents = "TwinChangeEvents",
+  /** DeviceLifecycleEvents */
   DeviceLifecycleEvents = "DeviceLifecycleEvents",
+  /** DeviceJobLifecycleEvents */
   DeviceJobLifecycleEvents = "DeviceJobLifecycleEvents",
+  /** DigitalTwinChangeEvents */
   DigitalTwinChangeEvents = "DigitalTwinChangeEvents"
 }
 
@@ -993,7 +1002,9 @@ export type RoutingSource = string;
 
 /** Known values of {@link Capabilities} that the service accepts. */
 export enum KnownCapabilities {
+  /** None */
   None = "None",
+  /** DeviceManagement */
   DeviceManagement = "DeviceManagement"
 }
 
@@ -1009,7 +1020,9 @@ export type Capabilities = string;
 
 /** Known values of {@link IotHubReplicaRoleType} that the service accepts. */
 export enum KnownIotHubReplicaRoleType {
+  /** Primary */
   Primary = "primary",
+  /** Secondary */
   Secondary = "secondary"
 }
 
@@ -1025,12 +1038,19 @@ export type IotHubReplicaRoleType = string;
 
 /** Known values of {@link IotHubSku} that the service accepts. */
 export enum KnownIotHubSku {
+  /** F1 */
   F1 = "F1",
+  /** S1 */
   S1 = "S1",
+  /** S2 */
   S2 = "S2",
+  /** S3 */
   S3 = "S3",
+  /** B1 */
   B1 = "B1",
+  /** B2 */
   B2 = "B2",
+  /** B3 */
   B3 = "B3"
 }
 
@@ -1051,15 +1071,25 @@ export type IotHubSku = string;
 
 /** Known values of {@link JobType} that the service accepts. */
 export enum KnownJobType {
+  /** Unknown */
   Unknown = "unknown",
+  /** Export */
   Export = "export",
+  /** Import */
   Import = "import",
+  /** Backup */
   Backup = "backup",
+  /** ReadDeviceProperties */
   ReadDeviceProperties = "readDeviceProperties",
+  /** WriteDeviceProperties */
   WriteDeviceProperties = "writeDeviceProperties",
+  /** UpdateDeviceConfiguration */
   UpdateDeviceConfiguration = "updateDeviceConfiguration",
+  /** RebootDevice */
   RebootDevice = "rebootDevice",
+  /** FactoryResetDevice */
   FactoryResetDevice = "factoryResetDevice",
+  /** FirmwareUpdate */
   FirmwareUpdate = "firmwareUpdate"
 }
 
@@ -1083,9 +1113,13 @@ export type JobType = string;
 
 /** Known values of {@link EndpointHealthStatus} that the service accepts. */
 export enum KnownEndpointHealthStatus {
+  /** Unknown */
   Unknown = "unknown",
+  /** Healthy */
   Healthy = "healthy",
+  /** Unhealthy */
   Unhealthy = "unhealthy",
+  /** Dead */
   Dead = "dead"
 }
 
@@ -1103,8 +1137,11 @@ export type EndpointHealthStatus = string;
 
 /** Known values of {@link TestResultStatus} that the service accepts. */
 export enum KnownTestResultStatus {
+  /** Undefined */
   Undefined = "undefined",
+  /** False */
   False = "false",
+  /** True */
   True = "true"
 }
 
@@ -1121,7 +1158,9 @@ export type TestResultStatus = string;
 
 /** Known values of {@link RouteErrorSeverity} that the service accepts. */
 export enum KnownRouteErrorSeverity {
+  /** Error */
   Error = "error",
+  /** Warning */
   Warning = "warning"
 }
 

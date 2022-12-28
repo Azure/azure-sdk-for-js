@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { RouteFilterRules } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,12 +19,12 @@ import {
   RouteFilterRule,
   RouteFilterRulesListByRouteFilterNextOptionalParams,
   RouteFilterRulesListByRouteFilterOptionalParams,
+  RouteFilterRulesListByRouteFilterResponse,
   RouteFilterRulesDeleteOptionalParams,
   RouteFilterRulesGetOptionalParams,
   RouteFilterRulesGetResponse,
   RouteFilterRulesCreateOrUpdateOptionalParams,
   RouteFilterRulesCreateOrUpdateResponse,
-  RouteFilterRulesListByRouteFilterResponse,
   RouteFilterRulesListByRouteFilterNextResponse
 } from "../models";
 
@@ -63,11 +64,15 @@ export class RouteFilterRulesImpl implements RouteFilterRules {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByRouteFilterPagingPage(
           resourceGroupName,
           routeFilterName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -76,15 +81,22 @@ export class RouteFilterRulesImpl implements RouteFilterRules {
   private async *listByRouteFilterPagingPage(
     resourceGroupName: string,
     routeFilterName: string,
-    options?: RouteFilterRulesListByRouteFilterOptionalParams
+    options?: RouteFilterRulesListByRouteFilterOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<RouteFilterRule[]> {
-    let result = await this._listByRouteFilter(
-      resourceGroupName,
-      routeFilterName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: RouteFilterRulesListByRouteFilterResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByRouteFilter(
+        resourceGroupName,
+        routeFilterName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByRouteFilterNext(
         resourceGroupName,
@@ -93,7 +105,9 @@ export class RouteFilterRulesImpl implements RouteFilterRules {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 

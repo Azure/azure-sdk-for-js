@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Gets all network security groups applied to a network interface.
  *
  * @summary Gets all network security groups applied to a network interface.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkInterfaceEffectiveNSGList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/NetworkInterfaceEffectiveNSGList.json
  */
 async function listNetworkInterfaceEffectiveNetworkSecurityGroups() {
   const subscriptionId = "subid";

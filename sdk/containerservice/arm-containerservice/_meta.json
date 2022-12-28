@@ -1,5 +1,5 @@
 {
-  "commit": "7a54c1a83d14da431c0ae48c4315cba143084bce",
+  "commit": "c583b05741fadfdca116be3b9ccb1c4be8a73258",
   "readme": "specification/containerservice/resource-manager/readme.md",
   "autorest_command": "autorest --version=3.8.4 --typescript --modelerfour.lenient-model-deduplication --azure-arm --head-as-boolean=true --license-header=MICROSOFT_MIT_NO_VERSION --generate-test --typescript-sdks-folder=D:\\Git\\azure-sdk-for-js ..\\azure-rest-api-specs\\specification\\containerservice\\resource-manager\\readme.md --use=@autorest/typescript@6.0.0-rc.3.20221108.1 --generate-sample=true",
   "repository_url": "https://github.com/Azure/azure-rest-api-specs.git",

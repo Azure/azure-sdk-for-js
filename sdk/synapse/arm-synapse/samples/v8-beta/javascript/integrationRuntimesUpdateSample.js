@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { SynapseManagementClient } = require("@azure/arm-synapse");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Update an integration runtime
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/preview/2021-06-01-preview/examples/IntegrationRuntimes_Update.json
  */
 async function updateIntegrationRuntime() {
-  const subscriptionId = "12345678-1234-1234-1234-12345678abc";
-  const resourceGroupName = "exampleResourceGroup";
+  const subscriptionId =
+    process.env["SYNAPSE_SUBSCRIPTION_ID"] || "12345678-1234-1234-1234-12345678abc";
+  const resourceGroupName = process.env["SYNAPSE_RESOURCE_GROUP"] || "exampleResourceGroup";
   const workspaceName = "exampleWorkspace";
   const integrationRuntimeName = "exampleIntegrationRuntime";
   const updateIntegrationRuntimeRequest = {
@@ -37,4 +39,8 @@ async function updateIntegrationRuntime() {
   console.log(result);
 }
 
-updateIntegrationRuntime().catch(console.error);
+async function main() {
+  updateIntegrationRuntime();
+}
+
+main().catch(console.error);

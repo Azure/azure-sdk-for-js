@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { SynapseManagementClient } = require("@azure/arm-synapse");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Update sensitivity labels of a given SQL Pool using an operations batch.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/SensitivityLabelsCurrentUpdate.json
  */
 async function updateSensitivityLabelsOfAGivenDatabaseUsingAnOperationsBatch() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "myRG";
+  const subscriptionId =
+    process.env["SYNAPSE_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName = process.env["SYNAPSE_RESOURCE_GROUP"] || "myRG";
   const workspaceName = "myWorkspace";
   const sqlPoolName = "mySqlPool";
   const parameters = {
@@ -64,4 +66,8 @@ async function updateSensitivityLabelsOfAGivenDatabaseUsingAnOperationsBatch() {
   console.log(result);
 }
 
-updateSensitivityLabelsOfAGivenDatabaseUsingAnOperationsBatch().catch(console.error);
+async function main() {
+  updateSensitivityLabelsOfAGivenDatabaseUsingAnOperationsBatch();
+}
+
+main().catch(console.error);

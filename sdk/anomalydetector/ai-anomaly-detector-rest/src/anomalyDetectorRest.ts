@@ -5,19 +5,22 @@ import { getClient, ClientOptions } from "@azure-rest/core-client";
 import { KeyCredential } from "@azure/core-auth";
 import { AnomalyDetectorRestClient } from "./clientDefinitions";
 
+export interface AnomalyDetectorRestClientOptions extends ClientOptions {
+  ApiVersion?: string;
+}
+
 /**
  * Initialize a new instance of the class AnomalyDetectorRestClient class.
- * @param Endpoint type: string Supported Cognitive Services endpoints (protocol and hostname, for example: https://westus2.api.cognitive.microsoft.com).
- * @param ApiVersion type: string Anomaly Detector API version (for example, v1.1).
+ * @param Endpoint type: string
  * @param credentials type: KeyCredential
  */
 export default function createClient(
   Endpoint: string,
   credentials: KeyCredential,
-  options: ClientOptions & { apiVersion?: string } = {}
+  options: AnomalyDetectorRestClientOptions = {}
 ): AnomalyDetectorRestClient {
-  const apiVersion = options.apiVersion ?? "v1.1";
-  const baseUrl = options.baseUrl ?? `${Endpoint}/anomalydetector/${apiVersion}`;
+  const ApiVersion = options.ApiVersion ?? "v1.1";
+  const baseUrl = options.baseUrl ?? `${Endpoint}/anomalydetector/${ApiVersion}`;
 
   options = {
     ...options,

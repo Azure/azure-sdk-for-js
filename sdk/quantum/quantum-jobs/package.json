@@ -62,9 +62,12 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "dependencies": {
+    "@azure/core-auth": "^1.4.0",
     "@azure/core-paging": "^1.1.1",
-    "@azure/core-http": "^2.0.0",
+    "@azure/core-client": "^1.6.1",
+    "@azure/core-rest-pipeline": "^1.10.0",
     "@azure/core-tracing": "^1.0.0",
+    "@azure/core-util": "^1.1.1",
     "tslib": "^2.2.0"
   },
   "devDependencies": {

@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Gets all the Security Partner Providers in a subscription.
  *
  * @summary Gets all the Security Partner Providers in a subscription.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/SecurityPartnerProviderListBySubscription.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/SecurityPartnerProviderListBySubscription.json
  */
 async function listAllSecurityPartnerProvidersForAGivenSubscription() {
   const subscriptionId = "subid";

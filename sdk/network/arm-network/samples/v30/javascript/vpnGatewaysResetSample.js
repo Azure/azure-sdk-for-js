@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Resets the primary of the vpn gateway in the specified resource group.
  *
  * @summary Resets the primary of the vpn gateway in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VpnGatewayReset.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/VpnGatewayReset.json
  */
 async function resetVpnGateway() {
   const subscriptionId = "subid";

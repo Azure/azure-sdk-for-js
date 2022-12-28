@@ -13,6 +13,9 @@ import {
   SynapseManagementClient
 } from "@azure/arm-synapse";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create or Update a workspace managed sql server's blob auditing policy.
@@ -21,8 +24,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/CreateWorkspaceManagedSqlServerBlobAuditingSettingsWithAllParameters.json
  */
 async function createOrUpdateBlobAuditingPolicyOfWorkspaceSqlServerWithAllParameters() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "wsg-7398";
+  const subscriptionId =
+    process.env["SYNAPSE_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName = process.env["SYNAPSE_RESOURCE_GROUP"] || "wsg-7398";
   const workspaceName = "testWorkspace";
   const blobAuditingPolicyName = "default";
   const parameters: ServerBlobAuditingPolicy = {
@@ -52,10 +57,6 @@ async function createOrUpdateBlobAuditingPolicyOfWorkspaceSqlServerWithAllParame
   console.log(result);
 }
 
-createOrUpdateBlobAuditingPolicyOfWorkspaceSqlServerWithAllParameters().catch(
-  console.error
-);
-
 /**
  * This sample demonstrates how to Create or Update a workspace managed sql server's blob auditing policy.
  *
@@ -63,8 +64,10 @@ createOrUpdateBlobAuditingPolicyOfWorkspaceSqlServerWithAllParameters().catch(
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/CreateWorkspaceManagedSqlServerBlobAuditingSettingsWithMinParameters.json
  */
 async function createOrUpdateBlobAuditingPolicyOfWorkspaceManagedSqlServerWithMinimalParameters() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "wsg-7398";
+  const subscriptionId =
+    process.env["SYNAPSE_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName = process.env["SYNAPSE_RESOURCE_GROUP"] || "wsg-7398";
   const workspaceName = "testWorkspace";
   const blobAuditingPolicyName = "default";
   const parameters: ServerBlobAuditingPolicy = {
@@ -84,6 +87,9 @@ async function createOrUpdateBlobAuditingPolicyOfWorkspaceManagedSqlServerWithMi
   console.log(result);
 }
 
-createOrUpdateBlobAuditingPolicyOfWorkspaceManagedSqlServerWithMinimalParameters().catch(
-  console.error
-);
+async function main() {
+  createOrUpdateBlobAuditingPolicyOfWorkspaceSqlServerWithAllParameters();
+  createOrUpdateBlobAuditingPolicyOfWorkspaceManagedSqlServerWithMinimalParameters();
+}
+
+main().catch(console.error);

@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to List private link resources for given Digital Twin.
  *
  * @summary List private link resources for given Digital Twin.
- * x-ms-original-file: specification/digitaltwins/resource-manager/Microsoft.DigitalTwins/stable/2022-05-31/examples/PrivateLinkResourcesList_example.json
+ * x-ms-original-file: specification/digitaltwins/resource-manager/Microsoft.DigitalTwins/stable/2022-10-31/examples/PrivateLinkResourcesList_example.json
  */
 async function listPrivateLinkResourcesForGivenDigitalTwin() {
   const subscriptionId = "50016170-c839-41ba-a724-51e9df440b9e";

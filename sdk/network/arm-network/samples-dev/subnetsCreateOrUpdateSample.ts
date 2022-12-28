@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Creates or updates a subnet in the specified virtual network.
  *
  * @summary Creates or updates a subnet in the specified virtual network.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/SubnetCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/SubnetCreate.json
  */
 async function createSubnet() {
   const subscriptionId = "subid";
@@ -40,7 +40,7 @@ createSubnet().catch(console.error);
  * This sample demonstrates how to Creates or updates a subnet in the specified virtual network.
  *
  * @summary Creates or updates a subnet in the specified virtual network.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/SubnetCreateWithDelegation.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/SubnetCreateWithDelegation.json
  */
 async function createSubnetWithADelegation() {
   const subscriptionId = "subId";
@@ -65,7 +65,7 @@ createSubnetWithADelegation().catch(console.error);
  * This sample demonstrates how to Creates or updates a subnet in the specified virtual network.
  *
  * @summary Creates or updates a subnet in the specified virtual network.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/SubnetCreateServiceEndpoint.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/SubnetCreateServiceEndpoint.json
  */
 async function createSubnetWithServiceEndpoints() {
   const subscriptionId = "subid";

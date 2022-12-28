@@ -10,7 +10,7 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   Sim,
-  SimsListBySimGroupOptionalParams,
+  SimsListByGroupOptionalParams,
   SimsDeleteOptionalParams,
   SimsGetOptionalParams,
   SimsGetResponse,
@@ -27,10 +27,10 @@ export interface Sims {
    * @param simGroupName The name of the SIM Group.
    * @param options The options parameters.
    */
-  listBySimGroup(
+  listByGroup(
     resourceGroupName: string,
     simGroupName: string,
-    options?: SimsListBySimGroupOptionalParams
+    options?: SimsListByGroupOptionalParams
   ): PagedAsyncIterableIterator<Sim>;
   /**
    * Deletes the specified SIM.

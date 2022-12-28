@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Retrieves the details of a ConfigurationPolicyGroup.
  *
  * @summary Retrieves the details of a ConfigurationPolicyGroup.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ConfigurationPolicyGroupGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/ConfigurationPolicyGroupGet.json
  */
 async function configurationPolicyGroupGet() {
   const subscriptionId = "subid";
