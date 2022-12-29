@@ -11,7 +11,7 @@
         "Content-Length": "76",
         "Content-Type": "application/json",
         "User-Agent": "azsdk-js-arm-compute/19.3.0 core-rest-pipeline/1.10.1 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
-        "x-ms-client-request-id": "3c4ec8b0-b64b-47c2-ac2b-841c00f5c30f"
+        "x-ms-client-request-id": "cb1e2248-c4e1-4477-a22d-75ea107fc3bc"
       },
       "RequestBody": {
         "properties": {
@@ -24,7 +24,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 29 Dec 2022 07:01:41 GMT",
+        "Date": "Thu, 29 Dec 2022 08:18:52 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": [
@@ -35,11 +35,11 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "cfa79f75-b51f-4e15-9b81-7f9d5feb7630",
-        "x-ms-ratelimit-remaining-resource": "Microsoft.Compute/PutVM3Min;238,Microsoft.Compute/PutVM30Min;1191",
+        "x-ms-correlation-request-id": "81d7f4fd-fd84-4f71-bc54-3705ba543bef",
+        "x-ms-ratelimit-remaining-resource": "Microsoft.Compute/PutVM3Min;238,Microsoft.Compute/PutVM30Min;1198",
         "x-ms-ratelimit-remaining-subscription-writes": "1198",
-        "x-ms-request-id": "2e71bceb-5185-4cb8-9f65-66c7b423acbb",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20221229T070142Z:cfa79f75-b51f-4e15-9b81-7f9d5feb7630"
+        "x-ms-request-id": "354eb40a-88c9-4cea-9adb-8a7cc5106d4c",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221229T081853Z:81d7f4fd-fd84-4f71-bc54-3705ba543bef"
       },
       "ResponseBody": {
         "name": "availabilitySets123",

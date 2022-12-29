@@ -9,7 +9,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-arm-compute/19.3.0 core-rest-pipeline/1.10.1 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
-        "x-ms-client-request-id": "3ece4d02-84c4-493b-8227-103b12fc29dd"
+        "x-ms-client-request-id": "2dabb08a-6797-48d6-a4c9-5fd664a712a6"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,7 +17,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 29 Dec 2022 07:03:57 GMT",
+        "Date": "Thu, 29 Dec 2022 08:20:28 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": [
@@ -28,11 +28,11 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "2434d23f-b877-4f25-bbce-0d975b392889",
-        "x-ms-ratelimit-remaining-resource": "Microsoft.Compute/LowCostGet3Min;3993,Microsoft.Compute/LowCostGet30Min;31977",
+        "x-ms-correlation-request-id": "9fee3fb6-77fe-4335-aa5d-8dd4be0c82f0",
+        "x-ms-ratelimit-remaining-resource": "Microsoft.Compute/LowCostGet3Min;3995,Microsoft.Compute/LowCostGet30Min;31995",
         "x-ms-ratelimit-remaining-subscription-reads": "11985",
-        "x-ms-request-id": "858f132c-f49d-4b10-948b-cd949f7d1e9b",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20221229T070358Z:2434d23f-b877-4f25-bbce-0d975b392889"
+        "x-ms-request-id": "d806e815-20e0-4052-a7d4-88b8228bf8e3",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221229T082028Z:9fee3fb6-77fe-4335-aa5d-8dd4be0c82f0"
       },
       "ResponseBody": {
         "name": "virtualmachinex",
@@ -44,7 +44,7 @@
           "platformsettings.host_environment.service.platform_optedin_for_rootcerts": "true"
         },
         "properties": {
-          "vmId": "0fe39c22-d78f-4a25-8c8a-543526f1a1cf",
+          "vmId": "9c40b9cc-b2c7-4b0b-9166-bc6b381ab08f",
           "hardwareProfile": {
             "vmSize": "Standard_D2_v2"
           },
@@ -71,12 +71,12 @@
             "dataDisks": [
               {
                 "lun": 0,
-                "name": "virtualmachinex_disk2_49de2a0986ea48e9abbfa60473ff3cad",
+                "name": "virtualmachinex_disk2_bf8345a2de4c488ea99e57040bac92ec",
                 "createOption": "Empty",
                 "caching": "None",
                 "managedDisk": {
                   "storageAccountType": "Standard_LRS",
-                  "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Compute/disks/virtualmachinex_disk2_49de2a0986ea48e9abbfa60473ff3cad"
+                  "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Compute/disks/virtualmachinex_disk2_bf8345a2de4c488ea99e57040bac92ec"
                 },
                 "deleteOption": "Detach",
                 "diskSizeGB": 1023,
@@ -84,12 +84,12 @@
               },
               {
                 "lun": 1,
-                "name": "virtualmachinex_disk3_c1d25d6e3f5a4ccab5a427392ccdb840",
+                "name": "virtualmachinex_disk3_33b695067996447596f8ca9add999918",
                 "createOption": "Empty",
                 "caching": "None",
                 "managedDisk": {
                   "storageAccountType": "Standard_LRS",
-                  "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Compute/disks/virtualmachinex_disk3_c1d25d6e3f5a4ccab5a427392ccdb840"
+                  "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Compute/disks/virtualmachinex_disk3_33b695067996447596f8ca9add999918"
                 },
                 "deleteOption": "Detach",
                 "diskSizeGB": 1023,
@@ -124,7 +124,7 @@
             ]
           },
           "provisioningState": "Succeeded",
-          "timeCreated": "2022-12-29T07:02:11.7187896\u002B00:00"
+          "timeCreated": "2022-12-29T08:19:30.6721759\u002B00:00"
         }
       }
     }

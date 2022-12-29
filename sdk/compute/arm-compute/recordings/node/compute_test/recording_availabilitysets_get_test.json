@@ -9,7 +9,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-arm-compute/19.3.0 core-rest-pipeline/1.10.1 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
-        "x-ms-client-request-id": "fb8511be-198d-4dce-9aa9-fb738518dca4"
+        "x-ms-client-request-id": "d335051a-1f9f-48b5-bee7-efa8d1a60e79"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,7 +17,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 29 Dec 2022 07:01:44 GMT",
+        "Date": "Thu, 29 Dec 2022 08:18:54 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": [
@@ -28,11 +28,11 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "ef883fde-e52b-41cd-943e-045d8d31cb3f",
-        "x-ms-ratelimit-remaining-resource": "Microsoft.Compute/LowCostGet3Min;3997,Microsoft.Compute/LowCostGet30Min;31983",
+        "x-ms-correlation-request-id": "fb158680-afdf-4cc7-9737-af170b48ce7a",
+        "x-ms-ratelimit-remaining-resource": "Microsoft.Compute/LowCostGet3Min;3999,Microsoft.Compute/LowCostGet30Min;31999",
         "x-ms-ratelimit-remaining-subscription-reads": "11999",
-        "x-ms-request-id": "01709cc9-cc8d-4846-9fbe-1c3ebd3a9c4e",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20221229T070144Z:ef883fde-e52b-41cd-943e-045d8d31cb3f"
+        "x-ms-request-id": "667e92f5-6619-43ae-90ea-d8fd8a7bdfe5",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221229T081854Z:fb158680-afdf-4cc7-9737-af170b48ce7a"
       },
       "ResponseBody": {
         "name": "availabilitySets123",
