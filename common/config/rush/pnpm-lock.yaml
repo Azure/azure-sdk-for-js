@@ -10343,7 +10343,7 @@ packages:
     dev: false
 
   file:projects/arm-chaos.tgz:
-    resolution: {integrity: sha512-4Bmz+lJ66/kl+XwRhwvEU/a+h6ec0jsCIGJC4hsILZvjQ+HMd1WmuNyFHh82WGORf5hQxPj8P8l5pCo9BLEdSg==, tarball: file:projects/arm-chaos.tgz}
+    resolution: {integrity: sha512-zfmhvEHmixZl4FpYo9Sz7tj7+2RmSCIWkCc/JF0ramhBD/PyuqHJ40HBZn7KpoU2t1twdmJWVTlFZJO+S7E6fA==, tarball: file:projects/arm-chaos.tgz}
     name: '@rush-temp/arm-chaos'
     version: 0.0.0
     dependencies:
@@ -10484,7 +10484,7 @@ packages:
     dev: false
 
   file:projects/arm-communication.tgz:
-    resolution: {integrity: sha512-7PePWGRpSdOrOXcPpmDccv6AtMK4tirADzQSytyidW+evQnwu4jYvAutyW8Brt68Wzv11W0KW0WCCWLPZN5bxw==, tarball: file:projects/arm-communication.tgz}
+    resolution: {integrity: sha512-jSnlMF666V6cUGpf1x4YugJF+wiJWpqicVNVHskYJI+F5HuXaQROWWobxjnQcGDmMcFx/36grMLgrbbDAanrOg==, tarball: file:projects/arm-communication.tgz}
     name: '@rush-temp/arm-communication'
     version: 0.0.0
     dependencies:
@@ -10495,18 +10495,19 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
+      '@types/node': 14.18.33
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.6.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
