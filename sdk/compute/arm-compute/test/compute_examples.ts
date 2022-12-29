@@ -261,7 +261,7 @@ describe("Compute test", () => {
         ],
       }
     }, testPollingOptions)
-    assert.equal(res.name, virtual_machine_name);
+    assert.equal(res.type, "Microsoft.Compute/virtualMachines");
   });
 
   it("virtualMachines delete test", async function () {
