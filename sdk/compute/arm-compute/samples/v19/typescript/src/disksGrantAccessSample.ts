@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { GrantAccessData, ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Grants access to a disk.
@@ -18,8 +21,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskExamples/Disk_BeginGetAccess.json
  */
 async function getASasOnAManagedDisk() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const diskName = "myDisk";
   const grantAccessData: GrantAccessData = {
     access: "Read",
@@ -35,8 +40,6 @@ async function getASasOnAManagedDisk() {
   console.log(result);
 }
 
-getASasOnAManagedDisk().catch(console.error);
-
 /**
  * This sample demonstrates how to Grants access to a disk.
  *
@@ -44,8 +47,10 @@ getASasOnAManagedDisk().catch(console.error);
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskExamples/Disk_BeginGetAccess_WithVMGuestState.json
  */
 async function getSasOnManagedDiskAndVMGuestState() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const diskName = "myDisk";
   const grantAccessData: GrantAccessData = {
     access: "Read",
@@ -62,4 +67,9 @@ async function getSasOnManagedDiskAndVMGuestState() {
   console.log(result);
 }
 
-getSasOnManagedDiskAndVMGuestState().catch(console.error);
+async function main() {
+  getASasOnAManagedDisk();
+  getSasOnManagedDiskAndVMGuestState();
+}
+
+main().catch(console.error);

@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Lists all the disk access resources under a subscription.
@@ -18,7 +19,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskAccessExamples/DiskAccess_ListBySubscription.json
  */
 async function listAllDiskAccessResourcesInASubscription() {
-  const subscriptionId = "{subscription-id}";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
@@ -28,4 +29,8 @@ async function listAllDiskAccessResourcesInASubscription() {
   console.log(resArray);
 }
 
-listAllDiskAccessResourcesInASubscription().catch(console.error);
+async function main() {
+  listAllDiskAccessResourcesInASubscription();
+}
+
+main().catch(console.error);

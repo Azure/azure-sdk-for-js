@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { Image, ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create or update an image.
@@ -18,8 +21,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/imageExamples/Image_CreateFromABlobWithDiskEncryptionSet.json
  */
 async function createAVirtualMachineImageFromABlobWithDiskEncryptionSetResource() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const imageName = "myImage";
   const parameters: Image = {
     location: "West US",
@@ -46,10 +51,6 @@ async function createAVirtualMachineImageFromABlobWithDiskEncryptionSetResource(
   console.log(result);
 }
 
-createAVirtualMachineImageFromABlobWithDiskEncryptionSetResource().catch(
-  console.error
-);
-
 /**
  * This sample demonstrates how to Create or update an image.
  *
@@ -57,8 +58,10 @@ createAVirtualMachineImageFromABlobWithDiskEncryptionSetResource().catch(
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/imageExamples/Image_CreateFromABlob.json
  */
 async function createAVirtualMachineImageFromABlob() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const imageName = "myImage";
   const parameters: Image = {
     location: "West US",
@@ -82,8 +85,6 @@ async function createAVirtualMachineImageFromABlob() {
   console.log(result);
 }
 
-createAVirtualMachineImageFromABlob().catch(console.error);
-
 /**
  * This sample demonstrates how to Create or update an image.
  *
@@ -91,8 +92,10 @@ createAVirtualMachineImageFromABlob().catch(console.error);
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/imageExamples/Image_CreateFromAManagedDiskWithDiskEncryptionSet.json
  */
 async function createAVirtualMachineImageFromAManagedDiskWithDiskEncryptionSetResource() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const imageName = "myImage";
   const parameters: Image = {
     location: "West US",
@@ -121,10 +124,6 @@ async function createAVirtualMachineImageFromAManagedDiskWithDiskEncryptionSetRe
   console.log(result);
 }
 
-createAVirtualMachineImageFromAManagedDiskWithDiskEncryptionSetResource().catch(
-  console.error
-);
-
 /**
  * This sample demonstrates how to Create or update an image.
  *
@@ -132,8 +131,10 @@ createAVirtualMachineImageFromAManagedDiskWithDiskEncryptionSetResource().catch(
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/imageExamples/Image_CreateFromAManagedDisk.json
  */
 async function createAVirtualMachineImageFromAManagedDisk() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const imageName = "myImage";
   const parameters: Image = {
     location: "West US",
@@ -159,8 +160,6 @@ async function createAVirtualMachineImageFromAManagedDisk() {
   console.log(result);
 }
 
-createAVirtualMachineImageFromAManagedDisk().catch(console.error);
-
 /**
  * This sample demonstrates how to Create or update an image.
  *
@@ -168,8 +167,10 @@ createAVirtualMachineImageFromAManagedDisk().catch(console.error);
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/imageExamples/Image_CreateFromASnapshotWithDiskEncryptionSet.json
  */
 async function createAVirtualMachineImageFromASnapshotWithDiskEncryptionSetResource() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const imageName = "myImage";
   const parameters: Image = {
     location: "West US",
@@ -198,10 +199,6 @@ async function createAVirtualMachineImageFromASnapshotWithDiskEncryptionSetResou
   console.log(result);
 }
 
-createAVirtualMachineImageFromASnapshotWithDiskEncryptionSetResource().catch(
-  console.error
-);
-
 /**
  * This sample demonstrates how to Create or update an image.
  *
@@ -209,8 +206,10 @@ createAVirtualMachineImageFromASnapshotWithDiskEncryptionSetResource().catch(
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/imageExamples/Image_CreateFromASnapshot.json
  */
 async function createAVirtualMachineImageFromASnapshot() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const imageName = "myImage";
   const parameters: Image = {
     location: "West US",
@@ -236,8 +235,6 @@ async function createAVirtualMachineImageFromASnapshot() {
   console.log(result);
 }
 
-createAVirtualMachineImageFromASnapshot().catch(console.error);
-
 /**
  * This sample demonstrates how to Create or update an image.
  *
@@ -245,8 +242,10 @@ createAVirtualMachineImageFromASnapshot().catch(console.error);
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/imageExamples/Image_CreateFromAVM.json
  */
 async function createAVirtualMachineImageFromAnExistingVirtualMachine() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const imageName = "myImage";
   const parameters: Image = {
     location: "West US",
@@ -265,8 +264,6 @@ async function createAVirtualMachineImageFromAnExistingVirtualMachine() {
   console.log(result);
 }
 
-createAVirtualMachineImageFromAnExistingVirtualMachine().catch(console.error);
-
 /**
  * This sample demonstrates how to Create or update an image.
  *
@@ -274,8 +271,10 @@ createAVirtualMachineImageFromAnExistingVirtualMachine().catch(console.error);
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/imageExamples/Image_Create_DataDiskFromABlobIncluded.json
  */
 async function createAVirtualMachineImageThatIncludesADataDiskFromABlob() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const imageName = "myImage";
   const parameters: Image = {
     location: "West US",
@@ -306,8 +305,6 @@ async function createAVirtualMachineImageThatIncludesADataDiskFromABlob() {
   console.log(result);
 }
 
-createAVirtualMachineImageThatIncludesADataDiskFromABlob().catch(console.error);
-
 /**
  * This sample demonstrates how to Create or update an image.
  *
@@ -315,8 +312,10 @@ createAVirtualMachineImageThatIncludesADataDiskFromABlob().catch(console.error);
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/imageExamples/Image_Create_DataDiskFromAManagedDiskIncluded.json
  */
 async function createAVirtualMachineImageThatIncludesADataDiskFromAManagedDisk() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const imageName = "myImage";
   const parameters: Image = {
     location: "West US",
@@ -351,10 +350,6 @@ async function createAVirtualMachineImageThatIncludesADataDiskFromAManagedDisk()
   console.log(result);
 }
 
-createAVirtualMachineImageThatIncludesADataDiskFromAManagedDisk().catch(
-  console.error
-);
-
 /**
  * This sample demonstrates how to Create or update an image.
  *
@@ -362,8 +357,10 @@ createAVirtualMachineImageThatIncludesADataDiskFromAManagedDisk().catch(
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/imageExamples/Image_Create_DataDiskFromASnapshotIncluded.json
  */
 async function createAVirtualMachineImageThatIncludesADataDiskFromASnapshot() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const imageName = "myImage";
   const parameters: Image = {
     location: "West US",
@@ -398,6 +395,17 @@ async function createAVirtualMachineImageThatIncludesADataDiskFromASnapshot() {
   console.log(result);
 }
 
-createAVirtualMachineImageThatIncludesADataDiskFromASnapshot().catch(
-  console.error
-);
+async function main() {
+  createAVirtualMachineImageFromABlobWithDiskEncryptionSetResource();
+  createAVirtualMachineImageFromABlob();
+  createAVirtualMachineImageFromAManagedDiskWithDiskEncryptionSetResource();
+  createAVirtualMachineImageFromAManagedDisk();
+  createAVirtualMachineImageFromASnapshotWithDiskEncryptionSetResource();
+  createAVirtualMachineImageFromASnapshot();
+  createAVirtualMachineImageFromAnExistingVirtualMachine();
+  createAVirtualMachineImageThatIncludesADataDiskFromABlob();
+  createAVirtualMachineImageThatIncludesADataDiskFromAManagedDisk();
+  createAVirtualMachineImageThatIncludesADataDiskFromASnapshot();
+}
+
+main().catch(console.error);

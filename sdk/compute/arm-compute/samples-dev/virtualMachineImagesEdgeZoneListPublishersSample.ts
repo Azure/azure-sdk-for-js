@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets a list of virtual machine image publishers for the specified Azure location and edge zone.
@@ -18,7 +21,8 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_ListPublishers_MaximumSet_Gen.json
  */
 async function virtualMachineImagesEdgeZoneListPublishersMaximumSetGen() {
-  const subscriptionId = "{subscription-id}";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "aaaaaa";
   const edgeZone = "aaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const credential = new DefaultAzureCredential();
@@ -30,8 +34,6 @@ async function virtualMachineImagesEdgeZoneListPublishersMaximumSetGen() {
   console.log(result);
 }
 
-virtualMachineImagesEdgeZoneListPublishersMaximumSetGen().catch(console.error);
-
 /**
  * This sample demonstrates how to Gets a list of virtual machine image publishers for the specified Azure location and edge zone.
  *
@@ -39,7 +41,8 @@ virtualMachineImagesEdgeZoneListPublishersMaximumSetGen().catch(console.error);
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_ListPublishers_MinimumSet_Gen.json
  */
 async function virtualMachineImagesEdgeZoneListPublishersMinimumSetGen() {
-  const subscriptionId = "{subscription-id}";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "aaaa";
   const edgeZone = "aaaaaaaaaaaaaaaaaaaaaaa";
   const credential = new DefaultAzureCredential();
@@ -51,4 +54,9 @@ async function virtualMachineImagesEdgeZoneListPublishersMinimumSetGen() {
   console.log(result);
 }
 
-virtualMachineImagesEdgeZoneListPublishersMinimumSetGen().catch(console.error);
+async function main() {
+  virtualMachineImagesEdgeZoneListPublishersMaximumSetGen();
+  virtualMachineImagesEdgeZoneListPublishersMinimumSetGen();
+}
+
+main().catch(console.error);

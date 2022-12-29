@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Delete a gallery Application Version.
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/GalleryApplicationVersion_Delete.json
  */
 async function deleteAGalleryApplicationVersion() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const galleryName = "myGalleryName";
   const galleryApplicationName = "myGalleryApplicationName";
   const galleryApplicationVersionName = "1.0.0";
@@ -34,4 +35,8 @@ async function deleteAGalleryApplicationVersion() {
   console.log(result);
 }
 
-deleteAGalleryApplicationVersion().catch(console.error);
+async function main() {
+  deleteAGalleryApplicationVersion();
+}
+
+main().catch(console.error);

@@ -13,6 +13,9 @@ import {
   ComputeManagementClient
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Captures the VM by copying virtual hard disks of the VM and outputs a template that can be used to create similar VMs.
@@ -21,8 +24,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachines_Capture_MaximumSet_Gen.json
  */
 async function virtualMachinesCaptureMaximumSetGen() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "rgcompute";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmName = "aaaaaaaaaaaaaaaaaaaa";
   const parameters: VirtualMachineCaptureParameters = {
     destinationContainerName: "aaaaaaa",
@@ -39,8 +44,6 @@ async function virtualMachinesCaptureMaximumSetGen() {
   console.log(result);
 }
 
-virtualMachinesCaptureMaximumSetGen().catch(console.error);
-
 /**
  * This sample demonstrates how to Captures the VM by copying virtual hard disks of the VM and outputs a template that can be used to create similar VMs.
  *
@@ -48,8 +51,10 @@ virtualMachinesCaptureMaximumSetGen().catch(console.error);
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachines_Capture_MinimumSet_Gen.json
  */
 async function virtualMachinesCaptureMinimumSetGen() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "rgcompute";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmName = "aaaaaaaaaaaaa";
   const parameters: VirtualMachineCaptureParameters = {
     destinationContainerName: "aaaaaaa",
@@ -66,4 +71,9 @@ async function virtualMachinesCaptureMinimumSetGen() {
   console.log(result);
 }
 
-virtualMachinesCaptureMinimumSetGen().catch(console.error);
+async function main() {
+  virtualMachinesCaptureMaximumSetGen();
+  virtualMachinesCaptureMinimumSetGen();
+}
+
+main().catch(console.error);

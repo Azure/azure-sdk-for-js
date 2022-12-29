@@ -14,6 +14,9 @@ import {
   ComputeManagementClient
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Restarts one or more virtual machines in a VM scale set.
@@ -22,8 +25,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_Restart_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetsRestartMaximumSetGen() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "rgcompute";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaaa";
   const vmInstanceIDs: VirtualMachineScaleSetVMInstanceIDs = {
     instanceIds: ["aaaaaaaaaaaaaaaaa"]
@@ -41,8 +46,6 @@ async function virtualMachineScaleSetsRestartMaximumSetGen() {
   console.log(result);
 }
 
-virtualMachineScaleSetsRestartMaximumSetGen().catch(console.error);
-
 /**
  * This sample demonstrates how to Restarts one or more virtual machines in a VM scale set.
  *
@@ -50,8 +53,10 @@ virtualMachineScaleSetsRestartMaximumSetGen().catch(console.error);
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_Restart_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetsRestartMinimumSetGen() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "rgcompute";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "aaaa";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -62,4 +67,9 @@ async function virtualMachineScaleSetsRestartMinimumSetGen() {
   console.log(result);
 }
 
-virtualMachineScaleSetsRestartMinimumSetGen().catch(console.error);
+async function main() {
+  virtualMachineScaleSetsRestartMaximumSetGen();
+  virtualMachineScaleSetsRestartMinimumSetGen();
+}
+
+main().catch(console.error);

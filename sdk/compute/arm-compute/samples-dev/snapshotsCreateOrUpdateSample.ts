@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { Snapshot, ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates or updates a snapshot.
@@ -18,8 +21,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/snapshotExamples/Snapshot_Create_ByImportingAnUnmanagedBlobFromADifferentSubscription.json
  */
 async function createASnapshotByImportingAnUnmanagedBlobFromADifferentSubscription() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const snapshotName = "mySnapshot1";
   const snapshot: Snapshot = {
     creationData: {
@@ -41,10 +46,6 @@ async function createASnapshotByImportingAnUnmanagedBlobFromADifferentSubscripti
   console.log(result);
 }
 
-createASnapshotByImportingAnUnmanagedBlobFromADifferentSubscription().catch(
-  console.error
-);
-
 /**
  * This sample demonstrates how to Creates or updates a snapshot.
  *
@@ -52,8 +53,10 @@ createASnapshotByImportingAnUnmanagedBlobFromADifferentSubscription().catch(
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/snapshotExamples/Snapshot_Create_ByImportingAnUnmanagedBlobFromTheSameSubscription.json
  */
 async function createASnapshotByImportingAnUnmanagedBlobFromTheSameSubscription() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const snapshotName = "mySnapshot1";
   const snapshot: Snapshot = {
     creationData: {
@@ -73,10 +76,6 @@ async function createASnapshotByImportingAnUnmanagedBlobFromTheSameSubscription(
   console.log(result);
 }
 
-createASnapshotByImportingAnUnmanagedBlobFromTheSameSubscription().catch(
-  console.error
-);
-
 /**
  * This sample demonstrates how to Creates or updates a snapshot.
  *
@@ -84,8 +83,10 @@ createASnapshotByImportingAnUnmanagedBlobFromTheSameSubscription().catch(
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/snapshotExamples/Snapshot_Create_FromAnExistingSnapshotInDifferentRegion.json
  */
 async function createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscriptionInADifferentRegion() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const snapshotName = "mySnapshot2";
   const snapshot: Snapshot = {
     creationData: {
@@ -105,10 +106,6 @@ async function createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscri
   console.log(result);
 }
 
-createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscriptionInADifferentRegion().catch(
-  console.error
-);
-
 /**
  * This sample demonstrates how to Creates or updates a snapshot.
  *
@@ -116,8 +113,10 @@ createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscriptionInADiffere
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/snapshotExamples/Snapshot_Create_FromAnExistingSnapshot.json
  */
 async function createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscription() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const snapshotName = "mySnapshot2";
   const snapshot: Snapshot = {
     creationData: {
@@ -137,6 +136,11 @@ async function createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscri
   console.log(result);
 }
 
-createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscription().catch(
-  console.error
-);
+async function main() {
+  createASnapshotByImportingAnUnmanagedBlobFromADifferentSubscription();
+  createASnapshotByImportingAnUnmanagedBlobFromTheSameSubscription();
+  createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscriptionInADifferentRegion();
+  createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscription();
+}
+
+main().catch(console.error);

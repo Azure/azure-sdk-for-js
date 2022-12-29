@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to The operation to get the restore point collection.
@@ -18,8 +21,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/restorePointExamples/RestorePointCollection_Get.json
  */
 async function getARestorePointCollectionButNotTheRestorePointsContainedInTheRestorePointCollection() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const restorePointCollectionName = "myRpc";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -30,10 +35,6 @@ async function getARestorePointCollectionButNotTheRestorePointsContainedInTheRes
   console.log(result);
 }
 
-getARestorePointCollectionButNotTheRestorePointsContainedInTheRestorePointCollection().catch(
-  console.error
-);
-
 /**
  * This sample demonstrates how to The operation to get the restore point collection.
  *
@@ -41,8 +42,10 @@ getARestorePointCollectionButNotTheRestorePointsContainedInTheRestorePointCollec
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/restorePointExamples/RestorePointCollection_Get_WithContainedRestorePoints.json
  */
 async function getARestorePointCollectionIncludingTheRestorePointsContainedInTheRestorePointCollection() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const restorePointCollectionName = "rpcName";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -53,6 +56,9 @@ async function getARestorePointCollectionIncludingTheRestorePointsContainedInThe
   console.log(result);
 }
 
-getARestorePointCollectionIncludingTheRestorePointsContainedInTheRestorePointCollection().catch(
-  console.error
-);
+async function main() {
+  getARestorePointCollectionButNotTheRestorePointsContainedInTheRestorePointCollection();
+  getARestorePointCollectionIncludingTheRestorePointsContainedInTheRestorePointCollection();
+}
+
+main().catch(console.error);

@@ -13,6 +13,9 @@ import {
   ComputeManagementClient
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Update an dedicated host .
@@ -21,8 +24,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/dedicatedHostExamples/DedicatedHosts_Update_MaximumSet_Gen.json
  */
 async function dedicatedHostsUpdateMaximumSetGen() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "rgcompute";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const hostGroupName = "aaaaaaaaa";
   const hostName = "aaaaaaaaaaaaaaaaaaaaa";
   const parameters: DedicatedHostUpdate = {
@@ -56,8 +61,6 @@ async function dedicatedHostsUpdateMaximumSetGen() {
   console.log(result);
 }
 
-dedicatedHostsUpdateMaximumSetGen().catch(console.error);
-
 /**
  * This sample demonstrates how to Update an dedicated host .
  *
@@ -65,8 +68,10 @@ dedicatedHostsUpdateMaximumSetGen().catch(console.error);
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/dedicatedHostExamples/DedicatedHosts_Update_MinimumSet_Gen.json
  */
 async function dedicatedHostsUpdateMinimumSetGen() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "rgcompute";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const hostGroupName = "aa";
   const hostName = "aaaaaaaaaaaaaaaaaaaaaaaaaa";
   const parameters: DedicatedHostUpdate = {};
@@ -81,4 +86,9 @@ async function dedicatedHostsUpdateMinimumSetGen() {
   console.log(result);
 }
 
-dedicatedHostsUpdateMinimumSetGen().catch(console.error);
+async function main() {
+  dedicatedHostsUpdateMaximumSetGen();
+  dedicatedHostsUpdateMinimumSetGen();
+}
+
+main().catch(console.error);

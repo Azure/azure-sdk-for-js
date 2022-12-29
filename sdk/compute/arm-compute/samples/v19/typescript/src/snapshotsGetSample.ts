@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets information about a snapshot.
@@ -18,16 +21,16 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/snapshotExamples/Snapshot_Get.json
  */
 async function getInformationAboutASnapshot() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const snapshotName = "mySnapshot";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.snapshots.get(resourceGroupName, snapshotName);
   console.log(result);
 }
-
-getInformationAboutASnapshot().catch(console.error);
 
 /**
  * This sample demonstrates how to Gets information about a snapshot.
@@ -36,8 +39,10 @@ getInformationAboutASnapshot().catch(console.error);
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/snapshotExamples/Snapshot_GetIncrementalSnapshot.json
  */
 async function getInformationAboutAnIncrementalSnapshot() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const snapshotName = "myIncrementalSnapshot";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -45,4 +50,9 @@ async function getInformationAboutAnIncrementalSnapshot() {
   console.log(result);
 }
 
-getInformationAboutAnIncrementalSnapshot().catch(console.error);
+async function main() {
+  getInformationAboutASnapshot();
+  getInformationAboutAnIncrementalSnapshot();
+}
+
+main().catch(console.error);

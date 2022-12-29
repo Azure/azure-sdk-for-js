@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Update a Shared Image Gallery.
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/Gallery_Update.json
  */
 async function updateASimpleGallery() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const galleryName = "myGalleryName";
   const gallery = {
     description: "This is the gallery description.",
@@ -30,4 +31,8 @@ async function updateASimpleGallery() {
   console.log(result);
 }
 
-updateASimpleGallery().catch(console.error);
+async function main() {
+  updateASimpleGallery();
+}
+
+main().catch(console.error);

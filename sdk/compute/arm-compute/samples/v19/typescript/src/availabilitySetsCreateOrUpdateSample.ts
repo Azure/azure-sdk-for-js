@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { AvailabilitySet, ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create or update an availability set.
@@ -18,8 +21,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/availabilitySetExamples/AvailabilitySet_Create.json
  */
 async function createAnAvailabilitySet() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const availabilitySetName = "myAvailabilitySet";
   const parameters: AvailabilitySet = {
     location: "westus",
@@ -36,4 +41,8 @@ async function createAnAvailabilitySet() {
   console.log(result);
 }
 
-createAnAvailabilitySet().catch(console.error);
+async function main() {
+  createAnAvailabilitySet();
+}
+
+main().catch(console.error);

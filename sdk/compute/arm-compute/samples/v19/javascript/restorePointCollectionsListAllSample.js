@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets the list of restore point collections in the subscription. Use nextLink property in the response to get the next page of restore point collections. Do this till nextLink is not null to fetch all the restore point collections.
@@ -18,7 +19,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/restorePointExamples/RestorePointCollection_ListBySubscription.json
  */
 async function getsTheListOfRestorePointCollectionsInASubscription() {
-  const subscriptionId = "{subscription-id}";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
@@ -28,4 +29,8 @@ async function getsTheListOfRestorePointCollectionsInASubscription() {
   console.log(resArray);
 }
 
-getsTheListOfRestorePointCollectionsInASubscription().catch(console.error);
+async function main() {
+  getsTheListOfRestorePointCollectionsInASubscription();
+}
+
+main().catch(console.error);

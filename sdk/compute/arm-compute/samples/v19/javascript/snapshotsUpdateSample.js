@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Updates (patches) a snapshot.
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/snapshotExamples/Snapshot_Update_WithAcceleratedNetwork.json
  */
 async function updateASnapshotWithAcceleratedNetworking() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const snapshotName = "mySnapshot";
   const snapshot = {
     diskSizeGB: 20,
@@ -36,8 +37,6 @@ async function updateASnapshotWithAcceleratedNetworking() {
   console.log(result);
 }
 
-updateASnapshotWithAcceleratedNetworking().catch(console.error);
-
 /**
  * This sample demonstrates how to Updates (patches) a snapshot.
  *
@@ -45,8 +44,8 @@ updateASnapshotWithAcceleratedNetworking().catch(console.error);
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/snapshotExamples/Snapshot_Update.json
  */
 async function updateASnapshot() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const snapshotName = "mySnapshot";
   const snapshot = {
     diskSizeGB: 20,
@@ -62,4 +61,9 @@ async function updateASnapshot() {
   console.log(result);
 }
 
-updateASnapshot().catch(console.error);
+async function main() {
+  updateASnapshotWithAcceleratedNetworking();
+  updateASnapshot();
+}
+
+main().catch(console.error);

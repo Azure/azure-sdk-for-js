@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Get a shared gallery image by subscription id or tenant id.
@@ -18,7 +19,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/sharedGalleryExamples/SharedGalleryImage_Get.json
  */
 async function getASharedGalleryImage() {
-  const subscriptionId = "{subscription-id}";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "myLocation";
   const galleryUniqueName = "galleryUniqueName";
   const galleryImageName = "myGalleryImageName";
@@ -32,4 +33,8 @@ async function getASharedGalleryImage() {
   console.log(result);
 }
 
-getASharedGalleryImage().catch(console.error);
+async function main() {
+  getASharedGalleryImage();
+}
+
+main().catch(console.error);

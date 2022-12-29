@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets a list of virtual machine image SKUs for the specified location, publisher, and offer.
@@ -18,7 +21,8 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineImageExamples/VirtualMachineImages_ListSkus_MaximumSet_Gen.json
  */
 async function virtualMachineImagesListSkusMaximumSetGen() {
-  const subscriptionId = "{subscription-id}";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "aaaa";
   const publisherName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const offer = "aaaaaaa";
@@ -32,8 +36,6 @@ async function virtualMachineImagesListSkusMaximumSetGen() {
   console.log(result);
 }
 
-virtualMachineImagesListSkusMaximumSetGen().catch(console.error);
-
 /**
  * This sample demonstrates how to Gets a list of virtual machine image SKUs for the specified location, publisher, and offer.
  *
@@ -41,7 +43,8 @@ virtualMachineImagesListSkusMaximumSetGen().catch(console.error);
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineImageExamples/VirtualMachineImages_ListSkus_MinimumSet_Gen.json
  */
 async function virtualMachineImagesListSkusMinimumSetGen() {
-  const subscriptionId = "{subscription-id}";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "aaaa";
   const publisherName = "aaaaaaaaaaaaa";
   const offer = "aaaaaaa";
@@ -55,4 +58,9 @@ async function virtualMachineImagesListSkusMinimumSetGen() {
   console.log(result);
 }
 
-virtualMachineImagesListSkusMinimumSetGen().catch(console.error);
+async function main() {
+  virtualMachineImagesListSkusMaximumSetGen();
+  virtualMachineImagesListSkusMinimumSetGen();
+}
+
+main().catch(console.error);

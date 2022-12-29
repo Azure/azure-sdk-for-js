@@ -13,6 +13,9 @@ import {
   ComputeManagementClient
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Deletes a VM scale set.
@@ -21,8 +24,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Delete_Force.json
  */
 async function forceDeleteAVMScaleSet() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "myvmScaleSet";
   const forceDeletion = true;
   const options: VirtualMachineScaleSetsDeleteOptionalParams = {
@@ -38,4 +43,8 @@ async function forceDeleteAVMScaleSet() {
   console.log(result);
 }
 
-forceDeleteAVMScaleSet().catch(console.error);
+async function main() {
+  forceDeleteAVMScaleSet();
+}
+
+main().catch(console.error);

@@ -13,6 +13,9 @@ import {
   ComputeManagementClient
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to The operation to update a capacity reservation.
@@ -21,8 +24,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/capacityReservationExamples/CapacityReservation_Update_MaximumSet_Gen.json
  */
 async function capacityReservationsUpdateMaximumSetGen() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "rgcompute";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const capacityReservationGroupName = "aaaaaaaaaa";
   const capacityReservationName = "aaaaaaaaaaaaaaaaaaa";
   const parameters: CapacityReservationUpdate = {
@@ -52,8 +57,6 @@ async function capacityReservationsUpdateMaximumSetGen() {
   console.log(result);
 }
 
-capacityReservationsUpdateMaximumSetGen().catch(console.error);
-
 /**
  * This sample demonstrates how to The operation to update a capacity reservation.
  *
@@ -61,8 +64,10 @@ capacityReservationsUpdateMaximumSetGen().catch(console.error);
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/capacityReservationExamples/CapacityReservation_Update_MinimumSet_Gen.json
  */
 async function capacityReservationsUpdateMinimumSetGen() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "rgcompute";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const capacityReservationGroupName = "aaaaaaaaaaaaaaaaaaaaaaaaaa";
   const capacityReservationName = "aaa";
   const parameters: CapacityReservationUpdate = {};
@@ -77,4 +82,9 @@ async function capacityReservationsUpdateMinimumSetGen() {
   console.log(result);
 }
 
-capacityReservationsUpdateMinimumSetGen().catch(console.error);
+async function main() {
+  capacityReservationsUpdateMaximumSetGen();
+  capacityReservationsUpdateMinimumSetGen();
+}
+
+main().catch(console.error);

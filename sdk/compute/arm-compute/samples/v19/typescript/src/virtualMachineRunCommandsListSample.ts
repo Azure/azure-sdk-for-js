@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Lists all available run commands for a subscription in a location.
@@ -18,7 +21,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/runCommandExamples/RunCommand_List.json
  */
 async function virtualMachineRunCommandList() {
-  const subscriptionId = "subid";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "subid";
   const location = "SoutheastAsia";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -29,4 +32,8 @@ async function virtualMachineRunCommandList() {
   console.log(resArray);
 }
 
-virtualMachineRunCommandList().catch(console.error);
+async function main() {
+  virtualMachineRunCommandList();
+}
+
+main().catch(console.error);

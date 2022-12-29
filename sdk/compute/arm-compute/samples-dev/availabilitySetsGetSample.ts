@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Retrieves information about an availability set.
@@ -18,8 +21,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/availabilitySetExamples/AvailabilitySets_Get_MaximumSet_Gen.json
  */
 async function availabilitySetsGetMaximumSetGen() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "rgcompute";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const availabilitySetName = "aaaaaaaaaaaa";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -30,8 +35,6 @@ async function availabilitySetsGetMaximumSetGen() {
   console.log(result);
 }
 
-availabilitySetsGetMaximumSetGen().catch(console.error);
-
 /**
  * This sample demonstrates how to Retrieves information about an availability set.
  *
@@ -39,8 +42,10 @@ availabilitySetsGetMaximumSetGen().catch(console.error);
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/availabilitySetExamples/AvailabilitySets_Get_MinimumSet_Gen.json
  */
 async function availabilitySetsGetMinimumSetGen() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "rgcompute";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const availabilitySetName = "aaaaaaaaaaaaaaaaaaaa";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -51,4 +56,9 @@ async function availabilitySetsGetMinimumSetGen() {
   console.log(result);
 }
 
-availabilitySetsGetMinimumSetGen().catch(console.error);
+async function main() {
+  availabilitySetsGetMaximumSetGen();
+  availabilitySetsGetMinimumSetGen();
+}
+
+main().catch(console.error);

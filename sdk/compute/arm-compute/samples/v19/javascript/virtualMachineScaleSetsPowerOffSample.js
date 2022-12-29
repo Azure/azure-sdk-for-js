@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Power off (stop) one or more virtual machines in a VM scale set. Note that resources are still attached and you are getting charged for the resources. Instead, use deallocate to release resources and avoid charges.
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_PowerOff_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetsPowerOffMaximumSetGen() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "rgcompute";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaa";
   const skipShutdown = true;
   const vmInstanceIDs = {
@@ -39,8 +40,6 @@ async function virtualMachineScaleSetsPowerOffMaximumSetGen() {
   console.log(result);
 }
 
-virtualMachineScaleSetsPowerOffMaximumSetGen().catch(console.error);
-
 /**
  * This sample demonstrates how to Power off (stop) one or more virtual machines in a VM scale set. Note that resources are still attached and you are getting charged for the resources. Instead, use deallocate to release resources and avoid charges.
  *
@@ -48,8 +47,8 @@ virtualMachineScaleSetsPowerOffMaximumSetGen().catch(console.error);
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_PowerOff_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetsPowerOffMinimumSetGen() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "rgcompute";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "a";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -60,4 +59,9 @@ async function virtualMachineScaleSetsPowerOffMinimumSetGen() {
   console.log(result);
 }
 
-virtualMachineScaleSetsPowerOffMinimumSetGen().catch(console.error);
+async function main() {
+  virtualMachineScaleSetsPowerOffMaximumSetGen();
+  virtualMachineScaleSetsPowerOffMinimumSetGen();
+}
+
+main().catch(console.error);

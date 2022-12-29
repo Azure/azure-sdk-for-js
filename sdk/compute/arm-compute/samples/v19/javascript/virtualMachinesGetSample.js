@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Retrieves information about the model view or the instance view of a virtual machine.
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Get.json
  */
 async function getAVirtualMachine() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const expand = "userData";
   const options = { expand };
@@ -28,8 +29,6 @@ async function getAVirtualMachine() {
   const result = await client.virtualMachines.get(resourceGroupName, vmName, options);
   console.log(result);
 }
-
-getAVirtualMachine().catch(console.error);
 
 /**
  * This sample demonstrates how to Retrieves information about the model view or the instance view of a virtual machine.
@@ -38,16 +37,14 @@ getAVirtualMachine().catch(console.error);
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Get_AutoPlacedOnDedicatedHostGroup.json
  */
 async function getAVirtualMachinePlacedOnADedicatedHostGroupThroughAutomaticPlacement() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachines.get(resourceGroupName, vmName);
   console.log(result);
 }
-
-getAVirtualMachinePlacedOnADedicatedHostGroupThroughAutomaticPlacement().catch(console.error);
 
 /**
  * This sample demonstrates how to Retrieves information about the model view or the instance view of a virtual machine.
@@ -56,8 +53,8 @@ getAVirtualMachinePlacedOnADedicatedHostGroupThroughAutomaticPlacement().catch(c
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Get_WithDiskControllerType.json
  */
 async function getAVirtualMachineWithDiskControllerTypeProperties() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const expand = "userData";
   const options = { expand };
@@ -67,8 +64,6 @@ async function getAVirtualMachineWithDiskControllerTypeProperties() {
   console.log(result);
 }
 
-getAVirtualMachineWithDiskControllerTypeProperties().catch(console.error);
-
 /**
  * This sample demonstrates how to Retrieves information about the model view or the instance view of a virtual machine.
  *
@@ -76,8 +71,8 @@ getAVirtualMachineWithDiskControllerTypeProperties().catch(console.error);
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Get_WithVMSizeProperties.json
  */
 async function getAVirtualMachineWithVMSizeProperties() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -85,4 +80,11 @@ async function getAVirtualMachineWithVMSizeProperties() {
   console.log(result);
 }
 
-getAVirtualMachineWithVMSizeProperties().catch(console.error);
+async function main() {
+  getAVirtualMachine();
+  getAVirtualMachinePlacedOnADedicatedHostGroupThroughAutomaticPlacement();
+  getAVirtualMachineWithDiskControllerTypeProperties();
+  getAVirtualMachineWithVMSizeProperties();
+}
+
+main().catch(console.error);

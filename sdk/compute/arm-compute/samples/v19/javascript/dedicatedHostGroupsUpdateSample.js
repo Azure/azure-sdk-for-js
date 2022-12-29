@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Update an dedicated host group.
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/dedicatedHostExamples/DedicatedHostGroups_Update_MaximumSet_Gen.json
  */
 async function dedicatedHostGroupsUpdateMaximumSetGen() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "rgcompute";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const hostGroupName = "aaaa";
   const parameters = {
     instanceView: {
@@ -55,8 +56,6 @@ async function dedicatedHostGroupsUpdateMaximumSetGen() {
   console.log(result);
 }
 
-dedicatedHostGroupsUpdateMaximumSetGen().catch(console.error);
-
 /**
  * This sample demonstrates how to Update an dedicated host group.
  *
@@ -64,8 +63,8 @@ dedicatedHostGroupsUpdateMaximumSetGen().catch(console.error);
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/dedicatedHostExamples/DedicatedHostGroups_Update_MinimumSet_Gen.json
  */
 async function dedicatedHostGroupsUpdateMinimumSetGen() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "rgcompute";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const hostGroupName = "aaaaaaaaaaa";
   const parameters = {};
   const credential = new DefaultAzureCredential();
@@ -78,4 +77,9 @@ async function dedicatedHostGroupsUpdateMinimumSetGen() {
   console.log(result);
 }
 
-dedicatedHostGroupsUpdateMinimumSetGen().catch(console.error);
+async function main() {
+  dedicatedHostGroupsUpdateMaximumSetGen();
+  dedicatedHostGroupsUpdateMinimumSetGen();
+}
+
+main().catch(console.error);

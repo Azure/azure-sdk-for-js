@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Restarts a virtual machine in a VM scale set.
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMs_Restart_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetVMSRestartMaximumSetGen() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "rgcompute";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "aa";
   const instanceId = "aaaaaaaaaaaaaaaaa";
   const credential = new DefaultAzureCredential();
@@ -32,8 +33,6 @@ async function virtualMachineScaleSetVMSRestartMaximumSetGen() {
   console.log(result);
 }
 
-virtualMachineScaleSetVMSRestartMaximumSetGen().catch(console.error);
-
 /**
  * This sample demonstrates how to Restarts a virtual machine in a VM scale set.
  *
@@ -41,8 +40,8 @@ virtualMachineScaleSetVMSRestartMaximumSetGen().catch(console.error);
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMs_Restart_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetVMSRestartMinimumSetGen() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "rgcompute";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaa";
   const instanceId = "aaaaaa";
   const credential = new DefaultAzureCredential();
@@ -55,4 +54,9 @@ async function virtualMachineScaleSetVMSRestartMinimumSetGen() {
   console.log(result);
 }
 
-virtualMachineScaleSetVMSRestartMinimumSetGen().catch(console.error);
+async function main() {
+  virtualMachineScaleSetVMSRestartMaximumSetGen();
+  virtualMachineScaleSetVMSRestartMinimumSetGen();
+}
+
+main().catch(console.error);

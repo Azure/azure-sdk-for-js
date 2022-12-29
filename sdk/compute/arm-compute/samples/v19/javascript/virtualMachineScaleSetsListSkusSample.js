@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets a list of SKUs available for your VM scale set, including the minimum and maximum VM instances allowed for each SKU.
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_ListSkus_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetsListSkusMaximumSetGen() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "rgcompute";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "aaaaaa";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -33,8 +34,6 @@ async function virtualMachineScaleSetsListSkusMaximumSetGen() {
   console.log(resArray);
 }
 
-virtualMachineScaleSetsListSkusMaximumSetGen().catch(console.error);
-
 /**
  * This sample demonstrates how to Gets a list of SKUs available for your VM scale set, including the minimum and maximum VM instances allowed for each SKU.
  *
@@ -42,8 +41,8 @@ virtualMachineScaleSetsListSkusMaximumSetGen().catch(console.error);
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_ListSkus_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetsListSkusMinimumSetGen() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "rgcompute";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaaaa";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -57,4 +56,9 @@ async function virtualMachineScaleSetsListSkusMinimumSetGen() {
   console.log(resArray);
 }
 
-virtualMachineScaleSetsListSkusMinimumSetGen().catch(console.error);
+async function main() {
+  virtualMachineScaleSetsListSkusMaximumSetGen();
+  virtualMachineScaleSetsListSkusMinimumSetGen();
+}
+
+main().catch(console.error);

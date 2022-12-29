@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to The operation to get the restore point.
@@ -18,8 +21,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/restorePointExamples/RestorePoint_Get.json
  */
 async function getARestorePoint() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const restorePointCollectionName = "rpcName";
   const restorePointName = "rpName";
   const credential = new DefaultAzureCredential();
@@ -31,8 +36,6 @@ async function getARestorePoint() {
   );
   console.log(result);
 }
-
-getARestorePoint().catch(console.error);
 
 /**
  * This sample demonstrates how to The operation to get the restore point.
@@ -41,8 +44,10 @@ getARestorePoint().catch(console.error);
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/restorePointExamples/RestorePoint_Get_WithInstanceView.json
  */
 async function getRestorePointWithInstanceView() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const restorePointCollectionName = "rpcName";
   const restorePointName = "rpName";
   const credential = new DefaultAzureCredential();
@@ -55,4 +60,9 @@ async function getRestorePointWithInstanceView() {
   console.log(result);
 }
 
-getRestorePointWithInstanceView().catch(console.error);
+async function main() {
+  getARestorePoint();
+  getRestorePointWithInstanceView();
+}
+
+main().catch(console.error);

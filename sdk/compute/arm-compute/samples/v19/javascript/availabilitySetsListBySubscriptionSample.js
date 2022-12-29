@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Lists all availability sets in a subscription.
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/availabilitySetExamples/AvailabilitySet_ListBySubscription.json
  */
 async function listAvailabilitySetsInASubscription() {
-  const subscriptionId = "{subscriptionId}";
-  const expand = "virtualMachines$ref";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscriptionId}";
+  const expand = "virtualMachines\\$ref";
   const options = { expand };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -30,4 +31,8 @@ async function listAvailabilitySetsInASubscription() {
   console.log(resArray);
 }
 
-listAvailabilitySetsInASubscription().catch(console.error);
+async function main() {
+  listAvailabilitySetsInASubscription();
+}
+
+main().catch(console.error);

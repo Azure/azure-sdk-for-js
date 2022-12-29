@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Lists all of the virtual machines in the specified resource group. Use the nextLink property in the response to get the next page of virtual machines.
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachines_List_MaximumSet_Gen.json
  */
 async function virtualMachinesListMaximumSetGen() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "rgcompute";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const filter = "aaaaaaaaaaaaaaaaaaaaaaa";
   const options = { filter };
   const credential = new DefaultAzureCredential();
@@ -31,8 +32,6 @@ async function virtualMachinesListMaximumSetGen() {
   console.log(resArray);
 }
 
-virtualMachinesListMaximumSetGen().catch(console.error);
-
 /**
  * This sample demonstrates how to Lists all of the virtual machines in the specified resource group. Use the nextLink property in the response to get the next page of virtual machines.
  *
@@ -40,8 +39,8 @@ virtualMachinesListMaximumSetGen().catch(console.error);
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachines_List_MinimumSet_Gen.json
  */
 async function virtualMachinesListMinimumSetGen() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "rgcompute";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
@@ -51,4 +50,9 @@ async function virtualMachinesListMinimumSetGen() {
   console.log(resArray);
 }
 
-virtualMachinesListMinimumSetGen().catch(console.error);
+async function main() {
+  virtualMachinesListMaximumSetGen();
+  virtualMachinesListMinimumSetGen();
+}
+
+main().catch(console.error);

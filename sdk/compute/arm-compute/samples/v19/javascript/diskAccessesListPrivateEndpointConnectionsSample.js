@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to List information about private endpoint connections under a disk access resource
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskAccessExamples/DiskAccessPrivateEndpointConnection_ListByDiskAccess.json
  */
 async function getInformationAboutAPrivateEndpointConnectionUnderADiskAccessResource() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const diskAccessName = "myDiskAccess";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -33,4 +34,8 @@ async function getInformationAboutAPrivateEndpointConnectionUnderADiskAccessReso
   console.log(resArray);
 }
 
-getInformationAboutAPrivateEndpointConnectionUnderADiskAccessResource().catch(console.error);
+async function main() {
+  getInformationAboutAPrivateEndpointConnectionUnderADiskAccessResource();
+}
+
+main().catch(console.error);

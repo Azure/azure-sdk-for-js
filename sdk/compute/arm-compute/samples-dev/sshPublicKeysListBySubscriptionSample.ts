@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Lists all of the SSH public keys in the subscription. Use the nextLink property in the response to get the next page of SSH public keys.
@@ -18,7 +21,8 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/sshPublicKeyExamples/SshPublicKeys_ListBySubscription_MaximumSet_Gen.json
  */
 async function sshPublicKeysListBySubscriptionMaximumSetGen() {
-  const subscriptionId = "{subscription-id}";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
@@ -27,8 +31,6 @@ async function sshPublicKeysListBySubscriptionMaximumSetGen() {
   }
   console.log(resArray);
 }
-
-sshPublicKeysListBySubscriptionMaximumSetGen().catch(console.error);
 
 /**
  * This sample demonstrates how to Lists all of the SSH public keys in the subscription. Use the nextLink property in the response to get the next page of SSH public keys.
@@ -37,7 +39,8 @@ sshPublicKeysListBySubscriptionMaximumSetGen().catch(console.error);
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/sshPublicKeyExamples/SshPublicKeys_ListBySubscription_MinimumSet_Gen.json
  */
 async function sshPublicKeysListBySubscriptionMinimumSetGen() {
-  const subscriptionId = "{subscription-id}";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
@@ -47,4 +50,9 @@ async function sshPublicKeysListBySubscriptionMinimumSetGen() {
   console.log(resArray);
 }
 
-sshPublicKeysListBySubscriptionMinimumSetGen().catch(console.error);
+async function main() {
+  sshPublicKeysListBySubscriptionMaximumSetGen();
+  sshPublicKeysListBySubscriptionMinimumSetGen();
+}
+
+main().catch(console.error);

@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Retrieves information about the run-time state of a role instance in a cloud service.
@@ -18,9 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2022-04-04/examples/CloudServiceRoleInstance_Get_InstanceView.json
  */
 async function getInstanceViewOfCloudServiceRoleInstance() {
-  const subscriptionId = "{subscription-id}";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const roleInstanceName = "{roleInstance-name}";
-  const resourceGroupName = "ConstosoRG";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "ConstosoRG";
   const cloudServiceName = "{cs-name}";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -32,4 +37,8 @@ async function getInstanceViewOfCloudServiceRoleInstance() {
   console.log(result);
 }
 
-getInstanceViewOfCloudServiceRoleInstance().catch(console.error);
+async function main() {
+  getInstanceViewOfCloudServiceRoleInstance();
+}
+
+main().catch(console.error);

@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Creates or updates a disk encryption set
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_Create_WithKeyVaultFromADifferentSubscription.json
  */
 async function createADiskEncryptionSetWithKeyVaultFromADifferentSubscription() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const diskEncryptionSetName = "myDiskEncryptionSet";
   const diskEncryptionSet = {
     activeKey: {
@@ -39,8 +40,6 @@ async function createADiskEncryptionSetWithKeyVaultFromADifferentSubscription() 
   console.log(result);
 }
 
-createADiskEncryptionSetWithKeyVaultFromADifferentSubscription().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates or updates a disk encryption set
  *
@@ -48,8 +47,8 @@ createADiskEncryptionSetWithKeyVaultFromADifferentSubscription().catch(console.e
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_Create_WithKeyVaultFromADifferentTenant.json
  */
 async function createADiskEncryptionSetWithKeyVaultFromADifferentTenant() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const diskEncryptionSetName = "myDiskEncryptionSet";
   const diskEncryptionSet = {
     activeKey: {
@@ -76,8 +75,6 @@ async function createADiskEncryptionSetWithKeyVaultFromADifferentTenant() {
   console.log(result);
 }
 
-createADiskEncryptionSetWithKeyVaultFromADifferentTenant().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates or updates a disk encryption set
  *
@@ -85,8 +82,8 @@ createADiskEncryptionSetWithKeyVaultFromADifferentTenant().catch(console.error);
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_Create.json
  */
 async function createADiskEncryptionSet() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const diskEncryptionSetName = "myDiskEncryptionSet";
   const diskEncryptionSet = {
     activeKey: {
@@ -109,4 +106,10 @@ async function createADiskEncryptionSet() {
   console.log(result);
 }
 
-createADiskEncryptionSet().catch(console.error);
+async function main() {
+  createADiskEncryptionSetWithKeyVaultFromADifferentSubscription();
+  createADiskEncryptionSetWithKeyVaultFromADifferentTenant();
+  createADiskEncryptionSet();
+}
+
+main().catch(console.error);

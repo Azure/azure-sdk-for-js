@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to List shared gallery images by subscription id or tenant id.
@@ -18,7 +19,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/sharedGalleryExamples/SharedGalleryImages_List.json
  */
 async function listSharedGalleryImages() {
-  const subscriptionId = "{subscription-id}";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "myLocation";
   const galleryUniqueName = "galleryUniqueName";
   const credential = new DefaultAzureCredential();
@@ -30,4 +31,8 @@ async function listSharedGalleryImages() {
   console.log(resArray);
 }
 
-listSharedGalleryImages().catch(console.error);
+async function main() {
+  listSharedGalleryImages();
+}
+
+main().catch(console.error);

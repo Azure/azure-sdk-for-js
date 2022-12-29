@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to The operation to perform maintenance on a virtual machine.
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachines_PerformMaintenance_MaximumSet_Gen.json
  */
 async function virtualMachinesPerformMaintenanceMaximumSetGen() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "rgcompute";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmName = "aaaaaaa";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -30,8 +31,6 @@ async function virtualMachinesPerformMaintenanceMaximumSetGen() {
   console.log(result);
 }
 
-virtualMachinesPerformMaintenanceMaximumSetGen().catch(console.error);
-
 /**
  * This sample demonstrates how to The operation to perform maintenance on a virtual machine.
  *
@@ -39,8 +38,8 @@ virtualMachinesPerformMaintenanceMaximumSetGen().catch(console.error);
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachines_PerformMaintenance_MinimumSet_Gen.json
  */
 async function virtualMachinesPerformMaintenanceMinimumSetGen() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "rgcompute";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmName = "aaaaaaaaaa";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -51,4 +50,9 @@ async function virtualMachinesPerformMaintenanceMinimumSetGen() {
   console.log(result);
 }
 
-virtualMachinesPerformMaintenanceMinimumSetGen().catch(console.error);
+async function main() {
+  virtualMachinesPerformMaintenanceMaximumSetGen();
+  virtualMachinesPerformMaintenanceMinimumSetGen();
+}
+
+main().catch(console.error);

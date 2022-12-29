@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets a list of all virtual machines in a VM scale sets.
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMs_List_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetVMSListMaximumSetGen() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "rgcompute";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const virtualMachineScaleSetName = "aaaaaaaaaaaaaaaaaaaaaa";
   const filter = "aaaaaaaaaaaaaa";
   const select = "aaaaaaaaaaaaaaaaaaaaa";
@@ -42,8 +43,6 @@ async function virtualMachineScaleSetVMSListMaximumSetGen() {
   console.log(resArray);
 }
 
-virtualMachineScaleSetVMSListMaximumSetGen().catch(console.error);
-
 /**
  * This sample demonstrates how to Gets a list of all virtual machines in a VM scale sets.
  *
@@ -51,8 +50,8 @@ virtualMachineScaleSetVMSListMaximumSetGen().catch(console.error);
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMs_List_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetVMSListMinimumSetGen() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "rgcompute";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const virtualMachineScaleSetName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -66,4 +65,9 @@ async function virtualMachineScaleSetVMSListMinimumSetGen() {
   console.log(resArray);
 }
 
-virtualMachineScaleSetVMSListMinimumSetGen().catch(console.error);
+async function main() {
+  virtualMachineScaleSetVMSListMaximumSetGen();
+  virtualMachineScaleSetVMSListMinimumSetGen();
+}
+
+main().catch(console.error);

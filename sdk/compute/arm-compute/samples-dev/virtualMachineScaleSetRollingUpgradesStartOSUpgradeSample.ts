@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Starts a rolling upgrade to move all virtual machine scale set instances to the latest available Platform Image OS version. Instances which are already running the latest available OS version are not affected.
@@ -18,8 +21,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetRollingUpgrades_StartOSUpgrade_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetRollingUpgradesStartOSUpgradeMaximumSetGen() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "rgcompute";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "aaaa";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -30,10 +35,6 @@ async function virtualMachineScaleSetRollingUpgradesStartOSUpgradeMaximumSetGen(
   console.log(result);
 }
 
-virtualMachineScaleSetRollingUpgradesStartOSUpgradeMaximumSetGen().catch(
-  console.error
-);
-
 /**
  * This sample demonstrates how to Starts a rolling upgrade to move all virtual machine scale set instances to the latest available Platform Image OS version. Instances which are already running the latest available OS version are not affected.
  *
@@ -41,8 +42,10 @@ virtualMachineScaleSetRollingUpgradesStartOSUpgradeMaximumSetGen().catch(
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetRollingUpgrades_StartOSUpgrade_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetRollingUpgradesStartOSUpgradeMinimumSetGen() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "rgcompute";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaa";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -53,6 +56,9 @@ async function virtualMachineScaleSetRollingUpgradesStartOSUpgradeMinimumSetGen(
   console.log(result);
 }
 
-virtualMachineScaleSetRollingUpgradesStartOSUpgradeMinimumSetGen().catch(
-  console.error
-);
+async function main() {
+  virtualMachineScaleSetRollingUpgradesStartOSUpgradeMaximumSetGen();
+  virtualMachineScaleSetRollingUpgradesStartOSUpgradeMinimumSetGen();
+}
+
+main().catch(console.error);

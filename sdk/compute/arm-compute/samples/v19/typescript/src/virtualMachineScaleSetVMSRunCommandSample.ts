@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { RunCommandInput, ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Run command on a virtual machine in a VM scale set.
@@ -18,8 +21,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/runCommandExamples/VirtualMachineScaleSetVMRunCommand.json
  */
 async function virtualMachineScaleSetVMSRunCommand() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "myVirtualMachineScaleSet";
   const instanceId = "0";
   const parameters: RunCommandInput = {
@@ -37,4 +42,8 @@ async function virtualMachineScaleSetVMSRunCommand() {
   console.log(result);
 }
 
-virtualMachineScaleSetVMSRunCommand().catch(console.error);
+async function main() {
+  virtualMachineScaleSetVMSRunCommand();
+}
+
+main().catch(console.error);

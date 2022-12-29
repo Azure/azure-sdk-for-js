@@ -13,6 +13,9 @@ import {
   ComputeManagementClient
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to The operation to update an extension.
@@ -21,8 +24,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtensions_Update_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetExtensionsUpdateMaximumSetGen() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "rgcompute";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const vmssExtensionName = "aaaa";
   const extensionParameters: VirtualMachineScaleSetExtensionUpdate = {
@@ -48,8 +53,6 @@ async function virtualMachineScaleSetExtensionsUpdateMaximumSetGen() {
   console.log(result);
 }
 
-virtualMachineScaleSetExtensionsUpdateMaximumSetGen().catch(console.error);
-
 /**
  * This sample demonstrates how to The operation to update an extension.
  *
@@ -57,8 +60,10 @@ virtualMachineScaleSetExtensionsUpdateMaximumSetGen().catch(console.error);
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtensions_Update_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetExtensionsUpdateMinimumSetGen() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "rgcompute";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaaaaaaaa";
   const vmssExtensionName = "aa";
   const extensionParameters: VirtualMachineScaleSetExtensionUpdate = {};
@@ -73,4 +78,9 @@ async function virtualMachineScaleSetExtensionsUpdateMinimumSetGen() {
   console.log(result);
 }
 
-virtualMachineScaleSetExtensionsUpdateMinimumSetGen().catch(console.error);
+async function main() {
+  virtualMachineScaleSetExtensionsUpdateMaximumSetGen();
+  virtualMachineScaleSetExtensionsUpdateMinimumSetGen();
+}
+
+main().catch(console.error);

@@ -13,6 +13,9 @@ import {
   ComputeManagementClient
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to The operation to update a virtual machine.
@@ -21,8 +24,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Update_DetachDataDiskUsingToBeDetachedProperty.json
  */
 async function updateAVMByDetachingDataDisk() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachineUpdate = {
     hardwareProfile: { vmSize: "Standard_D2_v2" },
@@ -69,8 +74,6 @@ async function updateAVMByDetachingDataDisk() {
   console.log(result);
 }
 
-updateAVMByDetachingDataDisk().catch(console.error);
-
 /**
  * This sample demonstrates how to The operation to update a virtual machine.
  *
@@ -78,8 +81,10 @@ updateAVMByDetachingDataDisk().catch(console.error);
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Update_ForceDetachDataDisk.json
  */
 async function updateAVMByForceDetachingDataDisk() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVM";
   const parameters: VirtualMachineUpdate = {
     hardwareProfile: { vmSize: "Standard_D2_v2" },
@@ -132,4 +137,9 @@ async function updateAVMByForceDetachingDataDisk() {
   console.log(result);
 }
 
-updateAVMByForceDetachingDataDisk().catch(console.error);
+async function main() {
+  updateAVMByDetachingDataDisk();
+  updateAVMByForceDetachingDataDisk();
+}
+
+main().catch(console.error);

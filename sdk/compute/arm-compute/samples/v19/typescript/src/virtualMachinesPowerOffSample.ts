@@ -13,6 +13,9 @@ import {
   ComputeManagementClient
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to The operation to power off (stop) a virtual machine. The virtual machine can be restarted with the same provisioned resources. You are still charged for this virtual machine.
@@ -21,8 +24,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachines_PowerOff_MaximumSet_Gen.json
  */
 async function virtualMachinesPowerOffMaximumSetGen() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "rgcompute";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmName = "aaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const skipShutdown = true;
   const options: VirtualMachinesPowerOffOptionalParams = { skipShutdown };
@@ -36,8 +41,6 @@ async function virtualMachinesPowerOffMaximumSetGen() {
   console.log(result);
 }
 
-virtualMachinesPowerOffMaximumSetGen().catch(console.error);
-
 /**
  * This sample demonstrates how to The operation to power off (stop) a virtual machine. The virtual machine can be restarted with the same provisioned resources. You are still charged for this virtual machine.
  *
@@ -45,8 +48,10 @@ virtualMachinesPowerOffMaximumSetGen().catch(console.error);
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachines_PowerOff_MinimumSet_Gen.json
  */
 async function virtualMachinesPowerOffMinimumSetGen() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "rgcompute";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmName = "aaaaaaaaaaaaaaaaaa";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -57,4 +62,9 @@ async function virtualMachinesPowerOffMinimumSetGen() {
   console.log(result);
 }
 
-virtualMachinesPowerOffMinimumSetGen().catch(console.error);
+async function main() {
+  virtualMachinesPowerOffMaximumSetGen();
+  virtualMachinesPowerOffMinimumSetGen();
+}
+
+main().catch(console.error);

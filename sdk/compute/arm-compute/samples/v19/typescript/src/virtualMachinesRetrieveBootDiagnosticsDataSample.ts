@@ -13,6 +13,9 @@ import {
   ComputeManagementClient
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to The operation to retrieve SAS URIs for a virtual machine's boot diagnostic logs.
@@ -21,8 +24,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_RetrieveBootDiagnosticsData.json
  */
 async function retrieveBootDiagnosticsDataOfAVirtualMachine() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "ResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "ResourceGroup";
   const vmName = "VMName";
   const sasUriExpirationTimeInMinutes = 60;
   const options: VirtualMachinesRetrieveBootDiagnosticsDataOptionalParams = {
@@ -38,4 +43,8 @@ async function retrieveBootDiagnosticsDataOfAVirtualMachine() {
   console.log(result);
 }
 
-retrieveBootDiagnosticsDataOfAVirtualMachine().catch(console.error);
+async function main() {
+  retrieveBootDiagnosticsDataOfAVirtualMachine();
+}
+
+main().catch(console.error);

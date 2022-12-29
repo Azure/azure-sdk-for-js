@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to The operation to create or update a capacity reservation group. When updating a capacity reservation group, only tags may be modified. Please refer to https://aka.ms/CapacityReservation for more details.
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/capacityReservationExamples/CapacityReservationGroup_CreateOrUpdate.json
  */
 async function createOrUpdateACapacityReservationGroup() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const capacityReservationGroupName = "myCapacityReservationGroup";
   const parameters = {
     location: "westus",
@@ -36,4 +37,8 @@ async function createOrUpdateACapacityReservationGroup() {
   console.log(result);
 }
 
-createOrUpdateACapacityReservationGroup().catch(console.error);
+async function main() {
+  createOrUpdateACapacityReservationGroup();
+}
+
+main().catch(console.error);

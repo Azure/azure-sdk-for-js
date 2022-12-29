@@ -13,6 +13,9 @@ import {
   ComputeManagementClient
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Updates a virtual machine of a VM scale set.
@@ -21,8 +24,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMs_Update_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetVMSUpdateMaximumSetGen() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "rgcompute";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaa";
   const instanceId = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const parameters: VirtualMachineScaleSetVM = {
@@ -461,8 +466,6 @@ async function virtualMachineScaleSetVMSUpdateMaximumSetGen() {
   console.log(result);
 }
 
-virtualMachineScaleSetVMSUpdateMaximumSetGen().catch(console.error);
-
 /**
  * This sample demonstrates how to Updates a virtual machine of a VM scale set.
  *
@@ -470,8 +473,10 @@ virtualMachineScaleSetVMSUpdateMaximumSetGen().catch(console.error);
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMs_Update_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetVMSUpdateMinimumSetGen() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "rgcompute";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaa";
   const instanceId = "aaaaaaaaaaaaaaaaaaaa";
   const parameters: VirtualMachineScaleSetVM = { location: "westus" };
@@ -486,4 +491,9 @@ async function virtualMachineScaleSetVMSUpdateMinimumSetGen() {
   console.log(result);
 }
 
-virtualMachineScaleSetVMSUpdateMinimumSetGen().catch(console.error);
+async function main() {
+  virtualMachineScaleSetVMSUpdateMaximumSetGen();
+  virtualMachineScaleSetVMSUpdateMinimumSetGen();
+}
+
+main().catch(console.error);

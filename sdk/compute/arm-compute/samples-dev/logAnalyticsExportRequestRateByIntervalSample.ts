@@ -13,6 +13,9 @@ import {
   ComputeManagementClient
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Export logs that show Api requests made by this subscription in the given time window to show throttling activities.
@@ -21,7 +24,8 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/logAnalyticExamples/LogAnalytics_RequestRateByInterval.json
  */
 async function exportLogsWhichContainAllApiRequestsMadeToComputeResourceProviderWithinTheGivenTimePeriodBrokenDownByIntervals() {
-  const subscriptionId = "{subscription-id}";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "westus";
   const parameters: RequestRateByIntervalInput = {
     blobContainerSasUri: "https://somesasuri",
@@ -39,6 +43,8 @@ async function exportLogsWhichContainAllApiRequestsMadeToComputeResourceProvider
   console.log(result);
 }
 
-exportLogsWhichContainAllApiRequestsMadeToComputeResourceProviderWithinTheGivenTimePeriodBrokenDownByIntervals().catch(
-  console.error
-);
+async function main() {
+  exportLogsWhichContainAllApiRequestsMadeToComputeResourceProviderWithinTheGivenTimePeriodBrokenDownByIntervals();
+}
+
+main().catch(console.error);

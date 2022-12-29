@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Upgrades one or more virtual machines to the latest SKU set in the VM scale set model.
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_UpdateInstances_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetsUpdateInstancesMaximumSetGen() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "rgcompute";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaaaaaa";
   const vmInstanceIDs = {
     instanceIds: ["aaaaaaaaaaaaaaaaaaaaaaaaa"],
@@ -34,8 +35,6 @@ async function virtualMachineScaleSetsUpdateInstancesMaximumSetGen() {
   console.log(result);
 }
 
-virtualMachineScaleSetsUpdateInstancesMaximumSetGen().catch(console.error);
-
 /**
  * This sample demonstrates how to Upgrades one or more virtual machines to the latest SKU set in the VM scale set model.
  *
@@ -43,8 +42,8 @@ virtualMachineScaleSetsUpdateInstancesMaximumSetGen().catch(console.error);
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_UpdateInstances_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetsUpdateInstancesMinimumSetGen() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "rgcompute";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const vmInstanceIDs = {
     instanceIds: ["aaaaaaaaaaaaaaaaaaaaaaaaa"],
@@ -59,4 +58,9 @@ async function virtualMachineScaleSetsUpdateInstancesMinimumSetGen() {
   console.log(result);
 }
 
-virtualMachineScaleSetsUpdateInstancesMinimumSetGen().catch(console.error);
+async function main() {
+  virtualMachineScaleSetsUpdateInstancesMaximumSetGen();
+  virtualMachineScaleSetsUpdateInstancesMinimumSetGen();
+}
+
+main().catch(console.error);

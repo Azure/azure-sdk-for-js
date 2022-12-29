@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Updates a new SSH public key resource.
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/sshPublicKeyExamples/SshPublicKeys_Update_MaximumSet_Gen.json
  */
 async function sshPublicKeysUpdateMaximumSetGen() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "rgcompute";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const sshPublicKeyName = "aaaaaaaaaaaa";
   const parameters = {
     publicKey: "{ssh-rsa public key}",
@@ -31,8 +32,6 @@ async function sshPublicKeysUpdateMaximumSetGen() {
   console.log(result);
 }
 
-sshPublicKeysUpdateMaximumSetGen().catch(console.error);
-
 /**
  * This sample demonstrates how to Updates a new SSH public key resource.
  *
@@ -40,8 +39,8 @@ sshPublicKeysUpdateMaximumSetGen().catch(console.error);
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/sshPublicKeyExamples/SshPublicKeys_Update_MinimumSet_Gen.json
  */
 async function sshPublicKeysUpdateMinimumSetGen() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "rgcompute";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const sshPublicKeyName = "aaaaaaaaaaa";
   const parameters = {};
   const credential = new DefaultAzureCredential();
@@ -50,4 +49,9 @@ async function sshPublicKeysUpdateMinimumSetGen() {
   console.log(result);
 }
 
-sshPublicKeysUpdateMinimumSetGen().catch(console.error);
+async function main() {
+  sshPublicKeysUpdateMaximumSetGen();
+  sshPublicKeysUpdateMinimumSetGen();
+}
+
+main().catch(console.error);

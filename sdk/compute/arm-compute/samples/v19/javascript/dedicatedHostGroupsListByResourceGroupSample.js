@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Lists all of the dedicated host groups in the specified resource group. Use the nextLink property in the response to get the next page of dedicated host groups.
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/dedicatedHostExamples/DedicatedHostGroups_ListByResourceGroup_MaximumSet_Gen.json
  */
 async function dedicatedHostGroupsListByResourceGroupMaximumSetGen() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "rgcompute";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
@@ -28,8 +29,6 @@ async function dedicatedHostGroupsListByResourceGroupMaximumSetGen() {
   }
   console.log(resArray);
 }
-
-dedicatedHostGroupsListByResourceGroupMaximumSetGen().catch(console.error);
 
 /**
  * This sample demonstrates how to Lists all of the dedicated host groups in the specified resource group. Use the nextLink property in the response to get the next page of dedicated host groups.
@@ -38,8 +37,8 @@ dedicatedHostGroupsListByResourceGroupMaximumSetGen().catch(console.error);
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/dedicatedHostExamples/DedicatedHostGroups_ListByResourceGroup_MinimumSet_Gen.json
  */
 async function dedicatedHostGroupsListByResourceGroupMinimumSetGen() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "rgcompute";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
@@ -49,4 +48,9 @@ async function dedicatedHostGroupsListByResourceGroupMinimumSetGen() {
   console.log(resArray);
 }
 
-dedicatedHostGroupsListByResourceGroupMinimumSetGen().catch(console.error);
+async function main() {
+  dedicatedHostGroupsListByResourceGroupMaximumSetGen();
+  dedicatedHostGroupsListByResourceGroupMinimumSetGen();
+}
+
+main().catch(console.error);

@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets a list of all update domains in a cloud service.
@@ -18,8 +21,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2022-04-04/examples/CloudServiceUpdateDomain_List.json
  */
 async function listUpdateDomainsInCloudService() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "ConstosoRG";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "ConstosoRG";
   const cloudServiceName = "{cs-name}";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -33,4 +38,8 @@ async function listUpdateDomainsInCloudService() {
   console.log(resArray);
 }
 
-listUpdateDomainsInCloudService().catch(console.error);
+async function main() {
+  listUpdateDomainsInCloudService();
+}
+
+main().catch(console.error);

@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Get a community gallery image version.
@@ -18,7 +19,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/communityGalleryExamples/CommunityGalleryImageVersion_Get.json
  */
 async function getACommunityGalleryImageVersion() {
-  const subscriptionId = "{subscription-id}";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "myLocation";
   const publicGalleryName = "publicGalleryName";
   const galleryImageName = "myGalleryImageName";
@@ -34,4 +35,8 @@ async function getACommunityGalleryImageVersion() {
   console.log(result);
 }
 
-getACommunityGalleryImageVersion().catch(console.error);
+async function main() {
+  getACommunityGalleryImageVersion();
+}
+
+main().catch(console.error);

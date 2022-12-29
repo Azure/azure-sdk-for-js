@@ -9325,14 +9325,7 @@ export type VirtualMachineScaleSetVMsRunCommandResponse = RunCommandResult;
 
 /** Optional parameters. */
 export interface VirtualMachineScaleSetVMsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The expand expression to apply to the operation. Allowed values are 'instanceView'. */
-  expand?: string;
-  /** The filter to apply to the operation. Allowed values are 'startswith(instanceView/statuses/code, 'PowerState') eq true', 'properties/latestModelApplied eq true', 'properties/latestModelApplied eq false'. */
-  filter?: string;
-  /** The list parameters. Allowed values are 'instanceView', 'instanceView/statuses'. */
-  select?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type VirtualMachineScaleSetVMsListNextResponse = VirtualMachineScaleSetVMListResult;
@@ -9640,22 +9633,14 @@ export type VirtualMachinesListByLocationNextResponse = VirtualMachineListResult
 
 /** Optional parameters. */
 export interface VirtualMachinesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The system query option to filter VMs returned in the response. Allowed value is 'virtualMachineScaleSet/id' eq /subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmssName}' */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type VirtualMachinesListNextResponse = VirtualMachineListResult;
 
 /** Optional parameters. */
 export interface VirtualMachinesListAllNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The system query option to filter VMs returned in the response. Allowed value is 'virtualMachineScaleSet/id' eq /subscriptions/{subId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmssName}' */
-  filter?: string;
-  /** statusOnly=true enables fetching run time status of all Virtual Machines in the subscription. */
-  statusOnly?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAllNext operation. */
 export type VirtualMachinesListAllNextResponse = VirtualMachineListResult;
@@ -9826,10 +9811,7 @@ export type AvailabilitySetsListAvailableSizesResponse = VirtualMachineSizeListR
 
 /** Optional parameters. */
 export interface AvailabilitySetsListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The expand expression to apply to the operation. Allowed values are 'instanceView'. */
-  expand?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type AvailabilitySetsListBySubscriptionNextResponse = AvailabilitySetListResult;
@@ -10290,20 +10272,14 @@ export type CapacityReservationGroupsListBySubscriptionResponse = CapacityReserv
 
 /** Optional parameters. */
 export interface CapacityReservationGroupsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The expand expression to apply on the operation. Based on the expand param(s) specified we return Virtual Machine or ScaleSet VM Instance or both resource Ids which are associated to capacity reservation group in the response. */
-  expand?: ExpandTypesForGetCapacityReservationGroups;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type CapacityReservationGroupsListByResourceGroupNextResponse = CapacityReservationGroupListResult;
 
 /** Optional parameters. */
 export interface CapacityReservationGroupsListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The expand expression to apply on the operation. Based on the expand param(s) specified we return Virtual Machine or ScaleSet VM Instance or both resource Ids which are associated to capacity reservation group in the response. */
-  expand?: ExpandTypesForGetCapacityReservationGroups;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type CapacityReservationGroupsListBySubscriptionNextResponse = CapacityReservationGroupListResult;
@@ -10465,10 +10441,7 @@ export type VirtualMachineRunCommandsListNextResponse = RunCommandListResult;
 
 /** Optional parameters. */
 export interface VirtualMachineRunCommandsListByVirtualMachineNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The expand expression to apply on the operation. */
-  expand?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByVirtualMachineNext operation. */
 export type VirtualMachineRunCommandsListByVirtualMachineNextResponse = VirtualMachineRunCommandsListResult;
@@ -10528,10 +10501,7 @@ export type VirtualMachineScaleSetVMRunCommandsListResponse = VirtualMachineRunC
 
 /** Optional parameters. */
 export interface VirtualMachineScaleSetVMRunCommandsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The expand expression to apply on the operation. */
-  expand?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type VirtualMachineScaleSetVMRunCommandsListNextResponse = VirtualMachineRunCommandsListResult;
@@ -10965,12 +10935,7 @@ export type ResourceSkusListResponse = ResourceSkusResult;
 
 /** Optional parameters. */
 export interface ResourceSkusListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. Only **location** filter is supported currently. */
-  filter?: string;
-  /** To Include Extended Locations information or not in the response. */
-  includeExtendedLocations?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ResourceSkusListNextResponse = ResourceSkusResult;
@@ -11301,10 +11266,7 @@ export type SharedGalleriesGetResponse = SharedGallery;
 
 /** Optional parameters. */
 export interface SharedGalleriesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The query parameter to decide what shared galleries to fetch when doing listing operations. */
-  sharedTo?: SharedToValues;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type SharedGalleriesListNextResponse = SharedGalleryList;
@@ -11328,10 +11290,7 @@ export type SharedGalleryImagesGetResponse = SharedGalleryImage;
 
 /** Optional parameters. */
 export interface SharedGalleryImagesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The query parameter to decide what shared galleries to fetch when doing listing operations. */
-  sharedTo?: SharedToValues;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type SharedGalleryImagesListNextResponse = SharedGalleryImageList;
@@ -11355,10 +11314,7 @@ export type SharedGalleryImageVersionsGetResponse = SharedGalleryImageVersion;
 
 /** Optional parameters. */
 export interface SharedGalleryImageVersionsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The query parameter to decide what shared galleries to fetch when doing listing operations. */
-  sharedTo?: SharedToValues;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type SharedGalleryImageVersionsListNextResponse = SharedGalleryImageVersionList;
@@ -11499,10 +11455,7 @@ export type CloudServiceRoleInstancesGetRemoteDesktopFileResponse = {
 
 /** Optional parameters. */
 export interface CloudServiceRoleInstancesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The expand expression to apply to the operation. 'UserData' is not supported for cloud services. */
-  expand?: InstanceViewTypes;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type CloudServiceRoleInstancesListNextResponse = RoleInstanceListResult;

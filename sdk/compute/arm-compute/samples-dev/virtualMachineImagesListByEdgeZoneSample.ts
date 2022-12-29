@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets a list of all virtual machine image versions for the specified edge zone
@@ -18,7 +21,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_ListByEdgeZone_MaximumSet_Gen.json
  */
 async function virtualMachineImagesEdgeZoneListByEdgeZoneMaximumSetGen() {
-  const subscriptionId = "5ece5940-d962-4dad-a98f-ca9ac0f021a5";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] ||
+    "5ece5940-d962-4dad-a98f-ca9ac0f021a5";
   const location = "WestUS";
   const edgeZone = "microsoftlosangeles1";
   const credential = new DefaultAzureCredential();
@@ -29,8 +34,6 @@ async function virtualMachineImagesEdgeZoneListByEdgeZoneMaximumSetGen() {
   );
   console.log(result);
 }
-
-virtualMachineImagesEdgeZoneListByEdgeZoneMaximumSetGen().catch(console.error);
 
 /**
  * This sample demonstrates how to Gets a list of all virtual machine image versions for the specified edge zone
@@ -39,7 +42,9 @@ virtualMachineImagesEdgeZoneListByEdgeZoneMaximumSetGen().catch(console.error);
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_ListByEdgeZone_MinimumSet_Gen.json
  */
 async function virtualMachineImagesEdgeZoneListByEdgeZoneMinimumSetGen() {
-  const subscriptionId = "5ece5940-d962-4dad-a98f-ca9ac0f021a5";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] ||
+    "5ece5940-d962-4dad-a98f-ca9ac0f021a5";
   const location = "WestUS";
   const edgeZone = "microsoftlosangeles1";
   const credential = new DefaultAzureCredential();
@@ -51,4 +56,9 @@ async function virtualMachineImagesEdgeZoneListByEdgeZoneMinimumSetGen() {
   console.log(result);
 }
 
-virtualMachineImagesEdgeZoneListByEdgeZoneMinimumSetGen().catch(console.error);
+async function main() {
+  virtualMachineImagesEdgeZoneListByEdgeZoneMaximumSetGen();
+  virtualMachineImagesEdgeZoneListByEdgeZoneMinimumSetGen();
+}
+
+main().catch(console.error);

@@ -13,6 +13,9 @@ import {
   ComputeManagementClient
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Shuts down the virtual machine and releases the compute resources. You are not billed for the compute resources that this virtual machine uses.
@@ -21,8 +24,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachines_Deallocate_MaximumSet_Gen.json
  */
 async function virtualMachinesDeallocateMaximumSetGen() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "rgcompute";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmName = "aaaaaaaaaa";
   const hibernate = true;
   const options: VirtualMachinesDeallocateOptionalParams = { hibernate };
@@ -36,8 +41,6 @@ async function virtualMachinesDeallocateMaximumSetGen() {
   console.log(result);
 }
 
-virtualMachinesDeallocateMaximumSetGen().catch(console.error);
-
 /**
  * This sample demonstrates how to Shuts down the virtual machine and releases the compute resources. You are not billed for the compute resources that this virtual machine uses.
  *
@@ -45,8 +48,10 @@ virtualMachinesDeallocateMaximumSetGen().catch(console.error);
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachines_Deallocate_MinimumSet_Gen.json
  */
 async function virtualMachinesDeallocateMinimumSetGen() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "rgcompute";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmName = "aaaaaaaaaaaaaaaa";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -57,4 +62,9 @@ async function virtualMachinesDeallocateMinimumSetGen() {
   console.log(result);
 }
 
-virtualMachinesDeallocateMinimumSetGen().catch(console.error);
+async function main() {
+  virtualMachinesDeallocateMaximumSetGen();
+  virtualMachinesDeallocateMinimumSetGen();
+}
+
+main().catch(console.error);

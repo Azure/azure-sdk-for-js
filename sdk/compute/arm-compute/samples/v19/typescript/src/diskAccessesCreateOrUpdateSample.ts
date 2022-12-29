@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { DiskAccess, ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates or updates a disk access resource
@@ -18,8 +21,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskAccessExamples/DiskAccess_Create.json
  */
 async function createADiskAccessResource() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const diskAccessName = "myDiskAccess";
   const diskAccess: DiskAccess = { location: "West US" };
   const credential = new DefaultAzureCredential();
@@ -32,4 +37,8 @@ async function createADiskAccessResource() {
   console.log(result);
 }
 
-createADiskAccessResource().catch(console.error);
+async function main() {
+  createADiskAccessResource();
+}
+
+main().catch(console.error);

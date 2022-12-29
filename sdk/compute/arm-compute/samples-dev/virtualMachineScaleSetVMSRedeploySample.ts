@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Shuts down the virtual machine in the virtual machine scale set, moves it to a new node, and powers it back on.
@@ -18,8 +21,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMs_Redeploy_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetVMSRedeployMaximumSetGen() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "rgcompute";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaaaaa";
   const instanceId = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const credential = new DefaultAzureCredential();
@@ -32,8 +37,6 @@ async function virtualMachineScaleSetVMSRedeployMaximumSetGen() {
   console.log(result);
 }
 
-virtualMachineScaleSetVMSRedeployMaximumSetGen().catch(console.error);
-
 /**
  * This sample demonstrates how to Shuts down the virtual machine in the virtual machine scale set, moves it to a new node, and powers it back on.
  *
@@ -41,8 +44,10 @@ virtualMachineScaleSetVMSRedeployMaximumSetGen().catch(console.error);
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMs_Redeploy_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetVMSRedeployMinimumSetGen() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "rgcompute";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaa";
   const instanceId = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const credential = new DefaultAzureCredential();
@@ -55,4 +60,9 @@ async function virtualMachineScaleSetVMSRedeployMinimumSetGen() {
   console.log(result);
 }
 
-virtualMachineScaleSetVMSRedeployMinimumSetGen().catch(console.error);
+async function main() {
+  virtualMachineScaleSetVMSRedeployMaximumSetGen();
+  virtualMachineScaleSetVMSRedeployMinimumSetGen();
+}
+
+main().catch(console.error);

@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets, for the specified location, the current compute resource usage information as well as the limits for compute resources under the subscription.
@@ -18,7 +21,8 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/computeRPCommonExamples/Usage_List_MaximumSet_Gen.json
  */
 async function usageListMaximumSetGen() {
-  const subscriptionId = "{subscription-id}";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "4_.";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -29,8 +33,6 @@ async function usageListMaximumSetGen() {
   console.log(resArray);
 }
 
-usageListMaximumSetGen().catch(console.error);
-
 /**
  * This sample demonstrates how to Gets, for the specified location, the current compute resource usage information as well as the limits for compute resources under the subscription.
  *
@@ -38,7 +40,8 @@ usageListMaximumSetGen().catch(console.error);
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/computeRPCommonExamples/Usage_List_MinimumSet_Gen.json
  */
 async function usageListMinimumSetGen() {
-  const subscriptionId = "{subscription-id}";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "_--";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -49,4 +52,9 @@ async function usageListMinimumSetGen() {
   console.log(resArray);
 }
 
-usageListMinimumSetGen().catch(console.error);
+async function main() {
+  usageListMaximumSetGen();
+  usageListMinimumSetGen();
+}
+
+main().catch(console.error);

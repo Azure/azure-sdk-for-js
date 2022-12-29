@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to The operation to restart a virtual machine.
@@ -18,8 +21,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachines_Restart_MaximumSet_Gen.json
  */
 async function virtualMachinesRestartMaximumSetGen() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "rgcompute";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmName = "aaaaaaaaaaaaaaaaaaaa";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -30,8 +35,6 @@ async function virtualMachinesRestartMaximumSetGen() {
   console.log(result);
 }
 
-virtualMachinesRestartMaximumSetGen().catch(console.error);
-
 /**
  * This sample demonstrates how to The operation to restart a virtual machine.
  *
@@ -39,8 +42,10 @@ virtualMachinesRestartMaximumSetGen().catch(console.error);
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachines_Restart_MinimumSet_Gen.json
  */
 async function virtualMachinesRestartMinimumSetGen() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "rgcompute";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmName = "aaa";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -51,4 +56,9 @@ async function virtualMachinesRestartMinimumSetGen() {
   console.log(result);
 }
 
-virtualMachinesRestartMinimumSetGen().catch(console.error);
+async function main() {
+  virtualMachinesRestartMaximumSetGen();
+  virtualMachinesRestartMinimumSetGen();
+}
+
+main().catch(console.error);

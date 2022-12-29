@@ -13,6 +13,9 @@ import {
   ComputeManagementClient
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to The operation to create or update the restore point collection. Please refer to https://aka.ms/RestorePoints for more details. When updating a restore point collection, only tags may be modified.
@@ -21,8 +24,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/restorePointExamples/RestorePointCollection_CreateOrUpdate_ForCrossRegionCopy.json
  */
 async function createOrUpdateARestorePointCollectionForCrossRegionCopy() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const restorePointCollectionName = "myRpc";
   const parameters: RestorePointCollection = {
     location: "norwayeast",
@@ -42,8 +47,6 @@ async function createOrUpdateARestorePointCollectionForCrossRegionCopy() {
   console.log(result);
 }
 
-createOrUpdateARestorePointCollectionForCrossRegionCopy().catch(console.error);
-
 /**
  * This sample demonstrates how to The operation to create or update the restore point collection. Please refer to https://aka.ms/RestorePoints for more details. When updating a restore point collection, only tags may be modified.
  *
@@ -51,8 +54,10 @@ createOrUpdateARestorePointCollectionForCrossRegionCopy().catch(console.error);
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/restorePointExamples/RestorePointCollection_CreateOrUpdate.json
  */
 async function createOrUpdateARestorePointCollection() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const restorePointCollectionName = "myRpc";
   const parameters: RestorePointCollection = {
     location: "norwayeast",
@@ -72,4 +77,9 @@ async function createOrUpdateARestorePointCollection() {
   console.log(result);
 }
 
-createOrUpdateARestorePointCollection().catch(console.error);
+async function main() {
+  createOrUpdateARestorePointCollectionForCrossRegionCopy();
+  createOrUpdateARestorePointCollection();
+}
+
+main().catch(console.error);

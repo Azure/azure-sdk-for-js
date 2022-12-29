@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets a list of virtual machine extension image types.
@@ -18,7 +21,8 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExtensionImageExamples/VirtualMachineExtensionImages_ListTypes_MaximumSet_Gen.json
  */
 async function virtualMachineExtensionImagesListTypesMaximumSetGen() {
-  const subscriptionId = "{subscription-id}";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "aaaaaaaaaaaaaaaaaaaaaaaaaa";
   const publisherName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const credential = new DefaultAzureCredential();
@@ -30,8 +34,6 @@ async function virtualMachineExtensionImagesListTypesMaximumSetGen() {
   console.log(result);
 }
 
-virtualMachineExtensionImagesListTypesMaximumSetGen().catch(console.error);
-
 /**
  * This sample demonstrates how to Gets a list of virtual machine extension image types.
  *
@@ -39,7 +41,8 @@ virtualMachineExtensionImagesListTypesMaximumSetGen().catch(console.error);
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExtensionImageExamples/VirtualMachineExtensionImages_ListTypes_MinimumSet_Gen.json
  */
 async function virtualMachineExtensionImagesListTypesMinimumSetGen() {
-  const subscriptionId = "{subscription-id}";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "aaaa";
   const publisherName = "aa";
   const credential = new DefaultAzureCredential();
@@ -51,4 +54,9 @@ async function virtualMachineExtensionImagesListTypesMinimumSetGen() {
   console.log(result);
 }
 
-virtualMachineExtensionImagesListTypesMinimumSetGen().catch(console.error);
+async function main() {
+  virtualMachineExtensionImagesListTypesMaximumSetGen();
+  virtualMachineExtensionImagesListTypesMinimumSetGen();
+}
+
+main().catch(console.error);

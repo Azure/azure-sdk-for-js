@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to The operation to create the restore point. Updating properties of an existing restore point is not allowed
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/restorePointExamples/RestorePoint_Copy_BetweenRegions.json
  */
 async function copyARestorePointToADifferentRegion() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const restorePointCollectionName = "rpcName";
   const restorePointName = "rpName";
   const parameters = {
@@ -38,8 +39,6 @@ async function copyARestorePointToADifferentRegion() {
   console.log(result);
 }
 
-copyARestorePointToADifferentRegion().catch(console.error);
-
 /**
  * This sample demonstrates how to The operation to create the restore point. Updating properties of an existing restore point is not allowed
  *
@@ -47,8 +46,8 @@ copyARestorePointToADifferentRegion().catch(console.error);
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/restorePointExamples/RestorePoint_Create.json
  */
 async function createARestorePoint() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const restorePointCollectionName = "rpcName";
   const restorePointName = "rpName";
   const parameters = {
@@ -69,4 +68,9 @@ async function createARestorePoint() {
   console.log(result);
 }
 
-createARestorePoint().catch(console.error);
+async function main() {
+  copyARestorePointToADifferentRegion();
+  createARestorePoint();
+}
+
+main().catch(console.error);

@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Lists all of the SSH public keys in the specified resource group. Use the nextLink property in the response to get the next page of SSH public keys.
@@ -18,8 +21,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/sshPublicKeyExamples/SshPublicKeys_ListByResourceGroup_MaximumSet_Gen.json
  */
 async function sshPublicKeysListByResourceGroupMaximumSetGen() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "rgcompute";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
@@ -30,8 +35,6 @@ async function sshPublicKeysListByResourceGroupMaximumSetGen() {
   }
   console.log(resArray);
 }
-
-sshPublicKeysListByResourceGroupMaximumSetGen().catch(console.error);
 
 /**
  * This sample demonstrates how to Lists all of the SSH public keys in the specified resource group. Use the nextLink property in the response to get the next page of SSH public keys.
@@ -40,8 +43,10 @@ sshPublicKeysListByResourceGroupMaximumSetGen().catch(console.error);
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/sshPublicKeyExamples/SshPublicKeys_ListByResourceGroup_MinimumSet_Gen.json
  */
 async function sshPublicKeysListByResourceGroupMinimumSetGen() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "rgcompute";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
@@ -53,4 +58,9 @@ async function sshPublicKeysListByResourceGroupMinimumSetGen() {
   console.log(resArray);
 }
 
-sshPublicKeysListByResourceGroupMinimumSetGen().catch(console.error);
+async function main() {
+  sshPublicKeysListByResourceGroupMaximumSetGen();
+  sshPublicKeysListByResourceGroupMinimumSetGen();
+}
+
+main().catch(console.error);

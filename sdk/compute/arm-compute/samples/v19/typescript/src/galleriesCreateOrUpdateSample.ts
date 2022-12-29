@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { Gallery, ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create or update a Shared Image Gallery.
@@ -18,8 +21,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/CommunityGallery_Create.json
  */
 async function createACommunityGallery() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const galleryName = "myGalleryName";
   const gallery: Gallery = {
     description: "This is the gallery description.",
@@ -44,8 +49,6 @@ async function createACommunityGallery() {
   console.log(result);
 }
 
-createACommunityGallery().catch(console.error);
-
 /**
  * This sample demonstrates how to Create or update a Shared Image Gallery.
  *
@@ -53,8 +56,10 @@ createACommunityGallery().catch(console.error);
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/Gallery_Create_WithSharingProfile.json
  */
 async function createOrUpdateASimpleGalleryWithSharingProfile() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const galleryName = "myGalleryName";
   const gallery: Gallery = {
     description: "This is the gallery description.",
@@ -71,8 +76,6 @@ async function createOrUpdateASimpleGalleryWithSharingProfile() {
   console.log(result);
 }
 
-createOrUpdateASimpleGalleryWithSharingProfile().catch(console.error);
-
 /**
  * This sample demonstrates how to Create or update a Shared Image Gallery.
  *
@@ -80,8 +83,10 @@ createOrUpdateASimpleGalleryWithSharingProfile().catch(console.error);
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/Gallery_Create_SoftDeletionEnabled.json
  */
 async function createOrUpdateASimpleGalleryWithSoftDeletionEnabled() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const galleryName = "myGalleryName";
   const gallery: Gallery = {
     description: "This is the gallery description.",
@@ -98,8 +103,6 @@ async function createOrUpdateASimpleGalleryWithSoftDeletionEnabled() {
   console.log(result);
 }
 
-createOrUpdateASimpleGalleryWithSoftDeletionEnabled().catch(console.error);
-
 /**
  * This sample demonstrates how to Create or update a Shared Image Gallery.
  *
@@ -107,8 +110,10 @@ createOrUpdateASimpleGalleryWithSoftDeletionEnabled().catch(console.error);
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/Gallery_Create.json
  */
 async function createOrUpdateASimpleGallery() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const galleryName = "myGalleryName";
   const gallery: Gallery = {
     description: "This is the gallery description.",
@@ -124,4 +129,11 @@ async function createOrUpdateASimpleGallery() {
   console.log(result);
 }
 
-createOrUpdateASimpleGallery().catch(console.error);
+async function main() {
+  createACommunityGallery();
+  createOrUpdateASimpleGalleryWithSharingProfile();
+  createOrUpdateASimpleGalleryWithSoftDeletionEnabled();
+  createOrUpdateASimpleGallery();
+}
+
+main().catch(console.error);

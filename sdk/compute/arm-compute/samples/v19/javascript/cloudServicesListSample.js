@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets a list of all cloud services under a resource group. Use nextLink property in the response to get the next page of Cloud Services. Do this till nextLink is null to fetch all the Cloud Services.
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2022-04-04/examples/CloudService_List_ByResourceGroup.json
  */
 async function listCloudServicesInAResourceGroup() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "ConstosoRG";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "ConstosoRG";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
@@ -29,4 +30,8 @@ async function listCloudServicesInAResourceGroup() {
   console.log(resArray);
 }
 
-listCloudServicesInAResourceGroup().catch(console.error);
+async function main() {
+  listCloudServicesInAResourceGroup();
+}
+
+main().catch(console.error);

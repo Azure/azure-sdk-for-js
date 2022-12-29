@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Perform maintenance on one or more virtual machines in a VM scale set. Operation on instances which are not eligible for perform maintenance will be failed. Please refer to best practices for more details: https://docs.microsoft.com/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-maintenance-notifications
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_PerformMaintenance_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetsPerformMaintenanceMaximumSetGen() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "rgcompute";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaa";
   const vmInstanceIDs = {
     instanceIds: ["aaaaaaaaaaaaaaaaa"],
@@ -37,8 +38,6 @@ async function virtualMachineScaleSetsPerformMaintenanceMaximumSetGen() {
   console.log(result);
 }
 
-virtualMachineScaleSetsPerformMaintenanceMaximumSetGen().catch(console.error);
-
 /**
  * This sample demonstrates how to Perform maintenance on one or more virtual machines in a VM scale set. Operation on instances which are not eligible for perform maintenance will be failed. Please refer to best practices for more details: https://docs.microsoft.com/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-maintenance-notifications
  *
@@ -46,8 +45,8 @@ virtualMachineScaleSetsPerformMaintenanceMaximumSetGen().catch(console.error);
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_PerformMaintenance_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetsPerformMaintenanceMinimumSetGen() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "rgcompute";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "aa";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -58,4 +57,9 @@ async function virtualMachineScaleSetsPerformMaintenanceMinimumSetGen() {
   console.log(result);
 }
 
-virtualMachineScaleSetsPerformMaintenanceMinimumSetGen().catch(console.error);
+async function main() {
+  virtualMachineScaleSetsPerformMaintenanceMaximumSetGen();
+  virtualMachineScaleSetsPerformMaintenanceMinimumSetGen();
+}
+
+main().catch(console.error);

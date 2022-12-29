@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Updates (patches) a disk access resource.
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskAccessExamples/DiskAccess_Update.json
  */
 async function updateADiskAccessResource() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const diskAccessName = "myDiskAccess";
   const diskAccess = {
     tags: { department: "Development", project: "PrivateEndpoints" },
@@ -34,4 +35,8 @@ async function updateADiskAccessResource() {
   console.log(result);
 }
 
-updateADiskAccessResource().catch(console.error);
+async function main() {
+  updateADiskAccessResource();
+}
+
+main().catch(console.error);

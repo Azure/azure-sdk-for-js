@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Delete a gallery Application.
@@ -18,8 +21,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/GalleryApplication_Delete.json
  */
 async function deleteAGalleryApplication() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const galleryName = "myGalleryName";
   const galleryApplicationName = "myGalleryApplicationName";
   const credential = new DefaultAzureCredential();
@@ -32,4 +37,8 @@ async function deleteAGalleryApplication() {
   console.log(result);
 }
 
-deleteAGalleryApplication().catch(console.error);
+async function main() {
+  deleteAGalleryApplication();
+}
+
+main().catch(console.error);

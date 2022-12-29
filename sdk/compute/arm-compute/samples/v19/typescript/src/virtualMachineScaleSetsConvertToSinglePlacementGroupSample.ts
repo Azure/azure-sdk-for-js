@@ -13,6 +13,9 @@ import {
   ComputeManagementClient
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Converts SinglePlacementGroup property to false for a existing virtual machine scale set.
@@ -21,8 +24,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_ConvertToSinglePlacementGroup_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetsConvertToSinglePlacementGroupMaximumSetGen() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "rgcompute";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const parameters: VMScaleSetConvertToSinglePlacementGroupInput = {
     activePlacementGroupId: "aaaaaaaaaaaaaaaaaaaaaaaaaaa"
@@ -37,10 +42,6 @@ async function virtualMachineScaleSetsConvertToSinglePlacementGroupMaximumSetGen
   console.log(result);
 }
 
-virtualMachineScaleSetsConvertToSinglePlacementGroupMaximumSetGen().catch(
-  console.error
-);
-
 /**
  * This sample demonstrates how to Converts SinglePlacementGroup property to false for a existing virtual machine scale set.
  *
@@ -48,8 +49,10 @@ virtualMachineScaleSetsConvertToSinglePlacementGroupMaximumSetGen().catch(
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_ConvertToSinglePlacementGroup_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetsConvertToSinglePlacementGroupMinimumSetGen() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "rgcompute";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaa";
   const parameters: VMScaleSetConvertToSinglePlacementGroupInput = {};
   const credential = new DefaultAzureCredential();
@@ -62,6 +65,9 @@ async function virtualMachineScaleSetsConvertToSinglePlacementGroupMinimumSetGen
   console.log(result);
 }
 
-virtualMachineScaleSetsConvertToSinglePlacementGroupMinimumSetGen().catch(
-  console.error
-);
+async function main() {
+  virtualMachineScaleSetsConvertToSinglePlacementGroupMaximumSetGen();
+  virtualMachineScaleSetsConvertToSinglePlacementGroupMinimumSetGen();
+}
+
+main().catch(console.error);

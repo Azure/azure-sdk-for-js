@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to This API is deprecated. Use [Resources Skus](https://docs.microsoft.com/rest/api/compute/resourceskus/list)
@@ -18,7 +21,8 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/computeRPCommonExamples/VirtualMachineSizes_List_MaximumSet_Gen.json
  */
 async function virtualMachineSizesListMaximumSetGen() {
-  const subscriptionId = "{subscription-id}";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "-e";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -29,8 +33,6 @@ async function virtualMachineSizesListMaximumSetGen() {
   console.log(resArray);
 }
 
-virtualMachineSizesListMaximumSetGen().catch(console.error);
-
 /**
  * This sample demonstrates how to This API is deprecated. Use [Resources Skus](https://docs.microsoft.com/rest/api/compute/resourceskus/list)
  *
@@ -38,7 +40,8 @@ virtualMachineSizesListMaximumSetGen().catch(console.error);
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/computeRPCommonExamples/VirtualMachineSizes_List_MinimumSet_Gen.json
  */
 async function virtualMachineSizesListMinimumSetGen() {
-  const subscriptionId = "{subscription-id}";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "._..";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -49,4 +52,9 @@ async function virtualMachineSizesListMinimumSetGen() {
   console.log(resArray);
 }
 
-virtualMachineSizesListMinimumSetGen().catch(console.error);
+async function main() {
+  virtualMachineSizesListMaximumSetGen();
+  virtualMachineSizesListMinimumSetGen();
+}
+
+main().catch(console.error);
