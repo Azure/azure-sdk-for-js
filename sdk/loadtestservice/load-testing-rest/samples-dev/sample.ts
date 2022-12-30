@@ -12,6 +12,8 @@ import AzureLoadTesting, { isUnexpected } from "@azure-rest/load-testing";
 import { DefaultAzureCredential } from "@azure/identity";
 import { createReadStream } from "fs";
 import { v4 as uuidv4 } from "uuid";
+import { beginTestRunStatus } from "../src/beginTestRunStatus";
+import { beginUploadAndFileValidation } from "../src/beginUploadAndValidateFile";
 
 const readStream = createReadStream("./sample.jmx");
 
@@ -47,44 +49,9 @@ async function main() {
     throw new Error("Test ID returned as undefined.");
 
   // Uploading .jmx file to a test
-  const fileUploadResult = await client
-    .path("/tests/{testId}/files/{fileName}", testCreationResult.body.testId, fileName)
-    .put({
-      contentType: "application/octet-stream",
-      body: readStream,
-    });
+  const fileUploadResult = await (await beginUploadAndFileValidation(client, testId, "sample", readStream)).pollUntilDone();
 
-  if (isUnexpected(fileUploadResult)) {
-    throw fileUploadResult.body.error;
-  }
-
-  // Getting the Validation Status of file
-  // We need to validate JMX input script.
-
-  let fileValidationResult;
-  let validationStatus = null;
-  //wait for terminal state
-  while (
-    validationStatus == null ||
-    (validationStatus != "VALIDATION_SUCCESS" &&
-      validationStatus != "VALIDATION_FAILURE" &&
-      validationStatus != "VALIDATION_NOT_REQUIRED")
-  ) {
-    fileValidationResult = await client
-      .path("/tests/{testId}/files/{fileName}", testId, fileName)
-      .get();
-    if (isUnexpected(fileValidationResult)) {
-      throw fileValidationResult.body.error;
-    }
-    validationStatus = fileValidationResult.body.validationStatus;
-
-    //Check test status after every 2 seconds
-    sleep(2000);
-  }
-
-  if (validationStatus == "VALIDATION_FAILURE") {
-    throw new Error("Invalid file.");
-  }
+  if (isUnexpected(fileUploadResult)) throw new Error("There is some issue in validation, please make sure uploaded file is a valid JMX script");
 
   // Creating app component
   const appComponentCreationResult = await client
@@ -127,27 +94,14 @@ async function main() {
     throw new Error("Test Run ID returned as undefined.");
 
   // Checking the test run status and printing metrics
-  var testStatus = null;
-  var getTestRunResult;
+  var testStatus = await (await beginTestRunStatus(client, testRunCreationResult.body.testRunId)).pollUntilDone();
 
-  //wait for terminal state
-  while (
-    testStatus == null ||
-    (testStatus != "DONE" && testStatus != "CANCELLED" && testStatus != "FAILED")
-  ) {
-    getTestRunResult = await client
-      .path("/test-runs/{testRunId}", testRunCreationResult.body.testRunId)
-      .get();
-    if (isUnexpected(getTestRunResult)) {
-      throw getTestRunResult.body.error;
-    }
-    testStatus = getTestRunResult.body.status;
+  if (isUnexpected(testStatus)) throw new Error("There is some issue in running the test.");
 
-    //Check test status after every 5 seconds
-    sleep(5000);
-  }
 
-  if (getTestRunResult === undefined) throw new Error("There is some issue in running the test.");
+  var getTestRunResult = await client.path("/test-runs/{testRunId}", testRunCreationResult.body.testRunId).get();
+
+  if (isUnexpected(getTestRunResult)) throw new Error("There is some issue in getting the test run.");
 
   let testRunStarttime = getTestRunResult.body.startDateTime;
   let testRunEndTime = getTestRunResult.body.endDateTime;
