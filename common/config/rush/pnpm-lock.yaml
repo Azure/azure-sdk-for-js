@@ -3736,7 +3736,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20221228
+      typescript: 5.0.0-dev.20221229
     dev: false
 
   /downlevel-dts/0.7.0:
@@ -8440,8 +8440,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20221228:
-    resolution: {integrity: sha512-nc16EIa1VhICqnkXBfkoN81XmVkU650+iM8G19fvXkNyv6cJqOOE5ibldRFvCHznsseLn5GZGP73WBCaa6ZAlA==}
+  /typescript/5.0.0-dev.20221229:
+    resolution: {integrity: sha512-LpxWw2BJ32Pl9R7TLln2+WVkiSLvCsXplYjEgkrizlq7jGbaOuy+d5eLyFsjPqNoaUBKkUvB9dKtbG61XMIA3A==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -10512,7 +10512,7 @@ packages:
     dev: false
 
   file:projects/arm-compute-1.tgz:
-    resolution: {integrity: sha512-JMZITWopsDnOwDqY3jVkvXVslNHnU07id5fjN4yii68t3MLcnKeAiBG2FxuBhdPaaR8FT038PMmziEVbzp5c4g==, tarball: file:projects/arm-compute-1.tgz}
+    resolution: {integrity: sha512-upogMaW9Z3LuauJ02QMOYV/uvHmZlj3rJTxSrp4xr1BGGvR3h8KYVdbawlCi+SOyRMIxXTbYzbnkAqI9aAktlg==, tarball: file:projects/arm-compute-1.tgz}
     name: '@rush-temp/arm-compute-1'
     version: 0.0.0
     dependencies:
@@ -10614,7 +10614,7 @@ packages:
     dev: false
 
   file:projects/arm-confidentialledger.tgz:
-    resolution: {integrity: sha512-NpjwjFOcGTTUduMnHeOC5tJWEVUqK1etKBMvjNki4v77KgcxdM/w9V5Gd4m+jgxHmFTK5ki6UTCnWknQyxxj2A==, tarball: file:projects/arm-confidentialledger.tgz}
+    resolution: {integrity: sha512-ACMr5VdLoud/xDP6Olgx2xUD8sAuo0l/O1Fge6l0YkFe/sdqrycTEEje1aWSssnZa5Mayg9rx5y/sM4TIB/vig==, tarball: file:projects/arm-confidentialledger.tgz}
     name: '@rush-temp/arm-confidentialledger'
     version: 0.0.0
     dependencies:
@@ -10625,18 +10625,19 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
+      '@types/node': 14.18.33
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
