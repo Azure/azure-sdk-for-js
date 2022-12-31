@@ -24,12 +24,12 @@ describe("ClientSecretCredential", function () {
 
   const scope = "https://vault.azure.net/.default";
 
-  it("authenticates", async function () {
+  it.only("authenticates", async function () {
     const credential = new ClientSecretCredential(
       env.AZURE_TENANT_ID!,
       env.AZURE_CLIENT_ID!,
       env.AZURE_CLIENT_SECRET!,
-      recorder.configureClientOptions({})
+      recorder.configureClientOptions({ instanceDiscovery: false })
     );
 
     const token = await credential.getToken(scope);
