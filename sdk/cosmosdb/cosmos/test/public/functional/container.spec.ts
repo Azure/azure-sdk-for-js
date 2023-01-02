@@ -485,3 +485,32 @@ describe("container.create", function () {
     assertThrowsAsync(() => database.containers.create(containerRequest));
   });
 });
+
+describe("container.deleteAllItemsForPartitionKey", function () {
+  before(async () => {
+  });
+
+  it("should delete all items for partition key", async function () {
+    const container = await getTestContainer("container");
+    const { resource: create1 } = await container.items.create({
+      id: "1",
+      key: "value",
+      pk: "pk",
+    });
+    const { resource: create2 } = await container.items.create({
+      id: "2",
+      key: "value",
+      pk: "pk",
+    });
+    const { resource: create3 } = await container.items.create({
+      id: "3",
+      key: "value",
+      pk: "rk",
+    });
+    await container.deleteAllItemsForPartitionKey("pk");
+    await assertThrowsAsync(async () => await container.item(create1.id).read(), 404);
+    await assertThrowsAsync(async () => await container.item(create2.id).read(), 404);
+    // console.log("read: " + await container.item(create3.id).read());
+    assert(await (await container.item(create3.id).read()).item.id === create3.id);
+  })
+});

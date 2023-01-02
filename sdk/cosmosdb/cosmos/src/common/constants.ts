@@ -253,6 +253,7 @@ export enum ResourceType {
   trigger = "triggers",
   item = "docs",
   pkranges = "pkranges",
+  partitionkey = "partitionKey"
 }
 
 /**

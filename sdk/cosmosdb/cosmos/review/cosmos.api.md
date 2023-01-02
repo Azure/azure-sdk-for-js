@@ -454,6 +454,8 @@ export class Container {
     // (undocumented)
     readonly database: Database;
     delete(options?: RequestOptions): Promise<ContainerResponse>;
+    // (undocumented)
+    deleteAllItemsForPartitionKey(partitionKey: PartitionKey, options?: RequestOptions): Promise<ContainerResponse>;
     // @deprecated
     getPartitionKeyDefinition(): Promise<ResourceResponse<PartitionKeyDefinition>>;
     // (undocumented)
@@ -1525,6 +1527,8 @@ export enum ResourceType {
     none = "",
     // (undocumented)
     offer = "offers",
+    // (undocumented)
+    partitionkey = "PartitionKey",
     // (undocumented)
     permission = "permissions",
     // (undocumented)

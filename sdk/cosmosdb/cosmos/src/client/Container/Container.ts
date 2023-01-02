@@ -240,4 +240,18 @@ export class Container {
     feedOptions = feedOptions || {};
     return this.clientContext.queryPartitionKeyRanges(this.url, undefined, feedOptions);
   }
+
+  public async deleteAllItemsForPartitionKey(partitionKey: PartitionKey, options?: RequestOptions): Promise<ContainerResponse> {
+    const path = getPathFromLink(this.url);
+    const id = getIdFromLink(this.url);
+
+    const response = await this.clientContext.delete<ContainerDefinition>({
+      path,
+      resourceType: ResourceType.partitionkey,
+      resourceId: id,
+      options,
+      partitionKey: partitionKey,
+    });
+    return new ContainerResponse(response.result, response.headers, response.code, this);
+  }
 }
