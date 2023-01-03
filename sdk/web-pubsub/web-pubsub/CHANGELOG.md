@@ -10,6 +10,8 @@
 
 ### Other Changes
 
+- Bumped the version of the jsonwebtoken dependency to v9.
+
 ## 1.1.0 (2022-11-11)
 
 ### Features Added
