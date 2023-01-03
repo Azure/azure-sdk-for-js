@@ -102,7 +102,8 @@
     "semaphore": "^1.0.5",
     "tslib": "^2.2.0",
     "universal-user-agent": "^6.0.0",
-    "uuid": "^8.3.0"
+    "uuid": "^8.3.0",
+    "clock-mock": "^1.0.6\n\n"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
