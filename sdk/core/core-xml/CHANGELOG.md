@@ -1,12 +1,6 @@
 # Release History
 
-## 1.3.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 1.3.2 (2023-01-05)
 
 ### Other Changes
 

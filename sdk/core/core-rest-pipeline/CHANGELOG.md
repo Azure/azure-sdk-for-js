@@ -13,8 +13,6 @@
 - Fix an issue in `FormDataPolicy` where we are not waiting for `prepareFormData()` to complete [PR #23858](https://github.com/Azure/azure-sdk-for-js/pull/23858)
 - Fix an issue on Node where `HEAD` requests would close their socket, ignoring keep-alive. [PR #24356](https://github.com/Azure/azure-sdk-for-js/pull/24356)
 
-### Other Changes
-
 ## 1.10.0 (2022-11-03)
 
 ### Bugs Fixed
