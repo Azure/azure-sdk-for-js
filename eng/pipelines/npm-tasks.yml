@@ -51,7 +51,7 @@ jobs:
   environment: npm
 
   pool:
-    vmImage: 'windows-2019'
+    vmImage: 'windows-2022'
 
   strategy:
     runOnce:

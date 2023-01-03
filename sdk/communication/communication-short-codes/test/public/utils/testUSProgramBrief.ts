@@ -15,6 +15,9 @@ import { CompositeMapper } from "@azure/core-client";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { v1 as uuid } from "uuid";
 
+const TestCompanyName: string = "Contoso";
+const TestProgramBriefName: string = "Contoso Loyalty Program";
+
 export function getTestUSProgramBrief(): USProgramBrief {
   let programBriefId = uuid();
 
@@ -29,7 +32,7 @@ export function getTestUSProgramBrief(): USProgramBrief {
         "TEST Customers can sign up to receive regular updates on coupons and other perks of our loyalty program.",
       isPoliticalCampaign: false,
       isVanity: false,
-      name: "Contoso Loyalty Program",
+      name: TestProgramBriefName,
       numberType: "shortCode",
       privacyPolicyUrl: "https://contoso.com/privacy",
       callToActionTypes: ["sms", "website"],
@@ -39,7 +42,7 @@ export function getTestUSProgramBrief(): USProgramBrief {
     },
     companyInformation: {
       address: "1 Contoso Way Redmond, WA 98052",
-      name: "Contoso",
+      name: TestCompanyName,
       url: "https://contoso.com",
       contactInformation: {
         email: "alex@contoso.com",
@@ -177,5 +180,87 @@ export async function doesProgramBriefExist(
       return false;
     }
     throw e;
+  }
+}
+
+export async function runTestCleaningLeftovers(
+  testProgramBriefId: string,
+  client: ShortCodesClient,
+  testLogic: () => Promise<void>
+): Promise<void> {
+  try {
+    await tryDeleteLeftOversFromPreviousTests(client);
+    await testLogic();
+  } catch (error) {
+    await tryDeleteProgramBrief(testProgramBriefId, client);
+    throw error;
+  }
+}
+
+async function tryDeleteLeftOversFromPreviousTests(client: ShortCodesClient): Promise<void> {
+  try {
+    for await (const programBrief of client.listUSProgramBriefs()) {
+      if (isLeftOver(programBrief) && isOldEnoughToDelete(programBrief)) {
+        await tryDeleteProgramBrief(programBrief.id, client);
+      }
+    }
+  } catch (error) {
+    console.warn("Failed to delete left overs from previous tests", error);
+  }
+}
+
+function isLeftOver(programBrief: USProgramBrief): boolean {
+  return (
+    programBrief.programDetails?.name?.toLowerCase() === TestProgramBriefName.toLocaleLowerCase() &&
+    programBrief.companyInformation?.name?.toLowerCase() === TestCompanyName.toLowerCase()
+  );
+}
+
+function isOldEnoughToDelete(programBrief: USProgramBrief): boolean {
+  // Recording files are meant to be reused for a long time, which means that they will eventually
+  // get desynchronized. In those cases, we don't want to try to delete anything.
+  if (isPlaybackMode()) {
+    return false;
+  }
+
+  if (!programBrief.statusUpdatedDate) {
+    return false;
+  }
+
+  const howManyDaysSinceLastUpdate = getDateDifferenceInDays(programBrief.statusUpdatedDate);
+
+  return howManyDaysSinceLastUpdate >= 1;
+}
+
+function getDateDifferenceInDays(date: Date): number {
+  const now = new Date();
+
+  const utcThis = Date.UTC(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate(),
+    now.getHours(),
+    now.getMinutes(),
+    now.getSeconds(),
+    now.getMilliseconds()
+  );
+  const utcOther = Date.UTC(
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate(),
+    date.getHours(),
+    date.getMinutes(),
+    date.getSeconds(),
+    date.getMilliseconds()
+  );
+
+  return (utcThis - utcOther) / 86400000;
+}
+
+async function tryDeleteProgramBrief(id: string, client: ShortCodesClient): Promise<void> {
+  try {
+    await client.deleteUSProgramBrief(id);
+  } catch (error) {
+    console.warn("Failed to delete program brief", error);
   }
 }

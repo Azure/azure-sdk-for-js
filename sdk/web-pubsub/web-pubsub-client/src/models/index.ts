@@ -25,6 +25,10 @@ export interface WebPubSubClientOptions {
    * The retry options for operations like joining group and sending messages
    */
   messageRetryOptions?: WebPubSubRetryOptions;
+  /**
+   * The retry options for reconnection. Only available when autoReconnect is true.
+   */
+  reconnectRetryOptions?: WebPubSubRetryOptions;
 }
 
 /**
