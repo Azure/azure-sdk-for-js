@@ -9,6 +9,7 @@
 ### Bugs Fixed
 
 - Fix a serializer issue where resettable streams were not being accepted.
+- Fix an issue where XML options are not propagated during deserialization.
 
 ## 1.6.1 (2022-08-04)
 

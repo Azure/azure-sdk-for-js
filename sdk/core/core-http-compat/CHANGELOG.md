@@ -1,12 +1,16 @@
 # Release History
 
-## 1.3.1 (Unreleased)
+## 2.0.0 (2023-01-05)
 
 ### Features Added
 
-- Created a policy wrapper for pipeline interop [PR #22798](https://github.com/Azure/azure-sdk-for-js/pull/22798)
+- Added support for `clone` on `WebResourceLike`s.
+- Added support for using a `core-http` style HttpClient as a `core-rest-pipeline` HttpClient called `convertHttpClient`.
+- Expose helper for converting `HttpHeaders` from `core-rest-pipeline` into the same shape as `core-http`.
 
 ### Breaking Changes
+
+- renamed property `disbaleKeepAlivePolicyName` to `disableKeepAlivePolicyName`
 
 ### Bugs Fixed
 

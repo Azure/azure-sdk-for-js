@@ -31,6 +31,14 @@ function isReadableStream(body: unknown): body is ReadableStream {
 }
 
 /**
+ * Checks if the body is a Blob or Blob-like
+ */
+function isBlob(body: unknown): body is Blob {
+  // File objects count as a type of Blob, so we want to use instanceof explicitly
+  return (typeof Blob === "function" || typeof Blob === "object") && body instanceof Blob;
+}
+
+/**
  * A HttpClient implementation that uses window.fetch to send HTTP requests.
  * @internal
  */
@@ -83,6 +91,10 @@ async function makeRequest(request: PipelineRequest): Promise<PipelineResponse> 
       credentials: request.withCredentials ? "include" : "same-origin",
       cache: "no-store",
     });
+    // If we're uploading a blob, we need to fire the progress event manually
+    if (isBlob(request.body) && request.onUploadProgress) {
+      request.onUploadProgress({ loadedBytes: request.body.size });
+    }
     return buildPipelineResponse(response, request);
   } finally {
     if (abortControllerCleanup) {
