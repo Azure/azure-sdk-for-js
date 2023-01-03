@@ -1,14 +1,8 @@
 # Release History
 
-## 1.3.1 (Unreleased)
+## 1.3.1 (2023-01-05)
 
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- Created a policy wrapper for pipeline interop [PR #22798](https://github.com/Azure/azure-sdk-for-js/pull/22798)
 
 ## 1.3.0 (2022-05-05)
 

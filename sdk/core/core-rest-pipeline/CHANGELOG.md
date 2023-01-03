@@ -1,16 +1,10 @@
 # Release History
 
-## 1.10.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 1.10.1 (2023-01-05)
 
 ### Bugs Fixed
 
 - Fix an issue in `FormDataPolicy` where we are not waiting for `prepareFormData()` to complete [PR #23858](https://github.com/Azure/azure-sdk-for-js/pull/23858)
-
-### Other Changes
 
 ## 1.10.0 (2022-11-03)
 

@@ -1,18 +1,14 @@
 # Release History
 
-## 1.6.2 (Unreleased)
+## 1.6.2 (2023-01-05)
 
 ### Features Added
 
 - Ported support for `xmlIsMsText` from `@azure/core-http`.
 
-### Breaking Changes
-
 ### Bugs Fixed
 
 - Fix a serializer issue where resettable streams were not being accepted.
-
-### Other Changes
 
 ## 1.6.1 (2022-08-04)
 
