@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ContainerInstanceManagementClient } = require("@azure/arm-containerinstance");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Starts all containers in a container group. Compute resources will be allocated and billing will start.
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/stable/2021-10-01/examples/ContainerGroupsStart.json
  */
 async function containerStart() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "demo";
+  const subscriptionId = process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["CONTAINERINSTANCE_RESOURCE_GROUP"] || "demo";
   const containerGroupName = "demo1";
   const credential = new DefaultAzureCredential();
   const client = new ContainerInstanceManagementClient(credential, subscriptionId);
@@ -30,4 +31,8 @@ async function containerStart() {
   console.log(result);
 }
 
-containerStart().catch(console.error);
+async function main() {
+  containerStart();
+}
+
+main().catch(console.error);
