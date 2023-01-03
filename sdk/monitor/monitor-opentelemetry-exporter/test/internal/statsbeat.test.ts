@@ -74,7 +74,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         });
         assert.strictEqual(
           statsbeat["_host"],
-          "IngestionEndpoint=https://westus-0.in.applicationinsights.azure.com"
+          "IngestionEndpoint=https://westus-0"
         );
       });
 
@@ -82,7 +82,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         const statsbeat = new StatsbeatMetrics(options);
         assert.strictEqual(
           statsbeat["_host"],
-          "IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com"
+          "IngestionEndpoint=https://westeurope-5"
         );
       });
 
@@ -248,7 +248,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         assert.ok(mockExport.called);
         let resourceMetrics = mockExport.args[0][0];
         const scopeMetrics = resourceMetrics.scopeMetrics;
-        assert.strictEqual(scopeMetrics.length, 1, "Scope Metrics count");
+        assert.strictEqual(scopeMetrics.length, 2, "Scope Metrics count");
         let metrics = scopeMetrics[0].metrics;
         assert.strictEqual(metrics.length, 6, "Metrics count");
         assert.strictEqual(metrics[0].descriptor.name, StatsbeatCounter.SUCCESS_COUNT);
