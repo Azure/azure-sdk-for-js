@@ -18742,7 +18742,7 @@ packages:
     dev: false
 
   file:projects/storage-blob.tgz:
-    resolution: {integrity: sha512-MVneKF1K/qMI3gpM6mIx1Uj+gQZe+7/A/F5xcmyBwfwX0PF3tyLZGq4kOdRg70HSz7x5WkRb43ahdx4V8nsuTw==, tarball: file:projects/storage-blob.tgz}
+    resolution: {integrity: sha512-f9bQWeFKtmL2q3RV8uarpoT6iRwopkTMO/UlusZlnXSBkkV0lzoaDQv5S3oXjsYmOrMUYckw1/AbUlXQYaXZLQ==, tarball: file:projects/storage-blob.tgz}
     name: '@rush-temp/storage-blob'
     version: 0.0.0
     dependencies:
@@ -18754,7 +18754,6 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 14.18.33
       '@types/node-fetch': 2.6.2
-      '@types/uuid': 8.3.4
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 16.0.3
@@ -18788,7 +18787,6 @@ packages:
       tslib: 2.4.1
       typescript: 4.8.4
       util: 0.12.5
-      uuid: 8.3.2
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
