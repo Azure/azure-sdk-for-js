@@ -12,10 +12,6 @@
 
 - renamed property `disbaleKeepAlivePolicyName` to `disableKeepAlivePolicyName`
 
-### Bugs Fixed
-
-### Other Changes
-
 ## 1.3.0 (2022-05-05)
 
 ### Features Added
