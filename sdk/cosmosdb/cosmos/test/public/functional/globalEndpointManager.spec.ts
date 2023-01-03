@@ -4,10 +4,9 @@ import { DatabaseAccount, ResourceResponse } from "../../../src";
 import { masterKey } from "../common/_fakeTestSecrets";
 import { GlobalEndpointManager } from "../../../src";
 import { OperationType, ResourceType } from "../../../src";
-
+import Clock from "clock-mock";
 import assert from "assert";
 
-const Clock = require("clock-mock");
 const locationUnavailableExpirationTime = 6 * 60 * 1000;
 
 const headers = {
@@ -44,7 +43,7 @@ const databaseAccountBody: any = {
 
 describe("GlobalEndpointManager", function () {
   describe("#resolveServiceEndpoint", function () {
-    const gem = new GlobalEndpointManager(
+    let gem = new GlobalEndpointManager(
       {
         endpoint: "https://test.documents.azure.com:443/",
         key: masterKey,
@@ -76,7 +75,7 @@ describe("GlobalEndpointManager", function () {
       );
     });
     it("should allow you to pass a normalized preferred location", async function () {
-      const gem = new GlobalEndpointManager(
+      gem = new GlobalEndpointManager(
         {
           endpoint: "https://test.documents.azure.com:443/",
           key: masterKey,
@@ -101,7 +100,7 @@ describe("GlobalEndpointManager", function () {
       );
     });
     it("should resolve to endpoint when call made after server unavailability time", async function () {
-      const gem = new GlobalEndpointManager(
+      gem = new GlobalEndpointManager(
         {
           endpoint: "https://test.documents.azure.com:443/",
           key: masterKey,
