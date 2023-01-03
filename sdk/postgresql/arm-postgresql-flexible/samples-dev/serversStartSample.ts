@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { PostgreSQLManagementFlexibleServerClient } from "@azure/arm-postgresql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Starts a server.
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2021-06-01/examples/ServerStart.json
  */
 async function serverStart() {
-  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = "testrg";
+  const subscriptionId =
+    process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
+    "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName =
+    process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
   const serverName = "testserver";
   const credential = new DefaultAzureCredential();
   const client = new PostgreSQLManagementFlexibleServerClient(
@@ -33,4 +39,8 @@ async function serverStart() {
   console.log(result);
 }
 
-serverStart().catch(console.error);
+async function main() {
+  serverStart();
+}
+
+main().catch(console.error);

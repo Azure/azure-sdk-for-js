@@ -1,15 +1,19 @@
 # Release History
+    
+## 3.1.0 (2022-12-22)
+    
+**Features**
 
-## 3.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface Configuration
+  - Added Interface Database
+  - Added Interface FirewallRule
+  - Added Interface ProxyResource
+  - Added Interface Server
+  - Added Interface ServerBackup
+  - Added Interface TrackedResource
+  - Added function getContinuationToken
+    
+    
 ## 3.0.0 (2022-04-25)
     
 **Breaking Changes**
