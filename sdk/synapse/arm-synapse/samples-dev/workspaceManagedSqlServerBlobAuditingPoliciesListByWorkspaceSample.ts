@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { SynapseManagementClient } from "@azure/arm-synapse";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to List workspace managed sql server's blob auditing policies.
@@ -18,8 +21,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/ListWorkspaceManagedSqlServerBlobAuditingSettings.json
  */
 async function getBlobAuditingPolicyOfWorkspaceMangedSqlServer() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "wsg-7398";
+  const subscriptionId =
+    process.env["SYNAPSE_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName = process.env["SYNAPSE_RESOURCE_GROUP"] || "wsg-7398";
   const workspaceName = "testWorkspace";
   const credential = new DefaultAzureCredential();
   const client = new SynapseManagementClient(credential, subscriptionId);
@@ -33,4 +38,8 @@ async function getBlobAuditingPolicyOfWorkspaceMangedSqlServer() {
   console.log(resArray);
 }
 
-getBlobAuditingPolicyOfWorkspaceMangedSqlServer().catch(console.error);
+async function main() {
+  getBlobAuditingPolicyOfWorkspaceMangedSqlServer();
+}
+
+main().catch(console.error);

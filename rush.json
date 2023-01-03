@@ -1115,11 +1115,6 @@
       "versionPolicyName": "management"
     },
     {
-      "packageName": "@azure/arm-videoanalyzer",
-      "projectFolder": "sdk/videoanalyzer/arm-videoanalyzer",
-      "versionPolicyName": "management"
-    },
-    {
       "packageName": "@azure/arm-notificationhubs",
       "projectFolder": "sdk/notificationhubs/arm-notificationhubs",
       "versionPolicyName": "management"
@@ -1928,6 +1923,11 @@
       "packageName": "@azure/web-pubsub-client",
       "projectFolder": "sdk/web-pubsub/web-pubsub-client",
       "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/arm-billingbenefits",
+      "projectFolder": "sdk/billingbenefits/arm-billingbenefits",
+      "versionPolicyName": "management"
     }
   ]
 }

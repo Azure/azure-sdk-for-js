@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { PostgreSQLManagementFlexibleServerClient } = require("@azure/arm-postgresql-flexible");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Creates a new server.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2021-06-01/examples/ServerCreatePointInTimeRestore.json
  */
 async function createADatabaseAsAPointInTimeRestore() {
-  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = "testrg";
+  const subscriptionId =
+    process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
   const serverName = "pgtestsvc5";
   const parameters = {
     createMode: "PointInTimeRestore",
@@ -34,8 +36,6 @@ async function createADatabaseAsAPointInTimeRestore() {
   console.log(result);
 }
 
-createADatabaseAsAPointInTimeRestore().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates a new server.
  *
@@ -43,8 +43,9 @@ createADatabaseAsAPointInTimeRestore().catch(console.error);
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2021-06-01/examples/ServerCreate.json
  */
 async function createANewServer() {
-  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = "testrg";
+  const subscriptionId =
+    process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
   const serverName = "pgtestsvc4";
   const parameters = {
     administratorLogin: "cloudsa",
@@ -71,4 +72,9 @@ async function createANewServer() {
   console.log(result);
 }
 
-createANewServer().catch(console.error);
+async function main() {
+  createADatabaseAsAPointInTimeRestore();
+  createANewServer();
+}
+
+main().catch(console.error);

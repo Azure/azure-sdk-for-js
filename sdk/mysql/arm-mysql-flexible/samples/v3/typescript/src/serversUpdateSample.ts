@@ -13,6 +13,9 @@ import {
   MySQLManagementFlexibleServerClient
 } from "@azure/arm-mysql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
@@ -21,8 +24,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/stable/2021-05-01/examples/ServerUpdate.json
  */
 async function updateAServer() {
-  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = "testrg";
+  const subscriptionId =
+    process.env["MYSQL_SUBSCRIPTION_ID"] ||
+    "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName = process.env["MYSQL_RESOURCE_GROUP"] || "testrg";
   const serverName = "mysqltestserver";
   const parameters: ServerForUpdate = {
     storage: { autoGrow: "Disabled", iops: 200, storageSizeGB: 30 }
@@ -40,8 +45,6 @@ async function updateAServer() {
   console.log(result);
 }
 
-updateAServer().catch(console.error);
-
 /**
  * This sample demonstrates how to Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
  *
@@ -49,8 +52,10 @@ updateAServer().catch(console.error);
  * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/stable/2021-05-01/examples/ServerUpdateWithCustomerMaintenanceWindow.json
  */
 async function updateServerCustomerMaintenanceWindow() {
-  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = "testrg";
+  const subscriptionId =
+    process.env["MYSQL_SUBSCRIPTION_ID"] ||
+    "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName = process.env["MYSQL_RESOURCE_GROUP"] || "testrg";
   const serverName = "mysqltestserver";
   const parameters: ServerForUpdate = {
     maintenanceWindow: {
@@ -73,4 +78,9 @@ async function updateServerCustomerMaintenanceWindow() {
   console.log(result);
 }
 
-updateServerCustomerMaintenanceWindow().catch(console.error);
+async function main() {
+  updateAServer();
+  updateServerCustomerMaintenanceWindow();
+}
+
+main().catch(console.error);

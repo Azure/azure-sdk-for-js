@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { SynapseManagementClient } from "@azure/arm-synapse";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Get a Sql pool's security alert policy.
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/GetSqlPoolSecurityAlert.json
  */
 async function getASecurityAlertOfASqlAnalyticsPool() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "securityalert-6852";
+  const subscriptionId =
+    process.env["SYNAPSE_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SYNAPSE_RESOURCE_GROUP"] || "securityalert-6852";
   const workspaceName = "securityalert-2080";
   const sqlPoolName = "testdb";
   const securityAlertPolicyName = "default";
@@ -34,4 +40,8 @@ async function getASecurityAlertOfASqlAnalyticsPool() {
   console.log(result);
 }
 
-getASecurityAlertOfASqlAnalyticsPool().catch(console.error);
+async function main() {
+  getASecurityAlertOfASqlAnalyticsPool();
+}
+
+main().catch(console.error);
