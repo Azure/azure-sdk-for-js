@@ -1,16 +1,6 @@
 # Release History
-
-## 16.0.0-beta.5 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 16.0.0-beta.4 (2022-10-09)
+    
+## 15.3.0-beta.1 (2023-01-03)
     
 **Features**
 
@@ -235,25 +225,12 @@
   - Interface SqlContainerResource has a new optional parameter restoreParameters
   - Interface SqlDatabaseResource has a new optional parameter createMode
   - Interface SqlDatabaseResource has a new optional parameter restoreParameters
-  - Class CosmosDBManagementClient has a new parameter dataTransferJobs
-  - Class CosmosDBManagementClient has a new parameter graphResources
-  - Class CosmosDBManagementClient has a new parameter restorableGremlinDatabases
-  - Class CosmosDBManagementClient has a new parameter restorableGremlinGraphs
-  - Class CosmosDBManagementClient has a new parameter restorableGremlinResources
-  - Class CosmosDBManagementClient has a new parameter restorableTableResources
-  - Class CosmosDBManagementClient has a new parameter restorableTables
   - Added Enum KnownContinuousTier
   - Added Enum KnownDataTransferComponent
   - Added Enum KnownThroughputPolicyType
   - Enum KnownAuthenticationMethod has a new value Ldap
   - Enum KnownOperationType has a new value Recreate
-
-**Breaking Changes**
-
-  - Interface DatabaseAccountCreateUpdateParameters no longer has parameter identity
-  - Interface DatabaseAccountGetResults no longer has parameter identity
-  - Interface RestoreParameters no longer has parameter restoreSource
-  - Interface RestoreParameters no longer has parameter restoreTimestampInUtc
+  - Added function getContinuationToken
     
     
 ## 15.2.0 (2022-09-05)
