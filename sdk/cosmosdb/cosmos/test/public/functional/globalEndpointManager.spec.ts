@@ -101,8 +101,7 @@ describe("GlobalEndpointManager", function () {
       );
     });
     it("should resolve to endpoint when call made after server unavailability time", async function () {
-      let clock: fakeTimers.InstalledClock;
-      clock = fakeTimers.install();
+      const clock: fakeTimers.InstalledClock = fakeTimers.install();
       gem = new GlobalEndpointManager(
         {
           endpoint: "https://test.documents.azure.com:443/",
