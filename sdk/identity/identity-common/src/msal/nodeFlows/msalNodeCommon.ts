@@ -21,15 +21,16 @@ import {
   resolveTenantId,
 } from "../../util/tenantIdUtils";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { AuthenticationRecord } from "../../../../identity/src/msal/types";
+import { AuthenticationRecord } from "../types";
 import { AuthenticationRequiredError } from "../../errors";
-import { CredentialFlowGetTokenOptions } from "../../../../identity/src/msal/credentials";
+import { CredentialFlowGetTokenOptions } from "../credentials";
 import { DeveloperSignOnClientId } from "../../constants";
 import { IdentityClient } from "../../client/identityClient";
 import { LogPolicyOptions } from "@azure/core-rest-pipeline";
-import { MultiTenantTokenCredentialOptions } from "../../../../identity/src/credentials/multiTenantTokenCredentialOptions";
+import { MultiTenantTokenCredentialOptions } from "../../credentials/multiTenantTokenCredentialOptions";
 import { RegionalAuthority } from "../../regionalAuthority";
 import { TokenCachePersistenceOptions } from "./tokenCachePersistenceOptions";
+import { msalNodeFlowCacheControl } from "./msalNodeFlowCacheControl";
 
 /**
  * Union of the constructor parameters that all MSAL flow types for Node.
@@ -51,7 +52,7 @@ export interface MsalNodeOptions extends MsalFlowOptions {
     allowLoggingAccountIdentifiers?: boolean;
   };
 }
-
+const persistenceProvider = msalNodeFlowCacheControl.getPersistence();
 /**
  * MSAL partial base client for Node.js.
  *
@@ -93,7 +94,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
     if (options?.getAssertion) {
       this.getAssertion = options.getAssertion;
     }
-
+    
     // If persistence has been configured
     if (persistenceProvider !== undefined && options.tokenCachePersistenceOptions?.enabled) {
       this.createCachePlugin = () => persistenceProvider!(options.tokenCachePersistenceOptions);

@@ -10,7 +10,7 @@ import {
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { promisify } from "util";
 import { DefaultAuthorityHost } from "../../../../identity-common/src/constants";
-import { credentialLogger } from "../../util/logging";
+import { credentialLogger } from "../../../../identity-common/src/util/logging";
 import { MSI, MSIConfiguration } from "./models";
 
 const msiName = "ManagedIdentityCredential - Token Exchange";

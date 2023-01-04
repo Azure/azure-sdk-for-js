@@ -9,9 +9,9 @@ import {
 import { ClientSecretCredentialOptions } from "./clientSecretCredentialOptions";
 import { MsalClientSecret } from "../msal/nodeFlows/msalClientSecret";
 import { MsalFlow } from "../../../identity-common/src/msal/flows";
-import { credentialLogger } from "../util/logging";
+import { credentialLogger } from "../../../identity-common/src/util/logging";
 import { ensureScopes } from "../util/scopeUtils";
-import { tracingClient } from "../util/tracing";
+import { tracingClient } from "../../../identity-common/src/util/tracing";
 
 const logger = credentialLogger("ClientSecretCredential");
 

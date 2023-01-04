@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AccessToken, TokenCredential } from "@azure/core-auth";
-import { credentialLogger, formatError } from "../util/logging";
+import { credentialLogger, formatError } from "../../../identity-common/src/util/logging";
 
 const BrowserNotSupportedError = new Error("AzureCliCredential is not supported in the browser.");
 const logger = credentialLogger("AzureCliCredential");

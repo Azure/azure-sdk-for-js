@@ -11,11 +11,11 @@ import {
   resolveTenantId,
 } from "../../../../identity-common/src/util/tenantIdUtils";
 import { AccessToken } from "@azure/core-auth";
-import { AuthenticationRecord } from "../types";
+import { AuthenticationRecord } from "../../../../identity-common/src/msal/types";
 import { BrowserLoginStyle } from "../../credentials/interactiveBrowserCredentialOptions";
-import { CredentialFlowGetTokenOptions } from "../credentials";
+import { CredentialFlowGetTokenOptions } from "../../../../identity-common/src/msal/credentials";
 import { DefaultTenantId } from "../../../../identity-common/src/constants";
-import { MultiTenantTokenCredentialOptions } from "../../credentials/multiTenantTokenCredentialOptions";
+import { MultiTenantTokenCredentialOptions } from "../../../../identity-common/src/credentials/multiTenantTokenCredentialOptions";
 
 /**
  * Union of the constructor parameters that all MSAL flow types take.

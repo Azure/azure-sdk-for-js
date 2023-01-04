@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { SDK_VERSION } from "../../../identity-common/src/constants";
+import { SDK_VERSION } from "../constants";
 import { createTracingClient } from "@azure/core-tracing";
 
 /**

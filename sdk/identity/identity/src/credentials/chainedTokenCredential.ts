@@ -3,8 +3,8 @@
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import { AggregateAuthenticationError, CredentialUnavailableError } from "../../../identity-common/src/errors";
-import { credentialLogger, formatError, formatSuccess } from "../util/logging";
-import { tracingClient } from "../util/tracing";
+import { credentialLogger, formatError, formatSuccess } from "../../../identity-common/src/util/logging";
+import { tracingClient } from "../../../identity-common/src/util/tracing";
 
 /**
  * @internal

@@ -3,9 +3,9 @@
 
 import * as msalNode from "@azure/msal-node";
 import { MsalNode, MsalNodeOptions } from "../../../../identity-common/src/msal/nodeFlows/msalNodeCommon";
-import { credentialLogger, formatError, formatSuccess } from "../../util/logging";
+import { credentialLogger, formatError, formatSuccess } from "../../../../identity-common/src/util/logging";
 import { AccessToken } from "@azure/core-auth";
-import { CredentialFlowGetTokenOptions } from "../credentials";
+import { CredentialFlowGetTokenOptions } from "../../../../identity-common/src/msal/credentials";
 import { CredentialUnavailableError } from "../../../../identity-common/src/errors";
 import { Socket } from "net";
 import http from "http";

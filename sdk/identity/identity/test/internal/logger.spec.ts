@@ -8,7 +8,7 @@ import {
   credentialLoggerInstance,
   formatError,
   formatSuccess,
-} from "../../src/util/logging";
+} from "../../../identity-common/src/util/logging";
 import { assert } from "chai";
 
 describe("Identity logging utilities", function () {

@@ -14,10 +14,10 @@ import {
 import { CredentialPersistenceOptions } from "./credentialPersistenceOptions";
 import { MsalFlow } from "../../../identity-common/src/msal/flows";
 import { MsalOnBehalfOf } from "../msal/nodeFlows/msalOnBehalfOf";
-import { MultiTenantTokenCredentialOptions } from "./multiTenantTokenCredentialOptions";
-import { credentialLogger } from "../util/logging";
+import { MultiTenantTokenCredentialOptions } from "../../../identity-common/src/credentials/multiTenantTokenCredentialOptions";
+import { credentialLogger } from "../../../identity-common/src/util/logging";
 import { ensureScopes } from "../util/scopeUtils";
-import { tracingClient } from "../util/tracing";
+import { tracingClient } from "../../../identity-common/src/util/tracing";
 
 const credentialName = "OnBehalfOfCredential";
 const logger = credentialLogger(credentialName);

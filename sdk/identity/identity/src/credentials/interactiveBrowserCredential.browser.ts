@@ -6,17 +6,17 @@ import {
   InteractiveBrowserCredentialInBrowserOptions,
   InteractiveBrowserCredentialNodeOptions,
 } from "./interactiveBrowserCredentialOptions";
-import { credentialLogger, formatError } from "../util/logging";
+import { credentialLogger, formatError } from "../../../identity-common/src/util/logging";
 import {
   processMultiTenantRequest,
   resolveAddionallyAllowedTenantIds,
 } from "../../../identity-common/src/util/tenantIdUtils";
-import { AuthenticationRecord } from "../msal/types";
+import { AuthenticationRecord } from "../../../identity-common/src/msal/types";
 import { MSALAuthCode } from "../msal/browserFlows/msalAuthCode";
 import { MsalBrowserFlowOptions } from "../msal/browserFlows/msalBrowserCommon";
 import { MsalFlow } from "../../../identity-common/src/msal/flows";
 import { ensureScopes } from "../util/scopeUtils";
-import { tracingClient } from "../util/tracing";
+import { tracingClient } from "../../../identity-common/src/util/tracing";
 
 const logger = credentialLogger("InteractiveBrowserCredential");
 

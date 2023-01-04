@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { CredentialPersistenceOptions } from "./credentialPersistenceOptions";
-import { MultiTenantTokenCredentialOptions } from "./multiTenantTokenCredentialOptions";
+import { MultiTenantTokenCredentialOptions } from "../../../identity-common/src/credentials/multiTenantTokenCredentialOptions";
 
 /**
  * Defines the parameters to authenticate the {@link OnBehalfOfCredential} with a secret.

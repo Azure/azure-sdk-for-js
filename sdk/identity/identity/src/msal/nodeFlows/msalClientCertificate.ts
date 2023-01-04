@@ -10,8 +10,8 @@ import { MsalNode, MsalNodeOptions } from "../../../../identity-common/src/msal/
 import { createHash, createPrivateKey } from "crypto";
 import { AccessToken } from "@azure/core-auth";
 import { ClientCredentialRequest } from "@azure/msal-node";
-import { CredentialFlowGetTokenOptions } from "../credentials";
-import { formatError } from "../../util/logging";
+import { CredentialFlowGetTokenOptions } from "../../../../identity-common/src/msal/credentials";
+import { formatError } from "../../../../identity-common/src/util/logging";
 import { promisify } from "util";
 import { readFile } from "fs";
 

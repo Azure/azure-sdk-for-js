@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CredentialLogger, formatError } from "./logging";
+import { CredentialLogger, formatError } from "../../../identity-common/src/util/logging";
 
 /**
  * Ensures the scopes value is an array.

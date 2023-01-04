@@ -17,4 +17,8 @@ export const msalNodeFlowCacheControl = {
   setPersistence(pluginProvider: Exclude<typeof persistenceProvider, undefined>): void {
     persistenceProvider = pluginProvider;
   },
+  getPersistence(): ((options?: TokenCachePersistenceOptions) => Promise<msalCommon.ICachePlugin>) | undefined
+  {
+    return persistenceProvider;
+  }
 };

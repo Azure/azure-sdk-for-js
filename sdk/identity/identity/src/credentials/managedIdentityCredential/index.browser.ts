@@ -4,7 +4,7 @@
 import { AccessToken, TokenCredential } from "@azure/core-auth";
 
 import { TokenCredentialOptions } from "../../../../identity-common/src/tokenCredentialOptions";
-import { credentialLogger, formatError } from "../../util/logging";
+import { credentialLogger, formatError } from "../../../../identity-common/src/util/logging";
 
 const BrowserNotSupportedError = new Error(
   "ManagedIdentityCredential is not supported in the browser."

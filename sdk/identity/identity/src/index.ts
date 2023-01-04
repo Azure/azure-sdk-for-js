@@ -19,10 +19,10 @@ export {
   AuthenticationRequiredErrorOptions,
 } from "../../identity-common/src/errors";
 
-export { AuthenticationRecord } from "./msal/types";
+export { AuthenticationRecord } from "../../identity-common/src/msal/types";
 export { serializeAuthenticationRecord, deserializeAuthenticationRecord } from "../../identity-common/src/msal/utils";
 export { TokenCredentialOptions } from "../../identity-common/src/tokenCredentialOptions";
-export { MultiTenantTokenCredentialOptions } from "./credentials/multiTenantTokenCredentialOptions";
+export { MultiTenantTokenCredentialOptions } from "../../identity-common/src/credentials/multiTenantTokenCredentialOptions";
 
 // TODO: Export again once we're ready to release this feature.
 // export { RegionalAuthority } from "./regionalAuthority";
@@ -92,7 +92,7 @@ export { OnBehalfOfCredential } from "./credentials/onBehalfOfCredential";
 export { TokenCachePersistenceOptions } from "../../identity-common/src/msal/nodeFlows/tokenCachePersistenceOptions";
 
 export { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
-export { logger } from "./util/logging";
+export { logger } from "../../identity-common/src/util/logging";
 
 export { AzureAuthorityHosts } from "../../identity-common/src/constants";
 

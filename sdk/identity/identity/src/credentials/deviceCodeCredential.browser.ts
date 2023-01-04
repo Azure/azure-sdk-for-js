@@ -3,7 +3,7 @@
 
 import { AccessToken, TokenCredential } from "@azure/core-auth";
 
-import { credentialLogger, formatError } from "../util/logging";
+import { credentialLogger, formatError } from "../../../identity-common/src/util/logging";
 
 const BrowserNotSupportedError = new Error("DeviceCodeCredential is not supported in the browser.");
 const logger = credentialLogger("DeviceCodeCredential");

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import { credentialLogger, formatError, formatSuccess } from "../util/logging";
+import { credentialLogger, formatError, formatSuccess } from "../../../identity-common/src/util/logging";
 import { ensureValidScope, getScopeResource } from "../util/scopeUtils";
 import { AzureCliCredentialOptions } from "./azureCliCredentialOptions";
 import { CredentialUnavailableError } from "../../../identity-common/src/errors";
@@ -11,7 +11,7 @@ import {
   processMultiTenantRequest,
   resolveAddionallyAllowedTenantIds,
 } from "../../../identity-common/src/util/tenantIdUtils";
-import { tracingClient } from "../util/tracing";
+import { tracingClient } from "../../../identity-common/src/util/tracing";
 
 /**
  * Mockable reference to the CLI credential cliCredentialFunctions

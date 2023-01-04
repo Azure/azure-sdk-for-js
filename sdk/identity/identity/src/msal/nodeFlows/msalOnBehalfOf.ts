@@ -3,8 +3,8 @@
 
 import { MsalNode, MsalNodeOptions } from "../../../../identity-common/src/msal/nodeFlows/msalNodeCommon";
 import { AccessToken } from "@azure/core-auth";
-import { CredentialFlowGetTokenOptions } from "../credentials";
-import { formatError } from "../../util/logging";
+import { CredentialFlowGetTokenOptions } from "../../../../identity-common/src/msal/credentials";
+import { formatError } from "../../../../identity-common/src/util/logging";
 import { parseCertificate } from "./msalClientCertificate";
 
 /**

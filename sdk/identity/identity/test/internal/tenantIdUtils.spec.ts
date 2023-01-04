@@ -8,7 +8,7 @@ import {
 } from "../../../identity-common/src/util/tenantIdUtils";
 import { DeveloperSignOnClientId } from "../../../identity-common/src/constants";
 import { assert } from "@azure/test-utils";
-import { credentialLogger } from "../../src/util/logging";
+import { credentialLogger } from "../../../identity-common/src/util/logging";
 
 describe("tenantIdUtils", () => {
   describe("resolveAddionallyAllowedTenantIds", () => {

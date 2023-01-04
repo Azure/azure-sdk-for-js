@@ -9,8 +9,8 @@ import {
 import { ClientAssertionCredentialOptions } from "./clientAssertionCredentialOptions";
 import { MsalClientAssertion } from "../msal/nodeFlows/msalClientAssertion";
 import { MsalFlow } from "../../../identity-common/src/msal/flows";
-import { credentialLogger } from "../util/logging";
-import { tracingClient } from "../util/tracing";
+import { credentialLogger } from "../../../identity-common/src/util/logging";
+import { tracingClient } from "../../../identity-common/src/util/tracing";
 
 const logger = credentialLogger("ClientAssertionCredential");
 

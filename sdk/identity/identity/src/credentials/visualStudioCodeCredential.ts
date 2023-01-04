@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import { credentialLogger, formatError, formatSuccess } from "../util/logging";
+import { credentialLogger, formatError, formatSuccess } from "../../../identity-common/src/util/logging";
 import {
   processMultiTenantRequest,
   resolveAddionallyAllowedTenantIds,

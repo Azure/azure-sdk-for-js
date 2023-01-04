@@ -12,12 +12,12 @@ import {
   processMultiTenantRequest,
   resolveAddionallyAllowedTenantIds,
 } from "../../../identity-common/src/util/tenantIdUtils";
-import { AuthenticationRecord } from "../msal/types";
+import { AuthenticationRecord } from "../../../identity-common/src/msal/types";
 import { MsalFlow } from "../../../identity-common/src/msal/flows";
 import { MsalOpenBrowser } from "../msal/nodeFlows/msalOpenBrowser";
-import { credentialLogger } from "../util/logging";
+import { credentialLogger } from "../../../identity-common/src/util/logging";
 import { ensureScopes } from "../util/scopeUtils";
-import { tracingClient } from "../util/tracing";
+import { tracingClient } from "../../../identity-common/src/util/tracing";
 
 const logger = credentialLogger("InteractiveBrowserCredential");
 

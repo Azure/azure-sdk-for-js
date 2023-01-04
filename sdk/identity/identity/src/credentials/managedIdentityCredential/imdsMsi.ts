@@ -8,12 +8,12 @@ import {
   createHttpHeaders,
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
-import { credentialLogger } from "../../util/logging";
+import { credentialLogger } from "../../../../identity-common/src/util/logging";
 import { AuthenticationError } from "../../../../identity-common/src/errors";
-import { tracingClient } from "../../util/tracing";
+import { tracingClient } from "../../../../identity-common/src/util/tracing";
 import { imdsApiVersion, imdsEndpointPath, imdsHost } from "./constants";
 import { MSI, MSIConfiguration } from "./models";
-import { mapScopesToResource } from "./utils";
+import { mapScopesToResource } from "../../../../identity-common/src/credentials/managedIdentityCredential/utils";
 
 const msiName = "ManagedIdentityCredential - IMDS";
 const logger = credentialLogger(msiName);

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { credentialLogger, formatError } from "../util/logging";
+import { credentialLogger, formatError } from "../../../identity-common/src/util/logging";
 import { AccessToken } from "@azure/core-auth";
 import { ChainedTokenCredential } from "./chainedTokenCredential";
 import { TokenCredentialOptions } from "../../../identity-common/src/tokenCredentialOptions";

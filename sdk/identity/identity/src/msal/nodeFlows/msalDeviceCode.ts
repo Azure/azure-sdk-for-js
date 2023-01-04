@@ -4,7 +4,7 @@
 import * as msalNode from "@azure/msal-node";
 import { MsalNode, MsalNodeOptions } from "../../../../identity-common/src/msal/nodeFlows/msalNodeCommon";
 import { AccessToken } from "@azure/core-auth";
-import { CredentialFlowGetTokenOptions } from "../credentials";
+import { CredentialFlowGetTokenOptions } from "../../../../identity-common/src/msal/credentials";
 import { DeviceCodePromptCallback } from "../../credentials/deviceCodeCredentialOptions";
 
 /**

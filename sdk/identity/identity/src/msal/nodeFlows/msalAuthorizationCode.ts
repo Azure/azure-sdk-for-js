@@ -3,8 +3,8 @@
 
 import { MsalNode, MsalNodeOptions } from "../../../../identity-common/src/msal/nodeFlows/msalNodeCommon";
 import { AccessToken } from "@azure/core-auth";
-import { CredentialFlowGetTokenOptions } from "../credentials";
-import { credentialLogger } from "../../util/logging";
+import { CredentialFlowGetTokenOptions } from "../../../../identity-common/src/msal/credentials";
+import { credentialLogger } from "../../../../identity-common/src/util/logging";
 
 /**
  * Options that can be passed to configure MSAL to handle authentication through opening a browser window.

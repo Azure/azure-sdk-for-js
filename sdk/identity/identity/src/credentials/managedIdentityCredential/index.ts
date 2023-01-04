@@ -10,9 +10,9 @@ import {
   AuthenticationRequiredError,
   CredentialUnavailableError,
 } from "../../../../identity-common/src/errors";
-import { credentialLogger, formatError, formatSuccess } from "../../util/logging";
+import { credentialLogger, formatError, formatSuccess } from "../../../../identity-common/src/util/logging";
 import { appServiceMsi2017 } from "./appServiceMsi2017";
-import { tracingClient } from "../../util/tracing";
+import { tracingClient } from "../../../../identity-common/src/util/tracing";
 import { cloudShellMsi } from "./cloudShellMsi";
 import { imdsMsi } from "./imdsMsi";
 import { MSI } from "./models";
@@ -22,7 +22,7 @@ import { fabricMsi } from "./fabricMsi";
 import { appServiceMsi2019 } from "./appServiceMsi2019";
 import { AppTokenProviderParameters, ConfidentialClientApplication } from "@azure/msal-node";
 import { DeveloperSignOnClientId } from "../../../../identity-common/src/constants";
-import { MsalResult, MsalToken } from "../../msal/types";
+import { MsalResult, MsalToken } from "../../../../identity-common/src/msal/types";
 
 const logger = credentialLogger("ManagedIdentityCredential");
 

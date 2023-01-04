@@ -7,9 +7,9 @@ import {
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
-import { credentialLogger } from "../../util/logging";
+import { credentialLogger } from "../../../../identity-common/src/util/logging";
 import { MSI, MSIConfiguration } from "./models";
-import { mapScopesToResource } from "./utils";
+import { mapScopesToResource } from "../../../../identity-common/src/credentials/managedIdentityCredential/utils";
 
 const msiName = "ManagedIdentityCredential - AppServiceMSI 2017";
 const logger = credentialLogger(msiName);

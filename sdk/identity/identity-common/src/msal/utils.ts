@@ -4,9 +4,9 @@
 import * as msalCommon from "@azure/msal-common";
 
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
-import { AuthenticationRecord, MsalAccountInfo, MsalResult, MsalToken } from "../../../identity/src/msal/types";
+import { AuthenticationRecord, MsalAccountInfo, MsalResult, MsalToken } from "./types";
 import { AuthenticationRequiredError, CredentialUnavailableError } from "../errors";
-import { CredentialLogger, formatError, formatSuccess } from "../../../identity/src/util/logging";
+import { CredentialLogger, formatError, formatSuccess } from "../util/logging";
 import { DefaultAuthorityHost, DefaultTenantId } from "../constants";
 import { AbortError } from "@azure/abort-controller";
 import { MsalFlowOptions } from "./flows";
