@@ -3741,7 +3741,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20230103
+      typescript: 5.0.0-dev.20230104
     dev: false
 
   /downlevel-dts/0.7.0:
@@ -8445,8 +8445,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20230103:
-    resolution: {integrity: sha512-vHf8Y8+op6MsFIDgvNmZhAIAUGVmzFzYCUBysMS6hlxlhSWIh1h5AXAW7WKs4GYr325jwTF/L72NKUYZHSD6Mw==}
+  /typescript/5.0.0-dev.20230104:
+    resolution: {integrity: sha512-1W+qcvZu8Spq1fi/ajNcSobXt2ZBPDqyt6qwoNGaMgX1X82ZYmlh50oJfJVf44DNVwXNAsRfyKJ3UkXVf4OYsw==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -16144,7 +16144,7 @@ packages:
     dev: false
 
   file:projects/cosmos.tgz:
-    resolution: {integrity: sha512-tVcmYvQJ0BRGnfn07svB3Q/mKvqPE/2D7fg5j0XbL8Hi3JMlg8cNVd5ca/fb11YgwvqvbKe9AvKVeslDkBqfwA==, tarball: file:projects/cosmos.tgz}
+    resolution: {integrity: sha512-bUQuMO7cqgQZqczw8C+bOEa646iUudDy8Xd3SX23tkeyo35B3ErXQLxioei7RCOmenpo5mFdcuRKVITsQlKd8g==, tarball: file:projects/cosmos.tgz}
     name: '@rush-temp/cosmos'
     version: 0.0.0
     dependencies:
@@ -16156,6 +16156,7 @@ packages:
       '@types/priorityqueuejs': 1.0.1
       '@types/semaphore': 1.1.1
       '@types/sinon': 9.0.11
+      '@types/sinonjs__fake-timers': 8.1.2
       '@types/underscore': 1.11.4
       '@types/uuid': 8.3.4
       clock-mock: 1.0.6

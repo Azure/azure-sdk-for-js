@@ -4,7 +4,8 @@ import { DatabaseAccount, ResourceResponse } from "../../../src";
 import { masterKey } from "../common/_fakeTestSecrets";
 import { GlobalEndpointManager } from "../../../src";
 import { OperationType, ResourceType } from "../../../src";
-import Clock from "clock-mock";
+import * as fakeTimers from "@sinonjs/fake-timers";
+
 import assert from "assert";
 
 const locationUnavailableExpirationTime = 6 * 60 * 1000;
@@ -100,6 +101,8 @@ describe("GlobalEndpointManager", function () {
       );
     });
     it("should resolve to endpoint when call made after server unavailability time", async function () {
+      let clock: fakeTimers.InstalledClock;
+      clock = fakeTimers.install();
       gem = new GlobalEndpointManager(
         {
           endpoint: "https://test.documents.azure.com:443/",
@@ -117,8 +120,7 @@ describe("GlobalEndpointManager", function () {
           return response;
         }
       );
-      const c = new Clock();
-      c.enter();
+
       await gem.markCurrentLocationUnavailableForRead(
         "https://test-westus2.documents.azure.com:443/"
       );
@@ -126,12 +128,12 @@ describe("GlobalEndpointManager", function () {
         await gem.resolveServiceEndpoint(ResourceType.item, OperationType.Read),
         "https://test.documents.azure.com:443/"
       );
-      c.advance(locationUnavailableExpirationTime);
+      clock.tick(locationUnavailableExpirationTime);
       assert.equal(
         await gem.resolveServiceEndpoint(ResourceType.item, OperationType.Read),
         "https://test-westus2.documents.azure.com:443/"
       );
-      c.exit();
+      clock.uninstall();
     });
   });
 
