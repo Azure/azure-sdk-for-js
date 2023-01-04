@@ -33,19 +33,5 @@ export async function createRecorder(context: Context): Promise<Recorder> {
   };
   const recorder = new Recorder(context.currentTest);
   await recorder.start(recorderStartOptions);
-  recorder.addSanitizers({
-    generalSanitizers:[
-      {
-        regex: true,
-        target: `/"access_token"\s?:\s?"[^"]*"/g`,
-        value: `"access_token":"access_token"`,
-      },
-      {
-        target: "testaccount.dev.azuresynapse.net:44,3",
-        value: "testaccount.dev.azuresynapse.net"
-      }
-    ]
-  })
   return recorder;
-
 }
