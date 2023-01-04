@@ -160,9 +160,9 @@ describe("XML serializer", function () {
       });
     });
 
-    it("should not parse field in stop node", async function () {
+    it("should not parse a nested XML document when including root node", async function () {
       const xml = `<NotificationDetails><NotificationBody>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;toast&gt;&lt;visual&gt;&lt;binding template="ToastText01"&gt;&lt;text id="1"&gt;Hello from a .NET App!&lt;/text&gt;&lt;/binding&gt;&lt;/visual&gt;&lt;/toast&gt;</NotificationBody></NotificationDetails>`;
-      const json = await parseXML(xml, { stopNodes: ["NotificationDetails.NotificationBody"] });
+      const json = await parseXML(xml);
       assert.deepStrictEqual(json, {
         NotificationBody:
           '<?xml version="1.0" encoding="utf-16"?><toast><visual><binding template="ToastText01"><text id="1">Hello from a .NET App!</text></binding></visual></toast>',
@@ -339,11 +339,10 @@ describe("XML serializer", function () {
       }
     });
 
-    it("should not parse field in stop node", async function () {
+    it("should not a nested XML document", async function () {
       const xml = `<NotificationDetails><NotificationBody>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;toast&gt;&lt;visual&gt;&lt;binding template="ToastText01"&gt;&lt;text id="1"&gt;Hello from a .NET App!&lt;/text&gt;&lt;/binding&gt;&lt;/visual&gt;&lt;/toast&gt;</NotificationBody></NotificationDetails>`;
       const json = await parseXML(xml, {
         includeRoot: true,
-        stopNodes: ["NotificationDetails.NotificationBody"],
       });
       assert.deepStrictEqual(json, {
         NotificationDetails: {
@@ -594,5 +593,12 @@ describe("XML serializer", function () {
         throw err;
       }
     }
+  });
+
+  it("should support storage payloads with special characters", async function () {
+    const input =
+      '<EnumerationResults ServiceEndpoint="https://fakestorageaccount.blob.core.windows.net/" ContainerName="1container-with-dash158018564730401913"><Prefix>汉字. special ~!@#$%^&amp;*()_+`1234567890-={}|[]/:";\'&lt;&gt;?,/\'158018564765001227</Prefix><Blobs><Blob><Name>汉字. special ~!@#$%^&amp;*()_+`1234567890-={}|[]/:";\'&lt;&gt;?,/\'158018564765001227</Name><Properties><Creation-Time>Tue, 28 Jan 2020 04:27:27 GMT</Creation-Time><Last-Modified>Tue, 28 Jan 2020 04:27:27 GMT</Last-Modified><Etag>0x8D7A3AA61F50D6C</Etag><Content-Length>1</Content-Length><Content-Type>application/octet-stream</Content-Type><Content-Encoding /><Content-Language /><Content-CRC64 /><Content-MD5>f8VicOenD6gaWTW3Lqy+KQ==</Content-MD5><Cache-Control /><Content-Disposition /><BlobType>BlockBlob</BlobType><AccessTier>Cool</AccessTier><AccessTierInferred>true</AccessTierInferred><LeaseStatus>unlocked</LeaseStatus><LeaseState>available</LeaseState><ServerEncrypted>true</ServerEncrypted></Properties></Blob></Blobs><NextMarker /></EnumerationResults>';
+    const parsed = await parseXML(input);
+    assert.isDefined(parsed.Blobs);
   });
 });

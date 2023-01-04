@@ -23,11 +23,13 @@ export {
 } from "./policies/requestPolicyFactoryPolicy";
 export { KeepAliveOptions } from "./policies/keepAliveOptions";
 export { RedirectOptions } from "./policies/redirectOptions";
-export { disbaleKeepAlivePolicyName } from "./policies/disableKeepAlivePolicy";
+export { disableKeepAlivePolicyName } from "./policies/disableKeepAlivePolicy";
+export { convertHttpClient } from "./httpClientAdapter";
 export {
   WebResourceLike,
   HttpHeadersLike,
   RawHttpHeaders,
   HttpHeader,
   TransferProgressEvent,
+  toHttpHeadersLike,
 } from "./util";
