@@ -39,18 +39,18 @@
         "value": [
           {
             "name": null,
-            "key": "Rrw8IlQgUyW0TEmyR6iMJ80CaZSwqyAWKDRPDKntLLAzSeBtcvYg"
+            "key": "mock_key"
           },
           {
             "name": "testjskey",
-            "key": ""
+            "key": "mock_key"
           }
         ],
         "nextLink": null
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Search/searchServices/myjssearchservicexxx/deleteQueryKey/Ry6d14Q7F6Isa9JIVYeDm9lWkUJfJ5Ga8UqH2RVSyIAzSeCOCJh3?api-version=2020-08-01",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Search/searchServices/myjssearchservicexxx/deleteQueryKey/mock_key?api-version=2020-08-01",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -117,7 +117,7 @@
         "value": [
           {
             "name": null,
-            "key": "testaaa"
+            "key": "mock_key"
           }
         ],
         "nextLink": null

@@ -39,11 +39,11 @@
         "value": [
           {
             "name": null,
-            "key": ""
+            "key": "mock_key"
           },
           {
             "name": "testjskey",
-            "key": ""
+            "key": "mock_key"
           }
         ],
         "nextLink": null
