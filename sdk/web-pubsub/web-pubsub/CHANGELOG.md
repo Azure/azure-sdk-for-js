@@ -1,14 +1,10 @@
 # Release History
 
-## 1.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 1.1.1 (2023-01-03)
 
 ### Other Changes
+
+- Bumped the version of the jsonwebtoken dependency to v9.
 
 ## 1.1.0 (2022-11-11)
 

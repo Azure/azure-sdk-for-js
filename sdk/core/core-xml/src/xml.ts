@@ -58,7 +58,7 @@ function getParserOptions(options: XmlOptions = {}): {
     parseTagValue: false,
     attributeNamePrefix: "",
     stopNodes: options.stopNodes,
-    processEntities: false,
+    processEntities: true,
   };
 }
 /**
@@ -95,7 +95,7 @@ export async function parseXML(str: string, opts: XmlOptions = {}): Promise<any>
   }
 
   const parser = new XMLParser(getParserOptions(opts));
-  const parsedXml = parser.parse(unescapeHTML(str));
+  const parsedXml = parser.parse(str);
 
   // Remove the <?xml version="..." ?> node.
   // This is a change in behavior on fxp v4. Issue #424
@@ -111,12 +111,4 @@ export async function parseXML(str: string, opts: XmlOptions = {}): Promise<any>
   }
 
   return parsedXml;
-}
-
-function unescapeHTML(str: string): string {
-  return str
-    .replace(/&amp;/g, "&")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
-    .replace(/&quot;/g, '"');
 }
