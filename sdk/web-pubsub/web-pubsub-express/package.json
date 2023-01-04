@@ -65,7 +65,7 @@
     "@types/chai": "^4.1.6",
     "@types/express": "^4.16.0",
     "@types/express-serve-static-core": "^4.17.19",
-    "@types/jsonwebtoken": "~8.5.0",
+    "@types/jsonwebtoken": "^9.0.0",
     "@types/mocha": "^7.0.2",
     "@types/node": "^14.0.0",
     "@types/sinon": "^9.0.4",

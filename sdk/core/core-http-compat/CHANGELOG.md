@@ -1,14 +1,16 @@
 # Release History
 
-## 1.3.1 (Unreleased)
+## 2.0.0 (2023-01-05)
 
 ### Features Added
 
+- Added support for `clone` on `WebResourceLike`s.
+- Added support for using a `core-http` style HttpClient as a `core-rest-pipeline` HttpClient called `convertHttpClient`.
+- Expose helper for converting `HttpHeaders` from `core-rest-pipeline` into the same shape as `core-http`.
+
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
+- renamed property `disbaleKeepAlivePolicyName` to `disableKeepAlivePolicyName`
 
 ## 1.3.0 (2022-05-05)
 
