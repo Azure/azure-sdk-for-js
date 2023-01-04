@@ -2,7 +2,7 @@
     
 ## 1.0.0-beta.2 (2022-12-30)
     
-**Breaking Changes**
+**Features**
 
   - Interface MachineExtensionsListNextOptionalParams no longer has parameter expand
     
