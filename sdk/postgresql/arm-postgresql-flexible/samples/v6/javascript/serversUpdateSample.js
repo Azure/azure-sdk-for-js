@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { PostgreSQLManagementFlexibleServerClient } = require("@azure/arm-postgresql-flexible");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2021-06-01/examples/ServerUpdate.json
  */
 async function serverUpdate() {
-  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = "TestGroup";
+  const subscriptionId =
+    process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "TestGroup";
   const serverName = "pgtestsvc4";
   const parameters = {
     administratorLoginPassword: "newpassword",
@@ -35,8 +37,6 @@ async function serverUpdate() {
   console.log(result);
 }
 
-serverUpdate().catch(console.error);
-
 /**
  * This sample demonstrates how to Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
  *
@@ -44,8 +44,9 @@ serverUpdate().catch(console.error);
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2021-06-01/examples/ServerUpdateWithCustomerMaintenanceWindow.json
  */
 async function serverUpdateWithCustomerMaintenanceWindow() {
-  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = "testrg";
+  const subscriptionId =
+    process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
   const serverName = "pgtestsvc4";
   const parameters = {
     createMode: "Update",
@@ -63,4 +64,9 @@ async function serverUpdateWithCustomerMaintenanceWindow() {
   console.log(result);
 }
 
-serverUpdateWithCustomerMaintenanceWindow().catch(console.error);
+async function main() {
+  serverUpdate();
+  serverUpdateWithCustomerMaintenanceWindow();
+}
+
+main().catch(console.error);

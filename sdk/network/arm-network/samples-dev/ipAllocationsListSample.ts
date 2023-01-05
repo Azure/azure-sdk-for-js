@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Gets all IpAllocations in a subscription.
  *
  * @summary Gets all IpAllocations in a subscription.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/IpAllocationList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/IpAllocationList.json
  */
 async function listAllIPAllocations() {
   const subscriptionId = "subid";

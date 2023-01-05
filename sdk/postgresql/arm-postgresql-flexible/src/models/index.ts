@@ -551,18 +551,18 @@ export interface DatabaseListResult {
 }
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The geo-location where the resource lives */
   location: string;
-};
+}
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {}
 
 /** Represents a server. */
-export type Server = TrackedResource & {
+export interface Server extends TrackedResource {
   /** The SKU (pricing tier) of the server. */
   sku?: Sku;
   /**
@@ -612,10 +612,10 @@ export type Server = TrackedResource & {
   availabilityZone?: string;
   /** The mode to create a new PostgreSQL server. */
   createMode?: CreateMode;
-};
+}
 
 /** Represents a server firewall rule. */
-export type FirewallRule = ProxyResource & {
+export interface FirewallRule extends ProxyResource {
   /**
    * The system metadata relating to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -625,10 +625,10 @@ export type FirewallRule = ProxyResource & {
   startIpAddress: string;
   /** The end IP address of the server firewall rule. Must be IPv4 format. */
   endIpAddress: string;
-};
+}
 
 /** Represents a Configuration. */
-export type Configuration = ProxyResource & {
+export interface Configuration extends ProxyResource {
   /**
    * The system metadata relating to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -683,10 +683,10 @@ export type Configuration = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly documentationLink?: string;
-};
+}
 
 /** Represents a Database. */
-export type Database = ProxyResource & {
+export interface Database extends ProxyResource {
   /**
    * The system metadata relating to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -696,12 +696,15 @@ export type Database = ProxyResource & {
   charset?: string;
   /** The collation of the database. */
   collation?: string;
-};
+}
 
 /** Known values of {@link SkuTier} that the service accepts. */
 export enum KnownSkuTier {
+  /** Burstable */
   Burstable = "Burstable",
+  /** GeneralPurpose */
   GeneralPurpose = "GeneralPurpose",
+  /** MemoryOptimized */
   MemoryOptimized = "MemoryOptimized"
 }
 
@@ -718,8 +721,11 @@ export type SkuTier = string;
 
 /** Known values of {@link ServerVersion} that the service accepts. */
 export enum KnownServerVersion {
+  /** Thirteen */
   Thirteen = "13",
+  /** Twelve */
   Twelve = "12",
+  /** Eleven */
   Eleven = "11"
 }
 
@@ -736,12 +742,19 @@ export type ServerVersion = string;
 
 /** Known values of {@link ServerState} that the service accepts. */
 export enum KnownServerState {
+  /** Ready */
   Ready = "Ready",
+  /** Dropping */
   Dropping = "Dropping",
+  /** Disabled */
   Disabled = "Disabled",
+  /** Starting */
   Starting = "Starting",
+  /** Stopping */
   Stopping = "Stopping",
+  /** Stopped */
   Stopped = "Stopped",
+  /** Updating */
   Updating = "Updating"
 }
 
@@ -762,7 +775,9 @@ export type ServerState = string;
 
 /** Known values of {@link GeoRedundantBackupEnum} that the service accepts. */
 export enum KnownGeoRedundantBackupEnum {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -778,7 +793,9 @@ export type GeoRedundantBackupEnum = string;
 
 /** Known values of {@link ServerPublicNetworkAccessState} that the service accepts. */
 export enum KnownServerPublicNetworkAccessState {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -794,7 +811,9 @@ export type ServerPublicNetworkAccessState = string;
 
 /** Known values of {@link HighAvailabilityMode} that the service accepts. */
 export enum KnownHighAvailabilityMode {
+  /** Disabled */
   Disabled = "Disabled",
+  /** ZoneRedundant */
   ZoneRedundant = "ZoneRedundant"
 }
 
@@ -810,11 +829,17 @@ export type HighAvailabilityMode = string;
 
 /** Known values of {@link ServerHAState} that the service accepts. */
 export enum KnownServerHAState {
+  /** NotEnabled */
   NotEnabled = "NotEnabled",
+  /** CreatingStandby */
   CreatingStandby = "CreatingStandby",
+  /** ReplicatingData */
   ReplicatingData = "ReplicatingData",
+  /** FailingOver */
   FailingOver = "FailingOver",
+  /** Healthy */
   Healthy = "Healthy",
+  /** RemovingStandby */
   RemovingStandby = "RemovingStandby"
 }
 
@@ -834,9 +859,13 @@ export type ServerHAState = string;
 
 /** Known values of {@link CreateMode} that the service accepts. */
 export enum KnownCreateMode {
+  /** Default */
   Default = "Default",
+  /** Create */
   Create = "Create",
+  /** Update */
   Update = "Update",
+  /** PointInTimeRestore */
   PointInTimeRestore = "PointInTimeRestore"
 }
 
@@ -854,9 +883,13 @@ export type CreateMode = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -874,7 +907,9 @@ export type CreatedByType = string;
 
 /** Known values of {@link CreateModeForUpdate} that the service accepts. */
 export enum KnownCreateModeForUpdate {
+  /** Default */
   Default = "Default",
+  /** Update */
   Update = "Update"
 }
 
@@ -890,9 +925,13 @@ export type CreateModeForUpdate = string;
 
 /** Known values of {@link FailoverMode} that the service accepts. */
 export enum KnownFailoverMode {
+  /** PlannedFailover */
   PlannedFailover = "PlannedFailover",
+  /** ForcedFailover */
   ForcedFailover = "ForcedFailover",
+  /** PlannedSwitchover */
   PlannedSwitchover = "PlannedSwitchover",
+  /** ForcedSwitchover */
   ForcedSwitchover = "ForcedSwitchover"
 }
 
@@ -910,9 +949,13 @@ export type FailoverMode = string;
 
 /** Known values of {@link ConfigurationDataType} that the service accepts. */
 export enum KnownConfigurationDataType {
+  /** Boolean */
   Boolean = "Boolean",
+  /** Numeric */
   Numeric = "Numeric",
+  /** Integer */
   Integer = "Integer",
+  /** Enumeration */
   Enumeration = "Enumeration"
 }
 
@@ -930,7 +973,9 @@ export type ConfigurationDataType = string;
 
 /** Known values of {@link Reason} that the service accepts. */
 export enum KnownReason {
+  /** Invalid */
   Invalid = "Invalid",
+  /** AlreadyExists */
   AlreadyExists = "AlreadyExists"
 }
 
@@ -946,8 +991,11 @@ export type Reason = string;
 
 /** Known values of {@link OperationOrigin} that the service accepts. */
 export enum KnownOperationOrigin {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** User */
   User = "user",
+  /** System */
   System = "system"
 }
 

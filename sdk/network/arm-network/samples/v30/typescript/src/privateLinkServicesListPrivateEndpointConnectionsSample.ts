@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Gets all private end point connections for a specific private link service.
  *
  * @summary Gets all private end point connections for a specific private link service.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/PrivateLinkServiceListPrivateEndpointConnection.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/PrivateLinkServiceListPrivateEndpointConnection.json
  */
 async function listPrivateLinkServiceInResourceGroup() {
   const subscriptionId = "subId";

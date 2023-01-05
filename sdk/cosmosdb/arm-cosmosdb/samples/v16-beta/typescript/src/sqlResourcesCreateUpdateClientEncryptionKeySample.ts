@@ -13,6 +13,9 @@ import {
   CosmosDBManagementClient
 } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create or update a ClientEncryptionKey. This API is meant to be invoked via tools such as the Azure Powershell (instead of directly).
@@ -21,8 +24,8 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBSqlClientEncryptionKeyCreateUpdate.json
  */
 async function cosmosDbClientEncryptionKeyCreateUpdate() {
-  const subscriptionId = "subId";
-  const resourceGroupName = "rgName";
+  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subId";
+  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rgName";
   const accountName = "accountName";
   const databaseName = "databaseName";
   const clientEncryptionKeyName = "cekName";
@@ -53,4 +56,8 @@ async function cosmosDbClientEncryptionKeyCreateUpdate() {
   console.log(result);
 }
 
-cosmosDbClientEncryptionKeyCreateUpdate().catch(console.error);
+async function main() {
+  cosmosDbClientEncryptionKeyCreateUpdate();
+}
+
+main().catch(console.error);

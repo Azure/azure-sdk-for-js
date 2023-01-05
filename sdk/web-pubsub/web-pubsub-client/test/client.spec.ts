@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "@azure/test-utils";
+import { assert, expect } from "@azure/test-utils";
 import { WebPubSubClientOptions } from "../src/models";
 import { WebPubSubJsonProtocol } from "../src/protocols";
 import { WebPubSubClient } from "../src/webPubSubClient";
@@ -54,6 +54,13 @@ describe("WebPubSubClient", function () {
         const options = client["_options"];
         assert.isTrue(options.autoReconnect);
       });
+    });
+
+    it("client start with a non-string client url", async () => {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      const client = new WebPubSubClient({ getClientAccessUrl: async (_) => new { obj: "val" }() });
+      await expect(client.start()).to.be.rejectedWith(Error);
     });
   });
 });

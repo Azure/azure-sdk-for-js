@@ -2967,8 +2967,8 @@ export const IoTRole: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "IoTRole",
-    uberParent: "ARMBaseModel",
-    polymorphicDiscriminator: ARMBaseModel.type.polymorphicDiscriminator,
+    uberParent: "Role",
+    polymorphicDiscriminator: Role.type.polymorphicDiscriminator,
     modelProperties: {
       ...Role.type.modelProperties,
       hostPlatform: {
@@ -3018,8 +3018,8 @@ export const FileEventTrigger: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "FileEventTrigger",
-    uberParent: "ARMBaseModel",
-    polymorphicDiscriminator: ARMBaseModel.type.polymorphicDiscriminator,
+    uberParent: "Trigger",
+    polymorphicDiscriminator: Trigger.type.polymorphicDiscriminator,
     modelProperties: {
       ...Trigger.type.modelProperties,
       sourceInfo: {
@@ -3051,8 +3051,8 @@ export const PeriodicTimerEventTrigger: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PeriodicTimerEventTrigger",
-    uberParent: "ARMBaseModel",
-    polymorphicDiscriminator: ARMBaseModel.type.polymorphicDiscriminator,
+    uberParent: "Trigger",
+    polymorphicDiscriminator: Trigger.type.polymorphicDiscriminator,
     modelProperties: {
       ...Trigger.type.modelProperties,
       sourceInfo: {
@@ -3082,7 +3082,7 @@ export const PeriodicTimerEventTrigger: coreClient.CompositeMapper = {
 export let discriminators = {
   "ARMBaseModel.Role": Role,
   "ARMBaseModel.Trigger": Trigger,
-  "ARMBaseModel.IOT": IoTRole,
-  "ARMBaseModel.FileEvent": FileEventTrigger,
-  "ARMBaseModel.PeriodicTimerEvent": PeriodicTimerEventTrigger
+  "Role.IOT": IoTRole,
+  "Trigger.FileEvent": FileEventTrigger,
+  "Trigger.PeriodicTimerEvent": PeriodicTimerEventTrigger
 };

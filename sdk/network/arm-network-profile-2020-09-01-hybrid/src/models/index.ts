@@ -904,7 +904,7 @@ export interface Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserass
 }
 
 /** IP configuration for virtual network gateway */
-export type VirtualNetworkGatewayIPConfiguration = SubResource & {
+export interface VirtualNetworkGatewayIPConfiguration extends SubResource {
   /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
@@ -920,10 +920,10 @@ export type VirtualNetworkGatewayIPConfiguration = SubResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: string;
-};
+}
 
 /** VPN client root certificate of virtual network gateway */
-export type VpnClientRootCertificate = SubResource & {
+export interface VpnClientRootCertificate extends SubResource {
   /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
@@ -935,10 +935,10 @@ export type VpnClientRootCertificate = SubResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: string;
-};
+}
 
 /** VPN client revoked certificate of virtual network gateway. */
-export type VpnClientRevokedCertificate = SubResource & {
+export interface VpnClientRevokedCertificate extends SubResource {
   /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
@@ -950,16 +950,16 @@ export type VpnClientRevokedCertificate = SubResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: string;
-};
+}
 
 /** Response for GetConnectionSharedKey API service call */
-export type ConnectionSharedKey = SubResource & {
+export interface ConnectionSharedKey extends SubResource {
   /** The virtual network connection shared key value. */
   value: string;
-};
+}
 
 /** Network security rule. */
-export type SecurityRule = SubResource & {
+export interface SecurityRule extends SubResource {
   /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
@@ -996,10 +996,10 @@ export type SecurityRule = SubResource & {
   direction?: SecurityRuleDirection;
   /** The provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'. */
   provisioningState?: string;
-};
+}
 
 /** Tap configuration in a Network Interface */
-export type NetworkInterfaceTapConfiguration = SubResource & {
+export interface NetworkInterfaceTapConfiguration extends SubResource {
   /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
@@ -1016,10 +1016,10 @@ export type NetworkInterfaceTapConfiguration = SubResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: string;
-};
+}
 
 /** Backend Address Pool of an application gateway. */
-export type ApplicationGatewayBackendAddressPool = SubResource & {
+export interface ApplicationGatewayBackendAddressPool extends SubResource {
   /** Name of the backend address pool that is unique within an Application Gateway. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
@@ -1032,10 +1032,10 @@ export type ApplicationGatewayBackendAddressPool = SubResource & {
   backendAddresses?: ApplicationGatewayBackendAddress[];
   /** Provisioning state of the backend address pool resource. Possible values are: 'Updating', 'Deleting', and 'Failed'. */
   provisioningState?: string;
-};
+}
 
 /** Pool of backend IP addresses. */
-export type BackendAddressPool = SubResource & {
+export interface BackendAddressPool extends SubResource {
   /** Gets name of the resource that is unique within a resource group. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
@@ -1062,10 +1062,10 @@ export type BackendAddressPool = SubResource & {
   readonly outboundRules?: SubResource[];
   /** Get provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'. */
   provisioningState?: string;
-};
+}
 
 /** Inbound NAT rule of the load balancer. */
-export type InboundNatRule = SubResource & {
+export interface InboundNatRule extends SubResource {
   /** Gets name of the resource that is unique within a resource group. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
@@ -1091,10 +1091,10 @@ export type InboundNatRule = SubResource & {
   enableTcpReset?: boolean;
   /** Gets the provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'. */
   provisioningState?: string;
-};
+}
 
 /** IP configuration */
-export type IPConfiguration = SubResource & {
+export interface IPConfiguration extends SubResource {
   /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
@@ -1109,10 +1109,10 @@ export type IPConfiguration = SubResource & {
   publicIPAddress?: PublicIPAddress;
   /** Gets the provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'. */
   provisioningState?: string;
-};
+}
 
 /** IPConfiguration in a network interface. */
-export type NetworkInterfaceIPConfiguration = SubResource & {
+export interface NetworkInterfaceIPConfiguration extends SubResource {
   /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
@@ -1141,10 +1141,10 @@ export type NetworkInterfaceIPConfiguration = SubResource & {
   applicationSecurityGroups?: ApplicationSecurityGroup[];
   /** The provisioning state of the network interface IP configuration. Possible values are: 'Updating', 'Deleting', and 'Failed'. */
   provisioningState?: string;
-};
+}
 
 /** Route resource */
-export type Route = SubResource & {
+export interface Route extends SubResource {
   /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
@@ -1157,10 +1157,10 @@ export type Route = SubResource & {
   nextHopIpAddress?: string;
   /** The provisioning state of the resource. Possible values are: 'Updating', 'Deleting', and 'Failed'. */
   provisioningState?: string;
-};
+}
 
 /** Service Endpoint policy definitions. */
-export type ServiceEndpointPolicyDefinition = SubResource & {
+export interface ServiceEndpointPolicyDefinition extends SubResource {
   /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
@@ -1176,10 +1176,10 @@ export type ServiceEndpointPolicyDefinition = SubResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: string;
-};
+}
 
 /** IP configuration profile child resource. */
-export type IPConfigurationProfile = SubResource & {
+export interface IPConfigurationProfile extends SubResource {
   /** The name of the resource. This name can be used to access the resource. */
   name?: string;
   /**
@@ -1196,10 +1196,10 @@ export type IPConfigurationProfile = SubResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: string;
-};
+}
 
 /** ResourceNavigationLink resource. */
-export type ResourceNavigationLink = SubResource & {
+export interface ResourceNavigationLink extends SubResource {
   /** Name of the resource that is unique within a resource group. This name can be used to access the resource. */
   name?: string;
   /**
@@ -1216,10 +1216,10 @@ export type ResourceNavigationLink = SubResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: string;
-};
+}
 
 /** ServiceAssociationLink resource. */
-export type ServiceAssociationLink = SubResource & {
+export interface ServiceAssociationLink extends SubResource {
   /** Name of the resource that is unique within a resource group. This name can be used to access the resource. */
   name?: string;
   /**
@@ -1236,10 +1236,10 @@ export type ServiceAssociationLink = SubResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: string;
-};
+}
 
 /** Details the service to which the subnet is delegated. */
-export type Delegation = SubResource & {
+export interface Delegation extends SubResource {
   /** The name of the resource that is unique within a subnet. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
@@ -1253,10 +1253,10 @@ export type Delegation = SubResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: string;
-};
+}
 
 /** Subnet in a virtual network resource. */
-export type Subnet = SubResource & {
+export interface Subnet extends SubResource {
   /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
@@ -1301,10 +1301,10 @@ export type Subnet = SubResource & {
   readonly purpose?: string;
   /** The provisioning state of the resource. */
   provisioningState?: string;
-};
+}
 
 /** Frontend IP address of the load balancer. */
-export type FrontendIPConfiguration = SubResource & {
+export interface FrontendIPConfiguration extends SubResource {
   /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
@@ -1343,10 +1343,10 @@ export type FrontendIPConfiguration = SubResource & {
   publicIPPrefix?: SubResource;
   /** Gets the provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'. */
   provisioningState?: string;
-};
+}
 
 /** A load balancing rule for a load balancer. */
-export type LoadBalancingRule = SubResource & {
+export interface LoadBalancingRule extends SubResource {
   /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
@@ -1375,10 +1375,10 @@ export type LoadBalancingRule = SubResource & {
   disableOutboundSnat?: boolean;
   /** Gets the provisioning state of the PublicIP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'. */
   provisioningState?: string;
-};
+}
 
 /** A load balancer probe. */
-export type Probe = SubResource & {
+export interface Probe extends SubResource {
   /** Gets name of the resource that is unique within a resource group. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
@@ -1400,10 +1400,10 @@ export type Probe = SubResource & {
   requestPath?: string;
   /** Gets the provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'. */
   provisioningState?: string;
-};
+}
 
 /** Inbound NAT pool of the load balancer. */
-export type InboundNatPool = SubResource & {
+export interface InboundNatPool extends SubResource {
   /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
@@ -1426,10 +1426,10 @@ export type InboundNatPool = SubResource & {
   enableTcpReset?: boolean;
   /** Gets the provisioning state of the PublicIP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'. */
   provisioningState?: string;
-};
+}
 
 /** Outbound rule of the load balancer. */
-export type OutboundRule = SubResource & {
+export interface OutboundRule extends SubResource {
   /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
@@ -1448,10 +1448,10 @@ export type OutboundRule = SubResource & {
   enableTcpReset?: boolean;
   /** The timeout for the TCP idle connection */
   idleTimeoutInMinutes?: number;
-};
+}
 
 /** Peerings in a virtual network resource. */
-export type VirtualNetworkPeering = SubResource & {
+export interface VirtualNetworkPeering extends SubResource {
   /** The name of the resource that is unique within a resource group. This name can be used to access the resource. */
   name?: string;
   /** A unique read-only string that changes whenever the resource is updated. */
@@ -1472,10 +1472,10 @@ export type VirtualNetworkPeering = SubResource & {
   peeringState?: VirtualNetworkPeeringState;
   /** The provisioning state of the resource. */
   provisioningState?: string;
-};
+}
 
 /** A common class for general resource information */
-export type VirtualNetworkGateway = Resource & {
+export interface VirtualNetworkGateway extends Resource {
   /** Gets a unique read-only string that changes whenever the resource is updated. */
   etag?: string;
   /** IP configurations for virtual network gateway. */
@@ -1503,10 +1503,10 @@ export type VirtualNetworkGateway = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: string;
-};
+}
 
 /** A common class for general resource information */
-export type VirtualNetworkGatewayConnectionListEntity = Resource & {
+export interface VirtualNetworkGatewayConnectionListEntity extends Resource {
   /** Gets a unique read-only string that changes whenever the resource is updated. */
   etag?: string;
   /** The authorizationKey. */
@@ -1562,10 +1562,10 @@ export type VirtualNetworkGatewayConnectionListEntity = Resource & {
   readonly provisioningState?: string;
   /** Bypass ExpressRoute Gateway for data forwarding */
   expressRouteGatewayBypass?: boolean;
-};
+}
 
 /** A common class for general resource information */
-export type LocalNetworkGateway = Resource & {
+export interface LocalNetworkGateway extends Resource {
   /** A unique read-only string that changes whenever the resource is updated. */
   etag?: string;
   /** Local network site address space. */
@@ -1581,10 +1581,10 @@ export type LocalNetworkGateway = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: string;
-};
+}
 
 /** A common class for general resource information */
-export type VirtualNetworkGatewayConnection = Resource & {
+export interface VirtualNetworkGatewayConnection extends Resource {
   /** Gets a unique read-only string that changes whenever the resource is updated. */
   etag?: string;
   /** The authorizationKey. */
@@ -1640,10 +1640,10 @@ export type VirtualNetworkGatewayConnection = Resource & {
   readonly provisioningState?: string;
   /** Bypass ExpressRoute Gateway for data forwarding */
   expressRouteGatewayBypass?: boolean;
-};
+}
 
 /** An application security group in a resource group. */
-export type ApplicationSecurityGroup = Resource & {
+export interface ApplicationSecurityGroup extends Resource {
   /**
    * A unique read-only string that changes whenever the resource is updated.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1659,10 +1659,10 @@ export type ApplicationSecurityGroup = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: string;
-};
+}
 
 /** Interface endpoint resource. */
-export type InterfaceEndpoint = Resource & {
+export interface InterfaceEndpoint extends Resource {
   /** Gets a unique read-only string that changes whenever the resource is updated. */
   etag?: string;
   /** A first-party service's FQDN that is mapped to the private IP allocated via this interface endpoint. */
@@ -1686,10 +1686,10 @@ export type InterfaceEndpoint = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: string;
-};
+}
 
 /** Virtual Network Tap resource */
-export type VirtualNetworkTap = Resource & {
+export interface VirtualNetworkTap extends Resource {
   /** Gets a unique read-only string that changes whenever the resource is updated. */
   etag?: string;
   /**
@@ -1713,10 +1713,10 @@ export type VirtualNetworkTap = Resource & {
   destinationLoadBalancerFrontEndIPConfiguration?: FrontendIPConfiguration;
   /** The VXLAN destination port that will receive the tapped traffic. */
   destinationPort?: number;
-};
+}
 
 /** Public IP address resource. */
-export type PublicIPAddress = Resource & {
+export interface PublicIPAddress extends Resource {
   /** The public IP address SKU. */
   sku?: PublicIPAddressSku;
   /** A unique read-only string that changes whenever the resource is updated. */
@@ -1748,10 +1748,10 @@ export type PublicIPAddress = Resource & {
   resourceGuid?: string;
   /** The provisioning state of the PublicIP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'. */
   provisioningState?: string;
-};
+}
 
 /** A network interface in a resource group. */
-export type NetworkInterface = Resource & {
+export interface NetworkInterface extends Resource {
   /** A unique read-only string that changes whenever the resource is updated. */
   etag?: string;
   /**
@@ -1789,10 +1789,10 @@ export type NetworkInterface = Resource & {
   resourceGuid?: string;
   /** The provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'. */
   provisioningState?: string;
-};
+}
 
 /** NetworkSecurityGroup resource. */
-export type NetworkSecurityGroup = Resource & {
+export interface NetworkSecurityGroup extends Resource {
   /** A unique read-only string that changes whenever the resource is updated. */
   etag?: string;
   /** A collection of security rules of the network security group. */
@@ -1813,10 +1813,10 @@ export type NetworkSecurityGroup = Resource & {
   resourceGuid?: string;
   /** The provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'. */
   provisioningState?: string;
-};
+}
 
 /** Route table resource. */
-export type RouteTable = Resource & {
+export interface RouteTable extends Resource {
   /** Gets a unique read-only string that changes whenever the resource is updated. */
   etag?: string;
   /** Collection of routes contained within a route table. */
@@ -1830,10 +1830,10 @@ export type RouteTable = Resource & {
   disableBgpRoutePropagation?: boolean;
   /** The provisioning state of the resource. Possible values are: 'Updating', 'Deleting', and 'Failed'. */
   provisioningState?: string;
-};
+}
 
 /** Service End point policy resource. */
-export type ServiceEndpointPolicy = Resource & {
+export interface ServiceEndpointPolicy extends Resource {
   /** A unique read-only string that changes whenever the resource is updated. */
   etag?: string;
   /** A collection of service endpoint policy definitions of the service endpoint policy. */
@@ -1853,10 +1853,10 @@ export type ServiceEndpointPolicy = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: string;
-};
+}
 
 /** LoadBalancer resource */
-export type LoadBalancer = Resource & {
+export interface LoadBalancer extends Resource {
   /** The load balancer SKU. */
   sku?: LoadBalancerSku;
   /** A unique read-only string that changes whenever the resource is updated. */
@@ -1879,10 +1879,10 @@ export type LoadBalancer = Resource & {
   resourceGuid?: string;
   /** Gets the provisioning state of the PublicIP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'. */
   provisioningState?: string;
-};
+}
 
 /** Virtual Network resource. */
-export type VirtualNetwork = Resource & {
+export interface VirtualNetwork extends Resource {
   /** Gets a unique read-only string that changes whenever the resource is updated. */
   etag?: string;
   /** The AddressSpace that contains an array of IP address ranges that can be used by subnets. */
@@ -1903,11 +1903,13 @@ export type VirtualNetwork = Resource & {
   enableVmProtection?: boolean;
   /** The DDoS protection plan associated with the virtual network. */
   ddosProtectionPlan?: SubResource;
-};
+}
 
 /** Known values of {@link IPAllocationMethod} that the service accepts. */
 export enum KnownIPAllocationMethod {
+  /** Static */
   Static = "Static",
+  /** Dynamic */
   Dynamic = "Dynamic"
 }
 
@@ -1923,7 +1925,9 @@ export type IPAllocationMethod = string;
 
 /** Known values of {@link VirtualNetworkGatewayType} that the service accepts. */
 export enum KnownVirtualNetworkGatewayType {
+  /** Vpn */
   Vpn = "Vpn",
+  /** ExpressRoute */
   ExpressRoute = "ExpressRoute"
 }
 
@@ -1939,7 +1943,9 @@ export type VirtualNetworkGatewayType = string;
 
 /** Known values of {@link VpnType} that the service accepts. */
 export enum KnownVpnType {
+  /** PolicyBased */
   PolicyBased = "PolicyBased",
+  /** RouteBased */
   RouteBased = "RouteBased"
 }
 
@@ -1955,18 +1961,31 @@ export type VpnType = string;
 
 /** Known values of {@link VirtualNetworkGatewaySkuName} that the service accepts. */
 export enum KnownVirtualNetworkGatewaySkuName {
+  /** Basic */
   Basic = "Basic",
+  /** HighPerformance */
   HighPerformance = "HighPerformance",
+  /** Standard */
   Standard = "Standard",
+  /** UltraPerformance */
   UltraPerformance = "UltraPerformance",
+  /** VpnGw1 */
   VpnGw1 = "VpnGw1",
+  /** VpnGw2 */
   VpnGw2 = "VpnGw2",
+  /** VpnGw3 */
   VpnGw3 = "VpnGw3",
+  /** VpnGw1AZ */
   VpnGw1AZ = "VpnGw1AZ",
+  /** VpnGw2AZ */
   VpnGw2AZ = "VpnGw2AZ",
+  /** VpnGw3AZ */
   VpnGw3AZ = "VpnGw3AZ",
+  /** ErGw1AZ */
   ErGw1AZ = "ErGw1AZ",
+  /** ErGw2AZ */
   ErGw2AZ = "ErGw2AZ",
+  /** ErGw3AZ */
   ErGw3AZ = "ErGw3AZ"
 }
 
@@ -1993,18 +2012,31 @@ export type VirtualNetworkGatewaySkuName = string;
 
 /** Known values of {@link VirtualNetworkGatewaySkuTier} that the service accepts. */
 export enum KnownVirtualNetworkGatewaySkuTier {
+  /** Basic */
   Basic = "Basic",
+  /** HighPerformance */
   HighPerformance = "HighPerformance",
+  /** Standard */
   Standard = "Standard",
+  /** UltraPerformance */
   UltraPerformance = "UltraPerformance",
+  /** VpnGw1 */
   VpnGw1 = "VpnGw1",
+  /** VpnGw2 */
   VpnGw2 = "VpnGw2",
+  /** VpnGw3 */
   VpnGw3 = "VpnGw3",
+  /** VpnGw1AZ */
   VpnGw1AZ = "VpnGw1AZ",
+  /** VpnGw2AZ */
   VpnGw2AZ = "VpnGw2AZ",
+  /** VpnGw3AZ */
   VpnGw3AZ = "VpnGw3AZ",
+  /** ErGw1AZ */
   ErGw1AZ = "ErGw1AZ",
+  /** ErGw2AZ */
   ErGw2AZ = "ErGw2AZ",
+  /** ErGw3AZ */
   ErGw3AZ = "ErGw3AZ"
 }
 
@@ -2031,8 +2063,11 @@ export type VirtualNetworkGatewaySkuTier = string;
 
 /** Known values of {@link VpnClientProtocol} that the service accepts. */
 export enum KnownVpnClientProtocol {
+  /** IkeV2 */
   IkeV2 = "IkeV2",
+  /** Sstp */
   Sstp = "SSTP",
+  /** OpenVPN */
   OpenVPN = "OpenVPN"
 }
 
@@ -2049,14 +2084,23 @@ export type VpnClientProtocol = string;
 
 /** Known values of {@link IpsecEncryption} that the service accepts. */
 export enum KnownIpsecEncryption {
+  /** None */
   None = "None",
+  /** DES */
   DES = "DES",
+  /** DES3 */
   DES3 = "DES3",
+  /** AES128 */
   AES128 = "AES128",
+  /** AES192 */
   AES192 = "AES192",
+  /** AES256 */
   AES256 = "AES256",
+  /** Gcmaes128 */
   Gcmaes128 = "GCMAES128",
+  /** Gcmaes192 */
   Gcmaes192 = "GCMAES192",
+  /** Gcmaes256 */
   Gcmaes256 = "GCMAES256"
 }
 
@@ -2079,11 +2123,17 @@ export type IpsecEncryption = string;
 
 /** Known values of {@link IpsecIntegrity} that the service accepts. */
 export enum KnownIpsecIntegrity {
+  /** MD5 */
   MD5 = "MD5",
+  /** SHA1 */
   SHA1 = "SHA1",
+  /** SHA256 */
   SHA256 = "SHA256",
+  /** Gcmaes128 */
   Gcmaes128 = "GCMAES128",
+  /** Gcmaes192 */
   Gcmaes192 = "GCMAES192",
+  /** Gcmaes256 */
   Gcmaes256 = "GCMAES256"
 }
 
@@ -2103,12 +2153,19 @@ export type IpsecIntegrity = string;
 
 /** Known values of {@link IkeEncryption} that the service accepts. */
 export enum KnownIkeEncryption {
+  /** DES */
   DES = "DES",
+  /** DES3 */
   DES3 = "DES3",
+  /** AES128 */
   AES128 = "AES128",
+  /** AES192 */
   AES192 = "AES192",
+  /** AES256 */
   AES256 = "AES256",
+  /** Gcmaes256 */
   Gcmaes256 = "GCMAES256",
+  /** Gcmaes128 */
   Gcmaes128 = "GCMAES128"
 }
 
@@ -2129,11 +2186,17 @@ export type IkeEncryption = string;
 
 /** Known values of {@link IkeIntegrity} that the service accepts. */
 export enum KnownIkeIntegrity {
+  /** MD5 */
   MD5 = "MD5",
+  /** SHA1 */
   SHA1 = "SHA1",
+  /** SHA256 */
   SHA256 = "SHA256",
+  /** SHA384 */
   SHA384 = "SHA384",
+  /** Gcmaes256 */
   Gcmaes256 = "GCMAES256",
+  /** Gcmaes128 */
   Gcmaes128 = "GCMAES128"
 }
 
@@ -2153,13 +2216,21 @@ export type IkeIntegrity = string;
 
 /** Known values of {@link DhGroup} that the service accepts. */
 export enum KnownDhGroup {
+  /** None */
   None = "None",
+  /** DHGroup1 */
   DHGroup1 = "DHGroup1",
+  /** DHGroup2 */
   DHGroup2 = "DHGroup2",
+  /** DHGroup14 */
   DHGroup14 = "DHGroup14",
+  /** DHGroup2048 */
   DHGroup2048 = "DHGroup2048",
+  /** ECP256 */
   ECP256 = "ECP256",
+  /** ECP384 */
   ECP384 = "ECP384",
+  /** DHGroup24 */
   DHGroup24 = "DHGroup24"
 }
 
@@ -2181,14 +2252,23 @@ export type DhGroup = string;
 
 /** Known values of {@link PfsGroup} that the service accepts. */
 export enum KnownPfsGroup {
+  /** None */
   None = "None",
+  /** PFS1 */
   PFS1 = "PFS1",
+  /** PFS2 */
   PFS2 = "PFS2",
+  /** PFS2048 */
   PFS2048 = "PFS2048",
+  /** ECP256 */
   ECP256 = "ECP256",
+  /** ECP384 */
   ECP384 = "ECP384",
+  /** PFS24 */
   PFS24 = "PFS24",
+  /** PFS14 */
   PFS14 = "PFS14",
+  /** Pfsmm */
   Pfsmm = "PFSMM"
 }
 
@@ -2211,9 +2291,13 @@ export type PfsGroup = string;
 
 /** Known values of {@link VirtualNetworkGatewayConnectionType} that the service accepts. */
 export enum KnownVirtualNetworkGatewayConnectionType {
+  /** IPsec */
   IPsec = "IPsec",
+  /** Vnet2Vnet */
   Vnet2Vnet = "Vnet2Vnet",
+  /** ExpressRoute */
   ExpressRoute = "ExpressRoute",
+  /** VPNClient */
   VPNClient = "VPNClient"
 }
 
@@ -2231,7 +2315,9 @@ export type VirtualNetworkGatewayConnectionType = string;
 
 /** Known values of {@link VirtualNetworkGatewayConnectionProtocol} that the service accepts. */
 export enum KnownVirtualNetworkGatewayConnectionProtocol {
+  /** IKEv2 */
   IKEv2 = "IKEv2",
+  /** IKEv1 */
   IKEv1 = "IKEv1"
 }
 
@@ -2247,9 +2333,13 @@ export type VirtualNetworkGatewayConnectionProtocol = string;
 
 /** Known values of {@link VirtualNetworkGatewayConnectionStatus} that the service accepts. */
 export enum KnownVirtualNetworkGatewayConnectionStatus {
+  /** Unknown */
   Unknown = "Unknown",
+  /** Connecting */
   Connecting = "Connecting",
+  /** Connected */
   Connected = "Connected",
+  /** NotConnected */
   NotConnected = "NotConnected"
 }
 
@@ -2267,7 +2357,9 @@ export type VirtualNetworkGatewayConnectionStatus = string;
 
 /** Known values of {@link ProcessorArchitecture} that the service accepts. */
 export enum KnownProcessorArchitecture {
+  /** Amd64 */
   Amd64 = "Amd64",
+  /** X86 */
   X86 = "X86"
 }
 
@@ -2283,7 +2375,9 @@ export type ProcessorArchitecture = string;
 
 /** Known values of {@link AuthenticationMethod} that the service accepts. */
 export enum KnownAuthenticationMethod {
+  /** Eaptls */
   Eaptls = "EAPTLS",
+  /** EapmschaPv2 */
   EapmschaPv2 = "EAPMSCHAPv2"
 }
 
@@ -2299,10 +2393,15 @@ export type AuthenticationMethod = string;
 
 /** Known values of {@link BgpPeerState} that the service accepts. */
 export enum KnownBgpPeerState {
+  /** Unknown */
   Unknown = "Unknown",
+  /** Stopped */
   Stopped = "Stopped",
+  /** Idle */
   Idle = "Idle",
+  /** Connecting */
   Connecting = "Connecting",
+  /** Connected */
   Connected = "Connected"
 }
 
@@ -2321,7 +2420,9 @@ export type BgpPeerState = string;
 
 /** Known values of {@link LoadBalancerSkuName} that the service accepts. */
 export enum KnownLoadBalancerSkuName {
+  /** Basic */
   Basic = "Basic",
+  /** Standard */
   Standard = "Standard"
 }
 
@@ -2337,8 +2438,11 @@ export type LoadBalancerSkuName = string;
 
 /** Known values of {@link SecurityRuleProtocol} that the service accepts. */
 export enum KnownSecurityRuleProtocol {
+  /** Tcp */
   Tcp = "Tcp",
+  /** Udp */
   Udp = "Udp",
+  /** Asterisk */
   Asterisk = "*"
 }
 
@@ -2355,7 +2459,9 @@ export type SecurityRuleProtocol = string;
 
 /** Known values of {@link SecurityRuleAccess} that the service accepts. */
 export enum KnownSecurityRuleAccess {
+  /** Allow */
   Allow = "Allow",
+  /** Deny */
   Deny = "Deny"
 }
 
@@ -2371,7 +2477,9 @@ export type SecurityRuleAccess = string;
 
 /** Known values of {@link SecurityRuleDirection} that the service accepts. */
 export enum KnownSecurityRuleDirection {
+  /** Inbound */
   Inbound = "Inbound",
+  /** Outbound */
   Outbound = "Outbound"
 }
 
@@ -2387,8 +2495,11 @@ export type SecurityRuleDirection = string;
 
 /** Known values of {@link TransportProtocol} that the service accepts. */
 export enum KnownTransportProtocol {
+  /** Udp */
   Udp = "Udp",
+  /** Tcp */
   Tcp = "Tcp",
+  /** All */
   All = "All"
 }
 
@@ -2405,7 +2516,9 @@ export type TransportProtocol = string;
 
 /** Known values of {@link IPVersion} that the service accepts. */
 export enum KnownIPVersion {
+  /** IPv4 */
   IPv4 = "IPv4",
+  /** IPv6 */
   IPv6 = "IPv6"
 }
 
@@ -2421,7 +2534,9 @@ export type IPVersion = string;
 
 /** Known values of {@link PublicIPAddressSkuName} that the service accepts. */
 export enum KnownPublicIPAddressSkuName {
+  /** Basic */
   Basic = "Basic",
+  /** Standard */
   Standard = "Standard"
 }
 
@@ -2437,7 +2552,9 @@ export type PublicIPAddressSkuName = string;
 
 /** Known values of {@link DdosSettingsProtectionCoverage} that the service accepts. */
 export enum KnownDdosSettingsProtectionCoverage {
+  /** Basic */
   Basic = "Basic",
+  /** Standard */
   Standard = "Standard"
 }
 
@@ -2453,10 +2570,15 @@ export type DdosSettingsProtectionCoverage = string;
 
 /** Known values of {@link RouteNextHopType} that the service accepts. */
 export enum KnownRouteNextHopType {
+  /** VirtualNetworkGateway */
   VirtualNetworkGateway = "VirtualNetworkGateway",
+  /** VnetLocal */
   VnetLocal = "VnetLocal",
+  /** Internet */
   Internet = "Internet",
+  /** VirtualAppliance */
   VirtualAppliance = "VirtualAppliance",
+  /** None */
   None = "None"
 }
 
@@ -2475,8 +2597,11 @@ export type RouteNextHopType = string;
 
 /** Known values of {@link LoadDistribution} that the service accepts. */
 export enum KnownLoadDistribution {
+  /** Default */
   Default = "Default",
+  /** SourceIP */
   SourceIP = "SourceIP",
+  /** SourceIPProtocol */
   SourceIPProtocol = "SourceIPProtocol"
 }
 
@@ -2493,8 +2618,11 @@ export type LoadDistribution = string;
 
 /** Known values of {@link ProbeProtocol} that the service accepts. */
 export enum KnownProbeProtocol {
+  /** Http */
   Http = "Http",
+  /** Tcp */
   Tcp = "Tcp",
+  /** Https */
   Https = "Https"
 }
 
@@ -2511,8 +2639,11 @@ export type ProbeProtocol = string;
 
 /** Known values of {@link OutboundRulePropertiesFormatProtocol} that the service accepts. */
 export enum KnownOutboundRulePropertiesFormatProtocol {
+  /** Tcp */
   Tcp = "Tcp",
+  /** Udp */
   Udp = "Udp",
+  /** All */
   All = "All"
 }
 
@@ -2529,9 +2660,13 @@ export type OutboundRulePropertiesFormatProtocol = string;
 
 /** Known values of {@link EffectiveRouteSource} that the service accepts. */
 export enum KnownEffectiveRouteSource {
+  /** Unknown */
   Unknown = "Unknown",
+  /** User */
   User = "User",
+  /** VirtualNetworkGateway */
   VirtualNetworkGateway = "VirtualNetworkGateway",
+  /** Default */
   Default = "Default"
 }
 
@@ -2549,7 +2684,9 @@ export type EffectiveRouteSource = string;
 
 /** Known values of {@link EffectiveRouteState} that the service accepts. */
 export enum KnownEffectiveRouteState {
+  /** Active */
   Active = "Active",
+  /** Invalid */
   Invalid = "Invalid"
 }
 
@@ -2565,8 +2702,11 @@ export type EffectiveRouteState = string;
 
 /** Known values of {@link EffectiveSecurityRuleProtocol} that the service accepts. */
 export enum KnownEffectiveSecurityRuleProtocol {
+  /** Tcp */
   Tcp = "Tcp",
+  /** Udp */
   Udp = "Udp",
+  /** All */
   All = "All"
 }
 
@@ -2583,8 +2723,11 @@ export type EffectiveSecurityRuleProtocol = string;
 
 /** Known values of {@link VirtualNetworkPeeringState} that the service accepts. */
 export enum KnownVirtualNetworkPeeringState {
+  /** Initiated */
   Initiated = "Initiated",
+  /** Connected */
   Connected = "Connected",
+  /** Disconnected */
   Disconnected = "Disconnected"
 }
 
@@ -2601,8 +2744,11 @@ export type VirtualNetworkPeeringState = string;
 
 /** Known values of {@link NetworkOperationStatus} that the service accepts. */
 export enum KnownNetworkOperationStatus {
+  /** InProgress */
   InProgress = "InProgress",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed"
 }
 

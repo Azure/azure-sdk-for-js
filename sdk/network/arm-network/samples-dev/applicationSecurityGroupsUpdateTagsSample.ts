@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Updates an application security group's tags.
  *
  * @summary Updates an application security group's tags.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ApplicationSecurityGroupUpdateTags.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/ApplicationSecurityGroupUpdateTags.json
  */
 async function updateApplicationSecurityGroupTags() {
   const subscriptionId = "subid";

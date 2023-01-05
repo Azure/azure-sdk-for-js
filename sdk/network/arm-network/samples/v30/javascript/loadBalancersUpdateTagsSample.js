@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Updates a load balancer tags.
  *
  * @summary Updates a load balancer tags.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LoadBalancerUpdateTags.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/LoadBalancerUpdateTags.json
  */
 async function updateLoadBalancerTags() {
   const subscriptionId = "subid";

@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { JobSteps } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,12 +17,12 @@ import {
   JobStep,
   JobStepsListByVersionNextOptionalParams,
   JobStepsListByVersionOptionalParams,
+  JobStepsListByVersionResponse,
   JobStepsListByJobNextOptionalParams,
   JobStepsListByJobOptionalParams,
-  JobStepsListByVersionResponse,
+  JobStepsListByJobResponse,
   JobStepsGetByVersionOptionalParams,
   JobStepsGetByVersionResponse,
-  JobStepsListByJobResponse,
   JobStepsGetOptionalParams,
   JobStepsGetResponse,
   JobStepsCreateOrUpdateOptionalParams,
@@ -77,14 +78,18 @@ export class JobStepsImpl implements JobSteps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByVersionPagingPage(
           resourceGroupName,
           serverName,
           jobAgentName,
           jobName,
           jobVersion,
-          options
+          options,
+          settings
         );
       }
     };
@@ -96,18 +101,25 @@ export class JobStepsImpl implements JobSteps {
     jobAgentName: string,
     jobName: string,
     jobVersion: number,
-    options?: JobStepsListByVersionOptionalParams
+    options?: JobStepsListByVersionOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<JobStep[]> {
-    let result = await this._listByVersion(
-      resourceGroupName,
-      serverName,
-      jobAgentName,
-      jobName,
-      jobVersion,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: JobStepsListByVersionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByVersion(
+        resourceGroupName,
+        serverName,
+        jobAgentName,
+        jobName,
+        jobVersion,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByVersionNext(
         resourceGroupName,
@@ -119,7 +131,9 @@ export class JobStepsImpl implements JobSteps {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -173,13 +187,17 @@ export class JobStepsImpl implements JobSteps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByJobPagingPage(
           resourceGroupName,
           serverName,
           jobAgentName,
           jobName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -190,17 +208,24 @@ export class JobStepsImpl implements JobSteps {
     serverName: string,
     jobAgentName: string,
     jobName: string,
-    options?: JobStepsListByJobOptionalParams
+    options?: JobStepsListByJobOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<JobStep[]> {
-    let result = await this._listByJob(
-      resourceGroupName,
-      serverName,
-      jobAgentName,
-      jobName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: JobStepsListByJobResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByJob(
+        resourceGroupName,
+        serverName,
+        jobAgentName,
+        jobName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByJobNext(
         resourceGroupName,
@@ -211,7 +236,9 @@ export class JobStepsImpl implements JobSteps {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -630,7 +657,6 @@ const listByVersionNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -653,7 +679,6 @@ const listByJobNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

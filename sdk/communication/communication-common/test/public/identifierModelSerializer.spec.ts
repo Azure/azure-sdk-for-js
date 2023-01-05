@@ -26,7 +26,7 @@ const assertDeserialize = (
 
 const assertThrowsMissingProperty = <
   P extends keyof SerializedCommunicationIdentifier,
-  Q extends keyof Required<SerializedCommunicationIdentifier>[P]
+  Q extends string & keyof Required<SerializedCommunicationIdentifier>[P]
 >(
   serializedIdentifier: SerializedCommunicationIdentifier,
   identifierType: P,
@@ -34,7 +34,7 @@ const assertThrowsMissingProperty = <
 ): void => {
   assert.throws(() => {
     deserializeCommunicationIdentifier(serializedIdentifier);
-  }, `Property ${String(missingPropertyName)} is required for identifier of type ${identifierType}.`);
+  }, `Property ${missingPropertyName} is required for identifier of type ${identifierType}.`);
 };
 
 const assertThrowsTooManyProperties = (

@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Creates or updates a nat gateway.
  *
  * @summary Creates or updates a nat gateway.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NatGatewayCreateOrUpdate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/NatGatewayCreateOrUpdate.json
  */
 async function createNatGateway() {
   const subscriptionId = "subid";

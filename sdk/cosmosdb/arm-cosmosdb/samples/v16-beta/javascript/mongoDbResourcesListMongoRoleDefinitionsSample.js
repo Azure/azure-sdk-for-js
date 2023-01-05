@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Retrieves the list of all Azure Cosmos DB Mongo Role Definitions.
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBMongoDBRoleDefinitionList.json
  */
 async function cosmosDbMongoDbroleDefinitionList() {
-  const subscriptionId = "mySubscriptionId";
-  const resourceGroupName = "myResourceGroupName";
+  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "mySubscriptionId";
+  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "myResourceGroupName";
   const accountName = "myAccountName";
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
@@ -33,4 +34,8 @@ async function cosmosDbMongoDbroleDefinitionList() {
   console.log(resArray);
 }
 
-cosmosDbMongoDbroleDefinitionList().catch(console.error);
+async function main() {
+  cosmosDbMongoDbroleDefinitionList();
+}
+
+main().catch(console.error);

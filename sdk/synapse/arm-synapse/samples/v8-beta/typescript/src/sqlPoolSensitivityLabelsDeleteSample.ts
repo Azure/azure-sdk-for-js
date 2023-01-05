@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { SynapseManagementClient } from "@azure/arm-synapse";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Deletes the sensitivity label of a given column in a Sql pool
@@ -18,8 +21,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/DeleteSqlPoolColumnSensitivityLabel.json
  */
 async function deletesTheSensitivityLabelOfAGivenColumn() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "myRG";
+  const subscriptionId =
+    process.env["SYNAPSE_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName = process.env["SYNAPSE_RESOURCE_GROUP"] || "myRG";
   const workspaceName = "myServer";
   const sqlPoolName = "myDatabase";
   const schemaName = "dbo";
@@ -38,4 +43,8 @@ async function deletesTheSensitivityLabelOfAGivenColumn() {
   console.log(result);
 }
 
-deletesTheSensitivityLabelOfAGivenColumn().catch(console.error);
+async function main() {
+  deletesTheSensitivityLabelOfAGivenColumn();
+}
+
+main().catch(console.error);

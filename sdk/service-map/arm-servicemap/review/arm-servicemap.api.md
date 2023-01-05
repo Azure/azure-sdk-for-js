@@ -9,12 +9,13 @@ import * as coreClient from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 
 // @public
-export type Acceptor = Relationship & {
-    source?: PortReference;
+export interface Acceptor extends Relationship {
     destination?: ProcessReference;
-    startTime?: Date;
     endTime?: Date;
-};
+    kind: "rel:acceptor";
+    source?: PortReference;
+    startTime?: Date;
+}
 
 // @public
 export type Accuracy = "actual" | "estimated";
@@ -42,28 +43,28 @@ export interface AzureCloudServiceConfiguration {
 export type AzureCloudServiceRoleType = "unknown" | "worker" | "web";
 
 // @public
-export type AzureHostingConfiguration = HostingConfiguration & {
+export interface AzureHostingConfiguration extends HostingConfiguration {
+    cloudService?: AzureCloudServiceConfiguration;
+    faultDomain?: string;
+    image?: ImageConfiguration;
     kind: "provider:azure";
-    vmId?: string;
     location?: string;
     name?: string;
-    size?: string;
-    updateDomain?: string;
-    faultDomain?: string;
-    subscriptionId?: string;
     resourceGroup?: string;
     resourceId?: string;
-    image?: ImageConfiguration;
-    cloudService?: AzureCloudServiceConfiguration;
-    vmScaleSet?: AzureVmScaleSetConfiguration;
     serviceFabricCluster?: AzureServiceFabricClusterConfiguration;
-};
+    size?: string;
+    subscriptionId?: string;
+    updateDomain?: string;
+    vmId?: string;
+    vmScaleSet?: AzureVmScaleSetConfiguration;
+}
 
 // @public
-export type AzureProcessHostingConfiguration = ProcessHostingConfiguration & {
-    kind: "provider:azure";
+export interface AzureProcessHostingConfiguration extends ProcessHostingConfiguration {
     cloudService?: AzureCloudServiceConfiguration;
-};
+    kind: "provider:azure";
+}
 
 // @public
 export interface AzureServiceFabricClusterConfiguration {
@@ -83,16 +84,17 @@ export interface AzureVmScaleSetConfiguration {
 export type Bitness = "32bit" | "64bit";
 
 // @public
-export type ClientGroup = CoreResource & {
+export interface ClientGroup extends CoreResource {
     clientsOf?: ResourceReferenceUnion;
-};
+    kind: "clientGroup";
+}
 
 // @public
-export type ClientGroupMember = Resource & {
+export interface ClientGroupMember extends Resource {
     ipAddress?: string;
     port?: PortReference;
     processes?: ProcessReference[];
-};
+}
 
 // @public
 export interface ClientGroupMembersCollection {
@@ -110,9 +112,9 @@ export interface ClientGroupMembersCount {
 }
 
 // @public
-export type ClientGroupReference = ResourceReference & {
+export interface ClientGroupReference extends ResourceReference {
     kind: "ref:clientgroup";
-};
+}
 
 // @public
 export interface ClientGroups {
@@ -141,9 +143,6 @@ export type ClientGroupsGetResponse = ClientGroup;
 
 // @public
 export interface ClientGroupsListMembersNextOptionalParams extends coreClient.OperationOptions {
-    endTime?: Date;
-    startTime?: Date;
-    top?: number;
 }
 
 // @public
@@ -160,14 +159,15 @@ export interface ClientGroupsListMembersOptionalParams extends coreClient.Operat
 export type ClientGroupsListMembersResponse = ClientGroupMembersCollection;
 
 // @public
-export type Connection = Relationship & {
-    source?: ResourceReferenceUnion;
+export interface Connection extends Relationship {
     destination?: ResourceReferenceUnion;
-    startTime?: Date;
     endTime?: Date;
-    serverPort?: PortReference;
     failureState?: ConnectionFailureState;
-};
+    kind: "rel:connection";
+    serverPort?: PortReference;
+    source?: ResourceReferenceUnion;
+    startTime?: Date;
+}
 
 // @public
 export interface ConnectionCollection {
@@ -179,16 +179,16 @@ export interface ConnectionCollection {
 export type ConnectionFailureState = "ok" | "failed" | "mixed";
 
 // @public
-export type ConnectionProperties = RelationshipProperties & {
-    serverPort?: PortReference;
+export interface ConnectionProperties extends RelationshipProperties {
     failureState?: ConnectionFailureState;
-};
+    serverPort?: PortReference;
+}
 
 // @public
-export type CoreResource = Resource & {
+export interface CoreResource extends Resource {
     etag?: string;
     kind: CoreResourceKind;
-};
+}
 
 // @public
 export type CoreResourceKind = string;
@@ -206,6 +206,9 @@ export interface ErrorModel {
 export interface ErrorResponse {
     error: ErrorModel;
 }
+
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export interface HostingConfiguration {
@@ -246,77 +249,51 @@ export interface Ipv6NetworkInterface {
 
 // @public
 export enum KnownCoreResourceKind {
-    // (undocumented)
     ClientGroup = "clientGroup",
-    // (undocumented)
     Machine = "machine",
-    // (undocumented)
     MachineGroup = "machineGroup",
-    // (undocumented)
     Port = "port",
-    // (undocumented)
     Process = "process"
 }
 
 // @public
 export enum KnownMachineGroupType {
-    // (undocumented)
     AzureCs = "azure-cs",
-    // (undocumented)
     AzureSf = "azure-sf",
-    // (undocumented)
     AzureVmss = "azure-vmss",
-    // (undocumented)
     Unknown = "unknown",
-    // (undocumented)
     UserStatic = "user-static"
 }
 
 // @public
 export enum KnownMapRequestKind {
-    // (undocumented)
     MapMachineGroupDependency = "map:machine-group-dependency",
-    // (undocumented)
     MapMachineListDependency = "map:machine-list-dependency",
-    // (undocumented)
     MapSingleMachineDependency = "map:single-machine-dependency"
 }
 
 // @public
 export enum KnownProcessRole {
-    // (undocumented)
     AppServer = "appServer",
-    // (undocumented)
     DatabaseServer = "databaseServer",
-    // (undocumented)
     LdapServer = "ldapServer",
-    // (undocumented)
     SmbServer = "smbServer",
-    // (undocumented)
     WebServer = "webServer"
 }
 
 // @public
 export enum KnownRelationshipKind {
-    // (undocumented)
     RelAcceptor = "rel:acceptor",
-    // (undocumented)
     RelConnection = "rel:connection"
 }
 
 // @public
 export enum KnownResourceReferenceKind {
-    // (undocumented)
     RefClientgroup = "ref:clientgroup",
-    // (undocumented)
     RefMachine = "ref:machine",
-    // (undocumented)
     RefMachinewithhints = "ref:machinewithhints",
-    // (undocumented)
     RefOnmachine = "ref:onmachine",
-    // (undocumented)
     RefPort = "ref:port",
-    // (undocumented)
     RefProcess = "ref:process"
 }
 
@@ -328,23 +305,24 @@ export interface Liveness {
 }
 
 // @public
-export type Machine = CoreResource & {
-    timestamp?: Date;
-    monitoringState?: MonitoringState;
-    virtualizationState?: VirtualizationState;
-    displayName?: string;
-    computerName?: string;
-    fullyQualifiedDomainName?: string;
-    bootTime?: Date;
-    timezone?: Timezone;
+export interface Machine extends CoreResource {
     agent?: AgentConfiguration;
-    resources?: MachineResourcesConfiguration;
+    bootTime?: Date;
+    computerName?: string;
+    displayName?: string;
+    fullyQualifiedDomainName?: string;
+    hosting?: HostingConfigurationUnion;
+    hypervisor?: HypervisorConfiguration;
+    kind: "machine";
+    monitoringState?: MonitoringState;
     networking?: NetworkConfiguration;
     operatingSystem?: OperatingSystemConfiguration;
+    resources?: MachineResourcesConfiguration;
+    timestamp?: Date;
+    timezone?: Timezone;
+    virtualizationState?: VirtualizationState;
     virtualMachine?: VirtualMachineConfiguration;
-    hypervisor?: HypervisorConfiguration;
-    hosting?: HostingConfigurationUnion;
-};
+}
 
 // @public
 export interface MachineCollection {
@@ -359,12 +337,13 @@ export interface MachineCountsByOperatingSystem {
 }
 
 // @public
-export type MachineGroup = CoreResource & {
-    groupType?: MachineGroupType;
-    displayName?: string;
+export interface MachineGroup extends CoreResource {
     count?: number;
+    displayName?: string;
+    groupType?: MachineGroupType;
+    kind: "machineGroup";
     machines?: MachineReferenceWithHints[];
-};
+}
 
 // @public
 export interface MachineGroupCollection {
@@ -373,10 +352,10 @@ export interface MachineGroupCollection {
 }
 
 // @public
-export type MachineGroupMapRequest = MultipleMachinesMapRequest & {
+export interface MachineGroupMapRequest extends MultipleMachinesMapRequest {
     kind: "map:machine-group-dependency";
     machineGroupId: string;
-};
+}
 
 // @public
 export interface MachineGroups {
@@ -409,8 +388,6 @@ export type MachineGroupsGetResponse = MachineGroup;
 
 // @public
 export interface MachineGroupsListByWorkspaceNextOptionalParams extends coreClient.OperationOptions {
-    endTime?: Date;
-    startTime?: Date;
 }
 
 // @public
@@ -436,25 +413,25 @@ export type MachineGroupsUpdateResponse = MachineGroup;
 export type MachineGroupType = string;
 
 // @public
-export type MachineListMapRequest = MultipleMachinesMapRequest & {
+export interface MachineListMapRequest extends MultipleMachinesMapRequest {
     kind: "map:machine-list-dependency";
     machineIds: string[];
-};
+}
 
 // @public
 export type MachineRebootStatus = "unknown" | "rebooted" | "notRebooted";
 
 // @public
-export type MachineReference = ResourceReference & {
+export interface MachineReference extends ResourceReference {
     kind: "ref:machine";
-};
+}
 
 // @public
-export type MachineReferenceWithHints = ResourceReference & {
-    kind: "ref:machinewithhints";
+export interface MachineReferenceWithHints extends ResourceReference {
     readonly displayNameHint?: string;
+    kind: "ref:machinewithhints";
     readonly osFamilyHint?: OperatingSystemFamily;
-};
+}
 
 // @public
 export interface MachineResourcesConfiguration {
@@ -494,11 +471,6 @@ export type MachinesGetResponse = Machine;
 
 // @public
 export interface MachinesListByWorkspaceNextOptionalParams extends coreClient.OperationOptions {
-    endTime?: Date;
-    live?: boolean;
-    startTime?: Date;
-    timestamp?: Date;
-    top?: number;
 }
 
 // @public
@@ -518,8 +490,6 @@ export type MachinesListByWorkspaceResponse = MachineCollection;
 
 // @public
 export interface MachinesListConnectionsNextOptionalParams extends coreClient.OperationOptions {
-    endTime?: Date;
-    startTime?: Date;
 }
 
 // @public
@@ -536,8 +506,6 @@ export type MachinesListConnectionsResponse = ConnectionCollection;
 
 // @public
 export interface MachinesListMachineGroupMembershipNextOptionalParams extends coreClient.OperationOptions {
-    endTime?: Date;
-    startTime?: Date;
 }
 
 // @public
@@ -554,8 +522,6 @@ export type MachinesListMachineGroupMembershipResponse = MachineGroupCollection;
 
 // @public
 export interface MachinesListPortsNextOptionalParams extends coreClient.OperationOptions {
-    endTime?: Date;
-    startTime?: Date;
 }
 
 // @public
@@ -572,10 +538,6 @@ export type MachinesListPortsResponse = PortCollection;
 
 // @public
 export interface MachinesListProcessesNextOptionalParams extends coreClient.OperationOptions {
-    endTime?: Date;
-    live?: boolean;
-    startTime?: Date;
-    timestamp?: Date;
 }
 
 // @public
@@ -593,20 +555,20 @@ export interface MachinesListProcessesOptionalParams extends coreClient.Operatio
 export type MachinesListProcessesResponse = ProcessCollection;
 
 // @public
-export type MachinesSummary = Summary & {
-    startTime?: Date;
+export interface MachinesSummary extends Summary {
     endTime?: Date;
-    total?: number;
     live?: number;
     os?: MachineCountsByOperatingSystem;
-};
+    startTime?: Date;
+    total?: number;
+}
 
 // @public
-export type MachinesSummaryProperties = SummaryProperties & {
-    total: number;
+export interface MachinesSummaryProperties extends SummaryProperties {
     live: number;
     os: MachineCountsByOperatingSystem;
-};
+    total: number;
+}
 
 // @public
 interface Map_2 {
@@ -665,10 +627,10 @@ export type MapsGenerateResponse = MapResponse;
 export type MonitoringState = "monitored" | "discovered";
 
 // @public
-export type MultipleMachinesMapRequest = MapRequest & {
-    kind: "MultipleMachinesMapRequest" | "map:machine-list-dependency" | "map:machine-group-dependency";
+export interface MultipleMachinesMapRequest extends MapRequest {
     filterProcesses?: boolean;
-};
+    kind: "MultipleMachinesMapRequest" | "map:machine-list-dependency" | "map:machine-group-dependency";
+}
 
 // @public (undocumented)
 export type MultipleMachinesMapRequestUnion = MultipleMachinesMapRequest | MachineListMapRequest | MachineGroupMapRequest;
@@ -693,13 +655,14 @@ export interface OperatingSystemConfiguration {
 export type OperatingSystemFamily = "unknown" | "windows" | "linux" | "solaris" | "aix";
 
 // @public
-export type Port = CoreResource & {
-    monitoringState?: MonitoringState;
-    machine?: ResourceReferenceUnion;
+export interface Port extends CoreResource {
     displayName?: string;
     ipAddress?: string;
+    kind: "port";
+    machine?: ResourceReferenceUnion;
+    monitoringState?: MonitoringState;
     portNumber?: number;
-};
+}
 
 // @public
 export interface PortCollection {
@@ -708,12 +671,12 @@ export interface PortCollection {
 }
 
 // @public
-export type PortReference = ResourceReference & {
+export interface PortReference extends ResourceReference {
+    readonly ipAddress?: string;
     kind: "ref:port";
     readonly machine?: MachineReference;
-    readonly ipAddress?: string;
     portNumber?: number;
-};
+}
 
 // @public
 export interface Ports {
@@ -743,8 +706,6 @@ export type PortsGetResponse = Port;
 
 // @public
 export interface PortsListAcceptingProcessesNextOptionalParams extends coreClient.OperationOptions {
-    endTime?: Date;
-    startTime?: Date;
 }
 
 // @public
@@ -761,8 +722,6 @@ export type PortsListAcceptingProcessesResponse = ProcessCollection;
 
 // @public
 export interface PortsListConnectionsNextOptionalParams extends coreClient.OperationOptions {
-    endTime?: Date;
-    startTime?: Date;
 }
 
 // @public
@@ -778,21 +737,22 @@ export interface PortsListConnectionsOptionalParams extends coreClient.Operation
 export type PortsListConnectionsResponse = ConnectionCollection;
 
 // @public
-export type Process = CoreResource & {
-    timestamp?: Date;
-    monitoringState?: MonitoringState;
-    machine?: ResourceReferenceUnion;
-    executableName?: string;
-    displayName?: string;
-    startTime?: Date;
-    role?: ProcessRole;
-    group?: string;
-    details?: ProcessDetails;
-    user?: ProcessUser;
-    clientOf?: ResourceReferenceUnion;
+export interface Process extends CoreResource {
     acceptorOf?: ResourceReferenceUnion;
+    clientOf?: ResourceReferenceUnion;
+    details?: ProcessDetails;
+    displayName?: string;
+    executableName?: string;
+    group?: string;
     hosting?: ProcessHostingConfigurationUnion;
-};
+    kind: "process";
+    machine?: ResourceReferenceUnion;
+    monitoringState?: MonitoringState;
+    role?: ProcessRole;
+    startTime?: Date;
+    timestamp?: Date;
+    user?: ProcessUser;
+}
 
 // @public
 export interface ProcessCollection {
@@ -845,8 +805,6 @@ export type ProcessesGetResponse = Process;
 
 // @public
 export interface ProcessesListAcceptingPortsNextOptionalParams extends coreClient.OperationOptions {
-    endTime?: Date;
-    startTime?: Date;
 }
 
 // @public
@@ -863,8 +821,6 @@ export type ProcessesListAcceptingPortsResponse = PortCollection;
 
 // @public
 export interface ProcessesListConnectionsNextOptionalParams extends coreClient.OperationOptions {
-    endTime?: Date;
-    startTime?: Date;
 }
 
 // @public
@@ -895,10 +851,10 @@ export interface ProcessHostingConfiguration {
 export type ProcessHostingConfigurationUnion = ProcessHostingConfiguration | AzureProcessHostingConfiguration;
 
 // @public
-export type ProcessReference = ResourceReference & {
+export interface ProcessReference extends ResourceReference {
     kind: "ref:process";
     readonly machine?: MachineReference;
-};
+}
 
 // @public
 export type ProcessRole = string;
@@ -910,9 +866,9 @@ export interface ProcessUser {
 }
 
 // @public
-export type Relationship = Resource & {
+export interface Relationship extends Resource {
     kind: RelationshipKind;
-};
+}
 
 // @public
 export type RelationshipKind = string;
@@ -982,10 +938,10 @@ export interface ServiceMapOptionalParams extends coreClient.ServiceClientOption
 }
 
 // @public
-export type SingleMachineDependencyMapRequest = MapRequest & {
+export interface SingleMachineDependencyMapRequest extends MapRequest {
     kind: "map:single-machine-dependency";
     machineId: string;
-};
+}
 
 // @public
 export interface Summaries {
@@ -1002,7 +958,8 @@ export interface SummariesGetMachinesOptionalParams extends coreClient.Operation
 export type SummariesGetMachinesResponse = MachinesSummary;
 
 // @public
-export type Summary = Resource & {};
+export interface Summary extends Resource {
+}
 
 // @public
 export interface SummaryProperties {

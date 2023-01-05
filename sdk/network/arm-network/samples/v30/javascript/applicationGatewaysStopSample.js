@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Stops the specified application gateway in a resource group.
  *
  * @summary Stops the specified application gateway in a resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ApplicationGatewayStop.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/ApplicationGatewayStop.json
  */
 async function stopApplicationGateway() {
   const subscriptionId = "subid";

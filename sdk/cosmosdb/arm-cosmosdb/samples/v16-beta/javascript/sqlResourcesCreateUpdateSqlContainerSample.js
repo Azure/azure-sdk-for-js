@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Create or update an Azure Cosmos DB SQL container
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBSqlContainerCreateUpdate.json
  */
 async function cosmosDbSqlContainerCreateUpdate() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
   const databaseName = "databaseName";
   const containerName = "containerName";
@@ -74,8 +75,6 @@ async function cosmosDbSqlContainerCreateUpdate() {
   console.log(result);
 }
 
-cosmosDbSqlContainerCreateUpdate().catch(console.error);
-
 /**
  * This sample demonstrates how to Create or update an Azure Cosmos DB SQL container
  *
@@ -83,8 +82,8 @@ cosmosDbSqlContainerCreateUpdate().catch(console.error);
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBSqlContainerRestore.json
  */
 async function cosmosDbSqlContainerRestore() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
   const databaseName = "databaseName";
   const containerName = "containerName";
@@ -114,4 +113,9 @@ async function cosmosDbSqlContainerRestore() {
   console.log(result);
 }
 
-cosmosDbSqlContainerRestore().catch(console.error);
+async function main() {
+  cosmosDbSqlContainerCreateUpdate();
+  cosmosDbSqlContainerRestore();
+}
+
+main().catch(console.error);
