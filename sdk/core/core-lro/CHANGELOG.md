@@ -1,6 +1,6 @@
 # Release History
 
-## 2.4.1 (Unreleased)
+## 2.5.0 (Unreleased)
 
 ### Features Added
 
@@ -8,9 +8,9 @@
 
 ### Bugs Fixed
 
-- poll() no longer sends a polling request if the operation is already in a terminal state.
-
 ### Other Changes
+
+- poll() is optimized to no longer send a polling request if the operation is already in a terminal state.
 
 ## 2.4.0 (2022-09-29)
 
