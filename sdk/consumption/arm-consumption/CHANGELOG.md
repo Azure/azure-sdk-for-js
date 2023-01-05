@@ -1,5 +1,15 @@
 # Release History
-    
+
+## 9.2.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 9.2.0 (2023-01-03)
     
 **Features**
