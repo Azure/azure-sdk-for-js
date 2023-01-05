@@ -3,6 +3,7 @@
 
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 import { CancelOnProgress, OperationState, SimplePollerLike } from "@azure/core-lro";
+import { v4 as uuidv4 } from "uuid";
 import { TestRunStatusPoller, PolledOperationOptions } from "./models";
 import { AzureLoadTestingClient } from "./index.js";
 import { TestRunGet200Response } from "./responses";
@@ -14,16 +15,29 @@ import { isUnexpected } from "./isUnexpected";
  * @param options - The operation options.
  * @returns A poller which can be called to poll until completion of the job.
  */
-export async function beginTestRunStatus(
+export async function beginTestRun(
   client: AzureLoadTestingClient,
-  testRunId: string,
+  testId: string,
+  displayName: string,
   polledOperationOptions: PolledOperationOptions = {}
 ): Promise<TestRunStatusPoller> {
-  let getTestRunResult = await client.path("/test-runs/{testRunId}", testRunId).get();
-  if (isUnexpected(getTestRunResult)) {
-    throw getTestRunResult.body.error;
+  const testRunId = uuidv4(); // ID to be assigned to a testRun
+ // Creating the test run
+  const testRunCreationResult = await client.path("/test-runs/{testRunId}", testRunId).patch({
+    contentType: "application/merge-patch+json",
+    body: {
+      testId: testId,
+      displayName: displayName,
+      virtualUsers: 10,
+    },
+  });
+
+  if (isUnexpected(testRunCreationResult)) {
+    throw testRunCreationResult.body.error;
   }
-  //let TestRunStatusResponse: TestRunGet200Response;
+
+  if (testRunCreationResult.body.testRunId === undefined)
+    throw new Error("Test Run ID returned as undefined.");
 
   type Handler = (state: OperationState<TestRunGet200Response>) => void;
 
@@ -41,7 +55,7 @@ export async function beginTestRunStatus(
 
   const poller: SimplePollerLike<OperationState<TestRunGet200Response>, TestRunGet200Response> = {
     async poll(_options?: { abortSignal?: AbortSignalLike }): Promise<void> {
-      getTestRunResult = await client.path("/test-runs/{testRunId}", testRunId).get();
+      let getTestRunResult = await client.path("/test-runs/{testRunId}", testRunId).get();
       if (isUnexpected(getTestRunResult)) {
         throw getTestRunResult.body.error;
       }

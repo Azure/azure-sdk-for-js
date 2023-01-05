@@ -5,15 +5,15 @@
  * This sample demonstrates how to a) create a loadtest, b) upload a jmx file, c) create appcomponent, d) run test and e) get test status f) get test metrics
  *
  * @summary creates and run a loadtest
- * @azsdk-weight 10
  */
 
-import AzureLoadTesting, { isUnexpected } from "@azure-rest/load-testing";
-import { DefaultAzureCredential } from "@azure/identity";
-import { createReadStream } from "fs";
-import { v4 as uuidv4 } from "uuid";
-import { beginTestRun } from "../src/beginCreateOrUpdateTestRun";
-import { beginUploadAndFileValidation } from "../src/beginUploadTestFile";
+const AzureLoadTesting = require("@azure-rest/load-testing").default,
+  { isUnexpected } = require("@azure-rest/load-testing");
+const { DefaultAzureCredential } = require("@azure/identity");
+const { createReadStream } = require("fs");
+const { v4: uuidv4 } = require("uuid");
+const { beginTestRun } = require("../src/beginCreateOrUpdateTestRun");
+const { beginUploadAndFileValidation } = require("../src/beginUploadTestFile");
 
 const readStream = createReadStream("./sample.jmx");
 
@@ -49,9 +49,14 @@ async function main() {
     throw new Error("Test ID returned as undefined.");
 
   // Uploading .jmx file to a test
-  const fileUploadResult = await (await beginUploadAndFileValidation(client, testId, "sample", readStream)).pollUntilDone();
+  const fileUploadResult = await (
+    await beginUploadAndFileValidation(client, testId, "sample", readStream)
+  ).pollUntilDone();
 
-  if (isUnexpected(fileUploadResult)) throw new Error("There is some issue in validation, please make sure uploaded file is a valid JMX.");
+  if (isUnexpected(fileUploadResult))
+    throw new Error(
+      "There is some issue in validation, please make sure uploaded file is a valid JMX."
+    );
 
   // Creating app component
   const appComponentCreationResult = await client
@@ -61,13 +66,14 @@ async function main() {
       body: {
         testId: testCreationResult.body.testId,
         components: {
-          "/subscriptions/{SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo": {
-            resourceId:
-              "/subscriptions/{SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo",
-            resourceName: "App-Service-Sample-Demo",
-            resourceType: "Microsoft.Web/sites",
-            subscriptionId: SUBSCRIPTION_ID,
-          },
+          "/subscriptions/{SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo":
+            {
+              resourceId:
+                "/subscriptions/{SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo",
+              resourceName: "App-Service-Sample-Demo",
+              resourceType: "Microsoft.Web/sites",
+              subscriptionId: SUBSCRIPTION_ID,
+            },
         },
       },
     });
@@ -98,10 +104,12 @@ async function main() {
 
   if (isUnexpected(testRunResult)) throw new Error("There is some issue in running the test.");
 
+  var getTestRunResult = await client
+    .path("/test-runs/{testRunId}", testRunCreationResult.body.testRunId)
+    .get();
 
-  var getTestRunResult = await client.path("/test-runs/{testRunId}", testRunCreationResult.body.testRunId).get();
-
-  if (isUnexpected(getTestRunResult)) throw new Error("There is some issue in getting the test run.");
+  if (isUnexpected(getTestRunResult))
+    throw new Error("There is some issue in getting the test run.");
 
   let testRunStarttime = getTestRunResult.body.startDateTime;
   let testRunEndTime = getTestRunResult.body.endDateTime;

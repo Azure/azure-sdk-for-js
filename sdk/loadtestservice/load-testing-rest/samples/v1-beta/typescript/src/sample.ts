@@ -5,7 +5,6 @@
  * This sample demonstrates how to a) create a loadtest, b) upload a jmx file, c) create appcomponent, d) run test and e) get test status f) get test metrics
  *
  * @summary creates and run a loadtest
- * @azsdk-weight 10
  */
 
 import AzureLoadTesting, { isUnexpected } from "@azure-rest/load-testing";
