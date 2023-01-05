@@ -708,7 +708,7 @@ export interface ErrorBody {
 }
 
 // @public (undocumented)
-export interface ErrorResponse extends Error {
+export class ErrorResponse extends Error {
     // (undocumented)
     [key: string]: any;
     // (undocumented)
