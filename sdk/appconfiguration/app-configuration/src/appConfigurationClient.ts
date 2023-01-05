@@ -32,11 +32,7 @@ import {
   GetKeyValuesResponse,
   GetRevisionsResponse,
 } from "./generated/src/models";
-import {
-  CommonClientOptions,
-  deserializationPolicy,
-  deserializationPolicyName,
-} from "@azure/core-client";
+import { CommonClientOptions, InternalClientPipelineOptions } from "@azure/core-client";
 import { PagedAsyncIterableIterator, PagedResult, getPagedAsyncIterator } from "@azure/core-paging";
 import {
   PipelinePolicy,
@@ -152,15 +148,24 @@ export class AppConfigurationClient {
       }
     }
 
+    const internalClientPipelineOptions: InternalClientPipelineOptions = {
+      ...appConfigOptions,
+      loggingOptions: {
+        logger: logger.info,
+      },
+      deserializationOptions: {
+        expectedContentTypes: deserializationContentTypes,
+      },
+    };
+
     this._syncTokens = appConfigOptions.syncTokens || new SyncTokens();
-    this.client = new AppConfiguration(appConfigEndpoint, apiVersion, appConfigOptions);
+    this.client = new AppConfiguration(
+      appConfigEndpoint,
+      apiVersion,
+      internalClientPipelineOptions
+    );
     this.client.pipeline.addPolicy(authPolicy, { phase: "Sign" });
     this.client.pipeline.addPolicy(syncTokenPolicy(this._syncTokens), { afterPhase: "Retry" });
-    this.client.pipeline.removePolicy({ name: deserializationPolicyName });
-    this.client.pipeline.addPolicy(
-      deserializationPolicy({ expectedContentTypes: deserializationContentTypes }),
-      { phase: "Deserialize" }
-    );
   }
 
   /**

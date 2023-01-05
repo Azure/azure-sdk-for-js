@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets the private link resources that need to be created for a Cosmos DB account.
@@ -18,8 +21,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBPrivateLinkResourceListGet.json
  */
 async function getsPrivateEndpointConnection() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "rg1";
+  const subscriptionId =
+    process.env["COSMOSDB_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
@@ -33,4 +38,8 @@ async function getsPrivateEndpointConnection() {
   console.log(resArray);
 }
 
-getsPrivateEndpointConnection().catch(console.error);
+async function main() {
+  getsPrivateEndpointConnection();
+}
+
+main().catch(console.error);

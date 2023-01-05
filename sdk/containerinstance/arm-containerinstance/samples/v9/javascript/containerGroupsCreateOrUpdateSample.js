@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ContainerInstanceManagementClient } = require("@azure/arm-containerinstance");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Create or update container groups with specified configurations.
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/stable/2021-10-01/examples/ContainerGroupsCreateOrUpdate.json
  */
 async function containerGroupsCreateOrUpdate() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "demo";
+  const subscriptionId = process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["CONTAINERINSTANCE_RESOURCE_GROUP"] || "demo";
   const containerGroupName = "demo1";
   const containerGroup = {
     containers: [
@@ -104,4 +105,8 @@ async function containerGroupsCreateOrUpdate() {
   console.log(result);
 }
 
-containerGroupsCreateOrUpdate().catch(console.error);
+async function main() {
+  containerGroupsCreateOrUpdate();
+}
+
+main().catch(console.error);

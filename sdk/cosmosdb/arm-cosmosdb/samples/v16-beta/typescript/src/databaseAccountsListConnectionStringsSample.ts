@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Lists the connection strings for the specified Azure Cosmos DB database account.
@@ -18,8 +21,8 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBDatabaseAccountListConnectionStrings.json
  */
 async function cosmosDbDatabaseAccountListConnectionStrings() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
@@ -30,8 +33,6 @@ async function cosmosDbDatabaseAccountListConnectionStrings() {
   console.log(result);
 }
 
-cosmosDbDatabaseAccountListConnectionStrings().catch(console.error);
-
 /**
  * This sample demonstrates how to Lists the connection strings for the specified Azure Cosmos DB database account.
  *
@@ -39,8 +40,8 @@ cosmosDbDatabaseAccountListConnectionStrings().catch(console.error);
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBDatabaseAccountListConnectionStringsMongo.json
  */
 async function cosmosDbDatabaseAccountListConnectionStringsMongo() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "mongo-ddb1";
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
@@ -51,4 +52,9 @@ async function cosmosDbDatabaseAccountListConnectionStringsMongo() {
   console.log(result);
 }
 
-cosmosDbDatabaseAccountListConnectionStringsMongo().catch(console.error);
+async function main() {
+  cosmosDbDatabaseAccountListConnectionStrings();
+  cosmosDbDatabaseAccountListConnectionStringsMongo();
+}
+
+main().catch(console.error);

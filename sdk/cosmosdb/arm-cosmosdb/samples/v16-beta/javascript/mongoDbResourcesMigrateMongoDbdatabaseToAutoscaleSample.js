@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Migrate an Azure Cosmos DB MongoDB database from manual throughput to autoscale
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBMongoDBDatabaseMigrateToAutoscale.json
  */
 async function cosmosDbMongoDbdatabaseMigrateToAutoscale() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
   const databaseName = "databaseName";
   const credential = new DefaultAzureCredential();
@@ -32,4 +33,8 @@ async function cosmosDbMongoDbdatabaseMigrateToAutoscale() {
   console.log(result);
 }
 
-cosmosDbMongoDbdatabaseMigrateToAutoscale().catch(console.error);
+async function main() {
+  cosmosDbMongoDbdatabaseMigrateToAutoscale();
+}
+
+main().catch(console.error);
