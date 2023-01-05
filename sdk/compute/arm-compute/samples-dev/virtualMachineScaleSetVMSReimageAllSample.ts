@@ -10,9 +10,6 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
 
 /**
  * This sample demonstrates how to Allows you to re-image all the disks ( including data disks ) in the a VM scale set instance. This operation is only supported for managed disks.
@@ -21,10 +18,8 @@ dotenv.config();
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMs_ReimageAll_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetVMSReimageAllMaximumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaaaaaa";
   const instanceId = "aaaaaaaaaaaaaaaaaaa";
   const credential = new DefaultAzureCredential();
@@ -37,6 +32,8 @@ async function virtualMachineScaleSetVMSReimageAllMaximumSetGen() {
   console.log(result);
 }
 
+virtualMachineScaleSetVMSReimageAllMaximumSetGen().catch(console.error);
+
 /**
  * This sample demonstrates how to Allows you to re-image all the disks ( including data disks ) in the a VM scale set instance. This operation is only supported for managed disks.
  *
@@ -44,10 +41,8 @@ async function virtualMachineScaleSetVMSReimageAllMaximumSetGen() {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMs_ReimageAll_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetVMSReimageAllMinimumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaaaaaaa";
   const instanceId = "aaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const credential = new DefaultAzureCredential();
@@ -60,9 +55,4 @@ async function virtualMachineScaleSetVMSReimageAllMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
-  virtualMachineScaleSetVMSReimageAllMaximumSetGen();
-  virtualMachineScaleSetVMSReimageAllMinimumSetGen();
-}
-
-main().catch(console.error);
+virtualMachineScaleSetVMSReimageAllMinimumSetGen().catch(console.error);

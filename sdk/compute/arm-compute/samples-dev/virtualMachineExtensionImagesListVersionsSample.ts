@@ -13,9 +13,6 @@ import {
   ComputeManagementClient
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
 
 /**
  * This sample demonstrates how to Gets a list of virtual machine extension image versions.
@@ -24,8 +21,7 @@ dotenv.config();
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExtensionImageExamples/VirtualMachineExtensionImages_ListVersions_MaximumSet_Gen.json
  */
 async function virtualMachineExtensionImagesListVersionsMaximumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const subscriptionId = "{subscription-id}";
   const location = "aaaaaaaaaaaaaaaaaaaaaaaaaa";
   const publisherName = "aaaaaaaaaaaaaaaaaaaa";
   const typeParam = "aaaaaaaaaaaaaaaaaa";
@@ -48,6 +44,8 @@ async function virtualMachineExtensionImagesListVersionsMaximumSetGen() {
   console.log(result);
 }
 
+virtualMachineExtensionImagesListVersionsMaximumSetGen().catch(console.error);
+
 /**
  * This sample demonstrates how to Gets a list of virtual machine extension image versions.
  *
@@ -55,8 +53,7 @@ async function virtualMachineExtensionImagesListVersionsMaximumSetGen() {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExtensionImageExamples/VirtualMachineExtensionImages_ListVersions_MinimumSet_Gen.json
  */
 async function virtualMachineExtensionImagesListVersionsMinimumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const subscriptionId = "{subscription-id}";
   const location = "aaaaaaaaa";
   const publisherName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const typeParam = "aaaa";
@@ -70,9 +67,4 @@ async function virtualMachineExtensionImagesListVersionsMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
-  virtualMachineExtensionImagesListVersionsMaximumSetGen();
-  virtualMachineExtensionImagesListVersionsMinimumSetGen();
-}
-
-main().catch(console.error);
+virtualMachineExtensionImagesListVersionsMinimumSetGen().catch(console.error);

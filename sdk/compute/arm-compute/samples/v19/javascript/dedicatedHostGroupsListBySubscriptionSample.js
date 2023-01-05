@@ -10,7 +10,6 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
 
 /**
  * This sample demonstrates how to Lists all of the dedicated host groups in the subscription. Use the nextLink property in the response to get the next page of dedicated host groups.
@@ -19,7 +18,7 @@ require("dotenv").config();
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/dedicatedHostExamples/DedicatedHostGroups_ListBySubscription_MaximumSet_Gen.json
  */
 async function dedicatedHostGroupsListBySubscriptionMaximumSetGen() {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const subscriptionId = "{subscription-id}";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
@@ -28,6 +27,8 @@ async function dedicatedHostGroupsListBySubscriptionMaximumSetGen() {
   }
   console.log(resArray);
 }
+
+dedicatedHostGroupsListBySubscriptionMaximumSetGen().catch(console.error);
 
 /**
  * This sample demonstrates how to Lists all of the dedicated host groups in the subscription. Use the nextLink property in the response to get the next page of dedicated host groups.
@@ -36,7 +37,7 @@ async function dedicatedHostGroupsListBySubscriptionMaximumSetGen() {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/dedicatedHostExamples/DedicatedHostGroups_ListBySubscription_MinimumSet_Gen.json
  */
 async function dedicatedHostGroupsListBySubscriptionMinimumSetGen() {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const subscriptionId = "{subscription-id}";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
@@ -46,9 +47,4 @@ async function dedicatedHostGroupsListBySubscriptionMinimumSetGen() {
   console.log(resArray);
 }
 
-async function main() {
-  dedicatedHostGroupsListBySubscriptionMaximumSetGen();
-  dedicatedHostGroupsListBySubscriptionMinimumSetGen();
-}
-
-main().catch(console.error);
+dedicatedHostGroupsListBySubscriptionMinimumSetGen().catch(console.error);

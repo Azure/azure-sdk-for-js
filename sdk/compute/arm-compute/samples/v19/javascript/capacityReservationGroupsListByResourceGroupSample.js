@@ -10,7 +10,6 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
 
 /**
  * This sample demonstrates how to Lists all of the capacity reservation groups in the specified resource group. Use the nextLink property in the response to get the next page of capacity reservation groups.
@@ -19,8 +18,8 @@ require("dotenv").config();
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/capacityReservationExamples/CapacityReservationGroup_ListByResourceGroup.json
  */
 async function listCapacityReservationGroupsInResourceGroup() {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "myResourceGroup";
   const expand = "virtualMachines/$ref";
   const options = {
     expand,
@@ -37,8 +36,4 @@ async function listCapacityReservationGroupsInResourceGroup() {
   console.log(resArray);
 }
 
-async function main() {
-  listCapacityReservationGroupsInResourceGroup();
-}
-
-main().catch(console.error);
+listCapacityReservationGroupsInResourceGroup().catch(console.error);

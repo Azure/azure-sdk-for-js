@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { Snapshots } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -19,10 +18,8 @@ import {
   Snapshot,
   SnapshotsListByResourceGroupNextOptionalParams,
   SnapshotsListByResourceGroupOptionalParams,
-  SnapshotsListByResourceGroupResponse,
   SnapshotsListNextOptionalParams,
   SnapshotsListOptionalParams,
-  SnapshotsListResponse,
   SnapshotsCreateOrUpdateOptionalParams,
   SnapshotsCreateOrUpdateResponse,
   SnapshotUpdate,
@@ -31,6 +28,8 @@ import {
   SnapshotsGetOptionalParams,
   SnapshotsGetResponse,
   SnapshotsDeleteOptionalParams,
+  SnapshotsListByResourceGroupResponse,
+  SnapshotsListResponse,
   GrantAccessData,
   SnapshotsGrantAccessOptionalParams,
   SnapshotsGrantAccessResponse,
@@ -69,33 +68,19 @@ export class SnapshotsImpl implements Snapshots {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings
-        );
+      byPage: () => {
+        return this.listByResourceGroupPagingPage(resourceGroupName, options);
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: SnapshotsListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    options?: SnapshotsListByResourceGroupOptionalParams
   ): AsyncIterableIterator<Snapshot[]> {
-    let result: SnapshotsListByResourceGroupResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByResourceGroup(resourceGroupName, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listByResourceGroup(resourceGroupName, options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -103,9 +88,7 @@ export class SnapshotsImpl implements Snapshots {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -136,34 +119,22 @@ export class SnapshotsImpl implements Snapshots {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPagingPage(options, settings);
+      byPage: () => {
+        return this.listPagingPage(options);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: SnapshotsListOptionalParams,
-    settings?: PageSettings
+    options?: SnapshotsListOptionalParams
   ): AsyncIterableIterator<Snapshot[]> {
-    let result: SnapshotsListResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._list(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._list(options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -892,6 +863,7 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SnapshotList
     }
   },
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -909,6 +881,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SnapshotList
     }
   },
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

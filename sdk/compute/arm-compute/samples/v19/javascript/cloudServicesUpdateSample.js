@@ -10,7 +10,6 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
 
 /**
  * This sample demonstrates how to Update a cloud service.
@@ -19,8 +18,8 @@ require("dotenv").config();
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2022-04-04/examples/CloudService_Update_ToIncludeTags.json
  */
 async function updateExistingCloudServiceToAddTags() {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "ConstosoRG";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "ConstosoRG";
   const cloudServiceName = "{cs-name}";
   const parameters = { tags: { documentation: "RestAPI" } };
   const options = { parameters };
@@ -34,8 +33,4 @@ async function updateExistingCloudServiceToAddTags() {
   console.log(result);
 }
 
-async function main() {
-  updateExistingCloudServiceToAddTags();
-}
-
-main().catch(console.error);
+updateExistingCloudServiceToAddTags().catch(console.error);

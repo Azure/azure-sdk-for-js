@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { GalleryApplicationVersions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -19,7 +18,6 @@ import {
   GalleryApplicationVersion,
   GalleryApplicationVersionsListByGalleryApplicationNextOptionalParams,
   GalleryApplicationVersionsListByGalleryApplicationOptionalParams,
-  GalleryApplicationVersionsListByGalleryApplicationResponse,
   GalleryApplicationVersionsCreateOrUpdateOptionalParams,
   GalleryApplicationVersionsCreateOrUpdateResponse,
   GalleryApplicationVersionUpdate,
@@ -28,6 +26,7 @@ import {
   GalleryApplicationVersionsGetOptionalParams,
   GalleryApplicationVersionsGetResponse,
   GalleryApplicationVersionsDeleteOptionalParams,
+  GalleryApplicationVersionsListByGalleryApplicationResponse,
   GalleryApplicationVersionsListByGalleryApplicationNextResponse
 } from "../models";
 
@@ -73,16 +72,12 @@ export class GalleryApplicationVersionsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listByGalleryApplicationPagingPage(
           resourceGroupName,
           galleryName,
           galleryApplicationName,
-          options,
-          settings
+          options
         );
       }
     };
@@ -92,23 +87,16 @@ export class GalleryApplicationVersionsImpl
     resourceGroupName: string,
     galleryName: string,
     galleryApplicationName: string,
-    options?: GalleryApplicationVersionsListByGalleryApplicationOptionalParams,
-    settings?: PageSettings
+    options?: GalleryApplicationVersionsListByGalleryApplicationOptionalParams
   ): AsyncIterableIterator<GalleryApplicationVersion[]> {
-    let result: GalleryApplicationVersionsListByGalleryApplicationResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByGalleryApplication(
-        resourceGroupName,
-        galleryName,
-        galleryApplicationName,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listByGalleryApplication(
+      resourceGroupName,
+      galleryName,
+      galleryApplicationName,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listByGalleryApplicationNext(
         resourceGroupName,
@@ -118,9 +106,7 @@ export class GalleryApplicationVersionsImpl
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -716,6 +702,7 @@ const listByGalleryApplicationNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

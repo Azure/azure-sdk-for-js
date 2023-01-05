@@ -10,9 +10,6 @@
 // Licensed under the MIT License.
 import { SharingUpdate, ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
 
 /**
  * This sample demonstrates how to Update sharing profile of a gallery.
@@ -21,10 +18,8 @@ dotenv.config();
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/Gallery_AddToSharingProfile.json
  */
 async function addSharingIdToTheSharingProfileOfAGallery() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "myResourceGroup";
   const galleryName = "myGalleryName";
   const sharingUpdate: SharingUpdate = {
     groups: [
@@ -49,6 +44,8 @@ async function addSharingIdToTheSharingProfileOfAGallery() {
   console.log(result);
 }
 
+addSharingIdToTheSharingProfileOfAGallery().catch(console.error);
+
 /**
  * This sample demonstrates how to Update sharing profile of a gallery.
  *
@@ -56,10 +53,8 @@ async function addSharingIdToTheSharingProfileOfAGallery() {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/Gallery_ResetSharingProfile.json
  */
 async function resetSharingProfileOfAGallery() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "myResourceGroup";
   const galleryName = "myGalleryName";
   const sharingUpdate: SharingUpdate = { operationType: "Reset" };
   const credential = new DefaultAzureCredential();
@@ -72,6 +67,8 @@ async function resetSharingProfileOfAGallery() {
   console.log(result);
 }
 
+resetSharingProfileOfAGallery().catch(console.error);
+
 /**
  * This sample demonstrates how to Update sharing profile of a gallery.
  *
@@ -79,10 +76,8 @@ async function resetSharingProfileOfAGallery() {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/Gallery_EnableCommunityGallery.json
  */
 async function shareAGalleryToCommunity() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "myResourceGroup";
   const galleryName = "myGalleryName";
   const sharingUpdate: SharingUpdate = { operationType: "EnableCommunity" };
   const credential = new DefaultAzureCredential();
@@ -95,10 +90,4 @@ async function shareAGalleryToCommunity() {
   console.log(result);
 }
 
-async function main() {
-  addSharingIdToTheSharingProfileOfAGallery();
-  resetSharingProfileOfAGallery();
-  shareAGalleryToCommunity();
-}
-
-main().catch(console.error);
+shareAGalleryToCommunity().catch(console.error);

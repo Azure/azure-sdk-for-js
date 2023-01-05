@@ -10,9 +10,6 @@
 // Licensed under the MIT License.
 import { RestorePoint, ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
 
 /**
  * This sample demonstrates how to The operation to create the restore point. Updating properties of an existing restore point is not allowed
@@ -21,10 +18,8 @@ dotenv.config();
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/restorePointExamples/RestorePoint_Copy_BetweenRegions.json
  */
 async function copyARestorePointToADifferentRegion() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "myResourceGroup";
   const restorePointCollectionName = "rpcName";
   const restorePointName = "rpName";
   const parameters: RestorePoint = {
@@ -44,6 +39,8 @@ async function copyARestorePointToADifferentRegion() {
   console.log(result);
 }
 
+copyARestorePointToADifferentRegion().catch(console.error);
+
 /**
  * This sample demonstrates how to The operation to create the restore point. Updating properties of an existing restore point is not allowed
  *
@@ -51,10 +48,8 @@ async function copyARestorePointToADifferentRegion() {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/restorePointExamples/RestorePoint_Create.json
  */
 async function createARestorePoint() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "myResourceGroup";
   const restorePointCollectionName = "rpcName";
   const restorePointName = "rpName";
   const parameters: RestorePoint = {
@@ -76,9 +71,4 @@ async function createARestorePoint() {
   console.log(result);
 }
 
-async function main() {
-  copyARestorePointToADifferentRegion();
-  createARestorePoint();
-}
-
-main().catch(console.error);
+createARestorePoint().catch(console.error);

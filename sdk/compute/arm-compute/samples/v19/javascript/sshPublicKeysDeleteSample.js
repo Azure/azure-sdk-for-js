@@ -10,7 +10,6 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
 
 /**
  * This sample demonstrates how to Delete an SSH public key.
@@ -19,14 +18,16 @@ require("dotenv").config();
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/sshPublicKeyExamples/SshPublicKeys_Delete_MaximumSet_Gen.json
  */
 async function sshPublicKeysDeleteMaximumSetGen() {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "rgcompute";
   const sshPublicKeyName = "aaaaaaaaaa";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.sshPublicKeys.delete(resourceGroupName, sshPublicKeyName);
   console.log(result);
 }
+
+sshPublicKeysDeleteMaximumSetGen().catch(console.error);
 
 /**
  * This sample demonstrates how to Delete an SSH public key.
@@ -35,8 +36,8 @@ async function sshPublicKeysDeleteMaximumSetGen() {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/sshPublicKeyExamples/SshPublicKeys_Delete_MinimumSet_Gen.json
  */
 async function sshPublicKeysDeleteMinimumSetGen() {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "rgcompute";
   const sshPublicKeyName = "aaaaaaaaaaaaaaaaaaa";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -44,9 +45,4 @@ async function sshPublicKeysDeleteMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
-  sshPublicKeysDeleteMaximumSetGen();
-  sshPublicKeysDeleteMinimumSetGen();
-}
-
-main().catch(console.error);
+sshPublicKeysDeleteMinimumSetGen().catch(console.error);

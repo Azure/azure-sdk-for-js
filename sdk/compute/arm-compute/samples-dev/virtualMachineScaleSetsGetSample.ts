@@ -13,9 +13,6 @@ import {
   ComputeManagementClient
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
 
 /**
  * This sample demonstrates how to Display information about a virtual machine scale set.
@@ -24,10 +21,8 @@ dotenv.config();
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Get_WithDiskControllerType.json
  */
 async function getVMScaleSetVMWithDiskControllerType() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "myResourceGroup";
   const vmScaleSetName = "myVirtualMachineScaleSet";
   const expand = "userData";
   const options: VirtualMachineScaleSetsGetOptionalParams = { expand };
@@ -40,6 +35,8 @@ async function getVMScaleSetVMWithDiskControllerType() {
   );
   console.log(result);
 }
+
+getVMScaleSetVMWithDiskControllerType().catch(console.error);
 
 /**
  * This sample demonstrates how to Display information about a virtual machine scale set.
@@ -48,10 +45,8 @@ async function getVMScaleSetVMWithDiskControllerType() {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Get.json
  */
 async function getAVirtualMachineScaleSet() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "myResourceGroup";
   const vmScaleSetName = "myVirtualMachineScaleSet";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -61,6 +56,8 @@ async function getAVirtualMachineScaleSet() {
   );
   console.log(result);
 }
+
+getAVirtualMachineScaleSet().catch(console.error);
 
 /**
  * This sample demonstrates how to Display information about a virtual machine scale set.
@@ -69,10 +66,8 @@ async function getAVirtualMachineScaleSet() {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Get_AutoPlacedOnDedicatedHostGroup.json
  */
 async function getAVirtualMachineScaleSetPlacedOnADedicatedHostGroupThroughAutomaticPlacement() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "myResourceGroup";
   const vmScaleSetName = "myVirtualMachineScaleSet";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -83,6 +78,10 @@ async function getAVirtualMachineScaleSetPlacedOnADedicatedHostGroupThroughAutom
   console.log(result);
 }
 
+getAVirtualMachineScaleSetPlacedOnADedicatedHostGroupThroughAutomaticPlacement().catch(
+  console.error
+);
+
 /**
  * This sample demonstrates how to Display information about a virtual machine scale set.
  *
@@ -90,10 +89,8 @@ async function getAVirtualMachineScaleSetPlacedOnADedicatedHostGroupThroughAutom
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Get_WithUserData.json
  */
 async function getAVirtualMachineScaleSetWithUserData() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "myResourceGroup";
   const vmScaleSetName = "myVirtualMachineScaleSet";
   const expand = "userData";
   const options: VirtualMachineScaleSetsGetOptionalParams = { expand };
@@ -107,11 +104,4 @@ async function getAVirtualMachineScaleSetWithUserData() {
   console.log(result);
 }
 
-async function main() {
-  getVMScaleSetVMWithDiskControllerType();
-  getAVirtualMachineScaleSet();
-  getAVirtualMachineScaleSetPlacedOnADedicatedHostGroupThroughAutomaticPlacement();
-  getAVirtualMachineScaleSetWithUserData();
-}
-
-main().catch(console.error);
+getAVirtualMachineScaleSetWithUserData().catch(console.error);

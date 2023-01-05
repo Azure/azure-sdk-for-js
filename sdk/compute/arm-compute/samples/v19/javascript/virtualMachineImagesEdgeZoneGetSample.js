@@ -10,7 +10,6 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets a virtual machine image in an edge zone.
@@ -19,7 +18,7 @@ require("dotenv").config();
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_Get_MaximumSet_Gen.json
  */
 async function virtualMachineImagesEdgeZoneGetMaximumSetGen() {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const subscriptionId = "{subscription-id}";
   const location = "aaaaaaaaaaaaaaaaaaaaaaaa";
   const edgeZone = "aaaaaaaa";
   const publisherName = "aaaaaaaaaaaaaaaaaaaaaaa";
@@ -39,6 +38,8 @@ async function virtualMachineImagesEdgeZoneGetMaximumSetGen() {
   console.log(result);
 }
 
+virtualMachineImagesEdgeZoneGetMaximumSetGen().catch(console.error);
+
 /**
  * This sample demonstrates how to Gets a virtual machine image in an edge zone.
  *
@@ -46,7 +47,7 @@ async function virtualMachineImagesEdgeZoneGetMaximumSetGen() {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_Get_MinimumSet_Gen.json
  */
 async function virtualMachineImagesEdgeZoneGetMinimumSetGen() {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const subscriptionId = "{subscription-id}";
   const location = "aaaaaaaaaaaaaaaaaaaaaaa";
   const edgeZone = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const publisherName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
@@ -66,9 +67,4 @@ async function virtualMachineImagesEdgeZoneGetMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
-  virtualMachineImagesEdgeZoneGetMaximumSetGen();
-  virtualMachineImagesEdgeZoneGetMinimumSetGen();
-}
-
-main().catch(console.error);
+virtualMachineImagesEdgeZoneGetMinimumSetGen().catch(console.error);

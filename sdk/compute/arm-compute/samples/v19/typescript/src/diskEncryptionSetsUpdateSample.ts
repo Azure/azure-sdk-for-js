@@ -13,9 +13,6 @@ import {
   ComputeManagementClient
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
 
 /**
  * This sample demonstrates how to Updates (patches) a disk encryption set.
@@ -24,10 +21,8 @@ dotenv.config();
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_Update_WithRotationToLatestKeyVersionEnabled.json
  */
 async function updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetToTrueSucceeded() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "myResourceGroup";
   const diskEncryptionSetName = "myDiskEncryptionSet";
   const diskEncryptionSet: DiskEncryptionSetUpdate = {
     activeKey: {
@@ -47,6 +42,10 @@ async function updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetT
   );
   console.log(result);
 }
+
+updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetToTrueSucceeded().catch(
+  console.error
+);
 
 /**
  * This sample demonstrates how to Updates (patches) a disk encryption set.
@@ -55,10 +54,8 @@ async function updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetT
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_Update_WithRotationToLatestKeyVersionEnabledInProgress.json
  */
 async function updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetToTrueUpdating() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "myResourceGroup";
   const diskEncryptionSetName = "myDiskEncryptionSet";
   const diskEncryptionSet: DiskEncryptionSetUpdate = {
     activeKey: {
@@ -79,6 +76,10 @@ async function updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetT
   console.log(result);
 }
 
+updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetToTrueUpdating().catch(
+  console.error
+);
+
 /**
  * This sample demonstrates how to Updates (patches) a disk encryption set.
  *
@@ -86,10 +87,8 @@ async function updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetT
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_Update.json
  */
 async function updateADiskEncryptionSet() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "myResourceGroup";
   const diskEncryptionSetName = "myDiskEncryptionSet";
   const diskEncryptionSet: DiskEncryptionSetUpdate = {
     activeKey: {
@@ -113,10 +112,4 @@ async function updateADiskEncryptionSet() {
   console.log(result);
 }
 
-async function main() {
-  updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetToTrueSucceeded();
-  updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetToTrueUpdating();
-  updateADiskEncryptionSet();
-}
-
-main().catch(console.error);
+updateADiskEncryptionSet().catch(console.error);

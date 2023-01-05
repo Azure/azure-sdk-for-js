@@ -10,9 +10,6 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
 
 /**
  * This sample demonstrates how to The Reboot Role Instance asynchronous operation requests a reboot of a role instance in the cloud service.
@@ -21,11 +18,9 @@ dotenv.config();
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2022-04-04/examples/CloudServiceRoleInstance_Restart.json
  */
 async function restartCloudServiceRoleInstance() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const subscriptionId = "{subscription-id}";
   const roleInstanceName = "{roleInstance-name}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "ConstosoRG";
+  const resourceGroupName = "ConstosoRG";
   const cloudServiceName = "{cs-name}";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -37,8 +32,4 @@ async function restartCloudServiceRoleInstance() {
   console.log(result);
 }
 
-async function main() {
-  restartCloudServiceRoleInstance();
-}
-
-main().catch(console.error);
+restartCloudServiceRoleInstance().catch(console.error);

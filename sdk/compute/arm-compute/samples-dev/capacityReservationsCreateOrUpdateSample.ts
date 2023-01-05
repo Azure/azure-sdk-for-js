@@ -13,9 +13,6 @@ import {
   ComputeManagementClient
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
 
 /**
  * This sample demonstrates how to The operation to create or update a capacity reservation. Please note some properties can be set only during capacity reservation creation. Please refer to https://aka.ms/CapacityReservation for more details.
@@ -24,10 +21,8 @@ dotenv.config();
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/capacityReservationExamples/CapacityReservation_CreateOrUpdate.json
  */
 async function createOrUpdateACapacityReservation() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "myResourceGroup";
   const capacityReservationGroupName = "myCapacityReservationGroup";
   const capacityReservationName = "myCapacityReservation";
   const parameters: CapacityReservation = {
@@ -47,8 +42,4 @@ async function createOrUpdateACapacityReservation() {
   console.log(result);
 }
 
-async function main() {
-  createOrUpdateACapacityReservation();
-}
-
-main().catch(console.error);
+createOrUpdateACapacityReservation().catch(console.error);

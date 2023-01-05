@@ -10,9 +10,6 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
 
 /**
  * This sample demonstrates how to Gets a list of virtual machine image offers for the specified location and publisher.
@@ -21,8 +18,7 @@ dotenv.config();
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineImageExamples/VirtualMachineImages_ListOffers_MaximumSet_Gen.json
  */
 async function virtualMachineImagesListOffersMaximumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const subscriptionId = "{subscription-id}";
   const location = "aaaaaaa";
   const publisherName = "aaaaaaaa";
   const credential = new DefaultAzureCredential();
@@ -34,6 +30,8 @@ async function virtualMachineImagesListOffersMaximumSetGen() {
   console.log(result);
 }
 
+virtualMachineImagesListOffersMaximumSetGen().catch(console.error);
+
 /**
  * This sample demonstrates how to Gets a list of virtual machine image offers for the specified location and publisher.
  *
@@ -41,8 +39,7 @@ async function virtualMachineImagesListOffersMaximumSetGen() {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineImageExamples/VirtualMachineImages_ListOffers_MinimumSet_Gen.json
  */
 async function virtualMachineImagesListOffersMinimumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const subscriptionId = "{subscription-id}";
   const location = "aaaaaaaaaaaaaaaaa";
   const publisherName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const credential = new DefaultAzureCredential();
@@ -54,9 +51,4 @@ async function virtualMachineImagesListOffersMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
-  virtualMachineImagesListOffersMaximumSetGen();
-  virtualMachineImagesListOffersMinimumSetGen();
-}
-
-main().catch(console.error);
+virtualMachineImagesListOffersMinimumSetGen().catch(console.error);

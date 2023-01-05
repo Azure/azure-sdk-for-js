@@ -10,7 +10,6 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
 
 /**
  * This sample demonstrates how to Lists all the disk encryption sets under a subscription.
@@ -19,7 +18,7 @@ require("dotenv").config();
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_ListBySubscription.json
  */
 async function listAllDiskEncryptionSetsInASubscription() {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const subscriptionId = "{subscription-id}";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
@@ -29,8 +28,4 @@ async function listAllDiskEncryptionSetsInASubscription() {
   console.log(resArray);
 }
 
-async function main() {
-  listAllDiskEncryptionSetsInASubscription();
-}
-
-main().catch(console.error);
+listAllDiskEncryptionSetsInASubscription().catch(console.error);

@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { RestorePointCollections } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -19,10 +18,8 @@ import {
   RestorePointCollection,
   RestorePointCollectionsListNextOptionalParams,
   RestorePointCollectionsListOptionalParams,
-  RestorePointCollectionsListResponse,
   RestorePointCollectionsListAllNextOptionalParams,
   RestorePointCollectionsListAllOptionalParams,
-  RestorePointCollectionsListAllResponse,
   RestorePointCollectionsCreateOrUpdateOptionalParams,
   RestorePointCollectionsCreateOrUpdateResponse,
   RestorePointCollectionUpdate,
@@ -31,6 +28,8 @@ import {
   RestorePointCollectionsDeleteOptionalParams,
   RestorePointCollectionsGetOptionalParams,
   RestorePointCollectionsGetResponse,
+  RestorePointCollectionsListResponse,
+  RestorePointCollectionsListAllResponse,
   RestorePointCollectionsListNextResponse,
   RestorePointCollectionsListAllNextResponse
 } from "../models";
@@ -65,29 +64,19 @@ export class RestorePointCollectionsImpl implements RestorePointCollections {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPagingPage(resourceGroupName, options, settings);
+      byPage: () => {
+        return this.listPagingPage(resourceGroupName, options);
       }
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
-    options?: RestorePointCollectionsListOptionalParams,
-    settings?: PageSettings
+    options?: RestorePointCollectionsListOptionalParams
   ): AsyncIterableIterator<RestorePointCollection[]> {
-    let result: RestorePointCollectionsListResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._list(resourceGroupName, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._list(resourceGroupName, options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -95,9 +84,7 @@ export class RestorePointCollectionsImpl implements RestorePointCollections {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -127,34 +114,22 @@ export class RestorePointCollectionsImpl implements RestorePointCollections {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listAllPagingPage(options, settings);
+      byPage: () => {
+        return this.listAllPagingPage(options);
       }
     };
   }
 
   private async *listAllPagingPage(
-    options?: RestorePointCollectionsListAllOptionalParams,
-    settings?: PageSettings
+    options?: RestorePointCollectionsListAllOptionalParams
   ): AsyncIterableIterator<RestorePointCollection[]> {
-    let result: RestorePointCollectionsListAllResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listAll(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listAll(options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listAllNext(continuationToken, options);
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -514,6 +489,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -534,6 +510,7 @@ const listAllNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

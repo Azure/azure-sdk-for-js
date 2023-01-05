@@ -10,7 +10,6 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets specific run command for a subscription in a location.
@@ -19,8 +18,7 @@ require("dotenv").config();
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/runCommandExamples/RunCommand_Get.json
  */
 async function virtualMachineRunCommandGet() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "24fb23e3-6ba3-41f0-9b6e-e41131d5d61e";
+  const subscriptionId = "24fb23e3-6ba3-41f0-9b6e-e41131d5d61e";
   const location = "SoutheastAsia";
   const commandId = "RunPowerShellScript";
   const credential = new DefaultAzureCredential();
@@ -29,8 +27,4 @@ async function virtualMachineRunCommandGet() {
   console.log(result);
 }
 
-async function main() {
-  virtualMachineRunCommandGet();
-}
-
-main().catch(console.error);
+virtualMachineRunCommandGet().catch(console.error);

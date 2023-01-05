@@ -10,9 +10,6 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
 
 /**
  * This sample demonstrates how to Gets a list of virtual machine image offers for the specified location, edge zone and publisher.
@@ -21,8 +18,7 @@ dotenv.config();
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_ListOffers_MaximumSet_Gen.json
  */
 async function virtualMachineImagesEdgeZoneListOffersMaximumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const subscriptionId = "{subscription-id}";
   const location = "aaaaaaaaaaaaaaaaaa";
   const edgeZone = "aaaaaaaaaaaaaaaaaaa";
   const publisherName = "aaaaaaaaaaaaa";
@@ -36,6 +32,8 @@ async function virtualMachineImagesEdgeZoneListOffersMaximumSetGen() {
   console.log(result);
 }
 
+virtualMachineImagesEdgeZoneListOffersMaximumSetGen().catch(console.error);
+
 /**
  * This sample demonstrates how to Gets a list of virtual machine image offers for the specified location, edge zone and publisher.
  *
@@ -43,8 +41,7 @@ async function virtualMachineImagesEdgeZoneListOffersMaximumSetGen() {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_ListOffers_MinimumSet_Gen.json
  */
 async function virtualMachineImagesEdgeZoneListOffersMinimumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const subscriptionId = "{subscription-id}";
   const location = "aaaaaaaaaaaaaa";
   const edgeZone = "aaaaaaaaaaaaaaaaaaaaa";
   const publisherName = "aaaaaaaaaaaaaaaaaaaaaaaaaaa";
@@ -58,9 +55,4 @@ async function virtualMachineImagesEdgeZoneListOffersMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
-  virtualMachineImagesEdgeZoneListOffersMaximumSetGen();
-  virtualMachineImagesEdgeZoneListOffersMinimumSetGen();
-}
-
-main().catch(console.error);
+virtualMachineImagesEdgeZoneListOffersMinimumSetGen().catch(console.error);

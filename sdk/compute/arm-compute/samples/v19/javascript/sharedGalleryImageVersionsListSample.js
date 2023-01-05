@@ -10,7 +10,6 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
 
 /**
  * This sample demonstrates how to List shared gallery image versions by subscription id or tenant id.
@@ -19,7 +18,7 @@ require("dotenv").config();
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/sharedGalleryExamples/SharedGalleryImageVersions_List.json
  */
 async function listSharedGalleryImageVersions() {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const subscriptionId = "{subscription-id}";
   const location = "myLocation";
   const galleryUniqueName = "galleryUniqueName";
   const galleryImageName = "myGalleryImageName";
@@ -36,8 +35,4 @@ async function listSharedGalleryImageVersions() {
   console.log(resArray);
 }
 
-async function main() {
-  listSharedGalleryImageVersions();
-}
-
-main().catch(console.error);
+listSharedGalleryImageVersions().catch(console.error);

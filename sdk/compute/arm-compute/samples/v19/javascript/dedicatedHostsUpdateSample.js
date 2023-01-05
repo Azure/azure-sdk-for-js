@@ -10,7 +10,6 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
 
 /**
  * This sample demonstrates how to Update an dedicated host .
@@ -19,8 +18,8 @@ require("dotenv").config();
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/dedicatedHostExamples/DedicatedHosts_Update_MaximumSet_Gen.json
  */
 async function dedicatedHostsUpdateMaximumSetGen() {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "rgcompute";
   const hostGroupName = "aaaaaaaaa";
   const hostName = "aaaaaaaaaaaaaaaaaaaaa";
   const parameters = {
@@ -54,6 +53,8 @@ async function dedicatedHostsUpdateMaximumSetGen() {
   console.log(result);
 }
 
+dedicatedHostsUpdateMaximumSetGen().catch(console.error);
+
 /**
  * This sample demonstrates how to Update an dedicated host .
  *
@@ -61,8 +62,8 @@ async function dedicatedHostsUpdateMaximumSetGen() {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/dedicatedHostExamples/DedicatedHosts_Update_MinimumSet_Gen.json
  */
 async function dedicatedHostsUpdateMinimumSetGen() {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "rgcompute";
   const hostGroupName = "aa";
   const hostName = "aaaaaaaaaaaaaaaaaaaaaaaaaa";
   const parameters = {};
@@ -77,9 +78,4 @@ async function dedicatedHostsUpdateMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
-  dedicatedHostsUpdateMaximumSetGen();
-  dedicatedHostsUpdateMinimumSetGen();
-}
-
-main().catch(console.error);
+dedicatedHostsUpdateMinimumSetGen().catch(console.error);

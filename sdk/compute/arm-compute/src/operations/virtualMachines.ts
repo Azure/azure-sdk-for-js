@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { VirtualMachines } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -19,16 +18,13 @@ import {
   VirtualMachine,
   VirtualMachinesListByLocationNextOptionalParams,
   VirtualMachinesListByLocationOptionalParams,
-  VirtualMachinesListByLocationResponse,
   VirtualMachinesListNextOptionalParams,
   VirtualMachinesListOptionalParams,
-  VirtualMachinesListResponse,
   VirtualMachinesListAllNextOptionalParams,
   VirtualMachinesListAllOptionalParams,
-  VirtualMachinesListAllResponse,
   VirtualMachineSize,
   VirtualMachinesListAvailableSizesOptionalParams,
-  VirtualMachinesListAvailableSizesResponse,
+  VirtualMachinesListByLocationResponse,
   VirtualMachineCaptureParameters,
   VirtualMachinesCaptureOptionalParams,
   VirtualMachinesCaptureResponse,
@@ -45,6 +41,9 @@ import {
   VirtualMachinesConvertToManagedDisksOptionalParams,
   VirtualMachinesDeallocateOptionalParams,
   VirtualMachinesGeneralizeOptionalParams,
+  VirtualMachinesListResponse,
+  VirtualMachinesListAllResponse,
+  VirtualMachinesListAvailableSizesResponse,
   VirtualMachinesPowerOffOptionalParams,
   VirtualMachinesReapplyOptionalParams,
   VirtualMachinesRestartOptionalParams,
@@ -98,29 +97,19 @@ export class VirtualMachinesImpl implements VirtualMachines {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listByLocationPagingPage(location, options, settings);
+      byPage: () => {
+        return this.listByLocationPagingPage(location, options);
       }
     };
   }
 
   private async *listByLocationPagingPage(
     location: string,
-    options?: VirtualMachinesListByLocationOptionalParams,
-    settings?: PageSettings
+    options?: VirtualMachinesListByLocationOptionalParams
   ): AsyncIterableIterator<VirtualMachine[]> {
-    let result: VirtualMachinesListByLocationResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByLocation(location, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listByLocation(location, options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listByLocationNext(
         location,
@@ -128,9 +117,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -161,29 +148,19 @@ export class VirtualMachinesImpl implements VirtualMachines {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPagingPage(resourceGroupName, options, settings);
+      byPage: () => {
+        return this.listPagingPage(resourceGroupName, options);
       }
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
-    options?: VirtualMachinesListOptionalParams,
-    settings?: PageSettings
+    options?: VirtualMachinesListOptionalParams
   ): AsyncIterableIterator<VirtualMachine[]> {
-    let result: VirtualMachinesListResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._list(resourceGroupName, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._list(resourceGroupName, options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -191,9 +168,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -222,34 +197,22 @@ export class VirtualMachinesImpl implements VirtualMachines {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listAllPagingPage(options, settings);
+      byPage: () => {
+        return this.listAllPagingPage(options);
       }
     };
   }
 
   private async *listAllPagingPage(
-    options?: VirtualMachinesListAllOptionalParams,
-    settings?: PageSettings
+    options?: VirtualMachinesListAllOptionalParams
   ): AsyncIterableIterator<VirtualMachine[]> {
-    let result: VirtualMachinesListAllResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listAll(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listAll(options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listAllNext(continuationToken, options);
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -284,15 +247,11 @@ export class VirtualMachinesImpl implements VirtualMachines {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listAvailableSizesPagingPage(
           resourceGroupName,
           vmName,
-          options,
-          settings
+          options
         );
       }
     };
@@ -301,11 +260,13 @@ export class VirtualMachinesImpl implements VirtualMachines {
   private async *listAvailableSizesPagingPage(
     resourceGroupName: string,
     vmName: string,
-    options?: VirtualMachinesListAvailableSizesOptionalParams,
-    _settings?: PageSettings
+    options?: VirtualMachinesListAvailableSizesOptionalParams
   ): AsyncIterableIterator<VirtualMachineSize[]> {
-    let result: VirtualMachinesListAvailableSizesResponse;
-    result = await this._listAvailableSizes(resourceGroupName, vmName, options);
+    let result = await this._listAvailableSizes(
+      resourceGroupName,
+      vmName,
+      options
+    );
     yield result.value || [];
   }
 
@@ -2507,6 +2468,7 @@ const listByLocationNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.location,
@@ -2527,6 +2489,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -2547,6 +2510,11 @@ const listAllNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.filter,
+    Parameters.statusOnly
+  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

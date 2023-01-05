@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { DiskAccesses } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -19,14 +18,11 @@ import {
   DiskAccess,
   DiskAccessesListByResourceGroupNextOptionalParams,
   DiskAccessesListByResourceGroupOptionalParams,
-  DiskAccessesListByResourceGroupResponse,
   DiskAccessesListNextOptionalParams,
   DiskAccessesListOptionalParams,
-  DiskAccessesListResponse,
   PrivateEndpointConnection,
   DiskAccessesListPrivateEndpointConnectionsNextOptionalParams,
   DiskAccessesListPrivateEndpointConnectionsOptionalParams,
-  DiskAccessesListPrivateEndpointConnectionsResponse,
   DiskAccessesCreateOrUpdateOptionalParams,
   DiskAccessesCreateOrUpdateResponse,
   DiskAccessUpdate,
@@ -35,6 +31,8 @@ import {
   DiskAccessesGetOptionalParams,
   DiskAccessesGetResponse,
   DiskAccessesDeleteOptionalParams,
+  DiskAccessesListByResourceGroupResponse,
+  DiskAccessesListResponse,
   DiskAccessesGetPrivateLinkResourcesOptionalParams,
   DiskAccessesGetPrivateLinkResourcesResponse,
   DiskAccessesUpdateAPrivateEndpointConnectionOptionalParams,
@@ -42,6 +40,7 @@ import {
   DiskAccessesGetAPrivateEndpointConnectionOptionalParams,
   DiskAccessesGetAPrivateEndpointConnectionResponse,
   DiskAccessesDeleteAPrivateEndpointConnectionOptionalParams,
+  DiskAccessesListPrivateEndpointConnectionsResponse,
   DiskAccessesListByResourceGroupNextResponse,
   DiskAccessesListNextResponse,
   DiskAccessesListPrivateEndpointConnectionsNextResponse
@@ -77,33 +76,19 @@ export class DiskAccessesImpl implements DiskAccesses {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings
-        );
+      byPage: () => {
+        return this.listByResourceGroupPagingPage(resourceGroupName, options);
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: DiskAccessesListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    options?: DiskAccessesListByResourceGroupOptionalParams
   ): AsyncIterableIterator<DiskAccess[]> {
-    let result: DiskAccessesListByResourceGroupResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByResourceGroup(resourceGroupName, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listByResourceGroup(resourceGroupName, options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -111,9 +96,7 @@ export class DiskAccessesImpl implements DiskAccesses {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -144,34 +127,22 @@ export class DiskAccessesImpl implements DiskAccesses {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPagingPage(options, settings);
+      byPage: () => {
+        return this.listPagingPage(options);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: DiskAccessesListOptionalParams,
-    settings?: PageSettings
+    options?: DiskAccessesListOptionalParams
   ): AsyncIterableIterator<DiskAccess[]> {
-    let result: DiskAccessesListResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._list(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._list(options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -208,15 +179,11 @@ export class DiskAccessesImpl implements DiskAccesses {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listPrivateEndpointConnectionsPagingPage(
           resourceGroupName,
           diskAccessName,
-          options,
-          settings
+          options
         );
       }
     };
@@ -225,22 +192,15 @@ export class DiskAccessesImpl implements DiskAccesses {
   private async *listPrivateEndpointConnectionsPagingPage(
     resourceGroupName: string,
     diskAccessName: string,
-    options?: DiskAccessesListPrivateEndpointConnectionsOptionalParams,
-    settings?: PageSettings
+    options?: DiskAccessesListPrivateEndpointConnectionsOptionalParams
   ): AsyncIterableIterator<PrivateEndpointConnection[]> {
-    let result: DiskAccessesListPrivateEndpointConnectionsResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listPrivateEndpointConnections(
-        resourceGroupName,
-        diskAccessName,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listPrivateEndpointConnections(
+      resourceGroupName,
+      diskAccessName,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listPrivateEndpointConnectionsNext(
         resourceGroupName,
@@ -249,9 +209,7 @@ export class DiskAccessesImpl implements DiskAccesses {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -1201,6 +1159,7 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1221,6 +1180,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1240,6 +1200,7 @@ const listPrivateEndpointConnectionsNextOperationSpec: coreClient.OperationSpec 
       bodyMapper: Mappers.CloudError
     }
   },
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

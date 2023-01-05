@@ -10,9 +10,6 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
 
 /**
  * This sample demonstrates how to Assess patches on the VM.
@@ -21,10 +18,8 @@ dotenv.config();
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_AssessPatches.json
  */
 async function assessPatchStateOfAVirtualMachine() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroupName";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "myResourceGroupName";
   const vmName = "myVMName";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -35,8 +30,4 @@ async function assessPatchStateOfAVirtualMachine() {
   console.log(result);
 }
 
-async function main() {
-  assessPatchStateOfAVirtualMachine();
-}
-
-main().catch(console.error);
+assessPatchStateOfAVirtualMachine().catch(console.error);

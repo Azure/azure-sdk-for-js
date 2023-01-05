@@ -10,9 +10,6 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
 
 /**
  * This sample demonstrates how to The operation to delete the extension.
@@ -21,10 +18,8 @@ dotenv.config();
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtensions_Delete_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetExtensionsDeleteMaximumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const vmssExtensionName = "aaaaaaaaaaaaaaaaaaaaaaaa";
   const credential = new DefaultAzureCredential();
@@ -37,6 +32,8 @@ async function virtualMachineScaleSetExtensionsDeleteMaximumSetGen() {
   console.log(result);
 }
 
+virtualMachineScaleSetExtensionsDeleteMaximumSetGen().catch(console.error);
+
 /**
  * This sample demonstrates how to The operation to delete the extension.
  *
@@ -44,10 +41,8 @@ async function virtualMachineScaleSetExtensionsDeleteMaximumSetGen() {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtensions_Delete_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetExtensionsDeleteMinimumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "rgcompute";
   const vmScaleSetName = "aaaa";
   const vmssExtensionName = "aaaaaaaaaaaaaaaaaaaaaaa";
   const credential = new DefaultAzureCredential();
@@ -60,9 +55,4 @@ async function virtualMachineScaleSetExtensionsDeleteMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
-  virtualMachineScaleSetExtensionsDeleteMaximumSetGen();
-  virtualMachineScaleSetExtensionsDeleteMinimumSetGen();
-}
-
-main().catch(console.error);
+virtualMachineScaleSetExtensionsDeleteMinimumSetGen().catch(console.error);

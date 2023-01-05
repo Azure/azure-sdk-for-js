@@ -13,9 +13,6 @@ import {
   ComputeManagementClient
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
 
 /**
  * This sample demonstrates how to The operation to create or update the extension.
@@ -24,10 +21,8 @@ dotenv.config();
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachineExtensions_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function virtualMachineExtensionsCreateOrUpdateMaximumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "rgcompute";
   const vmName = "aaaaaaaaaaaaaaaaaaaaaaaa";
   const vmExtensionName = "aaaaaaaaaaaaa";
   const extensionParameters: VirtualMachineExtension = {
@@ -77,6 +72,8 @@ async function virtualMachineExtensionsCreateOrUpdateMaximumSetGen() {
   console.log(result);
 }
 
+virtualMachineExtensionsCreateOrUpdateMaximumSetGen().catch(console.error);
+
 /**
  * This sample demonstrates how to The operation to create or update the extension.
  *
@@ -84,10 +81,8 @@ async function virtualMachineExtensionsCreateOrUpdateMaximumSetGen() {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachineExtensions_CreateOrUpdate_MinimumSet_Gen.json
  */
 async function virtualMachineExtensionsCreateOrUpdateMinimumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "rgcompute";
   const vmName = "aaaa";
   const vmExtensionName = "aaaaaaaaaaaaaaaaaaaaaaaa";
   const extensionParameters: VirtualMachineExtension = { location: "westus" };
@@ -102,9 +97,4 @@ async function virtualMachineExtensionsCreateOrUpdateMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
-  virtualMachineExtensionsCreateOrUpdateMaximumSetGen();
-  virtualMachineExtensionsCreateOrUpdateMinimumSetGen();
-}
-
-main().catch(console.error);
+virtualMachineExtensionsCreateOrUpdateMinimumSetGen().catch(console.error);

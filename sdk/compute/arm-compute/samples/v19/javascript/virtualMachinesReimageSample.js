@@ -10,7 +10,6 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
 
 /**
  * This sample demonstrates how to Reimages the virtual machine which has an ephemeral OS disk back to its initial state.
@@ -19,8 +18,8 @@ require("dotenv").config();
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Reimage.json
  */
 async function reimageAVirtualMachine() {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "myResourceGroup";
   const vmName = "myVMName";
   const parameters = { tempDisk: true };
   const options = { parameters };
@@ -34,8 +33,4 @@ async function reimageAVirtualMachine() {
   console.log(result);
 }
 
-async function main() {
-  reimageAVirtualMachine();
-}
-
-main().catch(console.error);
+reimageAVirtualMachine().catch(console.error);

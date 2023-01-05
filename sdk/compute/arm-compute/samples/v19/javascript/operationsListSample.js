@@ -10,7 +10,6 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets a list of compute operations.
@@ -19,8 +18,7 @@ require("dotenv").config();
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/computeRPCommonExamples/Operations_List_MaximumSet_Gen.json
  */
 async function operationsListMaximumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
@@ -29,6 +27,8 @@ async function operationsListMaximumSetGen() {
   }
   console.log(resArray);
 }
+
+operationsListMaximumSetGen().catch(console.error);
 
 /**
  * This sample demonstrates how to Gets a list of compute operations.
@@ -37,8 +37,7 @@ async function operationsListMaximumSetGen() {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/computeRPCommonExamples/Operations_List_MinimumSet_Gen.json
  */
 async function operationsListMinimumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
@@ -48,9 +47,4 @@ async function operationsListMinimumSetGen() {
   console.log(resArray);
 }
 
-async function main() {
-  operationsListMaximumSetGen();
-  operationsListMinimumSetGen();
-}
-
-main().catch(console.error);
+operationsListMinimumSetGen().catch(console.error);

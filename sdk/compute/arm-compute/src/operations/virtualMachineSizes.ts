@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { VirtualMachineSizes } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -49,22 +49,17 @@ export class VirtualMachineSizesImpl implements VirtualMachineSizes {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPagingPage(location, options, settings);
+      byPage: () => {
+        return this.listPagingPage(location, options);
       }
     };
   }
 
   private async *listPagingPage(
     location: string,
-    options?: VirtualMachineSizesListOptionalParams,
-    _settings?: PageSettings
+    options?: VirtualMachineSizesListOptionalParams
   ): AsyncIterableIterator<VirtualMachineSize[]> {
-    let result: VirtualMachineSizesListResponse;
-    result = await this._list(location, options);
+    let result = await this._list(location, options);
     yield result.value || [];
   }
 

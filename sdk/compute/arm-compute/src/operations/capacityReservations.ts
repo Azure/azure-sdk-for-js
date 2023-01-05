@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { CapacityReservations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -19,7 +18,6 @@ import {
   CapacityReservation,
   CapacityReservationsListByCapacityReservationGroupNextOptionalParams,
   CapacityReservationsListByCapacityReservationGroupOptionalParams,
-  CapacityReservationsListByCapacityReservationGroupResponse,
   CapacityReservationsCreateOrUpdateOptionalParams,
   CapacityReservationsCreateOrUpdateResponse,
   CapacityReservationUpdate,
@@ -28,6 +26,7 @@ import {
   CapacityReservationsDeleteOptionalParams,
   CapacityReservationsGetOptionalParams,
   CapacityReservationsGetResponse,
+  CapacityReservationsListByCapacityReservationGroupResponse,
   CapacityReservationsListByCapacityReservationGroupNextResponse
 } from "../models";
 
@@ -68,15 +67,11 @@ export class CapacityReservationsImpl implements CapacityReservations {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listByCapacityReservationGroupPagingPage(
           resourceGroupName,
           capacityReservationGroupName,
-          options,
-          settings
+          options
         );
       }
     };
@@ -85,22 +80,15 @@ export class CapacityReservationsImpl implements CapacityReservations {
   private async *listByCapacityReservationGroupPagingPage(
     resourceGroupName: string,
     capacityReservationGroupName: string,
-    options?: CapacityReservationsListByCapacityReservationGroupOptionalParams,
-    settings?: PageSettings
+    options?: CapacityReservationsListByCapacityReservationGroupOptionalParams
   ): AsyncIterableIterator<CapacityReservation[]> {
-    let result: CapacityReservationsListByCapacityReservationGroupResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByCapacityReservationGroup(
-        resourceGroupName,
-        capacityReservationGroupName,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listByCapacityReservationGroup(
+      resourceGroupName,
+      capacityReservationGroupName,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listByCapacityReservationGroupNext(
         resourceGroupName,
@@ -109,9 +97,7 @@ export class CapacityReservationsImpl implements CapacityReservations {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -648,6 +634,7 @@ const listByCapacityReservationGroupNextOperationSpec: coreClient.OperationSpec 
       bodyMapper: Mappers.CloudError
     }
   },
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { CloudServiceOperatingSystems } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,15 +16,15 @@ import {
   OSVersion,
   CloudServiceOperatingSystemsListOSVersionsNextOptionalParams,
   CloudServiceOperatingSystemsListOSVersionsOptionalParams,
-  CloudServiceOperatingSystemsListOSVersionsResponse,
   OSFamily,
   CloudServiceOperatingSystemsListOSFamiliesNextOptionalParams,
   CloudServiceOperatingSystemsListOSFamiliesOptionalParams,
-  CloudServiceOperatingSystemsListOSFamiliesResponse,
   CloudServiceOperatingSystemsGetOSVersionOptionalParams,
   CloudServiceOperatingSystemsGetOSVersionResponse,
+  CloudServiceOperatingSystemsListOSVersionsResponse,
   CloudServiceOperatingSystemsGetOSFamilyOptionalParams,
   CloudServiceOperatingSystemsGetOSFamilyResponse,
+  CloudServiceOperatingSystemsListOSFamiliesResponse,
   CloudServiceOperatingSystemsListOSVersionsNextResponse,
   CloudServiceOperatingSystemsListOSFamiliesNextResponse
 } from "../models";
@@ -63,29 +62,19 @@ export class CloudServiceOperatingSystemsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listOSVersionsPagingPage(location, options, settings);
+      byPage: () => {
+        return this.listOSVersionsPagingPage(location, options);
       }
     };
   }
 
   private async *listOSVersionsPagingPage(
     location: string,
-    options?: CloudServiceOperatingSystemsListOSVersionsOptionalParams,
-    settings?: PageSettings
+    options?: CloudServiceOperatingSystemsListOSVersionsOptionalParams
   ): AsyncIterableIterator<OSVersion[]> {
-    let result: CloudServiceOperatingSystemsListOSVersionsResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listOSVersions(location, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listOSVersions(location, options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listOSVersionsNext(
         location,
@@ -93,9 +82,7 @@ export class CloudServiceOperatingSystemsImpl
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -127,29 +114,19 @@ export class CloudServiceOperatingSystemsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listOSFamiliesPagingPage(location, options, settings);
+      byPage: () => {
+        return this.listOSFamiliesPagingPage(location, options);
       }
     };
   }
 
   private async *listOSFamiliesPagingPage(
     location: string,
-    options?: CloudServiceOperatingSystemsListOSFamiliesOptionalParams,
-    settings?: PageSettings
+    options?: CloudServiceOperatingSystemsListOSFamiliesOptionalParams
   ): AsyncIterableIterator<OSFamily[]> {
-    let result: CloudServiceOperatingSystemsListOSFamiliesResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listOSFamilies(location, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listOSFamilies(location, options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listOSFamiliesNext(
         location,
@@ -157,9 +134,7 @@ export class CloudServiceOperatingSystemsImpl
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -376,6 +351,7 @@ const listOSVersionsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -396,6 +372,7 @@ const listOSFamiliesNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

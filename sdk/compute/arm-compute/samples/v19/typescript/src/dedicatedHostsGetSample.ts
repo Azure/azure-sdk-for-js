@@ -10,9 +10,6 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
 
 /**
  * This sample demonstrates how to Retrieves information about a dedicated host.
@@ -21,10 +18,8 @@ dotenv.config();
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/dedicatedHostExamples/DedicatedHost_Get.json
  */
 async function getADedicatedHost() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscriptionId}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = "{subscriptionId}";
+  const resourceGroupName = "myResourceGroup";
   const hostGroupName = "myDedicatedHostGroup";
   const hostName = "myHost";
   const credential = new DefaultAzureCredential();
@@ -37,8 +32,4 @@ async function getADedicatedHost() {
   console.log(result);
 }
 
-async function main() {
-  getADedicatedHost();
-}
-
-main().catch(console.error);
+getADedicatedHost().catch(console.error);

@@ -37,19 +37,19 @@ export class VirtualMachineExtensionImagesImpl
    * Gets a virtual machine extension image.
    * @param location The name of a supported Azure region.
    * @param publisherName
-   * @param typeParam
    * @param version
+   * @param typeParam
    * @param options The options parameters.
    */
   get(
     location: string,
     publisherName: string,
-    typeParam: string,
     version: string,
+    typeParam: string,
     options?: VirtualMachineExtensionImagesGetOptionalParams
   ): Promise<VirtualMachineExtensionImagesGetResponse> {
     return this.client.sendOperationRequest(
-      { location, publisherName, typeParam, version, options },
+      { location, publisherName, version, typeParam, options },
       getOperationSpec
     );
   }

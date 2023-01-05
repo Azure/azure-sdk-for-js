@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { AvailabilitySets } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,13 +16,10 @@ import {
   AvailabilitySet,
   AvailabilitySetsListBySubscriptionNextOptionalParams,
   AvailabilitySetsListBySubscriptionOptionalParams,
-  AvailabilitySetsListBySubscriptionResponse,
   AvailabilitySetsListNextOptionalParams,
   AvailabilitySetsListOptionalParams,
-  AvailabilitySetsListResponse,
   VirtualMachineSize,
   AvailabilitySetsListAvailableSizesOptionalParams,
-  AvailabilitySetsListAvailableSizesResponse,
   AvailabilitySetsCreateOrUpdateOptionalParams,
   AvailabilitySetsCreateOrUpdateResponse,
   AvailabilitySetUpdate,
@@ -32,6 +28,9 @@ import {
   AvailabilitySetsDeleteOptionalParams,
   AvailabilitySetsGetOptionalParams,
   AvailabilitySetsGetResponse,
+  AvailabilitySetsListBySubscriptionResponse,
+  AvailabilitySetsListResponse,
+  AvailabilitySetsListAvailableSizesResponse,
   AvailabilitySetsListBySubscriptionNextResponse,
   AvailabilitySetsListNextResponse
 } from "../models";
@@ -64,34 +63,22 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listBySubscriptionPagingPage(options, settings);
+      byPage: () => {
+        return this.listBySubscriptionPagingPage(options);
       }
     };
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: AvailabilitySetsListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    options?: AvailabilitySetsListBySubscriptionOptionalParams
   ): AsyncIterableIterator<AvailabilitySet[]> {
-    let result: AvailabilitySetsListBySubscriptionResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listBySubscription(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listBySubscription(options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listBySubscriptionNext(continuationToken, options);
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -120,29 +107,19 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPagingPage(resourceGroupName, options, settings);
+      byPage: () => {
+        return this.listPagingPage(resourceGroupName, options);
       }
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
-    options?: AvailabilitySetsListOptionalParams,
-    settings?: PageSettings
+    options?: AvailabilitySetsListOptionalParams
   ): AsyncIterableIterator<AvailabilitySet[]> {
-    let result: AvailabilitySetsListResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._list(resourceGroupName, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._list(resourceGroupName, options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -150,9 +127,7 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -189,15 +164,11 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listAvailableSizesPagingPage(
           resourceGroupName,
           availabilitySetName,
-          options,
-          settings
+          options
         );
       }
     };
@@ -206,11 +177,9 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
   private async *listAvailableSizesPagingPage(
     resourceGroupName: string,
     availabilitySetName: string,
-    options?: AvailabilitySetsListAvailableSizesOptionalParams,
-    _settings?: PageSettings
+    options?: AvailabilitySetsListAvailableSizesOptionalParams
   ): AsyncIterableIterator<VirtualMachineSize[]> {
-    let result: AvailabilitySetsListAvailableSizesResponse;
-    result = await this._listAvailableSizes(
+    let result = await this._listAvailableSizes(
       resourceGroupName,
       availabilitySetName,
       options
@@ -547,6 +516,7 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
+  queryParameters: [Parameters.apiVersion, Parameters.expand1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -566,6 +536,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

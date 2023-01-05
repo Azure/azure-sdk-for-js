@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { CloudServicesUpdateDomain } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -19,10 +18,10 @@ import {
   UpdateDomain,
   CloudServicesUpdateDomainListUpdateDomainsNextOptionalParams,
   CloudServicesUpdateDomainListUpdateDomainsOptionalParams,
-  CloudServicesUpdateDomainListUpdateDomainsResponse,
   CloudServicesUpdateDomainWalkUpdateDomainOptionalParams,
   CloudServicesUpdateDomainGetUpdateDomainOptionalParams,
   CloudServicesUpdateDomainGetUpdateDomainResponse,
+  CloudServicesUpdateDomainListUpdateDomainsResponse,
   CloudServicesUpdateDomainListUpdateDomainsNextResponse
 } from "../models";
 
@@ -63,15 +62,11 @@ export class CloudServicesUpdateDomainImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listUpdateDomainsPagingPage(
           resourceGroupName,
           cloudServiceName,
-          options,
-          settings
+          options
         );
       }
     };
@@ -80,22 +75,15 @@ export class CloudServicesUpdateDomainImpl
   private async *listUpdateDomainsPagingPage(
     resourceGroupName: string,
     cloudServiceName: string,
-    options?: CloudServicesUpdateDomainListUpdateDomainsOptionalParams,
-    settings?: PageSettings
+    options?: CloudServicesUpdateDomainListUpdateDomainsOptionalParams
   ): AsyncIterableIterator<UpdateDomain[]> {
-    let result: CloudServicesUpdateDomainListUpdateDomainsResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listUpdateDomains(
-        resourceGroupName,
-        cloudServiceName,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listUpdateDomains(
+      resourceGroupName,
+      cloudServiceName,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listUpdateDomainsNext(
         resourceGroupName,
@@ -104,9 +92,7 @@ export class CloudServicesUpdateDomainImpl
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -358,6 +344,7 @@ const listUpdateDomainsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

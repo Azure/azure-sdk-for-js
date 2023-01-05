@@ -10,7 +10,6 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
 
 /**
  * This sample demonstrates how to The operation that retrieves information about the capacity reservation.
@@ -19,8 +18,8 @@ require("dotenv").config();
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/capacityReservationExamples/CapacityReservation_Get.json
  */
 async function getACapacityReservation() {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscriptionId}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = "{subscriptionId}";
+  const resourceGroupName = "myResourceGroup";
   const capacityReservationGroupName = "myCapacityReservationGroup";
   const capacityReservationName = "myCapacityReservation";
   const expand = "instanceView";
@@ -36,8 +35,4 @@ async function getACapacityReservation() {
   console.log(result);
 }
 
-async function main() {
-  getACapacityReservation();
-}
-
-main().catch(console.error);
+getACapacityReservation().catch(console.error);

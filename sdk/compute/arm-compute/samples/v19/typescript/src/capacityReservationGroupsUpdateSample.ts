@@ -13,9 +13,6 @@ import {
   ComputeManagementClient
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
 
 /**
  * This sample demonstrates how to The operation to update a capacity reservation group. When updating a capacity reservation group, only tags may be modified.
@@ -24,10 +21,8 @@ dotenv.config();
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/capacityReservationExamples/CapacityReservationGroup_Update_MaximumSet_Gen.json
  */
 async function capacityReservationGroupsUpdateMaximumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "rgcompute";
   const capacityReservationGroupName = "aaaaaaaaaaaaaaaaaaaaaa";
   const parameters: CapacityReservationGroupUpdate = {
     instanceView: {},
@@ -43,6 +38,8 @@ async function capacityReservationGroupsUpdateMaximumSetGen() {
   console.log(result);
 }
 
+capacityReservationGroupsUpdateMaximumSetGen().catch(console.error);
+
 /**
  * This sample demonstrates how to The operation to update a capacity reservation group. When updating a capacity reservation group, only tags may be modified.
  *
@@ -50,10 +47,8 @@ async function capacityReservationGroupsUpdateMaximumSetGen() {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/capacityReservationExamples/CapacityReservationGroup_Update_MinimumSet_Gen.json
  */
 async function capacityReservationGroupsUpdateMinimumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "rgcompute";
   const capacityReservationGroupName = "aaaaaaaaaaaaaaaaaaaaaa";
   const parameters: CapacityReservationGroupUpdate = {};
   const credential = new DefaultAzureCredential();
@@ -66,9 +61,4 @@ async function capacityReservationGroupsUpdateMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
-  capacityReservationGroupsUpdateMaximumSetGen();
-  capacityReservationGroupsUpdateMinimumSetGen();
-}
-
-main().catch(console.error);
+capacityReservationGroupsUpdateMinimumSetGen().catch(console.error);

@@ -13,9 +13,6 @@ import {
   ComputeManagementClient
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
 
 /**
  * This sample demonstrates how to Gets a list of all virtual machine image versions for the specified location, edge zone, publisher, offer, and SKU.
@@ -24,8 +21,7 @@ dotenv.config();
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_List_MaximumSet_Gen.json
  */
 async function virtualMachineImagesEdgeZoneListMaximumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const subscriptionId = "{subscription-id}";
   const location = "aaaaaaaaaaaaaaa";
   const edgeZone = "aaaaaaaaaaaaaaaaaaaaaaaaa";
   const publisherName = "aaaa";
@@ -52,6 +48,8 @@ async function virtualMachineImagesEdgeZoneListMaximumSetGen() {
   console.log(result);
 }
 
+virtualMachineImagesEdgeZoneListMaximumSetGen().catch(console.error);
+
 /**
  * This sample demonstrates how to Gets a list of all virtual machine image versions for the specified location, edge zone, publisher, offer, and SKU.
  *
@@ -59,8 +57,7 @@ async function virtualMachineImagesEdgeZoneListMaximumSetGen() {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_List_MinimumSet_Gen.json
  */
 async function virtualMachineImagesEdgeZoneListMinimumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const subscriptionId = "{subscription-id}";
   const location = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const edgeZone = "aaaaa";
   const publisherName = "aaaaaaaaaaaaaaaaaaa";
@@ -78,9 +75,4 @@ async function virtualMachineImagesEdgeZoneListMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
-  virtualMachineImagesEdgeZoneListMaximumSetGen();
-  virtualMachineImagesEdgeZoneListMinimumSetGen();
-}
-
-main().catch(console.error);
+virtualMachineImagesEdgeZoneListMinimumSetGen().catch(console.error);

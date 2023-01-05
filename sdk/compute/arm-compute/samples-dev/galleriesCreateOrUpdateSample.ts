@@ -10,9 +10,6 @@
 // Licensed under the MIT License.
 import { Gallery, ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
 
 /**
  * This sample demonstrates how to Create or update a Shared Image Gallery.
@@ -21,10 +18,8 @@ dotenv.config();
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/CommunityGallery_Create.json
  */
 async function createACommunityGallery() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "myResourceGroup";
   const galleryName = "myGalleryName";
   const gallery: Gallery = {
     description: "This is the gallery description.",
@@ -49,6 +44,8 @@ async function createACommunityGallery() {
   console.log(result);
 }
 
+createACommunityGallery().catch(console.error);
+
 /**
  * This sample demonstrates how to Create or update a Shared Image Gallery.
  *
@@ -56,10 +53,8 @@ async function createACommunityGallery() {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/Gallery_Create_WithSharingProfile.json
  */
 async function createOrUpdateASimpleGalleryWithSharingProfile() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "myResourceGroup";
   const galleryName = "myGalleryName";
   const gallery: Gallery = {
     description: "This is the gallery description.",
@@ -76,6 +71,8 @@ async function createOrUpdateASimpleGalleryWithSharingProfile() {
   console.log(result);
 }
 
+createOrUpdateASimpleGalleryWithSharingProfile().catch(console.error);
+
 /**
  * This sample demonstrates how to Create or update a Shared Image Gallery.
  *
@@ -83,10 +80,8 @@ async function createOrUpdateASimpleGalleryWithSharingProfile() {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/Gallery_Create_SoftDeletionEnabled.json
  */
 async function createOrUpdateASimpleGalleryWithSoftDeletionEnabled() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "myResourceGroup";
   const galleryName = "myGalleryName";
   const gallery: Gallery = {
     description: "This is the gallery description.",
@@ -103,6 +98,8 @@ async function createOrUpdateASimpleGalleryWithSoftDeletionEnabled() {
   console.log(result);
 }
 
+createOrUpdateASimpleGalleryWithSoftDeletionEnabled().catch(console.error);
+
 /**
  * This sample demonstrates how to Create or update a Shared Image Gallery.
  *
@@ -110,10 +107,8 @@ async function createOrUpdateASimpleGalleryWithSoftDeletionEnabled() {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/Gallery_Create.json
  */
 async function createOrUpdateASimpleGallery() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "myResourceGroup";
   const galleryName = "myGalleryName";
   const gallery: Gallery = {
     description: "This is the gallery description.",
@@ -129,11 +124,4 @@ async function createOrUpdateASimpleGallery() {
   console.log(result);
 }
 
-async function main() {
-  createACommunityGallery();
-  createOrUpdateASimpleGalleryWithSharingProfile();
-  createOrUpdateASimpleGalleryWithSoftDeletionEnabled();
-  createOrUpdateASimpleGallery();
-}
-
-main().catch(console.error);
+createOrUpdateASimpleGallery().catch(console.error);

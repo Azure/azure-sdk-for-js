@@ -1,28 +1,15 @@
 # Release History
-    
-## 19.3.0 (2022-12-29)
-    
-**Features**
 
-  - Interface AvailabilitySetsListBySubscriptionNextOptionalParams no longer has parameter expand
-  - Interface CapacityReservationGroupsListByResourceGroupNextOptionalParams no longer has parameter expand
-  - Interface CapacityReservationGroupsListBySubscriptionNextOptionalParams no longer has parameter expand
-  - Interface CloudServiceRoleInstancesListNextOptionalParams no longer has parameter expand
-  - Interface ResourceSkusListNextOptionalParams no longer has parameter filter
-  - Interface ResourceSkusListNextOptionalParams no longer has parameter includeExtendedLocations
-  - Interface SharedGalleriesListNextOptionalParams no longer has parameter sharedTo
-  - Interface SharedGalleryImagesListNextOptionalParams no longer has parameter sharedTo
-  - Interface SharedGalleryImageVersionsListNextOptionalParams no longer has parameter sharedTo
-  - Interface VirtualMachineRunCommandsListByVirtualMachineNextOptionalParams no longer has parameter expand
-  - Interface VirtualMachineScaleSetVMRunCommandsListNextOptionalParams no longer has parameter expand
-  - Interface VirtualMachineScaleSetVMsListNextOptionalParams no longer has parameter expand
-  - Interface VirtualMachineScaleSetVMsListNextOptionalParams no longer has parameter filter
-  - Interface VirtualMachineScaleSetVMsListNextOptionalParams no longer has parameter select
-  - Interface VirtualMachinesListAllNextOptionalParams no longer has parameter filter
-  - Interface VirtualMachinesListAllNextOptionalParams no longer has parameter statusOnly
-  - Interface VirtualMachinesListNextOptionalParams no longer has parameter filter
-    
-    
+## 19.2.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 19.2.0 (2022-09-21)
     
 **Features**

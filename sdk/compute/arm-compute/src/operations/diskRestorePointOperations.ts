@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { DiskRestorePointOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -19,9 +18,9 @@ import {
   DiskRestorePoint,
   DiskRestorePointListByRestorePointNextOptionalParams,
   DiskRestorePointListByRestorePointOptionalParams,
-  DiskRestorePointListByRestorePointResponse,
   DiskRestorePointGetOptionalParams,
   DiskRestorePointGetResponse,
+  DiskRestorePointListByRestorePointResponse,
   GrantAccessData,
   DiskRestorePointGrantAccessOptionalParams,
   DiskRestorePointGrantAccessResponse,
@@ -70,16 +69,12 @@ export class DiskRestorePointOperationsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listByRestorePointPagingPage(
           resourceGroupName,
           restorePointCollectionName,
           vmRestorePointName,
-          options,
-          settings
+          options
         );
       }
     };
@@ -89,23 +84,16 @@ export class DiskRestorePointOperationsImpl
     resourceGroupName: string,
     restorePointCollectionName: string,
     vmRestorePointName: string,
-    options?: DiskRestorePointListByRestorePointOptionalParams,
-    settings?: PageSettings
+    options?: DiskRestorePointListByRestorePointOptionalParams
   ): AsyncIterableIterator<DiskRestorePoint[]> {
-    let result: DiskRestorePointListByRestorePointResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByRestorePoint(
-        resourceGroupName,
-        restorePointCollectionName,
-        vmRestorePointName,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listByRestorePoint(
+      resourceGroupName,
+      restorePointCollectionName,
+      vmRestorePointName,
+      options
+    );
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listByRestorePointNext(
         resourceGroupName,
@@ -115,9 +103,7 @@ export class DiskRestorePointOperationsImpl
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -552,6 +538,7 @@ const listByRestorePointNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

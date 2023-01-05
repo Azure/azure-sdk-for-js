@@ -10,7 +10,6 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
 
 /**
  * This sample demonstrates how to Update a VM scale set.
@@ -19,8 +18,8 @@ require("dotenv").config();
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_Update_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetsUpdateMaximumSetGen() {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaa";
   const parameters = {
     additionalCapabilities: { hibernationEnabled: true, ultraSSDEnabled: true },
@@ -262,6 +261,8 @@ async function virtualMachineScaleSetsUpdateMaximumSetGen() {
   console.log(result);
 }
 
+virtualMachineScaleSetsUpdateMaximumSetGen().catch(console.error);
+
 /**
  * This sample demonstrates how to Update a VM scale set.
  *
@@ -269,8 +270,8 @@ async function virtualMachineScaleSetsUpdateMaximumSetGen() {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_Update_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetsUpdateMinimumSetGen() {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaa";
   const parameters = {};
   const credential = new DefaultAzureCredential();
@@ -283,9 +284,4 @@ async function virtualMachineScaleSetsUpdateMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
-  virtualMachineScaleSetsUpdateMaximumSetGen();
-  virtualMachineScaleSetsUpdateMinimumSetGen();
-}
-
-main().catch(console.error);
+virtualMachineScaleSetsUpdateMinimumSetGen().catch(console.error);

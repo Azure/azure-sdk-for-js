@@ -13,9 +13,6 @@ import {
   ComputeManagementClient
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
 
 /**
  * This sample demonstrates how to Create or update a gallery image version.
@@ -24,10 +21,8 @@ dotenv.config();
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/GalleryImageVersion_Create_WithVmAsSource.json
  */
 async function createOrUpdateASimpleGalleryImageVersionUsingVMAsSource() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "myResourceGroup";
   const galleryName = "myGalleryName";
   const galleryImageName = "myGalleryImageName";
   const galleryImageVersionName = "1.0.0";
@@ -101,6 +96,8 @@ async function createOrUpdateASimpleGalleryImageVersionUsingVMAsSource() {
   console.log(result);
 }
 
+createOrUpdateASimpleGalleryImageVersionUsingVMAsSource().catch(console.error);
+
 /**
  * This sample demonstrates how to Create or update a gallery image version.
  *
@@ -108,10 +105,8 @@ async function createOrUpdateASimpleGalleryImageVersionUsingVMAsSource() {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/GalleryImageVersion_Create.json
  */
 async function createOrUpdateASimpleGalleryImageVersionUsingManagedImageAsSource() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "myResourceGroup";
   const galleryName = "myGalleryName";
   const galleryImageName = "myGalleryImageName";
   const galleryImageVersionName = "1.0.0";
@@ -185,6 +180,10 @@ async function createOrUpdateASimpleGalleryImageVersionUsingManagedImageAsSource
   console.log(result);
 }
 
+createOrUpdateASimpleGalleryImageVersionUsingManagedImageAsSource().catch(
+  console.error
+);
+
 /**
  * This sample demonstrates how to Create or update a gallery image version.
  *
@@ -192,10 +191,8 @@ async function createOrUpdateASimpleGalleryImageVersionUsingManagedImageAsSource
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/GalleryImageVersion_Create_WithSnapshotsAsSource.json
  */
 async function createOrUpdateASimpleGalleryImageVersionUsingMixOfDisksAndSnapshotsAsASource() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "myResourceGroup";
   const galleryName = "myGalleryName";
   const galleryImageName = "myGalleryImageName";
   const galleryImageVersionName = "1.0.0";
@@ -272,6 +269,10 @@ async function createOrUpdateASimpleGalleryImageVersionUsingMixOfDisksAndSnapsho
   console.log(result);
 }
 
+createOrUpdateASimpleGalleryImageVersionUsingMixOfDisksAndSnapshotsAsASource().catch(
+  console.error
+);
+
 /**
  * This sample demonstrates how to Create or update a gallery image version.
  *
@@ -279,10 +280,8 @@ async function createOrUpdateASimpleGalleryImageVersionUsingMixOfDisksAndSnapsho
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/GalleryImageVersion_Create_WithShallowReplicationMode.json
  */
 async function createOrUpdateASimpleGalleryImageVersionUsingShallowReplicationMode() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "myResourceGroup";
   const galleryName = "myGalleryName";
   const galleryImageName = "myGalleryImageName";
   const galleryImageVersionName = "1.0.0";
@@ -311,6 +310,10 @@ async function createOrUpdateASimpleGalleryImageVersionUsingShallowReplicationMo
   console.log(result);
 }
 
+createOrUpdateASimpleGalleryImageVersionUsingShallowReplicationMode().catch(
+  console.error
+);
+
 /**
  * This sample demonstrates how to Create or update a gallery image version.
  *
@@ -318,10 +321,8 @@ async function createOrUpdateASimpleGalleryImageVersionUsingShallowReplicationMo
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/GalleryImageVersion_Create_WithImageVersionAsSource.json
  */
 async function createOrUpdateASimpleGalleryImageVersionUsingSharedImageAsSource() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "myResourceGroup";
   const galleryName = "myGalleryName";
   const galleryImageName = "myGalleryImageName";
   const galleryImageVersionName = "1.0.0";
@@ -395,6 +396,10 @@ async function createOrUpdateASimpleGalleryImageVersionUsingSharedImageAsSource(
   console.log(result);
 }
 
+createOrUpdateASimpleGalleryImageVersionUsingSharedImageAsSource().catch(
+  console.error
+);
+
 /**
  * This sample demonstrates how to Create or update a gallery image version.
  *
@@ -402,10 +407,8 @@ async function createOrUpdateASimpleGalleryImageVersionUsingSharedImageAsSource(
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/GalleryImageVersion_Create_WithSnapshotsAsSource.json
  */
 async function createOrUpdateASimpleGalleryImageVersionUsingSnapshotsAsASource() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "myResourceGroup";
   const galleryName = "myGalleryName";
   const galleryImageName = "myGalleryImageName";
   const galleryImageVersionName = "1.0.0";
@@ -482,6 +485,10 @@ async function createOrUpdateASimpleGalleryImageVersionUsingSnapshotsAsASource()
   console.log(result);
 }
 
+createOrUpdateASimpleGalleryImageVersionUsingSnapshotsAsASource().catch(
+  console.error
+);
+
 /**
  * This sample demonstrates how to Create or update a gallery image version.
  *
@@ -489,10 +496,8 @@ async function createOrUpdateASimpleGalleryImageVersionUsingSnapshotsAsASource()
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/GalleryImageVersion_Create_WithVHD.json
  */
 async function createOrUpdateASimpleGalleryImageVersionUsingVhdAsASource() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "myResourceGroup";
   const galleryName = "myGalleryName";
   const galleryImageName = "myGalleryImageName";
   const galleryImageVersionName = "1.0.0";
@@ -560,6 +565,10 @@ async function createOrUpdateASimpleGalleryImageVersionUsingVhdAsASource() {
   console.log(result);
 }
 
+createOrUpdateASimpleGalleryImageVersionUsingVhdAsASource().catch(
+  console.error
+);
+
 /**
  * This sample demonstrates how to Create or update a gallery image version.
  *
@@ -567,10 +576,8 @@ async function createOrUpdateASimpleGalleryImageVersionUsingVhdAsASource() {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/GalleryImageVersion_Create_WithTargetExtendedLocations.json
  */
 async function createOrUpdateASimpleGalleryImageVersionWithTargetExtendedLocationsSpecified() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "myResourceGroup";
   const galleryName = "myGalleryName";
   const galleryImageName = "myGalleryImageName";
   const galleryImageVersionName = "1.0.0";
@@ -644,15 +651,6 @@ async function createOrUpdateASimpleGalleryImageVersionWithTargetExtendedLocatio
   console.log(result);
 }
 
-async function main() {
-  createOrUpdateASimpleGalleryImageVersionUsingVMAsSource();
-  createOrUpdateASimpleGalleryImageVersionUsingManagedImageAsSource();
-  createOrUpdateASimpleGalleryImageVersionUsingMixOfDisksAndSnapshotsAsASource();
-  createOrUpdateASimpleGalleryImageVersionUsingShallowReplicationMode();
-  createOrUpdateASimpleGalleryImageVersionUsingSharedImageAsSource();
-  createOrUpdateASimpleGalleryImageVersionUsingSnapshotsAsASource();
-  createOrUpdateASimpleGalleryImageVersionUsingVhdAsASource();
-  createOrUpdateASimpleGalleryImageVersionWithTargetExtendedLocationsSpecified();
-}
-
-main().catch(console.error);
+createOrUpdateASimpleGalleryImageVersionWithTargetExtendedLocationsSpecified().catch(
+  console.error
+);

@@ -10,9 +10,6 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
 
 /**
  * This sample demonstrates how to Gets a list of virtual machine image SKUs for the specified location, edge zone, publisher, and offer.
@@ -21,8 +18,7 @@ dotenv.config();
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_ListSkus_MaximumSet_Gen.json
  */
 async function virtualMachineImagesEdgeZoneListSkusMaximumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const subscriptionId = "{subscription-id}";
   const location = "aaaaaaaaaaaa";
   const edgeZone = "aaaaa";
   const publisherName = "aaaaaaaaaaaa";
@@ -38,6 +34,8 @@ async function virtualMachineImagesEdgeZoneListSkusMaximumSetGen() {
   console.log(result);
 }
 
+virtualMachineImagesEdgeZoneListSkusMaximumSetGen().catch(console.error);
+
 /**
  * This sample demonstrates how to Gets a list of virtual machine image SKUs for the specified location, edge zone, publisher, and offer.
  *
@@ -45,8 +43,7 @@ async function virtualMachineImagesEdgeZoneListSkusMaximumSetGen() {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_ListSkus_MinimumSet_Gen.json
  */
 async function virtualMachineImagesEdgeZoneListSkusMinimumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const subscriptionId = "{subscription-id}";
   const location = "aaaaaaaaaaaaaaaaaaaa";
   const edgeZone = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const publisherName = "aaaaaaaaa";
@@ -62,9 +59,4 @@ async function virtualMachineImagesEdgeZoneListSkusMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
-  virtualMachineImagesEdgeZoneListSkusMaximumSetGen();
-  virtualMachineImagesEdgeZoneListSkusMinimumSetGen();
-}
-
-main().catch(console.error);
+virtualMachineImagesEdgeZoneListSkusMinimumSetGen().catch(console.error);

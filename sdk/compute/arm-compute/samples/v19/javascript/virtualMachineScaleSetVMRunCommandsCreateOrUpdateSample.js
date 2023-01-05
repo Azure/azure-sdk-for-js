@@ -10,7 +10,6 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
 
 /**
  * This sample demonstrates how to The operation to create or update the VMSS VM run command.
@@ -19,8 +18,8 @@ require("dotenv").config();
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/runCommandExamples/VirtualMachineScaleSetVMRunCommand_CreateOrUpdate.json
  */
 async function createVirtualMachineScaleSetVMRunCommand() {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "myResourceGroup";
   const vmScaleSetName = "myvmScaleSet";
   const instanceId = "0";
   const runCommandName = "myRunCommand";
@@ -48,8 +47,4 @@ async function createVirtualMachineScaleSetVMRunCommand() {
   console.log(result);
 }
 
-async function main() {
-  createVirtualMachineScaleSetVMRunCommand();
-}
-
-main().catch(console.error);
+createVirtualMachineScaleSetVMRunCommand().catch(console.error);

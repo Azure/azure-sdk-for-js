@@ -10,9 +10,6 @@
 // Licensed under the MIT License.
 import { DedicatedHost, ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
 
 /**
  * This sample demonstrates how to Create or update a dedicated host .
@@ -21,10 +18,8 @@ dotenv.config();
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/dedicatedHostExamples/DedicatedHost_CreateOrUpdate.json
  */
 async function createOrUpdateADedicatedHost() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "myResourceGroup";
   const hostGroupName = "myDedicatedHostGroup";
   const hostName = "myDedicatedHost";
   const parameters: DedicatedHost = {
@@ -44,8 +39,4 @@ async function createOrUpdateADedicatedHost() {
   console.log(result);
 }
 
-async function main() {
-  createOrUpdateADedicatedHost();
-}
-
-main().catch(console.error);
+createOrUpdateADedicatedHost().catch(console.error);

@@ -10,7 +10,6 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
 
 /**
  * This sample demonstrates how to Deallocates a specific virtual machine in a VM scale set. Shuts down the virtual machine and releases the compute resources it uses. You are not billed for the compute resources of this virtual machine once it is deallocated.
@@ -19,8 +18,8 @@ require("dotenv").config();
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMs_Deallocate_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetVMSDeallocateMaximumSetGen() {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaaaaaa";
   const instanceId = "aaaaaaaaaaaaaaaaaaaaaa";
   const credential = new DefaultAzureCredential();
@@ -33,6 +32,8 @@ async function virtualMachineScaleSetVMSDeallocateMaximumSetGen() {
   console.log(result);
 }
 
+virtualMachineScaleSetVMSDeallocateMaximumSetGen().catch(console.error);
+
 /**
  * This sample demonstrates how to Deallocates a specific virtual machine in a VM scale set. Shuts down the virtual machine and releases the compute resources it uses. You are not billed for the compute resources of this virtual machine once it is deallocated.
  *
@@ -40,8 +41,8 @@ async function virtualMachineScaleSetVMSDeallocateMaximumSetGen() {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMs_Deallocate_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetVMSDeallocateMinimumSetGen() {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaaaaaa";
   const instanceId = "aaaaaa";
   const credential = new DefaultAzureCredential();
@@ -54,9 +55,4 @@ async function virtualMachineScaleSetVMSDeallocateMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
-  virtualMachineScaleSetVMSDeallocateMaximumSetGen();
-  virtualMachineScaleSetVMSDeallocateMinimumSetGen();
-}
-
-main().catch(console.error);
+virtualMachineScaleSetVMSDeallocateMinimumSetGen().catch(console.error);

@@ -14,9 +14,6 @@ import {
   ComputeManagementClient
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
 
 /**
  * This sample demonstrates how to Starts one or more virtual machines in a VM scale set.
@@ -25,10 +22,8 @@ dotenv.config();
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_Start_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetsStartMaximumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaaaaaa";
   const vmInstanceIDs: VirtualMachineScaleSetVMInstanceIDs = {
     instanceIds: ["aaaaaaaaaaaaaaaaa"]
@@ -44,6 +39,8 @@ async function virtualMachineScaleSetsStartMaximumSetGen() {
   console.log(result);
 }
 
+virtualMachineScaleSetsStartMaximumSetGen().catch(console.error);
+
 /**
  * This sample demonstrates how to Starts one or more virtual machines in a VM scale set.
  *
@@ -51,10 +48,8 @@ async function virtualMachineScaleSetsStartMaximumSetGen() {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_Start_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetsStartMinimumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaaa";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -65,9 +60,4 @@ async function virtualMachineScaleSetsStartMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
-  virtualMachineScaleSetsStartMaximumSetGen();
-  virtualMachineScaleSetsStartMinimumSetGen();
-}
-
-main().catch(console.error);
+virtualMachineScaleSetsStartMinimumSetGen().catch(console.error);

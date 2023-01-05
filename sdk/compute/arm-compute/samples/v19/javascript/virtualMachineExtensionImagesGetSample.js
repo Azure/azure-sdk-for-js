@@ -10,7 +10,6 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets a virtual machine extension image.
@@ -19,7 +18,7 @@ require("dotenv").config();
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExtensionImageExamples/VirtualMachineExtensionImages_Get_MaximumSet_Gen.json
  */
 async function virtualMachineExtensionImagesGetMaximumSetGen() {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const subscriptionId = "{subscription-id}";
   const location = "aaaaaaaaaaaaa";
   const publisherName = "aaaaaaaaaaaaaaaaaaaa";
   const typeParam = "aaaaaaaaaaaaaaaaaa";
@@ -35,6 +34,8 @@ async function virtualMachineExtensionImagesGetMaximumSetGen() {
   console.log(result);
 }
 
+virtualMachineExtensionImagesGetMaximumSetGen().catch(console.error);
+
 /**
  * This sample demonstrates how to Gets a virtual machine extension image.
  *
@@ -42,7 +43,7 @@ async function virtualMachineExtensionImagesGetMaximumSetGen() {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExtensionImageExamples/VirtualMachineExtensionImages_Get_MinimumSet_Gen.json
  */
 async function virtualMachineExtensionImagesGetMinimumSetGen() {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const subscriptionId = "{subscription-id}";
   const location = "aaaaaaaaaaaaaa";
   const publisherName = "aaaaaaaaaaaaaaaaaaaaaaaaaa";
   const typeParam = "aa";
@@ -58,9 +59,4 @@ async function virtualMachineExtensionImagesGetMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
-  virtualMachineExtensionImagesGetMaximumSetGen();
-  virtualMachineExtensionImagesGetMinimumSetGen();
-}
-
-main().catch(console.error);
+virtualMachineExtensionImagesGetMinimumSetGen().catch(console.error);

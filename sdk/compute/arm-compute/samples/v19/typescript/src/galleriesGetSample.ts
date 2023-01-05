@@ -13,9 +13,6 @@ import {
   ComputeManagementClient
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
 
 /**
  * This sample demonstrates how to Retrieves information about a Shared Image Gallery.
@@ -24,16 +21,16 @@ dotenv.config();
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/CommunityGallery_Get.json
  */
 async function getACommunityGallery() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "myResourceGroup";
   const galleryName = "myGalleryName";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.galleries.get(resourceGroupName, galleryName);
   console.log(result);
 }
+
+getACommunityGallery().catch(console.error);
 
 /**
  * This sample demonstrates how to Retrieves information about a Shared Image Gallery.
@@ -42,10 +39,8 @@ async function getACommunityGallery() {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/Gallery_Get_WithExpandSharingProfileGroups.json
  */
 async function getAGalleryWithExpandSharingProfileGroups() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "myResourceGroup";
   const galleryName = "myGalleryName";
   const expand = "SharingProfile/Groups";
   const options: GalleriesGetOptionalParams = { expand };
@@ -59,6 +54,8 @@ async function getAGalleryWithExpandSharingProfileGroups() {
   console.log(result);
 }
 
+getAGalleryWithExpandSharingProfileGroups().catch(console.error);
+
 /**
  * This sample demonstrates how to Retrieves information about a Shared Image Gallery.
  *
@@ -66,10 +63,8 @@ async function getAGalleryWithExpandSharingProfileGroups() {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/Gallery_Get_WithSelectPermissions.json
  */
 async function getAGalleryWithSelectPermissions() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "myResourceGroup";
   const galleryName = "myGalleryName";
   const select = "Permissions";
   const options: GalleriesGetOptionalParams = { select };
@@ -83,6 +78,8 @@ async function getAGalleryWithSelectPermissions() {
   console.log(result);
 }
 
+getAGalleryWithSelectPermissions().catch(console.error);
+
 /**
  * This sample demonstrates how to Retrieves information about a Shared Image Gallery.
  *
@@ -90,10 +87,8 @@ async function getAGalleryWithSelectPermissions() {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/Gallery_Get.json
  */
 async function getAGallery() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "myResourceGroup";
   const galleryName = "myGalleryName";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -101,11 +96,4 @@ async function getAGallery() {
   console.log(result);
 }
 
-async function main() {
-  getACommunityGallery();
-  getAGalleryWithExpandSharingProfileGroups();
-  getAGalleryWithSelectPermissions();
-  getAGallery();
-}
-
-main().catch(console.error);
+getAGallery().catch(console.error);

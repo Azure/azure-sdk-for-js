@@ -13,9 +13,6 @@ import {
   ComputeManagementClient
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
 
 /**
  * This sample demonstrates how to The operation to update the extension.
@@ -24,10 +21,8 @@ dotenv.config();
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachineExtensions_Update.json
  */
 async function updateVMExtension() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "myResourceGroup";
   const vmName = "myVM";
   const vmExtensionName = "myVMExtension";
   const extensionParameters: VirtualMachineExtensionUpdate = {
@@ -57,8 +52,4 @@ async function updateVMExtension() {
   console.log(result);
 }
 
-async function main() {
-  updateVMExtension();
-}
-
-main().catch(console.error);
+updateVMExtension().catch(console.error);

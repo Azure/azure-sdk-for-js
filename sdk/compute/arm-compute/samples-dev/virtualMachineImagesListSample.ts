@@ -13,9 +13,6 @@ import {
   ComputeManagementClient
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
 
 /**
  * This sample demonstrates how to Gets a list of all virtual machine image versions for the specified location, publisher, offer, and SKU.
@@ -24,8 +21,7 @@ dotenv.config();
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineImageExamples/VirtualMachineImages_List_MaximumSet_Gen.json
  */
 async function virtualMachineImagesListMaximumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const subscriptionId = "{subscription-id}";
   const location = "aaaaaaaaaaaaaaa";
   const publisherName = "aaaaaa";
   const offer = "aaaaaaaaaaaaaaaa";
@@ -50,6 +46,8 @@ async function virtualMachineImagesListMaximumSetGen() {
   console.log(result);
 }
 
+virtualMachineImagesListMaximumSetGen().catch(console.error);
+
 /**
  * This sample demonstrates how to Gets a list of all virtual machine image versions for the specified location, publisher, offer, and SKU.
  *
@@ -57,8 +55,7 @@ async function virtualMachineImagesListMaximumSetGen() {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineImageExamples/VirtualMachineImages_List_MinimumSet_Gen.json
  */
 async function virtualMachineImagesListMinimumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const subscriptionId = "{subscription-id}";
   const location = "aaaaaaa";
   const publisherName = "aaaaaaaaaaa";
   const offer = "aaaaaaaaaa";
@@ -74,9 +71,4 @@ async function virtualMachineImagesListMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
-  virtualMachineImagesListMaximumSetGen();
-  virtualMachineImagesListMinimumSetGen();
-}
-
-main().catch(console.error);
+virtualMachineImagesListMinimumSetGen().catch(console.error);

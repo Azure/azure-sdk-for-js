@@ -10,7 +10,6 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
 
 /**
  * This sample demonstrates how to Shuts down all the virtual machines in the virtual machine scale set, moves them to a new node, and powers them back on.
@@ -19,8 +18,8 @@ require("dotenv").config();
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_Redeploy_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetsRedeployMaximumSetGen() {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const vmInstanceIDs = {
     instanceIds: ["aaaaaaaaaaaaaaaaa"],
@@ -38,6 +37,8 @@ async function virtualMachineScaleSetsRedeployMaximumSetGen() {
   console.log(result);
 }
 
+virtualMachineScaleSetsRedeployMaximumSetGen().catch(console.error);
+
 /**
  * This sample demonstrates how to Shuts down all the virtual machines in the virtual machine scale set, moves them to a new node, and powers them back on.
  *
@@ -45,8 +46,8 @@ async function virtualMachineScaleSetsRedeployMaximumSetGen() {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_Redeploy_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetsRedeployMinimumSetGen() {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaaaa";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -57,9 +58,4 @@ async function virtualMachineScaleSetsRedeployMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
-  virtualMachineScaleSetsRedeployMaximumSetGen();
-  virtualMachineScaleSetsRedeployMinimumSetGen();
-}
-
-main().catch(console.error);
+virtualMachineScaleSetsRedeployMinimumSetGen().catch(console.error);

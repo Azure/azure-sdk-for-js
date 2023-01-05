@@ -10,7 +10,6 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
 
 /**
  * This sample demonstrates how to Reimages (upgrade the operating system) a specific virtual machine in a VM scale set.
@@ -19,8 +18,8 @@ require("dotenv").config();
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMs_Reimage_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetVMSReimageMaximumSetGen() {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaaaa";
   const instanceId = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const vmScaleSetVMReimageInput = {
@@ -40,6 +39,8 @@ async function virtualMachineScaleSetVMSReimageMaximumSetGen() {
   console.log(result);
 }
 
+virtualMachineScaleSetVMSReimageMaximumSetGen().catch(console.error);
+
 /**
  * This sample demonstrates how to Reimages (upgrade the operating system) a specific virtual machine in a VM scale set.
  *
@@ -47,8 +48,8 @@ async function virtualMachineScaleSetVMSReimageMaximumSetGen() {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMs_Reimage_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetVMSReimageMinimumSetGen() {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "rgcompute";
   const vmScaleSetName = "aaaaaaa";
   const instanceId = "aaaaaaaaaaaaa";
   const credential = new DefaultAzureCredential();
@@ -61,9 +62,4 @@ async function virtualMachineScaleSetVMSReimageMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
-  virtualMachineScaleSetVMSReimageMaximumSetGen();
-  virtualMachineScaleSetVMSReimageMinimumSetGen();
-}
-
-main().catch(console.error);
+virtualMachineScaleSetVMSReimageMinimumSetGen().catch(console.error);

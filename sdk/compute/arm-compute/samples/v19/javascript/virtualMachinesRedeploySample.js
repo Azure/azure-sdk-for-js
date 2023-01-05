@@ -10,7 +10,6 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
 
 /**
  * This sample demonstrates how to Shuts down the virtual machine, moves it to a new node, and powers it back on.
@@ -19,14 +18,16 @@ require("dotenv").config();
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachines_Redeploy_MaximumSet_Gen.json
  */
 async function virtualMachinesRedeployMaximumSetGen() {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "rgcompute";
   const vmName = "a";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachines.beginRedeployAndWait(resourceGroupName, vmName);
   console.log(result);
 }
+
+virtualMachinesRedeployMaximumSetGen().catch(console.error);
 
 /**
  * This sample demonstrates how to Shuts down the virtual machine, moves it to a new node, and powers it back on.
@@ -35,8 +36,8 @@ async function virtualMachinesRedeployMaximumSetGen() {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachines_Redeploy_MinimumSet_Gen.json
  */
 async function virtualMachinesRedeployMinimumSetGen() {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "rgcompute";
   const vmName = "aaaaaaaaaaaaaaa";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -44,9 +45,4 @@ async function virtualMachinesRedeployMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
-  virtualMachinesRedeployMaximumSetGen();
-  virtualMachinesRedeployMinimumSetGen();
-}
-
-main().catch(console.error);
+virtualMachinesRedeployMinimumSetGen().catch(console.error);

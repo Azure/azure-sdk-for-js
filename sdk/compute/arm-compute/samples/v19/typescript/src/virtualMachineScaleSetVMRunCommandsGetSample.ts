@@ -10,9 +10,6 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
 
 /**
  * This sample demonstrates how to The operation to get the VMSS VM run command.
@@ -21,10 +18,8 @@ dotenv.config();
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/runCommandExamples/VirtualMachineScaleSetVMRunCommand_Get.json
  */
 async function getVirtualMachineScaleSetVMRunCommands() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "myResourceGroup";
   const vmScaleSetName = "myvmScaleSet";
   const instanceId = "0";
   const runCommandName = "myRunCommand";
@@ -39,8 +34,4 @@ async function getVirtualMachineScaleSetVMRunCommands() {
   console.log(result);
 }
 
-async function main() {
-  getVirtualMachineScaleSetVMRunCommands();
-}
-
-main().catch(console.error);
+getVirtualMachineScaleSetVMRunCommands().catch(console.error);

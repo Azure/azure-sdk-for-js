@@ -10,7 +10,6 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
 
 /**
  * This sample demonstrates how to Create or update a dedicated host group. For details of Dedicated Host and Dedicated Host Groups please see [Dedicated Host Documentation] (https://go.microsoft.com/fwlink/?linkid=2082596)
@@ -19,8 +18,8 @@ require("dotenv").config();
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/dedicatedHostExamples/DedicatedHostGroup_CreateOrUpdate_WithUltraSSD.json
  */
 async function createOrUpdateADedicatedHostGroupWithUltraSsdSupport() {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "myResourceGroup";
   const hostGroupName = "myDedicatedHostGroup";
   const parameters = {
     additionalCapabilities: { ultraSSDEnabled: true },
@@ -40,6 +39,8 @@ async function createOrUpdateADedicatedHostGroupWithUltraSsdSupport() {
   console.log(result);
 }
 
+createOrUpdateADedicatedHostGroupWithUltraSsdSupport().catch(console.error);
+
 /**
  * This sample demonstrates how to Create or update a dedicated host group. For details of Dedicated Host and Dedicated Host Groups please see [Dedicated Host Documentation] (https://go.microsoft.com/fwlink/?linkid=2082596)
  *
@@ -47,8 +48,8 @@ async function createOrUpdateADedicatedHostGroupWithUltraSsdSupport() {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/dedicatedHostExamples/DedicatedHostGroup_CreateOrUpdate.json
  */
 async function createOrUpdateADedicatedHostGroup() {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "myResourceGroup";
   const hostGroupName = "myDedicatedHostGroup";
   const parameters = {
     location: "westus",
@@ -67,9 +68,4 @@ async function createOrUpdateADedicatedHostGroup() {
   console.log(result);
 }
 
-async function main() {
-  createOrUpdateADedicatedHostGroupWithUltraSsdSupport();
-  createOrUpdateADedicatedHostGroup();
-}
-
-main().catch(console.error);
+createOrUpdateADedicatedHostGroup().catch(console.error);

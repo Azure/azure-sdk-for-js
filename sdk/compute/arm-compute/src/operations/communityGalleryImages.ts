@@ -6,8 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { CommunityGalleryImages } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,9 +16,9 @@ import {
   CommunityGalleryImage,
   CommunityGalleryImagesListNextOptionalParams,
   CommunityGalleryImagesListOptionalParams,
-  CommunityGalleryImagesListResponse,
   CommunityGalleryImagesGetOptionalParams,
   CommunityGalleryImagesGetResponse,
+  CommunityGalleryImagesListResponse,
   CommunityGalleryImagesListNextResponse
 } from "../models";
 
@@ -55,16 +54,8 @@ export class CommunityGalleryImagesImpl implements CommunityGalleryImages {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPagingPage(
-          location,
-          publicGalleryName,
-          options,
-          settings
-        );
+      byPage: () => {
+        return this.listPagingPage(location, publicGalleryName, options);
       }
     };
   }
@@ -72,18 +63,11 @@ export class CommunityGalleryImagesImpl implements CommunityGalleryImages {
   private async *listPagingPage(
     location: string,
     publicGalleryName: string,
-    options?: CommunityGalleryImagesListOptionalParams,
-    settings?: PageSettings
+    options?: CommunityGalleryImagesListOptionalParams
   ): AsyncIterableIterator<CommunityGalleryImage[]> {
-    let result: CommunityGalleryImagesListResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._list(location, publicGalleryName, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._list(location, publicGalleryName, options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listNext(
         location,
@@ -92,9 +76,7 @@ export class CommunityGalleryImagesImpl implements CommunityGalleryImages {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.value || [];
     }
   }
 
@@ -226,6 +208,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

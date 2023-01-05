@@ -10,7 +10,6 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
 
 /**
  * This sample demonstrates how to Deletes role instances in a cloud service.
@@ -19,8 +18,8 @@ require("dotenv").config();
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2022-04-04/examples/CloudServiceRoleInstance_Delete_ByCloudService.json
  */
 async function deleteCloudServiceRoleInstancesInACloudService() {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "ConstosoRG";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "ConstosoRG";
   const cloudServiceName = "{cs-name}";
   const parameters = {
     roleInstances: ["ContosoFrontend_IN_0", "ContosoBackend_IN_1"],
@@ -36,8 +35,4 @@ async function deleteCloudServiceRoleInstancesInACloudService() {
   console.log(result);
 }
 
-async function main() {
-  deleteCloudServiceRoleInstancesInACloudService();
-}
-
-main().catch(console.error);
+deleteCloudServiceRoleInstancesInACloudService().catch(console.error);

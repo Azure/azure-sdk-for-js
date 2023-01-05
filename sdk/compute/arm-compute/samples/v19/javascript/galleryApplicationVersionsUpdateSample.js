@@ -10,7 +10,6 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
 
 /**
  * This sample demonstrates how to Update a gallery Application Version.
@@ -19,8 +18,8 @@ require("dotenv").config();
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/GalleryApplicationVersion_Update.json
  */
 async function updateASimpleGalleryApplicationVersion() {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "myResourceGroup";
   const galleryName = "myGalleryName";
   const galleryApplicationName = "myGalleryApplicationName";
   const galleryApplicationVersionName = "1.0.0";
@@ -29,8 +28,8 @@ async function updateASimpleGalleryApplicationVersion() {
       endOfLifeDate: new Date("2019-07-01T07:00:00Z"),
       manageActions: {
         install:
-          'powershell -command "Expand-Archive -Path package.zip -DestinationPath C:\\package"',
-        remove: "del C:\\package ",
+          'powershell -command "Expand-Archive -Path package.zip -DestinationPath C:package"',
+        remove: "del C:package ",
       },
       replicaCount: 1,
       source: {
@@ -59,8 +58,4 @@ async function updateASimpleGalleryApplicationVersion() {
   console.log(result);
 }
 
-async function main() {
-  updateASimpleGalleryApplicationVersion();
-}
-
-main().catch(console.error);
+updateASimpleGalleryApplicationVersion().catch(console.error);

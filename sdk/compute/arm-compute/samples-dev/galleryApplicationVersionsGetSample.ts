@@ -13,9 +13,6 @@ import {
   ComputeManagementClient
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
 
 /**
  * This sample demonstrates how to Retrieves information about a gallery Application Version.
@@ -24,10 +21,8 @@ dotenv.config();
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/GalleryApplicationVersion_Get_WithReplicationStatus.json
  */
 async function getAGalleryApplicationVersionWithReplicationStatus() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "myResourceGroup";
   const galleryName = "myGalleryName";
   const galleryApplicationName = "myGalleryApplicationName";
   const galleryApplicationVersionName = "1.0.0";
@@ -45,6 +40,8 @@ async function getAGalleryApplicationVersionWithReplicationStatus() {
   console.log(result);
 }
 
+getAGalleryApplicationVersionWithReplicationStatus().catch(console.error);
+
 /**
  * This sample demonstrates how to Retrieves information about a gallery Application Version.
  *
@@ -52,10 +49,8 @@ async function getAGalleryApplicationVersionWithReplicationStatus() {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/GalleryApplicationVersion_Get.json
  */
 async function getAGalleryApplicationVersion() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "myResourceGroup";
   const galleryName = "myGalleryName";
   const galleryApplicationName = "myGalleryApplicationName";
   const galleryApplicationVersionName = "1.0.0";
@@ -70,9 +65,4 @@ async function getAGalleryApplicationVersion() {
   console.log(result);
 }
 
-async function main() {
-  getAGalleryApplicationVersionWithReplicationStatus();
-  getAGalleryApplicationVersion();
-}
-
-main().catch(console.error);
+getAGalleryApplicationVersion().catch(console.error);

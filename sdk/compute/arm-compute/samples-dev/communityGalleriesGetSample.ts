@@ -10,9 +10,6 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
 
 /**
  * This sample demonstrates how to Get a community gallery by gallery public name.
@@ -21,8 +18,7 @@ dotenv.config();
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/communityGalleryExamples/CommunityGallery_Get.json
  */
 async function getACommunityGallery() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const subscriptionId = "{subscription-id}";
   const location = "myLocation";
   const publicGalleryName = "publicGalleryName";
   const credential = new DefaultAzureCredential();
@@ -34,8 +30,4 @@ async function getACommunityGallery() {
   console.log(result);
 }
 
-async function main() {
-  getACommunityGallery();
-}
-
-main().catch(console.error);
+getACommunityGallery().catch(console.error);

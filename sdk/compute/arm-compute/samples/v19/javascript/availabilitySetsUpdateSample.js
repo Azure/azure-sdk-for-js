@@ -10,7 +10,6 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
 
 /**
  * This sample demonstrates how to Update an availability set.
@@ -19,8 +18,8 @@ require("dotenv").config();
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/availabilitySetExamples/AvailabilitySets_Update_MaximumSet_Gen.json
  */
 async function availabilitySetsUpdateMaximumSetGen() {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "rgcompute";
   const availabilitySetName = "aaaaaaaaaaaaaaaaaaa";
   const parameters = {
     platformFaultDomainCount: 2,
@@ -46,6 +45,8 @@ async function availabilitySetsUpdateMaximumSetGen() {
   console.log(result);
 }
 
+availabilitySetsUpdateMaximumSetGen().catch(console.error);
+
 /**
  * This sample demonstrates how to Update an availability set.
  *
@@ -53,8 +54,8 @@ async function availabilitySetsUpdateMaximumSetGen() {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/availabilitySetExamples/AvailabilitySets_Update_MinimumSet_Gen.json
  */
 async function availabilitySetsUpdateMinimumSetGen() {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "rgcompute";
   const availabilitySetName = "aaaaaaaaaaaaaaaaaaaa";
   const parameters = {};
   const credential = new DefaultAzureCredential();
@@ -67,9 +68,4 @@ async function availabilitySetsUpdateMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
-  availabilitySetsUpdateMaximumSetGen();
-  availabilitySetsUpdateMinimumSetGen();
-}
-
-main().catch(console.error);
+availabilitySetsUpdateMinimumSetGen().catch(console.error);

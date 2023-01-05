@@ -10,7 +10,6 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets the list of Microsoft.Compute SKUs available for your Subscription.
@@ -19,7 +18,7 @@ require("dotenv").config();
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/Skus/stable/2021-07-01/examples/skus/ListAvailableResourceSkus.json
  */
 async function listsAllAvailableResourceSkUs() {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const subscriptionId = "{subscription-id}";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
@@ -29,6 +28,8 @@ async function listsAllAvailableResourceSkUs() {
   console.log(resArray);
 }
 
+listsAllAvailableResourceSkUs().catch(console.error);
+
 /**
  * This sample demonstrates how to Gets the list of Microsoft.Compute SKUs available for your Subscription.
  *
@@ -36,7 +37,7 @@ async function listsAllAvailableResourceSkUs() {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/Skus/stable/2021-07-01/examples/skus/ListAvailableResourceSkusForARegion.json
  */
 async function listsAllAvailableResourceSkUsForTheSpecifiedRegion() {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const subscriptionId = "{subscription-id}";
   const filter = "location eq 'westus'";
   const options = { filter };
   const credential = new DefaultAzureCredential();
@@ -48,6 +49,8 @@ async function listsAllAvailableResourceSkUsForTheSpecifiedRegion() {
   console.log(resArray);
 }
 
+listsAllAvailableResourceSkUsForTheSpecifiedRegion().catch(console.error);
+
 /**
  * This sample demonstrates how to Gets the list of Microsoft.Compute SKUs available for your Subscription.
  *
@@ -55,7 +58,7 @@ async function listsAllAvailableResourceSkUsForTheSpecifiedRegion() {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/Skus/stable/2021-07-01/examples/skus/ListAvailableResourceSkusWithExtendedLocations.json
  */
 async function listsAllAvailableResourceSkUsWithExtendedLocationInformation() {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const subscriptionId = "{subscription-id}";
   const includeExtendedLocations = "true";
   const options = { includeExtendedLocations };
   const credential = new DefaultAzureCredential();
@@ -67,10 +70,4 @@ async function listsAllAvailableResourceSkUsWithExtendedLocationInformation() {
   console.log(resArray);
 }
 
-async function main() {
-  listsAllAvailableResourceSkUs();
-  listsAllAvailableResourceSkUsForTheSpecifiedRegion();
-  listsAllAvailableResourceSkUsWithExtendedLocationInformation();
-}
-
-main().catch(console.error);
+listsAllAvailableResourceSkUsWithExtendedLocationInformation().catch(console.error);

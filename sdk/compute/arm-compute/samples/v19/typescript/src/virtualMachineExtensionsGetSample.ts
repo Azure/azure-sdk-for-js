@@ -13,9 +13,6 @@ import {
   ComputeManagementClient
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
 
 /**
  * This sample demonstrates how to The operation to get the extension.
@@ -24,10 +21,8 @@ dotenv.config();
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachineExtensions_Get_MaximumSet_Gen.json
  */
 async function virtualMachineExtensionsGetMaximumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "rgcompute";
   const vmName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const vmExtensionName = "aaaaaaa";
   const expand = "aaaaaa";
@@ -43,6 +38,8 @@ async function virtualMachineExtensionsGetMaximumSetGen() {
   console.log(result);
 }
 
+virtualMachineExtensionsGetMaximumSetGen().catch(console.error);
+
 /**
  * This sample demonstrates how to The operation to get the extension.
  *
@@ -50,10 +47,8 @@ async function virtualMachineExtensionsGetMaximumSetGen() {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachineExtensions_Get_MinimumSet_Gen.json
  */
 async function virtualMachineExtensionsGetMinimumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "rgcompute";
   const vmName = "a";
   const vmExtensionName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const credential = new DefaultAzureCredential();
@@ -66,9 +61,4 @@ async function virtualMachineExtensionsGetMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
-  virtualMachineExtensionsGetMaximumSetGen();
-  virtualMachineExtensionsGetMinimumSetGen();
-}
-
-main().catch(console.error);
+virtualMachineExtensionsGetMinimumSetGen().catch(console.error);

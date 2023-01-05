@@ -10,7 +10,6 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
 
 /**
  * This sample demonstrates how to Grants access to a disk.
@@ -19,8 +18,8 @@ require("dotenv").config();
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskExamples/Disk_BeginGetAccess.json
  */
 async function getASasOnAManagedDisk() {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "myResourceGroup";
   const diskName = "myDisk";
   const grantAccessData = {
     access: "Read",
@@ -36,6 +35,8 @@ async function getASasOnAManagedDisk() {
   console.log(result);
 }
 
+getASasOnAManagedDisk().catch(console.error);
+
 /**
  * This sample demonstrates how to Grants access to a disk.
  *
@@ -43,8 +44,8 @@ async function getASasOnAManagedDisk() {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskExamples/Disk_BeginGetAccess_WithVMGuestState.json
  */
 async function getSasOnManagedDiskAndVMGuestState() {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "myResourceGroup";
   const diskName = "myDisk";
   const grantAccessData = {
     access: "Read",
@@ -61,9 +62,4 @@ async function getSasOnManagedDiskAndVMGuestState() {
   console.log(result);
 }
 
-async function main() {
-  getASasOnAManagedDisk();
-  getSasOnManagedDiskAndVMGuestState();
-}
-
-main().catch(console.error);
+getSasOnManagedDiskAndVMGuestState().catch(console.error);

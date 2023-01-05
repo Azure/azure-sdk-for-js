@@ -10,9 +10,6 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
 
 /**
  * This sample demonstrates how to Get disk restorePoint resource
@@ -21,10 +18,8 @@ dotenv.config();
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskRestorePointExamples/DiskRestorePoint_Get.json
  */
 async function getAnIncrementalDiskRestorePointResource() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "myResourceGroup";
   const restorePointCollectionName = "rpc";
   const vmRestorePointName = "vmrp";
   const diskRestorePointName =
@@ -39,6 +34,8 @@ async function getAnIncrementalDiskRestorePointResource() {
   );
   console.log(result);
 }
+
+getAnIncrementalDiskRestorePointResource().catch(console.error);
 
 /**
  * This sample demonstrates how to Get disk restorePoint resource
@@ -47,10 +44,8 @@ async function getAnIncrementalDiskRestorePointResource() {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskRestorePointExamples/DiskRestorePoint_Get_WhenSourceResourceIsFromDifferentRegion.json
  */
 async function getAnIncrementalDiskRestorePointWhenSourceResourceIsFromADifferentRegion() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "myResourceGroup";
   const restorePointCollectionName = "rpc";
   const vmRestorePointName = "vmrp";
   const diskRestorePointName =
@@ -66,9 +61,6 @@ async function getAnIncrementalDiskRestorePointWhenSourceResourceIsFromADifferen
   console.log(result);
 }
 
-async function main() {
-  getAnIncrementalDiskRestorePointResource();
-  getAnIncrementalDiskRestorePointWhenSourceResourceIsFromADifferentRegion();
-}
-
-main().catch(console.error);
+getAnIncrementalDiskRestorePointWhenSourceResourceIsFromADifferentRegion().catch(
+  console.error
+);

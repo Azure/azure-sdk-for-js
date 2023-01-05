@@ -10,9 +10,6 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
 
 /**
  * This sample demonstrates how to Lists all availability sets in a resource group.
@@ -21,10 +18,8 @@ dotenv.config();
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/availabilitySetExamples/AvailabilitySets_List_MaximumSet_Gen.json
  */
 async function availabilitySetsListMaximumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "rgcompute";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
@@ -33,6 +28,8 @@ async function availabilitySetsListMaximumSetGen() {
   }
   console.log(resArray);
 }
+
+availabilitySetsListMaximumSetGen().catch(console.error);
 
 /**
  * This sample demonstrates how to Lists all availability sets in a resource group.
@@ -41,10 +38,8 @@ async function availabilitySetsListMaximumSetGen() {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/availabilitySetExamples/AvailabilitySets_List_MinimumSet_Gen.json
  */
 async function availabilitySetsListMinimumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "rgcompute";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
@@ -54,9 +49,4 @@ async function availabilitySetsListMinimumSetGen() {
   console.log(resArray);
 }
 
-async function main() {
-  availabilitySetsListMaximumSetGen();
-  availabilitySetsListMinimumSetGen();
-}
-
-main().catch(console.error);
+availabilitySetsListMinimumSetGen().catch(console.error);

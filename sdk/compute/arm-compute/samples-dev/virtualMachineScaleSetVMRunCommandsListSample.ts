@@ -10,9 +10,6 @@
 // Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
 
 /**
  * This sample demonstrates how to The operation to get all run commands of an instance in Virtual Machine Scaleset.
@@ -21,10 +18,8 @@ dotenv.config();
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/runCommandExamples/VirtualMachineScaleSetVMRunCommand_List.json
  */
 async function listRunCommandsInVmssInstance() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "myResourceGroup";
   const vmScaleSetName = "myvmScaleSet";
   const instanceId = "0";
   const credential = new DefaultAzureCredential();
@@ -40,8 +35,4 @@ async function listRunCommandsInVmssInstance() {
   console.log(resArray);
 }
 
-async function main() {
-  listRunCommandsInVmssInstance();
-}
-
-main().catch(console.error);
+listRunCommandsInVmssInstance().catch(console.error);

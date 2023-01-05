@@ -13,9 +13,6 @@ import {
   ComputeManagementClient
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
 
 /**
  * This sample demonstrates how to Changes ServiceState property for a given service
@@ -24,10 +21,8 @@ dotenv.config();
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_SetOrchestrationServiceState_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetsSetOrchestrationServiceStateMaximumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaaaa";
   const parameters: OrchestrationServiceStateInput = {
     action: "Resume",
@@ -43,6 +38,10 @@ async function virtualMachineScaleSetsSetOrchestrationServiceStateMaximumSetGen(
   console.log(result);
 }
 
+virtualMachineScaleSetsSetOrchestrationServiceStateMaximumSetGen().catch(
+  console.error
+);
+
 /**
  * This sample demonstrates how to Changes ServiceState property for a given service
  *
@@ -50,10 +49,8 @@ async function virtualMachineScaleSetsSetOrchestrationServiceStateMaximumSetGen(
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_SetOrchestrationServiceState_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetsSetOrchestrationServiceStateMinimumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaaaaaa";
   const parameters: OrchestrationServiceStateInput = {
     action: "Resume",
@@ -69,9 +66,6 @@ async function virtualMachineScaleSetsSetOrchestrationServiceStateMinimumSetGen(
   console.log(result);
 }
 
-async function main() {
-  virtualMachineScaleSetsSetOrchestrationServiceStateMaximumSetGen();
-  virtualMachineScaleSetsSetOrchestrationServiceStateMinimumSetGen();
-}
-
-main().catch(console.error);
+virtualMachineScaleSetsSetOrchestrationServiceStateMinimumSetGen().catch(
+  console.error
+);

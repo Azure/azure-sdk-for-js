@@ -10,7 +10,6 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
 
 /**
  * This sample demonstrates how to Retrieves information about a gallery image version.
@@ -19,8 +18,8 @@ require("dotenv").config();
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/GalleryImageVersion_Get_WithReplicationStatus.json
  */
 async function getAGalleryImageVersionWithReplicationStatus() {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "myResourceGroup";
   const galleryName = "myGalleryName";
   const galleryImageName = "myGalleryImageName";
   const galleryImageVersionName = "1.0.0";
@@ -38,6 +37,8 @@ async function getAGalleryImageVersionWithReplicationStatus() {
   console.log(result);
 }
 
+getAGalleryImageVersionWithReplicationStatus().catch(console.error);
+
 /**
  * This sample demonstrates how to Retrieves information about a gallery image version.
  *
@@ -45,8 +46,8 @@ async function getAGalleryImageVersionWithReplicationStatus() {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/GalleryImageVersion_Get_WithSnapshotsAsSource.json
  */
 async function getAGalleryImageVersionWithSnapshotsAsASource() {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "myResourceGroup";
   const galleryName = "myGalleryName";
   const galleryImageName = "myGalleryImageName";
   const galleryImageVersionName = "1.0.0";
@@ -60,6 +61,8 @@ async function getAGalleryImageVersionWithSnapshotsAsASource() {
   );
   console.log(result);
 }
+
+getAGalleryImageVersionWithSnapshotsAsASource().catch(console.error);
 
 /**
  * This sample demonstrates how to Retrieves information about a gallery image version.
@@ -68,8 +71,8 @@ async function getAGalleryImageVersionWithSnapshotsAsASource() {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/GalleryImageVersion_Get_WithVhdAsSource.json
  */
 async function getAGalleryImageVersionWithVhdAsASource() {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "myResourceGroup";
   const galleryName = "myGalleryName";
   const galleryImageName = "myGalleryImageName";
   const galleryImageVersionName = "1.0.0";
@@ -83,6 +86,8 @@ async function getAGalleryImageVersionWithVhdAsASource() {
   );
   console.log(result);
 }
+
+getAGalleryImageVersionWithVhdAsASource().catch(console.error);
 
 /**
  * This sample demonstrates how to Retrieves information about a gallery image version.
@@ -91,8 +96,8 @@ async function getAGalleryImageVersionWithVhdAsASource() {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/GalleryImageVersion_Get.json
  */
 async function getAGalleryImageVersion() {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "myResourceGroup";
   const galleryName = "myGalleryName";
   const galleryImageName = "myGalleryImageName";
   const galleryImageVersionName = "1.0.0";
@@ -107,11 +112,4 @@ async function getAGalleryImageVersion() {
   console.log(result);
 }
 
-async function main() {
-  getAGalleryImageVersionWithReplicationStatus();
-  getAGalleryImageVersionWithSnapshotsAsASource();
-  getAGalleryImageVersionWithVhdAsASource();
-  getAGalleryImageVersion();
-}
-
-main().catch(console.error);
+getAGalleryImageVersion().catch(console.error);
