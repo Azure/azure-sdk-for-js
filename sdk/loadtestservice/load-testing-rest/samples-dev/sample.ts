@@ -12,7 +12,7 @@ import AzureLoadTesting, { isUnexpected } from "@azure-rest/load-testing";
 import { DefaultAzureCredential } from "@azure/identity";
 import { createReadStream } from "fs";
 import { v4 as uuidv4 } from "uuid";
-import { beginTestRun } from "../src/beginCreateOrUpdateTestRun";
+import { beginCreateOrUpdateTestRun } from "../src/beginCreateOrUpdateTestRun";
 import { beginUploadAndFileValidation } from "../src/beginUploadTestFile";
 
 const readStream = createReadStream("./sample.jmx");
@@ -76,30 +76,12 @@ async function main() {
     throw appComponentCreationResult.body.error;
   }
 
-  // Creating the test run
-  const testRunCreationResult = await client.path("/test-runs/{testRunId}", testRunId).patch({
-    contentType: "application/merge-patch+json",
-    body: {
-      testId: testCreationResult.body.testId,
-      displayName: displayName,
-      virtualUsers: 10,
-    },
-  });
-
-  if (isUnexpected(testRunCreationResult)) {
-    throw testRunCreationResult.body.error;
-  }
-
-  if (testRunCreationResult.body.testRunId === undefined)
-    throw new Error("Test Run ID returned as undefined.");
-
   // Checking the test run status and printing metrics
-  var testRunResult = await (await beginTestRun(client, testId, displayName)).pollUntilDone();
+  var testRunResult = await (await beginCreateOrUpdateTestRun(client, testId, displayName)).pollUntilDone();
 
   if (isUnexpected(testRunResult)) throw new Error("There is some issue in running the test.");
 
-
-  var getTestRunResult = await client.path("/test-runs/{testRunId}", testRunCreationResult.body.testRunId).get();
+  var getTestRunResult = await client.path("/test-runs/{testRunId}", testRunResult.body.testRunId).get();
 
   if (isUnexpected(getTestRunResult)) throw new Error("There is some issue in getting the test run.");
 
