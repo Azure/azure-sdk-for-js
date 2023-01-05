@@ -82,7 +82,6 @@
     "rhea": "^2.0.3",
     "rhea-promise": "^2.1.0",
     "tslib": "^2.2.0",
-    "url": "^0.11.0",
     "util": "^0.12.1"
   },
   "devDependencies": {
