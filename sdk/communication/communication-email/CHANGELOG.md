@@ -12,6 +12,8 @@
 ### Breaking Changes
 
 - The EmailRecipients "cC" and "bCC" properties have been changed to "cc" and "bcc"
+- The "sender" property in EmailMessage has been updated to "senderEmail"
+- The "attachmentType" property in EmailAttachment has been updated to "type"
 
 ## 1.0.0-beta.1 (2022-05-24)
 

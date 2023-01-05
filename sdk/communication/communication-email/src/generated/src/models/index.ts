@@ -48,29 +48,19 @@ export interface CommunicationError {
 /** Message payload for sending an email */
 export interface EmailMessage {
   /** Custom email headers to be passed. */
-  customHeaders?: EmailCustomHeader[];
+  headers?: { [propertyName: string]: string };
   /** Sender email address from a verified domain. */
-  sender: string;
+  senderEmail: string;
   /** Email content to be sent. */
   content: EmailContent;
-  /** The importance type for the email. */
-  importance?: EmailImportance;
   /** Recipients for the email. */
   recipients: EmailRecipients;
-  /** list of attachments */
+  /** List of attachments. Please note that we limit the total size of an email request (which includes attachments) to 10MB. */
   attachments?: EmailAttachment[];
   /** Email addresses where recipients' replies will be sent to. */
   replyTo?: EmailAddress[];
   /** Indicates whether user engagement tracking should be disabled for this request if the resource-level user engagement tracking setting was already enabled in the control plane. */
   disableUserEngagementTracking?: boolean;
-}
-
-/** Custom header for email. */
-export interface EmailCustomHeader {
-  /** Header name. */
-  name: string;
-  /** Header value. */
-  value: string;
 }
 
 /** Content of the email. */
@@ -105,8 +95,8 @@ export interface EmailAddress {
 export interface EmailAttachment {
   /** Name of the attachment */
   name: string;
-  /** The type of attachment file. */
-  attachmentType: EmailAttachmentType;
+  /** MIME type of the content being attached. */
+  type: string;
   /** Base64 encoded contents of the attachment */
   contentBytesBase64: string;
 }
@@ -129,8 +119,6 @@ export interface EmailSendHeaders {
   repeatabilityResult?: string;
   /** Location url of where to poll the status of this message from. */
   operationLocation?: string;
-  /** Amount of time client should wait before retrying the request, specified in seconds */
-  retryAfter?: number;
   /** System generated GUID indicating the id of this specific message, to be used for tracking purposes. */
   xMsRequestId?: string;
 }
@@ -162,123 +150,6 @@ export enum KnownSendStatus {
  */
 export type SendStatus = string;
 
-/** Known values of {@link EmailImportance} that the service accepts. */
-export enum KnownEmailImportance {
-  /** High */
-  High = "high",
-  /** Normal */
-  Normal = "normal",
-  /** Low */
-  Low = "low"
-}
-
-/**
- * Defines values for EmailImportance. \
- * {@link KnownEmailImportance} can be used interchangeably with EmailImportance,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **high** \
- * **normal** \
- * **low**
- */
-export type EmailImportance = string;
-
-/** Known values of {@link EmailAttachmentType} that the service accepts. */
-export enum KnownEmailAttachmentType {
-  /** Avi */
-  Avi = "avi",
-  /** Bmp */
-  Bmp = "bmp",
-  /** Doc */
-  Doc = "doc",
-  /** Docm */
-  Docm = "docm",
-  /** Docx */
-  Docx = "docx",
-  /** Gif */
-  Gif = "gif",
-  /** Jpeg */
-  Jpeg = "jpeg",
-  /** Mp3 */
-  Mp3 = "mp3",
-  /** One */
-  One = "one",
-  /** Pdf */
-  Pdf = "pdf",
-  /** Png */
-  Png = "png",
-  /** Ppsm */
-  Ppsm = "ppsm",
-  /** Ppsx */
-  Ppsx = "ppsx",
-  /** Ppt */
-  Ppt = "ppt",
-  /** Pptm */
-  Pptm = "pptm",
-  /** Pptx */
-  Pptx = "pptx",
-  /** Pub */
-  Pub = "pub",
-  /** Rpmsg */
-  Rpmsg = "rpmsg",
-  /** Rtf */
-  Rtf = "rtf",
-  /** Tif */
-  Tif = "tif",
-  /** Txt */
-  Txt = "txt",
-  /** Vsd */
-  Vsd = "vsd",
-  /** Wav */
-  Wav = "wav",
-  /** Wma */
-  Wma = "wma",
-  /** Xls */
-  Xls = "xls",
-  /** Xlsb */
-  Xlsb = "xlsb",
-  /** Xlsm */
-  Xlsm = "xlsm",
-  /** Xlsx */
-  Xlsx = "xlsx"
-}
-
-/**
- * Defines values for EmailAttachmentType. \
- * {@link KnownEmailAttachmentType} can be used interchangeably with EmailAttachmentType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **avi** \
- * **bmp** \
- * **doc** \
- * **docm** \
- * **docx** \
- * **gif** \
- * **jpeg** \
- * **mp3** \
- * **one** \
- * **pdf** \
- * **png** \
- * **ppsm** \
- * **ppsx** \
- * **ppt** \
- * **pptm** \
- * **pptx** \
- * **pub** \
- * **rpmsg** \
- * **rtf** \
- * **tif** \
- * **txt** \
- * **vsd** \
- * **wav** \
- * **wma** \
- * **xls** \
- * **xlsb** \
- * **xlsm** \
- * **xlsx**
- */
-export type EmailAttachmentType = string;
-
 /** Optional parameters. */
 export interface EmailGetSendStatusOptionalParams
   extends coreClient.OperationOptions {}
@@ -288,7 +159,10 @@ export type EmailGetSendStatusResponse = EmailGetSendStatusHeaders &
   SendStatusResult;
 
 /** Optional parameters. */
-export interface EmailSendOptionalParams extends coreClient.OperationOptions {}
+export interface EmailSendOptionalParams extends coreClient.OperationOptions {
+  /** Tracking ID sent with the request to help with debugging. */
+  clientRequestId?: string;
+}
 
 /** Contains response data for the send operation. */
 export type EmailSendResponse = EmailSendHeaders;

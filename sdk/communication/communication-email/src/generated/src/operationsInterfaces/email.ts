@@ -35,13 +35,13 @@ export interface Email {
    * @param repeatabilityFirstSent Must be sent by clients to specify that a request is repeatable.
    *                               Repeatability-First-Sent is used to specify the date and time at which the request was first created
    *                               in the IMF-fix date form of HTTP-date as defined in RFC7231. eg- Tue, 26 Mar 2019 16:06:51 GMT
-   * @param emailMessage Message payload for sending an email
+   * @param message Message payload for sending an email
    * @param options The options parameters.
    */
   send(
     repeatabilityRequestId: string,
     repeatabilityFirstSent: string,
-    emailMessage: EmailMessage,
+    message: EmailMessage,
     options?: EmailSendOptionalParams
   ): Promise<EmailSendResponse>;
 }

@@ -21,8 +21,8 @@ const sendEmailMultipleRecipients = async (): Promise<void> => {
   const emailClient: EmailClient = new EmailClient(connectionString);
 
   // Create the Email Message to be sent
-  const emailMessage: EmailMessage = {
-    sender: senderAddress,
+  const message: EmailMessage = {
+    senderEmail: senderAddress,
     content: {
       subject: "This is the subject",
       plainText: "This is the body",
@@ -40,7 +40,7 @@ const sendEmailMultipleRecipients = async (): Promise<void> => {
 
   try {
     // Send the email message
-    const response = await emailClient.send(emailMessage);
+    const response = await emailClient.send(message);
 
     console.log("Message ID: " + response.messageId);
   } catch (error) {

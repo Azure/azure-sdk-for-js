@@ -102,20 +102,15 @@ export const EmailMessage: coreClient.CompositeMapper = {
     name: "Composite",
     className: "EmailMessage",
     modelProperties: {
-      customHeaders: {
+      headers: {
         serializedName: "headers",
         type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "EmailCustomHeader"
-            }
-          }
+          name: "Dictionary",
+          value: { type: { name: "String" } }
         }
       },
-      sender: {
-        serializedName: "sender",
+      senderEmail: {
+        serializedName: "senderEmail",
         required: true,
         type: {
           name: "String"
@@ -126,13 +121,6 @@ export const EmailMessage: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "EmailContent"
-        }
-      },
-      importance: {
-        defaultValue: "normal",
-        serializedName: "importance",
-        type: {
-          name: "String"
         }
       },
       recipients: {
@@ -170,29 +158,6 @@ export const EmailMessage: coreClient.CompositeMapper = {
         serializedName: "disableUserEngagementTracking",
         type: {
           name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
-export const EmailCustomHeader: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "EmailCustomHeader",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      value: {
-        serializedName: "value",
-        required: true,
-        type: {
-          name: "String"
         }
       }
     }
@@ -245,7 +210,7 @@ export const EmailRecipients: coreClient.CompositeMapper = {
         }
       },
       cc: {
-        serializedName: "CC",
+        serializedName: "cc",
         type: {
           name: "Sequence",
           element: {
@@ -257,7 +222,7 @@ export const EmailRecipients: coreClient.CompositeMapper = {
         }
       },
       bcc: {
-        serializedName: "bCC",
+        serializedName: "bcc",
         type: {
           name: "Sequence",
           element: {
@@ -306,8 +271,8 @@ export const EmailAttachment: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      attachmentType: {
-        serializedName: "attachmentType",
+      type: {
+        serializedName: "type",
         required: true,
         type: {
           name: "String"
@@ -369,12 +334,6 @@ export const EmailSendHeaders: coreClient.CompositeMapper = {
         serializedName: "operation-location",
         type: {
           name: "String"
-        }
-      },
-      retryAfter: {
-        serializedName: "retry-after",
-        type: {
-          name: "Number"
         }
       },
       xMsRequestId: {

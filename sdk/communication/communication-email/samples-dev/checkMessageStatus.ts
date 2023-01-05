@@ -20,8 +20,8 @@ const getMessageStatusFromEmail = async (): Promise<void> => {
   const emailClient: EmailClient = new EmailClient(connectionString);
 
   // Create the Email Message to be sent
-  const emailMessage: EmailMessage = {
-    sender: senderAddress,
+  const message: EmailMessage = {
+    senderEmail: senderAddress,
     content: {
       subject: "This is the subject",
       plainText: "This is the body",
@@ -34,7 +34,7 @@ const getMessageStatusFromEmail = async (): Promise<void> => {
 
   try {
     // Send the email message
-    const sendEmailResponse = await emailClient.send(emailMessage);
+    const sendEmailResponse = await emailClient.send(message);
 
     // Use the message id to get the status of the email
     const messageId = sendEmailResponse.messageId || "";

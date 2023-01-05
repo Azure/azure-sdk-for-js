@@ -54,8 +54,8 @@ const client = new EmailClient(endpoint, credential);
 To send an email message, call the `send` function from the `EmailClient`.
 
 ```javascript Snippet:Azure_Communication_Email_Send
-const emailMessage = {
-  sender: "sender@contoso.com",
+const message = {
+  senderEmail: "sender@contoso.com",
   content: {
     subject: "This is the subject",
     plainText: "This is the body",
@@ -70,7 +70,7 @@ const emailMessage = {
   },
 };
 
-const response = await emailClient.send(emailMessage);
+const response = await emailClient.send(message);
 ```
 
 ### Send an Email Message to Multiple Recipients
@@ -78,8 +78,8 @@ const response = await emailClient.send(emailMessage);
 To send an email message to multiple recipients, add a object for each recipient type and an object for each recipient.
 
 ```javascript Snippet:Azure_Communication_Email_Send_Multiple_Recipients
-const emailMessage = {
-  sender: "sender@contoso.com",
+const message = {
+  senderEmail: "sender@contoso.com",
   content: {
     subject: "This is the subject",
     plainText: "This is the body",
@@ -118,7 +118,7 @@ const emailMessage = {
   },
 };
 
-const response = await emailClient.send(emailMessage);
+const response = await emailClient.send(message);
 ```
 
 ### Send Email with Attachments
@@ -128,8 +128,8 @@ Azure Communication Services support sending email with attachments.
 ```javascript Snippet:Azure_Communication_Email_Send_With_Attachments
 const filePath = "C://readme.txt";
 
-const emailMessage = {
-  sender: "sender@contoso.com",
+const message = {
+  senderEmail: "sender@contoso.com",
   content: {
     subject: "This is the subject",
     plainText: "This is the body",
@@ -145,13 +145,13 @@ const emailMessage = {
   attachments: [
     {
       name: path.basename(filePath),
-      attachmentType: "txt",
+      type: "txt",
       contentBytesBase64: readFileSync(filePath, "base64"),
     },
   ],
 };
 
-const response = await emailClient.send(emailMessage);
+const response = await emailClient.send(message);
 ```
 
 ### Get Email Message Status
@@ -159,7 +159,7 @@ const response = await emailClient.send(emailMessage);
 The result from the `send` call contains a `messageId` which can be used to query the status of the email.
 
 ```javascript Snippet:Azure_Communication_Email_GetSendStatus
-const response = await emailClient.send(emailMessage);
+const response = await emailClient.send(message);
 
 const status = await emailClient.getSendStatus(response.messageId);
 ```

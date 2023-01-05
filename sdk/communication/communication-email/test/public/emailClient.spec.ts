@@ -23,7 +23,7 @@ describe(`EmailClient [Playback/Live]`, () => {
 
   it("successfully sends an email to a single recipient", async function () {
     const emailMessage: EmailMessage = {
-      sender: env.SENDER_ADDRESS || "",
+      senderEmail: env.SENDER_ADDRESS || "",
       recipients: {
         to: [
           {
@@ -45,7 +45,7 @@ describe(`EmailClient [Playback/Live]`, () => {
 
   it("successfully sends an email to multiple types of recipients", async function () {
     const emailMessage: EmailMessage = {
-      sender: env.SENDER_ADDRESS ?? "",
+      senderEmail: env.SENDER_ADDRESS ?? "",
       recipients: {
         to: [
           {
@@ -83,7 +83,7 @@ describe(`EmailClient [Playback/Live]`, () => {
 
   it("successfully sends an email with an attachment", async function () {
     const emailMessage: EmailMessage = {
-      sender: env.SENDER_ADDRESS ?? "",
+      senderEmail: env.SENDER_ADDRESS ?? "",
       recipients: {
         to: [
           {
@@ -100,7 +100,7 @@ describe(`EmailClient [Playback/Live]`, () => {
       attachments: [
         {
           name: "readme.txt",
-          attachmentType: "txt",
+          type: "txt",
           contentBytesBase64: "ZW1haWwgdGVzdCBhdHRhY2htZW50",
         },
       ],
@@ -112,7 +112,7 @@ describe(`EmailClient [Playback/Live]`, () => {
 
   it("successfully retrieves the email status with the returned message id", async function () {
     const emailMessage: EmailMessage = {
-      sender: env.SENDER_ADDRESS ?? "",
+      senderEmail: env.SENDER_ADDRESS ?? "",
       recipients: {
         to: [
           {
@@ -140,7 +140,7 @@ describe(`EmailClient [Playback/Live]`, () => {
 
   it("successfully sends an email with an empty to field", async function () {
     const emailMessage: EmailMessage = {
-      sender: env.SENDER_ADDRESS || "",
+      senderEmail: env.SENDER_ADDRESS || "",
       recipients: {
         cc: [
           {

@@ -75,13 +75,13 @@ export class EmailClient {
 
   /**
    * Queues an email message to be sent to one or more recipients
-   * @param emailMessage - Message payload for sending an email
+   * @param message - Message payload for sending an email
    */
-  public async send(emailMessage: EmailMessage): Promise<SendEmailResult> {
+  public async send(message: EmailMessage): Promise<SendEmailResult> {
     const response = await this.generatedClient.email.send(
       uuid(),
       new Date().toUTCString(),
-      emailMessage
+      message
     );
 
     return {

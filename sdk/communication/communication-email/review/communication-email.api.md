@@ -16,13 +16,10 @@ export interface EmailAddress {
 
 // @public
 export interface EmailAttachment {
-    attachmentType: EmailAttachmentType;
     contentBytesBase64: string;
     name: string;
+    type: string;
 }
-
-// @public
-export type EmailAttachmentType = string;
 
 // @public
 export class EmailClient {
@@ -30,7 +27,7 @@ export class EmailClient {
     constructor(endpoint: string, credential: KeyCredential, options?: EmailClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: EmailClientOptions);
     getSendStatus(messageId: string): Promise<SendStatusResult>;
-    send(emailMessage: EmailMessage): Promise<SendEmailResult>;
+    send(message: EmailMessage): Promise<SendEmailResult>;
 }
 
 // @public
@@ -45,24 +42,16 @@ export interface EmailContent {
 }
 
 // @public
-export interface EmailCustomHeader {
-    name: string;
-    value: string;
-}
-
-// @public
-export type EmailImportance = string;
-
-// @public
 export interface EmailMessage {
     attachments?: EmailAttachment[];
     content: EmailContent;
-    customHeaders?: EmailCustomHeader[];
     disableUserEngagementTracking?: boolean;
-    importance?: EmailImportance;
+    headers?: {
+        [propertyName: string]: string;
+    };
     recipients: EmailRecipients;
     replyTo?: EmailAddress[];
-    sender: string;
+    senderEmail: string;
 }
 
 // @public

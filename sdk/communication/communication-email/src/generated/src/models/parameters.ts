@@ -51,7 +51,7 @@ export const messageId: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-10-01-preview",
+    defaultValue: "2023-01-15-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -72,8 +72,8 @@ export const contentType: OperationParameter = {
   }
 };
 
-export const emailMessage: OperationParameter = {
-  parameterPath: "emailMessage",
+export const message: OperationParameter = {
+  parameterPath: "message",
   mapper: EmailMessageMapper
 };
 
@@ -95,6 +95,16 @@ export const repeatabilityFirstSent: OperationParameter = {
     required: true,
     type: {
       name: "String"
+    }
+  }
+};
+
+export const clientRequestId: OperationParameter = {
+  parameterPath: ["options", "clientRequestId"],
+  mapper: {
+    serializedName: "x-ms-client-request-id",
+    type: {
+      name: "Uuid"
     }
   }
 };

@@ -20,13 +20,10 @@ export interface SendEmailResult {
 
 export {
   EmailMessage,
-  EmailCustomHeader,
   EmailContent,
-  EmailImportance,
   EmailRecipients,
   EmailAddress,
   EmailAttachment,
-  EmailAttachmentType,
   SendStatus,
   SendStatusResult,
 } from "./generated/src/models";
