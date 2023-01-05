@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
-import { IdentityClient } from "../../../../identity-common/src/client/identityClient";
+import { IdentityClient } from "@azure/identity-common";
 
 /**
  * @internal

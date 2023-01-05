@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import { credentialLogger, formatError, formatSuccess } from "../../../identity-common/src/util/logging";
+import { credentialLogger, formatError, formatSuccess } from "@azure/identity-common";
 import { ensureValidScope, getScopeResource } from "../util/scopeUtils";
 import { AzureCliCredentialOptions } from "./azureCliCredentialOptions";
-import { CredentialUnavailableError } from "../../../identity-common/src/errors";
+import { CredentialUnavailableError } from "@azure/identity-common";
 import child_process from "child_process";
 import {
   processMultiTenantRequest,

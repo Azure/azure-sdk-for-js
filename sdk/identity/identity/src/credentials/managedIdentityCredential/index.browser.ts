@@ -3,8 +3,8 @@
 
 import { AccessToken, TokenCredential } from "@azure/core-auth";
 
-import { TokenCredentialOptions } from "../../../../identity-common/src/tokenCredentialOptions";
-import { credentialLogger, formatError } from "../../../../identity-common/src/util/logging";
+import { TokenCredentialOptions } from "@azure/identity-common";
+import { credentialLogger, formatError } from "@azure/identity-common";
 
 const BrowserNotSupportedError = new Error(
   "ManagedIdentityCredential is not supported in the browser."

@@ -10,7 +10,7 @@ import {
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { credentialLogger } from "../../../../identity-common/src/util/logging";
 import { MSI, MSIConfiguration } from "./models";
-import { mapScopesToResource } from "../../../../identity-common/src/credentials/managedIdentityCredential/utils";
+import { mapScopesToResource } from "./utils";
 import { azureFabricVersion } from "./constants";
 
 // This MSI can be easily tested by deploying a container to Azure Service Fabric with the Dockerfile:

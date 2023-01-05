@@ -3,16 +3,16 @@
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 
-import { IdentityClient } from "../../../../identity-common/src/client/identityClient";
-import { TokenCredentialOptions } from "../../../../identity-common/src/tokenCredentialOptions";
+import { IdentityClient } from "@azure/identity-common";
+import { TokenCredentialOptions } from "@azure/identity-common";
 import {
   AuthenticationError,
   AuthenticationRequiredError,
   CredentialUnavailableError,
-} from "../../../../identity-common/src/errors";
-import { credentialLogger, formatError, formatSuccess } from "../../../../identity-common/src/util/logging";
+} from "@azure/identity-common";
+import { credentialLogger, formatError, formatSuccess } from "@azure/identity-common";
 import { appServiceMsi2017 } from "./appServiceMsi2017";
-import { tracingClient } from "../../../../identity-common/src/util/tracing";
+import { tracingClient } from "@azure/identity-common";
 import { cloudShellMsi } from "./cloudShellMsi";
 import { imdsMsi } from "./imdsMsi";
 import { MSI } from "./models";
@@ -21,8 +21,8 @@ import { tokenExchangeMsi } from "./tokenExchangeMsi";
 import { fabricMsi } from "./fabricMsi";
 import { appServiceMsi2019 } from "./appServiceMsi2019";
 import { AppTokenProviderParameters, ConfidentialClientApplication } from "@azure/msal-node";
-import { DeveloperSignOnClientId } from "../../../../identity-common/src/constants";
-import { MsalResult, MsalToken } from "../../../../identity-common/src/msal/types";
+import { DeveloperSignOnClientId } from "@azure/identity-common";
+import { MsalResult, MsalToken } from "@azure/identity-common";
 
 const logger = credentialLogger("ManagedIdentityCredential");
 

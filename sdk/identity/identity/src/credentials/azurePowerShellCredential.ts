@@ -2,16 +2,16 @@
 // Licensed under the MIT license.
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import { credentialLogger, formatError, formatSuccess } from "../../../identity-common/src/util/logging";
+import { credentialLogger, formatError, formatSuccess } from "@azure/identity-common";
 import { ensureValidScope, getScopeResource } from "../util/scopeUtils";
 import { AzurePowerShellCredentialOptions } from "./azurePowerShellCredentialOptions";
-import { CredentialUnavailableError } from "../../../identity-common/src/errors";
+import { CredentialUnavailableError } from "@azure/identity-common";
 import {
   processMultiTenantRequest,
   resolveAddionallyAllowedTenantIds,
-} from "../../../identity-common/src/util/tenantIdUtils";
+} from "@azure/identity-common";
 import { processUtils } from "../util/processUtils";
-import { tracingClient } from "../../../identity-common/src/util/tracing";
+import { tracingClient } from "@azure/identity-common";
 
 const logger = credentialLogger("AzurePowerShellCredential");
 

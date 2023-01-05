@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { MultiTenantTokenCredentialOptions } from "../../../identity-common/src/credentials/multiTenantTokenCredentialOptions";
+import { MultiTenantTokenCredentialOptions } from "@azure/identity-common";
 
 /**
  * Options for the {@link AzureCliCredential}

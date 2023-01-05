@@ -6,10 +6,10 @@ import {
   createHttpHeaders,
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
-import { credentialLogger } from "../../../../identity-common/src/util/logging";
+import { credentialLogger } from "@azure/identity-common";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { MSI, MSIConfiguration } from "./models";
-import { mapScopesToResource } from "../../../../identity-common/src/credentials/managedIdentityCredential/utils";
+import { mapScopesToResource } from "./utils";
 
 const msiName = "ManagedIdentityCredential - CloudShellMSI";
 export const logger = credentialLogger(msiName);

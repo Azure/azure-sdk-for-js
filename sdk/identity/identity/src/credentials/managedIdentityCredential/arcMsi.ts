@@ -11,7 +11,7 @@ import { readFile } from "fs";
 import { AuthenticationError } from "../../../../identity-common/src/errors";
 import { credentialLogger } from "../../../../identity-common/src/util/logging";
 import { IdentityClient } from "../../../../identity-common/src/client/identityClient";
-import { mapScopesToResource } from "../../../../identity-common/src/credentials/managedIdentityCredential/utils";
+import { mapScopesToResource } from "./utils";
 import { MSI, MSIConfiguration } from "./models";
 import { azureArcAPIVersion } from "./constants";
 

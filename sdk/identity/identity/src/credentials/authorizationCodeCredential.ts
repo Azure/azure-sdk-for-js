@@ -5,14 +5,14 @@ import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth"
 import {
   processMultiTenantRequest,
   resolveAddionallyAllowedTenantIds,
-} from "../../../identity-common/src/util/tenantIdUtils";
+} from "@azure/identity-common";
 import { AuthorizationCodeCredentialOptions } from "./authorizationCodeCredentialOptions";
 import { MsalAuthorizationCode } from "../msal/nodeFlows/msalAuthorizationCode";
-import { MsalFlow } from "../../../identity-common/src/msal/flows";
-import { checkTenantId } from "../../../identity-common/src/util/tenantIdUtils";
-import { credentialLogger } from "../../../identity-common/src/util/logging";
+import { MsalFlow } from "@azure/identity-common";
+import { checkTenantId } from "@azure/identity-common";
+import { credentialLogger } from "@azure/identity-common";
 import { ensureScopes } from "../util/scopeUtils";
-import { tracingClient } from "../../../identity-common/src/util/tracing";
+import { tracingClient } from "@azure/identity-common";
 
 const logger = credentialLogger("AuthorizationCodeCredential");
 
