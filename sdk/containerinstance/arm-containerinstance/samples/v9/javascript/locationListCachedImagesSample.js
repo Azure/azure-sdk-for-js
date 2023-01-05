@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ContainerInstanceManagementClient } = require("@azure/arm-containerinstance");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Get the list of cached images on specific OS type for a subscription in a region.
@@ -18,7 +19,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/stable/2021-10-01/examples/CachedImagesList.json
  */
 async function cachedImages() {
-  const subscriptionId = "subid";
+  const subscriptionId = process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "subid";
   const location = "westcentralus";
   const credential = new DefaultAzureCredential();
   const client = new ContainerInstanceManagementClient(credential, subscriptionId);
@@ -29,4 +30,8 @@ async function cachedImages() {
   console.log(resArray);
 }
 
-cachedImages().catch(console.error);
+async function main() {
+  cachedImages();
+}
+
+main().catch(console.error);

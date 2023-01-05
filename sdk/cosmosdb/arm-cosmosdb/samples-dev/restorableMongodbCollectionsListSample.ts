@@ -13,6 +13,9 @@ import {
   CosmosDBManagementClient
 } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Show the event feed of all mutations done on all the Azure Cosmos DB MongoDB collections under a specific database.  This helps in scenario where container was accidentally deleted.  This API requires 'Microsoft.DocumentDB/locations/restorableDatabaseAccounts/.../read' permission
@@ -21,7 +24,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBRestorableMongodbCollectionList.json
  */
 async function cosmosDbRestorableMongodbCollectionList() {
-  const subscriptionId = "subid";
+  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const location = "WestUS";
   const instanceId = "98a570f2-63db-4117-91f0-366327b7b353";
   const restorableMongodbDatabaseRid = "PD5DALigDgw=";
@@ -41,4 +44,8 @@ async function cosmosDbRestorableMongodbCollectionList() {
   console.log(resArray);
 }
 
-cosmosDbRestorableMongodbCollectionList().catch(console.error);
+async function main() {
+  cosmosDbRestorableMongodbCollectionList();
+}
+
+main().catch(console.error);
