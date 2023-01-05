@@ -106,7 +106,7 @@ async function httpRequest(requestContext: RequestContext): Promise<{
     : undefined;
 
   if (response.status >= 400) {
-    const errorResponse: ErrorResponse = new Error(result.message);
+    const errorResponse: ErrorResponse = new ErrorResponse(result.message);
 
     logger.warning(
       response.status +
@@ -138,7 +138,7 @@ async function httpRequest(requestContext: RequestContext): Promise<{
         },
       });
     }
-
+    
     throw errorResponse;
   }
   return {
