@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Creates or updates the bookmark.
  *
  * @summary Creates or updates the bookmark.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/bookmarks/CreateBookmark.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/bookmarks/CreateBookmark.json
  */
 async function createsOrUpdatesABookmark() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";

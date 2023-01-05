@@ -244,7 +244,7 @@ function modelInfo() {
   return {
     modelId: "prebuilt-invoice",
     description: "Extract key information from invoices.",
-    createdDateTime: "2022-08-31T00:00:00.000Z",
+    createdOn: "2022-08-31T00:00:00.000Z",
     apiVersion: "2022-08-31",
     docTypes: {
       invoice: {
@@ -361,12 +361,12 @@ function modelInfo() {
             example: "Contoso Billing",
           },
           ServiceAddress: {
-            type: "string",
+            type: "address",
             description: "Explicit service address or property address for the customer",
             example: "123 Service St, Redmond WA, 98052",
           },
           ServiceAddressRecipient: {
-            type: "address",
+            type: "string",
             description: "Name associated with the ServiceAddress",
             example: "Microsoft Services",
           },

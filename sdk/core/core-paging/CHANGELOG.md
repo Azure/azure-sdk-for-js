@@ -1,6 +1,6 @@
 # Release History
 
-## 1.3.1 (Unreleased)
+## 1.4.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,16 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.4.0 (2022-11-03)
+
+### Features Added
+
+- Add `toElements` function to convert a page to a list of elements
+
+### Other Changes
+
+- Allow `PagedResault.getPage()` to return `undefined`, indicating no more pages left. This avoids having to return a page of empty array in the scenario where the total number of elements is unknown, service doesn't indicate whether there are more results, and we rely on service returning empty result to know that enumeration is done.
 
 ## 1.3.0 (2022-05-18)
 

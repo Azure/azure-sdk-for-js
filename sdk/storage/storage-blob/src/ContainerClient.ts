@@ -55,11 +55,10 @@ import {
   BlobNameToString,
   ConvertInternalResponseOfListBlobFlat,
   ConvertInternalResponseOfListBlobHierarchy,
+  EscapePath,
   extractConnectionStringParts,
   isIpEndpointStyle,
   parseObjectReplicationRecord,
-  ProcessBlobItems,
-  ProcessBlobPrefixes,
   toTags,
   truncatedISO8061Date,
 } from "./utils/utils.common";
@@ -777,6 +776,7 @@ export class ContainerClient extends StorageClient {
    * Creates a new container under the specified account. If the container with
    * the same name already exists, the operation fails.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-container
+   * Naming rules: @see https://learn.microsoft.com/rest/api/storageservices/naming-and-referencing-containers--blobs--and-metadata
    *
    * @param options - Options to Container Create operation.
    *
@@ -813,6 +813,7 @@ export class ContainerClient extends StorageClient {
    * Creates a new container under the specified account. If the container with
    * the same name already exists, it is not changed.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-container
+   * Naming rules: @see https://learn.microsoft.com/rest/api/storageservices/naming-and-referencing-containers--blobs--and-metadata
    *
    * @param options -
    */
@@ -893,7 +894,7 @@ export class ContainerClient extends StorageClient {
    * @returns A new BlobClient object for the given blob name.
    */
   public getBlobClient(blobName: string): BlobClient {
-    return new BlobClient(appendToURLPath(this.url, encodeURIComponent(blobName)), this.pipeline);
+    return new BlobClient(appendToURLPath(this.url, EscapePath(blobName)), this.pipeline);
   }
 
   /**
@@ -902,10 +903,7 @@ export class ContainerClient extends StorageClient {
    * @param blobName - An append blob name
    */
   public getAppendBlobClient(blobName: string): AppendBlobClient {
-    return new AppendBlobClient(
-      appendToURLPath(this.url, encodeURIComponent(blobName)),
-      this.pipeline
-    );
+    return new AppendBlobClient(appendToURLPath(this.url, EscapePath(blobName)), this.pipeline);
   }
 
   /**
@@ -924,10 +922,7 @@ export class ContainerClient extends StorageClient {
    * ```
    */
   public getBlockBlobClient(blobName: string): BlockBlobClient {
-    return new BlockBlobClient(
-      appendToURLPath(this.url, encodeURIComponent(blobName)),
-      this.pipeline
-    );
+    return new BlockBlobClient(appendToURLPath(this.url, EscapePath(blobName)), this.pipeline);
   }
 
   /**
@@ -936,10 +931,7 @@ export class ContainerClient extends StorageClient {
    * @param blobName - A page blob name
    */
   public getPageBlobClient(blobName: string): PageBlobClient {
-    return new PageBlobClient(
-      appendToURLPath(this.url, encodeURIComponent(blobName)),
-      this.pipeline
-    );
+    return new PageBlobClient(appendToURLPath(this.url, EscapePath(blobName)), this.pipeline);
   }
 
   /**
@@ -1346,11 +1338,6 @@ export class ContainerClient extends StorageClient {
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
 
-      response.segment.blobItems = [];
-      if ((response.segment as any)["Blob"] !== undefined) {
-        response.segment.blobItems = ProcessBlobItems((response.segment as any)["Blob"]);
-      }
-
       const wrappedResponse: ContainerListBlobFlatSegmentResponse = {
         ...response,
         _response: {
@@ -1410,18 +1397,6 @@ export class ContainerClient extends StorageClient {
         ...options,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-
-      response.segment.blobItems = [];
-      if ((response.segment as any)["Blob"] !== undefined) {
-        response.segment.blobItems = ProcessBlobItems((response.segment as any)["Blob"]);
-      }
-
-      response.segment.blobPrefixes = [];
-      if ((response.segment as any)["BlobPrefix"] !== undefined) {
-        response.segment.blobPrefixes = ProcessBlobPrefixes(
-          (response.segment as any)["BlobPrefix"]
-        );
-      }
 
       const wrappedResponse: ContainerListBlobHierarchySegmentResponse = {
         ...response,

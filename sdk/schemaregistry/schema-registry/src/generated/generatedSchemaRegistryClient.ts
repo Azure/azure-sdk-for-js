@@ -7,8 +7,13 @@
  */
 
 import * as coreClient from "@azure/core-client";
-import { SchemaGroupsOperationsImpl, SchemaImpl } from "./operations";
-import { SchemaGroupsOperations, Schema } from "./operationsInterfaces";
+import {
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest
+} from "@azure/core-rest-pipeline";
+import { SchemaImpl } from "./operations";
+import { Schema } from "./operationsInterfaces";
 import { GeneratedSchemaRegistryClientOptionalParams } from "./models";
 
 export class GeneratedSchemaRegistryClient extends coreClient.ServiceClient {
@@ -37,7 +42,7 @@ export class GeneratedSchemaRegistryClient extends coreClient.ServiceClient {
       requestContentType: "application/json; charset=utf-8"
     };
 
-    const packageDetails = `azsdk-js-schema-registry/1.1.0`;
+    const packageDetails = `azsdk-js-schema-registry/1.3.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -56,11 +61,38 @@ export class GeneratedSchemaRegistryClient extends coreClient.ServiceClient {
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2021-10";
-    this.schemaGroupsOperations = new SchemaGroupsOperationsImpl(this);
+    this.apiVersion = options.apiVersion || "2022-10";
     this.schema = new SchemaImpl(this);
+    this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
-  schemaGroupsOperations: SchemaGroupsOperations;
+  /** A function that adds a policy that sets the api-version (or equivalent) to reflect the library version. */
+  private addCustomApiVersionPolicy(apiVersion?: string) {
+    if (!apiVersion) {
+      return;
+    }
+    const apiVersionPolicy = {
+      name: "CustomApiVersionPolicy",
+      async sendRequest(
+        request: PipelineRequest,
+        next: SendRequest
+      ): Promise<PipelineResponse> {
+        const param = request.url.split("?");
+        if (param.length > 1) {
+          const newParams = param[1].split("&").map((item) => {
+            if (item.indexOf("api-version") > -1) {
+              return "api-version=" + apiVersion;
+            } else {
+              return item;
+            }
+          });
+          request.url = param[0] + "?" + newParams.join("&");
+        }
+        return next(request);
+      }
+    };
+    this.pipeline.addPolicy(apiVersionPolicy);
+  }
+
   schema: Schema;
 }

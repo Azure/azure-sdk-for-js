@@ -568,6 +568,95 @@ export const FollowerDatabaseDefinition: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      tableLevelSharingProperties: {
+        serializedName: "tableLevelSharingProperties",
+        type: {
+          name: "Composite",
+          className: "TableLevelSharingProperties"
+        }
+      },
+      databaseShareOrigin: {
+        serializedName: "databaseShareOrigin",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const TableLevelSharingProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TableLevelSharingProperties",
+    modelProperties: {
+      tablesToInclude: {
+        serializedName: "tablesToInclude",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      tablesToExclude: {
+        serializedName: "tablesToExclude",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      externalTablesToInclude: {
+        serializedName: "externalTablesToInclude",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      externalTablesToExclude: {
+        serializedName: "externalTablesToExclude",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      materializedViewsToInclude: {
+        serializedName: "materializedViewsToInclude",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      materializedViewsToExclude: {
+        serializedName: "materializedViewsToExclude",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
       }
     }
   }
@@ -1248,81 +1337,6 @@ export const AttachedDatabaseConfigurationListResult: coreClient.CompositeMapper
             type: {
               name: "Composite",
               className: "AttachedDatabaseConfiguration"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const TableLevelSharingProperties: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "TableLevelSharingProperties",
-    modelProperties: {
-      tablesToInclude: {
-        serializedName: "tablesToInclude",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      tablesToExclude: {
-        serializedName: "tablesToExclude",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      externalTablesToInclude: {
-        serializedName: "externalTablesToInclude",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      externalTablesToExclude: {
-        serializedName: "externalTablesToExclude",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      materializedViewsToInclude: {
-        serializedName: "materializedViewsToInclude",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      materializedViewsToExclude: {
-        serializedName: "materializedViewsToExclude",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
             }
           }
         }
@@ -2073,7 +2087,7 @@ export const Database: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "Database",
-    uberParent: "Resource",
+    uberParent: "ProxyResource",
     polymorphicDiscriminator: {
       serializedName: "kind",
       clientName: "kind"
@@ -2359,6 +2373,18 @@ export const AttachedDatabaseConfiguration: coreClient.CompositeMapper = {
           name: "Composite",
           className: "TableLevelSharingProperties"
         }
+      },
+      databaseNameOverride: {
+        serializedName: "properties.databaseNameOverride",
+        type: {
+          name: "String"
+        }
+      },
+      databaseNamePrefix: {
+        serializedName: "properties.databaseNamePrefix",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -2369,7 +2395,7 @@ export const DataConnection: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DataConnection",
-    uberParent: "Resource",
+    uberParent: "ProxyResource",
     polymorphicDiscriminator: {
       serializedName: "kind",
       clientName: "kind"
@@ -2638,8 +2664,8 @@ export const ReadWriteDatabase: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ReadWriteDatabase",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "Database",
+    polymorphicDiscriminator: Database.type.polymorphicDiscriminator,
     modelProperties: {
       ...Database.type.modelProperties,
       provisioningState: {
@@ -2684,8 +2710,8 @@ export const ReadOnlyFollowingDatabase: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ReadOnlyFollowingDatabase",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "Database",
+    polymorphicDiscriminator: Database.type.polymorphicDiscriminator,
     modelProperties: {
       ...Database.type.modelProperties,
       provisioningState: {
@@ -2735,6 +2761,27 @@ export const ReadOnlyFollowingDatabase: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      tableLevelSharingProperties: {
+        serializedName: "properties.tableLevelSharingProperties",
+        type: {
+          name: "Composite",
+          className: "TableLevelSharingProperties"
+        }
+      },
+      originalDatabaseName: {
+        serializedName: "properties.originalDatabaseName",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      databaseShareOrigin: {
+        serializedName: "properties.databaseShareOrigin",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -2745,8 +2792,8 @@ export const EventHubDataConnection: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "EventHubDataConnection",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "DataConnection",
+    polymorphicDiscriminator: DataConnection.type.polymorphicDiscriminator,
     modelProperties: {
       ...DataConnection.type.modelProperties,
       eventHubResourceId: {
@@ -2822,6 +2869,12 @@ export const EventHubDataConnection: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      retrievalStartDate: {
+        serializedName: "properties.retrievalStartDate",
+        type: {
+          name: "DateTime"
+        }
       }
     }
   }
@@ -2832,8 +2885,8 @@ export const IotHubDataConnection: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "IotHubDataConnection",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "DataConnection",
+    polymorphicDiscriminator: DataConnection.type.polymorphicDiscriminator,
     modelProperties: {
       ...DataConnection.type.modelProperties,
       iotHubResourceId: {
@@ -2889,6 +2942,12 @@ export const IotHubDataConnection: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      retrievalStartDate: {
+        serializedName: "properties.retrievalStartDate",
+        type: {
+          name: "DateTime"
+        }
+      },
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
@@ -2905,8 +2964,8 @@ export const EventGridDataConnection: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "EventGridDataConnection",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "DataConnection",
+    polymorphicDiscriminator: DataConnection.type.polymorphicDiscriminator,
     modelProperties: {
       ...DataConnection.type.modelProperties,
       storageAccountResourceId: {
@@ -3069,11 +3128,11 @@ export const DataConnectionsUpdateHeaders: coreClient.CompositeMapper = {
 };
 
 export let discriminators = {
-  "Resource.Database": Database,
-  "Resource.DataConnection": DataConnection,
-  "Resource.ReadWrite": ReadWriteDatabase,
-  "Resource.ReadOnlyFollowing": ReadOnlyFollowingDatabase,
-  "Resource.EventHub": EventHubDataConnection,
-  "Resource.IotHub": IotHubDataConnection,
-  "Resource.EventGrid": EventGridDataConnection
+  "ProxyResource.Database": Database,
+  "ProxyResource.DataConnection": DataConnection,
+  "Database.ReadWrite": ReadWriteDatabase,
+  "Database.ReadOnlyFollowing": ReadOnlyFollowingDatabase,
+  "DataConnection.EventHub": EventHubDataConnection,
+  "DataConnection.IotHub": IotHubDataConnection,
+  "DataConnection.EventGrid": EventGridDataConnection
 };

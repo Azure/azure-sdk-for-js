@@ -478,14 +478,14 @@ export interface QuotaRequestSubmitResponse202 {
 }
 
 /** The resource quota limit value. */
-export type LimitObject = LimitJsonObject & {
+export interface LimitObject extends LimitJsonObject {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   limitObjectType: "LimitValue";
   /** The quota/limit value */
   value: number;
   /** The quota or usages limit types. */
   limitType?: QuotaLimitTypes;
-};
+}
 
 /** Defines headers for Usages_get operation. */
 export interface UsagesGetHeaders {
@@ -525,7 +525,9 @@ export interface QuotaListNextHeaders {
 
 /** Known values of {@link UsagesTypes} that the service accepts. */
 export enum KnownUsagesTypes {
+  /** Individual */
   Individual = "Individual",
+  /** Combined */
   Combined = "Combined"
 }
 
@@ -541,6 +543,7 @@ export type UsagesTypes = string;
 
 /** Known values of {@link LimitType} that the service accepts. */
 export enum KnownLimitType {
+  /** LimitValue */
   LimitValue = "LimitValue"
 }
 
@@ -555,10 +558,15 @@ export type LimitType = string;
 
 /** Known values of {@link QuotaRequestState} that the service accepts. */
 export enum KnownQuotaRequestState {
+  /** Accepted */
   Accepted = "Accepted",
+  /** Invalid */
   Invalid = "Invalid",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** InProgress */
   InProgress = "InProgress"
 }
 
@@ -577,7 +585,9 @@ export type QuotaRequestState = string;
 
 /** Known values of {@link QuotaLimitTypes} that the service accepts. */
 export enum KnownQuotaLimitTypes {
+  /** Independent */
   Independent = "Independent",
+  /** Shared */
   Shared = "Shared"
 }
 

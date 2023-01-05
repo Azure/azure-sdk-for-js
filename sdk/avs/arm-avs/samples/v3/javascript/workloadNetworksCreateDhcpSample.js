@@ -15,10 +15,10 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Create dhcp by id in a private cloud workload network.
  *
  * @summary Create dhcp by id in a private cloud workload network.
- * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/WorkloadNetworks_CreateDhcpConfigurations.json
+ * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2022-05-01/examples/WorkloadNetworks_CreateDhcpConfigurations.json
  */
 async function workloadNetworksCreateDhcp() {
-  const subscriptionId = "{subscription-id}";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = "group1";
   const privateCloudName = "cloud1";
   const dhcpId = "dhcp1";

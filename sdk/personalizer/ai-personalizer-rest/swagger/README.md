@@ -20,7 +20,7 @@ security-header-name: Ocp-Apim-Subscription-Key
 security-scopes: https://cognitiveservices.azure.com/.default
 add-credentials: true
 typescript: true
-package-version: "1.0.0-beta.1"
+package-version: "1.0.0-beta.2"
 generate-metadata: true
 generate-test: true
 rest-level-client: true

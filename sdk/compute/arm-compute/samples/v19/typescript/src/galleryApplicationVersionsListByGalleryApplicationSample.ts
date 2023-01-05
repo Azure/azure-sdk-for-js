@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to List gallery Application Versions in a gallery Application Definition.
  *
  * @summary List gallery Application Versions in a gallery Application Definition.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-01-03/GalleryRP/examples/galleryExamples/GalleryApplicationVersion_ListByGalleryApplication.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/GalleryApplicationVersion_ListByGalleryApplication.json
  */
 async function listGalleryApplicationVersionsInAGalleryApplicationDefinition() {
   const subscriptionId = "{subscription-id}";

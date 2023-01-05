@@ -21,7 +21,7 @@ module.exports = {
   },
   mode: 'development',
   devServer: {
-    contentBase: './dist',
+    contentBase: '.',
   },
   optimization: {
     usedExports: true

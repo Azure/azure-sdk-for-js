@@ -42,7 +42,7 @@ interface ScenariosTestInfo<T> {
 }
 
 describe("With messaging clients", function () {
-  const eventHubsConnectionString = env.EVENTHUB_CONNECTION_STRING || "";
+  const eventHubsConnectionString = env.EVENTHUB_AVRO_CONNECTION_STRING || "";
   const eventHubName = env.EVENTHUB_NAME || "";
   const alreadyEnqueued = env.CROSS_LANGUAGE !== undefined;
 

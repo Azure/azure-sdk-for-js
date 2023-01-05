@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Lists diskRestorePoints under a vmRestorePoint.
  *
  * @summary Lists diskRestorePoints under a vmRestorePoint.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-02/DiskRP/examples/diskRestorePointExamples/DiskRestorePoint_ListByVmRestorePoint.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskRestorePointExamples/DiskRestorePoint_ListByVmRestorePoint.json
  */
 async function getAnIncrementalDiskRestorePointResource() {
   const subscriptionId = "{subscription-id}";

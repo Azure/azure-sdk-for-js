@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { KustoPoolPrincipalAssignments } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,10 +17,10 @@ import { LroImpl } from "../lroImpl";
 import {
   ClusterPrincipalAssignment,
   KustoPoolPrincipalAssignmentsListOptionalParams,
+  KustoPoolPrincipalAssignmentsListResponse,
   ClusterPrincipalAssignmentCheckNameRequest,
   KustoPoolPrincipalAssignmentsCheckNameAvailabilityOptionalParams,
   KustoPoolPrincipalAssignmentsCheckNameAvailabilityResponse,
-  KustoPoolPrincipalAssignmentsListResponse,
   KustoPoolPrincipalAssignmentsGetOptionalParams,
   KustoPoolPrincipalAssignmentsGetResponse,
   KustoPoolPrincipalAssignmentsCreateOrUpdateOptionalParams,
@@ -68,12 +68,16 @@ export class KustoPoolPrincipalAssignmentsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listPagingPage(
           workspaceName,
           kustoPoolName,
           resourceGroupName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -83,9 +87,11 @@ export class KustoPoolPrincipalAssignmentsImpl
     workspaceName: string,
     kustoPoolName: string,
     resourceGroupName: string,
-    options?: KustoPoolPrincipalAssignmentsListOptionalParams
+    options?: KustoPoolPrincipalAssignmentsListOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<ClusterPrincipalAssignment[]> {
-    let result = await this._list(
+    let result: KustoPoolPrincipalAssignmentsListResponse;
+    result = await this._list(
       workspaceName,
       kustoPoolName,
       resourceGroupName,

@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ContainerApps } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,9 +19,9 @@ import {
   ContainerApp,
   ContainerAppsListBySubscriptionNextOptionalParams,
   ContainerAppsListBySubscriptionOptionalParams,
+  ContainerAppsListBySubscriptionResponse,
   ContainerAppsListByResourceGroupNextOptionalParams,
   ContainerAppsListByResourceGroupOptionalParams,
-  ContainerAppsListBySubscriptionResponse,
   ContainerAppsListByResourceGroupResponse,
   ContainerAppsGetOptionalParams,
   ContainerAppsGetResponse,
@@ -32,6 +33,8 @@ import {
   ContainerAppsListCustomHostNameAnalysisResponse,
   ContainerAppsListSecretsOptionalParams,
   ContainerAppsListSecretsResponse,
+  ContainerAppsGetAuthTokenOptionalParams,
+  ContainerAppsGetAuthTokenResponse,
   ContainerAppsListBySubscriptionNextResponse,
   ContainerAppsListByResourceGroupNextResponse
 } from "../models";
@@ -64,22 +67,34 @@ export class ContainerAppsImpl implements ContainerApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listBySubscriptionPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBySubscriptionPagingPage(options, settings);
       }
     };
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: ContainerAppsListBySubscriptionOptionalParams
+    options?: ContainerAppsListBySubscriptionOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ContainerApp[]> {
-    let result = await this._listBySubscription(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ContainerAppsListBySubscriptionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBySubscription(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listBySubscriptionNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -108,19 +123,33 @@ export class ContainerAppsImpl implements ContainerApps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: ContainerAppsListByResourceGroupOptionalParams
+    options?: ContainerAppsListByResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ContainerApp[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ContainerAppsListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -128,7 +157,9 @@ export class ContainerAppsImpl implements ContainerApps {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -485,6 +516,23 @@ export class ContainerAppsImpl implements ContainerApps {
   }
 
   /**
+   * Get auth token for a container app
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param containerAppName Name of the Container App.
+   * @param options The options parameters.
+   */
+  getAuthToken(
+    resourceGroupName: string,
+    containerAppName: string,
+    options?: ContainerAppsGetAuthTokenOptionalParams
+  ): Promise<ContainerAppsGetAuthTokenResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, containerAppName, options },
+      getAuthTokenOperationSpec
+    );
+  }
+
+  /**
    * ListBySubscriptionNext
    * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
    * @param options The options parameters.
@@ -691,6 +739,31 @@ const listSecretsOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.SecretsCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.containerAppName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getAuthTokenOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/getAuthtoken",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ContainerAppAuthToken
+    },
+    404: {
+      isError: true
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse

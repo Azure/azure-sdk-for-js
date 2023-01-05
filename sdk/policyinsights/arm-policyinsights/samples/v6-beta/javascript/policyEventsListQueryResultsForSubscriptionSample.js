@@ -20,7 +20,6 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function filterAndAggregateOnly() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const policyEventsResource = "default";
-  const subscriptionId2 = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const fromParam = new Date("2018-02-05T18:00:00Z");
   const filter = "PolicyDefinitionAction eq 'deny'";
   const apply = "aggregate($count as NumDenyEvents)";
@@ -32,7 +31,7 @@ async function filterAndAggregateOnly() {
   const resArray = new Array();
   for await (let item of client.policyEvents.listQueryResultsForSubscription(
     policyEventsResource,
-    subscriptionId2,
+    subscriptionId,
     options
   )) {
     resArray.push(item);
@@ -51,7 +50,6 @@ filterAndAggregateOnly().catch(console.error);
 async function filterAndGroupWithAggregate() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const policyEventsResource = "default";
-  const subscriptionId2 = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const top = 2;
   const fromParam = new Date("2018-02-05T18:00:00Z");
   const filter = "PolicyDefinitionAction eq 'audit' or PolicyDefinitionAction eq 'deny'";
@@ -65,7 +63,7 @@ async function filterAndGroupWithAggregate() {
   const resArray = new Array();
   for await (let item of client.policyEvents.listQueryResultsForSubscription(
     policyEventsResource,
-    subscriptionId2,
+    subscriptionId,
     options
   )) {
     resArray.push(item);
@@ -84,7 +82,6 @@ filterAndGroupWithAggregate().catch(console.error);
 async function filterAndGroupWithoutAggregate() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const policyEventsResource = "default";
-  const subscriptionId2 = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const top = 2;
   const fromParam = new Date("2018-01-05T18:00:00Z");
   const filter = "PolicyDefinitionAction ne 'audit' and PolicyDefinitionAction ne 'append'";
@@ -98,7 +95,7 @@ async function filterAndGroupWithoutAggregate() {
   const resArray = new Array();
   for await (let item of client.policyEvents.listQueryResultsForSubscription(
     policyEventsResource,
-    subscriptionId2,
+    subscriptionId,
     options
   )) {
     resArray.push(item);
@@ -117,7 +114,6 @@ filterAndGroupWithoutAggregate().catch(console.error);
 async function filterAndMultipleGroups() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const policyEventsResource = "default";
-  const subscriptionId2 = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const top = 10;
   const orderBy = "NumDeniedResources desc";
   const fromParam = new Date("2018-01-01T00:00:00Z");
@@ -132,7 +128,7 @@ async function filterAndMultipleGroups() {
   const resArray = new Array();
   for await (let item of client.policyEvents.listQueryResultsForSubscription(
     policyEventsResource,
-    subscriptionId2,
+    subscriptionId,
     options
   )) {
     resArray.push(item);
@@ -151,13 +147,12 @@ filterAndMultipleGroups().catch(console.error);
 async function queryAtSubscriptionScope() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const policyEventsResource = "default";
-  const subscriptionId2 = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.policyEvents.listQueryResultsForSubscription(
     policyEventsResource,
-    subscriptionId2
+    subscriptionId
   )) {
     resArray.push(item);
   }
@@ -175,7 +170,6 @@ queryAtSubscriptionScope().catch(console.error);
 async function queryAtSubscriptionScopeWithNextLink() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const policyEventsResource = "default";
-  const subscriptionId2 = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const skipToken = "WpmWfBSvPhkAK6QD";
   const options = {
     queryOptions: { skipToken: skipToken },
@@ -185,7 +179,7 @@ async function queryAtSubscriptionScopeWithNextLink() {
   const resArray = new Array();
   for await (let item of client.policyEvents.listQueryResultsForSubscription(
     policyEventsResource,
-    subscriptionId2,
+    subscriptionId,
     options
   )) {
     resArray.push(item);
@@ -204,7 +198,6 @@ queryAtSubscriptionScopeWithNextLink().catch(console.error);
 async function timeRangeSortSelectAndLimit() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const policyEventsResource = "default";
-  const subscriptionId2 = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const top = 2;
   const orderBy =
     "Timestamp desc, PolicyAssignmentId asc, SubscriptionId asc, ResourceGroup asc, ResourceId";

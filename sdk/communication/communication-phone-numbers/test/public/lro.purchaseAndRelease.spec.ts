@@ -20,10 +20,10 @@ matrix([[true, false]], async function (useAad) {
       }
     });
 
-    beforeEach(function (this: Context) {
+    beforeEach(async function (this: Context) {
       ({ client, recorder } = useAad
-        ? createRecordedClientWithToken(this)!
-        : createRecordedClient(this));
+        ? await createRecordedClientWithToken(this)!
+        : await createRecordedClient(this));
     });
 
     afterEach(async function (this: Context) {

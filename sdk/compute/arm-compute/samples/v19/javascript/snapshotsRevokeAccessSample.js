@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Revokes access to a snapshot.
  *
  * @summary Revokes access to a snapshot.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-02/DiskRP/examples/snapshotExamples/Snapshot_EndGetAccess.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/snapshotExamples/Snapshot_EndGetAccess.json
  */
 async function revokeAccessToASnapshot() {
   const subscriptionId = "{subscription-id}";

@@ -20,14 +20,13 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function queryLatestAtResourceGroupScope() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const policyStatesResource = "latest";
-  const subscriptionId2 = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const resourceGroupName = "myResourceGroup";
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.policyStates.listQueryResultsForResourceGroup(
     policyStatesResource,
-    subscriptionId2,
+    subscriptionId,
     resourceGroupName
   )) {
     resArray.push(item);
@@ -46,7 +45,6 @@ queryLatestAtResourceGroupScope().catch(console.error);
 async function queryLatestAtResourceGroupScopeWithNextLink() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const policyStatesResource = "latest";
-  const subscriptionId2 = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const resourceGroupName = "myResourceGroup";
   const skipToken = "WpmWfBSvPhkAK6QD";
   const options = {

@@ -62,7 +62,7 @@ export function getSasToken() {
 /**
  * The known API versions that we support.
  */
-export const serviceVersions = ["7.2"] as const;
+export const serviceVersions = ["7.2", "7.3", "7.4-preview.1"] as const;
 
 /**
  * Fetches the service version to test against. This version could be configured as part of CI
@@ -70,7 +70,7 @@ export const serviceVersions = ["7.2"] as const;
  * @returns - The service version to test
  */
 export function getServiceVersion(): SUPPORTED_API_VERSIONS {
-  return env.SERVICE_VERSION || LATEST_API_VERSION;
+  return (env.SERVICE_VERSION as SUPPORTED_API_VERSIONS) || LATEST_API_VERSION;
 }
 
 /**

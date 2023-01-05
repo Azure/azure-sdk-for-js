@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to For checking the ongoing status of an operation
  *
  * @summary For checking the ongoing status of an operation
- * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2022-05-01/examples/RedisCacheAsyncOperationStatus.json
+ * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2022-06-01/examples/RedisCacheAsyncOperationStatus.json
  */
 async function redisCacheAsyncOperationStatus() {
   const subscriptionId = "subid";

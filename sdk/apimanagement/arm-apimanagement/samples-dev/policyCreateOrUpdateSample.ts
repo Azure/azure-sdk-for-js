@@ -25,7 +25,7 @@ async function apiManagementCreatePolicy() {
   const parameters: PolicyContract = {
     format: "xml",
     value:
-      "<policies>  <inbound />  <backend>    <forward-request />  </backend>  <outbound /></policies>"
+      "<policies>\r\n  <inbound />\r\n  <backend>\r\n    <forward-request />\r\n  </backend>\r\n  <outbound />\r\n</policies>"
   };
   const credential = new DefaultAzureCredential();
   const client = new ApiManagementClient(credential, subscriptionId);

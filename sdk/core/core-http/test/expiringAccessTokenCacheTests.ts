@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AccessToken } from "../src/coreHttp";
+import { AccessToken } from "../src";
 import { ExpiringAccessTokenCache } from "../src/credentials/accessTokenCache";
 import { assert } from "chai";
 

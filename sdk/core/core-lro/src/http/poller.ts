@@ -6,6 +6,8 @@ import { OperationState, SimplePollerLike } from "../poller/models";
 import {
   getOperationLocation,
   getOperationStatus,
+  getResourceLocation,
+  getStatusFromInitialResponse,
   inferLroMode,
   parseRetryAfter,
 } from "./operation";
@@ -29,18 +31,15 @@ export async function createHttpPoller<TResult, TState extends OperationState<TR
     restoreFrom,
     updateState,
     withOperationLocation,
+    resolveOnUnsuccessful = false,
   } = options || {};
   return buildCreatePoller<LroResponse, TResult, TState>({
-    getStatusFromInitialResponse: (response, state) => {
-      const mode = state.config.metadata?.["mode"];
-      return mode === undefined ||
-        (mode === "Body" && getOperationStatus(response, state) === "succeeded")
-        ? "succeeded"
-        : "running";
-    },
+    getStatusFromInitialResponse,
     getStatusFromPollResponse: getOperationStatus,
     getOperationLocation,
+    getResourceLocation,
     getPollingInterval: parseRetryAfter,
+    resolveOnUnsuccessful,
   })(
     {
       init: async () => {

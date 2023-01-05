@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredentialOptions } from "../tokenCredentialOptions";
 import { AuthenticationRecord } from "../msal/types";
+import { MultiTenantTokenCredentialOptions } from "./multiTenantTokenCredentialOptions";
 
 /**
  * Common constructor options for the Identity credentials that requires user interaction.
  */
-export interface InteractiveCredentialOptions extends TokenCredentialOptions {
+export interface InteractiveCredentialOptions extends MultiTenantTokenCredentialOptions {
   /**
    * Result of a previous authentication that can be used to retrieve the cached credentials of each individual account.
    * This is necessary to provide in case the application wants to work with more than one account per

@@ -10,21 +10,21 @@
         "Content-Length": "76",
         "Content-Type": "application/json",
         "Ocp-Apim-Subscription-Key": "api_key",
-        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0 core-rest-pipeline/1.9.2 Node/v16.15.1 OS/(x64-Linux-5.18.17-200.fc36.x86_64)",
-        "x-ms-client-request-id": "1e59e1ac-4eba-4402-910f-37fb0fa8d523"
+        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Linux-5.19.6-200.fc36.x86_64)",
+        "x-ms-client-request-id": "6823c0d3-825c-436f-b7b6-7a5cf5ca244f"
       },
       "RequestBody": {
         "urlSource": "https://storageaccount/testingdata/businessCard.jpg?sastoken"
       },
       "StatusCode": 400,
       "ResponseHeaders": {
-        "apim-request-id": "7d2ae9dc-ee8c-436a-ab3a-a6ba7db57393",
+        "apim-request-id": "6c52676b-8afd-44e3-9666-2d351b6a6c04",
         "Content-Length": "199",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 25 Aug 2022 16:08:36 GMT",
+        "Date": "Thu, 08 Sep 2022 00:30:23 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "625"
+        "x-envoy-upstream-service-time": "735"
       },
       "ResponseBody": {
         "error": {

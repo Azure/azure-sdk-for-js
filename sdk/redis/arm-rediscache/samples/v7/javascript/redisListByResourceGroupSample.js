@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Lists all Redis caches in a resource group.
  *
  * @summary Lists all Redis caches in a resource group.
- * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2022-05-01/examples/RedisCacheListByResourceGroup.json
+ * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2022-06-01/examples/RedisCacheListByResourceGroup.json
  */
 async function redisCacheListByResourceGroup() {
   const subscriptionId = "subid";

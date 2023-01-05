@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  ExternalSecuritySolutionUnion,
+  ExternalSecuritySolution,
   ExternalSecuritySolutionsListOptionalParams,
   ExternalSecuritySolutionsListByHomeRegionOptionalParams,
   ExternalSecuritySolutionsGetOptionalParams,
@@ -24,7 +24,7 @@ export interface ExternalSecuritySolutions {
    */
   list(
     options?: ExternalSecuritySolutionsListOptionalParams
-  ): PagedAsyncIterableIterator<ExternalSecuritySolutionUnion>;
+  ): PagedAsyncIterableIterator<ExternalSecuritySolution>;
   /**
    * Gets a list of external Security Solutions for the subscription and location.
    * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
@@ -34,7 +34,7 @@ export interface ExternalSecuritySolutions {
   listByHomeRegion(
     ascLocation: string,
     options?: ExternalSecuritySolutionsListByHomeRegionOptionalParams
-  ): PagedAsyncIterableIterator<ExternalSecuritySolutionUnion>;
+  ): PagedAsyncIterableIterator<ExternalSecuritySolution>;
   /**
    * Gets a specific external Security Solution.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is

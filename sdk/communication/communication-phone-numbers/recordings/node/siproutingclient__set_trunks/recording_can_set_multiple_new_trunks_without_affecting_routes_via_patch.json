@@ -1,0 +1,295 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/sip?api-version=2021-05-01-preview",
+      "RequestMethod": "PATCH",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "248",
+        "Content-Type": "application/merge-patch\u002Bjson",
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.3 Node/v16.14.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "sanitized",
+        "x-ms-content-sha256": "k9MKRhr2sj0JYbqfU1N0qu/\u002BWY6AyZMenqOcweHbCUM=",
+        "x-ms-date": "Fri, 02 Dec 2022 00:27:13 GMT"
+      },
+      "RequestBody": {
+        "routes": [
+          {
+            "description": "myFirstRoute\u0027s description",
+            "name": "myFirstRoute",
+            "numberPattern": "^\u002B[1-9][0-9]{3,23}$",
+            "trunks": []
+          },
+          {
+            "description": "mySecondRoute\u0027s description",
+            "name": "mySecondRoute",
+            "numberPattern": "^\u002B[1-9][0-9]{3,23}$",
+            "trunks": []
+          }
+        ]
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 02 Dec 2022 00:27:13 GMT",
+        "MS-CV": "qDllshFfA0GtrgFexSVJbw.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0YUaJYwAAAACAxrEqaqRJSpgKI0B2ReioUFJHMDFFREdFMDkxOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "243ms"
+      },
+      "ResponseBody": {
+        "trunks": {
+          "test.f885bf01e3e345bb8ad12a8eaa62d392.com": {
+            "sipSignalingPort": 8239
+          },
+          "test.5955918aaca7401eb489b9c1d09974eb.com": {
+            "sipSignalingPort": 7348
+          }
+        },
+        "routes": [
+          {
+            "description": "myFirstRoute\u0027s description",
+            "name": "myFirstRoute",
+            "numberPattern": "^\u002B[1-9][0-9]{3,23}$",
+            "trunks": []
+          },
+          {
+            "description": "mySecondRoute\u0027s description",
+            "name": "mySecondRoute",
+            "numberPattern": "^\u002B[1-9][0-9]{3,23}$",
+            "trunks": []
+          }
+        ]
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/sip?api-version=2021-05-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.3 Node/v16.14.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "sanitized",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Fri, 02 Dec 2022 00:27:14 GMT"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 02 Dec 2022 00:27:13 GMT",
+        "MS-CV": "afaTYB4Qi0ikR/W1s3Nzlw.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0YkaJYwAAAACJXgQg\u002B6/5T6xmrxeGzs0xUFJHMDFFREdFMDkxOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "89ms"
+      },
+      "ResponseBody": {
+        "trunks": {
+          "test.f885bf01e3e345bb8ad12a8eaa62d392.com": {
+            "sipSignalingPort": 8239
+          },
+          "test.5955918aaca7401eb489b9c1d09974eb.com": {
+            "sipSignalingPort": 7348
+          }
+        },
+        "routes": [
+          {
+            "description": "myFirstRoute\u0027s description",
+            "name": "myFirstRoute",
+            "numberPattern": "^\u002B[1-9][0-9]{3,23}$",
+            "trunks": []
+          },
+          {
+            "description": "mySecondRoute\u0027s description",
+            "name": "mySecondRoute",
+            "numberPattern": "^\u002B[1-9][0-9]{3,23}$",
+            "trunks": []
+          }
+        ]
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/sip?api-version=2021-05-01-preview",
+      "RequestMethod": "PATCH",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "250",
+        "Content-Type": "application/merge-patch\u002Bjson",
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.3 Node/v16.14.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "sanitized",
+        "x-ms-content-sha256": "L\u002BLUcpDNDBec8U6F7yPekpN4489oplfXXHm2Gjd79Vg=",
+        "x-ms-date": "Fri, 02 Dec 2022 00:27:14 GMT"
+      },
+      "RequestBody": {
+        "trunks": {
+          "test.fda49879d6b24699ad0ca8aeda198c2b.com": {
+            "sipSignalingPort": 5678
+          },
+          "test.39cf35660d814cd59bf3774c3694cc47.com": {
+            "sipSignalingPort": 5678
+          },
+          "test.f885bf01e3e345bb8ad12a8eaa62d392.com": null,
+          "test.5955918aaca7401eb489b9c1d09974eb.com": null
+        }
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 02 Dec 2022 00:27:13 GMT",
+        "MS-CV": "qQ6jWPJqQkSBrYAD3wOU7A.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0YkaJYwAAAADfNBjz\u002BbHqSZB/si1\u002BWbSeUFJHMDFFREdFMDkxOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "380ms"
+      },
+      "ResponseBody": {
+        "trunks": {
+          "test.fda49879d6b24699ad0ca8aeda198c2b.com": {
+            "sipSignalingPort": 5678
+          },
+          "test.39cf35660d814cd59bf3774c3694cc47.com": {
+            "sipSignalingPort": 5678
+          }
+        },
+        "routes": [
+          {
+            "description": "myFirstRoute\u0027s description",
+            "name": "myFirstRoute",
+            "numberPattern": "^\u002B[1-9][0-9]{3,23}$",
+            "trunks": []
+          },
+          {
+            "description": "mySecondRoute\u0027s description",
+            "name": "mySecondRoute",
+            "numberPattern": "^\u002B[1-9][0-9]{3,23}$",
+            "trunks": []
+          }
+        ]
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/sip?api-version=2021-05-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.3 Node/v16.14.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "sanitized",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Fri, 02 Dec 2022 00:27:14 GMT"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 02 Dec 2022 00:27:14 GMT",
+        "MS-CV": "QB9H2YJfA06TQVkN37fXOg.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0YkaJYwAAAABnDlN4rMWUT4OkHUVzQJJkUFJHMDFFREdFMDkxOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "305ms"
+      },
+      "ResponseBody": {
+        "trunks": {
+          "test.fda49879d6b24699ad0ca8aeda198c2b.com": {
+            "sipSignalingPort": 5678
+          },
+          "test.39cf35660d814cd59bf3774c3694cc47.com": {
+            "sipSignalingPort": 5678
+          }
+        },
+        "routes": [
+          {
+            "description": "myFirstRoute\u0027s description",
+            "name": "myFirstRoute",
+            "numberPattern": "^\u002B[1-9][0-9]{3,23}$",
+            "trunks": []
+          },
+          {
+            "description": "mySecondRoute\u0027s description",
+            "name": "mySecondRoute",
+            "numberPattern": "^\u002B[1-9][0-9]{3,23}$",
+            "trunks": []
+          }
+        ]
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/sip?api-version=2021-05-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.3 Node/v16.14.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "sanitized",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Fri, 02 Dec 2022 00:27:15 GMT"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 02 Dec 2022 00:27:14 GMT",
+        "MS-CV": "jLiih7PkW0iBJi0dUjK9Cg.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0Y0aJYwAAAACndV7Vg7blR4HzHwaNcxIzUFJHMDFFREdFMDkxOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "86ms"
+      },
+      "ResponseBody": {
+        "trunks": {
+          "test.fda49879d6b24699ad0ca8aeda198c2b.com": {
+            "sipSignalingPort": 5678
+          },
+          "test.39cf35660d814cd59bf3774c3694cc47.com": {
+            "sipSignalingPort": 5678
+          }
+        },
+        "routes": [
+          {
+            "description": "myFirstRoute\u0027s description",
+            "name": "myFirstRoute",
+            "numberPattern": "^\u002B[1-9][0-9]{3,23}$",
+            "trunks": []
+          },
+          {
+            "description": "mySecondRoute\u0027s description",
+            "name": "mySecondRoute",
+            "numberPattern": "^\u002B[1-9][0-9]{3,23}$",
+            "trunks": []
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {
+    "fqdn-1": "test.0d78008b7b6e4d1ba5b7578ef4ce57d1.com",
+    "fqdn-2": "test.fccd53cac6604c848fefb99a323bc798.com",
+    "fqdn-3": "test.fda49879d6b24699ad0ca8aeda198c2b.com",
+    "fqdn-4": "test.39cf35660d814cd59bf3774c3694cc47.com"
+  }
+}

@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Lists available operations for the Microsoft.Kusto provider.
  *
  * @summary Lists available operations for the Microsoft.Kusto provider.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-02-01/examples/KustoOperationsList.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoOperationsList.json
  */
 async function kustoOperationsList() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

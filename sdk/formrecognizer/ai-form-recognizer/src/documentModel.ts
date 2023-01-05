@@ -87,7 +87,7 @@ function extractField(
  * @returns - a DocumentModel that encodes the schema
  */
 export function createModelFromSchema(
-  schema: Omit<DocumentModelDetails, "createdDateTime">
+  schema: Omit<DocumentModelDetails, "createdOn">
 ): DocumentModel<AnalyzeResult<unknown>> {
   return {
     modelId: schema.modelId,

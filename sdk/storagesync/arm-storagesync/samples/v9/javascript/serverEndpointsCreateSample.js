@@ -30,7 +30,7 @@ async function serverEndpointsCreate() {
     localCacheMode: "UpdateLocallyCachedFiles",
     offlineDataTransfer: "on",
     offlineDataTransferShareName: "myfileshare",
-    serverLocalPath: "D:SampleServerEndpoint_1",
+    serverLocalPath: "D:\\SampleServerEndpoint_1",
     serverResourceId:
       "/subscriptions/52b8da2f-61e0-4a1f-8dde-336911f367fb/resourceGroups/SampleResourceGroup_1/providers/Microsoft.StorageSync/storageSyncServices/SampleStorageSyncService_1/registeredServers/080d4133-bdb5-40a0-96a0-71a6057bfe9a",
     tierFilesOlderThanDays: 0,

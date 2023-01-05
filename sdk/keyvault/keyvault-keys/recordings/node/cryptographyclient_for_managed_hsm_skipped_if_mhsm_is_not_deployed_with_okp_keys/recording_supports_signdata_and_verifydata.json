@@ -1,0 +1,209 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://azure_managedhsm.managedhsm.azure.net/keys/okp-sign-verify-25231/create?api-version=7.4-preview.1",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "0",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-keyvault-keys/4.6.1 azsdk-js-keyvault-keys/4.6.1 core-rest-pipeline/1.10.0 Node/v16.15.1 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "223e2b3e-858c-4ee1-a36c-7d468939c318"
+      },
+      "RequestBody": null,
+      "StatusCode": 401,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "0",
+        "Content-Security-Policy": "default-src \u0027self\u0027",
+        "Content-Type": "application/json; charset=utf-8",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "WWW-Authenticate": "Bearer authorization=\u0022https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012\u0022, resource=\u0022https://managedhsm.azure.net\u0022",
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "SAMEORIGIN",
+        "x-ms-request-id": "a949f94e-6052-11ed-9307-000d3a610397",
+        "x-ms-server-latency": "0"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://azure_managedhsm.managedhsm.azure.net/keys/okp-sign-verify-25231/create?api-version=7.4-preview.1",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "13",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-keyvault-keys/4.6.1 azsdk-js-keyvault-keys/4.6.1 core-rest-pipeline/1.10.0 Node/v16.15.1 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "223e2b3e-858c-4ee1-a36c-7d468939c318"
+      },
+      "RequestBody": {
+        "kty": "OKP"
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "394",
+        "Content-Security-Policy": "default-src \u0027self\u0027",
+        "Content-Type": "application/json; charset=utf-8",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "SAMEORIGIN",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=167.220.76.222;act_addr_fam=Ipv4;",
+        "x-ms-keyvault-region": "northus",
+        "x-ms-request-id": "a97858d4-6052-11ed-9307-000d3a610397",
+        "x-ms-server-latency": "235"
+      },
+      "ResponseBody": {
+        "attributes": {
+          "created": 1668014366,
+          "enabled": true,
+          "exportable": false,
+          "recoverableDays": 7,
+          "recoveryLevel": "CustomizedRecoverable\u002BPurgeable",
+          "updated": 1668014366
+        },
+        "key": {
+          "crv": "Ed25519",
+          "key_ops": [
+            "verify",
+            "sign"
+          ],
+          "kid": "https://azure_managedhsm.managedhsm.azure.net/keys/okp-sign-verify-25231/a19390eb24e007efa2a6f64f61bac1df",
+          "kty": "OKP-HSM",
+          "x": "Rq7HWM-zpgCaiLTC-oHabvaAr9t1xfEttcqCGrlNXFA"
+        }
+      }
+    },
+    {
+      "RequestUri": "https://azure_managedhsm.managedhsm.azure.net/keys/okp-sign-verify-25231/?api-version=7.4-preview.1",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-keyvault-keys/4.6.1 azsdk-js-keyvault-keys/4.6.1 core-rest-pipeline/1.10.0 Node/v16.15.1 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "7bbb5304-e930-4361-ae54-abd16d3e09f9"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "394",
+        "Content-Security-Policy": "default-src \u0027self\u0027",
+        "Content-Type": "application/json; charset=utf-8",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "SAMEORIGIN",
+        "x-ms-build-version": "1.0.20221020-1-945ffe56-develop",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=167.220.76.222;act_addr_fam=Ipv4;",
+        "x-ms-keyvault-region": "northus",
+        "x-ms-request-id": "a9a5b55e-6052-11ed-9307-000d3a610397",
+        "x-ms-server-latency": "82"
+      },
+      "ResponseBody": {
+        "attributes": {
+          "created": 1668014366,
+          "enabled": true,
+          "exportable": false,
+          "recoverableDays": 7,
+          "recoveryLevel": "CustomizedRecoverable\u002BPurgeable",
+          "updated": 1668014366
+        },
+        "key": {
+          "crv": "Ed25519",
+          "key_ops": [
+            "sign",
+            "verify"
+          ],
+          "kid": "https://azure_managedhsm.managedhsm.azure.net/keys/okp-sign-verify-25231/a19390eb24e007efa2a6f64f61bac1df",
+          "kty": "OKP-HSM",
+          "x": "Rq7HWM-zpgCaiLTC-oHabvaAr9t1xfEttcqCGrlNXFA"
+        }
+      }
+    },
+    {
+      "RequestUri": "https://azure_managedhsm.managedhsm.azure.net/keys/okp-sign-verify-25231//sign?api-version=7.4-preview.1",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "69",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-keyvault-keys/4.6.1 azsdk-js-keyvault-keys/4.6.1 core-rest-pipeline/1.10.0 Node/v16.15.1 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "b8f0b1a9-bd6c-4a34-b13c-4ba63316f178"
+      },
+      "RequestBody": {
+        "alg": "EdDSA",
+        "value": "MV9b23bQeMQ7isAGTkoBZGErH853yGk0W_yUx1iU7dM"
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "226",
+        "Content-Security-Policy": "default-src \u0027self\u0027",
+        "Content-Type": "application/json; charset=utf-8",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "SAMEORIGIN",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=167.220.76.222;act_addr_fam=Ipv4;",
+        "x-ms-keyvault-region": "northus",
+        "x-ms-request-id": "a9bbd988-6052-11ed-9307-000d3a610397",
+        "x-ms-server-latency": "7"
+      },
+      "ResponseBody": {
+        "alg": "EdDSA",
+        "kid": "https://azure_managedhsm.managedhsm.azure.net/keys/okp-sign-verify-25231/a19390eb24e007efa2a6f64f61bac1df",
+        "value": "AJr0ykLMR1xyUpWIa9xck33vvHsKLSY-egDBeUkFrtIHktYGzw-koxLoUjT18a1N6v9RoxYEQnNBtK8hq_kJBQ"
+      }
+    },
+    {
+      "RequestUri": "https://azure_managedhsm.managedhsm.azure.net/keys/okp-sign-verify-25231//verify?api-version=7.4-preview.1",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "167",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-keyvault-keys/4.6.1 azsdk-js-keyvault-keys/4.6.1 core-rest-pipeline/1.10.0 Node/v16.15.1 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "ffcec257-8609-49fb-83a6-c8aa63d1ee40"
+      },
+      "RequestBody": {
+        "alg": "EdDSA",
+        "digest": "MV9b23bQeMQ7isAGTkoBZGErH853yGk0W_yUx1iU7dM",
+        "value": "AJr0ykLMR1xyUpWIa9xck33vvHsKLSY-egDBeUkFrtIHktYGzw-koxLoUjT18a1N6v9RoxYEQnNBtK8hq_kJBQ"
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "142",
+        "Content-Security-Policy": "default-src \u0027self\u0027",
+        "Content-Type": "application/json; charset=utf-8",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "SAMEORIGIN",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=167.220.76.222;act_addr_fam=Ipv4;",
+        "x-ms-keyvault-region": "northus",
+        "x-ms-request-id": "a9c66876-6052-11ed-9307-000d3a610397",
+        "x-ms-server-latency": "13"
+      },
+      "ResponseBody": {
+        "alg": "EdDSA",
+        "kid": "https://azure_managedhsm.managedhsm.azure.net/keys/okp-sign-verify-25231/a19390eb24e007efa2a6f64f61bac1df",
+        "value": true
+      }
+    }
+  ],
+  "Variables": {
+    "okp-sign-verify": "okp-sign-verify-25231"
+  }
+}

@@ -1,6 +1,6 @@
 # Release History
 
-## 4.0.0 (Unreleased)
+## 4.0.0 (2022-09-08)
 
 ### Features Added
 
@@ -8,7 +8,8 @@
 
 ### Breaking Changes
 
-- Renamed the `getModel` and `listModels` methods of `DocumentModelAdministrationClient` to `getDocumentModel` and `listDocumentModels` respectively.
+- Renamed `DocumentModelAdministrationClient` methods to have the word `Document` in them, for example `getModel` and `listModels` are updated to `getDocumentModel` and `listDocumentModels` respectively.
+- Renamed all fields named `createdDateTime` and `lastUpdateDateTime` to `createdOn` and `lastUpdatedOn` respectively.
 
 ## 4.0.0-beta.6 (2022-08-09)
 

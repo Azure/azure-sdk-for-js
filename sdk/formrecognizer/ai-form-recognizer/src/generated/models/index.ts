@@ -58,9 +58,9 @@ export interface AnalyzeResultOperation {
   /** Operation status. */
   status: AnalyzeResultOperationStatus;
   /** Date and time (UTC) when the analyze operation was submitted. */
-  createdDateTime: Date;
+  createdOn: Date;
   /** Date and time (UTC) when the status was last updated. */
-  lastUpdatedDateTime: Date;
+  lastUpdatedOn: Date;
   /** Encountered error during document analysis. */
   error?: ErrorModel;
   /** Document analysis result. */
@@ -419,9 +419,9 @@ export interface OperationSummary {
   /** Operation progress (0-100). */
   percentCompleted?: number;
   /** Date and time (UTC) when the operation was created. */
-  createdDateTime: Date;
+  createdOn: Date;
   /** Date and time (UTC) when the status was last updated. */
-  lastUpdatedDateTime: Date;
+  lastUpdatedOn: Date;
   /** Type of operation. */
   kind: OperationKind;
   /** URL of the resource targeted by this operation. */
@@ -443,9 +443,9 @@ export interface OperationDetails {
   /** Operation progress (0-100). */
   percentCompleted?: number;
   /** Date and time (UTC) when the operation was created. */
-  createdDateTime: Date;
+  createdOn: Date;
   /** Date and time (UTC) when the status was last updated. */
-  lastUpdatedDateTime: Date;
+  lastUpdatedOn: Date;
   /** URL of the resource targeted by this operation. */
   resourceLocation: string;
   /** API version used to create this operation. */
@@ -471,7 +471,7 @@ export interface DocumentModelSummary {
   /** Document model description. */
   description?: string;
   /** Date and time (UTC) when the document model was created. */
-  createdDateTime: Date;
+  createdOn: Date;
   /** API version used to create this document model. */
   apiVersion?: string;
   /** List of key-value tag attributes associated with the document model. */
@@ -485,7 +485,7 @@ export interface DocumentModelDetails {
   /** Document model description. */
   description?: string;
   /** Date and time (UTC) when the document model was created. */
-  createdDateTime: Date;
+  createdOn: Date;
   /** API version used to create this document model. */
   apiVersion?: string;
   /** List of key-value tag attributes associated with the document model. */

@@ -76,6 +76,18 @@ app.get("/api/sample_uuid_in_header", function (_, res) {
   res.send();
 });
 
+app.all("/content_length_test", function (req, res) {
+  if (["GET", "DELETE"].includes(req.method) && req.header("Content-Length")) {
+    res.status(400).json({ error: "Content-Length header should not be present" });
+  } else {
+    res.status(204).send();
+  }
+});
+
+app.get("///multiple_slashes", (_, res) => {
+  res.send({ val: "abc" });
+});
+
 app.listen(port, () => {
   console.log(`server started at ${TEST_SERVER_URL}`);
 });

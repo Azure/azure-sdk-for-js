@@ -4,14 +4,14 @@
 import { URL } from "url";
 import { ReadableSpan, TimedEvent } from "@opentelemetry/sdk-trace-base";
 import { hrTimeToMilliseconds } from "@opentelemetry/core";
-import { diag, SpanKind, SpanStatusCode, Link, SpanAttributes } from "@opentelemetry/api";
+import { diag, SpanKind, SpanStatusCode, Link, Attributes } from "@opentelemetry/api";
 import { SemanticAttributes, DbSystemValues } from "@opentelemetry/semantic-conventions";
 
-import { createTagsFromResource } from "./resourceUtils";
+import { createTagsFromResource, getDependencyTarget, getUrl, isSqlDB } from "./common";
 import { Tags, Properties, MSLink, Measurements } from "../types";
 import { msToTimeSpan } from "./breezeUtils";
 import { parseEventHubSpan } from "./eventhub";
-import { DependencyTypes, MS_LINKS } from "./constants/applicationinsights";
+import { AzureMonitorSampleRate, DependencyTypes, MS_LINKS } from "./constants/applicationinsights";
 import { AzNamespace, MicrosoftEventHub } from "./constants/span/azAttributes";
 import {
   TelemetryExceptionData,
@@ -23,7 +23,7 @@ import {
   TelemetryExceptionDetails,
 } from "../generated";
 
-function createGenericTagsFromSpan(span: ReadableSpan): Tags {
+function createTagsFromSpan(span: ReadableSpan): Tags {
   const tags: Tags = createTagsFromResource(span.resource);
   tags[KnownContextTagKeys.AiOperationId] = span.spanContext().traceId;
   if (span.parentSpanId) {
@@ -34,11 +34,6 @@ function createGenericTagsFromSpan(span: ReadableSpan): Tags {
     // TODO: Not exposed in Swagger, need to update def
     tags["ai.user.userAgent"] = String(httpUserAgent);
   }
-  return tags;
-}
-
-function createTagsFromSpan(span: ReadableSpan): Tags {
-  const tags: Tags = createGenericTagsFromSpan(span);
   if (span.kind === SpanKind.SERVER) {
     const httpMethod = span.attributes[SemanticAttributes.HTTP_METHOD];
     const httpClientIp = span.attributes[SemanticAttributes.HTTP_CLIENT_IP];
@@ -74,7 +69,7 @@ function createTagsFromSpan(span: ReadableSpan): Tags {
   return tags;
 }
 
-function createPropertiesFromSpanAttributes(attributes?: SpanAttributes): {
+function createPropertiesFromSpanAttributes(attributes?: Attributes): {
   [propertyName: string]: string;
 } {
   const properties: { [propertyName: string]: string } = {};
@@ -93,7 +88,8 @@ function createPropertiesFromSpanAttributes(attributes?: SpanAttributes): {
           key.startsWith("exception.") ||
           key.startsWith("thread.") ||
           key.startsWith("faas.") ||
-          key.startsWith("code.")
+          key.startsWith("code.") ||
+          key.startsWith("_MS.")
         )
       ) {
         properties[key] = attributes[key] as string;
@@ -115,73 +111,6 @@ function createPropertiesFromSpan(span: ReadableSpan): [Properties, Measurements
     properties[MS_LINKS] = JSON.stringify(links);
   }
   return [properties, measurements];
-}
-
-function isSqlDB(dbSystem: string) {
-  return (
-    dbSystem === DbSystemValues.DB2 ||
-    dbSystem === DbSystemValues.DERBY ||
-    dbSystem === DbSystemValues.MARIADB ||
-    dbSystem === DbSystemValues.MSSQL ||
-    dbSystem === DbSystemValues.ORACLE ||
-    dbSystem === DbSystemValues.SQLITE ||
-    dbSystem === DbSystemValues.OTHER_SQL ||
-    dbSystem === DbSystemValues.HSQLDB ||
-    dbSystem === DbSystemValues.H2
-  );
-}
-
-function getUrl(span: ReadableSpan): string {
-  const httpMethod = span.attributes[SemanticAttributes.HTTP_METHOD];
-  if (httpMethod) {
-    const httpUrl = span.attributes[SemanticAttributes.HTTP_URL];
-    if (httpUrl) {
-      return String(httpUrl);
-    } else {
-      const httpScheme = span.attributes[SemanticAttributes.HTTP_SCHEME];
-      const httpTarget = span.attributes[SemanticAttributes.HTTP_TARGET];
-      if (httpScheme && httpTarget) {
-        const httpHost = span.attributes[SemanticAttributes.HTTP_HOST];
-        if (httpHost) {
-          return `${httpScheme}://${httpHost}${httpTarget}`;
-        } else {
-          const netPeerPort = span.attributes[SemanticAttributes.NET_PEER_PORT];
-          if (netPeerPort) {
-            const netPeerName = span.attributes[SemanticAttributes.NET_PEER_NAME];
-            if (netPeerName) {
-              return `${httpScheme}://${netPeerName}:${netPeerPort}${httpTarget}`;
-            } else {
-              const netPeerIp = span.attributes[SemanticAttributes.NET_PEER_IP];
-              if (netPeerIp) {
-                return `${httpScheme}://${netPeerIp}:${netPeerPort}${httpTarget}`;
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-  return "";
-}
-
-function getDependencyTarget(span: ReadableSpan): string {
-  const peerService = span.attributes[SemanticAttributes.PEER_SERVICE];
-  const httpHost = span.attributes[SemanticAttributes.HTTP_HOST];
-  const httpUrl = span.attributes[SemanticAttributes.HTTP_URL];
-  const netPeerName = span.attributes[SemanticAttributes.NET_PEER_NAME];
-  const netPeerIp = span.attributes[SemanticAttributes.NET_PEER_IP];
-  if (peerService) {
-    return String(peerService);
-  } else if (httpHost) {
-    return String(httpHost);
-  } else if (httpUrl) {
-    return String(httpUrl);
-  } else if (netPeerName) {
-    return String(netPeerName);
-  } else if (netPeerIp) {
-    return String(netPeerIp);
-  }
-  return "";
 }
 
 function createDependencyData(span: ReadableSpan): RemoteDependencyData {
@@ -214,12 +143,12 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
       } catch (ex: any) {}
     }
     remoteDependencyData.type = DependencyTypes.Http;
-    remoteDependencyData.data = getUrl(span);
+    remoteDependencyData.data = getUrl(span.attributes);
     const httpStatusCode = span.attributes[SemanticAttributes.HTTP_STATUS_CODE];
     if (httpStatusCode) {
       remoteDependencyData.resultCode = String(httpStatusCode);
     }
-    let target = getDependencyTarget(span);
+    let target = getDependencyTarget(span.attributes);
     if (target) {
       try {
         // Remove default port
@@ -260,7 +189,7 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
     } else if (dbOperation) {
       remoteDependencyData.data = String(dbOperation);
     }
-    let target = getDependencyTarget(span);
+    let target = getDependencyTarget(span.attributes);
     const dbName = span.attributes[SemanticAttributes.DB_NAME];
     if (target) {
       remoteDependencyData.target = dbName ? `${target}|${dbName}` : `${target}`;
@@ -275,7 +204,7 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
     if (grpcStatusCode) {
       remoteDependencyData.resultCode = String(grpcStatusCode);
     }
-    let target = getDependencyTarget(span);
+    let target = getDependencyTarget(span.attributes);
     if (target) {
       remoteDependencyData.target = `${target}`;
     } else if (rpcSystem) {
@@ -297,7 +226,7 @@ function createRequestData(span: ReadableSpan): RequestData {
   const httpMethod = span.attributes[SemanticAttributes.HTTP_METHOD];
   const grpcStatusCode = span.attributes[SemanticAttributes.RPC_GRPC_STATUS_CODE];
   if (httpMethod) {
-    requestData.url = getUrl(span);
+    requestData.url = getUrl(span.attributes);
     const httpStatusCode = span.attributes[SemanticAttributes.HTTP_STATUS_CODE];
     if (httpStatusCode) {
       requestData.responseCode = String(httpStatusCode);
@@ -315,7 +244,6 @@ function createRequestData(span: ReadableSpan): RequestData {
 export function readableSpanToEnvelope(span: ReadableSpan, ikey: string): Envelope {
   let name: string;
   let baseType: "RemoteDependencyData" | "RequestData";
-  const sampleRate = 100;
   let baseData: RemoteDependencyData | RequestData;
 
   const time = new Date(hrTimeToMilliseconds(span.startTime));
@@ -341,6 +269,11 @@ export function readableSpanToEnvelope(span: ReadableSpan, ikey: string): Envelo
       // never
       diag.error(`Unsupported span kind ${span.kind}`);
       throw new Error(`Unsupported span kind ${span.kind}`);
+  }
+
+  let sampleRate = 100;
+  if (span.attributes[AzureMonitorSampleRate]) {
+    sampleRate = Number(span.attributes[AzureMonitorSampleRate]);
   }
 
   // Azure SDK
@@ -380,14 +313,20 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
   if (span.events) {
     span.events.forEach((event: TimedEvent) => {
       let baseType: "ExceptionData" | "MessageData";
-      const sampleRate = 100;
       let time = new Date(hrTimeToMilliseconds(event.time));
       let name = "";
       let baseData: TelemetryExceptionData | MessageData;
       const properties = createPropertiesFromSpanAttributes(event.attributes);
-      const tags: Tags = createGenericTagsFromSpan(span);
 
-      if (event.name == "exception") {
+      let tags: Tags = createTagsFromResource(span.resource);
+      tags[KnownContextTagKeys.AiOperationId] = span.spanContext().traceId;
+      let spanId = span.spanContext()?.spanId;
+      if (spanId) {
+        tags[KnownContextTagKeys.AiOperationParentId] = spanId;
+      }
+
+      // Only generate exception telemetry for incoming requests
+      if (event.name == "exception" && span.kind == SpanKind.SERVER) {
         name = "Microsoft.ApplicationInsights.Exception";
         baseType = "ExceptionData";
         let typeName = "";
@@ -430,6 +369,10 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
           properties: properties,
         };
         baseData = messageData;
+      }
+      let sampleRate = 100;
+      if (span.attributes[AzureMonitorSampleRate]) {
+        sampleRate = Number(span.attributes[AzureMonitorSampleRate]);
       }
       let env: Envelope = {
         name: name,

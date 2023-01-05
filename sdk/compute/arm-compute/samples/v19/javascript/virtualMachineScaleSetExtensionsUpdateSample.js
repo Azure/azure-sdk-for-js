@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to The operation to update an extension.
  *
  * @summary The operation to update an extension.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtensions_Update_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtensions_Update_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetExtensionsUpdateMaximumSetGen() {
   const subscriptionId = "{subscription-id}";
@@ -51,7 +51,7 @@ virtualMachineScaleSetExtensionsUpdateMaximumSetGen().catch(console.error);
  * This sample demonstrates how to The operation to update an extension.
  *
  * @summary The operation to update an extension.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtensions_Update_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtensions_Update_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetExtensionsUpdateMinimumSetGen() {
   const subscriptionId = "{subscription-id}";

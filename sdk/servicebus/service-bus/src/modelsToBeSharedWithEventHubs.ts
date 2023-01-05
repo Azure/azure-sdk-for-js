@@ -3,7 +3,7 @@
 
 // TODO: this code is a straight-copy from EventHubs. Need to merge.
 
-import { OperationTracingOptions, TracingSpan } from "@azure/core-tracing";
+import { OperationTracingOptions } from "@azure/core-tracing";
 import { OperationOptions } from "@azure/core-client";
 
 /**
@@ -21,27 +21,4 @@ export interface TryAddOptions {
    * The options to use when creating Spans for tracing.
    */
   tracingOptions?: OperationTracingOptions;
-}
-
-/**
- * Runs the `fn` passed in and marks the span as completed with an error (and the
- * corresponding message) or as OK.
- *
- * @hidden
- * @internal
- */
-export async function trace<T>(fn: () => Promise<T>, span: TracingSpan): Promise<T> {
-  try {
-    const ret = await fn();
-    span.setStatus({ status: "success" });
-    return ret;
-  } catch (err: any) {
-    span.setStatus({
-      status: "error",
-      error: err,
-    });
-    throw err;
-  } finally {
-    span.end();
-  }
 }

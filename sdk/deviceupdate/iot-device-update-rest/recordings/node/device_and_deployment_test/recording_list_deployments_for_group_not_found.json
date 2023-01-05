@@ -1,30 +1,30 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/deviceUpdate/sdkinstance/management/groups/foo/deployments?api-version=2022-07-01-preview",
+      "RequestUri": "https://endpoint/deviceUpdate/sdkinstance/management/groups/foo/deployments?api-version=2022-10-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-iot-device-update-rest/1.0.0-beta.2 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "12c0f216-c465-451c-811e-d6fbc620597c"
+        "User-Agent": "azsdk-js-iot-device-update-rest/1.0.0 core-rest-pipeline/1.9.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "60080f14-351f-4c4f-a440-40a6692f92a9"
       },
       "RequestBody": null,
       "StatusCode": 404,
       "ResponseHeaders": {
         "Content-Length": "183",
         "Content-Type": "application/problem\u002Bjson; charset=utf-8",
-        "Date": "Tue, 05 Jul 2022 23:38:07 GMT",
-        "mise-correlation-id": "d4c1e2d9-114e-48cb-9fdd-8981ca47e51d",
-        "traceparent": "00-058f65d203a879573ba4ade06e1dd2ef-5d1dfbe16be221fd-00"
+        "Date": "Thu, 01 Sep 2022 21:43:55 GMT",
+        "mise-correlation-id": "b0a297c7-123d-41c0-a638-73c77397245b",
+        "traceparent": "00-1ac290a7e22064f7198302b2e8b5fc43-e15d74640dd96d24-00"
       },
       "ResponseBody": {
         "type": "https://tools.ietf.org/html/rfc7231#section-6.5.4",
         "title": "Not Found",
         "status": 404,
-        "traceId": "00-058f65d203a879573ba4ade06e1dd2ef-f4e71397ad4ae64d-00"
+        "traceId": "00-1ac290a7e22064f7198302b2e8b5fc43-729118e7c1999747-00"
       }
     }
   ],

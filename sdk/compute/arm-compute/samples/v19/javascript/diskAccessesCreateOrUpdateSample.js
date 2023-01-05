@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Creates or updates a disk access resource
  *
  * @summary Creates or updates a disk access resource
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-02/DiskRP/examples/diskAccessExamples/DiskAccess_Create.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskAccessExamples/DiskAccess_Create.json
  */
 async function createADiskAccessResource() {
   const subscriptionId = "{subscription-id}";

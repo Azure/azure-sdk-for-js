@@ -11,7 +11,7 @@ import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 
 const packageName = "@azure/batch";
-const packageVersion = "10.1.0";
+const packageVersion = "10.2.0";
 
 export class BatchServiceClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;
@@ -42,7 +42,7 @@ export class BatchServiceClientContext extends msRestAzure.AzureServiceClient {
 
     super(credentials, options);
 
-    this.apiVersion = '2022-01-01.15.0';
+    this.apiVersion = '2022-10-01.16.0';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = "{batchUrl}";

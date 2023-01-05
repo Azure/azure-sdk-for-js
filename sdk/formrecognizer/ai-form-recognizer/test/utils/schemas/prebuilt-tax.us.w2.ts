@@ -268,7 +268,7 @@ function modelInfo() {
   return {
     modelId: "prebuilt-tax.us.w2",
     description: "Extract key information from IRS US W2 tax forms (year 2018-2021).",
-    createdDateTime: "2022-08-31T00:00:00.000Z",
+    createdOn: "2022-08-31T00:00:00.000Z",
     apiVersion: "2022-08-31",
     docTypes: {
       "tax.us.w2": {

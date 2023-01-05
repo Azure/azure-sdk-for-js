@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { PostgreSQLManagementFlexibleServerClient } = require("@azure/arm-postgresql-flexible");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets information about a server.
@@ -18,16 +19,15 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2021-06-01/examples/ServerGet.json
  */
 async function serverGet() {
-  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = "testrg";
+  const subscriptionId =
+    process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
   const serverName = "pgtestsvc1";
   const credential = new DefaultAzureCredential();
   const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
   const result = await client.servers.get(resourceGroupName, serverName);
   console.log(result);
 }
-
-serverGet().catch(console.error);
 
 /**
  * This sample demonstrates how to Gets information about a server.
@@ -36,8 +36,9 @@ serverGet().catch(console.error);
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2021-06-01/examples/ServerGetWithVnet.json
  */
 async function serverGetWithVnet() {
-  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = "testrg";
+  const subscriptionId =
+    process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
   const serverName = "pgtestsvc4";
   const credential = new DefaultAzureCredential();
   const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
@@ -45,4 +46,9 @@ async function serverGetWithVnet() {
   console.log(result);
 }
 
-serverGetWithVnet().catch(console.error);
+async function main() {
+  serverGet();
+  serverGetWithVnet();
+}
+
+main().catch(console.error);

@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Gets a list of all virtual machines in a VM scale sets.
  *
  * @summary Gets a list of all virtual machines in a VM scale sets.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMs_List_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMs_List_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetVMSListMaximumSetGen() {
   const subscriptionId = "{subscription-id}";
@@ -51,7 +51,7 @@ virtualMachineScaleSetVMSListMaximumSetGen().catch(console.error);
  * This sample demonstrates how to Gets a list of all virtual machines in a VM scale sets.
  *
  * @summary Gets a list of all virtual machines in a VM scale sets.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMs_List_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMs_List_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetVMSListMinimumSetGen() {
   const subscriptionId = "{subscription-id}";

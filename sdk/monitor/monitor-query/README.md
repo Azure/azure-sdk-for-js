@@ -18,7 +18,7 @@ The Azure Monitor Query client library is used to execute read-only queries agai
 
 ### Supported environments
 
-- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
 - Latest versions of Safari, Chrome, Edge, and Firefox
 
 For more details, see our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md).
@@ -61,8 +61,7 @@ For examples of Logs and Metrics queries, see the [Examples](#examples) section.
 
 ### Logs query rate limits and throttling
 
-The Log Analytics service applies throttling when the request rate is too high. Limits, such as the maximum number of rows returned, are also applied on the Kusto queries. For more information, see [Query API](https://docs.microsoft.com/azure/azure-monitor/service-limits#la-query-api).
-
+The Log Analytics service applies throttling when the request rate is too high. Limits, such as the maximum number of rows returned, are also applied on the Kusto queries. For more information, see [Query API](https://learn.microsoft.com/azure/azure-monitor/service-limits#la-query-api).
 ### Metrics data structure
 
 Each set of metric values is a time series with the following characteristics:
@@ -369,8 +368,6 @@ async function processTables(tablesFromResult: LogsTable[]) {
 ```
 
 A full sample can be found [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/samples/v1/typescript/src/logsQueryBatch.ts).
-
-For information on request throttling at the Log Analytics service level, see [Rate limits](https://dev.loganalytics.io/documentation/Using-the-API/Limits).
 
 ### Advanced logs query scenarios
 

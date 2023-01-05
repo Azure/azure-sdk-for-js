@@ -98,6 +98,9 @@ export interface DnsResourceReferenceResult {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export interface MxRecord {
     exchange?: string;
     preference?: number;
@@ -287,16 +290,16 @@ export interface TxtRecord {
 }
 
 // @public
-export type Zone = Resource & {
+export interface Zone extends Resource {
     etag?: string;
     readonly maxNumberOfRecordSets?: number;
     readonly maxNumberOfRecordsPerRecordSet?: number;
-    readonly numberOfRecordSets?: number;
     readonly nameServers?: string[];
-    zoneType?: ZoneType;
+    readonly numberOfRecordSets?: number;
     registrationVirtualNetworks?: SubResource[];
     resolutionVirtualNetworks?: SubResource[];
-};
+    zoneType?: ZoneType;
+}
 
 // @public
 export interface ZoneListResult {

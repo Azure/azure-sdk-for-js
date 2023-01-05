@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpHeaders, RequestPolicyOptions } from "../../src/coreHttp";
+import { HttpHeaders, RequestPolicyOptions } from "../../src";
 import { HttpOperationResponse } from "../../src/httpOperationResponse";
 import { RedirectPolicy } from "../../src/policies/redirectPolicy";
 import { WebResource } from "../../src/webResource";

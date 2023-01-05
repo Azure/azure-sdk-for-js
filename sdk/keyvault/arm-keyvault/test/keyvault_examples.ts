@@ -8,31 +8,25 @@
 
 import {
   env,
-  record,
-  RecorderEnvironmentSetup,
   Recorder,
+  RecorderStartOptions,
   delay,
-  isPlaybackMode
+  isPlaybackMode,
 } from "@azure-tools/test-recorder";
-import * as assert from "assert";
-import { ClientSecretCredential } from "@azure/identity";
+import { createTestCredential } from "@azure-tools/test-credential";
+import { assert } from "chai";
+import { Context } from "mocha";
 import { KeyVaultManagementClient } from "../src/keyVaultManagementClient";
 
-const recorderEnvSetup: RecorderEnvironmentSetup = {
-  replaceableVariables: {
-    AZURE_CLIENT_ID: "azure_client_id",
-    AZURE_CLIENT_SECRET: "azure_client_secret",
-    AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-    SUBSCRIPTION_ID: "azure_subscription_id"
-  },
-  customizationsOnRecordings: [
-    (recording: any): any =>
-      recording.replace(
-        /"access_token":"[^"]*"/g,
-        `"access_token":"access_token"`
-      )
-  ],
-  queryParametersToSkip: []
+const replaceableVariables: Record<string, string> = {
+  AZURE_CLIENT_ID: "azure_client_id",
+  AZURE_CLIENT_SECRET: "azure_client_secret",
+  AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
+  SUBSCRIPTION_ID: "azure_subscription_id"
+};
+
+const recorderOptions: RecorderStartOptions = {
+  envSetupForPlayback: replaceableVariables
 };
 
 export const testPollingOptions = {
@@ -48,28 +42,25 @@ describe("Keyvault test", () => {
   let vaultName: string;
   let tenantId: string;
 
-  beforeEach(async function() {
-    recorder = record(this, recorderEnvSetup);
-    subscriptionId = env.SUBSCRIPTION_ID;
-    tenantId = env.AZURE_TENANT_ID;
+  beforeEach(async function (this: Context) {
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderOptions);
+    subscriptionId = env.SUBSCRIPTION_ID || '';
+    tenantId = env.AZURE_TENANT_ID || '';
     // This is an example of how the environment variables are used
-    const credential = new ClientSecretCredential(
-      env.AZURE_TENANT_ID,
-      env.AZURE_CLIENT_ID,
-      env.AZURE_CLIENT_SECRET
-    );
-    client = new KeyVaultManagementClient(credential, subscriptionId);
+    const credential = createTestCredential();
+    client = new KeyVaultManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "eastus";
     resourceGroup = "myjstest";
     vaultName = "myvaultzzzz";
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
-  it("vaults create test", async function() {
-    const res = await client.vaults.beginCreateOrUpdateAndWait(resourceGroup,vaultName,{
+  it("vaults create test", async function () {
+    const res = await client.vaults.beginCreateOrUpdateAndWait(resourceGroup, vaultName, {
       location: "eastus",
       properties: {
         tenantId: tenantId,
@@ -133,32 +124,32 @@ describe("Keyvault test", () => {
         enabledForDiskEncryption: true,
         enabledForTemplateDeployment: true,
       }
-    },testPollingOptions)
-    assert.equal(res.name,vaultName);
+    }, testPollingOptions)
+    assert.equal(res.name, vaultName);
   });
 
-  it("vaults get test", async function() {
-    if(isPlaybackMode()) { 
-      this.skip() 
+  it("vaults get test", async function () {
+    if (isPlaybackMode()) {
+      this.skip()
     }
 
-    const res = await client.vaults.get(resourceGroup,vaultName);
-    assert.equal(res.name,vaultName);
+    const res = await client.vaults.get(resourceGroup, vaultName);
+    assert.equal(res.name, vaultName);
   });
 
-  it("vaults list test", async function() {
-    if(isPlaybackMode()) { 
-      this.skip() 
+  it("vaults list test", async function () {
+    if (isPlaybackMode()) {
+      this.skip()
     }
     const resArray = new Array();
-    for await (let item of client.vaults.listByResourceGroup(resourceGroup)){
+    for await (let item of client.vaults.listByResourceGroup(resourceGroup)) {
       resArray.push(item)
     }
-    assert.equal(resArray.length,1);
+    assert.equal(resArray.length, 1);
   });
 
-  it("vaults update test", async function() {
-    const res = await client.vaults.update(resourceGroup,vaultName,{
+  it("vaults update test", async function () {
+    const res = await client.vaults.update(resourceGroup, vaultName, {
       properties: {
         tenantId: tenantId,
         sku: {
@@ -222,15 +213,15 @@ describe("Keyvault test", () => {
         enabledForTemplateDeployment: true,
       }
     })
-    assert.equal(res.type,"Microsoft.KeyVault/vaults");
+    assert.equal(res.type, "Microsoft.KeyVault/vaults");
   });
 
-  it("vaults delete test", async function() {
-    const res = await client.vaults.delete(resourceGroup,vaultName);
+  it("vaults delete test", async function () {
+    const res = await client.vaults.delete(resourceGroup, vaultName);
     const resArray = new Array();
-    for await (let item of client.vaults.listByResourceGroup(resourceGroup)){
+    for await (let item of client.vaults.listByResourceGroup(resourceGroup)) {
       resArray.push(item)
     }
-    assert.equal(resArray.length,0);
+    assert.equal(resArray.length, 0);
   });
 });

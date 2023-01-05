@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ReplicationNetworks } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,12 +17,12 @@ import {
   Network,
   ReplicationNetworksListByReplicationFabricsNextOptionalParams,
   ReplicationNetworksListByReplicationFabricsOptionalParams,
+  ReplicationNetworksListByReplicationFabricsResponse,
   ReplicationNetworksListNextOptionalParams,
   ReplicationNetworksListOptionalParams,
-  ReplicationNetworksListByReplicationFabricsResponse,
+  ReplicationNetworksListResponse,
   ReplicationNetworksGetOptionalParams,
   ReplicationNetworksGetResponse,
-  ReplicationNetworksListResponse,
   ReplicationNetworksListByReplicationFabricsNextResponse,
   ReplicationNetworksListNextResponse
 } from "../models";
@@ -41,14 +42,24 @@ export class ReplicationNetworksImpl implements ReplicationNetworks {
 
   /**
    * Lists the networks available for a fabric.
+   * @param resourceName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
    * @param fabricName Fabric name.
    * @param options The options parameters.
    */
   public listByReplicationFabrics(
+    resourceName: string,
+    resourceGroupName: string,
     fabricName: string,
     options?: ReplicationNetworksListByReplicationFabricsOptionalParams
   ): PagedAsyncIterableIterator<Network> {
-    const iter = this.listByReplicationFabricsPagingAll(fabricName, options);
+    const iter = this.listByReplicationFabricsPagingAll(
+      resourceName,
+      resourceGroupName,
+      fabricName,
+      options
+    );
     return {
       next() {
         return iter.next();
@@ -56,35 +67,66 @@ export class ReplicationNetworksImpl implements ReplicationNetworks {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByReplicationFabricsPagingPage(fabricName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByReplicationFabricsPagingPage(
+          resourceName,
+          resourceGroupName,
+          fabricName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByReplicationFabricsPagingPage(
+    resourceName: string,
+    resourceGroupName: string,
     fabricName: string,
-    options?: ReplicationNetworksListByReplicationFabricsOptionalParams
+    options?: ReplicationNetworksListByReplicationFabricsOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Network[]> {
-    let result = await this._listByReplicationFabrics(fabricName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ReplicationNetworksListByReplicationFabricsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByReplicationFabrics(
+        resourceName,
+        resourceGroupName,
+        fabricName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByReplicationFabricsNext(
+        resourceName,
+        resourceGroupName,
         fabricName,
         continuationToken,
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
   private async *listByReplicationFabricsPagingAll(
+    resourceName: string,
+    resourceGroupName: string,
     fabricName: string,
     options?: ReplicationNetworksListByReplicationFabricsOptionalParams
   ): AsyncIterableIterator<Network> {
     for await (const page of this.listByReplicationFabricsPagingPage(
+      resourceName,
+      resourceGroupName,
       fabricName,
       options
     )) {
@@ -94,12 +136,17 @@ export class ReplicationNetworksImpl implements ReplicationNetworks {
 
   /**
    * Lists the networks available in a vault.
+   * @param resourceName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
    * @param options The options parameters.
    */
   public list(
+    resourceName: string,
+    resourceGroupName: string,
     options?: ReplicationNetworksListOptionalParams
   ): PagedAsyncIterableIterator<Network> {
-    const iter = this.listPagingAll(options);
+    const iter = this.listPagingAll(resourceName, resourceGroupName, options);
     return {
       next() {
         return iter.next();
@@ -107,104 +154,162 @@ export class ReplicationNetworksImpl implements ReplicationNetworks {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceName,
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listPagingPage(
-    options?: ReplicationNetworksListOptionalParams
+    resourceName: string,
+    resourceGroupName: string,
+    options?: ReplicationNetworksListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Network[]> {
-    let result = await this._list(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listNext(continuationToken, options);
+    let result: ReplicationNetworksListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceName, resourceGroupName, options);
+      let page = result.value || [];
       continuationToken = result.nextLink;
-      yield result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listNext(
+        resourceName,
+        resourceGroupName,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
   private async *listPagingAll(
+    resourceName: string,
+    resourceGroupName: string,
     options?: ReplicationNetworksListOptionalParams
   ): AsyncIterableIterator<Network> {
-    for await (const page of this.listPagingPage(options)) {
+    for await (const page of this.listPagingPage(
+      resourceName,
+      resourceGroupName,
+      options
+    )) {
       yield* page;
     }
   }
 
   /**
    * Lists the networks available for a fabric.
+   * @param resourceName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
    * @param fabricName Fabric name.
    * @param options The options parameters.
    */
   private _listByReplicationFabrics(
+    resourceName: string,
+    resourceGroupName: string,
     fabricName: string,
     options?: ReplicationNetworksListByReplicationFabricsOptionalParams
   ): Promise<ReplicationNetworksListByReplicationFabricsResponse> {
     return this.client.sendOperationRequest(
-      { fabricName, options },
+      { resourceName, resourceGroupName, fabricName, options },
       listByReplicationFabricsOperationSpec
     );
   }
 
   /**
    * Gets the details of a network.
+   * @param resourceName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
    * @param fabricName Server Id.
    * @param networkName Primary network name.
    * @param options The options parameters.
    */
   get(
+    resourceName: string,
+    resourceGroupName: string,
     fabricName: string,
     networkName: string,
     options?: ReplicationNetworksGetOptionalParams
   ): Promise<ReplicationNetworksGetResponse> {
     return this.client.sendOperationRequest(
-      { fabricName, networkName, options },
+      { resourceName, resourceGroupName, fabricName, networkName, options },
       getOperationSpec
     );
   }
 
   /**
    * Lists the networks available in a vault.
+   * @param resourceName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
    * @param options The options parameters.
    */
   private _list(
+    resourceName: string,
+    resourceGroupName: string,
     options?: ReplicationNetworksListOptionalParams
   ): Promise<ReplicationNetworksListResponse> {
-    return this.client.sendOperationRequest({ options }, listOperationSpec);
+    return this.client.sendOperationRequest(
+      { resourceName, resourceGroupName, options },
+      listOperationSpec
+    );
   }
 
   /**
    * ListByReplicationFabricsNext
+   * @param resourceName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
    * @param fabricName Fabric name.
    * @param nextLink The nextLink from the previous successful call to the ListByReplicationFabrics
    *                 method.
    * @param options The options parameters.
    */
   private _listByReplicationFabricsNext(
+    resourceName: string,
+    resourceGroupName: string,
     fabricName: string,
     nextLink: string,
     options?: ReplicationNetworksListByReplicationFabricsNextOptionalParams
   ): Promise<ReplicationNetworksListByReplicationFabricsNextResponse> {
     return this.client.sendOperationRequest(
-      { fabricName, nextLink, options },
+      { resourceName, resourceGroupName, fabricName, nextLink, options },
       listByReplicationFabricsNextOperationSpec
     );
   }
 
   /**
    * ListNext
+   * @param resourceName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
+    resourceName: string,
+    resourceGroupName: string,
     nextLink: string,
     options?: ReplicationNetworksListNextOptionalParams
   ): Promise<ReplicationNetworksListNextResponse> {
     return this.client.sendOperationRequest(
-      { nextLink, options },
+      { resourceName, resourceGroupName, nextLink, options },
       listNextOperationSpec
     );
   }
@@ -280,7 +385,6 @@ const listByReplicationFabricsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.NetworkCollection
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -300,7 +404,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.NetworkCollection
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

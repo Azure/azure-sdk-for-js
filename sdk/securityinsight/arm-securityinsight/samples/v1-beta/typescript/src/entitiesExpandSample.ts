@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Expands an entity.
  *
  * @summary Expands an entity.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/entities/expand/PostExpandEntity.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/expand/PostExpandEntity.json
  */
 async function expandAnEntity() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";

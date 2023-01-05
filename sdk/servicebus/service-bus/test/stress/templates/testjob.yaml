@@ -3,14 +3,14 @@
 {{- define "stress.service-bus" -}}
 metadata:
   labels:
-    testInstance: "service-bus-{{ .Scenario }}-{{ .Release.Name }}-{{ .Release.Revision }}"
-    testName: service-bus-{{ .Scenario }}
+    testInstance: "service-bus-{{ .Stress.Scenario }}-{{ .Release.Name }}-{{ .Release.Revision }}"
+    testName: "service-bus-{{ .Stress.Scenario }}"
     chaos: "true"
 spec:
   containers:
     - name: sb-stressperf
       imagePullPolicy: Always
-      command: ["node", "/app/dist/src/{{ .Scenario }}.js"]
+      command: ["node", "/app/dist/src/{{ .Stress.Scenario }}.js"]
       image: {{ .Values.image }}
       {{- include "stress-test-addons.container-env" . | nindent 6 }}
 {{- end -}}

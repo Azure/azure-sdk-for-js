@@ -21,7 +21,7 @@ import { Constants } from "../util/constants";
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { RestError } from "../restError";
 import { WebResourceLike } from "../webResource";
-import { delay } from "../util/delay";
+import { delay } from "@azure/core-util";
 import { logger } from "../log";
 
 /**

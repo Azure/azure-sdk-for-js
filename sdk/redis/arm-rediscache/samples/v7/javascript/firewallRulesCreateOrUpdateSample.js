@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Create or update a redis cache firewall rule
  *
  * @summary Create or update a redis cache firewall rule
- * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2022-05-01/examples/RedisCacheFirewallRuleCreate.json
+ * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2022-06-01/examples/RedisCacheFirewallRuleCreate.json
  */
 async function redisCacheFirewallRuleCreate() {
   const subscriptionId = "subid";

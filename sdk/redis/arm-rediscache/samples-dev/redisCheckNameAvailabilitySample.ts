@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Checks that the redis cache name is valid and is not already in use.
  *
  * @summary Checks that the redis cache name is valid and is not already in use.
- * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2022-05-01/examples/RedisCacheCheckNameAvailability.json
+ * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2022-06-01/examples/RedisCacheCheckNameAvailability.json
  */
 async function redisCacheCheckNameAvailability() {
   const subscriptionId = "subid";

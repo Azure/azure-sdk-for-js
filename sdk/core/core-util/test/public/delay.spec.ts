@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import * as sinon from "sinon";
+import { AbortController } from "@azure/abort-controller";
 import { assert } from "chai";
 import { delay } from "../../src";
 
@@ -19,5 +20,23 @@ describe("delay", function () {
     assert.strictEqual(time, delayTime);
     // should be resolved, so we can await it and it will resolve next tick
     await delayPromise;
+  });
+
+  it("should return when the abort signal is called", async function () {
+    const delayTime = 2500;
+    const controller = new AbortController();
+    const StandardAbortMessage = "The operation was aborted.";
+    const delayPromise = delay(delayTime, {
+      abortSignal: controller.signal,
+      abortErrorMsg: StandardAbortMessage,
+    });
+    try {
+      controller.abort();
+      await delayPromise;
+      assert.fail();
+    } catch (err: any) {
+      assert.strictEqual(err.name, "AbortError");
+      assert.strictEqual(err.message, StandardAbortMessage);
+    }
   });
 });

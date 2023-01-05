@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Updates a data connection.
  *
  * @summary Updates a data connection.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-02-01/examples/KustoDataConnectionsEventGridUpdate.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoDataConnectionsEventGridUpdate.json
  */
 async function kustoDataConnectionsEventGridUpdate() {
   const subscriptionId = "12345678-1234-1234-1234-123456789098";
@@ -60,7 +60,7 @@ kustoDataConnectionsEventGridUpdate().catch(console.error);
  * This sample demonstrates how to Updates a data connection.
  *
  * @summary Updates a data connection.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-02-01/examples/KustoDataConnectionsUpdate.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoDataConnectionsUpdate.json
  */
 async function kustoDataConnectionsUpdate() {
   const subscriptionId = "12345678-1234-1234-1234-123456789098";

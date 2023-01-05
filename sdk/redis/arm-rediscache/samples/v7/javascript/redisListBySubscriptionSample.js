@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Gets all Redis caches in the specified subscription.
  *
  * @summary Gets all Redis caches in the specified subscription.
- * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2022-05-01/examples/RedisCacheList.json
+ * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2022-06-01/examples/RedisCacheList.json
  */
 async function redisCacheList() {
   const subscriptionId = "subid";

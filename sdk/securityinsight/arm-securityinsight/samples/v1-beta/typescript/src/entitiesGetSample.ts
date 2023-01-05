@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Gets an entity.
  *
  * @summary Gets an entity.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/entities/GetCloudApplicationEntityById.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/GetCloudApplicationEntityById.json
  */
 async function getACloudApplicationEntity() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -38,7 +38,7 @@ getACloudApplicationEntity().catch(console.error);
  * This sample demonstrates how to Gets an entity.
  *
  * @summary Gets an entity.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/entities/GetDnsEntityById.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/GetDnsEntityById.json
  */
 async function getADnsEntity() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -61,7 +61,7 @@ getADnsEntity().catch(console.error);
  * This sample demonstrates how to Gets an entity.
  *
  * @summary Gets an entity.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/entities/GetFileEntityById.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/GetFileEntityById.json
  */
 async function getAFileEntity() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -84,7 +84,7 @@ getAFileEntity().catch(console.error);
  * This sample demonstrates how to Gets an entity.
  *
  * @summary Gets an entity.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/entities/GetFileHashEntityById.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/GetFileHashEntityById.json
  */
 async function getAFileHashEntity() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -107,7 +107,7 @@ getAFileHashEntity().catch(console.error);
  * This sample demonstrates how to Gets an entity.
  *
  * @summary Gets an entity.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/entities/GetHostEntityById.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/GetHostEntityById.json
  */
 async function getAHostEntity() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -130,7 +130,7 @@ getAHostEntity().catch(console.error);
  * This sample demonstrates how to Gets an entity.
  *
  * @summary Gets an entity.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/entities/GetMailClusterEntityById.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/GetMailClusterEntityById.json
  */
 async function getAMailClusterEntity() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -153,7 +153,7 @@ getAMailClusterEntity().catch(console.error);
  * This sample demonstrates how to Gets an entity.
  *
  * @summary Gets an entity.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/entities/GetMailMessageEntityById.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/GetMailMessageEntityById.json
  */
 async function getAMailMessageEntity() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -176,7 +176,7 @@ getAMailMessageEntity().catch(console.error);
  * This sample demonstrates how to Gets an entity.
  *
  * @summary Gets an entity.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/entities/GetMailboxEntityById.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/GetMailboxEntityById.json
  */
 async function getAMailboxEntity() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -199,7 +199,7 @@ getAMailboxEntity().catch(console.error);
  * This sample demonstrates how to Gets an entity.
  *
  * @summary Gets an entity.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/entities/GetMalwareEntityById.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/GetMalwareEntityById.json
  */
 async function getAMalwareEntity() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -222,7 +222,7 @@ getAMalwareEntity().catch(console.error);
  * This sample demonstrates how to Gets an entity.
  *
  * @summary Gets an entity.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/entities/GetProcessEntityById.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/GetProcessEntityById.json
  */
 async function getAProcessEntity() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -245,7 +245,7 @@ getAProcessEntity().catch(console.error);
  * This sample demonstrates how to Gets an entity.
  *
  * @summary Gets an entity.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/entities/GetRegistryKeyEntityById.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/GetRegistryKeyEntityById.json
  */
 async function getARegistryKeyEntity() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -268,7 +268,7 @@ getARegistryKeyEntity().catch(console.error);
  * This sample demonstrates how to Gets an entity.
  *
  * @summary Gets an entity.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/entities/GetRegistryValueEntityById.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/GetRegistryValueEntityById.json
  */
 async function getARegistryValueEntity() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -291,7 +291,7 @@ getARegistryValueEntity().catch(console.error);
  * This sample demonstrates how to Gets an entity.
  *
  * @summary Gets an entity.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/entities/GetSecurityAlertEntityById.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/GetSecurityAlertEntityById.json
  */
 async function getASecurityAlertEntity() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -314,7 +314,7 @@ getASecurityAlertEntity().catch(console.error);
  * This sample demonstrates how to Gets an entity.
  *
  * @summary Gets an entity.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/entities/GetSecurityGroupEntityById.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/GetSecurityGroupEntityById.json
  */
 async function getASecurityGroupEntity() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -337,7 +337,7 @@ getASecurityGroupEntity().catch(console.error);
  * This sample demonstrates how to Gets an entity.
  *
  * @summary Gets an entity.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/entities/GetSubmissionMailEntityById.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/GetSubmissionMailEntityById.json
  */
 async function getASubmissionMailEntity() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -360,7 +360,7 @@ getASubmissionMailEntity().catch(console.error);
  * This sample demonstrates how to Gets an entity.
  *
  * @summary Gets an entity.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/entities/GetUrlEntityById.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/GetUrlEntityById.json
  */
 async function getAUrlEntity() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -383,7 +383,7 @@ getAUrlEntity().catch(console.error);
  * This sample demonstrates how to Gets an entity.
  *
  * @summary Gets an entity.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/entities/GetIoTDeviceEntityById.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/GetIoTDeviceEntityById.json
  */
 async function getAnIoTDeviceEntity() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -406,7 +406,7 @@ getAnIoTDeviceEntity().catch(console.error);
  * This sample demonstrates how to Gets an entity.
  *
  * @summary Gets an entity.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/entities/GetAccountEntityById.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/GetAccountEntityById.json
  */
 async function getAnAccountEntity() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -429,7 +429,7 @@ getAnAccountEntity().catch(console.error);
  * This sample demonstrates how to Gets an entity.
  *
  * @summary Gets an entity.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/entities/GetAzureResourceEntityById.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/GetAzureResourceEntityById.json
  */
 async function getAnAzureResourceEntity() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -452,7 +452,7 @@ getAnAzureResourceEntity().catch(console.error);
  * This sample demonstrates how to Gets an entity.
  *
  * @summary Gets an entity.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/entities/GetIpEntityById.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/GetIpEntityById.json
  */
 async function getAnIPEntity() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";

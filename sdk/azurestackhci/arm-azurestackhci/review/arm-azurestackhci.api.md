@@ -31,23 +31,23 @@ export interface ArcIdentityResponse {
 }
 
 // @public
-export type ArcSetting = ProxyResource & {
-    readonly provisioningState?: ProvisioningState;
-    arcInstanceResourceGroup?: string;
-    arcApplicationClientId?: string;
-    arcApplicationTenantId?: string;
-    arcServicePrincipalObjectId?: string;
-    arcApplicationObjectId?: string;
+export interface ArcSetting extends ProxyResource {
     readonly aggregateState?: ArcSettingAggregateState;
-    readonly perNodeDetails?: PerNodeState[];
+    arcApplicationClientId?: string;
+    arcApplicationObjectId?: string;
+    arcApplicationTenantId?: string;
+    arcInstanceResourceGroup?: string;
+    arcServicePrincipalObjectId?: string;
     connectivityProperties?: Record<string, unknown>;
+    createdAt?: Date;
     createdBy?: string;
     createdByType?: CreatedByType;
-    createdAt?: Date;
+    lastModifiedAt?: Date;
     lastModifiedBy?: string;
     lastModifiedByType?: CreatedByType;
-    lastModifiedAt?: Date;
-};
+    readonly perNodeDetails?: PerNodeState[];
+    readonly provisioningState?: ProvisioningState;
+}
 
 // @public
 export type ArcSettingAggregateState = string;
@@ -163,30 +163,30 @@ export interface AzureStackHCIClientOptionalParams extends coreClient.ServiceCli
 }
 
 // @public
-export type Cluster = TrackedResource & {
-    readonly provisioningState?: ProvisioningState;
-    readonly status?: Status;
+export interface Cluster extends TrackedResource {
+    aadApplicationObjectId?: string;
+    aadClientId?: string;
+    aadServicePrincipalObjectId?: string;
+    aadTenantId?: string;
+    readonly billingModel?: string;
     readonly cloudId?: string;
     cloudManagementEndpoint?: string;
-    aadClientId?: string;
-    aadTenantId?: string;
-    aadApplicationObjectId?: string;
-    aadServicePrincipalObjectId?: string;
-    desiredProperties?: ClusterDesiredProperties;
-    readonly reportedProperties?: ClusterReportedProperties;
-    readonly trialDaysRemaining?: number;
-    readonly billingModel?: string;
-    readonly registrationTimestamp?: Date;
-    readonly lastSyncTimestamp?: Date;
-    readonly lastBillingTimestamp?: Date;
-    readonly serviceEndpoint?: string;
+    createdAt?: Date;
     createdBy?: string;
     createdByType?: CreatedByType;
-    createdAt?: Date;
+    desiredProperties?: ClusterDesiredProperties;
+    readonly lastBillingTimestamp?: Date;
+    lastModifiedAt?: Date;
     lastModifiedBy?: string;
     lastModifiedByType?: CreatedByType;
-    lastModifiedAt?: Date;
-};
+    readonly lastSyncTimestamp?: Date;
+    readonly provisioningState?: ProvisioningState;
+    readonly registrationTimestamp?: Date;
+    readonly reportedProperties?: ClusterReportedProperties;
+    readonly serviceEndpoint?: string;
+    readonly status?: Status;
+    readonly trialDaysRemaining?: number;
+}
 
 // @public
 export interface ClusterDesiredProperties {
@@ -360,24 +360,24 @@ export interface ErrorResponse {
 }
 
 // @public
-export type Extension = ProxyResource & {
-    readonly provisioningState?: ProvisioningState;
+export interface Extension extends ProxyResource {
     readonly aggregateState?: ExtensionAggregateState;
-    readonly perNodeExtensionDetails?: PerNodeExtensionState[];
-    forceUpdateTag?: string;
-    publisher?: string;
-    typePropertiesExtensionParametersType?: string;
-    typeHandlerVersion?: string;
     autoUpgradeMinorVersion?: boolean;
-    settings?: Record<string, unknown>;
-    protectedSettings?: Record<string, unknown>;
+    createdAt?: Date;
     createdBy?: string;
     createdByType?: CreatedByType;
-    createdAt?: Date;
+    forceUpdateTag?: string;
+    lastModifiedAt?: Date;
     lastModifiedBy?: string;
     lastModifiedByType?: CreatedByType;
-    lastModifiedAt?: Date;
-};
+    readonly perNodeExtensionDetails?: PerNodeExtensionState[];
+    protectedSettings?: Record<string, unknown>;
+    readonly provisioningState?: ProvisioningState;
+    publisher?: string;
+    settings?: Record<string, unknown>;
+    typeHandlerVersion?: string;
+    typePropertiesExtensionParametersType?: string;
+}
 
 // @public
 export type ExtensionAggregateState = string;
@@ -446,211 +446,135 @@ export interface ExtensionsUpdateOptionalParams extends coreClient.OperationOpti
 export type ExtensionsUpdateResponse = Extension;
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export type ImdsAttestation = string;
 
 // @public
 export enum KnownActionType {
-    // (undocumented)
     Internal = "Internal"
 }
 
 // @public
 export enum KnownArcSettingAggregateState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Connected = "Connected",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleted = "Deleted",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Disconnected = "Disconnected",
-    // (undocumented)
     Error = "Error",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     InProgress = "InProgress",
-    // (undocumented)
     Moving = "Moving",
-    // (undocumented)
     NotSpecified = "NotSpecified",
-    // (undocumented)
     PartiallyConnected = "PartiallyConnected",
-    // (undocumented)
     PartiallySucceeded = "PartiallySucceeded",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownDiagnosticLevel {
-    // (undocumented)
     Basic = "Basic",
-    // (undocumented)
     Enhanced = "Enhanced",
-    // (undocumented)
     Off = "Off"
 }
 
 // @public
 export enum KnownExtensionAggregateState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Connected = "Connected",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleted = "Deleted",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Disconnected = "Disconnected",
-    // (undocumented)
     Error = "Error",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     InProgress = "InProgress",
-    // (undocumented)
     Moving = "Moving",
-    // (undocumented)
     NotSpecified = "NotSpecified",
-    // (undocumented)
     PartiallyConnected = "PartiallyConnected",
-    // (undocumented)
     PartiallySucceeded = "PartiallySucceeded",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownImdsAttestation {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownNodeArcState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Connected = "Connected",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleted = "Deleted",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Disconnected = "Disconnected",
-    // (undocumented)
     Error = "Error",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Moving = "Moving",
-    // (undocumented)
     NotSpecified = "NotSpecified",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownNodeExtensionState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Connected = "Connected",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleted = "Deleted",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Disconnected = "Disconnected",
-    // (undocumented)
     Error = "Error",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Moving = "Moving",
-    // (undocumented)
     NotSpecified = "NotSpecified",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownOrigin {
-    // (undocumented)
     System = "system",
-    // (undocumented)
     User = "user",
-    // (undocumented)
     UserSystem = "user,system"
 }
 
 // @public
 export enum KnownProvisioningState {
-    // (undocumented)
     Accepted = "Accepted",
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Provisioning = "Provisioning",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownStatus {
-    // (undocumented)
     ConnectedRecently = "ConnectedRecently",
-    // (undocumented)
     Disconnected = "Disconnected",
-    // (undocumented)
     Error = "Error",
-    // (undocumented)
     NotConnectedRecently = "NotConnectedRecently",
-    // (undocumented)
     NotYetRegistered = "NotYetRegistered"
 }
 
 // @public
 export enum KnownWindowsServerSubscription {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
@@ -728,7 +652,8 @@ export interface PerNodeState {
 export type ProvisioningState = string;
 
 // @public
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {
+}
 
 // @public (undocumented)
 export interface RawCertificateData {
@@ -747,12 +672,12 @@ export interface Resource {
 export type Status = string;
 
 // @public
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
+    location: string;
     tags?: {
         [propertyName: string]: string;
     };
-    location: string;
-};
+}
 
 // @public (undocumented)
 export interface UploadCertificateRequest {

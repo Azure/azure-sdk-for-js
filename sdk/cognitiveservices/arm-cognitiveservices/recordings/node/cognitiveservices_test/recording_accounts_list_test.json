@@ -1,15 +1,15 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.CognitiveServices/accounts?api-version=2022-03-01",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.CognitiveServices/accounts?api-version=2022-10-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-cognitiveservices/7.2.0 core-rest-pipeline/1.9.1 Node/v16.15.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "a3c07322-ab6c-4088-889b-db5715da263e"
+        "User-Agent": "azsdk-js-arm-cognitiveservices/7.3.1 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "12159e5c-99f1-4ee6-9b45-c129021f4a07"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,7 +17,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 10 Jun 2022 06:41:47 GMT",
+        "Date": "Tue, 22 Nov 2022 07:06:53 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "istio-envoy",
@@ -25,19 +25,19 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "27",
-        "x-ms-correlation-request-id": "0aa22ef3-e0c8-4035-b7ae-e7c85009372e",
+        "x-envoy-upstream-service-time": "19",
+        "x-ms-correlation-request-id": "1ac14089-6c2b-4dd0-82b4-33dd4fe67c59",
         "x-ms-ratelimit-remaining-subscription-reads": "11998",
-        "x-ms-request-id": "b4fe910f-e7c5-41c5-9473-f852deeece87",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220610T064147Z:0aa22ef3-e0c8-4035-b7ae-e7c85009372e"
+        "x-ms-request-id": "9f585d58-bd0d-41e8-bf04-fa13c279a988",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221122T070653Z:1ac14089-6c2b-4dd0-82b4-33dd4fe67c59"
       },
       "ResponseBody": {
         "value": [
           {
-            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.CognitiveServices/accounts/myaccountxxx",
-            "name": "myaccountxxx",
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.CognitiveServices/accounts/myaccountxxxx",
+            "name": "myaccountxxxx",
             "type": "Microsoft.CognitiveServices/accounts",
-            "etag": "\u002229015a71-0000-0100-0000-62a2e7a70000\u0022",
+            "etag": "\u0022cc000d91-0000-0100-0000-637c75090000\u0022",
             "location": "eastus",
             "sku": {
               "name": "S0"
@@ -45,8 +45,8 @@
             "kind": "CognitiveServices",
             "properties": {
               "endpoint": "https://eastus.api.cognitive.microsoft.com/",
-              "internalId": "944b07d3acaa4149b8d65757ea6bf5ca",
-              "dateCreated": "2022-06-10T06:41:42.5590615Z",
+              "internalId": "b1b6133f95d6449899681a18a95c3981",
+              "dateCreated": "2022-11-22T07:06:49.1738603Z",
               "apiProperties": {},
               "callRateLimit": {
                 "rules": [
@@ -111,6 +111,18 @@
                     ]
                   },
                   {
+                    "key": "formrecognizer",
+                    "renewalPeriod": 1,
+                    "count": 100,
+                    "dynamicThrottlingEnabled": false,
+                    "matchPatterns": [
+                      {
+                        "path": "formrecognizer/*",
+                        "method": "*"
+                      }
+                    ]
+                  },
+                  {
                     "key": "customvision.training",
                     "renewalPeriod": 1,
                     "count": 10,
@@ -142,7 +154,7 @@
                     "key": "customvision.prediction",
                     "renewalPeriod": 1,
                     "count": 10,
-                    "dynamicThrottlingEnabled": false,
+                    "dynamicThrottlingEnabled": true,
                     "matchPatterns": [
                       {
                         "path": "customvision/v3.0/prediction/*",
@@ -275,7 +287,31 @@
                     ]
                   },
                   {
-                    "key": "docmentTranslation",
+                    "key": "documentTranslation.post",
+                    "renewalPeriod": 1,
+                    "count": 20,
+                    "dynamicThrottlingEnabled": false,
+                    "matchPatterns": [
+                      {
+                        "path": "translator/text/batch/*",
+                        "method": "POST"
+                      }
+                    ]
+                  },
+                  {
+                    "key": "documentTranslation.get",
+                    "renewalPeriod": 1,
+                    "count": 20,
+                    "dynamicThrottlingEnabled": false,
+                    "matchPatterns": [
+                      {
+                        "path": "translator/text/batch/*",
+                        "method": "GET"
+                      }
+                    ]
+                  },
+                  {
+                    "key": "documentTranslation.default",
                     "renewalPeriod": 1,
                     "count": 20,
                     "dynamicThrottlingEnabled": false,
@@ -314,7 +350,7 @@
                     "key": "ListManagement",
                     "renewalPeriod": 1,
                     "count": 15,
-                    "dynamicThrottlingEnabled": false,
+                    "dynamicThrottlingEnabled": true,
                     "matchPatterns": [
                       {
                         "path": "contentmoderator/lists/v1.0/*",
@@ -326,7 +362,7 @@
                     "key": "Moderate",
                     "renewalPeriod": 1,
                     "count": 20,
-                    "dynamicThrottlingEnabled": false,
+                    "dynamicThrottlingEnabled": true,
                     "matchPatterns": [
                       {
                         "path": "contentmoderator/moderate/v1.0/*",
@@ -335,10 +371,22 @@
                     ]
                   },
                   {
+                    "key": "ModeratePreview20220930",
+                    "renewalPeriod": 1,
+                    "count": 10,
+                    "dynamicThrottlingEnabled": true,
+                    "matchPatterns": [
+                      {
+                        "path": "contentmoderator/moderate/text/*",
+                        "method": "*"
+                      }
+                    ]
+                  },
+                  {
                     "key": "Review",
                     "renewalPeriod": 1,
                     "count": 20,
-                    "dynamicThrottlingEnabled": false,
+                    "dynamicThrottlingEnabled": true,
                     "matchPatterns": [
                       {
                         "path": "contentmoderator/review/v1.0/*",
@@ -350,7 +398,7 @@
                     "key": "luis.endpoint",
                     "renewalPeriod": 1,
                     "count": 50,
-                    "dynamicThrottlingEnabled": false,
+                    "dynamicThrottlingEnabled": true,
                     "matchPatterns": [
                       {
                         "path": "luis/*",
@@ -369,7 +417,31 @@
                     "dynamicThrottlingEnabled": false,
                     "matchPatterns": [
                       {
-                        "path": "/language/:analyze-conversations",
+                        "path": "language/:analyze-conversations",
+                        "method": "*"
+                      }
+                    ]
+                  },
+                  {
+                    "key": "textAnalytics.conversations.jobs.getcalls",
+                    "renewalPeriod": 60,
+                    "count": 1000,
+                    "dynamicThrottlingEnabled": false,
+                    "matchPatterns": [
+                      {
+                        "path": "language/analyze-conversations/jobs/*",
+                        "method": "*"
+                      }
+                    ]
+                  },
+                  {
+                    "key": "textAnalytics.conversations.jobs.postcalls",
+                    "renewalPeriod": 60,
+                    "count": 1000,
+                    "dynamicThrottlingEnabled": false,
+                    "matchPatterns": [
+                      {
+                        "path": "language/analyze-conversations/jobs",
                         "method": "*"
                       }
                     ]
@@ -623,6 +695,18 @@
                     ]
                   },
                   {
+                    "key": "textAnalytics.analyze.internal.evaluation",
+                    "renewalPeriod": 60,
+                    "count": 150,
+                    "dynamicThrottlingEnabled": false,
+                    "matchPatterns": [
+                      {
+                        "path": "TextAnalytics/ct-evaluation",
+                        "method": "*"
+                      }
+                    ]
+                  },
+                  {
                     "key": "vision.recognizeText",
                     "renewalPeriod": 1,
                     "count": 30,
@@ -657,8 +741,8 @@
                   {
                     "key": "face",
                     "renewalPeriod": 1,
-                    "count": 15,
-                    "dynamicThrottlingEnabled": true,
+                    "count": 10,
+                    "dynamicThrottlingEnabled": false,
                     "matchPatterns": [
                       {
                         "path": "face/*",
@@ -718,7 +802,7 @@
                     "key": "default",
                     "renewalPeriod": 1,
                     "count": 20,
-                    "dynamicThrottlingEnabled": false,
+                    "dynamicThrottlingEnabled": true,
                     "matchPatterns": [
                       {
                         "path": "*",
@@ -729,8 +813,19 @@
                 ]
               },
               "isMigrated": false,
+              "privateEndpointConnections": [],
               "publicNetworkAccess": "Enabled",
               "capabilities": [
+                {
+                  "name": "DynamicThrottling"
+                },
+                {
+                  "name": "Scenario",
+                  "value": "Face.Legacy"
+                },
+                {
+                  "name": "VirtualNetworks"
+                },
                 {
                   "name": "Container",
                   "value": "Face.*,Face.Face,ComputerVision.*,ComputerVision.VideoAnalytics,TextAnalytics.*,TextAnalytics.Healthcare,TextAnalytics.Keyphrase,TextAnalytics.KeyphraseV2,TextAnalytics.KeyPhraseONNX,TextAnalytics.LanguageFastText,TextAnalytics.Language,TextAnalytics.LanguageV2,TextAnalytics.Sentiment,TextAnalytics.SentimentV2,TextAnalytics.SentimentV3,TextAnalytics.SentimentV3Preview,LUIS.LUIS,ContentModerator.*,TextTranslation.*,SpeechServices.*,FormRecognizer.*"
@@ -755,6 +850,8 @@
                 "Text Analytics": "https://eastus.api.cognitive.microsoft.com/",
                 "Custom Text Authoring": "https://eastus.api.cognitive.microsoft.com/",
                 "Conversational Language Understanding Authoring": "https://eastus.api.cognitive.microsoft.com/",
+                "Custom Question Answering Authoring": "https://eastus.api.cognitive.microsoft.com/",
+                "Custom Question Answering": "https://eastus.api.cognitive.microsoft.com/",
                 "ConversationalLURuntime": "https://eastus.api.cognitive.microsoft.com/",
                 "Language": "https://eastus.api.cognitive.microsoft.com/",
                 "Language-2022-05-01": "https://eastus.api.cognitive.microsoft.com/",
@@ -764,6 +861,7 @@
                 "QuestionAnswering": "https://eastus.api.cognitive.microsoft.com/",
                 "QuestionAnsweringBizQA": "https://eastus.api.cognitive.microsoft.com/",
                 "QuestionAnsweringQnAGen": "https://eastus.api.cognitive.microsoft.com/",
+                "QuestionAnswering Generate": "https://eastus.api.cognitive.microsoft.com/",
                 "LUIS.Authoring": "https://eastus.api.cognitive.microsoft.com/",
                 "LUIS": "https://eastus.api.cognitive.microsoft.com/",
                 "Unified Speech": "https://eastus.api.cognitive.microsoft.com/",
@@ -779,6 +877,7 @@
                 "Speech Services Speech to Text v2.0": "https://eastus.api.cognitive.microsoft.com/",
                 "Speech Services Speech to Text v3.0": "https://eastus.api.cognitive.microsoft.com/",
                 "Speech Services Speech to Text v3.1-preview.1": "https://eastus.api.cognitive.microsoft.com/",
+                "Speech Services Speech to Text v3.1": "https://eastus.api.cognitive.microsoft.com/",
                 "Speech Services Custom Voice": "https://eastus.api.cognitive.microsoft.com/",
                 "Speech Services Audio Content Creation": "https://eastus.api.cognitive.microsoft.com/",
                 "Speech Services Speaker Verification": "https://eastus.api.cognitive.microsoft.com/",
@@ -793,17 +892,17 @@
               "provisioningState": "Succeeded"
             },
             "identity": {
-              "principalId": "c9ea2a42-b5c4-47fd-8f18-d11ddf3e162f",
+              "principalId": "fad3476d-57b4-4226-a2f4-a1d13cfb376d",
               "tenantId": "88888888-8888-8888-8888-888888888888",
               "type": "SystemAssigned"
             },
             "systemData": {
               "createdBy": "azure_client_id",
               "createdByType": "Application",
-              "createdAt": "2022-06-10T06:41:39.6934663Z",
+              "createdAt": "2022-11-22T07:06:46.2090042Z",
               "lastModifiedBy": "azure_client_id",
               "lastModifiedByType": "Application",
-              "lastModifiedAt": "2022-06-10T06:41:39.6934663Z"
+              "lastModifiedAt": "2022-11-22T07:06:46.2090042Z"
             }
           }
         ]

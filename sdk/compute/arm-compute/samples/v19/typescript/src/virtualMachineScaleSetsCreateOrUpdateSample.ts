@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithExtensionsSuppressFailuresEnabled.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithExtensionsSuppressFailuresEnabled.json
  */
 async function createAVmssWithAnExtensionThatHasSuppressFailuresEnabled() {
   const subscriptionId = "{subscription-id}";
@@ -104,7 +104,7 @@ createAVmssWithAnExtensionThatHasSuppressFailuresEnabled().catch(console.error);
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithProtectedSettingsFromKeyVault.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithProtectedSettingsFromKeyVault.json
  */
 async function createAVmssWithAnExtensionWithProtectedSettingsFromKeyVault() {
   const subscriptionId = "{subscription-id}";
@@ -199,7 +199,7 @@ createAVmssWithAnExtensionWithProtectedSettingsFromKeyVault().catch(
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_CustomImageFromAnUnmanagedGeneralizedOsImage.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_CustomImageFromAnUnmanagedGeneralizedOsImage.json
  */
 async function createACustomImageScaleSetFromAnUnmanagedGeneralizedOSImage() {
   const subscriptionId = "{subscription-id}";
@@ -265,7 +265,7 @@ createACustomImageScaleSetFromAnUnmanagedGeneralizedOSImage().catch(
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_PlatformImageWithUnmanagedOsDisks.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_PlatformImageWithUnmanagedOsDisks.json
  */
 async function createAPlatformImageScaleSetWithUnmanagedOSDisks() {
   const subscriptionId = "{subscription-id}";
@@ -338,7 +338,7 @@ createAPlatformImageScaleSetWithUnmanagedOSDisks().catch(console.error);
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_FromACustomImage.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_FromACustomImage.json
  */
 async function createAScaleSetFromACustomImage() {
   const subscriptionId = "{subscription-id}";
@@ -402,7 +402,7 @@ createAScaleSetFromACustomImage().catch(console.error);
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_FromAGeneralizedSharedImage.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_FromAGeneralizedSharedImage.json
  */
 async function createAScaleSetFromAGeneralizedSharedImage() {
   const subscriptionId = "{subscription-id}";
@@ -466,7 +466,7 @@ createAScaleSetFromAGeneralizedSharedImage().catch(console.error);
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_FromASpecializedSharedImage.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_FromASpecializedSharedImage.json
  */
 async function createAScaleSetFromASpecializedSharedImage() {
   const subscriptionId = "{subscription-id}";
@@ -525,7 +525,93 @@ createAScaleSetFromASpecializedSharedImage().catch(console.error);
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithApplicationProfile.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_FromWithDisableTcpStateTrackingNetworkInterface.json
+ */
+async function createAScaleSetWhereNicConfigHasDisableTcpStateTrackingProperty() {
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "myResourceGroup";
+  const vmScaleSetName = "{vmss-name}";
+  const parameters: VirtualMachineScaleSet = {
+    location: "westus",
+    overprovision: true,
+    sku: { name: "Standard_D1_v2", capacity: 3, tier: "Standard" },
+    upgradePolicy: { mode: "Manual" },
+    virtualMachineProfile: {
+      networkProfile: {
+        networkInterfaceConfigurations: [
+          {
+            name: "{nicConfig1-name}",
+            disableTcpStateTracking: true,
+            enableAcceleratedNetworking: true,
+            enableIPForwarding: true,
+            ipConfigurations: [
+              {
+                name: "{vmss-name}",
+                subnet: {
+                  id:
+                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
+                }
+              }
+            ],
+            primary: true
+          },
+          {
+            name: "{nicConfig2-name}",
+            disableTcpStateTracking: false,
+            enableAcceleratedNetworking: false,
+            enableIPForwarding: false,
+            ipConfigurations: [
+              {
+                name: "{nicConfig2-name}",
+                primary: true,
+                privateIPAddressVersion: "IPv4",
+                subnet: {
+                  id:
+                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-fpga-subnet-name2}"
+                }
+              }
+            ],
+            primary: false
+          }
+        ]
+      },
+      osProfile: {
+        adminPassword: "{your-password}",
+        adminUsername: "{your-username}",
+        computerNamePrefix: "{vmss-name}"
+      },
+      storageProfile: {
+        imageReference: {
+          id:
+            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/{existing-custom-image-name}"
+        },
+        osDisk: {
+          caching: "ReadWrite",
+          createOption: "FromImage",
+          managedDisk: { storageAccountType: "Standard_LRS" }
+        }
+      }
+    }
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    vmScaleSetName,
+    parameters
+  );
+  console.log(result);
+}
+
+createAScaleSetWhereNicConfigHasDisableTcpStateTrackingProperty().catch(
+  console.error
+);
+
+/**
+ * This sample demonstrates how to Create or update a VM scale set.
+ *
+ * @summary Create or update a VM scale set.
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithApplicationProfile.json
  */
 async function createAScaleSetWithApplicationProfile() {
   const subscriptionId = "{subscription-id}";
@@ -609,7 +695,78 @@ createAScaleSetWithApplicationProfile().catch(console.error);
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithDiskEncryptionSetResource.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithDiskControllerType.json
+ */
+async function createAScaleSetWithDiskControllerType() {
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "myResourceGroup";
+  const vmScaleSetName = "{vmss-name}";
+  const parameters: VirtualMachineScaleSet = {
+    location: "westus",
+    overprovision: true,
+    sku: { name: "Standard_D1_v2", capacity: 3, tier: "Standard" },
+    upgradePolicy: { mode: "Manual" },
+    virtualMachineProfile: {
+      hardwareProfile: {
+        vmSizeProperties: { vCPUsAvailable: 1, vCPUsPerCore: 1 }
+      },
+      networkProfile: {
+        networkInterfaceConfigurations: [
+          {
+            name: "{vmss-name}",
+            enableIPForwarding: true,
+            ipConfigurations: [
+              {
+                name: "{vmss-name}",
+                subnet: {
+                  id:
+                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
+                }
+              }
+            ],
+            primary: true
+          }
+        ]
+      },
+      osProfile: {
+        adminPassword: "{your-password}",
+        adminUsername: "{your-username}",
+        computerNamePrefix: "{vmss-name}"
+      },
+      storageProfile: {
+        diskControllerType: "NVMe",
+        imageReference: {
+          offer: "WindowsServer",
+          publisher: "MicrosoftWindowsServer",
+          sku: "2016-Datacenter",
+          version: "latest"
+        },
+        osDisk: {
+          caching: "ReadWrite",
+          createOption: "FromImage",
+          managedDisk: { storageAccountType: "Standard_LRS" }
+        }
+      },
+      userData: "RXhhbXBsZSBVc2VyRGF0YQ=="
+    }
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    vmScaleSetName,
+    parameters
+  );
+  console.log(result);
+}
+
+createAScaleSetWithDiskControllerType().catch(console.error);
+
+/**
+ * This sample demonstrates how to Create or update a VM scale set.
+ *
+ * @summary Create or update a VM scale set.
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithDiskEncryptionSetResource.json
  */
 async function createAScaleSetWithDiskEncryptionSetResourceInOSDiskAndDataDisk() {
   const subscriptionId = "{subscription-id}";
@@ -696,7 +853,7 @@ createAScaleSetWithDiskEncryptionSetResourceInOSDiskAndDataDisk().catch(
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_FromWithFpgaNetworkInterface.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_FromWithFpgaNetworkInterface.json
  */
 async function createAScaleSetWithFpgaNetworkInterfaces() {
   const subscriptionId = "{subscription-id}";
@@ -778,7 +935,7 @@ createAScaleSetWithFpgaNetworkInterfaces().catch(console.error);
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithEncryptionAtHost.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithEncryptionAtHost.json
  */
 async function createAScaleSetWithHostEncryptionUsingEncryptionAtHostProperty() {
   const subscriptionId = "{subscription-id}";
@@ -852,7 +1009,7 @@ createAScaleSetWithHostEncryptionUsingEncryptionAtHostProperty().catch(
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithSecurityTypeConfidentialVM.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithSecurityTypeConfidentialVM.json
  */
 async function createAScaleSetWithSecurityTypeAsConfidentialVM() {
   const subscriptionId = "{subscription-id}";
@@ -925,7 +1082,7 @@ createAScaleSetWithSecurityTypeAsConfidentialVM().catch(console.error);
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithUefiSettings.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithUefiSettings.json
  */
 async function createAScaleSetWithUefiSettingsOfSecureBootAndVTpm() {
   const subscriptionId = "{subscription-id}";
@@ -995,7 +1152,7 @@ createAScaleSetWithUefiSettingsOfSecureBootAndVTpm().catch(console.error);
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithAMarketplaceImagePlan.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithAMarketplaceImagePlan.json
  */
 async function createAScaleSetWithAMarketplaceImagePlan() {
   const subscriptionId = "{subscription-id}";
@@ -1066,7 +1223,7 @@ createAScaleSetWithAMarketplaceImagePlan().catch(console.error);
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithAzureApplicationGateway.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithAzureApplicationGateway.json
  */
 async function createAScaleSetWithAnAzureApplicationGateway() {
   const subscriptionId = "{subscription-id}";
@@ -1138,7 +1295,7 @@ createAScaleSetWithAnAzureApplicationGateway().catch(console.error);
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithAzureLoadBalancer.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithAzureLoadBalancer.json
  */
 async function createAScaleSetWithAnAzureLoadBalancer() {
   const subscriptionId = "{subscription-id}";
@@ -1220,7 +1377,7 @@ createAScaleSetWithAnAzureLoadBalancer().catch(console.error);
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithAutomaticRepairs.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithAutomaticRepairs.json
  */
 async function createAScaleSetWithAutomaticRepairsEnabled() {
   const subscriptionId = "{subscription-id}";
@@ -1287,7 +1444,7 @@ createAScaleSetWithAutomaticRepairsEnabled().catch(console.error);
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithBootDiagnostics.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithBootDiagnostics.json
  */
 async function createAScaleSetWithBootDiagnostics() {
   const subscriptionId = "{subscription-id}";
@@ -1360,7 +1517,7 @@ createAScaleSetWithBootDiagnostics().catch(console.error);
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithEmptyDataDisksOnEachVm.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithEmptyDataDisksOnEachVm.json
  */
 async function createAScaleSetWithEmptyDataDisksOnEachVM() {
   const subscriptionId = "{subscription-id}";
@@ -1431,7 +1588,7 @@ createAScaleSetWithEmptyDataDisksOnEachVM().catch(console.error);
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_CreateA_WithDiffOsDiskUsingDiffDiskPlacement.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_CreateA_WithDiffOsDiskUsingDiffDiskPlacement.json
  */
 async function createAScaleSetWithEphemeralOSDisksUsingPlacementProperty() {
   const subscriptionId = "{subscription-id}";
@@ -1505,7 +1662,7 @@ createAScaleSetWithEphemeralOSDisksUsingPlacementProperty().catch(
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithDiffOsDisk.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithDiffOsDisk.json
  */
 async function createAScaleSetWithEphemeralOSDisks() {
   const subscriptionId = "{subscription-id}";
@@ -1577,7 +1734,7 @@ createAScaleSetWithEphemeralOSDisks().catch(console.error);
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithExtensionsTimeBudget.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithExtensionsTimeBudget.json
  */
 async function createAScaleSetWithExtensionTimeBudget() {
   const subscriptionId = "{subscription-id}";
@@ -1663,7 +1820,7 @@ createAScaleSetWithExtensionTimeBudget().catch(console.error);
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithManagedBootDiagnostics.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithManagedBootDiagnostics.json
  */
 async function createAScaleSetWithManagedBootDiagnostics() {
   const subscriptionId = "{subscription-id}";
@@ -1730,7 +1887,7 @@ createAScaleSetWithManagedBootDiagnostics().catch(console.error);
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithPasswordAuthentication.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithPasswordAuthentication.json
  */
 async function createAScaleSetWithPasswordAuthentication() {
   const subscriptionId = "{subscription-id}";
@@ -1796,7 +1953,7 @@ createAScaleSetWithPasswordAuthentication().catch(console.error);
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithPremiumStorage.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithPremiumStorage.json
  */
 async function createAScaleSetWithPremiumStorage() {
   const subscriptionId = "{subscription-id}";
@@ -1862,7 +2019,80 @@ createAScaleSetWithPremiumStorage().catch(console.error);
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithScaleInPolicy.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithPriorityMixPolicy.json
+ */
+async function createAScaleSetWithPriorityMixPolicy() {
+  const subscriptionId = "{subscription-id}";
+  const resourceGroupName = "myResourceGroup";
+  const vmScaleSetName = "{vmss-name}";
+  const parameters: VirtualMachineScaleSet = {
+    location: "westus",
+    orchestrationMode: "Flexible",
+    priorityMixPolicy: {
+      baseRegularPriorityCount: 4,
+      regularPriorityPercentageAboveBase: 50
+    },
+    singlePlacementGroup: false,
+    sku: { name: "Standard_A8m_v2", capacity: 10, tier: "Standard" },
+    virtualMachineProfile: {
+      billingProfile: { maxPrice: -1 },
+      evictionPolicy: "Deallocate",
+      networkProfile: {
+        networkInterfaceConfigurations: [
+          {
+            name: "{vmss-name}",
+            enableIPForwarding: true,
+            ipConfigurations: [
+              {
+                name: "{vmss-name}",
+                subnet: {
+                  id:
+                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
+                }
+              }
+            ],
+            primary: true
+          }
+        ]
+      },
+      osProfile: {
+        adminPassword: "{your-password}",
+        adminUsername: "{your-username}",
+        computerNamePrefix: "{vmss-name}"
+      },
+      priority: "Spot",
+      storageProfile: {
+        imageReference: {
+          offer: "WindowsServer",
+          publisher: "MicrosoftWindowsServer",
+          sku: "2016-Datacenter",
+          version: "latest"
+        },
+        osDisk: {
+          caching: "ReadWrite",
+          createOption: "FromImage",
+          managedDisk: { storageAccountType: "Standard_LRS" }
+        }
+      }
+    }
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.virtualMachineScaleSets.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    vmScaleSetName,
+    parameters
+  );
+  console.log(result);
+}
+
+createAScaleSetWithPriorityMixPolicy().catch(console.error);
+
+/**
+ * This sample demonstrates how to Create or update a VM scale set.
+ *
+ * @summary Create or update a VM scale set.
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithScaleInPolicy.json
  */
 async function createAScaleSetWithScaleInPolicy() {
   const subscriptionId = "{subscription-id}";
@@ -1929,7 +2159,7 @@ createAScaleSetWithScaleInPolicy().catch(console.error);
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithSpotRestorePolicy.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithSpotRestorePolicy.json
  */
 async function createAScaleSetWithSpotRestorePolicy() {
   const subscriptionId = "{subscription-id}";
@@ -1999,7 +2229,7 @@ createAScaleSetWithSpotRestorePolicy().catch(console.error);
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithSshAuthentication.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithSshAuthentication.json
  */
 async function createAScaleSetWithSshAuthentication() {
   const subscriptionId = "{subscription-id}";
@@ -2076,7 +2306,7 @@ createAScaleSetWithSshAuthentication().catch(console.error);
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithTerminateScheduledEventEnabled.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithTerminateScheduledEventEnabled.json
  */
 async function createAScaleSetWithTerminateScheduledEventsEnabled() {
   const subscriptionId = "{subscription-id}";
@@ -2145,7 +2375,7 @@ createAScaleSetWithTerminateScheduledEventsEnabled().catch(console.error);
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithUserData.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithUserData.json
  */
 async function createAScaleSetWithUserData() {
   const subscriptionId = "{subscription-id}";
@@ -2212,7 +2442,7 @@ createAScaleSetWithUserData().catch(console.error);
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithVMsInDifferentZones.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithVMsInDifferentZones.json
  */
 async function createAScaleSetWithVirtualMachinesInDifferentZones() {
   const subscriptionId = "{subscription-id}";
@@ -2284,7 +2514,7 @@ createAScaleSetWithVirtualMachinesInDifferentZones().catch(console.error);
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithVMSizeProperties.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithVMSizeProperties.json
  */
 async function createAScaleSetWithVMSizeProperties() {
   const subscriptionId = "{subscription-id}";
@@ -2354,7 +2584,7 @@ createAScaleSetWithVMSizeProperties().catch(console.error);
  * This sample demonstrates how to Create or update a VM scale set.
  *
  * @summary Create or update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithCapacityReservation.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithCapacityReservation.json
  */
 async function createOrUpdateAScaleSetWithCapacityReservation() {
   const subscriptionId = "{subscription-id}";

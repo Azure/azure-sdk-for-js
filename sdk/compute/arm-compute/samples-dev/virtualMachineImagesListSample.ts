@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Gets a list of all virtual machine image versions for the specified location, publisher, offer, and SKU.
  *
  * @summary Gets a list of all virtual machine image versions for the specified location, publisher, offer, and SKU.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineImageExamples/VirtualMachineImages_List_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineImageExamples/VirtualMachineImages_List_MaximumSet_Gen.json
  */
 async function virtualMachineImagesListMaximumSetGen() {
   const subscriptionId = "{subscription-id}";
@@ -52,7 +52,7 @@ virtualMachineImagesListMaximumSetGen().catch(console.error);
  * This sample demonstrates how to Gets a list of all virtual machine image versions for the specified location, publisher, offer, and SKU.
  *
  * @summary Gets a list of all virtual machine image versions for the specified location, publisher, offer, and SKU.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineImageExamples/VirtualMachineImages_List_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineImageExamples/VirtualMachineImages_List_MinimumSet_Gen.json
  */
 async function virtualMachineImagesListMinimumSetGen() {
   const subscriptionId = "{subscription-id}";

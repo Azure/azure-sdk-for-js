@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Lists all Kusto clusters within a resource group.
  *
  * @summary Lists all Kusto clusters within a resource group.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-02-01/examples/KustoClustersListByResourceGroup.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoClustersListByResourceGroup.json
  */
 async function kustoClustersListByResourceGroup() {
   const subscriptionId = "12345678-1234-1234-1234-123456789098";

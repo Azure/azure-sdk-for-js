@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
+import { AccessToken, GetTokenOptions, TokenCredential } from "../../src";
 import {
   CredentialLogger,
   credentialLogger,
@@ -9,7 +9,7 @@ import {
   formatError,
   formatSuccess,
 } from "../../src/util/logging";
-import { AccessToken, GetTokenOptions, TokenCredential } from "../../src";
+import { assert } from "chai";
 
 describe("Identity logging utilities", function () {
   describe("credentialLoggerInstance", function () {

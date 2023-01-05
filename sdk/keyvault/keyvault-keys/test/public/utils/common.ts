@@ -22,7 +22,7 @@ export async function assertThrowsAbortError(cb: () => Promise<any>): Promise<vo
 /**
  * The known API versions that we support.
  */
-export const serviceVersions = ["7.0", "7.1", "7.2", "7.3"] as const;
+export const serviceVersions = ["7.0", "7.1", "7.2", "7.3", "7.4-preview.1"] as const;
 
 /**
  * Fetches the service version to test against. This version could be configured as part of CI

@@ -203,9 +203,9 @@ describe("OpenTelemetryInstrumenter", () => {
         });
       });
 
-      describe("when AZURE_HTTP_TRACING_DISABLED is set", () => {
+      describe("when AZURE_HTTP_TRACING_CHILDREN_DISABLED is set", () => {
         beforeEach(() => {
-          environmentCache.set("AZURE_HTTP_TRACING_DISABLED", "1");
+          environmentCache.set("AZURE_HTTP_TRACING_CHILDREN_DISABLED", "1");
         });
 
         it("suppresses tracing for downstream spans", () => {
@@ -227,10 +227,10 @@ describe("OpenTelemetryInstrumenter", () => {
         });
       });
 
-      describe("when both AZURE_TRACING_DISABLED and AZURE_HTTP_TRACING_DISABLED are set", () => {
+      describe("when both AZURE_TRACING_DISABLED and AZURE_HTTP_TRACING_CHILDREN_DISABLED are set", () => {
         beforeEach(() => {
           environmentCache.set("AZURE_TRACING_DISABLED", "true");
-          environmentCache.set("AZURE_HTTP_TRACING_DISABLED", "True");
+          environmentCache.set("AZURE_HTTP_TRACING_CHILDREN_DISABLED", "True");
         });
 
         it("creates a non-recording span", () => {

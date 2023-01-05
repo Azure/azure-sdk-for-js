@@ -208,25 +208,32 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
    */
   async renewSessionLock(options?: OperationOptionsBase): Promise<Date> {
     this._throwIfReceiverOrConnectionClosed();
-    const renewSessionLockOperationPromise = async (): Promise<Date> => {
-      this._messageSession!.sessionLockedUntilUtc = await this._context
-        .getManagementClient(this.entityPath)
-        .renewSessionLock(this.sessionId, {
-          ...options,
-          associatedLinkName: this._messageSession.name,
-          requestName: "renewSessionLock",
-          timeoutInMs: this._retryOptions.timeoutInMs,
-        });
-      return this._messageSession!.sessionLockedUntilUtc!;
-    };
-    const config: RetryConfig<Date> = {
-      operation: renewSessionLockOperationPromise,
-      connectionId: this._context.connectionId,
-      operationType: RetryOperationType.management,
-      retryOptions: this._retryOptions,
-      abortSignal: options?.abortSignal,
-    };
-    return retry<Date>(config);
+
+    return tracingClient.withSpan(
+      "ServiceBusSessionReceiver.renewSessionLock",
+      options ?? {},
+      (updatedOptions) => {
+        const renewSessionLockOperationPromise = async (): Promise<Date> => {
+          this._messageSession!.sessionLockedUntilUtc = await this._context
+            .getManagementClient(this.entityPath)
+            .renewSessionLock(this.sessionId, {
+              ...updatedOptions,
+              associatedLinkName: this._messageSession.name,
+              requestName: "renewSessionLock",
+              timeoutInMs: this._retryOptions.timeoutInMs,
+            });
+          return this._messageSession!.sessionLockedUntilUtc!;
+        };
+        const config: RetryConfig<Date> = {
+          operation: renewSessionLockOperationPromise,
+          connectionId: this._context.connectionId,
+          operationType: RetryOperationType.management,
+          retryOptions: this._retryOptions,
+          abortSignal: options?.abortSignal,
+        };
+        return retry<Date>(config);
+      }
+    );
   }
 
   /**
@@ -240,25 +247,31 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
   async setSessionState(state: unknown, options: OperationOptionsBase = {}): Promise<void> {
     this._throwIfReceiverOrConnectionClosed();
 
-    const setSessionStateOperationPromise = async (): Promise<void> => {
-      await this._context
-        .getManagementClient(this.entityPath)
-        .setSessionState(this.sessionId!, state, {
-          ...options,
-          associatedLinkName: this._messageSession.name,
-          requestName: "setState",
-          timeoutInMs: this._retryOptions.timeoutInMs,
-        });
-      return;
-    };
-    const config: RetryConfig<void> = {
-      operation: setSessionStateOperationPromise,
-      connectionId: this._context.connectionId,
-      operationType: RetryOperationType.management,
-      retryOptions: this._retryOptions,
-      abortSignal: options?.abortSignal,
-    };
-    return retry<void>(config);
+    return tracingClient.withSpan(
+      "ServiceBusSessionReceiver.setSessionState",
+      options ?? {},
+      (updatedOptions) => {
+        const setSessionStateOperationPromise = async (): Promise<void> => {
+          await this._context
+            .getManagementClient(this.entityPath)
+            .setSessionState(this.sessionId!, state, {
+              ...updatedOptions,
+              associatedLinkName: this._messageSession.name,
+              requestName: "setState",
+              timeoutInMs: this._retryOptions.timeoutInMs,
+            });
+          return;
+        };
+        const config: RetryConfig<void> = {
+          operation: setSessionStateOperationPromise,
+          connectionId: this._context.connectionId,
+          operationType: RetryOperationType.management,
+          retryOptions: this._retryOptions,
+          abortSignal: options?.abortSignal,
+        };
+        return retry<void>(config);
+      }
+    );
   }
 
   /**
@@ -272,22 +285,30 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
   async getSessionState(options: OperationOptionsBase = {}): Promise<any> {
     this._throwIfReceiverOrConnectionClosed();
 
-    const getSessionStateOperationPromise = async (): Promise<any> => {
-      return this._context.getManagementClient(this.entityPath).getSessionState(this.sessionId, {
-        ...options,
-        associatedLinkName: this._messageSession.name,
-        requestName: "getState",
-        timeoutInMs: this._retryOptions.timeoutInMs,
-      });
-    };
-    const config: RetryConfig<any> = {
-      operation: getSessionStateOperationPromise,
-      connectionId: this._context.connectionId,
-      operationType: RetryOperationType.management,
-      retryOptions: this._retryOptions,
-      abortSignal: options?.abortSignal,
-    };
-    return retry<any>(config);
+    return tracingClient.withSpan(
+      "ServiceBusSessionReceiver.getSessionState",
+      options ?? {},
+      (updatedOptions) => {
+        const getSessionStateOperationPromise = async (): Promise<any> => {
+          return this._context
+            .getManagementClient(this.entityPath)
+            .getSessionState(this.sessionId, {
+              ...updatedOptions,
+              associatedLinkName: this._messageSession.name,
+              requestName: "getState",
+              timeoutInMs: this._retryOptions.timeoutInMs,
+            });
+        };
+        const config: RetryConfig<any> = {
+          operation: getSessionStateOperationPromise,
+          connectionId: this._context.connectionId,
+          operationType: RetryOperationType.management,
+          retryOptions: this._retryOptions,
+          abortSignal: options?.abortSignal,
+        };
+        return retry<any>(config);
+      }
+    );
   }
 
   async peekMessages(

@@ -11,13 +11,14 @@ import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 
 // @public
-export type ApplicableSchedule = Resource & {
+export interface ApplicableSchedule extends Resource {
     labVmsShutdown?: Schedule;
     labVmsStartup?: Schedule;
-};
+}
 
 // @public
-export type ApplicableScheduleFragment = UpdateResource & {};
+export interface ApplicableScheduleFragment extends UpdateResource {
+}
 
 // @public
 export interface ApplyArtifactsRequest {
@@ -25,16 +26,16 @@ export interface ApplyArtifactsRequest {
 }
 
 // @public
-export type ArmTemplate = Resource & {
-    readonly displayName?: string;
-    readonly description?: string;
-    readonly publisher?: string;
-    readonly icon?: string;
+export interface ArmTemplate extends Resource {
     readonly contents?: Record<string, unknown>;
     readonly createdDate?: Date;
-    readonly parametersValueFilesInfo?: ParametersValueFileInfo[];
+    readonly description?: string;
+    readonly displayName?: string;
     readonly enabled?: boolean;
-};
+    readonly icon?: string;
+    readonly parametersValueFilesInfo?: ParametersValueFileInfo[];
+    readonly publisher?: string;
+}
 
 // @public
 export interface ArmTemplateInfo {
@@ -91,16 +92,16 @@ export interface ArmTemplatesListOptionalParams extends coreClient.OperationOpti
 export type ArmTemplatesListResponse = ArmTemplateList;
 
 // @public
-export type Artifact = Resource & {
-    readonly title?: string;
+export interface Artifact extends Resource {
+    readonly createdDate?: Date;
     readonly description?: string;
-    readonly publisher?: string;
     readonly filePath?: string;
     readonly icon?: string;
-    readonly targetOsType?: string;
     readonly parameters?: Record<string, unknown>;
-    readonly createdDate?: Date;
-};
+    readonly publisher?: string;
+    readonly targetOsType?: string;
+    readonly title?: string;
+}
 
 // @public
 export interface ArtifactDeploymentStatusProperties {
@@ -177,22 +178,23 @@ export interface ArtifactsListOptionalParams extends coreClient.OperationOptions
 export type ArtifactsListResponse = ArtifactList;
 
 // @public
-export type ArtifactSource = Resource & {
-    displayName?: string;
-    uri?: string;
-    sourceType?: SourceControlType;
-    folderPath?: string;
+export interface ArtifactSource extends Resource {
     armTemplateFolderPath?: string;
     branchRef?: string;
-    securityToken?: string;
-    status?: EnableStatus;
     readonly createdDate?: Date;
+    displayName?: string;
+    folderPath?: string;
     readonly provisioningState?: string;
+    securityToken?: string;
+    sourceType?: SourceControlType;
+    status?: EnableStatus;
     readonly uniqueIdentifier?: string;
-};
+    uri?: string;
+}
 
 // @public
-export type ArtifactSourceFragment = UpdateResource & {};
+export interface ArtifactSourceFragment extends UpdateResource {
+}
 
 // @public
 export interface ArtifactSourceList {
@@ -350,23 +352,24 @@ export type CostThresholdStatus = string;
 export type CostType = string;
 
 // @public
-export type CustomImage = Resource & {
-    vm?: CustomImagePropertiesFromVm;
-    vhd?: CustomImagePropertiesCustom;
-    description?: string;
+export interface CustomImage extends Resource {
     author?: string;
     readonly creationDate?: Date;
+    customImagePlan?: CustomImagePropertiesFromPlan;
+    dataDiskStorageInfo?: DataDiskStorageTypeInfo[];
+    description?: string;
+    isPlanAuthorized?: boolean;
     managedImageId?: string;
     managedSnapshotId?: string;
-    dataDiskStorageInfo?: DataDiskStorageTypeInfo[];
-    customImagePlan?: CustomImagePropertiesFromPlan;
-    isPlanAuthorized?: boolean;
     readonly provisioningState?: string;
     readonly uniqueIdentifier?: string;
-};
+    vhd?: CustomImagePropertiesCustom;
+    vm?: CustomImagePropertiesFromVm;
+}
 
 // @public
-export type CustomImageFragment = UpdateResource & {};
+export interface CustomImageFragment extends UpdateResource {
+}
 
 // @public
 export interface CustomImageList {
@@ -558,22 +561,23 @@ export interface DevTestLabsClientOptionalParams extends coreClient.ServiceClien
 }
 
 // @public
-export type Disk = Resource & {
-    diskType?: StorageType;
-    diskSizeGiB?: number;
-    leasedByLabVmId?: string;
-    diskBlobName?: string;
-    diskUri?: string;
-    storageAccountId?: string;
+export interface Disk extends Resource {
     readonly createdDate?: Date;
+    diskBlobName?: string;
+    diskSizeGiB?: number;
+    diskType?: StorageType;
+    diskUri?: string;
     hostCaching?: string;
+    leasedByLabVmId?: string;
     managedDiskId?: string;
     readonly provisioningState?: string;
+    storageAccountId?: string;
     readonly uniqueIdentifier?: string;
-};
+}
 
 // @public
-export type DiskFragment = UpdateResource & {};
+export interface DiskFragment extends UpdateResource {
+}
 
 // @public
 export interface DiskList {
@@ -661,17 +665,18 @@ export interface DisksUpdateOptionalParams extends coreClient.OperationOptions {
 export type DisksUpdateResponse = Disk;
 
 // @public
-export type DtlEnvironment = Resource & {
-    deploymentProperties?: EnvironmentDeploymentProperties;
+export interface DtlEnvironment extends Resource {
     armTemplateDisplayName?: string;
-    readonly resourceGroupId?: string;
     readonly createdByUser?: string;
+    deploymentProperties?: EnvironmentDeploymentProperties;
     readonly provisioningState?: string;
+    readonly resourceGroupId?: string;
     readonly uniqueIdentifier?: string;
-};
+}
 
 // @public
-export type DtlEnvironmentFragment = UpdateResource & {};
+export interface DtlEnvironmentFragment extends UpdateResource {
+}
 
 // @public
 export interface DtlEnvironmentList {
@@ -794,19 +799,20 @@ export interface ExternalSubnet {
 export type FileUploadOptions = string;
 
 // @public
-export type Formula = Resource & {
-    description?: string;
+export interface Formula extends Resource {
     readonly author?: string;
-    osType?: string;
     readonly creationDate?: Date;
+    description?: string;
     formulaContent?: LabVirtualMachineCreationParameter;
-    vm?: FormulaPropertiesFromVm;
+    osType?: string;
     readonly provisioningState?: string;
     readonly uniqueIdentifier?: string;
-};
+    vm?: FormulaPropertiesFromVm;
+}
 
 // @public
-export type FormulaFragment = UpdateResource & {};
+export interface FormulaFragment extends UpdateResource {
+}
 
 // @public
 export interface FormulaList {
@@ -880,16 +886,16 @@ export interface FormulasUpdateOptionalParams extends coreClient.OperationOption
 export type FormulasUpdateResponse = Formula;
 
 // @public
-export type GalleryImage = Resource & {
+export interface GalleryImage extends Resource {
     author?: string;
     readonly createdDate?: Date;
     description?: string;
-    imageReference?: GalleryImageReference;
-    icon?: string;
     enabled?: boolean;
-    planId?: string;
+    icon?: string;
+    imageReference?: GalleryImageReference;
     isPlanAuthorized?: boolean;
-};
+    planId?: string;
+}
 
 // @public
 export interface GalleryImageList {
@@ -950,6 +956,9 @@ export interface GenerateUploadUriParameter {
 export interface GenerateUploadUriResponse {
     uploadUri?: string;
 }
+
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export interface GlobalSchedules {
@@ -1081,341 +1090,231 @@ export interface InboundNatRule {
 
 // @public
 export enum KnownCostThresholdStatus {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownCostType {
-    // (undocumented)
     Projected = "Projected",
-    // (undocumented)
     Reported = "Reported",
-    // (undocumented)
     Unavailable = "Unavailable"
 }
 
 // @public
 export enum KnownCustomImageOsType {
-    // (undocumented)
     Linux = "Linux",
-    // (undocumented)
     None = "None",
-    // (undocumented)
     Windows = "Windows"
 }
 
 // @public
 export enum KnownEnableStatus {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownEnvironmentPermission {
-    // (undocumented)
     Contributor = "Contributor",
-    // (undocumented)
     Reader = "Reader"
 }
 
 // @public
 export enum KnownFileUploadOptions {
-    // (undocumented)
     None = "None",
-    // (undocumented)
     UploadFilesAndGenerateSasTokens = "UploadFilesAndGenerateSasTokens"
 }
 
 // @public
 export enum KnownHostCachingOptions {
-    // (undocumented)
     None = "None",
-    // (undocumented)
     ReadOnly = "ReadOnly",
-    // (undocumented)
     ReadWrite = "ReadWrite"
 }
 
 // @public
 export enum KnownHttpStatusCode {
-    // (undocumented)
     Accepted = "Accepted",
-    // (undocumented)
     Ambiguous = "Ambiguous",
-    // (undocumented)
     BadGateway = "BadGateway",
-    // (undocumented)
     BadRequest = "BadRequest",
-    // (undocumented)
     Conflict = "Conflict",
-    // (undocumented)
     Continue = "Continue",
-    // (undocumented)
     Created = "Created",
-    // (undocumented)
     ExpectationFailed = "ExpectationFailed",
-    // (undocumented)
     Forbidden = "Forbidden",
-    // (undocumented)
     Found = "Found",
-    // (undocumented)
     GatewayTimeout = "GatewayTimeout",
-    // (undocumented)
     Gone = "Gone",
-    // (undocumented)
     HttpVersionNotSupported = "HttpVersionNotSupported",
-    // (undocumented)
     InternalServerError = "InternalServerError",
-    // (undocumented)
     LengthRequired = "LengthRequired",
-    // (undocumented)
     MethodNotAllowed = "MethodNotAllowed",
-    // (undocumented)
     Moved = "Moved",
-    // (undocumented)
     MovedPermanently = "MovedPermanently",
-    // (undocumented)
     MultipleChoices = "MultipleChoices",
-    // (undocumented)
     NoContent = "NoContent",
-    // (undocumented)
     NonAuthoritativeInformation = "NonAuthoritativeInformation",
-    // (undocumented)
     NotAcceptable = "NotAcceptable",
-    // (undocumented)
     NotFound = "NotFound",
-    // (undocumented)
     NotImplemented = "NotImplemented",
-    // (undocumented)
     NotModified = "NotModified",
-    // (undocumented)
     OK = "OK",
-    // (undocumented)
     PartialContent = "PartialContent",
-    // (undocumented)
     PaymentRequired = "PaymentRequired",
-    // (undocumented)
     PreconditionFailed = "PreconditionFailed",
-    // (undocumented)
     ProxyAuthenticationRequired = "ProxyAuthenticationRequired",
-    // (undocumented)
     Redirect = "Redirect",
-    // (undocumented)
     RedirectKeepVerb = "RedirectKeepVerb",
-    // (undocumented)
     RedirectMethod = "RedirectMethod",
-    // (undocumented)
     RequestedRangeNotSatisfiable = "RequestedRangeNotSatisfiable",
-    // (undocumented)
     RequestEntityTooLarge = "RequestEntityTooLarge",
-    // (undocumented)
     RequestTimeout = "RequestTimeout",
-    // (undocumented)
     RequestUriTooLong = "RequestUriTooLong",
-    // (undocumented)
     ResetContent = "ResetContent",
-    // (undocumented)
     SeeOther = "SeeOther",
-    // (undocumented)
     ServiceUnavailable = "ServiceUnavailable",
-    // (undocumented)
     SwitchingProtocols = "SwitchingProtocols",
-    // (undocumented)
     TemporaryRedirect = "TemporaryRedirect",
-    // (undocumented)
     Unauthorized = "Unauthorized",
-    // (undocumented)
     UnsupportedMediaType = "UnsupportedMediaType",
-    // (undocumented)
     Unused = "Unused",
-    // (undocumented)
     UpgradeRequired = "UpgradeRequired",
-    // (undocumented)
     UseProxy = "UseProxy"
 }
 
 // @public
 export enum KnownLinuxOsState {
-    // (undocumented)
     DeprovisionApplied = "DeprovisionApplied",
-    // (undocumented)
     DeprovisionRequested = "DeprovisionRequested",
-    // (undocumented)
     NonDeprovisioned = "NonDeprovisioned"
 }
 
 // @public
 export enum KnownManagedIdentityType {
-    // (undocumented)
     None = "None",
-    // (undocumented)
     SystemAssigned = "SystemAssigned",
-    // (undocumented)
     SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
-    // (undocumented)
     UserAssigned = "UserAssigned"
 }
 
 // @public
 export enum KnownNotificationChannelEventType {
-    // (undocumented)
     AutoShutdown = "AutoShutdown",
-    // (undocumented)
     Cost = "Cost"
 }
 
 // @public
 export enum KnownPolicyEvaluatorType {
-    // (undocumented)
     AllowedValuesPolicy = "AllowedValuesPolicy",
-    // (undocumented)
     MaxValuePolicy = "MaxValuePolicy"
 }
 
 // @public
 export enum KnownPolicyFactName {
-    // (undocumented)
     EnvironmentTemplate = "EnvironmentTemplate",
-    // (undocumented)
     GalleryImage = "GalleryImage",
-    // (undocumented)
     LabPremiumVmCount = "LabPremiumVmCount",
-    // (undocumented)
     LabTargetCost = "LabTargetCost",
-    // (undocumented)
     LabVmCount = "LabVmCount",
-    // (undocumented)
     LabVmSize = "LabVmSize",
-    // (undocumented)
     ScheduleEditPermission = "ScheduleEditPermission",
-    // (undocumented)
     UserOwnedLabPremiumVmCount = "UserOwnedLabPremiumVmCount",
-    // (undocumented)
     UserOwnedLabVmCount = "UserOwnedLabVmCount",
-    // (undocumented)
     UserOwnedLabVmCountInSubnet = "UserOwnedLabVmCountInSubnet"
 }
 
 // @public
 export enum KnownPolicyStatus {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownPremiumDataDisk {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownReportingCycleType {
-    // (undocumented)
     CalendarMonth = "CalendarMonth",
-    // (undocumented)
     Custom = "Custom"
 }
 
 // @public
 export enum KnownSourceControlType {
-    // (undocumented)
     GitHub = "GitHub",
-    // (undocumented)
     StorageAccount = "StorageAccount",
-    // (undocumented)
     VsoGit = "VsoGit"
 }
 
 // @public
 export enum KnownStorageType {
-    // (undocumented)
     Premium = "Premium",
-    // (undocumented)
     Standard = "Standard",
-    // (undocumented)
     StandardSSD = "StandardSSD"
 }
 
 // @public
 export enum KnownTargetCostStatus {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownTransportProtocol {
-    // (undocumented)
     Tcp = "Tcp",
-    // (undocumented)
     Udp = "Udp"
 }
 
 // @public
 export enum KnownUsagePermissionType {
-    // (undocumented)
     Allow = "Allow",
-    // (undocumented)
     Default = "Default",
-    // (undocumented)
     Deny = "Deny"
 }
 
 // @public
 export enum KnownVirtualMachineCreationSource {
-    // (undocumented)
     FromCustomImage = "FromCustomImage",
-    // (undocumented)
     FromGalleryImage = "FromGalleryImage",
-    // (undocumented)
     FromSharedGalleryImage = "FromSharedGalleryImage"
 }
 
 // @public
 export enum KnownWindowsOsState {
-    // (undocumented)
     NonSysprepped = "NonSysprepped",
-    // (undocumented)
     SysprepApplied = "SysprepApplied",
-    // (undocumented)
     SysprepRequested = "SysprepRequested"
 }
 
 // @public
-export type Lab = Resource & {
-    readonly defaultStorageAccount?: string;
-    readonly defaultPremiumStorageAccount?: string;
-    readonly artifactsStorageAccount?: string;
-    readonly premiumDataDiskStorageAccount?: string;
-    readonly vaultName?: string;
-    labStorageType?: StorageType;
-    mandatoryArtifactsResourceIdsLinux?: string[];
-    mandatoryArtifactsResourceIdsWindows?: string[];
-    readonly createdDate?: Date;
-    premiumDataDisks?: PremiumDataDisk;
-    environmentPermission?: EnvironmentPermission;
+export interface Lab extends Resource {
     announcement?: LabAnnouncementProperties;
-    support?: LabSupportProperties;
-    readonly vmCreationResourceGroup?: string;
-    readonly publicIpId?: string;
-    readonly loadBalancerId?: string;
-    readonly networkSecurityGroupId?: string;
+    readonly artifactsStorageAccount?: string;
+    readonly createdDate?: Date;
+    readonly defaultPremiumStorageAccount?: string;
+    readonly defaultStorageAccount?: string;
+    environmentPermission?: EnvironmentPermission;
     extendedProperties?: {
         [propertyName: string]: string;
     };
+    labStorageType?: StorageType;
+    readonly loadBalancerId?: string;
+    mandatoryArtifactsResourceIdsLinux?: string[];
+    mandatoryArtifactsResourceIdsWindows?: string[];
+    readonly networkSecurityGroupId?: string;
+    premiumDataDisks?: PremiumDataDisk;
+    readonly premiumDataDiskStorageAccount?: string;
     readonly provisioningState?: string;
+    readonly publicIpId?: string;
+    support?: LabSupportProperties;
     readonly uniqueIdentifier?: string;
-};
+    readonly vaultName?: string;
+    readonly vmCreationResourceGroup?: string;
+}
 
 // @public
 export interface LabAnnouncementProperties {
@@ -1429,18 +1328,18 @@ export interface LabAnnouncementProperties {
 }
 
 // @public
-export type LabCost = Resource & {
-    targetCost?: TargetCostProperties;
-    readonly labCostSummary?: LabCostSummaryProperties;
-    readonly labCostDetails?: LabCostDetailsProperties[];
-    readonly resourceCosts?: LabResourceCostProperties[];
-    currencyCode?: string;
-    startDateTime?: Date;
-    endDateTime?: Date;
+export interface LabCost extends Resource {
     createdDate?: Date;
+    currencyCode?: string;
+    endDateTime?: Date;
+    readonly labCostDetails?: LabCostDetailsProperties[];
+    readonly labCostSummary?: LabCostSummaryProperties;
     readonly provisioningState?: string;
+    readonly resourceCosts?: LabResourceCostProperties[];
+    startDateTime?: Date;
+    targetCost?: TargetCostProperties;
     readonly uniqueIdentifier?: string;
-};
+}
 
 // @public
 export interface LabCostDetailsProperties {
@@ -1455,7 +1354,8 @@ export interface LabCostSummaryProperties {
 }
 
 // @public
-export type LabFragment = UpdateResource & {};
+export interface LabFragment extends UpdateResource {
+}
 
 // @public
 export interface LabList {
@@ -1635,43 +1535,43 @@ export interface LabVhdList {
 }
 
 // @public
-export type LabVirtualMachine = Resource & {
-    notes?: string;
-    ownerObjectId?: string;
-    ownerUserPrincipalName?: string;
-    readonly createdByUserId?: string;
-    readonly createdByUser?: string;
-    createdDate?: Date;
+export interface LabVirtualMachine extends Resource {
+    allowClaim?: boolean;
+    readonly applicableSchedule?: ApplicableSchedule;
+    readonly artifactDeploymentStatus?: ArtifactDeploymentStatusProperties;
+    artifacts?: ArtifactInstallProperties[];
     readonly computeId?: string;
+    readonly computeVm?: ComputeVmProperties;
+    readonly createdByUser?: string;
+    readonly createdByUserId?: string;
+    createdDate?: Date;
     customImageId?: string;
-    readonly osType?: string;
-    size?: string;
-    userName?: string;
-    password?: string;
-    sshKey?: string;
-    isAuthenticationWithSshKey?: boolean;
+    dataDiskParameters?: DataDiskProperties[];
+    disallowPublicIpAddress?: boolean;
+    environmentId?: string;
+    expirationDate?: Date;
     readonly fqdn?: string;
+    galleryImageReference?: GalleryImageReference;
+    isAuthenticationWithSshKey?: boolean;
     labSubnetName?: string;
     labVirtualNetworkId?: string;
-    disallowPublicIpAddress?: boolean;
-    artifacts?: ArtifactInstallProperties[];
-    readonly artifactDeploymentStatus?: ArtifactDeploymentStatusProperties;
-    galleryImageReference?: GalleryImageReference;
-    planId?: string;
-    readonly computeVm?: ComputeVmProperties;
-    networkInterface?: NetworkInterfaceProperties;
-    readonly applicableSchedule?: ApplicableSchedule;
-    expirationDate?: Date;
-    allowClaim?: boolean;
-    storageType?: string;
-    readonly virtualMachineCreationSource?: VirtualMachineCreationSource;
-    environmentId?: string;
-    dataDiskParameters?: DataDiskProperties[];
-    scheduleParameters?: ScheduleCreationParameter[];
     readonly lastKnownPowerState?: string;
+    networkInterface?: NetworkInterfaceProperties;
+    notes?: string;
+    readonly osType?: string;
+    ownerObjectId?: string;
+    ownerUserPrincipalName?: string;
+    password?: string;
+    planId?: string;
     readonly provisioningState?: string;
+    scheduleParameters?: ScheduleCreationParameter[];
+    size?: string;
+    sshKey?: string;
+    storageType?: string;
     readonly uniqueIdentifier?: string;
-};
+    userName?: string;
+    readonly virtualMachineCreationSource?: VirtualMachineCreationSource;
+}
 
 // @public
 export interface LabVirtualMachineCreationParameter {
@@ -1707,7 +1607,8 @@ export interface LabVirtualMachineCreationParameter {
 }
 
 // @public
-export type LabVirtualMachineFragment = UpdateResource & {};
+export interface LabVirtualMachineFragment extends UpdateResource {
+}
 
 // @public
 export interface LabVirtualMachineList {
@@ -1740,22 +1641,23 @@ export interface NetworkInterfaceProperties {
 }
 
 // @public
-export type NotificationChannel = Resource & {
-    webHookUrl?: string;
-    emailRecipient?: string;
-    notificationLocale?: string;
-    description?: string;
-    events?: Event_2[];
+export interface NotificationChannel extends Resource {
     readonly createdDate?: Date;
+    description?: string;
+    emailRecipient?: string;
+    events?: Event_2[];
+    notificationLocale?: string;
     readonly provisioningState?: string;
     readonly uniqueIdentifier?: string;
-};
+    webHookUrl?: string;
+}
 
 // @public
 export type NotificationChannelEventType = string;
 
 // @public
-export type NotificationChannelFragment = UpdateResource & {};
+export interface NotificationChannelFragment extends UpdateResource {
+}
 
 // @public
 export interface NotificationChannelList {
@@ -1954,17 +1856,17 @@ export interface PoliciesUpdateOptionalParams extends coreClient.OperationOption
 export type PoliciesUpdateResponse = Policy;
 
 // @public
-export type Policy = Resource & {
-    description?: string;
-    status?: PolicyStatus;
-    factName?: PolicyFactName;
-    factData?: string;
-    threshold?: string;
-    evaluatorType?: PolicyEvaluatorType;
+export interface Policy extends Resource {
     readonly createdDate?: Date;
+    description?: string;
+    evaluatorType?: PolicyEvaluatorType;
+    factData?: string;
+    factName?: PolicyFactName;
     readonly provisioningState?: string;
+    status?: PolicyStatus;
+    threshold?: string;
     readonly uniqueIdentifier?: string;
-};
+}
 
 // @public
 export type PolicyEvaluatorType = string;
@@ -1973,7 +1875,8 @@ export type PolicyEvaluatorType = string;
 export type PolicyFactName = string;
 
 // @public
-export type PolicyFragment = UpdateResource & {};
+export interface PolicyFragment extends UpdateResource {
+}
 
 // @public
 export interface PolicyList {
@@ -2073,19 +1976,19 @@ export interface RetargetScheduleProperties {
 }
 
 // @public
-export type Schedule = Resource & {
-    status?: EnableStatus;
-    taskType?: string;
-    weeklyRecurrence?: WeekDetails;
+export interface Schedule extends Resource {
+    readonly createdDate?: Date;
     dailyRecurrence?: DayDetails;
     hourlyRecurrence?: HourDetails;
-    timeZoneId?: string;
     notificationSettings?: NotificationSettings;
-    readonly createdDate?: Date;
-    targetResourceId?: string;
     readonly provisioningState?: string;
+    status?: EnableStatus;
+    targetResourceId?: string;
+    taskType?: string;
+    timeZoneId?: string;
     readonly uniqueIdentifier?: string;
-};
+    weeklyRecurrence?: WeekDetails;
+}
 
 // @public
 export interface ScheduleCreationParameter {
@@ -2105,7 +2008,8 @@ export interface ScheduleCreationParameter {
 }
 
 // @public
-export type ScheduleFragment = UpdateResource & {};
+export interface ScheduleFragment extends UpdateResource {
+}
 
 // @public
 export interface ScheduleList {
@@ -2194,14 +2098,15 @@ export interface SchedulesUpdateOptionalParams extends coreClient.OperationOptio
 export type SchedulesUpdateResponse = Schedule;
 
 // @public
-export type Secret = Resource & {
-    value?: string;
+export interface Secret extends Resource {
     readonly provisioningState?: string;
     readonly uniqueIdentifier?: string;
-};
+    value?: string;
+}
 
 // @public
-export type SecretFragment = UpdateResource & {};
+export interface SecretFragment extends UpdateResource {
+}
 
 // @public
 export interface SecretList {
@@ -2270,16 +2175,17 @@ export interface SecretsUpdateOptionalParams extends coreClient.OperationOptions
 export type SecretsUpdateResponse = Secret;
 
 // @public
-export type ServiceFabric = Resource & {
-    externalServiceFabricId?: string;
-    environmentId?: string;
+export interface ServiceFabric extends Resource {
     readonly applicableSchedule?: ApplicableSchedule;
+    environmentId?: string;
+    externalServiceFabricId?: string;
     readonly provisioningState?: string;
     readonly uniqueIdentifier?: string;
-};
+}
 
 // @public
-export type ServiceFabricFragment = UpdateResource & {};
+export interface ServiceFabricFragment extends UpdateResource {
+}
 
 // @public
 export interface ServiceFabricList {
@@ -2440,9 +2346,9 @@ export interface ServiceFabricsUpdateOptionalParams extends coreClient.Operation
 export type ServiceFabricsUpdateResponse = ServiceFabric;
 
 // @public
-export type ServiceRunner = Resource & {
+export interface ServiceRunner extends Resource {
     identity?: IdentityProperties;
-};
+}
 
 // @public
 export interface ServiceRunnerList {
@@ -2552,16 +2458,17 @@ export interface UpdateResource {
 export type UsagePermissionType = string;
 
 // @public
-export type User = Resource & {
-    identity?: UserIdentity;
-    secretStore?: UserSecretStore;
+export interface User extends Resource {
     readonly createdDate?: Date;
+    identity?: UserIdentity;
     readonly provisioningState?: string;
+    secretStore?: UserSecretStore;
     readonly uniqueIdentifier?: string;
-};
+}
 
 // @public
-export type UserFragment = UpdateResource & {};
+export interface UserFragment extends UpdateResource {
+}
 
 // @public
 export interface UserIdentity {
@@ -2883,19 +2790,20 @@ export interface VirtualMachinesUpdateOptionalParams extends coreClient.Operatio
 export type VirtualMachinesUpdateResponse = LabVirtualMachine;
 
 // @public
-export type VirtualNetwork = Resource & {
+export interface VirtualNetwork extends Resource {
     allowedSubnets?: Subnet[];
+    readonly createdDate?: Date;
     description?: string;
     externalProviderResourceId?: string;
     readonly externalSubnets?: ExternalSubnet[];
-    subnetOverrides?: SubnetOverride[];
-    readonly createdDate?: Date;
     readonly provisioningState?: string;
+    subnetOverrides?: SubnetOverride[];
     readonly uniqueIdentifier?: string;
-};
+}
 
 // @public
-export type VirtualNetworkFragment = UpdateResource & {};
+export interface VirtualNetworkFragment extends UpdateResource {
+}
 
 // @public
 export interface VirtualNetworkList {

@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Galleries } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -42,7 +43,7 @@ export class GalleriesImpl implements Galleries {
 
   /**
    * Lists galleries for a devcenter.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param options The options parameters.
    */
@@ -63,11 +64,15 @@ export class GalleriesImpl implements Galleries {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByDevCenterPagingPage(
           resourceGroupName,
           devCenterName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -76,15 +81,22 @@ export class GalleriesImpl implements Galleries {
   private async *listByDevCenterPagingPage(
     resourceGroupName: string,
     devCenterName: string,
-    options?: GalleriesListByDevCenterOptionalParams
+    options?: GalleriesListByDevCenterOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Gallery[]> {
-    let result = await this._listByDevCenter(
-      resourceGroupName,
-      devCenterName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: GalleriesListByDevCenterResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByDevCenter(
+        resourceGroupName,
+        devCenterName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByDevCenterNext(
         resourceGroupName,
@@ -93,7 +105,9 @@ export class GalleriesImpl implements Galleries {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -113,7 +127,7 @@ export class GalleriesImpl implements Galleries {
 
   /**
    * Lists galleries for a devcenter.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param options The options parameters.
    */
@@ -130,7 +144,7 @@ export class GalleriesImpl implements Galleries {
 
   /**
    * Gets a gallery
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param galleryName The name of the gallery.
    * @param options The options parameters.
@@ -149,7 +163,7 @@ export class GalleriesImpl implements Galleries {
 
   /**
    * Creates or updates a gallery.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param galleryName The name of the gallery.
    * @param body Represents a gallery.
@@ -222,7 +236,7 @@ export class GalleriesImpl implements Galleries {
 
   /**
    * Creates or updates a gallery.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param galleryName The name of the gallery.
    * @param body Represents a gallery.
@@ -247,7 +261,7 @@ export class GalleriesImpl implements Galleries {
 
   /**
    * Deletes a gallery resource.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param galleryName The name of the gallery.
    * @param options The options parameters.
@@ -313,7 +327,7 @@ export class GalleriesImpl implements Galleries {
 
   /**
    * Deletes a gallery resource.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param galleryName The name of the gallery.
    * @param options The options parameters.
@@ -335,7 +349,7 @@ export class GalleriesImpl implements Galleries {
 
   /**
    * ListByDevCenterNext
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param nextLink The nextLink from the previous successful call to the ListByDevCenter method.
    * @param options The options parameters.

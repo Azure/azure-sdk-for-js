@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to The operation to simulate the eviction of spot virtual machine.
  *
  * @summary The operation to simulate the eviction of spot virtual machine.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineExamples/VirtualMachine_SimulateEviction.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_SimulateEviction.json
  */
 async function simulateEvictionAVirtualMachine() {
   const subscriptionId = "{subscription-id}";

@@ -2,25 +2,22 @@
 // Licensed under the MIT license.
 
 import * as msalNode from "@azure/msal-node";
-
+import { MsalNode, MsalNodeOptions } from "./msalNodeCommon";
+import { credentialLogger, formatError, formatSuccess } from "../../util/logging";
 import { AccessToken } from "@azure/core-auth";
-
+import { CredentialFlowGetTokenOptions } from "../credentials";
+import { CredentialUnavailableError } from "../../errors";
 import { Socket } from "net";
 import http from "http";
+import { msalToPublic } from "../utils";
 import open from "open";
 import stoppable from "stoppable";
-
-import { credentialLogger, formatError, formatSuccess } from "../../util/logging";
-import { CredentialUnavailableError } from "../../errors";
-import { MsalNode, MsalNodeOptions } from "./msalNodeCommon";
-import { CredentialFlowGetTokenOptions } from "../credentials";
-import { msalToPublic } from "../utils";
 
 /**
  * Options that can be passed to configure MSAL to handle authentication through opening a browser window.
  * @internal
  */
-export interface MSALOpenBrowserOptions extends MsalNodeOptions {
+export interface MsalOpenBrowserOptions extends MsalNodeOptions {
   redirectUri: string;
   loginHint?: string;
 }
@@ -44,7 +41,7 @@ export class MsalOpenBrowser extends MsalNode {
   private hostname: string;
   private loginHint?: string;
 
-  constructor(options: MSALOpenBrowserOptions) {
+  constructor(options: MsalOpenBrowserOptions) {
     super(options);
     this.logger = credentialLogger("Node.js MSAL Open Browser");
     this.redirectUri = options.redirectUri;
@@ -208,7 +205,7 @@ export class MsalOpenBrowser extends MsalNode {
           });
         }
 
-        openPromise.then().catch((e) => {
+        openPromise.catch((e) => {
           cleanup();
           reject(e);
         });

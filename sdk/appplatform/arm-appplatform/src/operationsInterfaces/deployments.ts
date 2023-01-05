@@ -22,6 +22,12 @@ import {
   DeploymentsStartOptionalParams,
   DeploymentsStopOptionalParams,
   DeploymentsRestartOptionalParams,
+  DeploymentsEnableRemoteDebuggingOptionalParams,
+  DeploymentsEnableRemoteDebuggingResponse,
+  DeploymentsDisableRemoteDebuggingOptionalParams,
+  DeploymentsDisableRemoteDebuggingResponse,
+  DeploymentsGetRemoteDebuggingConfigOptionalParams,
+  DeploymentsGetRemoteDebuggingConfigResponse,
   DeploymentsGetLogFileUrlOptionalParams,
   DeploymentsGetLogFileUrlResponse,
   DiagnosticParameters,
@@ -285,6 +291,96 @@ export interface Deployments {
     deploymentName: string,
     options?: DeploymentsRestartOptionalParams
   ): Promise<void>;
+  /**
+   * Enable remote debugging.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param appName The name of the App resource.
+   * @param deploymentName The name of the Deployment resource.
+   * @param options The options parameters.
+   */
+  beginEnableRemoteDebugging(
+    resourceGroupName: string,
+    serviceName: string,
+    appName: string,
+    deploymentName: string,
+    options?: DeploymentsEnableRemoteDebuggingOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<DeploymentsEnableRemoteDebuggingResponse>,
+      DeploymentsEnableRemoteDebuggingResponse
+    >
+  >;
+  /**
+   * Enable remote debugging.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param appName The name of the App resource.
+   * @param deploymentName The name of the Deployment resource.
+   * @param options The options parameters.
+   */
+  beginEnableRemoteDebuggingAndWait(
+    resourceGroupName: string,
+    serviceName: string,
+    appName: string,
+    deploymentName: string,
+    options?: DeploymentsEnableRemoteDebuggingOptionalParams
+  ): Promise<DeploymentsEnableRemoteDebuggingResponse>;
+  /**
+   * Disable remote debugging.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param appName The name of the App resource.
+   * @param deploymentName The name of the Deployment resource.
+   * @param options The options parameters.
+   */
+  beginDisableRemoteDebugging(
+    resourceGroupName: string,
+    serviceName: string,
+    appName: string,
+    deploymentName: string,
+    options?: DeploymentsDisableRemoteDebuggingOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<DeploymentsDisableRemoteDebuggingResponse>,
+      DeploymentsDisableRemoteDebuggingResponse
+    >
+  >;
+  /**
+   * Disable remote debugging.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param appName The name of the App resource.
+   * @param deploymentName The name of the Deployment resource.
+   * @param options The options parameters.
+   */
+  beginDisableRemoteDebuggingAndWait(
+    resourceGroupName: string,
+    serviceName: string,
+    appName: string,
+    deploymentName: string,
+    options?: DeploymentsDisableRemoteDebuggingOptionalParams
+  ): Promise<DeploymentsDisableRemoteDebuggingResponse>;
+  /**
+   * Get remote debugging config.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param appName The name of the App resource.
+   * @param deploymentName The name of the Deployment resource.
+   * @param options The options parameters.
+   */
+  getRemoteDebuggingConfig(
+    resourceGroupName: string,
+    serviceName: string,
+    appName: string,
+    deploymentName: string,
+    options?: DeploymentsGetRemoteDebuggingConfigOptionalParams
+  ): Promise<DeploymentsGetRemoteDebuggingConfigResponse>;
   /**
    * Get deployment log file URL
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain

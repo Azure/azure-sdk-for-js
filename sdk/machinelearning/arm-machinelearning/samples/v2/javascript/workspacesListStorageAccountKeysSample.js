@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to List storage account keys of a workspace.
  *
  * @summary List storage account keys of a workspace.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-05-01/examples/Workspace/listStorageAccountKeys.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Workspace/listStorageAccountKeys.json
  */
 async function listWorkspaceKeys() {
   const subscriptionId = "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee";

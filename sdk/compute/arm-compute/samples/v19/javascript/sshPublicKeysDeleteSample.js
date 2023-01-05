@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Delete an SSH public key.
  *
  * @summary Delete an SSH public key.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/sshPublicKeyExamples/SshPublicKeys_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/sshPublicKeyExamples/SshPublicKeys_Delete_MaximumSet_Gen.json
  */
 async function sshPublicKeysDeleteMaximumSetGen() {
   const subscriptionId = "{subscription-id}";
@@ -33,7 +33,7 @@ sshPublicKeysDeleteMaximumSetGen().catch(console.error);
  * This sample demonstrates how to Delete an SSH public key.
  *
  * @summary Delete an SSH public key.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/sshPublicKeyExamples/SshPublicKeys_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/sshPublicKeyExamples/SshPublicKeys_Delete_MinimumSet_Gen.json
  */
 async function sshPublicKeysDeleteMinimumSetGen() {
   const subscriptionId = "{subscription-id}";

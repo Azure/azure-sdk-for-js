@@ -77,8 +77,11 @@ export interface PolicyAssignmentListResult {
 
 /** Known values of {@link PolicyType} that the service accepts. */
 export enum KnownPolicyType {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** BuiltIn */
   BuiltIn = "BuiltIn",
+  /** Custom */
   Custom = "Custom"
 }
 
@@ -95,8 +98,11 @@ export type PolicyType = string;
 
 /** Known values of {@link PolicyMode} that the service accepts. */
 export enum KnownPolicyMode {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** Indexed */
   Indexed = "Indexed",
+  /** All */
   All = "All"
 }
 
@@ -270,30 +276,21 @@ export type PolicyAssignmentsGetByIdResponse = PolicyAssignment;
 
 /** Optional parameters. */
 export interface PolicyAssignmentsListForResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listForResourceGroupNext operation. */
 export type PolicyAssignmentsListForResourceGroupNextResponse = PolicyAssignmentListResult;
 
 /** Optional parameters. */
 export interface PolicyAssignmentsListForResourceNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listForResourceNext operation. */
 export type PolicyAssignmentsListForResourceNextResponse = PolicyAssignmentListResult;
 
 /** Optional parameters. */
 export interface PolicyAssignmentsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type PolicyAssignmentsListNextResponse = PolicyAssignmentListResult;

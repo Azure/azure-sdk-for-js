@@ -24,7 +24,7 @@ async function volumeContainersListMetrics() {
   const resourceGroupName = "ResourceGroupForSDKTest";
   const managerName = "ManagerForSDKTest1";
   const filter =
-    "name/value eq 'CloudConsumedStorage' and timeGrain eq 'PT1M' and startTime ge '2017-06-17T18:30:00Z' and endTime le '2017-06-21T18:30:00Z' and category eq 'CapacityUtilization'";
+    "name/value%20eq%20'CloudConsumedStorage'%20and%20timeGrain%20eq%20'PT1M'%20and%20startTime%20ge%20'2017-06-17T18:30:00Z'%20and%20endTime%20le%20'2017-06-21T18:30:00Z'%20and%20category%20eq%20'CapacityUtilization'";
   const credential = new DefaultAzureCredential();
   const client = new StorSimple8000SeriesManagementClient(
     credential,

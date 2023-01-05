@@ -240,7 +240,7 @@ function modelInfo() {
   return {
     modelId: "prebuilt-invoice",
     description: "Extract key information from invoices.",
-    createdDateTime: "2022-08-31T00:00:00.000Z",
+    createdOn: "2022-08-31T00:00:00.000Z",
     apiVersion: "2022-08-31",
     docTypes: {
       invoice: {

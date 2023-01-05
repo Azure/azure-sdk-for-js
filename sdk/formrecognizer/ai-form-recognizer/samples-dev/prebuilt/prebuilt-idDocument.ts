@@ -543,7 +543,7 @@ function modelInfo() {
   return {
     modelId: "prebuilt-idDocument",
     description: "Extract key information from passports and ID cards.",
-    createdDateTime: "2022-08-31T00:00:00.000Z",
+    createdOn: "2022-08-31T00:00:00.000Z",
     apiVersion: "2022-08-31",
     docTypes: {
       "idDocument.driverLicense": {

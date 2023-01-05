@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Gets a single firewall rule in a specified redis cache.
  *
  * @summary Gets a single firewall rule in a specified redis cache.
- * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2022-05-01/examples/RedisCacheFirewallRuleGet.json
+ * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2022-06-01/examples/RedisCacheFirewallRuleGet.json
  */
 async function redisCacheFirewallRuleGet() {
   const subscriptionId = "subid";

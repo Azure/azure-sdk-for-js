@@ -16,7 +16,8 @@ import {
   RoleAssignmentCreateParameters as RoleAssignmentCreateParametersMapper,
   SASTokenParameter as SASTokenParameterMapper,
   RestoreOperationParameters as RestoreOperationParametersMapper,
-  SelectiveKeyRestoreOperationParameters as SelectiveKeyRestoreOperationParametersMapper
+  SelectiveKeyRestoreOperationParameters as SelectiveKeyRestoreOperationParametersMapper,
+  UpdateSettingRequest as UpdateSettingRequestMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -162,6 +163,22 @@ export const keyName: OperationURLParameter = {
   parameterPath: "keyName",
   mapper: {
     serializedName: "keyName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const value: OperationParameter = {
+  parameterPath: "value",
+  mapper: UpdateSettingRequestMapper
+};
+
+export const settingName: OperationURLParameter = {
+  parameterPath: "settingName",
+  mapper: {
+    serializedName: "setting-name",
     required: true,
     type: {
       name: "String"

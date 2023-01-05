@@ -330,7 +330,6 @@ function processExportDefault(
       // If there is no name, the declaration is anonymous, and we will bind it as an expression in module.exports
       const initializer = ts.isClassDeclaration(decl)
         ? factory.createClassExpression(
-            decl.decorators,
             updatedModifiers,
             undefined,
             decl.typeParameters,
@@ -340,7 +339,7 @@ function processExportDefault(
         : decl.body === undefined // This is a strange case that I assume has to do with overload declarations.
         ? undefined
         : factory.createFunctionExpression(
-            updatedModifiers,
+            updatedModifiers as readonly ts.Modifier[], // it's not legal to decorate function expressions so these should all be modifiers.
             decl.asteriskToken,
             undefined,
             decl.typeParameters,
@@ -361,7 +360,6 @@ function processExportDefault(
     return ts.isClassDeclaration(decl)
       ? factory.updateClassDeclaration(
           decl,
-          decl.decorators,
           updatedModifiers,
           decl.name,
           decl.typeParameters,
@@ -370,7 +368,6 @@ function processExportDefault(
         )
       : factory.updateFunctionDeclaration(
           decl,
-          decl.decorators,
           updatedModifiers,
           decl.asteriskToken,
           decl.name,

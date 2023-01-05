@@ -3,11 +3,12 @@
 
 import { assert } from "@azure/test-utils";
 import { Context } from "mocha";
-import { Recorder } from "@azure-tools/test-recorder";
+import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { ClientSecretCredential } from "@azure/identity";
 import { NoOpCredential } from "@azure-tools/test-credential";
+import { createHash } from "crypto";
 
-import { CryptographyClient, KeyClient, KeyVaultKey } from "../../src";
+import { CryptographyClient, KeyClient, KeyVaultKey, KnownSignatureAlgorithms } from "../../src";
 import { authenticate, envSetupForPlayback } from "./utils/testAuthentication";
 import { stringToUint8Array, uint8ArrayToString } from "./utils/crypto";
 import TestClient from "./utils/testClient";
@@ -55,7 +56,7 @@ onVersions({ minVer: "7.2" }).describe(
         cryptoClient = new CryptographyClient(
           keyVaultKey.id!,
           credential,
-          recorder.configureClientOptions({})
+          recorder.configureClientOptions({ disableChallengeResourceVerification: !isLiveMode() })
         );
         const text = this.test!.title;
         const encryptResult = await cryptoClient.encrypt({
@@ -83,7 +84,7 @@ onVersions({ minVer: "7.2" }).describe(
         cryptoClient = new CryptographyClient(
           keyVaultKey.id!,
           credential,
-          recorder.configureClientOptions({})
+          recorder.configureClientOptions({ disableChallengeResourceVerification: !isLiveMode() })
         );
         const text = this.test!.title;
         // We are using a predictable IV to support our recorded tests; however, you should use a cryptographically secure IV or omit it and
@@ -102,6 +103,59 @@ onVersions({ minVer: "7.2" }).describe(
         });
         assert.equal(uint8ArrayToString(decryptResult.result), text);
         await testClient?.flushKey(keyName);
+      });
+    });
+
+    onVersions({ minVer: "7.4-preview.1" }).describe("with OKP keys", () => {
+      beforeEach(function (this: Mocha.Context) {
+        if (!isNode) {
+          this.skip();
+        }
+      });
+
+      it("supports sign and verify", async () => {
+        const okpKeyName = recorder.variable(
+          "okp-sign-verify",
+          `okp-sign-verify-${Math.floor(Math.random() * 100000)}`
+        );
+        keyVaultKey = await hsmClient.createOkpKey(okpKeyName);
+        cryptoClient = hsmClient.getCryptographyClient(okpKeyName);
+        const message = stringToUint8Array("Hello, world!");
+        const digest = createHash("SHA256").update(message).digest();
+
+        const signResult = await cryptoClient.sign(KnownSignatureAlgorithms.EdDSA, digest);
+        assert.equal(KnownSignatureAlgorithms.EdDSA, signResult.algorithm);
+        assert.exists(signResult.result);
+        assert.equal(signResult.keyID, keyVaultKey.id);
+
+        const verifyResult = await cryptoClient.verify(
+          KnownSignatureAlgorithms.EdDSA,
+          digest,
+          signResult.result
+        );
+        assert.isTrue(verifyResult.result);
+      });
+
+      it("supports signData and verifyData", async () => {
+        const okpKeyName = recorder.variable(
+          "okp-sign-verify",
+          `okp-sign-verify-${Math.floor(Math.random() * 100000)}`
+        );
+        keyVaultKey = await hsmClient.createOkpKey(okpKeyName);
+        cryptoClient = hsmClient.getCryptographyClient(okpKeyName);
+        const message = stringToUint8Array("Hello, world!");
+
+        const signResult = await cryptoClient.signData(KnownSignatureAlgorithms.EdDSA, message);
+        assert.equal(KnownSignatureAlgorithms.EdDSA, signResult.algorithm);
+        assert.exists(signResult.result);
+        assert.equal(signResult.keyID, keyVaultKey.id);
+
+        const verifyResult = await cryptoClient.verifyData(
+          KnownSignatureAlgorithms.EdDSA,
+          message,
+          signResult.result
+        );
+        assert.isTrue(verifyResult.result);
       });
     });
   }

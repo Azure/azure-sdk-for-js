@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Timeline for an entity.
  *
  * @summary Timeline for an entity.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/entities/timeline/PostTimelineEntity.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/timeline/PostTimelineEntity.json
  */
 async function entityTimeline() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";

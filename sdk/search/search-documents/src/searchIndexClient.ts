@@ -12,37 +12,37 @@ import { SearchServiceClient as GeneratedClient } from "./generated/service/sear
 import { logger } from "./logger";
 import { createSearchApiKeyCredentialPolicy } from "./searchApiKeyCredentialPolicy";
 import {
+  AliasIterator,
   AnalyzeTextOptions,
+  CreateAliasOptions,
   CreateIndexOptions,
+  CreateOrUpdateAliasOptions,
   CreateOrUpdateIndexOptions,
   CreateOrUpdateSynonymMapOptions,
   CreateSynonymMapOptions,
+  DeleteAliasOptions,
   DeleteIndexOptions,
   DeleteSynonymMapOptions,
+  GetAliasOptions,
   GetIndexOptions,
   GetIndexStatisticsOptions,
-  GetSynonymMapsOptions,
-  SearchIndex,
-  ListIndexesOptions,
-  ListSynonymMapsOptions,
-  SynonymMap,
   GetServiceStatisticsOptions,
+  GetSynonymMapsOptions,
   IndexIterator,
   IndexNameIterator,
+  ListAliasesOptions,
+  ListIndexesOptions,
+  ListSynonymMapsOptions,
+  SearchIndex,
+  SearchIndexAlias,
   SearchIndexStatistics,
   SearchServiceStatistics,
-  CreateAliasOptions,
-  SearchIndexAlias,
-  CreateOrUpdateAliasOptions,
-  DeleteAliasOptions,
-  GetAliasOptions,
-  ListAliasesOptions,
-  AliasIterator,
+  SynonymMap,
 } from "./serviceModels";
 import * as utils from "./serviceUtils";
 import { createSpan } from "./tracing";
 import { createOdataMetadataPolicy } from "./odataMetadataPolicy";
-import { SearchClient, SearchClientOptions as GetSearchClientOptions } from "./searchClient";
+import { SearchClientOptions as GetSearchClientOptions, SearchClient } from "./searchClient";
 import { ExtendedCommonClientOptions } from "@azure/core-http-compat";
 import { KnownSearchAudience } from "./searchAudience";
 

@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Gets a list of SKUs available for your VM scale set, including the minimum and maximum VM instances allowed for each SKU.
  *
  * @summary Gets a list of SKUs available for your VM scale set, including the minimum and maximum VM instances allowed for each SKU.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_ListSkus_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_ListSkus_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetsListSkusMaximumSetGen() {
   const subscriptionId = "{subscription-id}";
@@ -39,7 +39,7 @@ virtualMachineScaleSetsListSkusMaximumSetGen().catch(console.error);
  * This sample demonstrates how to Gets a list of SKUs available for your VM scale set, including the minimum and maximum VM instances allowed for each SKU.
  *
  * @summary Gets a list of SKUs available for your VM scale set, including the minimum and maximum VM instances allowed for each SKU.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_ListSkus_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_ListSkus_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetsListSkusMinimumSetGen() {
   const subscriptionId = "{subscription-id}";

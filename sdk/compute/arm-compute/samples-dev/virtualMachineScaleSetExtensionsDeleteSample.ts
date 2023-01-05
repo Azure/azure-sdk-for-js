@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to The operation to delete the extension.
  *
  * @summary The operation to delete the extension.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtensions_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtensions_Delete_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetExtensionsDeleteMaximumSetGen() {
   const subscriptionId = "{subscription-id}";
@@ -38,7 +38,7 @@ virtualMachineScaleSetExtensionsDeleteMaximumSetGen().catch(console.error);
  * This sample demonstrates how to The operation to delete the extension.
  *
  * @summary The operation to delete the extension.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtensions_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtensions_Delete_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetExtensionsDeleteMinimumSetGen() {
   const subscriptionId = "{subscription-id}";

@@ -23,6 +23,17 @@ export const CommunicationIdentityCreateRequest: coreClient.CompositeMapper = {
             }
           }
         }
+      },
+      expiresInMinutes: {
+        defaultValue: 1440,
+        constraints: {
+          InclusiveMaximum: 1440,
+          InclusiveMinimum: 60
+        },
+        serializedName: "expiresInMinutes",
+        type: {
+          name: "Number"
+        }
       }
     }
   }
@@ -201,6 +212,17 @@ export const CommunicationIdentityAccessTokenRequest: coreClient.CompositeMapper
               name: "String"
             }
           }
+        }
+      },
+      expiresInMinutes: {
+        defaultValue: 1440,
+        constraints: {
+          InclusiveMaximum: 1440,
+          InclusiveMinimum: 60
+        },
+        serializedName: "expiresInMinutes",
+        type: {
+          name: "Number"
         }
       }
     }

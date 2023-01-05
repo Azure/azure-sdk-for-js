@@ -405,6 +405,7 @@ export const ManualTriggerRequestBody: coreClient.CompositeMapper = {
       },
       logicAppsResourceId: {
         serializedName: "logicAppsResourceId",
+        required: true,
         type: {
           name: "String"
         }
@@ -1775,6 +1776,103 @@ export const EntityQueryTemplateList: coreClient.CompositeMapper = {
             type: {
               name: "Composite",
               className: "EntityQueryTemplate"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const FileImportList: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FileImportList",
+    modelProperties: {
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "FileImport"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const FileMetadata: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FileMetadata",
+    modelProperties: {
+      fileFormat: {
+        serializedName: "fileFormat",
+        type: {
+          name: "String"
+        }
+      },
+      fileName: {
+        serializedName: "fileName",
+        type: {
+          name: "String"
+        }
+      },
+      fileSize: {
+        serializedName: "fileSize",
+        type: {
+          name: "Number"
+        }
+      },
+      fileContentUri: {
+        serializedName: "fileContentUri",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      deleteStatus: {
+        serializedName: "deleteStatus",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ValidationError: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ValidationError",
+    modelProperties: {
+      recordIndex: {
+        serializedName: "recordIndex",
+        type: {
+          name: "Number"
+        }
+      },
+      errorMessages: {
+        serializedName: "errorMessages",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
             }
           }
         }
@@ -3715,6 +3813,13 @@ export const QueryBasedAlertRuleTemplateProperties: coreClient.CompositeMapper =
           name: "Composite",
           className: "AlertDetailsOverride"
         }
+      },
+      eventGroupingSettings: {
+        serializedName: "eventGroupingSettings",
+        type: {
+          name: "Composite",
+          className: "EventGroupingSettings"
+        }
       }
     }
   }
@@ -3793,6 +3898,21 @@ export const AlertDetailsOverride: coreClient.CompositeMapper = {
       },
       alertSeverityColumnName: {
         serializedName: "alertSeverityColumnName",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const EventGroupingSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EventGroupingSettings",
+    modelProperties: {
+      aggregationKind: {
+        serializedName: "aggregationKind",
         type: {
           name: "String"
         }
@@ -4253,15 +4373,31 @@ export const ScheduledAlertRuleCommonProperties: coreClient.CompositeMapper = {
   }
 };
 
-export const EventGroupingSettings: coreClient.CompositeMapper = {
+export const AutomationRuleBooleanCondition: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "EventGroupingSettings",
+    className: "AutomationRuleBooleanCondition",
     modelProperties: {
-      aggregationKind: {
-        serializedName: "aggregationKind",
+      operator: {
+        serializedName: "operator",
         type: {
           name: "String"
+        }
+      },
+      innerConditions: {
+        constraints: {
+          MinItems: 2,
+          MaxItems: 10
+        },
+        serializedName: "innerConditions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AutomationRuleCondition"
+            }
+          }
         }
       }
     }
@@ -4341,6 +4477,42 @@ export const AutomationRulePropertyArrayChangedValuesCondition: coreClient.Compo
         serializedName: "changeType",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AutomationRulePropertyArrayValuesCondition: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AutomationRulePropertyArrayValuesCondition",
+    modelProperties: {
+      arrayType: {
+        serializedName: "arrayType",
+        type: {
+          name: "String"
+        }
+      },
+      arrayConditionType: {
+        serializedName: "arrayConditionType",
+        type: {
+          name: "String"
+        }
+      },
+      itemConditions: {
+        constraints: {
+          MaxItems: 10
+        },
+        serializedName: "itemConditions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AutomationRuleCondition"
+            }
+          }
         }
       }
     }
@@ -5949,6 +6121,110 @@ export const EntityQueryTemplate: coreClient.CompositeMapper = {
   }
 };
 
+export const FileImport: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FileImport",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      ingestionMode: {
+        serializedName: "properties.ingestionMode",
+        type: {
+          name: "String"
+        }
+      },
+      contentType: {
+        serializedName: "properties.contentType",
+        type: {
+          name: "String"
+        }
+      },
+      createdTimeUTC: {
+        serializedName: "properties.createdTimeUTC",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      errorFile: {
+        serializedName: "properties.errorFile",
+        type: {
+          name: "Composite",
+          className: "FileMetadata"
+        }
+      },
+      errorsPreview: {
+        serializedName: "properties.errorsPreview",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ValidationError"
+            }
+          }
+        }
+      },
+      importFile: {
+        serializedName: "properties.importFile",
+        type: {
+          name: "Composite",
+          className: "FileMetadata"
+        }
+      },
+      ingestedRecordCount: {
+        serializedName: "properties.ingestedRecordCount",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      },
+      source: {
+        serializedName: "properties.source",
+        type: {
+          name: "String"
+        }
+      },
+      state: {
+        serializedName: "properties.state",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      totalRecordCount: {
+        serializedName: "properties.totalRecordCount",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      },
+      validRecordCount: {
+        serializedName: "properties.validRecordCount",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      },
+      filesValidUntilTimeUTC: {
+        serializedName: "properties.filesValidUntilTimeUTC",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      importValidUntilTimeUTC: {
+        serializedName: "properties.importValidUntilTimeUTC",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
 export const OfficeConsent: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -6004,6 +6280,27 @@ export const ActionRequestProperties: coreClient.CompositeMapper = {
   }
 };
 
+export const BooleanConditionProperties: coreClient.CompositeMapper = {
+  serializedName: "Boolean",
+  type: {
+    name: "Composite",
+    className: "BooleanConditionProperties",
+    uberParent: "AutomationRuleCondition",
+    polymorphicDiscriminator:
+      AutomationRuleCondition.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...AutomationRuleCondition.type.modelProperties,
+      conditionProperties: {
+        serializedName: "conditionProperties",
+        type: {
+          name: "Composite",
+          className: "AutomationRuleBooleanCondition"
+        }
+      }
+    }
+  }
+};
+
 export const PropertyArrayChangedConditionProperties: coreClient.CompositeMapper = {
   serializedName: "PropertyArrayChanged",
   type: {
@@ -6019,6 +6316,27 @@ export const PropertyArrayChangedConditionProperties: coreClient.CompositeMapper
         type: {
           name: "Composite",
           className: "AutomationRulePropertyArrayChangedValuesCondition"
+        }
+      }
+    }
+  }
+};
+
+export const PropertyArrayConditionProperties: coreClient.CompositeMapper = {
+  serializedName: "PropertyArray",
+  type: {
+    name: "Composite",
+    className: "PropertyArrayConditionProperties",
+    uberParent: "AutomationRuleCondition",
+    polymorphicDiscriminator:
+      AutomationRuleCondition.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...AutomationRuleCondition.type.modelProperties,
+      conditionProperties: {
+        serializedName: "conditionProperties",
+        type: {
+          name: "Composite",
+          className: "AutomationRulePropertyArrayValuesCondition"
         }
       }
     }
@@ -9563,7 +9881,7 @@ export const AlertRule: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AlertRule",
-    uberParent: "Resource",
+    uberParent: "ResourceWithEtag",
     polymorphicDiscriminator: {
       serializedName: "kind",
       clientName: "kind"
@@ -9879,7 +10197,7 @@ export const EntityQuery: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "EntityQuery",
-    uberParent: "Resource",
+    uberParent: "ResourceWithEtag",
     polymorphicDiscriminator: {
       serializedName: "kind",
       clientName: "kind"
@@ -9902,7 +10220,7 @@ export const CustomEntityQuery: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CustomEntityQuery",
-    uberParent: "Resource",
+    uberParent: "ResourceWithEtag",
     polymorphicDiscriminator: {
       serializedName: "kind",
       clientName: "kind"
@@ -10435,7 +10753,7 @@ export const SecurityMLAnalyticsSetting: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SecurityMLAnalyticsSetting",
-    uberParent: "Resource",
+    uberParent: "ResourceWithEtag",
     polymorphicDiscriminator: {
       serializedName: "kind",
       clientName: "kind"
@@ -10458,7 +10776,7 @@ export const Settings: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "Settings",
-    uberParent: "Resource",
+    uberParent: "ResourceWithEtag",
     polymorphicDiscriminator: {
       serializedName: "kind",
       clientName: "kind"
@@ -10553,7 +10871,7 @@ export const ThreatIntelligenceInformation: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ThreatIntelligenceInformation",
-    uberParent: "Resource",
+    uberParent: "ResourceWithEtag",
     polymorphicDiscriminator: {
       serializedName: "kind",
       clientName: "kind"
@@ -10793,7 +11111,7 @@ export const DataConnector: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DataConnector",
-    uberParent: "Resource",
+    uberParent: "ResourceWithEtag",
     polymorphicDiscriminator: {
       serializedName: "kind",
       clientName: "kind"
@@ -10816,8 +11134,8 @@ export const MLBehaviorAnalyticsAlertRuleTemplate: coreClient.CompositeMapper = 
   type: {
     name: "Composite",
     className: "MLBehaviorAnalyticsAlertRuleTemplate",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "AlertRuleTemplate",
+    polymorphicDiscriminator: AlertRuleTemplate.type.polymorphicDiscriminator,
     modelProperties: {
       ...AlertRuleTemplate.type.modelProperties,
       alertRulesCreatedByTemplateCount: {
@@ -10907,8 +11225,8 @@ export const FusionAlertRuleTemplate: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "FusionAlertRuleTemplate",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "AlertRuleTemplate",
+    polymorphicDiscriminator: AlertRuleTemplate.type.polymorphicDiscriminator,
     modelProperties: {
       ...AlertRuleTemplate.type.modelProperties,
       alertRulesCreatedByTemplateCount: {
@@ -11010,8 +11328,8 @@ export const ThreatIntelligenceAlertRuleTemplate: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ThreatIntelligenceAlertRuleTemplate",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "AlertRuleTemplate",
+    polymorphicDiscriminator: AlertRuleTemplate.type.polymorphicDiscriminator,
     modelProperties: {
       ...AlertRuleTemplate.type.modelProperties,
       alertRulesCreatedByTemplateCount: {
@@ -11101,8 +11419,8 @@ export const MicrosoftSecurityIncidentCreationAlertRuleTemplate: coreClient.Comp
   type: {
     name: "Composite",
     className: "MicrosoftSecurityIncidentCreationAlertRuleTemplate",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "AlertRuleTemplate",
+    polymorphicDiscriminator: AlertRuleTemplate.type.polymorphicDiscriminator,
     modelProperties: {
       ...AlertRuleTemplate.type.modelProperties,
       alertRulesCreatedByTemplateCount: {
@@ -11203,8 +11521,8 @@ export const ScheduledAlertRuleTemplate: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ScheduledAlertRuleTemplate",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "AlertRuleTemplate",
+    polymorphicDiscriminator: AlertRuleTemplate.type.polymorphicDiscriminator,
     modelProperties: {
       ...AlertRuleTemplate.type.modelProperties,
       alertRulesCreatedByTemplateCount: {
@@ -11364,8 +11682,8 @@ export const NrtAlertRuleTemplate: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "NrtAlertRuleTemplate",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "AlertRuleTemplate",
+    polymorphicDiscriminator: AlertRuleTemplate.type.polymorphicDiscriminator,
     modelProperties: {
       ...AlertRuleTemplate.type.modelProperties,
       alertRulesCreatedByTemplateCount: {
@@ -11483,6 +11801,13 @@ export const NrtAlertRuleTemplate: coreClient.CompositeMapper = {
           name: "Composite",
           className: "AlertDetailsOverride"
         }
+      },
+      eventGroupingSettings: {
+        serializedName: "properties.eventGroupingSettings",
+        type: {
+          name: "Composite",
+          className: "EventGroupingSettings"
+        }
       }
     }
   }
@@ -11493,8 +11818,8 @@ export const SecurityAlert: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SecurityAlert",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "Entity",
+    polymorphicDiscriminator: Entity.type.polymorphicDiscriminator,
     modelProperties: {
       ...Entity.type.modelProperties,
       additionalData: {
@@ -11719,8 +12044,8 @@ export const HuntingBookmark: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "HuntingBookmark",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "Entity",
+    polymorphicDiscriminator: Entity.type.polymorphicDiscriminator,
     modelProperties: {
       ...Entity.type.modelProperties,
       additionalData: {
@@ -11823,8 +12148,8 @@ export const AccountEntity: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AccountEntity",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "Entity",
+    polymorphicDiscriminator: Entity.type.polymorphicDiscriminator,
     modelProperties: {
       ...Entity.type.modelProperties,
       additionalData: {
@@ -11937,8 +12262,8 @@ export const AzureResourceEntity: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AzureResourceEntity",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "Entity",
+    polymorphicDiscriminator: Entity.type.polymorphicDiscriminator,
     modelProperties: {
       ...Entity.type.modelProperties,
       additionalData: {
@@ -11981,8 +12306,8 @@ export const CloudApplicationEntity: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CloudApplicationEntity",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "Entity",
+    polymorphicDiscriminator: Entity.type.polymorphicDiscriminator,
     modelProperties: {
       ...Entity.type.modelProperties,
       additionalData: {
@@ -12032,8 +12357,8 @@ export const DnsEntity: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DnsEntity",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "Entity",
+    polymorphicDiscriminator: Entity.type.polymorphicDiscriminator,
     modelProperties: {
       ...Entity.type.modelProperties,
       additionalData: {
@@ -12095,8 +12420,8 @@ export const FileEntity: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "FileEntity",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "Entity",
+    polymorphicDiscriminator: Entity.type.polymorphicDiscriminator,
     modelProperties: {
       ...Entity.type.modelProperties,
       additionalData: {
@@ -12158,8 +12483,8 @@ export const FileHashEntity: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "FileHashEntity",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "Entity",
+    polymorphicDiscriminator: Entity.type.polymorphicDiscriminator,
     modelProperties: {
       ...Entity.type.modelProperties,
       additionalData: {
@@ -12202,8 +12527,8 @@ export const HostEntity: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "HostEntity",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "Entity",
+    polymorphicDiscriminator: Entity.type.polymorphicDiscriminator,
     modelProperties: {
       ...Entity.type.modelProperties,
       additionalData: {
@@ -12295,8 +12620,8 @@ export const IoTDeviceEntity: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "IoTDeviceEntity",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "Entity",
+    polymorphicDiscriminator: Entity.type.polymorphicDiscriminator,
     modelProperties: {
       ...Entity.type.modelProperties,
       additionalData: {
@@ -12541,8 +12866,8 @@ export const IpEntity: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "IpEntity",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "Entity",
+    polymorphicDiscriminator: Entity.type.polymorphicDiscriminator,
     modelProperties: {
       ...Entity.type.modelProperties,
       additionalData: {
@@ -12598,8 +12923,8 @@ export const MailboxEntity: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MailboxEntity",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "Entity",
+    polymorphicDiscriminator: Entity.type.polymorphicDiscriminator,
     modelProperties: {
       ...Entity.type.modelProperties,
       additionalData: {
@@ -12656,8 +12981,8 @@ export const MailClusterEntity: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MailClusterEntity",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "Entity",
+    polymorphicDiscriminator: Entity.type.polymorphicDiscriminator,
     modelProperties: {
       ...Entity.type.modelProperties,
       additionalData: {
@@ -12804,8 +13129,8 @@ export const MailMessageEntity: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MailMessageEntity",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "Entity",
+    polymorphicDiscriminator: Entity.type.polymorphicDiscriminator,
     modelProperties: {
       ...Entity.type.modelProperties,
       additionalData: {
@@ -13039,8 +13364,8 @@ export const MalwareEntity: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MalwareEntity",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "Entity",
+    polymorphicDiscriminator: Entity.type.polymorphicDiscriminator,
     modelProperties: {
       ...Entity.type.modelProperties,
       additionalData: {
@@ -13107,8 +13432,8 @@ export const ProcessEntity: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ProcessEntity",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "Entity",
+    polymorphicDiscriminator: Entity.type.polymorphicDiscriminator,
     modelProperties: {
       ...Entity.type.modelProperties,
       additionalData: {
@@ -13200,8 +13525,8 @@ export const RegistryKeyEntity: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "RegistryKeyEntity",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "Entity",
+    polymorphicDiscriminator: Entity.type.polymorphicDiscriminator,
     modelProperties: {
       ...Entity.type.modelProperties,
       additionalData: {
@@ -13244,8 +13569,8 @@ export const RegistryValueEntity: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "RegistryValueEntity",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "Entity",
+    polymorphicDiscriminator: Entity.type.polymorphicDiscriminator,
     modelProperties: {
       ...Entity.type.modelProperties,
       additionalData: {
@@ -13302,8 +13627,8 @@ export const SecurityGroupEntity: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SecurityGroupEntity",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "Entity",
+    polymorphicDiscriminator: Entity.type.polymorphicDiscriminator,
     modelProperties: {
       ...Entity.type.modelProperties,
       additionalData: {
@@ -13353,8 +13678,8 @@ export const SubmissionMailEntity: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SubmissionMailEntity",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "Entity",
+    polymorphicDiscriminator: Entity.type.polymorphicDiscriminator,
     modelProperties: {
       ...Entity.type.modelProperties,
       additionalData: {
@@ -13453,8 +13778,8 @@ export const UrlEntity: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "UrlEntity",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "Entity",
+    polymorphicDiscriminator: Entity.type.polymorphicDiscriminator,
     modelProperties: {
       ...Entity.type.modelProperties,
       additionalData: {
@@ -13490,8 +13815,8 @@ export const NicEntity: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "NicEntity",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "Entity",
+    polymorphicDiscriminator: Entity.type.polymorphicDiscriminator,
     modelProperties: {
       ...Entity.type.modelProperties,
       additionalData: {
@@ -13546,8 +13871,8 @@ export const ActivityEntityQueryTemplate: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ActivityEntityQueryTemplate",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "EntityQueryTemplate",
+    polymorphicDiscriminator: EntityQueryTemplate.type.polymorphicDiscriminator,
     modelProperties: {
       ...EntityQueryTemplate.type.modelProperties,
       title: {
@@ -13671,8 +13996,8 @@ export const MLBehaviorAnalyticsAlertRule: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MLBehaviorAnalyticsAlertRule",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "AlertRule",
+    polymorphicDiscriminator: AlertRule.type.polymorphicDiscriminator,
     modelProperties: {
       ...AlertRule.type.modelProperties,
       alertRuleTemplateName: {
@@ -13748,8 +14073,8 @@ export const FusionAlertRule: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "FusionAlertRule",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "AlertRule",
+    polymorphicDiscriminator: AlertRule.type.polymorphicDiscriminator,
     modelProperties: {
       ...AlertRule.type.modelProperties,
       alertRuleTemplateName: {
@@ -13849,8 +14174,8 @@ export const ThreatIntelligenceAlertRule: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ThreatIntelligenceAlertRule",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "AlertRule",
+    polymorphicDiscriminator: AlertRule.type.polymorphicDiscriminator,
     modelProperties: {
       ...AlertRule.type.modelProperties,
       alertRuleTemplateName: {
@@ -13926,8 +14251,8 @@ export const MicrosoftSecurityIncidentCreationAlertRule: coreClient.CompositeMap
   type: {
     name: "Composite",
     className: "MicrosoftSecurityIncidentCreationAlertRule",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "AlertRule",
+    polymorphicDiscriminator: AlertRule.type.polymorphicDiscriminator,
     modelProperties: {
       ...AlertRule.type.modelProperties,
       displayNamesFilter: {
@@ -14009,8 +14334,8 @@ export const ScheduledAlertRule: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ScheduledAlertRule",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "AlertRule",
+    polymorphicDiscriminator: AlertRule.type.polymorphicDiscriminator,
     modelProperties: {
       ...AlertRule.type.modelProperties,
       query: {
@@ -14170,8 +14495,8 @@ export const NrtAlertRule: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "NrtAlertRule",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "AlertRule",
+    polymorphicDiscriminator: AlertRule.type.polymorphicDiscriminator,
     modelProperties: {
       ...AlertRule.type.modelProperties,
       alertRuleTemplateName: {
@@ -14289,6 +14614,13 @@ export const NrtAlertRule: coreClient.CompositeMapper = {
           name: "Composite",
           className: "AlertDetailsOverride"
         }
+      },
+      eventGroupingSettings: {
+        serializedName: "properties.eventGroupingSettings",
+        type: {
+          name: "Composite",
+          className: "EventGroupingSettings"
+        }
       }
     }
   }
@@ -14299,8 +14631,8 @@ export const ExpansionEntityQuery: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ExpansionEntityQuery",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "EntityQuery",
+    polymorphicDiscriminator: EntityQuery.type.polymorphicDiscriminator,
     modelProperties: {
       ...EntityQuery.type.modelProperties,
       dataSources: {
@@ -14363,8 +14695,8 @@ export const ActivityEntityQuery: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ActivityEntityQuery",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "EntityQuery",
+    polymorphicDiscriminator: EntityQuery.type.polymorphicDiscriminator,
     modelProperties: {
       ...EntityQuery.type.modelProperties,
       title: {
@@ -14458,8 +14790,8 @@ export const ActivityCustomEntityQuery: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ActivityCustomEntityQuery",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "CustomEntityQuery",
+    polymorphicDiscriminator: CustomEntityQuery.type.polymorphicDiscriminator,
     modelProperties: {
       ...CustomEntityQuery.type.modelProperties,
       title: {
@@ -14553,8 +14885,9 @@ export const AnomalySecurityMLAnalyticsSettings: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AnomalySecurityMLAnalyticsSettings",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "SecurityMLAnalyticsSetting",
+    polymorphicDiscriminator:
+      SecurityMLAnalyticsSetting.type.polymorphicDiscriminator,
     modelProperties: {
       ...SecurityMLAnalyticsSetting.type.modelProperties,
       description: {
@@ -14668,8 +15001,8 @@ export const Anomalies: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "Anomalies",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "Settings",
+    polymorphicDiscriminator: Settings.type.polymorphicDiscriminator,
     modelProperties: {
       ...Settings.type.modelProperties,
       isEnabled: {
@@ -14688,8 +15021,8 @@ export const EyesOn: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "EyesOn",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "Settings",
+    polymorphicDiscriminator: Settings.type.polymorphicDiscriminator,
     modelProperties: {
       ...Settings.type.modelProperties,
       isEnabled: {
@@ -14708,8 +15041,8 @@ export const EntityAnalytics: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "EntityAnalytics",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "Settings",
+    polymorphicDiscriminator: Settings.type.polymorphicDiscriminator,
     modelProperties: {
       ...Settings.type.modelProperties,
       entityProviders: {
@@ -14732,8 +15065,8 @@ export const Ueba: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "Ueba",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "Settings",
+    polymorphicDiscriminator: Settings.type.polymorphicDiscriminator,
     modelProperties: {
       ...Settings.type.modelProperties,
       dataSources: {
@@ -14756,8 +15089,9 @@ export const ThreatIntelligenceIndicatorModel: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ThreatIntelligenceIndicatorModel",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "ThreatIntelligenceInformation",
+    polymorphicDiscriminator:
+      ThreatIntelligenceInformation.type.polymorphicDiscriminator,
     modelProperties: {
       ...ThreatIntelligenceInformation.type.modelProperties,
       additionalData: {
@@ -15004,8 +15338,8 @@ export const AADDataConnector: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AADDataConnector",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "DataConnector",
+    polymorphicDiscriminator: DataConnector.type.polymorphicDiscriminator,
     modelProperties: {
       ...DataConnector.type.modelProperties,
       tenantId: {
@@ -15030,8 +15364,8 @@ export const MstiDataConnector: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MstiDataConnector",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "DataConnector",
+    polymorphicDiscriminator: DataConnector.type.polymorphicDiscriminator,
     modelProperties: {
       ...DataConnector.type.modelProperties,
       tenantId: {
@@ -15056,8 +15390,8 @@ export const MTPDataConnector: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MTPDataConnector",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "DataConnector",
+    polymorphicDiscriminator: DataConnector.type.polymorphicDiscriminator,
     modelProperties: {
       ...DataConnector.type.modelProperties,
       tenantId: {
@@ -15082,8 +15416,8 @@ export const AatpDataConnector: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AatpDataConnector",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "DataConnector",
+    polymorphicDiscriminator: DataConnector.type.polymorphicDiscriminator,
     modelProperties: {
       ...DataConnector.type.modelProperties,
       tenantId: {
@@ -15108,8 +15442,8 @@ export const ASCDataConnector: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ASCDataConnector",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "DataConnector",
+    polymorphicDiscriminator: DataConnector.type.polymorphicDiscriminator,
     modelProperties: {
       ...DataConnector.type.modelProperties,
       dataTypes: {
@@ -15134,8 +15468,8 @@ export const AwsCloudTrailDataConnector: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AwsCloudTrailDataConnector",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "DataConnector",
+    polymorphicDiscriminator: DataConnector.type.polymorphicDiscriminator,
     modelProperties: {
       ...DataConnector.type.modelProperties,
       awsRoleArn: {
@@ -15160,8 +15494,8 @@ export const AwsS3DataConnector: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AwsS3DataConnector",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "DataConnector",
+    polymorphicDiscriminator: DataConnector.type.polymorphicDiscriminator,
     modelProperties: {
       ...DataConnector.type.modelProperties,
       destinationTable: {
@@ -15203,8 +15537,8 @@ export const McasDataConnector: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "McasDataConnector",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "DataConnector",
+    polymorphicDiscriminator: DataConnector.type.polymorphicDiscriminator,
     modelProperties: {
       ...DataConnector.type.modelProperties,
       tenantId: {
@@ -15229,8 +15563,8 @@ export const Dynamics365DataConnector: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "Dynamics365DataConnector",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "DataConnector",
+    polymorphicDiscriminator: DataConnector.type.polymorphicDiscriminator,
     modelProperties: {
       ...DataConnector.type.modelProperties,
       tenantId: {
@@ -15255,8 +15589,8 @@ export const OfficeATPDataConnector: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "OfficeATPDataConnector",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "DataConnector",
+    polymorphicDiscriminator: DataConnector.type.polymorphicDiscriminator,
     modelProperties: {
       ...DataConnector.type.modelProperties,
       tenantId: {
@@ -15281,8 +15615,8 @@ export const Office365ProjectDataConnector: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "Office365ProjectDataConnector",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "DataConnector",
+    polymorphicDiscriminator: DataConnector.type.polymorphicDiscriminator,
     modelProperties: {
       ...DataConnector.type.modelProperties,
       tenantId: {
@@ -15307,8 +15641,8 @@ export const OfficePowerBIDataConnector: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "OfficePowerBIDataConnector",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "DataConnector",
+    polymorphicDiscriminator: DataConnector.type.polymorphicDiscriminator,
     modelProperties: {
       ...DataConnector.type.modelProperties,
       tenantId: {
@@ -15333,8 +15667,8 @@ export const OfficeIRMDataConnector: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "OfficeIRMDataConnector",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "DataConnector",
+    polymorphicDiscriminator: DataConnector.type.polymorphicDiscriminator,
     modelProperties: {
       ...DataConnector.type.modelProperties,
       tenantId: {
@@ -15359,8 +15693,8 @@ export const MdatpDataConnector: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MdatpDataConnector",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "DataConnector",
+    polymorphicDiscriminator: DataConnector.type.polymorphicDiscriminator,
     modelProperties: {
       ...DataConnector.type.modelProperties,
       tenantId: {
@@ -15385,8 +15719,8 @@ export const OfficeDataConnector: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "OfficeDataConnector",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "DataConnector",
+    polymorphicDiscriminator: DataConnector.type.polymorphicDiscriminator,
     modelProperties: {
       ...DataConnector.type.modelProperties,
       tenantId: {
@@ -15411,8 +15745,8 @@ export const TIDataConnector: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "TIDataConnector",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "DataConnector",
+    polymorphicDiscriminator: DataConnector.type.polymorphicDiscriminator,
     modelProperties: {
       ...DataConnector.type.modelProperties,
       tenantId: {
@@ -15444,8 +15778,8 @@ export const TiTaxiiDataConnector: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "TiTaxiiDataConnector",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "DataConnector",
+    polymorphicDiscriminator: DataConnector.type.polymorphicDiscriminator,
     modelProperties: {
       ...DataConnector.type.modelProperties,
       tenantId: {
@@ -15520,8 +15854,8 @@ export const IoTDataConnector: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "IoTDataConnector",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "DataConnector",
+    polymorphicDiscriminator: DataConnector.type.polymorphicDiscriminator,
     modelProperties: {
       ...DataConnector.type.modelProperties,
       dataTypes: {
@@ -15546,8 +15880,8 @@ export const CodelessUiDataConnector: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CodelessUiDataConnector",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "DataConnector",
+    polymorphicDiscriminator: DataConnector.type.polymorphicDiscriminator,
     modelProperties: {
       ...DataConnector.type.modelProperties,
       connectorUiConfig: {
@@ -15566,8 +15900,8 @@ export const CodelessApiPollingDataConnector: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CodelessApiPollingDataConnector",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "DataConnector",
+    polymorphicDiscriminator: DataConnector.type.polymorphicDiscriminator,
     modelProperties: {
       ...DataConnector.type.modelProperties,
       connectorUiConfig: {
@@ -15627,7 +15961,9 @@ export let discriminators = {
   "Resource.AlertRuleTemplate": AlertRuleTemplate,
   "Resource.Entity": Entity,
   "Resource.EntityQueryTemplate": EntityQueryTemplate,
+  "AutomationRuleCondition.Boolean": BooleanConditionProperties,
   "AutomationRuleCondition.PropertyArrayChanged": PropertyArrayChangedConditionProperties,
+  "AutomationRuleCondition.PropertyArray": PropertyArrayConditionProperties,
   "AutomationRuleCondition.PropertyChanged": PropertyChangedConditionProperties,
   "AutomationRuleCondition.Property": PropertyConditionProperties,
   "AutomationRuleAction.ModifyProperties": AutomationRuleModifyPropertiesAction,
@@ -15654,66 +15990,75 @@ export let discriminators = {
   "DataConnectorsCheckRequirements.ThreatIntelligence": TICheckRequirements,
   "DataConnectorsCheckRequirements.ThreatIntelligenceTaxii": TiTaxiiCheckRequirements,
   "DataConnectorsCheckRequirements.IOT": IoTCheckRequirements,
-  "Resource.AlertRule": AlertRule,
-  "Resource.EntityQuery": EntityQuery,
-  "Resource.CustomEntityQuery": CustomEntityQuery,
-  "Resource.SecurityMLAnalyticsSetting": SecurityMLAnalyticsSetting,
-  "Resource.Settings": Settings,
-  "Resource.ThreatIntelligenceInformation": ThreatIntelligenceInformation,
-  "Resource.DataConnector": DataConnector,
-  "Resource.MLBehaviorAnalytics": MLBehaviorAnalyticsAlertRule,
-  "Resource.Fusion": FusionAlertRule,
-  "Resource.ThreatIntelligence": TIDataConnector,
-  "Resource.MicrosoftSecurityIncidentCreation": MicrosoftSecurityIncidentCreationAlertRule,
-  "Resource.Scheduled": ScheduledAlertRule,
-  "Resource.NRT": NrtAlertRule,
-  "Resource.SecurityAlert": SecurityAlert,
-  "Resource.Bookmark": HuntingBookmark,
-  "Resource.Account": AccountEntity,
-  "Resource.AzureResource": AzureResourceEntity,
-  "Resource.CloudApplication": CloudApplicationEntity,
-  "Resource.DnsResolution": DnsEntity,
-  "Resource.File": FileEntity,
-  "Resource.FileHash": FileHashEntity,
-  "Resource.Host": HostEntity,
-  "Resource.IoTDevice": IoTDeviceEntity,
-  "Resource.Ip": IpEntity,
-  "Resource.Mailbox": MailboxEntity,
-  "Resource.MailCluster": MailClusterEntity,
-  "Resource.MailMessage": MailMessageEntity,
-  "Resource.Malware": MalwareEntity,
-  "Resource.Process": ProcessEntity,
-  "Resource.RegistryKey": RegistryKeyEntity,
-  "Resource.RegistryValue": RegistryValueEntity,
-  "Resource.SecurityGroup": SecurityGroupEntity,
-  "Resource.SubmissionMail": SubmissionMailEntity,
-  "Resource.Url": UrlEntity,
-  "Resource.Nic": NicEntity,
-  "Resource.Activity": ActivityCustomEntityQuery,
-  "Resource.Expansion": ExpansionEntityQuery,
-  "Resource.Anomaly": AnomalySecurityMLAnalyticsSettings,
-  "Resource.Anomalies": Anomalies,
-  "Resource.EyesOn": EyesOn,
-  "Resource.EntityAnalytics": EntityAnalytics,
-  "Resource.Ueba": Ueba,
-  "Resource.indicator": ThreatIntelligenceIndicatorModel,
-  "Resource.AzureActiveDirectory": AADDataConnector,
-  "Resource.MicrosoftThreatIntelligence": MstiDataConnector,
-  "Resource.MicrosoftThreatProtection": MTPDataConnector,
-  "Resource.AzureAdvancedThreatProtection": AatpDataConnector,
-  "Resource.AzureSecurityCenter": ASCDataConnector,
-  "Resource.AmazonWebServicesCloudTrail": AwsCloudTrailDataConnector,
-  "Resource.AmazonWebServicesS3": AwsS3DataConnector,
-  "Resource.MicrosoftCloudAppSecurity": McasDataConnector,
-  "Resource.Dynamics365": Dynamics365DataConnector,
-  "Resource.OfficeATP": OfficeATPDataConnector,
-  "Resource.Office365Project": Office365ProjectDataConnector,
-  "Resource.OfficePowerBI": OfficePowerBIDataConnector,
-  "Resource.OfficeIRM": OfficeIRMDataConnector,
-  "Resource.MicrosoftDefenderAdvancedThreatProtection": MdatpDataConnector,
-  "Resource.Office365": OfficeDataConnector,
-  "Resource.ThreatIntelligenceTaxii": TiTaxiiDataConnector,
-  "Resource.IOT": IoTDataConnector,
-  "Resource.GenericUI": CodelessUiDataConnector,
-  "Resource.APIPolling": CodelessApiPollingDataConnector
+  "ResourceWithEtag.AlertRule": AlertRule,
+  "ResourceWithEtag.EntityQuery": EntityQuery,
+  "ResourceWithEtag.CustomEntityQuery": CustomEntityQuery,
+  "ResourceWithEtag.SecurityMLAnalyticsSetting": SecurityMLAnalyticsSetting,
+  "ResourceWithEtag.Settings": Settings,
+  "ResourceWithEtag.ThreatIntelligenceInformation": ThreatIntelligenceInformation,
+  "ResourceWithEtag.DataConnector": DataConnector,
+  "AlertRuleTemplate.MLBehaviorAnalytics": MLBehaviorAnalyticsAlertRuleTemplate,
+  "AlertRuleTemplate.Fusion": FusionAlertRuleTemplate,
+  "AlertRuleTemplate.ThreatIntelligence": ThreatIntelligenceAlertRuleTemplate,
+  "AlertRuleTemplate.MicrosoftSecurityIncidentCreation": MicrosoftSecurityIncidentCreationAlertRuleTemplate,
+  "AlertRuleTemplate.Scheduled": ScheduledAlertRuleTemplate,
+  "AlertRuleTemplate.NRT": NrtAlertRuleTemplate,
+  "Entity.SecurityAlert": SecurityAlert,
+  "Entity.Bookmark": HuntingBookmark,
+  "Entity.Account": AccountEntity,
+  "Entity.AzureResource": AzureResourceEntity,
+  "Entity.CloudApplication": CloudApplicationEntity,
+  "Entity.DnsResolution": DnsEntity,
+  "Entity.File": FileEntity,
+  "Entity.FileHash": FileHashEntity,
+  "Entity.Host": HostEntity,
+  "Entity.IoTDevice": IoTDeviceEntity,
+  "Entity.Ip": IpEntity,
+  "Entity.Mailbox": MailboxEntity,
+  "Entity.MailCluster": MailClusterEntity,
+  "Entity.MailMessage": MailMessageEntity,
+  "Entity.Malware": MalwareEntity,
+  "Entity.Process": ProcessEntity,
+  "Entity.RegistryKey": RegistryKeyEntity,
+  "Entity.RegistryValue": RegistryValueEntity,
+  "Entity.SecurityGroup": SecurityGroupEntity,
+  "Entity.SubmissionMail": SubmissionMailEntity,
+  "Entity.Url": UrlEntity,
+  "Entity.Nic": NicEntity,
+  "EntityQueryTemplate.Activity": ActivityEntityQueryTemplate,
+  "AlertRule.MLBehaviorAnalytics": MLBehaviorAnalyticsAlertRule,
+  "AlertRule.Fusion": FusionAlertRule,
+  "AlertRule.ThreatIntelligence": ThreatIntelligenceAlertRule,
+  "AlertRule.MicrosoftSecurityIncidentCreation": MicrosoftSecurityIncidentCreationAlertRule,
+  "AlertRule.Scheduled": ScheduledAlertRule,
+  "AlertRule.NRT": NrtAlertRule,
+  "EntityQuery.Expansion": ExpansionEntityQuery,
+  "EntityQuery.Activity": ActivityEntityQuery,
+  "CustomEntityQuery.Activity": ActivityCustomEntityQuery,
+  "SecurityMLAnalyticsSetting.Anomaly": AnomalySecurityMLAnalyticsSettings,
+  "Settings.Anomalies": Anomalies,
+  "Settings.EyesOn": EyesOn,
+  "Settings.EntityAnalytics": EntityAnalytics,
+  "Settings.Ueba": Ueba,
+  "ThreatIntelligenceInformation.indicator": ThreatIntelligenceIndicatorModel,
+  "DataConnector.AzureActiveDirectory": AADDataConnector,
+  "DataConnector.MicrosoftThreatIntelligence": MstiDataConnector,
+  "DataConnector.MicrosoftThreatProtection": MTPDataConnector,
+  "DataConnector.AzureAdvancedThreatProtection": AatpDataConnector,
+  "DataConnector.AzureSecurityCenter": ASCDataConnector,
+  "DataConnector.AmazonWebServicesCloudTrail": AwsCloudTrailDataConnector,
+  "DataConnector.AmazonWebServicesS3": AwsS3DataConnector,
+  "DataConnector.MicrosoftCloudAppSecurity": McasDataConnector,
+  "DataConnector.Dynamics365": Dynamics365DataConnector,
+  "DataConnector.OfficeATP": OfficeATPDataConnector,
+  "DataConnector.Office365Project": Office365ProjectDataConnector,
+  "DataConnector.OfficePowerBI": OfficePowerBIDataConnector,
+  "DataConnector.OfficeIRM": OfficeIRMDataConnector,
+  "DataConnector.MicrosoftDefenderAdvancedThreatProtection": MdatpDataConnector,
+  "DataConnector.Office365": OfficeDataConnector,
+  "DataConnector.ThreatIntelligence": TIDataConnector,
+  "DataConnector.ThreatIntelligenceTaxii": TiTaxiiDataConnector,
+  "DataConnector.IOT": IoTDataConnector,
+  "DataConnector.GenericUI": CodelessUiDataConnector,
+  "DataConnector.APIPolling": CodelessApiPollingDataConnector
 };

@@ -152,7 +152,7 @@ async function httpRequest(requestContext: RequestContext): Promise<{
 /**
  * @hidden
  */
-export async function request<T>(requestContext: RequestContext): Promise<CosmosResponse<T>> {
+async function request<T>(requestContext: RequestContext): Promise<CosmosResponse<T>> {
   if (requestContext.body) {
     requestContext.body = bodyFromData(requestContext.body);
     if (!requestContext.body) {
@@ -165,3 +165,7 @@ export async function request<T>(requestContext: RequestContext): Promise<Cosmos
     executeRequest,
   });
 }
+
+export const RequestHandler = {
+  request,
+};

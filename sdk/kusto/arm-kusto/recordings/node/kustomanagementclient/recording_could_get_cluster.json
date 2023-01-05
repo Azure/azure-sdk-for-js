@@ -1,41 +1,39 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Kusto/clusters/mytestclustername5?api-version=2022-02-01",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Kusto/clusters/mytestclustername5?api-version=2022-07-07",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-kusto/7.1.2 core-rest-pipeline/1.9.1 Node/v16.15.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "9d8a80cf-3c6e-4447-9bb8-775c72b14429"
+        "User-Agent": "azsdk-js-arm-kusto/7.2.0 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "0fbe0aa1-0a74-48e7-8db4-043f2cfef061"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
-        "Content-Encoding": "gzip",
+        "Content-Length": "1235",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 17 Jun 2022 02:34:01 GMT",
-        "ETag": "\u00222022-06-17T02:26:22.9466969Z\u0022",
+        "Date": "Mon, 19 Sep 2022 02:50:32 GMT",
+        "ETag": "\u00222022-09-19T02:32:15.8301049Z\u0022",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "Transfer-Encoding": "chunked",
-        "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "25bc0c2f-048a-41b4-99b9-0640ae2b0752",
-        "x-ms-ratelimit-remaining-subscription-resource-requests": "297",
-        "x-ms-request-id": "4b129981-447a-4219-b68b-eb2b3ca7f31a",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220617T023401Z:25bc0c2f-048a-41b4-99b9-0640ae2b0752"
+        "x-ms-correlation-request-id": "a30f0cf5-bb7c-4bf6-be1c-3c052f315b20",
+        "x-ms-ratelimit-remaining-subscription-resource-requests": "299",
+        "x-ms-request-id": "d0581cea-1718-4aeb-b093-1f12bcb5638b",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220919T025033Z:a30f0cf5-bb7c-4bf6-be1c-3c052f315b20"
       },
       "ResponseBody": {
         "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Kusto/Clusters/mytestclustername5",
         "name": "mytestclustername5",
         "type": "Microsoft.Kusto/Clusters",
-        "etag": "\u00222022-06-17T02:26:22.9466969Z\u0022",
+        "etag": "\u00222022-09-19T02:32:15.8301049Z\u0022",
         "location": "West Europe",
         "sku": {
           "name": "Standard_L8s_v2",
@@ -72,7 +70,7 @@
           "provisioningState": "Succeeded"
         },
         "identity": {
-          "principalId": "0d164708-16cd-456c-8bc0-15b7a84a03f3",
+          "principalId": "34c0335d-54d3-49a7-95b5-5516b3e68119",
           "tenantId": "88888888-8888-8888-8888-888888888888",
           "type": "SystemAssigned"
         }

@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Grants access to a snapshot.
  *
  * @summary Grants access to a snapshot.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-02/DiskRP/examples/snapshotExamples/Snapshot_BeginGetAccess.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/snapshotExamples/Snapshot_BeginGetAccess.json
  */
 async function getASasOnASnapshot() {
   const subscriptionId = "{subscription-id}";

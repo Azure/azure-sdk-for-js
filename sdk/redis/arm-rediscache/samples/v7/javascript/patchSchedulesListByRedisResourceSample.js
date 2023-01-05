@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Gets all patch schedules in the specified redis cache (there is only one).
  *
  * @summary Gets all patch schedules in the specified redis cache (there is only one).
- * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2022-05-01/examples/RedisCachePatchSchedulesList.json
+ * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2022-06-01/examples/RedisCachePatchSchedulesList.json
  */
 async function redisCachePatchSchedulesList() {
   const subscriptionId = "subid";

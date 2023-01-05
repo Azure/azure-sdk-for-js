@@ -1,21 +1,21 @@
 # Release History
 
-## 1.6.2 (Unreleased)
+## 1.7.0 (2023-01-05)
 
 ### Features Added
 
-### Breaking Changes
+- Ported support for `xmlIsMsText` from `@azure/core-http`.
 
 ### Bugs Fixed
 
-### Other Changes
+- Fix a serializer issue where resettable streams were not being accepted.
+- Fix an issue where XML options are not propagated during deserialization.
 
 ## 1.6.1 (2022-08-04)
 
-
 ### Bugs Fixed
 
-- Fix serializer to find the correct discriminator index. Please refer to [#22523](https://github.com/Azure/azure-sdk-for-js/pull/22523) for further details.  
+- Fix serializer to find the correct discriminator index. Please refer to [#22523](https://github.com/Azure/azure-sdk-for-js/pull/22523) for further details.
 
 ### Other Changes
 

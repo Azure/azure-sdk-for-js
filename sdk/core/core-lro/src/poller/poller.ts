@@ -53,7 +53,9 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
     getOperationLocation,
     getStatusFromInitialResponse,
     getStatusFromPollResponse,
+    getResourceLocation,
     getPollingInterval,
+    resolveOnUnsuccessful,
   } = inputs;
   return async (
     { init, poll }: Operation<TResponse, { abortSignal?: AbortSignalLike }>,
@@ -85,6 +87,7 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
           processResult,
           getOperationStatus: getStatusFromInitialResponse,
           withOperationLocation,
+          setErrorAsResult: !resolveOnUnsuccessful,
         });
     let resultPromise: Promise<TResult> | undefined;
     let cancelJob: (() => void) | undefined;
@@ -134,10 +137,12 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
               return poller.getResult() as TResult;
             }
             case "canceled": {
-              throw new Error("Operation was canceled");
+              if (!resolveOnUnsuccessful) throw new Error("Operation was canceled");
+              return poller.getResult() as TResult;
             }
             case "failed": {
-              throw state.error;
+              if (!resolveOnUnsuccessful) throw state.error;
+              return poller.getResult() as TResult;
             }
             case "notStarted":
             case "running": {
@@ -157,18 +162,20 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
           withOperationLocation,
           getPollingInterval,
           getOperationStatus: getStatusFromPollResponse,
+          getResourceLocation,
           processResult,
           updateState,
           options: pollOptions,
           setDelay: (pollIntervalInMs) => {
             currentPollIntervalInMs = pollIntervalInMs;
           },
+          setErrorAsResult: !resolveOnUnsuccessful,
         });
         await handleProgressEvents();
-        if (state.status === "canceled") {
+        if (state.status === "canceled" && !resolveOnUnsuccessful) {
           throw new Error("Operation was canceled");
         }
-        if (state.status === "failed") {
+        if (state.status === "failed" && !resolveOnUnsuccessful) {
           throw state.error;
         }
       },

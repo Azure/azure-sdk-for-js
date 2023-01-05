@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Export data from the redis cache to blobs in a container.
  *
  * @summary Export data from the redis cache to blobs in a container.
- * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2022-05-01/examples/RedisCacheExport.json
+ * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2022-06-01/examples/RedisCacheExport.json
  */
 async function redisCacheExport() {
   const subscriptionId = "subid";

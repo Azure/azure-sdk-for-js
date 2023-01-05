@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Deletes a single firewall rule in a specified redis cache.
  *
  * @summary Deletes a single firewall rule in a specified redis cache.
- * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2022-05-01/examples/RedisCacheFirewallRuleDelete.json
+ * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2022-06-01/examples/RedisCacheFirewallRuleDelete.json
  */
 async function redisCacheFirewallRuleDelete() {
   const subscriptionId = "subid";

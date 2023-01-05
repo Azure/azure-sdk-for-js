@@ -10,14 +10,14 @@ import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 
 // @public
-export type ADCCatalog = Resource & {
-    sku?: SkuType;
-    units?: number;
+export interface ADCCatalog extends Resource {
     admins?: Principals[];
-    users?: Principals[];
-    successfullyProvisioned?: boolean;
     enableAutomaticUnitAdjustment?: boolean;
-};
+    sku?: SkuType;
+    successfullyProvisioned?: boolean;
+    units?: number;
+    users?: Principals[];
+}
 
 // @public
 export interface ADCCatalogs {
@@ -104,9 +104,7 @@ export interface DataCatalogRestClientOptionalParams extends coreClient.ServiceC
 
 // @public
 export enum KnownSkuType {
-    // (undocumented)
     Free = "Free",
-    // (undocumented)
     Standard = "Standard"
 }
 

@@ -10,8 +10,8 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   SchemaGetByIdOptionalParams,
   SchemaGetByIdResponse,
-  SchemaGetVersionsOptionalParams,
-  SchemaGetVersionsResponse,
+  SchemaGetSchemaVersionOptionalParams,
+  SchemaGetSchemaVersionResponse,
   SchemaQueryIdByContentOptionalParams,
   SchemaQueryIdByContentResponse,
   SchemaRegisterOptionalParams,
@@ -31,17 +31,19 @@ export interface Schema {
     options?: SchemaGetByIdOptionalParams
   ): Promise<SchemaGetByIdResponse>;
   /**
-   * Gets the list of all versions of one schema.
+   * Gets one specific version of one schema.
    * @param groupName Schema group under which schema is registered.  Group's serialization type should
    *                  match the serialization type specified in the request.
    * @param schemaName Name of schema.
+   * @param schemaVersion Version number of specific schema.
    * @param options The options parameters.
    */
-  getVersions(
+  getSchemaVersion(
     groupName: string,
     schemaName: string,
-    options?: SchemaGetVersionsOptionalParams
-  ): Promise<SchemaGetVersionsResponse>;
+    schemaVersion: number,
+    options?: SchemaGetSchemaVersionOptionalParams
+  ): Promise<SchemaGetSchemaVersionResponse>;
   /**
    * Gets the ID referencing an existing schema within the specified schema group, as matched by schema
    * content comparison.

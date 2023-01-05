@@ -38,3 +38,13 @@ directive:
     transform: >
       $["x-ms-client-name"] = "bcc"
 ```
+
+### Remove "To" from the required properties
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.EmailRecipients
+    transform: >
+      $["required"] = []
+```

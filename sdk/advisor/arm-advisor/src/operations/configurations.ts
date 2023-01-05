@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Configurations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,12 +17,12 @@ import {
   ConfigData,
   ConfigurationsListBySubscriptionNextOptionalParams,
   ConfigurationsListBySubscriptionOptionalParams,
-  ConfigurationsListByResourceGroupOptionalParams,
   ConfigurationsListBySubscriptionResponse,
+  ConfigurationsListByResourceGroupOptionalParams,
+  ConfigurationsListByResourceGroupResponse,
   ConfigurationName,
   ConfigurationsCreateInSubscriptionOptionalParams,
   ConfigurationsCreateInSubscriptionResponse,
-  ConfigurationsListByResourceGroupResponse,
   ConfigurationsCreateInResourceGroupOptionalParams,
   ConfigurationsCreateInResourceGroupResponse,
   ConfigurationsListBySubscriptionNextResponse
@@ -55,22 +56,34 @@ export class ConfigurationsImpl implements Configurations {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listBySubscriptionPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBySubscriptionPagingPage(options, settings);
       }
     };
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: ConfigurationsListBySubscriptionOptionalParams
+    options?: ConfigurationsListBySubscriptionOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ConfigData[]> {
-    let result = await this._listBySubscription(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ConfigurationsListBySubscriptionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBySubscription(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listBySubscriptionNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -99,17 +112,26 @@ export class ConfigurationsImpl implements Configurations {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroup, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroup,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroup: string,
-    options?: ConfigurationsListByResourceGroupOptionalParams
+    options?: ConfigurationsListByResourceGroupOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<ConfigData[]> {
-    let result = await this._listByResourceGroup(resourceGroup, options);
+    let result: ConfigurationsListByResourceGroupResponse;
+    result = await this._listByResourceGroup(resourceGroup, options);
     yield result.value || [];
   }
 

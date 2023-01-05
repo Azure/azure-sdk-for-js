@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to The operation to update the restore point collection.
  *
  * @summary The operation to update the restore point collection.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/restorePointExamples/RestorePointCollections_Update_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/restorePointExamples/RestorePointCollections_Update_MaximumSet_Gen.json
  */
 async function restorePointCollectionsUpdateMaximumSetGen() {
   const subscriptionId = "{subscription-id}";
@@ -43,7 +43,7 @@ restorePointCollectionsUpdateMaximumSetGen().catch(console.error);
  * This sample demonstrates how to The operation to update the restore point collection.
  *
  * @summary The operation to update the restore point collection.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/restorePointExamples/RestorePointCollections_Update_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/restorePointExamples/RestorePointCollections_Update_MinimumSet_Gen.json
  */
 async function restorePointCollectionsUpdateMinimumSetGen() {
   const subscriptionId = "{subscription-id}";

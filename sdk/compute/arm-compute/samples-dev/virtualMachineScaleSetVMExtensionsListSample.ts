@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to The operation to get all extensions of an instance in Virtual Machine Scaleset.
  *
  * @summary The operation to get all extensions of an instance in Virtual Machine Scaleset.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMExtensions_List.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMExtensions_List.json
  */
 async function listExtensionsInVmssInstance() {
   const subscriptionId = "{subscription-id}";

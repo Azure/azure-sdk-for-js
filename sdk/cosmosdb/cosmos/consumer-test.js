@@ -1,9 +1,9 @@
 const execa = require("execa");
 
-let versions = ["3.9"];
+let tsVersionsToCheckCompatibility = ["4.1"];
 
 if (!process.env.SKIP_LATEST) {
-  versions.push("latest");
+  tsVersionsToCheckCompatibility.push("latest");
 }
 
 async function exec(cmd) {
@@ -15,8 +15,8 @@ async function exec(cmd) {
 
 (async () => {
   try {
-    console.log("Running typescript consumer test against", versions);
-    for (const version of versions) {
+    console.log("Running typescript consumer test against", tsVersionsToCheckCompatibility);
+    for (const version of tsVersionsToCheckCompatibility) {
       console.log(`Compiling with typescript@${version} - Basic`);
       await exec(
         `npx -p typescript@${version} tsc ./test.ts --allowSyntheticDefaultImports true --target ES5`

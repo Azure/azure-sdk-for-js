@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Connects a data connector.
  *
  * @summary Connects a data connector.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/ConnectAPIPollingV2Logs.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/ConnectAPIPollingV2Logs.json
  */
 async function connectAnApiPollingV2LogsDataConnector() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -54,7 +54,7 @@ connectAnApiPollingV2LogsDataConnector().catch(console.error);
  * This sample demonstrates how to Connects a data connector.
  *
  * @summary Connects a data connector.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/ConnectAPIPolling.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/dataConnectors/ConnectAPIPolling.json
  */
 async function connectAnApiPollingDataConnector() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";

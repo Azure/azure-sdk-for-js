@@ -20,7 +20,7 @@ import {
 export interface Images {
   /**
    * Lists images for a devcenter.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param options The options parameters.
    */
@@ -31,7 +31,7 @@ export interface Images {
   ): PagedAsyncIterableIterator<Image>;
   /**
    * Lists images for a gallery.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param galleryName The name of the gallery.
    * @param options The options parameters.
@@ -44,7 +44,7 @@ export interface Images {
   ): PagedAsyncIterableIterator<Image>;
   /**
    * Gets a gallery image.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param galleryName The name of the gallery.
    * @param imageName The name of the image.

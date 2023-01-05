@@ -227,6 +227,7 @@ export type CachingTypes = "None" | "ReadOnly" | "ReadWrite";
 // @public
 export interface CapacityReservation extends Resource {
     readonly instanceView?: CapacityReservationInstanceView;
+    readonly platformFaultDomainCount?: number;
     readonly provisioningState?: string;
     readonly provisioningTime?: Date;
     readonly reservationId?: string;
@@ -419,6 +420,7 @@ export type CapacityReservationsUpdateResponse = CapacityReservation;
 // @public
 export interface CapacityReservationUpdate extends UpdateResource {
     readonly instanceView?: CapacityReservationInstanceView;
+    readonly platformFaultDomainCount?: number;
     readonly provisioningState?: string;
     readonly provisioningTime?: Date;
     readonly reservationId?: string;
@@ -429,6 +431,7 @@ export interface CapacityReservationUpdate extends UpdateResource {
 
 // @public
 export interface CapacityReservationUtilization {
+    readonly currentCapacity?: number;
     readonly virtualMachinesAllocated?: SubResourceReadOnly[];
 }
 
@@ -1173,6 +1176,7 @@ export interface CreationData {
     galleryImageReference?: ImageDiskReference;
     imageReference?: ImageDiskReference;
     logicalSectorSize?: number;
+    performancePlus?: boolean;
     securityDataUri?: string;
     sourceResourceId?: string;
     readonly sourceUniqueId?: string;
@@ -1470,6 +1474,7 @@ export interface DisallowedConfiguration {
 // @public
 export interface Disk extends Resource {
     burstingEnabled?: boolean;
+    readonly burstingEnabledTime?: Date;
     completionPercent?: number;
     creationData?: CreationData;
     dataAccessAuthMode?: DataAccessAuthMode;
@@ -1489,6 +1494,7 @@ export interface Disk extends Resource {
     readonly managedByExtended?: string[];
     maxShares?: number;
     networkAccessPolicy?: NetworkAccessPolicy;
+    optimizedForFrequentAttach?: boolean;
     osType?: OperatingSystemTypes;
     readonly propertyUpdatesInProgress?: PropertyUpdatesInProgress;
     readonly provisioningState?: string;
@@ -1647,6 +1653,9 @@ export interface DiskAccessUpdate {
         [propertyName: string]: string;
     };
 }
+
+// @public
+export type DiskControllerTypes = string;
 
 // @public
 export type DiskCreateOption = string;
@@ -2024,6 +2033,7 @@ export interface DiskUpdate {
     encryptionSettingsCollection?: EncryptionSettingsCollection;
     maxShares?: number;
     networkAccessPolicy?: NetworkAccessPolicy;
+    optimizedForFrequentAttach?: boolean;
     osType?: OperatingSystemTypes;
     readonly propertyUpdatesInProgress?: PropertyUpdatesInProgress;
     publicNetworkAccess?: PublicNetworkAccess;
@@ -3012,6 +3022,12 @@ export enum KnownDiffDiskPlacement {
 }
 
 // @public
+export enum KnownDiskControllerTypes {
+    NVMe = "NVMe",
+    Scsi = "SCSI"
+}
+
+// @public
 export enum KnownDiskCreateOption {
     Attach = "Attach",
     Copy = "Copy",
@@ -3710,6 +3726,7 @@ export interface LastPatchInstallationSummary {
 // @public
 export interface LinuxConfiguration {
     disablePasswordAuthentication?: boolean;
+    enableVMAgentPlatformUpdates?: boolean;
     patchSettings?: LinuxPatchSettings;
     provisionVMAgent?: boolean;
     ssh?: SshConfiguration;
@@ -4065,6 +4082,12 @@ export interface Plan {
     product?: string;
     promotionCode?: string;
     publisher?: string;
+}
+
+// @public
+export interface PriorityMixPolicy {
+    baseRegularPriorityCount?: number;
+    regularPriorityPercentageAboveBase?: number;
 }
 
 // @public
@@ -4992,7 +5015,7 @@ export interface ShareInfoElement {
 
 // @public
 export interface SharingProfile {
-    communityGalleryInfo?: any;
+    communityGalleryInfo?: CommunityGalleryInfo;
     readonly groups?: SharingProfileGroup[];
     permissions?: GallerySharingPermissionTypes;
 }
@@ -5046,6 +5069,7 @@ export interface Snapshot extends Resource {
     extendedLocation?: ExtendedLocation;
     hyperVGeneration?: HyperVGeneration;
     incremental?: boolean;
+    readonly incrementalSnapshotFamilyId?: string;
     readonly managedBy?: string;
     networkAccessPolicy?: NetworkAccessPolicy;
     osType?: OperatingSystemTypes;
@@ -5323,6 +5347,7 @@ export type StorageAccountTypes = string;
 // @public
 export interface StorageProfile {
     dataDisks?: DataDisk[];
+    diskControllerType?: DiskControllerTypes;
     imageReference?: ImageReference;
     osDisk?: OSDisk;
 }
@@ -5346,6 +5371,7 @@ export interface SubResourceWithColocationStatus extends SubResource {
 export interface SupportedCapabilities {
     acceleratedNetwork?: boolean;
     architecture?: Architecture;
+    diskControllerTypes?: string;
 }
 
 // @public
@@ -5601,7 +5627,7 @@ export interface VirtualMachineExtension extends ResourceWithOptionalLocation {
     forceUpdateTag?: string;
     instanceView?: VirtualMachineExtensionInstanceView;
     protectedSettings?: any;
-    protectedSettingsFromKeyVault?: any;
+    protectedSettingsFromKeyVault?: KeyVaultSecretReference;
     readonly provisioningState?: string;
     publisher?: string;
     settings?: any;
@@ -5731,7 +5757,7 @@ export interface VirtualMachineExtensionUpdate extends UpdateResource {
     enableAutomaticUpgrade?: boolean;
     forceUpdateTag?: string;
     protectedSettings?: any;
-    protectedSettingsFromKeyVault?: any;
+    protectedSettingsFromKeyVault?: KeyVaultSecretReference;
     publisher?: string;
     settings?: any;
     suppressFailures?: boolean;
@@ -5947,6 +5973,7 @@ export interface VirtualMachineListResult {
 // @public
 export interface VirtualMachineNetworkInterfaceConfiguration {
     deleteOption?: DeleteOptions;
+    disableTcpStateTracking?: boolean;
     dnsSettings?: VirtualMachineNetworkInterfaceDnsSettingsConfiguration;
     // (undocumented)
     dscpConfiguration?: SubResource;
@@ -6213,6 +6240,7 @@ export interface VirtualMachineScaleSet extends Resource {
     overprovision?: boolean;
     plan?: Plan;
     platformFaultDomainCount?: number;
+    priorityMixPolicy?: PriorityMixPolicy;
     readonly provisioningState?: string;
     proximityPlacementGroup?: SubResource;
     scaleInPolicy?: ScaleInPolicy;
@@ -6248,7 +6276,7 @@ export interface VirtualMachineScaleSetExtension extends SubResourceReadOnly {
     forceUpdateTag?: string;
     name?: string;
     protectedSettings?: any;
-    protectedSettingsFromKeyVault?: any;
+    protectedSettingsFromKeyVault?: KeyVaultSecretReference;
     provisionAfterExtensions?: string[];
     readonly provisioningState?: string;
     publisher?: string;
@@ -6336,7 +6364,7 @@ export interface VirtualMachineScaleSetExtensionUpdate extends SubResourceReadOn
     forceUpdateTag?: string;
     readonly name?: string;
     protectedSettings?: any;
-    protectedSettingsFromKeyVault?: any;
+    protectedSettingsFromKeyVault?: KeyVaultSecretReference;
     provisionAfterExtensions?: string[];
     readonly provisioningState?: string;
     publisher?: string;
@@ -6428,6 +6456,7 @@ export interface VirtualMachineScaleSetManagedDiskParameters {
 // @public
 export interface VirtualMachineScaleSetNetworkConfiguration extends SubResource {
     deleteOption?: DeleteOptions;
+    disableTcpStateTracking?: boolean;
     dnsSettings?: VirtualMachineScaleSetNetworkConfigurationDnsSettings;
     enableAcceleratedNetworking?: boolean;
     enableFpga?: boolean;
@@ -6784,6 +6813,8 @@ export interface VirtualMachineScaleSetsStartOptionalParams extends coreClient.O
 // @public
 export interface VirtualMachineScaleSetStorageProfile {
     dataDisks?: VirtualMachineScaleSetDataDisk[];
+    // (undocumented)
+    diskControllerType?: string;
     imageReference?: ImageReference;
     osDisk?: VirtualMachineScaleSetOSDisk;
 }
@@ -6835,6 +6866,7 @@ export interface VirtualMachineScaleSetUpdateIPConfiguration extends SubResource
 // @public
 export interface VirtualMachineScaleSetUpdateNetworkConfiguration extends SubResource {
     deleteOption?: DeleteOptions;
+    disableTcpStateTracking?: boolean;
     dnsSettings?: VirtualMachineScaleSetNetworkConfigurationDnsSettings;
     enableAcceleratedNetworking?: boolean;
     enableFpga?: boolean;
@@ -6883,6 +6915,8 @@ export interface VirtualMachineScaleSetUpdatePublicIPAddressConfiguration {
 // @public
 export interface VirtualMachineScaleSetUpdateStorageProfile {
     dataDisks?: VirtualMachineScaleSetDataDisk[];
+    // (undocumented)
+    diskControllerType?: string;
     imageReference?: ImageReference;
     osDisk?: VirtualMachineScaleSetUpdateOSDisk;
 }
@@ -6892,6 +6926,7 @@ export interface VirtualMachineScaleSetUpdateVMProfile {
     billingProfile?: BillingProfile;
     diagnosticsProfile?: DiagnosticsProfile;
     extensionProfile?: VirtualMachineScaleSetExtensionProfile;
+    hardwareProfile?: VirtualMachineScaleSetHardwareProfile;
     licenseType?: string;
     networkProfile?: VirtualMachineScaleSetUpdateNetworkProfile;
     osProfile?: VirtualMachineScaleSetUpdateOSProfile;
@@ -6936,7 +6971,7 @@ export interface VirtualMachineScaleSetVMExtension extends SubResourceReadOnly {
     instanceView?: VirtualMachineExtensionInstanceView;
     readonly name?: string;
     protectedSettings?: any;
-    protectedSettingsFromKeyVault?: any;
+    protectedSettingsFromKeyVault?: KeyVaultSecretReference;
     readonly provisioningState?: string;
     publisher?: string;
     settings?: any;
@@ -7016,7 +7051,7 @@ export interface VirtualMachineScaleSetVMExtensionUpdate extends SubResourceRead
     forceUpdateTag?: string;
     readonly name?: string;
     protectedSettings?: any;
-    protectedSettingsFromKeyVault?: any;
+    protectedSettingsFromKeyVault?: KeyVaultSecretReference;
     publisher?: string;
     settings?: any;
     suppressFailures?: boolean;
@@ -7637,6 +7672,7 @@ export interface VMSizeProperties {
 export interface WindowsConfiguration {
     additionalUnattendContent?: AdditionalUnattendContent[];
     enableAutomaticUpdates?: boolean;
+    enableVMAgentPlatformUpdates?: boolean;
     patchSettings?: PatchSettings;
     provisionVMAgent?: boolean;
     timeZone?: string;
