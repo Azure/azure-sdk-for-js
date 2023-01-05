@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortController, AbortError, AbortSignalLike } from "@azure/abort-controller";
+import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 import { delay } from "@azure/core-util";
 import EventEmitter from "events";
 import { SendMessageError, SendMessageErrorOptions } from "./errors";
@@ -803,7 +803,7 @@ export class WebPubSubClient {
       try {
         return await abortablePromise(entity.promise(), abortSignal);
       } catch (err) {
-        if (err instanceof AbortError) {
+        if (err instanceof Error && err.name === "AbortError") {
           throw new SendMessageError("Cancelled by abortSignal", { ackId: ackId });
         }
         throw err;

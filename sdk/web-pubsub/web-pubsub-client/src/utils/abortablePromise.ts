@@ -8,14 +8,14 @@ export async function abortablePromise<T>(
   signal: AbortSignalLike
 ): Promise<T> {
   if (signal.aborted) {
-    throw new AbortError();
+    throw new AbortError("The operation was aborted.");
   }
 
   let onAbort: () => void;
   // eslint-disable-next-line promise/param-names
   const p = new Promise<T>((_, reject) => {
     onAbort = (): void => {
-      reject(new AbortError());
+      reject(new AbortError("The operation was aborted."));
     };
 
     signal.addEventListener("abort", onAbort);
