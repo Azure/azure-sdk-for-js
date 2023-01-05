@@ -1,12 +1,10 @@
 # Release History
 
-## 1.10.1 (Unreleased)
+## 1.10.1 (2023-01-05)
 
 ### Features Added
 
 - In browsers, fire an upload progress event when Blobs are used instead of streams. [PR #24356](https://github.com/Azure/azure-sdk-for-js/pull/24356)
-
-### Breaking Changes
 
 ### Bugs Fixed
 
