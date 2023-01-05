@@ -303,6 +303,9 @@ export class PhoneNumbersClient {
     request: PhoneNumberCapabilitiesRequest,
     options: BeginUpdatePhoneNumberCapabilitiesOptions = {}
   ): Promise<PollerLike<PollOperationState<PurchasedPhoneNumber>, PurchasedPhoneNumber>> {
+    if (!phoneNumber){
+      throw Error("phone number can't be empty");
+    }
     return tracingClient.withSpan(
       "PhoneNumbersClient-beginUpdatePhoneNumberCapabilities",
       options,

@@ -63,13 +63,26 @@ matrix([[true, false]], async function (useAad) {
       assert.fail("beginUpdatePhoneNumberCapabilities should have thrown an exception.");
     });
 
+    it("update throws when phone number is invalid", async function () {
+      const fakeNumber = "invalid_phone_number";
+      try {
+        const searchPoller = await client.beginUpdatePhoneNumberCapabilities(fakeNumber, update);
+        await searchPoller.pollUntilDone();
+      } catch (error: any) {
+        assert.equal(error.statusCode, 404);
+        return;
+      }
+
+      assert.fail("beginUpdatePhoneNumberCapabilities should have thrown an exception.");
+    });
+
     it("update throws when phone number is empty", async function () {
       const fakeNumber = "";
       try {
         const searchPoller = await client.beginUpdatePhoneNumberCapabilities(fakeNumber, update);
         await searchPoller.pollUntilDone();
       } catch (error: any) {
-        assert.equal(error.statusCode, 405);
+        assert.equal(error.message, "phone number can't be empty");
         return;
       }
 
