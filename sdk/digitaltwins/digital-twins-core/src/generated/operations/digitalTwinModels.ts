@@ -6,27 +6,30 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
+import { DigitalTwinModels } from "../operationsInterfaces";
+import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureDigitalTwinsAPI } from "../azureDigitalTwinsAPI";
 import {
-  DigitalTwinModelsAddOptionalParams,
-  DigitalTwinModelsAddResponse,
+  DigitalTwinsModelData,
+  DigitalTwinModelsListNextOptionalParams,
   DigitalTwinModelsListOptionalParams,
   DigitalTwinModelsListResponse,
+  DigitalTwinModelsAddOptionalParams,
+  DigitalTwinModelsAddResponse,
   DigitalTwinModelsGetByIdOptionalParams,
   DigitalTwinModelsGetByIdResponse,
   DigitalTwinModelsUpdateOptionalParams,
   DigitalTwinModelsDeleteOptionalParams,
-  DigitalTwinModelsListNextOptionalParams,
   DigitalTwinModelsListNextResponse
 } from "../models";
 
-/**
- * Class representing a DigitalTwinModels.
- */
-export class DigitalTwinModels {
+/// <reference lib="esnext.asynciterable" />
+/** Class containing DigitalTwinModels operations. */
+export class DigitalTwinModelsImpl implements DigitalTwinModels {
   private readonly client: AzureDigitalTwinsAPI;
 
   /**
@@ -35,6 +38,67 @@ export class DigitalTwinModels {
    */
   constructor(client: AzureDigitalTwinsAPI) {
     this.client = client;
+  }
+
+  /**
+   * Retrieves model metadata and, optionally, model definitions.
+   * Status codes:
+   * * 200 OK
+   * * 400 Bad Request
+   *   * InvalidArgument - The model id is invalid.
+   *   * LimitExceeded - The maximum number of model ids allowed in 'dependenciesFor' has been reached.
+   * * 404 Not Found
+   *   * ModelNotFound - The model was not found.
+   * @param options The options parameters.
+   */
+  public list(
+    options?: DigitalTwinModelsListOptionalParams
+  ): PagedAsyncIterableIterator<DigitalTwinsModelData> {
+    const iter = this.listPagingAll(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
+      }
+    };
+  }
+
+  private async *listPagingPage(
+    options?: DigitalTwinModelsListOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<DigitalTwinsModelData[]> {
+    let result: DigitalTwinModelsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listNext(continuationToken, options);
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listPagingAll(
+    options?: DigitalTwinModelsListOptionalParams
+  ): AsyncIterableIterator<DigitalTwinsModelData> {
+    for await (const page of this.listPagingPage(options)) {
+      yield* page;
+    }
   }
 
   /**
@@ -53,13 +117,7 @@ export class DigitalTwinModels {
   add(
     options?: DigitalTwinModelsAddOptionalParams
   ): Promise<DigitalTwinModelsAddResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
-    return this.client.sendOperationRequest(
-      { options: operationOptions },
-      addOperationSpec
-    ) as Promise<DigitalTwinModelsAddResponse>;
+    return this.client.sendOperationRequest({ options }, addOperationSpec);
   }
 
   /**
@@ -73,16 +131,10 @@ export class DigitalTwinModels {
    *   * ModelNotFound - The model was not found.
    * @param options The options parameters.
    */
-  list(
+  private _list(
     options?: DigitalTwinModelsListOptionalParams
   ): Promise<DigitalTwinModelsListResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
-    return this.client.sendOperationRequest(
-      { options: operationOptions },
-      listOperationSpec
-    ) as Promise<DigitalTwinModelsListResponse>;
+    return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
   /**
@@ -101,13 +153,10 @@ export class DigitalTwinModels {
     id: string,
     options?: DigitalTwinModelsGetByIdOptionalParams
   ): Promise<DigitalTwinModelsGetByIdResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
     return this.client.sendOperationRequest(
-      { id, options: operationOptions },
+      { id, options },
       getByIdOperationSpec
-    ) as Promise<DigitalTwinModelsGetByIdResponse>;
+    );
   }
 
   /**
@@ -129,16 +178,13 @@ export class DigitalTwinModels {
    */
   update(
     id: string,
-    updateModel: any[],
+    updateModel: Record<string, unknown>[],
     options?: DigitalTwinModelsUpdateOptionalParams
-  ): Promise<coreHttp.RestResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
+  ): Promise<void> {
     return this.client.sendOperationRequest(
-      { id, updateModel, options: operationOptions },
+      { id, updateModel, options },
       updateOperationSpec
-    ) as Promise<coreHttp.RestResponse>;
+    );
   }
 
   /**
@@ -158,14 +204,11 @@ export class DigitalTwinModels {
   delete(
     id: string,
     options?: DigitalTwinModelsDeleteOptionalParams
-  ): Promise<coreHttp.RestResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
+  ): Promise<void> {
     return this.client.sendOperationRequest(
-      { id, options: operationOptions },
+      { id, options },
       deleteOperationSpec
-    ) as Promise<coreHttp.RestResponse>;
+    );
   }
 
   /**
@@ -173,24 +216,20 @@ export class DigitalTwinModels {
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
-  listNext(
+  private _listNext(
     nextLink: string,
     options?: DigitalTwinModelsListNextOptionalParams
   ): Promise<DigitalTwinModelsListNextResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
     return this.client.sendOperationRequest(
-      { nextLink, options: operationOptions },
+      { nextLink, options },
       listNextOperationSpec
-    ) as Promise<DigitalTwinModelsListNextResponse>;
+    );
   }
 }
 // Operation Specifications
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
-
-const addOperationSpec: coreHttp.OperationSpec = {
+const addOperationSpec: coreClient.OperationSpec = {
   path: "/models",
   httpMethod: "POST",
   responses: {
@@ -213,13 +252,14 @@ const addOperationSpec: coreHttp.OperationSpec = {
   urlParameters: [Parameters.$host],
   headerParameters: [
     Parameters.contentType,
+    Parameters.accept,
     Parameters.traceparent,
     Parameters.tracestate
   ],
   mediaType: "json",
   serializer
 };
-const listOperationSpec: coreHttp.OperationSpec = {
+const listOperationSpec: coreClient.OperationSpec = {
   path: "/models",
   httpMethod: "GET",
   responses: {
@@ -237,13 +277,14 @@ const listOperationSpec: coreHttp.OperationSpec = {
   ],
   urlParameters: [Parameters.$host],
   headerParameters: [
+    Parameters.accept,
     Parameters.traceparent,
     Parameters.tracestate,
     Parameters.maxItemsPerPage
   ],
   serializer
 };
-const getByIdOperationSpec: coreHttp.OperationSpec = {
+const getByIdOperationSpec: coreClient.OperationSpec = {
   path: "/models/{id}",
   httpMethod: "GET",
   responses: {
@@ -256,10 +297,14 @@ const getByIdOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion, Parameters.includeModelDefinition],
   urlParameters: [Parameters.$host, Parameters.id],
-  headerParameters: [Parameters.traceparent, Parameters.tracestate],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.traceparent,
+    Parameters.tracestate
+  ],
   serializer
 };
-const updateOperationSpec: coreHttp.OperationSpec = {
+const updateOperationSpec: coreClient.OperationSpec = {
   path: "/models/{id}",
   httpMethod: "PATCH",
   responses: {
@@ -272,6 +317,7 @@ const updateOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.id],
   headerParameters: [
+    Parameters.accept,
     Parameters.traceparent,
     Parameters.tracestate,
     Parameters.contentType1
@@ -279,7 +325,7 @@ const updateOperationSpec: coreHttp.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const deleteOperationSpec: coreHttp.OperationSpec = {
+const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/models/{id}",
   httpMethod: "DELETE",
   responses: {
@@ -290,10 +336,14 @@ const deleteOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.id],
-  headerParameters: [Parameters.traceparent, Parameters.tracestate],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.traceparent,
+    Parameters.tracestate
+  ],
   serializer
 };
-const listNextOperationSpec: coreHttp.OperationSpec = {
+const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
@@ -304,13 +354,9 @@ const listNextOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.dependenciesFor,
-    Parameters.includeModelDefinition
-  ],
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [
+    Parameters.accept,
     Parameters.traceparent,
     Parameters.tracestate,
     Parameters.maxItemsPerPage
