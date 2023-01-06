@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Providers } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,14 +17,14 @@ import {
   Provider,
   ProvidersListNextOptionalParams,
   ProvidersListOptionalParams,
+  ProvidersListResponse,
   ProvidersListAtTenantScopeNextOptionalParams,
   ProvidersListAtTenantScopeOptionalParams,
+  ProvidersListAtTenantScopeResponse,
   ProvidersUnregisterOptionalParams,
   ProvidersUnregisterResponse,
   ProvidersRegisterOptionalParams,
   ProvidersRegisterResponse,
-  ProvidersListResponse,
-  ProvidersListAtTenantScopeResponse,
   ProvidersGetOptionalParams,
   ProvidersGetResponse,
   ProvidersGetAtTenantScopeOptionalParams,
@@ -60,22 +61,34 @@ export class ProvidersImpl implements Providers {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: ProvidersListOptionalParams
+    options?: ProvidersListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Provider[]> {
-    let result = await this._list(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ProvidersListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -102,22 +115,34 @@ export class ProvidersImpl implements Providers {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listAtTenantScopePagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listAtTenantScopePagingPage(options, settings);
       }
     };
   }
 
   private async *listAtTenantScopePagingPage(
-    options?: ProvidersListAtTenantScopeOptionalParams
+    options?: ProvidersListAtTenantScopeOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Provider[]> {
-    let result = await this._listAtTenantScope(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ProvidersListAtTenantScopeResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listAtTenantScope(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listAtTenantScopeNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -366,7 +391,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.top, Parameters.expand],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -386,7 +410,6 @@ const listAtTenantScopeNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.top, Parameters.expand],
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer

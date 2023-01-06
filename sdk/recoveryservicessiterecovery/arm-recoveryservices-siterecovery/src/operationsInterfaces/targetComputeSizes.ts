@@ -17,12 +17,17 @@ import {
 export interface TargetComputeSizes {
   /**
    * Lists the available target compute sizes for a replication protected item.
+   * @param resourceName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
    * @param fabricName Fabric name.
    * @param protectionContainerName protection container name.
    * @param replicatedProtectedItemName Replication protected item name.
    * @param options The options parameters.
    */
   listByReplicationProtectedItems(
+    resourceName: string,
+    resourceGroupName: string,
     fabricName: string,
     protectionContainerName: string,
     replicatedProtectedItemName: string,

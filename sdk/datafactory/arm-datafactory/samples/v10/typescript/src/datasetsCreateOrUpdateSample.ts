@@ -13,6 +13,9 @@ import {
   DataFactoryManagementClient
 } from "@azure/arm-datafactory";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates or updates a dataset.
@@ -21,8 +24,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/Datasets_Create.json
  */
 async function datasetsCreate() {
-  const subscriptionId = "12345678-1234-1234-1234-12345678abc";
-  const resourceGroupName = "exampleResourceGroup";
+  const subscriptionId =
+    process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
+    "12345678-1234-1234-1234-12345678abc";
+  const resourceGroupName =
+    process.env["DATAFACTORY_RESOURCE_GROUP"] || "exampleResourceGroup";
   const factoryName = "exampleFactoryName";
   const datasetName = "exampleDataset";
   const dataset: DatasetResource = {
@@ -52,8 +58,6 @@ async function datasetsCreate() {
   console.log(result);
 }
 
-datasetsCreate().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates or updates a dataset.
  *
@@ -61,8 +65,11 @@ datasetsCreate().catch(console.error);
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/Datasets_Update.json
  */
 async function datasetsUpdate() {
-  const subscriptionId = "12345678-1234-1234-1234-12345678abc";
-  const resourceGroupName = "exampleResourceGroup";
+  const subscriptionId =
+    process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
+    "12345678-1234-1234-1234-12345678abc";
+  const resourceGroupName =
+    process.env["DATAFACTORY_RESOURCE_GROUP"] || "exampleResourceGroup";
   const factoryName = "exampleFactoryName";
   const datasetName = "exampleDataset";
   const dataset: DatasetResource = {
@@ -93,4 +100,9 @@ async function datasetsUpdate() {
   console.log(result);
 }
 
-datasetsUpdate().catch(console.error);
+async function main() {
+  datasetsCreate();
+  datasetsUpdate();
+}
+
+main().catch(console.error);

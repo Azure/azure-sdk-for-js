@@ -769,7 +769,8 @@ describe("LRO", function () {
         intervalInMs: pollingInterval,
         resumeFrom: serializedState,
       });
-      const batchResult = (await rehydratedPoller.pollUntilDone()) as SearchGetFuzzySearchBatch200Response;
+      const batchResult =
+        (await rehydratedPoller.pollUntilDone()) as SearchGetFuzzySearchBatch200Response;
       assert.equal(batchResult.body.summary.totalRequests, batchItems.length);
       assert.equal(batchResult.body.batchItems.length, batchItems.length);
     });
@@ -801,7 +802,8 @@ describe("LRO", function () {
         intervalInMs: pollingInterval,
         resumeFrom: serializedState,
       });
-      const rehydratedResult = (await rehydratedPoller.pollUntilDone()) as SearchGetFuzzySearchBatch200Response;
+      const rehydratedResult =
+        (await rehydratedPoller.pollUntilDone()) as SearchGetFuzzySearchBatch200Response;
       assert.deepEqual(originalResult.body, rehydratedResult.body);
     });
   });
@@ -847,7 +849,8 @@ describe("LRO", function () {
         intervalInMs: pollingInterval,
         resumeFrom: serializedState,
       });
-      const batchResult = (await rehydratedPoller.pollUntilDone()) as SearchGetFuzzySearchBatch200Response;
+      const batchResult =
+        (await rehydratedPoller.pollUntilDone()) as SearchGetFuzzySearchBatch200Response;
       assert.equal(batchResult.body.summary.totalRequests, batchItems.length);
       assert.equal(batchResult.body.batchItems.length, batchItems.length);
     });
@@ -874,7 +877,8 @@ describe("LRO", function () {
         intervalInMs: pollingInterval,
         resumeFrom: serializedState,
       });
-      const rehydratedResult = (await rehydratedPoller.pollUntilDone()) as SearchGetFuzzySearchBatch200Response;
+      const rehydratedResult =
+        (await rehydratedPoller.pollUntilDone()) as SearchGetFuzzySearchBatch200Response;
       assert.deepEqual(originalResult.body, rehydratedResult.body);
     });
   });
@@ -894,7 +898,8 @@ describe("LRO", function () {
         .path("/search/address/reverse/batch/{format}", "json")
         .post({ body: { batchItems } });
       const poller = getLongRunningPoller(client, response, { intervalInMs: pollingInterval });
-      const batchResult = (await poller.pollUntilDone()) as SearchReverseSearchAddressBatch200Response;
+      const batchResult =
+        (await poller.pollUntilDone()) as SearchReverseSearchAddressBatch200Response;
 
       assert.equal(batchResult.body.summary.totalRequests, batchItems.length);
       assert.equal(batchResult.body.batchItems.length, batchItems.length);
@@ -927,7 +932,8 @@ describe("LRO", function () {
         intervalInMs: pollingInterval,
         resumeFrom: serializedState,
       });
-      const rehydratedResult = (await rehydratedPoller.pollUntilDone()) as SearchReverseSearchAddressBatch200Response;
+      const rehydratedResult =
+        (await rehydratedPoller.pollUntilDone()) as SearchReverseSearchAddressBatch200Response;
       assert.deepEqual(originalResult.body, rehydratedResult.body);
     });
 
@@ -956,7 +962,8 @@ describe("LRO", function () {
         intervalInMs: pollingInterval,
         resumeFrom: serializedState,
       });
-      const rehydratedResult = (await rehydratedPoller.pollUntilDone()) as SearchReverseSearchAddressBatch200Response;
+      const rehydratedResult =
+        (await rehydratedPoller.pollUntilDone()) as SearchReverseSearchAddressBatch200Response;
       assert.deepEqual(originalResult.body, rehydratedResult.body);
     });
   });

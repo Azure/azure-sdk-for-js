@@ -82,7 +82,8 @@ async function main() {
   const rehydratedPoller = getLongRunningPoller(client, initialResponse, {
     resumeFrom: serializedState,
   });
-  const resumeResponse = (await rehydratedPoller.pollUntilDone()) as SearchSearchAddressBatch200Response;
+  const resumeResponse =
+    (await rehydratedPoller.pollUntilDone()) as SearchSearchAddressBatch200Response;
   logResponseBody(resumeResponse.body);
 }
 

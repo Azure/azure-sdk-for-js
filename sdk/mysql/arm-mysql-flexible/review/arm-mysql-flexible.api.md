@@ -88,18 +88,18 @@ export interface CloudError {
 }
 
 // @public
-export type Configuration = ProxyResource & {
-    readonly systemData?: SystemData;
-    value?: string;
-    readonly description?: string;
-    readonly defaultValue?: string;
-    readonly dataType?: string;
+export interface Configuration extends ProxyResource {
     readonly allowedValues?: string;
-    source?: ConfigurationSource;
-    readonly isReadOnly?: IsReadOnly;
+    readonly dataType?: string;
+    readonly defaultValue?: string;
+    readonly description?: string;
     readonly isConfigPendingRestart?: IsConfigPendingRestart;
     readonly isDynamicConfig?: IsDynamicConfig;
-};
+    readonly isReadOnly?: IsReadOnly;
+    source?: ConfigurationSource;
+    readonly systemData?: SystemData;
+    value?: string;
+}
 
 // @public
 export interface ConfigurationForBatchUpdate {
@@ -178,11 +178,11 @@ export type CreatedByType = string;
 export type CreateMode = string;
 
 // @public
-export type Database = ProxyResource & {
-    readonly systemData?: SystemData;
+export interface Database extends ProxyResource {
     charset?: string;
     collation?: string;
-};
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface DatabaseListResult {
@@ -261,11 +261,11 @@ export interface ErrorResponse {
 }
 
 // @public
-export type FirewallRule = ProxyResource & {
-    readonly systemData?: SystemData;
-    startIpAddress: string;
+export interface FirewallRule extends ProxyResource {
     endIpAddress: string;
-};
+    startIpAddress: string;
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface FirewallRuleListResult {
@@ -320,6 +320,9 @@ export interface FirewallRulesListByServerOptionalParams extends coreClient.Oper
 export type FirewallRulesListByServerResponse = FirewallRuleListResult;
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export interface GetPrivateDnsZoneSuffix {
     execute(options?: GetPrivateDnsZoneSuffixExecuteOptionalParams): Promise<GetPrivateDnsZoneSuffixExecuteResponse>;
 }
@@ -360,135 +363,94 @@ export type IsReadOnly = string;
 
 // @public
 export enum KnownConfigurationSource {
-    // (undocumented)
     SystemDefault = "system-default",
-    // (undocumented)
     UserOverride = "user-override"
 }
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownCreateMode {
-    // (undocumented)
     Default = "Default",
-    // (undocumented)
     GeoRestore = "GeoRestore",
-    // (undocumented)
     PointInTimeRestore = "PointInTimeRestore",
-    // (undocumented)
     Replica = "Replica"
 }
 
 // @public
 export enum KnownEnableStatusEnum {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownHighAvailabilityMode {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     SameZone = "SameZone",
-    // (undocumented)
     ZoneRedundant = "ZoneRedundant"
 }
 
 // @public
 export enum KnownHighAvailabilityState {
-    // (undocumented)
     CreatingStandby = "CreatingStandby",
-    // (undocumented)
     FailingOver = "FailingOver",
-    // (undocumented)
     Healthy = "Healthy",
-    // (undocumented)
     NotEnabled = "NotEnabled",
-    // (undocumented)
     RemovingStandby = "RemovingStandby"
 }
 
 // @public
 export enum KnownIsConfigPendingRestart {
-    // (undocumented)
     False = "False",
-    // (undocumented)
     True = "True"
 }
 
 // @public
 export enum KnownIsDynamicConfig {
-    // (undocumented)
     False = "False",
-    // (undocumented)
     True = "True"
 }
 
 // @public
 export enum KnownIsReadOnly {
-    // (undocumented)
     False = "False",
-    // (undocumented)
     True = "True"
 }
 
 // @public
 export enum KnownReplicationRole {
-    // (undocumented)
     None = "None",
-    // (undocumented)
     Replica = "Replica",
-    // (undocumented)
     Source = "Source"
 }
 
 // @public
 export enum KnownServerState {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Dropping = "Dropping",
-    // (undocumented)
     Ready = "Ready",
-    // (undocumented)
     Starting = "Starting",
-    // (undocumented)
     Stopped = "Stopped",
-    // (undocumented)
     Stopping = "Stopping",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownServerVersion {
-    // (undocumented)
     Eight021 = "8.0.21",
-    // (undocumented)
     Five7 = "5.7"
 }
 
 // @public
 export enum KnownSkuTier {
-    // (undocumented)
     Burstable = "Burstable",
-    // (undocumented)
     GeneralPurpose = "GeneralPurpose",
-    // (undocumented)
     MemoryOptimized = "MemoryOptimized"
 }
 
@@ -623,7 +585,8 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 export type OperationsListResponse = OperationListResult;
 
 // @public
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {
+}
 
 // @public
 export interface Replicas {
@@ -655,34 +618,34 @@ export interface Resource {
 }
 
 // @public
-export type Server = TrackedResource & {
-    sku?: Sku;
-    readonly systemData?: SystemData;
+export interface Server extends TrackedResource {
     administratorLogin?: string;
     administratorLoginPassword?: string;
-    version?: ServerVersion;
     availabilityZone?: string;
-    createMode?: CreateMode;
-    sourceServerResourceId?: string;
-    restorePointInTime?: Date;
-    replicationRole?: ReplicationRole;
-    readonly replicaCapacity?: number;
-    readonly state?: ServerState;
-    readonly fullyQualifiedDomainName?: string;
-    storage?: Storage_2;
     backup?: Backup;
+    createMode?: CreateMode;
+    readonly fullyQualifiedDomainName?: string;
     highAvailability?: HighAvailability;
-    network?: Network;
     maintenanceWindow?: MaintenanceWindow;
-};
+    network?: Network;
+    readonly replicaCapacity?: number;
+    replicationRole?: ReplicationRole;
+    restorePointInTime?: Date;
+    sku?: Sku;
+    sourceServerResourceId?: string;
+    readonly state?: ServerState;
+    storage?: Storage_2;
+    readonly systemData?: SystemData;
+    version?: ServerVersion;
+}
 
 // @public
-export type ServerBackup = ProxyResource & {
-    readonly systemData?: SystemData;
+export interface ServerBackup extends ProxyResource {
     backupType?: string;
     completedTime?: Date;
     source?: string;
-};
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface ServerBackupListResult {
@@ -885,12 +848,12 @@ export interface SystemData {
 }
 
 // @public
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
+    location: string;
     tags?: {
         [propertyName: string]: string;
     };
-    location: string;
-};
+}
 
 // @public
 export interface VirtualNetworkSubnetUsageParameter {

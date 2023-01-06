@@ -14,6 +14,9 @@ import {
   AzureArcVMwareManagementServiceAPI
 } from "@azure/arm-connectedvmware";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to API to update certain properties of the vCenter resource.
@@ -22,8 +25,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/connectedvmware/resource-manager/Microsoft.ConnectedVMwarevSphere/preview/2022-01-10-preview/examples/UpdateVCenter.json
  */
 async function updateVCenter() {
-  const subscriptionId = "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
-  const resourceGroupName = "testrg";
+  const subscriptionId =
+    process.env["CONNECTEDVMWARE_SUBSCRIPTION_ID"] ||
+    "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
+  const resourceGroupName =
+    process.env["CONNECTEDVMWARE_RESOURCE_GROUP"] || "testrg";
   const vcenterName = "ContosoVCenter";
   const body: ResourcePatch = { tags: { tag1: "value1", tag2: "value2" } };
   const options: VCentersUpdateOptionalParams = { body };
@@ -40,4 +46,8 @@ async function updateVCenter() {
   console.log(result);
 }
 
-updateVCenter().catch(console.error);
+async function main() {
+  updateVCenter();
+}
+
+main().catch(console.error);

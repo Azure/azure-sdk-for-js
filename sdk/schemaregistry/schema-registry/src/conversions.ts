@@ -39,7 +39,9 @@ export async function convertSchemaResponse(response: GeneratedSchemaResponse): 
   };
 }
 
-const customContentType = "text/plain; charset=utf-8";
+const textPlain = "text/plain";
+const charsetutf8 = "charset=utf-8";
+const customContentType = `${textPlain}; ${charsetutf8}`;
 const customFormat = "Custom";
 
 /**
@@ -48,8 +50,7 @@ const customFormat = "Custom";
  * @returns corresponding content-type value
  */
 export function buildContentType(format: string): string {
-  const lowercaseFormat = format.toLowerCase();
-  return lowercaseFormat === customFormat.toLowerCase()
+  return format.toLowerCase() === customFormat.toLowerCase()
     ? customContentType
     : `application/json; serialization=${format}`;
 }
@@ -76,7 +77,7 @@ export function convertSchemaIdResponse(
 }
 
 function mapContentTypeToFormat(contentType: string): string {
-  if (contentType === customContentType) return customFormat;
+  if (contentType.match(new RegExp(`${textPlain};\\s?${charsetutf8}`))) return customFormat;
   const parts = /.*serialization=(.*)$/.exec(contentType);
   const schemaFormat = parts?.[1];
   if (schemaFormat) {

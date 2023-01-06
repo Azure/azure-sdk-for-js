@@ -1995,6 +1995,7 @@ export const ServiceLoadMetricDescription: coreClient.CompositeMapper = {
 };
 
 export const ServicePlacementPolicyDescription: coreClient.CompositeMapper = {
+  serializedName: "ServicePlacementPolicyDescription",
   type: {
     name: "Composite",
     className: "ServicePlacementPolicyDescription",
@@ -2874,9 +2875,9 @@ export const StatefulServiceProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "StatefulServiceProperties",
-    uberParent: "ServiceResourcePropertiesBase",
+    uberParent: "ServiceResourceProperties",
     polymorphicDiscriminator:
-      ServiceResourcePropertiesBase.type.polymorphicDiscriminator,
+      ServiceResourceProperties.type.polymorphicDiscriminator,
     modelProperties: {
       ...ServiceResourceProperties.type.modelProperties,
       hasPersistedState: {
@@ -2930,9 +2931,9 @@ export const StatelessServiceProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "StatelessServiceProperties",
-    uberParent: "ServiceResourcePropertiesBase",
+    uberParent: "ServiceResourceProperties",
     polymorphicDiscriminator:
-      ServiceResourcePropertiesBase.type.polymorphicDiscriminator,
+      ServiceResourceProperties.type.polymorphicDiscriminator,
     modelProperties: {
       ...ServiceResourceProperties.type.modelProperties,
       instanceCount: {
@@ -2959,9 +2960,9 @@ export const StatefulServiceUpdateProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "StatefulServiceUpdateProperties",
-    uberParent: "ServiceResourcePropertiesBase",
+    uberParent: "ServiceResourceUpdateProperties",
     polymorphicDiscriminator:
-      ServiceResourcePropertiesBase.type.polymorphicDiscriminator,
+      ServiceResourceUpdateProperties.type.polymorphicDiscriminator,
     modelProperties: {
       ...ServiceResourceUpdateProperties.type.modelProperties,
       targetReplicaSetSize: {
@@ -3009,9 +3010,9 @@ export const StatelessServiceUpdateProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "StatelessServiceUpdateProperties",
-    uberParent: "ServiceResourcePropertiesBase",
+    uberParent: "ServiceResourceUpdateProperties",
     polymorphicDiscriminator:
-      ServiceResourcePropertiesBase.type.polymorphicDiscriminator,
+      ServiceResourceUpdateProperties.type.polymorphicDiscriminator,
     modelProperties: {
       ...ServiceResourceUpdateProperties.type.modelProperties,
       instanceCount: {
@@ -3035,12 +3036,14 @@ export const StatelessServiceUpdateProperties: coreClient.CompositeMapper = {
 
 export let discriminators = {
   PartitionSchemeDescription: PartitionSchemeDescription,
-  "ServicePlacementPolicyDescription.undefined": ServicePlacementPolicyDescription,
+  "ServicePlacementPolicyDescription.ServicePlacementPolicyDescription": ServicePlacementPolicyDescription,
   "PartitionSchemeDescription.Named": NamedPartitionSchemeDescription,
   "PartitionSchemeDescription.Singleton": SingletonPartitionSchemeDescription,
   "PartitionSchemeDescription.UniformInt64Range": UniformInt64RangePartitionSchemeDescription,
   "ServiceResourcePropertiesBase.ServiceResourceProperties": ServiceResourceProperties,
   "ServiceResourcePropertiesBase.ServiceResourceUpdateProperties": ServiceResourceUpdateProperties,
-  "ServiceResourcePropertiesBase.Stateful": StatefulServiceUpdateProperties,
-  "ServiceResourcePropertiesBase.Stateless": StatelessServiceUpdateProperties
+  "ServiceResourceProperties.Stateful": StatefulServiceProperties,
+  "ServiceResourceProperties.Stateless": StatelessServiceProperties,
+  "ServiceResourceUpdateProperties.Stateful": StatefulServiceUpdateProperties,
+  "ServiceResourceUpdateProperties.Stateless": StatelessServiceUpdateProperties
 };

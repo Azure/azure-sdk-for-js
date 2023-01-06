@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { PercentileSourceTarget } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -68,14 +68,18 @@ export class PercentileSourceTargetImpl implements PercentileSourceTarget {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listMetricsPagingPage(
           resourceGroupName,
           accountName,
           sourceRegion,
           targetRegion,
           filter,
-          options
+          options,
+          settings
         );
       }
     };
@@ -87,9 +91,11 @@ export class PercentileSourceTargetImpl implements PercentileSourceTarget {
     sourceRegion: string,
     targetRegion: string,
     filter: string,
-    options?: PercentileSourceTargetListMetricsOptionalParams
+    options?: PercentileSourceTargetListMetricsOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<PercentileMetric[]> {
-    let result = await this._listMetrics(
+    let result: PercentileSourceTargetListMetricsResponse;
+    result = await this._listMetrics(
       resourceGroupName,
       accountName,
       sourceRegion,

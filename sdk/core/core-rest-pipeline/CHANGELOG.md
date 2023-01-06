@@ -1,6 +1,6 @@
 # Release History
 
-## 1.10.1 (Unreleased)
+## 1.10.2 (Unreleased)
 
 ### Features Added
 
@@ -8,9 +8,18 @@
 
 ### Bugs Fixed
 
-- Fix an issue in `FormDataPolicy` where we are not waiting for `prepareFormData()` to complete [PR #23858](https://github.com/Azure/azure-sdk-for-js/pull/23858)
-
 ### Other Changes
+
+## 1.10.1 (2023-01-05)
+
+### Features Added
+
+- In browsers, fire an upload progress event when Blobs are used instead of streams. [PR #24356](https://github.com/Azure/azure-sdk-for-js/pull/24356)
+
+### Bugs Fixed
+
+- Fix an issue in `FormDataPolicy` where we are not waiting for `prepareFormData()` to complete [PR #23858](https://github.com/Azure/azure-sdk-for-js/pull/23858)
+- Fix an issue on Node where `HEAD` requests would close their socket, ignoring keep-alive. [PR #24356](https://github.com/Azure/azure-sdk-for-js/pull/24356)
 
 ## 1.10.0 (2022-11-03)
 

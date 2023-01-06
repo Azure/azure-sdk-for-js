@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Gets the specified load balancer.
  *
  * @summary Gets the specified load balancer.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LoadBalancerGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/LoadBalancerGet.json
  */
 async function getLoadBalancer() {
   const subscriptionId = "subid";
@@ -36,7 +36,7 @@ getLoadBalancer().catch(console.error);
  * This sample demonstrates how to Gets the specified load balancer.
  *
  * @summary Gets the specified load balancer.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LoadBalancerGetInboundNatRulePortMapping.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/LoadBalancerGetInboundNatRulePortMapping.json
  */
 async function getLoadBalancerWithInboundNatRulePortMapping() {
   const subscriptionId = "subid";

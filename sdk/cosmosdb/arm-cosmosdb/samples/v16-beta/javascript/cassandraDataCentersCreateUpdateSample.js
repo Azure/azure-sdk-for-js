@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Create or update a managed Cassandra data center. When updating, overwrite all properties. To update only some properties, use PATCH.
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBManagedCassandraDataCenterCreate.json
  */
 async function cosmosDbManagedCassandraDataCenterCreate() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "cassandra-prod-rg";
+  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "cassandra-prod-rg";
   const clusterName = "cassandra-prod";
   const dataCenterName = "dc1";
   const body = {
@@ -43,4 +44,8 @@ async function cosmosDbManagedCassandraDataCenterCreate() {
   console.log(result);
 }
 
-cosmosDbManagedCassandraDataCenterCreate().catch(console.error);
+async function main() {
+  cosmosDbManagedCassandraDataCenterCreate();
+}
+
+main().catch(console.error);

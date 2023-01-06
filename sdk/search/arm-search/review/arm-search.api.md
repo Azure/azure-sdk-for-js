@@ -73,6 +73,9 @@ export interface CloudErrorBody {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export type HostingMode = "default" | "highDensity";
 
 // @public
@@ -92,19 +95,14 @@ export interface IpRule {
 
 // @public
 export enum KnownSharedPrivateLinkResourceAsyncOperationResult {
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Running = "Running",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownUnavailableNameReason {
-    // (undocumented)
     AlreadyExists = "AlreadyExists",
-    // (undocumented)
     Invalid = "Invalid"
 }
 
@@ -152,9 +150,9 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 export type OperationsListResponse = OperationListResult;
 
 // @public
-export type PrivateEndpointConnection = Resource & {
+export interface PrivateEndpointConnection extends Resource {
     properties?: PrivateEndpointConnectionProperties;
-};
+}
 
 // @public
 export interface PrivateEndpointConnectionListResult {
@@ -229,9 +227,9 @@ export interface PrivateEndpointConnectionsUpdateOptionalParams extends coreClie
 export type PrivateEndpointConnectionsUpdateResponse = PrivateEndpointConnection;
 
 // @public
-export type PrivateLinkResource = Resource & {
+export interface PrivateLinkResource extends Resource {
     readonly properties?: PrivateLinkResourceProperties;
-};
+}
 
 // @public
 export interface PrivateLinkResourceProperties {
@@ -355,20 +353,20 @@ export interface SearchManagementRequestOptions {
 }
 
 // @public
-export type SearchService = TrackedResource & {
-    sku?: Sku;
-    identity?: Identity;
-    replicaCount?: number;
-    partitionCount?: number;
+export interface SearchService extends TrackedResource {
     hostingMode?: HostingMode;
+    identity?: Identity;
+    networkRuleSet?: NetworkRuleSet;
+    partitionCount?: number;
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
+    readonly provisioningState?: ProvisioningState;
     publicNetworkAccess?: PublicNetworkAccess;
+    replicaCount?: number;
+    readonly sharedPrivateLinkResources?: SharedPrivateLinkResource[];
+    sku?: Sku;
     readonly status?: SearchServiceStatus;
     readonly statusDetails?: string;
-    readonly provisioningState?: ProvisioningState;
-    networkRuleSet?: NetworkRuleSet;
-    readonly privateEndpointConnections?: PrivateEndpointConnection[];
-    readonly sharedPrivateLinkResources?: SharedPrivateLinkResource[];
-};
+}
 
 // @public
 export interface SearchServiceListResult {
@@ -380,24 +378,24 @@ export interface SearchServiceListResult {
 export type SearchServiceStatus = "running" | "provisioning" | "deleting" | "degraded" | "disabled" | "error";
 
 // @public
-export type SearchServiceUpdate = Resource & {
-    sku?: Sku;
+export interface SearchServiceUpdate extends Resource {
+    hostingMode?: HostingMode;
+    identity?: Identity;
     location?: string;
+    networkRuleSet?: NetworkRuleSet;
+    partitionCount?: number;
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
+    readonly provisioningState?: ProvisioningState;
+    publicNetworkAccess?: PublicNetworkAccess;
+    replicaCount?: number;
+    readonly sharedPrivateLinkResources?: SharedPrivateLinkResource[];
+    sku?: Sku;
+    readonly status?: SearchServiceStatus;
+    readonly statusDetails?: string;
     tags?: {
         [propertyName: string]: string;
     };
-    identity?: Identity;
-    replicaCount?: number;
-    partitionCount?: number;
-    hostingMode?: HostingMode;
-    publicNetworkAccess?: PublicNetworkAccess;
-    readonly status?: SearchServiceStatus;
-    readonly statusDetails?: string;
-    readonly provisioningState?: ProvisioningState;
-    networkRuleSet?: NetworkRuleSet;
-    readonly privateEndpointConnections?: PrivateEndpointConnection[];
-    readonly sharedPrivateLinkResources?: SharedPrivateLinkResource[];
-};
+}
 
 // @public
 export interface Services {
@@ -496,9 +494,9 @@ export interface ShareablePrivateLinkResourceType {
 }
 
 // @public
-export type SharedPrivateLinkResource = Resource & {
+export interface SharedPrivateLinkResource extends Resource {
     properties?: SharedPrivateLinkResourceProperties;
-};
+}
 
 // @public
 export type SharedPrivateLinkResourceAsyncOperationResult = string;
@@ -585,12 +583,12 @@ export interface Sku {
 export type SkuName = "free" | "basic" | "standard" | "standard2" | "standard3" | "storage_optimized_l1" | "storage_optimized_l2";
 
 // @public
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
+    location: string;
     tags?: {
         [propertyName: string]: string;
     };
-    location: string;
-};
+}
 
 // @public
 export type UnavailableNameReason = string;

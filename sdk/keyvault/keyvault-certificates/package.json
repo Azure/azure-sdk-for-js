@@ -20,7 +20,7 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "main": "./dist/index.js",
-  "module": "dist-esm/keyvault-certificates/src/index.js",
+  "module": "dist-esm/src/index.js",
   "types": "./types/keyvault-certificates.d.ts",
   "engines": {
     "node": ">=14.0.0"
@@ -28,8 +28,7 @@
   "files": [
     "types/keyvault-certificates.d.ts",
     "dist/",
-    "dist-esm/keyvault-certificates/src",
-    "dist-esm/keyvault-common/src",
+    "dist-esm/src",
     "README.md",
     "LICENSE"
   ],
@@ -114,6 +113,7 @@
     "@azure/core-paging": "^1.1.1",
     "@azure/core-util": "^1.0.0",
     "@azure/core-tracing": "^1.0.0",
+    "@azure/keyvault-common": "^1.0.0-beta.1",
     "@azure/logger": "^1.0.0",
     "tslib": "^2.2.0"
   },

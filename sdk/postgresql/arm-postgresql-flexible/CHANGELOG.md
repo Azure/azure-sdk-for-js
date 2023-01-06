@@ -1,6 +1,6 @@
 # Release History
 
-## 6.0.1 (Unreleased)
+## 6.1.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,19 @@
 
 ### Other Changes
 
+## 6.1.0 (2022-12-22)
+    
+**Features**
+
+  - Added Interface Configuration
+  - Added Interface Database
+  - Added Interface FirewallRule
+  - Added Interface ProxyResource
+  - Added Interface Server
+  - Added Interface TrackedResource
+  - Added function getContinuationToken
+    
+    
 ## 6.0.0 (2022-04-28)
     
 **Features**
