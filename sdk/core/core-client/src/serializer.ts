@@ -229,7 +229,7 @@ class SerializerImpl implements Serializer {
         includeRoot: options.xml.includeRoot ?? false,
         xmlCharKey: options.xml.xmlCharKey ?? XML_CHARKEY,
       },
-      ignoreUnknownProperties: options.ignoreUnknownProperties ?? false
+      ignoreUnknownProperties: options.ignoreUnknownProperties ?? false,
     };
     if (responseBody === undefined || responseBody === null) {
       if (this.isXML && mapper.type.name === "Sequence" && !mapper.xmlIsWrapped) {

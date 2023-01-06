@@ -735,18 +735,16 @@ describe("deserializationPolicy", function () {
         serializer,
       };
 
-
-        const result = await getDeserializedResponse({
-          operationSpec,
-          headers: { "x-ms-foo": "SomeHeaderValue", "x-ms-bar": "SomeOtherHeaderValue" },
-          bodyAsText: '{"message": "Some kind of message"}',
-          status: 200,
-        });
-        assert.exists(result);
-        assert.strictEqual(result.parsedHeaders?.foo, "SomeHeaderValue");
-        assert.strictEqual(result.parsedBody.message, "Some kind of message");
-        assert.notExists(result.parsedHeaders?.['x-ms-bar']);
-      
+      const result = await getDeserializedResponse({
+        operationSpec,
+        headers: { "x-ms-foo": "SomeHeaderValue", "x-ms-bar": "SomeOtherHeaderValue" },
+        bodyAsText: '{"message": "Some kind of message"}',
+        status: 200,
+      });
+      assert.exists(result);
+      assert.strictEqual(result.parsedHeaders?.foo, "SomeHeaderValue");
+      assert.strictEqual(result.parsedBody.message, "Some kind of message");
+      assert.notExists(result.parsedHeaders?.["x-ms-bar"]);
     });
   });
 });
