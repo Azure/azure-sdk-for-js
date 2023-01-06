@@ -9,9 +9,9 @@ import {
   ClientCertificateCredential,
   TokenCachePersistenceOptions,
 } from "../../../../identity/src";
-import { MsalTestCleanup, msalNodeTestSetup } from "../../../../identity-common/test/msalTestUtils";
+import { MsalTestCleanup, msalNodeTestSetup } from "@azure/identity-common";
 import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
-import { MsalNode } from "../../../../identity-common/src/msal/nodeFlows/msalNodeCommon";
+import { MsalNode } from "@azure/identity-common";
 import { createPersistence } from "./setup.spec";
 import { ConfidentialClientApplication } from "@azure/msal-node";
 import Sinon from "sinon";

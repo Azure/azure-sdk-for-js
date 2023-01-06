@@ -5,10 +5,10 @@
 /* eslint-disable sort-imports */
 
 import { DeviceCodeCredential, TokenCachePersistenceOptions } from "@azure/identity";
-import { MsalTestCleanup, msalNodeTestSetup } from "../../../../identity-common/test/msalTestUtils";
+import { MsalTestCleanup, msalNodeTestSetup } from "@azure/identity-common";
 import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
 import { createPersistence } from "./setup.spec";
-import { MsalNode } from "../../../../identity-common/src/msal/nodeFlows/msalNodeCommon";
+import { MsalNode } from "@azure/identity-common";
 import { PublicClientApplication } from "@azure/msal-node";
 import Sinon from "sinon";
 import assert from "assert";

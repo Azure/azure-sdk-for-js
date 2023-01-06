@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AzurePluginContext } from "../../identity-common/src/plugins/provider";
+import { AzurePluginContext } from "@azure/identity-common";
 import { IdentityPlugin } from "@azure/identity";
 import keytar from "keytar";
 

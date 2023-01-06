@@ -4,10 +4,10 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 /* eslint-disable sort-imports */
 
-import { ClientSecretCredential, TokenCachePersistenceOptions } from "../../../../identity/src";
-import { MsalTestCleanup, msalNodeTestSetup } from "../../../../identity-common/test/msalTestUtils";
+import { ClientSecretCredential, TokenCachePersistenceOptions } from "@azure/identity";
+import { MsalTestCleanup, msalNodeTestSetup } from "@azure/identity-common";
 import { Recorder, env } from "@azure-tools/test-recorder";
-import { MsalNode } from "../../../../identity-common/src/msal/nodeFlows/msalNodeCommon";
+import { MsalNode } from "@azure/identity-common";
 import { createPersistence } from "./setup.spec";
 import { ConfidentialClientApplication } from "@azure/msal-node";
 import Sinon from "sinon";

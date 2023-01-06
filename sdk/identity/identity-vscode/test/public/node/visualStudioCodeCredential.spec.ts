@@ -5,7 +5,7 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 /* eslint-disable sort-imports */
 
-import { MsalTestCleanup, msalNodeTestSetup } from "../../../../identity-common/test/msalTestUtils";
+import { MsalTestCleanup, msalNodeTestSetup } from "@azure/identity-common";
 import { Recorder, isRecordMode } from "@azure-tools/test-recorder";
 import { VisualStudioCodeCredential } from "@azure/identity";
 import assert from "assert";

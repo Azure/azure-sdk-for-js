@@ -4,9 +4,9 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 /* eslint-disable sort-imports */
 
-import { MsalTestCleanup, msalNodeTestSetup } from "../../../../identity-common/test/msalTestUtils";
+import { MsalTestCleanup, msalNodeTestSetup } from "@azure/identity-common";
 import { TokenCachePersistenceOptions, UsernamePasswordCredential } from "@azure/identity";
-import { MsalNode } from "../../../../identity-common/src/msal/nodeFlows/msalNodeCommon";
+import { MsalNode } from "@azure/identity-common";
 import { PublicClientApplication } from "@azure/msal-node";
 import { createPersistence } from "./setup.spec";
 import { Recorder, env } from "@azure-tools/test-recorder";
