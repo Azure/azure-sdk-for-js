@@ -2843,8 +2843,8 @@ packages:
     hasBin: true
     dev: false
 
-  /autorest/3.6.2:
-    resolution: {integrity: sha512-JRMmAsSG4wplYUkjVOWELidF+P/OG9BjF542aQcbt4Qj85bJ+7EzRCTV09vbf8f4ScOB+I68+9IcskjNTU9UkQ==}
+  /autorest/3.6.3:
+    resolution: {integrity: sha512-j/Axwk9bniifTNtBLYVxfQZGQIGPKljFaCQCBWOiybVar2j3tkHP1btiC4a/t9pAJXY6IaFgWctoPM3G/Puhyg==}
     engines: {node: '>=12.0.0'}
     hasBin: true
     requiresBuild: true
@@ -3673,7 +3673,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20230103
+      typescript: 5.0.0-dev.20230104
     dev: false
 
   /downlevel-dts/0.7.0:
@@ -8270,8 +8270,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20230103:
-    resolution: {integrity: sha512-vHf8Y8+op6MsFIDgvNmZhAIAUGVmzFzYCUBysMS6hlxlhSWIh1h5AXAW7WKs4GYr325jwTF/L72NKUYZHSD6Mw==}
+  /typescript/5.0.0-dev.20230104:
+    resolution: {integrity: sha512-1W+qcvZu8Spq1fi/ajNcSobXt2ZBPDqyt6qwoNGaMgX1X82ZYmlh50oJfJVf44DNVwXNAsRfyKJ3UkXVf4OYsw==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -8874,7 +8874,7 @@ packages:
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.7
       cross-env: 7.0.3
       csv-parse: 5.3.3
@@ -9163,7 +9163,7 @@ packages:
       '@microsoft/api-extractor': 7.33.7
       '@types/chai': 4.3.4
       '@types/node': 14.18.36
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -9696,7 +9696,7 @@ packages:
       '@microsoft/api-extractor': 7.33.7
       '@types/chai': 4.3.4
       '@types/node': 14.18.36
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -10387,7 +10387,7 @@ packages:
       '@microsoft/api-extractor': 7.33.7
       '@types/chai': 4.3.4
       '@types/node': 14.18.36
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -10622,7 +10622,7 @@ packages:
       '@microsoft/api-extractor': 7.33.7
       '@types/chai': 4.3.4
       '@types/node': 14.18.36
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -10711,7 +10711,7 @@ packages:
     dev: false
 
   file:projects/arm-dashboard.tgz:
-    resolution: {integrity: sha512-c97Ypiza0p7M0Ve52NzlsubAtoA3tGOs2ThNzO35wpkEZLL5+ZTFmZkfkTeMs3Lz+4mtcDjiPbhRXrjByjIawA==, tarball: file:projects/arm-dashboard.tgz}
+    resolution: {integrity: sha512-nYQa2ZctViVBsCBvDA622NeGQIYDvj/HpLC46HNVr30XbYtDh4eDE0KVk+Ixzvc2KDZ8TMwZepUavYR6Ad0++w==, tarball: file:projects/arm-dashboard.tgz}
     name: '@rush-temp/arm-dashboard'
     version: 0.0.0
     dependencies:
@@ -10722,18 +10722,19 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
+      '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_7e8d81808a761355f6c3da2f25cfe887
       tslib: 2.4.1
-      typescript: 4.6.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
@@ -10901,7 +10902,7 @@ packages:
     dev: false
 
   file:projects/arm-datafactory.tgz:
-    resolution: {integrity: sha512-6ENvRJON3IOdZX0+eArEaLoE1ryKBtMVTUmATWNa/FLZUio/9j4daiqBVslGLOY4r6e7iwAilGbptlAdlYbQ/g==, tarball: file:projects/arm-datafactory.tgz}
+    resolution: {integrity: sha512-vkukREbL1bj9Fe+TCT+JogtJa1ReeO+lrWSL60F5BRjWr8QDd7QsQYD7GdxeKMl0n9bMCgi18ktRP9uxG1we6w==, tarball: file:projects/arm-datafactory.tgz}
     name: '@rush-temp/arm-datafactory'
     version: 0.0.0
     dependencies:
@@ -10915,13 +10916,14 @@ packages:
       '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_7e8d81808a761355f6c3da2f25cfe887
       tslib: 2.4.1
-      typescript: 4.6.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - supports-color
@@ -11063,7 +11065,7 @@ packages:
     dev: false
 
   file:projects/arm-devhub.tgz:
-    resolution: {integrity: sha512-24gOR9GRJsvhBH/A9WPsDIGQb0CoeWMkrCxqZBwi7DO2oM1qJbaBZmS84KRwTfEfPZ4GtJKkNQwEvMYitN0rzA==, tarball: file:projects/arm-devhub.tgz}
+    resolution: {integrity: sha512-MTruSQK6/WNjbWSzCMUloNQj0+vnOu4GQNfQX9XIbR0a0KYrZCZXQodoycXOA28dGaHlf9cZ1/yuCcH3K0GDvg==, tarball: file:projects/arm-devhub.tgz}
     name: '@rush-temp/arm-devhub'
     version: 0.0.0
     dependencies:
@@ -11077,20 +11079,21 @@ packages:
       '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_7e8d81808a761355f6c3da2f25cfe887
       tslib: 2.4.1
-      typescript: 4.6.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - supports-color
     dev: false
 
   file:projects/arm-deviceprovisioningservices.tgz:
-    resolution: {integrity: sha512-53bIZARkaTdNa44xHTcHoP42jNw0UvR9yO4dF/FBIyN80WKAZEVEUTOuGJh8joe6jXr8bG8EjBajo7pBFp+gOA==, tarball: file:projects/arm-deviceprovisioningservices.tgz}
+    resolution: {integrity: sha512-IooQxXRbmocYv0+wr+59+sPcfyIhe5XdmdCQRfE++6n19Ru4ZUerJkUfvUeC5VjdpF42E1//JAfgLd3JJOFgXA==, tarball: file:projects/arm-deviceprovisioningservices.tgz}
     name: '@rush-temp/arm-deviceprovisioningservices'
     version: 0.0.0
     dependencies:
@@ -11101,18 +11104,19 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
+      '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_7e8d81808a761355f6c3da2f25cfe887
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
@@ -12816,7 +12820,7 @@ packages:
       '@microsoft/api-extractor': 7.33.7
       '@types/chai': 4.3.4
       '@types/node': 14.18.36
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -13970,7 +13974,7 @@ packages:
       '@microsoft/api-extractor': 7.33.7
       '@types/chai': 4.3.4
       '@types/node': 14.18.36
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -15298,7 +15302,7 @@ packages:
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -15992,7 +15996,7 @@ packages:
       '@types/node': 14.18.36
       '@types/prettier': 2.7.2
       '@types/semver': 7.3.13
-      autorest: 3.6.2
+      autorest: 3.6.3
       builtin-modules: 3.3.0
       chai: 4.3.7
       chai-as-promised: 7.1.1_chai@4.3.7
@@ -16038,7 +16042,7 @@ packages:
       '@microsoft/api-extractor': 7.33.7
       '@types/chai': 4.3.4
       '@types/node': 14.18.36
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -16854,7 +16858,7 @@ packages:
       '@types/chai': 4.3.4
       '@types/node': 12.20.55
       '@types/uuid': 8.3.4
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -16960,7 +16964,7 @@ packages:
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -17004,7 +17008,7 @@ packages:
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -17048,7 +17052,7 @@ packages:
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -17139,7 +17143,7 @@ packages:
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -19213,7 +19217,7 @@ packages:
     dev: false
 
   file:projects/web-pubsub-client.tgz:
-    resolution: {integrity: sha512-Oc9P1qEG7j1/x5vxElDNAR1HvB4MjTHj49e6G4eZZHSDjCS9EDFNtYg+gauXUYmJe0ESYPLAy4dfz2tdifps2A==, tarball: file:projects/web-pubsub-client.tgz}
+    resolution: {integrity: sha512-+Apad1BfmHLxmvPilgDRLuuW5MS/769gUHJZoNLd6g+CicZnt/no0bsPcSOuXXler5WqeM0kFu7grG0q2MOCzg==, tarball: file:projects/web-pubsub-client.tgz}
     name: '@rush-temp/web-pubsub-client'
     version: 0.0.0
     dependencies:
