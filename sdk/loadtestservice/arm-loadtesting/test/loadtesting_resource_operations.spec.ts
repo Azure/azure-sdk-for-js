@@ -61,7 +61,7 @@ describe("Load Testing Resource Operations", () => {
     // Set the global variables to be used in the tests
     subscriptionId = env.SUBSCRIPTION_ID || '00000000-0000-0000-0000-000000000000';
     location = env.LOCATION || "westus2";
-    resourceGroupName = env.RESOURCE_GROUP || "js-sdk-test-rg";
+    resourceGroupName = env.RESOURCE_GROUP || "myjstest";
     loadTestResourceName = "loadtestsResource";
   })
 
