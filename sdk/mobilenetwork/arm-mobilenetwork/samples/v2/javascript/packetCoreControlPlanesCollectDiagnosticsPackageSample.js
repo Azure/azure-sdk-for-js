@@ -13,26 +13,31 @@ const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
 /**
- * This sample demonstrates how to Roll back the specified packet core control plane to the previous version, "rollbackVersion". Multiple consecutive rollbacks are not possible. This action may cause a service outage.
+ * This sample demonstrates how to Collect a diagnostics package for the specified packet core control plane. This action will upload the diagnostics to a storage account.
  *
- * @summary Roll back the specified packet core control plane to the previous version, "rollbackVersion". Multiple consecutive rollbacks are not possible. This action may cause a service outage.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2022-11-01/examples/PacketCoreControlPlaneRollback.json
+ * @summary Collect a diagnostics package for the specified packet core control plane. This action will upload the diagnostics to a storage account.
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2022-11-01/examples/PacketCoreControlPlaneCollectDiagnosticsPackage.json
  */
-async function rollbackPacketCoreControlPlane() {
+async function collectDiagnosticsPackageFromPacketCoreControlPlane() {
   const subscriptionId = process.env["MOBILENETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["MOBILENETWORK_RESOURCE_GROUP"] || "rg1";
   const packetCoreControlPlaneName = "TestPacketCoreCP";
+  const parameters = {
+    storageAccountBlobUrl:
+      "https://contosoaccount.blob.core.windows.net/container/diagnosticsPackage.zip",
+  };
   const credential = new DefaultAzureCredential();
   const client = new MobileNetworkManagementClient(credential, subscriptionId);
-  const result = await client.packetCoreControlPlaneOperations.beginRollbackAndWait(
+  const result = await client.packetCoreControlPlanes.beginCollectDiagnosticsPackageAndWait(
     resourceGroupName,
-    packetCoreControlPlaneName
+    packetCoreControlPlaneName,
+    parameters
   );
   console.log(result);
 }
 
 async function main() {
-  rollbackPacketCoreControlPlane();
+  collectDiagnosticsPackageFromPacketCoreControlPlane();
 }
 
 main().catch(console.error);

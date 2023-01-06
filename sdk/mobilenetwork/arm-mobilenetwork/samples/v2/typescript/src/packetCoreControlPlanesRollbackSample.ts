@@ -15,12 +15,12 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Reinstall the specified packet core control plane. This action will remove any transaction state from the packet core to return it to a known state. This action will cause a service outage.
+ * This sample demonstrates how to Roll back the specified packet core control plane to the previous version, "rollbackVersion". Multiple consecutive rollbacks are not possible. This action may cause a service outage.
  *
- * @summary Reinstall the specified packet core control plane. This action will remove any transaction state from the packet core to return it to a known state. This action will cause a service outage.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2022-11-01/examples/PacketCoreControlPlaneReinstall.json
+ * @summary Roll back the specified packet core control plane to the previous version, "rollbackVersion". Multiple consecutive rollbacks are not possible. This action may cause a service outage.
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2022-11-01/examples/PacketCoreControlPlaneRollback.json
  */
-async function reinstallPacketCoreControlPlane() {
+async function rollbackPacketCoreControlPlane() {
   const subscriptionId =
     process.env["MOBILENETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -28,7 +28,7 @@ async function reinstallPacketCoreControlPlane() {
   const packetCoreControlPlaneName = "TestPacketCoreCP";
   const credential = new DefaultAzureCredential();
   const client = new MobileNetworkManagementClient(credential, subscriptionId);
-  const result = await client.packetCoreControlPlaneOperations.beginReinstallAndWait(
+  const result = await client.packetCoreControlPlanes.beginRollbackAndWait(
     resourceGroupName,
     packetCoreControlPlaneName
   );
@@ -36,7 +36,7 @@ async function reinstallPacketCoreControlPlane() {
 }
 
 async function main() {
-  reinstallPacketCoreControlPlane();
+  rollbackPacketCoreControlPlane();
 }
 
 main().catch(console.error);

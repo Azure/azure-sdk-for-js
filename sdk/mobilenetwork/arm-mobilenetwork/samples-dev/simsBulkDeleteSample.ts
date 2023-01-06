@@ -32,7 +32,7 @@ async function bulkDeleteSiMSFromASimGroup() {
   const parameters: SimDeleteList = { sims: ["testSim", "testSim2"] };
   const credential = new DefaultAzureCredential();
   const client = new MobileNetworkManagementClient(credential, subscriptionId);
-  const result = await client.simOperations.beginBulkDeleteAndWait(
+  const result = await client.sims.beginBulkDeleteAndWait(
     resourceGroupName,
     simGroupName,
     parameters

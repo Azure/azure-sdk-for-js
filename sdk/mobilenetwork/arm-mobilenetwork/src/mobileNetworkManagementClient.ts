@@ -20,12 +20,10 @@ import {
   MobileNetworksImpl,
   OperationsImpl,
   PacketCoreControlPlanesImpl,
-  PacketCoreControlPlaneOperationsImpl,
   PacketCoreControlPlaneVersionsImpl,
   PacketCoreDataPlanesImpl,
   ServicesImpl,
   SimsImpl,
-  SimOperationsImpl,
   SimGroupsImpl,
   SimPoliciesImpl,
   SitesImpl,
@@ -37,12 +35,10 @@ import {
   MobileNetworks,
   Operations,
   PacketCoreControlPlanes,
-  PacketCoreControlPlaneOperations,
   PacketCoreControlPlaneVersions,
   PacketCoreDataPlanes,
   Services,
   Sims,
-  SimOperations,
   SimGroups,
   SimPolicies,
   Sites,
@@ -82,7 +78,7 @@ export class MobileNetworkManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-mobilenetwork/1.0.1`;
+    const packageDetails = `azsdk-js-arm-mobilenetwork/2.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -141,16 +137,12 @@ export class MobileNetworkManagementClient extends coreClient.ServiceClient {
     this.mobileNetworks = new MobileNetworksImpl(this);
     this.operations = new OperationsImpl(this);
     this.packetCoreControlPlanes = new PacketCoreControlPlanesImpl(this);
-    this.packetCoreControlPlaneOperations = new PacketCoreControlPlaneOperationsImpl(
-      this
-    );
     this.packetCoreControlPlaneVersions = new PacketCoreControlPlaneVersionsImpl(
       this
     );
     this.packetCoreDataPlanes = new PacketCoreDataPlanesImpl(this);
     this.services = new ServicesImpl(this);
     this.sims = new SimsImpl(this);
-    this.simOperations = new SimOperationsImpl(this);
     this.simGroups = new SimGroupsImpl(this);
     this.simPolicies = new SimPoliciesImpl(this);
     this.sites = new SitesImpl(this);
@@ -191,12 +183,10 @@ export class MobileNetworkManagementClient extends coreClient.ServiceClient {
   mobileNetworks: MobileNetworks;
   operations: Operations;
   packetCoreControlPlanes: PacketCoreControlPlanes;
-  packetCoreControlPlaneOperations: PacketCoreControlPlaneOperations;
   packetCoreControlPlaneVersions: PacketCoreControlPlaneVersions;
   packetCoreDataPlanes: PacketCoreDataPlanes;
   services: Services;
   sims: Sims;
-  simOperations: SimOperations;
   simGroups: SimGroups;
   simPolicies: SimPolicies;
   sites: Sites;
