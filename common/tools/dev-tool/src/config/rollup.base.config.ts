@@ -70,7 +70,7 @@ export type WarningInhibitor = (warning: RollupWarning) => boolean;
 
 function matchesPathSegments(str: string | undefined, segments: string[]): boolean {
   // Reported warnings use "/"
-  return str?.includes(segments.join("/")) ?? false;
+  return !str ? false : str.includes(segments.join("/")) || str.includes(segments.join("\\"));
 }
 
 function ignoreNiseSinonEval(warning: RollupWarning): boolean {
