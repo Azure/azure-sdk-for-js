@@ -3673,7 +3673,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20230104
+      typescript: 5.0.0-dev.20230105
     dev: false
 
   /downlevel-dts/0.7.0:
@@ -8270,8 +8270,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20230104:
-    resolution: {integrity: sha512-1W+qcvZu8Spq1fi/ajNcSobXt2ZBPDqyt6qwoNGaMgX1X82ZYmlh50oJfJVf44DNVwXNAsRfyKJ3UkXVf4OYsw==}
+  /typescript/5.0.0-dev.20230105:
+    resolution: {integrity: sha512-wwgNyth3zqm+E1ruDyjYT9vDRVw3xoYZYX/AylGc5TK9MvtJVvMcRHqe+FNhDAK7iTzJFUTZ0Dqkj6fBaiHy+A==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -10586,7 +10586,7 @@ packages:
     dev: false
 
   file:projects/arm-containerservice-1.tgz:
-    resolution: {integrity: sha512-AVek6TX9i2F3EwdPffJJRpuhgKRn2s0pNw0GVDih6vsWGQHhKgE2UgXLhMnFXF9v/762QMy45ZVescFNGd+YLA==, tarball: file:projects/arm-containerservice-1.tgz}
+    resolution: {integrity: sha512-0PEeQKtSWy9Uhi7+Rv4H086WBrnCMXDNpH/FyIlloOmfR+magV9sE7ql3orNMsAlVtABTGx9copy4gJrW2Z4aw==, tarball: file:projects/arm-containerservice-1.tgz}
     name: '@rush-temp/arm-containerservice-1'
     version: 0.0.0
     dependencies:
@@ -10600,6 +10600,7 @@ packages:
       '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -15882,7 +15883,7 @@ packages:
     dev: false
 
   file:projects/cosmos.tgz:
-    resolution: {integrity: sha512-Xli7QO+3oYkXZfd6x5phUskvwCkGdZnEvd/sEQb4NFrOtqGm0qO+r98KIhXA6LjSse9fEde6m+or8jRKlB3U2A==, tarball: file:projects/cosmos.tgz}
+    resolution: {integrity: sha512-7WRvO12h/mPrNGh7QmiCgPCK5looiplJhVnqNLvqVRPs7bCW5CKcUWLi0HAKwarKSrphJSUyAOLSS9U9Bg+raQ==, tarball: file:projects/cosmos.tgz}
     name: '@rush-temp/cosmos'
     version: 0.0.0
     dependencies:
@@ -17333,7 +17334,7 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry-exporter.tgz:
-    resolution: {integrity: sha512-1xpxDeGelj6lX50oxm/UPRwfPPYBjRAG/rJwjKWIQUj/FpwZq5nT2O9kX/gsopfWnIYfFr1lDjz5A79TCwhG7g==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
+    resolution: {integrity: sha512-Y6cJQ1hmvui2+92O6kOgJUC5/DQMt5lqbqNcv7ny/kE5H4BvgyWKgOancbIFUDfhJPfN2HpsvB4OC4NZjFJItg==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
     name: '@rush-temp/monitor-opentelemetry-exporter'
     version: 0.0.0
     dependencies:
