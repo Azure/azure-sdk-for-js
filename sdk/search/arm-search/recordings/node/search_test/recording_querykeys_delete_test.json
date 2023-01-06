@@ -10,7 +10,7 @@
         "Connection": "keep-alive",
         "Content-Length": "0",
         "User-Agent": "azsdk-js-arm-search/3.1.0 core-rest-pipeline/1.10.1 Node/v18.12.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "bc548b37-8a22-4c38-9d37-e0a1e7fb5754"
+        "x-ms-client-request-id": "ccc74963-ca29-4536-8d36-22fc73ae0d06"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -18,11 +18,11 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 20 Dec 2022 07:28:47 GMT",
-        "elapsed-time": "127",
+        "Date": "Fri, 06 Jan 2023 09:03:12 GMT",
+        "elapsed-time": "128",
         "Expires": "-1",
         "Pragma": "no-cache",
-        "request-id": "bc548b37-8a22-4c38-9d37-e0a1e7fb5754",
+        "request-id": "ccc74963-ca29-4536-8d36-22fc73ae0d06",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "Vary": [
@@ -30,27 +30,27 @@
           "Accept-Encoding"
         ],
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "4c35f013-f0a6-4606-9ed0-cb40522b8a05",
-        "x-ms-ratelimit-remaining-subscription-writes": "1194",
-        "x-ms-request-id": "bc548b37-8a22-4c38-9d37-e0a1e7fb5754",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20221220T072848Z:4c35f013-f0a6-4606-9ed0-cb40522b8a05"
+        "x-ms-correlation-request-id": "6de69da0-1a98-4d60-a01e-6ef57eab6a89",
+        "x-ms-ratelimit-remaining-subscription-writes": "1197",
+        "x-ms-request-id": "ccc74963-ca29-4536-8d36-22fc73ae0d06",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230106T090313Z:6de69da0-1a98-4d60-a01e-6ef57eab6a89"
       },
       "ResponseBody": {
         "value": [
           {
             "name": null,
-            "key": "mock_key"
+            "key": "fakeKey"
           },
           {
             "name": "testjskey",
-            "key": "mock_key"
+            "key": "fakeKey"
           }
         ],
         "nextLink": null
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Search/searchServices/myjssearchservicexxx/deleteQueryKey/mock_key?api-version=2020-08-01",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Search/searchServices/myjssearchservicexxx/deleteQueryKey/fakeKey?api-version=2020-08-01",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -58,23 +58,23 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-arm-search/3.1.0 core-rest-pipeline/1.10.1 Node/v18.12.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "68fe194c-973b-4de1-8cc2-954af2913aea"
+        "x-ms-client-request-id": "4eb7581b-7ae0-4cb4-9a14-b77be53d3b84"
       },
       "RequestBody": null,
       "StatusCode": 204,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
-        "Date": "Tue, 20 Dec 2022 07:28:49 GMT",
-        "elapsed-time": "141",
+        "Date": "Fri, 06 Jan 2023 09:03:14 GMT",
+        "elapsed-time": "168",
         "Expires": "-1",
         "Pragma": "no-cache",
-        "request-id": "68fe194c-973b-4de1-8cc2-954af2913aea",
+        "request-id": "4eb7581b-7ae0-4cb4-9a14-b77be53d3b84",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "a1c8c848-889c-4c74-9378-9e4fc0a2ea58",
-        "x-ms-ratelimit-remaining-subscription-deletes": "14998",
-        "x-ms-request-id": "68fe194c-973b-4de1-8cc2-954af2913aea",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20221220T072849Z:a1c8c848-889c-4c74-9378-9e4fc0a2ea58"
+        "x-ms-correlation-request-id": "aaae49db-1004-49e7-bbe6-ca23f0c003c4",
+        "x-ms-ratelimit-remaining-subscription-deletes": "14999",
+        "x-ms-request-id": "4eb7581b-7ae0-4cb4-9a14-b77be53d3b84",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230106T090314Z:aaae49db-1004-49e7-bbe6-ca23f0c003c4"
       },
       "ResponseBody": null
     },
@@ -88,7 +88,7 @@
         "Connection": "keep-alive",
         "Content-Length": "0",
         "User-Agent": "azsdk-js-arm-search/3.1.0 core-rest-pipeline/1.10.1 Node/v18.12.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "95240a3a-7b74-4c82-99cb-f6891c3588c4"
+        "x-ms-client-request-id": "6d0dfd41-27d9-42d5-91cc-9bc55bc2d94a"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -96,11 +96,11 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 20 Dec 2022 07:28:49 GMT",
-        "elapsed-time": "144",
+        "Date": "Fri, 06 Jan 2023 09:03:15 GMT",
+        "elapsed-time": "154",
         "Expires": "-1",
         "Pragma": "no-cache",
-        "request-id": "95240a3a-7b74-4c82-99cb-f6891c3588c4",
+        "request-id": "6d0dfd41-27d9-42d5-91cc-9bc55bc2d94a",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "Vary": [
@@ -108,16 +108,16 @@
           "Accept-Encoding"
         ],
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "c19de451-8198-47e6-b270-489a8e067b5e",
-        "x-ms-ratelimit-remaining-subscription-writes": "1193",
-        "x-ms-request-id": "95240a3a-7b74-4c82-99cb-f6891c3588c4",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20221220T072850Z:c19de451-8198-47e6-b270-489a8e067b5e"
+        "x-ms-correlation-request-id": "f61614f3-6817-43ed-81bb-1b0e454ceb59",
+        "x-ms-ratelimit-remaining-subscription-writes": "1196",
+        "x-ms-request-id": "6d0dfd41-27d9-42d5-91cc-9bc55bc2d94a",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230106T090315Z:f61614f3-6817-43ed-81bb-1b0e454ceb59"
       },
       "ResponseBody": {
         "value": [
           {
             "name": null,
-            "key": "mock_key"
+            "key": "fakeKey"
           }
         ],
         "nextLink": null
