@@ -1,15 +1,12 @@
 # Release History
+    
+## 5.1.0 (2023-01-05)
+    
+**Features**
 
-## 5.0.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface ProvisioningServiceDescription
+  - Added function getContinuationToken
+    
 ## 5.0.1 (2022-04-27)
     
 **Features**
