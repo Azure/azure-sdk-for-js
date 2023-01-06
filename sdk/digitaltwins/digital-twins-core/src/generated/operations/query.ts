@@ -74,9 +74,7 @@ const queryTwinsOperationSpec: coreClient.OperationSpec = {
   headerParameters: [
     Parameters.contentType,
     Parameters.accept,
-    Parameters.traceparent,
-    Parameters.tracestate,
-    Parameters.maxItemsPerPage
+    Parameters.resultsPerPage
   ],
   mediaType: "json",
   serializer

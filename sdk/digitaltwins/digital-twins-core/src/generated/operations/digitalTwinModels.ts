@@ -250,12 +250,7 @@ const addOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.models,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
-  headerParameters: [
-    Parameters.contentType,
-    Parameters.accept,
-    Parameters.traceparent,
-    Parameters.tracestate
-  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -276,12 +271,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.includeModelDefinition
   ],
   urlParameters: [Parameters.$host],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.traceparent,
-    Parameters.tracestate,
-    Parameters.maxItemsPerPage
-  ],
+  headerParameters: [Parameters.accept, Parameters.resultsPerPage],
   serializer
 };
 const getByIdOperationSpec: coreClient.OperationSpec = {
@@ -297,11 +287,7 @@ const getByIdOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion, Parameters.includeModelDefinition],
   urlParameters: [Parameters.$host, Parameters.id],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.traceparent,
-    Parameters.tracestate
-  ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const updateOperationSpec: coreClient.OperationSpec = {
@@ -316,12 +302,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.updateModel,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.id],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.traceparent,
-    Parameters.tracestate,
-    Parameters.contentType1
-  ],
+  headerParameters: [Parameters.accept, Parameters.contentType1],
   mediaType: "json",
   serializer
 };
@@ -336,11 +317,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.id],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.traceparent,
-    Parameters.tracestate
-  ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
@@ -355,11 +332,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     }
   },
   urlParameters: [Parameters.$host, Parameters.nextLink],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.traceparent,
-    Parameters.tracestate,
-    Parameters.maxItemsPerPage
-  ],
+  headerParameters: [Parameters.accept, Parameters.resultsPerPage],
   serializer
 };

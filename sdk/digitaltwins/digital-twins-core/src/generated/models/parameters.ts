@@ -72,26 +72,6 @@ export const $host: OperationURLParameter = {
   skipEncoding: true
 };
 
-export const traceparent: OperationParameter = {
-  parameterPath: ["options", "traceparent"],
-  mapper: {
-    serializedName: "traceparent",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const tracestate: OperationParameter = {
-  parameterPath: ["options", "tracestate"],
-  mapper: {
-    serializedName: "tracestate",
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
@@ -131,8 +111,8 @@ export const includeModelDefinition: OperationQueryParameter = {
   }
 };
 
-export const maxItemsPerPage: OperationParameter = {
-  parameterPath: ["options", "maxItemsPerPage"],
+export const resultsPerPage: OperationParameter = {
+  parameterPath: ["options", "resultsPerPage"],
   mapper: {
     serializedName: "max-items-per-page",
     type: {

@@ -62,3 +62,33 @@ directive:
     where: $.parameters[*]
     transform: delete $["x-ms-parameter-grouping"];
 ```
+
+### Remove traceparent / tracestate (handled by OpenTelemetry)
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.paths..parameters
+    transform: >
+      if($[0]["$ref"] === "#/parameters/traceparent") {
+        $.shift()
+      }
+  - from: swagger-document
+    where: $.paths..parameters
+    transform: >
+      if($[0]["$ref"] === "#/parameters/tracestate") {
+        $.shift()
+      }
+```
+
+### Rename maxItemsPerPage to resultsPerPage
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters[*]
+    transform: >
+      if ($.name === "max-items-per-page") {
+        $["x-ms-client-name"] = "resultsPerPage";
+      }
+```
