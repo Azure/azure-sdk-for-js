@@ -24,7 +24,7 @@
       },
       "RequestBody": {
         "trunks": {
-          "test.6cbcf8c2bb1c4d43b13a7b99ee941478.com": {
+          "test.216400e6070547e1972f87ef97428f72.com": {
             "sipSignalingPort": 5678
           }
         }
@@ -33,17 +33,17 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 15 Dec 2022 20:18:54 GMT",
-        "MS-CV": "tryjDrtiNUChWyJW2tUM\u002Bw.0",
+        "Date": "Fri, 06 Jan 2023 17:37:43 GMT",
+        "MS-CV": "ZLTpbgHY1EO4j36NaxCiqA.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0LYGbYwAAAABXyUONqVB3Rp3cuxbqFzyLTUVYMzFFREdFMDMxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0Z1y4YwAAAAA2Z9gcVu0ZRZLsrNQEfQu/TUVYMzBFREdFMTEwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "702ms"
+        "X-Processing-Time": "540ms"
       },
       "ResponseBody": {
         "trunks": {
-          "test.6cbcf8c2bb1c4d43b13a7b99ee941478.com": {
+          "test.216400e6070547e1972f87ef97428f72.com": {
             "sipSignalingPort": 5678
           }
         },
@@ -98,7 +98,7 @@
             "name": "myFirstRoute",
             "numberPattern": "^\u002B[1-9][0-9]{3,23}$",
             "trunks": [
-              "test.6cbcf8c2bb1c4d43b13a7b99ee941478.com"
+              "test.216400e6070547e1972f87ef97428f72.com"
             ]
           }
         ]
@@ -107,17 +107,17 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 15 Dec 2022 20:18:54 GMT",
-        "MS-CV": "l4VYPEZomEiEqWK/g63Y1w.0",
+        "Date": "Fri, 06 Jan 2023 17:37:43 GMT",
+        "MS-CV": "g1a2JNjS2ECE2mbQ0SLqrg.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0LoGbYwAAAADHAIk7K1NMR70eBu1H/xROTUVYMzFFREdFMDMxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0Z1y4YwAAAADo288K4c3/Qojlug9DorYbTUVYMzBFREdFMTEwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "176ms"
+        "X-Processing-Time": "181ms"
       },
       "ResponseBody": {
         "trunks": {
-          "test.6cbcf8c2bb1c4d43b13a7b99ee941478.com": {
+          "test.216400e6070547e1972f87ef97428f72.com": {
             "sipSignalingPort": 5678
           }
         },
@@ -127,7 +127,7 @@
             "name": "myFirstRoute",
             "numberPattern": "^\u002B[1-9][0-9]{3,23}$",
             "trunks": [
-              "test.6cbcf8c2bb1c4d43b13a7b99ee941478.com"
+              "test.216400e6070547e1972f87ef97428f72.com"
             ]
           }
         ]
@@ -158,17 +158,17 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 15 Dec 2022 20:18:54 GMT",
-        "MS-CV": "1adigJ4in0Oe\u002Bi\u002Bjp6nlTA.0",
+        "Date": "Fri, 06 Jan 2023 17:37:44 GMT",
+        "MS-CV": "CfVFjjwvM0Wu64/D\u002BgIuvQ.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0LoGbYwAAAACvsWvtxG85Sam58cJKT3avTUVYMzFFREdFMDMxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0aFy4YwAAAAApVHlCDDp8SIWeNBgrtGuwTUVYMzBFREdFMTEwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "105ms"
+        "X-Processing-Time": "99ms"
       },
       "ResponseBody": {
         "trunks": {
-          "test.6cbcf8c2bb1c4d43b13a7b99ee941478.com": {
+          "test.216400e6070547e1972f87ef97428f72.com": {
             "sipSignalingPort": 5678
           }
         },
@@ -178,7 +178,7 @@
             "name": "myFirstRoute",
             "numberPattern": "^\u002B[1-9][0-9]{3,23}$",
             "trunks": [
-              "test.6cbcf8c2bb1c4d43b13a7b99ee941478.com"
+              "test.216400e6070547e1972f87ef97428f72.com"
             ]
           }
         ]
@@ -186,7 +186,7 @@
     }
   ],
   "Variables": {
-    "fqdn-1": "test.6cbcf8c2bb1c4d43b13a7b99ee941478.com",
-    "fqdn-2": "test.43ec58a867664f1f93560a4e32e19840.com"
+    "fqdn-1": "test.216400e6070547e1972f87ef97428f72.com",
+    "fqdn-2": "test.9feb3ecc77eb4b3eb34f271b70112d32.com"
   }
 }

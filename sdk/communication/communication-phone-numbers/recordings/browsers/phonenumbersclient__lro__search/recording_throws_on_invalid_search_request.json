@@ -21,7 +21,7 @@
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/108.0.5351.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "sM6mIVawQv4GOUQukUphOk5Hsd8Qa/rx37c067vfCgw=",
-        "x-ms-date": "Thu, 15 Dec 2022 20:18:04 GMT",
+        "x-ms-date": "Fri, 06 Jan 2023 17:36:36 GMT",
         "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
       },
       "RequestBody": {
@@ -37,13 +37,13 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-12-01",
         "Content-Type": "application/json",
-        "Date": "Thu, 15 Dec 2022 20:18:04 GMT",
-        "MS-CV": "2OPxviF2wUm9Qtc7FqrvQA.0",
+        "Date": "Fri, 06 Jan 2023 17:36:35 GMT",
+        "MS-CV": "m8VbgNF/VU\u002BHzOHSUpZB4g.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0\u002B4CbYwAAAABAp6BmNY/BQZ\u002BD\u002BIWQHZcpTUVYMzFFREdFMDMxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0Ily4YwAAAABrcSgTLiCDSayeuGuwKAu8TUVYMzBFREdFMTEwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "1275ms"
+        "X-Processing-Time": "1357ms"
       },
       "ResponseBody": {
         "error": {

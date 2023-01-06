@@ -24,13 +24,13 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json",
-        "Date": "Thu, 15 Dec 2022 20:15:08 GMT",
-        "MS-CV": "w0rVBQC7mE25ujjCJNbWjw.0",
+        "Date": "Fri, 06 Jan 2023 17:33:41 GMT",
+        "MS-CV": "I6xBZh2\u002BIEGZUEPx76UFhQ.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0TYCbYwAAAADzgnsQw5eqQJ9cr4SAK1WzTUVYMzFFREdFMDQxNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0dlu4YwAAAADTqfSLPuf/Q7T3fUOdiiTSTUVYMzBFREdFMDQyMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "36ms"
+        "X-Processing-Time": "34ms"
       },
       "ResponseBody": {
         "error": {
@@ -59,13 +59,13 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 15 Dec 2022 20:15:08 GMT",
-        "MS-CV": "SObCYdRtPkGmcRzyb4KSaw.0",
+        "Date": "Fri, 06 Jan 2023 17:33:42 GMT",
+        "MS-CV": "MPKD4PoBnUe7BxeO39HEVA.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0TYCbYwAAAACJiA3JHAqNQ7Iutqy/FOSjTUVYMzFFREdFMDQxNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0dlu4YwAAAABa6E2ctsQkQK0CcIwH1HzFTUVYMzBFREdFMDQyMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "105ms"
+        "X-Processing-Time": "107ms"
       },
       "ResponseBody": {
         "trunks": {},
@@ -74,7 +74,7 @@
     }
   ],
   "Variables": {
-    "fqdn-1": "test.8adcab86507c47f4bccc0e359be140cc.com",
-    "fqdn-2": "test.d129d4da123c43cb96bb9ad6366b1659.com"
+    "fqdn-1": "test.fe402066e5384e46802d16679dfb1acf.com",
+    "fqdn-2": "test.3bada3637cbb449084e94768e1de9663.com"
   }
 }
