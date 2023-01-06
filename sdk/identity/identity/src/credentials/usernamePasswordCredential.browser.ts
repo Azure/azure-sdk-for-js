@@ -6,13 +6,13 @@ import {
   checkTenantId,
   processMultiTenantRequest,
   resolveAddionallyAllowedTenantIds,
-} from "../../../identity-common/src/util/tenantIdUtils";
+} from "@azure/identity-common";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
-import { credentialLogger, formatSuccess } from "../../../identity-common/src/util/logging";
-import { IdentityClient } from "../../../identity-common/src/client/identityClient";
+import { credentialLogger, formatSuccess } from "@azure/identity-common";
+import { IdentityClient } from "@azure/identity-common";
 import { UsernamePasswordCredentialOptions } from "./usernamePasswordCredentialOptions";
-import { getIdentityTokenEndpointSuffix } from "../../../identity-common/src/util/identityTokenEndpoint";
-import { tracingClient } from "../../../identity-common/src/util/tracing";
+import { getIdentityTokenEndpointSuffix } from "@azure/identity-common";
+import { tracingClient } from "@azure/identity-common";
 
 const logger = credentialLogger("UsernamePasswordCredential");
 

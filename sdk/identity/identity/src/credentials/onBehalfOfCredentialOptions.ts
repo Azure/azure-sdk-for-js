@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { CredentialPersistenceOptions } from "./credentialPersistenceOptions";
-import { MultiTenantTokenCredentialOptions } from "../../../identity-common/src/credentials/multiTenantTokenCredentialOptions";
+import { MultiTenantTokenCredentialOptions } from "@azure/identity-common";
 
 /**
  * Defines the parameters to authenticate the {@link OnBehalfOfCredential} with a secret.

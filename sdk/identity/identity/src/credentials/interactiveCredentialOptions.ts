@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AuthenticationRecord } from "../../../identity-common/src/msal/types";
-import { MultiTenantTokenCredentialOptions } from "../../../identity-common/src/credentials/multiTenantTokenCredentialOptions";
+import { AuthenticationRecord } from "@azure/identity-common";
+import { MultiTenantTokenCredentialOptions } from "@azure/identity-common";
 
 /**
  * Common constructor options for the Identity credentials that requires user interaction.

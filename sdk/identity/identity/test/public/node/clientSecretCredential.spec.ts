@@ -3,7 +3,7 @@
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
-import { MsalTestCleanup, msalNodeTestSetup } from "../../../../identity-common/test/msalTestUtils";
+import { MsalTestCleanup, msalNodeTestSetup } from "@azure/identity-common";
 import { Recorder, delay, env, isRecordMode } from "@azure-tools/test-recorder";
 import { AbortController } from "@azure/abort-controller";
 import { ClientSecretCredential } from "../../../src";

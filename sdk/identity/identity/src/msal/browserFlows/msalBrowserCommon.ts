@@ -2,20 +2,20 @@
 // Licensed under the MIT license.
 
 import * as msalBrowser from "@azure/msal-browser";
-import { AuthenticationRequiredError, CredentialUnavailableError } from "../../../../identity-common/src/errors";
-import { MsalBaseUtilities, getAuthority, getKnownAuthorities } from "../../../../identity-common/src/msal/utils";
-import { MsalFlow, MsalFlowOptions } from "../../../../identity-common/src/msal/flows";
+import { AuthenticationRequiredError, CredentialUnavailableError } from "@azure/identity-common";
+import { MsalBaseUtilities, getAuthority, getKnownAuthorities } from "@azure/identity-common";
+import { MsalFlow, MsalFlowOptions } from "@azure/identity-common";
 import {
   processMultiTenantRequest,
   resolveAddionallyAllowedTenantIds,
   resolveTenantId,
-} from "../../../../identity-common/src/util/tenantIdUtils";
+} from "@azure/identity-common";
 import { AccessToken } from "@azure/core-auth";
-import { AuthenticationRecord } from "../../../../identity-common/src/msal/types";
+import { AuthenticationRecord } from "@azure/identity-common";
 import { BrowserLoginStyle } from "../../credentials/interactiveBrowserCredentialOptions";
-import { CredentialFlowGetTokenOptions } from "../../../../identity-common/src/msal/credentials";
-import { DefaultTenantId } from "../../../../identity-common/src/constants";
-import { MultiTenantTokenCredentialOptions } from "../../../../identity-common/src/credentials/multiTenantTokenCredentialOptions";
+import { CredentialFlowGetTokenOptions } from "@azure/identity-common";
+import { DefaultTenantId } from "@azure/identity-common";
+import { MultiTenantTokenCredentialOptions } from "@azure/identity-common";
 
 /**
  * Union of the constructor parameters that all MSAL flow types take.

@@ -3,11 +3,11 @@
 
 import * as msalBrowser from "@azure/msal-browser";
 import { MsalBrowser, MsalBrowserFlowOptions } from "./msalBrowserCommon";
-import { defaultLoggerCallback, msalToPublic, publicToMsal, getMSALLogLevel } from "../../../../identity-common/src/msal/utils";
+import { defaultLoggerCallback, msalToPublic, publicToMsal, getMSALLogLevel } from "@azure/identity-common";
 import { AccessToken } from "@azure/core-auth";
-import { AuthenticationRecord } from "../../../../identity-common/src/msal/types";
-import { AuthenticationRequiredError } from "../../../../identity-common/src/errors";
-import { CredentialFlowGetTokenOptions } from "../../../../identity-common/src/msal/credentials";
+import { AuthenticationRecord } from "@azure/identity-common";
+import { AuthenticationRequiredError } from "@azure/identity-common";
+import { CredentialFlowGetTokenOptions } from "@azure/identity-common";
 import { getLogLevel } from "@azure/logger";
 
 // We keep a copy of the redirect hash.

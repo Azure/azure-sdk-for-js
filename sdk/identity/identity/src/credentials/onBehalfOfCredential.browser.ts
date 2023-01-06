@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AccessToken, TokenCredential } from "@azure/core-auth";
-import { credentialLogger, formatError } from "../../../identity-common/src/util/logging";
+import { credentialLogger, formatError } from "@azure/identity-common";
 
 const credentialName = "OnBehalfOfCredential";
 const BrowserNotSupportedError = new Error(`${credentialName}: Not supported in the browser.`);

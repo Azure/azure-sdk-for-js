@@ -3,8 +3,8 @@
 
 import { TokenCredential } from "@azure/core-auth";
 import { DefaultAzureCredential } from "./credentials/defaultAzureCredential";
-import  { IdentityPlugin } from "../../identity-common/src/plugins/provider";
-import { useIdentityPlugin } from "../../identity-common/src/plugins/consumer";
+import  { IdentityPlugin } from "@azure/identity-common";
+import { useIdentityPlugin } from "@azure/identity-common";
 export { IdentityPlugin, useIdentityPlugin };
 
 export {
@@ -17,12 +17,12 @@ export {
   CredentialUnavailableErrorName,
   AuthenticationRequiredError,
   AuthenticationRequiredErrorOptions,
-} from "../../identity-common/src/errors";
+} from "@azure/identity-common";
 
-export { AuthenticationRecord } from "../../identity-common/src/msal/types";
-export { serializeAuthenticationRecord, deserializeAuthenticationRecord } from "../../identity-common/src/msal/utils";
-export { TokenCredentialOptions } from "../../identity-common/src/tokenCredentialOptions";
-export { MultiTenantTokenCredentialOptions } from "../../identity-common/src/credentials/multiTenantTokenCredentialOptions";
+export { AuthenticationRecord } from "@azure/identity-common";
+export { serializeAuthenticationRecord, deserializeAuthenticationRecord } from "@azure/identity-common";
+export { TokenCredentialOptions } from "@azure/identity-common";
+export { MultiTenantTokenCredentialOptions } from "@azure/identity-common";
 
 // TODO: Export again once we're ready to release this feature.
 // export { RegionalAuthority } from "./regionalAuthority";
@@ -89,12 +89,12 @@ export { VisualStudioCodeCredential } from "./credentials/visualStudioCodeCreden
 export { VisualStudioCodeCredentialOptions } from "./credentials/visualStudioCodeCredentialOptions";
 export { OnBehalfOfCredential } from "./credentials/onBehalfOfCredential";
 
-export { TokenCachePersistenceOptions } from "../../identity-common/src/msal/nodeFlows/tokenCachePersistenceOptions";
+export { TokenCachePersistenceOptions } from "@azure/identity-common";
 
 export { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
-export { logger } from "../../identity-common/src/util/logging";
+export { logger } from "@azure/identity-common";
 
-export { AzureAuthorityHosts } from "../../identity-common/src/constants";
+export { AzureAuthorityHosts } from "@azure/identity-common";
 
 /**
  * Returns a new instance of the {@link DefaultAzureCredential}.

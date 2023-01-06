@@ -2,21 +2,21 @@
 // Licensed under the MIT license.
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import { credentialLogger, formatError, formatSuccess } from "../../../identity-common/src/util/logging";
+import { credentialLogger, formatError, formatSuccess } from "@azure/identity-common";
 import {
   processMultiTenantRequest,
   resolveAddionallyAllowedTenantIds,
-} from "../../../identity-common/src/util/tenantIdUtils";
-import { AzureAuthorityHosts } from "../../../identity-common/src/constants";
-import { CredentialUnavailableError } from "../../../identity-common/src/errors";
-import { IdentityClient } from "../../../identity-common/src/client/identityClient";
+} from "@azure/identity-common";
+import { AzureAuthorityHosts } from "@azure/identity-common";
+import { CredentialUnavailableError } from "@azure/identity-common";
+import { IdentityClient } from "@azure/identity-common";
 import { VisualStudioCodeCredentialOptions } from "./visualStudioCodeCredentialOptions";
-import { checkTenantId } from "../../../identity-common/src/util/tenantIdUtils";
+import { checkTenantId } from "@azure/identity-common";
 import fs from "fs";
 import os from "os";
 import path from "path";
 
-import { vsCodeCredentialControl } from "../../../identity-common/src/credentials/vsCodeCredentialControl";
+import { vsCodeCredentialControl } from "@azure/identity-common";
 
 const CommonTenantId = "common";
 const AzureAccountClientId = "aebc6443-996d-45c2-90f0-388ff96faa56"; // VSC: 'aebc6443-996d-45c2-90f0-388ff96faa56'

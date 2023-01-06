@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { MsalNode, MsalNodeOptions } from "../../../../identity-common/src/msal/nodeFlows/msalNodeCommon";
+import { MsalNode, MsalNodeOptions } from "@azure/identity-common";
 import { AccessToken } from "@azure/core-auth";
-import { CredentialFlowGetTokenOptions } from "../../../../identity-common/src/msal/credentials";
+import { CredentialFlowGetTokenOptions } from "@azure/identity-common";
 import { isError } from "@azure/core-util";
 
 /**

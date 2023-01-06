@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import { AggregateAuthenticationError, CredentialUnavailableError } from "../../../identity-common/src/errors";
-import { credentialLogger, formatError, formatSuccess } from "../../../identity-common/src/util/logging";
-import { tracingClient } from "../../../identity-common/src/util/tracing";
+import { AggregateAuthenticationError, CredentialUnavailableError } from "@azure/identity-common";
+import { credentialLogger, formatError, formatSuccess } from "@azure/identity-common";
+import { tracingClient } from "@azure/identity-common";
 
 /**
  * @internal

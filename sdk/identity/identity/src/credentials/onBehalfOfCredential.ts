@@ -10,14 +10,14 @@ import {
 import {
   processMultiTenantRequest,
   resolveAddionallyAllowedTenantIds,
-} from "../../../identity-common/src/util/tenantIdUtils";
+} from "@azure/identity-common";
 import { CredentialPersistenceOptions } from "./credentialPersistenceOptions";
-import { MsalFlow } from "../../../identity-common/src/msal/flows";
+import { MsalFlow } from "@azure/identity-common";
 import { MsalOnBehalfOf } from "../msal/nodeFlows/msalOnBehalfOf";
-import { MultiTenantTokenCredentialOptions } from "../../../identity-common/src/credentials/multiTenantTokenCredentialOptions";
-import { credentialLogger } from "../../../identity-common/src/util/logging";
+import { MultiTenantTokenCredentialOptions } from "@azure/identity-common";
+import { credentialLogger } from "@azure/identity-common";
 import { ensureScopes } from "../util/scopeUtils";
-import { tracingClient } from "../../../identity-common/src/util/tracing";
+import { tracingClient } from "@azure/identity-common";
 
 const credentialName = "OnBehalfOfCredential";
 const logger = credentialLogger(credentialName);

@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { credentialLogger, formatError } from "../../../identity-common/src/util/logging";
+import { credentialLogger, formatError } from "@azure/identity-common";
 import { AccessToken } from "@azure/core-auth";
 import { ChainedTokenCredential } from "./chainedTokenCredential";
-import { TokenCredentialOptions } from "../../../identity-common/src/tokenCredentialOptions";
+import { TokenCredentialOptions } from "@azure/identity-common";
 
 const BrowserNotSupportedError = new Error(
   "DefaultAzureCredential is not supported in the browser. Use InteractiveBrowserCredential instead."

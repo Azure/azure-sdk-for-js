@@ -5,10 +5,10 @@ import {
   checkTenantId,
   resolveAddionallyAllowedTenantIds,
   resolveTenantId,
-} from "../../../identity-common/src/util/tenantIdUtils";
-import { DeveloperSignOnClientId } from "../../../identity-common/src/constants";
+} from "@azure/identity-common";
+import { DeveloperSignOnClientId } from "@azure/identity-common";
 import { assert } from "@azure/test-utils";
-import { credentialLogger } from "../../../identity-common/src/util/logging";
+import { credentialLogger } from "@azure/identity-common";
 
 describe("tenantIdUtils", () => {
   describe("resolveAddionallyAllowedTenantIds", () => {

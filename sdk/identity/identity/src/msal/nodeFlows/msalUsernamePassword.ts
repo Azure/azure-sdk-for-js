@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import * as msalNode from "@azure/msal-node";
-import { MsalNode, MsalNodeOptions } from "../../../../identity-common/src/msal/nodeFlows/msalNodeCommon";
+import { MsalNode, MsalNodeOptions } from "@azure/identity-common";
 import { AccessToken } from "@azure/core-auth";
-import { CredentialFlowGetTokenOptions } from "../../../../identity-common/src/msal/credentials";
+import { CredentialFlowGetTokenOptions } from "@azure/identity-common";
 
 /**
  * Options that can be passed to configure MSAL to handle authentication through username and password.

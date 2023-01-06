@@ -2,14 +2,14 @@
 // Licensed under the MIT license.
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import { AuthenticationError, CredentialUnavailableError } from "../../../identity-common/src/errors";
-import { credentialLogger, formatError, formatSuccess, processEnvVars } from "../../../identity-common/src/util/logging";
+import { AuthenticationError, CredentialUnavailableError } from "@azure/identity-common";
+import { credentialLogger, formatError, formatSuccess, processEnvVars } from "@azure/identity-common";
 import { ClientCertificateCredential } from "./clientCertificateCredential";
 import { ClientSecretCredential } from "./clientSecretCredential";
 import { EnvironmentCredentialOptions } from "./environmentCredentialOptions";
 import { UsernamePasswordCredential } from "./usernamePasswordCredential";
-import { checkTenantId } from "../../../identity-common/src/util/tenantIdUtils";
-import { tracingClient } from "../../../identity-common/src/util/tracing";
+import { checkTenantId } from "@azure/identity-common";
+import { tracingClient } from "@azure/identity-common";
 
 /**
  * Contains the list of all supported environment variable names so that an

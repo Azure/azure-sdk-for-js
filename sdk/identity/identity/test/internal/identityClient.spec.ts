@@ -5,12 +5,12 @@ import {
   IdentityClient,
   TokenResponse,
   getIdentityClientAuthorityHost,
-} from "../../../identity-common/src/client/identityClient";
+} from "@azure/identity-common";
 import { IdentityTestContext, prepareMSALResponses } from "../httpRequests";
 import { IdentityTestContextInterface, createResponse } from "../httpRequestsCommon";
 import { ClientSecretCredential } from "../../src";
 import { Context } from "mocha";
-import { PlaybackTenantId } from "../../../identity-common/test/msalTestUtils";
+import { PlaybackTenantId } from "@azure/identity-common";
 import { assert } from "chai";
 import { isExpectedError } from "../authTestUtils";
 import { isNode } from "@azure/core-util";

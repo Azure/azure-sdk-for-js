@@ -9,7 +9,7 @@ import {
   TokenCredential,
   UsernamePasswordCredential,
 } from "../../../src";
-import { MsalTestCleanup, msalNodeTestSetup } from "../../../../identity-common/test/msalTestUtils";
+import { MsalTestCleanup, msalNodeTestSetup } from "@azure/identity-common";
 import { Recorder, delay, env } from "@azure-tools/test-recorder";
 import {
   bearerTokenAuthenticationPolicy,
@@ -18,8 +18,8 @@ import {
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
 import { Context } from "mocha";
-import { DeveloperSignOnClientId } from "../../../../identity-common/src/constants";
-import { IdentityClient } from "../../../../identity-common/src/client/identityClient";
+import { DeveloperSignOnClientId } from "@azure/identity-common";
+import { IdentityClient } from "@azure/identity-common";
 import { assert } from "chai";
 import { authorizeRequestOnClaimChallenge } from "@azure/core-client";
 

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { CredentialPersistenceOptions } from "./credentialPersistenceOptions";
-import { MultiTenantTokenCredentialOptions } from "../../../identity-common/src/credentials/multiTenantTokenCredentialOptions";
+import { MultiTenantTokenCredentialOptions } from "@azure/identity-common";
 
 /**
  * Optional parameters for the {@link ClientCertificateCredential} class.

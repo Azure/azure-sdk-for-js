@@ -8,7 +8,7 @@ import {
   credentialLoggerInstance,
   formatError,
   formatSuccess,
-} from "../../../identity-common/src/util/logging";
+} from "@azure/identity-common";
 import { assert } from "chai";
 
 describe("Identity logging utilities", function () {

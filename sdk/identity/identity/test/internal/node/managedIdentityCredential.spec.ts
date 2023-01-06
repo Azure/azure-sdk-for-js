@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AzureAuthorityHosts, DefaultAuthorityHost, DefaultTenantId } from "../../../../identity-common/src/constants";
+import { AzureAuthorityHosts, DefaultAuthorityHost, DefaultTenantId } from "@azure/identity-common";
 import { AzureLogger, setLogLevel } from "@azure/logger";
 import { IdentityTestContextInterface, createResponse } from "../../httpRequestsCommon";
 import {

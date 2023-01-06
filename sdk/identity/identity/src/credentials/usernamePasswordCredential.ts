@@ -5,13 +5,13 @@ import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth"
 import {
   processMultiTenantRequest,
   resolveAddionallyAllowedTenantIds,
-} from "../../../identity-common/src/util/tenantIdUtils";
-import { MsalFlow } from "../../../identity-common/src/msal/flows";
+} from "@azure/identity-common";
+import { MsalFlow } from "@azure/identity-common";
 import { MsalUsernamePassword } from "../msal/nodeFlows/msalUsernamePassword";
 import { UsernamePasswordCredentialOptions } from "./usernamePasswordCredentialOptions";
-import { credentialLogger } from "../../../identity-common/src/util/logging";
+import { credentialLogger } from "@azure/identity-common";
 import { ensureScopes } from "../util/scopeUtils";
-import { tracingClient } from "../../../identity-common/src/util/tracing";
+import { tracingClient } from "@azure/identity-common";
 
 const logger = credentialLogger("UsernamePasswordCredential");
 

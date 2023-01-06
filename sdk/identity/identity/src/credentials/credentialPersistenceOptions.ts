@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCachePersistenceOptions } from "../../../identity-common/src/msal/nodeFlows/tokenCachePersistenceOptions";
+import { TokenCachePersistenceOptions } from "@azure/identity-common";
 
 /**
  * Shared configuration options for credentials that support persistent token

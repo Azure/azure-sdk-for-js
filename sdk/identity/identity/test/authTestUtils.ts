@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AuthenticationError } from "../src";
-import { DefaultAuthorityHost } from "../../identity-common/src/constants";
+import { DefaultAuthorityHost } from "@azure/identity-common";
 import { assert } from "chai";
 
 /**

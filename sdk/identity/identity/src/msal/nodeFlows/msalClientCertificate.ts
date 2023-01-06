@@ -6,12 +6,12 @@ import {
   ClientCertificatePEMCertificate,
   ClientCertificatePEMCertificatePath,
 } from "../../credentials/clientCertificateCredential";
-import { MsalNode, MsalNodeOptions } from "../../../../identity-common/src/msal/nodeFlows/msalNodeCommon";
+import { MsalNode, MsalNodeOptions } from "@azure/identity-common";
 import { createHash, createPrivateKey } from "crypto";
 import { AccessToken } from "@azure/core-auth";
 import { ClientCredentialRequest } from "@azure/msal-node";
-import { CredentialFlowGetTokenOptions } from "../../../../identity-common/src/msal/credentials";
-import { formatError } from "../../../../identity-common/src/util/logging";
+import { CredentialFlowGetTokenOptions } from "@azure/identity-common";
+import { formatError } from "@azure/identity-common";
 import { promisify } from "util";
 import { readFile } from "fs";
 

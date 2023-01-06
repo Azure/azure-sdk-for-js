@@ -6,17 +6,17 @@ import {
   InteractiveBrowserCredentialInBrowserOptions,
   InteractiveBrowserCredentialNodeOptions,
 } from "./interactiveBrowserCredentialOptions";
-import { credentialLogger, formatError } from "../../../identity-common/src/util/logging";
+import { credentialLogger, formatError } from "@azure/identity-common";
 import {
   processMultiTenantRequest,
   resolveAddionallyAllowedTenantIds,
-} from "../../../identity-common/src/util/tenantIdUtils";
-import { AuthenticationRecord } from "../../../identity-common/src/msal/types";
+} from "@azure/identity-common";
+import { AuthenticationRecord } from "@azure/identity-common";
 import { MSALAuthCode } from "../msal/browserFlows/msalAuthCode";
 import { MsalBrowserFlowOptions } from "../msal/browserFlows/msalBrowserCommon";
-import { MsalFlow } from "../../../identity-common/src/msal/flows";
+import { MsalFlow } from "@azure/identity-common";
 import { ensureScopes } from "../util/scopeUtils";
-import { tracingClient } from "../../../identity-common/src/util/tracing";
+import { tracingClient } from "@azure/identity-common";
 
 const logger = credentialLogger("InteractiveBrowserCredential");
 
