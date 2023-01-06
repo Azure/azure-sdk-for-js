@@ -10,7 +10,7 @@ import {
 } from "@azure/core-rest-pipeline";
 import { KeyCredential } from "@azure/core-auth";
 import { assert } from "chai";
-import { createCommunicationAccessKeyCredentialPolicy } from "../src/credential/communicationAccessKeyCredentialPolicy";
+import { createCommunicationAccessKeyCredentialPolicy } from "../../src";
 import { isNode } from "@azure/core-util";
 
 describe("CommunicationKeyCredentialPolicy", () => {

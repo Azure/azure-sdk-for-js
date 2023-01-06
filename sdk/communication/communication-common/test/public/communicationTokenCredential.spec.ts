@@ -3,7 +3,7 @@
 
 import { assert, use } from "chai";
 import { AbortSignal } from "@azure/abort-controller";
-import { AzureCommunicationTokenCredential } from "../src/azureCommunicationTokenCredential";
+import { AzureCommunicationTokenCredential } from "../../src";
 import chaiAsPromised from "chai-as-promised";
 import { isNode } from "@azure/core-util";
 import sinon from "sinon";
