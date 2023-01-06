@@ -34,10 +34,19 @@ import {
   DigitalTwinModelsListOptionalParams as ListModelsOptions,
   QueryQueryTwinsOptionalParams as QueryTwinsOptions,
   EventRoutesListOptionalParams as ListEventRoutesOptions,
+  DigitalTwinsListRelationshipsOptionalParams as ListRelationshipsOptions,
+  DigitalTwinsListIncomingRelationshipsOptionalParams as ListIncomingRelationshipsOptions,
 } from "./generated/models";
 import { tracingClient } from "./tracing";
 import { logger } from "./logger";
-export { GetModelOptions, ListModelsOptions, QueryTwinsOptions, ListEventRoutesOptions };
+export {
+  GetModelOptions,
+  ListModelsOptions,
+  QueryTwinsOptions,
+  ListEventRoutesOptions,
+  ListIncomingRelationshipsOptions,
+  ListRelationshipsOptions,
+};
 
 /**
  * Options for the DigitalTwinsClient class
@@ -355,7 +364,7 @@ export class DigitalTwinsClient {
    */
   public listRelationships(
     digitalTwinId: string,
-    options?: OperationOptions
+    options?: ListRelationshipsOptions
   ): PagedAsyncIterableIterator<Record<string, unknown>> {
     return this.client.digitalTwins.listRelationships(digitalTwinId, options);
   }
@@ -367,7 +376,7 @@ export class DigitalTwinsClient {
    */
   public listIncomingRelationships(
     digitalTwinId: string,
-    options?: OperationOptions
+    options?: ListIncomingRelationshipsOptions
   ): PagedAsyncIterableIterator<IncomingRelationship> {
     return this.client.digitalTwins.listIncomingRelationships(digitalTwinId, options);
   }

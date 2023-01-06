@@ -29,7 +29,7 @@ async function main() {
   // Publish telemetry message
   const digitalTwinId = "<digital twin ID>"; //Digital twin ID must exist in your Azure Digital Twins instance
   const componentPath = "<component path>"; // Component must exist in your Azure Digital Twins instance
-  const telemetryPayload = '{"Telemetry1": 5}';
+  const telemetryPayload = { Telemetry1: 5 };
   const response = await serviceClient.publishComponentTelemetry(
     digitalTwinId,
     componentPath,

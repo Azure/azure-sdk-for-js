@@ -39,7 +39,7 @@ describe("DigitalTwins EventRoutes - create, read, list and delete operations", 
     should.equal(errorWasThrown, true, "Error was not thrown");
   });
 
-  it("get event route not exisiting", async function () {
+  it("get event route not existing", async function () {
     const eventRouteId = recorder.getUniqueName("eventRoute", "get-event-route-not-existing");
 
     let errorWasThrown = false;

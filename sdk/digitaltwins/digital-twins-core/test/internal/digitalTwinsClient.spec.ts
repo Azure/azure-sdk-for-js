@@ -4,15 +4,13 @@
 import { assert, expect } from "chai";
 import * as sinon from "sinon";
 import {
-  TokenCredential,
-  OperationOptions,
-  HttpOperationResponse,
-  HttpResponse,
-  WebResource,
-  HttpHeaders,
-} from "@azure/core-http";
+  createHttpHeaders,
+  createPipelineRequest,
+  PipelineResponse,
+} from "@azure/core-rest-pipeline";
+import { OperationOptions } from "@azure/core-client";
+import { TokenCredential } from "@azure/core-auth";
 import {
-  DigitalTwinModelsGetByIdOptionalParams,
   DigitalTwinModelsAddOptionalParams,
   EventRoute,
   EventRoutesAddOptionalParams,
@@ -37,8 +35,8 @@ describe("DigitalTwinsClient", () => {
   let testEndpointName: string;
   let testFilter: string;
   let testIfMatch: string;
-  let testDefaultOperationalResponse: HttpOperationResponse;
-  let testDefaultResponse: HttpResponse;
+  let testDefaultOperationalResponse: PipelineResponse;
+  let testDefaultResponse: PipelineResponse;
   let testBody: any;
   let testHeaders: any;
   let testError: Error;
@@ -64,13 +62,13 @@ describe("DigitalTwinsClient", () => {
     testEndpointName = "test_endpoint_name";
     testDefaultOperationalResponse = {
       status: 200,
-      request: new WebResource(),
-      headers: new HttpHeaders(),
+      request: createPipelineRequest({ url: "test" }),
+      headers: createHttpHeaders(),
     };
     testDefaultResponse = {
       status: 200,
-      request: new WebResource(),
-      headers: new HttpHeaders(),
+      request: createPipelineRequest({ url: "test" }),
+      headers: createHttpHeaders(),
     };
     testClient = new DigitalTwinsClient(url, tokenCredential);
     testTwinId = "test_twin_id";
@@ -127,7 +125,7 @@ describe("DigitalTwinsClient", () => {
     const stub = sinon.stub(testClient["client"].digitalTwins, "add");
     testClient.upsertDigitalTwin(testTwinId, JSON.stringify(testJsonString));
     assert.isTrue(stub.calledOnce);
-    assert.isTrue(stub.calledWith(testTwinId, testJsonString));
+    assert.isTrue(stub.calledWith(testTwinId, JSON.parse(testJsonString)));
   });
 
   it("upsertDigitalTwin returns a promise of the generated code return value", async () => {
@@ -156,13 +154,13 @@ describe("DigitalTwinsClient", () => {
   it("updateDigitalTwin returns a promise of the generated code return value", async () => {
     const testReturn = testHeaders + testDefaultResponse;
     sinon.stub(testClient["client"].digitalTwins, "update").resolves(testReturn);
-    const retVal = await testClient.updateDigitalTwin(testTwinId, testJsonString);
+    const retVal = await testClient.updateDigitalTwin(testTwinId, JSON.parse(testJsonString));
     assert.deepEqual(retVal, testReturn);
   });
 
   it("updateDigitalTwin rejects the promise if the generated code rejects it", async () => {
     sinon.stub(testClient["client"].digitalTwins, "update").rejects(testError);
-    await testClient.updateDigitalTwin(testTwinId, testJsonString).catch((error) => {
+    await testClient.updateDigitalTwin(testTwinId, JSON.parse(testJsonString)).catch((error) => {
       expect(error.message).to.equal("Promise Rejected");
     });
   });
@@ -172,15 +170,6 @@ describe("DigitalTwinsClient", () => {
     testClient.deleteDigitalTwin(testTwinId, operationOptions);
     assert.isTrue(stub.calledOnce);
     assert.isTrue(stub.calledWith(testTwinId, sinon.match(operationOptions)));
-  });
-
-  it("deleteDigitalTwin returns a promise of the generated code return value", async () => {
-    const testReturn = {
-      _response: testDefaultOperationalResponse,
-    };
-    sinon.stub(testClient["client"].digitalTwins, "delete").resolves(testReturn);
-    const retVal = await testClient.deleteDigitalTwin(testTwinId);
-    assert.deepEqual(retVal, testReturn);
   });
 
   it("deleteDigitalTwin rejects the promise if the generated code rejects it", async () => {
@@ -266,10 +255,20 @@ describe("DigitalTwinsClient", () => {
 
   it("upsertRelationship calls the addRelationship method with twinId, relationshipId, relationshipJson and converted options on the generated client", function () {
     const stub = sinon.stub(testClient["client"].digitalTwins, "addRelationship");
-    testClient.upsertRelationship(testTwinId, testRelationshipId, testJsonString, operationOptions);
+    testClient.upsertRelationship(
+      testTwinId,
+      testRelationshipId,
+      JSON.parse(testJsonString),
+      operationOptions
+    );
     assert.isTrue(stub.calledOnce);
     assert.isTrue(
-      stub.calledWith(testTwinId, testRelationshipId, testJsonString, sinon.match(operationOptions))
+      stub.calledWith(
+        testTwinId,
+        testRelationshipId,
+        JSON.parse(testJsonString),
+        sinon.match(operationOptions)
+      )
     );
   });
 
@@ -279,7 +278,7 @@ describe("DigitalTwinsClient", () => {
     const retVal = await testClient.upsertRelationship(
       testTwinId,
       testRelationshipId,
-      testJsonString
+      JSON.parse(testJsonString)
     );
     assert.deepEqual(retVal, testReturn);
   });
@@ -287,7 +286,7 @@ describe("DigitalTwinsClient", () => {
   it("upsertRelationship rejects the promise if the generated code rejects it", async () => {
     sinon.stub(testClient["client"].digitalTwins, "addRelationship").rejects(testError);
     await testClient
-      .upsertRelationship(testTwinId, testRelationshipId, testJsonPatch)
+      .upsertRelationship(testTwinId, testRelationshipId, testJsonPatch[0])
       .catch((error) => {
         expect(error.message).to.equal("Promise Rejected");
       });
@@ -329,15 +328,6 @@ describe("DigitalTwinsClient", () => {
     assert.isTrue(stub.calledWith(testTwinId, testRelationshipId, sinon.match(operationOptions)));
   });
 
-  it("deleteRelationship returns a promise of the generated code return value", async () => {
-    const testReturn = {
-      _response: testDefaultOperationalResponse,
-    };
-    sinon.stub(testClient["client"].digitalTwins, "deleteRelationship").resolves(testReturn);
-    const retVal = await testClient.deleteRelationship(testTwinId, testRelationshipId);
-    assert.deepEqual(retVal, testReturn);
-  });
-
   it("deleteRelationship rejects the promise if the generated code rejects it", async () => {
     sinon.stub(testClient["client"].digitalTwins, "deleteRelationship").rejects(testError);
     await testClient.deleteRelationship(testTwinId, testRelationshipId).catch((error) => {
@@ -345,34 +335,11 @@ describe("DigitalTwinsClient", () => {
     });
   });
 
-  it("publishTelemetry returns a promise of the generated code return value", async () => {
-    const testReturn = {
-      _response: testDefaultOperationalResponse,
-    };
-    sinon.stub(testClient["client"].digitalTwins, "sendTelemetry").resolves(testReturn);
-    const retVal = await testClient.publishTelemetry(testTwinId, testPayload, testMessageId);
-    assert.deepEqual(retVal, testReturn);
-  });
-
   it("publishTelemetry rejects the promise if the generated code rejects it", async () => {
     sinon.stub(testClient["client"].digitalTwins, "sendTelemetry").rejects(testError);
     await testClient.publishTelemetry(testTwinId, testPayload, testMessageId).catch((error) => {
       expect(error.message).to.equal("Promise Rejected");
     });
-  });
-
-  it("publishComponentTelemetry returns a promise of the generated code return value", async () => {
-    const testReturn = {
-      _response: testDefaultOperationalResponse,
-    };
-    sinon.stub(testClient["client"].digitalTwins, "sendComponentTelemetry").resolves(testReturn);
-    const retVal = await testClient.publishComponentTelemetry(
-      testTwinId,
-      testComponentPath,
-      testPayload,
-      testMessageId
-    );
-    assert.deepEqual(retVal, testReturn);
   });
 
   it("publishComponentTelemetry rejects the promise if the generated code rejects it", async () => {
@@ -385,20 +352,17 @@ describe("DigitalTwinsClient", () => {
   });
 
   it("getModel calls the getById method with twinId and converted options on the generated client", function () {
-    const includeModelDefinition: boolean = true;
-    const digitalTwinModelsGetByIdOptionalParams: DigitalTwinModelsGetByIdOptionalParams =
-      operationOptions;
-    digitalTwinModelsGetByIdOptionalParams.includeModelDefinition = includeModelDefinition;
-
     const stub = sinon.stub(testClient["client"].digitalTwinModels, "getById");
-    testClient.getModel(
-      testModelId,
-      includeModelDefinition,
-      digitalTwinModelsGetByIdOptionalParams
-    );
+    testClient.getModel(testModelId, {
+      includeModelDefinition: true,
+      ...operationOptions,
+    });
     assert.isTrue(stub.calledOnce);
     assert.isTrue(
-      stub.calledWith(testModelId, sinon.match({ ...operationOptions, includeModelDefinition }))
+      stub.calledWith(
+        testModelId,
+        sinon.match({ ...operationOptions, includeModelDefinition: true })
+      )
     );
   });
 
@@ -432,15 +396,6 @@ describe("DigitalTwinsClient", () => {
     assert.isTrue(stub.calledWith(testModelId, decommissionPatch, sinon.match(operationOptions)));
   });
 
-  it("decomissionModel returns a promise of the generated code return value", async () => {
-    const testReturn = {
-      _response: testDefaultOperationalResponse,
-    };
-    sinon.stub(testClient["client"].digitalTwinModels, "update").resolves(testReturn);
-    const retVal = await testClient.decomissionModel(testModelId);
-    assert.deepEqual(retVal, testReturn);
-  });
-
   it("decomissionModel rejects the promise if the generated code rejects it", async () => {
     sinon.stub(testClient["client"].digitalTwinModels, "update").rejects(testError);
     await testClient.decomissionModel(testModelId).catch((error) => {
@@ -453,15 +408,6 @@ describe("DigitalTwinsClient", () => {
     testClient.deleteModel(testModelId, operationOptions);
     assert.isTrue(stub.calledOnce);
     assert.isTrue(stub.calledWith(testModelId, sinon.match(operationOptions)));
-  });
-
-  it("deleteModel returns a promise of the generated code return value", async () => {
-    const testReturn = {
-      _response: testDefaultOperationalResponse,
-    };
-    sinon.stub(testClient["client"].digitalTwinModels, "delete").resolves(testReturn);
-    const retVal = await testClient.deleteModel(testModelId);
-    assert.deepEqual(retVal, testReturn);
   });
 
   it("deleteModel rejects the promise if the generated code rejects it", async () => {
@@ -545,15 +491,6 @@ describe("DigitalTwinsClient", () => {
       stub.calledWith(testEventRouteId, sinon.match(operationOptions)),
       "deleteStub should be called with proper route ID and updatedOptions"
     );
-  });
-
-  it("deleteEventRoute returns a promise of the generated code return value", async () => {
-    const testReturn = {
-      _response: testDefaultOperationalResponse,
-    };
-    sinon.stub(testClient["client"].eventRoutes, "delete").resolves(testReturn);
-    const retVal = await testClient.deleteEventRoute(testEventRouteId);
-    assert.deepEqual(retVal, testReturn);
   });
 
   it("deleteEventRoute rejects the promise if the generated code rejects it", async () => {

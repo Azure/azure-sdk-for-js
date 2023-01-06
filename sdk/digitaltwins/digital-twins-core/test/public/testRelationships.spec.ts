@@ -187,7 +187,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     };
 
     try {
-      const createdRelationship = await client.upsertRelationship(
+      const createdRelationship: any = await client.upsertRelationship(
         FLOOR_DIGITAL_TWIN_ID,
         relationshipId,
         relationship
@@ -297,7 +297,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     try {
       const options: DigitalTwinsAddRelationshipOptionalParams = {};
       options.ifNoneMatch = "*";
-      const createdRelationship = await client.upsertRelationship(
+      const createdRelationship: any = await client.upsertRelationship(
         FLOOR_DIGITAL_TWIN_ID,
         relationshipId,
         relationship,
@@ -361,7 +361,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     };
 
     try {
-      const createdRelationship = await client.upsertRelationship(
+      const createdRelationship: any = await client.upsertRelationship(
         BUILDING_DIGITAL_TWIN_ID,
         relationshipId,
         relationship
@@ -392,7 +392,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
       );
 
       relationship.isAccessRestricted = true;
-      const updatedRelationship = await client.upsertRelationship(
+      const updatedRelationship: any = await client.upsertRelationship(
         BUILDING_DIGITAL_TWIN_ID,
         relationshipId,
         relationship
@@ -446,7 +446,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     };
 
     try {
-      const createdRelationship = await client.upsertRelationship(
+      const createdRelationship: any = await client.upsertRelationship(
         BUILDING_DIGITAL_TWIN_ID,
         relationshipId,
         relationship
@@ -476,7 +476,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
         "Unexpected isAccessRestricted result from upsertRelationship()."
       );
 
-      const getRelationship = await client.getRelationship(
+      const getRelationship: any = await client.getRelationship(
         BUILDING_DIGITAL_TWIN_ID,
         relationshipId
       );
@@ -556,7 +556,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
       isAccessRestricted: false,
     };
     try {
-      const createdRelationship = await client.upsertRelationship(
+      const createdRelationship: any = await client.upsertRelationship(
         BUILDING_DIGITAL_TWIN_ID,
         relationshipId,
         relationship
@@ -651,7 +651,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     };
 
     try {
-      const createdRelationship = await client.upsertRelationship(
+      const createdRelationship: any = await client.upsertRelationship(
         BUILDING_DIGITAL_TWIN_ID,
         relationshipId,
         relationship
@@ -698,7 +698,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
         "Unexpected eTag result from updateRelationship()."
       );
 
-      const getRelationship = await client.getRelationship(
+      const getRelationship: any = await client.getRelationship(
         BUILDING_DIGITAL_TWIN_ID,
         relationshipId
       );
@@ -737,7 +737,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     };
 
     try {
-      const createdRelationship = await client.upsertRelationship(
+      const createdRelationship: any = await client.upsertRelationship(
         BUILDING_DIGITAL_TWIN_ID,
         relationshipId,
         relationship
@@ -783,7 +783,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
         "Unexpected eTag result from updateRelationship()."
       );
 
-      const getRelationship = await client.getRelationship(
+      const getRelationship: any = await client.getRelationship(
         BUILDING_DIGITAL_TWIN_ID,
         relationshipId
       );
@@ -821,7 +821,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     };
 
     try {
-      const createdRelationship = await client.upsertRelationship(
+      const createdRelationship: any = await client.upsertRelationship(
         BUILDING_DIGITAL_TWIN_ID,
         relationshipId,
         relationship
@@ -876,7 +876,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
         "Unexpected eTag result from updateRelationship()."
       );
 
-      const getRelationship = await client.getRelationship(
+      const getRelationship: any = await client.getRelationship(
         BUILDING_DIGITAL_TWIN_ID,
         relationshipId
       );
@@ -915,7 +915,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     };
 
     try {
-      const createdRelationship = await client.upsertRelationship(
+      const createdRelationship: any = await client.upsertRelationship(
         BUILDING_DIGITAL_TWIN_ID,
         relationshipId,
         relationship
@@ -966,7 +966,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
         "Unexpected eTag result from updateRelationship()."
       );
 
-      const getRelationship = await client.getRelationship(
+      const getRelationship: any = await client.getRelationship(
         BUILDING_DIGITAL_TWIN_ID,
         relationshipId
       );
@@ -1004,7 +1004,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     };
 
     try {
-      const createdRelationship = await client.upsertRelationship(
+      const createdRelationship: any = await client.upsertRelationship(
         BUILDING_DIGITAL_TWIN_ID,
         relationshipId,
         relationship
@@ -1115,7 +1115,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     };
 
     try {
-      const createdRelationship = await client.upsertRelationship(
+      const createdRelationship: any = await client.upsertRelationship(
         BUILDING_DIGITAL_TWIN_ID,
         relationshipId,
         relationship
@@ -1165,7 +1165,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
         "Unexpected eTag result from updateRelationship()."
       );
 
-      const getRelationship = await client.getRelationship(
+      const getRelationship: any = await client.getRelationship(
         BUILDING_DIGITAL_TWIN_ID,
         relationshipId
       );
@@ -1235,7 +1235,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     };
 
     try {
-      const createdRelationship = await client.upsertRelationship(
+      const createdRelationship: any = await client.upsertRelationship(
         BUILDING_DIGITAL_TWIN_ID,
         relationshipId,
         relationship
@@ -1296,7 +1296,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     };
 
     try {
-      const createdRelationship = await client.upsertRelationship(
+      const createdRelationship: any = await client.upsertRelationship(
         BUILDING_DIGITAL_TWIN_ID,
         relationshipId,
         relationship

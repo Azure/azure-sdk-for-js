@@ -8,8 +8,8 @@ import {
   DigitalTwinsUpdateOptionalParams,
 } from "../../src";
 import { authenticate } from "../utils/testAuthentication";
-import { Recorder } from "@azure-tools/test-recorder";
-import { delay } from "@azure/core-http";
+import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
+import { delay } from "@azure/core-util";
 import chai from "chai";
 
 const assert = chai.assert;
@@ -79,7 +79,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     try {
       const queryResult = client.queryTwins("SELECT * FROM digitaltwins");
       for await (const item of queryResult) {
-        await client.deleteDigitalTwin(item.$dtId);
+        await client.deleteDigitalTwin(item.$dtId as string);
       }
     } catch (Exception: any) {
       console.error("deleteDigitalTwin failure during test setup or cleanup");
@@ -100,7 +100,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
       TemperatureUnit: "Celsius",
     };
     try {
-      const createdTwin = await client.upsertDigitalTwin(
+      const createdTwin: any = await client.upsertDigitalTwin(
         digitalTwinId,
         JSON.stringify(buildingTwin)
       );
@@ -234,7 +234,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
       TemperatureUnit: "Celsius",
     };
     try {
-      const createdTwin = await client.upsertDigitalTwin(
+      const createdTwin: any = await client.upsertDigitalTwin(
         digitalTwinId,
         JSON.stringify(buildingTwin)
       );
@@ -262,7 +262,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
 
       const newTemperature = 69;
       buildingTwin.AverageTemperature = newTemperature;
-      const updatedTwin = await client.upsertDigitalTwin(
+      const updatedTwin: any = await client.upsertDigitalTwin(
         digitalTwinId,
         JSON.stringify(buildingTwin)
       );
@@ -536,7 +536,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
 
     let errorWasThrown = false;
     try {
-      const updatedTwin = await client.getDigitalTwin(digitalTwinId);
+      const updatedTwin: any = await client.getDigitalTwin(digitalTwinId);
       assert.equal(
         updatedTwin.body.TemperatureUnit,
         "Celsius",
@@ -581,7 +581,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
 
     let errorWasThrown = false;
     try {
-      const updatedTwin = await client.getDigitalTwin(digitalTwinId);
+      const updatedTwin: any = await client.getDigitalTwin(digitalTwinId);
       assert.equal(
         updatedTwin.body.TemperatureUnit,
         "Celsius",
@@ -626,7 +626,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
 
     let errorWasThrown = false;
     try {
-      const updatedTwin = await client.getDigitalTwin(digitalTwinId);
+      const updatedTwin: any = await client.getDigitalTwin(digitalTwinId);
       assert.equal(
         updatedTwin.body.AverageTemperature,
         68,
@@ -676,7 +676,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
 
     let errorWasThrown = false;
     try {
-      const updatedTwin = await client.getDigitalTwin(digitalTwinId);
+      const updatedTwin: any = await client.getDigitalTwin(digitalTwinId);
       assert.equal(
         updatedTwin.body.AverageTemperature,
         42,
@@ -761,7 +761,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
 
     let errorWasThrown = false;
     try {
-      const updatedTwin = await client.getDigitalTwin(digitalTwinId);
+      const updatedTwin: any = await client.getDigitalTwin(digitalTwinId);
       assert.equal(
         updatedTwin.body.AverageTemperature,
         42,
@@ -864,7 +864,9 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     await client.upsertDigitalTwin(digitalTwinId, JSON.stringify(buildingTwin));
 
     // Wait for the service to be ready
-    await delay(5000);
+    if (isLiveMode()) {
+      await delay(5000);
+    }
 
     let twinFound = false;
     try {
@@ -896,9 +898,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     try {
       const query = "foo";
       const queryResult = client.queryTwins(query);
-      for await (const _ of queryResult) {
-        /* ignored */
-      }
+      await queryResult.next();
     } catch (error: any) {
       errorWasThrown = true;
       assert.include(
@@ -930,7 +930,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     };
     await client.upsertDigitalTwin(digitalTwinId, JSON.stringify(buildingTwin));
 
-    const telemetry = "Telemetry1";
+    const telemetry = { Telemetry1: 1 };
     const messageId = "MessageId1";
     let errorWasThrown = false;
     try {
