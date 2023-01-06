@@ -13,6 +13,9 @@ import {
   CosmosDBManagementClient
 } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Return a list of database and container combo that exist on the account at the given timestamp and location. This helps in scenarios to validate what resources exist at given timestamp and location. This API requires 'Microsoft.DocumentDB/locations/restorableDatabaseAccounts/.../read' permission.
@@ -21,7 +24,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBRestorableSqlResourceList.json
  */
 async function cosmosDbRestorableSqlResourceList() {
-  const subscriptionId = "2296c272-5d55-40d9-bc05-4d56dc2d7588";
+  const subscriptionId =
+    process.env["COSMOSDB_SUBSCRIPTION_ID"] ||
+    "2296c272-5d55-40d9-bc05-4d56dc2d7588";
   const location = "WestUS";
   const instanceId = "d9b26648-2f53-4541-b3d8-3044f4f9810d";
   const restoreLocation = "WestUS";
@@ -43,4 +48,8 @@ async function cosmosDbRestorableSqlResourceList() {
   console.log(resArray);
 }
 
-cosmosDbRestorableSqlResourceList().catch(console.error);
+async function main() {
+  cosmosDbRestorableSqlResourceList();
+}
+
+main().catch(console.error);

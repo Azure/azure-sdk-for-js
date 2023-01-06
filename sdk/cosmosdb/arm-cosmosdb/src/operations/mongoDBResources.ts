@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { MongoDBResources } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,13 +17,16 @@ import { LroImpl } from "../lroImpl";
 import {
   MongoDBDatabaseGetResults,
   MongoDBResourcesListMongoDBDatabasesOptionalParams,
+  MongoDBResourcesListMongoDBDatabasesResponse,
   MongoDBCollectionGetResults,
   MongoDBResourcesListMongoDBCollectionsOptionalParams,
+  MongoDBResourcesListMongoDBCollectionsResponse,
   MongoRoleDefinitionGetResults,
   MongoDBResourcesListMongoRoleDefinitionsOptionalParams,
+  MongoDBResourcesListMongoRoleDefinitionsResponse,
   MongoUserDefinitionGetResults,
   MongoDBResourcesListMongoUserDefinitionsOptionalParams,
-  MongoDBResourcesListMongoDBDatabasesResponse,
+  MongoDBResourcesListMongoUserDefinitionsResponse,
   MongoDBResourcesGetMongoDBDatabaseOptionalParams,
   MongoDBResourcesGetMongoDBDatabaseResponse,
   MongoDBDatabaseCreateUpdateParameters,
@@ -49,7 +52,6 @@ import {
   MongoDBResourcesMongoDBContainerRetrieveThroughputDistributionResponse,
   MongoDBResourcesMongoDBContainerRedistributeThroughputOptionalParams,
   MongoDBResourcesMongoDBContainerRedistributeThroughputResponse,
-  MongoDBResourcesListMongoDBCollectionsResponse,
   MongoDBResourcesGetMongoDBCollectionOptionalParams,
   MongoDBResourcesGetMongoDBCollectionResponse,
   MongoDBCollectionCreateUpdateParameters,
@@ -73,14 +75,12 @@ import {
   MongoDBResourcesCreateUpdateMongoRoleDefinitionOptionalParams,
   MongoDBResourcesCreateUpdateMongoRoleDefinitionResponse,
   MongoDBResourcesDeleteMongoRoleDefinitionOptionalParams,
-  MongoDBResourcesListMongoRoleDefinitionsResponse,
   MongoDBResourcesGetMongoUserDefinitionOptionalParams,
   MongoDBResourcesGetMongoUserDefinitionResponse,
   MongoUserDefinitionCreateUpdateParameters,
   MongoDBResourcesCreateUpdateMongoUserDefinitionOptionalParams,
   MongoDBResourcesCreateUpdateMongoUserDefinitionResponse,
   MongoDBResourcesDeleteMongoUserDefinitionOptionalParams,
-  MongoDBResourcesListMongoUserDefinitionsResponse,
   ContinuousBackupRestoreLocation,
   MongoDBResourcesRetrieveContinuousBackupInformationOptionalParams,
   MongoDBResourcesRetrieveContinuousBackupInformationResponse
@@ -122,11 +122,15 @@ export class MongoDBResourcesImpl implements MongoDBResources {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listMongoDBDatabasesPagingPage(
           resourceGroupName,
           accountName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -135,9 +139,11 @@ export class MongoDBResourcesImpl implements MongoDBResources {
   private async *listMongoDBDatabasesPagingPage(
     resourceGroupName: string,
     accountName: string,
-    options?: MongoDBResourcesListMongoDBDatabasesOptionalParams
+    options?: MongoDBResourcesListMongoDBDatabasesOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<MongoDBDatabaseGetResults[]> {
-    let result = await this._listMongoDBDatabases(
+    let result: MongoDBResourcesListMongoDBDatabasesResponse;
+    result = await this._listMongoDBDatabases(
       resourceGroupName,
       accountName,
       options
@@ -185,12 +191,16 @@ export class MongoDBResourcesImpl implements MongoDBResources {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listMongoDBCollectionsPagingPage(
           resourceGroupName,
           accountName,
           databaseName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -200,9 +210,11 @@ export class MongoDBResourcesImpl implements MongoDBResources {
     resourceGroupName: string,
     accountName: string,
     databaseName: string,
-    options?: MongoDBResourcesListMongoDBCollectionsOptionalParams
+    options?: MongoDBResourcesListMongoDBCollectionsOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<MongoDBCollectionGetResults[]> {
-    let result = await this._listMongoDBCollections(
+    let result: MongoDBResourcesListMongoDBCollectionsResponse;
+    result = await this._listMongoDBCollections(
       resourceGroupName,
       accountName,
       databaseName,
@@ -250,11 +262,15 @@ export class MongoDBResourcesImpl implements MongoDBResources {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listMongoRoleDefinitionsPagingPage(
           resourceGroupName,
           accountName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -263,9 +279,11 @@ export class MongoDBResourcesImpl implements MongoDBResources {
   private async *listMongoRoleDefinitionsPagingPage(
     resourceGroupName: string,
     accountName: string,
-    options?: MongoDBResourcesListMongoRoleDefinitionsOptionalParams
+    options?: MongoDBResourcesListMongoRoleDefinitionsOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<MongoRoleDefinitionGetResults[]> {
-    let result = await this._listMongoRoleDefinitions(
+    let result: MongoDBResourcesListMongoRoleDefinitionsResponse;
+    result = await this._listMongoRoleDefinitions(
       resourceGroupName,
       accountName,
       options
@@ -310,11 +328,15 @@ export class MongoDBResourcesImpl implements MongoDBResources {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listMongoUserDefinitionsPagingPage(
           resourceGroupName,
           accountName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -323,9 +345,11 @@ export class MongoDBResourcesImpl implements MongoDBResources {
   private async *listMongoUserDefinitionsPagingPage(
     resourceGroupName: string,
     accountName: string,
-    options?: MongoDBResourcesListMongoUserDefinitionsOptionalParams
+    options?: MongoDBResourcesListMongoUserDefinitionsOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<MongoUserDefinitionGetResults[]> {
-    let result = await this._listMongoUserDefinitions(
+    let result: MongoDBResourcesListMongoUserDefinitionsResponse;
+    result = await this._listMongoUserDefinitions(
       resourceGroupName,
       accountName,
       options
