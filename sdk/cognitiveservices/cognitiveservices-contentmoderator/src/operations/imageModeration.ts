@@ -294,7 +294,7 @@ export class ImageModeration {
 
   /**
    * Returns probabilities of the image containing racy or adult content.
-   * @param contentType The content type returned. Example: 'application/json'
+   * @param contentType The content type of the payload being sent to the server. Example: 'application/json'
    * @param imageUrl The image url. Example: { value: 'https://yourdomain.com/sample.jpg', dataRepresentation: 'URL' }
    * @param [options] The optional parameters
    * @returns Promise<Models.ImageModerationEvaluateUrlInputResponse>
