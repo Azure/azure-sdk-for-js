@@ -46,6 +46,10 @@ export interface SerializerOptions {
    * Options to configure xml parser/builder behavior.
    */
   xml: XmlOptions;
+  /**
+   * If additional properties should be included in the result object, even if there is no mapper for them.
+   */
+  ignoreUnknownProperties?: boolean;
 }
 
 export type RequiredSerializerOptions = {
