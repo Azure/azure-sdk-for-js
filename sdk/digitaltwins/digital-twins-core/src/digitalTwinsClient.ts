@@ -90,15 +90,13 @@ export class DigitalTwinsClient {
       loggingOptions: {
         logger: logger.info,
         additionalAllowedHeaderNames: ["x-ms-request-id"],
-      },
-      credentialOptions: {
-        credential,
-        credentialScopes: DEFAULT_DIGITALTWINS_SCOPE,
-      },
+      }
     };
 
     this.client = new GeneratedClient({
       endpoint: endpointUrl,
+      credential,
+      credentialScopes: DEFAULT_DIGITALTWINS_SCOPE,
       ...internalPipelineOptions,
     });
   }
