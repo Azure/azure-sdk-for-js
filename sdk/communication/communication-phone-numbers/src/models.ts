@@ -12,12 +12,12 @@ import {
 /**
  * The result of the phone numbers purchase operation.
  */
-export interface PurchasePhoneNumbersResult {}
+export interface PurchasePhoneNumbersResult { }
 
 /**
  * The result of the phone number release operation.
  */
-export interface ReleasePhoneNumberResult {}
+export interface ReleasePhoneNumberResult { }
 
 /**
  * Additional options for the get phone number request.
@@ -27,7 +27,7 @@ export type GetPurchasedPhoneNumberOptions = OperationOptions;
 /**
  * Additional options that can be passed to the list phone numbers request.
  */
-export interface ListPurchasedPhoneNumbersOptions extends OperationOptions {}
+export interface ListPurchasedPhoneNumbersOptions extends OperationOptions { }
 
 /**
  * Represents a phone number search request to find phone numbers.
@@ -43,17 +43,17 @@ export interface SearchAvailablePhoneNumbersRequest extends PhoneNumberSearchReq
 /**
  * Additional options that can be passed to the available countries request.
  */
-export interface ListAvailableCountriesOptions extends OperationOptions {}
+export interface ListAvailableCountriesOptions extends OperationOptions { }
 
 /**
  * Additional options that can be passed to the Toll-Free area codes request.
  */
-export interface ListTollFreeAreaCodesOptions extends Omit<PhoneNumbersListAreaCodesOptionalParams, 'assignmentType' | 'locality' | 'adminisitrativeDivision'> {}
+export interface ListTollFreeAreaCodesOptions extends Omit<PhoneNumbersListAreaCodesOptionalParams, 'assignmentType' | 'locality' | 'adminisitrativeDivision'> { }
 
 /**
  * Additional options that can be passed to the Geographic area codes request.
  */
-export interface ListGeographicAreaCodesOptions extends PhoneNumbersListAreaCodesOptionalParams {}
+export interface ListGeographicAreaCodesOptions extends PhoneNumbersListAreaCodesOptionalParams { }
 
 /**
  * Additional options that can be passed to the available localities request.
