@@ -5,6 +5,7 @@ import { OperationOptions } from "@azure/core-client";
 import {
   PhoneNumberAssignmentType,
   PhoneNumberSearchRequest,
+  PhoneNumbersListAreaCodesOptionalParams,
   PhoneNumberType,
 } from "./generated/src/models/";
 
@@ -47,12 +48,12 @@ export interface ListAvailableCountriesOptions extends OperationOptions {}
 /**
  * Additional options that can be passed to the Toll-Free area codes request.
  */
-export interface ListTollFreeAreaCodesOptions extends OperationOptions {}
+export interface ListTollFreeAreaCodesOptions extends Omit<PhoneNumbersListAreaCodesOptionalParams, 'assignmentType' | 'locality' | 'adminisitrativeDivision'> {}
 
 /**
  * Additional options that can be passed to the Geographic area codes request.
  */
-export interface ListGeographicAreaCodesOptions extends OperationOptions {}
+export interface ListGeographicAreaCodesOptions extends PhoneNumbersListAreaCodesOptionalParams {}
 
 /**
  * Additional options that can be passed to the available localities request.

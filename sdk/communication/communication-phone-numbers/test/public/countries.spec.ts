@@ -27,7 +27,6 @@ matrix([[true, false]], async function (useAad) {
     });
 
     it("can list all available countries", async function () {
-      setLogLevel("verbose");
       const countriesList = [
         {
           localizedName: "Canada",
