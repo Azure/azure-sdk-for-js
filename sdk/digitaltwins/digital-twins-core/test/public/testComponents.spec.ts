@@ -5,6 +5,7 @@ import { DigitalTwinsClient, DigitalTwinsUpdateComponentOptionalParams } from ".
 import { authenticate } from "../utils/testAuthentication";
 import { Recorder } from "@azure-tools/test-recorder";
 import chai from "chai";
+import { isRestError } from "@azure/core-rest-pipeline";
 
 const assert = chai.assert;
 const should = chai.should();
@@ -84,14 +85,20 @@ describe("DigitalTwins Components - read, update and delete operations", () => {
   async function deleteModels(): Promise<void> {
     try {
       await client.deleteModel(MODEL_ID);
-    } catch (Exception: any) {
-      console.error("deleteModel failed during test setup or cleanup");
+    } catch (e: any) {
+      if (!isRestError(e) || e.statusCode !== 404) {
+        console.error("deleteModel failed during test setup or cleanup", e);
+        throw e;
+      }
     }
 
     try {
       await client.deleteModel(COMPONENT_ID);
-    } catch (Exception: any) {
-      console.error("deleteModel failed during test setup or cleanup");
+    } catch (e: any) {
+      if (!isRestError(e) || e.statusCode !== 404) {
+        console.error("deleteModel failed during test setup or cleanup", e);
+        throw e;
+      }
     }
   }
 
@@ -108,8 +115,11 @@ describe("DigitalTwins Components - read, update and delete operations", () => {
   async function deleteDigitalTwin(digitalTwinId: string): Promise<void> {
     try {
       await client.deleteDigitalTwin(digitalTwinId);
-    } catch (Exception: any) {
-      console.error("deleteDigitalTwin failure during test setup or cleanup");
+    } catch (e: any) {
+      if (!isRestError(e) || e.statusCode !== 404) {
+        console.error("deleteDigitalTwin failure during test setup or cleanup", e);
+        throw e;
+      }
     }
   }
 
@@ -141,10 +151,10 @@ describe("DigitalTwins Components - read, update and delete operations", () => {
 
     try {
       const component: any = await client.getComponent(DIGITAL_TWIN_ID, "Component1");
-      assert.notEqual(component.body, null);
-      assert.notEqual(component.body.ComponentProp1, null);
-      assert.equal(component.body.ComponentProp1, "value1");
-      assert.equal(component.body.ComponentTelemetry1, null);
+      assert.notEqual(component, null);
+      assert.notEqual(component.ComponentProp1, null);
+      assert.equal(component.ComponentProp1, "value1");
+      assert.equal(component.ComponentTelemetry1, null);
     } finally {
       await deleteDigitalTwin(DIGITAL_TWIN_ID);
       await deleteModels();
@@ -165,9 +175,9 @@ describe("DigitalTwins Components - read, update and delete operations", () => {
     try {
       await client.updateComponent(DIGITAL_TWIN_ID, "Component1", patch);
       const component: any = await client.getComponent(DIGITAL_TWIN_ID, "Component1");
-      assert.notEqual(component.body, null);
-      assert.notEqual(component.body.ComponentProp1, null);
-      assert.equal(component.body.ComponentProp1, "value2");
+      assert.notEqual(component, null);
+      assert.notEqual(component.ComponentProp1, null);
+      assert.equal(component.ComponentProp1, "value2");
     } finally {
       await deleteDigitalTwin(DIGITAL_TWIN_ID);
       await deleteModels();
@@ -187,8 +197,8 @@ describe("DigitalTwins Components - read, update and delete operations", () => {
     try {
       await client.updateComponent(DIGITAL_TWIN_ID, "Component1", patch);
       const component: any = await client.getComponent(DIGITAL_TWIN_ID, "Component1");
-      assert.notEqual(component.body, null);
-      assert.equal(component.body.ComponentProp1, null);
+      assert.notEqual(component, null);
+      assert.equal(component.ComponentProp1, null);
     } finally {
       await deleteDigitalTwin(DIGITAL_TWIN_ID);
       await deleteModels();
@@ -209,9 +219,9 @@ describe("DigitalTwins Components - read, update and delete operations", () => {
     try {
       await client.updateComponent(DIGITAL_TWIN_ID, "Component1", patch);
       const component: any = await client.getComponent(DIGITAL_TWIN_ID, "Component1");
-      assert.notEqual(component.body, null);
-      assert.notEqual(component.body.ComponentProp1, null);
-      assert.equal(component.body.ComponentProp1, "5");
+      assert.notEqual(component, null);
+      assert.notEqual(component.ComponentProp1, null);
+      assert.equal(component.ComponentProp1, "5");
     } finally {
       await deleteDigitalTwin(DIGITAL_TWIN_ID);
       await deleteModels();
@@ -236,11 +246,11 @@ describe("DigitalTwins Components - read, update and delete operations", () => {
     try {
       await client.updateComponent(DIGITAL_TWIN_ID, "Component1", patch);
       const component: any = await client.getComponent(DIGITAL_TWIN_ID, "Component1");
-      assert.notEqual(component.body, null);
-      assert.equal(component.body.ComponentProp1, null);
+      assert.exists(component);
+      assert.equal(component.ComponentProp1, null);
 
       const twin: any = await client.getDigitalTwin(DIGITAL_TWIN_ID);
-      assert.equal(twin.body.Component1.ComponentProp1, null);
+      assert.equal(twin.Component1.ComponentProp1, null);
     } finally {
       await deleteDigitalTwin(DIGITAL_TWIN_ID);
       await deleteModels();
@@ -289,9 +299,9 @@ describe("DigitalTwins Components - read, update and delete operations", () => {
       };
       await client.updateComponent(DIGITAL_TWIN_ID, "Component1", patch, options);
       const component: any = await client.getComponent(DIGITAL_TWIN_ID, "Component1");
-      assert.notEqual(component.body, null);
-      assert.notEqual(component.body.ComponentProp1, null);
-      assert.equal(component.body.ComponentProp1, "value2");
+      assert.notEqual(component, null);
+      assert.notEqual(component.ComponentProp1, null);
+      assert.equal(component.ComponentProp1, "value2");
     } finally {
       await deleteDigitalTwin(DIGITAL_TWIN_ID);
       await deleteModels();
@@ -325,7 +335,7 @@ describe("DigitalTwins Components - read, update and delete operations", () => {
     should.equal(errorWasThrown, true, "Error was not thrown");
   });
 
-  it("update component not exisiting", async function () {
+  it("update component not existing", async function () {
     await setUpModels();
     await createDigitalTwin(DIGITAL_TWIN_ID);
 

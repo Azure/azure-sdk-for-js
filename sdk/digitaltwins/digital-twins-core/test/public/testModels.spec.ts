@@ -6,6 +6,7 @@ import { authenticate } from "../utils/testAuthentication";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import chai from "chai";
 import { delay } from "@azure/core-util";
+import { isRestError } from "@azure/core-rest-pipeline";
 
 const assert = chai.assert;
 const should = chai.should();
@@ -73,14 +74,20 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
   async function deleteModels(): Promise<void> {
     try {
       await client.deleteModel(MODEL_ID);
-    } catch (Exception: any) {
-      console.error("deleteModel failure during test setup or cleanup");
+    } catch (e: any) {
+      if (!isRestError(e) || e.statusCode !== 404) {
+        console.error("deleteModel failed during test setup or cleanup", e);
+        throw e;
+      }
     }
 
     try {
       await client.deleteModel(COMPONENT_ID);
-    } catch (Exception: any) {
-      console.error("deleteModel failure during test setup or cleanup");
+    } catch (e: any) {
+      if (!isRestError(e) || e.statusCode !== 404) {
+        console.error("deleteModel failed during test setup or cleanup", e);
+        throw e;
+      }
     }
   }
 

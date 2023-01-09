@@ -11,6 +11,7 @@ import { authenticate } from "../utils/testAuthentication";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { delay } from "@azure/core-util";
 import chai from "chai";
+import { isRestError } from "@azure/core-rest-pipeline";
 
 const assert = chai.assert;
 const should = chai.should();
@@ -52,8 +53,11 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
   async function deleteModels(): Promise<void> {
     try {
       await client.deleteModel(BUILDING_MODEL_ID);
-    } catch (Exception: any) {
-      console.error("deleteModel failure during test setup or cleanup");
+    } catch (e: any) {
+      if (!isRestError(e) || e.statusCode !== 404) {
+        console.error("deleteModel failed during test setup or cleanup", e);
+        throw e;
+      }
     }
   }
 
@@ -70,8 +74,11 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
   async function deleteDigitalTwin(digitalTwinId: string): Promise<void> {
     try {
       await client.deleteDigitalTwin(digitalTwinId);
-    } catch (Exception: any) {
-      console.error("deleteDigitalTwin failure during test setup or cleanup");
+    } catch (e: any) {
+      if (!isRestError(e) || e.statusCode !== 404) {
+        console.error("deleteDigitalTwin failure during test setup or cleanup", e);
+        throw e;
+      }
     }
   }
 
@@ -81,8 +88,11 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
       for await (const item of queryResult) {
         await client.deleteDigitalTwin(item.$dtId as string);
       }
-    } catch (Exception: any) {
-      console.error("deleteDigitalTwin failure during test setup or cleanup");
+    } catch (e: any) {
+      if (!isRestError(e) || e.statusCode !== 404) {
+        console.error("deleteDigitalTwin failure during test setup or cleanup", e);
+        throw e;
+      }
     }
   }
 
@@ -106,26 +116,26 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
       );
 
       assert.equal(
-        createdTwin.body.$dtId,
+        createdTwin.$dtId,
         digitalTwinId,
         "Unexpected dtId result from upsertDigitalTwin()."
       );
       assert.equal(
-        createdTwin.body.$metadata.$model,
+        createdTwin.$metadata.$model,
         BUILDING_MODEL_ID,
         "Unexpected model result from upsertDigitalTwin()."
       );
       assert.equal(
-        createdTwin.body.AverageTemperature,
+        createdTwin.AverageTemperature,
         buildingTwin["AverageTemperature"],
         "Unexpected AverageTemperature result from upsertDigitalTwin()."
       );
       assert.equal(
-        createdTwin.body.TemperatureUnit,
+        createdTwin.TemperatureUnit,
         buildingTwin["TemperatureUnit"],
         "Unexpected TemperatureUnit result from upsertDigitalTwin()."
       );
-      assert.notEqual(createdTwin.body.$etag, "", "No etag in result from upsertDigitalTwin().");
+      assert.notEqual(createdTwin.$etag, "", "No etag in result from upsertDigitalTwin().");
     } finally {
       await deleteDigitalTwin(digitalTwinId);
       await deleteModels();
@@ -239,26 +249,26 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
         JSON.stringify(buildingTwin)
       );
       assert.equal(
-        createdTwin.body.$dtId,
+        createdTwin.$dtId,
         digitalTwinId,
         "Unexpected dtId result from upsertDigitalTwin()."
       );
       assert.equal(
-        createdTwin.body.$metadata.$model,
+        createdTwin.$metadata.$model,
         BUILDING_MODEL_ID,
         "Unexpected model result from upsertDigitalTwin()."
       );
       assert.equal(
-        createdTwin.body.AverageTemperature,
+        createdTwin.AverageTemperature,
         buildingTwin["AverageTemperature"],
         "Unexpected AverageTemperature result from upsertDigitalTwin()."
       );
       assert.equal(
-        createdTwin.body.TemperatureUnit,
+        createdTwin.TemperatureUnit,
         buildingTwin["TemperatureUnit"],
         "Unexpected TemperatureUnit result from upsertDigitalTwin()."
       );
-      assert.notEqual(createdTwin.body.$etag, "", "No etag in result from upsertDigitalTwin().");
+      assert.notEqual(createdTwin.$etag, "", "No etag in result from upsertDigitalTwin().");
 
       const newTemperature = 69;
       buildingTwin.AverageTemperature = newTemperature;
@@ -267,26 +277,26 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
         JSON.stringify(buildingTwin)
       );
       assert.equal(
-        updatedTwin.body.$dtId,
+        updatedTwin.$dtId,
         digitalTwinId,
         "Unexpected dtId result from upsertDigitalTwin()."
       );
       assert.equal(
-        updatedTwin.body.$metadata.$model,
+        updatedTwin.$metadata.$model,
         BUILDING_MODEL_ID,
         "Unexpected model result from upsertDigitalTwin()."
       );
       assert.equal(
-        updatedTwin.body.AverageTemperature,
+        updatedTwin.AverageTemperature,
         newTemperature,
         "Unexpected AverageTemperature result from upsertDigitalTwin()."
       );
       assert.equal(
-        updatedTwin.body.TemperatureUnit,
+        updatedTwin.TemperatureUnit,
         buildingTwin["TemperatureUnit"],
         "Unexpected TemperatureUnit result from upsertDigitalTwin()."
       );
-      assert.notEqual(updatedTwin.body.$etag, "", "No etag in result from upsertDigitalTwin().");
+      assert.notEqual(updatedTwin.$etag, "", "No etag in result from upsertDigitalTwin().");
     } finally {
       await deleteDigitalTwin(digitalTwinId);
       await deleteModels();
@@ -348,7 +358,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
       );
       const getTwin = await client.getDigitalTwin(digitalTwinId);
 
-      assert.deepEqual(createdTwin.body, getTwin.body);
+      assert.deepEqual(createdTwin, getTwin);
     } finally {
       await deleteDigitalTwin(digitalTwinId);
       await deleteModels();
@@ -538,12 +548,12 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     try {
       const updatedTwin: any = await client.getDigitalTwin(digitalTwinId);
       assert.equal(
-        updatedTwin.body.TemperatureUnit,
+        updatedTwin.TemperatureUnit,
         "Celsius",
         "Unexpected TemperatureUnit result from updateDigitalTwin()."
       );
       assert.equal(
-        updatedTwin.body.AverageTemperature,
+        updatedTwin.AverageTemperature,
         42,
         "Unexpected TemperatureUnit result from updateDigitalTwin()."
       );
@@ -583,12 +593,12 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     try {
       const updatedTwin: any = await client.getDigitalTwin(digitalTwinId);
       assert.equal(
-        updatedTwin.body.TemperatureUnit,
+        updatedTwin.TemperatureUnit,
         "Celsius",
         "Unexpected TemperatureUnit result from updateDigitalTwin()."
       );
       assert.doesNotHaveAnyKeys(
-        updatedTwin.body,
+        updatedTwin,
         ["AverageTemperature"],
         "Unexpected AverageTemperature result from updateDigitalTwin()."
       );
@@ -628,12 +638,12 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     try {
       const updatedTwin: any = await client.getDigitalTwin(digitalTwinId);
       assert.equal(
-        updatedTwin.body.AverageTemperature,
+        updatedTwin.AverageTemperature,
         68,
         "Unexpected AverageTemperature result from updateDigitalTwin()."
       );
       assert.equal(
-        updatedTwin.body.TemperatureUnit,
+        updatedTwin.TemperatureUnit,
         "Celsius",
         "Unexpected TemperatureUnit result from updateDigitalTwin()."
       );
@@ -678,12 +688,12 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     try {
       const updatedTwin: any = await client.getDigitalTwin(digitalTwinId);
       assert.equal(
-        updatedTwin.body.AverageTemperature,
+        updatedTwin.AverageTemperature,
         42,
         "Unexpected AverageTemperature result from updateDigitalTwin()."
       );
       assert.equal(
-        updatedTwin.body.TemperatureUnit,
+        updatedTwin.TemperatureUnit,
         "Celsius",
         "Unexpected TemperatureUnit result from updateDigitalTwin()."
       );
@@ -763,7 +773,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     try {
       const updatedTwin: any = await client.getDigitalTwin(digitalTwinId);
       assert.equal(
-        updatedTwin.body.AverageTemperature,
+        updatedTwin.AverageTemperature,
         42,
         "Unexpected TemperatureUnit result from updateDigitalTwin()."
       );
