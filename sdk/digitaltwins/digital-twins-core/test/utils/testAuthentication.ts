@@ -17,7 +17,11 @@ export async function authenticate(that: Mocha.Context): Promise<any> {
   });
   const credential = createTestCredential();
   const AZURE_DIGITALTWINS_URL = env.AZURE_DIGITALTWINS_URL || "";
-  const client = new DigitalTwinsClient(AZURE_DIGITALTWINS_URL, credential, recorder.configureClientOptions({}));
+  const client = new DigitalTwinsClient(
+    AZURE_DIGITALTWINS_URL,
+    credential,
+    recorder.configureClientOptions({})
+  );
 
   return { recorder, client };
 }

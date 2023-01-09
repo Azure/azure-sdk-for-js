@@ -360,8 +360,9 @@ describe("DigitalTwins Components - read, update and delete operations", () => {
   });
 
   it("publish component telemetry", async function () {
-    if(!isLiveMode()) { this.skip(); } 
-
+    if (!isLiveMode()) {
+      this.skip();
+    }
     await setUpModels();
     await createDigitalTwin(DIGITAL_TWIN_ID);
 
@@ -381,8 +382,9 @@ describe("DigitalTwins Components - read, update and delete operations", () => {
   });
 
   it("publish component telemetry with message id", async function () {
-    if(!isLiveMode()) { this.skip(); } 
-
+    if (!isLiveMode()) {
+      this.skip();
+    }
     await setUpModels();
     await createDigitalTwin(DIGITAL_TWIN_ID);
 
@@ -402,8 +404,9 @@ describe("DigitalTwins Components - read, update and delete operations", () => {
   });
 
   it("publish component telemetry not existing", async function () {
-    if(!isLiveMode()) { this.skip(); } 
-    
+    if (!isLiveMode()) {
+      this.skip();
+    }
     await setUpModels();
     await createDigitalTwin(DIGITAL_TWIN_ID);
 

@@ -163,15 +163,15 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
 
   async function cleanup(twinId: string, relationshipId: string): Promise<void> {
     try {
-        await client.deleteRelationship(twinId, relationshipId);
-      } catch (e: any) {
-        if (!isRestError(e) || e.statusCode !== 404) {
-          console.error("deleteRelationship failure during test setup or cleanup", e);
-          throw e;
-        }
+      await client.deleteRelationship(twinId, relationshipId);
+    } catch (e: any) {
+      if (!isRestError(e) || e.statusCode !== 404) {
+        console.error("deleteRelationship failure during test setup or cleanup", e);
+        throw e;
       }
-      await deleteDigitalTwins();
-      await deleteModels();
+    }
+    await deleteDigitalTwins();
+    await deleteModels();
   }
 
   async function createDigitalTwins(): Promise<void> {

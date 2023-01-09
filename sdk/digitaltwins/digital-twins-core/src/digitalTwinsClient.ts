@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { OperationOptions, InternalClientPipelineOptions, CommonClientOptions } from "@azure/core-client";
+import {
+  OperationOptions,
+  InternalClientPipelineOptions,
+  CommonClientOptions,
+} from "@azure/core-client";
 import { TokenCredential } from "@azure/core-auth";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { v4 as generateUuid } from "uuid";
@@ -89,7 +93,7 @@ export class DigitalTwinsClient {
       loggingOptions: {
         logger: logger.info,
         additionalAllowedHeaderNames: ["x-ms-request-id"],
-      }
+      },
     };
 
     this.client = new GeneratedClient({
