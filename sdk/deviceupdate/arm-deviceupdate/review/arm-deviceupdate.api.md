@@ -18,7 +18,7 @@ export interface Account extends TrackedResource {
     privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: ProvisioningState;
     publicNetworkAccess?: PublicNetworkAccess;
-    sku?: Sku;
+    sku?: SKU;
 }
 
 // @public
@@ -213,6 +213,9 @@ export interface ErrorDetail {
 export interface ErrorResponse {
     error?: ErrorDetail;
 }
+
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export interface GroupConnectivityInformation {
@@ -728,7 +731,7 @@ export interface Resource {
 export type Role = string;
 
 // @public
-export type Sku = string;
+export type SKU = string;
 
 // @public
 export interface SystemData {

@@ -524,7 +524,7 @@ export interface Account extends TrackedResource {
   /** List of private endpoint connections associated with the account. */
   privateEndpointConnections?: PrivateEndpointConnection[];
   /** Device Update Sku */
-  sku?: Sku;
+  sku?: SKU;
   /**
    * Device Update account primary and failover location details
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -724,7 +724,7 @@ export enum KnownSku {
  * **Free** \
  * **Standard**
  */
-export type Sku = string;
+export type SKU = string;
 
 /** Known values of {@link Role} that the service accepts. */
 export enum KnownRole {
