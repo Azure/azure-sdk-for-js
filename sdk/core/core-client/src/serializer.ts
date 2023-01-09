@@ -229,6 +229,7 @@ class SerializerImpl implements Serializer {
         includeRoot: options.xml.includeRoot ?? false,
         xmlCharKey: options.xml.xmlCharKey ?? XML_CHARKEY,
       },
+      ignoreUnknownProperties: options.ignoreUnknownProperties ?? false,
     };
     if (responseBody === undefined || responseBody === null) {
       if (this.isXML && mapper.type.name === "Sequence" && !mapper.xmlIsWrapped) {
@@ -1028,7 +1029,7 @@ function deserializeCompositeType(
         );
       }
     }
-  } else if (responseBody) {
+  } else if (responseBody && !options.ignoreUnknownProperties) {
     for (const key of Object.keys(responseBody)) {
       if (
         instance[key] === undefined &&
