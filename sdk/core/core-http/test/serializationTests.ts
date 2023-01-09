@@ -774,7 +774,7 @@ describe("msrest", function () {
 
       (function () {
         Serializer.serialize(mapper, { length: undefined }, "testobj");
-      }.should.throw("testobj.length cannot be undefined."));
+      }).should.throw("testobj.length cannot be undefined.");
     });
 
     it("should not allow null when required: true and nullable: false", function () {
@@ -799,7 +799,7 @@ describe("msrest", function () {
 
       (function () {
         Serializer.serialize(mapper, { length: undefined }, "testobj");
-      }.should.throw("testobj.length cannot be null or undefined."));
+      }).should.throw("testobj.length cannot be null or undefined.");
     });
 
     it("should not allow undefined when required: true and nullable: false", function () {
@@ -824,7 +824,7 @@ describe("msrest", function () {
 
       (function () {
         Serializer.serialize(mapper, { length: undefined }, "testobj");
-      }.should.throw("testobj.length cannot be null or undefined."));
+      }).should.throw("testobj.length cannot be null or undefined.");
     });
 
     it("should not allow null when required: true and nullable is undefined", function () {
@@ -837,7 +837,7 @@ describe("msrest", function () {
       };
       (function () {
         Serializer.serialize(mapper, undefined, "testobj");
-      }.should.throw("testobj cannot be null or undefined."));
+      }).should.throw("testobj cannot be null or undefined.");
     });
 
     it("should not allow undefined when required: true and nullable is undefined", function () {
@@ -850,7 +850,7 @@ describe("msrest", function () {
       };
       (function () {
         Serializer.serialize(mapper, undefined, "testobj");
-      }.should.throw("testobj cannot be null or undefined."));
+      }).should.throw("testobj cannot be null or undefined.");
     });
 
     it("should allow null when required: false and nullable: true", function () {
@@ -879,7 +879,7 @@ describe("msrest", function () {
       // tslint:disable-next-line
       (function () {
         Serializer.serialize(mapper, null, "testobj");
-      }.should.throw("testobj cannot be null."));
+      }).should.throw("testobj cannot be null.");
     });
 
     it("should allow null when required: false and nullable is undefined", function () {
