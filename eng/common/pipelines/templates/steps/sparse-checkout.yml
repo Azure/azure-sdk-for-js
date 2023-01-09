@@ -23,7 +23,7 @@ steps:
       # Define this inline, because of the chicken/egg problem with loading a script when nothing
       # has been checked out yet.
       script: |
-        function SparseCheckout([Array]$paths, [Hashtable]$repository)
+        function SparseCheckout([Array]$paths, [Hashtable]$repository, [string]$gitLink)
         {
             $dir = $repository.WorkingDirectory
             if (!$dir) {
@@ -39,11 +39,11 @@ steps:
               Write-Host "Repository $($repository.Name) is being initialized."
 
               if ($repository.Commitish -match '^refs/pull/\d+/merge$') {
-                Write-Host "git clone --no-checkout --filter=tree:0 -c remote.origin.fetch='+$($repository.Commitish):refs/remotes/origin/$($repository.Commitish)' https://github.com/$($repository.Name) ."
-                git clone --no-checkout --filter=tree:0 -c remote.origin.fetch=''+$($repository.Commitish):refs/remotes/origin/$($repository.Commitish)'' https://github.com/$($repository.Name) .
+                Write-Host "git clone --no-checkout --filter=tree:0 -c remote.origin.fetch='+$($repository.Commitish):refs/remotes/origin/$($repository.Commitish)' $gitLink ."
+                git clone --no-checkout --filter=tree:0 -c remote.origin.fetch=''+$($repository.Commitish):refs/remotes/origin/$($repository.Commitish)'' $gitLink .
               } else {
-                Write-Host "git clone --no-checkout --filter=tree:0 https://github.com/$($repository.Name) ."
-                git clone --no-checkout --filter=tree:0 https://github.com/$($repository.Name) .
+                Write-Host "git clone --no-checkout --filter=tree:0 $gitLink ."
+                git clone --no-checkout --filter=tree:0 $gitLink .
               }
 
               Write-Host "git sparse-checkout init"
@@ -82,7 +82,12 @@ steps:
         # Replace windows backslash paths, as Azure Pipelines default directories are sometimes formatted like 'D:\a\1\s'
         $repositories = '${{ convertToJson(parameters.Repositories) }}' -replace '\\', '/' | ConvertFrom-Json -AsHashtable
         foreach ($repo in $Repositories) {
-          SparseCheckout $paths $repo
+          $gitLink = "https://github.com/$($repo.Name).git"
+          if ("$env:AZURESDK-GITHUB-PAT") {
+            $gitLink = "https://$(azuresdk-github-pat)@github.com/$($repo.Name).git"
+          }
+          Write-Host $gitLink
+          SparseCheckout $paths $repo $gitLink
         }
       pwsh: true
       workingDirectory: $(System.DefaultWorkingDirectory)
