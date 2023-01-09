@@ -51,7 +51,7 @@ export interface ListAvailableCountriesOptions extends OperationOptions {}
 export interface ListTollFreeAreaCodesOptions
   extends Omit<
     PhoneNumbersListAreaCodesOptionalParams,
-    "assignmentType" | "locality" | "adminisitrativeDivision"
+    "assignmentType" | "locality" | "administrativeDivision"
   > {}
 
 /**

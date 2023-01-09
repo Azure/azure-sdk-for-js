@@ -61,7 +61,7 @@ export interface ListPurchasedPhoneNumbersOptions extends OperationOptions {
 }
 
 // @public
-export interface ListTollFreeAreaCodesOptions extends Omit<PhoneNumbersListAreaCodesOptionalParams, "assignmentType" | "locality" | "adminisitrativeDivision"> {
+export interface ListTollFreeAreaCodesOptions extends Omit<PhoneNumbersListAreaCodesOptionalParams, "assignmentType" | "locality" | "administrativeDivision"> {
 }
 
 // @public
