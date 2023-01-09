@@ -47,7 +47,8 @@ export interface SerializerOptions {
    */
   xml: XmlOptions;
   /**
-   * If additional properties should be included in the result object, even if there is no mapper for them.
+   * Normally additional properties are included in the result object, even if there is no mapper for them.
+   * This flag disables this behavior when true. It is used when parsing headers to avoid polluting the result object.
    */
   ignoreUnknownProperties?: boolean;
 }

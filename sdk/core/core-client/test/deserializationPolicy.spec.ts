@@ -738,13 +738,14 @@ describe("deserializationPolicy", function () {
       const result = await getDeserializedResponse({
         operationSpec,
         headers: { "x-ms-foo": "SomeHeaderValue", "x-ms-bar": "SomeOtherHeaderValue" },
-        bodyAsText: '{"message": "Some kind of message"}',
+        bodyAsText: '{"message": "Some kind of message", "extraProp": "An extra property value"}',
         status: 200,
       });
       assert.exists(result);
       assert.strictEqual(result.parsedHeaders?.foo, "SomeHeaderValue");
       assert.strictEqual(result.parsedBody.message, "Some kind of message");
       assert.notExists(result.parsedHeaders?.["x-ms-bar"]);
+      assert.strictEqual(result.parsedBody.extraProp, "An extra property value");
     });
   });
 });
