@@ -39,7 +39,7 @@ export interface ListAvailableCountriesOptions extends OperationOptions {
 }
 
 // @public
-export interface ListGeographicAreaCodesOptions extends OperationOptions {
+export interface ListGeographicAreaCodesOptions extends PhoneNumbersListAreaCodesOptionalParams {
 }
 
 // @public
@@ -61,7 +61,7 @@ export interface ListPurchasedPhoneNumbersOptions extends OperationOptions {
 }
 
 // @public
-export interface ListTollFreeAreaCodesOptions extends OperationOptions {
+export interface ListTollFreeAreaCodesOptions extends Omit<PhoneNumbersListAreaCodesOptionalParams, "assignmentType" | "locality" | "adminisitrativeDivision"> {
 }
 
 // @public
