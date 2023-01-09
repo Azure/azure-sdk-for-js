@@ -15,33 +15,41 @@ import {
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
-  ServersImpl,
-  FirewallRulesImpl,
-  ConfigurationsImpl,
-  CheckNameAvailabilityImpl,
+  AdministratorsImpl,
+  BackupsImpl,
   LocationBasedCapabilitiesImpl,
-  VirtualNetworkSubnetUsageImpl,
-  OperationsImpl,
+  CheckNameAvailabilityImpl,
+  CheckNameAvailabilityWithLocationImpl,
+  ConfigurationsImpl,
   DatabasesImpl,
-  GetPrivateDnsZoneSuffixImpl
+  FirewallRulesImpl,
+  ServersImpl,
+  OperationsImpl,
+  GetPrivateDnsZoneSuffixImpl,
+  ReplicasImpl,
+  VirtualNetworkSubnetUsageImpl
 } from "./operations";
 import {
-  Servers,
-  FirewallRules,
-  Configurations,
-  CheckNameAvailability,
+  Administrators,
+  Backups,
   LocationBasedCapabilities,
-  VirtualNetworkSubnetUsage,
-  Operations,
+  CheckNameAvailability,
+  CheckNameAvailabilityWithLocation,
+  Configurations,
   Databases,
-  GetPrivateDnsZoneSuffix
+  FirewallRules,
+  Servers,
+  Operations,
+  GetPrivateDnsZoneSuffix,
+  Replicas,
+  VirtualNetworkSubnetUsage
 } from "./operationsInterfaces";
 import { PostgreSQLManagementFlexibleServerClientOptionalParams } from "./models";
 
 export class PostgreSQLManagementFlexibleServerClient extends coreClient.ServiceClient {
   $host: string;
-  apiVersion: string;
   subscriptionId: string;
+  apiVersion: string;
 
   /**
    * Initializes a new instance of the PostgreSQLManagementFlexibleServerClient class.
@@ -70,7 +78,7 @@ export class PostgreSQLManagementFlexibleServerClient extends coreClient.Service
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-postgresql-flexible/6.1.1`;
+    const packageDetails = `azsdk-js-arm-postgresql-flexible/7.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -123,16 +131,22 @@ export class PostgreSQLManagementFlexibleServerClient extends coreClient.Service
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-06-01";
-    this.servers = new ServersImpl(this);
-    this.firewallRules = new FirewallRulesImpl(this);
-    this.configurations = new ConfigurationsImpl(this);
-    this.checkNameAvailability = new CheckNameAvailabilityImpl(this);
+    this.apiVersion = options.apiVersion || "2022-12-01";
+    this.administrators = new AdministratorsImpl(this);
+    this.backups = new BackupsImpl(this);
     this.locationBasedCapabilities = new LocationBasedCapabilitiesImpl(this);
-    this.virtualNetworkSubnetUsage = new VirtualNetworkSubnetUsageImpl(this);
-    this.operations = new OperationsImpl(this);
+    this.checkNameAvailability = new CheckNameAvailabilityImpl(this);
+    this.checkNameAvailabilityWithLocation = new CheckNameAvailabilityWithLocationImpl(
+      this
+    );
+    this.configurations = new ConfigurationsImpl(this);
     this.databases = new DatabasesImpl(this);
+    this.firewallRules = new FirewallRulesImpl(this);
+    this.servers = new ServersImpl(this);
+    this.operations = new OperationsImpl(this);
     this.getPrivateDnsZoneSuffix = new GetPrivateDnsZoneSuffixImpl(this);
+    this.replicas = new ReplicasImpl(this);
+    this.virtualNetworkSubnetUsage = new VirtualNetworkSubnetUsageImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -164,13 +178,17 @@ export class PostgreSQLManagementFlexibleServerClient extends coreClient.Service
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
-  servers: Servers;
-  firewallRules: FirewallRules;
-  configurations: Configurations;
-  checkNameAvailability: CheckNameAvailability;
+  administrators: Administrators;
+  backups: Backups;
   locationBasedCapabilities: LocationBasedCapabilities;
-  virtualNetworkSubnetUsage: VirtualNetworkSubnetUsage;
-  operations: Operations;
+  checkNameAvailability: CheckNameAvailability;
+  checkNameAvailabilityWithLocation: CheckNameAvailabilityWithLocation;
+  configurations: Configurations;
   databases: Databases;
+  firewallRules: FirewallRules;
+  servers: Servers;
+  operations: Operations;
   getPrivateDnsZoneSuffix: GetPrivateDnsZoneSuffix;
+  replicas: Replicas;
+  virtualNetworkSubnetUsage: VirtualNetworkSubnetUsage;
 }
