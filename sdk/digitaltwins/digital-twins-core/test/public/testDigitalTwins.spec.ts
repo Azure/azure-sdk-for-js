@@ -8,7 +8,7 @@ import {
   DigitalTwinsUpdateOptionalParams,
 } from "../../src";
 import { authenticate } from "../utils/testAuthentication";
-import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
+import { isLiveMode, isRecordMode, Recorder } from "@azure-tools/test-recorder";
 import { delay } from "@azure/core-util";
 import chai from "chai";
 import { isRestError } from "@azure/core-rest-pipeline";
@@ -874,7 +874,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     await client.upsertDigitalTwin(digitalTwinId, JSON.stringify(buildingTwin));
 
     // Wait for the service to be ready
-    if (isLiveMode()) {
+    if (isLiveMode() || isRecordMode()) {
       await delay(5000);
     }
 
