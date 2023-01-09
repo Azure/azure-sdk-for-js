@@ -86,7 +86,6 @@ steps:
           if ("$env:AZURESDK-GITHUB-PAT") {
             $gitLink = "https://$(azuresdk-github-pat)@github.com/$($repo.Name).git"
           }
-          Write-Host $gitLink
           SparseCheckout $paths $repo $gitLink
         }
       pwsh: true
