@@ -422,6 +422,9 @@ interface Event_2 {
 export { Event_2 as Event }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export interface GitRepoVolume {
     directory?: string;
     repository: string;

@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Deallocate the Managed Cassandra Cluster and Associated Data Centers. Deallocation will deallocate the host virtual machine of this cluster, and reserved the data disk. This won't do anything on an already deallocated cluster. Use Start to restart the cluster.
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBManagedCassandraClusterDeallocate.json
  */
 async function cosmosDbManagedCassandraClusterDeallocate() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "cassandra-prod-rg";
+  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "cassandra-prod-rg";
   const clusterName = "cassandra-prod";
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
@@ -30,4 +31,8 @@ async function cosmosDbManagedCassandraClusterDeallocate() {
   console.log(result);
 }
 
-cosmosDbManagedCassandraClusterDeallocate().catch(console.error);
+async function main() {
+  cosmosDbManagedCassandraClusterDeallocate();
+}
+
+main().catch(console.error);

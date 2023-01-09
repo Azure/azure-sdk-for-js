@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { PostgreSQLManagementFlexibleServerClient } from "@azure/arm-postgresql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to List all the databases in a given server.
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2021-06-01/examples/DatabasesListByServer.json
  */
 async function listDatabasesInAServer() {
-  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = "TestGroup";
+  const subscriptionId =
+    process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
+    "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName =
+    process.env["POSTGRESQL_RESOURCE_GROUP"] || "TestGroup";
   const serverName = "testserver";
   const credential = new DefaultAzureCredential();
   const client = new PostgreSQLManagementFlexibleServerClient(
@@ -36,4 +42,8 @@ async function listDatabasesInAServer() {
   console.log(resArray);
 }
 
-listDatabasesInAServer().catch(console.error);
+async function main() {
+  listDatabasesInAServer();
+}
+
+main().catch(console.error);

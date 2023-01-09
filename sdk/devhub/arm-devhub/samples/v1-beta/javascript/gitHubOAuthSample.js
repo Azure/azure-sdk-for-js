@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { DeveloperHubServiceClient } = require("@azure/arm-devhub");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets GitHubOAuth info used to authenticate users with the Developer Hub GitHub App.
@@ -18,7 +19,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-04-01-preview/examples/GitHubOAuth.json
  */
 async function gitHubOAuth() {
-  const subscriptionId = "subscriptionId1";
+  const subscriptionId = process.env["DEVHUB_SUBSCRIPTION_ID"] || "subscriptionId1";
   const location = "eastus2euap";
   const parameters = {
     redirectUrl: "https://ms.portal.azure.com/aks",
@@ -30,4 +31,8 @@ async function gitHubOAuth() {
   console.log(result);
 }
 
-gitHubOAuth().catch(console.error);
+async function main() {
+  gitHubOAuth();
+}
+
+main().catch(console.error);

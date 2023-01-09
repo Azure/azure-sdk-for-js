@@ -13,6 +13,9 @@ import {
   CosmosDBManagementClient
 } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create or update an Azure Cosmos DB Cassandra View
@@ -21,8 +24,8 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBCassandraViewCreateUpdate.json
  */
 async function cosmosDbCassandraViewCreateUpdate() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
   const keyspaceName = "keyspacename";
   const viewName = "viewname";
@@ -47,4 +50,8 @@ async function cosmosDbCassandraViewCreateUpdate() {
   console.log(result);
 }
 
-cosmosDbCassandraViewCreateUpdate().catch(console.error);
+async function main() {
+  cosmosDbCassandraViewCreateUpdate();
+}
+
+main().catch(console.error);

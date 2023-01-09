@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Starts the notebook workspace
@@ -18,8 +21,8 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBNotebookWorkspaceStart.json
  */
 async function cosmosDbNotebookWorkspaceStart() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
   const notebookWorkspaceName = "default";
   const credential = new DefaultAzureCredential();
@@ -32,4 +35,8 @@ async function cosmosDbNotebookWorkspaceStart() {
   console.log(result);
 }
 
-cosmosDbNotebookWorkspaceStart().catch(console.error);
+async function main() {
+  cosmosDbNotebookWorkspaceStart();
+}
+
+main().catch(console.error);

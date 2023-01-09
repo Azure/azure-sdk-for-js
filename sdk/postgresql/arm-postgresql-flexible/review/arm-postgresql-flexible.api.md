@@ -52,20 +52,20 @@ export interface CloudError {
 }
 
 // @public
-export type Configuration = ProxyResource & {
-    readonly systemData?: SystemData;
-    value?: string;
-    readonly description?: string;
-    readonly defaultValue?: string;
-    readonly dataType?: ConfigurationDataType;
+export interface Configuration extends ProxyResource {
     readonly allowedValues?: string;
-    source?: string;
+    readonly dataType?: ConfigurationDataType;
+    readonly defaultValue?: string;
+    readonly description?: string;
+    readonly documentationLink?: string;
+    readonly isConfigPendingRestart?: boolean;
     readonly isDynamicConfig?: boolean;
     readonly isReadOnly?: boolean;
-    readonly isConfigPendingRestart?: boolean;
+    source?: string;
+    readonly systemData?: SystemData;
     readonly unit?: string;
-    readonly documentationLink?: string;
-};
+    value?: string;
+}
 
 // @public
 export type ConfigurationDataType = string;
@@ -135,11 +135,11 @@ export type CreateMode = string;
 export type CreateModeForUpdate = string;
 
 // @public
-export type Database = ProxyResource & {
-    readonly systemData?: SystemData;
+export interface Database extends ProxyResource {
     charset?: string;
     collation?: string;
-};
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface DatabaseListResult {
@@ -218,11 +218,11 @@ export interface ErrorResponse {
 export type FailoverMode = string;
 
 // @public
-export type FirewallRule = ProxyResource & {
-    readonly systemData?: SystemData;
-    startIpAddress: string;
+export interface FirewallRule extends ProxyResource {
     endIpAddress: string;
-};
+    startIpAddress: string;
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface FirewallRuleListResult {
@@ -288,6 +288,9 @@ export interface FlexibleServerEditionCapability {
 export type GeoRedundantBackupEnum = string;
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export interface GetPrivateDnsZoneSuffix {
     execute(options?: GetPrivateDnsZoneSuffixExecuteOptionalParams): Promise<GetPrivateDnsZoneSuffixExecuteResponse>;
 }
@@ -322,153 +325,105 @@ export interface HyperscaleNodeEditionCapability {
 
 // @public
 export enum KnownConfigurationDataType {
-    // (undocumented)
     Boolean = "Boolean",
-    // (undocumented)
     Enumeration = "Enumeration",
-    // (undocumented)
     Integer = "Integer",
-    // (undocumented)
     Numeric = "Numeric"
 }
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownCreateMode {
-    // (undocumented)
     Create = "Create",
-    // (undocumented)
     Default = "Default",
-    // (undocumented)
     PointInTimeRestore = "PointInTimeRestore",
-    // (undocumented)
     Update = "Update"
 }
 
 // @public
 export enum KnownCreateModeForUpdate {
-    // (undocumented)
     Default = "Default",
-    // (undocumented)
     Update = "Update"
 }
 
 // @public
 export enum KnownFailoverMode {
-    // (undocumented)
     ForcedFailover = "ForcedFailover",
-    // (undocumented)
     ForcedSwitchover = "ForcedSwitchover",
-    // (undocumented)
     PlannedFailover = "PlannedFailover",
-    // (undocumented)
     PlannedSwitchover = "PlannedSwitchover"
 }
 
 // @public
 export enum KnownGeoRedundantBackupEnum {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownHighAvailabilityMode {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     ZoneRedundant = "ZoneRedundant"
 }
 
 // @public
 export enum KnownOperationOrigin {
-    // (undocumented)
     NotSpecified = "NotSpecified",
-    // (undocumented)
     System = "system",
-    // (undocumented)
     User = "user"
 }
 
 // @public
 export enum KnownReason {
-    // (undocumented)
     AlreadyExists = "AlreadyExists",
-    // (undocumented)
     Invalid = "Invalid"
 }
 
 // @public
 export enum KnownServerHAState {
-    // (undocumented)
     CreatingStandby = "CreatingStandby",
-    // (undocumented)
     FailingOver = "FailingOver",
-    // (undocumented)
     Healthy = "Healthy",
-    // (undocumented)
     NotEnabled = "NotEnabled",
-    // (undocumented)
     RemovingStandby = "RemovingStandby",
-    // (undocumented)
     ReplicatingData = "ReplicatingData"
 }
 
 // @public
 export enum KnownServerPublicNetworkAccessState {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownServerState {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Dropping = "Dropping",
-    // (undocumented)
     Ready = "Ready",
-    // (undocumented)
     Starting = "Starting",
-    // (undocumented)
     Stopped = "Stopped",
-    // (undocumented)
     Stopping = "Stopping",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownServerVersion {
-    // (undocumented)
     Eleven = "11",
-    // (undocumented)
     Thirteen = "13",
-    // (undocumented)
     Twelve = "12"
 }
 
 // @public
 export enum KnownSkuTier {
-    // (undocumented)
     Burstable = "Burstable",
-    // (undocumented)
     GeneralPurpose = "GeneralPurpose",
-    // (undocumented)
     MemoryOptimized = "MemoryOptimized"
 }
 
@@ -605,7 +560,8 @@ export interface PostgreSQLManagementFlexibleServerClientOptionalParams extends 
 }
 
 // @public
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {
+}
 
 // @public
 export type Reason = string;
@@ -624,25 +580,25 @@ export interface RestartParameter {
 }
 
 // @public
-export type Server = TrackedResource & {
-    sku?: Sku;
-    readonly systemData?: SystemData;
+export interface Server extends TrackedResource {
     administratorLogin?: string;
     administratorLoginPassword?: string;
-    version?: ServerVersion;
-    readonly minorVersion?: string;
-    readonly state?: ServerState;
-    readonly fullyQualifiedDomainName?: string;
-    storage?: Storage_2;
+    availabilityZone?: string;
     backup?: Backup;
-    network?: Network;
+    createMode?: CreateMode;
+    readonly fullyQualifiedDomainName?: string;
     highAvailability?: HighAvailability;
     maintenanceWindow?: MaintenanceWindow;
-    sourceServerResourceId?: string;
+    readonly minorVersion?: string;
+    network?: Network;
     pointInTimeUTC?: Date;
-    availabilityZone?: string;
-    createMode?: CreateMode;
-};
+    sku?: Sku;
+    sourceServerResourceId?: string;
+    readonly state?: ServerState;
+    storage?: Storage_2;
+    readonly systemData?: SystemData;
+    version?: ServerVersion;
+}
 
 // @public
 export interface ServerForUpdate {
@@ -822,12 +778,12 @@ export interface SystemData {
 }
 
 // @public
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
+    location: string;
     tags?: {
         [propertyName: string]: string;
     };
-    location: string;
-};
+}
 
 // @public
 export interface VcoreCapability {
