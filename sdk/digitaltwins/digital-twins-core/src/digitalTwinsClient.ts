@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineOptions } from "@azure/core-rest-pipeline";
-import { OperationOptions, InternalClientPipelineOptions } from "@azure/core-client";
+import { OperationOptions, InternalClientPipelineOptions, CommonClientOptions } from "@azure/core-client";
 import { TokenCredential } from "@azure/core-auth";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { v4 as generateUuid } from "uuid";
@@ -51,7 +50,7 @@ export {
 /**
  * Options for the DigitalTwinsClient class
  */
-export interface DigitalTwinsClientOptions extends PipelineOptions {}
+export interface DigitalTwinsClientOptions extends CommonClientOptions {}
 
 const DEFAULT_DIGITALTWINS_SCOPE = "https://digitaltwins.azure.net/.default";
 
