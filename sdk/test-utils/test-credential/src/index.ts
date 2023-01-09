@@ -28,11 +28,12 @@ export function createTestCredential(
   return isPlaybackMode()
     ? new NoOpCredential()
     : new ClientSecretCredential(
-      createTestCredentialOptions?.tenantId ?? assertEnvironmentVariable("AZURE_TENANT_ID"),
-      createTestCredentialOptions?.clientId ?? assertEnvironmentVariable("AZURE_CLIENT_ID"),
-      createTestCredentialOptions?.clientSecret ?? assertEnvironmentVariable("AZURE_CLIENT_SECRET"),
-      tokenCredentialOptions
-    );
+        createTestCredentialOptions?.tenantId ?? assertEnvironmentVariable("AZURE_TENANT_ID"),
+        createTestCredentialOptions?.clientId ?? assertEnvironmentVariable("AZURE_CLIENT_ID"),
+        createTestCredentialOptions?.clientSecret ??
+          assertEnvironmentVariable("AZURE_CLIENT_SECRET"),
+        tokenCredentialOptions
+      );
 }
 
 export { NoOpCredential };
