@@ -48,7 +48,7 @@ describe("ServiceNetworking test", () => {
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new ServiceNetworkingManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus";
+    location = "NorthCentralUS";
     resourceGroup = "myjstest";
     trafficControllerName = "TC1"
   });
