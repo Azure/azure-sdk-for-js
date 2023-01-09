@@ -3,7 +3,7 @@
 
 import { DigitalTwinsClient, DigitalTwinsUpdateComponentOptionalParams } from "../../src";
 import { authenticate } from "../utils/testAuthentication";
-import { Recorder } from "@azure-tools/test-recorder";
+import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import chai from "chai";
 import { isRestError } from "@azure/core-rest-pipeline";
 
@@ -360,7 +360,7 @@ describe("DigitalTwins Components - read, update and delete operations", () => {
   });
 
   it("publish component telemetry", async function () {
-    recorder.skip(undefined, "The method creates a unique Id");
+    if(!isLiveMode()) { this.skip(); } 
 
     await setUpModels();
     await createDigitalTwin(DIGITAL_TWIN_ID);
@@ -381,7 +381,7 @@ describe("DigitalTwins Components - read, update and delete operations", () => {
   });
 
   it("publish component telemetry with message id", async function () {
-    recorder.skip(undefined, "The method creates a unique Id");
+    if(!isLiveMode()) { this.skip(); } 
 
     await setUpModels();
     await createDigitalTwin(DIGITAL_TWIN_ID);
@@ -402,8 +402,8 @@ describe("DigitalTwins Components - read, update and delete operations", () => {
   });
 
   it("publish component telemetry not existing", async function () {
-    recorder.skip(undefined, "The method creates a unique Id");
-
+    if(!isLiveMode()) { this.skip(); } 
+    
     await setUpModels();
     await createDigitalTwin(DIGITAL_TWIN_ID);
 

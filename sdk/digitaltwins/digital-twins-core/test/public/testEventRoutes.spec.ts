@@ -24,10 +24,10 @@ describe("DigitalTwins EventRoutes - create, read, list and delete operations", 
   });
 
   it("create event route no endpoint", async function () {
-    const eventRouteId = recorder.getUniqueName("eventRoute", "create-event-route");
+    const eventRouteId = recorder.variable("eventRoute", `eventRoute${Math.floor(Math.random() * 1000)}`);
     const eventFilter =
       "$eventType = 'DigitalTwinTelemetryMessages' or $eventType = 'DigitalTwinLifecycleNotification'";
-    const endpointId = recorder.getUniqueName("endpoint", "list-event-routes-enpoint");
+    const endpointId = recorder.variable("endpoint", `endpoint${Math.floor(Math.random() * 1000)}`);
 
     let errorWasThrown = false;
     try {
@@ -40,7 +40,7 @@ describe("DigitalTwins EventRoutes - create, read, list and delete operations", 
   });
 
   it("get event route not existing", async function () {
-    const eventRouteId = recorder.getUniqueName("eventRoute", "get-event-route-not-existing");
+    const eventRouteId = recorder.variable("eventRoute", `eventRoute${Math.floor(Math.random() * 1000)}`);
 
     let errorWasThrown = false;
     try {
@@ -59,8 +59,8 @@ describe("DigitalTwins EventRoutes - create, read, list and delete operations", 
     }
   });
 
-  it("delete event route not exisiting", async function () {
-    const eventRouteId = recorder.getUniqueName("eventRoute", "delete-event-routes-not-existing");
+  it("delete event route not existing", async function () {
+    const eventRouteId = recorder.variable("eventRoute", `eventRoute${Math.floor(Math.random() * 1000)}`);
 
     let errorWasThrown = false;
     try {

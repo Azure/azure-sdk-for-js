@@ -377,7 +377,7 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
     should.equal(errorWasThrown, true, "Error was not thrown");
   });
 
-  it("decommission model already decomissioned", async function () {
+  it("decommission model already decommissioned", async function () {
     await deleteModels();
 
     try {
