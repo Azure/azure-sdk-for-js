@@ -69,12 +69,12 @@ describe(`batch operations`, () => {
       return;
     }
     await Promise.all([
-      unRecordedClient.submitTransaction([["create", { partitionKey: "pk22", rowKey: "rk1", field: 1 }]]),
-      unRecordedClient.submitTransaction([["create", { partitionKey: "pk22", rowKey: "rk2", field: 2 }]]),
+      client.submitTransaction([["create", { partitionKey: "pk22", rowKey: "rk1", field: 1 }]]),
+      client.submitTransaction([["create", { partitionKey: "pk22", rowKey: "rk2", field: 2 }]]),
     ]);
 
-    const entity1 = await unRecordedClient.getEntity("pk22", "rk1");
-    const entity2 = await unRecordedClient.getEntity("pk22", "rk2");
+    const entity1 = await client.getEntity("pk22", "rk1");
+    const entity2 = await client.getEntity("pk22", "rk2");
 
     assert.equal(entity1.rowKey, "rk1");
     assert.equal(entity2.rowKey, "rk2");
