@@ -299,21 +299,9 @@
       "type": "string",
       "value": "[concat('https://', variables('cognitiveAccountName'), parameters('cognitiveServicesEndpointSuffix'), '/')]"
     },
-    "STORAGE_ACCOUNT_NAME": {
-      "type": "string",
-      "value": "[variables('storageAccountName')]"
-    },
     "STORAGE_ENDPOINT": {
       "type": "string",
       "value": "[concat('https://', variables('storageAccountName'), parameters('storageServicesEndpointSuffix'), '/')]"
-    },
-    "STORAGE_KEY": {
-      "type": "string",
-      "value": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), variables('storageApiVersion')).keys[0].value]"
-    },
-    "STORAGE_KEY_ALT": {
-      "type": "string",
-      "value": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), variables('storageApiVersion')).keys[1].value]"
     }
   }
 }
