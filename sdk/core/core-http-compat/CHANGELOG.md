@@ -1,6 +1,16 @@
 # Release History
 
-## 2.0.0 (Unreleased)
+## 2.0.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 2.0.0 (2023-01-05)
 
 ### Features Added
 
@@ -11,10 +21,6 @@
 ### Breaking Changes
 
 - renamed property `disbaleKeepAlivePolicyName` to `disableKeepAlivePolicyName`
-
-### Bugs Fixed
-
-### Other Changes
 
 ## 1.3.0 (2022-05-05)
 

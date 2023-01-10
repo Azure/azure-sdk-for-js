@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ReservationsDetails } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,12 +17,12 @@ import {
   ReservationDetail,
   ReservationsDetailsListByReservationOrderNextOptionalParams,
   ReservationsDetailsListByReservationOrderOptionalParams,
+  ReservationsDetailsListByReservationOrderResponse,
   ReservationsDetailsListByReservationOrderAndReservationNextOptionalParams,
   ReservationsDetailsListByReservationOrderAndReservationOptionalParams,
+  ReservationsDetailsListByReservationOrderAndReservationResponse,
   ReservationsDetailsListNextOptionalParams,
   ReservationsDetailsListOptionalParams,
-  ReservationsDetailsListByReservationOrderResponse,
-  ReservationsDetailsListByReservationOrderAndReservationResponse,
   ReservationsDetailsListResponse,
   ReservationsDetailsListByReservationOrderNextResponse,
   ReservationsDetailsListByReservationOrderAndReservationNextResponse,
@@ -65,11 +66,15 @@ export class ReservationsDetailsImpl implements ReservationsDetails {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByReservationOrderPagingPage(
           reservationOrderId,
           filter,
-          options
+          options,
+          settings
         );
       }
     };
@@ -78,24 +83,32 @@ export class ReservationsDetailsImpl implements ReservationsDetails {
   private async *listByReservationOrderPagingPage(
     reservationOrderId: string,
     filter: string,
-    options?: ReservationsDetailsListByReservationOrderOptionalParams
+    options?: ReservationsDetailsListByReservationOrderOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ReservationDetail[]> {
-    let result = await this._listByReservationOrder(
-      reservationOrderId,
-      filter,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ReservationsDetailsListByReservationOrderResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByReservationOrder(
+        reservationOrderId,
+        filter,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByReservationOrderNext(
         reservationOrderId,
-        filter,
         continuationToken,
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -140,12 +153,16 @@ export class ReservationsDetailsImpl implements ReservationsDetails {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByReservationOrderAndReservationPagingPage(
           reservationOrderId,
           reservationId,
           filter,
-          options
+          options,
+          settings
         );
       }
     };
@@ -155,26 +172,34 @@ export class ReservationsDetailsImpl implements ReservationsDetails {
     reservationOrderId: string,
     reservationId: string,
     filter: string,
-    options?: ReservationsDetailsListByReservationOrderAndReservationOptionalParams
+    options?: ReservationsDetailsListByReservationOrderAndReservationOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ReservationDetail[]> {
-    let result = await this._listByReservationOrderAndReservation(
-      reservationOrderId,
-      reservationId,
-      filter,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ReservationsDetailsListByReservationOrderAndReservationResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByReservationOrderAndReservation(
+        reservationOrderId,
+        reservationId,
+        filter,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByReservationOrderAndReservationNext(
         reservationOrderId,
         reservationId,
-        filter,
         continuationToken,
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -215,23 +240,35 @@ export class ReservationsDetailsImpl implements ReservationsDetails {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(scope, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(scope, options, settings);
       }
     };
   }
 
   private async *listPagingPage(
     scope: string,
-    options?: ReservationsDetailsListOptionalParams
+    options?: ReservationsDetailsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ReservationDetail[]> {
-    let result = await this._list(scope, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ReservationsDetailsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(scope, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(scope, continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -304,19 +341,16 @@ export class ReservationsDetailsImpl implements ReservationsDetails {
   /**
    * ListByReservationOrderNext
    * @param reservationOrderId Order Id of the reservation
-   * @param filter Filter reservation details by date range. The properties/UsageDate for start date and
-   *               end date. The filter supports 'le' and  'ge'
    * @param nextLink The nextLink from the previous successful call to the ListByReservationOrder method.
    * @param options The options parameters.
    */
   private _listByReservationOrderNext(
     reservationOrderId: string,
-    filter: string,
     nextLink: string,
     options?: ReservationsDetailsListByReservationOrderNextOptionalParams
   ): Promise<ReservationsDetailsListByReservationOrderNextResponse> {
     return this.client.sendOperationRequest(
-      { reservationOrderId, filter, nextLink, options },
+      { reservationOrderId, nextLink, options },
       listByReservationOrderNextOperationSpec
     );
   }
@@ -325,8 +359,6 @@ export class ReservationsDetailsImpl implements ReservationsDetails {
    * ListByReservationOrderAndReservationNext
    * @param reservationOrderId Order Id of the reservation
    * @param reservationId Id of the reservation
-   * @param filter Filter reservation details by date range. The properties/UsageDate for start date and
-   *               end date. The filter supports 'le' and  'ge'
    * @param nextLink The nextLink from the previous successful call to the
    *                 ListByReservationOrderAndReservation method.
    * @param options The options parameters.
@@ -334,14 +366,13 @@ export class ReservationsDetailsImpl implements ReservationsDetails {
   private _listByReservationOrderAndReservationNext(
     reservationOrderId: string,
     reservationId: string,
-    filter: string,
     nextLink: string,
     options?: ReservationsDetailsListByReservationOrderAndReservationNextOptionalParams
   ): Promise<
     ReservationsDetailsListByReservationOrderAndReservationNextResponse
   > {
     return this.client.sendOperationRequest(
-      { reservationOrderId, reservationId, filter, nextLink, options },
+      { reservationOrderId, reservationId, nextLink, options },
       listByReservationOrderAndReservationNextOperationSpec
     );
   }
@@ -442,7 +473,6 @@ const listByReservationOrderNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter1],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -462,7 +492,6 @@ const listByReservationOrderAndReservationNextOperationSpec: coreClient.Operatio
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter1],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -483,14 +512,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.filter,
-    Parameters.apiVersion,
-    Parameters.startDate,
-    Parameters.endDate,
-    Parameters.reservationId1,
-    Parameters.reservationOrderId1
-  ],
   urlParameters: [Parameters.$host, Parameters.scope, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer

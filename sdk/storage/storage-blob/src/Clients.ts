@@ -610,6 +610,11 @@ export interface BlobSyncCopyFromURLOptions extends CommonOptions {
    */
   sourceConditions?: MatchConditions & ModificationConditions;
   /**
+   * Access tier.
+   * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
+   */
+  tier?: BlockBlobTier | PremiumPageBlobTier | string;
+  /**
    * Specify the md5 calculated for the range of bytes that must be read from the copy source.
    */
   sourceContentMD5?: Uint8Array;
@@ -1846,6 +1851,7 @@ export class BlobClient extends StorageClient {
           },
           sourceContentMD5: options.sourceContentMD5,
           copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
+          tier: toAccessTier(options.tier),
           blobTagsString: toBlobTagsString(options.tags),
           immutabilityPolicyExpiry: options.immutabilityPolicy?.expiriesOn,
           immutabilityPolicyMode: options.immutabilityPolicy?.policyMode,

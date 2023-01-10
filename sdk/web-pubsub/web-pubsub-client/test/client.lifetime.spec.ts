@@ -20,6 +20,8 @@ import { delay } from "@azure/core-util";
 import { TestWebSocketClient } from "./testWebSocketClient";
 import { WebPubSubJsonProtocol } from "../src/protocols";
 import { getConnectedPayload } from "./utils";
+import { AbortController } from "@azure/abort-controller";
+import { SendMessageError } from "../src/errors";
 
 describe("WebPubSubClient", function () {
   describe("Start operation can only be execute when stopped", () => {
@@ -138,6 +140,43 @@ describe("WebPubSubClient", function () {
     });
   });
 
+  describe("Client should obey abortSignal", () => {
+    it("Abort when waiting ack", async () => {
+      const client = new WebPubSubClient("wss://service.com", {
+        messageRetryOptions: { maxRetries: 0 } as WebPubSubRetryOptions,
+      } as WebPubSubClientOptions);
+
+      const mock = sinon.mock(client);
+      mock
+        .expects("_sendMessage")
+        .exactly(2)
+        .onFirstCall()
+        .callsFake(() => {
+          return Promise.resolve();
+        })
+        .onSecondCall()
+        .callsFake(() => {
+          client["_ackMap"].get(1)!.resolve({ ackId: 1, isDuplicated: false } as WebPubSubResult);
+          return Promise.resolve();
+        });
+
+      const aborter = new AbortController();
+      const p = client.joinGroup("group", {
+        ackId: 1,
+        abortSignal: aborter.signal,
+      } as JoinGroupOptions);
+      setTimeout(() => {
+        aborter.abort();
+      });
+      await expect(p).to.be.rejectedWith(SendMessageError);
+
+      // Retry with another non-abort operation should work
+      await client.joinGroup("group", { ackId: 1 } as JoinGroupOptions);
+
+      mock.verify();
+    });
+  });
+
   describe("Client can reconnect", () => {
     it("failed at the first time", async () => {
       const client = new WebPubSubClient("wss://service.com");
@@ -183,7 +222,6 @@ describe("WebPubSubClient", function () {
 
       await client.start();
       testWs.invokeclose(1006);
-      // await spinCheck(() => mock.verify());
       await delay(100);
       mock.verify();
       client.stop();

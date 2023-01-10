@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { MetricAttributes } from "@opentelemetry/api-metrics";
+import { MetricAttributes } from "@opentelemetry/api";
 import { DataPointType, Histogram, ResourceMetrics } from "@opentelemetry/sdk-metrics";
 import {
   TelemetryItem as Envelope,

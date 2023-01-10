@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Retrieves the list of all Azure Cosmos DB SQL Role Definitions.
@@ -18,8 +21,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBSqlRoleDefinitionList.json
  */
 async function cosmosDbSqlRoleDefinitionList() {
-  const subscriptionId = "mySubscriptionId";
-  const resourceGroupName = "myResourceGroupName";
+  const subscriptionId =
+    process.env["COSMOSDB_SUBSCRIPTION_ID"] || "mySubscriptionId";
+  const resourceGroupName =
+    process.env["COSMOSDB_RESOURCE_GROUP"] || "myResourceGroupName";
   const accountName = "myAccountName";
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
@@ -33,4 +38,8 @@ async function cosmosDbSqlRoleDefinitionList() {
   console.log(resArray);
 }
 
-cosmosDbSqlRoleDefinitionList().catch(console.error);
+async function main() {
+  cosmosDbSqlRoleDefinitionList();
+}
+
+main().catch(console.error);

@@ -1303,7 +1303,8 @@ export const BlobPropertiesInternal: coreClient.CompositeMapper = {
             "P80",
             "Hot",
             "Cool",
-            "Archive"
+            "Archive",
+            "Cold"
           ]
         }
       },

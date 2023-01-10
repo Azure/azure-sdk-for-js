@@ -141,7 +141,7 @@ const executeOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CapabilitiesListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -161,7 +161,7 @@ const executeNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CapabilitiesListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   urlParameters: [
