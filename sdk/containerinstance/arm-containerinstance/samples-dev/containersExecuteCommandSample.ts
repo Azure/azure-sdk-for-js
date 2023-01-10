@@ -13,6 +13,9 @@ import {
   ContainerInstanceManagementClient
 } from "@azure/arm-containerinstance";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Executes a command for a specific container instance in a specified resource group and container group.
@@ -21,8 +24,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/stable/2021-10-01/examples/ContainerExec.json
  */
 async function containerExec() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "demo";
+  const subscriptionId =
+    process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["CONTAINERINSTANCE_RESOURCE_GROUP"] || "demo";
   const containerGroupName = "demo1";
   const containerName = "container1";
   const containerExecRequest: ContainerExecRequest = {
@@ -43,4 +48,8 @@ async function containerExec() {
   console.log(result);
 }
 
-containerExec().catch(console.error);
+async function main() {
+  containerExec();
+}
+
+main().catch(console.error);

@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { Database } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -15,12 +15,12 @@ import { CosmosDBManagementClient } from "../cosmosDBManagementClient";
 import {
   Metric,
   DatabaseListMetricsOptionalParams,
+  DatabaseListMetricsResponse,
   Usage,
   DatabaseListUsagesOptionalParams,
+  DatabaseListUsagesResponse,
   MetricDefinition,
   DatabaseListMetricDefinitionsOptionalParams,
-  DatabaseListMetricsResponse,
-  DatabaseListUsagesResponse,
   DatabaseListMetricDefinitionsResponse
 } from "../models";
 
@@ -68,13 +68,17 @@ export class DatabaseImpl implements Database {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listMetricsPagingPage(
           resourceGroupName,
           accountName,
           databaseRid,
           filter,
-          options
+          options,
+          settings
         );
       }
     };
@@ -85,9 +89,11 @@ export class DatabaseImpl implements Database {
     accountName: string,
     databaseRid: string,
     filter: string,
-    options?: DatabaseListMetricsOptionalParams
+    options?: DatabaseListMetricsOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<Metric[]> {
-    let result = await this._listMetrics(
+    let result: DatabaseListMetricsResponse;
+    result = await this._listMetrics(
       resourceGroupName,
       accountName,
       databaseRid,
@@ -141,12 +147,16 @@ export class DatabaseImpl implements Database {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listUsagesPagingPage(
           resourceGroupName,
           accountName,
           databaseRid,
-          options
+          options,
+          settings
         );
       }
     };
@@ -156,9 +166,11 @@ export class DatabaseImpl implements Database {
     resourceGroupName: string,
     accountName: string,
     databaseRid: string,
-    options?: DatabaseListUsagesOptionalParams
+    options?: DatabaseListUsagesOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<Usage[]> {
-    let result = await this._listUsages(
+    let result: DatabaseListUsagesResponse;
+    result = await this._listUsages(
       resourceGroupName,
       accountName,
       databaseRid,
@@ -209,12 +221,16 @@ export class DatabaseImpl implements Database {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listMetricDefinitionsPagingPage(
           resourceGroupName,
           accountName,
           databaseRid,
-          options
+          options,
+          settings
         );
       }
     };
@@ -224,9 +240,11 @@ export class DatabaseImpl implements Database {
     resourceGroupName: string,
     accountName: string,
     databaseRid: string,
-    options?: DatabaseListMetricDefinitionsOptionalParams
+    options?: DatabaseListMetricDefinitionsOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<MetricDefinition[]> {
-    let result = await this._listMetricDefinitions(
+    let result: DatabaseListMetricDefinitionsResponse;
+    result = await this._listMetricDefinitions(
       resourceGroupName,
       accountName,
       databaseRid,

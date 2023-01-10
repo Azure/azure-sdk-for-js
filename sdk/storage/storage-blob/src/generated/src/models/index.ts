@@ -2385,6 +2385,20 @@ export interface AppendPositionAccessConditions {
   appendPosition?: number;
 }
 
+/** Known values of {@link EncryptionAlgorithmType} that the service accepts. */
+export const enum KnownEncryptionAlgorithmType {
+  AES256 = "AES256"
+}
+
+/**
+ * Defines values for EncryptionAlgorithmType. \
+ * {@link KnownEncryptionAlgorithmType} can be used interchangeably with EncryptionAlgorithmType,
+ *  this enum contains the known values that the service supports.
+ * ### Know values supported by the service
+ * **AES256**
+ */
+export type EncryptionAlgorithmType = string;
+
 /** Known values of {@link BlobExpiryOptions} that the service accepts. */
 export const enum KnownBlobExpiryOptions {
   NeverExpire = "NeverExpire",
@@ -2469,7 +2483,7 @@ export const enum KnownStorageErrorCode {
   CopyIdMismatch = "CopyIdMismatch",
   FeatureVersionMismatch = "FeatureVersionMismatch",
   IncrementalCopyBlobMismatch = "IncrementalCopyBlobMismatch",
-  IncrementalCopyOfEralierVersionSnapshotNotAllowed = "IncrementalCopyOfEralierVersionSnapshotNotAllowed",
+  IncrementalCopyOfEarlierVersionSnapshotNotAllowed = "IncrementalCopyOfEarlierVersionSnapshotNotAllowed",
   IncrementalCopySourceMustBeSnapshot = "IncrementalCopySourceMustBeSnapshot",
   InfiniteLeaseDurationRequired = "InfiniteLeaseDurationRequired",
   InvalidBlobOrBlock = "InvalidBlobOrBlock",
@@ -2589,7 +2603,7 @@ export const enum KnownStorageErrorCode {
  * **CopyIdMismatch** \
  * **FeatureVersionMismatch** \
  * **IncrementalCopyBlobMismatch** \
- * **IncrementalCopyOfEralierVersionSnapshotNotAllowed** \
+ * **IncrementalCopyOfEarlierVersionSnapshotNotAllowed** \
  * **IncrementalCopySourceMustBeSnapshot** \
  * **InfiniteLeaseDurationRequired** \
  * **InvalidBlobOrBlock** \
@@ -2704,7 +2718,8 @@ export type AccessTier =
   | "P80"
   | "Hot"
   | "Cool"
-  | "Archive";
+  | "Archive"
+  | "Cold";
 /** Defines values for ArchiveStatus. */
 export type ArchiveStatus =
   | "rehydrate-pending-to-hot"
@@ -2725,8 +2740,6 @@ export type SequenceNumberActionType = "max" | "update" | "increment";
 export type QueryFormatType = "delimited" | "json" | "arrow" | "parquet";
 /** Defines values for SyncCopyStatusType. */
 export type SyncCopyStatusType = "success";
-/** Defines values for EncryptionAlgorithmType. */
-export type EncryptionAlgorithmType = "AES256";
 
 /** Optional parameters. */
 export interface ServiceSetPropertiesOptionalParams
@@ -4430,6 +4443,8 @@ export interface BlockBlobUploadOptionalParams
   legalHold?: boolean;
   /** Specify the transactional md5 for the body, to be validated by the service. */
   transactionalContentMD5?: Uint8Array;
+  /** Specify the transactional crc64 for the body, to be validated by the service. */
+  transactionalContentCrc64?: Uint8Array;
 }
 
 /** Contains response data for the upload operation. */

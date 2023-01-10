@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Changes the failover priority for the Azure Cosmos DB database account. A failover priority of 0 indicates a write region. The maximum value for a failover priority = (total number of regions - 1). Failover priority values must be unique for each of the regions in which the database account exists.
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBDatabaseAccountFailoverPriorityChange.json
  */
 async function cosmosDbDatabaseAccountFailoverPriorityChange() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1-failover";
   const failoverParameters = {
     failoverPolicies: [
@@ -37,4 +38,8 @@ async function cosmosDbDatabaseAccountFailoverPriorityChange() {
   console.log(result);
 }
 
-cosmosDbDatabaseAccountFailoverPriorityChange().catch(console.error);
+async function main() {
+  cosmosDbDatabaseAccountFailoverPriorityChange();
+}
+
+main().catch(console.error);

@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets the ClientEncryptionKey under an existing Azure Cosmos DB SQL database.
@@ -18,8 +21,8 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBSqlClientEncryptionKeyGet.json
  */
 async function cosmosDbClientEncryptionKeyGet() {
-  const subscriptionId = "subId";
-  const resourceGroupName = "rgName";
+  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subId";
+  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rgName";
   const accountName = "accountName";
   const databaseName = "databaseName";
   const clientEncryptionKeyName = "cekName";
@@ -34,4 +37,8 @@ async function cosmosDbClientEncryptionKeyGet() {
   console.log(result);
 }
 
-cosmosDbClientEncryptionKeyGet().catch(console.error);
+async function main() {
+  cosmosDbClientEncryptionKeyGet();
+}
+
+main().catch(console.error);

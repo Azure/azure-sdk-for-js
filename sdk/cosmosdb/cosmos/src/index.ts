@@ -85,3 +85,5 @@ export { ClientContext } from "./ClientContext";
 export { GlobalEndpointManager } from "./globalEndpointManager";
 export { SasTokenPermissionKind } from "./common/constants";
 export { createAuthorizationSasToken } from "./utils/SasToken";
+export { RestError } from "@azure/core-rest-pipeline";
+export { AbortError } from "@azure/abort-controller";
