@@ -61,6 +61,23 @@ describe("BlobClient", () => {
     }
   });
 
+  it("upload blob with cold tier should work", async function () {
+    const newBlobClient = containerClient.getBlockBlobClient(
+      recorder.getUniqueName("coldtierblob")
+    );
+
+    await newBlobClient.upload(content, content.length, {
+      tier: "Cold",
+    });
+
+    const result = await newBlobClient.download(0);
+    assert.deepStrictEqual(await bodyToString(result, content.length), content);
+
+    const properties = await newBlobClient.getProperties();
+    assert.ok(properties.accessTier);
+    assert.equal(properties.accessTier!, "Cold");
+  });
+
   it("Set and get blob tags should work with lease condition", async function () {
     const guid = "ca761232ed4211cebacd00aa0057b223";
     const leaseClient = blockBlobClient.getBlobLeaseClient(guid);
@@ -495,6 +512,18 @@ describe("BlobClient", () => {
     }
   });
 
+  it("sync copy with cold tier", async () => {
+    const newBlobClient = containerClient.getBlockBlobClient(recorder.getUniqueName("copiedblob"));
+
+    await newBlobClient.syncCopyFromURL("https://azure.github.io/azure-sdk-for-js/index.html", {
+      tier: "Cold",
+    });
+
+    const properties = await newBlobClient.getProperties();
+    assert.ok(properties.accessTier);
+    assert.equal(properties.accessTier!, "Cold");
+  });
+
   it("setAccessTier set default to cool", async () => {
     await blockBlobClient.setAccessTier("Cool");
     const properties = await blockBlobClient.getProperties();
@@ -513,6 +542,28 @@ describe("BlobClient", () => {
     if (properties.archiveStatus) {
       assert.equal(properties.archiveStatus.toLowerCase(), "rehydrate-pending-to-hot");
     }
+  });
+
+  it("setAccessTier set to/from cold", async () => {
+    await blockBlobClient.setAccessTier("Cold");
+    const properties = await blockBlobClient.getProperties();
+    assert.ok(properties.accessTier);
+    assert.equal(properties.accessTier!, "Cold");
+
+    await blockBlobClient.setAccessTier("Hot");
+    const properties1 = await blockBlobClient.getProperties();
+    assert.ok(properties1.accessTier);
+    assert.equal(properties1.accessTier!, "Hot");
+
+    await blockBlobClient.setAccessTier("Cold");
+    const properties2 = await blockBlobClient.getProperties();
+    assert.ok(properties2.accessTier);
+    assert.equal(properties2.accessTier!, "Cold");
+
+    await blockBlobClient.setAccessTier("Cool");
+    const properties3 = await blockBlobClient.getProperties();
+    assert.ok(properties3.accessTier);
+    assert.equal(properties3.accessTier!, "Cool");
   });
 
   it("setAccessTier with snapshot", async () => {
@@ -700,6 +751,24 @@ describe("BlobClient", () => {
     await newBlobURL.setAccessTier(BlockBlobTier.Hot);
     const properties3 = await newBlobURL.getProperties();
     assert.equal(properties3.archiveStatus!.toLowerCase(), "rehydrate-pending-to-hot");
+  });
+
+  it("beginCopyFromURL with cold tier", async () => {
+    const newBlobURL = containerClient.getBlobClient(recorder.getUniqueName("copiedblob"));
+    const newTier = BlockBlobTier.Cold;
+    const result = await (
+      await newBlobURL.beginCopyFromURL(blobClient.url, {
+        tier: newTier,
+      })
+    ).pollUntilDone();
+    assert.ok(result.copyId);
+    delay(1 * 1000);
+
+    const properties1 = await blobClient.getProperties();
+    const properties2 = await newBlobURL.getProperties();
+    assert.deepStrictEqual(properties1.contentMD5, properties2.contentMD5);
+    assert.deepStrictEqual(properties2.copyId, result.copyId);
+    assert.equal(properties2.accessTier, newTier);
   });
 
   it("setAccessTier with rehydrate priority", async () => {
