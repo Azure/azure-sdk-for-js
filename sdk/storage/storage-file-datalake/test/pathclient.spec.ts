@@ -4,7 +4,7 @@
 import { AbortController } from "@azure/abort-controller";
 import { isNode, delay } from "@azure/core-http";
 import { SpanGraph, setTracer } from "@azure/test-utils";
-import { record, Recorder } from "@azure-tools/test-recorder";
+import { isPlaybackMode, record, Recorder } from "@azure-tools/test-recorder";
 import { setSpan, context } from "@azure/core-tracing";
 import { assert } from "chai";
 
@@ -841,7 +841,9 @@ describe("DataLakePathClient", () => {
     assert.equal(properties.leaseDuration, "fixed");
     assert.equal(properties.leaseStatus, "locked");
 
-    await sleep(15);
+    if (!isPlaybackMode()) {
+      await sleep(15);
+    }
     await tempFileClient.delete();
   });
 
@@ -862,8 +864,9 @@ describe("DataLakePathClient", () => {
     assert.equal(properties.leaseDuration, "fixed");
     assert.equal(properties.leaseStatus, "locked");
 
-    await sleep(15);
-
+    if (!isPlaybackMode()) {
+      await sleep(15);
+    }
     await tempFileClient.append(body, 0, body.length, {
       conditions: { leaseId: leaseId },
       leaseDuration: 15,
@@ -885,7 +888,9 @@ describe("DataLakePathClient", () => {
     }
     assert.ok(gotError, "Should throw out an exception to write to a leased file without lease id");
 
-    await sleep(15);
+    if (!isPlaybackMode()) {
+      await sleep(15);
+    }
     await tempFileClient.delete();
   });
 
@@ -955,7 +960,9 @@ describe("DataLakePathClient", () => {
     assert.equal(properties.leaseDuration, "fixed");
     assert.equal(properties.leaseStatus, "locked");
 
-    await sleep(15);
+    if (!isPlaybackMode()) {
+      await sleep(15);
+    }
     await tempFileClient.delete();
   });
 
@@ -978,7 +985,9 @@ describe("DataLakePathClient", () => {
       conditions: { leaseId: leaseId },
     });
 
-    await sleep(15);
+    if (!isPlaybackMode()) {
+      await sleep(15);
+    }
 
     await tempFileClient.flush(body.length * 2, {
       conditions: { leaseId: leaseId },
@@ -1005,7 +1014,9 @@ describe("DataLakePathClient", () => {
     assert.equal(properties.leaseDuration, "fixed");
     assert.equal(properties.leaseStatus, "locked");
 
-    await sleep(15);
+    if (!isPlaybackMode()) {
+      await sleep(15);
+    }
     await tempFileClient.delete();
   });
 
