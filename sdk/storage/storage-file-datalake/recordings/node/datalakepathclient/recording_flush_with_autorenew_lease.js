@@ -1,215 +1,235 @@
 let nock = require('nock');
 
-module.exports.hash = "44cf59a6b6dce3791dba9f2ad2f2fb2b";
+module.exports.hash = "d5fb16755acef459d2a221cc8321bb15";
 
-module.exports.testInfo = {"uniqueName":{"filesystem":"filesystem166600137442500133","file":"file166600137470305164","tempfile2":"tempfile2166600137551305694"},"newDate":{}}
+module.exports.testInfo = {"uniqueName":{"filesystem":"filesystem167333427198604662","file":"file167333427210301048","tempfile2":"tempfile2167333427246107491"},"newDate":{}}
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/filesystem166600137442500133')
+  .put('/filesystem167333427198604662')
   .query(true)
   .reply(201, "", [
-  'Transfer-Encoding',
-  'chunked',
+  'Content-Length',
+  '0',
   'Last-Modified',
-  'Mon, 17 Oct 2022 10:09:34 GMT',
+  'Tue, 10 Jan 2023 07:04:32 GMT',
   'ETag',
-  '"0x8DAB027B1340F52"',
+  '"0x8DAF2D8ECA5FB6E"',
+  'Server',
+  'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'a10801a5-201e-0006-7d10-e203a9000000',
+  '51e6b292-701e-0017-7bc1-24500a000000',
   'x-ms-client-request-id',
-  '619a2c98-4a68-402f-b19f-0c3024cc231a',
+  'c9657ced-e022-4446-9926-390028a98953',
   'x-ms-version',
-  '2021-10-04',
+  '2021-12-02',
   'Date',
-  'Mon, 17 Oct 2022 10:09:34 GMT'
+  'Tue, 10 Jan 2023 07:04:32 GMT'
 ]);
 
 nock('https://fakestorageaccount.dfs.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/filesystem166600137442500133/file166600137470305164')
+  .put('/filesystem167333427198604662/file167333427210301048')
   .query(true)
   .reply(201, "", [
   'Last-Modified',
-  'Mon, 17 Oct 2022 10:09:35 GMT',
+  'Tue, 10 Jan 2023 07:04:32 GMT',
   'ETag',
-  '"0x8DAB027B1612DD1"',
+  '"0x8DAF2D8ECB986E0"',
+  'Server',
+  'Windows-Azure-HDFS/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-server-encrypted',
   'true',
   'x-ms-request-id',
-  '294a9592-701f-0008-6710-e2c247000000',
+  '153e5d0f-801f-002c-71c1-2415ae000000',
   'x-ms-version',
   '2021-12-02',
   'x-ms-client-request-id',
-  '2f69d72a-4865-4418-ad98-12bd9f568321',
+  '2afae2ee-bb81-4c75-bfa3-c46d00ce59b4',
   'Date',
-  'Mon, 17 Oct 2022 10:09:35 GMT',
+  'Tue, 10 Jan 2023 07:04:31 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://fakestorageaccount.dfs.core.windows.net:443', {"encodedQueryParams":true})
-  .patch('/filesystem166600137442500133/file166600137470305164', "Hello World")
+  .patch('/filesystem167333427198604662/file167333427210301048', "Hello World")
   .query(true)
   .reply(202, "", [
+  'Server',
+  'Windows-Azure-HDFS/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-server-encrypted',
   'true',
   'x-ms-request-id',
-  '294a9593-701f-0008-6810-e2c247000000',
+  '153e5d11-801f-002c-73c1-2415ae000000',
   'x-ms-version',
   '2021-12-02',
   'x-ms-client-request-id',
-  'c3ff752a-9634-4f1c-8a11-a1083b1ceebc',
+  '13d21d04-2841-4b1e-9004-31f77be78f0a',
   'Date',
-  'Mon, 17 Oct 2022 10:09:35 GMT',
+  'Tue, 10 Jan 2023 07:04:32 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://fakestorageaccount.dfs.core.windows.net:443', {"encodedQueryParams":true})
-  .patch('/filesystem166600137442500133/file166600137470305164')
+  .patch('/filesystem167333427198604662/file167333427210301048')
   .query(true)
   .reply(200, "", [
   'Last-Modified',
-  'Mon, 17 Oct 2022 10:09:35 GMT',
+  'Tue, 10 Jan 2023 07:04:32 GMT',
   'ETag',
-  '"0x8DAB027B1B341F9"',
+  '"0x8DAF2D8ECDE0DE4"',
+  'Server',
+  'Windows-Azure-HDFS/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-server-encrypted',
   'false',
   'x-ms-request-id',
-  '294a9594-701f-0008-6910-e2c247000000',
+  '153e5d12-801f-002c-74c1-2415ae000000',
   'x-ms-version',
   '2021-12-02',
   'x-ms-client-request-id',
-  '3cbc6b88-373d-4953-8eb5-e98afc639e39',
+  'ef7bbdc6-9182-401c-968f-acc7330703b1',
   'Date',
-  'Mon, 17 Oct 2022 10:09:35 GMT',
+  'Tue, 10 Jan 2023 07:04:32 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://fakestorageaccount.dfs.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/filesystem166600137442500133/tempfile2166600137551305694')
+  .put('/filesystem167333427198604662/tempfile2167333427246107491')
   .query(true)
   .reply(201, "", [
   'Last-Modified',
-  'Mon, 17 Oct 2022 10:09:36 GMT',
+  'Tue, 10 Jan 2023 07:04:32 GMT',
   'ETag',
-  '"0x8DAB027B1DCB55F"',
+  '"0x8DAF2D8ECF04C35"',
+  'Server',
+  'Windows-Azure-HDFS/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-server-encrypted',
   'true',
   'x-ms-request-id',
-  '294a9595-701f-0008-6a10-e2c247000000',
+  '153e5d13-801f-002c-75c1-2415ae000000',
   'x-ms-version',
   '2021-12-02',
   'x-ms-client-request-id',
-  'e6638aa5-fb6e-48cf-8990-6a9be719f5f4',
+  'be12e70a-fabd-405a-9127-8a72933c5dc0',
   'Date',
-  'Mon, 17 Oct 2022 10:09:35 GMT',
+  'Tue, 10 Jan 2023 07:04:32 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://fakestorageaccount.dfs.core.windows.net:443', {"encodedQueryParams":true})
-  .patch('/filesystem166600137442500133/tempfile2166600137551305694', "HelloWorld")
+  .patch('/filesystem167333427198604662/tempfile2167333427246107491', "HelloWorld")
   .query(true)
   .reply(202, "", [
+  'Server',
+  'Windows-Azure-HDFS/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-server-encrypted',
   'true',
   'x-ms-request-id',
-  '294a9597-701f-0008-6c10-e2c247000000',
+  '153e5d14-801f-002c-76c1-2415ae000000',
   'x-ms-version',
   '2021-12-02',
   'x-ms-client-request-id',
-  'f8b14a0b-d802-4942-9d7b-0855e57b4aae',
+  'bf2c1765-0793-4291-855b-6d126c83188e',
   'Date',
-  'Mon, 17 Oct 2022 10:09:36 GMT',
+  'Tue, 10 Jan 2023 07:04:32 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://fakestorageaccount.dfs.core.windows.net:443', {"encodedQueryParams":true})
-  .patch('/filesystem166600137442500133/tempfile2166600137551305694', "HelloWorld")
+  .patch('/filesystem167333427198604662/tempfile2167333427246107491', "HelloWorld")
   .query(true)
   .reply(202, "", [
+  'Server',
+  'Windows-Azure-HDFS/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-server-encrypted',
   'true',
   'x-ms-request-id',
-  '294a9599-701f-0008-6d10-e2c247000000',
+  '153e5d15-801f-002c-77c1-2415ae000000',
   'x-ms-version',
   '2021-12-02',
   'x-ms-client-request-id',
-  'c233007c-f8b8-42b0-99a3-ca0623455135',
+  'ca8d0bd7-39a1-48fa-979c-d2b3f2ab4af4',
   'Date',
-  'Mon, 17 Oct 2022 10:09:36 GMT',
+  'Tue, 10 Jan 2023 07:04:32 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://fakestorageaccount.dfs.core.windows.net:443', {"encodedQueryParams":true})
-  .patch('/filesystem166600137442500133/tempfile2166600137551305694')
+  .patch('/filesystem167333427198604662/tempfile2167333427246107491')
   .query(true)
   .reply(200, "", [
   'Last-Modified',
-  'Mon, 17 Oct 2022 10:09:51 GMT',
+  'Tue, 10 Jan 2023 07:04:48 GMT',
   'ETag',
-  '"0x8DAB027BB4D8322"',
+  '"0x8DAF2D8F619A51B"',
+  'Server',
+  'Windows-Azure-HDFS/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-lease-renewed',
   'true',
   'x-ms-request-server-encrypted',
   'false',
   'x-ms-request-id',
-  '294a95ad-701f-0008-6e10-e2c247000000',
+  '153e5d2a-801f-002c-03c1-2415ae000000',
   'x-ms-version',
   '2021-12-02',
   'x-ms-client-request-id',
-  'b61f41fc-4a4e-42d5-964a-c3d71b9c19b1',
+  'ab0d7fd1-c331-4e9b-a3c9-b9b0ddae7aed',
   'Date',
-  'Mon, 17 Oct 2022 10:09:51 GMT',
+  'Tue, 10 Jan 2023 07:04:47 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://fakestorageaccount.dfs.core.windows.net:443', {"encodedQueryParams":true})
-  .delete('/filesystem166600137442500133/tempfile2166600137551305694')
-  .reply(412, {"error":{"code":"LeaseIdMissing","message":"There is currently a lease on the resource and no lease ID was specified in the request.\nRequestId:294a95ae-701f-0008-6f10-e2c247000000\nTime:2022-10-17T10:09:52.1510544Z"}}, [
+  .delete('/filesystem167333427198604662/tempfile2167333427246107491')
+  .reply(412, {"error":{"code":"LeaseIdMissing","message":"There is currently a lease on the resource and no lease ID was specified in the request.\nRequestId:153e5d2b-801f-002c-04c1-2415ae000000\nTime:2023-01-10T07:04:48.3402128Z"}}, [
   'Content-Length',
   '219',
   'Content-Type',
   'application/json;charset=utf-8',
+  'Server',
+  'Windows-Azure-HDFS/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-error-code',
   'LeaseIdMissing',
   'x-ms-request-id',
-  '294a95ae-701f-0008-6f10-e2c247000000',
+  '153e5d2b-801f-002c-04c1-2415ae000000',
   'x-ms-version',
   '2021-12-02',
   'x-ms-client-request-id',
-  '67d44da4-1dbc-40a3-86c9-287023e9e9b5',
+  '36f6df06-6c91-4c8f-9e0e-4dd7a38d182f',
   'Date',
-  'Mon, 17 Oct 2022 10:09:51 GMT'
+  'Tue, 10 Jan 2023 07:04:47 GMT'
 ]);
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .head('/filesystem166600137442500133/tempfile2166600137551305694')
+  .head('/filesystem167333427198604662/tempfile2167333427246107491')
   .reply(200, "", [
   'Content-Length',
   '20',
   'Content-Type',
   'application/octet-stream',
   'Last-Modified',
-  'Mon, 17 Oct 2022 10:09:51 GMT',
+  'Tue, 10 Jan 2023 07:04:48 GMT',
   'Accept-Ranges',
   'bytes',
   'ETag',
-  '"0x8DAB027BB4D8322"',
+  '"0x8DAF2D8F619A51B"',
+  'Server',
+  'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'a10801ac-201e-0006-7f10-e203a9000000',
+  '51e6bbdf-701e-0017-62c1-24500a000000',
   'x-ms-client-request-id',
-  'b4731589-b198-4160-9a6a-28f62fd3e3c3',
+  'd17b0f79-cdf7-4f36-ab84-f0ed5e988e91',
   'x-ms-version',
-  '2021-10-04',
+  '2021-12-02',
   'x-ms-resource-type',
   'file',
   'x-ms-creation-time',
-  'Mon, 17 Oct 2022 10:09:36 GMT',
+  'Tue, 10 Jan 2023 07:04:32 GMT',
   'x-ms-lease-status',
   'locked',
   'x-ms-lease-state',
@@ -221,7 +241,7 @@ nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParam
   'x-ms-server-encrypted',
   'true',
   'x-ms-access-tier',
-  'Cool',
+  'Hot',
   'x-ms-access-tier-inferred',
   'true',
   'x-ms-owner',
@@ -230,39 +250,50 @@ nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParam
   '$superuser',
   'x-ms-permissions',
   'rw-r-----',
+  'Access-Control-Expose-Headers',
+  'x-ms-request-id,x-ms-client-request-id,Server,x-ms-version,x-ms-resource-type,Content-Type,Last-Modified,ETag,x-ms-creation-time,x-ms-lease-status,x-ms-lease-state,x-ms-lease-duration,x-ms-blob-type,x-ms-server-encrypted,x-ms-access-tier,x-ms-access-tier-inferred,Accept-Ranges,x-ms-owner,x-ms-group,x-ms-permissions,Content-Length,Date,Transfer-Encoding',
+  'Access-Control-Allow-Origin',
+  '*',
   'Date',
-  'Mon, 17 Oct 2022 10:09:51 GMT'
+  'Tue, 10 Jan 2023 07:04:48 GMT'
 ]);
 
 nock('https://fakestorageaccount.dfs.core.windows.net:443', {"encodedQueryParams":true})
-  .delete('/filesystem166600137442500133/tempfile2166600137551305694')
+  .delete('/filesystem167333427198604662/tempfile2167333427246107491')
+  .query(true)
   .reply(200, "", [
+  'Server',
+  'Windows-Azure-HDFS/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-delete-type-permanent',
-  'true',
+  'false',
+  'x-ms-deletion-id',
+  '133178078885559164',
   'x-ms-request-id',
-  '294a95b7-701f-0008-7110-e2c247000000',
+  '153e5d2c-801f-002c-05c1-2415ae000000',
   'x-ms-version',
   '2021-12-02',
   'x-ms-client-request-id',
-  '4ce75557-faeb-457b-bf8c-b8601cb07fb1',
+  '5c530a79-bc0e-4575-9b1c-492a1ea5486d',
   'Date',
-  'Mon, 17 Oct 2022 10:10:07 GMT',
+  'Tue, 10 Jan 2023 07:04:48 GMT',
   'Content-Length',
   '0'
 ]);
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .delete('/filesystem166600137442500133')
+  .delete('/filesystem167333427198604662')
   .query(true)
   .reply(202, "", [
-  'Transfer-Encoding',
-  'chunked',
+  'Content-Length',
+  '0',
+  'Server',
+  'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'a10801c2-201e-0006-0d10-e203a9000000',
+  '51e6bbff-701e-0017-7bc1-24500a000000',
   'x-ms-client-request-id',
-  '0185c6bf-a768-44b1-aa56-15dc0040d054',
+  '5c204bd2-a538-4971-977f-a1077dfbf836',
   'x-ms-version',
-  '2021-10-04',
+  '2021-12-02',
   'Date',
-  'Mon, 17 Oct 2022 10:10:07 GMT'
+  'Tue, 10 Jan 2023 07:04:48 GMT'
 ]);

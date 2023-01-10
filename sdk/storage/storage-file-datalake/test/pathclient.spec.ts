@@ -841,10 +841,11 @@ describe("DataLakePathClient", () => {
     assert.equal(properties.leaseDuration, "fixed");
     assert.equal(properties.leaseStatus, "locked");
 
-    if (!isPlaybackMode()) {
-      await sleep(15);
-    }
-    await tempFileClient.delete();
+    await tempFileClient.delete(false, {
+      conditions: {
+        leaseId: leaseId,
+      },
+    });
   });
 
   it("append with auto-renew lease", async () => {
@@ -888,10 +889,11 @@ describe("DataLakePathClient", () => {
     }
     assert.ok(gotError, "Should throw out an exception to write to a leased file without lease id");
 
-    if (!isPlaybackMode()) {
-      await sleep(15);
-    }
-    await tempFileClient.delete();
+    await tempFileClient.delete(false, {
+      conditions: {
+        leaseId: leaseId,
+      },
+    });
   });
 
   it("append with release lease", async () => {
@@ -960,10 +962,11 @@ describe("DataLakePathClient", () => {
     assert.equal(properties.leaseDuration, "fixed");
     assert.equal(properties.leaseStatus, "locked");
 
-    if (!isPlaybackMode()) {
-      await sleep(15);
-    }
-    await tempFileClient.delete();
+    await tempFileClient.delete(false, {
+      conditions: {
+        leaseId: leaseId,
+      },
+    });
   });
 
   it("flush with auto-renew lease", async () => {
@@ -1014,10 +1017,11 @@ describe("DataLakePathClient", () => {
     assert.equal(properties.leaseDuration, "fixed");
     assert.equal(properties.leaseStatus, "locked");
 
-    if (!isPlaybackMode()) {
-      await sleep(15);
-    }
-    await tempFileClient.delete();
+    await tempFileClient.delete(false, {
+      conditions: {
+        leaseId: leaseId,
+      },
+    });
   });
 
   it("flush with release lease", async () => {
