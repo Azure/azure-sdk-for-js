@@ -1,6 +1,16 @@
 # Release History
-    
-## 18.0.0-beta.3 (2023-01-10)
+
+## 17.3.0-beta.3 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 17.3.0-beta.2 (2022-11-25)
     
 **Features**
 
@@ -181,6 +191,11 @@
   - Interface ManagedClusterSecurityProfile has a new optional parameter nodeRestriction
   - Interface ManagedClusterSecurityProfile has a new optional parameter workloadIdentity
   - Interface ManagedClusterStorageProfileDiskCSIDriver has a new optional parameter version
+  - Class ContainerServiceClient has a new parameter fleetMembers
+  - Class ContainerServiceClient has a new parameter fleets
+  - Class ContainerServiceClient has a new parameter managedClusterSnapshots
+  - Class ContainerServiceClient has a new parameter trustedAccessRoleBindings
+  - Class ContainerServiceClient has a new parameter trustedAccessRoles
   - Added Enum KnownBackendPoolType
   - Added Enum KnownControlledValues
   - Added Enum KnownEbpfDataplane
@@ -201,10 +216,6 @@
   - Enum KnownPrivateEndpointConnectionProvisioningState has a new value Canceled
   - Enum KnownPublicNetworkAccess has a new value SecuredByPerimeter
   - Enum KnownSnapshotType has a new value ManagedCluster
-  - Added function getContinuationToken
-
-**Breaking Changes**
-
   - Interface ContainerServiceClientOptionalParams no longer has parameter apiVersion
   - Class ContainerServiceClient no longer has parameter apiVersion
     
