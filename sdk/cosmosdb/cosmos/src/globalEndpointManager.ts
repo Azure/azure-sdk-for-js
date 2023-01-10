@@ -27,6 +27,8 @@ export class GlobalEndpointManager {
   private preferredLocations: string[];
   private writeableLocations: Location[] = [];
   private readableLocations: Location[] = [];
+  private unavailableReadableLocations: Location[] = [];
+  private unavailableWriteableLocations: Location[] = [];
 
   /**
    * @param options - The document client instance.
@@ -70,7 +72,8 @@ export class GlobalEndpointManager {
     await this.refreshEndpointList();
     const location = this.readableLocations.find((loc) => loc.databaseAccountEndpoint === endpoint);
     if (location) {
-      location.unavailable = { timestamp: Date.now() };
+      location.locationUnavailability = { lastUnavailabilityTimestamp: Date.now() };
+      this.unavailableReadableLocations.push(location);
     }
   }
 
@@ -80,7 +83,8 @@ export class GlobalEndpointManager {
       (loc) => loc.databaseAccountEndpoint === endpoint
     );
     if (location) {
-      location.unavailable = { timestamp: Date.now() };
+      location.locationUnavailability = { lastUnavailabilityTimestamp: Date.now() };
+      this.unavailableWriteableLocations.push(location);
     }
   }
 
@@ -126,7 +130,6 @@ export class GlobalEndpointManager {
       ? this.readableLocations
       : this.writeableLocations;
 
-    this.refreshUnavailableLocations(locations);
     let location;
     // If we have preferred locations, try each one in order and use the first available one
     if (this.preferredLocations && this.preferredLocations.length > 0) {
@@ -145,21 +148,10 @@ export class GlobalEndpointManager {
     // If no preferred locations or one did not match, just grab the first one that is available
     if (!location) {
       location = locations.find((loc) => {
-        return loc.unavailable === undefined;
+        return loc.locationUnavailability === undefined;
       });
     }
     return location ? location.databaseAccountEndpoint : this.defaultEndpoint;
-  }
-
-  private refreshUnavailableLocations(locations: Location[]) {
-    locations.forEach((loc) => {
-      if (
-        loc.unavailable &&
-        Date.now() - loc.unavailable?.timestamp > Constants.LocationUnavailableExpirationTime
-      ) {
-        loc.unavailable = undefined;
-      }
-    });
   }
 
   /**
@@ -172,9 +164,9 @@ export class GlobalEndpointManager {
       this.isRefreshing = true;
       const databaseAccount = await this.getDatabaseAccountFromAnyEndpoint();
       if (databaseAccount) {
+        this.refreshStaleUnavailableLocations();
         this.refreshEndpoints(databaseAccount);
       }
-
       this.isRefreshing = false;
     }
   }
@@ -191,6 +183,63 @@ export class GlobalEndpointManager {
       if (!existingLocation) {
         this.readableLocations.push(location);
       }
+    }
+  }
+
+  private refreshStaleUnavailableLocations(): void {
+    const now = Date.now();
+    let isReadRequestType: boolean = true;
+    this.updateLocationList(now, isReadRequestType);
+    this.cleanUnavailableLocationList(now, isReadRequestType);
+
+    isReadRequestType = false;
+    this.updateLocationList(now, isReadRequestType);
+    this.cleanUnavailableLocationList(now, isReadRequestType);
+  }
+
+  private updateLocationList(now: number, isReadRequest: boolean) {
+    if (isReadRequest) {
+      for (const location of this.unavailableReadableLocations) {
+        const readableLocation = this.readableLocations.find((loc) => loc.name === location.name);
+        if (
+          readableLocation.locationUnavailability &&
+          now - readableLocation.locationUnavailability.lastUnavailabilityTimestamp > 30000
+        ) {
+          readableLocation.locationUnavailability = undefined;
+        }
+      }
+    } else {
+      for (const location of this.unavailableWriteableLocations) {
+        const writableLocation = this.writeableLocations.find((loc) => loc.name === location.name);
+        if (
+          writableLocation.locationUnavailability &&
+          now - writableLocation.locationUnavailability.lastUnavailabilityTimestamp > 30000
+        ) {
+          writableLocation.locationUnavailability = undefined;
+        }
+      }
+    }
+  }
+
+  private cleanUnavailableLocationList(now: number, isReadRequest: boolean) {
+    if (isReadRequest) {
+      this.unavailableReadableLocations = this.unavailableReadableLocations.filter((loc) => {
+        if (
+          loc.locationUnavailability &&
+          now - loc.locationUnavailability.lastUnavailabilityTimestamp >= 5 * 60 * 1000
+        ) {
+          return true;
+        }
+      });
+    } else {
+      this.unavailableWriteableLocations = this.unavailableWriteableLocations.filter((loc) => {
+        if (
+          loc.locationUnavailability &&
+          now - loc.locationUnavailability.lastUnavailabilityTimestamp >= 5 * 60 * 1000
+        ) {
+          return true;
+        }
+      });
     }
   }
 
