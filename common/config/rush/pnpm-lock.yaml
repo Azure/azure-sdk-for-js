@@ -11369,7 +11369,7 @@ packages:
     dev: false
 
   file:projects/arm-education.tgz:
-    resolution: {integrity: sha512-BMIc4Rb6g8ydr8gWUeRg4t7JSnJihzTnL4anvfWwgIJdl56sV/qR9+1y78kID2TZQwuVmOqbW4g7qt2LgCw+6Q==, tarball: file:projects/arm-education.tgz}
+    resolution: {integrity: sha512-jSRzM/Ap7AGLq/voul91+MVjW0RAtLIk9swyqhANzB8F31ZJ4D6LPzWwPNQljDADSJxMr4hIzWdsK5R5cd3OLQ==, tarball: file:projects/arm-education.tgz}
     name: '@rush-temp/arm-education'
     version: 0.0.0
     dependencies:
@@ -11380,18 +11380,19 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
+      '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_7e8d81808a761355f6c3da2f25cfe887
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
