@@ -2551,8 +2551,8 @@ export enum KnownStorageErrorCode {
   FeatureVersionMismatch = "FeatureVersionMismatch",
   /** IncrementalCopyBlobMismatch */
   IncrementalCopyBlobMismatch = "IncrementalCopyBlobMismatch",
-  /** IncrementalCopyOfEralierVersionSnapshotNotAllowed */
-  IncrementalCopyOfEralierVersionSnapshotNotAllowed = "IncrementalCopyOfEralierVersionSnapshotNotAllowed",
+  /** IncrementalCopyOfEarlierVersionSnapshotNotAllowed */
+  IncrementalCopyOfEarlierVersionSnapshotNotAllowed = "IncrementalCopyOfEarlierVersionSnapshotNotAllowed",
   /** IncrementalCopySourceMustBeSnapshot */
   IncrementalCopySourceMustBeSnapshot = "IncrementalCopySourceMustBeSnapshot",
   /** InfiniteLeaseDurationRequired */
@@ -2722,7 +2722,7 @@ export enum KnownStorageErrorCode {
  * **CopyIdMismatch** \
  * **FeatureVersionMismatch** \
  * **IncrementalCopyBlobMismatch** \
- * **IncrementalCopyOfEralierVersionSnapshotNotAllowed** \
+ * **IncrementalCopyOfEarlierVersionSnapshotNotAllowed** \
  * **IncrementalCopySourceMustBeSnapshot** \
  * **InfiniteLeaseDurationRequired** \
  * **InvalidBlobOrBlock** \
@@ -2837,7 +2837,8 @@ export type AccessTier =
   | "P80"
   | "Hot"
   | "Cool"
-  | "Archive";
+  | "Archive"
+  | "Cold";
 /** Defines values for ArchiveStatus. */
 export type ArchiveStatus =
   | "rehydrate-pending-to-hot"
@@ -4135,6 +4136,8 @@ export interface BlockBlobUploadOptionalParams
   legalHold?: boolean;
   /** Specify the transactional md5 for the body, to be validated by the service. */
   transactionalContentMD5?: Uint8Array;
+  /** Specify the transactional crc64 for the body, to be validated by the service. */
+  transactionalContentCrc64?: Uint8Array;
 }
 
 /** Contains response data for the upload operation. */
