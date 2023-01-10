@@ -2125,7 +2125,7 @@ packages:
     resolution: {integrity: sha512-ALYone6pm6QmwZoAgeyNksccT9Q4AWZQ6PvfwR37GT6r6FWUPguq6sUmNGSMV2Wr761oQoBxwGGa6DR5o1DC9g==}
     dependencies:
       '@types/connect': 3.4.35
-      '@types/node': 14.18.36
+      '@types/node': 18.11.18
     dev: false
 
   /@types/chai-as-promised/7.1.5:
@@ -2147,7 +2147,7 @@ packages:
   /@types/connect/3.4.35:
     resolution: {integrity: sha512-cdeYyv4KWoEgpBISTxWvqYsVy444DOqehiF3fM3ne10AmJ62RSyNkUnxMJXHQWRQQX2eR94m5y1IZyDwBjV9FQ==}
     dependencies:
-      '@types/node': 14.18.36
+      '@types/node': 18.11.18
     dev: false
 
   /@types/cookie/0.4.1:
@@ -2157,7 +2157,7 @@ packages:
   /@types/cors/2.8.13:
     resolution: {integrity: sha512-RG8AStHlUiV5ysZQKq97copd2UmVYw3/pRMLefISZ3S1hK104Cwm7iLQ3fTKx+lsUH2CE8FlLaYeEA2LSeqYUA==}
     dependencies:
-      '@types/node': 14.18.36
+      '@types/node': 18.11.18
     dev: false
 
   /@types/debug/4.1.7:
@@ -2184,7 +2184,7 @@ packages:
   /@types/express-serve-static-core/4.17.32:
     resolution: {integrity: sha512-aI5h/VOkxOF2Z1saPy0Zsxs5avets/iaiAJYznQFm5By/pamU31xWKL//epiF4OfUA2qTOc9PV6tCUjhO8wlZA==}
     dependencies:
-      '@types/node': 12.20.55
+      '@types/node': 18.11.18
       '@types/qs': 6.9.7
       '@types/range-parser': 1.2.4
     dev: false
@@ -2201,20 +2201,20 @@ packages:
   /@types/fs-extra/8.1.2:
     resolution: {integrity: sha512-SvSrYXfWSc7R4eqnOzbQF4TZmfpNSM9FrSWLU3EUnWBuyZqNBOrv1B1JA3byUDPUl9z4Ab3jeZG2eDdySlgNMg==}
     dependencies:
-      '@types/node': 14.18.36
+      '@types/node': 18.11.18
     dev: false
 
   /@types/fs-extra/9.0.13:
     resolution: {integrity: sha512-nEnwB++1u5lVDM2UI4c1+5R+FYaKfaAzS4OococimjVm3nQw3TuzH5UNsocrcTBbhnerblyHj4A49qXbIiZdpA==}
     dependencies:
-      '@types/node': 14.18.36
+      '@types/node': 18.11.18
     dev: false
 
   /@types/glob/8.0.0:
     resolution: {integrity: sha512-l6NQsDDyQUVeoTynNpC9uRvCUint/gSUXQA2euwmTuWGvPY5LSDUu6tkCtJB2SvGQlJQzLaKqcGZP4//7EDveA==}
     dependencies:
       '@types/minimatch': 5.1.2
-      '@types/node': 14.18.36
+      '@types/node': 18.11.18
     dev: false
 
   /@types/inquirer/8.2.5:
@@ -2226,7 +2226,7 @@ packages:
   /@types/is-buffer/2.0.0:
     resolution: {integrity: sha512-0f7N/e3BAz32qDYvgB4d2cqv1DqUwvGxHkXsrucICn8la1Vb6Yl6Eg8mPScGwUiqHJeE7diXlzaK+QMA9m4Gxw==}
     dependencies:
-      '@types/node': 14.18.36
+      '@types/node': 18.11.18
     dev: false
 
   /@types/json-schema/7.0.11:
@@ -2240,13 +2240,13 @@ packages:
   /@types/jsonwebtoken/9.0.0:
     resolution: {integrity: sha512-mM4TkDpA9oixqg1Fv2vVpOFyIVLJjm5x4k0V+K/rEsizfjD7Tk7LKk3GTtbB7KCfP0FEHQtsZqFxYA0+sijNVg==}
     dependencies:
-      '@types/node': 14.18.36
+      '@types/node': 18.11.18
     dev: false
 
   /@types/jws/3.2.4:
     resolution: {integrity: sha512-aqtH4dPw1wUjFZaeMD1ak/pf8iXlu/odFe+trJrvw0g1sTh93i+SCykg0Ek8C6B7rVK3oBORbfZAsKO7P10etg==}
     dependencies:
-      '@types/node': 14.18.36
+      '@types/node': 18.11.18
     dev: false
 
   /@types/mdast/3.0.10:
@@ -2282,7 +2282,7 @@ packages:
   /@types/node-fetch/2.6.2:
     resolution: {integrity: sha512-DHqhlq5jeESLy19TYhLakJ07kNumXWjcDdxXsLUMJZ6ue8VZJj4kLPQVE/2mdHh3xZziNF1xppu5lwmS53HR+A==}
     dependencies:
-      '@types/node': 14.18.36
+      '@types/node': 18.11.18
       form-data: 3.0.1
     dev: false
 
@@ -2337,7 +2337,7 @@ packages:
   /@types/resolve/1.17.1:
     resolution: {integrity: sha512-yy7HuzQhj0dhGpD8RLXSZWEkLsV9ibvxvi6EiJ3bkqLAO1RGo0WbkWQiwpRlSFymTJRz0d3k5LM3kkx8ArDbLw==}
     dependencies:
-      '@types/node': 14.18.36
+      '@types/node': 18.11.18
     dev: false
 
   /@types/semaphore/1.1.1:
@@ -2352,7 +2352,7 @@ packages:
     resolution: {integrity: sha512-z5xyF6uh8CbjAu9760KDKsH2FcDxZ2tFCsA4HIMWE6IkiYMXfVoa+4f9KX+FN0ZLsaMw1WNG2ETLA6N+/YA+cg==}
     dependencies:
       '@types/mime': 3.0.1
-      '@types/node': 14.18.36
+      '@types/node': 18.11.18
     dev: false
 
   /@types/sinon/10.0.13:
@@ -2374,13 +2374,13 @@ packages:
   /@types/stoppable/1.1.1:
     resolution: {integrity: sha512-b8N+fCADRIYYrGZOcmOR8ZNBOqhktWTB/bMUl5LvGtT201QKJZOOH5UsFyI3qtteM6ZAJbJqZoBcLqqxKIwjhw==}
     dependencies:
-      '@types/node': 14.18.36
+      '@types/node': 18.11.18
     dev: false
 
   /@types/through/0.0.30:
     resolution: {integrity: sha512-FvnCJljyxhPM3gkRgWmxmDZyAQSiBQQWLI0A0VFL0K7W1oRUrPJSqNO0NvTnLkBcotdlp3lKvaT0JrnyRDkzOg==}
     dependencies:
-      '@types/node': 14.18.36
+      '@types/node': 18.11.18
     dev: false
 
   /@types/tough-cookie/4.0.2:
@@ -2394,13 +2394,13 @@ packages:
   /@types/tunnel/0.0.1:
     resolution: {integrity: sha512-AOqu6bQu5MSWwYvehMXLukFHnupHrpZ8nvgae5Ggie9UwzDR1CCwoXgSSWNZJuyOlCdfdsWMA5F2LlmvyoTv8A==}
     dependencies:
-      '@types/node': 14.18.36
+      '@types/node': 18.11.18
     dev: false
 
   /@types/tunnel/0.0.3:
     resolution: {integrity: sha512-sOUTGn6h1SfQ+gbgqC364jLFBw2lnFqkgF3q0WovEHRLMrVD1sd5aufqi/aJObLekJO+Aq5z646U4Oxy6shXMA==}
     dependencies:
-      '@types/node': 14.18.36
+      '@types/node': 18.11.18
     dev: false
 
   /@types/underscore/1.11.4:
@@ -2418,19 +2418,19 @@ packages:
   /@types/ws/7.4.7:
     resolution: {integrity: sha512-JQbbmxZTZehdc2iszGKs5oC3NFnjeay7mtAWrdt7qNtAVK0g19muApzAy4bm9byz79xa2ZnO/BOBC2R8RC5Lww==}
     dependencies:
-      '@types/node': 14.18.36
+      '@types/node': 18.11.18
     dev: false
 
   /@types/ws/8.5.4:
     resolution: {integrity: sha512-zdQDHKUgcX/zBc4GrwsE/7dVdAD8JR4EuiAXiiUhhfyIJXXb2+PrGshFyeXWQPMmmZ2XxgaqclgpIC7eTXc1mg==}
     dependencies:
-      '@types/node': 14.18.36
+      '@types/node': 18.11.18
     dev: false
 
   /@types/xml2js/0.4.11:
     resolution: {integrity: sha512-JdigeAKmCyoJUiQljjr7tQG3if9NkqGUgwEUqBvV0N7LM4HyQk7UXCnusRa1lnvXAEYJ8mw8GtZWioagNztOwA==}
     dependencies:
-      '@types/node': 14.18.36
+      '@types/node': 18.11.18
     dev: false
 
   /@types/yargs-parser/21.0.0:
@@ -2447,7 +2447,7 @@ packages:
     resolution: {integrity: sha512-Cn6WYCm0tXv8p6k+A8PvbDG763EDpBoTzHdA+Q/MF6H3sapGjCm9NzoaJncJS9tUKSuCoDs9XHxYYsQDgxR6kw==}
     requiresBuild: true
     dependencies:
-      '@types/node': 14.18.36
+      '@types/node': 18.11.18
     dev: false
     optional: true
 
@@ -3485,7 +3485,7 @@ packages:
     resolution: {integrity: sha512-mel+jf7nrtEl5Pn1Qx46zARXKDpBbvzezse7p7LqINmdoIk8PYP5SySaxEmYv6TZ0JyEKA1hsCId6DIhgITtWQ==}
     deprecated: Debug versions >=3.2.0 <3.2.7 || >=4 <4.3.1 have a low-severity ReDos regression when used in a Node.js environment. It is recommended you upgrade to 3.2.7 or 4.3.1. (https://github.com/visionmedia/debug/issues/797)
     dependencies:
-      ms: 2.1.1
+      ms: 2.1.3
     dev: false
 
   /debug/3.2.7:
@@ -3685,7 +3685,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 4.6.4
+      typescript: 4.9.4
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -3736,7 +3736,7 @@ packages:
     dependencies:
       '@types/cookie': 0.4.1
       '@types/cors': 2.8.13
-      '@types/node': 14.18.36
+      '@types/node': 18.11.18
       accepts: 1.3.8
       base64id: 2.0.0
       cookie: 0.4.2
@@ -4735,7 +4735,7 @@ packages:
       fs.realpath: 1.0.0
       inflight: 1.0.6
       inherits: 2.0.4
-      minimatch: 3.0.4
+      minimatch: 3.1.2
       once: 1.4.0
       path-is-absolute: 1.0.1
     dev: false
@@ -11471,7 +11471,7 @@ packages:
     dev: false
 
   file:projects/arm-elasticsan.tgz:
-    resolution: {integrity: sha512-i91wQDKrqTeVJQXuc1EZK5VenGwnlxtknay2pTMVZeAmWXwH2NhuSPswqIDZRAeKjv1h2bgPOz9Um1fsqwakfA==, tarball: file:projects/arm-elasticsan.tgz}
+    resolution: {integrity: sha512-BWH14Yy2bFoQyAaimQ/6Wpzpa23rTjRzXHCbidjOQNN3AKmzmES84ubQUVgrHJMHjtjCmMTdMxvqJcPS/pWu/w==, tarball: file:projects/arm-elasticsan.tgz}
     name: '@rush-temp/arm-elasticsan'
     version: 0.0.0
     dependencies:
@@ -11485,13 +11485,14 @@ packages:
       '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_7e8d81808a761355f6c3da2f25cfe887
       tslib: 2.4.1
-      typescript: 4.6.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - supports-color
