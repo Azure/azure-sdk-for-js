@@ -55,6 +55,10 @@
       "defaultValue": "[newGuid()]",
       "type": "String"
     },
+    "storageServicesEndpointSuffix": {
+      "type": "string",
+      "defaultValue": ".blob.core.windows.net"
+    }
   },
   "variables": {
     "taRoleId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/a97b65f3-24c7-4388-baec-2e87135dc908')]",
@@ -298,6 +302,18 @@
     "STORAGE_ACCOUNT_NAME": {
       "type": "string",
       "value": "[variables('storageAccountName')]"
+    },
+    "STORAGE_ENDPOINT": {
+      "type": "string",
+      "value": "[concat('https://', variables('storageAccountName'), parameters('storageServicesEndpointSuffix'), '/')]"
+    },
+    "STORAGE_KEY": {
+      "type": "string",
+      "value": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), variables('storageApiVersion')).keys[0].value]"
+    },
+    "STORAGE_KEY_ALT": {
+      "type": "string",
+      "value": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), variables('storageApiVersion')).keys[1].value]"
     }
   }
 }
