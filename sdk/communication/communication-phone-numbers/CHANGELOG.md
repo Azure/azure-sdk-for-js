@@ -2,6 +2,7 @@
 
 ## 1.2.0-beta.4 (2023-01-10)
 - Adds support for Azure Communication Services Phone Numbers Browse API Methods.
+- Adds support for Direct routing configuration management.
 
 ### Features Added
 - Added support for API version `2022-12-01`, giving users the ability to: 
@@ -10,6 +11,7 @@
   - Get all Toll-Free area codes from a given country code.
   - Get all Geographic area codes from a given country code / locality.
   - Get all offerings from a given country code.
+- Added new SIP routing client for handling Direct routing numbers.
 
 ### Other Changes
 
