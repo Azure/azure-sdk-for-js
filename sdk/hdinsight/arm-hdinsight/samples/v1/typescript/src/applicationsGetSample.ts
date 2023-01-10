@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { HDInsightManagementClient } from "@azure/arm-hdinsight";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets properties of the specified application.
@@ -18,8 +21,8 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/stable/2021-06-01/examples/GetApplicationInProgress.json
  */
 async function getApplicationOnHdInsightClusterCreationInProgress() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["HDINSIGHT_RESOURCE_GROUP"] || "rg1";
   const clusterName = "cluster1";
   const applicationName = "app";
   const credential = new DefaultAzureCredential();
@@ -31,8 +34,6 @@ async function getApplicationOnHdInsightClusterCreationInProgress() {
   );
   console.log(result);
 }
-
-getApplicationOnHdInsightClusterCreationInProgress().catch(console.error);
 
 /**
  * This sample demonstrates how to Gets properties of the specified application.
@@ -41,8 +42,8 @@ getApplicationOnHdInsightClusterCreationInProgress().catch(console.error);
  * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/stable/2021-06-01/examples/GetApplicationCreated.json
  */
 async function getApplicationOnHdInsightClusterSuccessfullyCreated() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["HDINSIGHT_RESOURCE_GROUP"] || "rg1";
   const clusterName = "cluster1";
   const applicationName = "app";
   const credential = new DefaultAzureCredential();
@@ -55,4 +56,9 @@ async function getApplicationOnHdInsightClusterSuccessfullyCreated() {
   console.log(result);
 }
 
-getApplicationOnHdInsightClusterSuccessfullyCreated().catch(console.error);
+async function main() {
+  getApplicationOnHdInsightClusterCreationInProgress();
+  getApplicationOnHdInsightClusterSuccessfullyCreated();
+}
+
+main().catch(console.error);
