@@ -50,7 +50,11 @@
     "cognitiveServicesEndpointSuffix": {
       "type": "string",
       "defaultValue": ".cognitiveservices.azure.com"
-    }
+    },
+    "storageRoleUniqueId": {
+      "defaultValue": "[newGuid()]",
+      "type": "String"
+    },
   },
   "variables": {
     "taRoleId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/a97b65f3-24c7-4388-baec-2e87135dc908')]",
@@ -82,10 +86,27 @@
   },
   "resources": [
     {
+      "type": "Microsoft.Storage/storageAccounts/providers/roleAssignments",
+      "apiVersion": "2022-04-01",
+      "name": "[concat(variables('storageAccountName'), '/Microsoft.Authorization/', guid(concat(resourceGroup().id, '/', variables('blobDataOwnerRoleId'), '/', parameters('storageRoleUniqueId'))))]",
+      "dependsOn": [
+        "[variables('storageAccountName')]",
+        "[resourceId('Microsoft.CognitiveServices/accounts', variables('cognitiveAccountName'))]"
+      ],
+      "location": "[parameters('location')]",
+      "properties": {
+        "roleDefinitionId": "[variables('blobDataOwnerRoleId')]",
+        "principalId": "[reference(concat('Microsoft.CognitiveServices/accounts/', variables('cognitiveAccountName')), variables('cognitiveApiVersion'), 'Full').identity.principalId]",
+        "principalType": "ServicePrincipal"
+      }
+    },
+    {
       "type": "Microsoft.Authorization/roleAssignments",
       "apiVersion": "[variables('authorizationApiVersion')]",
       "name": "[guid(concat('blobDataContributorRoleId', variables('storageAccountName')))]",
-      "dependsOn": ["[variables('storageAccountName')]"],
+      "dependsOn": [
+        "[variables('storageAccountName')]"
+      ],
       "properties": {
         "roleDefinitionId": "[variables('blobDataContributorRoleId')]",
         "principalId": "[parameters('testApplicationOid')]"
@@ -95,7 +116,9 @@
       "type": "Microsoft.Authorization/roleAssignments",
       "apiVersion": "[variables('authorizationApiVersion')]",
       "name": "[guid(concat('blobDataOwnerRoleId', variables('storageAccountName')))]",
-      "dependsOn": ["[variables('storageAccountName')]"],
+      "dependsOn": [
+        "[variables('storageAccountName')]"
+      ],
       "properties": {
         "roleDefinitionId": "[variables('blobDataOwnerRoleId')]",
         "principalId": "[parameters('testApplicationOid')]"
@@ -134,13 +157,17 @@
           "name": "default",
           "type": "blobServices",
           "apiVersion": "[variables('storageApiVersion')]",
-          "dependsOn": ["[variables('storageAccountName')]"],
+          "dependsOn": [
+            "[variables('storageAccountName')]"
+          ],
           "properties": {
             "isVersioningEnabled": "[parameters('enableVersioning')]",
             "cors": {
               "corsRules": [
                 {
-                  "allowedOrigins": ["*"],
+                  "allowedOrigins": [
+                    "*"
+                  ],
                   "allowedMethods": [
                     "DELETE",
                     "GET",
@@ -152,8 +179,12 @@
                     "PATCH"
                   ],
                   "maxAgeInSeconds": 86400,
-                  "exposedHeaders": ["*"],
-                  "allowedHeaders": ["*"]
+                  "exposedHeaders": [
+                    "*"
+                  ],
+                  "allowedHeaders": [
+                    "*"
+                  ]
                 }
               ]
             },
@@ -161,7 +192,9 @@
               "enable": true,
               "name": "AccessTimeTracking",
               "trackingGranularityInDays": 1,
-              "blobType": ["blockBlob"]
+              "blobType": [
+                "blockBlob"
+              ]
             }
           },
           "resources": []
@@ -170,16 +203,32 @@
           "name": "default",
           "type": "fileServices",
           "apiVersion": "[variables('storageApiVersion')]",
-          "dependsOn": ["[variables('storageAccountName')]"],
+          "dependsOn": [
+            "[variables('storageAccountName')]"
+          ],
           "properties": {
             "cors": {
               "corsRules": [
                 {
-                  "allowedOrigins": ["*"],
-                  "allowedMethods": ["DELETE", "GET", "HEAD", "MERGE", "POST", "OPTIONS", "PUT"],
+                  "allowedOrigins": [
+                    "*"
+                  ],
+                  "allowedMethods": [
+                    "DELETE",
+                    "GET",
+                    "HEAD",
+                    "MERGE",
+                    "POST",
+                    "OPTIONS",
+                    "PUT"
+                  ],
                   "maxAgeInSeconds": 86400,
-                  "exposedHeaders": ["*"],
-                  "allowedHeaders": ["*"]
+                  "exposedHeaders": [
+                    "*"
+                  ],
+                  "allowedHeaders": [
+                    "*"
+                  ]
                 }
               ]
             }
@@ -210,9 +259,11 @@
       ],
       "properties": {
         "customSubDomainName": "[variables('cognitiveAccountName')]",
-        "userOwnedStorage": [{
-          "resourceId": "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]"
-        }]
+        "userOwnedStorage": [
+          {
+            "resourceId": "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]"
+          }
+        ]
       },
       "identity": {
         "type": "SystemAssigned"
