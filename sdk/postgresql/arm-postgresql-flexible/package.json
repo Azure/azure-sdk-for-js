@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for PostgreSQLManagementFlexibleServerClient.",
-  "version": "6.1.1",
+  "version": "7.0.0",
   "engines": {
     "node": ">=14.0.0"
   },
