@@ -18,9 +18,6 @@ export function checkTenantId(logger: CredentialLogger, tenantId: string): void 
   }
 }
 
-/**
- * @internal
- */
 export function resolveTenantId(
   logger: CredentialLogger,
   tenantId?: string,
@@ -39,10 +36,7 @@ export function resolveTenantId(
   return "organizations";
 }
 
-/**
- * @internal
- */
-export function resolveAddionallyAllowedTenantIds(additionallyAllowedTenants?: string[]): string[] {
+export function resolveAdditionallyAllowedTenantIds(additionallyAllowedTenants?: string[]): string[] {
   if (!additionallyAllowedTenants || additionallyAllowedTenants.length === 0) {
     return [];
   }

@@ -42,7 +42,7 @@ export interface TokenResponse {
 }
 
 /**
- * @internal
+ * 
  */
 export function getIdentityClientAuthorityHost(options?: TokenCredentialOptions): string {
   // The authorityHost can come from options or from the AZURE_AUTHORITY_HOST environment variable.

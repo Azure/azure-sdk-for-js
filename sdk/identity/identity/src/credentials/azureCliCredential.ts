@@ -9,9 +9,9 @@ import { CredentialUnavailableError } from "@azure/identity-common";
 import child_process from "child_process";
 import {
   processMultiTenantRequest,
-  resolveAddionallyAllowedTenantIds,
-} from "../../../identity-common/src/util/tenantIdUtils";
-import { tracingClient } from "../../../identity-common/src/util/tracing";
+  resolveAdditionallyAllowedTenantIds,
+} from "@azure/identity-common";
+import { tracingClient } from "@azure/identity-common";
 
 /**
  * Mockable reference to the CLI credential cliCredentialFunctions
@@ -92,7 +92,7 @@ export class AzureCliCredential implements TokenCredential {
    */
   constructor(options?: AzureCliCredentialOptions) {
     this.tenantId = options?.tenantId;
-    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
+    this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
       options?.additionallyAllowedTenants
     );
   }

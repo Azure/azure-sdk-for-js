@@ -17,7 +17,7 @@ import {
 import { MsalFlow, MsalFlowOptions } from "../flows";
 import {
   processMultiTenantRequest,
-  resolveAddionallyAllowedTenantIds,
+  resolveAdditionallyAllowedTenantIds,
   resolveTenantId,
 } from "../../util/tenantIdUtils";
 import { AbortSignalLike } from "@azure/abort-controller";
@@ -34,7 +34,6 @@ import { msalNodeFlowCacheControl } from "./msalNodeFlowCacheControl";
 
 /**
  * Union of the constructor parameters that all MSAL flow types for Node.
- * @internal
  */
 export interface MsalNodeOptions extends MsalFlowOptions {
   tokenCachePersistenceOptions?: TokenCachePersistenceOptions;
@@ -60,7 +59,6 @@ const persistenceProvider = msalNodeFlowCacheControl.getPersistence();
  * It also provides with utility protected methods that can be used from any of the clients,
  * which includes handlers for successful responses and errors.
  *
- * @internal
  */
 export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
   protected publicApp: msalNode.PublicClientApplication | undefined;
@@ -87,7 +85,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
     super(options);
     this.msalConfig = this.defaultNodeMsalConfig(options);
     this.tenantId = resolveTenantId(options.logger, options.tenantId, options.clientId);
-    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
+    this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
       options?.tokenCredentialOptions?.additionallyAllowedTenants
     );
     this.clientId = this.msalConfig.auth.clientId;

@@ -7,7 +7,6 @@ import { AuthenticationRecord } from "./types";
 /**
  * The MSAL clients `getToken` requests can receive a `correlationId` and `disableAutomaticAuthentication`.
  * (which is used to prevent `getToken` from triggering the manual authentication if `getTokenSilent`  fails).
- * @internal
  */
 export interface CredentialFlowGetTokenOptions extends GetTokenOptions {
   /**
@@ -35,7 +34,6 @@ export interface CredentialFlowGetTokenOptions extends GetTokenOptions {
 
 /**
  * Simplified representation of the internal authentication flow.
- * @internal
  */
 export interface CredentialFlow {
   /**

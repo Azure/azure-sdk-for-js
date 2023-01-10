@@ -35,7 +35,6 @@ export interface VisualStudioCodeCredentialControl {
  * Plugin authors are responsible for casting their plugin context values
  * to this type.
  *
- * @internal
  */
 export interface AzurePluginContext {
   cachePluginControl: CachePluginControl;

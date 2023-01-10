@@ -22,7 +22,6 @@ const LatestAuthenticationRecordVersion = "1.0";
 
 /**
  * Ensures the validity of the MSAL token
- * @internal
  */
 export function ensureValidMsalToken(
   scopes: string | string[],
@@ -51,7 +50,6 @@ export function ensureValidMsalToken(
 
 /**
  * Generates a valid authority by combining a host with a tenantId.
- * @internal
  */
 export function getAuthority(tenantId: string, host?: string): string {
   if (!host) {
@@ -72,7 +70,6 @@ export function getAuthority(tenantId: string, host?: string): string {
  * If the Tenant Id is `adfs`, the authority can't be validated since the format won't match the expected one.
  * For that reason, we have to force MSAL to disable validating the authority
  * by sending it within the known authorities in the MSAL configuration.
- * @internal
  */
 export function getKnownAuthorities(tenantId: string, authorityHost: string): string[] {
   if (tenantId === "adfs" && authorityHost) {
@@ -84,7 +81,6 @@ export function getKnownAuthorities(tenantId: string, authorityHost: string): st
 /**
  * Generates a logger that can be passed to the MSAL clients.
  * @param logger - The logger of the credential.
- * @internal
  */
 export const defaultLoggerCallback: (
   logger: CredentialLogger,
@@ -112,7 +108,6 @@ export const defaultLoggerCallback: (
   };
 
 /**
- * @internal
  */
 export function getMSALLogLevel(logLevel: AzureLogLevel | undefined): msalCommon.LogLevel {
   switch (logLevel) {
@@ -136,7 +131,6 @@ export function getMSALLogLevel(logLevel: AzureLogLevel | undefined): msalCommon
  *
  * It keeps track of a logger and an in-memory copy of the AuthenticationRecord.
  *
- * @internal
  */
 export class MsalBaseUtilities {
   protected logger: CredentialLogger;

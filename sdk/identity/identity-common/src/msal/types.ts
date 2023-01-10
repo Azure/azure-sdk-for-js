@@ -3,7 +3,6 @@
 
 /**
  * The shape we use return the token (and the expiration date).
- * @internal
  */
 export interface MsalToken {
   accessToken?: string;
@@ -29,7 +28,6 @@ export interface MsalAccountInfo {
 
 /**
  * Represents the common properties of any of the MSAL responses.
- * @internal
  */
 export interface MsalResult {
   authority?: string;

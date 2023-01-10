@@ -9,7 +9,7 @@ export const SDK_VERSION = `1.0.0-beta.1`;
 
 /**
  * The default client ID for authentication
- * @internal
+ *
  */
 // TODO: temporary - this is the Azure CLI clientID - we'll replace it when
 // Developer Sign On application is available
@@ -18,7 +18,7 @@ export const DeveloperSignOnClientId = "04b07795-8ddb-461a-bbee-02f9e1bf7b46";
 
 /**
  * The default tenant for authentication
- * @internal
+ *
  */
 export const DefaultTenantId = "common";
 

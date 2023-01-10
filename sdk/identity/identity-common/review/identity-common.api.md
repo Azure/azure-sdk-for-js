@@ -4,8 +4,49 @@
 
 ```ts
 
+import { AzureLogger } from '@azure/logger';
 import { Recorder } from '@azure-tools/test-recorder';
 import Sinon from 'sinon';
+
+// @public
+export interface CredentialLogger extends CredentialLoggerInstance {
+    // (undocumented)
+    getToken: CredentialLoggerInstance;
+    // (undocumented)
+    parent: AzureLogger;
+}
+
+// @public
+export function credentialLogger(title: string, log?: AzureLogger): CredentialLogger;
+
+// @public
+export interface CredentialLoggerInstance {
+    // (undocumented)
+    fullTitle: string;
+    // (undocumented)
+    info(message: string): void;
+    // (undocumented)
+    title: string;
+    // (undocumented)
+    verbose(message: string): void;
+    // (undocumented)
+    warning(message: string): void;
+}
+
+// @public
+export function credentialLoggerInstance(title: string, parent?: CredentialLoggerInstance, log?: AzureLogger): CredentialLoggerInstance;
+
+// @public
+export function formatError(scope: string | string[] | undefined, error: Error | string): string;
+
+// @public
+export function formatSuccess(scope: string | string[]): string;
+
+// @public
+export function logEnvVars(credentialName: string, supportedEnvVars: string[]): void;
+
+// @public
+export const logger: AzureLogger;
 
 // @public (undocumented)
 export function msalNodeTestSetup(testContext?: Mocha.Test, playbackClientId?: string): Promise<MsalTestSetupResponse>;
@@ -25,6 +66,11 @@ export interface MsalTestSetupResponse {
 
 // @public (undocumented)
 export const PlaybackTenantId = "12345678-1234-1234-1234-123456789012";
+
+// Warning: (ae-forgotten-export) The symbol "EnvironmentAccumulator" needs to be exported by the entry point index.d.ts
+//
+// @public
+export function processEnvVars(supportedEnvVars: string[]): EnvironmentAccumulator;
 
 // (No @packageDocumentation comment for this package)
 

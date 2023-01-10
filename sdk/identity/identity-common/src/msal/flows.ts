@@ -8,7 +8,6 @@ import { CredentialLogger } from "../util/logging";
 
 /**
  * Union of the constructor parameters that all MSAL flow types take.
- * @internal
  */
 export interface MsalFlowOptions {
   logger: CredentialLogger;
@@ -22,7 +21,6 @@ export interface MsalFlowOptions {
 
 /**
  * The common methods we use to work with the MSAL flows.
- * @internal
  */
 export interface MsalFlow {
   /**
