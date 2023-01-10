@@ -1,14 +1,14 @@
 # Release History
 
-## 1.0.0-beta.12 (Unreleased)
+## 1.0.0-beta.12 (2023-01-10)
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- Added `workspaceResourceId` to AzureSynapseArtifactsLinkedServiceTypeProperties
+- Added `pythonCodeReference`, `filesV2`, `scanFolder`, `configurationType`, `targetSparkConfiguration` and `sparkConfig` properties to SparkJobActivity
+- Added `authHeaders` proprety to RestServiceLinkedService
+- Added new apis of Pause/Resume for Synapse Link
+- Added PowerBIWorkspaceLinkedService
 
 ## 1.0.0-beta.11 (2022-09-21)
 
