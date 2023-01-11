@@ -31,7 +31,7 @@
         "x-ms-routing-request-id": "SOUTHEASTASIA:20230106T071413Z:0e09d885-ec3b-4a47-8bbe-59a0fc145ffc"
       },
       "ResponseBody": {
-        "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourcegroups/myjstest/providers/Microsoft.ContainerService/managedClusters/myreourcexyz",
+        "id": "/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/Microsoft.ContainerService/managedClusters/myreourcexyz",
         "location": "eastus",
         "name": "myreourcexyz",
         "type": "Microsoft.ContainerService/ManagedClusters",
@@ -85,7 +85,7 @@
               },
               "effectiveOutboundIPs": [
                 {
-                  "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/MC_myjstest_myreourcexyz_eastus/providers/Microsoft.Network/publicIPAddresses/15a20c20-929c-4772-9421-580cb9c191d3"
+                  "id": "/subscriptions/azure_subscription_id/resourceGroups/MC_myjstest_myreourcexyz_eastus/providers/Microsoft.Network/publicIPAddresses/15a20c20-929c-4772-9421-580cb9c191d3"
                 }
               ]
             },
