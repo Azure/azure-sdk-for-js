@@ -19,11 +19,58 @@ const testEntities = [
   { partitionKey, rowKey: "3", name: "third" },
 ];
 
+const suffix = isNode ? "node" : "browser";
+
+describe("concurrent batch operations", () => {
+  const concurrentTableName = `concurrentBatchTableTest${suffix}`;
+  let unRecordedClient: TableClient;
+  before(async () => {
+    if (!isPlaybackMode()) {
+      unRecordedClient = await createTableClient(concurrentTableName, "SASConnectionString");
+      await unRecordedClient.createTable();
+    }
+  });
+
+  after(async () => {
+    if (!isPlaybackMode()) {
+      await unRecordedClient.deleteTable();
+    }
+  });
+  beforeEach(async function (this: Context) {
+    sinon.stub(Uuid, "generateUuid").returns("fakeId");
+    unRecordedClient = await createTableClient(concurrentTableName, "SASConnectionString");
+  });
+
+  afterEach(async function () {
+    sinon.restore();
+  });
+
+  it("should send concurrent transactions", async () => {
+    // Only run this in live mode. Enable playback when https://github.com/Azure/azure-sdk-for-js/issues/24189 is fixed
+    if (!isLiveMode()) {
+      return;
+    }
+    await Promise.all([
+      unRecordedClient.submitTransaction([
+        ["create", { partitionKey: "pk22", rowKey: "rk1", field: 1 }],
+      ]),
+      unRecordedClient.submitTransaction([
+        ["create", { partitionKey: "pk22", rowKey: "rk2", field: 2 }],
+      ]),
+    ]);
+
+    const entity1 = await unRecordedClient.getEntity("pk22", "rk1");
+    const entity2 = await unRecordedClient.getEntity("pk22", "rk2");
+
+    assert.equal(entity1.rowKey, "rk1");
+    assert.equal(entity2.rowKey, "rk2");
+  });
+});
+
 describe(`batch operations`, () => {
   let client: TableClient;
   let unRecordedClient: TableClient;
   let recorder: Recorder;
-  const suffix = isNode ? "node" : "browser";
   const tableName = `batchTableTest${suffix}`;
 
   beforeEach(async function (this: Context) {
@@ -61,23 +108,6 @@ describe(`batch operations`, () => {
     assert.lengthOf(result.subResponses, 2);
     assert.equal(result.getResponseForEntity("1")?.status, 204);
     assert.equal(result.getResponseForEntity("2")?.status, 204);
-  });
-
-  it("should send concurrent transactions", async () => {
-    // Only run this in live mode. Enable playback when https://github.com/Azure/azure-sdk-for-js/issues/24189 is fixed
-    if (!isLiveMode()) {
-      return;
-    }
-    await Promise.all([
-      client.submitTransaction([["create", { partitionKey: "pk22", rowKey: "rk1", field: 1 }]]),
-      client.submitTransaction([["create", { partitionKey: "pk22", rowKey: "rk2", field: 2 }]]),
-    ]);
-
-    const entity1 = await client.getEntity("pk22", "rk1");
-    const entity2 = await client.getEntity("pk22", "rk2");
-
-    assert.equal(entity1.rowKey, "rk1");
-    assert.equal(entity2.rowKey, "rk2");
   });
 
   it("should send a set of create batch operations", async () => {
