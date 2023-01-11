@@ -12,7 +12,6 @@ export interface MsalToken {
 /**
  * Internal representation of MSAL's Account information.
  * Helps us to disambiguate the MSAL classes accross environments.
- * @internal
  */
 export interface MsalAccountInfo {
   homeAccountId: string;

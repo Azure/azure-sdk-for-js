@@ -20,9 +20,9 @@ export { AzurePluginContext, CachePluginControl, IdentityPlugin, VisualStudioCod
 
 export { getIdentityTokenEndpointSuffix } from "./util/identityTokenEndpoint";
 export { processMultiTenantRequest } from "./util/processMultiTenantRequest";
-export { resolveAdditionallyAllowedTenantIds, resolveTenantId } from "./util/tenantIdUtils";
+export { resolveAdditionallyAllowedTenantIds, resolveTenantId, checkTenantId } from "./util/tenantIdUtils";
 
-export { logger, formatError, formatSuccess, logEnvVars, processEnvVars, credentialLogger, credentialLoggerInstance } from "./util/logging";
+export { CredentialLogger, CredentialLoggerInstance, logger, formatError, formatSuccess, logEnvVars, processEnvVars, credentialLogger, credentialLoggerInstance } from "./util/logging";
 export { tracingClient } from "./util/tracing";
 
 export { AzureAuthorityHosts, ALL_TENANTS, DefaultAuthorityHost, DefaultTenantId, DeveloperSignOnClientId } from "./constants";
@@ -33,4 +33,4 @@ export { RegionalAuthority } from "./regionalAuthority";
 
 export { TokenCredentialOptions } from "./tokenCredentialOptions";
 
-export { MsalTestCleanup, MsalTestSetupResponse, msalNodeTestSetup } from "../test/msalTestUtils";
+export { MsalTestCleanup, MsalTestSetupResponse, msalNodeTestSetup, PlaybackTenantId } from "../test/msalTestUtils";

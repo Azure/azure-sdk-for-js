@@ -3,6 +3,7 @@
 
 import * as dotenv from "dotenv";
 import { isNode } from "@azure/core-util";
+import { PlaybackTenantId } from "@azure/identity-common";
 
 // Browser tests fail if dotenv.config is called in that environment.
 if (isNode) {

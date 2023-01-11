@@ -5,9 +5,6 @@ import { ALL_TENANTS, DeveloperSignOnClientId } from "../constants";
 export { processMultiTenantRequest } from "./processMultiTenantRequest";
 import { CredentialLogger, formatError } from "./logging";
 
-/**
- * @internal
- */
 export function checkTenantId(logger: CredentialLogger, tenantId: string): void {
   if (!tenantId.match(/^[0-9a-zA-Z-.:/]+$/)) {
     const error = new Error(

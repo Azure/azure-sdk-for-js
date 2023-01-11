@@ -4,9 +4,108 @@
 
 ```ts
 
+import { AbortSignalLike } from '@azure/abort-controller';
+import { AccessToken } from '@azure/core-auth';
 import { AzureLogger } from '@azure/logger';
+import { AzureLogLevel } from '@azure/logger';
+import { CommonClientOptions } from '@azure/core-client';
+import { GetTokenOptions } from '@azure/core-auth';
+import { ICachePlugin } from '@azure/msal-common';
+import { INetworkModule } from '@azure/msal-common';
+import { LogPolicyOptions } from '@azure/core-rest-pipeline';
+import * as msalCommon from '@azure/msal-common';
+import * as msalNode from '@azure/msal-node';
+import { NetworkRequestOptions } from '@azure/msal-common';
+import { NetworkResponse } from '@azure/msal-common';
+import { PipelineRequest } from '@azure/core-rest-pipeline';
 import { Recorder } from '@azure-tools/test-recorder';
+import { ServiceClient } from '@azure/core-client';
 import Sinon from 'sinon';
+import { TracingClient } from '@azure/core-tracing';
+
+// @public
+export class AggregateAuthenticationError extends Error {
+    constructor(errors: any[], errorMessage?: string);
+    errors: any[];
+}
+
+// @public
+export const ALL_TENANTS: string[];
+
+// @public
+export class AuthenticationError extends Error {
+    constructor(statusCode: number, errorBody: object | string | undefined | null);
+    // Warning: (ae-forgotten-export) The symbol "ErrorResponse" needs to be exported by the entry point index.d.ts
+    readonly errorResponse: ErrorResponse;
+    readonly statusCode: number;
+}
+
+// @public
+export interface AuthenticationRecord {
+    authority: string;
+    clientId: string;
+    homeAccountId: string;
+    tenantId: string;
+    username: string;
+}
+
+// @public
+export class AuthenticationRequiredError extends Error {
+    constructor(
+    options: AuthenticationRequiredErrorOptions);
+    getTokenOptions?: GetTokenOptions;
+    scopes: string[];
+}
+
+// @public
+export interface AuthenticationRequiredErrorOptions {
+    getTokenOptions?: GetTokenOptions;
+    message?: string;
+    scopes: string[];
+}
+
+// @public
+export enum AzureAuthorityHosts {
+    AzureChina = "https://login.chinacloudapi.cn",
+    AzureGermany = "https://login.microsoftonline.de",
+    AzureGovernment = "https://login.microsoftonline.us",
+    AzurePublicCloud = "https://login.microsoftonline.com"
+}
+
+// @public
+export interface AzurePluginContext {
+    // (undocumented)
+    cachePluginControl: CachePluginControl;
+    // (undocumented)
+    vsCodeCredentialControl: VisualStudioCodeCredentialControl;
+}
+
+// @public
+export interface CachePluginControl {
+    // (undocumented)
+    setPersistence(persistenceFactory: (options?: TokenCachePersistenceOptions) => Promise<ICachePlugin>): void;
+}
+
+// Warning: (ae-internal-missing-underscore) The name "checkTenantId" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export function checkTenantId(logger: CredentialLogger, tenantId: string): void;
+
+// @public
+export interface CredentialFlow {
+    getActiveAccount(): Promise<AuthenticationRecord | undefined>;
+    getToken(scopes?: string[], options?: CredentialFlowGetTokenOptions): Promise<AccessToken | null>;
+    logout(): Promise<void>;
+}
+
+// @public
+export interface CredentialFlowGetTokenOptions extends GetTokenOptions {
+    authority?: string;
+    claims?: string;
+    correlationId?: string;
+    disableAutomaticAuthentication?: boolean;
+    getAssertion?: () => Promise<string>;
+}
 
 // @public
 export interface CredentialLogger extends CredentialLoggerInstance {
@@ -37,10 +136,67 @@ export interface CredentialLoggerInstance {
 export function credentialLoggerInstance(title: string, parent?: CredentialLoggerInstance, log?: AzureLogger): CredentialLoggerInstance;
 
 // @public
+export const DefaultAuthorityHost = AzureAuthorityHosts.AzurePublicCloud;
+
+// @public
+export const defaultLoggerCallback: (logger: CredentialLogger, platform?: "Node" | "Browser") => msalCommon.ILoggerCallback;
+
+// @public
+export const DefaultTenantId = "common";
+
+// @public
+export function deserializeAuthenticationRecord(serializedRecord: string): AuthenticationRecord;
+
+// @public
+export const DeveloperSignOnClientId = "04b07795-8ddb-461a-bbee-02f9e1bf7b46";
+
+// @public
+export function ensureValidMsalToken(scopes: string | string[], logger: CredentialLogger, msalToken?: MsalToken, getTokenOptions?: GetTokenOptions): void;
+
+// @public
 export function formatError(scope: string | string[] | undefined, error: Error | string): string;
 
 // @public
 export function formatSuccess(scope: string | string[]): string;
+
+// @public
+export function getAuthority(tenantId: string, host?: string): string;
+
+// @public (undocumented)
+export function getIdentityClientAuthorityHost(options?: TokenCredentialOptions): string;
+
+// @public (undocumented)
+export function getIdentityTokenEndpointSuffix(tenantId: string): string;
+
+// @public
+export function getKnownAuthorities(tenantId: string, authorityHost: string): string[];
+
+// @public
+export function getMSALLogLevel(logLevel: AzureLogLevel | undefined): msalCommon.LogLevel;
+
+// @public
+export class IdentityClient extends ServiceClient implements INetworkModule {
+    constructor(options?: TokenCredentialOptions);
+    // (undocumented)
+    abortRequests(correlationId?: string): void;
+    // (undocumented)
+    authorityHost: string;
+    // (undocumented)
+    generateAbortSignal(correlationId: string): AbortSignalLike;
+    // (undocumented)
+    getCorrelationId(options?: NetworkRequestOptions): string;
+    // (undocumented)
+    refreshAccessToken(tenantId: string, clientId: string, scopes: string, refreshToken: string | undefined, clientSecret: string | undefined, options?: GetTokenOptions): Promise<TokenResponse | null>;
+    // (undocumented)
+    sendGetRequestAsync<T>(url: string, options?: NetworkRequestOptions): Promise<NetworkResponse<T>>;
+    // (undocumented)
+    sendPostRequestAsync<T>(url: string, options?: NetworkRequestOptions): Promise<NetworkResponse<T>>;
+    // (undocumented)
+    sendTokenRequest(request: PipelineRequest): Promise<TokenResponse | null>;
+}
+
+// @public
+export type IdentityPlugin = (context: unknown) => void;
 
 // @public
 export function logEnvVars(credentialName: string, supportedEnvVars: string[]): void;
@@ -48,8 +204,108 @@ export function logEnvVars(credentialName: string, supportedEnvVars: string[]): 
 // @public
 export const logger: AzureLogger;
 
+// @public
+export class MsalBaseUtilities {
+    constructor(options: MsalFlowOptions);
+    // (undocumented)
+    protected account: AuthenticationRecord | undefined;
+    generateUuid(): string;
+    protected handleError(scopes: string[], error: Error, getTokenOptions?: GetTokenOptions): Error;
+    protected handleResult(scopes: string | string[], clientId: string, result?: MsalResult, getTokenOptions?: GetTokenOptions): AccessToken;
+    // (undocumented)
+    protected logger: CredentialLogger;
+}
+
+// @public
+export interface MsalFlow {
+    getActiveAccount(): Promise<AuthenticationRecord | undefined>;
+    getToken(scopes?: string[], options?: CredentialFlowGetTokenOptions): Promise<AccessToken>;
+    getTokenSilent(scopes?: string[], options?: CredentialFlowGetTokenOptions): Promise<AccessToken>;
+    init(options?: CredentialFlowGetTokenOptions): Promise<void>;
+}
+
+// @public
+export interface MsalFlowOptions {
+    // (undocumented)
+    authenticationRecord?: AuthenticationRecord;
+    // (undocumented)
+    authorityHost?: string;
+    // (undocumented)
+    clientId?: string;
+    // (undocumented)
+    disableAutomaticAuthentication?: boolean;
+    // (undocumented)
+    getAssertion?: () => Promise<string>;
+    // (undocumented)
+    logger: CredentialLogger;
+    // (undocumented)
+    tenantId?: string;
+}
+
+// @public
+export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
+    constructor(options: MsalNodeOptions);
+    // (undocumented)
+    protected additionallyAllowedTenantIds: string[];
+    // (undocumented)
+    protected authorityHost?: string;
+    // (undocumented)
+    protected azureRegion?: string;
+    // (undocumented)
+    protected clientId: string;
+    // (undocumented)
+    protected confidentialApp: msalNode.ConfidentialClientApplication | undefined;
+    // (undocumented)
+    protected createCachePlugin: (() => Promise<msalCommon.ICachePlugin>) | undefined;
+    protected defaultNodeMsalConfig(options: MsalNodeOptions): msalNode.Configuration;
+    protected abstract doGetToken(scopes: string[], options?: GetTokenOptions): Promise<AccessToken>;
+    getActiveAccount(): Promise<AuthenticationRecord | undefined>;
+    // (undocumented)
+    protected getAssertion: (() => Promise<string>) | undefined;
+    getToken(scopes: string[], options?: CredentialFlowGetTokenOptions): Promise<AccessToken>;
+    getTokenSilent(scopes: string[], options?: CredentialFlowGetTokenOptions): Promise<AccessToken>;
+    // (undocumented)
+    protected identityClient?: IdentityClient;
+    init(options?: CredentialFlowGetTokenOptions): Promise<void>;
+    // (undocumented)
+    protected msalConfig: msalNode.Configuration;
+    // (undocumented)
+    protected publicApp: msalNode.PublicClientApplication | undefined;
+    // (undocumented)
+    protected requiresConfidential: boolean;
+    // (undocumented)
+    protected tenantId: string;
+    protected withCancellation(promise: Promise<msalCommon.AuthenticationResult | null>, abortSignal?: AbortSignalLike, onCancel?: () => void): Promise<msalCommon.AuthenticationResult | null>;
+}
+
+// @public
+export interface MsalNodeOptions extends MsalFlowOptions {
+    loggingOptions?: LogPolicyOptions & {
+        allowLoggingAccountIdentifiers?: boolean;
+    };
+    regionalAuthority?: string;
+    // (undocumented)
+    tokenCachePersistenceOptions?: TokenCachePersistenceOptions;
+    // (undocumented)
+    tokenCredentialOptions: MultiTenantTokenCredentialOptions;
+}
+
 // @public (undocumented)
 export function msalNodeTestSetup(testContext?: Mocha.Test, playbackClientId?: string): Promise<MsalTestSetupResponse>;
+
+// @public
+export interface MsalResult {
+    // (undocumented)
+    accessToken: string;
+    // Warning: (ae-forgotten-export) The symbol "MsalAccountInfo" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    account: MsalAccountInfo | null;
+    // (undocumented)
+    authority?: string;
+    // (undocumented)
+    expiresOn: Date | null;
+}
 
 // @public (undocumented)
 export type MsalTestCleanup = () => Promise<void>;
@@ -64,6 +320,27 @@ export interface MsalTestSetupResponse {
     sandbox: Sinon.SinonSandbox;
 }
 
+// @public
+export interface MsalToken {
+    // (undocumented)
+    accessToken?: string;
+    // (undocumented)
+    expiresOn: Date | null;
+}
+
+// @public (undocumented)
+export function msalToPublic(clientId: string, account: MsalAccountInfo): AuthenticationRecord;
+
+// @public
+export interface MultiTenantTokenCredentialOptions extends TokenCredentialOptions {
+    additionallyAllowedTenants?: string[];
+}
+
+// Warning: (ae-forgotten-export) The symbol "TokenResponseParsedBody" needs to be exported by the entry point index.d.ts
+//
+// @public
+export function parseExpiresOn(body: TokenResponseParsedBody): number;
+
 // @public (undocumented)
 export const PlaybackTenantId = "12345678-1234-1234-1234-123456789012";
 
@@ -71,6 +348,125 @@ export const PlaybackTenantId = "12345678-1234-1234-1234-123456789012";
 //
 // @public
 export function processEnvVars(supportedEnvVars: string[]): EnvironmentAccumulator;
+
+// @public
+export function processMultiTenantRequest(tenantId?: string, getTokenOptions?: GetTokenOptions, additionallyAllowedTenantIds?: string[]): string | undefined;
+
+// @public (undocumented)
+export function publicToMsal(account: AuthenticationRecord): msalCommon.AccountInfo;
+
+// @public
+export enum RegionalAuthority {
+    AsiaEast = "eastasia",
+    AsiaSouthEast = "southeastasia",
+    AustraliaCentral = "australiacentral",
+    AustraliaCentral2 = "australiacentral2",
+    AustraliaEast = "australiaeast",
+    AustraliaSouthEast = "australiasoutheast",
+    AutoDiscoverRegion = "AutoDiscoverRegion",
+    BrazilSouth = "brazilsouth",
+    CanadaCentral = "canadacentral",
+    CanadaEast = "canadaeast",
+    ChinaEast = "chinaeast",
+    ChinaEast2 = "chinaeast2",
+    ChinaNorth = "chinanorth",
+    ChinaNorth2 = "chinanorth2",
+    EuropeNorth = "northeurope",
+    EuropeWest = "westeurope",
+    FranceCentral = "francecentral",
+    FranceSouth = "francesouth",
+    GermanyCentral = "germanycentral",
+    GermanyNorth = "germanynorth",
+    GermanyNorthEast = "germanynortheast",
+    GermanyWestCentral = "germanywestcentral",
+    GovernmentUSArizona = "usgovarizona",
+    GovernmentUSDodCentral = "usdodcentral",
+    GovernmentUSDodEast = "usdodeast",
+    GovernmentUSIowa = "usgoviowa",
+    GovernmentUSTexas = "usgovtexas",
+    GovernmentUSVirginia = "usgovvirginia",
+    IndiaCentral = "centralindia",
+    IndiaSouth = "southindia",
+    IndiaWest = "westindia",
+    JapanEast = "japaneast",
+    JapanWest = "japanwest",
+    KoreaCentral = "koreacentral",
+    KoreaSouth = "koreasouth",
+    NorwayEast = "norwayeast",
+    NorwayWest = "norwaywest",
+    SouthAfricaNorth = "southafricanorth",
+    SouthAfricaWest = "southafricawest",
+    SwitzerlandNorth = "switzerlandnorth",
+    SwitzerlandWest = "switzerlandwest",
+    UAECentral = "uaecentral",
+    UAENorth = "uaenorth",
+    UKSouth = "uksouth",
+    UKWest = "ukwest",
+    USCentral = "centralus",
+    USEast = "eastus",
+    USEast2 = "eastus2",
+    USNorthCentral = "northcentralus",
+    USSouthCentral = "southcentralus",
+    USWest = "westus",
+    USWest2 = "westus2",
+    USWestCentral = "westcentralus"
+}
+
+// @public (undocumented)
+export function resolveAdditionallyAllowedTenantIds(additionallyAllowedTenants?: string[]): string[];
+
+// @public (undocumented)
+export function resolveTenantId(logger: CredentialLogger, tenantId?: string, clientId?: string): string;
+
+// @public
+export function serializeAuthenticationRecord(record: AuthenticationRecord): string;
+
+// @public
+export interface TokenCachePersistenceOptions {
+    enabled: boolean;
+    name?: string;
+    unsafeAllowUnencryptedStorage?: boolean;
+}
+
+// @public
+export interface TokenCredentialOptions extends CommonClientOptions {
+    authorityHost?: string;
+    loggingOptions?: LogPolicyOptions & {
+        allowLoggingAccountIdentifiers?: boolean;
+    };
+}
+
+// @public
+export interface TokenResponse {
+    accessToken: AccessToken;
+    refreshToken?: string;
+}
+
+// @public
+export const tracingClient: TracingClient;
+
+// @public
+export function useIdentityPlugin(plugin: IdentityPlugin): void;
+
+// @public
+export interface VisualStudioCodeCredentialControl {
+    // (undocumented)
+    getVsCodeCredentialFinder(): VSCodeCredentialFinder | undefined;
+    // (undocumented)
+    setVsCodeCredentialFinder(finder: VSCodeCredentialFinder): void;
+}
+
+// @public (undocumented)
+export const vsCodeCredentialControl: {
+    setVsCodeCredentialFinder(finder: VSCodeCredentialFinder): void;
+    getVsCodeCredentialFinder(): VSCodeCredentialFinder | undefined;
+};
+
+// @public
+export type VSCodeCredentialFinder = () => Promise<Array<{
+    account: string;
+    password: string;
+}>>;
 
 // (No @packageDocumentation comment for this package)
 
