@@ -561,7 +561,6 @@ describe("bulk/batch item operations", async function () {
     });
     describe("v2 container", function () {
       describe("multi partition container", async function () {
-        let v2Container: Container;
         let readItemId: string;
         let replaceItemId: string;
         let patchItemId: string;
@@ -785,6 +784,7 @@ describe("bulk/batch item operations", async function () {
                 { id: replaceItemId, key: 5, key2: 5, key3: "T", class: "2012" },
                 { id: patchItemId, key: 5, key2: 5, key3: true, class: "2019" },
               ],
+              bulkOperationOptions: {},
               operations: [
                 {
                   description: 'Read document with partitionKey containing booleans values.',

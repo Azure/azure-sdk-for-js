@@ -22,7 +22,6 @@ import {
   OperationInput,
   BulkOptions,
   decorateBatchOperation,
-  hasResource,
 } from "../../utils/batch";
 import { assertNotUndefined } from "../../utils/typeChecks";
 import { hashPartitionKey } from "../../utils/hashing/hash";

@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Constants } from "../common";
 import { NonePartitionKeyLiteral, NullPartitionKeyLiteral } from "./PartitionKeyInternal";
 
 export type PartitionKey = PrimitivePartitionKeyValue | PrimitivePartitionKeyValue[];
@@ -36,24 +35,16 @@ export type NonePartitionKey = {
 export class PartitionKeyBuilder {
   readonly values: PrimitivePartitionKeyValue[] = [];
   public addValue(value: string | boolean | number): PartitionKeyBuilder {
-    this.checkPartitionKeySize();
     this.values.push(value);
     return this;
   }
   public addNullValue() {
-    this.checkPartitionKeySize();
     this.values.push(NullPartitionKeyLiteral)
   }
   public addNoneValue() {
-    this.checkPartitionKeySize();
     this.values.push(NonePartitionKeyLiteral)
   }
   public build(): PartitionKey {
     return [...this.values];
-  }
-  private checkPartitionKeySize() {
-    if(this.values.length >= Constants.MaxNumberOfPartitionKeysAllowed) {
-      throw new Error(`Only ${Constants.MaxNumberOfPartitionKeysAllowed} partition keys are allowed.`);
-    }
   }
 }
