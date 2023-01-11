@@ -4,7 +4,6 @@
     
 **Features**
 
-  - Added Type Alias SKU
   - Added function getContinuationToken
 
     
