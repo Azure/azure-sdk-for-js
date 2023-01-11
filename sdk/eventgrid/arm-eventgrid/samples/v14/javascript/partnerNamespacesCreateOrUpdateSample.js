@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { EventGridManagementClient } = require("@azure/arm-eventgrid");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Asynchronously creates a new partner namespace with the specified parameters.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/PartnerNamespaces_CreateOrUpdate.json
  */
 async function partnerNamespacesCreateOrUpdate() {
-  const subscriptionId = "5b4b650e-28b9-4790-b3ab-ddbd88d727c4";
-  const resourceGroupName = "examplerg";
+  const subscriptionId =
+    process.env["EVENTGRID_SUBSCRIPTION_ID"] || "5b4b650e-28b9-4790-b3ab-ddbd88d727c4";
+  const resourceGroupName = process.env["EVENTGRID_RESOURCE_GROUP"] || "examplerg";
   const partnerNamespaceName = "examplePartnerNamespaceName1";
   const partnerNamespaceInfo = {
     location: "westus",
@@ -37,4 +39,8 @@ async function partnerNamespacesCreateOrUpdate() {
   console.log(result);
 }
 
-partnerNamespacesCreateOrUpdate().catch(console.error);
+async function main() {
+  partnerNamespacesCreateOrUpdate();
+}
+
+main().catch(console.error);

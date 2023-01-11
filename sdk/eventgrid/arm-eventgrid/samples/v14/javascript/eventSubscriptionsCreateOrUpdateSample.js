@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { EventGridManagementClient } = require("@azure/arm-eventgrid");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Asynchronously creates a new event subscription or updates an existing event subscription based on the specified scope.
@@ -18,7 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/EventSubscriptions_CreateOrUpdateForCustomTopic.json
  */
 async function eventSubscriptionsCreateOrUpdateForCustomTopic() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["EVENTGRID_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope =
     "subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1";
   const eventSubscriptionName = "examplesubscription1";
@@ -44,8 +46,6 @@ async function eventSubscriptionsCreateOrUpdateForCustomTopic() {
   console.log(result);
 }
 
-eventSubscriptionsCreateOrUpdateForCustomTopic().catch(console.error);
-
 /**
  * This sample demonstrates how to Asynchronously creates a new event subscription or updates an existing event subscription based on the specified scope.
  *
@@ -53,7 +53,8 @@ eventSubscriptionsCreateOrUpdateForCustomTopic().catch(console.error);
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/EventSubscriptions_CreateOrUpdateForCustomTopic_AzureFunctionDestination.json
  */
 async function eventSubscriptionsCreateOrUpdateForCustomTopicAzureFunctionDestination() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["EVENTGRID_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope =
     "subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1";
   const eventSubscriptionName = "examplesubscription1";
@@ -85,8 +86,6 @@ async function eventSubscriptionsCreateOrUpdateForCustomTopicAzureFunctionDestin
   console.log(result);
 }
 
-eventSubscriptionsCreateOrUpdateForCustomTopicAzureFunctionDestination().catch(console.error);
-
 /**
  * This sample demonstrates how to Asynchronously creates a new event subscription or updates an existing event subscription based on the specified scope.
  *
@@ -94,7 +93,8 @@ eventSubscriptionsCreateOrUpdateForCustomTopicAzureFunctionDestination().catch(c
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/EventSubscriptions_CreateOrUpdateForCustomTopic_EventHubDestination.json
  */
 async function eventSubscriptionsCreateOrUpdateForCustomTopicEventHubDestination() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["EVENTGRID_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope =
     "subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1";
   const eventSubscriptionName = "examplesubscription1";
@@ -126,8 +126,6 @@ async function eventSubscriptionsCreateOrUpdateForCustomTopicEventHubDestination
   console.log(result);
 }
 
-eventSubscriptionsCreateOrUpdateForCustomTopicEventHubDestination().catch(console.error);
-
 /**
  * This sample demonstrates how to Asynchronously creates a new event subscription or updates an existing event subscription based on the specified scope.
  *
@@ -135,7 +133,8 @@ eventSubscriptionsCreateOrUpdateForCustomTopicEventHubDestination().catch(consol
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/EventSubscriptions_CreateOrUpdateForCustomTopic_HybridConnectionDestination.json
  */
 async function eventSubscriptionsCreateOrUpdateForCustomTopicHybridConnectionDestination() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["EVENTGRID_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope =
     "subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1";
   const eventSubscriptionName = "examplesubscription1";
@@ -167,8 +166,6 @@ async function eventSubscriptionsCreateOrUpdateForCustomTopicHybridConnectionDes
   console.log(result);
 }
 
-eventSubscriptionsCreateOrUpdateForCustomTopicHybridConnectionDestination().catch(console.error);
-
 /**
  * This sample demonstrates how to Asynchronously creates a new event subscription or updates an existing event subscription based on the specified scope.
  *
@@ -176,7 +173,8 @@ eventSubscriptionsCreateOrUpdateForCustomTopicHybridConnectionDestination().catc
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/EventSubscriptions_CreateOrUpdateForCustomTopic_ServiceBusQueueDestination.json
  */
 async function eventSubscriptionsCreateOrUpdateForCustomTopicServiceBusQueueDestination() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["EVENTGRID_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope =
     "subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1";
   const eventSubscriptionName = "examplesubscription1";
@@ -208,8 +206,6 @@ async function eventSubscriptionsCreateOrUpdateForCustomTopicServiceBusQueueDest
   console.log(result);
 }
 
-eventSubscriptionsCreateOrUpdateForCustomTopicServiceBusQueueDestination().catch(console.error);
-
 /**
  * This sample demonstrates how to Asynchronously creates a new event subscription or updates an existing event subscription based on the specified scope.
  *
@@ -217,7 +213,8 @@ eventSubscriptionsCreateOrUpdateForCustomTopicServiceBusQueueDestination().catch
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/EventSubscriptions_CreateOrUpdateForCustomTopic_ServiceBusTopicDestination.json
  */
 async function eventSubscriptionsCreateOrUpdateForCustomTopicServiceBusTopicDestination() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["EVENTGRID_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope =
     "subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1";
   const eventSubscriptionName = "examplesubscription1";
@@ -249,8 +246,6 @@ async function eventSubscriptionsCreateOrUpdateForCustomTopicServiceBusTopicDest
   console.log(result);
 }
 
-eventSubscriptionsCreateOrUpdateForCustomTopicServiceBusTopicDestination().catch(console.error);
-
 /**
  * This sample demonstrates how to Asynchronously creates a new event subscription or updates an existing event subscription based on the specified scope.
  *
@@ -258,7 +253,8 @@ eventSubscriptionsCreateOrUpdateForCustomTopicServiceBusTopicDestination().catch
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/EventSubscriptions_CreateOrUpdateForCustomTopic_StorageQueueDestination.json
  */
 async function eventSubscriptionsCreateOrUpdateForCustomTopicStorageQueueDestination() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["EVENTGRID_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope =
     "subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1";
   const eventSubscriptionName = "examplesubscription1";
@@ -291,8 +287,6 @@ async function eventSubscriptionsCreateOrUpdateForCustomTopicStorageQueueDestina
   console.log(result);
 }
 
-eventSubscriptionsCreateOrUpdateForCustomTopicStorageQueueDestination().catch(console.error);
-
 /**
  * This sample demonstrates how to Asynchronously creates a new event subscription or updates an existing event subscription based on the specified scope.
  *
@@ -300,7 +294,8 @@ eventSubscriptionsCreateOrUpdateForCustomTopicStorageQueueDestination().catch(co
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/EventSubscriptions_CreateOrUpdateForCustomTopic_WebhookDestination.json
  */
 async function eventSubscriptionsCreateOrUpdateForCustomTopicWebhookDestination() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["EVENTGRID_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope =
     "subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1";
   const eventSubscriptionName = "examplesubscription1";
@@ -326,8 +321,6 @@ async function eventSubscriptionsCreateOrUpdateForCustomTopicWebhookDestination(
   console.log(result);
 }
 
-eventSubscriptionsCreateOrUpdateForCustomTopicWebhookDestination().catch(console.error);
-
 /**
  * This sample demonstrates how to Asynchronously creates a new event subscription or updates an existing event subscription based on the specified scope.
  *
@@ -335,7 +328,8 @@ eventSubscriptionsCreateOrUpdateForCustomTopicWebhookDestination().catch(console
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/EventSubscriptions_CreateOrUpdateForResource.json
  */
 async function eventSubscriptionsCreateOrUpdateForResource() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["EVENTGRID_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope =
     "subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventHub/namespaces/examplenamespace1";
   const eventSubscriptionName = "examplesubscription10";
@@ -360,8 +354,6 @@ async function eventSubscriptionsCreateOrUpdateForResource() {
   console.log(result);
 }
 
-eventSubscriptionsCreateOrUpdateForResource().catch(console.error);
-
 /**
  * This sample demonstrates how to Asynchronously creates a new event subscription or updates an existing event subscription based on the specified scope.
  *
@@ -369,7 +361,8 @@ eventSubscriptionsCreateOrUpdateForResource().catch(console.error);
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/EventSubscriptions_CreateOrUpdateForResourceGroup.json
  */
 async function eventSubscriptionsCreateOrUpdateForResourceGroup() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["EVENTGRID_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg";
   const eventSubscriptionName = "examplesubscription2";
   const eventSubscriptionInfo = {
@@ -393,8 +386,6 @@ async function eventSubscriptionsCreateOrUpdateForResourceGroup() {
   console.log(result);
 }
 
-eventSubscriptionsCreateOrUpdateForResourceGroup().catch(console.error);
-
 /**
  * This sample demonstrates how to Asynchronously creates a new event subscription or updates an existing event subscription based on the specified scope.
  *
@@ -402,7 +393,8 @@ eventSubscriptionsCreateOrUpdateForResourceGroup().catch(console.error);
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/EventSubscriptions_CreateOrUpdateForSubscription.json
  */
 async function eventSubscriptionsCreateOrUpdateForSubscription() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["EVENTGRID_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4";
   const eventSubscriptionName = "examplesubscription3";
   const eventSubscriptionInfo = {
@@ -422,4 +414,18 @@ async function eventSubscriptionsCreateOrUpdateForSubscription() {
   console.log(result);
 }
 
-eventSubscriptionsCreateOrUpdateForSubscription().catch(console.error);
+async function main() {
+  eventSubscriptionsCreateOrUpdateForCustomTopic();
+  eventSubscriptionsCreateOrUpdateForCustomTopicAzureFunctionDestination();
+  eventSubscriptionsCreateOrUpdateForCustomTopicEventHubDestination();
+  eventSubscriptionsCreateOrUpdateForCustomTopicHybridConnectionDestination();
+  eventSubscriptionsCreateOrUpdateForCustomTopicServiceBusQueueDestination();
+  eventSubscriptionsCreateOrUpdateForCustomTopicServiceBusTopicDestination();
+  eventSubscriptionsCreateOrUpdateForCustomTopicStorageQueueDestination();
+  eventSubscriptionsCreateOrUpdateForCustomTopicWebhookDestination();
+  eventSubscriptionsCreateOrUpdateForResource();
+  eventSubscriptionsCreateOrUpdateForResourceGroup();
+  eventSubscriptionsCreateOrUpdateForSubscription();
+}
+
+main().catch(console.error);
