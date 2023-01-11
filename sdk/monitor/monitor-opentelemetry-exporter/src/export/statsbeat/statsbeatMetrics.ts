@@ -277,7 +277,9 @@ export class StatsbeatMetrics {
 
       // Add long interval observable callbacks
       this._attachStatsbeatGauge.addCallback(this._attachCallback.bind(this));
-      this._featureStatsbeatGauge.addCallback(this._featureCallback.bind(this));
+      this._longIntervalStatsbeatMeter.addBatchObservableCallback(this._featureCallback.bind(this), [
+        this._featureStatsbeatGauge,
+      ]);
     } catch (error) {
       diag.debug("Call to get the resource provider failed.");
     }
@@ -371,18 +373,17 @@ export class StatsbeatMetrics {
 
     counter.averageRequestExecutionTime = 0;
   }
-
-  private _featureCallback(observableResult: ObservableResult) {
-    // TODO: Populate _instrumentation and _feature. Get this from the Distro.
+  
+  private _featureCallback(observableResult: BatchObservableResult) {
     let attributes;
     if (this._instrumentation) {
-      attributes = { ...this._commonProperties, feature: this._instrumentation };
-      observableResult.observe(1, attributes);
+      attributes = { ...this._commonProperties, feature: this._instrumentation, type: StatsbeatFeatureType.INSTRUMENTATION };
+      observableResult.observe(this._featureStatsbeatGauge, 1, { ...attributes });
     }
 
     if (this._feature) {
-      attributes = { ...this._commonProperties, feature: this._feature };
-      observableResult.observe(1, attributes);
+      attributes = { ...this._commonProperties, feature: this._feature, type: StatsbeatFeatureType.FEATURE };
+      observableResult.observe(this._featureStatsbeatGauge, 1, { ...attributes });
     }
   }
 
