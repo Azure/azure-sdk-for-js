@@ -37,6 +37,7 @@ import {
   StatsbeatFeature,
   IVirtualMachineInfo,
   AttachStatsbeatProperties,
+  StatsbeatFeatureType,
 } from "./types";
 
 const os = require("os");
@@ -151,11 +152,7 @@ export class StatsbeatMetrics {
     this._longIntervalStatsbeatMeter = this._meterProvider.getMeter(
       "Azure Monitor LongIntervalStatsbeat"
     );
-
-    /*
-     To follow the patterns laid out in the spec - feature and instrumentation statsbeats will be on the same gauge as
-     separate dimensions.
-    */
+    
     this._featureStatsbeatGauge = this._longIntervalStatsbeatMeter.createObservableGauge(
       StatsbeatCounter.FEATURE
     );
@@ -181,8 +178,6 @@ export class StatsbeatMetrics {
     this._attachProperties = {
       rpId: this._resourceIdentifier,
     };
-
-    // TODO: Check here for Features/Instrumentations and populate feature/instrumentation statstsbeat properties acordingly.
 
     this._isInitialized = true;
     this._initialize();

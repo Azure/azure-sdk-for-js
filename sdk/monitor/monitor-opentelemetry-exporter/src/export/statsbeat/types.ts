@@ -114,12 +114,18 @@ export interface NetworkStatsbeatProperties {
   host: string;
 }
 
+/**
+ * Azure Monitor Statsbeat Feature Types
+ */
 export enum StatsbeatFeature {
   NONE = 0,
   DISK_RETRY = 1,
   AAD_HANDLING = 2,
 }
 
+/**
+ * Azure Monitor Statsbeat Instrumentation Types
+ */
 export enum StatsbeatInstrumentation {
   NONE = 0,
   AZURE_CORE_TRACING = 1,

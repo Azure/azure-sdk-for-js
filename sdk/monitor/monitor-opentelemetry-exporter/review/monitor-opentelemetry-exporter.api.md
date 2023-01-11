@@ -35,7 +35,7 @@ export class ApplicationInsightsSampler implements Sampler {
 
 // @public
 export abstract class AzureMonitorBaseExporter {
-    constructor(options?: AzureMonitorExporterOptions, isStatsbeatExporter?: boolean);
+    constructor(options?: AzureMonitorExporterOptions, isStatsbeatExporter?: boolean, instrumentations?: StatsbeatInstrumentation[], features?: StatsbeatFeature[]);
     protected _exportEnvelopes(envelopes: TelemetryItem[]): Promise<ExportResult>;
     protected _instrumentationKey: string;
     protected _shutdown(): Promise<void>;
@@ -69,7 +69,7 @@ export class AzureMonitorStatsbeatExporter extends AzureMonitorBaseExporter impl
 
 // @public
 export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implements SpanExporter {
-    constructor(options?: AzureMonitorExporterOptions);
+    constructor(options?: AzureMonitorExporterOptions, instrumentations?: StatsbeatInstrumentation[], features?: StatsbeatFeature[]);
     export(spans: ReadableSpan[], resultCallback: (result: ExportResult) => void): Promise<void>;
     shutdown(): Promise<void>;
 }
@@ -89,6 +89,38 @@ export interface MonitorDomain {
 // @public
 export enum ServiceApiVersion {
     V2 = "2020-09-15_Preview"
+}
+
+// @public
+export enum StatsbeatFeature {
+    // (undocumented)
+    AAD_HANDLING = 2,
+    // (undocumented)
+    DISK_RETRY = 1,
+    // (undocumented)
+    NONE = 0
+}
+
+// @public
+export enum StatsbeatInstrumentation {
+    // (undocumented)
+    AZURE_CORE_TRACING = 1,
+    // (undocumented)
+    BUNYAN = 32,
+    // (undocumented)
+    CONSOLE = 128,
+    // (undocumented)
+    MONGODB = 2,
+    // (undocumented)
+    MYSQL = 4,
+    // (undocumented)
+    NONE = 0,
+    // (undocumented)
+    POSTGRES = 16,
+    // (undocumented)
+    REDIS = 8,
+    // (undocumented)
+    WINSTON = 64
 }
 
 // @public
