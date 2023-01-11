@@ -22,6 +22,7 @@ import {
   ConfigurationsListByServerResponse,
   ConfigurationsGetOptionalParams,
   ConfigurationsGetResponse,
+  ConfigurationForUpdate,
   ConfigurationsUpdateOptionalParams,
   ConfigurationsUpdateResponse,
   ConfigurationsPutOptionalParams,
@@ -170,7 +171,7 @@ export class ConfigurationsImpl implements Configurations {
     resourceGroupName: string,
     serverName: string,
     configurationName: string,
-    parameters: Configuration,
+    parameters: ConfigurationForUpdate,
     options?: ConfigurationsUpdateOptionalParams
   ): Promise<
     PollerLike<
@@ -224,7 +225,8 @@ export class ConfigurationsImpl implements Configurations {
     );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -242,7 +244,7 @@ export class ConfigurationsImpl implements Configurations {
     resourceGroupName: string,
     serverName: string,
     configurationName: string,
-    parameters: Configuration,
+    parameters: ConfigurationForUpdate,
     options?: ConfigurationsUpdateOptionalParams
   ): Promise<ConfigurationsUpdateResponse> {
     const poller = await this.beginUpdate(
@@ -321,7 +323,8 @@ export class ConfigurationsImpl implements Configurations {
     );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -383,7 +386,7 @@ const listByServerOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ConfigurationListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -405,7 +408,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.Configuration
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -437,10 +440,10 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.Configuration
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters4,
+  requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -471,10 +474,10 @@ const putOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.Configuration
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters4,
+  requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -495,7 +498,7 @@ const listByServerNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ConfigurationListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   urlParameters: [
