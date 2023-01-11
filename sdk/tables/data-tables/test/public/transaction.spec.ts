@@ -45,10 +45,10 @@ describe("concurrent batch operations", () => {
     sinon.restore();
   });
 
-  it("should send concurrent transactions", async () => {
+  it("should send concurrent transactions", async function () {
     // Only run this in live mode. Enable playback when https://github.com/Azure/azure-sdk-for-js/issues/24189 is fixed
     if (!isLiveMode()) {
-      return;
+      this.skip();
     }
     await Promise.all([
       unRecordedClient.submitTransaction([
