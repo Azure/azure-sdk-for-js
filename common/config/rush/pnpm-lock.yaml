@@ -11907,7 +11907,7 @@ packages:
     dev: false
 
   file:projects/arm-imagebuilder.tgz:
-    resolution: {integrity: sha512-b2rhI+xcYT6NE0PmgH9hMT9zAXeKR+zmP5fpHNZgnrHbVk1/adjBKXr9pjQCkENhW8XNHLY++QLWhLoMLXNOCw==, tarball: file:projects/arm-imagebuilder.tgz}
+    resolution: {integrity: sha512-MrdQwI9D0qgloHDwkTdeD5sUA5sI5bLI1ip5EoJmEcJlxpyBQITAVceaXV51tD4TF47WP1TkrqktshJnB/rRLw==, tarball: file:projects/arm-imagebuilder.tgz}
     name: '@rush-temp/arm-imagebuilder'
     version: 0.0.0
     dependencies:
@@ -12101,7 +12101,7 @@ packages:
     dev: false
 
   file:projects/arm-kusto.tgz:
-    resolution: {integrity: sha512-Kb5pya3z0eD4Y41Q7jeXU7hQ6LE0Uk+hxbNfZbzGHQE4PNzoQbZjQSl92fCEFsQvtv/163QLqu90vzyzLZ21Kg==, tarball: file:projects/arm-kusto.tgz}
+    resolution: {integrity: sha512-PeNJ2qbk4rfZnE3AfrFy3sp9yNToMhB0aYXvsZ28e0uRAIMnpMRK3WSYF0+QvTqpilpybNaoFbbAhN3NH4opUQ==, tarball: file:projects/arm-kusto.tgz}
     name: '@rush-temp/arm-kusto'
     version: 0.0.0
     dependencies:
@@ -12112,18 +12112,19 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
+      '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_7e8d81808a761355f6c3da2f25cfe887
       tslib: 2.4.1
-      typescript: 4.6.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
