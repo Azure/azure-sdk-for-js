@@ -9,7 +9,7 @@
         "@azure/identity-common": ["./src/index"]
       }
     },
-    "include": ["src/**/*", "test/**/*", "samples-dev/**/*.ts", "src/util/logging.ts", "src/util/logging.ts", "src/msal/nodeFlows/msalNodeCommon.ts"],
+    "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"],
     "exclude": ["test/manual*/**/*", "node_modules"]
   }
   

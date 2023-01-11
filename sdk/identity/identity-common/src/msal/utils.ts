@@ -108,6 +108,8 @@ export const defaultLoggerCallback: (
   };
 
 /**
+ * Returns the mapping of log level based in MSAL 
+ * with respect to log level in azure sdk library
  */
 export function getMSALLogLevel(logLevel: AzureLogLevel | undefined): msalCommon.LogLevel {
   switch (logLevel) {

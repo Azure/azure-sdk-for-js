@@ -207,7 +207,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       claims: options?.claims,
       account: publicToMsal(account),
       loginHint: this.loginHint,
-      scopes,
+      scopes
     };
 
     switch (this.loginStyle) {
