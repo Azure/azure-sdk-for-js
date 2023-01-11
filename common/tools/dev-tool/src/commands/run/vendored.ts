@@ -52,7 +52,7 @@ export default async (...args: string[]): Promise<boolean> => {
       commands.map((commandName) => {
         const moduleSham: CommandModule<CommandOptions> = {
           commandInfo: makeCommandInfo(commandName, `run vendored "${commandName}" from dev-tool`),
-          default: makeCommandExecutor(commandName)
+          default: makeCommandExecutor(commandName),
         };
 
         return [commandName, () => Promise.resolve(moduleSham)];
