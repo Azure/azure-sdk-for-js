@@ -4,14 +4,13 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
 import { AzureLogger, setLogLevel } from "@azure/logger";
-import { MsalTestCleanup, msalNodeTestSetup } from "@azure/identity-common";
+import { MsalTestCleanup, msalNodeTestSetup, MsalNode } from "@azure/identity-common";
 import { Recorder, delay, env, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 import { AbortController } from "@azure/abort-controller";
 import { ClientSecretCredential } from "../../../src";
 import { ConfidentialClientApplication } from "@azure/msal-node";
 import { Context } from "mocha";
 import { GetTokenOptions } from "@azure/core-auth";
-import { MsalNode } from "@azure/identity-common";
 import Sinon from "sinon";
 import { assert } from "chai";
 

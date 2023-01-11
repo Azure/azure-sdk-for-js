@@ -8,7 +8,7 @@ import {
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
-import { credentialLogger } from "../../../../identity-common/src/util/logging";
+import { credentialLogger } from "@azure/identity-common";
 import { MSI, MSIConfiguration } from "./models";
 import { mapScopesToResource } from "./utils";
 import { azureFabricVersion } from "./constants";

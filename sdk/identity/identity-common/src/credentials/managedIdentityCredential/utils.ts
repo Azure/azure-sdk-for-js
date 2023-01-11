@@ -4,7 +4,6 @@
 /**
  * Internal type roughly matching the raw responses of the authentication endpoints.
  *
- * @internal
  */
 export interface TokenResponseParsedBody {
   access_token?: string;

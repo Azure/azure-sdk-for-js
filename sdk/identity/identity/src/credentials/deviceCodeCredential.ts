@@ -4,7 +4,7 @@
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import {
   processMultiTenantRequest,
-  resolveAddionallyAllowedTenantIds,
+  resolveAdditionallyAllowedTenantIds,
 } from "@azure/identity-common";
 import { DeviceCodeCredentialOptions, DeviceCodeInfo } from "./deviceCodeCredentialOptions";
 import { AuthenticationRecord } from "@azure/identity-common";
@@ -56,7 +56,7 @@ export class DeviceCodeCredential implements TokenCredential {
    */
   constructor(options?: DeviceCodeCredentialOptions) {
     this.tenantId = options?.tenantId;
-    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
+    this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
       options?.additionallyAllowedTenants
     );
     this.msalFlow = new MsalDeviceCode({

@@ -8,7 +8,7 @@ import { AzurePowerShellCredentialOptions } from "./azurePowerShellCredentialOpt
 import { CredentialUnavailableError } from "@azure/identity-common";
 import {
   processMultiTenantRequest,
-  resolveAddionallyAllowedTenantIds,
+  resolveAdditionallyAllowedTenantIds,
 } from "@azure/identity-common";
 import { processUtils } from "../util/processUtils";
 import { tracingClient } from "@azure/identity-common";
@@ -109,7 +109,7 @@ export class AzurePowerShellCredential implements TokenCredential {
    */
   constructor(options?: AzurePowerShellCredentialOptions) {
     this.tenantId = options?.tenantId;
-    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
+    this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
       options?.additionallyAllowedTenants
     );
   }

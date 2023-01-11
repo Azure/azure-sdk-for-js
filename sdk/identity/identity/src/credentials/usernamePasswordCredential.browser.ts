@@ -5,7 +5,7 @@ import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth"
 import {
   checkTenantId,
   processMultiTenantRequest,
-  resolveAddionallyAllowedTenantIds,
+  resolveAdditionallyAllowedTenantIds,
 } from "@azure/identity-common";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 import { credentialLogger, formatSuccess } from "@azure/identity-common";
@@ -52,7 +52,7 @@ export class UsernamePasswordCredential implements TokenCredential {
 
     this.identityClient = new IdentityClient(options);
     this.tenantId = tenantIdOrName;
-    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
+    this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
       options?.additionallyAllowedTenants
     );
     this.clientId = clientId;

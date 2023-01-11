@@ -8,7 +8,7 @@ import * as path from "path";
 import {
   ClientCertificateCredential,
   TokenCachePersistenceOptions,
-} from "../../../../identity/src";
+} from "@azure/identity";
 import { MsalTestCleanup, msalNodeTestSetup } from "@azure/identity-common";
 import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { MsalNode } from "@azure/identity-common";

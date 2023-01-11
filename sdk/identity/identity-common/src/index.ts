@@ -3,7 +3,7 @@
 
 export { TokenResponse, IdentityClient, getIdentityClientAuthorityHost } from "./client/identityClient";
 
-export { parseExpiresOn } from "./credentials/managedIdentityCredential/utils";
+export { TokenResponseParsedBody, parseExpiresOn } from "./credentials/managedIdentityCredential/utils";
 export { MultiTenantTokenCredentialOptions } from "./credentials/multiTenantTokenCredentialOptions";
 export { VSCodeCredentialFinder } from "./credentials/visualStudioCodeCredentialPlugin";
 export { vsCodeCredentialControl } from "./credentials/vsCodeCredentialControl";
@@ -27,7 +27,7 @@ export { tracingClient } from "./util/tracing";
 
 export { AzureAuthorityHosts, ALL_TENANTS, DefaultAuthorityHost, DefaultTenantId, DeveloperSignOnClientId } from "./constants";
 
-export { AggregateAuthenticationError, AuthenticationError, AuthenticationRequiredError, AuthenticationRequiredErrorOptions } from "./errors";
+export { AggregateAuthenticationError, AggregateAuthenticationErrorName, AuthenticationError, AuthenticationErrorName, AuthenticationRequiredError, AuthenticationRequiredErrorOptions, CredentialUnavailableError, CredentialUnavailableErrorName, ErrorResponse } from "./errors";
 
 export { RegionalAuthority } from "./regionalAuthority";
 

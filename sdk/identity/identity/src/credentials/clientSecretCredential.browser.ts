@@ -6,7 +6,7 @@ import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipel
 import { credentialLogger, formatError, formatSuccess } from "@azure/identity-common";
 import {
   processMultiTenantRequest,
-  resolveAddionallyAllowedTenantIds,
+  resolveAdditionallyAllowedTenantIds,
 } from "@azure/identity-common";
 import { ClientSecretCredentialOptions } from "./clientSecretCredentialOptions";
 import { IdentityClient } from "@azure/identity-common";
@@ -52,7 +52,7 @@ export class ClientSecretCredential implements TokenCredential {
   ) {
     this.identityClient = new IdentityClient(options);
     this.tenantId = tenantId;
-    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
+    this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
       options?.additionallyAllowedTenants
     );
     this.clientId = clientId;

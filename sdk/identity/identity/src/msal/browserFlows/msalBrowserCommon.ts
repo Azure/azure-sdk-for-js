@@ -7,7 +7,7 @@ import { MsalBaseUtilities, getAuthority, getKnownAuthorities } from "@azure/ide
 import { MsalFlow, MsalFlowOptions } from "@azure/identity-common";
 import {
   processMultiTenantRequest,
-  resolveAddionallyAllowedTenantIds,
+  resolveAdditionallyAllowedTenantIds,
   resolveTenantId,
 } from "@azure/identity-common";
 import { AccessToken } from "@azure/core-auth";
@@ -87,7 +87,7 @@ export abstract class MsalBrowser extends MsalBaseUtilities implements MsalBrows
       throw new CredentialUnavailableError("A client ID is required in browsers");
     }
     this.clientId = options.clientId;
-    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
+    this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
       options?.tokenCredentialOptions?.additionallyAllowedTenants
     );
     this.tenantId = resolveTenantId(this.logger, options.tenantId, options.clientId);

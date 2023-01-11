@@ -10,7 +10,7 @@ import {
 } from "./interactiveBrowserCredentialOptions";
 import {
   processMultiTenantRequest,
-  resolveAddionallyAllowedTenantIds,
+  resolveAdditionallyAllowedTenantIds,
 } from "@azure/identity-common";
 import { AuthenticationRecord } from "@azure/identity-common";
 import { MsalFlow } from "@azure/identity-common";
@@ -54,7 +54,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
         : options.redirectUri || "http://localhost";
 
     this.tenantId = options?.tenantId;
-    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
+    this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
       options?.additionallyAllowedTenants
     );
 

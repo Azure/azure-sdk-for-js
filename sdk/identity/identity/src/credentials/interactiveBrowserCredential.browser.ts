@@ -9,7 +9,7 @@ import {
 import { credentialLogger, formatError } from "@azure/identity-common";
 import {
   processMultiTenantRequest,
-  resolveAddionallyAllowedTenantIds,
+  resolveAdditionallyAllowedTenantIds,
 } from "@azure/identity-common";
 import { AuthenticationRecord } from "@azure/identity-common";
 import { MSALAuthCode } from "../msal/browserFlows/msalAuthCode";
@@ -56,7 +56,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
     }
 
     this.tenantId = options?.tenantId;
-    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
+    this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
       options?.additionallyAllowedTenants
     );
 

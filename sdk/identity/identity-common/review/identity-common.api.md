@@ -30,15 +30,20 @@ export class AggregateAuthenticationError extends Error {
 }
 
 // @public
+export const AggregateAuthenticationErrorName = "AggregateAuthenticationError";
+
+// @public
 export const ALL_TENANTS: string[];
 
 // @public
 export class AuthenticationError extends Error {
     constructor(statusCode: number, errorBody: object | string | undefined | null);
-    // Warning: (ae-forgotten-export) The symbol "ErrorResponse" needs to be exported by the entry point index.d.ts
     readonly errorResponse: ErrorResponse;
     readonly statusCode: number;
 }
+
+// @public
+export const AuthenticationErrorName = "AuthenticationError";
 
 // @public
 export interface AuthenticationRecord {
@@ -86,9 +91,7 @@ export interface CachePluginControl {
     setPersistence(persistenceFactory: (options?: TokenCachePersistenceOptions) => Promise<ICachePlugin>): void;
 }
 
-// Warning: (ae-internal-missing-underscore) The name "checkTenantId" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal (undocumented)
+// @public (undocumented)
 export function checkTenantId(logger: CredentialLogger, tenantId: string): void;
 
 // @public
@@ -136,6 +139,14 @@ export interface CredentialLoggerInstance {
 export function credentialLoggerInstance(title: string, parent?: CredentialLoggerInstance, log?: AzureLogger): CredentialLoggerInstance;
 
 // @public
+export class CredentialUnavailableError extends Error {
+    constructor(message?: string);
+}
+
+// @public
+export const CredentialUnavailableErrorName = "CredentialUnavailableError";
+
+// @public
 export const DefaultAuthorityHost = AzureAuthorityHosts.AzurePublicCloud;
 
 // @public
@@ -152,6 +163,16 @@ export const DeveloperSignOnClientId = "04b07795-8ddb-461a-bbee-02f9e1bf7b46";
 
 // @public
 export function ensureValidMsalToken(scopes: string | string[], logger: CredentialLogger, msalToken?: MsalToken, getTokenOptions?: GetTokenOptions): void;
+
+// @public
+export interface ErrorResponse {
+    correlationId?: string;
+    error: string;
+    errorCodes?: number[];
+    errorDescription: string;
+    timestamp?: string;
+    traceId?: string;
+}
 
 // @public
 export function formatError(scope: string | string[] | undefined, error: Error | string): string;
@@ -336,8 +357,6 @@ export interface MultiTenantTokenCredentialOptions extends TokenCredentialOption
     additionallyAllowedTenants?: string[];
 }
 
-// Warning: (ae-forgotten-export) The symbol "TokenResponseParsedBody" needs to be exported by the entry point index.d.ts
-//
 // @public
 export function parseExpiresOn(body: TokenResponseParsedBody): number;
 
@@ -440,6 +459,18 @@ export interface TokenCredentialOptions extends CommonClientOptions {
 export interface TokenResponse {
     accessToken: AccessToken;
     refreshToken?: string;
+}
+
+// @public
+export interface TokenResponseParsedBody {
+    // (undocumented)
+    access_token?: string;
+    // (undocumented)
+    expires_in: number;
+    // (undocumented)
+    expires_on?: number | string;
+    // (undocumented)
+    refresh_token?: string;
 }
 
 // @public

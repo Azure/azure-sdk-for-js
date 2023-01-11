@@ -2,12 +2,17 @@
 // Licensed under the MIT license.
 
 import { TokenCredential } from "@azure/core-auth";
-import { DefaultAzureCredential } from "./credentials/defaultAzureCredential";
-import  { IdentityPlugin } from "@azure/identity-common";
-import { useIdentityPlugin } from "@azure/identity-common";
-export { IdentityPlugin, useIdentityPlugin };
-
-export {
+import { 
+  IdentityPlugin,
+  useIdentityPlugin,
+  MultiTenantTokenCredentialOptions,
+  AuthenticationRecord,
+  serializeAuthenticationRecord, 
+  deserializeAuthenticationRecord,
+  TokenCredentialOptions,
+  TokenCachePersistenceOptions,
+  logger,
+  AzureAuthorityHosts,
   AuthenticationError,
   ErrorResponse,
   AggregateAuthenticationError,
@@ -16,13 +21,31 @@ export {
   CredentialUnavailableError,
   CredentialUnavailableErrorName,
   AuthenticationRequiredError,
-  AuthenticationRequiredErrorOptions,
-} from "@azure/identity-common";
+  AuthenticationRequiredErrorOptions } from "@azure/identity-common";
 
-export { AuthenticationRecord } from "@azure/identity-common";
-export { serializeAuthenticationRecord, deserializeAuthenticationRecord } from "@azure/identity-common";
-export { TokenCredentialOptions } from "@azure/identity-common";
-export { MultiTenantTokenCredentialOptions } from "@azure/identity-common";
+import { DefaultAzureCredential } from "./credentials/defaultAzureCredential";
+
+export {
+  IdentityPlugin,
+  useIdentityPlugin,
+  MultiTenantTokenCredentialOptions,
+  AuthenticationRecord,
+  serializeAuthenticationRecord, 
+  deserializeAuthenticationRecord,
+  TokenCredentialOptions,
+  TokenCachePersistenceOptions,
+  logger,
+  AzureAuthorityHosts,
+  AuthenticationError,
+  ErrorResponse,
+  AggregateAuthenticationError,
+  AuthenticationErrorName,
+  AggregateAuthenticationErrorName,
+  CredentialUnavailableError,
+  CredentialUnavailableErrorName,
+  AuthenticationRequiredError,
+  AuthenticationRequiredErrorOptions
+};
 
 // TODO: Export again once we're ready to release this feature.
 // export { RegionalAuthority } from "./regionalAuthority";
@@ -89,12 +112,7 @@ export { VisualStudioCodeCredential } from "./credentials/visualStudioCodeCreden
 export { VisualStudioCodeCredentialOptions } from "./credentials/visualStudioCodeCredentialOptions";
 export { OnBehalfOfCredential } from "./credentials/onBehalfOfCredential";
 
-export { TokenCachePersistenceOptions } from "@azure/identity-common";
-
 export { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
-export { logger } from "@azure/identity-common";
-
-export { AzureAuthorityHosts } from "@azure/identity-common";
 
 /**
  * Returns a new instance of the {@link DefaultAzureCredential}.

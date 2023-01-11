@@ -9,7 +9,7 @@ import {
 } from "./onBehalfOfCredentialOptions";
 import {
   processMultiTenantRequest,
-  resolveAddionallyAllowedTenantIds,
+  resolveAdditionallyAllowedTenantIds,
 } from "@azure/identity-common";
 import { CredentialPersistenceOptions } from "./credentialPersistenceOptions";
 import { MsalFlow } from "@azure/identity-common";
@@ -98,7 +98,7 @@ export class OnBehalfOfCredential implements TokenCredential {
     }
 
     this.tenantId = tenantId;
-    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
+    this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
       additionallyAllowedTenantIds
     );
 
