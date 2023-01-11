@@ -13,26 +13,24 @@ const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
 /**
- * This sample demonstrates how to Bulk upload SIMs in encrypted form to a SIM group. The SIM credentials must be encrypted.
+ * This sample demonstrates how to Bulk upload SIMs to a SIM group.
  *
- * @summary Bulk upload SIMs in encrypted form to a SIM group. The SIM credentials must be encrypted.
- * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2022-11-01/examples/SimBulkUploadEncrypted.json
+ * @summary Bulk upload SIMs to a SIM group.
+ * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2022-11-01/examples/SimBulkUpload.json
  */
-async function bulkUploadEncryptedSiMSToASimGroup() {
+async function bulkUploadSiMSInASimGroup() {
   const subscriptionId = process.env["MOBILENETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["MOBILENETWORK_RESOURCE_GROUP"] || "rg1";
   const simGroupName = "testSimGroup";
   const parameters = {
-    azureKeyIdentifier: 1,
-    encryptedTransportKey: "ABC123",
-    signedTransportKey: "ABC123",
     sims: [
       {
         name: "testSim",
+        authenticationKey: "00000000000000000000000000000000",
         deviceType: "Video camera",
-        encryptedCredentials: "ABC123",
         integratedCircuitCardIdentifier: "8900000000000000000",
         internationalMobileSubscriberIdentity: "00000",
+        operatorKeyCode: "00000000000000000000000000000000",
         simPolicy: {
           id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.MobileNetwork/mobileNetworks/testMobileNetwork/simPolicies/MySimPolicy",
         },
@@ -50,10 +48,11 @@ async function bulkUploadEncryptedSiMSToASimGroup() {
       },
       {
         name: "testSim2",
+        authenticationKey: "00000000000000000000000000000000",
         deviceType: "Video camera",
-        encryptedCredentials: "ABC123",
         integratedCircuitCardIdentifier: "8900000000000000001",
         internationalMobileSubscriberIdentity: "00000",
+        operatorKeyCode: "00000000000000000000000000000000",
         simPolicy: {
           id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.MobileNetwork/mobileNetworks/testMobileNetwork/simPolicies/MySimPolicy",
         },
@@ -70,12 +69,10 @@ async function bulkUploadEncryptedSiMSToASimGroup() {
         ],
       },
     ],
-    vendorKeyFingerprint: "ABC123",
-    version: 1,
   };
   const credential = new DefaultAzureCredential();
   const client = new MobileNetworkManagementClient(credential, subscriptionId);
-  const result = await client.simOperations.beginBulkUploadEncryptedAndWait(
+  const result = await client.sims.beginBulkUploadAndWait(
     resourceGroupName,
     simGroupName,
     parameters
@@ -84,7 +81,7 @@ async function bulkUploadEncryptedSiMSToASimGroup() {
 }
 
 async function main() {
-  bulkUploadEncryptedSiMSToASimGroup();
+  bulkUploadSiMSInASimGroup();
 }
 
 main().catch(console.error);

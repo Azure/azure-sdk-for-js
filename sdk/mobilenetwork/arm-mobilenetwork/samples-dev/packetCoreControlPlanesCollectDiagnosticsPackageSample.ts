@@ -8,9 +8,14 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-const { MobileNetworkManagementClient } = require("@azure/arm-mobilenetwork");
-const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+import {
+  PacketCoreControlPlaneCollectDiagnosticsPackage,
+  MobileNetworkManagementClient
+} from "@azure/arm-mobilenetwork";
+import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Collect a diagnostics package for the specified packet core control plane. This action will upload the diagnostics to a storage account.
@@ -19,21 +24,22 @@ require("dotenv").config();
  * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2022-11-01/examples/PacketCoreControlPlaneCollectDiagnosticsPackage.json
  */
 async function collectDiagnosticsPackageFromPacketCoreControlPlane() {
-  const subscriptionId = process.env["MOBILENETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName = process.env["MOBILENETWORK_RESOURCE_GROUP"] || "rg1";
+  const subscriptionId =
+    process.env["MOBILENETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["MOBILENETWORK_RESOURCE_GROUP"] || "rg1";
   const packetCoreControlPlaneName = "TestPacketCoreCP";
-  const parameters = {
+  const parameters: PacketCoreControlPlaneCollectDiagnosticsPackage = {
     storageAccountBlobUrl:
-      "https://contosoaccount.blob.core.windows.net/container/diagnosticsPackage.zip",
+      "https://contosoaccount.blob.core.windows.net/container/diagnosticsPackage.zip"
   };
   const credential = new DefaultAzureCredential();
   const client = new MobileNetworkManagementClient(credential, subscriptionId);
-  const result =
-    await client.packetCoreControlPlaneOperations.beginCollectDiagnosticsPackageAndWait(
-      resourceGroupName,
-      packetCoreControlPlaneName,
-      parameters
-    );
+  const result = await client.packetCoreControlPlanes.beginCollectDiagnosticsPackageAndWait(
+    resourceGroupName,
+    packetCoreControlPlaneName,
+    parameters
+  );
   console.log(result);
 }
 

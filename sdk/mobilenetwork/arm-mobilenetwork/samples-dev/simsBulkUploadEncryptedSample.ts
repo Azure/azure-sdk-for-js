@@ -88,7 +88,7 @@ async function bulkUploadEncryptedSiMSToASimGroup() {
   };
   const credential = new DefaultAzureCredential();
   const client = new MobileNetworkManagementClient(credential, subscriptionId);
-  const result = await client.simOperations.beginBulkUploadEncryptedAndWait(
+  const result = await client.sims.beginBulkUploadEncryptedAndWait(
     resourceGroupName,
     simGroupName,
     parameters

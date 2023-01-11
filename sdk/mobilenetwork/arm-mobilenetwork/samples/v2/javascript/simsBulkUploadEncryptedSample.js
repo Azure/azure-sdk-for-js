@@ -8,14 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  EncryptedSimUploadList,
-  MobileNetworkManagementClient
-} from "@azure/arm-mobilenetwork";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+const { MobileNetworkManagementClient } = require("@azure/arm-mobilenetwork");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Bulk upload SIMs in encrypted form to a SIM group. The SIM credentials must be encrypted.
@@ -24,12 +19,10 @@ dotenv.config();
  * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2022-11-01/examples/SimBulkUploadEncrypted.json
  */
 async function bulkUploadEncryptedSiMSToASimGroup() {
-  const subscriptionId =
-    process.env["MOBILENETWORK_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName =
-    process.env["MOBILENETWORK_RESOURCE_GROUP"] || "rg1";
+  const subscriptionId = process.env["MOBILENETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["MOBILENETWORK_RESOURCE_GROUP"] || "rg1";
   const simGroupName = "testSimGroup";
-  const parameters: EncryptedSimUploadList = {
+  const parameters = {
     azureKeyIdentifier: 1,
     encryptedTransportKey: "ABC123",
     signedTransportKey: "ABC123",
@@ -41,22 +34,19 @@ async function bulkUploadEncryptedSiMSToASimGroup() {
         integratedCircuitCardIdentifier: "8900000000000000000",
         internationalMobileSubscriberIdentity: "00000",
         simPolicy: {
-          id:
-            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.MobileNetwork/mobileNetworks/testMobileNetwork/simPolicies/MySimPolicy"
+          id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.MobileNetwork/mobileNetworks/testMobileNetwork/simPolicies/MySimPolicy",
         },
         staticIpConfiguration: [
           {
             attachedDataNetwork: {
-              id:
-                "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/TestPacketCoreCP/packetCoreDataPlanes/TestPacketCoreDP/attachedDataNetworks/TestAttachedDataNetwork"
+              id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/TestPacketCoreCP/packetCoreDataPlanes/TestPacketCoreDP/attachedDataNetworks/TestAttachedDataNetwork",
             },
             slice: {
-              id:
-                "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.MobileNetwork/mobileNetworks/testMobileNetwork/slices/testSlice"
+              id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.MobileNetwork/mobileNetworks/testMobileNetwork/slices/testSlice",
             },
-            staticIp: { ipv4Address: "2.4.0.1" }
-          }
-        ]
+            staticIp: { ipv4Address: "2.4.0.1" },
+          },
+        ],
       },
       {
         name: "testSim2",
@@ -65,30 +55,27 @@ async function bulkUploadEncryptedSiMSToASimGroup() {
         integratedCircuitCardIdentifier: "8900000000000000001",
         internationalMobileSubscriberIdentity: "00000",
         simPolicy: {
-          id:
-            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.MobileNetwork/mobileNetworks/testMobileNetwork/simPolicies/MySimPolicy"
+          id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.MobileNetwork/mobileNetworks/testMobileNetwork/simPolicies/MySimPolicy",
         },
         staticIpConfiguration: [
           {
             attachedDataNetwork: {
-              id:
-                "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/TestPacketCoreCP/packetCoreDataPlanes/TestPacketCoreDP/attachedDataNetworks/TestAttachedDataNetwork"
+              id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/TestPacketCoreCP/packetCoreDataPlanes/TestPacketCoreDP/attachedDataNetworks/TestAttachedDataNetwork",
             },
             slice: {
-              id:
-                "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.MobileNetwork/mobileNetworks/testMobileNetwork/slices/testSlice"
+              id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.MobileNetwork/mobileNetworks/testMobileNetwork/slices/testSlice",
             },
-            staticIp: { ipv4Address: "2.4.0.2" }
-          }
-        ]
-      }
+            staticIp: { ipv4Address: "2.4.0.2" },
+          },
+        ],
+      },
     ],
     vendorKeyFingerprint: "ABC123",
-    version: 1
+    version: 1,
   };
   const credential = new DefaultAzureCredential();
   const client = new MobileNetworkManagementClient(credential, subscriptionId);
-  const result = await client.simOperations.beginBulkUploadEncryptedAndWait(
+  const result = await client.sims.beginBulkUploadEncryptedAndWait(
     resourceGroupName,
     simGroupName,
     parameters

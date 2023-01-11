@@ -35,7 +35,7 @@ async function collectDiagnosticsPackageFromPacketCoreControlPlane() {
   };
   const credential = new DefaultAzureCredential();
   const client = new MobileNetworkManagementClient(credential, subscriptionId);
-  const result = await client.packetCoreControlPlaneOperations.beginCollectDiagnosticsPackageAndWait(
+  const result = await client.packetCoreControlPlanes.beginCollectDiagnosticsPackageAndWait(
     resourceGroupName,
     packetCoreControlPlaneName,
     parameters
