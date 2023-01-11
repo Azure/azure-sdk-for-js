@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Creates the extended info of the manager.
  *
  * @summary Creates the extended info of the manager.
- * x-ms-original-file: specification/storSimple1200Series/resource-manager/Microsoft.StorSimple/stable/2016-10-01/examples/ManagersCreateExtendedInfo.json
+ * x-ms-original-file: specification/storsimple1200series/resource-manager/Microsoft.StorSimple/stable/2016-10-01/examples/ManagersCreateExtendedInfo.json
  */
 async function managersCreateExtendedInfo() {
   const subscriptionId = "4385cf00-2d3a-425a-832f-f4285b1c9dce";

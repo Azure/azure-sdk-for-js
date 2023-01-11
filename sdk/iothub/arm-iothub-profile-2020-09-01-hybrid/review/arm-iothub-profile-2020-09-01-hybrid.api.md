@@ -213,6 +213,9 @@ export interface FeedbackProperties {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export interface ImportDevicesRequest {
     inputBlobContainerUri: string;
     outputBlobContainerUri: string;
@@ -261,11 +264,11 @@ export interface IotHubClientOptionalParams extends coreClient.ServiceClientOpti
 }
 
 // @public
-export type IotHubDescription = Resource & {
+export interface IotHubDescription extends Resource {
     etag?: string;
     properties?: IotHubProperties;
     sku: IotHubSkuInfo;
-};
+}
 
 // @public
 export interface IotHubDescriptionListResult {
@@ -657,115 +660,76 @@ export type JobType = string;
 
 // @public
 export enum KnownCapabilities {
-    // (undocumented)
     DeviceManagement = "DeviceManagement",
-    // (undocumented)
     None = "None"
 }
 
 // @public
 export enum KnownEndpointHealthStatus {
-    // (undocumented)
     Dead = "dead",
-    // (undocumented)
     Healthy = "healthy",
-    // (undocumented)
     Unhealthy = "unhealthy",
-    // (undocumented)
     Unknown = "unknown"
 }
 
 // @public
 export enum KnownIotHubReplicaRoleType {
-    // (undocumented)
     Primary = "primary",
-    // (undocumented)
     Secondary = "secondary"
 }
 
 // @public
 export enum KnownIotHubSku {
-    // (undocumented)
     B1 = "B1",
-    // (undocumented)
     B2 = "B2",
-    // (undocumented)
     B3 = "B3",
-    // (undocumented)
     F1 = "F1",
-    // (undocumented)
     S1 = "S1",
-    // (undocumented)
     S2 = "S2",
-    // (undocumented)
     S3 = "S3"
 }
 
 // @public
 export enum KnownJobType {
-    // (undocumented)
     Backup = "backup",
-    // (undocumented)
     Export = "export",
-    // (undocumented)
     FactoryResetDevice = "factoryResetDevice",
-    // (undocumented)
     FirmwareUpdate = "firmwareUpdate",
-    // (undocumented)
     Import = "import",
-    // (undocumented)
     ReadDeviceProperties = "readDeviceProperties",
-    // (undocumented)
     RebootDevice = "rebootDevice",
-    // (undocumented)
     Unknown = "unknown",
-    // (undocumented)
     UpdateDeviceConfiguration = "updateDeviceConfiguration",
-    // (undocumented)
     WriteDeviceProperties = "writeDeviceProperties"
 }
 
 // @public
 export enum KnownRouteErrorSeverity {
-    // (undocumented)
     Error = "error",
-    // (undocumented)
     Warning = "warning"
 }
 
 // @public
 export enum KnownRoutingSource {
-    // (undocumented)
     DeviceJobLifecycleEvents = "DeviceJobLifecycleEvents",
-    // (undocumented)
     DeviceLifecycleEvents = "DeviceLifecycleEvents",
-    // (undocumented)
     DeviceMessages = "DeviceMessages",
-    // (undocumented)
     DigitalTwinChangeEvents = "DigitalTwinChangeEvents",
-    // (undocumented)
     Invalid = "Invalid",
-    // (undocumented)
     TwinChangeEvents = "TwinChangeEvents"
 }
 
 // @public
 export enum KnownRoutingStorageContainerPropertiesEncoding {
-    // (undocumented)
     Avro = "Avro",
-    // (undocumented)
     AvroDeflate = "AvroDeflate",
-    // (undocumented)
     Json = "JSON"
 }
 
 // @public
 export enum KnownTestResultStatus {
-    // (undocumented)
     False = "false",
-    // (undocumented)
     True = "true",
-    // (undocumented)
     Undefined = "undefined"
 }
 

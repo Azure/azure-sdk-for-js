@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { RestorableTables } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -52,8 +52,11 @@ export class RestorableTablesImpl implements RestorableTables {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(location, instanceId, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(location, instanceId, options, settings);
       }
     };
   }
@@ -61,9 +64,11 @@ export class RestorableTablesImpl implements RestorableTables {
   private async *listPagingPage(
     location: string,
     instanceId: string,
-    options?: RestorableTablesListOptionalParams
+    options?: RestorableTablesListOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<RestorableTableGetResult[]> {
-    let result = await this._list(location, instanceId, options);
+    let result: RestorableTablesListResponse;
+    result = await this._list(location, instanceId, options);
     yield result.value || [];
   }
 

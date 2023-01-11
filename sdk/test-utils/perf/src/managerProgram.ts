@@ -95,10 +95,10 @@ export class ManagerPerfProgram implements PerfProgram {
       `Completed ${totalOperations.toLocaleString(undefined, {
         maximumFractionDigits: 0,
       })} ` +
-        `operations in a weighted-average of ` +
-        `${formatNumber(weightedAverage, 4)}s ` +
-        `(${formatNumber(operationsPerSecond, 4)} ops/s, ` +
-        `${formatNumber(secondsPerOperation, 4)} s/op)`
+      `operations in a weighted-average of ` +
+      `${formatNumber(weightedAverage, 4)}s ` +
+      `(${formatNumber(operationsPerSecond, 4)} ops/s, ` +
+      `${formatNumber(secondsPerOperation, 4)} s/op)`
     );
   }
 
@@ -109,9 +109,9 @@ export class ManagerPerfProgram implements PerfProgram {
     const elapsedTime = formatDuration(new Date().getTime() - this.startMillis);
 
     this.lastCompleted = totalCompleted;
-
+    const { heapUsed, rss } = process.memoryUsage();
     console.log(
-      `${elapsedTime}\t\t${currentCompleted}\t\t${totalCompleted}\t\t${averageCompleted.toFixed(2)}`
+      `${elapsedTime}\t\t${currentCompleted}\t\t${totalCompleted}\t\t${averageCompleted.toFixed(2)}\t\t${heapUsed}\t\t${rss}`
     );
   }
 
@@ -159,11 +159,10 @@ export class ManagerPerfProgram implements PerfProgram {
     // of operations running.
     const millisecondsToLog = Number(this.parsedOptions["milliseconds-to-log"].value);
     console.log(
-      `\n=== ${title} mode, iteration ${iterationIndex + 1}. Logs every ${
-        millisecondsToLog / 1000
+      `\n=== ${title} mode, iteration ${iterationIndex + 1}. Logs every ${millisecondsToLog / 1000
       }s ===`
     );
-    console.log(`ElapsedTime\tCurrent\t\tTotal\t\tAverage`);
+    console.log(`ElapsedTime\tCurrent\t\tTotal\t\tAverage\t\tHeapUsed\t\tRSS`);
 
     let done = false;
 

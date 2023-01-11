@@ -1,135 +1,280 @@
 {
- "recordings": [
-  {
-   "method": "DELETE",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTTestBuilding%3B1",
-   "query": {
-    "api-version": "2022-05-31"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"ModelNotFound\",\"message\":\"There is no Model(s) available that matches the provided id(s) dtmi:samples:DTTestBuilding;1. Check that the Model ID provided is valid by doing a Model_List API call.\"}}",
-   "responseHeaders": {
-    "content-length": "214",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 28 Jun 2022 18:51:04 GMT",
-    "mise-correlation-id": "b13aed8d-af9c-4ce7-aaea-9ff698358cf2",
-    "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-c6a3991305744c6e0d73bf6367ae736b-b2ac11c895ca9b09-01"
-   }
-  },
-  {
-   "method": "POST",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/models",
-   "query": {
-    "api-version": "2022-05-31"
-   },
-   "requestBody": "[{\"@id\":\"dtmi:samples:DTTestBuilding;1\",\"@type\":\"Interface\",\"@context\":\"dtmi:dtdl:context;2\",\"displayName\":\"Building\",\"contents\":[{\"@type\":\"Property\",\"name\":\"AverageTemperature\",\"schema\":\"double\"},{\"@type\":\"Property\",\"name\":\"TemperatureUnit\",\"schema\":\"string\"}]}]",
-   "status": 201,
-   "response": "[{\"id\":\"dtmi:samples:DTTestBuilding;1\",\"description\":{},\"displayName\":{\"en\":\"Building\"},\"decommissioned\":false,\"uploadTime\":\"2022-06-28T18:51:04.3089094+00:00\"}]",
-   "responseHeaders": {
-    "content-length": "161",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 28 Jun 2022 18:51:04 GMT",
-    "mise-correlation-id": "e542f156-5658-4f48-9e0f-153d1572558a",
-    "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-98a5654332f70c4c57373c2a69a6f580-3e0a892d1c9e0949-01"
-   }
-  },
-  {
-   "method": "POST",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/query",
-   "query": {
-    "api-version": "2022-05-31"
-   },
-   "requestBody": "{\"query\":\"SELECT * FROM digitaltwins\"}",
-   "status": 200,
-   "response": "{\"value\":[{\"$dtId\":\"digitalTwin165644225834202059\",\"$etag\":\"W/\\\"9afa484b-3d78-4078-ab54-6e89597eca75\\\"\",\"AverageTemperature\":68,\"TemperatureUnit\":\"Celsius\",\"$metadata\":{\"$model\":\"dtmi:samples:DTTestBuilding;1\",\"$lastUpdateTime\":\"2022-06-28T18:50:58.7333261Z\",\"AverageTemperature\":{\"lastUpdateTime\":\"2022-06-28T18:50:58.7333261Z\"},\"TemperatureUnit\":{\"lastUpdateTime\":\"2022-06-28T18:50:58.7333261Z\"}}}],\"continuationToken\":null}",
-   "responseHeaders": {
-    "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 28 Jun 2022 18:51:04 GMT",
-    "mise-correlation-id": "4007e333-f2ab-4a09-ad6c-e35201a83579",
-    "query-charge": "2.88",
-    "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-7a9be65826dced4abbeefc4aba778519-e250f1b8882af94d-01",
-    "transfer-encoding": "chunked"
-   }
-  },
-  {
-   "method": "DELETE",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/digitaltwins/digitalTwin165644225834202059",
-   "query": {
-    "api-version": "2022-05-31"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"DigitalTwinNotFound\",\"message\":\"There is no digital twin instance that exists with the ID digitalTwin165644225834202059. Please verify that the twin id is valid and ensure that the twin is not deleted. See section on querying the twins https://aka.ms/adtv2query.\"}}",
-   "responseHeaders": {
-    "content-length": "283",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 28 Jun 2022 18:51:04 GMT",
-    "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-ac532e172cdcaa4f8c5e85fdbc992355-4e2c21bcc5c61b40-01"
-   }
-  },
-  {
-   "method": "POST",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/query",
-   "query": {
-    "api-version": "2022-05-31"
-   },
-   "requestBody": "{\"query\":\"foo\"}",
-   "status": 400,
-   "response": "{\"error\":{\"code\":\"SqlQueryError\",\"message\":\"SQL query parse failed: SQL Parser Error, Line=1, Position=0, Message=missing SELECT at 'foo' See samples in https://aka.ms/adtv2query for the correct syntax.\"}}",
-   "responseHeaders": {
-    "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 28 Jun 2022 18:51:04 GMT",
-    "mise-correlation-id": "a9096e38-c3f2-4b69-bbe3-7e1c2495e7f7",
-    "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-53c00f449488764fb619737c24bebebd-2b90f2d676ad1d41-01",
-    "transfer-encoding": "chunked"
-   }
-  },
-  {
-   "method": "DELETE",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/digitaltwins/digitalTwin165644226411807929",
-   "query": {
-    "api-version": "2022-05-31"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"DigitalTwinNotFound\",\"message\":\"There is no digital twin instance that exists with the ID digitalTwin165644226411807929. Please verify that the twin id is valid and ensure that the twin is not deleted. See section on querying the twins https://aka.ms/adtv2query.\"}}",
-   "responseHeaders": {
-    "content-length": "283",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 28 Jun 2022 18:51:04 GMT",
-    "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-13be51e674cd874b8133c3164f080dbb-d9ec0c30f611a045-01"
-   }
-  },
-  {
-   "method": "DELETE",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTTestBuilding%3B1",
-   "query": {
-    "api-version": "2022-05-31"
-   },
-   "requestBody": null,
-   "status": 204,
-   "response": "",
-   "responseHeaders": {
-    "content-length": "0",
-    "date": "Tue, 28 Jun 2022 18:51:05 GMT",
-    "mise-correlation-id": "88aea3ec-662a-4ddf-984f-9b9350470592",
-    "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-a3384da35043b0553d18acc22dc81e12-a95d2ae20d19220c-01"
-   }
+  "Entries": [
+    {
+      "RequestUri": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTTestBuilding%3B1?api-version=2020-10-31",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/109.0.5412.0 Safari/537.36",
+        "x-ms-client-request-id": "e34fa3f4-b18f-4a3e-bea6-b1567999500e",
+        "x-ms-useragent": "azsdk-js-digital-twins-core/2.0.0 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "Content-Length": "214",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 09 Jan 2023 23:30:34 GMT",
+        "mise-correlation-id": "a7841a6d-86ed-468b-80b0-d69ee2ab3975",
+        "Strict-Transport-Security": "max-age=2592000",
+        "traceresponse": "00-270a872c0fb3023b2b3a059f917be46d-2d8d5360d8b21b91-01"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "ModelNotFound",
+          "message": "There is no Model(s) available that matches the provided id(s) dtmi:samples:DTTestBuilding;1. Check that the Model ID provided is valid by doing a Model_List API call."
+        }
+      }
+    },
+    {
+      "RequestUri": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/models?api-version=2020-10-31",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "263",
+        "Content-Type": "application/json",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/109.0.5412.0 Safari/537.36",
+        "x-ms-client-request-id": "67598135-5a94-48ec-8bf9-c50b11d0de15",
+        "x-ms-useragent": "azsdk-js-digital-twins-core/2.0.0 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
+      },
+      "RequestBody": "[{\u0022@id\u0022:\u0022dtmi:samples:DTTestBuilding;1\u0022,\u0022@type\u0022:\u0022Interface\u0022,\u0022@context\u0022:\u0022dtmi:dtdl:context;2\u0022,\u0022displayName\u0022:\u0022Building\u0022,\u0022contents\u0022:[{\u0022@type\u0022:\u0022Property\u0022,\u0022name\u0022:\u0022AverageTemperature\u0022,\u0022schema\u0022:\u0022double\u0022},{\u0022@type\u0022:\u0022Property\u0022,\u0022name\u0022:\u0022TemperatureUnit\u0022,\u0022schema\u0022:\u0022string\u0022}]}]",
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "Content-Length": "161",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 09 Jan 2023 23:30:34 GMT",
+        "mise-correlation-id": "0d035de5-18f8-4173-b80d-d52d574452bd",
+        "Strict-Transport-Security": "max-age=2592000",
+        "traceresponse": "00-d882db048d3f760d469ba39661d54472-9830f7fc30727a01-01"
+      },
+      "ResponseBody": "[{\u0022id\u0022:\u0022dtmi:samples:DTTestBuilding;1\u0022,\u0022description\u0022:{},\u0022displayName\u0022:{\u0022en\u0022:\u0022Building\u0022},\u0022decommissioned\u0022:false,\u0022uploadTime\u0022:\u00222023-01-09T23:30:34.7464117\u002B00:00\u0022}]"
+    },
+    {
+      "RequestUri": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/query?api-version=2020-10-31",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "38",
+        "Content-Type": "application/json",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/109.0.5412.0 Safari/537.36",
+        "x-ms-client-request-id": "6bf15ded-0df1-4ba5-b4ef-0263c1d89a50",
+        "x-ms-useragent": "azsdk-js-digital-twins-core/2.0.0 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
+      },
+      "RequestBody": {
+        "query": "SELECT * FROM digitaltwins"
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 09 Jan 2023 23:30:34 GMT",
+        "mise-correlation-id": "7ee0ba2e-eb8c-4bcb-ae9b-91dacdee4970",
+        "query-charge": "2.88",
+        "Strict-Transport-Security": "max-age=2592000",
+        "traceresponse": "00-b6c3603675ed93d012b20dc2e5d57ad3-e392213735e02852-01",
+        "Transfer-Encoding": "chunked"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "$dtId": "create-simple-digitaltwin-940",
+            "$etag": "W/\u0022824b2c7a-f693-48f3-98aa-21d103db2acd\u0022",
+            "AverageTemperature": 68,
+            "TemperatureUnit": "Celsius",
+            "$metadata": {
+              "$model": "dtmi:samples:DTTestBuilding;1",
+              "AverageTemperature": {
+                "lastUpdateTime": "2023-01-09T23:30:29.4698931Z"
+              },
+              "TemperatureUnit": {
+                "lastUpdateTime": "2023-01-09T23:30:29.4698931Z"
+              }
+            }
+          }
+        ],
+        "continuationToken": null
+      }
+    },
+    {
+      "RequestUri": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/digitaltwins/create-simple-digitaltwin-940?api-version=2020-10-31",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/109.0.5412.0 Safari/537.36",
+        "x-ms-client-request-id": "e0afd456-6c23-45e0-8ebf-39a3ccd7fdff",
+        "x-ms-useragent": "azsdk-js-digital-twins-core/2.0.0 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "Content-Length": "283",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 09 Jan 2023 23:30:34 GMT",
+        "mise-correlation-id": "8a257124-f6fc-4e1e-bf45-9d5b15b89512",
+        "Strict-Transport-Security": "max-age=2592000",
+        "traceresponse": "00-1e990b5f98b2a6db1a10db3fa8e6c1db-61ff45ceffe3ba92-01"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "DigitalTwinNotFound",
+          "message": "There is no digital twin instance that exists with the ID create-simple-digitaltwin-940. Please verify that the twin id is valid and ensure that the twin is not deleted. See section on querying the twins https://aka.ms/adtv2query."
+        }
+      }
+    },
+    {
+      "RequestUri": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/query?api-version=2020-10-31",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "15",
+        "Content-Type": "application/json",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/109.0.5412.0 Safari/537.36",
+        "x-ms-client-request-id": "3b97170d-b31d-4fed-8eed-325d85aaa2e9",
+        "x-ms-useragent": "azsdk-js-digital-twins-core/2.0.0 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
+      },
+      "RequestBody": {
+        "query": "foo"
+      },
+      "StatusCode": 400,
+      "ResponseHeaders": {
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 09 Jan 2023 23:30:34 GMT",
+        "mise-correlation-id": "0be59087-b08a-4507-9a71-610f6f874321",
+        "Strict-Transport-Security": "max-age=2592000",
+        "traceresponse": "00-5a1fc29430a2e83a6292cfb066dee48c-6b43184a90760367-01",
+        "Transfer-Encoding": "chunked"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "SqlQueryError",
+          "message": "SQL query parse failed: SQL Parser Error, Line=1, Position=0, Message=missing SELECT at \u0027foo\u0027 See samples in https://aka.ms/adtv2query for the correct syntax."
+        }
+      }
+    },
+    {
+      "RequestUri": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/digitaltwins/create-simple-digitaltwin-124?api-version=2020-10-31",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/109.0.5412.0 Safari/537.36",
+        "x-ms-client-request-id": "810b6078-51a2-4f25-aa1a-76ff14b94f37",
+        "x-ms-useragent": "azsdk-js-digital-twins-core/2.0.0 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "Content-Length": "283",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 09 Jan 2023 23:30:34 GMT",
+        "mise-correlation-id": "cd14da75-c35e-467a-b5f5-63eaca92c0f7",
+        "Strict-Transport-Security": "max-age=2592000",
+        "traceresponse": "00-b5add1a86eb314e19f8dd12fc548672b-983c331f95e68b61-01"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "DigitalTwinNotFound",
+          "message": "There is no digital twin instance that exists with the ID create-simple-digitaltwin-124. Please verify that the twin id is valid and ensure that the twin is not deleted. See section on querying the twins https://aka.ms/adtv2query."
+        }
+      }
+    },
+    {
+      "RequestUri": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTTestBuilding%3B1?api-version=2020-10-31",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/109.0.5412.0 Safari/537.36",
+        "x-ms-client-request-id": "ab91ad41-fe56-43e9-9ccb-3fc680430fe0",
+        "x-ms-useragent": "azsdk-js-digital-twins-core/2.0.0 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 204,
+      "ResponseHeaders": {
+        "Content-Length": "0",
+        "Date": "Mon, 09 Jan 2023 23:30:34 GMT",
+        "mise-correlation-id": "2fb87e5e-29c2-4ae4-9881-b214fd3a4080",
+        "Strict-Transport-Security": "max-age=2592000",
+        "traceresponse": "00-aa0f8293c320f5bf7414663d24563f22-57a359fac62df9f0-01"
+      },
+      "ResponseBody": null
+    }
+  ],
+  "Variables": {
+    "digitalTwin": "create-simple-digitaltwin-124"
   }
- ],
- "uniqueTestInfo": {
-  "uniqueName": {
-   "query-digitaltwin-invalid-expression": "digitalTwin165644226411807929"
-  },
-  "newDate": {}
- },
- "hash": "ef264dd1c962652d2a7c4886e088c0c5"
 }

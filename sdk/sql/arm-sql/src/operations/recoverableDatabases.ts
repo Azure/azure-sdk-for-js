@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { RecoverableDatabases } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -15,9 +15,9 @@ import { SqlManagementClient } from "../sqlManagementClient";
 import {
   RecoverableDatabase,
   RecoverableDatabasesListByServerOptionalParams,
+  RecoverableDatabasesListByServerResponse,
   RecoverableDatabasesGetOptionalParams,
-  RecoverableDatabasesGetResponse,
-  RecoverableDatabasesListByServerResponse
+  RecoverableDatabasesGetResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -57,11 +57,15 @@ export class RecoverableDatabasesImpl implements RecoverableDatabases {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByServerPagingPage(
           resourceGroupName,
           serverName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -70,13 +74,11 @@ export class RecoverableDatabasesImpl implements RecoverableDatabases {
   private async *listByServerPagingPage(
     resourceGroupName: string,
     serverName: string,
-    options?: RecoverableDatabasesListByServerOptionalParams
+    options?: RecoverableDatabasesListByServerOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<RecoverableDatabase[]> {
-    let result = await this._listByServer(
-      resourceGroupName,
-      serverName,
-      options
-    );
+    let result: RecoverableDatabasesListByServerResponse;
+    result = await this._listByServer(resourceGroupName, serverName, options);
     yield result.value || [];
   }
 

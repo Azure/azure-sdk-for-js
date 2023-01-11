@@ -13,6 +13,9 @@ import {
   SynapseManagementClient
 } from "@azure/arm-synapse";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Rename a SQL pool.
@@ -21,8 +24,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/RenameSqlPool.json
  */
 async function renameASqlAnalyticsPool() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "Default-SQL-SouthEastAsia";
+  const subscriptionId =
+    process.env["SYNAPSE_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SYNAPSE_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
   const workspaceName = "testsvr";
   const sqlPoolName = "testdb";
   const parameters: ResourceMoveDefinition = {
@@ -40,4 +46,8 @@ async function renameASqlAnalyticsPool() {
   console.log(result);
 }
 
-renameASqlAnalyticsPool().catch(console.error);
+async function main() {
+  renameASqlAnalyticsPool();
+}
+
+main().catch(console.error);

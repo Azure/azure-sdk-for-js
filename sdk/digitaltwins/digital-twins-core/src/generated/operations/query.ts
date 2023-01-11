@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import { Query } from "../operationsInterfaces";
+import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureDigitalTwinsAPI } from "../azureDigitalTwinsAPI";
@@ -16,10 +17,8 @@ import {
   QueryQueryTwinsResponse
 } from "../models";
 
-/**
- * Class representing a Query.
- */
-export class Query {
+/** Class containing Query operations. */
+export class QueryImpl implements Query {
   private readonly client: AzureDigitalTwinsAPI;
 
   /**
@@ -37,7 +36,9 @@ export class Query {
    * * 400 Bad Request
    *   * BadRequest - The continuation token is invalid.
    *   * SqlQueryError - The query contains some errors.
-   * * 429 Too Many Requests
+   *   * TimeoutError - The query execution timed out after 60 seconds. Try simplifying the query or
+   * adding conditions to reduce the result size.
+   *  * 429 Too Many Requests
    *   * QuotaReachedError - The maximum query rate limit has been reached.
    * @param querySpecification The query specification to execute.
    * @param options The options parameters.
@@ -46,20 +47,16 @@ export class Query {
     querySpecification: QuerySpecification,
     options?: QueryQueryTwinsOptionalParams
   ): Promise<QueryQueryTwinsResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
     return this.client.sendOperationRequest(
-      { querySpecification, options: operationOptions },
+      { querySpecification, options },
       queryTwinsOperationSpec
-    ) as Promise<QueryQueryTwinsResponse>;
+    );
   }
 }
 // Operation Specifications
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
-
-const queryTwinsOperationSpec: coreHttp.OperationSpec = {
+const queryTwinsOperationSpec: coreClient.OperationSpec = {
   path: "/query",
   httpMethod: "POST",
   responses: {
@@ -76,9 +73,8 @@ const queryTwinsOperationSpec: coreHttp.OperationSpec = {
   urlParameters: [Parameters.$host],
   headerParameters: [
     Parameters.contentType,
-    Parameters.traceparent,
-    Parameters.tracestate,
-    Parameters.maxItemsPerPage
+    Parameters.accept,
+    Parameters.resultsPerPage
   ],
   mediaType: "json",
   serializer

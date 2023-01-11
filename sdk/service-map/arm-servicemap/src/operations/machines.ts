@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Machines } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,27 +17,27 @@ import {
   Machine,
   MachinesListByWorkspaceNextOptionalParams,
   MachinesListByWorkspaceOptionalParams,
+  MachinesListByWorkspaceResponse,
   Connection,
   MachinesListConnectionsNextOptionalParams,
   MachinesListConnectionsOptionalParams,
+  MachinesListConnectionsResponse,
   Process,
   MachinesListProcessesNextOptionalParams,
   MachinesListProcessesOptionalParams,
+  MachinesListProcessesResponse,
   Port,
   MachinesListPortsNextOptionalParams,
   MachinesListPortsOptionalParams,
+  MachinesListPortsResponse,
   MachineGroup,
   MachinesListMachineGroupMembershipNextOptionalParams,
   MachinesListMachineGroupMembershipOptionalParams,
-  MachinesListByWorkspaceResponse,
+  MachinesListMachineGroupMembershipResponse,
   MachinesGetOptionalParams,
   MachinesGetResponse,
   MachinesGetLivenessOptionalParams,
   MachinesGetLivenessResponse,
-  MachinesListConnectionsResponse,
-  MachinesListProcessesResponse,
-  MachinesListPortsResponse,
-  MachinesListMachineGroupMembershipResponse,
   MachinesListByWorkspaceNextResponse,
   MachinesListConnectionsNextResponse,
   MachinesListProcessesNextResponse,
@@ -83,11 +84,15 @@ export class MachinesImpl implements Machines {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByWorkspacePagingPage(
           resourceGroupName,
           workspaceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -96,15 +101,22 @@ export class MachinesImpl implements Machines {
   private async *listByWorkspacePagingPage(
     resourceGroupName: string,
     workspaceName: string,
-    options?: MachinesListByWorkspaceOptionalParams
+    options?: MachinesListByWorkspaceOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Machine[]> {
-    let result = await this._listByWorkspace(
-      resourceGroupName,
-      workspaceName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: MachinesListByWorkspaceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByWorkspace(
+        resourceGroupName,
+        workspaceName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByWorkspaceNext(
         resourceGroupName,
@@ -113,7 +125,9 @@ export class MachinesImpl implements Machines {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -157,12 +171,16 @@ export class MachinesImpl implements Machines {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listConnectionsPagingPage(
           resourceGroupName,
           workspaceName,
           machineName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -172,16 +190,23 @@ export class MachinesImpl implements Machines {
     resourceGroupName: string,
     workspaceName: string,
     machineName: string,
-    options?: MachinesListConnectionsOptionalParams
+    options?: MachinesListConnectionsOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Connection[]> {
-    let result = await this._listConnections(
-      resourceGroupName,
-      workspaceName,
-      machineName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: MachinesListConnectionsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listConnections(
+        resourceGroupName,
+        workspaceName,
+        machineName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listConnectionsNext(
         resourceGroupName,
@@ -191,7 +216,9 @@ export class MachinesImpl implements Machines {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -241,12 +268,16 @@ export class MachinesImpl implements Machines {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listProcessesPagingPage(
           resourceGroupName,
           workspaceName,
           machineName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -256,16 +287,23 @@ export class MachinesImpl implements Machines {
     resourceGroupName: string,
     workspaceName: string,
     machineName: string,
-    options?: MachinesListProcessesOptionalParams
+    options?: MachinesListProcessesOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Process[]> {
-    let result = await this._listProcesses(
-      resourceGroupName,
-      workspaceName,
-      machineName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: MachinesListProcessesResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listProcesses(
+        resourceGroupName,
+        workspaceName,
+        machineName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listProcessesNext(
         resourceGroupName,
@@ -275,7 +313,9 @@ export class MachinesImpl implements Machines {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -321,12 +361,16 @@ export class MachinesImpl implements Machines {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listPortsPagingPage(
           resourceGroupName,
           workspaceName,
           machineName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -336,16 +380,23 @@ export class MachinesImpl implements Machines {
     resourceGroupName: string,
     workspaceName: string,
     machineName: string,
-    options?: MachinesListPortsOptionalParams
+    options?: MachinesListPortsOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Port[]> {
-    let result = await this._listPorts(
-      resourceGroupName,
-      workspaceName,
-      machineName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: MachinesListPortsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listPorts(
+        resourceGroupName,
+        workspaceName,
+        machineName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listPortsNext(
         resourceGroupName,
@@ -355,7 +406,9 @@ export class MachinesImpl implements Machines {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -401,12 +454,16 @@ export class MachinesImpl implements Machines {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listMachineGroupMembershipPagingPage(
           resourceGroupName,
           workspaceName,
           machineName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -416,16 +473,23 @@ export class MachinesImpl implements Machines {
     resourceGroupName: string,
     workspaceName: string,
     machineName: string,
-    options?: MachinesListMachineGroupMembershipOptionalParams
+    options?: MachinesListMachineGroupMembershipOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<MachineGroup[]> {
-    let result = await this._listMachineGroupMembership(
-      resourceGroupName,
-      workspaceName,
-      machineName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: MachinesListMachineGroupMembershipResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listMachineGroupMembership(
+        resourceGroupName,
+        workspaceName,
+        machineName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listMachineGroupMembershipNext(
         resourceGroupName,
@@ -435,7 +499,9 @@ export class MachinesImpl implements Machines {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -900,14 +966,6 @@ const listByWorkspaceNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.live,
-    Parameters.startTime,
-    Parameters.endTime,
-    Parameters.timestamp,
-    Parameters.top
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -929,11 +987,6 @@ const listConnectionsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.startTime,
-    Parameters.endTime
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -956,13 +1009,6 @@ const listProcessesNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.live,
-    Parameters.startTime,
-    Parameters.endTime,
-    Parameters.timestamp
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -985,11 +1031,6 @@ const listPortsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.startTime,
-    Parameters.endTime
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1012,11 +1053,6 @@ const listMachineGroupMembershipNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.startTime,
-    Parameters.endTime
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

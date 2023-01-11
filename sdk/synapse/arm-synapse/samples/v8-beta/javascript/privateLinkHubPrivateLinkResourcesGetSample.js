@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { SynapseManagementClient } = require("@azure/arm-synapse");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Get private link resource in private link hub
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/GetPrivateLinkHubPrivateLinkResource.json
  */
 async function getPrivateLinkResourcesForPrivateLinkHub() {
-  const subscriptionId = "01234567-89ab-4def-0123-456789abcdef";
-  const resourceGroupName = "ExampleResourceGroup";
+  const subscriptionId =
+    process.env["SYNAPSE_SUBSCRIPTION_ID"] || "01234567-89ab-4def-0123-456789abcdef";
+  const resourceGroupName = process.env["SYNAPSE_RESOURCE_GROUP"] || "ExampleResourceGroup";
   const privateLinkHubName = "ExamplePrivateLinkHub";
   const privateLinkResourceName = "sql";
   const credential = new DefaultAzureCredential();
@@ -32,4 +34,8 @@ async function getPrivateLinkResourcesForPrivateLinkHub() {
   console.log(result);
 }
 
-getPrivateLinkResourcesForPrivateLinkHub().catch(console.error);
+async function main() {
+  getPrivateLinkResourcesForPrivateLinkHub();
+}
+
+main().catch(console.error);

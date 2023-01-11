@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Location } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -15,14 +16,14 @@ import { ContainerInstanceManagementClient } from "../containerInstanceManagemen
 import {
   Usage,
   LocationListUsageOptionalParams,
+  LocationListUsageResponse,
   CachedImages,
   LocationListCachedImagesNextOptionalParams,
   LocationListCachedImagesOptionalParams,
+  LocationListCachedImagesResponse,
   Capabilities,
   LocationListCapabilitiesNextOptionalParams,
   LocationListCapabilitiesOptionalParams,
-  LocationListUsageResponse,
-  LocationListCachedImagesResponse,
   LocationListCapabilitiesResponse,
   LocationListCachedImagesNextResponse,
   LocationListCapabilitiesNextResponse
@@ -58,17 +59,22 @@ export class LocationImpl implements Location {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listUsagePagingPage(location, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listUsagePagingPage(location, options, settings);
       }
     };
   }
 
   private async *listUsagePagingPage(
     location: string,
-    options?: LocationListUsageOptionalParams
+    options?: LocationListUsageOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<Usage[]> {
-    let result = await this._listUsage(location, options);
+    let result: LocationListUsageResponse;
+    result = await this._listUsage(location, options);
     yield result.value || [];
   }
 
@@ -98,19 +104,29 @@ export class LocationImpl implements Location {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listCachedImagesPagingPage(location, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listCachedImagesPagingPage(location, options, settings);
       }
     };
   }
 
   private async *listCachedImagesPagingPage(
     location: string,
-    options?: LocationListCachedImagesOptionalParams
+    options?: LocationListCachedImagesOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<CachedImages[]> {
-    let result = await this._listCachedImages(location, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: LocationListCachedImagesResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listCachedImages(location, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listCachedImagesNext(
         location,
@@ -118,7 +134,9 @@ export class LocationImpl implements Location {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -151,19 +169,29 @@ export class LocationImpl implements Location {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listCapabilitiesPagingPage(location, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listCapabilitiesPagingPage(location, options, settings);
       }
     };
   }
 
   private async *listCapabilitiesPagingPage(
     location: string,
-    options?: LocationListCapabilitiesOptionalParams
+    options?: LocationListCapabilitiesOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Capabilities[]> {
-    let result = await this._listCapabilities(location, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: LocationListCapabilitiesResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listCapabilities(location, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listCapabilitiesNext(
         location,
@@ -171,7 +199,9 @@ export class LocationImpl implements Location {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -343,7 +373,6 @@ const listCachedImagesNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -364,7 +393,6 @@ const listCapabilitiesNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

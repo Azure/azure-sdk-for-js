@@ -13,6 +13,9 @@ import {
   DataFactoryManagementClient
 } from "@azure/arm-datafactory";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates or updates a trigger.
@@ -21,8 +24,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/Triggers_Create.json
  */
 async function triggersCreate() {
-  const subscriptionId = "12345678-1234-1234-1234-12345678abc";
-  const resourceGroupName = "exampleResourceGroup";
+  const subscriptionId =
+    process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
+    "12345678-1234-1234-1234-12345678abc";
+  const resourceGroupName =
+    process.env["DATAFACTORY_RESOURCE_GROUP"] || "exampleResourceGroup";
   const factoryName = "exampleFactoryName";
   const triggerName = "exampleTrigger";
   const trigger: TriggerResource = {
@@ -57,8 +63,6 @@ async function triggersCreate() {
   console.log(result);
 }
 
-triggersCreate().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates or updates a trigger.
  *
@@ -66,8 +70,11 @@ triggersCreate().catch(console.error);
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/Triggers_Update.json
  */
 async function triggersUpdate() {
-  const subscriptionId = "12345678-1234-1234-1234-12345678abc";
-  const resourceGroupName = "exampleResourceGroup";
+  const subscriptionId =
+    process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
+    "12345678-1234-1234-1234-12345678abc";
+  const resourceGroupName =
+    process.env["DATAFACTORY_RESOURCE_GROUP"] || "exampleResourceGroup";
   const factoryName = "exampleFactoryName";
   const triggerName = "exampleTrigger";
   const trigger: TriggerResource = {
@@ -103,4 +110,9 @@ async function triggersUpdate() {
   console.log(result);
 }
 
-triggersUpdate().catch(console.error);
+async function main() {
+  triggersCreate();
+  triggersUpdate();
+}
+
+main().catch(console.error);

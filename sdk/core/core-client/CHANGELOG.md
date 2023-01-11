@@ -1,18 +1,27 @@
 # Release History
 
-## 1.6.2 (Unreleased)
+## 1.7.1 (Unreleased)
 
 ### Features Added
-
-- Ported support for `xmlIsMsText` from `@azure/core-http`.
 
 ### Breaking Changes
 
 ### Bugs Fixed
 
-- Fix a serializer issue where resettable streams were not being accepted.
-
 ### Other Changes
+
+- Only deserialize headers that are mapped in OperationSpec when using a header mapper. Previously core-client would include all header values when deserializing, leading to result objects having unintended extra metadata.
+
+## 1.7.0 (2023-01-05)
+
+### Features Added
+
+- Ported support for `xmlIsMsText` from `@azure/core-http`.
+
+### Bugs Fixed
+
+- Fix a serializer issue where resettable streams were not being accepted.
+- Fix an issue where XML options are not propagated during deserialization.
 
 ## 1.6.1 (2022-08-04)
 

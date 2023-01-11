@@ -2387,8 +2387,7 @@ export interface AppendPositionAccessConditions {
 }
 
 /** Known values of {@link EncryptionAlgorithmType} that the service accepts. */
-export enum KnownEncryptionAlgorithmType {
-  /** AES256 */
+export const enum KnownEncryptionAlgorithmType {
   AES256 = "AES256"
 }
 
@@ -2396,7 +2395,7 @@ export enum KnownEncryptionAlgorithmType {
  * Defines values for EncryptionAlgorithmType. \
  * {@link KnownEncryptionAlgorithmType} can be used interchangeably with EncryptionAlgorithmType,
  *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
+ * ### Know values supported by the service
  * **AES256**
  */
 export type EncryptionAlgorithmType = string;
@@ -2551,9 +2550,7 @@ export enum KnownStorageErrorCode {
   FeatureVersionMismatch = "FeatureVersionMismatch",
   /** IncrementalCopyBlobMismatch */
   IncrementalCopyBlobMismatch = "IncrementalCopyBlobMismatch",
-  /** IncrementalCopyOfEralierVersionSnapshotNotAllowed */
-  IncrementalCopyOfEralierVersionSnapshotNotAllowed = "IncrementalCopyOfEralierVersionSnapshotNotAllowed",
-  /** IncrementalCopySourceMustBeSnapshot */
+  IncrementalCopyOfEarlierVersionSnapshotNotAllowed = "IncrementalCopyOfEarlierVersionSnapshotNotAllowed",
   IncrementalCopySourceMustBeSnapshot = "IncrementalCopySourceMustBeSnapshot",
   /** InfiniteLeaseDurationRequired */
   InfiniteLeaseDurationRequired = "InfiniteLeaseDurationRequired",
@@ -2722,7 +2719,7 @@ export enum KnownStorageErrorCode {
  * **CopyIdMismatch** \
  * **FeatureVersionMismatch** \
  * **IncrementalCopyBlobMismatch** \
- * **IncrementalCopyOfEralierVersionSnapshotNotAllowed** \
+ * **IncrementalCopyOfEarlierVersionSnapshotNotAllowed** \
  * **IncrementalCopySourceMustBeSnapshot** \
  * **InfiniteLeaseDurationRequired** \
  * **InvalidBlobOrBlock** \
@@ -2837,7 +2834,8 @@ export type AccessTier =
   | "P80"
   | "Hot"
   | "Cool"
-  | "Archive";
+  | "Archive"
+  | "Cold";
 /** Defines values for ArchiveStatus. */
 export type ArchiveStatus =
   | "rehydrate-pending-to-hot"
@@ -2856,6 +2854,8 @@ export type BlockListType = "committed" | "uncommitted" | "all";
 export type SequenceNumberActionType = "max" | "update" | "increment";
 /** Defines values for QueryFormatType. */
 export type QueryFormatType = "delimited" | "json" | "arrow" | "parquet";
+/** Defines values for SyncCopyStatusType. */
+export type SyncCopyStatusType = "success";
 
 /** Optional parameters. */
 export interface ServiceSetPropertiesOptionalParams
@@ -4135,6 +4135,8 @@ export interface BlockBlobUploadOptionalParams
   legalHold?: boolean;
   /** Specify the transactional md5 for the body, to be validated by the service. */
   transactionalContentMD5?: Uint8Array;
+  /** Specify the transactional crc64 for the body, to be validated by the service. */
+  transactionalContentCrc64?: Uint8Array;
 }
 
 /** Contains response data for the upload operation. */

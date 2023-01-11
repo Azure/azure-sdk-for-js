@@ -211,6 +211,7 @@ const uploadOperationSpec: coreClient.OperationSpec = {
     Parameters.blobTagsString,
     Parameters.legalHold1,
     Parameters.transactionalContentMD5,
+    Parameters.transactionalContentCrc64,
     Parameters.contentType1,
     Parameters.accept2,
     Parameters.blobType2
