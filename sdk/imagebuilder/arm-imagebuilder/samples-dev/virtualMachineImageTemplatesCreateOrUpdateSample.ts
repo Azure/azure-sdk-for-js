@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { ImageTemplate, ImageBuilderClient } from "@azure/arm-imagebuilder";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create or update a virtual machine image template
@@ -18,8 +21,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2022-02-14/examples/CreateImageTemplateLinux.json
  */
 async function createAnImageTemplateForLinux() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["IMAGEBUILDER_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["IMAGEBUILDER_RESOURCE_GROUP"] || "myResourceGroup";
   const imageTemplateName = "myImageTemplate";
   const parameters: ImageTemplate = {
     customize: [
@@ -71,8 +76,6 @@ async function createAnImageTemplateForLinux() {
   console.log(result);
 }
 
-createAnImageTemplateForLinux().catch(console.error);
-
 /**
  * This sample demonstrates how to Create or update a virtual machine image template
  *
@@ -80,8 +83,10 @@ createAnImageTemplateForLinux().catch(console.error);
  * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2022-02-14/examples/CreateImageTemplateWindows.json
  */
 async function createAnImageTemplateForWindows() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["IMAGEBUILDER_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["IMAGEBUILDER_RESOURCE_GROUP"] || "myResourceGroup";
   const imageTemplateName = "myImageTemplate";
   const parameters: ImageTemplate = {
     customize: [
@@ -197,4 +202,9 @@ async function createAnImageTemplateForWindows() {
   console.log(result);
 }
 
-createAnImageTemplateForWindows().catch(console.error);
+async function main() {
+  createAnImageTemplateForLinux();
+  createAnImageTemplateForWindows();
+}
+
+main().catch(console.error);

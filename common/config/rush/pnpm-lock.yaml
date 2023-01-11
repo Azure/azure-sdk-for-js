@@ -11907,7 +11907,7 @@ packages:
     dev: false
 
   file:projects/arm-imagebuilder.tgz:
-    resolution: {integrity: sha512-tWXJ7ORrDzvlnH3SflP30XARokOxyovSlOci/y+FwBuF8wpKbXNU82aDfWGXVXb8Cwzs45IKSkLBeUcck60paA==, tarball: file:projects/arm-imagebuilder.tgz}
+    resolution: {integrity: sha512-b2rhI+xcYT6NE0PmgH9hMT9zAXeKR+zmP5fpHNZgnrHbVk1/adjBKXr9pjQCkENhW8XNHLY++QLWhLoMLXNOCw==, tarball: file:projects/arm-imagebuilder.tgz}
     name: '@rush-temp/arm-imagebuilder'
     version: 0.0.0
     dependencies:
@@ -11923,13 +11923,14 @@ packages:
       '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_7e8d81808a761355f6c3da2f25cfe887
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - supports-color
