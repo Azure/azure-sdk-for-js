@@ -35,7 +35,7 @@ const envSetupForPlayback: { [k: string]: string } = {
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "SomeTenantId",
   AZURE_PHONE_NUMBER: "+14155550100",
-  COMMUNICATION_SKIP_INT_PHONENUMBERS_TESTS: "false"
+  COMMUNICATION_SKIP_INT_PHONENUMBERS_TESTS: "false",
 };
 
 const sanitizerOptions: SanitizerOptions = {
