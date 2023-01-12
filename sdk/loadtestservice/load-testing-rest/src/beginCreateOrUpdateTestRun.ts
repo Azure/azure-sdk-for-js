@@ -103,14 +103,10 @@ export async function beginTestRun(
           }
         }
         switch (state.status) {
-          case "succeeded": {
-            return poller.getResult() as TestRunGet200Response;
-          }
+          case "succeeded":
+          case "failed":
           case "canceled": {
-            throw new Error("Operation was canceled");
-          }
-          case "failed": {
-            throw state.error;
+            return poller.getResult() as TestRunGet200Response;
           }
           case "notStarted":
           case "running": {
