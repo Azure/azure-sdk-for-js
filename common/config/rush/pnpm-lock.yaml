@@ -71,6 +71,7 @@ specifiers:
   '@rush-temp/arm-datafactory': file:./projects/arm-datafactory.tgz
   '@rush-temp/arm-datalake-analytics': file:./projects/arm-datalake-analytics.tgz
   '@rush-temp/arm-datamigration': file:./projects/arm-datamigration.tgz
+  '@rush-temp/arm-dataprotectionplatform': file:./projects/arm-dataprotectionplatform.tgz
   '@rush-temp/arm-deploymentmanager': file:./projects/arm-deploymentmanager.tgz
   '@rush-temp/arm-desktopvirtualization': file:./projects/arm-desktopvirtualization.tgz
   '@rush-temp/arm-devcenter': file:./projects/arm-devcenter.tgz
@@ -396,6 +397,7 @@ dependencies:
   '@rush-temp/arm-datafactory': file:projects/arm-datafactory.tgz
   '@rush-temp/arm-datalake-analytics': file:projects/arm-datalake-analytics.tgz
   '@rush-temp/arm-datamigration': file:projects/arm-datamigration.tgz
+  '@rush-temp/arm-dataprotectionplatform': file:projects/arm-dataprotectionplatform.tgz
   '@rush-temp/arm-deploymentmanager': file:projects/arm-deploymentmanager.tgz
   '@rush-temp/arm-desktopvirtualization': file:projects/arm-desktopvirtualization.tgz
   '@rush-temp/arm-devcenter': file:projects/arm-devcenter.tgz
@@ -11005,6 +11007,34 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-dataprotectionplatform.tgz:
+    resolution: {integrity: sha512-34q1P5p+JIijslFPfu3ACK+SfN7A4jjDAQsO3IV6g0BnkEKQ1Qu/kC9fX8IoTit1JLD662YbW/WsTo31loaC+g==, tarball: file:projects/arm-dataprotectionplatform.tgz}
+    name: '@rush-temp/arm-dataprotectionplatform'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.33.7
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.4
+      '@types/node': 14.18.36
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 8.6.0
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_7e8d81808a761355f6c3da2f25cfe887
+      tslib: 2.4.1
+      typescript: 4.8.4
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   file:projects/arm-deploymentmanager.tgz:
     resolution: {integrity: sha512-DcgEP95P8+FhnDXHuN0MqNo9yPIBVXZZAz3vGRbZIck0DMof4EymCriyOpDe8uAxlxfL6JojzGhkyt50+xMYfw==, tarball: file:projects/arm-deploymentmanager.tgz}
     name: '@rush-temp/arm-deploymentmanager'
@@ -16129,7 +16159,7 @@ packages:
     dev: false
 
   file:projects/digital-twins-core.tgz:
-    resolution: {integrity: sha512-Kx88rkD/kud2yFLn3hEDNVPiEmu/C3WEPClkK1Hr/RXWU32WOYlMJdE6SNt4EA4i8VgzwWFRHXxo6UMRdTjUrA==, tarball: file:projects/digital-twins-core.tgz}
+    resolution: {integrity: sha512-zpmdHAAYYxRxrTiSoRX+PAHpl6CVW7fgY2nbRTlj7GgQEtlDFlm7JrQ+0ASkEK2gPYHhT5YxoVof7MgLt9I8HA==, tarball: file:projects/digital-twins-core.tgz}
     name: '@rush-temp/digital-twins-core'
     version: 0.0.0
     dependencies:
@@ -16173,7 +16203,6 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
