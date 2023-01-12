@@ -10,15 +10,15 @@
         "Connection": "keep-alive",
         "Content-Length": "79",
         "Content-Type": "application/merge-patch\u002Bjson",
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 Node/v16.16.0 OS/(x64-Windows_NT-10.0.22621)",
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.4 core-rest-pipeline/1.10.2 Node/v16.16.0 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "sanitized",
-        "x-ms-content-sha256": "0e4mGMPKEZRlWz2zvzOgzNQBIR24Iu6iOHQYkDE8HOk=",
-        "x-ms-date": "Sat, 17 Dec 2022 13:22:48 GMT",
+        "x-ms-content-sha256": "jrisTfsUPx\u002Bo68sKM3G/e8fzYPZ5MC25FtRiv1XeUks=",
+        "x-ms-date": "Thu, 12 Jan 2023 13:32:15 GMT",
         "x-ms-useragent": "acs-mock-test"
       },
       "RequestBody": {
         "domains": {
-          "testdomaine4c87dfc205a482d82834fc22bc50742.com": {
+          "testdomaina631e52113f14c0480e696dc9bdc9401.com": {
             "enabled": true
           }
         }
@@ -27,17 +27,17 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Sat, 17 Dec 2022 13:20:08 GMT",
-        "MS-CV": "PPjTJFA2F0ayTB6/0ahbWA.0",
+        "Date": "Thu, 12 Jan 2023 13:28:47 GMT",
+        "MS-CV": "b9oJphBh5EyAiD1I5FCk8A.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0CcKdYwAAAAC6HrSP5X8QTK1YLD8nrU6pQlVFMzBFREdFMDIxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0DwvAYwAAAAB8NDE83HkvSIW\u002Bo/4uiuOyQlVEMDFFREdFMDIxMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "159ms"
+        "X-Processing-Time": "278ms"
       },
       "ResponseBody": {
         "domains": {
-          "testdomaine4c87dfc205a482d82834fc22bc50742.com": {
+          "testdomaina631e52113f14c0480e696dc9bdc9401.com": {
             "enabled": true
           }
         },
@@ -47,6 +47,6 @@
     }
   ],
   "Variables": {
-    "domain-1": "testdomaine4c87dfc205a482d82834fc22bc50742.com"
+    "domain-1": "testdomaina631e52113f14c0480e696dc9bdc9401.com"
   }
 }

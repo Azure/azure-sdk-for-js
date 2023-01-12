@@ -16,8 +16,6 @@ import { parseConnectionString } from "@azure/communication-common";
 import { TokenCredential } from "@azure/identity";
 import { isNode } from "@azure/test-utils";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { createMSUserAgentPolicy } from "./msUserAgentPolicy";
-import { AdditionalPolicyConfig } from "@azure/core-client";
 
 if (isNode) {
   dotenv.config();
@@ -37,8 +35,7 @@ const envSetupForPlayback: { [k: string]: string } = {
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "SomeTenantId",
   AZURE_PHONE_NUMBER: "+14155550100",
-  COMMUNICATION_SKIP_INT_PHONENUMBERS_TESTS: "false",
-  AZURE_USERAGENT_OVERRIDE: "fake-useragent",
+  COMMUNICATION_SKIP_INT_PHONENUMBERS_TESTS: "false"
 };
 
 const sanitizerOptions: SanitizerOptions = {
@@ -89,11 +86,10 @@ export async function createRecordedClient(
   context: Context
 ): Promise<RecordedClient<PhoneNumbersClient>> {
   const recorder = await createRecorder(context.currentTest);
-  const policies = getAdditionalPolicies();
 
   const client = new PhoneNumbersClient(
     env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ?? "",
-    recorder.configureClientOptions({ additionalPolicies: policies })
+    recorder.configureClientOptions({})
   );
 
   // casting is a workaround to enable min-max testing
@@ -133,12 +129,3 @@ export async function createRecordedClientWithToken(
 export const testPollerOptions = {
   pollInterval: isPlaybackMode() ? 0 : undefined,
 };
-
-export function getAdditionalPolicies(): AdditionalPolicyConfig[] {
-  return [
-    {
-      policy: createMSUserAgentPolicy(),
-      position: "perRetry",
-    },
-  ];
-}
