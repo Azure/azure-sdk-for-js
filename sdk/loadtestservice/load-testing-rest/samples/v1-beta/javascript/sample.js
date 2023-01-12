@@ -2,18 +2,20 @@
 // Licensed under the MIT license.
 
 /**
- * This sample demonstrates how to a) create a loadtest, b) upload a jmx file, c) create appcomponent, d) run test and e) get test status f) get test metrics
+ * This sample demonstrates how to a) create a loadtest, b) upload a jmx file, c) create appcomponent, d) run test and e) get test status, and f) get test metrics
  *
  * @summary creates and run a loadtest
  */
 
 const AzureLoadTesting = require("@azure-rest/load-testing").default,
-  { isUnexpected } = require("@azure-rest/load-testing");
+  {
+    isUnexpected,
+    beginCreateOrUpdateTestRun,
+    beginUploadTestFile,
+  } = require("@azure-rest/load-testing");
 const { DefaultAzureCredential } = require("@azure/identity");
 const { createReadStream } = require("fs");
 const { v4: uuidv4 } = require("uuid");
-const { beginTestRun } = require("../src/beginCreateOrUpdateTestRun");
-const { beginUploadAndFileValidation } = require("../src/beginUploadTestFile");
 
 const readStream = createReadStream("./sample.jmx");
 
@@ -22,14 +24,12 @@ async function main() {
   const displayName = "some-load-test";
   const SUBSCRIPTION_ID = process.env["SUBSCRIPTION_ID"] || "";
   const testId = uuidv4(); // ID to be assigned to a test
-  //const fileName = uuidv4(); // ID to be assigned to the file being uploaded
   const testRunId = uuidv4(); // ID to be assigned to a testRun
-  //const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
   // Build a client through AAD
   const client = AzureLoadTesting(endpoint, new DefaultAzureCredential());
 
-  // Creating a load test
+  // Creating/Updating a load test
   const testCreationResult = await client.path("/tests/{testId}", testId).patch({
     contentType: "application/merge-patch+json",
     body: {
@@ -49,16 +49,16 @@ async function main() {
     throw new Error("Test ID returned as undefined.");
 
   // Uploading .jmx file to a test
-  const fileUploadResult = await (
-    await beginUploadAndFileValidation(client, testId, "sample", readStream)
-  ).pollUntilDone();
+  const fileUploadPoller = await beginUploadTestFile(client, testId, "sample", readStream);
+  const fileUploadResult = await fileUploadPoller.pollUntilDone();
 
-  if (isUnexpected(fileUploadResult))
+  if (fileUploadPoller.getOperationState().status != "succeeded")
     throw new Error(
-      "There is some issue in validation, please make sure uploaded file is a valid JMX."
+      "There is some issue in validation, please make sure uploaded file is a valid JMX." +
+        fileUploadResult
     );
 
-  // Creating app component
+  // Creating/Updating app component
   const appComponentCreationResult = await client
     .path("/tests/{testId}/app-components", testId)
     .patch({
@@ -82,30 +82,16 @@ async function main() {
     throw appComponentCreationResult.body.error;
   }
 
-  // Creating the test run
-  const testRunCreationResult = await client.path("/test-runs/{testRunId}", testRunId).patch({
-    contentType: "application/merge-patch+json",
-    body: {
-      testId: testCreationResult.body.testId,
-      displayName: displayName,
-      virtualUsers: 10,
-    },
-  });
+  // Creating/Updating the test run
+  const testRunPoller = await beginCreateOrUpdateTestRun(client, testId, displayName);
+  const testRunResult = await testRunPoller.pollUntilDone();
 
-  if (isUnexpected(testRunCreationResult)) {
-    throw testRunCreationResult.body.error;
-  }
+  if (fileUploadPoller.getOperationState().status != "succeeded")
+    throw new Error("There is some issue in running the test, Error Response : " + testRunResult);
 
-  if (testRunCreationResult.body.testRunId === undefined)
-    throw new Error("Test Run ID returned as undefined.");
-
-  // Checking the test run status and printing metrics
-  var testRunResult = await (await beginTestRun(client, testId, displayName)).pollUntilDone();
-
-  if (isUnexpected(testRunResult)) throw new Error("There is some issue in running the test.");
-
+  //Getting the test run
   var getTestRunResult = await client
-    .path("/test-runs/{testRunId}", testRunCreationResult.body.testRunId)
+    .path("/test-runs/{testRunId}", testRunResult.body.testRunId)
     .get();
 
   if (isUnexpected(getTestRunResult))
@@ -116,7 +102,7 @@ async function main() {
 
   // get list of all metric namespaces and pick the first one
   let metricNamespaces = await client
-    .path("/test-runs/{testRunId}/metric-namespaces", testRunCreationResult.body.testRunId)
+    .path("/test-runs/{testRunId}/metric-namespaces", testRunResult.body.testRunId)
     .get();
 
   if (isUnexpected(metricNamespaces)) {
@@ -131,7 +117,7 @@ async function main() {
 
   // get list of all metric definitions and pick the first one
   let metricDefinitions = await client
-    .path("/test-runs/{testRunId}/metric-definitions", testRunCreationResult.body.testRunId)
+    .path("/test-runs/{testRunId}/metric-definitions", testRunResult.body.testRunId)
     .get({
       queryParameters: {
         metricNamespace: metricNamespace.name,

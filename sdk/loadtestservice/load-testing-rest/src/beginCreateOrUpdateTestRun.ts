@@ -15,7 +15,7 @@ import { isUnexpected } from "./isUnexpected";
  * @param options - The operation options.
  * @returns A poller which can be called to poll until completion of the job.
  */
-export async function beginTestRun(
+export async function beginCreateOrUpdateTestRun(
   client: AzureLoadTestingClient,
   testId: string,
   displayName: string,

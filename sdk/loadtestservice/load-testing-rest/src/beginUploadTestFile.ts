@@ -17,7 +17,7 @@ import { ReadStream } from "fs";
  * @param options - The operation options.
  * @returns A poller which can be called to poll until completion of the job.
  */
-export async function beginUploadAndFileValidation(
+export async function beginUploadTestFile(
   client: AzureLoadTestingClient,
   testId: string,
   fileName: string,
