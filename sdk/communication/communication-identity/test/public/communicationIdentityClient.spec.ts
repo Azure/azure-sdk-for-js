@@ -11,9 +11,11 @@ import {
   createRecordedCommunicationIdentityClientWithToken,
 } from "./utils/recordedClient";
 import { CommunicationIdentityClient } from "../../src";
+import { chatScope, multipleScopes, voipScope } from "./utils/testCommunicationIdentityClient";
 import { Context } from "mocha";
 import { assert } from "chai";
 import { matrix } from "@azure/test-utils";
+import { given } from "mocha-testdata";
 
 matrix([[true, false]], async function (useAad: boolean) {
   describe(`CommunicationIdentityClient [Playback/Live]${useAad ? " [AAD]" : ""}`, function () {
@@ -39,29 +41,25 @@ matrix([[true, false]], async function (useAad: boolean) {
       assert.isString(user.communicationUserId);
     });
 
-    it("successfully creates a user and token", async function () {
-      const { user: newUser, token } = await client.createUserAndToken(["voip"]);
+    given([
+      { scopes: chatScope, description: "chat scope" },
+      { scopes: voipScope, description: "voip scope" },
+      { scopes: multipleScopes, description: "multiple scopes" },
+    ]).it("successfully creates a user and token", async function (input) {
+      const { user: newUser, token, expiresOn } = await client.createUserAndToken(input.scopes);
+      assert.isTrue(isCommunicationUserIdentifier(newUser));
       assert.isString(newUser.communicationUserId);
       assert.isString(token);
-    });
-
-    it("successfully gets a token for a user [single scope]", async function () {
-      const user: CommunicationUserIdentifier = await client.createUser();
-      const { token, expiresOn } = await client.getToken(user, ["chat"]);
-      assert.isString(token);
       assert.instanceOf(expiresOn, Date);
     });
 
-    it("successfully gets a token for a user [multiple scopes]", async function () {
+    given([
+      { scopes: chatScope, description: "chat scope" },
+      { scopes: voipScope, description: "voip scope" },
+      { scopes: multipleScopes, description: "multiple scopes" },
+    ]).it("successfully gets a token for a user", async function (input) {
       const user: CommunicationUserIdentifier = await client.createUser();
-      const { token, expiresOn } = await client.getToken(user, ["chat", "voip"]);
-      assert.isString(token);
-      assert.instanceOf(expiresOn, Date);
-    });
-
-    it("successfully creates a user and gets a token in a single request", async function () {
-      const { user: newUser, token, expiresOn } = await client.createUserAndToken(["chat", "voip"]);
-      assert.isTrue(isCommunicationUserIdentifier(newUser));
+      const { token, expiresOn } = await client.getToken(user, input.scopes);
       assert.isString(token);
       assert.instanceOf(expiresOn, Date);
     });
