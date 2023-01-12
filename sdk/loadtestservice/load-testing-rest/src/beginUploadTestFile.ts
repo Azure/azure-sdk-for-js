@@ -102,14 +102,10 @@ export async function beginUploadAndFileValidation(
           }
         }
         switch (state.status) {
-          case "succeeded": {
-            return poller.getResult() as TestGetFile200Response;
-          }
+          case "succeeded":
+          case "failed":
           case "canceled": {
-            throw new Error("Operation was canceled");
-          }
-          case "failed": {
-            throw state.error;
+            return poller.getResult() as TestGetFile200Response;
           }
           case "notStarted":
           case "running": {
