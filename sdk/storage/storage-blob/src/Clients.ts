@@ -1834,31 +1834,33 @@ export class BlobClient extends StorageClient {
     options.sourceConditions = options.sourceConditions || {};
 
     try {
-      return await this.blobContext.copyFromURL(copySource, {
-        abortSignal: options.abortSignal,
-        metadata: options.metadata,
-        leaseAccessConditions: options.conditions,
-        modifiedAccessConditions: {
-          ...options.conditions,
-          ifTags: options.conditions?.tagConditions,
-        },
-        sourceModifiedAccessConditions: {
-          sourceIfMatch: options.sourceConditions.ifMatch,
-          sourceIfModifiedSince: options.sourceConditions.ifModifiedSince,
-          sourceIfNoneMatch: options.sourceConditions.ifNoneMatch,
-          sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince,
-        },
-        sourceContentMD5: options.sourceContentMD5,
-        copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
-        tier: toAccessTier(options.tier),
-        blobTagsString: toBlobTagsString(options.tags),
-        immutabilityPolicyExpiry: options.immutabilityPolicy?.expiriesOn,
-        immutabilityPolicyMode: options.immutabilityPolicy?.policyMode,
-        legalHold: options.legalHold,
-        encryptionScope: options.encryptionScope,
-        copySourceTags: options.copySourceTags,
-        ...convertTracingToRequestOptionsBase(updatedOptions),
-      });
+      return assertResponse(
+        await this.blobContext.copyFromURL(copySource, {
+          abortSignal: options.abortSignal,
+          metadata: options.metadata,
+          leaseAccessConditions: options.conditions,
+          modifiedAccessConditions: {
+            ...options.conditions,
+            ifTags: options.conditions?.tagConditions,
+          },
+          sourceModifiedAccessConditions: {
+            sourceIfMatch: options.sourceConditions.ifMatch,
+            sourceIfModifiedSince: options.sourceConditions.ifModifiedSince,
+            sourceIfNoneMatch: options.sourceConditions.ifNoneMatch,
+            sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince,
+          },
+          sourceContentMD5: options.sourceContentMD5,
+          copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
+          tier: toAccessTier(options.tier),
+          blobTagsString: toBlobTagsString(options.tags),
+          immutabilityPolicyExpiry: options.immutabilityPolicy?.expiriesOn,
+          immutabilityPolicyMode: options.immutabilityPolicy?.policyMode,
+          legalHold: options.legalHold,
+          encryptionScope: options.encryptionScope,
+          copySourceTags: options.copySourceTags,
+          tracingOptions: updatedOptions.tracingOptions,
+        })
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,

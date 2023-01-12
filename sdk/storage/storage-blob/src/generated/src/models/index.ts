@@ -2387,7 +2387,8 @@ export interface AppendPositionAccessConditions {
 }
 
 /** Known values of {@link EncryptionAlgorithmType} that the service accepts. */
-export const enum KnownEncryptionAlgorithmType {
+export enum KnownEncryptionAlgorithmType {
+  /** AES256 */
   AES256 = "AES256"
 }
 
@@ -2395,7 +2396,7 @@ export const enum KnownEncryptionAlgorithmType {
  * Defines values for EncryptionAlgorithmType. \
  * {@link KnownEncryptionAlgorithmType} can be used interchangeably with EncryptionAlgorithmType,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **AES256**
  */
 export type EncryptionAlgorithmType = string;
@@ -2550,7 +2551,9 @@ export enum KnownStorageErrorCode {
   FeatureVersionMismatch = "FeatureVersionMismatch",
   /** IncrementalCopyBlobMismatch */
   IncrementalCopyBlobMismatch = "IncrementalCopyBlobMismatch",
+  /** IncrementalCopyOfEarlierVersionSnapshotNotAllowed */
   IncrementalCopyOfEarlierVersionSnapshotNotAllowed = "IncrementalCopyOfEarlierVersionSnapshotNotAllowed",
+  /** IncrementalCopySourceMustBeSnapshot */
   IncrementalCopySourceMustBeSnapshot = "IncrementalCopySourceMustBeSnapshot",
   /** InfiniteLeaseDurationRequired */
   InfiniteLeaseDurationRequired = "InfiniteLeaseDurationRequired",
@@ -2854,8 +2857,6 @@ export type BlockListType = "committed" | "uncommitted" | "all";
 export type SequenceNumberActionType = "max" | "update" | "increment";
 /** Defines values for QueryFormatType. */
 export type QueryFormatType = "delimited" | "json" | "arrow" | "parquet";
-/** Defines values for SyncCopyStatusType. */
-export type SyncCopyStatusType = "success";
 
 /** Optional parameters. */
 export interface ServiceSetPropertiesOptionalParams

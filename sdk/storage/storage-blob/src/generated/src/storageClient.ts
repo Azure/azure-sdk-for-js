@@ -60,14 +60,14 @@ export class StorageClient extends coreHttpCompat.ExtendedServiceClient {
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri: options.endpoint ?? options.baseUri ?? "{url}"
+      endpoint: options.endpoint ?? options.baseUri ?? "{url}"
     };
     super(optionsWithDefaults);
     // Parameter assignments
     this.url = url;
 
     // Assigning values to Constant parameters
-    this.version = options.version || "2021-10-04";
+    this.version = options.version || "2021-12-02";
     this.service = new ServiceImpl(this);
     this.container = new ContainerImpl(this);
     this.blob = new BlobImpl(this);

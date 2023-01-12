@@ -6,8 +6,6 @@
 
 ### Breaking Changes
 
-- renamed property `disbaleKeepAlivePolicyName` to `disableKeepAlivePolicyName`
-
 ### Bugs Fixed
 
 ### Other Changes
