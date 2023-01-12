@@ -1054,9 +1054,9 @@ packages:
       '@azure/core-tracing': 1.0.1
       '@azure/core-util': 1.1.1
       '@azure/logger': 1.0.3
-      '@azure/msal-browser': 2.32.1
+      '@azure/msal-browser': 2.32.2
       '@azure/msal-common': 7.6.0
-      '@azure/msal-node': 1.14.5
+      '@azure/msal-node': 1.14.6
       events: 3.3.0
       jws: 4.0.0
       open: 8.4.0
@@ -1137,6 +1137,19 @@ packages:
       tslib: 2.4.1
     dev: false
 
+  /@azure/maps-common/1.0.0-beta.2:
+    resolution: {integrity: sha512-PB9GlnfojcQ4nf9WXdQvWeAk7gm8P74o+Z5IHz5YLK/W+3vrNrmVVVuFpGOvCPrLjag50UinaZsMBtPtxoiobg==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.4.0
+      '@azure/core-client': 1.7.0
+      '@azure/core-lro': 2.4.0
+      '@azure/core-rest-pipeline': 1.10.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/monitor-ingestion/1.0.0-beta.2:
     resolution: {integrity: sha512-yuZ16qaPKDlVj+2hJcwUGvD0d495knIqP5w4bY2gDQMeuiFQV+VBNVoADR9a2IP6XsgxUyOBnMriIKk63ohvAw==}
     engines: {node: '>=12.0.0'}
@@ -1168,11 +1181,11 @@ packages:
       - encoding
     dev: false
 
-  /@azure/msal-browser/2.32.1:
-    resolution: {integrity: sha512-2G3B12ZEIpiimi6/Yqq7KLk4ud1zZWoHvVd2kJ2VthN1HjMsZjdMUxeHkwMWaQ6RzO6mv9rZiuKmRX64xkXW9g==}
+  /@azure/msal-browser/2.32.2:
+    resolution: {integrity: sha512-1YqGzXtPG3QrZPFBKaMWr2WQdukDj+PelqUCv351+p+hlw/AhdRrb8haY73/iqkhT6Cdrbnh7sL4gikVsF4O1g==}
     engines: {node: '>=0.8.0'}
     dependencies:
-      '@azure/msal-common': 9.0.1
+      '@azure/msal-common': 9.0.2
     dev: false
 
   /@azure/msal-common/7.6.0:
@@ -1180,8 +1193,8 @@ packages:
     engines: {node: '>=0.8.0'}
     dev: false
 
-  /@azure/msal-common/9.0.1:
-    resolution: {integrity: sha512-eNNHIW/cwPTZDWs9KtYgb1X6gtQ+cC+FGX2YN+t4AUVsBdUbqlMTnUs6/c/VBxC2AAGIhgLREuNnO3F66AN2zQ==}
+  /@azure/msal-common/9.0.2:
+    resolution: {integrity: sha512-qzwxuF8kZAp+rNUactMCgJh8fblq9D4lSqrrIxMDzLjgSZtjN32ix7r/HBe8QdOr76II9SVVPcMkX4sPzPfQ7w==}
     engines: {node: '>=0.8.0'}
     dev: false
 
@@ -1195,12 +1208,12 @@ packages:
       node-addon-api: 5.0.0
     dev: false
 
-  /@azure/msal-node/1.14.5:
-    resolution: {integrity: sha512-NcVdMfn8Z3ogN+9RjOSF7uwf2Gki5DEJl0BdDSL83KUAgVAobtkZi5W8EqxbJLrTO/ET0jv5DregrcR5qg2pEA==}
+  /@azure/msal-node/1.14.6:
+    resolution: {integrity: sha512-em/qqFL5tLMxMPl9vormAs13OgZpmQoJbiQ/GlWr+BA77eCLoL+Ehr5xRHowYo+LFe5b+p+PJVkRvT+mLvOkwA==}
     engines: {node: 10 || 12 || 14 || 16 || 18}
     dependencies:
-      '@azure/msal-common': 9.0.1
-      jsonwebtoken: 8.5.1
+      '@azure/msal-common': 9.0.2
+      jsonwebtoken: 9.0.0
       uuid: 8.3.2
     dev: false
 
@@ -3647,7 +3660,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20230110
+      typescript: 5.0.0-dev.20230111
     dev: false
 
   /downlevel-dts/0.7.0:
@@ -5529,22 +5542,6 @@ packages:
       graceful-fs: 4.2.10
     dev: false
 
-  /jsonwebtoken/8.5.1:
-    resolution: {integrity: sha512-XjwVfRS6jTMsqYs0EsuJ4LGxXV14zQybNd4L2r0UvbVnSF9Af8x7p5MzbJ90Ioz/9TI41/hTCvznF/loiSzn8w==}
-    engines: {node: '>=4', npm: '>=1.4.28'}
-    dependencies:
-      jws: 3.2.2
-      lodash.includes: 4.3.0
-      lodash.isboolean: 3.0.3
-      lodash.isinteger: 4.0.4
-      lodash.isnumber: 3.0.3
-      lodash.isplainobject: 4.0.6
-      lodash.isstring: 4.0.1
-      lodash.once: 4.1.1
-      ms: 2.1.3
-      semver: 5.7.1
-    dev: false
-
   /jsonwebtoken/9.0.0:
     resolution: {integrity: sha512-tuGfYXxkQGDPnLJ7SibiQgVgeDgfbPq2k2ICcbgqW8WxWLBAxKQM/ZCu/IT8SOSwmaYl4dpTFCW5xZv7YbbWUw==}
     engines: {node: '>=12', npm: '>=6'}
@@ -5853,40 +5850,12 @@ packages:
     resolution: {integrity: sha512-z+Uw/vLuy6gQe8cfaFWD7p0wVv8fJl3mbzXh33RS+0oW2wvUqiRXiQ69gLWSLpgB5/6sU+r6BlQR0MBILadqTQ==}
     dev: false
 
-  /lodash.includes/4.3.0:
-    resolution: {integrity: sha512-W3Bx6mdkRTGtlJISOvVD/lbqjTlPPUDTMnlXZFnVwi9NKJ6tiAk6LVdlhZMm17VZisqhKcgzpO5Wz91PCt5b0w==}
-    dev: false
-
-  /lodash.isboolean/3.0.3:
-    resolution: {integrity: sha512-Bz5mupy2SVbPHURB98VAcw+aHh4vRV5IPNhILUCsOzRmsTmSQ17jIuqopAentWoehktxGd9e/hbIXq980/1QJg==}
-    dev: false
-
   /lodash.isequal/4.5.0:
     resolution: {integrity: sha512-pDo3lu8Jhfjqls6GkMgpahsF9kCyayhgykjyLMNFTKWrpVdAQtYyB4muAMWozBB4ig/dtWAmsMxLEI8wuz+DYQ==}
     dev: false
 
-  /lodash.isinteger/4.0.4:
-    resolution: {integrity: sha512-DBwtEWN2caHQ9/imiNeEA5ys1JoRtRfY3d7V9wkqtbycnAmTvRRmbHKDV4a0EYc678/dia0jrte4tjYwVBaZUA==}
-    dev: false
-
-  /lodash.isnumber/3.0.3:
-    resolution: {integrity: sha512-QYqzpfwO3/CWf3XP+Z+tkQsfaLL/EnUlXWVkIk5FUPc4sBdTehEqZONuyRt2P67PXAk+NXmTBcc97zw9t1FQrw==}
-    dev: false
-
-  /lodash.isplainobject/4.0.6:
-    resolution: {integrity: sha512-oSXzaWypCMHkPC3NvBEaPHf0KsA5mvPrOPgQWDsbg8n7orZ290M0BmC/jgRZ4vcJ6DTAhjrsSYgdsW/F+MFOBA==}
-    dev: false
-
-  /lodash.isstring/4.0.1:
-    resolution: {integrity: sha512-0wJxfxH1wgO3GrbuP+dTTk7op+6L41QCXbGINEmD+ny/G/eCqGzxyCsh7159S+mgDDcoarnBw6PC1PS5+wUGgw==}
-    dev: false
-
   /lodash.merge/4.6.2:
     resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==}
-    dev: false
-
-  /lodash.once/4.1.1:
-    resolution: {integrity: sha512-Sb487aTOCr9drQVL8pIxOzVhafOjZN9UU54hiN8PU3uAiSV7lx1yYNpbNmex2PK6dSJoNTSJUUswT651yww3Mg==}
     dev: false
 
   /lodash.sortby/4.7.0:
@@ -6345,8 +6314,8 @@ packages:
       - supports-color
     dev: false
 
-  /node-abi/3.30.0:
-    resolution: {integrity: sha512-qWO5l3SCqbwQavymOmtTVuCWZE23++S+rxyoHjXqUmPyzRcaoI4lA2gO55/drddGnedAyjA7sk76SfQ5lfUMnw==}
+  /node-abi/3.31.0:
+    resolution: {integrity: sha512-eSKV6s+APenqVh8ubJyiu/YhZgxQpGP66ntzUb3lY1xB9ukSRaGnx0AIxI+IM+1+IVYC1oWobgG5L3Lt9ARykQ==}
     engines: {node: '>=10'}
     dependencies:
       semver: 7.3.8
@@ -6822,7 +6791,7 @@ packages:
       minimist: 1.2.7
       mkdirp-classic: 0.5.3
       napi-build-utils: 1.0.2
-      node-abi: 3.30.0
+      node-abi: 3.31.0
       pump: 3.0.0
       rc: 1.2.8
       simple-get: 4.0.1
@@ -8288,8 +8257,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20230110:
-    resolution: {integrity: sha512-0GvdJbYkEHxWSL2XPS/kivYbGZIGmgICZ/xXoY11zv1RRehhH9781v+RpsHI4qsGqxmzOI5VL+o/Y+t7sbwWVA==}
+  /typescript/5.0.0-dev.20230111:
+    resolution: {integrity: sha512-bsALKGRiteaVcio2QQo/8MBxaHAEirJ3tQiYym29Uh6/z/fi4LlBawrvnyGKI4WqI2Q+lchIgr2p2jKeF846bg==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -10629,7 +10598,7 @@ packages:
     dev: false
 
   file:projects/arm-containerservice-1.tgz:
-    resolution: {integrity: sha512-AVek6TX9i2F3EwdPffJJRpuhgKRn2s0pNw0GVDih6vsWGQHhKgE2UgXLhMnFXF9v/762QMy45ZVescFNGd+YLA==, tarball: file:projects/arm-containerservice-1.tgz}
+    resolution: {integrity: sha512-0PEeQKtSWy9Uhi7+Rv4H086WBrnCMXDNpH/FyIlloOmfR+magV9sE7ql3orNMsAlVtABTGx9copy4gJrW2Z4aw==, tarball: file:projects/arm-containerservice-1.tgz}
     name: '@rush-temp/arm-containerservice-1'
     version: 0.0.0
     dependencies:
@@ -10643,6 +10612,7 @@ packages:
       '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -11462,7 +11432,7 @@ packages:
     dev: false
 
   file:projects/arm-elasticsan.tgz:
-    resolution: {integrity: sha512-i91wQDKrqTeVJQXuc1EZK5VenGwnlxtknay2pTMVZeAmWXwH2NhuSPswqIDZRAeKjv1h2bgPOz9Um1fsqwakfA==, tarball: file:projects/arm-elasticsan.tgz}
+    resolution: {integrity: sha512-BWH14Yy2bFoQyAaimQ/6Wpzpa23rTjRzXHCbidjOQNN3AKmzmES84ubQUVgrHJMHjtjCmMTdMxvqJcPS/pWu/w==, tarball: file:projects/arm-elasticsan.tgz}
     name: '@rush-temp/arm-elasticsan'
     version: 0.0.0
     dependencies:
@@ -11476,20 +11446,21 @@ packages:
       '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_7e8d81808a761355f6c3da2f25cfe887
       tslib: 2.4.1
-      typescript: 4.6.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - supports-color
     dev: false
 
   file:projects/arm-eventgrid.tgz:
-    resolution: {integrity: sha512-rpLiIRWixWRYJ7TQhgfsQdGwlJ3eEBvnf8oo+uj596ZyL0s1bt1H1f/+RybDO54kullcIaEaeCJQTBypK69qjQ==, tarball: file:projects/arm-eventgrid.tgz}
+    resolution: {integrity: sha512-p42KpUHZNEoBRW5z6zxYFfADaBo1OE5uA7GubwsN64DdbC71TBYhUDGFB7NWwjKLXbc2AQZ5Wav1SYBvPfO6ag==, tarball: file:projects/arm-eventgrid.tgz}
     name: '@rush-temp/arm-eventgrid'
     version: 0.0.0
     dependencies:
@@ -11500,18 +11471,19 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
+      '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_7e8d81808a761355f6c3da2f25cfe887
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
@@ -11573,7 +11545,7 @@ packages:
     dev: false
 
   file:projects/arm-extendedlocation.tgz:
-    resolution: {integrity: sha512-Rvka6VteqDir/gAYoiTKO0twhEOcK48hakjF6HPaJy19v4yyM/kj7eApdJeDz/2Qbgz7/7tZAhQqZs1yHL1m7Q==, tarball: file:projects/arm-extendedlocation.tgz}
+    resolution: {integrity: sha512-VDrI5ZJ6npKKj6p90IomiJPDorTt5tB7FQb6iFmbggs6FjfRhfT1biXxx/10zoGZJ6pLacJVijKpcoc5VIPDQw==, tarball: file:projects/arm-extendedlocation.tgz}
     name: '@rush-temp/arm-extendedlocation'
     version: 0.0.0
     dependencies:
@@ -11584,18 +11556,19 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
+      '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_7e8d81808a761355f6c3da2f25cfe887
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
@@ -11627,7 +11600,7 @@ packages:
     dev: false
 
   file:projects/arm-fluidrelay.tgz:
-    resolution: {integrity: sha512-VoNFftEFLvO9cSJKQKcKyK0+82kxxGPfycAFm+HbGDgWXM8nriSXNrZMdYe4ITXbIeUWe+0yjE573o/GjoPWdw==, tarball: file:projects/arm-fluidrelay.tgz}
+    resolution: {integrity: sha512-iR8R5SKlgIijobDkZQek7GLKzmolwxlJE7xjTLBSIQN9V9c7YU2enE4icAKxBjDUWoYFb2Fk3s7UHRwneDzDmQ==, tarball: file:projects/arm-fluidrelay.tgz}
     name: '@rush-temp/arm-fluidrelay'
     version: 0.0.0
     dependencies:
@@ -11638,18 +11611,19 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
+      '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_7e8d81808a761355f6c3da2f25cfe887
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
@@ -15051,7 +15025,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@azure/msal-node': 1.14.5
+      '@azure/msal-node': 1.14.6
       '@microsoft/api-extractor': 7.33.7
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
@@ -16146,7 +16120,7 @@ packages:
     dev: false
 
   file:projects/digital-twins-core.tgz:
-    resolution: {integrity: sha512-Kx88rkD/kud2yFLn3hEDNVPiEmu/C3WEPClkK1Hr/RXWU32WOYlMJdE6SNt4EA4i8VgzwWFRHXxo6UMRdTjUrA==, tarball: file:projects/digital-twins-core.tgz}
+    resolution: {integrity: sha512-zpmdHAAYYxRxrTiSoRX+PAHpl6CVW7fgY2nbRTlj7GgQEtlDFlm7JrQ+0ASkEK2gPYHhT5YxoVof7MgLt9I8HA==, tarball: file:projects/digital-twins-core.tgz}
     name: '@rush-temp/digital-twins-core'
     version: 0.0.0
     dependencies:
@@ -16190,7 +16164,6 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
@@ -16510,7 +16483,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@azure/msal-node': 1.14.5
+      '@azure/msal-node': 1.14.6
       '@azure/msal-node-extensions': 1.0.0-alpha.25
       '@microsoft/api-extractor': 7.33.7
       '@types/jws': 3.2.4
@@ -16579,9 +16552,9 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/keyvault-keys': 4.6.0
-      '@azure/msal-browser': 2.32.1
-      '@azure/msal-common': 9.0.1
-      '@azure/msal-node': 1.14.5
+      '@azure/msal-browser': 2.32.2
+      '@azure/msal-common': 9.0.2
+      '@azure/msal-node': 1.14.6
       '@microsoft/api-extractor': 7.33.7
       '@types/chai': 4.3.4
       '@types/jsonwebtoken': 9.0.0
@@ -17021,12 +16994,13 @@ packages:
     dev: false
 
   file:projects/maps-geolocation.tgz:
-    resolution: {integrity: sha512-sF5BoGtE17HD0UZBajD5dCyowa2zuVh20oVvHkEY3T1CZk9JBJuZVNMa7qW/yrLDQlW2QDBgRysZLqk0yBIfkg==, tarball: file:projects/maps-geolocation.tgz}
+    resolution: {integrity: sha512-Ff/gQCew3068TroipcPd0TFD4xtmh1GYwmJoYy8i9hTc5l7+18dwlIkKUoqpGZLdIkF+i773VMdKjw5ZMdqWYw==, tarball: file:projects/maps-geolocation.tgz}
     name: '@rush-temp/maps-geolocation'
     version: 0.0.0
     dependencies:
       '@azure-rest/core-client': 1.0.0-beta.10
       '@azure/identity': 2.1.0
+      '@azure/maps-common': 1.0.0-beta.2
       '@microsoft/api-extractor': 7.33.7
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
@@ -17065,12 +17039,13 @@ packages:
     dev: false
 
   file:projects/maps-render.tgz:
-    resolution: {integrity: sha512-L7ZQ4QAneR/5OyFdIC0uQDvWh4AKh8ImcIaZ8j9Ykhv2KPCQTUPS/3u10Zv4UmuTIMMlU3rZpeJcy62uojwuOg==, tarball: file:projects/maps-render.tgz}
+    resolution: {integrity: sha512-LIvfREd7szaRR4Ihw2Q8RNZaL25zL4Wxu+ulOJmXAOkTCJwyPYimB0nQhE69wbNAsSWDdsz3hcsxzJ2wHKi6TA==, tarball: file:projects/maps-render.tgz}
     name: '@rush-temp/maps-render'
     version: 0.0.0
     dependencies:
       '@azure-rest/core-client': 1.0.0-beta.10
       '@azure/identity': 2.1.0
+      '@azure/maps-common': 1.0.0-beta.2
       '@microsoft/api-extractor': 7.33.7
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
@@ -17109,12 +17084,13 @@ packages:
     dev: false
 
   file:projects/maps-route.tgz:
-    resolution: {integrity: sha512-yipZz4Jf2IHEIVjL56PoiSGXqlHvZCjAGN7DAKvEENp67LgtPYyWN2V/GoY6QHQTyBzFXc8qtkdDbqpskHwPMw==, tarball: file:projects/maps-route.tgz}
+    resolution: {integrity: sha512-tQept3A0VQMA2TZaxXW/hdtHPJw4OmKyR7hTt9UdJichnrZ/vtI0UEmCGbVm3nO52JkODJ5FiPHFKTPgEOLTMg==, tarball: file:projects/maps-route.tgz}
     name: '@rush-temp/maps-route'
     version: 0.0.0
     dependencies:
       '@azure-rest/core-client': 1.0.0-beta.10
       '@azure/identity': 2.1.0
+      '@azure/maps-common': 1.0.0-beta.2
       '@microsoft/api-extractor': 7.33.7
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
@@ -17200,12 +17176,13 @@ packages:
     dev: false
 
   file:projects/maps-search.tgz:
-    resolution: {integrity: sha512-LSFeyQveW41OBdAWwcTN8tNMk9cg+vHrHQJ2o+X7xR/42b24/NZ65qjawtk5KIj0pw2McmpnFkN7YWaqhubzUQ==, tarball: file:projects/maps-search.tgz}
+    resolution: {integrity: sha512-tWt3gUhaQcN+KeqMmUeA9dGWd6aQLZsVUkWBNYUdO0aaC3teGg+EiZ52ohGLm3aTz6IAWlg21dsDAT6GrT6WDQ==, tarball: file:projects/maps-search.tgz}
     name: '@rush-temp/maps-search'
     version: 0.0.0
     dependencies:
       '@azure-rest/core-client': 1.0.0-beta.10
       '@azure/identity': 2.1.0
+      '@azure/maps-common': 1.0.0-beta.2
       '@microsoft/api-extractor': 7.33.7
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2

@@ -3,8 +3,9 @@
 
 import { DigitalTwinsClient, DigitalTwinsUpdateComponentOptionalParams } from "../../src";
 import { authenticate } from "../utils/testAuthentication";
-import { Recorder } from "@azure-tools/test-recorder";
+import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import chai from "chai";
+import { isRestError } from "@azure/core-rest-pipeline";
 
 const assert = chai.assert;
 const should = chai.should();
@@ -84,14 +85,20 @@ describe("DigitalTwins Components - read, update and delete operations", () => {
   async function deleteModels(): Promise<void> {
     try {
       await client.deleteModel(MODEL_ID);
-    } catch (Exception: any) {
-      console.error("deleteModel failed during test setup or cleanup");
+    } catch (e: any) {
+      if (!isRestError(e) || e.statusCode !== 404) {
+        console.error("deleteModel failed during test setup or cleanup", e);
+        throw e;
+      }
     }
 
     try {
       await client.deleteModel(COMPONENT_ID);
-    } catch (Exception: any) {
-      console.error("deleteModel failed during test setup or cleanup");
+    } catch (e: any) {
+      if (!isRestError(e) || e.statusCode !== 404) {
+        console.error("deleteModel failed during test setup or cleanup", e);
+        throw e;
+      }
     }
   }
 
@@ -108,8 +115,11 @@ describe("DigitalTwins Components - read, update and delete operations", () => {
   async function deleteDigitalTwin(digitalTwinId: string): Promise<void> {
     try {
       await client.deleteDigitalTwin(digitalTwinId);
-    } catch (Exception: any) {
-      console.error("deleteDigitalTwin failure during test setup or cleanup");
+    } catch (e: any) {
+      if (!isRestError(e) || e.statusCode !== 404) {
+        console.error("deleteDigitalTwin failure during test setup or cleanup", e);
+        throw e;
+      }
     }
   }
 
@@ -140,11 +150,11 @@ describe("DigitalTwins Components - read, update and delete operations", () => {
     await createDigitalTwin(DIGITAL_TWIN_ID);
 
     try {
-      const component = await client.getComponent(DIGITAL_TWIN_ID, "Component1");
-      assert.notEqual(component.body, null);
-      assert.notEqual(component.body.ComponentProp1, null);
-      assert.equal(component.body.ComponentProp1, "value1");
-      assert.equal(component.body.ComponentTelemetry1, null);
+      const component: any = await client.getComponent(DIGITAL_TWIN_ID, "Component1");
+      assert.notEqual(component, null);
+      assert.notEqual(component.ComponentProp1, null);
+      assert.equal(component.ComponentProp1, "value1");
+      assert.equal(component.ComponentTelemetry1, null);
     } finally {
       await deleteDigitalTwin(DIGITAL_TWIN_ID);
       await deleteModels();
@@ -164,10 +174,10 @@ describe("DigitalTwins Components - read, update and delete operations", () => {
     ];
     try {
       await client.updateComponent(DIGITAL_TWIN_ID, "Component1", patch);
-      const component = await client.getComponent(DIGITAL_TWIN_ID, "Component1");
-      assert.notEqual(component.body, null);
-      assert.notEqual(component.body.ComponentProp1, null);
-      assert.equal(component.body.ComponentProp1, "value2");
+      const component: any = await client.getComponent(DIGITAL_TWIN_ID, "Component1");
+      assert.notEqual(component, null);
+      assert.notEqual(component.ComponentProp1, null);
+      assert.equal(component.ComponentProp1, "value2");
     } finally {
       await deleteDigitalTwin(DIGITAL_TWIN_ID);
       await deleteModels();
@@ -186,9 +196,9 @@ describe("DigitalTwins Components - read, update and delete operations", () => {
     ];
     try {
       await client.updateComponent(DIGITAL_TWIN_ID, "Component1", patch);
-      const component = await client.getComponent(DIGITAL_TWIN_ID, "Component1");
-      assert.notEqual(component.body, null);
-      assert.equal(component.body.ComponentProp1, null);
+      const component: any = await client.getComponent(DIGITAL_TWIN_ID, "Component1");
+      assert.notEqual(component, null);
+      assert.equal(component.ComponentProp1, null);
     } finally {
       await deleteDigitalTwin(DIGITAL_TWIN_ID);
       await deleteModels();
@@ -208,10 +218,10 @@ describe("DigitalTwins Components - read, update and delete operations", () => {
     ];
     try {
       await client.updateComponent(DIGITAL_TWIN_ID, "Component1", patch);
-      const component = await client.getComponent(DIGITAL_TWIN_ID, "Component1");
-      assert.notEqual(component.body, null);
-      assert.notEqual(component.body.ComponentProp1, null);
-      assert.equal(component.body.ComponentProp1, "5");
+      const component: any = await client.getComponent(DIGITAL_TWIN_ID, "Component1");
+      assert.notEqual(component, null);
+      assert.notEqual(component.ComponentProp1, null);
+      assert.equal(component.ComponentProp1, "5");
     } finally {
       await deleteDigitalTwin(DIGITAL_TWIN_ID);
       await deleteModels();
@@ -235,12 +245,12 @@ describe("DigitalTwins Components - read, update and delete operations", () => {
     ];
     try {
       await client.updateComponent(DIGITAL_TWIN_ID, "Component1", patch);
-      const component = await client.getComponent(DIGITAL_TWIN_ID, "Component1");
-      assert.notEqual(component.body, null);
-      assert.equal(component.body.ComponentProp1, null);
+      const component: any = await client.getComponent(DIGITAL_TWIN_ID, "Component1");
+      assert.exists(component);
+      assert.equal(component.ComponentProp1, null);
 
-      const twin = await client.getDigitalTwin(DIGITAL_TWIN_ID);
-      assert.equal(twin.body.Component1.ComponentProp1, null);
+      const twin: any = await client.getDigitalTwin(DIGITAL_TWIN_ID);
+      assert.equal(twin.Component1.ComponentProp1, null);
     } finally {
       await deleteDigitalTwin(DIGITAL_TWIN_ID);
       await deleteModels();
@@ -288,10 +298,10 @@ describe("DigitalTwins Components - read, update and delete operations", () => {
         ifMatch: twin.etag,
       };
       await client.updateComponent(DIGITAL_TWIN_ID, "Component1", patch, options);
-      const component = await client.getComponent(DIGITAL_TWIN_ID, "Component1");
-      assert.notEqual(component.body, null);
-      assert.notEqual(component.body.ComponentProp1, null);
-      assert.equal(component.body.ComponentProp1, "value2");
+      const component: any = await client.getComponent(DIGITAL_TWIN_ID, "Component1");
+      assert.notEqual(component, null);
+      assert.notEqual(component.ComponentProp1, null);
+      assert.equal(component.ComponentProp1, "value2");
     } finally {
       await deleteDigitalTwin(DIGITAL_TWIN_ID);
       await deleteModels();
@@ -325,7 +335,7 @@ describe("DigitalTwins Components - read, update and delete operations", () => {
     should.equal(errorWasThrown, true, "Error was not thrown");
   });
 
-  it("update component not exisiting", async function () {
+  it("update component not existing", async function () {
     await setUpModels();
     await createDigitalTwin(DIGITAL_TWIN_ID);
 
@@ -350,13 +360,14 @@ describe("DigitalTwins Components - read, update and delete operations", () => {
   });
 
   it("publish component telemetry", async function () {
-    recorder.skip(undefined, "The method creates a unique Id");
-
+    if (!isLiveMode()) {
+      this.skip();
+    }
     await setUpModels();
     await createDigitalTwin(DIGITAL_TWIN_ID);
 
     try {
-      const telemetry = "ComponentTelemetry1";
+      const telemetry = { ComponentTelemetry1: 1 };
       const test_messageId = "test_message1";
       await client.publishComponentTelemetry(
         DIGITAL_TWIN_ID,
@@ -371,13 +382,14 @@ describe("DigitalTwins Components - read, update and delete operations", () => {
   });
 
   it("publish component telemetry with message id", async function () {
-    recorder.skip(undefined, "The method creates a unique Id");
-
+    if (!isLiveMode()) {
+      this.skip();
+    }
     await setUpModels();
     await createDigitalTwin(DIGITAL_TWIN_ID);
 
     try {
-      const telemetry = "ComponentTelemetry2";
+      const telemetry = { ComponentTelemetry2: 2 };
       const test_messageId = "test_message2";
       await client.publishComponentTelemetry(
         DIGITAL_TWIN_ID,
@@ -391,13 +403,14 @@ describe("DigitalTwins Components - read, update and delete operations", () => {
     }
   });
 
-  it("publish component telemetry not exisiting", async function () {
-    recorder.skip(undefined, "The method creates a unique Id");
-
+  it("publish component telemetry not existing", async function () {
+    if (!isLiveMode()) {
+      this.skip();
+    }
     await setUpModels();
     await createDigitalTwin(DIGITAL_TWIN_ID);
 
-    const telemetry = "ComponentTelemetry3";
+    const telemetry = { ComponentTelemetry3: 3 };
     const test_messageId = "test_message3";
     let errorWasThrown = false;
     try {
