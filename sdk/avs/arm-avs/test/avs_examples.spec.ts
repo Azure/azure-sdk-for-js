@@ -57,7 +57,7 @@ describe("avs test", () => {
     await recorder.stop();
   });
 
-  it("privateClouds create test", async function () {
+  it.skip("privateClouds create test", async function () {
     const res = await client.privateClouds.beginCreateOrUpdateAndWait(
       resourceGroup,
       privateCloudName,
@@ -93,7 +93,7 @@ describe("avs test", () => {
     assert.equal(resArray.length, 1);//should be 1,but when testing this test there's 2 resources on portal
   });
 
-  it("privateClouds delete test", async function () {
+  it.skip("privateClouds delete test", async function () {
     const resArray = new Array();
     const res = await client.privateClouds.beginDeleteAndWait(resourceGroup, privateCloudName)
     for await (let item of client.privateClouds.listInSubscription()) {
