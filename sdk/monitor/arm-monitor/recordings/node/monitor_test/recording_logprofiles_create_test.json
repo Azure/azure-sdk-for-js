@@ -8,8 +8,8 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-monitor/8.0.0-beta.2 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "eb72b1f5-43f3-4b7c-8000-b845911d3861"
+        "User-Agent": "azsdk-js-arm-monitor/8.0.0-beta.3 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "96dc3960-9d1e-47c1-9c5f-b2b60ea085cb"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,7 +17,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 29 Jul 2022 02:32:12 GMT",
+        "Date": "Thu, 12 Jan 2023 09:28:05 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "Microsoft-IIS/10.0",
@@ -25,14 +25,96 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "8464f65e-4159-4026-ad9b-f1649002bd89",
-        "x-ms-ratelimit-remaining-subscription-reads": "11974",
-        "x-ms-request-id": "0864d68c-00de-46c7-883d-ef9ca9dcf708",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220729T023213Z:8464f65e-4159-4026-ad9b-f1649002bd89"
+        "x-ms-correlation-request-id": "7c3f8c69-2221-4e19-892c-ddcec792eb99",
+        "x-ms-ratelimit-remaining-subscription-reads": "11944",
+        "x-ms-request-id": "5ca3768f-57fc-41d3-97f0-6b5690238cdb",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230112T092805Z:7c3f8c69-2221-4e19-892c-ddcec792eb99"
       },
       "ResponseBody": {
-        "value": []
+        "value": [
+          {
+            "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/microsoft.insights/logprofiles/logprofilena",
+            "type": null,
+            "name": "logprofilena",
+            "location": null,
+            "kind": null,
+            "tags": null,
+            "properties": {
+              "storageAccountId": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/go-sdk-test-535/providers/Microsoft.Storage/storageAccounts/monitorsana",
+              "serviceBusRuleId": null,
+              "locations": [
+                "global"
+              ],
+              "categories": [
+                "Write",
+                "Delete",
+                "Action"
+              ],
+              "retentionPolicy": {
+                "enabled": true,
+                "days": 3
+              }
+            },
+            "identity": null
+          }
+        ]
       }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.Insights/logprofiles/sample-log-profile?api-version=2016-03-01",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-monitor/8.0.0-beta.3 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "670a47ad-1b69-48a4-86d8-367fe9529c98"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "0",
+        "Date": "Thu, 12 Jan 2023 09:28:31 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Microsoft-IIS/10.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "6d086ef3-7f91-4bdc-8ee6-7472b26834d7",
+        "x-ms-ratelimit-remaining-subscription-deletes": "14991",
+        "x-ms-request-id": "0d3bdde0-1e5f-409d-b3f8-1a3c6440e1d6",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230112T092831Z:6d086ef3-7f91-4bdc-8ee6-7472b26834d7"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.Insights/logprofiles/logprofilena?api-version=2016-03-01",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-monitor/8.0.0-beta.3 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "4ca67f5a-5ac0-4423-9c17-c9bd4cfbdad5"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "0",
+        "Date": "Thu, 12 Jan 2023 09:28:32 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Microsoft-IIS/10.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "04eb15e2-6e82-4464-a786-f6f250e6e2ca",
+        "x-ms-ratelimit-remaining-subscription-deletes": "14990",
+        "x-ms-request-id": "d72076f0-34c1-4393-9929-9e69389c478f",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230112T092832Z:04eb15e2-6e82-4464-a786-f6f250e6e2ca"
+      },
+      "ResponseBody": null
     },
     {
       "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.Insights/logprofiles/mylogProfilexxx?api-version=2016-03-01",
@@ -42,15 +124,15 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "284",
+        "Content-Length": "299",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-arm-monitor/8.0.0-beta.2 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "91775cce-7bb3-4475-a85a-1e8833f00406"
+        "User-Agent": "azsdk-js-arm-monitor/8.0.0-beta.3 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "cf26f3c6-caf0-47a1-9686-66809669c940"
       },
       "RequestBody": {
         "location": "",
         "properties": {
-          "storageAccountId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Storage/storageAccounts/mystorageaccountyyy",
+          "storageAccountId": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Storage/storageAccounts/mystorageaccountyyy",
           "locations": [
             "global"
           ],
@@ -65,48 +147,25 @@
           }
         }
       },
-      "StatusCode": 200,
+      "StatusCode": 409,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
-        "Content-Encoding": "gzip",
+        "Content-Length": "141",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 29 Jul 2022 02:32:15 GMT",
+        "Date": "Thu, 12 Jan 2023 09:28:33 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "Microsoft-IIS/10.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "Transfer-Encoding": "chunked",
-        "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "f9c07631-bf36-4c99-903d-a1f868e25b71",
-        "x-ms-ratelimit-remaining-subscription-writes": "1194",
-        "x-ms-request-id": "134e5db7-be0b-468c-b875-e24aa6d98fce",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220729T023216Z:f9c07631-bf36-4c99-903d-a1f868e25b71"
+        "x-ms-correlation-request-id": "ce62bdbf-96b9-4eb1-8573-22db7aa3f018",
+        "x-ms-ratelimit-remaining-subscription-writes": "1188",
+        "x-ms-request-id": "00000000-0000-0000-0000-000000000000",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230112T092833Z:ce62bdbf-96b9-4eb1-8573-22db7aa3f018"
       },
       "ResponseBody": {
-        "id": "/subscriptions/azure_subscription_id/providers/microsoft.insights/logprofiles/mylogProfilexxx",
-        "type": null,
-        "name": "mylogProfilexxx",
-        "location": "",
-        "kind": null,
-        "tags": null,
-        "properties": {
-          "storageAccountId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Storage/storageAccounts/mystorageaccountyyy",
-          "serviceBusRuleId": null,
-          "locations": [
-            "global"
-          ],
-          "categories": [
-            "Write",
-            "Delete",
-            "Action"
-          ],
-          "retentionPolicy": {
-            "enabled": true,
-            "days": 3
-          }
-        },
-        "identity": null
+        "code": "Conflict",
+        "message": "The limit of 1 log profiles was reached. To create new log profile \u0027mylogProfilexxx\u0027, delete an existing one."
       }
     }
   ],

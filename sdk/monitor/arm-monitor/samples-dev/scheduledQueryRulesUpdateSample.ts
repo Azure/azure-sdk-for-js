@@ -8,20 +8,29 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { LogSearchRuleResourcePatch, MonitorClient } from "@azure/arm-monitor";
+import {
+  ScheduledQueryRuleResourcePatch,
+  MonitorClient
+} from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
- * This sample demonstrates how to Update log search Rule.
+ * This sample demonstrates how to Update a scheduled query rule.
  *
- * @summary Update log search Rule.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2018-04-16/examples/patchScheduledQueryRules.json
+ * @summary Update a scheduled query rule.
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2022-08-01-preview/examples/patchScheduledQueryRule.json
  */
-async function patchLogSearchRule() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "my-resource-group";
-  const ruleName = "logalertfoo";
-  const parameters: LogSearchRuleResourcePatch = { enabled: "true" };
+async function createOrUpdateAScheduledQueryRule() {
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] ||
+    "dd4bfc94-a096-412b-9c43-4bd13e35afbc";
+  const resourceGroupName =
+    process.env["MONITOR_RESOURCE_GROUP"] || "QueryResourceGroupName";
+  const ruleName = "heartbeat";
+  const parameters: ScheduledQueryRuleResourcePatch = { enabled: false };
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
   const result = await client.scheduledQueryRules.update(
@@ -32,4 +41,8 @@ async function patchLogSearchRule() {
   console.log(result);
 }
 
-patchLogSearchRule().catch(console.error);
+async function main() {
+  createOrUpdateAScheduledQueryRule();
+}
+
+main().catch(console.error);
