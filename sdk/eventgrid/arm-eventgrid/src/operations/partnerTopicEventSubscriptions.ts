@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { PartnerTopicEventSubscriptions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,6 +19,7 @@ import {
   EventSubscription,
   PartnerTopicEventSubscriptionsListByPartnerTopicNextOptionalParams,
   PartnerTopicEventSubscriptionsListByPartnerTopicOptionalParams,
+  PartnerTopicEventSubscriptionsListByPartnerTopicResponse,
   PartnerTopicEventSubscriptionsGetOptionalParams,
   PartnerTopicEventSubscriptionsGetResponse,
   PartnerTopicEventSubscriptionsCreateOrUpdateOptionalParams,
@@ -28,7 +30,6 @@ import {
   PartnerTopicEventSubscriptionsUpdateResponse,
   PartnerTopicEventSubscriptionsGetFullUrlOptionalParams,
   PartnerTopicEventSubscriptionsGetFullUrlResponse,
-  PartnerTopicEventSubscriptionsListByPartnerTopicResponse,
   PartnerTopicEventSubscriptionsGetDeliveryAttributesOptionalParams,
   PartnerTopicEventSubscriptionsGetDeliveryAttributesResponse,
   PartnerTopicEventSubscriptionsListByPartnerTopicNextResponse
@@ -71,11 +72,15 @@ export class PartnerTopicEventSubscriptionsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByPartnerTopicPagingPage(
           resourceGroupName,
           partnerTopicName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -84,15 +89,22 @@ export class PartnerTopicEventSubscriptionsImpl
   private async *listByPartnerTopicPagingPage(
     resourceGroupName: string,
     partnerTopicName: string,
-    options?: PartnerTopicEventSubscriptionsListByPartnerTopicOptionalParams
+    options?: PartnerTopicEventSubscriptionsListByPartnerTopicOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<EventSubscription[]> {
-    let result = await this._listByPartnerTopic(
-      resourceGroupName,
-      partnerTopicName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: PartnerTopicEventSubscriptionsListByPartnerTopicResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByPartnerTopic(
+        resourceGroupName,
+        partnerTopicName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByPartnerTopicNext(
         resourceGroupName,
@@ -101,7 +113,9 @@ export class PartnerTopicEventSubscriptionsImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -692,7 +706,6 @@ const listByPartnerTopicNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

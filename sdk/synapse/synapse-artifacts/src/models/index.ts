@@ -227,7 +227,8 @@ export type LinkedServiceUnion =
   | AzureFunctionLinkedService
   | SnowflakeLinkedService
   | SharePointOnlineListLinkedService
-  | AzureSynapseArtifactsLinkedService;
+  | AzureSynapseArtifactsLinkedService
+  | PowerBIWorkspaceLinkedService;
 export type ActivityUnion =
   | Activity
   | ControlActivityUnion
@@ -677,7 +678,7 @@ export interface LinkConnectionDetailedStatus {
   startTime?: any;
   /** Link connection stop time */
   stopTime?: any;
-  /** Link connection status */
+  /** Link connection status, please refer to this [articles](https://learn.microsoft.com/azure/synapse-analytics/synapse-link/sql-database-synapse-link#monitoring) for details. */
   status?: string;
   /** Link connection's corresponding continuous run id */
   continuousRunId?: string;
@@ -735,7 +736,7 @@ export interface LinkConnectionQueryTableStatus {
 export interface LinkTableStatus {
   /** ID provided by the client */
   id?: string;
-  /** Link table status */
+  /** Link table status, please refer to this [articles](https://learn.microsoft.com/azure/synapse-analytics/synapse-link/sql-database-synapse-link#monitoring) for details. */
   status?: string;
   /** Link table error message */
   errorMessage?: string;
@@ -1344,7 +1345,8 @@ export interface LinkedService {
     | "AzureFunction"
     | "Snowflake"
     | "SharePointOnlineList"
-    | "AzureSynapseArtifacts";
+    | "AzureSynapseArtifacts"
+    | "PowerBIWorkspace";
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** The integration runtime reference. */
@@ -1372,7 +1374,7 @@ export interface DataFlowStagingInfo {
   /** Staging linked service reference. */
   linkedService?: LinkedServiceReference;
   /** Folder path for staging blob. */
-  folderPath?: string;
+  folderPath?: any;
 }
 
 /** Data flow debug settings. */
@@ -3586,6 +3588,14 @@ export interface ScriptActivityTypePropertiesLogSettings {
   logDestination: ScriptActivityLogDestination;
   /** Log location settings customer needs to provide when enabling log. */
   logLocationSettings?: LogLocationSettings;
+}
+
+/** Spark configuration reference. */
+export interface SparkConfigurationParametrizationReference {
+  /** Spark configuration reference type. */
+  type: SparkConfigurationReferenceType;
+  /** Reference spark configuration name. Type: string (or Expression with resultType string). */
+  referenceName: any;
 }
 
 /** The workflow trigger recurrence. */
@@ -5806,6 +5816,8 @@ export interface RestServiceLinkedService extends LinkedService {
   userName?: any;
   /** The password used in Basic authentication type. */
   password?: SecretBaseUnion;
+  /** The additional HTTP headers in the request to RESTful API used for authorization. Type: object (or Expression with resultType object). */
+  authHeaders?: any;
   /** The application's client ID used in AadServicePrincipal authentication type. */
   servicePrincipalId?: any;
   /** The application's key used in AadServicePrincipal authentication type. */
@@ -7091,6 +7103,18 @@ export interface AzureSynapseArtifactsLinkedService extends LinkedService {
   endpoint: any;
   /** Required to specify MSI, if using system assigned managed identity as authentication method. Type: string (or Expression with resultType string). */
   authentication?: any;
+  /** The resource ID of the Synapse workspace. The format should be: /subscriptions/{subscriptionID}/resourceGroups/{resourceGroup}/providers/Microsoft.Synapse/workspaces/{workspaceName}. Type: string (or Expression with resultType string). */
+  workspaceResourceId?: any;
+}
+
+/** Power BI Workspace linked service. */
+export interface PowerBIWorkspaceLinkedService extends LinkedService {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "PowerBIWorkspace";
+  /** The Power BI workspace id. */
+  workspaceId: string;
+  /** The tenant id to which the Power BI workspace belongs. */
+  tenantId: string;
 }
 
 /** Base class for all control activities like IfCondition, ForEach , Until. */
@@ -8327,7 +8351,7 @@ export interface SnowflakeSource extends CopySource {
   /** Snowflake Sql query. Type: string (or Expression with resultType string). */
   query?: any;
   /** Snowflake export settings. */
-  exportSettings?: SnowflakeExportCopyCommand;
+  exportSettings: SnowflakeExportCopyCommand;
 }
 
 /** A copy activity Azure Databricks Delta Lake source. */
@@ -9620,10 +9644,16 @@ export interface SynapseSparkJobDefinitionActivity extends ExecutionActivity {
   arguments?: any[];
   /** The main file used for the job, which will override the 'file' of the spark job definition you provide. Type: string (or Expression with resultType string). */
   file?: any;
+  /** Scanning subfolders from the root folder of the main definition file, these files will be added as reference files. The folders named 'jars', 'pyFiles', 'files' or 'archives' will be scanned, and the folders name are case sensitive. Type: boolean (or Expression with resultType boolean). */
+  scanFolder?: any;
   /** The fully-qualified identifier or the main class that is in the main definition file, which will override the 'className' of the spark job definition you provide. Type: string (or Expression with resultType string). */
   className?: any;
-  /** Additional files used for reference in the main definition file, which will override the 'files' of the spark job definition you provide. */
+  /** (Deprecated. Please use pythonCodeReference and filesV2) Additional files used for reference in the main definition file, which will override the 'files' of the spark job definition you provide. */
   files?: any[];
+  /** Additional python code files used for reference in the main definition file, which will override the 'pyFiles' of the spark job definition you provide. */
+  pythonCodeReference?: any[];
+  /** Additional files used for reference in the main definition file, which will override the 'jars' and 'files' of the spark job definition you provide. */
+  filesV2?: any[];
   /** The name of the big data pool which will be used to execute the spark batch job, which will override the 'targetBigDataPool' of the spark job definition you provide. */
   targetBigDataPool?: BigDataPoolParametrizationReference;
   /** Number of core and memory to be used for executors allocated in the specified Spark pool for the job, which will be used for overriding 'executorCores' and 'executorMemory' of the spark job definition you provide. Type: string (or Expression with resultType string). */
@@ -9632,8 +9662,14 @@ export interface SynapseSparkJobDefinitionActivity extends ExecutionActivity {
   conf?: any;
   /** Number of core and memory to be used for driver allocated in the specified Spark pool for the job, which will be used for overriding 'driverCores' and 'driverMemory' of the spark job definition you provide. Type: string (or Expression with resultType string). */
   driverSize?: any;
-  /** Number of executors to launch for this job, which will override the 'numExecutors' of the spark job definition you provide. */
-  numExecutors?: number;
+  /** Number of executors to launch for this job, which will override the 'numExecutors' of the spark job definition you provide. Type: integer (or Expression with resultType integer). */
+  numExecutors?: any;
+  /** The type of the spark config. */
+  configurationType?: ConfigurationType;
+  /** The spark configuration of the spark job. */
+  targetSparkConfiguration?: SparkConfigurationParametrizationReference;
+  /** Spark configuration property. */
+  sparkConfig?: { [propertyName: string]: any };
 }
 
 /** Trigger that creates pipeline runs periodically, on schedule. */
@@ -12322,6 +12358,27 @@ export enum KnownScriptActivityLogDestination {
  */
 export type ScriptActivityLogDestination = string;
 
+/** Known values of {@link ConfigurationType} that the service accepts. */
+export enum KnownConfigurationType {
+  /** Default */
+  Default = "Default",
+  /** Customized */
+  Customized = "Customized",
+  /** Artifact */
+  Artifact = "Artifact"
+}
+
+/**
+ * Defines values for ConfigurationType. \
+ * {@link KnownConfigurationType} can be used interchangeably with ConfigurationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Default** \
+ * **Customized** \
+ * **Artifact**
+ */
+export type ConfigurationType = string;
+
 /** Known values of {@link RecurrenceFrequency} that the service accepts. */
 export enum KnownRecurrenceFrequency {
   /** NotSpecified */
@@ -12853,28 +12910,28 @@ export type DayOfWeek =
   | "Saturday";
 
 /** Optional parameters. */
-export interface LinkConnectionListLinkConnectionsByWorkspaceOptionalParams
+export interface LinkConnectionListByWorkspaceOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listLinkConnectionsByWorkspace operation. */
-export type LinkConnectionListLinkConnectionsByWorkspaceResponse = LinkConnectionListResponse;
+/** Contains response data for the listByWorkspace operation. */
+export type LinkConnectionListByWorkspaceResponse = LinkConnectionListResponse;
 
 /** Optional parameters. */
-export interface LinkConnectionCreateOrUpdateLinkConnectionOptionalParams
+export interface LinkConnectionCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the createOrUpdateLinkConnection operation. */
-export type LinkConnectionCreateOrUpdateLinkConnectionResponse = LinkConnectionResource;
+/** Contains response data for the createOrUpdate operation. */
+export type LinkConnectionCreateOrUpdateResponse = LinkConnectionResource;
 
 /** Optional parameters. */
-export interface LinkConnectionGetLinkConnectionOptionalParams
+export interface LinkConnectionGetOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the getLinkConnection operation. */
-export type LinkConnectionGetLinkConnectionResponse = LinkConnectionResource;
+/** Contains response data for the get operation. */
+export type LinkConnectionGetResponse = LinkConnectionResource;
 
 /** Optional parameters. */
-export interface LinkConnectionDeleteLinkConnectionOptionalParams
+export interface LinkConnectionDeleteOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
@@ -12915,11 +12972,19 @@ export interface LinkConnectionUpdateLandingZoneCredentialOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface LinkConnectionListLinkConnectionsByWorkspaceNextOptionalParams
+export interface LinkConnectionPauseOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listLinkConnectionsByWorkspaceNext operation. */
-export type LinkConnectionListLinkConnectionsByWorkspaceNextResponse = LinkConnectionListResponse;
+/** Optional parameters. */
+export interface LinkConnectionResumeOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface LinkConnectionListByWorkspaceNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByWorkspaceNext operation. */
+export type LinkConnectionListByWorkspaceNextResponse = LinkConnectionListResponse;
 
 /** Optional parameters. */
 export interface KqlScriptsGetAllOptionalParams

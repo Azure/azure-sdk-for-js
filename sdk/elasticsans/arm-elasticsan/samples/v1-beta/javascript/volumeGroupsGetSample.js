@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ElasticSanManagement } = require("@azure/arm-elasticsan");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Get an VolumeGroups.
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2021-11-20-preview/examples/VolumeGroups_Get_MaximumSet_Gen.json
  */
 async function volumeGroupsGetMaximumSetGen() {
-  const subscriptionId = "aaaaaaaaaaaaaaaaaa";
-  const resourceGroupName = "rgelasticsan";
+  const subscriptionId = process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "aaaaaaaaaaaaaaaaaa";
+  const resourceGroupName = process.env["ELASTICSANS_RESOURCE_GROUP"] || "rgelasticsan";
   const elasticSanName = "ti7q-k952-1qB3J_5";
   const volumeGroupName = "u_5I_1j4t3";
   const credential = new DefaultAzureCredential();
@@ -27,8 +28,6 @@ async function volumeGroupsGetMaximumSetGen() {
   const result = await client.volumeGroups.get(resourceGroupName, elasticSanName, volumeGroupName);
   console.log(result);
 }
-
-volumeGroupsGetMaximumSetGen().catch(console.error);
 
 /**
  * This sample demonstrates how to Get an VolumeGroups.
@@ -37,8 +36,8 @@ volumeGroupsGetMaximumSetGen().catch(console.error);
  * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2021-11-20-preview/examples/VolumeGroups_Get_MinimumSet_Gen.json
  */
 async function volumeGroupsGetMinimumSetGen() {
-  const subscriptionId = "aaaaaaaaaaaaaaaaaa";
-  const resourceGroupName = "rgelasticsan";
+  const subscriptionId = process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "aaaaaaaaaaaaaaaaaa";
+  const resourceGroupName = process.env["ELASTICSANS_RESOURCE_GROUP"] || "rgelasticsan";
   const elasticSanName = "ti7q-k952-1qB3J_5";
   const volumeGroupName = "u_5I_1j4t3";
   const credential = new DefaultAzureCredential();
@@ -47,4 +46,9 @@ async function volumeGroupsGetMinimumSetGen() {
   console.log(result);
 }
 
-volumeGroupsGetMinimumSetGen().catch(console.error);
+async function main() {
+  volumeGroupsGetMaximumSetGen();
+  volumeGroupsGetMinimumSetGen();
+}
+
+main().catch(console.error);
