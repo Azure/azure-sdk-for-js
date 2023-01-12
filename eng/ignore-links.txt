@@ -40,3 +40,4 @@ https://docs.microsoft.com/javascript/api/@azure/arm-loadtesting?view=azure-node
 https://docs.microsoft.com/javascript/api/@azure/arm-billingbenefits?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-billingbenefits
 https://docs.microsoft.com/javascript/api/@azure/arm-servicenetworking?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure/arm-dataprotectionplatform?view=azure-node-preview
