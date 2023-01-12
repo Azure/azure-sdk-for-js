@@ -4,7 +4,8 @@
 
 ### Features Added
 
-- Adds support for JSON and custom schema formats. A schema of the custom format can be in a format that is not currently supported.
+- Adds support for custom schema format. A schema of the custom format can be in a format that is not currently supported.
+- Adds support for JSON schemas. At the time of this release, only Draft 3 of JSON schemas is currently supported by the service.
 - Adds `KnownSchemaFormats` enum that has `Avro`, `Json`, and `Custom` values.
 
 ## 1.2.0 (2022-10-11)
