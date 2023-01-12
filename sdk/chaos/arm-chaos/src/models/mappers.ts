@@ -1518,10 +1518,15 @@ export const DelayAction: coreClient.CompositeMapper = {
     modelProperties: {
       ...Action.type.modelProperties,
       duration: {
+        constraints: {
+          Pattern: new RegExp(
+            "^P(\\d+Y)?(\\d+M)?(\\d+D)?(T(\\d+H)?(\\d+M)?(\\d+(\\.\\d+)?S)?)?$"
+          )
+        },
         serializedName: "duration",
         required: true,
         type: {
-          name: "TimeSpan"
+          name: "String"
         }
       }
     }
@@ -1574,10 +1579,15 @@ export const ContinuousAction: coreClient.CompositeMapper = {
     modelProperties: {
       ...Action.type.modelProperties,
       duration: {
+        constraints: {
+          Pattern: new RegExp(
+            "^P(\\d+Y)?(\\d+M)?(\\d+D)?(T(\\d+H)?(\\d+M)?(\\d+(\\.\\d+)?S)?)?$"
+          )
+        },
         serializedName: "duration",
         required: true,
         type: {
-          name: "TimeSpan"
+          name: "String"
         }
       },
       parameters: {
