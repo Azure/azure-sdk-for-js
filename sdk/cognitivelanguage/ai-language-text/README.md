@@ -50,13 +50,7 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 ### Prerequisites
 
 - An [Azure subscription][azure_sub].
-- An existing [Cognitive Services][cognitive_resource] or Language resource. If you need to create the resource, you can use the [Azure Portal][azure_portal] or [Azure CLI][azure_cli].
-
-If you use the Azure CLI, replace `<your-resource-group-name>` and `<your-resource-name>` with your own unique names:
-
-```PowerShell
-az cognitiveservices account create --kind TextAnalytics --resource-group <your-resource-group-name> --name <your-resource-name> --sku <your-sku-name> --location <your-location>
-```
+- An existing [Cognitive Services][cognitive_resource] or Language resource. If you need to create the resource, you can use the [Azure Portal][azure_portal].
 
 ### Install the `@azure/ai-language-text` package
 
