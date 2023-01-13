@@ -50,7 +50,7 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 ### Prerequisites
 
 - An [Azure subscription][azure_sub].
-- An existing [Cognitive Services][cognitive_resource] or Language resource. If you need to create the resource, you can use the [Azure Portal][azure_portal] or [Azure CLI][azure_cli].
+- An existing [Cognitive Services][cognitive_resource] or Language resource. If you need to create the resource, you can use the [Azure Portal][azure_portal] or [Azure CLI][azure_cli] following the steps in [this document][cli_docs].
 
 If you use the Azure CLI, replace `<your-resource-group-name>` and `<your-resource-name>` with your own unique names:
 
@@ -837,6 +837,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcognitivelanguage%2Fai-language-text%2FREADME.png)
 
+[cli_docs]: https://learn.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account-cli?tabs=windows#prerequisites
 [azure_cli]: https://docs.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/
 [cognitive_resource]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account
