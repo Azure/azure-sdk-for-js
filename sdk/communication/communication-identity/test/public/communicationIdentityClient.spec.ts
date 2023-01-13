@@ -34,17 +34,12 @@ matrix([[true, false]], async function (useAad: boolean) {
       }
     });
 
-    const assertUserProperties = (
-      user: CommunicationUserIdentifier
-    ): void => {
+    const assertUserProperties = (user: CommunicationUserIdentifier): void => {
       assert.isTrue(isCommunicationUserIdentifier(user));
       assert.isString(user.communicationUserId);
     };
 
-    const assertAccessTokenProperties = (
-      token: string, 
-      expiresOn: Date
-    ): void => {
+    const assertAccessTokenProperties = (token: string, expiresOn: Date): void => {
       assert.isString(token);
       assert.instanceOf(expiresOn, Date);
     };
