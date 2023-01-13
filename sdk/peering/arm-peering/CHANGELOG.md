@@ -1,15 +1,22 @@
 # Release History
+    
+## 2.1.0 (2022-12-02)
+    
+**Features**
 
-## 2.0.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface CdnPeeringPrefix
+  - Added Interface ConnectionMonitorTest
+  - Added Interface PeerAsn
+  - Added Interface Peering
+  - Added Interface PeeringLocation
+  - Added Interface PeeringRegisteredAsn
+  - Added Interface PeeringRegisteredPrefix
+  - Added Interface PeeringService
+  - Added Interface PeeringServiceCountry
+  - Added Interface PeeringServiceLocation
+  - Added Interface PeeringServicePrefix
+  - Added Interface PeeringServiceProvider
+    
 ## 2.0.1 (2022-04-27)
 
 **Features**

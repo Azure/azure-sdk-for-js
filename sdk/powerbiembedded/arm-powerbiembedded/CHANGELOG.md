@@ -2,20 +2,20 @@
 
 ## 2.0.2 (Unreleased)
 
-### Features Added
+**Features**
 
-### Breaking Changes
+-  Exposes `getContinuationToken` helper function to extract continuation token
 
-### Bugs Fixed
+**Bugs Fixed**
 
-### Other Changes
+- A series of small bug fixs relevant to authentication and apiVersion policy
 
 ## 2.0.1 (2022-04-28)
 
 **Features**
 
   - Bug fix
-    
+
 ## 2.0.0 (2022-01-20)
 
 The package of @azure/arm-powerbiembedded is using our next generation design principles since version 2.0.0, which contains breaking changes.

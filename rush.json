@@ -637,6 +637,19 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-rest/maps-render",
+      "projectFolder": "sdk/maps/maps-render-rest"
+    },
+    {
+      "packageName": "@azure-rest/maps-geolocation",
+      "projectFolder": "sdk/maps/maps-geolocation-rest"
+    },
+    {
+      "packageName": "@azure-rest/maps-search",
+      "projectFolder": "sdk/maps/maps-search-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/notification-hubs",
       "projectFolder": "sdk/notificationhubs/notification-hubs",
       "versionPolicyName": "client"

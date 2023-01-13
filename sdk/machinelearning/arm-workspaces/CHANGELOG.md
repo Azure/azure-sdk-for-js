@@ -1,15 +1,11 @@
 # Release History
+    
+## 1.1.0 (2022-11-28)
+    
+**Features**
 
-## 1.0.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface Workspace
+    
 ## 1.0.1 (2022-04-24)
 
 **Features**

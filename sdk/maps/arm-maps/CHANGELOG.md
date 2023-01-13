@@ -1,16 +1,6 @@
 # Release History
-
-## 3.1.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 3.1.0-beta.1 (2022-04-25)
+    
+## 3.1.0-beta.2 (2022-11-29)
     
 **Features**
 
@@ -20,9 +10,12 @@
   - Added Interface Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties
   - Added Interface CorsRule
   - Added Interface CorsRules
+  - Added Interface Creator
   - Added Interface LinkedResource
   - Added Interface ManagedServiceIdentity
+  - Added Interface MapsAccount
   - Added Interface MapsAccountSasToken
+  - Added Interface TrackedResource
   - Added Type Alias AccountsListSasResponse
   - Added Type Alias ResourceIdentityType
   - Added Type Alias SigningKey
@@ -33,10 +26,8 @@
   - Interface MapsAccountUpdateParameters has a new optional parameter linkedResources
   - Interface MetricSpecification has a new optional parameter internalMetricName
   - Interface MetricSpecification has a new optional parameter sourceMdmAccount
-  - Type Alias Creator has a new parameter systemData
-  - Type Alias MapsAccount has a new parameter identity
   - Added Enum KnownSigningKey
-  - Bug fix
+    
     
 ## 3.0.0 (2022-01-19)
 

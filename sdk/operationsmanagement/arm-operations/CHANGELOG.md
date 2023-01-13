@@ -1,8 +1,8 @@
 # Release History
     
-## 4.0.0-beta.3 (2022-05-11)
+## 4.0.0-beta.4 (2022-12-02)
 
-The package of @azure/arm-operations is using our next generation design principles since version 4.0.0-beta.3, which contains breaking changes.
+The package of @azure/arm-operations is using our next generation design principles since version 4.0.0-beta.4, which contains breaking changes.
 
 To understand the detail of the change, please refer to [Changelog](https://aka.ms/js-track2-changelog).
 
