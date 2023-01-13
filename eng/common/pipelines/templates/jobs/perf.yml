@@ -165,16 +165,15 @@ jobs:
     displayName: Print results.json
     condition: always()
 
-  - task: PublishPipelineArtifact@1
-    inputs:
-      targetPath: $(System.DefaultWorkingDirectory)/sdk
-      artifactName: "**/1-perfProgram.cpuprofile"
+  - script: |
+      node eng/tools/extractPerfProfiles.js
+    displayName: "Extract perf profiles into a zipped folder"
     condition: always()
 
   - task: PublishPipelineArtifact@1
     inputs:
       targetPath: $(System.DefaultWorkingDirectory)/sdk
-      artifactName: "**/2-perfProgram.cpuprofile"
+      artifactName: "profiles/profiles.zip"
     condition: always()
 
   - task: PublishPipelineArtifact@1

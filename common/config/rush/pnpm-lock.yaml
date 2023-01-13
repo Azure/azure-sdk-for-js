@@ -4614,6 +4614,15 @@ packages:
     resolution: {integrity: sha512-y6OAwoSIf7FyjMIv94u+b5rdheZEjzR63GTyZJm5qh4Bi+2YgwLCcI/fPFZkL5PSixOt6ZNKm+w+Hfp/Bciwow==}
     dev: false
 
+  /fs-extra/10.1.0:
+    resolution: {integrity: sha512-oRXApq54ETRj4eMiFzGnHWGy+zo5raudjuxN0b8H7s/RU2oW0Wvsx9O0ACRN/kRq9E8Vu/ReskGB5o3ji+FzHQ==}
+    engines: {node: '>=12'}
+    dependencies:
+      graceful-fs: 4.2.10
+      jsonfile: 6.1.0
+      universalify: 2.0.0
+    dev: false
+
   /fs-extra/11.1.0:
     resolution: {integrity: sha512-0rcTq621PD5jM/e0a3EJoGC/1TC5ZBCERW82LQuwfGnCa1V8w7dpYH1yNu+SLb6E5dkeCBzKEyLGlFrnr+dUyw==}
     engines: {node: '>=14.14'}
@@ -19180,16 +19189,18 @@ packages:
     dev: false
 
   file:projects/test-utils-perf.tgz:
-    resolution: {integrity: sha512-eudYhQgJ8Hqa/PguIfrBtT0f+34FUPzLRQJSuCbdHoN3lWs7c71aDadPbQTP5cm8cBrI6rDrQD0bDqKoW3b7Og==, tarball: file:projects/test-utils-perf.tgz}
+    resolution: {integrity: sha512-ChHf81rnuw+0YWE8wpqtVzLCc2EJ8/Ngbd28sUh8YM03juKFihgYhCerAUZLmXO+3FaUebIpDOK06SQFFXoqEA==, tarball: file:projects/test-utils-perf.tgz}
     name: '@rush-temp/test-utils-perf'
     version: 0.0.0
     dependencies:
       '@azure/core-http': 2.3.1
+      '@types/fs-extra': 9.0.13
       '@types/minimist': 1.2.2
       '@types/node': 14.18.36
       '@types/node-fetch': 2.6.2
       '@types/util.promisify': 1.0.4
       eslint: 8.31.0
+      fs-extra: 10.1.0
       karma: 6.4.1
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
