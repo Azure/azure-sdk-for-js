@@ -1,6 +1,6 @@
 # Release History
 
-## 13.2.1 (Unreleased)
+## 13.2.2 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,11 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 13.2.1 (2023-01-12)
+
+### Bugs Fixed
+- Fix issue [#22341](https://github.com/Azure/azure-sdk-for-js/issues/22341) when multiple transactions are submitted concurrently. [#24190](https://github.com/Azure/azure-sdk-for-js/pull/24190)
 
 ## 13.2.0 (2022-09-07)
 
