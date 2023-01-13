@@ -1062,9 +1062,9 @@ packages:
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/core-util': 1.1.1
       '@azure/logger': 1.0.3
-      '@azure/msal-browser': 2.32.0
+      '@azure/msal-browser': 2.32.2
       '@azure/msal-common': 4.5.1
-      '@azure/msal-node': 1.14.4
+      '@azure/msal-node': 1.14.6
       events: 3.3.0
       jws: 4.0.0
       open: 8.4.0
@@ -1086,9 +1086,9 @@ packages:
       '@azure/core-tracing': 1.0.1
       '@azure/core-util': 1.1.1
       '@azure/logger': 1.0.3
-      '@azure/msal-browser': 2.32.0
+      '@azure/msal-browser': 2.32.2
       '@azure/msal-common': 7.6.0
-      '@azure/msal-node': 1.14.4
+      '@azure/msal-node': 1.14.6
       events: 3.3.0
       jws: 4.0.0
       open: 8.4.0
@@ -1188,11 +1188,11 @@ packages:
       - encoding
     dev: false
 
-  /@azure/msal-browser/2.32.0:
-    resolution: {integrity: sha512-uDP0vNmIefM6+RjILGKu+zOiN+VGnEvxRfUIV5hOWOWLLkG7kcDPYG/v/EJMoG+R5DYW9jXA5nvZT76t5HdEAQ==}
+  /@azure/msal-browser/2.32.2:
+    resolution: {integrity: sha512-1YqGzXtPG3QrZPFBKaMWr2WQdukDj+PelqUCv351+p+hlw/AhdRrb8haY73/iqkhT6Cdrbnh7sL4gikVsF4O1g==}
     engines: {node: '>=0.8.0'}
     dependencies:
-      '@azure/msal-common': 9.0.0
+      '@azure/msal-common': 9.0.2
     dev: false
 
   /@azure/msal-common/4.5.1:
@@ -1209,8 +1209,8 @@ packages:
     engines: {node: '>=0.8.0'}
     dev: false
 
-  /@azure/msal-common/9.0.0:
-    resolution: {integrity: sha512-uiFiFKVNTsRpmKio5bcObTuHcaHHZB2GEsjJJN8rbJNmzoYuZzNioOoK+J0QK0jEasRBgAoR5A8hSty2iKRzIg==}
+  /@azure/msal-common/9.0.2:
+    resolution: {integrity: sha512-qzwxuF8kZAp+rNUactMCgJh8fblq9D4lSqrrIxMDzLjgSZtjN32ix7r/HBe8QdOr76II9SVVPcMkX4sPzPfQ7w==}
     engines: {node: '>=0.8.0'}
     dev: false
 
@@ -1228,8 +1228,17 @@ packages:
     resolution: {integrity: sha512-j9GzZu5mTLWtuJ+cYN6e67UNymIS5OysblrOzH8lakt9XxH0GCPYjuqbOEKTP84r+Rbj3io+TuW1KS+0Xxuj/g==}
     engines: {node: 10 || 12 || 14 || 16 || 18}
     dependencies:
-      '@azure/msal-common': 9.0.0
+      '@azure/msal-common': 9.0.2
       jsonwebtoken: 8.5.1
+      uuid: 8.3.2
+    dev: false
+
+  /@azure/msal-node/1.14.6:
+    resolution: {integrity: sha512-em/qqFL5tLMxMPl9vormAs13OgZpmQoJbiQ/GlWr+BA77eCLoL+Ehr5xRHowYo+LFe5b+p+PJVkRvT+mLvOkwA==}
+    engines: {node: 10 || 12 || 14 || 16 || 18}
+    dependencies:
+      '@azure/msal-common': 9.0.2
+      jsonwebtoken: 9.0.0
       uuid: 8.3.2
     dev: false
 
@@ -2955,8 +2964,8 @@ packages:
     hasBin: true
     dev: false
 
-  /autorest/3.6.2:
-    resolution: {integrity: sha512-JRMmAsSG4wplYUkjVOWELidF+P/OG9BjF542aQcbt4Qj85bJ+7EzRCTV09vbf8f4ScOB+I68+9IcskjNTU9UkQ==}
+  /autorest/3.6.3:
+    resolution: {integrity: sha512-j/Axwk9bniifTNtBLYVxfQZGQIGPKljFaCQCBWOiybVar2j3tkHP1btiC4a/t9pAJXY6IaFgWctoPM3G/Puhyg==}
     engines: {node: '>=12.0.0'}
     hasBin: true
     requiresBuild: true
@@ -3837,7 +3846,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20221205
+      typescript: 5.0.0-dev.20230112
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -5799,6 +5808,16 @@ packages:
       semver: 5.7.1
     dev: false
 
+  /jsonwebtoken/9.0.0:
+    resolution: {integrity: sha512-tuGfYXxkQGDPnLJ7SibiQgVgeDgfbPq2k2ICcbgqW8WxWLBAxKQM/ZCu/IT8SOSwmaYl4dpTFCW5xZv7YbbWUw==}
+    engines: {node: '>=12', npm: '>=6'}
+    dependencies:
+      jws: 3.2.2
+      lodash: 4.17.21
+      ms: 2.1.3
+      semver: 7.3.8
+    dev: false
+
   /jsrsasign/10.6.0:
     resolution: {integrity: sha512-4s1WTrv4dY14815G0kd/rZXIiXmy47rSsjpi/vLJN6bXACI+oR/cphErXmLdrqQPUPHtCY6dQVXZR8cJFUqsEg==}
     dev: false
@@ -7321,6 +7340,7 @@ packages:
   /puppeteer/14.4.1:
     resolution: {integrity: sha512-+H0Gm84aXUvSLdSiDROtLlOofftClgw2TdceMvvCU9UvMryappoeS3+eOLfKvoy4sm8B8MWnYmPhWxVFudAOFQ==}
     engines: {node: '>=14.1.0'}
+    deprecated: < 18.1.0 is no longer supported
     requiresBuild: true
     dependencies:
       cross-fetch: 3.1.5
@@ -8788,8 +8808,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20221205:
-    resolution: {integrity: sha512-afHkcfhaQqUk+Hjn+lUKtMqMttizIy5K2r75cz8l7/K+m0k6Yx9IoHRC5v8cjxB77ub2COdbr+0xsNodB7q6dg==}
+  /typescript/5.0.0-dev.20230112:
+    resolution: {integrity: sha512-cO+lTlZiNKqZIkjDOZWjh4WtFz8Jba/Ut4nvjcguXGgHoEnHD3+LSmgJjotPcWxALJZyvpd4EuAd5D3H9XF8Ig==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -9475,7 +9495,7 @@ packages:
       '@types/chai': 4.3.3
       '@types/mocha': 7.0.2
       '@types/node': 14.18.33
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.6
       cross-env: 7.0.3
       csv-parse: 5.3.1
@@ -9763,7 +9783,7 @@ packages:
       '@microsoft/api-extractor': 7.33.5
       '@types/chai': 4.3.3
       '@types/node': 14.18.33
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -10320,7 +10340,7 @@ packages:
       '@microsoft/api-extractor': 7.33.5
       '@types/chai': 4.3.3
       '@types/node': 14.18.33
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -10979,7 +10999,7 @@ packages:
       '@microsoft/api-extractor': 7.33.5
       '@types/chai': 4.3.3
       '@types/node': 14.18.33
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -11211,7 +11231,7 @@ packages:
       '@microsoft/api-extractor': 7.33.5
       '@types/chai': 4.3.3
       '@types/node': 14.18.33
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -13366,7 +13386,7 @@ packages:
       '@microsoft/api-extractor': 7.33.5
       '@types/chai': 4.3.3
       '@types/node': 14.18.33
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -14516,7 +14536,7 @@ packages:
       '@microsoft/api-extractor': 7.33.5
       '@types/chai': 4.3.3
       '@types/node': 14.18.33
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -15867,7 +15887,7 @@ packages:
       '@types/chai': 4.3.3
       '@types/mocha': 7.0.2
       '@types/node': 14.18.33
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -16591,7 +16611,7 @@ packages:
       '@microsoft/api-extractor': 7.33.5
       '@types/chai': 4.3.3
       '@types/node': 14.18.33
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -17105,14 +17125,14 @@ packages:
     dev: false
 
   file:projects/identity.tgz:
-    resolution: {integrity: sha512-FAJ75TCUwfuzIGPSwaDc7Lu76sHx1z7m5dxPwuAOd2IUfn4sQBgAm8iwyx5JgF4UPhaB+tvw72nFk8of6vo16g==, tarball: file:projects/identity.tgz}
+    resolution: {integrity: sha512-jy+Zqp34zII268SkTO04DSMMwO1dKkPfiM5+abe9Mc/uR7mQV5YPgj7QseW+PACBUE3GnthQXfGrDCZBDZMbhg==, tarball: file:projects/identity.tgz}
     name: '@rush-temp/identity'
     version: 0.0.0
     dependencies:
       '@azure/keyvault-keys': 4.2.0
-      '@azure/msal-browser': 2.32.0
-      '@azure/msal-common': 9.0.0
-      '@azure/msal-node': 1.14.4
+      '@azure/msal-browser': 2.32.2
+      '@azure/msal-common': 9.0.2
+      '@azure/msal-node': 1.14.6
       '@microsoft/api-extractor': 7.33.5
       '@types/chai': 4.3.3
       '@types/jsonwebtoken': 8.5.9
@@ -17457,7 +17477,7 @@ packages:
       '@types/chai': 4.3.3
       '@types/node': 12.20.55
       '@types/uuid': 8.3.4
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -17563,7 +17583,7 @@ packages:
       '@types/chai': 4.3.3
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0

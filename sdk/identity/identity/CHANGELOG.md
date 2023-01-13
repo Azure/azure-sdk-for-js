@@ -1,4 +1,11 @@
 # Release History
+
+## 3.1.3 (2023-01-12)
+
+### Other Changes
+
+- Upgraded versions of @azure/msal-node, @azure/msal-common and @azure/msal-browser to remove any dependency versions that were depending on old version of jsonwebtoken which had a [security issue](https://nvd.nist.gov/vuln/detail/CVE-2022-23529)
+
 ## 3.1.2 (2022-12-05)
 
 ### Bugs Fixed
