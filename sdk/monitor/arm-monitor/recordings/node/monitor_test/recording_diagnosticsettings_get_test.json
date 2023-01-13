@@ -9,7 +9,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-arm-monitor/8.0.0-beta.3 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
-        "x-ms-client-request-id": "0a119b46-397a-4aa4-8387-86be87598875"
+        "x-ms-client-request-id": "e6057a1f-e837-4cc9-9fb2-52dfe853e1fe"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,7 +17,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 12 Jan 2023 09:28:00 GMT",
+        "Date": "Fri, 13 Jan 2023 02:44:26 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "Microsoft-IIS/10.0",
@@ -25,10 +25,10 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "7a72e8b6-a8c0-4259-88a1-4f02dec1ee24",
-        "x-ms-ratelimit-remaining-subscription-reads": "11945",
-        "x-ms-request-id": "dbedcc87-ec13-46b3-b247-843a3561e15f",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20230112T092800Z:7a72e8b6-a8c0-4259-88a1-4f02dec1ee24"
+        "x-ms-correlation-request-id": "631b97e3-0b84-48e1-9386-40b5f99fdca3",
+        "x-ms-ratelimit-remaining-subscription-reads": "11977",
+        "x-ms-request-id": "3c489a32-01c8-4e76-be15-3d7f9fafb198",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230113T024427Z:631b97e3-0b84-48e1-9386-40b5f99fdca3"
       },
       "ResponseBody": {
         "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourcegroups/myjstest/providers/microsoft.logic/workflows/myworkflowxxx/providers/microsoft.insights/diagnosticSettings/mydiagnosticxxxx",

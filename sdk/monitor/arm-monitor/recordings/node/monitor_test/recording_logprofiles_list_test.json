@@ -9,7 +9,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-arm-monitor/8.0.0-beta.3 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
-        "x-ms-client-request-id": "7a3a7ab5-7a7d-4716-8001-95c19110f6c4"
+        "x-ms-client-request-id": "b45df2b2-4623-45fa-ada7-a4fd684eeac7"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,7 +17,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 12 Jan 2023 09:28:35 GMT",
+        "Date": "Fri, 13 Jan 2023 02:44:37 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "Microsoft-IIS/10.0",
@@ -25,22 +25,22 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "fff80f0c-84b7-4de6-89e6-ee4d08415a0d",
-        "x-ms-ratelimit-remaining-subscription-reads": "11942",
-        "x-ms-request-id": "73e4cbbe-758f-4196-829d-a0313474e4d8",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20230112T092836Z:fff80f0c-84b7-4de6-89e6-ee4d08415a0d"
+        "x-ms-correlation-request-id": "18f2fde6-dd1b-4941-9811-e4afc75e8aad",
+        "x-ms-ratelimit-remaining-subscription-reads": "11974",
+        "x-ms-request-id": "a644d46b-c81b-4baa-831e-ea716a1552bd",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230113T024438Z:18f2fde6-dd1b-4941-9811-e4afc75e8aad"
       },
       "ResponseBody": {
         "value": [
           {
-            "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/microsoft.insights/logprofiles/logprofilena",
+            "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/microsoft.insights/logprofiles/mylogprofilexxx",
             "type": null,
-            "name": "logprofilena",
+            "name": "mylogprofilexxx",
             "location": null,
             "kind": null,
             "tags": null,
             "properties": {
-              "storageAccountId": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/go-sdk-test-535/providers/Microsoft.Storage/storageAccounts/monitorsana",
+              "storageAccountId": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Storage/storageAccounts/mystorageaccountyyy",
               "serviceBusRuleId": null,
               "locations": [
                 "global"

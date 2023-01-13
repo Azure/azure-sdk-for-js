@@ -9,7 +9,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-arm-monitor/8.0.0-beta.3 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
-        "x-ms-client-request-id": "96dc3960-9d1e-47c1-9c5f-b2b60ea085cb"
+        "x-ms-client-request-id": "39375a1b-1fb0-4c5e-96e9-a921556b1f24"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,7 +17,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 12 Jan 2023 09:28:05 GMT",
+        "Date": "Fri, 13 Jan 2023 02:44:31 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "Microsoft-IIS/10.0",
@@ -25,68 +25,14 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "7c3f8c69-2221-4e19-892c-ddcec792eb99",
-        "x-ms-ratelimit-remaining-subscription-reads": "11944",
-        "x-ms-request-id": "5ca3768f-57fc-41d3-97f0-6b5690238cdb",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20230112T092805Z:7c3f8c69-2221-4e19-892c-ddcec792eb99"
+        "x-ms-correlation-request-id": "fbc0c184-4374-485f-b3bb-2226f602a8e2",
+        "x-ms-ratelimit-remaining-subscription-reads": "11976",
+        "x-ms-request-id": "eca38e16-8452-468f-96ba-b3cc0348602b",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230113T024432Z:fbc0c184-4374-485f-b3bb-2226f602a8e2"
       },
       "ResponseBody": {
-        "value": [
-          {
-            "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/microsoft.insights/logprofiles/logprofilena",
-            "type": null,
-            "name": "logprofilena",
-            "location": null,
-            "kind": null,
-            "tags": null,
-            "properties": {
-              "storageAccountId": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/go-sdk-test-535/providers/Microsoft.Storage/storageAccounts/monitorsana",
-              "serviceBusRuleId": null,
-              "locations": [
-                "global"
-              ],
-              "categories": [
-                "Write",
-                "Delete",
-                "Action"
-              ],
-              "retentionPolicy": {
-                "enabled": true,
-                "days": 3
-              }
-            },
-            "identity": null
-          }
-        ]
+        "value": []
       }
-    },
-    {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.Insights/logprofiles/sample-log-profile?api-version=2016-03-01",
-      "RequestMethod": "DELETE",
-      "RequestHeaders": {
-        "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-monitor/8.0.0-beta.3 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
-        "x-ms-client-request-id": "670a47ad-1b69-48a4-86d8-367fe9529c98"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "Cache-Control": "no-cache",
-        "Content-Length": "0",
-        "Date": "Thu, 12 Jan 2023 09:28:31 GMT",
-        "Expires": "-1",
-        "Pragma": "no-cache",
-        "Server": "Microsoft-IIS/10.0",
-        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "6d086ef3-7f91-4bdc-8ee6-7472b26834d7",
-        "x-ms-ratelimit-remaining-subscription-deletes": "14991",
-        "x-ms-request-id": "0d3bdde0-1e5f-409d-b3f8-1a3c6440e1d6",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20230112T092831Z:6d086ef3-7f91-4bdc-8ee6-7472b26834d7"
-      },
-      "ResponseBody": null
     },
     {
       "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.Insights/logprofiles/logprofilena?api-version=2016-03-01",
@@ -96,23 +42,23 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-arm-monitor/8.0.0-beta.3 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
-        "x-ms-client-request-id": "4ca67f5a-5ac0-4423-9c17-c9bd4cfbdad5"
+        "x-ms-client-request-id": "bafce39f-06f7-4eb6-aa2c-12d95d303447"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
         "Content-Length": "0",
-        "Date": "Thu, 12 Jan 2023 09:28:32 GMT",
+        "Date": "Fri, 13 Jan 2023 02:44:33 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "Microsoft-IIS/10.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "04eb15e2-6e82-4464-a786-f6f250e6e2ca",
-        "x-ms-ratelimit-remaining-subscription-deletes": "14990",
-        "x-ms-request-id": "d72076f0-34c1-4393-9929-9e69389c478f",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20230112T092832Z:04eb15e2-6e82-4464-a786-f6f250e6e2ca"
+        "x-ms-correlation-request-id": "e72547d6-5cb3-45bc-9f13-5c20193a1d05",
+        "x-ms-ratelimit-remaining-subscription-deletes": "14998",
+        "x-ms-request-id": "54d314db-b735-47cb-a4a8-7c5f974bbde0",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230113T024434Z:e72547d6-5cb3-45bc-9f13-5c20193a1d05"
       },
       "ResponseBody": null
     },
@@ -127,7 +73,7 @@
         "Content-Length": "299",
         "Content-Type": "application/json",
         "User-Agent": "azsdk-js-arm-monitor/8.0.0-beta.3 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
-        "x-ms-client-request-id": "cf26f3c6-caf0-47a1-9686-66809669c940"
+        "x-ms-client-request-id": "7dc69102-3bfe-4464-a690-aaafa260d477"
       },
       "RequestBody": {
         "location": "",
@@ -147,25 +93,48 @@
           }
         }
       },
-      "StatusCode": 409,
+      "StatusCode": 200,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
-        "Content-Length": "141",
+        "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 12 Jan 2023 09:28:33 GMT",
+        "Date": "Fri, 13 Jan 2023 02:44:34 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "Microsoft-IIS/10.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "ce62bdbf-96b9-4eb1-8573-22db7aa3f018",
-        "x-ms-ratelimit-remaining-subscription-writes": "1188",
-        "x-ms-request-id": "00000000-0000-0000-0000-000000000000",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20230112T092833Z:ce62bdbf-96b9-4eb1-8573-22db7aa3f018"
+        "x-ms-correlation-request-id": "f10ab5b0-8c64-48a2-bdf3-3fc51f5b8fab",
+        "x-ms-ratelimit-remaining-subscription-writes": "1194",
+        "x-ms-request-id": "10da2843-da54-4b1d-8c42-07430490bcec",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230113T024435Z:f10ab5b0-8c64-48a2-bdf3-3fc51f5b8fab"
       },
       "ResponseBody": {
-        "code": "Conflict",
-        "message": "The limit of 1 log profiles was reached. To create new log profile \u0027mylogProfilexxx\u0027, delete an existing one."
+        "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/microsoft.insights/logprofiles/mylogProfilexxx",
+        "type": null,
+        "name": "mylogProfilexxx",
+        "location": "",
+        "kind": null,
+        "tags": null,
+        "properties": {
+          "storageAccountId": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Storage/storageAccounts/mystorageaccountyyy",
+          "serviceBusRuleId": null,
+          "locations": [
+            "global"
+          ],
+          "categories": [
+            "Write",
+            "Delete",
+            "Action"
+          ],
+          "retentionPolicy": {
+            "enabled": true,
+            "days": 3
+          }
+        },
+        "identity": null
       }
     }
   ],

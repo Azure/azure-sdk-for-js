@@ -9,28 +9,51 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-arm-monitor/8.0.0-beta.3 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
-        "x-ms-client-request-id": "70d577bd-e4a2-4d8b-a161-17cab46ea440"
+        "x-ms-client-request-id": "64bedc7f-9dda-4cc8-9399-6e2380b60f6b"
       },
       "RequestBody": null,
-      "StatusCode": 404,
+      "StatusCode": 200,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
-        "Content-Length": "150",
+        "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 12 Jan 2023 09:28:34 GMT",
+        "Date": "Fri, 13 Jan 2023 02:44:36 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "Microsoft-IIS/10.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "777581da-b220-4855-9db7-bef180590d16",
-        "x-ms-ratelimit-remaining-subscription-reads": "11943",
-        "x-ms-request-id": "00000000-0000-0000-0000-000000000000",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20230112T092834Z:777581da-b220-4855-9db7-bef180590d16"
+        "x-ms-correlation-request-id": "a5ac84a0-a23b-4b59-954d-ad9a51b943fc",
+        "x-ms-ratelimit-remaining-subscription-reads": "11975",
+        "x-ms-request-id": "c0014f14-011e-4b1f-b09a-a67e83437294",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230113T024436Z:a5ac84a0-a23b-4b59-954d-ad9a51b943fc"
       },
       "ResponseBody": {
-        "code": "ResourceNotFound",
-        "message": "Log profile \u0027mylogProfilexxx\u0027 under scope \u0027/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241\u0027 doesn\u0027t exist."
+        "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/microsoft.insights/logprofiles/mylogProfilexxx",
+        "type": null,
+        "name": "mylogProfilexxx",
+        "location": null,
+        "kind": null,
+        "tags": null,
+        "properties": {
+          "storageAccountId": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Storage/storageAccounts/mystorageaccountyyy",
+          "serviceBusRuleId": null,
+          "locations": [
+            "global"
+          ],
+          "categories": [
+            "Write",
+            "Delete",
+            "Action"
+          ],
+          "retentionPolicy": {
+            "enabled": true,
+            "days": 3
+          }
+        },
+        "identity": null
       }
     }
   ],
