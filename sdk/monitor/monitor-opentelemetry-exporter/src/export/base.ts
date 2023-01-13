@@ -12,7 +12,11 @@ import { isRetriable, BreezeResponse } from "../utils/breezeUtils";
 import { DEFAULT_BREEZE_ENDPOINT, ENV_CONNECTION_STRING } from "../Declarations/Constants";
 import { TelemetryItem as Envelope } from "../generated";
 import { StatsbeatMetrics } from "./statsbeat/statsbeatMetrics";
-import { MAX_STATSBEAT_FAILURES, StatsbeatFeature, StatsbeatInstrumentation } from "./statsbeat/types";
+import {
+  MAX_STATSBEAT_FAILURES,
+  StatsbeatFeature,
+  StatsbeatInstrumentation,
+} from "./statsbeat/types";
 
 const DEFAULT_BATCH_SEND_RETRY_INTERVAL_MS = 60_000;
 /**
@@ -77,8 +81,10 @@ export abstract class AzureMonitorBaseExporter {
         instrumentationKey: this._instrumentationKey,
         endpointUrl: this._endpointUrl,
       });
-     instrumentations?.forEach((instrumentation) => this._statsbeatMetrics?.addInstrumentation(instrumentation));
-     features?.forEach((feature) => this._statsbeatMetrics?.addFeature(feature));
+      instrumentations?.forEach((instrumentation) =>
+        this._statsbeatMetrics?.addInstrumentation(instrumentation)
+      );
+      features?.forEach((feature) => this._statsbeatMetrics?.addFeature(feature));
     }
     this._retryTimer = null;
     diag.debug("AzureMonitorExporter was successfully setup");

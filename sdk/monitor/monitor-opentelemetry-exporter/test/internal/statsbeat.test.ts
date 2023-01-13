@@ -72,18 +72,12 @@ describe("#AzureMonitorStatsbeatExporter", () => {
           instrumentationKey: "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;",
           endpointUrl: "IngestionEndpoint=https://westus-0.in.applicationinsights.azure.com",
         });
-        assert.strictEqual(
-          statsbeat["_host"],
-          "IngestionEndpoint=https://westus-0"
-        );
+        assert.strictEqual(statsbeat["_host"], "IngestionEndpoint=https://westus-0");
       });
 
       it("should use EU connection string", () => {
         const statsbeat = new StatsbeatMetrics(options);
-        assert.strictEqual(
-          statsbeat["_host"],
-          "IngestionEndpoint=https://westeurope-5"
-        );
+        assert.strictEqual(statsbeat["_host"], "IngestionEndpoint=https://westeurope-5");
       });
 
       it("_getShortHost", () => {
@@ -238,7 +232,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
       });
 
       it("should track duration", async () => {
-        let mockExport = sandbox.stub(statsbeat["_azureExporter"], "export");
+        let mockExport = sandbox.stub(statsbeat["_networkAzureExporter"], "export");
         statsbeat.countSuccess(100);
         statsbeat.countSuccess(100);
         statsbeat.countSuccess(200);
@@ -263,7 +257,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
       });
 
       it("should track statsbeat counts", async () => {
-        let mockExport = sandbox.stub(statsbeat["_azureExporter"], "export");
+        let mockExport = sandbox.stub(statsbeat["_networkAzureExporter"], "export");
         statsbeat.countSuccess(100);
         statsbeat.countSuccess(100);
         statsbeat.countSuccess(100);
