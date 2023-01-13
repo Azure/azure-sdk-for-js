@@ -167,6 +167,18 @@ jobs:
 
   - task: PublishPipelineArtifact@1
     inputs:
+      targetPath: $(System.DefaultWorkingDirectory)/sdk
+      artifactName: "**/1-perfProgram.cpuprofile"
+    condition: always()
+
+  - task: PublishPipelineArtifact@1
+    inputs:
+      targetPath: $(System.DefaultWorkingDirectory)/sdk
+      artifactName: "**/2-perfProgram.cpuprofile"
+    condition: always()
+
+  - task: PublishPipelineArtifact@1
+    inputs:
       targetPath: azure-sdk-tools/tools/perf-automation/Azure.Sdk.Tools.PerfAutomation/results
       artifactName: results-${{ parameters.Language }}-$(MatrixName)
     condition: always()
@@ -176,12 +188,6 @@ jobs:
       targetPath: $(System.DefaultWorkingDirectory)/${{ parameters.Language }}-profile.zip
       artifactName: ${{ parameters.Language }}-profile.zip
     condition: ${{ parameters.Profile }}
-
-  - task: PublishPipelineArtifact@1
-    inputs:
-      targetPath: $(System.DefaultWorkingDirectory)/sdk
-      artifactName: "**/*-perfProgram.cpuprofile"
-    condition: always()
 
   - template: /eng/common/TestResources/remove-test-resources.yml
     parameters:
