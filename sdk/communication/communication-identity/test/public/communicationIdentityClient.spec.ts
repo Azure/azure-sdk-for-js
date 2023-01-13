@@ -11,11 +11,9 @@ import {
   createRecordedCommunicationIdentityClientWithToken,
 } from "./utils/recordedClient";
 import { CommunicationIdentityClient } from "../../src";
-import { chatScope, multipleScopes, voipScope } from "./utils/testCommunicationIdentityClient";
 import { Context } from "mocha";
 import { assert } from "chai";
 import { matrix } from "@azure/test-utils";
-import { given } from "mocha-testdata";
 
 matrix([[true, false]], async function (useAad: boolean) {
   describe(`CommunicationIdentityClient [Playback/Live]${useAad ? " [AAD]" : ""}`, function () {
@@ -36,32 +34,60 @@ matrix([[true, false]], async function (useAad: boolean) {
       }
     });
 
+    const assertUserProperties = (
+      user: CommunicationUserIdentifier
+    ): void => {
+      assert.isTrue(isCommunicationUserIdentifier(user));
+      assert.isString(user.communicationUserId);
+    };
+
+    const assertAccessTokenProperties = (
+      token: string, 
+      expiresOn: Date
+    ): void => {
+      assert.isString(token);
+      assert.instanceOf(expiresOn, Date);
+    };
+
     it("successfully creates a user", async function () {
       const user: CommunicationUserIdentifier = await client.createUser();
-      assert.isString(user.communicationUserId);
+      assertUserProperties(user);
     });
 
-    given([
-      { scopes: chatScope, description: "chat scope" },
-      { scopes: voipScope, description: "voip scope" },
-      { scopes: multipleScopes, description: "multiple scopes" },
-    ]).it("successfully creates a user and token", async function (input) {
-      const { user: newUser, token, expiresOn } = await client.createUserAndToken(input.scopes);
-      assert.isTrue(isCommunicationUserIdentifier(newUser));
-      assert.isString(newUser.communicationUserId);
-      assert.isString(token);
-      assert.instanceOf(expiresOn, Date);
+    it("successfully creates a user and token for voip scope", async function () {
+      const { user: newUser, token, expiresOn } = await client.createUserAndToken(["voip"]);
+      assertUserProperties(newUser);
+      assertAccessTokenProperties(token, expiresOn);
     });
 
-    given([
-      { scopes: chatScope, description: "chat scope" },
-      { scopes: voipScope, description: "voip scope" },
-      { scopes: multipleScopes, description: "multiple scopes" },
-    ]).it("successfully gets a token for a user", async function (input) {
+    it("successfully creates a user and token for chat scope", async function () {
+      const { user: newUser, token, expiresOn } = await client.createUserAndToken(["chat"]);
+      assertUserProperties(newUser);
+      assertAccessTokenProperties(token, expiresOn);
+    });
+
+    it("successfully creates a user and gets a token for multiple scopes", async function () {
+      const { user: newUser, token, expiresOn } = await client.createUserAndToken(["chat", "voip"]);
+      assertUserProperties(newUser);
+      assertAccessTokenProperties(token, expiresOn);
+    });
+
+    it("successfully gets a token for voip scope", async function () {
       const user: CommunicationUserIdentifier = await client.createUser();
-      const { token, expiresOn } = await client.getToken(user, input.scopes);
-      assert.isString(token);
-      assert.instanceOf(expiresOn, Date);
+      const { token, expiresOn } = await client.getToken(user, ["voip"]);
+      assertAccessTokenProperties(token, expiresOn);
+    });
+
+    it("successfully gets a token for chat scope", async function () {
+      const user: CommunicationUserIdentifier = await client.createUser();
+      const { token, expiresOn } = await client.getToken(user, ["chat"]);
+      assertAccessTokenProperties(token, expiresOn);
+    });
+
+    it("successfully gets a token for multiple scopes", async function () {
+      const user: CommunicationUserIdentifier = await client.createUser();
+      const { token, expiresOn } = await client.getToken(user, ["chat", "voip"]);
+      assertAccessTokenProperties(token, expiresOn);
     });
 
     it("successfully revokes tokens issued for a user", async function () {
