@@ -51,7 +51,7 @@ describe("AppPlatform test", () => {
     client = new AppPlatformManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "east us";
     resourceGroup = "myjstest";
-    serviceName = "myservicexxx";
+    serviceName = "myservicexxx1";
     appName = "myappxxx";
   });
 
@@ -62,8 +62,8 @@ describe("AppPlatform test", () => {
   it("services create test", async function () {
     const res = await client.services.beginCreateOrUpdateAndWait(resourceGroup, serviceName, {
       sku: {
-        name: "B0",
-        tier: "Basic"
+        name: "S0",
+        tier: "Standard"
       },
       tags: {
         key1: "value1"

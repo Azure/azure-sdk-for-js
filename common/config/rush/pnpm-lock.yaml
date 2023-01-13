@@ -3680,7 +3680,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20230112
+      typescript: 5.0.0-dev.20230113
     dev: false
 
   /downlevel-dts/0.7.0:
@@ -8277,8 +8277,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20230112:
-    resolution: {integrity: sha512-cO+lTlZiNKqZIkjDOZWjh4WtFz8Jba/Ut4nvjcguXGgHoEnHD3+LSmgJjotPcWxALJZyvpd4EuAd5D3H9XF8Ig==}
+  /typescript/5.0.0-dev.20230113:
+    resolution: {integrity: sha512-C8A/oe/tShuoeJTLhzznzTJyowVu17XwbjMsLSSRZnkHo6QHQdxW1xVtoS92lMzU/8bzpr1uqH3K/6hoXPb6+w==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -9626,7 +9626,7 @@ packages:
     dev: false
 
   file:projects/arm-appplatform.tgz:
-    resolution: {integrity: sha512-VOU1HsCy6xcT1LoXiPOxwCISJJEV0wmp+DPssZCZ59Y/3XXXln805obsP6Rxpk9eBSi9Pawt4H5wXnzQfKOLIw==, tarball: file:projects/arm-appplatform.tgz}
+    resolution: {integrity: sha512-X2lG1hqtwtgfT/xKMMiw1dP0sR5ks7jMMPlmrjYSLlBaAtQ/zOCGwEYtbSvu5lmrYhhkS7DNQG503Eo5LpcoEg==, tarball: file:projects/arm-appplatform.tgz}
     name: '@rush-temp/arm-appplatform'
     version: 0.0.0
     dependencies:
@@ -9640,6 +9640,7 @@ packages:
       '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
