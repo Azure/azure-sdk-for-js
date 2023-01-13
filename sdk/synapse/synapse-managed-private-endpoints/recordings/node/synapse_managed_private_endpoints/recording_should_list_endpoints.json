@@ -5,30 +5,21 @@
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US",
+        "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/109.0.5412.0 Safari/537.36",
-        "x-ms-client-request-id": "19ef46b0-6d89-4cf7-b827-3a4ca3ed0e78",
-        "x-ms-useragent": "azsdk-js-synapse-managed-private-endpoints/1.0.0-beta.6 core-rest-pipeline/1.10.2 OS/Win32"
+        "User-Agent": "azsdk-js-synapse-managed-private-endpoints/1.0.0-beta.6 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "70f3991d-6df2-4c57-8bc4-155047600319"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Content-Length": "2465",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 13 Jan 2023 17:41:55 GMT",
+        "Date": "Fri, 13 Jan 2023 17:38:30 GMT",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "x-ms-request-id": "6a1c8a51-b7f2-47e1-9aca-1c24ffc3b7d9"
+        "x-ms-request-id": "905a0fe8-4b25-4629-9e86-0bea49dda488"
       },
       "ResponseBody": {
         "value": [
