@@ -74,8 +74,8 @@ export class StatsbeatMetrics {
   private _attach: string = "sdk";
 
   // Feature Statsbeat is used to send both features and instrumentations
-  protected _feature: number = StatsbeatFeature.NONE;
-  protected _instrumentation: number = StatsbeatInstrumentation.NONE;
+  private _feature: number = StatsbeatFeature.NONE;
+  private _instrumentation: number = StatsbeatInstrumentation.NONE;
 
   // Observable Gauges
   private _successCountGauge: ObservableGauge;

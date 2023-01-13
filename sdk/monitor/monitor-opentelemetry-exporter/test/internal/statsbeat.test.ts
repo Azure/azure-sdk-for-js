@@ -11,7 +11,11 @@ import nock from "nock";
 import { StatsbeatMetrics } from "../../src/export/statsbeat/statsbeatMetrics";
 // @ts-ignore Need to ignore this while we do not import types
 import sinon from "sinon";
-import { StatsbeatCounter } from "../../src/export/statsbeat/types";
+import {
+  StatsbeatCounter,
+  StatsbeatFeature,
+  StatsbeatInstrumentation,
+} from "../../src/export/statsbeat/types";
 
 describe("#AzureMonitorStatsbeatExporter", () => {
   let options = {
@@ -21,9 +25,12 @@ describe("#AzureMonitorStatsbeatExporter", () => {
   class TestExporter extends AzureMonitorBaseExporter {
     private thisAsAny: any;
     constructor() {
-      super({
-        connectionString: `instrumentationkey=foo-ikey`,
-      });
+      super(
+        { connectionString: `instrumentationkey=foo-ikey` },
+        false,
+        [StatsbeatInstrumentation.MONGODB, StatsbeatInstrumentation.REDIS],
+        [StatsbeatFeature.AAD_HANDLING]
+      );
       this.thisAsAny = this;
     }
 
@@ -123,6 +130,18 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         done();
       });
 
+      it("should add correct long interval properties to the custom metric", async () => {
+        const exporter = new TestExporter();
+        const statsbeatMetrics = exporter["_statsbeatMetrics"];
+        assert.ok(statsbeatMetrics);
+        // Represents the bitwise OR of MONGODB and REDIS instrumentations
+        assert.strictEqual(statsbeatMetrics["_instrumentation"], 10);
+        // Represents the bitwise OR of NONE and AAD_HANDLING features
+        assert.strictEqual(statsbeatMetrics["_feature"], 2);
+
+        assert.strictEqual(statsbeatMetrics["_attachProperties"].rpId, "");
+      });
+
       it("should turn off statsbeat after max failures", async () => {
         const exporter = new TestExporter();
         const response = failedBreezeResponse(1, 200);
@@ -219,7 +238,11 @@ describe("#AzureMonitorStatsbeatExporter", () => {
       before(() => {
         sandbox = sinon.createSandbox();
         process.env.WEBSITE_SITE_NAME = "test";
-        statsbeat = new StatsbeatMetrics({ ...options, networkCollectionInterval: 100 });
+        statsbeat = new StatsbeatMetrics({
+          ...options,
+          networkCollectionInterval: 100,
+          longCollectionInterval: 100,
+        });
       });
 
       afterEach(() => {
@@ -242,7 +265,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         assert.ok(mockExport.called);
         let resourceMetrics = mockExport.args[0][0];
         const scopeMetrics = resourceMetrics.scopeMetrics;
-        assert.strictEqual(scopeMetrics.length, 2, "Scope Metrics count");
+        assert.strictEqual(scopeMetrics.length, 1, "Scope Metrics count");
         let metrics = scopeMetrics[0].metrics;
         assert.strictEqual(metrics.length, 6, "Metrics count");
         assert.strictEqual(metrics[0].descriptor.name, StatsbeatCounter.SUCCESS_COUNT);
@@ -319,6 +342,21 @@ describe("#AzureMonitorStatsbeatExporter", () => {
 
         // Average Duration
         assert.strictEqual(metrics[5].dataPoints[0].value, 137.5);
+      });
+
+      it("should track long interval statsbeats", async () => {
+        let mockExport = sandbox.stub(statsbeat["_longIntervalAzureExporter"], "export");
+        statsbeat.countSuccess(200);
+
+        await new Promise((resolve) => setTimeout(resolve, 120));
+        assert.ok(mockExport.called);
+        let resourceMetrics = mockExport.args[0][0];
+        const scopeMetrics = resourceMetrics.scopeMetrics;
+        assert.strictEqual(scopeMetrics.length, 1, "Scope Metrics count");
+        let metrics = scopeMetrics[0].metrics;
+        assert.strictEqual(metrics.length, 2, "Metrics count");
+        assert.strictEqual(metrics[0].descriptor.name, StatsbeatCounter.FEATURE);
+        assert.strictEqual(metrics[1].descriptor.name, StatsbeatCounter.ATTACH);
       });
     });
   });
