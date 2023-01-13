@@ -12,7 +12,9 @@ export async function runWithCpuProfile(functionToProfile: () => Promise<void>) 
       session.post("Profiler.stop", (err, { profile }) => {
         // Write profile to disk, upload, etc.
         if (!err) {
-          fs.writeFileSync("./perfProgram.cpuprofile", JSON.stringify(profile));
+          const profileName = `./${getFormattedDate()}-perfProgram.cpuprofile`;
+          fs.writeFileSync(profileName, JSON.stringify(profile));
+          console.log(`...CPUProfile saved to ${profileName}...`);
         } else {
           console.log(err);
         }
@@ -20,3 +22,5 @@ export async function runWithCpuProfile(functionToProfile: () => Promise<void>) 
     });
   });
 }
+
+const getFormattedDate = () => { return new Date().toISOString().replaceAll(/[:\-.]/g, "_") }

@@ -177,6 +177,12 @@ jobs:
       artifactName: ${{ parameters.Language }}-profile.zip
     condition: ${{ parameters.Profile }}
 
+  - task: PublishPipelineArtifact@1
+    inputs:
+      targetPath: $(System.DefaultWorkingDirectory)/sdk
+      artifactName: "**/*-perfProgram.cpuprofile"
+    condition: always()
+
   - template: /eng/common/TestResources/remove-test-resources.yml
     parameters:
       ServiceDirectory: ${{ parameters.ServiceDirectory }}
