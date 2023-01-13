@@ -172,8 +172,8 @@ jobs:
 
   - task: PublishPipelineArtifact@1
     inputs:
-      targetPath: $(System.DefaultWorkingDirectory)/sdk
-      artifactName: "profiles/profiles.zip"
+      targetPath: $(System.DefaultWorkingDirectory)/sdk/profiles
+      artifactName: profiles.zip
     condition: always()
 
   - task: PublishPipelineArtifact@1
