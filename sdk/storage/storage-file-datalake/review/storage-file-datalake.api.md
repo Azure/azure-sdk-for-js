@@ -522,8 +522,12 @@ export interface FileAppendOptions extends CommonOptions {
     conditions?: LeaseAccessConditions;
     customerProvidedKey?: CpkInfo;
     flush?: boolean;
+    // Warning: (ae-forgotten-export) The symbol "LeaseAction" needs to be exported by the entry point index.d.ts
+    leaseAction?: LeaseAction;
+    leaseDuration?: number;
     // (undocumented)
     onProgress?: (progress: TransferProgressEvent) => void;
+    proposedLeaseId?: string;
     // (undocumented)
     transactionalContentMD5?: Uint8Array;
 }
@@ -563,8 +567,11 @@ export interface FileFlushOptions extends CommonOptions {
     // (undocumented)
     conditions?: DataLakeRequestConditions;
     customerProvidedKey?: CpkInfo;
+    leaseAction?: LeaseAction;
+    leaseDuration?: number;
     // (undocumented)
     pathHttpHeaders?: PathHttpHeaders;
+    proposedLeaseId?: string;
     // (undocumented)
     retainUncommittedData?: boolean;
 }
@@ -1281,6 +1288,7 @@ export interface PathAppendDataHeaders {
     encryptionKeySha256?: string;
     etag?: string;
     isServerEncrypted?: boolean;
+    leaseRenewed?: boolean;
     requestId?: string;
     version?: string;
     xMsContentCrc64?: Uint8Array;
@@ -1431,6 +1439,7 @@ export interface PathFlushDataHeaders {
     etag?: string;
     isServerEncrypted?: boolean;
     lastModified?: Date;
+    leaseRenewed?: boolean;
     requestId?: string;
     version?: string;
 }

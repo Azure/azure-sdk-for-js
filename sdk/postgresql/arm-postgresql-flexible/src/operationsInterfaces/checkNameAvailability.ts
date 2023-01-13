@@ -7,7 +7,7 @@
  */
 
 import {
-  NameAvailabilityRequest,
+  CheckNameAvailabilityRequest,
   CheckNameAvailabilityExecuteOptionalParams,
   CheckNameAvailabilityExecuteResponse
 } from "../models";
@@ -20,7 +20,7 @@ export interface CheckNameAvailability {
    * @param options The options parameters.
    */
   execute(
-    nameAvailabilityRequest: NameAvailabilityRequest,
+    nameAvailabilityRequest: CheckNameAvailabilityRequest,
     options?: CheckNameAvailabilityExecuteOptionalParams
   ): Promise<CheckNameAvailabilityExecuteResponse>;
 }
