@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for SearchManagementClient.",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "engines": {
     "node": ">=14.0.0"
   },
@@ -110,13 +110,5 @@
       }
     ]
   },
-  "autoPublish": true,
-  "//sampleConfiguration": {
-    "productName": "",
-    "productSlugs": [
-      "azure"
-    ],
-    "disableDocsMs": true,
-    "apiRefLink": "https://docs.microsoft.com/javascript/api/@azure/arm-search?view=azure-node-preview"
-  }
+  "autoPublish": true
 }

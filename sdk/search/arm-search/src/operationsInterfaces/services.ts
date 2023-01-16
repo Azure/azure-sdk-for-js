@@ -28,7 +28,7 @@ import {
 /** Interface representing a Services. */
 export interface Services {
   /**
-   * Gets a list of all search services in the given resource group.
+   * Gets a list of all Search services in the given resource group.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
    * @param options The options parameters.
@@ -38,7 +38,7 @@ export interface Services {
     options?: ServicesListByResourceGroupOptionalParams
   ): PagedAsyncIterableIterator<SearchService>;
   /**
-   * Gets a list of all search services in the given subscription.
+   * Gets a list of all Search services in the given subscription.
    * @param options The options parameters.
    */
   listBySubscription(

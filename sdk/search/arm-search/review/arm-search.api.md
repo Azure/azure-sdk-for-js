@@ -11,6 +11,9 @@ import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 
 // @public
+export type AadAuthFailureMode = "http403" | "http401WithBearerChallenge";
+
+// @public
 export type AdminKeyKind = "primary" | "secondary";
 
 // @public
@@ -73,6 +76,23 @@ export interface CloudErrorBody {
 }
 
 // @public
+export interface DataPlaneAadOrApiKeyAuthOption {
+    aadAuthFailureMode?: AadAuthFailureMode;
+}
+
+// @public
+export interface DataPlaneAuthOptions {
+    aadOrApiKey?: DataPlaneAadOrApiKeyAuthOption;
+    apiKeyOnly?: Record<string, unknown>;
+}
+
+// @public
+export interface EncryptionWithCmk {
+    readonly encryptionComplianceStatus?: SearchEncryptionComplianceStatus;
+    enforcement?: SearchEncryptionWithCmk;
+}
+
+// @public
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
@@ -91,6 +111,16 @@ export type IdentityType = "None" | "SystemAssigned";
 // @public
 export interface IpRule {
     value?: string;
+}
+
+// @public
+export enum KnownPrivateLinkServiceConnectionProvisioningState {
+    Canceled = "Canceled",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Incomplete = "Incomplete",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
 }
 
 // @public
@@ -162,8 +192,10 @@ export interface PrivateEndpointConnectionListResult {
 
 // @public
 export interface PrivateEndpointConnectionProperties {
+    groupId?: string;
     privateEndpoint?: PrivateEndpointConnectionPropertiesPrivateEndpoint;
     privateLinkServiceConnectionState?: PrivateEndpointConnectionPropertiesPrivateLinkServiceConnectionState;
+    provisioningState?: PrivateLinkServiceConnectionProvisioningState;
 }
 
 // @public
@@ -258,6 +290,9 @@ export interface PrivateLinkResourcesResult {
 }
 
 // @public
+export type PrivateLinkServiceConnectionProvisioningState = string;
+
+// @public
 export type PrivateLinkServiceConnectionStatus = "Pending" | "Approved" | "Rejected" | "Disconnected";
 
 // @public
@@ -315,6 +350,12 @@ export interface Resource {
     readonly type?: string;
 }
 
+// @public
+export type SearchEncryptionComplianceStatus = "Compliant" | "NonCompliant";
+
+// @public
+export type SearchEncryptionWithCmk = "Disabled" | "Enabled" | "Unspecified";
+
 // @public (undocumented)
 export class SearchManagementClient extends coreClient.ServiceClient {
     // (undocumented)
@@ -354,6 +395,9 @@ export interface SearchManagementRequestOptions {
 
 // @public
 export interface SearchService extends TrackedResource {
+    authOptions?: DataPlaneAuthOptions;
+    disableLocalAuth?: boolean;
+    encryptionWithCmk?: EncryptionWithCmk;
     hostingMode?: HostingMode;
     identity?: Identity;
     networkRuleSet?: NetworkRuleSet;
@@ -375,10 +419,13 @@ export interface SearchServiceListResult {
 }
 
 // @public
-export type SearchServiceStatus = "running" | "provisioning" | "deleting" | "degraded" | "disabled" | "error";
+export type SearchServiceStatus = "running" | "provisioning" | "deleting" | "degraded" | "disabled" | "error" | "stopped";
 
 // @public
 export interface SearchServiceUpdate extends Resource {
+    authOptions?: DataPlaneAuthOptions;
+    disableLocalAuth?: boolean;
+    encryptionWithCmk?: EncryptionWithCmk;
     hostingMode?: HostingMode;
     identity?: Identity;
     location?: string;
