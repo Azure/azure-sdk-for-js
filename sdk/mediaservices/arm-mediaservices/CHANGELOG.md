@@ -1,6 +1,6 @@
 # Release History
     
-## 14.0.0 (2023-01-16)
+## 13.1.0 (2023-01-16)
     
 **Features**
 
@@ -13,9 +13,6 @@
   - Enum KnownJobErrorCategory has a new value Account
   - Enum KnownJobErrorCode has a new value IdentityUnsupported
   - Added function getContinuationToken
-
-**Breaking Changes**
-
   - Interface AssetsListNextOptionalParams no longer has parameter filter
   - Interface AssetsListNextOptionalParams no longer has parameter orderby
   - Interface AssetsListNextOptionalParams no longer has parameter top
