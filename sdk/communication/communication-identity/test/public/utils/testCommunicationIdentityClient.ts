@@ -81,3 +81,7 @@ export class TestCommunicationIdentityClient {
     });
   }
 }
+
+export const chatScope: TokenScope[] = ["chat"];
+export const voipScope: TokenScope[] = ["voip"];
+export const multipleScopes: TokenScope[] = ["chat", "voip"];
