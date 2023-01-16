@@ -8,14 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  ContainerGroup,
-  ContainerInstanceManagementClient
-} from "@azure/arm-containerinstance";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+const { ContainerInstanceManagementClient } = require("@azure/arm-containerinstance");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Create or update container groups with specified configurations.
@@ -24,15 +19,13 @@ dotenv.config();
  * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/preview/2022-10-01-preview/examples/ContainerGroupCreateConfidential.json
  */
 async function confidentialContainerGroup() {
-  const subscriptionId =
-    process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName =
-    process.env["CONTAINERINSTANCE_RESOURCE_GROUP"] || "demo";
+  const subscriptionId = process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["CONTAINERINSTANCE_RESOURCE_GROUP"] || "demo";
   const containerGroupName = "demo1";
-  const containerGroup: ContainerGroup = {
+  const containerGroup = {
     confidentialComputeProperties: {
       ccePolicy:
-        "eyJhbGxvd19hbGwiOiB0cnVlLCAiY29udGFpbmVycyI6IHsibGVuZ3RoIjogMCwgImVsZW1lbnRzIjogbnVsbH19"
+        "eyJhbGxvd19hbGwiOiB0cnVlLCAiY29udGFpbmVycyI6IHsibGVuZ3RoIjogMCwgImVsZW1lbnRzIjogbnVsbH19",
     },
     containers: [
       {
@@ -41,20 +34,17 @@ async function confidentialContainerGroup() {
         environmentVariables: [],
         image: "confiimage",
         ports: [{ port: 8000 }],
-        resources: { requests: { cpu: 1, memoryInGB: 1.5 } }
-      }
+        resources: { requests: { cpu: 1, memoryInGB: 1.5 } },
+      },
     ],
     imageRegistryCredentials: [],
     ipAddress: { type: "Public", ports: [{ port: 8000, protocol: "TCP" }] },
     location: "westeurope",
     osType: "Linux",
-    sku: "Confidential"
+    sku: "Confidential",
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerInstanceManagementClient(
-    credential,
-    subscriptionId
-  );
+  const client = new ContainerInstanceManagementClient(credential, subscriptionId);
   const result = await client.containerGroups.beginCreateOrUpdateAndWait(
     resourceGroupName,
     containerGroupName,
@@ -70,12 +60,10 @@ async function confidentialContainerGroup() {
  * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/preview/2022-10-01-preview/examples/ContainerGroupExtensions.json
  */
 async function containerGroupCreateWithExtensions() {
-  const subscriptionId =
-    process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName =
-    process.env["CONTAINERINSTANCE_RESOURCE_GROUP"] || "demo";
+  const subscriptionId = process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["CONTAINERINSTANCE_RESOURCE_GROUP"] || "demo";
   const containerGroupName = "demo1";
-  const containerGroup: ContainerGroup = {
+  const containerGroup = {
     containers: [
       {
         name: "demo1",
@@ -83,8 +71,8 @@ async function containerGroupCreateWithExtensions() {
         environmentVariables: [],
         image: "nginx",
         ports: [{ port: 80 }],
-        resources: { requests: { cpu: 1, memoryInGB: 1.5 } }
-      }
+        resources: { requests: { cpu: 1, memoryInGB: 1.5 } },
+      },
     ],
     imageRegistryCredentials: [],
     ipAddress: { type: "Private", ports: [{ port: 80, protocol: "TCP" }] },
@@ -92,9 +80,8 @@ async function containerGroupCreateWithExtensions() {
     osType: "Linux",
     subnetIds: [
       {
-        id:
-          "/subscriptions/00000000-0000-0000-0000-00000000/resourceGroups/test-rg/providers/Microsoft.Network/virtualNetworks/test-rg-vnet/subnets/test-subnet"
-      }
+        id: "/subscriptions/00000000-0000-0000-0000-00000000/resourceGroups/test-rg/providers/Microsoft.Network/virtualNetworks/test-rg-vnet/subnets/test-subnet",
+      },
     ],
     extensions: [
       {
@@ -102,20 +89,17 @@ async function containerGroupCreateWithExtensions() {
         extensionType: "kube-proxy",
         protectedSettings: { kubeConfig: "<kubeconfig encoded string>" },
         settings: { clusterCidr: "10.240.0.0/16", kubeVersion: "v1.9.10" },
-        version: "1.0"
+        version: "1.0",
       },
       {
         name: "vk-realtime-metrics",
         extensionType: "realtime-metrics",
-        version: "1.0"
-      }
-    ]
+        version: "1.0",
+      },
+    ],
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerInstanceManagementClient(
-    credential,
-    subscriptionId
-  );
+  const client = new ContainerInstanceManagementClient(credential, subscriptionId);
   const result = await client.containerGroups.beginCreateOrUpdateAndWait(
     resourceGroupName,
     containerGroupName,
@@ -131,12 +115,10 @@ async function containerGroupCreateWithExtensions() {
  * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/preview/2022-10-01-preview/examples/ContainerGroupEncryptionProperties.json
  */
 async function containerGroupWithEncryptionProperties() {
-  const subscriptionId =
-    process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName =
-    process.env["CONTAINERINSTANCE_RESOURCE_GROUP"] || "demo";
+  const subscriptionId = process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["CONTAINERINSTANCE_RESOURCE_GROUP"] || "demo";
   const containerGroupName = "demo1";
-  const containerGroup: ContainerGroup = {
+  const containerGroup = {
     containers: [
       {
         name: "demo1",
@@ -144,32 +126,30 @@ async function containerGroupWithEncryptionProperties() {
         environmentVariables: [],
         image: "nginx",
         ports: [{ port: 80 }],
-        resources: { requests: { cpu: 1, memoryInGB: 1.5 } }
-      }
+        resources: { requests: { cpu: 1, memoryInGB: 1.5 } },
+      },
     ],
     encryptionProperties: {
       identity:
         "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/test-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/container-group-identity",
       keyName: "test-key",
       keyVersion: "<key version>",
-      vaultBaseUrl: "https://testkeyvault.vault.azure.net"
+      vaultBaseUrl: "https://testkeyvault.vault.azure.net",
     },
     identity: {
       type: "UserAssigned",
       userAssignedIdentities: {
-        "/subscriptions/00000000000000000000000000000000/resourcegroups/testRg/providers/MicrosoftManagedIdentity/userAssignedIdentities/containerGroupIdentity": {}
-      }
+        "/subscriptions/00000000000000000000000000000000/resourcegroups/testRg/providers/MicrosoftManagedIdentity/userAssignedIdentities/containerGroupIdentity":
+          {},
+      },
     },
     imageRegistryCredentials: [],
     ipAddress: { type: "Public", ports: [{ port: 80, protocol: "TCP" }] },
     location: "eastus2",
-    osType: "Linux"
+    osType: "Linux",
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerInstanceManagementClient(
-    credential,
-    subscriptionId
-  );
+  const client = new ContainerInstanceManagementClient(credential, subscriptionId);
   const result = await client.containerGroups.beginCreateOrUpdateAndWait(
     resourceGroupName,
     containerGroupName,
@@ -185,12 +165,10 @@ async function containerGroupWithEncryptionProperties() {
  * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/preview/2022-10-01-preview/examples/ContainerGroupsCreateOrUpdate.json
  */
 async function containerGroupsCreateOrUpdate() {
-  const subscriptionId =
-    process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName =
-    process.env["CONTAINERINSTANCE_RESOURCE_GROUP"] || "demo";
+  const subscriptionId = process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["CONTAINERINSTANCE_RESOURCE_GROUP"] || "demo";
   const containerGroupName = "demo1";
-  const containerGroup: ContainerGroup = {
+  const containerGroup = {
     containers: [
       {
         name: "demo1",
@@ -199,14 +177,14 @@ async function containerGroupsCreateOrUpdate() {
         image: "nginx",
         ports: [{ port: 80 }],
         resources: {
-          requests: { cpu: 1, gpu: { count: 1, sku: "K80" }, memoryInGB: 1.5 }
+          requests: { cpu: 1, gpu: { count: 1, sku: "K80" }, memoryInGB: 1.5 },
         },
         volumeMounts: [
           { name: "volume1", mountPath: "/mnt/volume1", readOnly: false },
           { name: "volume2", mountPath: "/mnt/volume2", readOnly: false },
-          { name: "volume3", mountPath: "/mnt/volume3", readOnly: true }
-        ]
-      }
+          { name: "volume3", mountPath: "/mnt/volume3", readOnly: true },
+        ],
+      },
     ],
     diagnostics: {
       logAnalytics: {
@@ -215,34 +193,34 @@ async function containerGroupsCreateOrUpdate() {
         workspaceId: "workspaceid",
         workspaceKey: "workspaceKey",
         workspaceResourceId:
-          "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg/providers/microsoft.operationalinsights/workspaces/workspace"
-      }
+          "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg/providers/microsoft.operationalinsights/workspaces/workspace",
+      },
     },
     dnsConfig: {
       nameServers: ["1.1.1.1"],
       options: "ndots:2",
-      searchDomains: "cluster.local svc.cluster.local"
+      searchDomains: "cluster.local svc.cluster.local",
     },
     identity: {
       type: "SystemAssigned, UserAssigned",
       userAssignedIdentities: {
-        "/subscriptions/00000000000000000000000000000000/resourceGroups/myResourceGroup/providers/MicrosoftManagedIdentity/userAssignedIdentities/identityName": {}
-      }
+        "/subscriptions/00000000000000000000000000000000/resourceGroups/myResourceGroup/providers/MicrosoftManagedIdentity/userAssignedIdentities/identityName":
+          {},
+      },
     },
     imageRegistryCredentials: [],
     ipAddress: {
       type: "Public",
       autoGeneratedDomainNameLabelScope: "Unsecure",
       dnsNameLabel: "dnsnamelabel1",
-      ports: [{ port: 80, protocol: "TCP" }]
+      ports: [{ port: 80, protocol: "TCP" }],
     },
     location: "west us",
     osType: "Linux",
     subnetIds: [
       {
-        id:
-          "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnetName'), parameters('subnetName'))]"
-      }
+        id: "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnetName'), parameters('subnetName'))]",
+      },
     ],
     volumes: [
       {
@@ -250,24 +228,21 @@ async function containerGroupsCreateOrUpdate() {
         azureFile: {
           shareName: "shareName",
           storageAccountKey: "accountKey",
-          storageAccountName: "accountName"
-        }
+          storageAccountName: "accountName",
+        },
       },
       { name: "volume2", emptyDir: {} },
       {
         name: "volume3",
         secret: {
           secretKey1: "SecretValue1InBase64",
-          secretKey2: "SecretValue2InBase64"
-        }
-      }
-    ]
+          secretKey2: "SecretValue2InBase64",
+        },
+      },
+    ],
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerInstanceManagementClient(
-    credential,
-    subscriptionId
-  );
+  const client = new ContainerInstanceManagementClient(credential, subscriptionId);
   const result = await client.containerGroups.beginCreateOrUpdateAndWait(
     resourceGroupName,
     containerGroupName,
@@ -283,31 +258,26 @@ async function containerGroupsCreateOrUpdate() {
  * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/preview/2022-10-01-preview/examples/ContainerGroupsCreatePriority.json
  */
 async function containerGroupsCreateWithPriority() {
-  const subscriptionId =
-    process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName =
-    process.env["CONTAINERINSTANCE_RESOURCE_GROUP"] || "demo";
+  const subscriptionId = process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["CONTAINERINSTANCE_RESOURCE_GROUP"] || "demo";
   const containerGroupName = "demo1";
-  const containerGroup: ContainerGroup = {
+  const containerGroup = {
     containers: [
       {
         name: "test-container-001",
         command: ["/bin/sh", "-c", "sleep 10"],
         image: "alpine:latest",
-        resources: { requests: { cpu: 1, memoryInGB: 1 } }
-      }
+        resources: { requests: { cpu: 1, memoryInGB: 1 } },
+      },
     ],
     location: "eastus",
     osType: "Linux",
     priority: "Spot",
     restartPolicy: "Never",
-    sku: "Standard"
+    sku: "Standard",
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerInstanceManagementClient(
-    credential,
-    subscriptionId
-  );
+  const client = new ContainerInstanceManagementClient(credential, subscriptionId);
   const result = await client.containerGroups.beginCreateOrUpdateAndWait(
     resourceGroupName,
     containerGroupName,

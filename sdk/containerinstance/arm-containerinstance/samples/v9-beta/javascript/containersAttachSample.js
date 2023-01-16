@@ -8,11 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { ContainerInstanceManagementClient } from "@azure/arm-containerinstance";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+const { ContainerInstanceManagementClient } = require("@azure/arm-containerinstance");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Attach to the output stream of a specific container instance in a specified resource group and container group.
@@ -21,17 +19,12 @@ dotenv.config();
  * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/preview/2022-10-01-preview/examples/ContainerAttach.json
  */
 async function containerAttach() {
-  const subscriptionId =
-    process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName =
-    process.env["CONTAINERINSTANCE_RESOURCE_GROUP"] || "demo";
+  const subscriptionId = process.env["CONTAINERINSTANCE_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["CONTAINERINSTANCE_RESOURCE_GROUP"] || "demo";
   const containerGroupName = "demo1";
   const containerName = "container1";
   const credential = new DefaultAzureCredential();
-  const client = new ContainerInstanceManagementClient(
-    credential,
-    subscriptionId
-  );
+  const client = new ContainerInstanceManagementClient(credential, subscriptionId);
   const result = await client.containers.attach(
     resourceGroupName,
     containerGroupName,
