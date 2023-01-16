@@ -1,6 +1,6 @@
 # Release History
     
-## 3.0.0-beta.1 (2023-01-13)
+## 2.1.0-beta.5 (2023-01-13)
     
 **Features**
 
@@ -322,9 +322,6 @@
   - Added Enum KnownType
   - Enum KnownBindingType has a new value CACertificates
   - Added function getContinuationToken
-
-**Breaking Changes**
-
   - Interface DeploymentsListForClusterNextOptionalParams no longer has parameter version
   - Interface DeploymentsListNextOptionalParams no longer has parameter version
   - Type of parameter type of interface UserSourceInfo is changed from "UploadedUserSourceInfo" | "Jar" | "Source" | "NetCoreZip" | "BuildResult" to "UploadedUserSourceInfo" | "Jar" | "Source" | "NetCoreZip" | "BuildResult" | "Container"
