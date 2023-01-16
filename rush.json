@@ -1933,6 +1933,11 @@
       "packageName": "@azure/arm-servicenetworking",
       "projectFolder": "sdk/servicenetworking/arm-servicenetworking",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure-rest/azure-template-contoso-rest",
+      "projectFolder": "sdk/Contoso/azure-template-contoso-rest",
+      "versionPolicyName": "client"
     }
   ]
 }
