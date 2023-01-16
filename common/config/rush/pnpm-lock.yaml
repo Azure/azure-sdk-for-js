@@ -3680,7 +3680,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20230112
+      typescript: 5.0.0-dev.20230115
     dev: false
 
   /downlevel-dts/0.7.0:
@@ -8277,8 +8277,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20230112:
-    resolution: {integrity: sha512-cO+lTlZiNKqZIkjDOZWjh4WtFz8Jba/Ut4nvjcguXGgHoEnHD3+LSmgJjotPcWxALJZyvpd4EuAd5D3H9XF8Ig==}
+  /typescript/5.0.0-dev.20230115:
+    resolution: {integrity: sha512-nwKvgk3rIDN9pa4fuI5vdpvR9LcLnFsLV/1HE4I5LTULB/DsN6MMeE1UF69L2RKCsv0PFYx4GXCWOsZUt/Jx9w==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -10069,7 +10069,7 @@ packages:
     dev: false
 
   file:projects/arm-botservice.tgz:
-    resolution: {integrity: sha512-OhboRZnHhPIw1+Ihx3F/620tXTg2A3Ym9OS4kPDibvVO+EhCmjXQGXilzn2/9K7IlytwuCRG5LTEtjtAmjxnIQ==, tarball: file:projects/arm-botservice.tgz}
+    resolution: {integrity: sha512-pZMDuA+9ROLZiSLWBvbDhMSelehWQYjKdkVa6Do3TeKE6cMKhsHvZRxrbUF1Rclm34oPjtQMLV1Nnl3TOLS4AA==, tarball: file:projects/arm-botservice.tgz}
     name: '@rush-temp/arm-botservice'
     version: 0.0.0
     dependencies:
@@ -10083,6 +10083,7 @@ packages:
       '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -17974,7 +17975,7 @@ packages:
     dev: false
 
   file:projects/perf-storage-blob.tgz:
-    resolution: {integrity: sha512-kI/qJeEMQ1YPbHIB1MBdNx128oCKfr7p3dO4eyS+1hTEVTpUdRmffqa6OqAa+DNSSr4BWd9LEbVqMo1VLJaypw==, tarball: file:projects/perf-storage-blob.tgz}
+    resolution: {integrity: sha512-jK57Eg/wAEJQ9F/7j4JZzWpOODHK9T4kEqWTw3IZEaFGA6saKefrIDm+l1AS15vWD/lGDOioiibtkyHDE8w5mQ==, tarball: file:projects/perf-storage-blob.tgz}
     name: '@rush-temp/perf-storage-blob'
     version: 0.0.0
     dependencies:
@@ -18933,7 +18934,7 @@ packages:
     dev: false
 
   file:projects/synapse-managed-private-endpoints.tgz:
-    resolution: {integrity: sha512-sLJ5bTTZ+Og0WevfNPAAWLhyXvDgk3GarbQwwkNP8gQgP1IUESaXpnzW/uJZkDs0z7T9CqK//M/vJDCj/OmdeQ==, tarball: file:projects/synapse-managed-private-endpoints.tgz}
+    resolution: {integrity: sha512-zXcV4TSfY+5W5n3XkXzs7sofBsEf6CnHJKZmckvk2ZIs4yprRA8+9HrJxUdWm6hXGaEl5/eVeEwqCDHL8CUpug==, tarball: file:projects/synapse-managed-private-endpoints.tgz}
     name: '@rush-temp/synapse-managed-private-endpoints'
     version: 0.0.0
     dependencies:
@@ -18973,7 +18974,6 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
@@ -19156,7 +19156,7 @@ packages:
     dev: false
 
   file:projects/test-utils-perf.tgz:
-    resolution: {integrity: sha512-xucqchHdnYwM2FR86EIEsRh5Z3TtRMTwTivenrEwVfv0JVrU418HYXODjvE65GtuPtOK+Egn+Ftm5Ej78LbUAg==, tarball: file:projects/test-utils-perf.tgz}
+    resolution: {integrity: sha512-e0SWxrRiG1Zf9QaOueeMh/BUv53IiuT7oOU8Vf53Cx4LX2TwdgsWKvZH2GMWdSpAtZqKDJ9niw90PqqSdeX5Gw==, tarball: file:projects/test-utils-perf.tgz}
     name: '@rush-temp/test-utils-perf'
     version: 0.0.0
     dependencies:
