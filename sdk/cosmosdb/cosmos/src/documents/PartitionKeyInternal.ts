@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { NonePartitionKey, NullPartitionType, PartitionKey, PrimitivePartitionKeyValue } from "./PartitionKey";
+import { NonePartitionKeyType, NullPartitionKeyType, PartitionKey, PrimitivePartitionKeyValue } from "./PartitionKey";
 
 /**
  * @hidden
@@ -12,12 +12,12 @@ export type PartitionKeyInternal = PrimitivePartitionKeyValue[];
 * @hidden
 * None PartitionKey Literal
 */
-export const NonePartitionKeyLiteral: NonePartitionKey = {};
+export const NonePartitionKeyLiteral: NonePartitionKeyType = {};
 /**
  * @hidden
  * Null PartitionKey Literal
  */
-export const NullPartitionKeyLiteral: NullPartitionType = null;
+export const NullPartitionKeyLiteral: NullPartitionKeyType = null;
 /**
  * @hidden
  * Maps PartitionKey to InternalPartitionKey.

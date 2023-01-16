@@ -12,20 +12,20 @@ export type PrimitivePartitionKeyValue =
   | string
   | number
   | boolean
-  | NullPartitionType
-  | NonePartitionKey;
+  | NullPartitionKeyType
+  | NonePartitionKeyType;
 
 /**
  * The returned object represents a partition key value that allows creating and accessing items
  * with a null value for the partition key.
  */
-export type NullPartitionType = null;
+export type NullPartitionKeyType = null;
 
 /**
  * The returned object represents a partition key value that allows creating and accessing items
  * without a value for partition key
  */
-export type NonePartitionKey = {
+export type NonePartitionKeyType = {
   [K in any]: never;
 };
 
