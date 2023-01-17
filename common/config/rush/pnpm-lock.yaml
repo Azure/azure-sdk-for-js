@@ -3667,7 +3667,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20230110
+      typescript: 5.0.0-dev.20230117
     dev: false
 
   /downlevel-dts/0.7.0:
@@ -8308,8 +8308,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20230110:
-    resolution: {integrity: sha512-0GvdJbYkEHxWSL2XPS/kivYbGZIGmgICZ/xXoY11zv1RRehhH9781v+RpsHI4qsGqxmzOI5VL+o/Y+t7sbwWVA==}
+  /typescript/5.0.0-dev.20230117:
+    resolution: {integrity: sha512-t4oWIiyz6CecNWyma3JrWhQttymyjEjU22fblThjweyNJHzgScOrKO6TYWZmJT4vbi486mTLLu5ologS69czow==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -12129,7 +12129,7 @@ packages:
     dev: false
 
   file:projects/arm-labservices.tgz:
-    resolution: {integrity: sha512-b+iGQ8sN+43UoAO7OWfDWwCfbCIN5SuHJ4sH8YDDRClNIbB+9H+vzvllTgeYikqxoCKLXrSY4j8HdLyeL1gWOw==, tarball: file:projects/arm-labservices.tgz}
+    resolution: {integrity: sha512-p0/LWd88YyhyFubKXlJ5tRsKv3em+CatgUE6NrbW69FI8a6JHwdhUU7y9OI2HUBryG52NFGnYafx+R9LfzTy+g==, tarball: file:projects/arm-labservices.tgz}
     name: '@rush-temp/arm-labservices'
     version: 0.0.0
     dependencies:
@@ -12140,18 +12140,19 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
+      '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_7e8d81808a761355f6c3da2f25cfe887
       tslib: 2.4.1
-      typescript: 4.6.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
