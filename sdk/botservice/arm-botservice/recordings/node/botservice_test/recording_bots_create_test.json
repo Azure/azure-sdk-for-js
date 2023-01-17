@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.BotService/botServices/mybotxxx?api-version=2021-05-01-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.BotService/botServices/mybotxxx?api-version=2022-09-15",
       "RequestMethod": "PUT",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -10,8 +10,8 @@
         "Connection": "keep-alive",
         "Content-Length": "504",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-arm-botservice/4.0.0-beta.5 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "9a62689f-c29e-4333-b2f1-5ac9f6f11424"
+        "User-Agent": "azsdk-js-arm-botservice/4.0.0 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "a00a13f6-ab9f-4953-bba6-54019338daf8"
       },
       "RequestBody": {
         "location": "global",
@@ -37,24 +37,24 @@
       "StatusCode": 201,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
-        "Content-Length": "1427",
+        "Content-Length": "1455",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 17 Nov 2022 02:10:37 GMT",
-        "ETag": "\u00223f000398-0000-1800-0000-6375981b0000\u0022",
+        "Date": "Mon, 16 Jan 2023 03:17:34 GMT",
+        "ETag": "\u002218000c52-0000-1800-0000-63c4c1cc0000\u0022",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "7fbae8cd-7aaf-4f48-b1bf-9cda31d6ed3e",
+        "x-ms-correlation-request-id": "d55e1739-40fb-4668-97cd-04e52e5a8572",
         "x-ms-ratelimit-remaining-subscription-writes": "1199",
-        "x-ms-request-id": "efebf346-4fca-4906-8e01-e038b5e9b598",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20221117T021037Z:7fbae8cd-7aaf-4f48-b1bf-9cda31d6ed3e"
+        "x-ms-request-id": "3d9e1ce0-1f87-48dd-81c3-708a93bb0fab",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230116T031734Z:d55e1739-40fb-4668-97cd-04e52e5a8572"
       },
       "ResponseBody": {
-        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.BotService/botServices/mybotxxx",
+        "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.BotService/botServices/mybotxxx",
         "name": "mybotxxx",
         "type": "Microsoft.BotService/botServices",
-        "etag": "\u00223f000398-0000-1800-0000-6375981b0000\u0022",
+        "etag": "\u002218000c52-0000-1800-0000-63c4c1cc0000\u0022",
         "location": "global",
         "sku": {
           "name": "S1"
@@ -78,7 +78,8 @@
           "luisAppIds": [],
           "endpointVersion": "3.0",
           "configuredChannels": [
-            "webchat"
+            "webchat",
+            "directline"
           ],
           "enabledChannels": [
             "webchat",

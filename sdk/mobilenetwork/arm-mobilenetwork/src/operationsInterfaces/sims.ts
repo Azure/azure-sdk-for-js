@@ -15,7 +15,16 @@ import {
   SimsGetOptionalParams,
   SimsGetResponse,
   SimsCreateOrUpdateOptionalParams,
-  SimsCreateOrUpdateResponse
+  SimsCreateOrUpdateResponse,
+  SimUploadList,
+  SimsBulkUploadOptionalParams,
+  SimsBulkUploadResponse,
+  SimDeleteList,
+  SimsBulkDeleteOptionalParams,
+  SimsBulkDeleteResponse,
+  EncryptedSimUploadList,
+  SimsBulkUploadEncryptedOptionalParams,
+  SimsBulkUploadEncryptedResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -106,4 +115,97 @@ export interface Sims {
     parameters: Sim,
     options?: SimsCreateOrUpdateOptionalParams
   ): Promise<SimsCreateOrUpdateResponse>;
+  /**
+   * Bulk upload SIMs to a SIM group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param simGroupName The name of the SIM Group.
+   * @param parameters Parameters supplied to the bulk SIM upload operation.
+   * @param options The options parameters.
+   */
+  beginBulkUpload(
+    resourceGroupName: string,
+    simGroupName: string,
+    parameters: SimUploadList,
+    options?: SimsBulkUploadOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<SimsBulkUploadResponse>,
+      SimsBulkUploadResponse
+    >
+  >;
+  /**
+   * Bulk upload SIMs to a SIM group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param simGroupName The name of the SIM Group.
+   * @param parameters Parameters supplied to the bulk SIM upload operation.
+   * @param options The options parameters.
+   */
+  beginBulkUploadAndWait(
+    resourceGroupName: string,
+    simGroupName: string,
+    parameters: SimUploadList,
+    options?: SimsBulkUploadOptionalParams
+  ): Promise<SimsBulkUploadResponse>;
+  /**
+   * Bulk delete SIMs from a SIM group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param simGroupName The name of the SIM Group.
+   * @param parameters Parameters supplied to the bulk SIM delete operation.
+   * @param options The options parameters.
+   */
+  beginBulkDelete(
+    resourceGroupName: string,
+    simGroupName: string,
+    parameters: SimDeleteList,
+    options?: SimsBulkDeleteOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<SimsBulkDeleteResponse>,
+      SimsBulkDeleteResponse
+    >
+  >;
+  /**
+   * Bulk delete SIMs from a SIM group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param simGroupName The name of the SIM Group.
+   * @param parameters Parameters supplied to the bulk SIM delete operation.
+   * @param options The options parameters.
+   */
+  beginBulkDeleteAndWait(
+    resourceGroupName: string,
+    simGroupName: string,
+    parameters: SimDeleteList,
+    options?: SimsBulkDeleteOptionalParams
+  ): Promise<SimsBulkDeleteResponse>;
+  /**
+   * Bulk upload SIMs in encrypted form to a SIM group. The SIM credentials must be encrypted.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param simGroupName The name of the SIM Group.
+   * @param parameters Parameters supplied to the encrypted SIMs upload operation.
+   * @param options The options parameters.
+   */
+  beginBulkUploadEncrypted(
+    resourceGroupName: string,
+    simGroupName: string,
+    parameters: EncryptedSimUploadList,
+    options?: SimsBulkUploadEncryptedOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<SimsBulkUploadEncryptedResponse>,
+      SimsBulkUploadEncryptedResponse
+    >
+  >;
+  /**
+   * Bulk upload SIMs in encrypted form to a SIM group. The SIM credentials must be encrypted.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param simGroupName The name of the SIM Group.
+   * @param parameters Parameters supplied to the encrypted SIMs upload operation.
+   * @param options The options parameters.
+   */
+  beginBulkUploadEncryptedAndWait(
+    resourceGroupName: string,
+    simGroupName: string,
+    parameters: EncryptedSimUploadList,
+    options?: SimsBulkUploadEncryptedOptionalParams
+  ): Promise<SimsBulkUploadEncryptedResponse>;
 }

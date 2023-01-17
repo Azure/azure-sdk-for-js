@@ -10,16 +10,22 @@
 // Licensed under the MIT License.
 import { AzureMediaServices } from "@azure/arm-mediaservices";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Get details of a group ID.
  *
  * @summary Get details of a group ID.
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2021-11-01/examples/private-link-resources-get-by-name.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Accounts/stable/2021-11-01/examples/private-link-resources-get-by-name.json
  */
 async function getDetailsOfAGroupId() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "contoso";
+  const subscriptionId =
+    process.env["MEDIASERVICES_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
   const accountName = "contososports";
   const name = "keydelivery";
   const credential = new DefaultAzureCredential();
@@ -32,4 +38,8 @@ async function getDetailsOfAGroupId() {
   console.log(result);
 }
 
-getDetailsOfAGroupId().catch(console.error);
+async function main() {
+  getDetailsOfAGroupId();
+}
+
+main().catch(console.error);
