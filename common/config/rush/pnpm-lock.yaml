@@ -3680,7 +3680,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20230115
+      typescript: 5.0.0-dev.20230117
     dev: false
 
   /downlevel-dts/0.7.0:
@@ -8277,8 +8277,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20230115:
-    resolution: {integrity: sha512-nwKvgk3rIDN9pa4fuI5vdpvR9LcLnFsLV/1HE4I5LTULB/DsN6MMeE1UF69L2RKCsv0PFYx4GXCWOsZUt/Jx9w==}
+  /typescript/5.0.0-dev.20230117:
+    resolution: {integrity: sha512-t4oWIiyz6CecNWyma3JrWhQttymyjEjU22fblThjweyNJHzgScOrKO6TYWZmJT4vbi486mTLLu5ologS69czow==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -12507,7 +12507,7 @@ packages:
     dev: false
 
   file:projects/arm-mediaservices.tgz:
-    resolution: {integrity: sha512-2YYMhqb2wGP1LBP8oJkP5dHZV6hh625QROa22VHaS+m7xvvkB3KxjqNbJt6pZ92p0zc1v+WH6G6se3iH3JxtHw==, tarball: file:projects/arm-mediaservices.tgz}
+    resolution: {integrity: sha512-XQqC8pQQU0ttihsBXEwGGVZwz/nDFNzK2eZcNooR2VoF7G1oD7QeOTxzhmQAQT67LSciEtBGcBpiMoFeyk8Rgg==, tarball: file:projects/arm-mediaservices.tgz}
     name: '@rush-temp/arm-mediaservices'
     version: 0.0.0
     dependencies:
@@ -15031,7 +15031,7 @@ packages:
     dev: false
 
   file:projects/communication-identity.tgz:
-    resolution: {integrity: sha512-Ql6y+rpT2v6a0lAKv+YiWuhym6q/1X7+9EfWhphDIclrzyOMzgQt6GPCZdZ7YmCBhlYyeIiin26mHDVB6PLlHA==, tarball: file:projects/communication-identity.tgz}
+    resolution: {integrity: sha512-snOM35uvtaeBFnHRlPvxIWQUB62hddyL23LHFrVuZ3ucXlNZovEheSwepUbMjj6z5UXpamvSpaOXMfsebn9XpA==, tarball: file:projects/communication-identity.tgz}
     name: '@rush-temp/communication-identity'
     version: 0.0.0
     dependencies:
@@ -15064,7 +15064,10 @@ packages:
       mocha-testdata: 1.2.0
       nyc: 15.1.0
       prettier: 2.8.2
+      process: 0.11.10
       rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-shim: 1.0.0
       sinon: 9.2.4
       tslib: 2.4.1
       typescript: 4.8.4
