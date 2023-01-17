@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { ServerAdministrators } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,12 +17,12 @@ import { LroImpl } from "../lroImpl";
 import {
   ServerAdministratorResource,
   ServerAdministratorsListOptionalParams,
+  ServerAdministratorsListResponse,
   ServerAdministratorsGetOptionalParams,
   ServerAdministratorsGetResponse,
   ServerAdministratorsCreateOrUpdateOptionalParams,
   ServerAdministratorsCreateOrUpdateResponse,
-  ServerAdministratorsDeleteOptionalParams,
-  ServerAdministratorsListResponse
+  ServerAdministratorsDeleteOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -57,8 +57,16 @@ export class ServerAdministratorsImpl implements ServerAdministrators {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, serverName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          serverName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -66,9 +74,11 @@ export class ServerAdministratorsImpl implements ServerAdministrators {
   private async *listPagingPage(
     resourceGroupName: string,
     serverName: string,
-    options?: ServerAdministratorsListOptionalParams
+    options?: ServerAdministratorsListOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<ServerAdministratorResource[]> {
-    let result = await this._list(resourceGroupName, serverName, options);
+    let result: ServerAdministratorsListResponse;
+    result = await this._list(resourceGroupName, serverName, options);
     yield result.value || [];
   }
 

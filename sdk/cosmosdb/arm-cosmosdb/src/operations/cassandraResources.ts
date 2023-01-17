@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { CassandraResources } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,11 +17,13 @@ import { LroImpl } from "../lroImpl";
 import {
   CassandraKeyspaceGetResults,
   CassandraResourcesListCassandraKeyspacesOptionalParams,
+  CassandraResourcesListCassandraKeyspacesResponse,
   CassandraTableGetResults,
   CassandraResourcesListCassandraTablesOptionalParams,
+  CassandraResourcesListCassandraTablesResponse,
   CassandraViewGetResults,
   CassandraResourcesListCassandraViewsOptionalParams,
-  CassandraResourcesListCassandraKeyspacesResponse,
+  CassandraResourcesListCassandraViewsResponse,
   CassandraResourcesGetCassandraKeyspaceOptionalParams,
   CassandraResourcesGetCassandraKeyspaceResponse,
   CassandraKeyspaceCreateUpdateParameters,
@@ -37,7 +39,6 @@ import {
   CassandraResourcesMigrateCassandraKeyspaceToAutoscaleResponse,
   CassandraResourcesMigrateCassandraKeyspaceToManualThroughputOptionalParams,
   CassandraResourcesMigrateCassandraKeyspaceToManualThroughputResponse,
-  CassandraResourcesListCassandraTablesResponse,
   CassandraResourcesGetCassandraTableOptionalParams,
   CassandraResourcesGetCassandraTableResponse,
   CassandraTableCreateUpdateParameters,
@@ -52,7 +53,6 @@ import {
   CassandraResourcesMigrateCassandraTableToAutoscaleResponse,
   CassandraResourcesMigrateCassandraTableToManualThroughputOptionalParams,
   CassandraResourcesMigrateCassandraTableToManualThroughputResponse,
-  CassandraResourcesListCassandraViewsResponse,
   CassandraResourcesGetCassandraViewOptionalParams,
   CassandraResourcesGetCassandraViewResponse,
   CassandraViewCreateUpdateParameters,
@@ -105,11 +105,15 @@ export class CassandraResourcesImpl implements CassandraResources {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listCassandraKeyspacesPagingPage(
           resourceGroupName,
           accountName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -118,9 +122,11 @@ export class CassandraResourcesImpl implements CassandraResources {
   private async *listCassandraKeyspacesPagingPage(
     resourceGroupName: string,
     accountName: string,
-    options?: CassandraResourcesListCassandraKeyspacesOptionalParams
+    options?: CassandraResourcesListCassandraKeyspacesOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<CassandraKeyspaceGetResults[]> {
-    let result = await this._listCassandraKeyspaces(
+    let result: CassandraResourcesListCassandraKeyspacesResponse;
+    result = await this._listCassandraKeyspaces(
       resourceGroupName,
       accountName,
       options
@@ -168,12 +174,16 @@ export class CassandraResourcesImpl implements CassandraResources {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listCassandraTablesPagingPage(
           resourceGroupName,
           accountName,
           keyspaceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -183,9 +193,11 @@ export class CassandraResourcesImpl implements CassandraResources {
     resourceGroupName: string,
     accountName: string,
     keyspaceName: string,
-    options?: CassandraResourcesListCassandraTablesOptionalParams
+    options?: CassandraResourcesListCassandraTablesOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<CassandraTableGetResults[]> {
-    let result = await this._listCassandraTables(
+    let result: CassandraResourcesListCassandraTablesResponse;
+    result = await this._listCassandraTables(
       resourceGroupName,
       accountName,
       keyspaceName,
@@ -236,12 +248,16 @@ export class CassandraResourcesImpl implements CassandraResources {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listCassandraViewsPagingPage(
           resourceGroupName,
           accountName,
           keyspaceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -251,9 +267,11 @@ export class CassandraResourcesImpl implements CassandraResources {
     resourceGroupName: string,
     accountName: string,
     keyspaceName: string,
-    options?: CassandraResourcesListCassandraViewsOptionalParams
+    options?: CassandraResourcesListCassandraViewsOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<CassandraViewGetResults[]> {
-    let result = await this._listCassandraViews(
+    let result: CassandraResourcesListCassandraViewsResponse;
+    result = await this._listCassandraViews(
       resourceGroupName,
       accountName,
       keyspaceName,

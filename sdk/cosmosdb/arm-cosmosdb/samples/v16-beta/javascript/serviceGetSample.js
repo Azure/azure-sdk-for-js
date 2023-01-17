@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets the status of service.
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBDataTransferServiceGet.json
  */
 async function dataTransferServiceGet() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
   const serviceName = "DataTransfer";
   const credential = new DefaultAzureCredential();
@@ -28,8 +29,6 @@ async function dataTransferServiceGet() {
   console.log(result);
 }
 
-dataTransferServiceGet().catch(console.error);
-
 /**
  * This sample demonstrates how to Gets the status of service.
  *
@@ -37,8 +36,8 @@ dataTransferServiceGet().catch(console.error);
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBGraphAPIComputeServiceGet.json
  */
 async function graphApiComputeServiceGet() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
   const serviceName = "GraphAPICompute";
   const credential = new DefaultAzureCredential();
@@ -47,8 +46,6 @@ async function graphApiComputeServiceGet() {
   console.log(result);
 }
 
-graphApiComputeServiceGet().catch(console.error);
-
 /**
  * This sample demonstrates how to Gets the status of service.
  *
@@ -56,8 +53,8 @@ graphApiComputeServiceGet().catch(console.error);
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBMaterializedViewsBuilderServiceGet.json
  */
 async function materializedViewsBuilderServiceGet() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
   const serviceName = "MaterializedViewsBuilder";
   const credential = new DefaultAzureCredential();
@@ -66,8 +63,6 @@ async function materializedViewsBuilderServiceGet() {
   console.log(result);
 }
 
-materializedViewsBuilderServiceGet().catch(console.error);
-
 /**
  * This sample demonstrates how to Gets the status of service.
  *
@@ -75,8 +70,8 @@ materializedViewsBuilderServiceGet().catch(console.error);
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBSqlDedicatedGatewayServiceGet.json
  */
 async function sqlDedicatedGatewayServiceGet() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
   const serviceName = "SqlDedicatedGateway";
   const credential = new DefaultAzureCredential();
@@ -85,4 +80,11 @@ async function sqlDedicatedGatewayServiceGet() {
   console.log(result);
 }
 
-sqlDedicatedGatewayServiceGet().catch(console.error);
+async function main() {
+  dataTransferServiceGet();
+  graphApiComputeServiceGet();
+  materializedViewsBuilderServiceGet();
+  sqlDedicatedGatewayServiceGet();
+}
+
+main().catch(console.error);

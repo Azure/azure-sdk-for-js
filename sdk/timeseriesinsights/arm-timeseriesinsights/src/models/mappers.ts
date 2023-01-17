@@ -1532,9 +1532,9 @@ export const Gen1EnvironmentCreateOrUpdateParameters: coreClient.CompositeMapper
   type: {
     name: "Composite",
     className: "Gen1EnvironmentCreateOrUpdateParameters",
-    uberParent: "CreateOrUpdateTrackedResourceProperties",
+    uberParent: "EnvironmentCreateOrUpdateParameters",
     polymorphicDiscriminator:
-      CreateOrUpdateTrackedResourceProperties.type.polymorphicDiscriminator,
+      EnvironmentCreateOrUpdateParameters.type.polymorphicDiscriminator,
     modelProperties: {
       ...EnvironmentCreateOrUpdateParameters.type.modelProperties,
       dataRetentionTime: {
@@ -1571,9 +1571,9 @@ export const Gen2EnvironmentCreateOrUpdateParameters: coreClient.CompositeMapper
   type: {
     name: "Composite",
     className: "Gen2EnvironmentCreateOrUpdateParameters",
-    uberParent: "CreateOrUpdateTrackedResourceProperties",
+    uberParent: "EnvironmentCreateOrUpdateParameters",
     polymorphicDiscriminator:
-      CreateOrUpdateTrackedResourceProperties.type.polymorphicDiscriminator,
+      EnvironmentCreateOrUpdateParameters.type.polymorphicDiscriminator,
     modelProperties: {
       ...EnvironmentCreateOrUpdateParameters.type.modelProperties,
       timeSeriesIdProperties: {
@@ -1631,9 +1631,9 @@ export const EventHubEventSourceCreateOrUpdateParameters: coreClient.CompositeMa
   type: {
     name: "Composite",
     className: "EventHubEventSourceCreateOrUpdateParameters",
-    uberParent: "CreateOrUpdateTrackedResourceProperties",
+    uberParent: "EventSourceCreateOrUpdateParameters",
     polymorphicDiscriminator:
-      CreateOrUpdateTrackedResourceProperties.type.polymorphicDiscriminator,
+      EventSourceCreateOrUpdateParameters.type.polymorphicDiscriminator,
     modelProperties: {
       ...EventSourceCreateOrUpdateParameters.type.modelProperties,
       provisioningState: {
@@ -1726,9 +1726,9 @@ export const IoTHubEventSourceCreateOrUpdateParameters: coreClient.CompositeMapp
   type: {
     name: "Composite",
     className: "IoTHubEventSourceCreateOrUpdateParameters",
-    uberParent: "CreateOrUpdateTrackedResourceProperties",
+    uberParent: "EventSourceCreateOrUpdateParameters",
     polymorphicDiscriminator:
-      CreateOrUpdateTrackedResourceProperties.type.polymorphicDiscriminator,
+      EventSourceCreateOrUpdateParameters.type.polymorphicDiscriminator,
     modelProperties: {
       ...EventSourceCreateOrUpdateParameters.type.modelProperties,
       provisioningState: {
@@ -1814,7 +1814,7 @@ export const EnvironmentResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "EnvironmentResource",
-    uberParent: "Resource",
+    uberParent: "TrackedResource",
     polymorphicDiscriminator: {
       serializedName: "kind",
       clientName: "kind"
@@ -1844,7 +1844,7 @@ export const EventSourceResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "EventSourceResource",
-    uberParent: "Resource",
+    uberParent: "TrackedResource",
     polymorphicDiscriminator: {
       serializedName: "kind",
       clientName: "kind"
@@ -1982,8 +1982,8 @@ export const Gen1EnvironmentResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "Gen1EnvironmentResource",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "EnvironmentResource",
+    polymorphicDiscriminator: EnvironmentResource.type.polymorphicDiscriminator,
     modelProperties: {
       ...EnvironmentResource.type.modelProperties,
       dataRetentionTime: {
@@ -2055,8 +2055,8 @@ export const Gen2EnvironmentResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "Gen2EnvironmentResource",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "EnvironmentResource",
+    polymorphicDiscriminator: EnvironmentResource.type.polymorphicDiscriminator,
     modelProperties: {
       ...EnvironmentResource.type.modelProperties,
       provisioningState: {
@@ -2149,8 +2149,8 @@ export const EventHubEventSourceResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "EventHubEventSourceResource",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "EventSourceResource",
+    polymorphicDiscriminator: EventSourceResource.type.polymorphicDiscriminator,
     modelProperties: {
       ...EventSourceResource.type.modelProperties,
       provisioningState: {
@@ -2236,8 +2236,8 @@ export const IoTHubEventSourceResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "IoTHubEventSourceResource",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "EventSourceResource",
+    polymorphicDiscriminator: EventSourceResource.type.polymorphicDiscriminator,
     modelProperties: {
       ...EventSourceResource.type.modelProperties,
       provisioningState: {
@@ -2443,14 +2443,14 @@ export let discriminators = {
   "EnvironmentUpdateParameters.Gen2": Gen2EnvironmentUpdateParameters,
   "EventSourceUpdateParameters.Microsoft.EventHub": EventHubEventSourceUpdateParameters,
   "EventSourceUpdateParameters.Microsoft.IoTHub": IoTHubEventSourceUpdateParameters,
-  "CreateOrUpdateTrackedResourceProperties.Gen1": Gen1EnvironmentCreateOrUpdateParameters,
-  "CreateOrUpdateTrackedResourceProperties.Gen2": Gen2EnvironmentCreateOrUpdateParameters,
-  "CreateOrUpdateTrackedResourceProperties.Microsoft.EventHub": EventHubEventSourceCreateOrUpdateParameters,
-  "CreateOrUpdateTrackedResourceProperties.Microsoft.IoTHub": IoTHubEventSourceCreateOrUpdateParameters,
-  "Resource.EnvironmentResource": EnvironmentResource,
-  "Resource.EventSourceResource": EventSourceResource,
-  "Resource.Gen1": Gen1EnvironmentResource,
-  "Resource.Gen2": Gen2EnvironmentResource,
-  "Resource.Microsoft.EventHub": EventHubEventSourceResource,
-  "Resource.Microsoft.IoTHub": IoTHubEventSourceResource
+  "EnvironmentCreateOrUpdateParameters.Gen1": Gen1EnvironmentCreateOrUpdateParameters,
+  "EnvironmentCreateOrUpdateParameters.Gen2": Gen2EnvironmentCreateOrUpdateParameters,
+  "EventSourceCreateOrUpdateParameters.Microsoft.EventHub": EventHubEventSourceCreateOrUpdateParameters,
+  "EventSourceCreateOrUpdateParameters.Microsoft.IoTHub": IoTHubEventSourceCreateOrUpdateParameters,
+  "TrackedResource.EnvironmentResource": EnvironmentResource,
+  "TrackedResource.EventSourceResource": EventSourceResource,
+  "EnvironmentResource.Gen1": Gen1EnvironmentResource,
+  "EnvironmentResource.Gen2": Gen2EnvironmentResource,
+  "EventSourceResource.Microsoft.EventHub": EventHubEventSourceResource,
+  "EventSourceResource.Microsoft.IoTHub": IoTHubEventSourceResource
 };

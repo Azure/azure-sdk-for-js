@@ -85,7 +85,7 @@ export type SerializedCommunicationCloudEnvironment = "public" | "dod" | "gcch";
 const assertNotNullOrUndefined = <
   T extends Record<string, unknown>,
   P extends keyof T,
-  Q extends keyof T[P]
+  Q extends string & keyof T[P]
 >(
   obj: T,
   prop: Q
@@ -95,7 +95,7 @@ const assertNotNullOrUndefined = <
   if (prop in subObj) {
     return subObj[prop];
   }
-  throw new Error(`Property ${String(prop)} is required for identifier of type ${subObjName}.`);
+  throw new Error(`Property ${prop} is required for identifier of type ${subObjName}.`);
 };
 
 const assertMaximumOneNestedModel = (identifier: SerializedCommunicationIdentifier): void => {

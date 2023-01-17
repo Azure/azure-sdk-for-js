@@ -11,7 +11,7 @@ import {
   createSerializer,
   serializationPolicy,
 } from "@azure/core-client";
-import { ExtendedServiceClient, disbaleKeepAlivePolicyName } from "../src/index";
+import { ExtendedServiceClient, disableKeepAlivePolicyName } from "../src/index";
 
 describe("Extended Client", () => {
   it("should add the disable keep alive policy", () => {
@@ -25,7 +25,7 @@ describe("Extended Client", () => {
     let disableKeepAlivePolicyFound: boolean = false;
 
     for (const pipelinePolicy of pipelinePolicies) {
-      if (pipelinePolicy.name === disbaleKeepAlivePolicyName) {
+      if (pipelinePolicy.name === disableKeepAlivePolicyName) {
         disableKeepAlivePolicyFound = true;
       }
     }
@@ -44,7 +44,7 @@ describe("Extended Client", () => {
     let redirectPolicyFound: boolean = false;
 
     for (const pipelinePolicy of pipelinePolicies) {
-      if (pipelinePolicy.name === disbaleKeepAlivePolicyName) {
+      if (pipelinePolicy.name === disableKeepAlivePolicyName) {
         redirectPolicyFound = true;
       }
     }

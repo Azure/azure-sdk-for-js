@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Gets the specified private endpoint by resource group.
  *
  * @summary Gets the specified private endpoint by resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/PrivateEndpointGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/PrivateEndpointGet.json
  */
 async function getPrivateEndpoint() {
   const subscriptionId = "subId";
@@ -33,7 +33,7 @@ getPrivateEndpoint().catch(console.error);
  * This sample demonstrates how to Gets the specified private endpoint by resource group.
  *
  * @summary Gets the specified private endpoint by resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/PrivateEndpointGetWithASG.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/PrivateEndpointGetWithASG.json
  */
 async function getPrivateEndpointWithApplicationSecurityGroups() {
   const subscriptionId = "subId";
@@ -51,7 +51,7 @@ getPrivateEndpointWithApplicationSecurityGroups().catch(console.error);
  * This sample demonstrates how to Gets the specified private endpoint by resource group.
  *
  * @summary Gets the specified private endpoint by resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/PrivateEndpointGetForManualApproval.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/PrivateEndpointGetForManualApproval.json
  */
 async function getPrivateEndpointWithManualApprovalConnection() {
   const subscriptionId = "subId";

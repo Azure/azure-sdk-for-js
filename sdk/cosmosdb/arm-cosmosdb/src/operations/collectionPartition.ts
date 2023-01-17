@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { CollectionPartition } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -15,9 +15,9 @@ import { CosmosDBManagementClient } from "../cosmosDBManagementClient";
 import {
   PartitionMetric,
   CollectionPartitionListMetricsOptionalParams,
+  CollectionPartitionListMetricsResponse,
   PartitionUsage,
   CollectionPartitionListUsagesOptionalParams,
-  CollectionPartitionListMetricsResponse,
   CollectionPartitionListUsagesResponse
 } from "../models";
 
@@ -68,14 +68,18 @@ export class CollectionPartitionImpl implements CollectionPartition {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listMetricsPagingPage(
           resourceGroupName,
           accountName,
           databaseRid,
           collectionRid,
           filter,
-          options
+          options,
+          settings
         );
       }
     };
@@ -87,9 +91,11 @@ export class CollectionPartitionImpl implements CollectionPartition {
     databaseRid: string,
     collectionRid: string,
     filter: string,
-    options?: CollectionPartitionListMetricsOptionalParams
+    options?: CollectionPartitionListMetricsOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<PartitionMetric[]> {
-    let result = await this._listMetrics(
+    let result: CollectionPartitionListMetricsResponse;
+    result = await this._listMetrics(
       resourceGroupName,
       accountName,
       databaseRid,
@@ -149,13 +155,17 @@ export class CollectionPartitionImpl implements CollectionPartition {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listUsagesPagingPage(
           resourceGroupName,
           accountName,
           databaseRid,
           collectionRid,
-          options
+          options,
+          settings
         );
       }
     };
@@ -166,9 +176,11 @@ export class CollectionPartitionImpl implements CollectionPartition {
     accountName: string,
     databaseRid: string,
     collectionRid: string,
-    options?: CollectionPartitionListUsagesOptionalParams
+    options?: CollectionPartitionListUsagesOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<PartitionUsage[]> {
-    let result = await this._listUsages(
+    let result: CollectionPartitionListUsagesResponse;
+    result = await this._listUsages(
       resourceGroupName,
       accountName,
       databaseRid,

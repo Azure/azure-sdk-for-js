@@ -66,7 +66,7 @@ You can authenticate with your Azure Maps Subscription Key.
 
 ```javascript
 const MapsRoute = require("@azure-rest/maps-route").default;
-const { AzureKeyCredential } = require("@azure-core-auth");
+const { AzureKeyCredential } = require("@azure/core-auth");
 
 const credential = new AzureKeyCredential("<subscription-key>");
 const client = MapsRoute(credential);
@@ -117,15 +117,18 @@ if (isUnexpected(routeDirectionsResult)) {
   throw routeDirectionsResult.body.error;
 }
 
-const { summary, legs } = routeDirectionsResult.body.routes;
-console.log(
-  `The total distance is ${summary.lengthInMeters} meters, and it takes ${summary.travelTimeInSeconds} seconds.`
-);
-
-legs.points.forEach(({ summary: { travelTimeInSeconds }, points }, idx) => {
-  console.log(`${idx + 1}th leg takes ${travelTimeInSeconds} seconds to travel, and the path is: `);
-  points.points.forEach(({ latitude, longitude }, idx) =>
-  console.log(`${idx}: (${latitude}, ${longitude})`)
+routeDirectionsResult.body.routes.forEach(({ summary, legs }) => {
+  console.log(
+    `The total distance is ${summary.lengthInMeters} meters, and it takes ${summary.travelTimeInSeconds} seconds.`
+  );
+  legs.forEach(({ summary, points }, idx) => {
+    console.log(
+      `The ${idx + 1}th leg's length is ${summary.lengthInMeters} meters, and it takes ${
+        summary.travelTimeInSeconds
+      } seconds. Followings are the first 10 points: `
+    );
+    console.table(points.slice(0, 10));
+  });
 });
 ```
 
@@ -158,15 +161,18 @@ if (isUnexpected(routeDirectionsResult)) {
   throw routeDirectionsResult.body.error;
 }
 
-const { summary, legs } = routeDirectionsResult.body.routes;
-console.log(
-  `The total distance is ${summary.lengthInMeters} meters, and it takes ${summary.travelTimeInSeconds} seconds.`
-);
-
-legs.points.forEach(({ summary: { travelTimeInSeconds }, points }, idx) => {
-  console.log(`${idx + 1}th leg takes ${travelTimeInSeconds} seconds to travel, and the path is: `);
-  points.points.forEach(({ latitude, longitude }, idx) =>
-  console.log(`${idx}: (${latitude}, ${longitude})`)
+routeDirectionsResult.body.routes.forEach(({ summary, legs }) => {
+  console.log(
+    `The total distance is ${summary.lengthInMeters} meters, and it takes ${summary.travelTimeInSeconds} seconds.`
+  );
+  legs.forEach(({ summary, points }, idx) => {
+    console.log(
+      `The ${idx + 1}th leg's length is ${summary.lengthInMeters} meters, and it takes ${
+        summary.travelTimeInSeconds
+      } seconds. Followings are the first 10 points: `
+    );
+    console.table(points.slice(0, 10));
+  });
 });
 ```
 
@@ -208,7 +214,7 @@ console.log(
   `The optimized distance is ${summary.lengthInMeters} meters, and it takes ${summary.travelTimeInSeconds} seconds.`
 );
 console.log("The route is optimized by: ");
-routeDirectionsResult.body.routes.optimizedWaypoints.forEach(
+routeDirectionsResult.body.optimizedWaypoints.forEach(
   ({ providedIndex, optimizedIndex }) => `Moving index ${providedIndex} to ${optimizedIndex}`
 );
 ```

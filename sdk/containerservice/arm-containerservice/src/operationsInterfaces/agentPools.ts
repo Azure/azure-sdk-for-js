@@ -11,12 +11,12 @@ import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   AgentPool,
   AgentPoolsListOptionalParams,
-  AgentPoolsAbortLatestOperationOptionalParams,
   AgentPoolsGetOptionalParams,
   AgentPoolsGetResponse,
   AgentPoolsCreateOrUpdateOptionalParams,
   AgentPoolsCreateOrUpdateResponse,
   AgentPoolsDeleteOptionalParams,
+  AgentPoolsDeleteResponse,
   AgentPoolsGetUpgradeProfileOptionalParams,
   AgentPoolsGetUpgradeProfileResponse,
   AgentPoolsGetAvailableAgentPoolVersionsOptionalParams,
@@ -38,22 +38,6 @@ export interface AgentPools {
     resourceName: string,
     options?: AgentPoolsListOptionalParams
   ): PagedAsyncIterableIterator<AgentPool>;
-  /**
-   * Aborting last running operation on agent pool. We return a 204 no content code here to indicate that
-   * the operation has been accepted and an abort will be attempted but is not guaranteed to complete
-   * successfully. Please look up the provisioning state of the agent pool to keep track of whether it
-   * changes to Canceled. A canceled provisioning state indicates that the abort was successful
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName The name of the managed cluster resource.
-   * @param agentPoolName The name of the agent pool.
-   * @param options The options parameters.
-   */
-  abortLatestOperation(
-    resourceGroupName: string,
-    resourceName: string,
-    agentPoolName: string,
-    options?: AgentPoolsAbortLatestOperationOptionalParams
-  ): Promise<void>;
   /**
    * Gets the specified managed cluster agent pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -114,7 +98,12 @@ export interface AgentPools {
     resourceName: string,
     agentPoolName: string,
     options?: AgentPoolsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<
+    PollerLike<
+      PollOperationState<AgentPoolsDeleteResponse>,
+      AgentPoolsDeleteResponse
+    >
+  >;
   /**
    * Deletes an agent pool in the specified managed cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -127,7 +116,7 @@ export interface AgentPools {
     resourceName: string,
     agentPoolName: string,
     options?: AgentPoolsDeleteOptionalParams
-  ): Promise<void>;
+  ): Promise<AgentPoolsDeleteResponse>;
   /**
    * Gets the upgrade profile for an agent pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

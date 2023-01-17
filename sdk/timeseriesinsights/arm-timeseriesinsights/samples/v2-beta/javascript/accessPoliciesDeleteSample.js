@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { TimeSeriesInsightsClient } = require("@azure/arm-timeseriesinsights");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Deletes the access policy with the specified name in the specified subscription, resource group, and environment
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/timeseriesinsights/resource-manager/Microsoft.TimeSeriesInsights/preview/2021-03-31-preview/examples/AccessPoliciesDelete.json
  */
 async function accessPoliciesDelete() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["TIMESERIESINSIGHTS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["TIMESERIESINSIGHTS_RESOURCE_GROUP"] || "rg1";
   const environmentName = "env1";
   const accessPolicyName = "ap1";
   const credential = new DefaultAzureCredential();
@@ -32,4 +33,8 @@ async function accessPoliciesDelete() {
   console.log(result);
 }
 
-accessPoliciesDelete().catch(console.error);
+async function main() {
+  accessPoliciesDelete();
+}
+
+main().catch(console.error);

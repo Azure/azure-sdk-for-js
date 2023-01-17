@@ -39,6 +39,15 @@ export interface AdditionalUnattendContent {
 export type AggregatedReplicationState = string;
 
 // @public
+export interface AlternativeOption {
+    type?: AlternativeType;
+    value?: string;
+}
+
+// @public
+export type AlternativeType = string;
+
+// @public
 export interface ApiEntityReference {
     id?: string;
 }
@@ -146,7 +155,6 @@ export type AvailabilitySetsListAvailableSizesResponse = VirtualMachineSizeListR
 
 // @public
 export interface AvailabilitySetsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
 }
 
 // @public
@@ -290,7 +298,6 @@ export type CapacityReservationGroupsGetResponse = CapacityReservationGroup;
 
 // @public
 export interface CapacityReservationGroupsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    expand?: ExpandTypesForGetCapacityReservationGroups;
 }
 
 // @public
@@ -306,7 +313,6 @@ export type CapacityReservationGroupsListByResourceGroupResponse = CapacityReser
 
 // @public
 export interface CapacityReservationGroupsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    expand?: ExpandTypesForGetCapacityReservationGroups;
 }
 
 // @public
@@ -451,6 +457,7 @@ export interface CloudService {
         [propertyName: string]: string;
     };
     readonly type?: string;
+    zones?: string[];
 }
 
 // @public
@@ -623,7 +630,6 @@ export type CloudServiceRoleInstancesGetResponse = RoleInstance;
 
 // @public
 export interface CloudServiceRoleInstancesListNextOptionalParams extends coreClient.OperationOptions {
-    expand?: InstanceViewTypes;
 }
 
 // @public
@@ -2198,6 +2204,7 @@ export interface Gallery extends Resource {
 
 // @public
 export interface GalleryApplication extends Resource {
+    customActions?: GalleryApplicationCustomAction[];
     description?: string;
     endOfLifeDate?: Date;
     eula?: string;
@@ -2205,6 +2212,26 @@ export interface GalleryApplication extends Resource {
     releaseNoteUri?: string;
     supportedOSType?: OperatingSystemTypes;
 }
+
+// @public
+export interface GalleryApplicationCustomAction {
+    description?: string;
+    name: string;
+    parameters?: GalleryApplicationCustomActionParameter[];
+    script: string;
+}
+
+// @public
+export interface GalleryApplicationCustomActionParameter {
+    defaultValue?: string;
+    description?: string;
+    name: string;
+    required?: boolean;
+    type?: GalleryApplicationCustomActionParameterType;
+}
+
+// @public
+export type GalleryApplicationCustomActionParameterType = "String" | "ConfigurationDataBlob" | "LogOutputBlob";
 
 // @public
 export interface GalleryApplicationList {
@@ -2271,6 +2298,7 @@ export type GalleryApplicationsUpdateResponse = GalleryApplication;
 
 // @public
 export interface GalleryApplicationUpdate extends UpdateResourceDefinition {
+    customActions?: GalleryApplicationCustomAction[];
     description?: string;
     endOfLifeDate?: Date;
     eula?: string;
@@ -2284,6 +2312,7 @@ export interface GalleryApplicationVersion extends Resource {
     readonly provisioningState?: GalleryProvisioningState;
     publishingProfile?: GalleryApplicationVersionPublishingProfile;
     readonly replicationStatus?: ReplicationStatus;
+    safetyProfile?: GalleryApplicationVersionSafetyProfile;
 }
 
 // @public
@@ -2297,6 +2326,7 @@ export interface GalleryApplicationVersionPublishingProfile extends GalleryArtif
     advancedSettings?: {
         [propertyName: string]: string;
     };
+    customActions?: GalleryApplicationCustomAction[];
     enableHealthCheck?: boolean;
     // (undocumented)
     manageActions?: UserArtifactManage;
@@ -2314,6 +2344,10 @@ export interface GalleryApplicationVersions {
     beginUpdateAndWait(resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplicationVersionName: string, galleryApplicationVersion: GalleryApplicationVersionUpdate, options?: GalleryApplicationVersionsUpdateOptionalParams): Promise<GalleryApplicationVersionsUpdateResponse>;
     get(resourceGroupName: string, galleryName: string, galleryApplicationName: string, galleryApplicationVersionName: string, options?: GalleryApplicationVersionsGetOptionalParams): Promise<GalleryApplicationVersionsGetResponse>;
     listByGalleryApplication(resourceGroupName: string, galleryName: string, galleryApplicationName: string, options?: GalleryApplicationVersionsListByGalleryApplicationOptionalParams): PagedAsyncIterableIterator<GalleryApplicationVersion>;
+}
+
+// @public
+export interface GalleryApplicationVersionSafetyProfile extends GalleryArtifactSafetyProfileBase {
 }
 
 // @public
@@ -2367,6 +2401,7 @@ export interface GalleryApplicationVersionUpdate extends UpdateResourceDefinitio
     readonly provisioningState?: GalleryProvisioningState;
     publishingProfile?: GalleryApplicationVersionPublishingProfile;
     readonly replicationStatus?: ReplicationStatus;
+    safetyProfile?: GalleryApplicationVersionSafetyProfile;
 }
 
 // @public
@@ -2382,14 +2417,23 @@ export interface GalleryArtifactPublishingProfileBase {
 }
 
 // @public
+export interface GalleryArtifactSafetyProfileBase {
+    allowDeletionOfReplicatedLocations?: boolean;
+}
+
+// @public
 export interface GalleryArtifactSource {
     managedImage: ManagedArtifact;
 }
 
 // @public
+export interface GalleryArtifactVersionFullSource extends GalleryArtifactVersionSource {
+    communityGalleryImageId?: string;
+}
+
+// @public
 export interface GalleryArtifactVersionSource {
     id?: string;
-    uri?: string;
 }
 
 // @public
@@ -2401,7 +2445,13 @@ export interface GalleryDataDiskImage extends GalleryDiskImage {
 export interface GalleryDiskImage {
     hostCaching?: HostCaching;
     readonly sizeInGB?: number;
-    source?: GalleryArtifactVersionSource;
+    source?: GalleryDiskImageSource;
+}
+
+// @public
+export interface GalleryDiskImageSource extends GalleryArtifactVersionSource {
+    storageAccountId?: string;
+    uri?: string;
 }
 
 // @public
@@ -2541,6 +2591,7 @@ export interface GalleryImageVersion extends Resource {
     readonly provisioningState?: GalleryProvisioningState;
     publishingProfile?: GalleryImageVersionPublishingProfile;
     readonly replicationStatus?: ReplicationStatus;
+    safetyProfile?: GalleryImageVersionSafetyProfile;
     storageProfile?: GalleryImageVersionStorageProfile;
 }
 
@@ -2564,6 +2615,12 @@ export interface GalleryImageVersions {
     beginUpdateAndWait(resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImageVersionName: string, galleryImageVersion: GalleryImageVersionUpdate, options?: GalleryImageVersionsUpdateOptionalParams): Promise<GalleryImageVersionsUpdateResponse>;
     get(resourceGroupName: string, galleryName: string, galleryImageName: string, galleryImageVersionName: string, options?: GalleryImageVersionsGetOptionalParams): Promise<GalleryImageVersionsGetResponse>;
     listByGalleryImage(resourceGroupName: string, galleryName: string, galleryImageName: string, options?: GalleryImageVersionsListByGalleryImageOptionalParams): PagedAsyncIterableIterator<GalleryImageVersion>;
+}
+
+// @public
+export interface GalleryImageVersionSafetyProfile extends GalleryArtifactSafetyProfileBase {
+    readonly policyViolations?: PolicyViolation[];
+    readonly reportedForPolicyViolation?: boolean;
 }
 
 // @public
@@ -2607,7 +2664,7 @@ export type GalleryImageVersionsListByGalleryImageResponse = GalleryImageVersion
 export interface GalleryImageVersionStorageProfile {
     dataDiskImages?: GalleryDataDiskImage[];
     osDiskImage?: GalleryOSDiskImage;
-    source?: GalleryArtifactVersionSource;
+    source?: GalleryArtifactVersionFullSource;
 }
 
 // @public
@@ -2624,6 +2681,7 @@ export interface GalleryImageVersionUpdate extends UpdateResourceDefinition {
     readonly provisioningState?: GalleryProvisioningState;
     publishingProfile?: GalleryImageVersionPublishingProfile;
     readonly replicationStatus?: ReplicationStatus;
+    safetyProfile?: GalleryImageVersionSafetyProfile;
     storageProfile?: GalleryImageVersionStorageProfile;
 }
 
@@ -2678,6 +2736,9 @@ export interface GalleryUpdate extends UpdateResourceDefinition {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export interface GrantAccessData {
     // (undocumented)
     access: AccessLevel;
@@ -2716,6 +2777,13 @@ export { Image_2 as Image }
 // @public
 export interface ImageDataDisk extends ImageDisk {
     lun: number;
+}
+
+// @public
+export interface ImageDeprecationStatus {
+    alternativeOption?: AlternativeOption;
+    imageState?: ImageState;
+    scheduledDeprecationTime?: Date;
 }
 
 // @public
@@ -2832,6 +2900,9 @@ export interface ImagesListOptionalParams extends coreClient.OperationOptions {
 export type ImagesListResponse = ImageListResult;
 
 // @public
+export type ImageState = string;
+
+// @public
 export interface ImageStorageProfile {
     dataDisks?: ImageDataDisk[];
     osDisk?: ImageOSDisk;
@@ -2936,6 +3007,13 @@ export enum KnownAggregatedReplicationState {
     Failed = "Failed",
     InProgress = "InProgress",
     Unknown = "Unknown"
+}
+
+// @public
+export enum KnownAlternativeType {
+    None = "None",
+    Offer = "Offer",
+    Plan = "Plan"
 }
 
 // @public
@@ -3191,6 +3269,13 @@ export enum KnownHyperVGenerationTypes {
 }
 
 // @public
+export enum KnownImageState {
+    Active = "Active",
+    Deprecated = "Deprecated",
+    ScheduledForDeprecation = "ScheduledForDeprecation"
+}
+
+// @public
 export enum KnownIPVersion {
     IPv4 = "IPv4",
     IPv6 = "IPv6"
@@ -3288,6 +3373,14 @@ export enum KnownPatchOperationStatus {
     InProgress = "InProgress",
     Succeeded = "Succeeded",
     Unknown = "Unknown"
+}
+
+// @public
+export enum KnownPolicyViolationCategory {
+    CopyrightValidation = "CopyrightValidation",
+    ImageFlaggedUnsafe = "ImageFlaggedUnsafe",
+    IpTheft = "IpTheft",
+    Other = "Other"
 }
 
 // @public
@@ -3724,6 +3817,12 @@ export interface LastPatchInstallationSummary {
 }
 
 // @public
+export interface LatestGalleryImageVersion {
+    latestVersionName?: string;
+    location?: string;
+}
+
+// @public
 export interface LinuxConfiguration {
     disablePasswordAuthentication?: boolean;
     enableVMAgentPlatformUpdates?: boolean;
@@ -3776,17 +3875,17 @@ export interface LoadBalancerConfiguration {
 
 // @public
 export interface LoadBalancerConfigurationProperties {
-    frontendIPConfigurations: LoadBalancerFrontendIPConfiguration[];
+    frontendIpConfigurations: LoadBalancerFrontendIpConfiguration[];
 }
 
 // @public
-export interface LoadBalancerFrontendIPConfiguration {
+export interface LoadBalancerFrontendIpConfiguration {
     name: string;
-    properties: LoadBalancerFrontendIPConfigurationProperties;
+    properties: LoadBalancerFrontendIpConfigurationProperties;
 }
 
 // @public
-export interface LoadBalancerFrontendIPConfigurationProperties {
+export interface LoadBalancerFrontendIpConfigurationProperties {
     privateIPAddress?: string;
     publicIPAddress?: SubResource;
     subnet?: SubResource;
@@ -3984,6 +4083,12 @@ export interface OSFamilyProperties {
     readonly versions?: OSVersionPropertiesBase[];
 }
 
+// @public (undocumented)
+export interface OSImageNotificationProfile {
+    enable?: boolean;
+    notBeforeTimeout?: string;
+}
+
 // @public
 export interface OSProfile {
     adminPassword?: string;
@@ -3995,6 +4100,12 @@ export interface OSProfile {
     requireGuestProvisionSignal?: boolean;
     secrets?: VaultSecretGroup[];
     windowsConfiguration?: WindowsConfiguration;
+}
+
+// @public
+export interface OSProfileProvisioningData {
+    adminPassword?: string;
+    customData?: string;
 }
 
 // @public
@@ -4083,6 +4194,15 @@ export interface Plan {
     promotionCode?: string;
     publisher?: string;
 }
+
+// @public
+export interface PolicyViolation {
+    category?: PolicyViolationCategory;
+    details?: string;
+}
+
+// @public
+export type PolicyViolationCategory = string;
 
 // @public
 export interface PriorityMixPolicy {
@@ -4443,8 +4563,6 @@ export interface ResourceSkus {
 
 // @public
 export interface ResourceSkusListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    includeExtendedLocations?: string;
 }
 
 // @public
@@ -4647,6 +4765,7 @@ export interface RestorePointSourceMetadata {
     osProfile?: OSProfile;
     securityProfile?: SecurityProfile;
     storageProfile?: RestorePointSourceVMStorageProfile;
+    userData?: string;
     vmId?: string;
 }
 
@@ -4740,10 +4859,12 @@ export type RollingUpgradeActionType = "Start" | "Cancel";
 export interface RollingUpgradePolicy {
     enableCrossZoneUpgrade?: boolean;
     maxBatchInstancePercent?: number;
+    maxSurge?: boolean;
     maxUnhealthyInstancePercent?: number;
     maxUnhealthyUpgradedInstancePercent?: number;
     pauseTimeBetweenBatches?: string;
     prioritizeUnhealthyInstances?: boolean;
+    rollbackFailedInstancesOnPolicyBreach?: boolean;
 }
 
 // @public
@@ -4828,6 +4949,7 @@ export interface ScaleInPolicy {
 
 // @public (undocumented)
 export interface ScheduledEventsProfile {
+    osImageNotificationProfile?: OSImageNotificationProfile;
     terminateNotificationProfile?: TerminateNotificationProfile;
 }
 
@@ -4848,6 +4970,11 @@ export type SecurityTypes = string;
 export type SelectPermissions = string;
 
 // @public
+export interface ServiceArtifactReference {
+    id?: string;
+}
+
+// @public
 export type SettingNames = "AutoLogon" | "FirstLogonCommands";
 
 // @public
@@ -4865,7 +4992,6 @@ export type SharedGalleriesGetResponse = SharedGallery;
 
 // @public
 export interface SharedGalleriesListNextOptionalParams extends coreClient.OperationOptions {
-    sharedTo?: SharedToValues;
 }
 
 // @public
@@ -4902,11 +5028,13 @@ export interface SharedGalleryImage extends PirSharedGalleryResource {
     architecture?: Architecture;
     disallowed?: Disallowed;
     endOfLifeDate?: Date;
+    eula?: string;
     features?: GalleryImageFeature[];
     hyperVGeneration?: HyperVGeneration;
     identifier?: GalleryImageIdentifier;
     osState?: OperatingSystemStateTypes;
     osType?: OperatingSystemTypes;
+    privacyStatementUri?: string;
     purchasePlan?: ImagePurchasePlan;
     recommended?: RecommendedMachineConfiguration;
 }
@@ -4932,7 +5060,6 @@ export type SharedGalleryImagesGetResponse = SharedGalleryImage;
 
 // @public
 export interface SharedGalleryImagesListNextOptionalParams extends coreClient.OperationOptions {
-    sharedTo?: SharedToValues;
 }
 
 // @public
@@ -4975,7 +5102,6 @@ export type SharedGalleryImageVersionsGetResponse = SharedGalleryImageVersion;
 
 // @public
 export interface SharedGalleryImageVersionsListNextOptionalParams extends coreClient.OperationOptions {
-    sharedTo?: SharedToValues;
 }
 
 // @public
@@ -5383,6 +5509,7 @@ export interface SystemData {
 // @public
 export interface TargetRegion {
     encryption?: EncryptionImages;
+    excludeFromLatest?: boolean;
     name: string;
     regionalReplicaCount?: number;
     storageAccountType?: StorageAccountType;
@@ -5654,7 +5781,7 @@ export interface VirtualMachineExtensionImage extends Resource {
 
 // @public
 export interface VirtualMachineExtensionImages {
-    get(location: string, publisherName: string, version: string, typeParam: string, options?: VirtualMachineExtensionImagesGetOptionalParams): Promise<VirtualMachineExtensionImagesGetResponse>;
+    get(location: string, publisherName: string, typeParam: string, version: string, options?: VirtualMachineExtensionImagesGetOptionalParams): Promise<VirtualMachineExtensionImagesGetResponse>;
     listTypes(location: string, publisherName: string, options?: VirtualMachineExtensionImagesListTypesOptionalParams): Promise<VirtualMachineExtensionImagesListTypesResponse>;
     listVersions(location: string, publisherName: string, typeParam: string, options?: VirtualMachineExtensionImagesListVersionsOptionalParams): Promise<VirtualMachineExtensionImagesListVersionsResponse>;
 }
@@ -5790,6 +5917,7 @@ export interface VirtualMachineImage extends VirtualMachineImageResource {
     // (undocumented)
     features?: VirtualMachineImageFeature[];
     hyperVGeneration?: HyperVGenerationTypes;
+    imageDeprecationStatus?: ImageDeprecationStatus;
     osDiskImage?: OSDiskImage;
     plan?: PurchasePlan;
 }
@@ -6033,6 +6161,8 @@ export interface VirtualMachinePublicIPAddressDnsSettingsConfiguration {
 
 // @public
 export interface VirtualMachineReimageParameters {
+    exactVersion?: string;
+    osProfile?: OSProfileProvisioningData;
     tempDisk?: boolean;
 }
 
@@ -6116,7 +6246,6 @@ export type VirtualMachineRunCommandsGetResponse = RunCommandDocument;
 
 // @public
 export interface VirtualMachineRunCommandsListByVirtualMachineNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
 }
 
 // @public
@@ -6232,6 +6361,7 @@ export type VirtualMachinesAssessPatchesResponse = VirtualMachineAssessPatchesRe
 export interface VirtualMachineScaleSet extends Resource {
     additionalCapabilities?: AdditionalCapabilities;
     automaticRepairsPolicy?: AutomaticRepairsPolicy;
+    constrainedMaximumCapacity?: boolean;
     doNotRunExtensionsOnOverprovisionedVMs?: boolean;
     extendedLocation?: ExtendedLocation;
     hostGroup?: SubResource;
@@ -6502,6 +6632,7 @@ export interface VirtualMachineScaleSetOSProfile {
     computerNamePrefix?: string;
     customData?: string;
     linuxConfiguration?: LinuxConfiguration;
+    requireGuestProvisionSignal?: boolean;
     secrets?: VaultSecretGroup[];
     windowsConfiguration?: WindowsConfiguration;
 }
@@ -7112,6 +7243,7 @@ export interface VirtualMachineScaleSetVMProfile {
     priority?: VirtualMachinePriorityTypes;
     scheduledEventsProfile?: ScheduledEventsProfile;
     securityProfile?: SecurityProfile;
+    serviceArtifactReference?: ServiceArtifactReference;
     storageProfile?: VirtualMachineScaleSetStorageProfile;
     userData?: string;
 }
@@ -7163,7 +7295,6 @@ export type VirtualMachineScaleSetVMRunCommandsGetResponse = VirtualMachineRunCo
 
 // @public
 export interface VirtualMachineScaleSetVMRunCommandsListNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
 }
 
 // @public
@@ -7247,9 +7378,6 @@ export type VirtualMachineScaleSetVMsGetResponse = VirtualMachineScaleSetVM;
 
 // @public
 export interface VirtualMachineScaleSetVMsListNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-    select?: string;
 }
 
 // @public
@@ -7437,8 +7565,6 @@ export type VirtualMachineSizeTypes = string;
 
 // @public
 export interface VirtualMachinesListAllNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    statusOnly?: string;
 }
 
 // @public
@@ -7476,7 +7602,6 @@ export type VirtualMachinesListByLocationResponse = VirtualMachineListResult;
 
 // @public
 export interface VirtualMachinesListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public

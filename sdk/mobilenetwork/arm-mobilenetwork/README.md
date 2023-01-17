@@ -2,11 +2,11 @@
 
 This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure MobileNetworkManagement client.
 
-The resources in this swagger specification will be used to manage attached data network resources in mobile network attached to a particular packet core instance
+The resources in this API specification will be used to manage attached data network resources in mobile network attached to a particular packet core instance
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/mobilenetwork/arm-mobilenetwork) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-mobilenetwork) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-mobilenetwork?view=azure-node-preview) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-mobilenetwork) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started

@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { HardwareComponentGroups } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -61,12 +61,16 @@ export class HardwareComponentGroupsImpl implements HardwareComponentGroups {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByDevicePagingPage(
           deviceName,
           resourceGroupName,
           managerName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -76,9 +80,11 @@ export class HardwareComponentGroupsImpl implements HardwareComponentGroups {
     deviceName: string,
     resourceGroupName: string,
     managerName: string,
-    options?: HardwareComponentGroupsListByDeviceOptionalParams
+    options?: HardwareComponentGroupsListByDeviceOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<HardwareComponentGroup[]> {
-    let result = await this._listByDevice(
+    let result: HardwareComponentGroupsListByDeviceResponse;
+    result = await this._listByDevice(
       deviceName,
       resourceGroupName,
       managerName,

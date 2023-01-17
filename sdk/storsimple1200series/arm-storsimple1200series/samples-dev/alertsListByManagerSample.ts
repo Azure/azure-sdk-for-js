@@ -18,13 +18,13 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Retrieves all the alerts in a manager.
  *
  * @summary Retrieves all the alerts in a manager.
- * x-ms-original-file: specification/storSimple1200Series/resource-manager/Microsoft.StorSimple/stable/2016-10-01/examples/AlertsListByManager.json
+ * x-ms-original-file: specification/storsimple1200series/resource-manager/Microsoft.StorSimple/stable/2016-10-01/examples/AlertsListByManager.json
  */
 async function alertsListByManager() {
   const subscriptionId = "9eb689cd-7243-43b4-b6f6-5c65cb296641";
   const resourceGroupName = "ResourceGroupForSDKTest";
   const managerName = "hManagerForSDKTest4";
-  const filter = "status eq 'Active' and severity eq 'Critical'";
+  const filter = "status%20eq%20'Active'%20and%20severity%20eq%20'Critical'";
   const options: AlertsListByManagerOptionalParams = { filter };
   const credential = new DefaultAzureCredential();
   const client = new StorSimpleManagementClient(credential, subscriptionId);

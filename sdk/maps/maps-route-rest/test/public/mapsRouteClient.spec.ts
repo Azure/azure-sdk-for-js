@@ -286,7 +286,8 @@ describe("LRO", function (this: Suite) {
         resumeFrom: serializedState,
         intervalInMs: pollingInterval,
       });
-      const batchResult = (await rehydratedPoller.pollUntilDone()) as RouteGetRouteDirectionsBatch200Response;
+      const batchResult =
+        (await rehydratedPoller.pollUntilDone()) as RouteGetRouteDirectionsBatch200Response;
 
       assert.equal(batchResult.body.summary.totalRequests, batchRequests.length);
       assert.equal(batchResult.body.batchItems.length, batchRequests.length);
@@ -410,7 +411,8 @@ describe("LRO", function (this: Suite) {
         intervalInMs: pollingInterval,
         resumeFrom: serializedState,
       });
-      const routeMatrixResult = (await rehydratedPoller.pollUntilDone()) as RouteGetRouteMatrix200Response;
+      const routeMatrixResult =
+        (await rehydratedPoller.pollUntilDone()) as RouteGetRouteMatrix200Response;
 
       assert.isNotEmpty(routeMatrixResult.body.matrix);
       assert.isNotEmpty(routeMatrixResult.body.summary);

@@ -13,6 +13,9 @@ import {
   SynapseManagementClient
 } from "@azure/arm-synapse";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create or Update a workspace managed sql server's threat detection policy.
@@ -21,8 +24,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/WorkspaceManagedSqlServerSecurityAlertWithAllParameters.json
  */
 async function updateAWorkspaceManagedSqlServerThreatDetectionPolicyWithAllParameters() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "wsg-7398";
+  const subscriptionId =
+    process.env["SYNAPSE_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName = process.env["SYNAPSE_RESOURCE_GROUP"] || "wsg-7398";
   const workspaceName = "testWorkspace";
   const securityAlertPolicyName = "Default";
   const parameters: ServerSecurityAlertPolicy = {
@@ -46,10 +51,6 @@ async function updateAWorkspaceManagedSqlServerThreatDetectionPolicyWithAllParam
   console.log(result);
 }
 
-updateAWorkspaceManagedSqlServerThreatDetectionPolicyWithAllParameters().catch(
-  console.error
-);
-
 /**
  * This sample demonstrates how to Create or Update a workspace managed sql server's threat detection policy.
  *
@@ -57,8 +58,10 @@ updateAWorkspaceManagedSqlServerThreatDetectionPolicyWithAllParameters().catch(
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/WorkspaceManagedSqlServerSecurityAlertCreateWithMinParameters.json
  */
 async function updateAWorkspaceManagedSqlServerThreatDetectionPolicyWithMinimalParameters() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "wsg-7398";
+  const subscriptionId =
+    process.env["SYNAPSE_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName = process.env["SYNAPSE_RESOURCE_GROUP"] || "wsg-7398";
   const workspaceName = "testWorkspace";
   const securityAlertPolicyName = "Default";
   const parameters: ServerSecurityAlertPolicy = {
@@ -79,6 +82,9 @@ async function updateAWorkspaceManagedSqlServerThreatDetectionPolicyWithMinimalP
   console.log(result);
 }
 
-updateAWorkspaceManagedSqlServerThreatDetectionPolicyWithMinimalParameters().catch(
-  console.error
-);
+async function main() {
+  updateAWorkspaceManagedSqlServerThreatDetectionPolicyWithAllParameters();
+  updateAWorkspaceManagedSqlServerThreatDetectionPolicyWithMinimalParameters();
+}
+
+main().catch(console.error);

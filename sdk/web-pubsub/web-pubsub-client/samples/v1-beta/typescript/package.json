@@ -1,0 +1,38 @@
+{
+  "name": "@azure-samples/web-pubsub-client-ts-beta",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Azure Web PubSub Client client library samples for TypeScript (Beta)",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prebuild": "rimraf dist/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/web-pubsub/web-pubsub-client"
+  },
+  "keywords": [
+    "azure",
+    "cloud"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/web-pubsub/web-pubsub-client",
+  "dependencies": {
+    "@azure/web-pubsub-client": "next",
+    "dotenv": "latest",
+    "@azure/web-pubsub": "^1.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^14.0.0",
+    "typescript": "~4.8.0",
+    "rimraf": "latest"
+  }
+}

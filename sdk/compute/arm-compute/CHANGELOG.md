@@ -1,6 +1,6 @@
 # Release History
 
-## 19.2.1 (Unreleased)
+## 20.0.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,82 @@
 
 ### Other Changes
 
+## 20.0.0 (2023-01-05)
+    
+**Features**
+
+  - Added Interface AlternativeOption
+  - Added Interface GalleryApplicationCustomAction
+  - Added Interface GalleryApplicationCustomActionParameter
+  - Added Interface GalleryApplicationVersionSafetyProfile
+  - Added Interface GalleryArtifactSafetyProfileBase
+  - Added Interface GalleryArtifactVersionFullSource
+  - Added Interface GalleryDiskImageSource
+  - Added Interface GalleryImageVersionSafetyProfile
+  - Added Interface ImageDeprecationStatus
+  - Added Interface LatestGalleryImageVersion
+  - Added Interface LoadBalancerFrontendIpConfiguration
+  - Added Interface LoadBalancerFrontendIpConfigurationProperties
+  - Added Interface OSImageNotificationProfile
+  - Added Interface OSProfileProvisioningData
+  - Added Interface PolicyViolation
+  - Added Interface ServiceArtifactReference
+  - Added Type Alias AlternativeType
+  - Added Type Alias GalleryApplicationCustomActionParameterType
+  - Added Type Alias ImageState
+  - Added Type Alias PolicyViolationCategory
+  - Interface CloudService has a new optional parameter zones
+  - Interface GalleryApplication has a new optional parameter customActions
+  - Interface GalleryApplicationUpdate has a new optional parameter customActions
+  - Interface GalleryApplicationVersion has a new optional parameter safetyProfile
+  - Interface GalleryApplicationVersionPublishingProfile has a new optional parameter customActions
+  - Interface GalleryApplicationVersionUpdate has a new optional parameter safetyProfile
+  - Interface GalleryImageVersion has a new optional parameter safetyProfile
+  - Interface GalleryImageVersionUpdate has a new optional parameter safetyProfile
+  - Interface RestorePointSourceMetadata has a new optional parameter userData
+  - Interface RollingUpgradePolicy has a new optional parameter maxSurge
+  - Interface RollingUpgradePolicy has a new optional parameter rollbackFailedInstancesOnPolicyBreach
+  - Interface ScheduledEventsProfile has a new optional parameter osImageNotificationProfile
+  - Interface SharedGalleryImage has a new optional parameter eula
+  - Interface SharedGalleryImage has a new optional parameter privacyStatementUri
+  - Interface TargetRegion has a new optional parameter excludeFromLatest
+  - Interface VirtualMachineImage has a new optional parameter imageDeprecationStatus
+  - Interface VirtualMachineReimageParameters has a new optional parameter exactVersion
+  - Interface VirtualMachineReimageParameters has a new optional parameter osProfile
+  - Interface VirtualMachineScaleSet has a new optional parameter constrainedMaximumCapacity
+  - Interface VirtualMachineScaleSetOSProfile has a new optional parameter requireGuestProvisionSignal
+  - Interface VirtualMachineScaleSetVMProfile has a new optional parameter serviceArtifactReference
+  - Added Enum KnownAlternativeType
+  - Added Enum KnownImageState
+  - Added Enum KnownPolicyViolationCategory
+  - Added function getContinuationToken
+
+**Breaking Changes**
+
+  - Interface AvailabilitySetsListBySubscriptionNextOptionalParams no longer has parameter expand
+  - Interface CapacityReservationGroupsListByResourceGroupNextOptionalParams no longer has parameter expand
+  - Interface CapacityReservationGroupsListBySubscriptionNextOptionalParams no longer has parameter expand
+  - Interface CloudServiceRoleInstancesListNextOptionalParams no longer has parameter expand
+  - Interface GalleryArtifactVersionSource no longer has parameter uri
+  - Interface LoadBalancerConfigurationProperties no longer has parameter frontendIPConfigurations
+  - Interface ResourceSkusListNextOptionalParams no longer has parameter filter
+  - Interface ResourceSkusListNextOptionalParams no longer has parameter includeExtendedLocations
+  - Interface SharedGalleriesListNextOptionalParams no longer has parameter sharedTo
+  - Interface SharedGalleryImagesListNextOptionalParams no longer has parameter sharedTo
+  - Interface SharedGalleryImageVersionsListNextOptionalParams no longer has parameter sharedTo
+  - Interface VirtualMachineRunCommandsListByVirtualMachineNextOptionalParams no longer has parameter expand
+  - Interface VirtualMachineScaleSetVMRunCommandsListNextOptionalParams no longer has parameter expand
+  - Interface VirtualMachineScaleSetVMsListNextOptionalParams no longer has parameter expand
+  - Interface VirtualMachineScaleSetVMsListNextOptionalParams no longer has parameter filter
+  - Interface VirtualMachineScaleSetVMsListNextOptionalParams no longer has parameter select
+  - Interface VirtualMachinesListAllNextOptionalParams no longer has parameter filter
+  - Interface VirtualMachinesListAllNextOptionalParams no longer has parameter statusOnly
+  - Interface VirtualMachinesListNextOptionalParams no longer has parameter filter
+  - Interface LoadBalancerConfigurationProperties has a new required parameter frontendIpConfigurations
+  - Type of parameter source of interface GalleryDiskImage is changed from GalleryArtifactVersionSource to GalleryDiskImageSource
+  - Type of parameter source of interface GalleryImageVersionStorageProfile is changed from GalleryArtifactVersionSource to GalleryArtifactVersionFullSource
+    
+    
 ## 19.2.0 (2022-09-21)
     
 **Features**

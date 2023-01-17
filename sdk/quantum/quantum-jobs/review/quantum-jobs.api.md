@@ -4,7 +4,8 @@
 
 ```ts
 
-import * as coreHttp from '@azure/core-http';
+import * as coreAuth from '@azure/core-auth';
+import * as coreClient from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 
 // @public
@@ -33,7 +34,7 @@ export interface JobDetails {
     id?: string;
     inputDataFormat: string;
     inputDataUri?: string;
-    inputParams?: any;
+    inputParams?: Record<string, unknown>;
     metadata?: {
         [propertyName: string]: string;
     };
@@ -53,96 +54,80 @@ export interface JobDetailsList {
 }
 
 // @public
-export class Jobs {
-    constructor(client: QuantumJobClient);
-    cancel(jobId: string, options?: coreHttp.OperationOptions): Promise<coreHttp.RestResponse>;
-    create(jobId: string, job: JobDetails, options?: coreHttp.OperationOptions): Promise<JobsCreateResponse>;
-    get(jobId: string, options?: coreHttp.OperationOptions): Promise<JobsGetResponse>;
-    list(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<JobDetails>;
+export interface Jobs {
+    cancel(jobId: string, options?: JobsCancelOptionalParams): Promise<void>;
+    create(jobId: string, job: JobDetails, options?: JobsCreateOptionalParams): Promise<JobsCreateResponse>;
+    get(jobId: string, options?: JobsGetOptionalParams): Promise<JobsGetResponse>;
+    list(options?: JobsListOptionalParams): PagedAsyncIterableIterator<JobDetails>;
 }
 
 // @public
-export type JobsCreateResponse = JobDetails & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: JobDetails;
-    };
-};
+export interface JobsCancelOptionalParams extends coreClient.OperationOptions {
+}
 
 // @public
-export type JobsGetResponse = JobDetails & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: JobDetails;
-    };
-};
+export interface JobsCreateOptionalParams extends coreClient.OperationOptions {
+}
 
 // @public
-export type JobsListNextResponse = JobDetailsList & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: JobDetailsList;
-    };
-};
+export type JobsCreateResponse = JobDetails;
 
 // @public
-export type JobsListResponse = JobDetailsList & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: JobDetailsList;
-    };
-};
+export interface JobsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type JobsGetResponse = JobDetails;
+
+// @public
+export interface JobsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type JobsListNextResponse = JobDetailsList;
+
+// @public
+export interface JobsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type JobsListResponse = JobDetailsList;
 
 // @public
 export type JobStatus = string;
 
 // @public
-export const enum KnownDimensionScope {
-    // (undocumented)
+export enum KnownDimensionScope {
     Subscription = "Subscription",
-    // (undocumented)
     Workspace = "Workspace"
 }
 
 // @public
-export const enum KnownJobStatus {
-    // (undocumented)
+export enum KnownJobStatus {
     Cancelled = "Cancelled",
-    // (undocumented)
     Executing = "Executing",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Waiting = "Waiting"
 }
 
 // @public
-export const enum KnownMeterPeriod {
-    // (undocumented)
+export enum KnownMeterPeriod {
     Monthly = "Monthly",
-    // (undocumented)
     None = "None"
 }
 
 // @public
-export const enum KnownProviderAvailability {
-    // (undocumented)
+export enum KnownProviderAvailability {
     Available = "Available",
-    // (undocumented)
     Degraded = "Degraded",
-    // (undocumented)
     Unavailable = "Unavailable"
 }
 
 // @public
-export const enum KnownTargetAvailability {
-    // (undocumented)
+export enum KnownTargetAvailability {
     Available = "Available",
-    // (undocumented)
     Degraded = "Degraded",
-    // (undocumented)
     Unavailable = "Unavailable"
 }
 
@@ -153,26 +138,23 @@ export type MeterPeriod = string;
 export type ProviderAvailability = string;
 
 // @public
-export class Providers {
-    constructor(client: QuantumJobClient);
-    listStatus(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<ProviderStatus>;
+export interface Providers {
+    listStatus(options?: ProvidersGetStatusOptionalParams): PagedAsyncIterableIterator<ProviderStatus>;
 }
 
 // @public
-export type ProvidersGetStatusNextResponse = ProviderStatusList & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: ProviderStatusList;
-    };
-};
+export interface ProvidersGetStatusNextOptionalParams extends coreClient.OperationOptions {
+}
 
 // @public
-export type ProvidersGetStatusResponse = ProviderStatusList & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: ProviderStatusList;
-    };
-};
+export type ProvidersGetStatusNextResponse = ProviderStatusList;
+
+// @public
+export interface ProvidersGetStatusOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ProvidersGetStatusResponse = ProviderStatusList;
 
 // @public
 export interface ProviderStatus {
@@ -188,8 +170,10 @@ export interface ProviderStatusList {
 }
 
 // @public (undocumented)
-export class QuantumJobClient extends QuantumJobClientContext {
-    constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, subscriptionId: string, resourceGroupName: string, workspaceName: string, options?: QuantumJobClientOptionalParams);
+export class QuantumJobClient extends coreClient.ServiceClient {
+    // (undocumented)
+    $host: string;
+    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, resourceGroupName: string, workspaceName: string, options?: QuantumJobClientOptionalParams);
     // (undocumented)
     jobs: Jobs;
     // (undocumented)
@@ -197,16 +181,9 @@ export class QuantumJobClient extends QuantumJobClientContext {
     // (undocumented)
     quotas: Quotas;
     // (undocumented)
-    storage: Storage_2;
-}
-
-// @public (undocumented)
-export class QuantumJobClientContext extends coreHttp.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, subscriptionId: string, resourceGroupName: string, workspaceName: string, options?: QuantumJobClientOptionalParams);
-    // (undocumented)
     resourceGroupName: string;
+    // (undocumented)
+    storage: Storage_2;
     // (undocumented)
     subscriptionId: string;
     // (undocumented)
@@ -214,7 +191,7 @@ export class QuantumJobClientContext extends coreHttp.ServiceClient {
 }
 
 // @public
-export interface QuantumJobClientOptionalParams extends coreHttp.ServiceClientOptions {
+export interface QuantumJobClientOptionalParams extends coreClient.ServiceClientOptions {
     $host?: string;
     endpoint?: string;
 }
@@ -237,26 +214,23 @@ export interface QuotaList {
 }
 
 // @public
-export class Quotas {
-    constructor(client: QuantumJobClient);
-    list(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<Quota>;
+export interface Quotas {
+    list(options?: QuotasListOptionalParams): PagedAsyncIterableIterator<Quota>;
 }
 
 // @public
-export type QuotasListNextResponse = QuotaList & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: QuotaList;
-    };
-};
+export interface QuotasListNextOptionalParams extends coreClient.OperationOptions {
+}
 
 // @public
-export type QuotasListResponse = QuotaList & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: QuotaList;
-    };
-};
+export type QuotasListNextResponse = QuotaList;
+
+// @public
+export interface QuotasListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type QuotasListResponse = QuotaList;
 
 // @public
 export interface RestError {
@@ -269,19 +243,17 @@ export interface SasUriResponse {
 }
 
 // @public
-class Storage_2 {
-    constructor(client: QuantumJobClient);
-    sasUri(blobDetails: BlobDetails, options?: coreHttp.OperationOptions): Promise<StorageSasUriResponse>;
+interface Storage_2 {
+    sasUri(blobDetails: BlobDetails, options?: StorageSasUriOptionalParams): Promise<StorageSasUriResponse>;
 }
 export { Storage_2 as Storage }
 
 // @public
-export type StorageSasUriResponse = SasUriResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: SasUriResponse;
-    };
-};
+export interface StorageSasUriOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type StorageSasUriResponse = SasUriResponse;
 
 // @public
 export type TargetAvailability = string;

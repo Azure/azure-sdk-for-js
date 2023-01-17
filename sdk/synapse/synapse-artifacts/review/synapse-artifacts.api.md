@@ -1041,6 +1041,7 @@ export interface AzureSynapseArtifactsLinkedService extends LinkedService {
     authentication?: any;
     endpoint: any;
     type: "AzureSynapseArtifacts";
+    workspaceResourceId?: any;
 }
 
 // @public
@@ -1323,6 +1324,9 @@ export interface ConcurSource extends TabularSource {
     query?: any;
     type: "ConcurSource";
 }
+
+// @public
+export type ConfigurationType = string;
 
 // @public
 export interface ControlActivity extends Activity {
@@ -1856,7 +1860,7 @@ export interface DataFlowSourceSetting {
 
 // @public
 export interface DataFlowStagingInfo {
-    folderPath?: string;
+    folderPath?: any;
     linkedService?: LinkedServiceReference;
 }
 
@@ -2668,6 +2672,9 @@ export interface FtpServerLinkedService extends LinkedService {
 export interface FtpServerLocation extends DatasetLocation {
     type: "FtpServerLocation";
 }
+
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export interface GetMetadataActivity extends ExecutionActivity {
@@ -3520,6 +3527,13 @@ export enum KnownCompressionCodec {
     Tar = "tar",
     TarGZip = "tarGZip",
     ZipDeflate = "zipDeflate"
+}
+
+// @public
+export enum KnownConfigurationType {
+    Artifact = "Artifact",
+    Customized = "Customized",
+    Default = "Default"
 }
 
 // @public
@@ -4507,14 +4521,14 @@ export interface LinkConnectionCompute {
 }
 
 // @public
-export interface LinkConnectionCreateOrUpdateLinkConnectionOptionalParams extends coreClient.OperationOptions {
+export interface LinkConnectionCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type LinkConnectionCreateOrUpdateLinkConnectionResponse = LinkConnectionResource;
+export type LinkConnectionCreateOrUpdateResponse = LinkConnectionResource;
 
 // @public
-export interface LinkConnectionDeleteLinkConnectionOptionalParams extends coreClient.OperationOptions {
+export interface LinkConnectionDeleteOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public (undocumented)
@@ -4544,11 +4558,11 @@ export interface LinkConnectionGetDetailedStatusOptionalParams extends coreClien
 export type LinkConnectionGetDetailedStatusResponse = LinkConnectionDetailedStatus;
 
 // @public
-export interface LinkConnectionGetLinkConnectionOptionalParams extends coreClient.OperationOptions {
+export interface LinkConnectionGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type LinkConnectionGetLinkConnectionResponse = LinkConnectionResource;
+export type LinkConnectionGetResponse = LinkConnectionResource;
 
 // @public (undocumented)
 export interface LinkConnectionLandingZone {
@@ -4559,18 +4573,18 @@ export interface LinkConnectionLandingZone {
 }
 
 // @public
-export interface LinkConnectionListLinkConnectionsByWorkspaceNextOptionalParams extends coreClient.OperationOptions {
+export interface LinkConnectionListByWorkspaceNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type LinkConnectionListLinkConnectionsByWorkspaceNextResponse = LinkConnectionListResponse;
+export type LinkConnectionListByWorkspaceNextResponse = LinkConnectionListResponse;
 
 // @public
-export interface LinkConnectionListLinkConnectionsByWorkspaceOptionalParams extends coreClient.OperationOptions {
+export interface LinkConnectionListByWorkspaceOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type LinkConnectionListLinkConnectionsByWorkspaceResponse = LinkConnectionListResponse;
+export type LinkConnectionListByWorkspaceResponse = LinkConnectionListResponse;
 
 // @public
 export interface LinkConnectionListLinkTablesOptionalParams extends coreClient.OperationOptions {
@@ -4587,17 +4601,23 @@ export interface LinkConnectionListResponse {
 
 // @public
 export interface LinkConnectionOperations {
-    createOrUpdateLinkConnection(linkConnectionName: string, linkConnection: LinkConnectionResource, options?: LinkConnectionCreateOrUpdateLinkConnectionOptionalParams): Promise<LinkConnectionCreateOrUpdateLinkConnectionResponse>;
-    deleteLinkConnection(linkConnectionName: string, options?: LinkConnectionDeleteLinkConnectionOptionalParams): Promise<void>;
+    createOrUpdate(linkConnectionName: string, linkConnection: LinkConnectionResource, options?: LinkConnectionCreateOrUpdateOptionalParams): Promise<LinkConnectionCreateOrUpdateResponse>;
+    delete(linkConnectionName: string, options?: LinkConnectionDeleteOptionalParams): Promise<void>;
     editTables(linkConnectionName: string, editTablesRequest: EditTablesRequest, options?: LinkConnectionEditTablesOptionalParams): Promise<void>;
+    get(linkConnectionName: string, options?: LinkConnectionGetOptionalParams): Promise<LinkConnectionGetResponse>;
     getDetailedStatus(linkConnectionName: string, options?: LinkConnectionGetDetailedStatusOptionalParams): Promise<LinkConnectionGetDetailedStatusResponse>;
-    getLinkConnection(linkConnectionName: string, options?: LinkConnectionGetLinkConnectionOptionalParams): Promise<LinkConnectionGetLinkConnectionResponse>;
-    listLinkConnectionsByWorkspace(options?: LinkConnectionListLinkConnectionsByWorkspaceOptionalParams): PagedAsyncIterableIterator<LinkConnectionResource>;
+    listByWorkspace(options?: LinkConnectionListByWorkspaceOptionalParams): PagedAsyncIterableIterator<LinkConnectionResource>;
     listLinkTables(linkConnectionName: string, options?: LinkConnectionListLinkTablesOptionalParams): Promise<LinkConnectionListLinkTablesResponse>;
+    pause(linkConnectionName: string, options?: LinkConnectionPauseOptionalParams): Promise<void>;
     queryTableStatus(linkConnectionName: string, queryTableStatusRequest: QueryTableStatusRequest, options?: LinkConnectionQueryTableStatusOptionalParams): Promise<LinkConnectionQueryTableStatusResponse>;
+    resume(linkConnectionName: string, options?: LinkConnectionResumeOptionalParams): Promise<void>;
     start(linkConnectionName: string, options?: LinkConnectionStartOptionalParams): Promise<void>;
     stop(linkConnectionName: string, options?: LinkConnectionStopOptionalParams): Promise<void>;
     updateLandingZoneCredential(linkConnectionName: string, updateLandingZoneCredentialRequest: UpdateLandingZoneCredential, options?: LinkConnectionUpdateLandingZoneCredentialOptionalParams): Promise<void>;
+}
+
+// @public
+export interface LinkConnectionPauseOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public (undocumented)
@@ -4626,6 +4646,10 @@ export interface LinkConnectionResource {
     name?: string;
     properties: LinkConnection;
     type?: string;
+}
+
+// @public
+export interface LinkConnectionResumeOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public (undocumented)
@@ -4693,7 +4717,7 @@ export interface LinkedService {
     parameters?: {
         [propertyName: string]: ParameterSpecification;
     };
-    type: "AzureStorage" | "AzureBlobStorage" | "AzureTableStorage" | "AzureSqlDW" | "SqlServer" | "AmazonRdsForSqlServer" | "AzureSqlDatabase" | "AzureSqlMI" | "AzureBatch" | "AzureKeyVault" | "CosmosDb" | "Dynamics" | "DynamicsCrm" | "CommonDataServiceForApps" | "HDInsight" | "FileServer" | "AzureFileStorage" | "GoogleCloudStorage" | "Oracle" | "AmazonRdsForOracle" | "AzureMySql" | "MySql" | "PostgreSql" | "Sybase" | "Db2" | "Teradata" | "AzureML" | "AzureMLService" | "Odbc" | "Informix" | "MicrosoftAccess" | "Hdfs" | "OData" | "Web" | "Cassandra" | "MongoDb" | "MongoDbAtlas" | "MongoDbV2" | "CosmosDbMongoDbApi" | "AzureDataLakeStore" | "AzureBlobFS" | "Office365" | "Salesforce" | "SalesforceServiceCloud" | "SapCloudForCustomer" | "SapEcc" | "SapOpenHub" | "SapOdp" | "RestService" | "TeamDesk" | "Quickbase" | "Smartsheet" | "Zendesk" | "Dataworld" | "AppFigures" | "Asana" | "Twilio" | "GoogleSheets" | "AmazonS3" | "AmazonRedshift" | "CustomDataSource" | "AzureSearch" | "HttpServer" | "FtpServer" | "Sftp" | "SapBW" | "SapHana" | "AmazonMWS" | "AzurePostgreSql" | "Concur" | "Couchbase" | "Drill" | "Eloqua" | "GoogleBigQuery" | "Greenplum" | "HBase" | "Hive" | "Hubspot" | "Impala" | "Jira" | "Magento" | "MariaDB" | "AzureMariaDB" | "Marketo" | "Paypal" | "Phoenix" | "Presto" | "QuickBooks" | "ServiceNow" | "Shopify" | "Spark" | "Square" | "Xero" | "Zoho" | "Vertica" | "Netezza" | "SalesforceMarketingCloud" | "HDInsightOnDemand" | "AzureDataLakeAnalytics" | "AzureDatabricks" | "AzureDatabricksDeltaLake" | "Responsys" | "DynamicsAX" | "OracleServiceCloud" | "GoogleAdWords" | "SapTable" | "AzureDataExplorer" | "AzureFunction" | "Snowflake" | "SharePointOnlineList" | "AzureSynapseArtifacts";
+    type: "AzureStorage" | "AzureBlobStorage" | "AzureTableStorage" | "AzureSqlDW" | "SqlServer" | "AmazonRdsForSqlServer" | "AzureSqlDatabase" | "AzureSqlMI" | "AzureBatch" | "AzureKeyVault" | "CosmosDb" | "Dynamics" | "DynamicsCrm" | "CommonDataServiceForApps" | "HDInsight" | "FileServer" | "AzureFileStorage" | "GoogleCloudStorage" | "Oracle" | "AmazonRdsForOracle" | "AzureMySql" | "MySql" | "PostgreSql" | "Sybase" | "Db2" | "Teradata" | "AzureML" | "AzureMLService" | "Odbc" | "Informix" | "MicrosoftAccess" | "Hdfs" | "OData" | "Web" | "Cassandra" | "MongoDb" | "MongoDbAtlas" | "MongoDbV2" | "CosmosDbMongoDbApi" | "AzureDataLakeStore" | "AzureBlobFS" | "Office365" | "Salesforce" | "SalesforceServiceCloud" | "SapCloudForCustomer" | "SapEcc" | "SapOpenHub" | "SapOdp" | "RestService" | "TeamDesk" | "Quickbase" | "Smartsheet" | "Zendesk" | "Dataworld" | "AppFigures" | "Asana" | "Twilio" | "GoogleSheets" | "AmazonS3" | "AmazonRedshift" | "CustomDataSource" | "AzureSearch" | "HttpServer" | "FtpServer" | "Sftp" | "SapBW" | "SapHana" | "AmazonMWS" | "AzurePostgreSql" | "Concur" | "Couchbase" | "Drill" | "Eloqua" | "GoogleBigQuery" | "Greenplum" | "HBase" | "Hive" | "Hubspot" | "Impala" | "Jira" | "Magento" | "MariaDB" | "AzureMariaDB" | "Marketo" | "Paypal" | "Phoenix" | "Presto" | "QuickBooks" | "ServiceNow" | "Shopify" | "Spark" | "Square" | "Xero" | "Zoho" | "Vertica" | "Netezza" | "SalesforceMarketingCloud" | "HDInsightOnDemand" | "AzureDataLakeAnalytics" | "AzureDatabricks" | "AzureDatabricksDeltaLake" | "Responsys" | "DynamicsAX" | "OracleServiceCloud" | "GoogleAdWords" | "SapTable" | "AzureDataExplorer" | "AzureFunction" | "Snowflake" | "SharePointOnlineList" | "AzureSynapseArtifacts" | "PowerBIWorkspace";
 }
 
 // @public
@@ -4778,7 +4802,7 @@ export interface LinkedServiceResource extends SubResource {
 }
 
 // @public (undocumented)
-export type LinkedServiceUnion = LinkedService | AzureStorageLinkedService | AzureBlobStorageLinkedService | AzureTableStorageLinkedService | AzureSqlDWLinkedService | SqlServerLinkedService | AmazonRdsForSqlServerLinkedService | AzureSqlDatabaseLinkedService | AzureSqlMILinkedService | AzureBatchLinkedService | AzureKeyVaultLinkedService | CosmosDbLinkedService | DynamicsLinkedService | DynamicsCrmLinkedService | CommonDataServiceForAppsLinkedService | HDInsightLinkedService | FileServerLinkedService | AzureFileStorageLinkedService | GoogleCloudStorageLinkedService | OracleLinkedService | AmazonRdsForOracleLinkedService | AzureMySqlLinkedService | MySqlLinkedService | PostgreSqlLinkedService | SybaseLinkedService | Db2LinkedService | TeradataLinkedService | AzureMLLinkedService | AzureMLServiceLinkedService | OdbcLinkedService | InformixLinkedService | MicrosoftAccessLinkedService | HdfsLinkedService | ODataLinkedService | WebLinkedService | CassandraLinkedService | MongoDbLinkedService | MongoDbAtlasLinkedService | MongoDbV2LinkedService | CosmosDbMongoDbApiLinkedService | AzureDataLakeStoreLinkedService | AzureBlobFSLinkedService | Office365LinkedService | SalesforceLinkedService | SalesforceServiceCloudLinkedService | SapCloudForCustomerLinkedService | SapEccLinkedService | SapOpenHubLinkedService | SapOdpLinkedService | RestServiceLinkedService | TeamDeskLinkedService | QuickbaseLinkedService | SmartsheetLinkedService | ZendeskLinkedService | DataworldLinkedService | AppFiguresLinkedService | AsanaLinkedService | TwilioLinkedService | GoogleSheetsLinkedService | AmazonS3LinkedService | AmazonRedshiftLinkedService | CustomDataSourceLinkedService | AzureSearchLinkedService | HttpLinkedService | FtpServerLinkedService | SftpServerLinkedService | SapBWLinkedService | SapHanaLinkedService | AmazonMWSLinkedService | AzurePostgreSqlLinkedService | ConcurLinkedService | CouchbaseLinkedService | DrillLinkedService | EloquaLinkedService | GoogleBigQueryLinkedService | GreenplumLinkedService | HBaseLinkedService | HiveLinkedService | HubspotLinkedService | ImpalaLinkedService | JiraLinkedService | MagentoLinkedService | MariaDBLinkedService | AzureMariaDBLinkedService | MarketoLinkedService | PaypalLinkedService | PhoenixLinkedService | PrestoLinkedService | QuickBooksLinkedService | ServiceNowLinkedService | ShopifyLinkedService | SparkLinkedService | SquareLinkedService | XeroLinkedService | ZohoLinkedService | VerticaLinkedService | NetezzaLinkedService | SalesforceMarketingCloudLinkedService | HDInsightOnDemandLinkedService | AzureDataLakeAnalyticsLinkedService | AzureDatabricksLinkedService | AzureDatabricksDeltaLakeLinkedService | ResponsysLinkedService | DynamicsAXLinkedService | OracleServiceCloudLinkedService | GoogleAdWordsLinkedService | SapTableLinkedService | AzureDataExplorerLinkedService | AzureFunctionLinkedService | SnowflakeLinkedService | SharePointOnlineListLinkedService | AzureSynapseArtifactsLinkedService;
+export type LinkedServiceUnion = LinkedService | AzureStorageLinkedService | AzureBlobStorageLinkedService | AzureTableStorageLinkedService | AzureSqlDWLinkedService | SqlServerLinkedService | AmazonRdsForSqlServerLinkedService | AzureSqlDatabaseLinkedService | AzureSqlMILinkedService | AzureBatchLinkedService | AzureKeyVaultLinkedService | CosmosDbLinkedService | DynamicsLinkedService | DynamicsCrmLinkedService | CommonDataServiceForAppsLinkedService | HDInsightLinkedService | FileServerLinkedService | AzureFileStorageLinkedService | GoogleCloudStorageLinkedService | OracleLinkedService | AmazonRdsForOracleLinkedService | AzureMySqlLinkedService | MySqlLinkedService | PostgreSqlLinkedService | SybaseLinkedService | Db2LinkedService | TeradataLinkedService | AzureMLLinkedService | AzureMLServiceLinkedService | OdbcLinkedService | InformixLinkedService | MicrosoftAccessLinkedService | HdfsLinkedService | ODataLinkedService | WebLinkedService | CassandraLinkedService | MongoDbLinkedService | MongoDbAtlasLinkedService | MongoDbV2LinkedService | CosmosDbMongoDbApiLinkedService | AzureDataLakeStoreLinkedService | AzureBlobFSLinkedService | Office365LinkedService | SalesforceLinkedService | SalesforceServiceCloudLinkedService | SapCloudForCustomerLinkedService | SapEccLinkedService | SapOpenHubLinkedService | SapOdpLinkedService | RestServiceLinkedService | TeamDeskLinkedService | QuickbaseLinkedService | SmartsheetLinkedService | ZendeskLinkedService | DataworldLinkedService | AppFiguresLinkedService | AsanaLinkedService | TwilioLinkedService | GoogleSheetsLinkedService | AmazonS3LinkedService | AmazonRedshiftLinkedService | CustomDataSourceLinkedService | AzureSearchLinkedService | HttpLinkedService | FtpServerLinkedService | SftpServerLinkedService | SapBWLinkedService | SapHanaLinkedService | AmazonMWSLinkedService | AzurePostgreSqlLinkedService | ConcurLinkedService | CouchbaseLinkedService | DrillLinkedService | EloquaLinkedService | GoogleBigQueryLinkedService | GreenplumLinkedService | HBaseLinkedService | HiveLinkedService | HubspotLinkedService | ImpalaLinkedService | JiraLinkedService | MagentoLinkedService | MariaDBLinkedService | AzureMariaDBLinkedService | MarketoLinkedService | PaypalLinkedService | PhoenixLinkedService | PrestoLinkedService | QuickBooksLinkedService | ServiceNowLinkedService | ShopifyLinkedService | SparkLinkedService | SquareLinkedService | XeroLinkedService | ZohoLinkedService | VerticaLinkedService | NetezzaLinkedService | SalesforceMarketingCloudLinkedService | HDInsightOnDemandLinkedService | AzureDataLakeAnalyticsLinkedService | AzureDatabricksLinkedService | AzureDatabricksDeltaLakeLinkedService | ResponsysLinkedService | DynamicsAXLinkedService | OracleServiceCloudLinkedService | GoogleAdWordsLinkedService | SapTableLinkedService | AzureDataExplorerLinkedService | AzureFunctionLinkedService | SnowflakeLinkedService | SharePointOnlineListLinkedService | AzureSynapseArtifactsLinkedService | PowerBIWorkspaceLinkedService;
 
 // @public (undocumented)
 export interface LinkTableListResponse {
@@ -5921,6 +5945,13 @@ export interface PostgreSqlTableDataset extends Dataset {
 }
 
 // @public
+export interface PowerBIWorkspaceLinkedService extends LinkedService {
+    tenantId: string;
+    type: "PowerBIWorkspace";
+    workspaceId: string;
+}
+
+// @public
 export type PrestoAuthenticationType = string;
 
 // @public
@@ -6160,6 +6191,7 @@ export type RestServiceAuthenticationType = string;
 export interface RestServiceLinkedService extends LinkedService {
     aadResourceId?: any;
     authenticationType: RestServiceAuthenticationType;
+    authHeaders?: any;
     azureCloudType?: any;
     clientId?: any;
     clientSecret?: SecretBaseUnion;
@@ -6864,7 +6896,7 @@ export interface SnowflakeSink extends CopySink {
 
 // @public
 export interface SnowflakeSource extends CopySource {
-    exportSettings?: SnowflakeExportCopyCommand;
+    exportSettings: SnowflakeExportCopyCommand;
     query?: any;
     type: "SnowflakeSource";
 }
@@ -6985,6 +7017,12 @@ export interface SparkConfigurationOperations {
     beginRenameSparkConfigurationAndWait(sparkConfigurationName: string, request: ArtifactRenameRequest, options?: SparkConfigurationRenameSparkConfigurationOptionalParams): Promise<void>;
     getSparkConfiguration(sparkConfigurationName: string, options?: SparkConfigurationGetSparkConfigurationOptionalParams): Promise<SparkConfigurationGetSparkConfigurationResponse>;
     listSparkConfigurationsByWorkspace(options?: SparkConfigurationGetSparkConfigurationsByWorkspaceOptionalParams): PagedAsyncIterableIterator<SparkConfigurationResource>;
+}
+
+// @public
+export interface SparkConfigurationParametrizationReference {
+    referenceName: any;
+    type: SparkConfigurationReferenceType;
 }
 
 // @public
@@ -7784,13 +7822,21 @@ export interface SynapseSparkJobDefinitionActivity extends ExecutionActivity {
     arguments?: any[];
     className?: any;
     conf?: any;
+    configurationType?: ConfigurationType;
     driverSize?: any;
     executorSize?: any;
     file?: any;
     files?: any[];
-    numExecutors?: number;
+    filesV2?: any[];
+    numExecutors?: any;
+    pythonCodeReference?: any[];
+    scanFolder?: any;
+    sparkConfig?: {
+        [propertyName: string]: any;
+    };
     sparkJob: SynapseSparkJobReference;
     targetBigDataPool?: BigDataPoolParametrizationReference;
+    targetSparkConfiguration?: SparkConfigurationParametrizationReference;
     type: "SparkJob";
 }
 

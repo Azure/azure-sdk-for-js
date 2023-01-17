@@ -1633,6 +1633,9 @@ export interface FailoverPolicy {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export interface GraphAPIComputeRegionalServiceResource extends RegionalServiceResource {
     readonly graphApiComputeEndpoint?: string;
 }

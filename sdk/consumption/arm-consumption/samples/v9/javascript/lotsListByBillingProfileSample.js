@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ConsumptionManagementClient } = require("@azure/arm-consumption");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Lists all Azure credits and Microsoft Azure consumption commitments for a billing account or a billing profile. Microsoft Azure consumption commitments are only supported for the billing account scope.
@@ -18,7 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/LotsListByBillingProfile.json
  */
 async function lotsListByBillingProfile() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const billingAccountId = "1234:5678";
   const billingProfileId = "2468";
   const credential = new DefaultAzureCredential();
@@ -33,4 +35,8 @@ async function lotsListByBillingProfile() {
   console.log(resArray);
 }
 
-lotsListByBillingProfile().catch(console.error);
+async function main() {
+  lotsListByBillingProfile();
+}
+
+main().catch(console.error);

@@ -75,7 +75,8 @@ export interface PacketCoreDataPlanes {
     options?: PacketCoreDataPlanesGetOptionalParams
   ): Promise<PacketCoreDataPlanesGetResponse>;
   /**
-   * Creates or updates a packet core data plane.
+   * Creates or updates a packet core data plane. Must be created in the same location as its parent
+   * packet core control plane.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param packetCoreControlPlaneName The name of the packet core control plane.
    * @param packetCoreDataPlaneName The name of the packet core data plane.
@@ -95,7 +96,8 @@ export interface PacketCoreDataPlanes {
     >
   >;
   /**
-   * Creates or updates a packet core data plane.
+   * Creates or updates a packet core data plane. Must be created in the same location as its parent
+   * packet core control plane.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param packetCoreControlPlaneName The name of the packet core control plane.
    * @param packetCoreDataPlaneName The name of the packet core data plane.

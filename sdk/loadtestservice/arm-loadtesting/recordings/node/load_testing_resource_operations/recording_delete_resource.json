@@ -1,0 +1,75 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myjstest/providers/Microsoft.LoadTestService/loadTests/loadtestsResource?api-version=2022-12-01",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-loadtesting/1.0.0-beta.2 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "086fabdb-ed25-48cf-b0b4-853ca34a481f"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Azure-AsyncOperation": "https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.LoadTestService/locations/WESTUS2/operationStatuses/6dabea3a-fd3b-4561-a1e4-8267a9c7708c*CC5302917A6CC7E79A30069178200988297A65F362ACE4CEA2322B6119687A80?api-version=2022-12-01",
+        "Cache-Control": "no-cache",
+        "Content-Length": "4",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 06 Jan 2023 08:09:30 GMT",
+        "ETag": "\u0022ec004cf5-0000-0800-0000-63b7d73b0000\u0022",
+        "Expires": "-1",
+        "Location": "https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.LoadTestService/locations/WESTUS2/operationStatuses/6dabea3a-fd3b-4561-a1e4-8267a9c7708c*CC5302917A6CC7E79A30069178200988297A65F362ACE4CEA2322B6119687A80?api-version=2022-12-01",
+        "mise-correlation-id": "5f1caeaf-d34f-468c-9c2e-9872f07b4781",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "0c1e85d0-7e5e-4cf2-8df1-74dd13b56b08",
+        "x-ms-providerhub-traffic": "True",
+        "x-ms-ratelimit-remaining-subscription-deletes": "14999",
+        "x-ms-request-id": "6dabea3a-fd3b-4561-a1e4-8267a9c7708c",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230106T080931Z:0c1e85d0-7e5e-4cf2-8df1-74dd13b56b08"
+      },
+      "ResponseBody": "null"
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.LoadTestService/locations/WESTUS2/operationStatuses/6dabea3a-fd3b-4561-a1e4-8267a9c7708c*CC5302917A6CC7E79A30069178200988297A65F362ACE4CEA2322B6119687A80?api-version=2022-12-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-loadtesting/1.0.0-beta.2 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "9c32d5c5-38da-4c9d-9d0b-155b8732f54b"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "562",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 06 Jan 2023 08:09:30 GMT",
+        "ETag": "\u00227904e8f6-0000-0800-0000-63b7d73b0000\u0022",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "aefa561a-9c6a-4437-88f8-e8d7b36e3ef4",
+        "x-ms-ratelimit-remaining-subscription-reads": "11989",
+        "x-ms-request-id": "e09acc86-56d7-4e75-8e26-bb4b561e5761",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230106T080931Z:aefa561a-9c6a-4437-88f8-e8d7b36e3ef4"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.LoadTestService/locations/WESTUS2/operationStatuses/6dabea3a-fd3b-4561-a1e4-8267a9c7708c*CC5302917A6CC7E79A30069178200988297A65F362ACE4CEA2322B6119687A80",
+        "name": "6dabea3a-fd3b-4561-a1e4-8267a9c7708c*CC5302917A6CC7E79A30069178200988297A65F362ACE4CEA2322B6119687A80",
+        "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myjstest/providers/Microsoft.LoadTestService/loadTests/loadtestsResource",
+        "status": "Deleting",
+        "startTime": "2023-01-06T08:09:31.035816Z"
+      }
+    }
+  ],
+  "Variables": {}
+}

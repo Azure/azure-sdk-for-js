@@ -1,5 +1,6 @@
 # Release History
-## 3.1.2 (Unreleased)
+
+## 3.1.3 (Unreleased)
 
 ### Features Added
 
@@ -7,10 +8,17 @@
 
 ### Bugs Fixed
 
-- Enable msal logging based on log level specified by user.
 ### Other Changes
 
-- Upgraded version dependencies on msal libraries, since they have additional logging enabled.
+## 3.1.2 (2022-12-05)
+
+### Bugs Fixed
+
+- Fixed bug in `ManagedIdentity Credential` where "expiresInSeconds" was taking the absolute timestamp instead of relative expiration time period in seconds.
+### Other Changes
+
+- Enable msal logging based on log level specified by user for Azure SDK.
+- Upgraded version dependencies on msal libraries, since they have additional logging added.
 
 ## 3.1.1 (2022-11-18)
 

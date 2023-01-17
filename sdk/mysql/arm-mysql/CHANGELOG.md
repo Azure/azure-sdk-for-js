@@ -1,6 +1,6 @@
 # Release History
 
-## 5.0.2 (Unreleased)
+## 5.1.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,34 @@
 
 ### Other Changes
 
+## 5.1.0 (2022-12-01)
+    
+**Features**
+
+  - Added Interface Advisor
+  - Added Interface Configuration
+  - Added Interface Database
+  - Added Interface FirewallRule
+  - Added Interface LogFile
+  - Added Interface PrivateEndpointConnection
+  - Added Interface PrivateLinkResource
+  - Added Interface ProxyResource
+  - Added Interface QueryStatistic
+  - Added Interface QueryText
+  - Added Interface RecommendationAction
+  - Added Interface RecoverableServerResource
+  - Added Interface Server
+  - Added Interface ServerAdministratorResource
+  - Added Interface ServerKey
+  - Added Interface ServerPropertiesForDefaultCreate
+  - Added Interface ServerPropertiesForGeoRestore
+  - Added Interface ServerPropertiesForReplica
+  - Added Interface ServerPropertiesForRestore
+  - Added Interface ServerSecurityAlertPolicy
+  - Added Interface TrackedResource
+  - Added Interface VirtualNetworkRule
+  - Added Interface WaitStatistic
+    
 ## 5.0.1 (2022-04-25)
 
 **Features**

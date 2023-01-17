@@ -26,6 +26,7 @@ import {
   ProjectEnvironmentTypeUpdate as ProjectEnvironmentTypeUpdateMapper,
   DevBoxDefinition as DevBoxDefinitionMapper,
   DevBoxDefinitionUpdate as DevBoxDefinitionUpdateMapper,
+  CheckNameAvailabilityRequest as CheckNameAvailabilityRequestMapper,
   Pool as PoolMapper,
   PoolUpdate as PoolUpdateMapper,
   Schedule as ScheduleMapper,
@@ -61,7 +62,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-10-12-preview",
+    defaultValue: "2022-11-11-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -322,6 +323,11 @@ export const operationId: OperationURLParameter = {
       name: "String"
     }
   }
+};
+
+export const nameAvailabilityRequest: OperationParameter = {
+  parameterPath: "nameAvailabilityRequest",
+  mapper: CheckNameAvailabilityRequestMapper
 };
 
 export const poolName: OperationURLParameter = {

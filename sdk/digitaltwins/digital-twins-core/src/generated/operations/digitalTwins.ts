@@ -6,11 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
+import { DigitalTwins } from "../operationsInterfaces";
+import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureDigitalTwinsAPI } from "../azureDigitalTwinsAPI";
 import {
+  DigitalTwinsListRelationshipsNextOptionalParams,
+  DigitalTwinsListRelationshipsOptionalParams,
+  DigitalTwinsListRelationshipsResponse,
+  IncomingRelationship,
+  DigitalTwinsListIncomingRelationshipsNextOptionalParams,
+  DigitalTwinsListIncomingRelationshipsOptionalParams,
+  DigitalTwinsListIncomingRelationshipsResponse,
   DigitalTwinsGetByIdOptionalParams,
   DigitalTwinsGetByIdResponse,
   DigitalTwinsAddOptionalParams,
@@ -25,26 +35,19 @@ import {
   DigitalTwinsDeleteRelationshipOptionalParams,
   DigitalTwinsUpdateRelationshipOptionalParams,
   DigitalTwinsUpdateRelationshipResponse,
-  DigitalTwinsListRelationshipsOptionalParams,
-  DigitalTwinsListRelationshipsResponse,
-  DigitalTwinsListIncomingRelationshipsOptionalParams,
-  DigitalTwinsListIncomingRelationshipsResponse,
   DigitalTwinsSendTelemetryOptionalParams,
   DigitalTwinsSendComponentTelemetryOptionalParams,
   DigitalTwinsGetComponentOptionalParams,
   DigitalTwinsGetComponentResponse,
   DigitalTwinsUpdateComponentOptionalParams,
   DigitalTwinsUpdateComponentResponse,
-  DigitalTwinsListRelationshipsNextOptionalParams,
   DigitalTwinsListRelationshipsNextResponse,
-  DigitalTwinsListIncomingRelationshipsNextOptionalParams,
   DigitalTwinsListIncomingRelationshipsNextResponse
 } from "../models";
 
-/**
- * Class representing a DigitalTwins.
- */
-export class DigitalTwins {
+/// <reference lib="esnext.asynciterable" />
+/** Class containing DigitalTwins operations. */
+export class DigitalTwinsImpl implements DigitalTwins {
   private readonly client: AzureDigitalTwinsAPI;
 
   /**
@@ -53,6 +56,145 @@ export class DigitalTwins {
    */
   constructor(client: AzureDigitalTwinsAPI) {
     this.client = client;
+  }
+
+  /**
+   * Retrieves the relationships from a digital twin.
+   * Status codes:
+   * * 200 OK
+   * * 400 Bad Request
+   *   * InvalidArgument - The digital twin id is invalid.
+   * * 404 Not Found
+   *   * DigitalTwinNotFound - The digital twin was not found.
+   * @param id The id of the digital twin. The id is unique within the service and case sensitive.
+   * @param options The options parameters.
+   */
+  public listRelationships(
+    id: string,
+    options?: DigitalTwinsListRelationshipsOptionalParams
+  ): PagedAsyncIterableIterator<Record<string, unknown>> {
+    const iter = this.listRelationshipsPagingAll(id, options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listRelationshipsPagingPage(id, options, settings);
+      }
+    };
+  }
+
+  private async *listRelationshipsPagingPage(
+    id: string,
+    options?: DigitalTwinsListRelationshipsOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<Record<string, unknown>[]> {
+    let result: DigitalTwinsListRelationshipsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listRelationships(id, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listRelationshipsNext(
+        id,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listRelationshipsPagingAll(
+    id: string,
+    options?: DigitalTwinsListRelationshipsOptionalParams
+  ): AsyncIterableIterator<Record<string, unknown>> {
+    for await (const page of this.listRelationshipsPagingPage(id, options)) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Retrieves all incoming relationship for a digital twin.
+   * Status codes:
+   * * 200 OK
+   * * 400 Bad Request
+   *   * InvalidArgument - The digital twin id is invalid.
+   * * 404 Not Found
+   *   * DigitalTwinNotFound - The digital twin was not found.
+   * @param id The id of the digital twin. The id is unique within the service and case sensitive.
+   * @param options The options parameters.
+   */
+  public listIncomingRelationships(
+    id: string,
+    options?: DigitalTwinsListIncomingRelationshipsOptionalParams
+  ): PagedAsyncIterableIterator<IncomingRelationship> {
+    const iter = this.listIncomingRelationshipsPagingAll(id, options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listIncomingRelationshipsPagingPage(id, options, settings);
+      }
+    };
+  }
+
+  private async *listIncomingRelationshipsPagingPage(
+    id: string,
+    options?: DigitalTwinsListIncomingRelationshipsOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<IncomingRelationship[]> {
+    let result: DigitalTwinsListIncomingRelationshipsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listIncomingRelationships(id, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listIncomingRelationshipsNext(
+        id,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listIncomingRelationshipsPagingAll(
+    id: string,
+    options?: DigitalTwinsListIncomingRelationshipsOptionalParams
+  ): AsyncIterableIterator<IncomingRelationship> {
+    for await (const page of this.listIncomingRelationshipsPagingPage(
+      id,
+      options
+    )) {
+      yield* page;
+    }
   }
 
   /**
@@ -70,13 +212,10 @@ export class DigitalTwins {
     id: string,
     options?: DigitalTwinsGetByIdOptionalParams
   ): Promise<DigitalTwinsGetByIdResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
     return this.client.sendOperationRequest(
-      { id, options: operationOptions },
+      { id, options },
       getByIdOperationSpec
-    ) as Promise<DigitalTwinsGetByIdResponse>;
+    );
   }
 
   /**
@@ -96,16 +235,13 @@ export class DigitalTwins {
    */
   add(
     id: string,
-    twin: any,
+    twin: Record<string, unknown>,
     options?: DigitalTwinsAddOptionalParams
   ): Promise<DigitalTwinsAddResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
     return this.client.sendOperationRequest(
-      { id, twin, options: operationOptions },
+      { id, twin, options },
       addOperationSpec
-    ) as Promise<DigitalTwinsAddResponse>;
+    );
   }
 
   /**
@@ -125,14 +261,11 @@ export class DigitalTwins {
   delete(
     id: string,
     options?: DigitalTwinsDeleteOptionalParams
-  ): Promise<coreHttp.RestResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
+  ): Promise<void> {
     return this.client.sendOperationRequest(
-      { id, options: operationOptions },
+      { id, options },
       deleteOperationSpec
-    ) as Promise<coreHttp.RestResponse>;
+    );
   }
 
   /**
@@ -154,16 +287,13 @@ export class DigitalTwins {
    */
   update(
     id: string,
-    patchDocument: any[],
+    patchDocument: Record<string, unknown>[],
     options?: DigitalTwinsUpdateOptionalParams
   ): Promise<DigitalTwinsUpdateResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
     return this.client.sendOperationRequest(
-      { id, patchDocument, options: operationOptions },
+      { id, patchDocument, options },
       updateOperationSpec
-    ) as Promise<DigitalTwinsUpdateResponse>;
+    );
   }
 
   /**
@@ -185,13 +315,10 @@ export class DigitalTwins {
     relationshipId: string,
     options?: DigitalTwinsGetRelationshipByIdOptionalParams
   ): Promise<DigitalTwinsGetRelationshipByIdResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
     return this.client.sendOperationRequest(
-      { id, relationshipId, options: operationOptions },
+      { id, relationshipId, options },
       getRelationshipByIdOperationSpec
-    ) as Promise<DigitalTwinsGetRelationshipByIdResponse>;
+    );
   }
 
   /**
@@ -217,16 +344,13 @@ export class DigitalTwins {
   addRelationship(
     id: string,
     relationshipId: string,
-    relationship: any,
+    relationship: Record<string, unknown>,
     options?: DigitalTwinsAddRelationshipOptionalParams
   ): Promise<DigitalTwinsAddRelationshipResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
     return this.client.sendOperationRequest(
-      { id, relationshipId, relationship, options: operationOptions },
+      { id, relationshipId, relationship, options },
       addRelationshipOperationSpec
-    ) as Promise<DigitalTwinsAddRelationshipResponse>;
+    );
   }
 
   /**
@@ -249,14 +373,11 @@ export class DigitalTwins {
     id: string,
     relationshipId: string,
     options?: DigitalTwinsDeleteRelationshipOptionalParams
-  ): Promise<coreHttp.RestResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
+  ): Promise<void> {
     return this.client.sendOperationRequest(
-      { id, relationshipId, options: operationOptions },
+      { id, relationshipId, options },
       deleteRelationshipOperationSpec
-    ) as Promise<coreHttp.RestResponse>;
+    );
   }
 
   /**
@@ -284,16 +405,13 @@ export class DigitalTwins {
   updateRelationship(
     id: string,
     relationshipId: string,
-    patchDocument: any[],
+    patchDocument: Record<string, unknown>[],
     options?: DigitalTwinsUpdateRelationshipOptionalParams
   ): Promise<DigitalTwinsUpdateRelationshipResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
     return this.client.sendOperationRequest(
-      { id, relationshipId, patchDocument, options: operationOptions },
+      { id, relationshipId, patchDocument, options },
       updateRelationshipOperationSpec
-    ) as Promise<DigitalTwinsUpdateRelationshipResponse>;
+    );
   }
 
   /**
@@ -307,17 +425,14 @@ export class DigitalTwins {
    * @param id The id of the digital twin. The id is unique within the service and case sensitive.
    * @param options The options parameters.
    */
-  listRelationships(
+  private _listRelationships(
     id: string,
     options?: DigitalTwinsListRelationshipsOptionalParams
   ): Promise<DigitalTwinsListRelationshipsResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
     return this.client.sendOperationRequest(
-      { id, options: operationOptions },
+      { id, options },
       listRelationshipsOperationSpec
-    ) as Promise<DigitalTwinsListRelationshipsResponse>;
+    );
   }
 
   /**
@@ -331,17 +446,14 @@ export class DigitalTwins {
    * @param id The id of the digital twin. The id is unique within the service and case sensitive.
    * @param options The options parameters.
    */
-  listIncomingRelationships(
+  private _listIncomingRelationships(
     id: string,
     options?: DigitalTwinsListIncomingRelationshipsOptionalParams
   ): Promise<DigitalTwinsListIncomingRelationshipsResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
     return this.client.sendOperationRequest(
-      { id, options: operationOptions },
+      { id, options },
       listIncomingRelationshipsOperationSpec
-    ) as Promise<DigitalTwinsListIncomingRelationshipsResponse>;
+    );
   }
 
   /**
@@ -362,16 +474,13 @@ export class DigitalTwins {
   sendTelemetry(
     id: string,
     messageId: string,
-    telemetry: any,
+    telemetry: Record<string, unknown>,
     options?: DigitalTwinsSendTelemetryOptionalParams
-  ): Promise<coreHttp.RestResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
+  ): Promise<void> {
     return this.client.sendOperationRequest(
-      { id, messageId, telemetry, options: operationOptions },
+      { id, messageId, telemetry, options },
       sendTelemetryOperationSpec
-    ) as Promise<coreHttp.RestResponse>;
+    );
   }
 
   /**
@@ -395,16 +504,13 @@ export class DigitalTwins {
     id: string,
     componentPath: string,
     messageId: string,
-    telemetry: any,
+    telemetry: Record<string, unknown>,
     options?: DigitalTwinsSendComponentTelemetryOptionalParams
-  ): Promise<coreHttp.RestResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
+  ): Promise<void> {
     return this.client.sendOperationRequest(
-      { id, componentPath, messageId, telemetry, options: operationOptions },
+      { id, componentPath, messageId, telemetry, options },
       sendComponentTelemetryOperationSpec
-    ) as Promise<coreHttp.RestResponse>;
+    );
   }
 
   /**
@@ -425,13 +531,10 @@ export class DigitalTwins {
     componentPath: string,
     options?: DigitalTwinsGetComponentOptionalParams
   ): Promise<DigitalTwinsGetComponentResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
     return this.client.sendOperationRequest(
-      { id, componentPath, options: operationOptions },
+      { id, componentPath, options },
       getComponentOperationSpec
-    ) as Promise<DigitalTwinsGetComponentResponse>;
+    );
   }
 
   /**
@@ -455,16 +558,13 @@ export class DigitalTwins {
   updateComponent(
     id: string,
     componentPath: string,
-    patchDocument: any[],
+    patchDocument: Record<string, unknown>[],
     options?: DigitalTwinsUpdateComponentOptionalParams
   ): Promise<DigitalTwinsUpdateComponentResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
     return this.client.sendOperationRequest(
-      { id, componentPath, patchDocument, options: operationOptions },
+      { id, componentPath, patchDocument, options },
       updateComponentOperationSpec
-    ) as Promise<DigitalTwinsUpdateComponentResponse>;
+    );
   }
 
   /**
@@ -473,18 +573,15 @@ export class DigitalTwins {
    * @param nextLink The nextLink from the previous successful call to the ListRelationships method.
    * @param options The options parameters.
    */
-  listRelationshipsNext(
+  private _listRelationshipsNext(
     id: string,
     nextLink: string,
     options?: DigitalTwinsListRelationshipsNextOptionalParams
   ): Promise<DigitalTwinsListRelationshipsNextResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
     return this.client.sendOperationRequest(
-      { id, nextLink, options: operationOptions },
+      { id, nextLink, options },
       listRelationshipsNextOperationSpec
-    ) as Promise<DigitalTwinsListRelationshipsNextResponse>;
+    );
   }
 
   /**
@@ -494,30 +591,28 @@ export class DigitalTwins {
    *                 method.
    * @param options The options parameters.
    */
-  listIncomingRelationshipsNext(
+  private _listIncomingRelationshipsNext(
     id: string,
     nextLink: string,
     options?: DigitalTwinsListIncomingRelationshipsNextOptionalParams
   ): Promise<DigitalTwinsListIncomingRelationshipsNextResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
     return this.client.sendOperationRequest(
-      { id, nextLink, options: operationOptions },
+      { id, nextLink, options },
       listIncomingRelationshipsNextOperationSpec
-    ) as Promise<DigitalTwinsListIncomingRelationshipsNextResponse>;
+    );
   }
 }
 // Operation Specifications
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
-
-const getByIdOperationSpec: coreHttp.OperationSpec = {
+const getByIdOperationSpec: coreClient.OperationSpec = {
   path: "/digitaltwins/{id}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: { type: { name: "any" } },
+      bodyMapper: {
+        type: { name: "Dictionary", value: { type: { name: "any" } } }
+      },
       headersMapper: Mappers.DigitalTwinsGetByIdHeaders
     },
     default: {
@@ -526,15 +621,17 @@ const getByIdOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.id],
-  headerParameters: [Parameters.traceparent, Parameters.tracestate],
+  headerParameters: [Parameters.accept],
   serializer
 };
-const addOperationSpec: coreHttp.OperationSpec = {
+const addOperationSpec: coreClient.OperationSpec = {
   path: "/digitaltwins/{id}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: { type: { name: "any" } },
+      bodyMapper: {
+        type: { name: "Dictionary", value: { type: { name: "any" } } }
+      },
       headersMapper: Mappers.DigitalTwinsAddHeaders
     },
     202: {},
@@ -547,14 +644,13 @@ const addOperationSpec: coreHttp.OperationSpec = {
   urlParameters: [Parameters.$host, Parameters.id],
   headerParameters: [
     Parameters.contentType,
-    Parameters.traceparent,
-    Parameters.tracestate,
+    Parameters.accept,
     Parameters.ifNoneMatch
   ],
   mediaType: "json",
   serializer
 };
-const deleteOperationSpec: coreHttp.OperationSpec = {
+const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/digitaltwins/{id}",
   httpMethod: "DELETE",
   responses: {
@@ -565,14 +661,10 @@ const deleteOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.id],
-  headerParameters: [
-    Parameters.traceparent,
-    Parameters.tracestate,
-    Parameters.ifMatch
-  ],
+  headerParameters: [Parameters.accept, Parameters.ifMatch],
   serializer
 };
-const updateOperationSpec: coreHttp.OperationSpec = {
+const updateOperationSpec: coreClient.OperationSpec = {
   path: "/digitaltwins/{id}",
   httpMethod: "PATCH",
   responses: {
@@ -588,20 +680,21 @@ const updateOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.id],
   headerParameters: [
-    Parameters.traceparent,
-    Parameters.tracestate,
+    Parameters.accept,
     Parameters.contentType1,
     Parameters.ifMatch
   ],
   mediaType: "json",
   serializer
 };
-const getRelationshipByIdOperationSpec: coreHttp.OperationSpec = {
+const getRelationshipByIdOperationSpec: coreClient.OperationSpec = {
   path: "/digitaltwins/{id}/relationships/{relationshipId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: { type: { name: "any" } },
+      bodyMapper: {
+        type: { name: "Dictionary", value: { type: { name: "any" } } }
+      },
       headersMapper: Mappers.DigitalTwinsGetRelationshipByIdHeaders
     },
     default: {
@@ -610,15 +703,17 @@ const getRelationshipByIdOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.id, Parameters.relationshipId],
-  headerParameters: [Parameters.traceparent, Parameters.tracestate],
+  headerParameters: [Parameters.accept],
   serializer
 };
-const addRelationshipOperationSpec: coreHttp.OperationSpec = {
+const addRelationshipOperationSpec: coreClient.OperationSpec = {
   path: "/digitaltwins/{id}/relationships/{relationshipId}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: { type: { name: "any" } },
+      bodyMapper: {
+        type: { name: "Dictionary", value: { type: { name: "any" } } }
+      },
       headersMapper: Mappers.DigitalTwinsAddRelationshipHeaders
     },
     default: {
@@ -630,14 +725,13 @@ const addRelationshipOperationSpec: coreHttp.OperationSpec = {
   urlParameters: [Parameters.$host, Parameters.id, Parameters.relationshipId],
   headerParameters: [
     Parameters.contentType,
-    Parameters.traceparent,
-    Parameters.tracestate,
+    Parameters.accept,
     Parameters.ifNoneMatch
   ],
   mediaType: "json",
   serializer
 };
-const deleteRelationshipOperationSpec: coreHttp.OperationSpec = {
+const deleteRelationshipOperationSpec: coreClient.OperationSpec = {
   path: "/digitaltwins/{id}/relationships/{relationshipId}",
   httpMethod: "DELETE",
   responses: {
@@ -648,14 +742,10 @@ const deleteRelationshipOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.id, Parameters.relationshipId],
-  headerParameters: [
-    Parameters.traceparent,
-    Parameters.tracestate,
-    Parameters.ifMatch
-  ],
+  headerParameters: [Parameters.accept, Parameters.ifMatch],
   serializer
 };
-const updateRelationshipOperationSpec: coreHttp.OperationSpec = {
+const updateRelationshipOperationSpec: coreClient.OperationSpec = {
   path: "/digitaltwins/{id}/relationships/{relationshipId}",
   httpMethod: "PATCH",
   responses: {
@@ -670,15 +760,14 @@ const updateRelationshipOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.id, Parameters.relationshipId],
   headerParameters: [
-    Parameters.traceparent,
-    Parameters.tracestate,
+    Parameters.accept,
     Parameters.contentType1,
     Parameters.ifMatch
   ],
   mediaType: "json",
   serializer
 };
-const listRelationshipsOperationSpec: coreHttp.OperationSpec = {
+const listRelationshipsOperationSpec: coreClient.OperationSpec = {
   path: "/digitaltwins/{id}/relationships",
   httpMethod: "GET",
   responses: {
@@ -691,10 +780,10 @@ const listRelationshipsOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion, Parameters.relationshipName],
   urlParameters: [Parameters.$host, Parameters.id],
-  headerParameters: [Parameters.traceparent, Parameters.tracestate],
+  headerParameters: [Parameters.accept],
   serializer
 };
-const listIncomingRelationshipsOperationSpec: coreHttp.OperationSpec = {
+const listIncomingRelationshipsOperationSpec: coreClient.OperationSpec = {
   path: "/digitaltwins/{id}/incomingrelationships",
   httpMethod: "GET",
   responses: {
@@ -707,10 +796,10 @@ const listIncomingRelationshipsOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.id],
-  headerParameters: [Parameters.traceparent, Parameters.tracestate],
+  headerParameters: [Parameters.accept],
   serializer
 };
-const sendTelemetryOperationSpec: coreHttp.OperationSpec = {
+const sendTelemetryOperationSpec: coreClient.OperationSpec = {
   path: "/digitaltwins/{id}/telemetry",
   httpMethod: "POST",
   responses: {
@@ -724,15 +813,14 @@ const sendTelemetryOperationSpec: coreHttp.OperationSpec = {
   urlParameters: [Parameters.$host, Parameters.id],
   headerParameters: [
     Parameters.contentType,
-    Parameters.traceparent,
-    Parameters.tracestate,
+    Parameters.accept,
     Parameters.messageId,
     Parameters.telemetrySourceTime
   ],
   mediaType: "json",
   serializer
 };
-const sendComponentTelemetryOperationSpec: coreHttp.OperationSpec = {
+const sendComponentTelemetryOperationSpec: coreClient.OperationSpec = {
   path: "/digitaltwins/{id}/components/{componentPath}/telemetry",
   httpMethod: "POST",
   responses: {
@@ -746,20 +834,21 @@ const sendComponentTelemetryOperationSpec: coreHttp.OperationSpec = {
   urlParameters: [Parameters.$host, Parameters.id, Parameters.componentPath],
   headerParameters: [
     Parameters.contentType,
-    Parameters.traceparent,
-    Parameters.tracestate,
+    Parameters.accept,
     Parameters.messageId,
     Parameters.telemetrySourceTime
   ],
   mediaType: "json",
   serializer
 };
-const getComponentOperationSpec: coreHttp.OperationSpec = {
+const getComponentOperationSpec: coreClient.OperationSpec = {
   path: "/digitaltwins/{id}/components/{componentPath}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: { type: { name: "any" } },
+      bodyMapper: {
+        type: { name: "Dictionary", value: { type: { name: "any" } } }
+      },
       headersMapper: Mappers.DigitalTwinsGetComponentHeaders
     },
     default: {
@@ -768,10 +857,10 @@ const getComponentOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.id, Parameters.componentPath],
-  headerParameters: [Parameters.traceparent, Parameters.tracestate],
+  headerParameters: [Parameters.accept],
   serializer
 };
-const updateComponentOperationSpec: coreHttp.OperationSpec = {
+const updateComponentOperationSpec: coreClient.OperationSpec = {
   path: "/digitaltwins/{id}/components/{componentPath}",
   httpMethod: "PATCH",
   responses: {
@@ -787,15 +876,14 @@ const updateComponentOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.id, Parameters.componentPath],
   headerParameters: [
-    Parameters.traceparent,
-    Parameters.tracestate,
+    Parameters.accept,
     Parameters.contentType1,
     Parameters.ifMatch
   ],
   mediaType: "json",
   serializer
 };
-const listRelationshipsNextOperationSpec: coreHttp.OperationSpec = {
+const listRelationshipsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
@@ -806,12 +894,11 @@ const listRelationshipsNextOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.relationshipName],
   urlParameters: [Parameters.$host, Parameters.id, Parameters.nextLink],
-  headerParameters: [Parameters.traceparent, Parameters.tracestate],
+  headerParameters: [Parameters.accept],
   serializer
 };
-const listIncomingRelationshipsNextOperationSpec: coreHttp.OperationSpec = {
+const listIncomingRelationshipsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
@@ -822,8 +909,7 @@ const listIncomingRelationshipsNextOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.id, Parameters.nextLink],
-  headerParameters: [Parameters.traceparent, Parameters.tracestate],
+  headerParameters: [Parameters.accept],
   serializer
 };

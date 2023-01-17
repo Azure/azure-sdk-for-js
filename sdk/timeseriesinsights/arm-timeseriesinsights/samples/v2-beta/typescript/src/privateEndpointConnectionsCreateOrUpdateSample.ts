@@ -13,6 +13,9 @@ import {
   TimeSeriesInsightsClient
 } from "@azure/arm-timeseriesinsights";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Updates a Private Endpoint connection of the environment in the given resource group.
@@ -21,8 +24,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/timeseriesinsights/resource-manager/Microsoft.TimeSeriesInsights/preview/2021-03-31-preview/examples/PrivateEndpointConnectionUpdate.json
  */
 async function privateEndpointConnectionUpdate() {
-  const subscriptionId = "mySubscriptionId";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["TIMESERIESINSIGHTS_SUBSCRIPTION_ID"] || "mySubscriptionId";
+  const resourceGroupName =
+    process.env["TIMESERIESINSIGHTS_RESOURCE_GROUP"] || "myResourceGroup";
   const environmentName = "myEnvironment";
   const privateEndpointConnectionName = "myPrivateEndpointConnectionName";
   const privateEndpointConnection: PrivateEndpointConnection = {
@@ -42,4 +47,8 @@ async function privateEndpointConnectionUpdate() {
   console.log(result);
 }
 
-privateEndpointConnectionUpdate().catch(console.error);
+async function main() {
+  privateEndpointConnectionUpdate();
+}
+
+main().catch(console.error);

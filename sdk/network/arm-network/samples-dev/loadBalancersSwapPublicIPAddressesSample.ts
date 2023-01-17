@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Swaps VIPs between two load balancers.
  *
  * @summary Swaps VIPs between two load balancers.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LoadBalancersSwapPublicIpAddresses.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/LoadBalancersSwapPublicIpAddresses.json
  */
 async function swapViPsBetweenTwoLoadBalancers() {
   const subscriptionId = "subid";

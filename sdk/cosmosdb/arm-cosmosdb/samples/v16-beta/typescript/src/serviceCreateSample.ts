@@ -13,6 +13,9 @@ import {
   CosmosDBManagementClient
 } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates a service.
@@ -21,8 +24,8 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBDataTransferServiceCreate.json
  */
 async function dataTransferServiceCreate() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
   const serviceName = "DataTransfer";
   const createUpdateParameters: ServiceResourceCreateUpdateParameters = {
@@ -41,8 +44,6 @@ async function dataTransferServiceCreate() {
   console.log(result);
 }
 
-dataTransferServiceCreate().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates a service.
  *
@@ -50,8 +51,8 @@ dataTransferServiceCreate().catch(console.error);
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBGraphAPIComputeServiceCreate.json
  */
 async function graphApiComputeServiceCreate() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
   const serviceName = "GraphAPICompute";
   const createUpdateParameters: ServiceResourceCreateUpdateParameters = {
@@ -70,8 +71,6 @@ async function graphApiComputeServiceCreate() {
   console.log(result);
 }
 
-graphApiComputeServiceCreate().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates a service.
  *
@@ -79,8 +78,8 @@ graphApiComputeServiceCreate().catch(console.error);
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBMaterializedViewsBuilderServiceCreate.json
  */
 async function materializedViewsBuilderServiceCreate() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
   const serviceName = "MaterializedViewsBuilder";
   const createUpdateParameters: ServiceResourceCreateUpdateParameters = {
@@ -99,8 +98,6 @@ async function materializedViewsBuilderServiceCreate() {
   console.log(result);
 }
 
-materializedViewsBuilderServiceCreate().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates a service.
  *
@@ -108,8 +105,8 @@ materializedViewsBuilderServiceCreate().catch(console.error);
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBSqlDedicatedGatewayServiceCreate.json
  */
 async function sqlDedicatedGatewayServiceCreate() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
   const serviceName = "SqlDedicatedGateway";
   const createUpdateParameters: ServiceResourceCreateUpdateParameters = {
@@ -128,4 +125,11 @@ async function sqlDedicatedGatewayServiceCreate() {
   console.log(result);
 }
 
-sqlDedicatedGatewayServiceCreate().catch(console.error);
+async function main() {
+  dataTransferServiceCreate();
+  graphApiComputeServiceCreate();
+  materializedViewsBuilderServiceCreate();
+  sqlDedicatedGatewayServiceCreate();
+}
+
+main().catch(console.error);

@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { NetworkInterfaces } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,8 +19,10 @@ import {
   NetworkInterface,
   NetworkInterfacesListAllNextOptionalParams,
   NetworkInterfacesListAllOptionalParams,
+  NetworkInterfacesListAllResponse,
   NetworkInterfacesListNextOptionalParams,
   NetworkInterfacesListOptionalParams,
+  NetworkInterfacesListResponse,
   NetworkInterfacesDeleteOptionalParams,
   NetworkInterfacesGetOptionalParams,
   NetworkInterfacesGetResponse,
@@ -28,8 +31,6 @@ import {
   TagsObject,
   NetworkInterfacesUpdateTagsOptionalParams,
   NetworkInterfacesUpdateTagsResponse,
-  NetworkInterfacesListAllResponse,
-  NetworkInterfacesListResponse,
   NetworkInterfacesGetEffectiveRouteTableOptionalParams,
   NetworkInterfacesGetEffectiveRouteTableResponse,
   NetworkInterfacesListEffectiveNetworkSecurityGroupsOptionalParams,
@@ -66,22 +67,34 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listAllPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listAllPagingPage(options, settings);
       }
     };
   }
 
   private async *listAllPagingPage(
-    options?: NetworkInterfacesListAllOptionalParams
+    options?: NetworkInterfacesListAllOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<NetworkInterface[]> {
-    let result = await this._listAll(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: NetworkInterfacesListAllResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listAll(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listAllNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -110,19 +123,29 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(resourceGroupName, options, settings);
       }
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
-    options?: NetworkInterfacesListOptionalParams
+    options?: NetworkInterfacesListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<NetworkInterface[]> {
-    let result = await this._list(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: NetworkInterfacesListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -130,7 +153,9 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -198,10 +223,12 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
       { resourceGroupName, networkInterfaceName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -302,10 +329,12 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
       { resourceGroupName, networkInterfaceName, parameters, options },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -392,10 +421,12 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
       { resourceGroupName, networkInterfaceName, parameters, options },
       updateTagsOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -505,10 +536,12 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
       { resourceGroupName, networkInterfaceName, options },
       getEffectiveRouteTableOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -592,10 +625,12 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
       { resourceGroupName, networkInterfaceName, options },
       listEffectiveNetworkSecurityGroupsOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -841,7 +876,6 @@ const listAllNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.NetworkInterfaceListResult
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -858,7 +892,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.NetworkInterfaceListResult
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
