@@ -30,8 +30,7 @@ async function expressRouteGatewayCreate() {
       properties: {
         autoScaleConfiguration: { bounds: { min: 3 } },
         virtualHub: {
-          id:
-            "/subscriptions/subid/resourceGroups/resourceGroupId/providers/Microsoft.Network/virtualHubs/virtualHubName",
+          id: "/subscriptions/subid/resourceGroups/resourceGroupId/providers/Microsoft.Network/virtualHubs/virtualHubName",
         },
       },
     },

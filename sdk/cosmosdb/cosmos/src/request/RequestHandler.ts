@@ -90,7 +90,9 @@ async function httpRequest(requestContext: RequestContext): Promise<{
         throw error;
       }
       // If the user didn't cancel, it must be an abort we called due to timeout
-      throw new TimeoutError();
+      throw new TimeoutError(
+        `Timeout Error! Request took more than ${requestContext.connectionPolicy.requestTimeout} ms`
+      );
     }
     throw error;
   }
@@ -106,7 +108,7 @@ async function httpRequest(requestContext: RequestContext): Promise<{
     : undefined;
 
   if (response.status >= 400) {
-    const errorResponse: ErrorResponse = new Error(result.message);
+    const errorResponse: ErrorResponse = new ErrorResponse(result.message);
 
     logger.warning(
       response.status +

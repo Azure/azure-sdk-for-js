@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Get the specified service endpoint policy definitions from service endpoint policy.
  *
  * @summary Get the specified service endpoint policy definitions from service endpoint policy.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ServiceEndpointPolicyDefinitionGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/ServiceEndpointPolicyDefinitionGet.json
  */
 async function getServiceEndpointDefinitionInServiceEndpointPolicy() {
   const subscriptionId = "subid";

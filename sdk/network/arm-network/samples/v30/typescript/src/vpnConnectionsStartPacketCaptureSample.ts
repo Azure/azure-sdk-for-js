@@ -19,7 +19,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Starts packet capture on Vpn connection in the specified resource group.
  *
  * @summary Starts packet capture on Vpn connection in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VpnConnectionStartPacketCaptureFilterData.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/VpnConnectionStartPacketCaptureFilterData.json
  */
 async function startPacketCaptureOnVpnConnectionWithFilter() {
   const subscriptionId = "subid";
@@ -51,7 +51,7 @@ startPacketCaptureOnVpnConnectionWithFilter().catch(console.error);
  * This sample demonstrates how to Starts packet capture on Vpn connection in the specified resource group.
  *
  * @summary Starts packet capture on Vpn connection in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VpnConnectionStartPacketCapture.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/VpnConnectionStartPacketCapture.json
  */
 async function startPacketCaptureOnVpnConnectionWithoutFilter() {
   const subscriptionId = "subid";

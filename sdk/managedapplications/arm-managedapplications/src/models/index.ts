@@ -162,17 +162,17 @@ export interface ApplicationListResult {
 }
 
 /** Resource information. */
-export type GenericResource = Resource & {
+export interface GenericResource extends Resource {
   /** ID of the resource that manages this resource. */
   managedBy?: string;
   /** The SKU of the resource. */
   sku?: Sku;
   /** The identity of the resource. */
   identity?: Identity;
-};
+}
 
 /** Information about managed application. */
-export type Application = GenericResource & {
+export interface Application extends GenericResource {
   /** The plan information. */
   plan?: Plan;
   /** The kind of the managed application. Allowed values are MarketPlace and ServiceCatalog. */
@@ -193,10 +193,10 @@ export type Application = GenericResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
-};
+}
 
 /** Information about managed application. */
-export type ApplicationPatchable = GenericResource & {
+export interface ApplicationPatchable extends GenericResource {
   /** The plan information. */
   plan?: PlanPatchable;
   /** The kind of the managed application. Allowed values are MarketPlace and ServiceCatalog. */
@@ -217,10 +217,10 @@ export type ApplicationPatchable = GenericResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
-};
+}
 
 /** Information about managed application definition. */
-export type ApplicationDefinition = GenericResource & {
+export interface ApplicationDefinition extends GenericResource {
   /** The managed application lock level. */
   lockLevel: ApplicationLockLevel;
   /** The managed application definition display name. */
@@ -239,20 +239,31 @@ export type ApplicationDefinition = GenericResource & {
   mainTemplate?: Record<string, unknown>;
   /** The createUiDefinition json for the backing template with Microsoft.Solutions/applications resource. It can be a JObject or well-formed JSON string. */
   createUiDefinition?: Record<string, unknown>;
-};
+}
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
+  /** Accepted */
   Accepted = "Accepted",
+  /** Running */
   Running = "Running",
+  /** Ready */
   Ready = "Ready",
+  /** Creating */
   Creating = "Creating",
+  /** Created */
   Created = "Created",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Deleted */
   Deleted = "Deleted",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Failed */
   Failed = "Failed",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Updating */
   Updating = "Updating"
 }
 

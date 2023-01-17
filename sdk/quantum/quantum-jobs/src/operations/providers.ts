@@ -6,19 +6,24 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { tracingClient } from "../tracing";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import * as coreHttp from "@azure/core-http";
+import { Providers } from "../operationsInterfaces";
+import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { QuantumJobClient } from "../quantumJobClient";
 import {
   ProviderStatus,
+  ProvidersGetStatusNextOptionalParams,
+  ProvidersGetStatusOptionalParams,
   ProvidersGetStatusResponse,
   ProvidersGetStatusNextResponse
 } from "../models";
 
-/** Class representing a Providers. */
-export class Providers {
+/// <reference lib="esnext.asynciterable" />
+/** Class containing Providers operations. */
+export class ProvidersImpl implements Providers {
   private readonly client: QuantumJobClient;
 
   /**
@@ -34,7 +39,7 @@ export class Providers {
    * @param options The options parameters.
    */
   public listStatus(
-    options?: coreHttp.OperationOptions
+    options?: ProvidersGetStatusOptionalParams
   ): PagedAsyncIterableIterator<ProviderStatus> {
     const iter = this.getStatusPagingAll(options);
     return {
@@ -51,7 +56,7 @@ export class Providers {
   }
 
   private async *getStatusPagingPage(
-    options?: coreHttp.OperationOptions
+    options?: ProvidersGetStatusOptionalParams
   ): AsyncIterableIterator<ProviderStatus[]> {
     let result = await this._getStatus(options);
     yield result.value || [];
@@ -64,7 +69,7 @@ export class Providers {
   }
 
   private async *getStatusPagingAll(
-    options?: coreHttp.OperationOptions
+    options?: ProvidersGetStatusOptionalParams
   ): AsyncIterableIterator<ProviderStatus> {
     for await (const page of this.getStatusPagingPage(options)) {
       yield* page;
@@ -75,13 +80,19 @@ export class Providers {
    * Get provider status.
    * @param options The options parameters.
    */
-  private _getStatus(options?: coreHttp.OperationOptions): Promise<ProvidersGetStatusResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(operationArguments, getStatusOperationSpec) as Promise<
-      ProvidersGetStatusResponse
-    >;
+  private async _getStatus(
+    options?: ProvidersGetStatusOptionalParams
+  ): Promise<ProvidersGetStatusResponse> {
+    return tracingClient.withSpan(
+      "QuantumJobClient._getStatus",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { options },
+          getStatusOperationSpec
+        ) as Promise<ProvidersGetStatusResponse>;
+      }
+    );
   }
 
   /**
@@ -89,24 +100,26 @@ export class Providers {
    * @param nextLink The nextLink from the previous successful call to the GetStatus method.
    * @param options The options parameters.
    */
-  private _getStatusNext(
+  private async _getStatusNext(
     nextLink: string,
-    options?: coreHttp.OperationOptions
+    options?: ProvidersGetStatusNextOptionalParams
   ): Promise<ProvidersGetStatusNextResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      nextLink,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      getStatusNextOperationSpec
-    ) as Promise<ProvidersGetStatusNextResponse>;
+    return tracingClient.withSpan(
+      "QuantumJobClient._getStatusNext",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { nextLink, options },
+          getStatusNextOperationSpec
+        ) as Promise<ProvidersGetStatusNextResponse>;
+      }
+    );
   }
 }
 // Operation Specifications
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getStatusOperationSpec: coreHttp.OperationSpec = {
+const getStatusOperationSpec: coreClient.OperationSpec = {
   path:
     "/v1.0/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Quantum/workspaces/{workspaceName}/providerStatus",
   httpMethod: "GET",
@@ -127,7 +140,7 @@ const getStatusOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const getStatusNextOperationSpec: coreHttp.OperationSpec = {
+const getStatusNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {

@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Gives the sas-url to download the configurations for vpn-sites in a resource group.
  *
  * @summary Gives the sas-url to download the configurations for vpn-sites in a resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VpnSitesConfigurationDownload.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/VpnSitesConfigurationDownload.json
  */
 async function vpnSitesConfigurationDownload() {
   const subscriptionId = "subid";

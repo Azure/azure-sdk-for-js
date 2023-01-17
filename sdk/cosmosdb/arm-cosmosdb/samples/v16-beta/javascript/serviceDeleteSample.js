@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Deletes service with the given serviceName.
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBDataTransferServiceDelete.json
  */
 async function dataTransferServiceDelete() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
   const serviceName = "DataTransfer";
   const credential = new DefaultAzureCredential();
@@ -32,8 +33,6 @@ async function dataTransferServiceDelete() {
   console.log(result);
 }
 
-dataTransferServiceDelete().catch(console.error);
-
 /**
  * This sample demonstrates how to Deletes service with the given serviceName.
  *
@@ -41,8 +40,8 @@ dataTransferServiceDelete().catch(console.error);
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBGraphAPIComputeServiceDelete.json
  */
 async function graphApiComputeServiceDelete() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
   const serviceName = "GraphAPICompute";
   const credential = new DefaultAzureCredential();
@@ -55,8 +54,6 @@ async function graphApiComputeServiceDelete() {
   console.log(result);
 }
 
-graphApiComputeServiceDelete().catch(console.error);
-
 /**
  * This sample demonstrates how to Deletes service with the given serviceName.
  *
@@ -64,8 +61,8 @@ graphApiComputeServiceDelete().catch(console.error);
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBMaterializedViewsBuilderServiceDelete.json
  */
 async function materializedViewsBuilderServiceDelete() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
   const serviceName = "MaterializedViewsBuilder";
   const credential = new DefaultAzureCredential();
@@ -78,8 +75,6 @@ async function materializedViewsBuilderServiceDelete() {
   console.log(result);
 }
 
-materializedViewsBuilderServiceDelete().catch(console.error);
-
 /**
  * This sample demonstrates how to Deletes service with the given serviceName.
  *
@@ -87,8 +82,8 @@ materializedViewsBuilderServiceDelete().catch(console.error);
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBSqlDedicatedGatewayServiceDelete.json
  */
 async function sqlDedicatedGatewayServiceDelete() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
   const serviceName = "SqlDedicatedGateway";
   const credential = new DefaultAzureCredential();
@@ -101,4 +96,11 @@ async function sqlDedicatedGatewayServiceDelete() {
   console.log(result);
 }
 
-sqlDedicatedGatewayServiceDelete().catch(console.error);
+async function main() {
+  dataTransferServiceDelete();
+  graphApiComputeServiceDelete();
+  materializedViewsBuilderServiceDelete();
+  sqlDedicatedGatewayServiceDelete();
+}
+
+main().catch(console.error);

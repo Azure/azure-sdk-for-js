@@ -10,15 +10,16 @@
 // Licensed under the MIT License.
 const { ContainerServiceClient } = require("@azure/arm-containerservice");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets supported OS options in the specified subscription.
  *
  * @summary Gets supported OS options in the specified subscription.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/stable/2022-09-01/examples/ContainerServiceGetOSOptions.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/stable/2022-11-01/examples/ContainerServiceGetOSOptions.json
  */
 async function getContainerServiceOSOptions() {
-  const subscriptionId = "subid1";
+  const subscriptionId = process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
   const location = "location1";
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceClient(credential, subscriptionId);
@@ -26,4 +27,8 @@ async function getContainerServiceOSOptions() {
   console.log(result);
 }
 
-getContainerServiceOSOptions().catch(console.error);
+async function main() {
+  getContainerServiceOSOptions();
+}
+
+main().catch(console.error);

@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { SynapseManagementClient } from "@azure/arm-synapse";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Get the IP address of an integration runtime node
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/preview/2021-06-01-preview/examples/IntegrationRuntimeNodes_GetIpAddress.json
  */
 async function getIntegrationRuntimeNodeIPAddress() {
-  const subscriptionId = "12345678-1234-1234-1234-12345678abc";
-  const resourceGroupName = "exampleResourceGroup";
+  const subscriptionId =
+    process.env["SYNAPSE_SUBSCRIPTION_ID"] ||
+    "12345678-1234-1234-1234-12345678abc";
+  const resourceGroupName =
+    process.env["SYNAPSE_RESOURCE_GROUP"] || "exampleResourceGroup";
   const workspaceName = "exampleWorkspace";
   const integrationRuntimeName = "exampleIntegrationRuntime";
   const nodeName = "Node_1";
@@ -34,4 +40,8 @@ async function getIntegrationRuntimeNodeIPAddress() {
   console.log(result);
 }
 
-getIntegrationRuntimeNodeIPAddress().catch(console.error);
+async function main() {
+  getIntegrationRuntimeNodeIPAddress();
+}
+
+main().catch(console.error);

@@ -9,10 +9,6 @@ if (isNode) {
   dotenv.config();
 }
 
-export function uniqueString(): string {
-  return isPlaybackMode() ? "" : Math.random().toString().slice(2);
-}
-
 /**
  * Properties that are used to configure our polling operations
  * in tests. During playback mode we don't want any delays. During

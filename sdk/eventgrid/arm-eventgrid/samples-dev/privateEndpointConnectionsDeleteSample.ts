@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { EventGridManagementClient } from "@azure/arm-eventgrid";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Delete a specific private endpoint connection under a topic, domain, or partner namespace.
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/PrivateEndpointConnections_Delete.json
  */
 async function privateEndpointConnectionsDelete() {
-  const subscriptionId = "5b4b650e-28b9-4790-b3ab-ddbd88d727c4";
-  const resourceGroupName = "examplerg";
+  const subscriptionId =
+    process.env["EVENTGRID_SUBSCRIPTION_ID"] ||
+    "5b4b650e-28b9-4790-b3ab-ddbd88d727c4";
+  const resourceGroupName =
+    process.env["EVENTGRID_RESOURCE_GROUP"] || "examplerg";
   const parentType = "topics";
   const parentName = "exampletopic1";
   const privateEndpointConnectionName =
@@ -35,4 +41,8 @@ async function privateEndpointConnectionsDelete() {
   console.log(result);
 }
 
-privateEndpointConnectionsDelete().catch(console.error);
+async function main() {
+  privateEndpointConnectionsDelete();
+}
+
+main().catch(console.error);

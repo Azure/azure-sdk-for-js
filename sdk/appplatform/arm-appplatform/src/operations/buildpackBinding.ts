@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { BuildpackBinding } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,12 +19,12 @@ import {
   BuildpackBindingResource,
   BuildpackBindingListNextOptionalParams,
   BuildpackBindingListOptionalParams,
+  BuildpackBindingListResponse,
   BuildpackBindingGetOptionalParams,
   BuildpackBindingGetResponse,
   BuildpackBindingCreateOrUpdateOptionalParams,
   BuildpackBindingCreateOrUpdateResponse,
   BuildpackBindingDeleteOptionalParams,
-  BuildpackBindingListResponse,
   BuildpackBindingListNextResponse
 } from "../models";
 
@@ -70,13 +71,17 @@ export class BuildpackBindingImpl implements BuildpackBinding {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listPagingPage(
           resourceGroupName,
           serviceName,
           buildServiceName,
           builderName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -87,17 +92,24 @@ export class BuildpackBindingImpl implements BuildpackBinding {
     serviceName: string,
     buildServiceName: string,
     builderName: string,
-    options?: BuildpackBindingListOptionalParams
+    options?: BuildpackBindingListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<BuildpackBindingResource[]> {
-    let result = await this._list(
-      resourceGroupName,
-      serviceName,
-      buildServiceName,
-      builderName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: BuildpackBindingListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(
+        resourceGroupName,
+        serviceName,
+        buildServiceName,
+        builderName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -108,7 +120,9 @@ export class BuildpackBindingImpl implements BuildpackBinding {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 

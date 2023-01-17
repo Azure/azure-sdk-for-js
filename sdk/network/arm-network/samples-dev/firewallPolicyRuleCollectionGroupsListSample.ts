@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Lists all FirewallPolicyRuleCollectionGroups in a FirewallPolicy resource.
  *
  * @summary Lists all FirewallPolicyRuleCollectionGroups in a FirewallPolicy resource.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/FirewallPolicyRuleCollectionGroupWithWebCategoriesList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/FirewallPolicyRuleCollectionGroupWithWebCategoriesList.json
  */
 async function listAllFirewallPolicyRuleCollectionGroupWithWebCategories() {
   const subscriptionId = "e747cc13-97d4-4a79-b463-42d7f4e558f2";
@@ -41,7 +41,7 @@ listAllFirewallPolicyRuleCollectionGroupWithWebCategories().catch(
  * This sample demonstrates how to Lists all FirewallPolicyRuleCollectionGroups in a FirewallPolicy resource.
  *
  * @summary Lists all FirewallPolicyRuleCollectionGroups in a FirewallPolicy resource.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/FirewallPolicyRuleCollectionGroupList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/FirewallPolicyRuleCollectionGroupList.json
  */
 async function listAllFirewallPolicyRuleCollectionGroupsForAGivenFirewallPolicy() {
   const subscriptionId = "subid";
@@ -67,7 +67,7 @@ listAllFirewallPolicyRuleCollectionGroupsForAGivenFirewallPolicy().catch(
  * This sample demonstrates how to Lists all FirewallPolicyRuleCollectionGroups in a FirewallPolicy resource.
  *
  * @summary Lists all FirewallPolicyRuleCollectionGroups in a FirewallPolicy resource.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/FirewallPolicyRuleCollectionGroupWithIpGroupsList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/FirewallPolicyRuleCollectionGroupWithIpGroupsList.json
  */
 async function listAllFirewallPolicyRuleCollectionGroupsWithIPGroupsForAGivenFirewallPolicy() {
   const subscriptionId = "subid";

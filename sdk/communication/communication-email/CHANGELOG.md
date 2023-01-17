@@ -2,6 +2,13 @@
 
 ## 1.0.0-beta.2 (Unreleased)
 
+### Features Added
+
+### Other Changes
+
+- Updated to `@azure/communication-common` 2.2.0.
+- Adding support for AAD token authentication
+
 ### Breaking Changes
 
 - The EmailRecipients "cC" and "bCC" properties have been changed to "cc" and "bcc"

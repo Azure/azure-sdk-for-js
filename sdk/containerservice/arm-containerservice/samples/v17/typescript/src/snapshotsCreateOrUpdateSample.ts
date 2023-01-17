@@ -10,16 +10,21 @@
 // Licensed under the MIT License.
 import { Snapshot, ContainerServiceClient } from "@azure/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates or updates a snapshot.
  *
  * @summary Creates or updates a snapshot.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/stable/2022-09-01/examples/SnapshotsCreate.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/stable/2022-11-01/examples/SnapshotsCreate.json
  */
 async function createOrUpdateSnapshot() {
-  const subscriptionId = "subid1";
-  const resourceGroupName = "rg1";
+  const subscriptionId =
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
+  const resourceGroupName =
+    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "snapshot1";
   const parameters: Snapshot = {
     creationData: {
@@ -39,4 +44,8 @@ async function createOrUpdateSnapshot() {
   console.log(result);
 }
 
-createOrUpdateSnapshot().catch(console.error);
+async function main() {
+  createOrUpdateSnapshot();
+}
+
+main().catch(console.error);

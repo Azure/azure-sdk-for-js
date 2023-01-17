@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { ContainerServiceClient } = require("@azure/arm-containerservice");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets the specified maintenance configuration of a managed cluster.
  *
  * @summary Gets the specified maintenance configuration of a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/stable/2022-09-01/examples/MaintenanceConfigurationsGet.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/stable/2022-11-01/examples/MaintenanceConfigurationsGet.json
  */
 async function getMaintenanceConfiguration() {
-  const subscriptionId = "subid1";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const configName = "default";
   const credential = new DefaultAzureCredential();
@@ -32,4 +33,8 @@ async function getMaintenanceConfiguration() {
   console.log(result);
 }
 
-getMaintenanceConfiguration().catch(console.error);
+async function main() {
+  getMaintenanceConfiguration();
+}
+
+main().catch(console.error);

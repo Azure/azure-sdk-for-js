@@ -13,16 +13,21 @@ import {
   ContainerServiceClient
 } from "@azure/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Updates tags on a managed cluster.
  *
  * @summary Updates tags on a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/stable/2022-09-01/examples/ManagedClustersUpdateTags.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/stable/2022-11-01/examples/ManagedClustersUpdateTags.json
  */
 async function updateManagedClusterTags() {
-  const subscriptionId = "subid1";
-  const resourceGroupName = "rg1";
+  const subscriptionId =
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
+  const resourceGroupName =
+    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const parameters: TagsObject = { tags: { archv3: "", tier: "testing" } };
   const credential = new DefaultAzureCredential();
@@ -35,4 +40,8 @@ async function updateManagedClusterTags() {
   console.log(result);
 }
 
-updateManagedClusterTags().catch(console.error);
+async function main() {
+  updateManagedClusterTags();
+}
+
+main().catch(console.error);

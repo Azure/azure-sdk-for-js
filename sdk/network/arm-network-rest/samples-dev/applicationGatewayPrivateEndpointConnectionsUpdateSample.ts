@@ -30,8 +30,7 @@ async function updateApplicationGatewayPrivateEndpointConnection() {
       name: "connection1",
       properties: {
         privateEndpoint: {
-          id:
-            "/subscriptions/subId2/resourceGroups/rg1/providers/Microsoft.Network/privateEndpoints/testPe",
+          id: "/subscriptions/subId2/resourceGroups/rg1/providers/Microsoft.Network/privateEndpoints/testPe",
         },
         privateLinkServiceConnectionState: {
           description: "approved it for some reason.",

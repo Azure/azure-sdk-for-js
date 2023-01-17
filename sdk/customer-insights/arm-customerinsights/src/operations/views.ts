@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Views } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -64,12 +65,16 @@ export class ViewsImpl implements Views {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByHubPagingPage(
           resourceGroupName,
           hubName,
           userId,
-          options
+          options,
+          settings
         );
       }
     };
@@ -79,16 +84,23 @@ export class ViewsImpl implements Views {
     resourceGroupName: string,
     hubName: string,
     userId: string,
-    options?: ViewsListByHubOptionalParams
+    options?: ViewsListByHubOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ViewResourceFormat[]> {
-    let result = await this._listByHub(
-      resourceGroupName,
-      hubName,
-      userId,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ViewsListByHubResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByHub(
+        resourceGroupName,
+        hubName,
+        userId,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByHubNext(
         resourceGroupName,
@@ -98,7 +110,9 @@ export class ViewsImpl implements Views {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 

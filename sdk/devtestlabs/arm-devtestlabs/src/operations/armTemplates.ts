@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ArmTemplates } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -61,12 +62,16 @@ export class ArmTemplatesImpl implements ArmTemplates {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listPagingPage(
           resourceGroupName,
           labName,
           artifactSourceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -76,16 +81,23 @@ export class ArmTemplatesImpl implements ArmTemplates {
     resourceGroupName: string,
     labName: string,
     artifactSourceName: string,
-    options?: ArmTemplatesListOptionalParams
+    options?: ArmTemplatesListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ArmTemplate[]> {
-    let result = await this._list(
-      resourceGroupName,
-      labName,
-      artifactSourceName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ArmTemplatesListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(
+        resourceGroupName,
+        labName,
+        artifactSourceName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -95,7 +107,9 @@ export class ArmTemplatesImpl implements ArmTemplates {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 

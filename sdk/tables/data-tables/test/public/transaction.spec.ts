@@ -3,7 +3,7 @@
 
 import * as sinon from "sinon";
 
-import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
+import { Recorder, isPlaybackMode, isLiveMode } from "@azure-tools/test-recorder";
 import { TableClient, TableTransaction, TransactionAction, odata } from "../../src";
 
 import { Context } from "mocha";
@@ -19,11 +19,58 @@ const testEntities = [
   { partitionKey, rowKey: "3", name: "third" },
 ];
 
+const suffix = isNode ? "node" : "browser";
+
+describe("concurrent batch operations", () => {
+  const concurrentTableName = `concurrentBatchTableTest${suffix}`;
+  let unRecordedClient: TableClient;
+  before(async () => {
+    if (!isPlaybackMode()) {
+      unRecordedClient = await createTableClient(concurrentTableName, "SASConnectionString");
+      await unRecordedClient.createTable();
+    }
+  });
+
+  after(async () => {
+    if (!isPlaybackMode()) {
+      await unRecordedClient.deleteTable();
+    }
+  });
+  beforeEach(async function (this: Context) {
+    sinon.stub(Uuid, "generateUuid").returns("fakeId");
+    unRecordedClient = await createTableClient(concurrentTableName, "SASConnectionString");
+  });
+
+  afterEach(async function () {
+    sinon.restore();
+  });
+
+  it("should send concurrent transactions", async function () {
+    // Only run this in live mode. Enable playback when https://github.com/Azure/azure-sdk-for-js/issues/24189 is fixed
+    if (!isLiveMode()) {
+      this.skip();
+    }
+    await Promise.all([
+      unRecordedClient.submitTransaction([
+        ["create", { partitionKey: "pk22", rowKey: "rk1", field: 1 }],
+      ]),
+      unRecordedClient.submitTransaction([
+        ["create", { partitionKey: "pk22", rowKey: "rk2", field: 2 }],
+      ]),
+    ]);
+
+    const entity1 = await unRecordedClient.getEntity("pk22", "rk1");
+    const entity2 = await unRecordedClient.getEntity("pk22", "rk2");
+
+    assert.equal(entity1.rowKey, "rk1");
+    assert.equal(entity2.rowKey, "rk2");
+  });
+});
+
 describe(`batch operations`, () => {
   let client: TableClient;
   let unRecordedClient: TableClient;
   let recorder: Recorder;
-  const suffix = isNode ? "node" : "browser";
   const tableName = `batchTableTest${suffix}`;
 
   beforeEach(async function (this: Context) {

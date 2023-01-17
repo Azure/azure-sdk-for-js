@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { ContainerServiceClient } = require("@azure/arm-containerservice");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets a list of egress endpoints (network endpoints of all outbound dependencies) in the specified managed cluster. The operation returns properties of each egress endpoint.
  *
  * @summary Gets a list of egress endpoints (network endpoints of all outbound dependencies) in the specified managed cluster. The operation returns properties of each egress endpoint.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/stable/2022-09-01/examples/OutboundNetworkDependenciesEndpointsList.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/stable/2022-11-01/examples/OutboundNetworkDependenciesEndpointsList.json
  */
 async function listOutboundNetworkDependenciesEndpointsByManagedCluster() {
-  const subscriptionId = "subid1";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceClient(credential, subscriptionId);
@@ -33,4 +34,8 @@ async function listOutboundNetworkDependenciesEndpointsByManagedCluster() {
   console.log(resArray);
 }
 
-listOutboundNetworkDependenciesEndpointsByManagedCluster().catch(console.error);
+async function main() {
+  listOutboundNetworkDependenciesEndpointsByManagedCluster();
+}
+
+main().catch(console.error);

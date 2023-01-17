@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Returns all of the resource types that can be linked to a Private Endpoint in this subscription in this region.
  *
  * @summary Returns all of the resource types that can be linked to a Private Endpoint in this subscription in this region.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/AvailablePrivateEndpointTypesResourceGroupGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/AvailablePrivateEndpointTypesResourceGroupGet.json
  */
 async function getAvailablePrivateEndpointTypesInTheResourceGroup() {
   const subscriptionId = "subId";

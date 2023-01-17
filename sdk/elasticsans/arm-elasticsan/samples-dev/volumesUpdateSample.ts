@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { VolumeUpdate, ElasticSanManagement } from "@azure/arm-elasticsan";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Update an Volume.
@@ -18,8 +21,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2021-11-20-preview/examples/Volumes_Update_MaximumSet_Gen.json
  */
 async function volumesUpdateMaximumSetGen() {
-  const subscriptionId = "aaaaaaaaaaaaaaaaaa";
-  const resourceGroupName = "rgelasticsan";
+  const subscriptionId =
+    process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "aaaaaaaaaaaaaaaaaa";
+  const resourceGroupName =
+    process.env["ELASTICSANS_RESOURCE_GROUP"] || "rgelasticsan";
   const elasticSanName = "ti7q-k952-1qB3J_5";
   const volumeGroupName = "u_5I_1j4t3";
   const volumeName = "9132y";
@@ -39,8 +44,6 @@ async function volumesUpdateMaximumSetGen() {
   console.log(result);
 }
 
-volumesUpdateMaximumSetGen().catch(console.error);
-
 /**
  * This sample demonstrates how to Update an Volume.
  *
@@ -48,8 +51,10 @@ volumesUpdateMaximumSetGen().catch(console.error);
  * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2021-11-20-preview/examples/Volumes_Update_MinimumSet_Gen.json
  */
 async function volumesUpdateMinimumSetGen() {
-  const subscriptionId = "aaaaaaaaaaaaaaaaaa";
-  const resourceGroupName = "rgelasticsan";
+  const subscriptionId =
+    process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "aaaaaaaaaaaaaaaaaa";
+  const resourceGroupName =
+    process.env["ELASTICSANS_RESOURCE_GROUP"] || "rgelasticsan";
   const elasticSanName = "ti7q-k952-1qB3J_5";
   const volumeGroupName = "u_5I_1j4t3";
   const volumeName = "9132y";
@@ -66,4 +71,9 @@ async function volumesUpdateMinimumSetGen() {
   console.log(result);
 }
 
-volumesUpdateMinimumSetGen().catch(console.error);
+async function main() {
+  volumesUpdateMaximumSetGen();
+  volumesUpdateMinimumSetGen();
+}
+
+main().catch(console.error);

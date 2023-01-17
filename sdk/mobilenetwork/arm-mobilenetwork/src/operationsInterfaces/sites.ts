@@ -36,7 +36,8 @@ export interface Sites {
     options?: SitesListByMobileNetworkOptionalParams
   ): PagedAsyncIterableIterator<Site>;
   /**
-   * Deletes the specified mobile network site.
+   * Deletes the specified mobile network site. This will also delete any network functions that are a
+   * part of this site.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param siteName The name of the mobile network site.
@@ -49,7 +50,8 @@ export interface Sites {
     options?: SitesDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
-   * Deletes the specified mobile network site.
+   * Deletes the specified mobile network site. This will also delete any network functions that are a
+   * part of this site.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param siteName The name of the mobile network site.
@@ -75,7 +77,8 @@ export interface Sites {
     options?: SitesGetOptionalParams
   ): Promise<SitesGetResponse>;
   /**
-   * Creates or updates a mobile network site.
+   * Creates or updates a mobile network site. Must be created in the same location as its parent mobile
+   * network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param siteName The name of the mobile network site.
@@ -95,7 +98,8 @@ export interface Sites {
     >
   >;
   /**
-   * Creates or updates a mobile network site.
+   * Creates or updates a mobile network site. Must be created in the same location as its parent mobile
+   * network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param siteName The name of the mobile network site.

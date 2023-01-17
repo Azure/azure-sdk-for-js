@@ -151,18 +151,21 @@ export interface Resource {
 }
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {}
 
 /** The detected change. */
-export type Change = ProxyResource & {
+export interface Change extends ProxyResource {
   /** The properties of a change. */
   properties?: ChangeProperties;
-};
+}
 
 /** Known values of {@link ChangeType} that the service accepts. */
 export enum KnownChangeType {
+  /** Add */
   Add = "Add",
+  /** Remove */
   Remove = "Remove",
+  /** Update */
   Update = "Update"
 }
 
@@ -179,8 +182,11 @@ export type ChangeType = string;
 
 /** Known values of {@link Level} that the service accepts. */
 export enum KnownLevel {
+  /** Noisy */
   Noisy = "Noisy",
+  /** Normal */
   Normal = "Normal",
+  /** Important */
   Important = "Important"
 }
 

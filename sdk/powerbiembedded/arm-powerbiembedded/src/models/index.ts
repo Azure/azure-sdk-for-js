@@ -136,6 +136,7 @@ export interface MigrateWorkspaceCollectionRequest {
 
 /** Known values of {@link AzureSkuName} that the service accepts. */
 export enum KnownAzureSkuName {
+  /** S1 */
   S1 = "S1"
 }
 
@@ -150,6 +151,7 @@ export type AzureSkuName = string;
 
 /** Known values of {@link AzureSkuTier} that the service accepts. */
 export enum KnownAzureSkuTier {
+  /** Standard */
   Standard = "Standard"
 }
 
@@ -164,7 +166,9 @@ export type AzureSkuTier = string;
 
 /** Known values of {@link CheckNameReason} that the service accepts. */
 export enum KnownCheckNameReason {
+  /** Unavailable */
   Unavailable = "Unavailable",
+  /** Invalid */
   Invalid = "Invalid"
 }
 

@@ -87,8 +87,8 @@ export type AgentPoolMode = string;
 export interface AgentPools {
     beginCreateOrUpdate(resourceGroupName: string, resourceName: string, agentPoolName: string, parameters: AgentPool, options?: AgentPoolsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<AgentPoolsCreateOrUpdateResponse>, AgentPoolsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, resourceName: string, agentPoolName: string, parameters: AgentPool, options?: AgentPoolsCreateOrUpdateOptionalParams): Promise<AgentPoolsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, resourceName: string, agentPoolName: string, options?: AgentPoolsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, resourceName: string, agentPoolName: string, options?: AgentPoolsDeleteOptionalParams): Promise<void>;
+    beginDelete(resourceGroupName: string, resourceName: string, agentPoolName: string, options?: AgentPoolsDeleteOptionalParams): Promise<PollerLike<PollOperationState<AgentPoolsDeleteResponse>, AgentPoolsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, resourceName: string, agentPoolName: string, options?: AgentPoolsDeleteOptionalParams): Promise<AgentPoolsDeleteResponse>;
     beginUpgradeNodeImageVersion(resourceGroupName: string, resourceName: string, agentPoolName: string, options?: AgentPoolsUpgradeNodeImageVersionOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginUpgradeNodeImageVersionAndWait(resourceGroupName: string, resourceName: string, agentPoolName: string, options?: AgentPoolsUpgradeNodeImageVersionOptionalParams): Promise<void>;
     get(resourceGroupName: string, resourceName: string, agentPoolName: string, options?: AgentPoolsGetOptionalParams): Promise<AgentPoolsGetResponse>;
@@ -107,10 +107,18 @@ export interface AgentPoolsCreateOrUpdateOptionalParams extends coreClient.Opera
 export type AgentPoolsCreateOrUpdateResponse = AgentPool;
 
 // @public
+export interface AgentPoolsDeleteHeaders {
+    location?: string;
+}
+
+// @public
 export interface AgentPoolsDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type AgentPoolsDeleteResponse = AgentPoolsDeleteHeaders;
 
 // @public
 export interface AgentPoolsGetAvailableAgentPoolVersionsOptionalParams extends coreClient.OperationOptions {
@@ -357,6 +365,9 @@ export type ExtendedLocationTypes = string;
 
 // @public
 export type Format = string;
+
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export type GPUInstanceProfile = string;
@@ -646,8 +657,10 @@ export enum KnownLoadBalancerSku {
 // @public
 export enum KnownManagedClusterPodIdentityProvisioningState {
     Assigned = "Assigned",
+    Canceled = "Canceled",
     Deleting = "Deleting",
     Failed = "Failed",
+    Succeeded = "Succeeded",
     Updating = "Updating"
 }
 
@@ -711,6 +724,7 @@ export enum KnownOutboundType {
 
 // @public
 export enum KnownPrivateEndpointConnectionProvisioningState {
+    Canceled = "Canceled",
     Creating = "Creating",
     Deleting = "Deleting",
     Failed = "Failed",
@@ -899,6 +913,7 @@ export interface ManagedCluster extends TrackedResource {
     sku?: ManagedClusterSKU;
     storageProfile?: ManagedClusterStorageProfile;
     windowsProfile?: ManagedClusterWindowsProfile;
+    workloadAutoScalerProfile?: ManagedClusterWorkloadAutoScalerProfile;
 }
 
 // @public
@@ -1154,22 +1169,22 @@ export interface ManagedClusterPropertiesAutoScalerProfile {
 export interface ManagedClusters {
     beginCreateOrUpdate(resourceGroupName: string, resourceName: string, parameters: ManagedCluster, options?: ManagedClustersCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ManagedClustersCreateOrUpdateResponse>, ManagedClustersCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, resourceName: string, parameters: ManagedCluster, options?: ManagedClustersCreateOrUpdateOptionalParams): Promise<ManagedClustersCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, resourceName: string, options?: ManagedClustersDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, resourceName: string, options?: ManagedClustersDeleteOptionalParams): Promise<void>;
+    beginDelete(resourceGroupName: string, resourceName: string, options?: ManagedClustersDeleteOptionalParams): Promise<PollerLike<PollOperationState<ManagedClustersDeleteResponse>, ManagedClustersDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, resourceName: string, options?: ManagedClustersDeleteOptionalParams): Promise<ManagedClustersDeleteResponse>;
     beginResetAADProfile(resourceGroupName: string, resourceName: string, parameters: ManagedClusterAADProfile, options?: ManagedClustersResetAADProfileOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginResetAADProfileAndWait(resourceGroupName: string, resourceName: string, parameters: ManagedClusterAADProfile, options?: ManagedClustersResetAADProfileOptionalParams): Promise<void>;
     beginResetServicePrincipalProfile(resourceGroupName: string, resourceName: string, parameters: ManagedClusterServicePrincipalProfile, options?: ManagedClustersResetServicePrincipalProfileOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginResetServicePrincipalProfileAndWait(resourceGroupName: string, resourceName: string, parameters: ManagedClusterServicePrincipalProfile, options?: ManagedClustersResetServicePrincipalProfileOptionalParams): Promise<void>;
-    beginRotateClusterCertificates(resourceGroupName: string, resourceName: string, options?: ManagedClustersRotateClusterCertificatesOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginRotateClusterCertificatesAndWait(resourceGroupName: string, resourceName: string, options?: ManagedClustersRotateClusterCertificatesOptionalParams): Promise<void>;
+    beginRotateClusterCertificates(resourceGroupName: string, resourceName: string, options?: ManagedClustersRotateClusterCertificatesOptionalParams): Promise<PollerLike<PollOperationState<ManagedClustersRotateClusterCertificatesResponse>, ManagedClustersRotateClusterCertificatesResponse>>;
+    beginRotateClusterCertificatesAndWait(resourceGroupName: string, resourceName: string, options?: ManagedClustersRotateClusterCertificatesOptionalParams): Promise<ManagedClustersRotateClusterCertificatesResponse>;
     beginRotateServiceAccountSigningKeys(resourceGroupName: string, resourceName: string, options?: ManagedClustersRotateServiceAccountSigningKeysOptionalParams): Promise<PollerLike<PollOperationState<ManagedClustersRotateServiceAccountSigningKeysResponse>, ManagedClustersRotateServiceAccountSigningKeysResponse>>;
     beginRotateServiceAccountSigningKeysAndWait(resourceGroupName: string, resourceName: string, options?: ManagedClustersRotateServiceAccountSigningKeysOptionalParams): Promise<ManagedClustersRotateServiceAccountSigningKeysResponse>;
     beginRunCommand(resourceGroupName: string, resourceName: string, requestPayload: RunCommandRequest, options?: ManagedClustersRunCommandOptionalParams): Promise<PollerLike<PollOperationState<ManagedClustersRunCommandResponse>, ManagedClustersRunCommandResponse>>;
     beginRunCommandAndWait(resourceGroupName: string, resourceName: string, requestPayload: RunCommandRequest, options?: ManagedClustersRunCommandOptionalParams): Promise<ManagedClustersRunCommandResponse>;
-    beginStart(resourceGroupName: string, resourceName: string, options?: ManagedClustersStartOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginStartAndWait(resourceGroupName: string, resourceName: string, options?: ManagedClustersStartOptionalParams): Promise<void>;
-    beginStop(resourceGroupName: string, resourceName: string, options?: ManagedClustersStopOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginStopAndWait(resourceGroupName: string, resourceName: string, options?: ManagedClustersStopOptionalParams): Promise<void>;
+    beginStart(resourceGroupName: string, resourceName: string, options?: ManagedClustersStartOptionalParams): Promise<PollerLike<PollOperationState<ManagedClustersStartResponse>, ManagedClustersStartResponse>>;
+    beginStartAndWait(resourceGroupName: string, resourceName: string, options?: ManagedClustersStartOptionalParams): Promise<ManagedClustersStartResponse>;
+    beginStop(resourceGroupName: string, resourceName: string, options?: ManagedClustersStopOptionalParams): Promise<PollerLike<PollOperationState<ManagedClustersStopResponse>, ManagedClustersStopResponse>>;
+    beginStopAndWait(resourceGroupName: string, resourceName: string, options?: ManagedClustersStopOptionalParams): Promise<ManagedClustersStopResponse>;
     beginUpdateTags(resourceGroupName: string, resourceName: string, parameters: TagsObject, options?: ManagedClustersUpdateTagsOptionalParams): Promise<PollerLike<PollOperationState<ManagedClustersUpdateTagsResponse>, ManagedClustersUpdateTagsResponse>>;
     beginUpdateTagsAndWait(resourceGroupName: string, resourceName: string, parameters: TagsObject, options?: ManagedClustersUpdateTagsOptionalParams): Promise<ManagedClustersUpdateTagsResponse>;
     get(resourceGroupName: string, resourceName: string, options?: ManagedClustersGetOptionalParams): Promise<ManagedClustersGetResponse>;
@@ -1195,10 +1210,18 @@ export interface ManagedClustersCreateOrUpdateOptionalParams extends coreClient.
 export type ManagedClustersCreateOrUpdateResponse = ManagedCluster;
 
 // @public
+export interface ManagedClustersDeleteHeaders {
+    location?: string;
+}
+
+// @public
 export interface ManagedClustersDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type ManagedClustersDeleteResponse = ManagedClustersDeleteHeaders;
 
 // @public
 export interface ManagedClusterSecurityProfile {
@@ -1229,6 +1252,11 @@ export interface ManagedClustersGetAccessProfileOptionalParams extends coreClien
 
 // @public
 export type ManagedClustersGetAccessProfileResponse = ManagedClusterAccessProfile;
+
+// @public
+export interface ManagedClustersGetCommandResultHeaders {
+    location?: string;
+}
 
 // @public
 export interface ManagedClustersGetCommandResultOptionalParams extends coreClient.OperationOptions {
@@ -1339,9 +1367,19 @@ export type ManagedClustersListOutboundNetworkDependenciesEndpointsResponse = Ou
 export type ManagedClustersListResponse = ManagedClusterListResult;
 
 // @public
+export interface ManagedClustersResetAADProfileHeaders {
+    location?: string;
+}
+
+// @public
 export interface ManagedClustersResetAADProfileOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface ManagedClustersResetServicePrincipalProfileHeaders {
+    location?: string;
 }
 
 // @public
@@ -1351,10 +1389,18 @@ export interface ManagedClustersResetServicePrincipalProfileOptionalParams exten
 }
 
 // @public
+export interface ManagedClustersRotateClusterCertificatesHeaders {
+    location?: string;
+}
+
+// @public
 export interface ManagedClustersRotateClusterCertificatesOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type ManagedClustersRotateClusterCertificatesResponse = ManagedClustersRotateClusterCertificatesHeaders;
 
 // @public
 export interface ManagedClustersRotateServiceAccountSigningKeysHeaders {
@@ -1372,6 +1418,11 @@ export interface ManagedClustersRotateServiceAccountSigningKeysOptionalParams ex
 export type ManagedClustersRotateServiceAccountSigningKeysResponse = ManagedClustersRotateServiceAccountSigningKeysHeaders;
 
 // @public
+export interface ManagedClustersRunCommandHeaders {
+    location?: string;
+}
+
+// @public
 export interface ManagedClustersRunCommandOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -1381,9 +1432,22 @@ export interface ManagedClustersRunCommandOptionalParams extends coreClient.Oper
 export type ManagedClustersRunCommandResponse = RunCommandResult;
 
 // @public
+export interface ManagedClustersStartHeaders {
+    location?: string;
+}
+
+// @public
 export interface ManagedClustersStartOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export type ManagedClustersStartResponse = ManagedClustersStartHeaders;
+
+// @public
+export interface ManagedClustersStopHeaders {
+    location?: string;
 }
 
 // @public
@@ -1391,6 +1455,9 @@ export interface ManagedClustersStopOptionalParams extends coreClient.OperationO
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type ManagedClustersStopResponse = ManagedClustersStopHeaders;
 
 // @public
 export interface ManagedClusterStorageProfile {
@@ -1445,6 +1512,16 @@ export interface ManagedClusterWindowsProfile {
     enableCSIProxy?: boolean;
     gmsaProfile?: WindowsGmsaProfile;
     licenseType?: LicenseType;
+}
+
+// @public
+export interface ManagedClusterWorkloadAutoScalerProfile {
+    keda?: ManagedClusterWorkloadAutoScalerProfileKeda;
+}
+
+// @public
+export interface ManagedClusterWorkloadAutoScalerProfileKeda {
+    enabled: boolean;
 }
 
 // @public (undocumented)

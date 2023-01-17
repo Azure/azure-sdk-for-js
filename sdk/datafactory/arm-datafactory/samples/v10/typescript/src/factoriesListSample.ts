@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { DataFactoryManagementClient } from "@azure/arm-datafactory";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Lists factories under the specified subscription.
@@ -18,7 +21,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/Factories_List.json
  */
 async function factoriesList() {
-  const subscriptionId = "12345678-1234-1234-1234-12345678abc";
+  const subscriptionId =
+    process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
+    "12345678-1234-1234-1234-12345678abc";
   const credential = new DefaultAzureCredential();
   const client = new DataFactoryManagementClient(credential, subscriptionId);
   const resArray = new Array();
@@ -28,4 +33,8 @@ async function factoriesList() {
   console.log(resArray);
 }
 
-factoriesList().catch(console.error);
+async function main() {
+  factoriesList();
+}
+
+main().catch(console.error);

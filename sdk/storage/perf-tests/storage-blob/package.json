@@ -8,7 +8,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@azure/core-http": "^2.0.0",
+    "@azure/core-http": "^3.0.0",
     "@azure/core-rest-pipeline": "^1.1.0",
     "@azure/storage-blob": "^12.12.0-beta.2",
     "@azure/test-utils-perf": "^1.0.0",

@@ -31,6 +31,24 @@ const connectionString = `endpoint=https://<resource-name>.communication.azure.c
 const client = new EmailClient(connectionString);
 ```
 
+You can also authenticate with Azure Active Directory using the [Azure Identity library][azure_identity]. To use the [DefaultAzureCredential][defaultazurecredential] provider shown below, or other credential providers provided with the Azure SDK, please install the [`@azure/identity`][azure_identity] package:
+
+```bash
+npm install @azure/identity
+```
+
+The [`@azure/identity`][azure_identity] package provides a variety of credential types that your application can use to do this. The README for @azure/identity provides more details and samples to get you started.
+AZURE_CLIENT_SECRET, AZURE_CLIENT_ID and AZURE_TENANT_ID environment variables are needed to create a DefaultAzureCredential object.
+
+```typescript
+import { DefaultAzureCredential } from "@azure/identity";
+import { SmsClient } from "@azure/communication-email";
+
+const endpoint = "https://<resource-name>.communication.azure.com";
+let credential = new DefaultAzureCredential();
+const client = new EmailClient(endpoint, credential);
+```
+
 ### Send an Email Message
 
 To send an email message, call the `send` function from the `EmailClient`.
@@ -164,6 +182,8 @@ This project has adopted the [Microsoft Open Source Code of Conduct][coc]. For m
 [coc]: https://opensource.microsoft.com/codeofconduct/
 [coc_faq]: https://opensource.microsoft.com/codeofconduct/faq/
 [coc_contact]: mailto:opencode@microsoft.com
+[defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
+[azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity
 [communication_resource_docs]: https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource?tabs=windows&pivots=platform-azp
 [email_resource_docs]: https://aka.ms/acsemail/createemailresource
 [communication_resource_create_portal]: https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource?tabs=windows&pivots=platform-azp

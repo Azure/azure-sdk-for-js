@@ -13,6 +13,7 @@ export type ChannelUnion =
   | AlexaChannel
   | FacebookChannel
   | EmailChannel
+  | OutlookChannel
   | MsTeamsChannel
   | SkypeChannel
   | KikChannel
@@ -22,7 +23,12 @@ export type ChannelUnion =
   | SmsChannel
   | SlackChannel
   | LineChannel
-  | DirectLineSpeechChannel;
+  | DirectLineSpeechChannel
+  | Omnichannel
+  | TelephonyChannel
+  | AcsChatChannel
+  | SearchAssistant
+  | M365Extensions;
 
 /** The parameters to provide for the Bot. */
 export interface BotProperties {
@@ -33,7 +39,7 @@ export interface BotProperties {
   /** The Icon Url of the bot */
   iconUrl?: string;
   /** The bot's endpoint */
-  endpoint: string;
+  endpoint: string | null;
   /**
    * The bot's endpoint version
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -82,6 +88,8 @@ export interface BotProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly cmekEncryptionStatus?: string;
+  /** The Tenant Id for the bot */
+  tenantId?: string;
   /** Whether the bot is in an isolated network */
   publicNetworkAccess?: PublicNetworkAccess;
   /** Whether the bot is streaming supported */
@@ -217,7 +225,7 @@ export interface ErrorBody {
   message: string;
 }
 
-/** The list of  bot service operation response. */
+/** The list of bot service operation response. */
 export interface BotResponseList {
   /** The link used to get the next page of bot service resources. */
   nextLink?: string;
@@ -235,6 +243,7 @@ export interface Channel {
     | "AlexaChannel"
     | "FacebookChannel"
     | "EmailChannel"
+    | "OutlookChannel"
     | "MsTeamsChannel"
     | "SkypeChannel"
     | "KikChannel"
@@ -244,7 +253,12 @@ export interface Channel {
     | "SmsChannel"
     | "SlackChannel"
     | "LineChannel"
-    | "DirectLineSpeechChannel";
+    | "DirectLineSpeechChannel"
+    | "Omnichannel"
+    | "TelephonyChannel"
+    | "AcsChatChannel"
+    | "SearchAssistant"
+    | "M365Extensions";
   /** Entity Tag of the resource */
   etag?: string;
   /**
@@ -276,10 +290,14 @@ export interface ChannelSettings {
   isEnabled?: boolean;
   /** Opt-out of local authentication and ensure only MSI and AAD can be used exclusively for authentication. */
   disableLocalAuth?: boolean;
+  /** Whether customer needs to agree to new terms. */
+  requireTermsAgreement?: boolean;
 }
 
-/** A site for the Webchat channel */
-export interface WebChatSite {
+/** A site for the channel */
+export interface Site {
+  /** Tenant Id */
+  tenantId?: string;
   /**
    * Site Id
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -299,41 +317,35 @@ export interface WebChatSite {
   readonly key2?: string;
   /** Whether this site is enabled for DirectLine channel */
   isEnabled: boolean;
-  /** Whether this site is enabled for preview versions of Webchat */
-  isWebchatPreviewEnabled: boolean;
-}
-
-/** A site for the Direct Line channel */
-export interface DirectLineSite {
   /**
-   * Site Id
+   * Whether this site is token enabled for channel
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly siteId?: string;
-  /** Site name */
-  siteName: string;
-  /**
-   * Primary key. Value only returned through POST to the action Channel List API, otherwise empty.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly key?: string;
-  /**
-   * Secondary key. Value only returned through POST to the action Channel List API, otherwise empty.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly key2?: string;
-  /** Whether this site is enabled for DirectLine channel. */
-  isEnabled: boolean;
-  /** Whether this site is enabled for Bot Framework V1 protocol. */
-  isV1Enabled: boolean;
-  /** Whether this site is enabled for Bot Framework V1 protocol. */
-  isV3Enabled: boolean;
-  /** Whether this site is enabled for authentication with Bot Framework. */
-  isSecureSiteEnabled?: boolean;
+  readonly isTokenEnabled?: boolean;
+  /** Whether this site is EndpointParameters enabled for channel */
+  isEndpointParametersEnabled?: boolean;
+  /** Whether this site is disabled detailed logging for */
+  isDetailedLoggingEnabled?: boolean;
   /** Whether this site is enabled for block user upload. */
   isBlockUserUploadEnabled?: boolean;
+  /** Whether this no-storage site is disabled detailed logging for */
+  isNoStorageEnabled?: boolean;
+  /** Entity Tag */
+  eTag?: string;
+  /** DirectLine application id */
+  appId?: string;
+  /** Whether this site is enabled for Bot Framework V1 protocol. */
+  isV1Enabled?: boolean;
+  /** Whether this site is enabled for Bot Framework V3 protocol. */
+  isV3Enabled?: boolean;
+  /** Whether this site is enabled for authentication with Bot Framework. */
+  isSecureSiteEnabled?: boolean;
   /** List of Trusted Origin URLs for this site. This field is applicable only if isSecureSiteEnabled is True. */
   trustedOrigins?: string[];
+  /** Whether this site is enabled for Webchat Speech */
+  isWebChatSpeechEnabled?: boolean;
+  /** Whether this site is enabled for preview versions of Webchat */
+  isWebchatPreviewEnabled?: boolean;
 }
 
 /** The list of bot service channel operation response. */
@@ -355,6 +367,25 @@ export interface SiteInfo {
   key: Key;
 }
 
+/** The ARM create email sign in url operation response. */
+export interface CreateEmailSignInUrlResponse {
+  /**
+   * Specifies the resource ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /** Specifies the location of the resource. */
+  location?: string;
+  /** The set of properties specific to sign in url */
+  properties?: CreateEmailSignInUrlResponseProperties;
+}
+
+/** The set of properties specific to sign in url */
+export interface CreateEmailSignInUrlResponseProperties {
+  /** Sign in url. */
+  url?: string;
+}
+
 /** The request body for a request to Bot Service Management to check availability of a bot name. */
 export interface CheckNameAvailabilityRequestBody {
   /** the name of the bot for which availability needs to be checked. */
@@ -369,6 +400,8 @@ export interface CheckNameAvailabilityResponseBody {
   valid?: boolean;
   /** additional message from the bot management api showing why a bot name is not available */
   message?: string;
+  /** response code from ABS */
+  absCode?: string;
 }
 
 /** The list of bot service operation response. */
@@ -433,20 +466,17 @@ export interface ServiceProviderProperties {
    */
   readonly displayName?: string;
   /**
-   * Display Name of the Service Provider
+   * Name of the Service Provider
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly serviceProviderName?: string;
   /**
-   * Display Name of the Service Provider
+   * URL of Dev Portal
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly devPortalUrl?: string;
-  /**
-   * Display Name of the Service Provider
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly iconUrl?: string;
+  /** The URL of icon */
+  iconUrl?: string;
   /** The list of parameters for the Service Provider */
   parameters?: ServiceProviderParameter[];
 }
@@ -502,12 +532,28 @@ export interface ServiceProviderParameterMetadataConstraints {
   required?: boolean;
 }
 
+/** The request body for a request to Bot Service Management to list QnA Maker endpoint keys. */
+export interface QnAMakerEndpointKeysRequestBody {
+  /** the host name of the QnA Maker endpoint */
+  hostname?: string;
+  /** Subscription key which provides access to this API. */
+  authkey?: string;
+}
+
+/** Schema for EndpointKeys generate/refresh operations. */
+export interface QnAMakerEndpointKeysResponse {
+  /** Primary Access Key. */
+  primaryEndpointKey?: string;
+  /** Secondary Access Key. */
+  secondaryEndpointKey?: string;
+  /** Current version of runtime. */
+  installedVersion?: string;
+  /** Latest version of runtime. */
+  lastStableVersion?: string;
+}
+
 /** Properties for a Connection Setting Item */
 export interface ConnectionSettingProperties {
-  /** Id associated with the Connection Setting. */
-  id?: string;
-  /** Name associated with the Connection Setting. */
-  name?: string;
   /** Client Id associated with the Connection Setting. */
   clientId?: string;
   /**
@@ -656,8 +702,12 @@ export interface FacebookPage {
 export interface EmailChannelProperties {
   /** The email address */
   emailAddress: string;
+  /** Email channel auth method. 0 Password (Default); 1 Graph. */
+  authMethod?: EmailChannelAuthMethod;
   /** The password for the email address. Value only returned through POST to the action Channel List API, otherwise empty. */
   password?: string;
+  /** The magic code for setting up the modern authentication. */
+  magicCode?: string;
   /** Whether this channel is enabled for the bot */
   isEnabled: boolean;
 }
@@ -667,7 +717,7 @@ export interface MsTeamsChannelProperties {
   /** Enable calling for Microsoft Teams channel */
   enableCalling?: boolean;
   /** Webhook for Microsoft Teams channel calls */
-  callingWebHook?: string;
+  callingWebhook?: string;
   /** Whether this channel is enabled for the bot */
   isEnabled: boolean;
   /** Webhook for Microsoft Teams channel calls */
@@ -729,6 +779,10 @@ export interface WebChatChannelProperties {
 export interface DirectLineChannelProperties {
   /** The list of Direct Line sites */
   sites?: DirectLineSite[];
+  /** The extensionKey1 */
+  extensionKey1?: string;
+  /** The extensionKey2 */
+  extensionKey2?: string;
   /** Direct Line embed code of the resource */
   directLineEmbedCode?: string;
 }
@@ -779,11 +833,8 @@ export interface SlackChannelProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly lastSubmissionId?: string;
-  /**
-   * Whether to register the settings before OAuth validation is performed. Recommended to True.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly registerBeforeOAuthFlow?: boolean;
+  /** Whether to register the settings before OAuth validation is performed. Recommended to True. */
+  registerBeforeOAuthFlow?: boolean;
   /**
    * Whether this channel is validated for the bot
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -826,10 +877,12 @@ export interface LineRegistration {
 
 /** The parameters to provide for the DirectLine Speech channel. */
 export interface DirectLineSpeechChannelProperties {
+  /** The cognitive service id with this channel registration. */
+  cognitiveServiceResourceId?: string;
   /** The cognitive service region with this channel registration. */
-  cognitiveServiceRegion: string;
+  cognitiveServiceRegion?: string;
   /** The cognitive service subscription key to use with this channel registration. */
-  cognitiveServiceSubscriptionKey: string;
+  cognitiveServiceSubscriptionKey?: string;
   /** Whether this channel is enabled or not. */
   isEnabled?: boolean;
   /** Custom speech model id (optional). */
@@ -838,6 +891,64 @@ export interface DirectLineSpeechChannelProperties {
   customSpeechModelId?: string;
   /** Make this a default bot for chosen cognitive service account. */
   isDefaultBotForCogSvcAccount?: boolean;
+}
+
+/** The parameters to provide for the Direct Line channel. */
+export interface TelephonyChannelProperties {
+  /** The list of Telephony phone numbers */
+  phoneNumbers?: TelephonyPhoneNumbers[];
+  /** The list of Telephony api configuration */
+  apiConfigurations?: TelephonyChannelResourceApiConfiguration[];
+  /** The extensionKey1 */
+  cognitiveServiceSubscriptionKey?: string;
+  /** The extensionKey2 */
+  cognitiveServiceRegion?: string;
+  /** The default locale of the channel */
+  defaultLocale?: string;
+  /** The premium SKU applied to the channel */
+  premiumSKU?: string;
+  /** Whether the channel is enabled */
+  isEnabled?: boolean;
+}
+
+/** A telephone number for the Telephony channel */
+export interface TelephonyPhoneNumbers {
+  /** The element id. */
+  id?: string;
+  /** The phone number. */
+  phoneNumber?: string;
+  /** The endpoint of ACS. */
+  acsEndpoint?: string;
+  /** The secret of ACS. */
+  acsSecret?: string;
+  /** The resource id of ACS. */
+  acsResourceId?: string;
+  /** The subscription key of cognitive service. */
+  cognitiveServiceSubscriptionKey?: string;
+  /** The service region of cognitive service. */
+  cognitiveServiceRegion?: string;
+  /** The resource id of cognitive service. */
+  cognitiveServiceResourceId?: string;
+  /** The default locale of the phone number. */
+  defaultLocale?: string;
+  /** Optional Property that will determine the offering type of the phone. */
+  offerType?: string;
+}
+
+/** A resource Api configuration for the Telephony channel */
+export interface TelephonyChannelResourceApiConfiguration {
+  /** The id of config. */
+  id?: string;
+  /** The provider name. */
+  providerName?: string;
+  /** The cognitive service subscription key. */
+  cognitiveServiceSubscriptionKey?: string;
+  /** The cognitive service region. */
+  cognitiveServiceRegion?: string;
+  /** The cognitive service resourceId. */
+  cognitiveServiceResourceId?: string;
+  /** The default locale. */
+  defaultLocale?: string;
 }
 
 /** The display name of a connection Item Setting registered with the Bot */
@@ -850,7 +961,7 @@ export interface ConnectionItemName {
 }
 
 /** The Private Endpoint Connection resource. */
-export type PrivateEndpointConnection = PrivateLinkResourceBase & {
+export interface PrivateEndpointConnection extends PrivateLinkResourceBase {
   /** The resource of private end point. */
   privateEndpoint?: PrivateEndpoint;
   /** A collection of information about the state of the connection between service consumer and provider. */
@@ -860,10 +971,12 @@ export type PrivateEndpointConnection = PrivateLinkResourceBase & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
-};
+  /** Group ids */
+  groupIds?: string[];
+}
 
 /** A private link resource */
-export type PrivateLinkResource = PrivateLinkResourceBase & {
+export interface PrivateLinkResource extends PrivateLinkResourceBase {
   /**
    * The private link resource group id.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -876,141 +989,176 @@ export type PrivateLinkResource = PrivateLinkResourceBase & {
   readonly requiredMembers?: string[];
   /** The private link resource Private link DNS zone name. */
   requiredZoneNames?: string[];
-};
+}
 
 /** Bot resource definition */
-export type Bot = Resource & {
+export interface Bot extends Resource {
   /** The set of properties specific to bot resource */
   properties?: BotProperties;
-};
+}
 
 /** Bot channel resource definition */
-export type BotChannel = Resource & {
+export interface BotChannel extends Resource {
   /** The set of properties specific to bot channel resource */
   properties?: ChannelUnion;
-};
+}
 
 /** Bot channel resource definition */
-export type ConnectionSetting = Resource & {
+export interface ConnectionSetting extends Resource {
   /** The set of properties specific to bot channel resource */
   properties?: ConnectionSettingProperties;
-};
+}
 
 /** Alexa channel definition */
-export type AlexaChannel = Channel & {
+export interface AlexaChannel extends Channel {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   channelName: "AlexaChannel";
   /** The set of properties specific to Alexa channel resource */
   properties?: AlexaChannelProperties;
-};
+}
 
 /** Facebook channel definition */
-export type FacebookChannel = Channel & {
+export interface FacebookChannel extends Channel {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   channelName: "FacebookChannel";
   /** The set of properties specific to bot facebook channel */
   properties?: FacebookChannelProperties;
-};
+}
 
 /** Email channel definition */
-export type EmailChannel = Channel & {
+export interface EmailChannel extends Channel {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   channelName: "EmailChannel";
   /** The set of properties specific to email channel resource */
   properties?: EmailChannelProperties;
-};
+}
+
+/** Outlook channel definition */
+export interface OutlookChannel extends Channel {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  channelName: "OutlookChannel";
+}
 
 /** Microsoft Teams channel definition */
-export type MsTeamsChannel = Channel & {
+export interface MsTeamsChannel extends Channel {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   channelName: "MsTeamsChannel";
   /** The set of properties specific to Microsoft Teams channel resource */
   properties?: MsTeamsChannelProperties;
-};
+}
 
 /** Skype channel definition */
-export type SkypeChannel = Channel & {
+export interface SkypeChannel extends Channel {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   channelName: "SkypeChannel";
   /** The set of properties specific to Skype channel resource */
   properties?: SkypeChannelProperties;
-};
+}
 
 /** Kik channel definition */
-export type KikChannel = Channel & {
+export interface KikChannel extends Channel {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   channelName: "KikChannel";
   /** The set of properties specific to Kik channel resource */
   properties?: KikChannelProperties;
-};
+}
 
 /** Web Chat channel definition */
-export type WebChatChannel = Channel & {
+export interface WebChatChannel extends Channel {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   channelName: "WebChatChannel";
   /** The set of properties specific to Web Chat channel resource */
   properties?: WebChatChannelProperties;
-};
+}
 
 /** Direct Line channel definition */
-export type DirectLineChannel = Channel & {
+export interface DirectLineChannel extends Channel {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   channelName: "DirectLineChannel";
   /** The set of properties specific to Direct Line channel resource */
   properties?: DirectLineChannelProperties;
-};
+}
 
 /** Telegram channel definition */
-export type TelegramChannel = Channel & {
+export interface TelegramChannel extends Channel {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   channelName: "TelegramChannel";
   /** The set of properties specific to Telegram channel resource */
   properties?: TelegramChannelProperties;
-};
+}
 
 /** Sms channel definition */
-export type SmsChannel = Channel & {
+export interface SmsChannel extends Channel {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   channelName: "SmsChannel";
   /** The set of properties specific to Sms channel resource */
   properties?: SmsChannelProperties;
-};
+}
 
 /** Slack channel definition */
-export type SlackChannel = Channel & {
+export interface SlackChannel extends Channel {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   channelName: "SlackChannel";
   /** The set of properties specific to Slack channel resource */
   properties?: SlackChannelProperties;
-};
+}
 
 /** Line channel definition */
-export type LineChannel = Channel & {
+export interface LineChannel extends Channel {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   channelName: "LineChannel";
   /** The set of properties specific to line channel resource */
   properties?: LineChannelProperties;
-};
+}
 
 /** DirectLine Speech channel definition */
-export type DirectLineSpeechChannel = Channel & {
+export interface DirectLineSpeechChannel extends Channel {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   channelName: "DirectLineSpeechChannel";
   /** The set of properties specific to DirectLine Speech channel resource */
   properties?: DirectLineSpeechChannelProperties;
-};
+}
 
-/** A site for the channel */
-export type Site = WebChatSite &
-  DirectLineSite & {
-    /** Whether this site is token enabled for channel */
-    isTokenEnabled?: boolean;
-    /** Entity Tag */
-    eTag?: string;
-  };
+/** Omnichannel channel definition */
+export interface Omnichannel extends Channel {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  channelName: "Omnichannel";
+}
+
+/** Telephony channel definition */
+export interface TelephonyChannel extends Channel {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  channelName: "TelephonyChannel";
+  /** The set of properties specific to Telephony channel resource */
+  properties?: TelephonyChannelProperties;
+}
+
+/** AcsChat channel definition */
+export interface AcsChatChannel extends Channel {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  channelName: "AcsChatChannel";
+}
+
+/** SearchAssistant definition */
+export interface SearchAssistant extends Channel {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  channelName: "SearchAssistant";
+}
+
+/** M365 Extensions definition */
+export interface M365Extensions extends Channel {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  channelName: "M365Extensions";
+}
+
+/** A site for the Webchat channel */
+export interface WebChatSite extends Site {}
+
+/** A site for the Direct Line channel */
+export interface DirectLineSite extends Site {}
 
 /** The ARM channel of list channel with keys operation response. */
-export type ListChannelWithKeysResponse = BotChannel & {
+export interface ListChannelWithKeysResponse extends BotChannel {
   /** The set of properties specific to bot channel resource */
   resource?: ChannelUnion;
   /** Channel settings */
@@ -1021,12 +1169,15 @@ export type ListChannelWithKeysResponse = BotChannel & {
   entityTag?: string;
   /** Changed time of the resource */
   changedTime?: string;
-};
+}
 
 /** Known values of {@link MsaAppType} that the service accepts. */
 export enum KnownMsaAppType {
+  /** UserAssignedMSI */
   UserAssignedMSI = "UserAssignedMSI",
+  /** SingleTenant */
   SingleTenant = "SingleTenant",
+  /** MultiTenant */
   MultiTenant = "MultiTenant"
 }
 
@@ -1043,7 +1194,9 @@ export type MsaAppType = string;
 
 /** Known values of {@link PublicNetworkAccess} that the service accepts. */
 export enum KnownPublicNetworkAccess {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -1059,8 +1212,11 @@ export type PublicNetworkAccess = string;
 
 /** Known values of {@link PrivateEndpointServiceConnectionStatus} that the service accepts. */
 export enum KnownPrivateEndpointServiceConnectionStatus {
+  /** Pending */
   Pending = "Pending",
+  /** Approved */
   Approved = "Approved",
+  /** Rejected */
   Rejected = "Rejected"
 }
 
@@ -1077,9 +1233,13 @@ export type PrivateEndpointServiceConnectionStatus = string;
 
 /** Known values of {@link PrivateEndpointConnectionProvisioningState} that the service accepts. */
 export enum KnownPrivateEndpointConnectionProvisioningState {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Creating */
   Creating = "Creating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Failed */
   Failed = "Failed"
 }
 
@@ -1097,7 +1257,9 @@ export type PrivateEndpointConnectionProvisioningState = string;
 
 /** Known values of {@link SkuName} that the service accepts. */
 export enum KnownSkuName {
+  /** F0 */
   F0 = "F0",
+  /** S1 */
   S1 = "S1"
 }
 
@@ -1113,7 +1275,9 @@ export type SkuName = string;
 
 /** Known values of {@link SkuTier} that the service accepts. */
 export enum KnownSkuTier {
+  /** Free */
   Free = "Free",
+  /** Standard */
   Standard = "Standard"
 }
 
@@ -1129,10 +1293,15 @@ export type SkuTier = string;
 
 /** Known values of {@link Kind} that the service accepts. */
 export enum KnownKind {
+  /** Sdk */
   Sdk = "sdk",
+  /** Designer */
   Designer = "designer",
+  /** Bot */
   Bot = "bot",
+  /** Function */
   Function = "function",
+  /** Azurebot */
   Azurebot = "azurebot"
 }
 
@@ -1151,10 +1320,15 @@ export type Kind = string;
 
 /** Known values of {@link OperationResultStatus} that the service accepts. */
 export enum KnownOperationResultStatus {
+  /** Canceled */
   Canceled = "Canceled",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Requested */
   Requested = "Requested",
+  /** Running */
   Running = "Running"
 }
 
@@ -1185,11 +1359,18 @@ export type ChannelName =
   | "SmsChannel"
   | "LineChannel"
   | "DirectLineSpeechChannel"
-  | "OutlookChannel";
+  | "OutlookChannel"
+  | "Omnichannel"
+  | "TelephonyChannel"
+  | "AcsChatChannel"
+  | "SearchAssistant"
+  | "M365Extensions";
 /** Defines values for RegenerateKeysChannelName. */
 export type RegenerateKeysChannelName = "WebChatChannel" | "DirectLineChannel";
 /** Defines values for Key. */
 export type Key = "key1" | "key2";
+/** Defines values for EmailChannelAuthMethod. */
+export type EmailChannelAuthMethod = 0 | 1;
 
 /** Optional parameters. */
 export interface BotsCreateOptionalParams extends coreClient.OperationOptions {}
@@ -1326,6 +1507,13 @@ export interface DirectLineRegenerateKeysOptionalParams
 export type DirectLineRegenerateKeysResponse = BotChannel;
 
 /** Optional parameters. */
+export interface EmailCreateSignInUrlOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createSignInUrl operation. */
+export type EmailCreateSignInUrlResponse = CreateEmailSignInUrlResponse;
+
+/** Optional parameters. */
 export interface OperationsListOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -1391,6 +1579,13 @@ export interface BotConnectionListByBotServiceNextOptionalParams
 
 /** Contains response data for the listByBotServiceNext operation. */
 export type BotConnectionListByBotServiceNextResponse = ConnectionSettingResponseList;
+
+/** Optional parameters. */
+export interface QnAMakerEndpointKeysGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type QnAMakerEndpointKeysGetResponse = QnAMakerEndpointKeysResponse;
 
 /** Optional parameters. */
 export interface HostSettingsGetOptionalParams

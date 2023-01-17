@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Migrate an Azure Cosmos DB SQL container from autoscale to manual throughput
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBSqlContainerMigrateToManualThroughput.json
  */
 async function cosmosDbSqlContainerMigrateToManualThroughput() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
   const databaseName = "databaseName";
   const containerName = "containerName";
@@ -34,4 +35,8 @@ async function cosmosDbSqlContainerMigrateToManualThroughput() {
   console.log(result);
 }
 
-cosmosDbSqlContainerMigrateToManualThroughput().catch(console.error);
+async function main() {
+  cosmosDbSqlContainerMigrateToManualThroughput();
+}
+
+main().catch(console.error);

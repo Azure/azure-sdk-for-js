@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Generates VPN client package for P2S client of the virtual network gateway in the specified resource group.
  *
  * @summary Generates VPN client package for P2S client of the virtual network gateway in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkGatewayGenerateVpnClientPackage.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/VirtualNetworkGatewayGenerateVpnClientPackage.json
  */
 async function generateVpnClientPackage() {
   const subscriptionId = "subid";

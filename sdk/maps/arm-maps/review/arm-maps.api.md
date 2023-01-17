@@ -149,10 +149,10 @@ export interface CorsRules {
 export type CreatedByType = string;
 
 // @public
-export type Creator = TrackedResource & {
+export interface Creator extends TrackedResource {
     properties: CreatorProperties;
     readonly systemData?: SystemData;
-};
+}
 
 // @public
 export interface CreatorList {
@@ -254,6 +254,9 @@ export interface ErrorResponse {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 type KeyType_2 = string;
 export { KeyType_2 as KeyType }
 
@@ -262,47 +265,34 @@ export type Kind = string;
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownKeyType {
-    // (undocumented)
     Primary = "primary",
-    // (undocumented)
     Secondary = "secondary"
 }
 
 // @public
 export enum KnownKind {
-    // (undocumented)
     Gen1 = "Gen1",
-    // (undocumented)
     Gen2 = "Gen2"
 }
 
 // @public
 export enum KnownName {
-    // (undocumented)
     G2 = "G2",
-    // (undocumented)
     S0 = "S0",
-    // (undocumented)
     S1 = "S1"
 }
 
 // @public
 export enum KnownSigningKey {
-    // (undocumented)
     PrimaryKey = "primaryKey",
-    // (undocumented)
     SecondaryKey = "secondaryKey"
 }
 
@@ -329,13 +319,13 @@ export interface Maps {
 }
 
 // @public
-export type MapsAccount = TrackedResource & {
-    sku: Sku;
-    kind?: Kind;
-    readonly systemData?: SystemData;
+export interface MapsAccount extends TrackedResource {
     identity?: ManagedServiceIdentity;
+    kind?: Kind;
     properties?: MapsAccountProperties;
-};
+    sku: Sku;
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface MapsAccountKeys {
@@ -489,12 +479,12 @@ export interface SystemData {
 }
 
 // @public
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
+    location: string;
     tags?: {
         [propertyName: string]: string;
     };
-    location: string;
-};
+}
 
 // (No @packageDocumentation comment for this package)
 

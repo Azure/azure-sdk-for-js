@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { BackupProtectionContainers } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -54,8 +55,16 @@ export class BackupProtectionContainersImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(vaultName, resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          vaultName,
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -63,11 +72,18 @@ export class BackupProtectionContainersImpl
   private async *listPagingPage(
     vaultName: string,
     resourceGroupName: string,
-    options?: BackupProtectionContainersListOptionalParams
+    options?: BackupProtectionContainersListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ProtectionContainerResource[]> {
-    let result = await this._list(vaultName, resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: BackupProtectionContainersListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(vaultName, resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         vaultName,
@@ -76,7 +92,9 @@ export class BackupProtectionContainersImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -168,7 +186,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.vaultName,

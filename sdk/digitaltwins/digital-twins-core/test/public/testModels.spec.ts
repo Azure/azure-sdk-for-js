@@ -3,9 +3,10 @@
 
 import { DigitalTwinsClient } from "../../src";
 import { authenticate } from "../utils/testAuthentication";
-import { Recorder } from "@azure-tools/test-recorder";
+import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import chai from "chai";
-import { delay } from "@azure/core-http";
+import { delay } from "@azure/core-util";
+import { isRestError } from "@azure/core-rest-pipeline";
 
 const assert = chai.assert;
 const should = chai.should();
@@ -73,14 +74,20 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
   async function deleteModels(): Promise<void> {
     try {
       await client.deleteModel(MODEL_ID);
-    } catch (Exception: any) {
-      console.error("deleteModel failure during test setup or cleanup");
+    } catch (e: any) {
+      if (!isRestError(e) || e.statusCode !== 404) {
+        console.error("deleteModel failed during test setup or cleanup", e);
+        throw e;
+      }
     }
 
     try {
       await client.deleteModel(COMPONENT_ID);
-    } catch (Exception: any) {
-      console.error("deleteModel failure during test setup or cleanup");
+    } catch (e: any) {
+      if (!isRestError(e) || e.statusCode !== 404) {
+        console.error("deleteModel failed during test setup or cleanup", e);
+        throw e;
+      }
     }
   }
 
@@ -243,7 +250,7 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
     await setUpModels();
 
     try {
-      const model = await client.getModel(COMPONENT_ID, true);
+      const model = await client.getModel(COMPONENT_ID, { includeModelDefinition: true });
       assert.equal(
         model.id,
         testComponent["@id"],
@@ -300,7 +307,7 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
     await setUpModels();
 
     try {
-      const models = client.listModels([], true);
+      const models = client.listModels({ includeModelDefinition: true });
 
       let componentModelFound = false;
       let modelModelFound = false;
@@ -351,7 +358,9 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
 
   it("decommission model not existing", async function () {
     await deleteModels();
-    delay(500);
+    if (isLiveMode()) {
+      delay(500);
+    }
 
     let errorWasThrown = false;
     try {
@@ -368,7 +377,7 @@ describe("DigitalTwins Models - create, read, list, delete operations", () => {
     should.equal(errorWasThrown, true, "Error was not thrown");
   });
 
-  it("decommission model already decomissioned", async function () {
+  it("decommission model already decommissioned", async function () {
     await deleteModels();
 
     try {

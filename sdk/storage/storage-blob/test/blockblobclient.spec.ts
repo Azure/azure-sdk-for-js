@@ -250,6 +250,21 @@ describe("BlockBlobClient", () => {
     assert.equal(listResponse.committedBlocks![0].size, body.length);
   });
 
+  it("commitBlockList with cold tier", async () => {
+    const body = "HelloWorld";
+    await blockBlobClient.stageBlock(base64encode("1"), body, body.length);
+    await blockBlobClient.stageBlock(base64encode("2"), body, body.length);
+    await blockBlobClient.commitBlockList([base64encode("1"), base64encode("2")], {
+      tier: "Cold",
+    });
+
+    const properties = await blockBlobClient.getProperties();
+    assert.equal(properties.accessTier, "Cold");
+
+    const result = await blockBlobClient.download(0);
+    assert.deepStrictEqual(await bodyToString(result, body.length * 2), "HelloWorldHelloWorld");
+  });
+
   it("can be created with a sas connection string", async () => {
     recorder.skip("node", "SAS token is not handled in playback");
     const newClient = new BlockBlobClient(
@@ -442,5 +457,15 @@ describe("BlockBlobClient", () => {
     } catch (err: any) {
       assert.deepStrictEqual(err.code, "BlobAlreadyExists");
     }
+  });
+
+  it("syncUploadFromURL with cold tier should work", async () => {
+    await blockBlobClient.syncUploadFromURL("https://azure.github.io/azure-sdk-for-js/index.html", {
+      tier: "Cold",
+    });
+
+    const properties = await blockBlobClient.getProperties();
+    assert.ok(properties.accessTier);
+    assert.equal(properties.accessTier!, "Cold");
   });
 });

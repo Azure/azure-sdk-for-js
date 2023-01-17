@@ -13,6 +13,9 @@ import {
   DataFactoryManagementClient
 } from "@azure/arm-datafactory";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create a linked integration runtime entry in a shared integration runtime.
@@ -21,8 +24,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/IntegrationRuntimes_CreateLinkedIntegrationRuntime.json
  */
 async function integrationRuntimesCreateLinkedIntegrationRuntime() {
-  const subscriptionId = "12345678-1234-1234-1234-12345678abc";
-  const resourceGroupName = "exampleResourceGroup";
+  const subscriptionId =
+    process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
+    "12345678-1234-1234-1234-12345678abc";
+  const resourceGroupName =
+    process.env["DATAFACTORY_RESOURCE_GROUP"] || "exampleResourceGroup";
   const factoryName = "exampleFactoryName";
   const integrationRuntimeName = "exampleIntegrationRuntime";
   const createLinkedIntegrationRuntimeRequest: CreateLinkedIntegrationRuntimeRequest = {
@@ -42,4 +48,8 @@ async function integrationRuntimesCreateLinkedIntegrationRuntime() {
   console.log(result);
 }
 
-integrationRuntimesCreateLinkedIntegrationRuntime().catch(console.error);
+async function main() {
+  integrationRuntimesCreateLinkedIntegrationRuntime();
+}
+
+main().catch(console.error);

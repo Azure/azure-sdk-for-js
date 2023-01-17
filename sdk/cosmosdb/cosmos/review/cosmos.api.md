@@ -7,9 +7,13 @@
 /// <reference lib="dom" />
 /// <reference lib="esnext.asynciterable" />
 
+import { AbortError } from '@azure/abort-controller';
 import { AbortSignal as AbortSignal_2 } from 'node-abort-controller';
 import { Pipeline } from '@azure/core-rest-pipeline';
+import { RestError } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
+
+export { AbortError }
 
 // @public (undocumented)
 export interface Agent {
@@ -704,7 +708,7 @@ export interface ErrorBody {
 }
 
 // @public (undocumented)
-export interface ErrorResponse extends Error {
+export class ErrorResponse extends Error {
     // (undocumented)
     [key: string]: any;
     // (undocumented)
@@ -1552,6 +1556,8 @@ interface Response_2<T> {
 }
 export { Response_2 as Response }
 
+export { RestError }
+
 // @public
 export interface RetryOptions {
     fixedRetryIntervalInMilliseconds: number;
@@ -1857,6 +1863,13 @@ export class StoredProcedures {
 
 // @public (undocumented)
 export type SubStatusCode = number;
+
+// @public (undocumented)
+export class TimeoutError extends Error {
+    constructor(message?: string);
+    // (undocumented)
+    readonly code: string;
+}
 
 // @public
 export class TimeSpan {
