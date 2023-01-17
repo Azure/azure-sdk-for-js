@@ -89,7 +89,7 @@
 #/<NotInRepo>/ @sajeetharan @abkolant-MSFT @pjohari-ms
 
 # PRLabel: %Digital Twins
-/sdk/digitaltwins/ @johngallardo @olivakar @sjiherzig
+/sdk/digitaltwins/ @sjiherzig @johngallardo @olivakar
 
 # PRLabel: %Event Grid
 /sdk/eventgrid/ @ellismg @xirzec
