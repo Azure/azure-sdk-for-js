@@ -67,7 +67,7 @@ matrix([[true, false]], async function (useAad: boolean) {
     });
 
     it("successfully revokes tokens issued for a user", async function () {
-      const { user } = await client.createUserAndToken(["chat", "voip"]);
+      const { user } = await client.createUserAndToken(multipleScopes);
       await client.revokeTokens(user);
     });
 
@@ -96,7 +96,7 @@ matrix([[true, false]], async function (useAad: boolean) {
 
       it("throws an error when attempting to issue a token for an invalid user", async function () {
         try {
-          await client.getToken(fakeUser, ["chat", "voip"]);
+          await client.getToken(fakeUser, multipleScopes);
           assert.fail("Should have thrown an error");
         } catch (e: any) {
           assert.equal(e.statusCode, 401);
