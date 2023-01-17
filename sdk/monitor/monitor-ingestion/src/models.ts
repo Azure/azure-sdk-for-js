@@ -10,10 +10,11 @@ export interface UploadLogsOptions {
    * The default value is 1.
    */
   maxConcurrency?: number;
+  errorCallback?: (uploadLogsError: UploadLogsError) => void;
 }
 
 /**
- * Error for each log upload request
+ * Error for each log upload request to service
  */
 export interface UploadLogsError {
   /**
@@ -26,13 +27,26 @@ export interface UploadLogsError {
   cause: Error;
 }
 
+export const AggregateUploadLogsErrorName = "AggregateUploadLogsError";
+
 /**
- * Type representing whether all or few logs succeeded uploading
+ * Aggregate Error type for upload function
  */
-export type UploadLogsStatus =
-  /** Represents Complete Failure scenario where all logs have failed for processing and the list of logs that failed to upload are returned */
-  | "Failure"
-  /** Represents Partial Failure scenario where partial logs have failed for processing and the list of logs that failed to upload are returned */
-  | "PartialFailure"
-  /** Represents Success scenario where all logs have succeeded and no index is returned */
-  | "Success";
+export class AggregateUploadLogsErrror extends Error {
+  /**
+   * List of {@link UploadLogsError} returned from 
+   * individual upload requests to service
+   */
+  errors: UploadLogsError[];
+
+  /**
+   * 
+   * @param errors
+   * @param errorMessage 
+   */
+  constructor(errors: UploadLogsError[], errorMessage?: string) {
+    super(`${errorMessage}\n}`);
+    this.errors = errors;
+    this.name = AggregateUploadLogsErrorName;
+  }
+}

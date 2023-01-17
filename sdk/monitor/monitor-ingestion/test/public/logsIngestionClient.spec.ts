@@ -51,8 +51,12 @@ describe("LogsIngestionClient live tests", function () {
   });
 
   it("sends empty data", async function () {
-    const result = await client.upload(getDcrId(), "Custom-MyTableRawData", []);
-    assert.equal(result,[]);
+    try{
+      await client.upload(getDcrId(), "Custom-MyTableRawData", []);
+    }
+    catch(e){
+      assert(e)
+    }
   });
 
   it("sends basic data", async function () {

@@ -10,7 +10,7 @@ import { TokenCredential } from '@azure/core-auth';
 // @public
 export class LogsIngestionClient {
     constructor(endpoint: string, tokenCredential: TokenCredential, options?: LogsIngestionClientOptions);
-    upload(ruleId: string, streamName: string, logs: Record<string, unknown>[], options?: UploadLogsOptions): Promise<Array<UploadLogsError>>;
+    upload(ruleId: string, streamName: string, logs: Record<string, unknown>[], options?: UploadLogsOptions): Promise<void>;
 }
 
 // @public
@@ -26,6 +26,8 @@ export interface UploadLogsError {
 
 // @public
 export interface UploadLogsOptions {
+    // (undocumented)
+    errorCallback?: (error: Error, failedLog: any) => void;
     maxConcurrency?: number;
 }
 
