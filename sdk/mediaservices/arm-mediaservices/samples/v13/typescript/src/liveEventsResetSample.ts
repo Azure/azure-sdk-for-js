@@ -10,16 +10,22 @@
 // Licensed under the MIT License.
 import { AzureMediaServices } from "@azure/arm-mediaservices";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Resets an existing live event. All live outputs for the live event are deleted and the live event is stopped and will be started again. All assets used by the live outputs and streaming locators created on these assets are unaffected.
  *
  * @summary Resets an existing live event. All live outputs for the live event are deleted and the live event is stopped and will be started again. All assets used by the live outputs and streaming locators created on these assets are unaffected.
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2022-08-01/examples/liveevent-reset.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Streaming/stable/2022-08-01/examples/liveevent-reset.json
  */
 async function resetALiveEvent() {
-  const subscriptionId = "0a6ec948-5a62-437d-b9df-934dc7c1b722";
-  const resourceGroupName = "mediaresources";
+  const subscriptionId =
+    process.env["MEDIASERVICES_SUBSCRIPTION_ID"] ||
+    "0a6ec948-5a62-437d-b9df-934dc7c1b722";
+  const resourceGroupName =
+    process.env["MEDIASERVICES_RESOURCE_GROUP"] || "mediaresources";
   const accountName = "slitestmedia10";
   const liveEventName = "myLiveEvent1";
   const credential = new DefaultAzureCredential();
@@ -32,4 +38,8 @@ async function resetALiveEvent() {
   console.log(result);
 }
 
-resetALiveEvent().catch(console.error);
+async function main() {
+  resetALiveEvent();
+}
+
+main().catch(console.error);
