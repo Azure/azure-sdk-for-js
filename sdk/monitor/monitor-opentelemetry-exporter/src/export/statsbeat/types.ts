@@ -118,8 +118,17 @@ export interface NetworkStatsbeatProperties {
  * Azure Monitor Statsbeat Feature Types
  */
 export enum StatsbeatFeature {
+  /**
+   * No Features
+   */
   NONE = 0,
+  /**
+   * Disk Retry Feature
+   */
   DISK_RETRY = 1,
+  /**
+   * AAD Handling Feature
+   */
   AAD_HANDLING = 2,
 }
 

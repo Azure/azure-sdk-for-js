@@ -93,33 +93,21 @@ export enum ServiceApiVersion {
 
 // @public
 export enum StatsbeatFeature {
-    // (undocumented)
     AAD_HANDLING = 2,
-    // (undocumented)
     DISK_RETRY = 1,
-    // (undocumented)
     NONE = 0
 }
 
 // @public
 export enum StatsbeatInstrumentation {
-    // (undocumented)
     AZURE_CORE_TRACING = 1,
-    // (undocumented)
     BUNYAN = 32,
-    // (undocumented)
     CONSOLE = 128,
-    // (undocumented)
     MONGODB = 2,
-    // (undocumented)
     MYSQL = 4,
-    // (undocumented)
     NONE = 0,
-    // (undocumented)
     POSTGRES = 16,
-    // (undocumented)
     REDIS = 8,
-    // (undocumented)
     WINSTON = 64
 }
 
