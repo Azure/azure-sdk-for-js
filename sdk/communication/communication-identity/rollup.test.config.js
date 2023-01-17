@@ -4,7 +4,7 @@ import * as base from "./rollup.patched.config";
 const inputs = makeConfig(require("./package.json"));
 
 if (!process.env.ONLY_NODE) {
-  // replace the original test config with a patched one
+  // Replace the original test config with a patched one.
   inputs[1] = base.makeBrowserTestConfigPatchProcess();
 }
 

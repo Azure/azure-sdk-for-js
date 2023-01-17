@@ -10,8 +10,7 @@ import {
   createRecordedCommunicationIdentityClient,
   createRecordedCommunicationIdentityClientWithToken,
 } from "./utils/recordedClient";
-import { CommunicationIdentityClient } from "../../src";
-import { chatScope, multipleScopes, voipScope } from "./utils/testCommunicationIdentityClient";
+import { CommunicationIdentityClient, TokenScope } from "../../src";
 import { Context } from "mocha";
 import { assert } from "chai";
 import { matrix } from "@azure/test-utils";
@@ -21,6 +20,9 @@ matrix([[true, false]], async function (useAad: boolean) {
   describe(`CommunicationIdentityClient [Playback/Live]${useAad ? " [AAD]" : ""}`, function () {
     let recorder: Recorder;
     let client: CommunicationIdentityClient;
+    const chatScope: TokenScope[] = ["chat"];
+    const voipScope: TokenScope[] = ["voip"];
+    const multipleScopes: TokenScope[] = ["chat", "voip"];
 
     beforeEach(async function (this: Context) {
       if (useAad) {
