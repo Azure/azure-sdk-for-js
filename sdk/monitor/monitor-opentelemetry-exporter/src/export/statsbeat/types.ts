@@ -127,23 +127,41 @@ export enum StatsbeatFeature {
  * Azure Monitor Statsbeat Instrumentation Types
  */
 export enum StatsbeatInstrumentation {
-  // No Instrumentations
+  /**
+   * No Instrumentations
+   */
   NONE = 0,
-  // Azure Core Tracing Instrumentation
+  /**
+   * Azure Core Tracing Instrumentation
+   */
   AZURE_CORE_TRACING = 1,
-  // MongoDB Instrumentation
+  /**
+   * MongoDB Instrumentation
+   */
   MONGODB = 2,
-  // MySQL Instrumentation
+  /**
+   * MySQL Instrumentation
+   */
   MYSQL = 4,
-  // Redis Instrumentation
+  /**
+   * Redis Instrumentation
+   */
   REDIS = 8,
-  // Postgres Instrumentation
+  /**
+   * Postgres Instrumentation
+   */
   POSTGRES = 16,
-  // Bunyan Instrumentation
+  /**
+   * Bunyan Instrumentation
+   */
   BUNYAN = 32,
-  // Winston Instrumentation
+  /**
+   * Winston Instrumentation
+   */
   WINSTON = 64,
-  // Console Instrumentation
+  /**
+   * Console Instrumentation
+   */
   CONSOLE = 128,
 }
 
