@@ -15,14 +15,12 @@ import {
 describe("DevCenter Dev Boxes Operations Test", () => {
   let recorder: Recorder;
   let client: AzureDevCenterClient;
-  let tenantId: string;
-  let devCenter: string;
+  let endpoint: string;
 
   beforeEach(async function (this: Context) {
     recorder = await createRecorder(this);
-    tenantId = env["DEVCENTER_TENANT_ID"] || "<tenant id>";
-    devCenter = env["DEFAULT_DEVCENTER_NAME"] || "sdk-default-devcenter";
-    client = createRecordedClient(recorder, tenantId, devCenter, {
+    endpoint = env["DEVCENTER_ENDPOINT"] || "<endpoint>";
+    client = createRecordedClient(recorder, endpoint, {
       allowInsecureConnection: false,
     });
   });
@@ -44,7 +42,7 @@ describe("DevCenter Dev Boxes Operations Test", () => {
     const userId = "me";
 
     console.log(
-      `Running test for ${tenantId} -- ${devCenter} -- ${projectName} -- ${poolName} -- ${devBoxName}`
+      `Running test for ${endpoint} -- ${projectName} -- ${poolName} -- ${devBoxName}`
     );
 
     const devBoxCreateParameters: DevBoxesCreateDevBoxParameters = {

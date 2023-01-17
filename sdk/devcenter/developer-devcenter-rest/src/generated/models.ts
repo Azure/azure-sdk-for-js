@@ -2,14 +2,7 @@
 // Licensed under the MIT license.
 
 /** Hardware specifications for the Dev Box. */
-export interface HardwareProfile {
-  /** The name of the SKU */
-  skuName?: string;
-  /** The number of vCPUs available for the Dev Box. */
-  vCPUs?: number;
-  /** The amount of memory available for the Dev Box. */
-  memoryGB?: number;
-}
+export interface HardwareProfile {}
 
 /** Storage settings for the Dev Box's disks */
 export interface StorageProfile {
@@ -18,62 +11,15 @@ export interface StorageProfile {
 }
 
 /** Settings for the operating system disk. */
-export interface OSDisk {
-  /** The size of the OS Disk in gigabytes. */
-  diskSizeGB?: number;
-}
+export interface OSDisk {}
 
 /** Specifies information about the image used */
-export interface ImageReference {
-  /** The name of the image used. */
-  name?: string;
-  /** The version of the image. */
-  version?: string;
-  /** The operating system of the image. */
-  operatingSystem?: string;
-  /** The operating system build number of the image. */
-  osBuildNumber?: string;
-  /** The datetime that the backing image version was published. */
-  publishedDate?: Date | string;
-}
+export interface ImageReference {}
 
 /** A DevBox Dev Box */
 export interface DevBox {
-  /** Display name for the Dev Box */
-  name?: string;
-  /** Name of the project this Dev Box belongs to */
-  projectName?: string;
   /** The name of the Dev Box pool this machine belongs to. */
   poolName: string;
-  /** The current provisioning state of the Dev Box. */
-  provisioningState?: string;
-  /** The current action state of the Dev Box. This is state is based on previous action performed by user. */
-  actionState?: string;
-  /** The current power state of the Dev Box. */
-  powerState?:
-    | "Unknown"
-    | "Deallocated"
-    | "PoweredOff"
-    | "Running"
-    | "Hibernated";
-  /** A unique identifier for the Dev Box. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000). */
-  uniqueId?: string;
-  /** Provisioning or action error details. Populated only for error states. */
-  errorDetails?: ProvisioningError;
-  /** Azure region where this Dev Box is located. This will be the same region as the Virtual Network it is attached to. */
-  location?: string;
-  /** The operating system type of this Dev Box. */
-  osType?: "Windows";
-  /** User identifier of the user this vm is assigned to. */
-  user?: string;
-  /** Information about the Dev Box's hardware resources */
-  hardwareProfile?: HardwareProfile;
-  /** Storage settings for this Dev Box */
-  storageProfile?: StorageProfile;
-  /** Information about the image used for this Dev Box */
-  imageReference?: ImageReference;
-  /** Creation time of this Dev Box */
-  createdTime?: Date | string;
   /** Indicates whether the owner of the Dev Box is a local administrator. */
   localAdministrator?: "Enabled" | "Disabled";
 }
@@ -88,16 +34,10 @@ export interface ProvisioningError {
 
 /** Properties of an environment. */
 export interface Environment extends EnvironmentUpdateProperties {
-  /** Environment name. */
-  name?: string;
   /** Environment type. */
   environmentType: string;
-  /** Identifier of the owner of this Environment. */
-  owner?: string;
-  /** The provisioning state of the environment. */
-  provisioningState?: string;
-  /** The identifier of the resource group containing the environment's resources. */
-  resourceGroupId?: string;
+  /** The AAD object id of the owner of this Environment. */
+  user?: string;
 }
 
 /** Properties of an environment. These properties can be updated after the resource has been created. */

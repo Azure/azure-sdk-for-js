@@ -10,20 +10,17 @@ import {
   EnvironmentsCreateOrUpdateEnvironmentParameters,
   getLongRunningPoller,
   isUnexpected,
-  paginate,
 } from "../../src/index";
 
 describe("DevCenter Environments Operations Test", () => {
   let recorder: Recorder;
   let client: AzureDevCenterClient;
-  let tenantId: string;
-  let devCenter: string;
+  let endpoint: string;
 
   beforeEach(async function (this: Context) {
     recorder = await createRecorder(this);
-    tenantId = env["DEVCENTER_TENANT_ID"] || "<tenant id>";
-    devCenter = env["DEFAULT_DEVCENTER_NAME"] || "sdk-default-devcenter";
-    client = createRecordedClient(recorder, tenantId, devCenter, {
+    endpoint = env["DEVCENTER_ENDPOINT"] || "<endpoint>";
+    client = createRecordedClient(recorder, endpoint, {
       allowInsecureConnection: false,
     });
   });
@@ -48,7 +45,7 @@ describe("DevCenter Environments Operations Test", () => {
     const userId = "me";
 
     console.log(
-      `Running test for ${tenantId} -- ${devCenter} -- ${projectName} -- ${catalogName} -- ${catalogItemName} -- ${environmentTypeName} -- ${environmentName}`
+      `Running test for ${endpoint} -- ${projectName} -- ${catalogName} -- ${catalogItemName} -- ${environmentTypeName} -- ${environmentName}`
     );
 
     const environmentsCreateParameters: EnvironmentsCreateOrUpdateEnvironmentParameters = {
@@ -101,34 +98,6 @@ describe("DevCenter Environments Operations Test", () => {
     console.log(
       `Provisioned environment with state ${environmentCreateResult.body.provisioningState}.`
     );
-
-    // Get the deployment outputs
-    const artifactListResult = await client
-      .path(
-        "/projects/{projectName}/users/{userId}/environments/{environmentName}/artifacts",
-        projectName,
-        userId,
-        environmentName
-      )
-      .get();
-
-    if (isUnexpected(artifactListResult)) {
-      throw new Error(artifactListResult.body?.error.message);
-    }
-
-    assert.equal(artifactListResult.status, "200", "Artifact listing should return 200 OK.");
-
-    // Get the all results by helper function paginate
-    const pageData = paginate(client, artifactListResult);
-    const result = [];
-    for await (const item of pageData) {
-      result.push(item);
-    }
-
-    assert.equal(result.length, 2, "Get all artifact data");
-
-    console.log("Retrieved deployment artifacts:");
-    console.log(artifactListResult.body.value);
 
     // Tear down the environment when finished
     const environmentDeleteResponse = await client

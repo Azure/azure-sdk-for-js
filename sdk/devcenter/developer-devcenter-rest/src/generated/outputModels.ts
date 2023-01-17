@@ -12,9 +12,9 @@ export interface ProjectListResultOutput {
 /** Project details. */
 export interface ProjectOutput {
   /** Name of the project */
-  name?: string;
+  readonly name?: string;
   /** Description of the project. */
-  description?: string;
+  readonly description?: string;
 }
 
 /** An error response from the service. */
@@ -46,17 +46,19 @@ export interface PoolListResultOutput {
 /** A pool of Dev Boxes. */
 export interface PoolOutput {
   /** Pool name */
-  name?: string;
+  readonly name?: string;
   /** Azure region where Dev Boxes in the pool are located */
-  location?: string;
+  readonly location?: string;
   /** The operating system type of Dev Boxes in this pool */
-  osType?: "Windows";
+  readonly osType?: "Windows";
   /** Hardware settings for the Dev Boxes created in this pool */
-  hardwareProfile?: HardwareProfileOutput;
+  readonly hardwareProfile?: HardwareProfileOutput;
+  /** Indicates whether hibernate is enabled/disabled or unknown. */
+  readonly hibernateSupport?: "Disabled" | "Enabled";
   /** Storage settings for Dev Box created in this pool */
-  storageProfile?: StorageProfileOutput;
+  readonly storageProfile?: StorageProfileOutput;
   /** Image settings for Dev Boxes create in this pool */
-  imageReference?: ImageReferenceOutput;
+  readonly imageReference?: ImageReferenceOutput;
   /** Indicates whether owners of Dev Boxes in this pool are local administrators on the Dev Boxes. */
   localAdministrator?: "Enabled" | "Disabled";
 }
@@ -64,11 +66,11 @@ export interface PoolOutput {
 /** Hardware specifications for the Dev Box. */
 export interface HardwareProfileOutput {
   /** The name of the SKU */
-  skuName?: string;
+  readonly skuName?: string;
   /** The number of vCPUs available for the Dev Box. */
-  vCPUs?: number;
+  readonly vCPUs?: number;
   /** The amount of memory available for the Dev Box. */
-  memoryGB?: number;
+  readonly memoryGB?: number;
 }
 
 /** Storage settings for the Dev Box's disks */
@@ -80,21 +82,21 @@ export interface StorageProfileOutput {
 /** Settings for the operating system disk. */
 export interface OSDiskOutput {
   /** The size of the OS Disk in gigabytes. */
-  diskSizeGB?: number;
+  readonly diskSizeGB?: number;
 }
 
 /** Specifies information about the image used */
 export interface ImageReferenceOutput {
   /** The name of the image used. */
-  name?: string;
+  readonly name?: string;
   /** The version of the image. */
-  version?: string;
+  readonly version?: string;
   /** The operating system of the image. */
-  operatingSystem?: string;
+  readonly operatingSystem?: string;
   /** The operating system build number of the image. */
-  osBuildNumber?: string;
+  readonly osBuildNumber?: string;
   /** The datetime that the backing image version was published. */
-  publishedDate?: string;
+  readonly publishedDate?: string;
 }
 
 /** The Schedule list result */
@@ -108,15 +110,15 @@ export interface ScheduleListResultOutput {
 /** A Schedule to execute action. */
 export interface ScheduleOutput {
   /** Display name for the Schedule */
-  name?: string;
+  readonly name?: string;
   /** Supported type this scheduled task represents. */
-  type?: "StopDevBox";
+  readonly type?: "StopDevBox";
   /** The frequency of this scheduled task. */
-  frequency?: "Daily";
+  readonly frequency?: "Daily";
   /** The target time to trigger the action. The format is HH:MM. */
-  time?: string;
+  readonly time?: string;
   /** The IANA timezone id at which the schedule should execute. */
-  timeZone?: string;
+  readonly timeZone?: string;
 }
 
 /** The Dev Box list result */
@@ -130,40 +132,42 @@ export interface DevBoxListResultOutput {
 /** A DevBox Dev Box */
 export interface DevBoxOutput {
   /** Display name for the Dev Box */
-  name?: string;
+  readonly name?: string;
   /** Name of the project this Dev Box belongs to */
-  projectName?: string;
+  readonly projectName?: string;
   /** The name of the Dev Box pool this machine belongs to. */
   poolName: string;
+  /** Indicates whether hibernate is enabled/disabled or unknown. */
+  readonly hibernateSupport?: "Disabled" | "Enabled";
   /** The current provisioning state of the Dev Box. */
-  provisioningState?: string;
+  readonly provisioningState?: string;
   /** The current action state of the Dev Box. This is state is based on previous action performed by user. */
-  actionState?: string;
+  readonly actionState?: string;
   /** The current power state of the Dev Box. */
-  powerState?:
+  readonly powerState?:
     | "Unknown"
     | "Deallocated"
     | "PoweredOff"
     | "Running"
     | "Hibernated";
   /** A unique identifier for the Dev Box. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000). */
-  uniqueId?: string;
+  readonly uniqueId?: string;
   /** Provisioning or action error details. Populated only for error states. */
-  errorDetails?: ProvisioningErrorOutput;
+  readonly errorDetails?: ProvisioningErrorOutput;
   /** Azure region where this Dev Box is located. This will be the same region as the Virtual Network it is attached to. */
-  location?: string;
+  readonly location?: string;
   /** The operating system type of this Dev Box. */
-  osType?: "Windows";
-  /** User identifier of the user this vm is assigned to. */
-  user?: string;
+  readonly osType?: "Windows";
+  /** The AAD object id of the user this Dev Box is assigned to. */
+  readonly user?: string;
   /** Information about the Dev Box's hardware resources */
-  hardwareProfile?: HardwareProfileOutput;
+  readonly hardwareProfile?: HardwareProfileOutput;
   /** Storage settings for this Dev Box */
-  storageProfile?: StorageProfileOutput;
+  readonly storageProfile?: StorageProfileOutput;
   /** Information about the image used for this Dev Box */
-  imageReference?: ImageReferenceOutput;
+  readonly imageReference?: ImageReferenceOutput;
   /** Creation time of this Dev Box */
-  createdTime?: string;
+  readonly createdTime?: string;
   /** Indicates whether the owner of the Dev Box is a local administrator. */
   localAdministrator?: "Enabled" | "Disabled";
 }
@@ -179,9 +183,33 @@ export interface ProvisioningErrorOutput {
 /** Provides RDP connection information */
 export interface RemoteConnectionOutput {
   /** URL to open a browser based RDP session */
-  webUrl?: string;
+  readonly webUrl?: string;
   /** Link to open a Remote Desktop session */
-  rdpConnectionUrl?: string;
+  readonly rdpConnectionUrl?: string;
+}
+
+/** The Upcoming Action list result */
+export interface UpcomingActionsListResultOutput {
+  /** Current page of results */
+  value: Array<UpcomingActionOutput>;
+  /** The URL to get the next set of results. */
+  nextLink?: string;
+}
+
+/** An upcoming Action. */
+export interface UpcomingActionOutput {
+  /** Uniquely identifies the action. */
+  readonly id?: string;
+  /** The action that will be taken. */
+  readonly actionType?: "Stop";
+  /** The reason for this action. */
+  readonly reason?: "Schedule";
+  /** The target time the action will be triggered (UTC). */
+  readonly scheduledTime?: string;
+  /** The original scheduled time for the action (UTC). */
+  readonly originalScheduledTime?: string;
+  /** The id of the resource which triggered this action */
+  readonly sourceId?: string;
 }
 
 /** Results of the environment list operation. */
@@ -195,15 +223,15 @@ export interface EnvironmentListResultOutput {
 /** Properties of an environment. */
 export interface EnvironmentOutput extends EnvironmentUpdatePropertiesOutput {
   /** Environment name. */
-  name?: string;
+  readonly name?: string;
   /** Environment type. */
   environmentType: string;
-  /** Identifier of the owner of this Environment. */
-  owner?: string;
+  /** The AAD object id of the owner of this Environment. */
+  user?: string;
   /** The provisioning state of the environment. */
-  provisioningState?: string;
+  readonly provisioningState?: string;
   /** The identifier of the resource group containing the environment's resources. */
-  resourceGroupId?: string;
+  readonly resourceGroupId?: string;
 }
 
 /** Properties of an environment. These properties can be updated after the resource has been created. */
@@ -232,32 +260,6 @@ export interface ScheduledTaskOutput {
   startTime: string;
 }
 
-/** Results of the artifact list operation. */
-export interface ArtifactListResultOutput {
-  /** Current page of results. */
-  value: Array<ArtifactOutput>;
-  /** URL to get the next set of results if there are any. */
-  nextLink?: string;
-}
-
-/** Properties of an Artifact */
-export interface ArtifactOutput {
-  /** Artifact identifier */
-  id?: string;
-  /** Artifact name */
-  name?: string;
-  /** Whether artifact is a directory */
-  isDirectory?: boolean;
-  /** Uri where the file contents can be downloaded */
-  downloadUri?: string;
-  /** Size of file in bytes, if the artifact is a file */
-  fileSize?: number;
-  /** Time the artifact was created */
-  createdTime?: string;
-  /** Time the artifact was last modified */
-  lastModifiedTime?: string;
-}
-
 /** Results of the catalog item list operation. */
 export interface CatalogItemListResultOutput {
   /** Current page of results. */
@@ -269,11 +271,11 @@ export interface CatalogItemListResultOutput {
 /** A catalog item. */
 export interface CatalogItemOutput {
   /** Unique identifier of the catalog item. */
-  id?: string;
+  readonly id?: string;
   /** Name of the catalog item. */
-  name?: string;
+  readonly name?: string;
   /** Name of the catalog. */
-  catalogName?: string;
+  readonly catalogName?: string;
 }
 
 /** Results of the catalog item list operation. */
@@ -287,27 +289,27 @@ export interface CatalogItemVersionListResultOutput {
 /** A catalog item version. */
 export interface CatalogItemVersionOutput {
   /** Unique identifier of the catalog item. */
-  catalogItemId?: string;
+  readonly catalogItemId?: string;
   /** Name of the catalog item. */
-  catalogItemName?: string;
+  readonly catalogItemName?: string;
   /** Name of the catalog. */
-  catalogName?: string;
+  readonly catalogName?: string;
   /** The version of the catalog item. */
-  version?: string;
+  readonly version?: string;
   /** A short summary of the catalog item. */
-  summary?: string;
+  readonly summary?: string;
   /** A long description of the catalog item. */
-  description?: string;
+  readonly description?: string;
   /** Path to the catalog item entrypoint file. */
-  templatePath?: string;
+  readonly templatePath?: string;
   /** JSON schema defining the parameters object passed to actions */
-  parametersSchema?: string;
+  readonly parametersSchema?: string;
   /** Input parameters passed to actions */
-  parameters?: Array<CatalogItemParameterOutput>;
+  readonly parameters?: Array<CatalogItemParameterOutput>;
   /** Custom actions for the catalog item. */
-  actions?: Array<CatalogItemActionOutput>;
+  readonly actions?: Array<CatalogItemActionOutput>;
   /** The default container image to use to execute actions */
-  runner?: string;
+  readonly runner?: string;
   /** Defines whether the specific catalog item version can be used. */
   status?: "Enabled" | "Disabled";
   /** Whether the version is eligible to be the latest version. */
@@ -317,15 +319,15 @@ export interface CatalogItemVersionOutput {
 /** Properties of an Catalog Item parameter */
 export interface CatalogItemParameterOutput {
   /** Unique ID of the parameter */
-  id?: string;
+  readonly id?: string;
   /** Display name of the parameter */
-  name?: string;
+  readonly name?: string;
   /** Description of the parameter */
-  description?: string;
+  readonly description?: string;
   /** Default value of the parameter */
-  default?: Record<string, unknown>;
+  readonly default?: Record<string, unknown>;
   /** A string of one of the basic JSON types (number, integer, null, array, object, boolean, string) */
-  type?:
+  readonly type?:
     | "array"
     | "boolean"
     | "integer"
@@ -334,31 +336,31 @@ export interface CatalogItemParameterOutput {
     | "object"
     | "string";
   /** Whether or not this parameter is read-only.  If true, default should have a value. */
-  readOnly?: boolean;
+  readonly readOnly?: boolean;
   /** Whether or not this parameter is required */
-  required?: boolean;
+  readonly required?: boolean;
   /** An array of allowed values */
-  allowed?: Array<Record<string, unknown>>;
+  readonly allowed?: Array<Record<string, unknown>>;
 }
 
 /** An action that can be taken on a catalog item. */
 export interface CatalogItemActionOutput {
   /** Unique identifier of the action */
-  id?: string;
+  readonly id?: string;
   /** Display name of the action */
-  name?: string;
+  readonly name?: string;
   /** Description of the action */
-  description?: string;
+  readonly description?: string;
   /** JSON schema defining the parameters specific to the custom action */
-  parametersSchema?: string;
+  readonly parametersSchema?: string;
   /** Input parameters passed to the action */
-  parameters?: Array<CatalogItemParameterOutput>;
+  readonly parameters?: Array<CatalogItemParameterOutput>;
   /** The action type. */
-  type?: "Custom" | "Deploy" | "Delete";
+  readonly type?: "Custom" | "Deploy" | "Delete";
   /** Name of the custom action type */
-  typeName?: string;
+  readonly typeName?: string;
   /** The container image to use to execute the action */
-  runner?: string;
+  readonly runner?: string;
 }
 
 /** Result of the environment type list operation. */
@@ -372,9 +374,9 @@ export interface EnvironmentTypeListResultOutput {
 /** Properties of an environment type. */
 export interface EnvironmentTypeOutput {
   /** Name of the environment type */
-  name?: string;
+  readonly name?: string;
   /** Id of a subscription or management group that the environment type will be mapped to. The environment's resources will be deployed into this subscription or management group. */
-  deploymentTargetId?: string;
+  readonly deploymentTargetId?: string;
   /** Defines whether this Environment Type can be used in this Project. */
-  status?: "Enabled" | "Disabled";
+  readonly status?: "Enabled" | "Disabled";
 }

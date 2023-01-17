@@ -17,6 +17,10 @@ import {
   DevBoxesStartDevBoxParameters,
   DevBoxesStopDevBoxParameters,
   DevBoxesGetRemoteConnectionParameters,
+  DevBoxesListUpcomingActionsParameters,
+  DevBoxesGetUpcomingActionParameters,
+  DevBoxesSkipUpcomingActionParameters,
+  DevBoxesDelayUpcomingActionParameters,
   EnvironmentsListEnvironmentsParameters,
   EnvironmentsListEnvironmentsByUserParameters,
   EnvironmentsGetEnvironmentByUserParameters,
@@ -24,10 +28,7 @@ import {
   EnvironmentsUpdateEnvironmentParameters,
   EnvironmentsDeleteEnvironmentParameters,
   EnvironmentsDeployEnvironmentActionParameters,
-  EnvironmentsDeleteEnvironmentActionParameters,
   EnvironmentsCustomEnvironmentActionParameters,
-  EnvironmentsListArtifactsByEnvironmentParameters,
-  EnvironmentsListArtifactsByEnvironmentAndPathParameters,
   EnvironmentsListCatalogItemsParameters,
   EnvironmentsGetCatalogItemParameters,
   EnvironmentsListCatalogItemVersionsParameters,
@@ -58,18 +59,23 @@ import {
   DevBoxesCreateDevBox200Response,
   DevBoxesCreateDevBox201Response,
   DevBoxesCreateDevBoxDefaultResponse,
-  DevBoxesDeleteDevBox200Response,
   DevBoxesDeleteDevBox202Response,
   DevBoxesDeleteDevBox204Response,
   DevBoxesDeleteDevBoxDefaultResponse,
-  DevBoxesStartDevBox200Response,
   DevBoxesStartDevBox202Response,
   DevBoxesStartDevBoxDefaultResponse,
-  DevBoxesStopDevBox200Response,
   DevBoxesStopDevBox202Response,
   DevBoxesStopDevBoxDefaultResponse,
   DevBoxesGetRemoteConnection200Response,
   DevBoxesGetRemoteConnectionDefaultResponse,
+  DevBoxesListUpcomingActions200Response,
+  DevBoxesListUpcomingActionsDefaultResponse,
+  DevBoxesGetUpcomingAction200Response,
+  DevBoxesGetUpcomingActionDefaultResponse,
+  DevBoxesSkipUpcomingAction204Response,
+  DevBoxesSkipUpcomingActionDefaultResponse,
+  DevBoxesDelayUpcomingAction200Response,
+  DevBoxesDelayUpcomingActionDefaultResponse,
   EnvironmentsListEnvironments200Response,
   EnvironmentsListEnvironmentsDefaultResponse,
   EnvironmentsListEnvironmentsByUser200Response,
@@ -88,16 +94,9 @@ import {
   EnvironmentsDeployEnvironmentAction200Response,
   EnvironmentsDeployEnvironmentAction202Response,
   EnvironmentsDeployEnvironmentActionDefaultResponse,
-  EnvironmentsDeleteEnvironmentAction200Response,
-  EnvironmentsDeleteEnvironmentAction202Response,
-  EnvironmentsDeleteEnvironmentActionDefaultResponse,
   EnvironmentsCustomEnvironmentAction200Response,
   EnvironmentsCustomEnvironmentAction202Response,
   EnvironmentsCustomEnvironmentActionDefaultResponse,
-  EnvironmentsListArtifactsByEnvironment200Response,
-  EnvironmentsListArtifactsByEnvironmentDefaultResponse,
-  EnvironmentsListArtifactsByEnvironmentAndPath200Response,
-  EnvironmentsListArtifactsByEnvironmentAndPathDefaultResponse,
   EnvironmentsListCatalogItems200Response,
   EnvironmentsListCatalogItemsDefaultResponse,
   EnvironmentsGetCatalogItem200Response,
@@ -216,7 +215,6 @@ export interface DevBoxesGetDevBoxByUser {
   delete(
     options?: DevBoxesDeleteDevBoxParameters
   ): StreamableMethod<
-    | DevBoxesDeleteDevBox200Response
     | DevBoxesDeleteDevBox202Response
     | DevBoxesDeleteDevBox204Response
     | DevBoxesDeleteDevBoxDefaultResponse
@@ -228,9 +226,7 @@ export interface DevBoxesStartDevBox {
   post(
     options?: DevBoxesStartDevBoxParameters
   ): StreamableMethod<
-    | DevBoxesStartDevBox200Response
-    | DevBoxesStartDevBox202Response
-    | DevBoxesStartDevBoxDefaultResponse
+    DevBoxesStartDevBox202Response | DevBoxesStartDevBoxDefaultResponse
   >;
 }
 
@@ -239,9 +235,7 @@ export interface DevBoxesStopDevBox {
   post(
     options?: DevBoxesStopDevBoxParameters
   ): StreamableMethod<
-    | DevBoxesStopDevBox200Response
-    | DevBoxesStopDevBox202Response
-    | DevBoxesStopDevBoxDefaultResponse
+    DevBoxesStopDevBox202Response | DevBoxesStopDevBoxDefaultResponse
   >;
 }
 
@@ -252,6 +246,46 @@ export interface DevBoxesGetRemoteConnection {
   ): StreamableMethod<
     | DevBoxesGetRemoteConnection200Response
     | DevBoxesGetRemoteConnectionDefaultResponse
+  >;
+}
+
+export interface DevBoxesListUpcomingActions {
+  /** Lists upcoming actions on a Dev Box. */
+  get(
+    options?: DevBoxesListUpcomingActionsParameters
+  ): StreamableMethod<
+    | DevBoxesListUpcomingActions200Response
+    | DevBoxesListUpcomingActionsDefaultResponse
+  >;
+}
+
+export interface DevBoxesGetUpcomingAction {
+  /** Gets an Upcoming Action. */
+  get(
+    options?: DevBoxesGetUpcomingActionParameters
+  ): StreamableMethod<
+    | DevBoxesGetUpcomingAction200Response
+    | DevBoxesGetUpcomingActionDefaultResponse
+  >;
+}
+
+export interface DevBoxesSkipUpcomingAction {
+  /** Skips an Upcoming Action. */
+  post(
+    options?: DevBoxesSkipUpcomingActionParameters
+  ): StreamableMethod<
+    | DevBoxesSkipUpcomingAction204Response
+    | DevBoxesSkipUpcomingActionDefaultResponse
+  >;
+}
+
+export interface DevBoxesDelayUpcomingAction {
+  /** Delays an Upcoming Action. */
+  post(
+    options: DevBoxesDelayUpcomingActionParameters
+  ): StreamableMethod<
+    | DevBoxesDelayUpcomingAction200Response
+    | DevBoxesDelayUpcomingActionDefaultResponse
   >;
 }
 
@@ -298,7 +332,7 @@ export interface EnvironmentsGetEnvironmentByUser {
     | EnvironmentsUpdateEnvironment200Response
     | EnvironmentsUpdateEnvironmentDefaultResponse
   >;
-  /** Deletes an environment and all it's associated resources */
+  /** Deletes an environment and all its associated resources */
   delete(
     options?: EnvironmentsDeleteEnvironmentParameters
   ): StreamableMethod<
@@ -320,17 +354,6 @@ export interface EnvironmentsDeployEnvironmentAction {
   >;
 }
 
-export interface EnvironmentsDeleteEnvironmentAction {
-  /** Executes a delete action */
-  post(
-    options: EnvironmentsDeleteEnvironmentActionParameters
-  ): StreamableMethod<
-    | EnvironmentsDeleteEnvironmentAction200Response
-    | EnvironmentsDeleteEnvironmentAction202Response
-    | EnvironmentsDeleteEnvironmentActionDefaultResponse
-  >;
-}
-
 export interface EnvironmentsCustomEnvironmentAction {
   /** Executes a custom action */
   post(
@@ -339,26 +362,6 @@ export interface EnvironmentsCustomEnvironmentAction {
     | EnvironmentsCustomEnvironmentAction200Response
     | EnvironmentsCustomEnvironmentAction202Response
     | EnvironmentsCustomEnvironmentActionDefaultResponse
-  >;
-}
-
-export interface EnvironmentsListArtifactsByEnvironment {
-  /** Lists the artifacts for an environment */
-  get(
-    options?: EnvironmentsListArtifactsByEnvironmentParameters
-  ): StreamableMethod<
-    | EnvironmentsListArtifactsByEnvironment200Response
-    | EnvironmentsListArtifactsByEnvironmentDefaultResponse
-  >;
-}
-
-export interface EnvironmentsListArtifactsByEnvironmentAndPath {
-  /** Lists the artifacts for an environment at a specified path, or returns the file at the path. */
-  get(
-    options?: EnvironmentsListArtifactsByEnvironmentAndPathParameters
-  ): StreamableMethod<
-    | EnvironmentsListArtifactsByEnvironmentAndPath200Response
-    | EnvironmentsListArtifactsByEnvironmentAndPathDefaultResponse
   >;
 }
 
@@ -482,6 +485,37 @@ export interface Routes {
     userId: string,
     devBoxName: string
   ): DevBoxesGetRemoteConnection;
+  /** Resource for '/projects/\{projectName\}/users/\{userId\}/devboxes/\{devBoxName\}/upcomingActions' has methods for the following verbs: get */
+  (
+    path: "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}/upcomingActions",
+    projectName: string,
+    userId: string,
+    devBoxName: string
+  ): DevBoxesListUpcomingActions;
+  /** Resource for '/projects/\{projectName\}/users/\{userId\}/devboxes/\{devBoxName\}/upcomingActions/\{upcomingActionId\}' has methods for the following verbs: get */
+  (
+    path: "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}/upcomingActions/{upcomingActionId}",
+    projectName: string,
+    userId: string,
+    devBoxName: string,
+    upcomingActionId: string
+  ): DevBoxesGetUpcomingAction;
+  /** Resource for '/projects/\{projectName\}/users/\{userId\}/devboxes/\{devBoxName\}/upcomingActions/\{upcomingActionId\}:skip' has methods for the following verbs: post */
+  (
+    path: "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}/upcomingActions/{upcomingActionId}:skip",
+    projectName: string,
+    userId: string,
+    devBoxName: string,
+    upcomingActionId: string
+  ): DevBoxesSkipUpcomingAction;
+  /** Resource for '/projects/\{projectName\}/users/\{userId\}/devboxes/\{devBoxName\}/upcomingActions/\{upcomingActionId\}:delay' has methods for the following verbs: post */
+  (
+    path: "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}/upcomingActions/{upcomingActionId}:delay",
+    projectName: string,
+    userId: string,
+    devBoxName: string,
+    upcomingActionId: string
+  ): DevBoxesDelayUpcomingAction;
   /** Resource for '/projects/\{projectName\}/environments' has methods for the following verbs: get */
   (
     path: "/projects/{projectName}/environments",
@@ -507,13 +541,6 @@ export interface Routes {
     userId: string,
     environmentName: string
   ): EnvironmentsDeployEnvironmentAction;
-  /** Resource for '/projects/\{projectName\}/users/\{userId\}/environments/\{environmentName\}:delete' has methods for the following verbs: post */
-  (
-    path: "/projects/{projectName}/users/{userId}/environments/{environmentName}:delete",
-    projectName: string,
-    userId: string,
-    environmentName: string
-  ): EnvironmentsDeleteEnvironmentAction;
   /** Resource for '/projects/\{projectName\}/users/\{userId\}/environments/\{environmentName\}:custom' has methods for the following verbs: post */
   (
     path: "/projects/{projectName}/users/{userId}/environments/{environmentName}:custom",
@@ -521,21 +548,6 @@ export interface Routes {
     userId: string,
     environmentName: string
   ): EnvironmentsCustomEnvironmentAction;
-  /** Resource for '/projects/\{projectName\}/users/\{userId\}/environments/\{environmentName\}/artifacts' has methods for the following verbs: get */
-  (
-    path: "/projects/{projectName}/users/{userId}/environments/{environmentName}/artifacts",
-    projectName: string,
-    userId: string,
-    environmentName: string
-  ): EnvironmentsListArtifactsByEnvironment;
-  /** Resource for '/projects/\{projectName\}/users/\{userId\}/environments/\{environmentName\}/artifacts/\{artifactPath\}' has methods for the following verbs: get */
-  (
-    path: "/projects/{projectName}/users/{userId}/environments/{environmentName}/artifacts/{artifactPath}",
-    projectName: string,
-    userId: string,
-    environmentName: string,
-    artifactPath: string
-  ): EnvironmentsListArtifactsByEnvironmentAndPath;
   /** Resource for '/projects/\{projectName\}/catalogItems' has methods for the following verbs: get */
   (
     path: "/projects/{projectName}/catalogItems",
