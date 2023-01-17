@@ -145,10 +145,10 @@
 /sdk/test-utils/ @HarshaNalluru @timovv
 
 # PRLabel: %Cognitive - Text Analytics
-/sdk/textanalytics/ @deyaaeldeen @witemple-msft
+/sdk/textanalytics/ @minhanh-phan @deyaaeldeen @witemple-msft
 
 # PRLabel: %Cognitive - Language
-/sdk/cognitivelanguage/ @deyaaeldeen
+/sdk/cognitivelanguage/ @minhanh-phan @deyaaeldeen
 
 # PRLabel: %Schema Registry
 /sdk/schemaregistry/ @deyaaeldeen
