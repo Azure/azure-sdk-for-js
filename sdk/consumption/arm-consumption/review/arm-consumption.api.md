@@ -340,7 +340,6 @@ export interface Events {
 
 // @public
 export interface EventsListByBillingAccountNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -409,6 +408,9 @@ export interface ForecastSpend {
     readonly amount?: number;
     readonly unit?: string;
 }
+
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export interface HighCasedErrorDetails {
@@ -700,7 +702,6 @@ export interface Lots {
 
 // @public
 export interface LotsListByBillingAccountNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -806,9 +807,6 @@ export interface Marketplaces {
 
 // @public
 export interface MarketplacesListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    skiptoken?: string;
-    top?: number;
 }
 
 // @public
@@ -1218,7 +1216,6 @@ export interface ReservationRecommendations {
 
 // @public
 export interface ReservationRecommendationsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -1279,11 +1276,6 @@ export type ReservationsDetailsListByReservationOrderResponse = ReservationDetai
 
 // @public
 export interface ReservationsDetailsListNextOptionalParams extends coreClient.OperationOptions {
-    endDate?: string;
-    filter?: string;
-    reservationId?: string;
-    reservationOrderId?: string;
-    startDate?: string;
 }
 
 // @public
@@ -1310,7 +1302,6 @@ export interface ReservationsSummaries {
 
 // @public
 export interface ReservationsSummariesListByReservationOrderAndReservationNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -1326,7 +1317,6 @@ export type ReservationsSummariesListByReservationOrderAndReservationResponse = 
 
 // @public
 export interface ReservationsSummariesListByReservationOrderNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -1342,11 +1332,6 @@ export type ReservationsSummariesListByReservationOrderResponse = ReservationSum
 
 // @public
 export interface ReservationsSummariesListNextOptionalParams extends coreClient.OperationOptions {
-    endDate?: string;
-    filter?: string;
-    reservationId?: string;
-    reservationOrderId?: string;
-    startDate?: string;
 }
 
 // @public
@@ -1432,7 +1417,6 @@ export interface ReservationTransactions {
 
 // @public
 export interface ReservationTransactionsListByBillingProfileNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -1448,7 +1432,6 @@ export type ReservationTransactionsListByBillingProfileResponse = ModernReservat
 
 // @public
 export interface ReservationTransactionsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -1546,11 +1529,6 @@ export type UsageDetailsKind = string;
 
 // @public
 export interface UsageDetailsListNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
-    filter?: string;
-    metric?: Metrictype;
-    skiptoken?: string;
-    top?: number;
 }
 
 // @public

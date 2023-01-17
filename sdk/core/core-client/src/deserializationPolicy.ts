@@ -206,7 +206,8 @@ async function deserializeResponseBody(
       parsedResponse.parsedHeaders = operationSpec.serializer.deserialize(
         responseSpec.headersMapper,
         parsedResponse.headers.toJSON(),
-        "operationRes.parsedHeaders"
+        "operationRes.parsedHeaders",
+        { xml: {}, ignoreUnknownProperties: true }
       );
     }
   }

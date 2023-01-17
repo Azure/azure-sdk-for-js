@@ -734,7 +734,7 @@ export interface JsonFieldWithDefault {
 }
 
 /** Channel info. */
-export type Channel = Resource & {
+export interface Channel extends Resource {
   /**
    * The system metadata relating to Channel resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -755,9 +755,9 @@ export type Channel = Resource & {
    * the channel and corresponding partner topic are deleted.
    */
   expirationTimeIfNotActivatedUtc?: Date;
-};
+}
 
-export type PrivateEndpointConnection = Resource & {
+export interface PrivateEndpointConnection extends Resource {
   /** The Private Endpoint resource for this Connection. */
   privateEndpoint?: PrivateEndpoint;
   /** GroupIds from the private link service resource. */
@@ -766,18 +766,18 @@ export type PrivateEndpointConnection = Resource & {
   privateLinkServiceConnectionState?: ConnectionState;
   /** Provisioning state of the Private Endpoint Connection. */
   provisioningState?: ResourceProvisioningState;
-};
+}
 
 /** Definition of a Tracked Resource. */
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
   /** Location of the resource. */
   location: string;
   /** Tags of the resource. */
   tags?: { [propertyName: string]: string };
-};
+}
 
 /** Domain Topic. */
-export type DomainTopic = Resource & {
+export interface DomainTopic extends Resource {
   /**
    * The system metadata relating to Domain Topic resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -788,10 +788,10 @@ export type DomainTopic = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: DomainTopicProvisioningState;
-};
+}
 
 /** Event Subscription */
-export type EventSubscription = Resource & {
+export interface EventSubscription extends Resource {
   /**
    * The system metadata relating to Event Subscription resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -837,10 +837,10 @@ export type EventSubscription = Resource & {
    * Uses the managed identity setup on the parent resource (namely, topic or domain) to acquire the authentication tokens being used during delivery / dead-lettering.
    */
   deadLetterWithResourceIdentity?: DeadLetterWithResourceIdentity;
-};
+}
 
 /** Partner configuration information */
-export type PartnerConfiguration = Resource & {
+export interface PartnerConfiguration extends Resource {
   /**
    * The system metadata relating to partner configuration resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -854,10 +854,10 @@ export type PartnerConfiguration = Resource & {
   partnerAuthorization?: PartnerAuthorization;
   /** Provisioning state of the partner configuration. */
   provisioningState?: PartnerConfigurationProvisioningState;
-};
+}
 
 /** Event Type for a subject under a topic */
-export type EventType = Resource & {
+export interface EventType extends Resource {
   /** Display name of the event type. */
   displayName?: string;
   /** Description of the event type. */
@@ -866,10 +866,10 @@ export type EventType = Resource & {
   schemaUrl?: string;
   /** IsInDefaultSet flag of the event type. */
   isInDefaultSet?: boolean;
-};
+}
 
 /** Event grid Extension Topic. This is used for getting Event Grid related metrics for Azure resources. */
-export type ExtensionTopic = Resource & {
+export interface ExtensionTopic extends Resource {
   /**
    * The system metadata relating to Extension Topic resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -879,10 +879,10 @@ export type ExtensionTopic = Resource & {
   description?: string;
   /** System topic resource id which is mapped to the source. */
   systemTopic?: string;
-};
+}
 
 /** Properties of a topic type info. */
-export type TopicTypeInfo = Resource & {
+export interface TopicTypeInfo extends Resource {
   /** Namespace of the provider of the topic type. */
   provider?: string;
   /** Display Name for the topic type. */
@@ -899,10 +899,10 @@ export type TopicTypeInfo = Resource & {
   sourceResourceFormat?: string;
   /** Supported source scopes. */
   supportedScopesForSource?: TopicTypeSourceScope[];
-};
+}
 
 /** Verified partner information */
-export type VerifiedPartner = Resource & {
+export interface VerifiedPartner extends Resource {
   /**
    * The system metadata relating to Verified Partner resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -918,10 +918,10 @@ export type VerifiedPartner = Resource & {
   partnerTopicDetails?: PartnerDetails;
   /** Provisioning state of the verified partner. */
   provisioningState?: VerifiedPartnerProvisioningState;
-};
+}
 
 /** This enables publishing to Event Grid using a custom input schema. This can be used to map properties from a custom input JSON schema to the Event Grid event schema. */
-export type JsonInputSchemaMapping = InputSchemaMapping & {
+export interface JsonInputSchemaMapping extends InputSchemaMapping {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   inputSchemaMappingType: "Json";
   /** The mapping information for the Id property of the Event Grid Event. */
@@ -936,28 +936,31 @@ export type JsonInputSchemaMapping = InputSchemaMapping & {
   subject?: JsonFieldWithDefault;
   /** The mapping information for the DataVersion property of the Event Grid Event. */
   dataVersion?: JsonFieldWithDefault;
-};
+}
 
 /** Static delivery attribute mapping details. */
-export type StaticDeliveryAttributeMapping = DeliveryAttributeMapping & {
+export interface StaticDeliveryAttributeMapping
+  extends DeliveryAttributeMapping {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Static";
   /** Value of the delivery attribute. */
   value?: string;
   /** Boolean flag to tell if the attribute contains sensitive information . */
   isSecret?: boolean;
-};
+}
 
 /** Dynamic delivery attribute mapping details. */
-export type DynamicDeliveryAttributeMapping = DeliveryAttributeMapping & {
+export interface DynamicDeliveryAttributeMapping
+  extends DeliveryAttributeMapping {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Dynamic";
   /** JSON path in the event which contains attribute value. */
   sourceField?: string;
-};
+}
 
 /** Information about the webhook destination for an event subscription. */
-export type WebHookEventSubscriptionDestination = EventSubscriptionDestination & {
+export interface WebHookEventSubscriptionDestination
+  extends EventSubscriptionDestination {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   endpointType: "WebHook";
   /** The URL that represents the endpoint of the destination of an event subscription. */
@@ -977,20 +980,22 @@ export type WebHookEventSubscriptionDestination = EventSubscriptionDestination &
   azureActiveDirectoryApplicationIdOrUri?: string;
   /** Delivery attribute details. */
   deliveryAttributeMappings?: DeliveryAttributeMappingUnion[];
-};
+}
 
 /** Information about the event hub destination for an event subscription. */
-export type EventHubEventSubscriptionDestination = EventSubscriptionDestination & {
+export interface EventHubEventSubscriptionDestination
+  extends EventSubscriptionDestination {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   endpointType: "EventHub";
   /** The Azure Resource Id that represents the endpoint of an Event Hub destination of an event subscription. */
   resourceId?: string;
   /** Delivery attribute details. */
   deliveryAttributeMappings?: DeliveryAttributeMappingUnion[];
-};
+}
 
 /** Information about the storage queue destination for an event subscription. */
-export type StorageQueueEventSubscriptionDestination = EventSubscriptionDestination & {
+export interface StorageQueueEventSubscriptionDestination
+  extends EventSubscriptionDestination {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   endpointType: "StorageQueue";
   /** The Azure Resource ID of the storage account that contains the queue that is the destination of an event subscription. */
@@ -999,40 +1004,44 @@ export type StorageQueueEventSubscriptionDestination = EventSubscriptionDestinat
   queueName?: string;
   /** Storage queue message time to live in seconds. */
   queueMessageTimeToLiveInSeconds?: number;
-};
+}
 
 /** Information about the HybridConnection destination for an event subscription. */
-export type HybridConnectionEventSubscriptionDestination = EventSubscriptionDestination & {
+export interface HybridConnectionEventSubscriptionDestination
+  extends EventSubscriptionDestination {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   endpointType: "HybridConnection";
   /** The Azure Resource ID of an hybrid connection that is the destination of an event subscription. */
   resourceId?: string;
   /** Delivery attribute details. */
   deliveryAttributeMappings?: DeliveryAttributeMappingUnion[];
-};
+}
 
 /** Information about the service bus destination for an event subscription. */
-export type ServiceBusQueueEventSubscriptionDestination = EventSubscriptionDestination & {
+export interface ServiceBusQueueEventSubscriptionDestination
+  extends EventSubscriptionDestination {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   endpointType: "ServiceBusQueue";
   /** The Azure Resource Id that represents the endpoint of the Service Bus destination of an event subscription. */
   resourceId?: string;
   /** Delivery attribute details. */
   deliveryAttributeMappings?: DeliveryAttributeMappingUnion[];
-};
+}
 
 /** Information about the service bus topic destination for an event subscription. */
-export type ServiceBusTopicEventSubscriptionDestination = EventSubscriptionDestination & {
+export interface ServiceBusTopicEventSubscriptionDestination
+  extends EventSubscriptionDestination {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   endpointType: "ServiceBusTopic";
   /** The Azure Resource Id that represents the endpoint of the Service Bus Topic destination of an event subscription. */
   resourceId?: string;
   /** Delivery attribute details. */
   deliveryAttributeMappings?: DeliveryAttributeMappingUnion[];
-};
+}
 
 /** Information about the azure function destination for an event subscription. */
-export type AzureFunctionEventSubscriptionDestination = EventSubscriptionDestination & {
+export interface AzureFunctionEventSubscriptionDestination
+  extends EventSubscriptionDestination {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   endpointType: "AzureFunction";
   /** The Azure Resource Id that represents the endpoint of the Azure Function destination of an event subscription. */
@@ -1043,168 +1052,170 @@ export type AzureFunctionEventSubscriptionDestination = EventSubscriptionDestina
   preferredBatchSizeInKilobytes?: number;
   /** Delivery attribute details. */
   deliveryAttributeMappings?: DeliveryAttributeMappingUnion[];
-};
+}
 
 /** NumberIn Advanced Filter. */
-export type NumberInAdvancedFilter = AdvancedFilter & {
+export interface NumberInAdvancedFilter extends AdvancedFilter {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   operatorType: "NumberIn";
   /** The set of filter values. */
   values?: number[];
-};
+}
 
 /** NumberNotIn Advanced Filter. */
-export type NumberNotInAdvancedFilter = AdvancedFilter & {
+export interface NumberNotInAdvancedFilter extends AdvancedFilter {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   operatorType: "NumberNotIn";
   /** The set of filter values. */
   values?: number[];
-};
+}
 
 /** NumberLessThan Advanced Filter. */
-export type NumberLessThanAdvancedFilter = AdvancedFilter & {
+export interface NumberLessThanAdvancedFilter extends AdvancedFilter {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   operatorType: "NumberLessThan";
   /** The filter value. */
   value?: number;
-};
+}
 
 /** NumberGreaterThan Advanced Filter. */
-export type NumberGreaterThanAdvancedFilter = AdvancedFilter & {
+export interface NumberGreaterThanAdvancedFilter extends AdvancedFilter {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   operatorType: "NumberGreaterThan";
   /** The filter value. */
   value?: number;
-};
+}
 
 /** NumberLessThanOrEquals Advanced Filter. */
-export type NumberLessThanOrEqualsAdvancedFilter = AdvancedFilter & {
+export interface NumberLessThanOrEqualsAdvancedFilter extends AdvancedFilter {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   operatorType: "NumberLessThanOrEquals";
   /** The filter value. */
   value?: number;
-};
+}
 
 /** NumberGreaterThanOrEquals Advanced Filter. */
-export type NumberGreaterThanOrEqualsAdvancedFilter = AdvancedFilter & {
+export interface NumberGreaterThanOrEqualsAdvancedFilter
+  extends AdvancedFilter {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   operatorType: "NumberGreaterThanOrEquals";
   /** The filter value. */
   value?: number;
-};
+}
 
 /** BoolEquals Advanced Filter. */
-export type BoolEqualsAdvancedFilter = AdvancedFilter & {
+export interface BoolEqualsAdvancedFilter extends AdvancedFilter {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   operatorType: "BoolEquals";
   /** The boolean filter value. */
   value?: boolean;
-};
+}
 
 /** StringIn Advanced Filter. */
-export type StringInAdvancedFilter = AdvancedFilter & {
+export interface StringInAdvancedFilter extends AdvancedFilter {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   operatorType: "StringIn";
   /** The set of filter values. */
   values?: string[];
-};
+}
 
 /** StringNotIn Advanced Filter. */
-export type StringNotInAdvancedFilter = AdvancedFilter & {
+export interface StringNotInAdvancedFilter extends AdvancedFilter {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   operatorType: "StringNotIn";
   /** The set of filter values. */
   values?: string[];
-};
+}
 
 /** StringBeginsWith Advanced Filter. */
-export type StringBeginsWithAdvancedFilter = AdvancedFilter & {
+export interface StringBeginsWithAdvancedFilter extends AdvancedFilter {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   operatorType: "StringBeginsWith";
   /** The set of filter values. */
   values?: string[];
-};
+}
 
 /** StringEndsWith Advanced Filter. */
-export type StringEndsWithAdvancedFilter = AdvancedFilter & {
+export interface StringEndsWithAdvancedFilter extends AdvancedFilter {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   operatorType: "StringEndsWith";
   /** The set of filter values. */
   values?: string[];
-};
+}
 
 /** StringContains Advanced Filter. */
-export type StringContainsAdvancedFilter = AdvancedFilter & {
+export interface StringContainsAdvancedFilter extends AdvancedFilter {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   operatorType: "StringContains";
   /** The set of filter values. */
   values?: string[];
-};
+}
 
 /** NumberInRange Advanced Filter. */
-export type NumberInRangeAdvancedFilter = AdvancedFilter & {
+export interface NumberInRangeAdvancedFilter extends AdvancedFilter {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   operatorType: "NumberInRange";
   /** The set of filter values. */
   values?: number[][];
-};
+}
 
 /** NumberNotInRange Advanced Filter. */
-export type NumberNotInRangeAdvancedFilter = AdvancedFilter & {
+export interface NumberNotInRangeAdvancedFilter extends AdvancedFilter {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   operatorType: "NumberNotInRange";
   /** The set of filter values. */
   values?: number[][];
-};
+}
 
 /** StringNotBeginsWith Advanced Filter. */
-export type StringNotBeginsWithAdvancedFilter = AdvancedFilter & {
+export interface StringNotBeginsWithAdvancedFilter extends AdvancedFilter {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   operatorType: "StringNotBeginsWith";
   /** The set of filter values. */
   values?: string[];
-};
+}
 
 /** StringNotEndsWith Advanced Filter. */
-export type StringNotEndsWithAdvancedFilter = AdvancedFilter & {
+export interface StringNotEndsWithAdvancedFilter extends AdvancedFilter {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   operatorType: "StringNotEndsWith";
   /** The set of filter values. */
   values?: string[];
-};
+}
 
 /** StringNotContains Advanced Filter. */
-export type StringNotContainsAdvancedFilter = AdvancedFilter & {
+export interface StringNotContainsAdvancedFilter extends AdvancedFilter {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   operatorType: "StringNotContains";
   /** The set of filter values. */
   values?: string[];
-};
+}
 
 /** IsNullOrUndefined Advanced Filter. */
-export type IsNullOrUndefinedAdvancedFilter = AdvancedFilter & {
+export interface IsNullOrUndefinedAdvancedFilter extends AdvancedFilter {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   operatorType: "IsNullOrUndefined";
-};
+}
 
 /** IsNotNull Advanced Filter. */
-export type IsNotNullAdvancedFilter = AdvancedFilter & {
+export interface IsNotNullAdvancedFilter extends AdvancedFilter {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   operatorType: "IsNotNull";
-};
+}
 
 /** Information about the storage blob based dead letter destination. */
-export type StorageBlobDeadLetterDestination = DeadLetterDestination & {
+export interface StorageBlobDeadLetterDestination
+  extends DeadLetterDestination {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   endpointType: "StorageBlob";
   /** The Azure Resource ID of the storage account that is the destination of the deadletter events */
   resourceId?: string;
   /** The name of the Storage blob container that is the destination of the deadletter events */
   blobContainerName?: string;
-};
+}
 
 /** EventGrid Domain. */
-export type Domain = TrackedResource & {
+export interface Domain extends TrackedResource {
   /**
    * The system metadata relating to the Event Grid Domain resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1267,10 +1278,10 @@ export type Domain = TrackedResource & {
   autoDeleteTopicWithLastSubscription?: boolean;
   /** Data Residency Boundary of the resource. */
   dataResidencyBoundary?: DataResidencyBoundary;
-};
+}
 
 /** EventGrid Topic */
-export type Topic = TrackedResource & {
+export interface Topic extends TrackedResource {
   /** Identity information for the resource. */
   identity?: IdentityInfo;
   /**
@@ -1310,10 +1321,10 @@ export type Topic = TrackedResource & {
   disableLocalAuth?: boolean;
   /** Data Residency Boundary of the resource. */
   dataResidencyBoundary?: DataResidencyBoundary;
-};
+}
 
 /** EventGrid Partner Namespace. */
-export type PartnerNamespace = TrackedResource & {
+export interface PartnerNamespace extends TrackedResource {
   /**
    * The system metadata relating to Partner Namespace resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1350,10 +1361,10 @@ export type PartnerNamespace = TrackedResource & {
    * or use the channel name in the header when matching to the partner topic. If none is specified, source attribute routing will be used to match the partner topic.
    */
   partnerTopicRoutingMode?: PartnerTopicRoutingMode;
-};
+}
 
 /** Information about a partner registration. */
-export type PartnerRegistration = TrackedResource & {
+export interface PartnerRegistration extends TrackedResource {
   /**
    * The system metadata relating to Partner Registration resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1369,10 +1380,10 @@ export type PartnerRegistration = TrackedResource & {
    * Note: This property is marked for deprecation and is not supported in any future GA API version
    */
   partnerRegistrationImmutableId?: string;
-};
+}
 
 /** Event Grid Partner Topic. */
-export type PartnerTopic = TrackedResource & {
+export interface PartnerTopic extends TrackedResource {
   /**
    * The system metadata relating to Partner Topic resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1405,10 +1416,10 @@ export type PartnerTopic = TrackedResource & {
   partnerTopicFriendlyDescription?: string;
   /** Context or helpful message that can be used during the approval process by the subscriber. */
   messageForActivation?: string;
-};
+}
 
 /** EventGrid System Topic. */
-export type SystemTopic = TrackedResource & {
+export interface SystemTopic extends TrackedResource {
   /** Identity information for the resource. */
   identity?: IdentityInfo;
   /**
@@ -1430,10 +1441,11 @@ export type SystemTopic = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly metricResourceId?: string;
-};
+}
 
 /** Known values of {@link ChannelType} that the service accepts. */
 export enum KnownChannelType {
+  /** PartnerTopic */
   PartnerTopic = "PartnerTopic"
 }
 
@@ -1448,6 +1460,7 @@ export type ChannelType = string;
 
 /** Known values of {@link EventDefinitionKind} that the service accepts. */
 export enum KnownEventDefinitionKind {
+  /** Inline */
   Inline = "Inline"
 }
 
@@ -1462,12 +1475,19 @@ export type EventDefinitionKind = string;
 
 /** Known values of {@link ChannelProvisioningState} that the service accepts. */
 export enum KnownChannelProvisioningState {
+  /** Creating */
   Creating = "Creating",
+  /** Updating */
   Updating = "Updating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Failed */
   Failed = "Failed",
+  /** IdleDueToMirroredPartnerTopicDeletion */
   IdleDueToMirroredPartnerTopicDeletion = "IdleDueToMirroredPartnerTopicDeletion"
 }
 
@@ -1488,7 +1508,9 @@ export type ChannelProvisioningState = string;
 
 /** Known values of {@link ReadinessState} that the service accepts. */
 export enum KnownReadinessState {
+  /** NeverActivated */
   NeverActivated = "NeverActivated",
+  /** Activated */
   Activated = "Activated"
 }
 
@@ -1504,9 +1526,13 @@ export type ReadinessState = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -1524,9 +1550,13 @@ export type CreatedByType = string;
 
 /** Known values of {@link PersistedConnectionStatus} that the service accepts. */
 export enum KnownPersistedConnectionStatus {
+  /** Pending */
   Pending = "Pending",
+  /** Approved */
   Approved = "Approved",
+  /** Rejected */
   Rejected = "Rejected",
+  /** Disconnected */
   Disconnected = "Disconnected"
 }
 
@@ -1544,11 +1574,17 @@ export type PersistedConnectionStatus = string;
 
 /** Known values of {@link ResourceProvisioningState} that the service accepts. */
 export enum KnownResourceProvisioningState {
+  /** Creating */
   Creating = "Creating",
+  /** Updating */
   Updating = "Updating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Failed */
   Failed = "Failed"
 }
 
@@ -1568,11 +1604,17 @@ export type ResourceProvisioningState = string;
 
 /** Known values of {@link DomainProvisioningState} that the service accepts. */
 export enum KnownDomainProvisioningState {
+  /** Creating */
   Creating = "Creating",
+  /** Updating */
   Updating = "Updating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Failed */
   Failed = "Failed"
 }
 
@@ -1592,8 +1634,11 @@ export type DomainProvisioningState = string;
 
 /** Known values of {@link InputSchema} that the service accepts. */
 export enum KnownInputSchema {
+  /** EventGridSchema */
   EventGridSchema = "EventGridSchema",
+  /** CustomEventSchema */
   CustomEventSchema = "CustomEventSchema",
+  /** CloudEventSchemaV10 */
   CloudEventSchemaV10 = "CloudEventSchemaV1_0"
 }
 
@@ -1610,6 +1655,7 @@ export type InputSchema = string;
 
 /** Known values of {@link InputSchemaMappingType} that the service accepts. */
 export enum KnownInputSchemaMappingType {
+  /** Json */
   Json = "Json"
 }
 
@@ -1624,7 +1670,9 @@ export type InputSchemaMappingType = string;
 
 /** Known values of {@link PublicNetworkAccess} that the service accepts. */
 export enum KnownPublicNetworkAccess {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -1640,6 +1688,7 @@ export type PublicNetworkAccess = string;
 
 /** Known values of {@link IpActionType} that the service accepts. */
 export enum KnownIpActionType {
+  /** Allow */
   Allow = "Allow"
 }
 
@@ -1654,7 +1703,9 @@ export type IpActionType = string;
 
 /** Known values of {@link DataResidencyBoundary} that the service accepts. */
 export enum KnownDataResidencyBoundary {
+  /** WithinGeopair */
   WithinGeopair = "WithinGeopair",
+  /** WithinRegion */
   WithinRegion = "WithinRegion"
 }
 
@@ -1670,9 +1721,13 @@ export type DataResidencyBoundary = string;
 
 /** Known values of {@link IdentityType} that the service accepts. */
 export enum KnownIdentityType {
+  /** None */
   None = "None",
+  /** SystemAssigned */
   SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
   UserAssigned = "UserAssigned",
+  /** SystemAssignedUserAssigned */
   SystemAssignedUserAssigned = "SystemAssigned, UserAssigned"
 }
 
@@ -1690,11 +1745,17 @@ export type IdentityType = string;
 
 /** Known values of {@link DomainTopicProvisioningState} that the service accepts. */
 export enum KnownDomainTopicProvisioningState {
+  /** Creating */
   Creating = "Creating",
+  /** Updating */
   Updating = "Updating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Failed */
   Failed = "Failed"
 }
 
@@ -1714,7 +1775,9 @@ export type DomainTopicProvisioningState = string;
 
 /** Known values of {@link DeliveryAttributeMappingType} that the service accepts. */
 export enum KnownDeliveryAttributeMappingType {
+  /** Static */
   Static = "Static",
+  /** Dynamic */
   Dynamic = "Dynamic"
 }
 
@@ -1730,12 +1793,19 @@ export type DeliveryAttributeMappingType = string;
 
 /** Known values of {@link EventSubscriptionProvisioningState} that the service accepts. */
 export enum KnownEventSubscriptionProvisioningState {
+  /** Creating */
   Creating = "Creating",
+  /** Updating */
   Updating = "Updating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Failed */
   Failed = "Failed",
+  /** AwaitingManualAction */
   AwaitingManualAction = "AwaitingManualAction"
 }
 
@@ -1756,12 +1826,19 @@ export type EventSubscriptionProvisioningState = string;
 
 /** Known values of {@link EndpointType} that the service accepts. */
 export enum KnownEndpointType {
+  /** WebHook */
   WebHook = "WebHook",
+  /** EventHub */
   EventHub = "EventHub",
+  /** StorageQueue */
   StorageQueue = "StorageQueue",
+  /** HybridConnection */
   HybridConnection = "HybridConnection",
+  /** ServiceBusQueue */
   ServiceBusQueue = "ServiceBusQueue",
+  /** ServiceBusTopic */
   ServiceBusTopic = "ServiceBusTopic",
+  /** AzureFunction */
   AzureFunction = "AzureFunction"
 }
 
@@ -1782,7 +1859,9 @@ export type EndpointType = string;
 
 /** Known values of {@link EventSubscriptionIdentityType} that the service accepts. */
 export enum KnownEventSubscriptionIdentityType {
+  /** SystemAssigned */
   SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
   UserAssigned = "UserAssigned"
 }
 
@@ -1798,24 +1877,43 @@ export type EventSubscriptionIdentityType = string;
 
 /** Known values of {@link AdvancedFilterOperatorType} that the service accepts. */
 export enum KnownAdvancedFilterOperatorType {
+  /** NumberIn */
   NumberIn = "NumberIn",
+  /** NumberNotIn */
   NumberNotIn = "NumberNotIn",
+  /** NumberLessThan */
   NumberLessThan = "NumberLessThan",
+  /** NumberGreaterThan */
   NumberGreaterThan = "NumberGreaterThan",
+  /** NumberLessThanOrEquals */
   NumberLessThanOrEquals = "NumberLessThanOrEquals",
+  /** NumberGreaterThanOrEquals */
   NumberGreaterThanOrEquals = "NumberGreaterThanOrEquals",
+  /** BoolEquals */
   BoolEquals = "BoolEquals",
+  /** StringIn */
   StringIn = "StringIn",
+  /** StringNotIn */
   StringNotIn = "StringNotIn",
+  /** StringBeginsWith */
   StringBeginsWith = "StringBeginsWith",
+  /** StringEndsWith */
   StringEndsWith = "StringEndsWith",
+  /** StringContains */
   StringContains = "StringContains",
+  /** NumberInRange */
   NumberInRange = "NumberInRange",
+  /** NumberNotInRange */
   NumberNotInRange = "NumberNotInRange",
+  /** StringNotBeginsWith */
   StringNotBeginsWith = "StringNotBeginsWith",
+  /** StringNotEndsWith */
   StringNotEndsWith = "StringNotEndsWith",
+  /** StringNotContains */
   StringNotContains = "StringNotContains",
+  /** IsNullOrUndefined */
   IsNullOrUndefined = "IsNullOrUndefined",
+  /** IsNotNull */
   IsNotNull = "IsNotNull"
 }
 
@@ -1848,8 +1946,11 @@ export type AdvancedFilterOperatorType = string;
 
 /** Known values of {@link EventDeliverySchema} that the service accepts. */
 export enum KnownEventDeliverySchema {
+  /** EventGridSchema */
   EventGridSchema = "EventGridSchema",
+  /** CustomInputSchema */
   CustomInputSchema = "CustomInputSchema",
+  /** CloudEventSchemaV10 */
   CloudEventSchemaV10 = "CloudEventSchemaV1_0"
 }
 
@@ -1866,6 +1967,7 @@ export type EventDeliverySchema = string;
 
 /** Known values of {@link DeadLetterEndPointType} that the service accepts. */
 export enum KnownDeadLetterEndPointType {
+  /** StorageBlob */
   StorageBlob = "StorageBlob"
 }
 
@@ -1880,11 +1982,17 @@ export type DeadLetterEndPointType = string;
 
 /** Known values of {@link TopicProvisioningState} that the service accepts. */
 export enum KnownTopicProvisioningState {
+  /** Creating */
   Creating = "Creating",
+  /** Updating */
   Updating = "Updating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Failed */
   Failed = "Failed"
 }
 
@@ -1904,11 +2012,17 @@ export type TopicProvisioningState = string;
 
 /** Known values of {@link PartnerConfigurationProvisioningState} that the service accepts. */
 export enum KnownPartnerConfigurationProvisioningState {
+  /** Creating */
   Creating = "Creating",
+  /** Updating */
   Updating = "Updating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Failed */
   Failed = "Failed"
 }
 
@@ -1928,11 +2042,17 @@ export type PartnerConfigurationProvisioningState = string;
 
 /** Known values of {@link PartnerNamespaceProvisioningState} that the service accepts. */
 export enum KnownPartnerNamespaceProvisioningState {
+  /** Creating */
   Creating = "Creating",
+  /** Updating */
   Updating = "Updating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Failed */
   Failed = "Failed"
 }
 
@@ -1952,7 +2072,9 @@ export type PartnerNamespaceProvisioningState = string;
 
 /** Known values of {@link PartnerTopicRoutingMode} that the service accepts. */
 export enum KnownPartnerTopicRoutingMode {
+  /** SourceEventAttribute */
   SourceEventAttribute = "SourceEventAttribute",
+  /** ChannelNameHeader */
   ChannelNameHeader = "ChannelNameHeader"
 }
 
@@ -1968,11 +2090,17 @@ export type PartnerTopicRoutingMode = string;
 
 /** Known values of {@link PartnerRegistrationProvisioningState} that the service accepts. */
 export enum KnownPartnerRegistrationProvisioningState {
+  /** Creating */
   Creating = "Creating",
+  /** Updating */
   Updating = "Updating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Failed */
   Failed = "Failed"
 }
 
@@ -1992,12 +2120,19 @@ export type PartnerRegistrationProvisioningState = string;
 
 /** Known values of {@link PartnerTopicProvisioningState} that the service accepts. */
 export enum KnownPartnerTopicProvisioningState {
+  /** Creating */
   Creating = "Creating",
+  /** Updating */
   Updating = "Updating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Failed */
   Failed = "Failed",
+  /** IdleDueToMirroredChannelResourceDeletion */
   IdleDueToMirroredChannelResourceDeletion = "IdleDueToMirroredChannelResourceDeletion"
 }
 
@@ -2018,8 +2153,11 @@ export type PartnerTopicProvisioningState = string;
 
 /** Known values of {@link PartnerTopicActivationState} that the service accepts. */
 export enum KnownPartnerTopicActivationState {
+  /** NeverActivated */
   NeverActivated = "NeverActivated",
+  /** Activated */
   Activated = "Activated",
+  /** Deactivated */
   Deactivated = "Deactivated"
 }
 
@@ -2036,8 +2174,11 @@ export type PartnerTopicActivationState = string;
 
 /** Known values of {@link PrivateEndpointConnectionsParentType} that the service accepts. */
 export enum KnownPrivateEndpointConnectionsParentType {
+  /** Topics */
   Topics = "topics",
+  /** Domains */
   Domains = "domains",
+  /** PartnerNamespaces */
   PartnerNamespaces = "partnerNamespaces"
 }
 
@@ -2054,7 +2195,9 @@ export type PrivateEndpointConnectionsParentType = string;
 
 /** Known values of {@link ResourceRegionType} that the service accepts. */
 export enum KnownResourceRegionType {
+  /** RegionalResource */
   RegionalResource = "RegionalResource",
+  /** GlobalResource */
   GlobalResource = "GlobalResource"
 }
 
@@ -2070,11 +2213,17 @@ export type ResourceRegionType = string;
 
 /** Known values of {@link TopicTypeProvisioningState} that the service accepts. */
 export enum KnownTopicTypeProvisioningState {
+  /** Creating */
   Creating = "Creating",
+  /** Updating */
   Updating = "Updating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Failed */
   Failed = "Failed"
 }
 
@@ -2094,9 +2243,13 @@ export type TopicTypeProvisioningState = string;
 
 /** Known values of {@link TopicTypeSourceScope} that the service accepts. */
 export enum KnownTopicTypeSourceScope {
+  /** Resource */
   Resource = "Resource",
+  /** ResourceGroup */
   ResourceGroup = "ResourceGroup",
+  /** AzureSubscription */
   AzureSubscription = "AzureSubscription",
+  /** ManagementGroup */
   ManagementGroup = "ManagementGroup"
 }
 
@@ -2114,11 +2267,17 @@ export type TopicTypeSourceScope = string;
 
 /** Known values of {@link VerifiedPartnerProvisioningState} that the service accepts. */
 export enum KnownVerifiedPartnerProvisioningState {
+  /** Creating */
   Creating = "Creating",
+  /** Updating */
   Updating = "Updating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Failed */
   Failed = "Failed"
 }
 
@@ -2184,12 +2343,7 @@ export type ChannelsGetFullUrlResponse = EventSubscriptionFullUrl;
 
 /** Optional parameters. */
 export interface ChannelsListByPartnerNamespaceNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  filter?: string;
-  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByPartnerNamespaceNext operation. */
 export type ChannelsListByPartnerNamespaceNextResponse = ChannelsListResult;
@@ -2270,24 +2424,14 @@ export type DomainsRegenerateKeyResponse = DomainSharedAccessKeys;
 
 /** Optional parameters. */
 export interface DomainsListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  filter?: string;
-  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type DomainsListBySubscriptionNextResponse = DomainsListResult;
 
 /** Optional parameters. */
 export interface DomainsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  filter?: string;
-  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type DomainsListByResourceGroupNextResponse = DomainsListResult;
@@ -2334,12 +2478,7 @@ export type DomainTopicsListByDomainResponse = DomainTopicsListResult;
 
 /** Optional parameters. */
 export interface DomainTopicsListByDomainNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  filter?: string;
-  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByDomainNext operation. */
 export type DomainTopicsListByDomainNextResponse = DomainTopicsListResult;
@@ -2412,12 +2551,7 @@ export type TopicEventSubscriptionsListResponse = EventSubscriptionsListResult;
 
 /** Optional parameters. */
 export interface TopicEventSubscriptionsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  filter?: string;
-  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type TopicEventSubscriptionsListNextResponse = EventSubscriptionsListResult;
@@ -2490,12 +2624,7 @@ export type DomainEventSubscriptionsListResponse = EventSubscriptionsListResult;
 
 /** Optional parameters. */
 export interface DomainEventSubscriptionsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  filter?: string;
-  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type DomainEventSubscriptionsListNextResponse = EventSubscriptionsListResult;
@@ -2676,120 +2805,70 @@ export type EventSubscriptionsGetDeliveryAttributesResponse = DeliveryAttributeL
 
 /** Optional parameters. */
 export interface EventSubscriptionsListGlobalBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  filter?: string;
-  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listGlobalBySubscriptionNext operation. */
 export type EventSubscriptionsListGlobalBySubscriptionNextResponse = EventSubscriptionsListResult;
 
 /** Optional parameters. */
 export interface EventSubscriptionsListGlobalBySubscriptionForTopicTypeNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  filter?: string;
-  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listGlobalBySubscriptionForTopicTypeNext operation. */
 export type EventSubscriptionsListGlobalBySubscriptionForTopicTypeNextResponse = EventSubscriptionsListResult;
 
 /** Optional parameters. */
 export interface EventSubscriptionsListGlobalByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  filter?: string;
-  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listGlobalByResourceGroupNext operation. */
 export type EventSubscriptionsListGlobalByResourceGroupNextResponse = EventSubscriptionsListResult;
 
 /** Optional parameters. */
 export interface EventSubscriptionsListGlobalByResourceGroupForTopicTypeNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  filter?: string;
-  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listGlobalByResourceGroupForTopicTypeNext operation. */
 export type EventSubscriptionsListGlobalByResourceGroupForTopicTypeNextResponse = EventSubscriptionsListResult;
 
 /** Optional parameters. */
 export interface EventSubscriptionsListRegionalBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  filter?: string;
-  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listRegionalBySubscriptionNext operation. */
 export type EventSubscriptionsListRegionalBySubscriptionNextResponse = EventSubscriptionsListResult;
 
 /** Optional parameters. */
 export interface EventSubscriptionsListRegionalByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  filter?: string;
-  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listRegionalByResourceGroupNext operation. */
 export type EventSubscriptionsListRegionalByResourceGroupNextResponse = EventSubscriptionsListResult;
 
 /** Optional parameters. */
 export interface EventSubscriptionsListRegionalBySubscriptionForTopicTypeNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  filter?: string;
-  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listRegionalBySubscriptionForTopicTypeNext operation. */
 export type EventSubscriptionsListRegionalBySubscriptionForTopicTypeNextResponse = EventSubscriptionsListResult;
 
 /** Optional parameters. */
 export interface EventSubscriptionsListRegionalByResourceGroupForTopicTypeNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  filter?: string;
-  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listRegionalByResourceGroupForTopicTypeNext operation. */
 export type EventSubscriptionsListRegionalByResourceGroupForTopicTypeNextResponse = EventSubscriptionsListResult;
 
 /** Optional parameters. */
 export interface EventSubscriptionsListByResourceNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  filter?: string;
-  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceNext operation. */
 export type EventSubscriptionsListByResourceNextResponse = EventSubscriptionsListResult;
 
 /** Optional parameters. */
 export interface EventSubscriptionsListByDomainTopicNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  filter?: string;
-  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByDomainTopicNext operation. */
 export type EventSubscriptionsListByDomainTopicNextResponse = EventSubscriptionsListResult;
@@ -2862,12 +2941,7 @@ export type DomainTopicEventSubscriptionsGetDeliveryAttributesResponse = Deliver
 
 /** Optional parameters. */
 export interface DomainTopicEventSubscriptionsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  filter?: string;
-  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type DomainTopicEventSubscriptionsListNextResponse = EventSubscriptionsListResult;
@@ -2940,12 +3014,7 @@ export type SystemTopicEventSubscriptionsGetDeliveryAttributesResponse = Deliver
 
 /** Optional parameters. */
 export interface SystemTopicEventSubscriptionsListBySystemTopicNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  filter?: string;
-  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySystemTopicNext operation. */
 export type SystemTopicEventSubscriptionsListBySystemTopicNextResponse = EventSubscriptionsListResult;
@@ -3018,12 +3087,7 @@ export type PartnerTopicEventSubscriptionsGetDeliveryAttributesResponse = Delive
 
 /** Optional parameters. */
 export interface PartnerTopicEventSubscriptionsListByPartnerTopicNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  filter?: string;
-  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByPartnerTopicNext operation. */
 export type PartnerTopicEventSubscriptionsListByPartnerTopicNextResponse = EventSubscriptionsListResult;
@@ -3123,24 +3187,14 @@ export type TopicsListEventTypesResponse = EventTypesListResult;
 
 /** Optional parameters. */
 export interface TopicsListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  filter?: string;
-  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type TopicsListBySubscriptionNextResponse = TopicsListResult;
 
 /** Optional parameters. */
 export interface TopicsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  filter?: string;
-  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type TopicsListByResourceGroupNextResponse = TopicsListResult;
@@ -3220,12 +3274,7 @@ export type PartnerConfigurationsUnauthorizePartnerResponse = PartnerConfigurati
 
 /** Optional parameters. */
 export interface PartnerConfigurationsListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  filter?: string;
-  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type PartnerConfigurationsListBySubscriptionNextResponse = PartnerConfigurationsListResult;
@@ -3307,24 +3356,14 @@ export type PartnerNamespacesRegenerateKeyResponse = PartnerNamespaceSharedAcces
 
 /** Optional parameters. */
 export interface PartnerNamespacesListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  filter?: string;
-  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type PartnerNamespacesListBySubscriptionNextResponse = PartnerNamespacesListResult;
 
 /** Optional parameters. */
 export interface PartnerNamespacesListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  filter?: string;
-  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type PartnerNamespacesListByResourceGroupNextResponse = PartnerNamespacesListResult;
@@ -3392,24 +3431,14 @@ export type PartnerRegistrationsListByResourceGroupResponse = PartnerRegistratio
 
 /** Optional parameters. */
 export interface PartnerRegistrationsListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  filter?: string;
-  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type PartnerRegistrationsListBySubscriptionNextResponse = PartnerRegistrationsListResult;
 
 /** Optional parameters. */
 export interface PartnerRegistrationsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  filter?: string;
-  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type PartnerRegistrationsListByResourceGroupNextResponse = PartnerRegistrationsListResult;
@@ -3484,24 +3513,14 @@ export type PartnerTopicsDeactivateResponse = PartnerTopic;
 
 /** Optional parameters. */
 export interface PartnerTopicsListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  filter?: string;
-  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type PartnerTopicsListBySubscriptionNextResponse = PartnerTopicsListResult;
 
 /** Optional parameters. */
 export interface PartnerTopicsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  filter?: string;
-  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type PartnerTopicsListByResourceGroupNextResponse = PartnerTopicsListResult;
@@ -3548,12 +3567,7 @@ export type PrivateEndpointConnectionsListByResourceResponse = PrivateEndpointCo
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsListByResourceNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  filter?: string;
-  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceNext operation. */
 export type PrivateEndpointConnectionsListByResourceNextResponse = PrivateEndpointConnectionListResult;
@@ -3579,12 +3593,7 @@ export type PrivateLinkResourcesListByResourceResponse = PrivateLinkResourcesLis
 
 /** Optional parameters. */
 export interface PrivateLinkResourcesListByResourceNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  filter?: string;
-  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceNext operation. */
 export type PrivateLinkResourcesListByResourceNextResponse = PrivateLinkResourcesListResult;
@@ -3655,24 +3664,14 @@ export type SystemTopicsListByResourceGroupResponse = SystemTopicsListResult;
 
 /** Optional parameters. */
 export interface SystemTopicsListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  filter?: string;
-  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type SystemTopicsListBySubscriptionNextResponse = SystemTopicsListResult;
 
 /** Optional parameters. */
 export interface SystemTopicsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  filter?: string;
-  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type SystemTopicsListByResourceGroupNextResponse = SystemTopicsListResult;
@@ -3726,12 +3725,7 @@ export type VerifiedPartnersListResponse = VerifiedPartnersListResult;
 
 /** Optional parameters. */
 export interface VerifiedPartnersListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'. */
-  filter?: string;
-  /** The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type VerifiedPartnersListNextResponse = VerifiedPartnersListResult;

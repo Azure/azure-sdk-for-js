@@ -13,6 +13,9 @@ import {
   CosmosDBManagementClient
 } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Retrieves the usages (most recent data) for the given database.
@@ -21,8 +24,8 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBDatabaseGetUsages.json
  */
 async function cosmosDbDatabaseGetUsages() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
   const databaseRid = "databaseRid";
   const filter = "$filter=name.value eq 'Storage'";
@@ -41,4 +44,8 @@ async function cosmosDbDatabaseGetUsages() {
   console.log(resArray);
 }
 
-cosmosDbDatabaseGetUsages().catch(console.error);
+async function main() {
+  cosmosDbDatabaseGetUsages();
+}
+
+main().catch(console.error);

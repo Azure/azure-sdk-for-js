@@ -78,7 +78,7 @@ type UnionToIntersection<Union> =
 type SyntaxTest = (node: ts.Node) => boolean;
 
 type SyntaxName = keyof UnionToIntersection<
-  typeof SYNTAX_VIABILITY_TESTS[keyof typeof SYNTAX_VIABILITY_TESTS]
+  (typeof SYNTAX_VIABILITY_TESTS)[keyof typeof SYNTAX_VIABILITY_TESTS]
 >;
 
 /**

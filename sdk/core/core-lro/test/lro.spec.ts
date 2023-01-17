@@ -2156,6 +2156,7 @@ matrix(
               },
             ],
             implName,
+            throwOnNon2xxResponse,
           });
           poller.onProgress((currentState) => {
             if (state === undefined && serializedState === undefined) {
@@ -2327,6 +2328,7 @@ matrix(
 
       describe("poller cancellation", () => {
         it("cancelled poller gives access to partial results", async () => {
+          const body = { status: "canceled", results: [1, 2] };
           const pollingPath = "/LROPostDoubleHeadersFinalAzureHeaderGetDefault/asyncOperationUrl";
           const poller = await createTestPoller({
             routes: [
@@ -2348,12 +2350,22 @@ matrix(
                 method: "GET",
                 path: pollingPath,
                 status: 200,
-                body: `{ "status": "canceled", "results": [1,2] }`,
+                body: JSON.stringify(body),
               },
             ],
+            throwOnNon2xxResponse,
             implName,
           });
-          await assertError(poller.pollUntilDone(), { messagePattern: /Operation was canceled/ });
+          await assertDivergentBehavior({
+            op: poller.pollUntilDone(),
+            throwOnNon2xxResponse,
+            throwing: {
+              messagePattern: /Operation was canceled/,
+            },
+            notThrowing: {
+              result: { ...body, statusCode: 200 },
+            },
+          });
           const result = poller.getResult();
           assert.deepEqual(result!.results, [1, 2]);
         });
@@ -2385,6 +2397,7 @@ matrix(
               },
             ],
             implName,
+            throwOnNon2xxResponse,
             updateState: () => {
               pollCount++;
             },
@@ -2401,8 +2414,13 @@ matrix(
               messagePattern: /The operation was aborted/,
             }
           );
-          await assertError(poller.pollUntilDone(), {
-            messagePattern: /The operation was aborted/,
+          await assertDivergentBehavior({
+            op: poller.pollUntilDone(),
+            throwOnNon2xxResponse,
+            throwing: {
+              messagePattern: /The operation was aborted/,
+            },
+            notThrowing: { result: undefined },
           });
           assert.equal(pollCount, 1);
           assert.ok(poller.isDone());
@@ -2433,6 +2451,7 @@ matrix(
                 status: 200,
               },
             ],
+            throwOnNon2xxResponse,
             implName,
             updateState: () => {
               pollCount++;
@@ -2479,6 +2498,7 @@ matrix(
                 status: 200,
               },
             ],
+            throwOnNon2xxResponse,
             implName,
             updateState: () => {
               pollCount++;
@@ -2496,6 +2516,90 @@ matrix(
            * TODO: revisit this if it becomes an issue.
            */
           assert.equal(pollCount, implName === "createPoller" ? 2 : 1);
+        });
+      });
+      describe("general behavior", function () {
+        it("poll() doesn't poll after the poller is in a succeed status", async function () {
+          const poller = await createTestPoller({
+            routes: [
+              {
+                method: "PUT",
+                status: 200,
+                body: `{ "properties": { "provisioningState": "Succeeded"}, "id": "100", "name": "foo" }`,
+              },
+            ],
+            throwOnNon2xxResponse,
+          });
+          await poller.poll(); // This will fail if a polling request is sent
+          const result = await poller.pollUntilDone();
+          assert.equal(result.properties?.provisioningState, "Succeeded");
+        });
+        it("poll() doesn't poll after the poller is in a failed status", async function () {
+          const bodyObj = { properties: { provisioningState: "Failed" }, id: "100", name: "foo" };
+          const poller = await createTestPoller({
+            routes: [
+              {
+                method: "PUT",
+                status: 200,
+                body: JSON.stringify(bodyObj),
+              },
+            ],
+            throwOnNon2xxResponse,
+          });
+          await assertDivergentBehavior({
+            op: poller.poll() as any,
+            notThrowing: {
+              result: undefined,
+            },
+            throwing: {
+              messagePattern: /failed/,
+            },
+            throwOnNon2xxResponse,
+          });
+          await assertDivergentBehavior({
+            op: poller.pollUntilDone(),
+            notThrowing: {
+              result: { ...bodyObj, statusCode: 200 },
+            },
+            throwing: {
+              messagePattern: /failed/,
+            },
+            throwOnNon2xxResponse,
+          });
+        });
+        it("poll() doesn't poll after the poller is in a canceled status", async function () {
+          const bodyObj = { properties: { provisioningState: "Canceled" }, id: "100", name: "foo" };
+          const poller = await createTestPoller({
+            routes: [
+              {
+                method: "PUT",
+                status: 200,
+                body: JSON.stringify(bodyObj),
+              },
+            ],
+            throwOnNon2xxResponse,
+          });
+          await assertDivergentBehavior({
+            op: poller.poll() as any,
+            notThrowing: {
+              result: undefined,
+            },
+            throwing: {
+              messagePattern: /canceled/,
+            },
+            throwOnNon2xxResponse,
+          });
+          await assertDivergentBehavior({
+            op: poller.pollUntilDone(),
+            notThrowing: {
+              result: { ...bodyObj, statusCode: 200 },
+            },
+            throwing: {
+              messagePattern: /canceled/,
+            },
+            throwOnNon2xxResponse,
+          });
+          assert.equal(poller.getResult()?.properties?.provisioningState, "Canceled");
         });
       });
     });

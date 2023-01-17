@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { DataFactoryManagementClient } = require("@azure/arm-datafactory");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Cancel a single trigger instance by runId.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/TriggerRuns_Cancel.json
  */
 async function triggersCancel() {
-  const subscriptionId = "12345678-1234-1234-1234-12345678abc";
-  const resourceGroupName = "exampleResourceGroup";
+  const subscriptionId =
+    process.env["DATAFACTORY_SUBSCRIPTION_ID"] || "12345678-1234-1234-1234-12345678abc";
+  const resourceGroupName = process.env["DATAFACTORY_RESOURCE_GROUP"] || "exampleResourceGroup";
   const factoryName = "exampleFactoryName";
   const triggerName = "exampleTrigger";
   const runId = "2f7fdb90-5df1-4b8e-ac2f-064cfa58202b";
@@ -34,4 +36,8 @@ async function triggersCancel() {
   console.log(result);
 }
 
-triggersCancel().catch(console.error);
+async function main() {
+  triggersCancel();
+}
+
+main().catch(console.error);

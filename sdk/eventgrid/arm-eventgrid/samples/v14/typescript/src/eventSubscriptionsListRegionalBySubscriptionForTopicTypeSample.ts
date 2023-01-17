@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { EventGridManagementClient } from "@azure/arm-eventgrid";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to List all event subscriptions from the given location under a specific Azure subscription and topic type.
@@ -18,7 +21,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/EventSubscriptions_ListRegionalBySubscriptionForTopicType.json
  */
 async function eventSubscriptionsListRegionalBySubscriptionForTopicType() {
-  const subscriptionId = "5b4b650e-28b9-4790-b3ab-ddbd88d727c4";
+  const subscriptionId =
+    process.env["EVENTGRID_SUBSCRIPTION_ID"] ||
+    "5b4b650e-28b9-4790-b3ab-ddbd88d727c4";
   const location = "westus2";
   const topicTypeName = "Microsoft.EventHub.namespaces";
   const credential = new DefaultAzureCredential();
@@ -33,4 +38,8 @@ async function eventSubscriptionsListRegionalBySubscriptionForTopicType() {
   console.log(resArray);
 }
 
-eventSubscriptionsListRegionalBySubscriptionForTopicType().catch(console.error);
+async function main() {
+  eventSubscriptionsListRegionalBySubscriptionForTopicType();
+}
+
+main().catch(console.error);

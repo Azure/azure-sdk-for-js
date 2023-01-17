@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { Workflow, DeveloperHubServiceClient } from "@azure/arm-devhub";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates or updates a workflow
@@ -18,8 +21,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-04-01-preview/examples/Workflow_CreateOrUpdate.json
  */
 async function createWorkflow() {
-  const subscriptionId = "subscriptionId1";
-  const resourceGroupName = "resourceGroup1";
+  const subscriptionId =
+    process.env["DEVHUB_SUBSCRIPTION_ID"] || "subscriptionId1";
+  const resourceGroupName =
+    process.env["DEVHUB_RESOURCE_GROUP"] || "resourceGroup1";
   const workflowName = "workflow1";
   const parameters: Workflow = {
     acr: {
@@ -57,4 +62,8 @@ async function createWorkflow() {
   console.log(result);
 }
 
-createWorkflow().catch(console.error);
+async function main() {
+  createWorkflow();
+}
+
+main().catch(console.error);

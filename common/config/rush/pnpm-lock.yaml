@@ -3244,6 +3244,11 @@ packages:
       wrap-ansi: 7.0.0
     dev: false
 
+  /clock-mock/1.0.6:
+    resolution: {integrity: sha512-mPXwJHSN8pWm5H8l42taxldL+LA5dTHd/S7TldqvJy7RkMM3+HwsvLt3g1mQTFcu1oK9nV+9+laKf1hSM9EiVQ==}
+    engines: {node: '>= 12'}
+    dev: false
+
   /clone/1.0.4:
     resolution: {integrity: sha512-JQHZ2QMW6l3aH/j6xCqQThY/9OH4D/9ls34cgkUBiEeocRTU04tHfKPBsUK1PqZCUQM7GiA0IIXJSuXHI64Kbg==}
     engines: {node: '>=0.8'}
@@ -15889,6 +15894,7 @@ packages:
       '@types/sinonjs__fake-timers': 8.1.2
       '@types/underscore': 1.11.4
       '@types/uuid': 8.3.4
+      clock-mock: 1.0.6
       cross-env: 7.0.3
       debug: 4.3.4
       dotenv: 8.6.0

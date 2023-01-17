@@ -7,7 +7,8 @@
  */
 
 import { tracingClient } from "../tracing";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { NotebookOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -19,9 +20,9 @@ import {
   NotebookResource,
   NotebookGetNotebooksByWorkspaceNextOptionalParams,
   NotebookGetNotebooksByWorkspaceOptionalParams,
+  NotebookGetNotebooksByWorkspaceResponse,
   NotebookGetNotebookSummaryByWorkSpaceNextOptionalParams,
   NotebookGetNotebookSummaryByWorkSpaceOptionalParams,
-  NotebookGetNotebooksByWorkspaceResponse,
   NotebookGetNotebookSummaryByWorkSpaceResponse,
   NotebookCreateOrUpdateNotebookOptionalParams,
   NotebookCreateOrUpdateNotebookResponse,
@@ -62,25 +63,37 @@ export class NotebookOperationsImpl implements NotebookOperations {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.getNotebooksByWorkspacePagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.getNotebooksByWorkspacePagingPage(options, settings);
       }
     };
   }
 
   private async *getNotebooksByWorkspacePagingPage(
-    options?: NotebookGetNotebooksByWorkspaceOptionalParams
+    options?: NotebookGetNotebooksByWorkspaceOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<NotebookResource[]> {
-    let result = await this._getNotebooksByWorkspace(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: NotebookGetNotebooksByWorkspaceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._getNotebooksByWorkspace(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._getNotebooksByWorkspaceNext(
         continuationToken,
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -107,25 +120,37 @@ export class NotebookOperationsImpl implements NotebookOperations {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.getNotebookSummaryByWorkSpacePagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.getNotebookSummaryByWorkSpacePagingPage(options, settings);
       }
     };
   }
 
   private async *getNotebookSummaryByWorkSpacePagingPage(
-    options?: NotebookGetNotebookSummaryByWorkSpaceOptionalParams
+    options?: NotebookGetNotebookSummaryByWorkSpaceOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<NotebookResource[]> {
-    let result = await this._getNotebookSummaryByWorkSpace(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: NotebookGetNotebookSummaryByWorkSpaceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._getNotebookSummaryByWorkSpace(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._getNotebookSummaryByWorkSpaceNext(
         continuationToken,
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -635,7 +660,6 @@ const getNotebooksByWorkspaceNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer
@@ -651,7 +675,6 @@ const getNotebookSummaryByWorkSpaceNextOperationSpec: coreClient.OperationSpec =
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer

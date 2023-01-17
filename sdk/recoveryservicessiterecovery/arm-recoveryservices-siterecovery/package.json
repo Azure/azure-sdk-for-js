@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for SiteRecoveryManagementClient.",
-  "version": "5.0.0",
+  "version": "5.0.2",
   "engines": {
     "node": ">=14.0.0"
   },

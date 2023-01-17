@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { PrivateEndpointConnections } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -19,12 +20,12 @@ import {
   PrivateEndpointConnectionsParentType,
   PrivateEndpointConnectionsListByResourceNextOptionalParams,
   PrivateEndpointConnectionsListByResourceOptionalParams,
+  PrivateEndpointConnectionsListByResourceResponse,
   PrivateEndpointConnectionsGetOptionalParams,
   PrivateEndpointConnectionsGetResponse,
   PrivateEndpointConnectionsUpdateOptionalParams,
   PrivateEndpointConnectionsUpdateResponse,
   PrivateEndpointConnectionsDeleteOptionalParams,
-  PrivateEndpointConnectionsListByResourceResponse,
   PrivateEndpointConnectionsListByResourceNextResponse
 } from "../models";
 
@@ -70,12 +71,16 @@ export class PrivateEndpointConnectionsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByResourcePagingPage(
           resourceGroupName,
           parentType,
           parentName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -85,16 +90,23 @@ export class PrivateEndpointConnectionsImpl
     resourceGroupName: string,
     parentType: PrivateEndpointConnectionsParentType,
     parentName: string,
-    options?: PrivateEndpointConnectionsListByResourceOptionalParams
+    options?: PrivateEndpointConnectionsListByResourceOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PrivateEndpointConnection[]> {
-    let result = await this._listByResource(
-      resourceGroupName,
-      parentType,
-      parentName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: PrivateEndpointConnectionsListByResourceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResource(
+        resourceGroupName,
+        parentType,
+        parentName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceNext(
         resourceGroupName,
@@ -104,7 +116,9 @@ export class PrivateEndpointConnectionsImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -516,7 +530,6 @@ const listByResourceNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
