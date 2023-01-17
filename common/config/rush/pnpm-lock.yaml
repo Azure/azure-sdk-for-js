@@ -10069,7 +10069,7 @@ packages:
     dev: false
 
   file:projects/arm-botservice.tgz:
-    resolution: {integrity: sha512-OhboRZnHhPIw1+Ihx3F/620tXTg2A3Ym9OS4kPDibvVO+EhCmjXQGXilzn2/9K7IlytwuCRG5LTEtjtAmjxnIQ==, tarball: file:projects/arm-botservice.tgz}
+    resolution: {integrity: sha512-pZMDuA+9ROLZiSLWBvbDhMSelehWQYjKdkVa6Do3TeKE6cMKhsHvZRxrbUF1Rclm34oPjtQMLV1Nnl3TOLS4AA==, tarball: file:projects/arm-botservice.tgz}
     name: '@rush-temp/arm-botservice'
     version: 0.0.0
     dependencies:
@@ -10083,6 +10083,7 @@ packages:
       '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
