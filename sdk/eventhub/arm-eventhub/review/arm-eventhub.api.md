@@ -25,14 +25,14 @@ export interface AccessKeys {
 export type AccessRights = string;
 
 // @public
-export type ArmDisasterRecovery = ProxyResource & {
-    readonly systemData?: SystemData;
-    readonly provisioningState?: ProvisioningStateDR;
-    partnerNamespace?: string;
+export interface ArmDisasterRecovery extends ProxyResource {
     alternateName?: string;
-    readonly role?: RoleDisasterRecovery;
+    partnerNamespace?: string;
     readonly pendingReplicationOperationsCount?: number;
-};
+    readonly provisioningState?: ProvisioningStateDR;
+    readonly role?: RoleDisasterRecovery;
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface ArmDisasterRecoveryListResult {
@@ -41,10 +41,10 @@ export interface ArmDisasterRecoveryListResult {
 }
 
 // @public
-export type AuthorizationRule = ProxyResource & {
-    readonly systemData?: SystemData;
+export interface AuthorizationRule extends ProxyResource {
     rights?: AccessRights[];
-};
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface AuthorizationRuleListResult {
@@ -85,14 +85,14 @@ export interface CheckNameAvailabilityResult {
 }
 
 // @public
-export type Cluster = TrackedResource & {
-    sku?: ClusterSku;
-    readonly systemData?: SystemData;
+export interface Cluster extends TrackedResource {
     readonly createdAt?: string;
-    readonly updatedAt?: string;
     readonly metricId?: string;
+    sku?: ClusterSku;
     readonly status?: string;
-};
+    readonly systemData?: SystemData;
+    readonly updatedAt?: string;
+}
 
 // @public
 export interface ClusterListResult {
@@ -231,12 +231,12 @@ export interface ConnectionState {
 }
 
 // @public
-export type ConsumerGroup = ProxyResource & {
-    readonly systemData?: SystemData;
+export interface ConsumerGroup extends ProxyResource {
     readonly createdAt?: Date;
+    readonly systemData?: SystemData;
     readonly updatedAt?: Date;
     userMetadata?: string;
-};
+}
 
 // @public
 export interface ConsumerGroupListResult {
@@ -395,26 +395,26 @@ export interface DisasterRecoveryConfigsListOptionalParams extends coreClient.Op
 export type DisasterRecoveryConfigsListResponse = ArmDisasterRecoveryListResult;
 
 // @public
-export type EHNamespace = TrackedResource & {
-    sku?: Sku;
-    identity?: Identity;
-    readonly systemData?: SystemData;
-    readonly provisioningState?: string;
-    readonly status?: string;
-    readonly createdAt?: Date;
-    readonly updatedAt?: Date;
-    readonly serviceBusEndpoint?: string;
-    clusterArmId?: string;
-    readonly metricId?: string;
-    isAutoInflateEnabled?: boolean;
-    maximumThroughputUnits?: number;
-    kafkaEnabled?: boolean;
-    zoneRedundant?: boolean;
-    encryption?: Encryption;
-    privateEndpointConnections?: PrivateEndpointConnection[];
-    disableLocalAuth?: boolean;
+export interface EHNamespace extends TrackedResource {
     alternateName?: string;
-};
+    clusterArmId?: string;
+    readonly createdAt?: Date;
+    disableLocalAuth?: boolean;
+    encryption?: Encryption;
+    identity?: Identity;
+    isAutoInflateEnabled?: boolean;
+    kafkaEnabled?: boolean;
+    maximumThroughputUnits?: number;
+    readonly metricId?: string;
+    privateEndpointConnections?: PrivateEndpointConnection[];
+    readonly provisioningState?: string;
+    readonly serviceBusEndpoint?: string;
+    sku?: Sku;
+    readonly status?: string;
+    readonly systemData?: SystemData;
+    readonly updatedAt?: Date;
+    zoneRedundant?: boolean;
+}
 
 // @public
 export interface EHNamespaceIdContainer {
@@ -469,16 +469,16 @@ export interface ErrorResponse {
 }
 
 // @public
-export type Eventhub = ProxyResource & {
-    readonly systemData?: SystemData;
-    readonly partitionIds?: string[];
+export interface Eventhub extends ProxyResource {
+    captureDescription?: CaptureDescription;
     readonly createdAt?: Date;
-    readonly updatedAt?: Date;
     messageRetentionInDays?: number;
     partitionCount?: number;
+    readonly partitionIds?: string[];
     status?: EntityStatus;
-    captureDescription?: CaptureDescription;
-};
+    readonly systemData?: SystemData;
+    readonly updatedAt?: Date;
+}
 
 // @public
 export interface EventHubListResult {
@@ -621,6 +621,9 @@ export interface EventHubsRegenerateKeysOptionalParams extends coreClient.Operat
 export type EventHubsRegenerateKeysResponse = AccessKeys;
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export interface Identity {
     readonly principalId?: string;
     readonly tenantId?: string;
@@ -645,125 +648,89 @@ export interface KeyVaultProperties {
 
 // @public
 export enum KnownAccessRights {
-    // (undocumented)
     Listen = "Listen",
-    // (undocumented)
     Manage = "Manage",
-    // (undocumented)
     Send = "Send"
 }
 
 // @public
 export enum KnownClusterSkuName {
-    // (undocumented)
     Dedicated = "Dedicated"
 }
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownDefaultAction {
-    // (undocumented)
     Allow = "Allow",
-    // (undocumented)
     Deny = "Deny"
 }
 
 // @public
 export enum KnownEndPointProvisioningState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownKeyType {
-    // (undocumented)
     PrimaryKey = "PrimaryKey",
-    // (undocumented)
     SecondaryKey = "SecondaryKey"
 }
 
 // @public
 export enum KnownNetworkRuleIPAction {
-    // (undocumented)
     Allow = "Allow"
 }
 
 // @public
 export enum KnownPrivateLinkConnectionStatus {
-    // (undocumented)
     Approved = "Approved",
-    // (undocumented)
     Disconnected = "Disconnected",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Rejected = "Rejected"
 }
 
 // @public
 export enum KnownPublicNetworkAccessFlag {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownSchemaCompatibility {
-    // (undocumented)
     Backward = "Backward",
-    // (undocumented)
     Forward = "Forward",
-    // (undocumented)
     None = "None"
 }
 
 // @public
 export enum KnownSchemaType {
-    // (undocumented)
     Avro = "Avro",
-    // (undocumented)
     Unknown = "Unknown"
 }
 
 // @public
 export enum KnownSkuName {
-    // (undocumented)
     Basic = "Basic",
-    // (undocumented)
     Premium = "Premium",
-    // (undocumented)
     Standard = "Standard"
 }
 
 // @public
 export enum KnownSkuTier {
-    // (undocumented)
     Basic = "Basic",
-    // (undocumented)
     Premium = "Premium",
-    // (undocumented)
     Standard = "Standard"
 }
 
@@ -927,14 +894,14 @@ export type NamespacesUpdateResponse = EHNamespace;
 export type NetworkRuleIPAction = string;
 
 // @public
-export type NetworkRuleSet = ProxyResource & {
-    readonly systemData?: SystemData;
-    trustedServiceAccessEnabled?: boolean;
+export interface NetworkRuleSet extends ProxyResource {
     defaultAction?: DefaultAction;
-    virtualNetworkRules?: NWRuleSetVirtualNetworkRules[];
     ipRules?: NWRuleSetIpRules[];
     publicNetworkAccess?: PublicNetworkAccessFlag;
-};
+    readonly systemData?: SystemData;
+    trustedServiceAccessEnabled?: boolean;
+    virtualNetworkRules?: NWRuleSetVirtualNetworkRules[];
+}
 
 // @public
 export interface NetworkRuleSetListResult {
@@ -1002,12 +969,12 @@ export interface PrivateEndpoint {
 }
 
 // @public
-export type PrivateEndpointConnection = ProxyResource & {
-    readonly systemData?: SystemData;
+export interface PrivateEndpointConnection extends ProxyResource {
     privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: ConnectionState;
     provisioningState?: EndPointProvisioningState;
-};
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface PrivateEndpointConnectionListResult {
@@ -1123,17 +1090,19 @@ export type RoleDisasterRecovery = "Primary" | "PrimaryNotReplicating" | "Second
 export type SchemaCompatibility = string;
 
 // @public
-export type SchemaGroup = ProxyResource & {
-    readonly systemData?: SystemData;
-    readonly updatedAtUtc?: Date;
+export interface SchemaGroup extends ProxyResource {
     readonly createdAtUtc?: Date;
     readonly eTag?: string;
     groupProperties?: {
         [propertyName: string]: string;
     };
+    // (undocumented)
     schemaCompatibility?: SchemaCompatibility;
+    // (undocumented)
     schemaType?: SchemaType;
-};
+    readonly systemData?: SystemData;
+    readonly updatedAtUtc?: Date;
+}
 
 // @public
 export interface SchemaGroupListResult {
@@ -1220,12 +1189,12 @@ export interface SystemData {
 }
 
 // @public
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
     location?: string;
     tags?: {
         [propertyName: string]: string;
     };
-};
+}
 
 // @public
 export type UnavailableReason = "None" | "InvalidName" | "SubscriptionIsDisabled" | "NameInUse" | "NameInLockdown" | "TooManyNamespaceInCurrentSubscription";

@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { DataFactoryManagementClient } = require("@azure/arm-datafactory");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Creates or updates a Global parameter
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/GlobalParameters_Create.json
  */
 async function globalParametersCreate() {
-  const subscriptionId = "12345678-1234-1234-1234-12345678abc";
-  const resourceGroupName = "exampleResourceGroup";
+  const subscriptionId =
+    process.env["DATAFACTORY_SUBSCRIPTION_ID"] || "12345678-1234-1234-1234-12345678abc";
+  const resourceGroupName = process.env["DATAFACTORY_RESOURCE_GROUP"] || "exampleResourceGroup";
   const factoryName = "exampleFactoryName";
   const globalParameterName = "default";
   const defaultParam = {
@@ -35,8 +37,6 @@ async function globalParametersCreate() {
   );
   console.log(result);
 }
-
-globalParametersCreate().catch(console.error);
 
 /**
  * This sample demonstrates how to Creates or updates a Global parameter
@@ -45,8 +45,9 @@ globalParametersCreate().catch(console.error);
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/GlobalParameters_Update.json
  */
 async function globalParametersUpdate() {
-  const subscriptionId = "12345678-1234-1234-1234-12345678abc";
-  const resourceGroupName = "exampleResourceGroup";
+  const subscriptionId =
+    process.env["DATAFACTORY_SUBSCRIPTION_ID"] || "12345678-1234-1234-1234-12345678abc";
+  const resourceGroupName = process.env["DATAFACTORY_RESOURCE_GROUP"] || "exampleResourceGroup";
   const factoryName = "exampleFactoryName";
   const globalParameterName = "default";
   const defaultParam = {
@@ -63,4 +64,9 @@ async function globalParametersUpdate() {
   console.log(result);
 }
 
-globalParametersUpdate().catch(console.error);
+async function main() {
+  globalParametersCreate();
+  globalParametersUpdate();
+}
+
+main().catch(console.error);

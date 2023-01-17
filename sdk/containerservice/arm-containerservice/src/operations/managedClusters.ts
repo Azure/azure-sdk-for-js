@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ManagedClusters } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,15 +19,16 @@ import {
   ManagedCluster,
   ManagedClustersListNextOptionalParams,
   ManagedClustersListOptionalParams,
+  ManagedClustersListResponse,
   ManagedClustersListByResourceGroupNextOptionalParams,
   ManagedClustersListByResourceGroupOptionalParams,
+  ManagedClustersListByResourceGroupResponse,
   OutboundEnvironmentEndpoint,
   ManagedClustersListOutboundNetworkDependenciesEndpointsNextOptionalParams,
   ManagedClustersListOutboundNetworkDependenciesEndpointsOptionalParams,
+  ManagedClustersListOutboundNetworkDependenciesEndpointsResponse,
   ManagedClustersGetOSOptionsOptionalParams,
   ManagedClustersGetOSOptionsResponse,
-  ManagedClustersListResponse,
-  ManagedClustersListByResourceGroupResponse,
   ManagedClustersGetUpgradeProfileOptionalParams,
   ManagedClustersGetUpgradeProfileResponse,
   ManagedClustersGetAccessProfileOptionalParams,
@@ -45,21 +47,24 @@ import {
   ManagedClustersUpdateTagsOptionalParams,
   ManagedClustersUpdateTagsResponse,
   ManagedClustersDeleteOptionalParams,
+  ManagedClustersDeleteResponse,
   ManagedClusterServicePrincipalProfile,
   ManagedClustersResetServicePrincipalProfileOptionalParams,
   ManagedClusterAADProfile,
   ManagedClustersResetAADProfileOptionalParams,
   ManagedClustersRotateClusterCertificatesOptionalParams,
+  ManagedClustersRotateClusterCertificatesResponse,
   ManagedClustersRotateServiceAccountSigningKeysOptionalParams,
   ManagedClustersRotateServiceAccountSigningKeysResponse,
   ManagedClustersStopOptionalParams,
+  ManagedClustersStopResponse,
   ManagedClustersStartOptionalParams,
+  ManagedClustersStartResponse,
   RunCommandRequest,
   ManagedClustersRunCommandOptionalParams,
   ManagedClustersRunCommandResponse,
   ManagedClustersGetCommandResultOptionalParams,
   ManagedClustersGetCommandResultResponse,
-  ManagedClustersListOutboundNetworkDependenciesEndpointsResponse,
   ManagedClustersListNextResponse,
   ManagedClustersListByResourceGroupNextResponse,
   ManagedClustersListOutboundNetworkDependenciesEndpointsNextResponse
@@ -93,22 +98,34 @@ export class ManagedClustersImpl implements ManagedClusters {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: ManagedClustersListOptionalParams
+    options?: ManagedClustersListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ManagedCluster[]> {
-    let result = await this._list(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ManagedClustersListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -137,19 +154,33 @@ export class ManagedClustersImpl implements ManagedClusters {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: ManagedClustersListByResourceGroupOptionalParams
+    options?: ManagedClustersListByResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ManagedCluster[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ManagedClustersListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -157,7 +188,9 @@ export class ManagedClustersImpl implements ManagedClusters {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -197,11 +230,15 @@ export class ManagedClustersImpl implements ManagedClusters {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listOutboundNetworkDependenciesEndpointsPagingPage(
           resourceGroupName,
           resourceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -210,15 +247,22 @@ export class ManagedClustersImpl implements ManagedClusters {
   private async *listOutboundNetworkDependenciesEndpointsPagingPage(
     resourceGroupName: string,
     resourceName: string,
-    options?: ManagedClustersListOutboundNetworkDependenciesEndpointsOptionalParams
+    options?: ManagedClustersListOutboundNetworkDependenciesEndpointsOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<OutboundEnvironmentEndpoint[]> {
-    let result = await this._listOutboundNetworkDependenciesEndpoints(
-      resourceGroupName,
-      resourceName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ManagedClustersListOutboundNetworkDependenciesEndpointsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listOutboundNetworkDependenciesEndpoints(
+        resourceGroupName,
+        resourceName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listOutboundNetworkDependenciesEndpointsNext(
         resourceGroupName,
@@ -227,7 +271,9 @@ export class ManagedClustersImpl implements ManagedClusters {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -587,11 +633,16 @@ export class ManagedClustersImpl implements ManagedClusters {
     resourceGroupName: string,
     resourceName: string,
     options?: ManagedClustersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<
+    PollerLike<
+      PollOperationState<ManagedClustersDeleteResponse>,
+      ManagedClustersDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<ManagedClustersDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -650,7 +701,7 @@ export class ManagedClustersImpl implements ManagedClusters {
     resourceGroupName: string,
     resourceName: string,
     options?: ManagedClustersDeleteOptionalParams
-  ): Promise<void> {
+  ): Promise<ManagedClustersDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       resourceName,
@@ -718,7 +769,8 @@ export class ManagedClustersImpl implements ManagedClusters {
     );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -805,7 +857,8 @@ export class ManagedClustersImpl implements ManagedClusters {
     );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -844,11 +897,16 @@ export class ManagedClustersImpl implements ManagedClusters {
     resourceGroupName: string,
     resourceName: string,
     options?: ManagedClustersRotateClusterCertificatesOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<
+    PollerLike<
+      PollOperationState<ManagedClustersRotateClusterCertificatesResponse>,
+      ManagedClustersRotateClusterCertificatesResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<ManagedClustersRotateClusterCertificatesResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -891,7 +949,8 @@ export class ManagedClustersImpl implements ManagedClusters {
     );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -908,7 +967,7 @@ export class ManagedClustersImpl implements ManagedClusters {
     resourceGroupName: string,
     resourceName: string,
     options?: ManagedClustersRotateClusterCertificatesOptionalParams
-  ): Promise<void> {
+  ): Promise<ManagedClustersRotateClusterCertificatesResponse> {
     const poller = await this.beginRotateClusterCertificates(
       resourceGroupName,
       resourceName,
@@ -1021,11 +1080,16 @@ export class ManagedClustersImpl implements ManagedClusters {
     resourceGroupName: string,
     resourceName: string,
     options?: ManagedClustersStopOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<
+    PollerLike<
+      PollOperationState<ManagedClustersStopResponse>,
+      ManagedClustersStopResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<ManagedClustersStopResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -1068,7 +1132,8 @@ export class ManagedClustersImpl implements ManagedClusters {
     );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -1088,7 +1153,7 @@ export class ManagedClustersImpl implements ManagedClusters {
     resourceGroupName: string,
     resourceName: string,
     options?: ManagedClustersStopOptionalParams
-  ): Promise<void> {
+  ): Promise<ManagedClustersStopResponse> {
     const poller = await this.beginStop(
       resourceGroupName,
       resourceName,
@@ -1108,11 +1173,16 @@ export class ManagedClustersImpl implements ManagedClusters {
     resourceGroupName: string,
     resourceName: string,
     options?: ManagedClustersStartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<
+    PollerLike<
+      PollOperationState<ManagedClustersStartResponse>,
+      ManagedClustersStartResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<ManagedClustersStartResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -1155,7 +1225,8 @@ export class ManagedClustersImpl implements ManagedClusters {
     );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -1172,7 +1243,7 @@ export class ManagedClustersImpl implements ManagedClusters {
     resourceGroupName: string,
     resourceName: string,
     options?: ManagedClustersStartOptionalParams
-  ): Promise<void> {
+  ): Promise<ManagedClustersStartResponse> {
     const poller = await this.beginStart(
       resourceGroupName,
       resourceName,
@@ -1247,7 +1318,8 @@ export class ManagedClustersImpl implements ManagedClusters {
     );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -1638,10 +1710,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.ManagedClustersDeleteHeaders
+    },
+    201: {
+      headersMapper: Mappers.ManagedClustersDeleteHeaders
+    },
+    202: {
+      headersMapper: Mappers.ManagedClustersDeleteHeaders
+    },
+    204: {
+      headersMapper: Mappers.ManagedClustersDeleteHeaders
+    },
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -1711,10 +1791,18 @@ const rotateClusterCertificatesOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/rotateClusterCertificates",
   httpMethod: "POST",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.ManagedClustersRotateClusterCertificatesHeaders
+    },
+    201: {
+      headersMapper: Mappers.ManagedClustersRotateClusterCertificatesHeaders
+    },
+    202: {
+      headersMapper: Mappers.ManagedClustersRotateClusterCertificatesHeaders
+    },
+    204: {
+      headersMapper: Mappers.ManagedClustersRotateClusterCertificatesHeaders
+    },
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -1769,10 +1857,18 @@ const stopOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/stop",
   httpMethod: "POST",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.ManagedClustersStopHeaders
+    },
+    201: {
+      headersMapper: Mappers.ManagedClustersStopHeaders
+    },
+    202: {
+      headersMapper: Mappers.ManagedClustersStopHeaders
+    },
+    204: {
+      headersMapper: Mappers.ManagedClustersStopHeaders
+    },
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -1792,10 +1888,18 @@ const startOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/start",
   httpMethod: "POST",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.ManagedClustersStartHeaders
+    },
+    201: {
+      headersMapper: Mappers.ManagedClustersStartHeaders
+    },
+    202: {
+      headersMapper: Mappers.ManagedClustersStartHeaders
+    },
+    204: {
+      headersMapper: Mappers.ManagedClustersStartHeaders
+    },
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -1851,7 +1955,9 @@ const getCommandResultOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.RunCommandResult
     },
-    202: {},
+    202: {
+      headersMapper: Mappers.ManagedClustersGetCommandResultHeaders
+    },
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -1900,7 +2006,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1920,7 +2025,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1941,7 +2045,6 @@ const listOutboundNetworkDependenciesEndpointsNextOperationSpec: coreClient.Oper
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

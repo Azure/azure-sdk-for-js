@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Retrieves all vpn site link connections for a particular virtual wan vpn gateway vpn connection.
  *
  * @summary Retrieves all vpn site link connections for a particular virtual wan vpn gateway vpn connection.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VpnSiteLinkConnectionList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/VpnSiteLinkConnectionList.json
  */
 async function vpnSiteLinkConnectionList() {
   const subscriptionId = "subid";

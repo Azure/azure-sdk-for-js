@@ -1,4 +1,41 @@
 # Release History
+
+## 17.3.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 17.3.0 (2023-01-06)
+    
+**Features**
+
+  - Added Interface AgentPoolsDeleteHeaders
+  - Added Interface ManagedClustersDeleteHeaders
+  - Added Interface ManagedClustersGetCommandResultHeaders
+  - Added Interface ManagedClustersResetAADProfileHeaders
+  - Added Interface ManagedClustersResetServicePrincipalProfileHeaders
+  - Added Interface ManagedClustersRotateClusterCertificatesHeaders
+  - Added Interface ManagedClustersRunCommandHeaders
+  - Added Interface ManagedClustersStartHeaders
+  - Added Interface ManagedClustersStopHeaders
+  - Added Interface ManagedClusterWorkloadAutoScalerProfile
+  - Added Interface ManagedClusterWorkloadAutoScalerProfileKeda
+  - Added Type Alias AgentPoolsDeleteResponse
+  - Added Type Alias ManagedClustersDeleteResponse
+  - Added Type Alias ManagedClustersRotateClusterCertificatesResponse
+  - Added Type Alias ManagedClustersStartResponse
+  - Added Type Alias ManagedClustersStopResponse
+  - Interface ManagedCluster has a new optional parameter workloadAutoScalerProfile
+  - Enum KnownManagedClusterPodIdentityProvisioningState has a new value Canceled
+  - Enum KnownManagedClusterPodIdentityProvisioningState has a new value Succeeded
+  - Enum KnownPrivateEndpointConnectionProvisioningState has a new value Canceled
+  - Added function getContinuationToken
+    
     
 ## 17.2.0 (2022-11-02)
     

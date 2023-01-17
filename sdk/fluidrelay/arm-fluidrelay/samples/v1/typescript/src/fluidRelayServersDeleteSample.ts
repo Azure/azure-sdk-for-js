@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { FluidRelayManagementClient } from "@azure/arm-fluidrelay";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Delete a Fluid Relay server.
@@ -18,7 +21,8 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/fluidrelay/resource-manager/Microsoft.FluidRelay/stable/2022-06-01/examples/FluidRelayServers_Delete.json
  */
 async function deleteAFluidRelayServer() {
-  const subscriptionId = "xxxx-xxxx-xxxx-xxxx";
+  const subscriptionId =
+    process.env["FLUIDRELAY_SUBSCRIPTION_ID"] || "xxxx-xxxx-xxxx-xxxx";
   const resourceGroup = "myResourceGroup";
   const fluidRelayServerName = "myFluidRelayServer";
   const credential = new DefaultAzureCredential();
@@ -30,4 +34,8 @@ async function deleteAFluidRelayServer() {
   console.log(result);
 }
 
-deleteAFluidRelayServer().catch(console.error);
+async function main() {
+  deleteAFluidRelayServer();
+}
+
+main().catch(console.error);

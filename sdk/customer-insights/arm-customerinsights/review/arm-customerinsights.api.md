@@ -85,12 +85,12 @@ export interface AuthorizationPolicyListResult {
 }
 
 // @public
-export type AuthorizationPolicyResourceFormat = ProxyResource & {
-    readonly policyName?: string;
+export interface AuthorizationPolicyResourceFormat extends ProxyResource {
     permissions?: PermissionTypes[];
+    readonly policyName?: string;
     primaryKey?: string;
     secondaryKey?: string;
-};
+}
 
 // @public
 export interface AzureBlobConnectorProperties {
@@ -177,23 +177,23 @@ export interface ConnectorMappingProperties {
 }
 
 // @public
-export type ConnectorMappingResourceFormat = ProxyResource & {
+export interface ConnectorMappingResourceFormat extends ProxyResource {
+    readonly connectorMappingName?: string;
     readonly connectorName?: string;
     connectorType?: ConnectorTypes;
     readonly created?: Date;
-    readonly lastModified?: Date;
+    readonly dataFormatId?: string;
+    description?: string;
+    displayName?: string;
     entityType?: EntityTypes;
     entityTypeName?: string;
-    readonly connectorMappingName?: string;
-    displayName?: string;
-    description?: string;
-    readonly dataFormatId?: string;
+    readonly lastModified?: Date;
     mappingProperties?: ConnectorMappingProperties;
     readonly nextRunTime?: Date;
     readonly runId?: string;
     readonly state?: ConnectorMappingStates;
     readonly tenantId?: string;
-};
+}
 
 // @public
 export interface ConnectorMappings {
@@ -247,21 +247,21 @@ export interface ConnectorMappingStructure {
 }
 
 // @public
-export type ConnectorResourceFormat = ProxyResource & {
+export interface ConnectorResourceFormat extends ProxyResource {
     readonly connectorId?: number;
     connectorName?: string;
-    connectorType?: ConnectorTypes;
-    displayName?: string;
-    description?: string;
     connectorProperties?: {
         [propertyName: string]: Record<string, unknown>;
     };
+    connectorType?: ConnectorTypes;
     readonly created?: Date;
+    description?: string;
+    displayName?: string;
+    isInternal?: boolean;
     readonly lastModified?: Date;
     readonly state?: ConnectorStates;
     readonly tenantId?: string;
-    isInternal?: boolean;
-};
+}
 
 // @public
 export interface Connectors {
@@ -397,13 +397,14 @@ export interface DataSourcePrecedence {
 export type DataSourceType = string;
 
 // @public
-export type EnrichingKpi = KpiDefinition & {};
+export interface EnrichingKpi extends KpiDefinition {
+}
 
 // @public
 export type EntityType = "None" | "Profile" | "Interaction" | "Relationship";
 
 // @public
-export type EntityTypeDefinition = MetadataDefinitionBase & {
+export interface EntityTypeDefinition extends MetadataDefinitionBase {
     apiEntitySetName?: string;
     entityType?: EntityTypes;
     fields?: PropertyDefinition[];
@@ -414,7 +415,7 @@ export type EntityTypeDefinition = MetadataDefinitionBase & {
     readonly tenantId?: string;
     timestampFieldName?: string;
     typeName?: string;
-};
+}
 
 // @public
 export type EntityTypes = "None" | "Profile" | "Interaction" | "Relationship";
@@ -426,6 +427,9 @@ export type ErrorManagementTypes = "RejectAndContinue" | "StopImport" | "RejectU
 export type FrequencyTypes = "Minute" | "Hour" | "Day" | "Week" | "Month";
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export interface GetImageUploadUrlInput {
     entityType?: string;
     entityTypeName?: string;
@@ -433,13 +437,13 @@ export interface GetImageUploadUrlInput {
 }
 
 // @public
-export type Hub = Resource & {
+export interface Hub extends Resource {
     readonly apiEndpoint?: string;
-    readonly webEndpoint?: string;
+    hubBillingInfo?: HubBillingInfoFormat;
     readonly provisioningState?: string;
     tenantFeatures?: number;
-    hubBillingInfo?: HubBillingInfoFormat;
-};
+    readonly webEndpoint?: string;
+}
 
 // @public
 export interface HubBillingInfoFormat {
@@ -557,45 +561,45 @@ export interface InteractionListResult {
 }
 
 // @public
-export type InteractionResourceFormat = ProxyResource & {
+export interface InteractionResourceFormat extends ProxyResource {
+    apiEntitySetName?: string;
     attributes?: {
         [propertyName: string]: string[];
     };
+    readonly dataSourcePrecedenceRules?: DataSourcePrecedence[];
+    readonly dataSourceReferenceId?: string;
+    readonly dataSourceType?: DataSourceType;
     description?: {
         [propertyName: string]: string;
     };
     displayName?: {
         [propertyName: string]: string;
     };
+    entityType?: EntityTypes;
+    fields?: PropertyDefinition[];
+    readonly idPropertiesDefaultDataSourceId?: number;
+    idPropertyNames?: string[];
+    instancesCount?: number;
+    isActivity?: boolean;
+    largeImage?: string;
+    readonly lastChangedUtc?: Date;
     localizedAttributes?: {
         [propertyName: string]: {
             [propertyName: string]: string;
         };
     };
-    smallImage?: string;
     mediumImage?: string;
-    largeImage?: string;
-    apiEntitySetName?: string;
-    entityType?: EntityTypes;
-    fields?: PropertyDefinition[];
-    instancesCount?: number;
-    readonly lastChangedUtc?: Date;
+    readonly namePropertiesDefaultDataSourceName?: string;
+    participantProfiles?: Participant[];
+    primaryParticipantProfilePropertyName?: string;
     readonly provisioningState?: ProvisioningStates;
     schemaItemTypeLink?: string;
+    smallImage?: string;
+    readonly status?: Status;
     readonly tenantId?: string;
     timestampFieldName?: string;
     typeName?: string;
-    idPropertyNames?: string[];
-    participantProfiles?: Participant[];
-    primaryParticipantProfilePropertyName?: string;
-    readonly dataSourcePrecedenceRules?: DataSourcePrecedence[];
-    isActivity?: boolean;
-    readonly namePropertiesDefaultDataSourceName?: string;
-    readonly dataSourceType?: DataSourceType;
-    readonly status?: Status;
-    readonly idPropertiesDefaultDataSourceId?: number;
-    readonly dataSourceReferenceId?: string;
-};
+}
 
 // @public
 export interface Interactions {
@@ -647,120 +651,80 @@ export interface InteractionsSuggestRelationshipLinksOptionalParams extends core
 export type InteractionsSuggestRelationshipLinksResponse = SuggestRelationshipLinksResponse;
 
 // @public
-export type InteractionTypeDefinition = EntityTypeDefinition & {
-    idPropertyNames?: string[];
-    participantProfiles?: Participant[];
-    primaryParticipantProfilePropertyName?: string;
+export interface InteractionTypeDefinition extends EntityTypeDefinition {
     readonly dataSourcePrecedenceRules?: DataSourcePrecedence[];
+    readonly dataSourceReferenceId?: string;
+    readonly dataSourceType?: DataSourceType;
+    readonly id?: number;
+    idPropertyNames?: string[];
     isActivity?: boolean;
     readonly name?: string;
-    readonly dataSourceType?: DataSourceType;
+    participantProfiles?: Participant[];
+    primaryParticipantProfilePropertyName?: string;
     readonly status?: Status;
-    readonly id?: number;
-    readonly dataSourceReferenceId?: string;
-};
+}
 
 // @public
 export enum KnownCanonicalPropertyValueType {
-    // (undocumented)
     Categorical = "Categorical",
-    // (undocumented)
     DerivedCategorical = "DerivedCategorical",
-    // (undocumented)
     DerivedNumeric = "DerivedNumeric",
-    // (undocumented)
     Numeric = "Numeric"
 }
 
 // @public
 export enum KnownConnectorTypes {
-    // (undocumented)
     AzureBlob = "AzureBlob",
-    // (undocumented)
     CRM = "CRM",
-    // (undocumented)
     ExchangeOnline = "ExchangeOnline",
-    // (undocumented)
     None = "None",
-    // (undocumented)
     Outbound = "Outbound",
-    // (undocumented)
     Salesforce = "Salesforce"
 }
 
 // @public
 export enum KnownDataSourceType {
-    // (undocumented)
     Connector = "Connector",
-    // (undocumented)
     LinkInteraction = "LinkInteraction",
-    // (undocumented)
     SystemDefault = "SystemDefault"
 }
 
 // @public
 export enum KnownPredictionModelLifeCycle {
-    // (undocumented)
     Active = "Active",
-    // (undocumented)
     Deleted = "Deleted",
-    // (undocumented)
     Discovering = "Discovering",
-    // (undocumented)
     Evaluating = "Evaluating",
-    // (undocumented)
     EvaluatingFailed = "EvaluatingFailed",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Featuring = "Featuring",
-    // (undocumented)
     FeaturingFailed = "FeaturingFailed",
-    // (undocumented)
     HumanIntervention = "HumanIntervention",
-    // (undocumented)
     New = "New",
-    // (undocumented)
     PendingDiscovering = "PendingDiscovering",
-    // (undocumented)
     PendingFeaturing = "PendingFeaturing",
-    // (undocumented)
     PendingModelConfirmation = "PendingModelConfirmation",
-    // (undocumented)
     PendingTraining = "PendingTraining",
-    // (undocumented)
     Provisioning = "Provisioning",
-    // (undocumented)
     ProvisioningFailed = "ProvisioningFailed",
-    // (undocumented)
     Training = "Training",
-    // (undocumented)
     TrainingFailed = "TrainingFailed"
 }
 
 // @public
 export enum KnownProvisioningStates {
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Expiring = "Expiring",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     HumanIntervention = "HumanIntervention",
-    // (undocumented)
     Provisioning = "Provisioning",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownStatus {
-    // (undocumented)
     Active = "Active",
-    // (undocumented)
     Deleted = "Deleted",
-    // (undocumented)
     None = "None"
 }
 
@@ -878,31 +842,31 @@ export interface KpiReprocessOptionalParams extends coreClient.OperationOptions 
 }
 
 // @public
-export type KpiResourceFormat = ProxyResource & {
-    entityType?: EntityTypes;
-    entityTypeName?: string;
-    readonly tenantId?: string;
-    readonly kpiName?: string;
-    displayName?: {
-        [propertyName: string]: string;
-    };
+export interface KpiResourceFormat extends ProxyResource {
+    aliases?: KpiAlias[];
+    calculationWindow?: CalculationWindowTypes;
+    calculationWindowFieldName?: string;
     description?: {
         [propertyName: string]: string;
     };
-    calculationWindow?: CalculationWindowTypes;
-    calculationWindowFieldName?: string;
-    function?: KpiFunctions;
+    displayName?: {
+        [propertyName: string]: string;
+    };
+    entityType?: EntityTypes;
+    entityTypeName?: string;
     expression?: string;
-    unit?: string;
+    extracts?: KpiExtract[];
     filter?: string;
+    function?: KpiFunctions;
     groupBy?: string[];
     readonly groupByMetadata?: KpiGroupByMetadata[];
+    readonly kpiName?: string;
     readonly participantProfilesMetadata?: KpiParticipantProfilesMetadata[];
     readonly provisioningState?: ProvisioningStates;
+    readonly tenantId?: string;
     thresHolds?: KpiThresholds;
-    aliases?: KpiAlias[];
-    extracts?: KpiExtract[];
-};
+    unit?: string;
+}
 
 // @public
 export interface KpiThresholds {
@@ -918,25 +882,25 @@ export interface LinkListResult {
 }
 
 // @public
-export type LinkResourceFormat = ProxyResource & {
-    readonly tenantId?: string;
-    readonly linkName?: string;
-    sourceEntityType?: EntityType;
-    targetEntityType?: EntityType;
-    sourceEntityTypeName?: string;
-    targetEntityTypeName?: string;
-    displayName?: {
-        [propertyName: string]: string;
-    };
+export interface LinkResourceFormat extends ProxyResource {
     description?: {
         [propertyName: string]: string;
     };
+    displayName?: {
+        [propertyName: string]: string;
+    };
+    readonly linkName?: string;
     mappings?: TypePropertiesMapping[];
+    operationType?: InstanceOperationType;
     participantPropertyReferences?: ParticipantPropertyReference[];
     readonly provisioningState?: ProvisioningStates;
     referenceOnly?: boolean;
-    operationType?: InstanceOperationType;
-};
+    sourceEntityType?: EntityType;
+    sourceEntityTypeName?: string;
+    targetEntityType?: EntityType;
+    targetEntityTypeName?: string;
+    readonly tenantId?: string;
+}
 
 // @public
 export interface Links {
@@ -1127,29 +1091,29 @@ export interface PredictionModelStatus {
 }
 
 // @public
-export type PredictionResourceFormat = ProxyResource & {
+export interface PredictionResourceFormat extends ProxyResource {
+    autoAnalyze?: boolean;
     description?: {
         [propertyName: string]: string;
     };
     displayName?: {
         [propertyName: string]: string;
     };
+    grades?: PredictionGradesItem[];
     involvedInteractionTypes?: string[];
     involvedKpiTypes?: string[];
     involvedRelationships?: string[];
+    mappings?: PredictionMappings;
     negativeOutcomeExpression?: string;
     positiveOutcomeExpression?: string;
+    predictionName?: string;
     primaryProfileType?: string;
     readonly provisioningState?: ProvisioningStates;
-    predictionName?: string;
     scopeExpression?: string;
-    readonly tenantId?: string;
-    autoAnalyze?: boolean;
-    mappings?: PredictionMappings;
     scoreLabel?: string;
-    grades?: PredictionGradesItem[];
     readonly systemGeneratedEntities?: PredictionSystemGeneratedEntities;
-};
+    readonly tenantId?: string;
+}
 
 // @public
 export interface Predictions {
@@ -1251,7 +1215,8 @@ export interface ProfileListResult {
 }
 
 // @public
-export type ProfileResourceFormat = ProxyResource & {
+export interface ProfileResourceFormat extends ProxyResource {
+    apiEntitySetName?: string;
     attributes?: {
         [propertyName: string]: string[];
     };
@@ -1261,26 +1226,25 @@ export type ProfileResourceFormat = ProxyResource & {
     displayName?: {
         [propertyName: string]: string;
     };
+    entityType?: EntityTypes;
+    fields?: PropertyDefinition[];
+    instancesCount?: number;
+    largeImage?: string;
+    readonly lastChangedUtc?: Date;
     localizedAttributes?: {
         [propertyName: string]: {
             [propertyName: string]: string;
         };
     };
-    smallImage?: string;
     mediumImage?: string;
-    largeImage?: string;
-    apiEntitySetName?: string;
-    entityType?: EntityTypes;
-    fields?: PropertyDefinition[];
-    instancesCount?: number;
-    readonly lastChangedUtc?: Date;
     readonly provisioningState?: ProvisioningStates;
     schemaItemTypeLink?: string;
+    smallImage?: string;
+    strongIds?: StrongId[];
     readonly tenantId?: string;
     timestampFieldName?: string;
     typeName?: string;
-    strongIds?: StrongId[];
-};
+}
 
 // @public
 export interface Profiles {
@@ -1341,9 +1305,9 @@ export interface ProfilesListByHubOptionalParams extends coreClient.OperationOpt
 export type ProfilesListByHubResponse = ProfileListResult;
 
 // @public
-export type ProfileTypeDefinition = EntityTypeDefinition & {
+export interface ProfileTypeDefinition extends EntityTypeDefinition {
     strongIds?: StrongId[];
-};
+}
 
 // @public
 export interface PropertyDefinition {
@@ -1389,11 +1353,11 @@ export interface RelationshipLinkListResult {
 }
 
 // @public
-export type RelationshipLinkResourceFormat = ProxyResource & {
-    displayName?: {
+export interface RelationshipLinkResourceFormat extends ProxyResource {
+    description?: {
         [propertyName: string]: string;
     };
-    description?: {
+    displayName?: {
         [propertyName: string]: string;
     };
     interactionType?: string;
@@ -1402,10 +1366,10 @@ export type RelationshipLinkResourceFormat = ProxyResource & {
     profilePropertyReferences?: ParticipantProfilePropertyReference[];
     readonly provisioningState?: ProvisioningStates;
     relatedProfilePropertyReferences?: ParticipantProfilePropertyReference[];
-    relationshipName?: string;
     readonly relationshipGuidId?: string;
+    relationshipName?: string;
     readonly tenantId?: string;
-};
+}
 
 // @public
 export interface RelationshipLinks {
@@ -1460,12 +1424,12 @@ export interface RelationshipListResult {
 }
 
 // @public
-export type RelationshipResourceFormat = ProxyResource & {
+export interface RelationshipResourceFormat extends ProxyResource {
     cardinality?: CardinalityTypes;
-    displayName?: {
+    description?: {
         [propertyName: string]: string;
     };
-    description?: {
+    displayName?: {
         [propertyName: string]: string;
     };
     expiryDateTimeUtc?: Date;
@@ -1473,11 +1437,11 @@ export type RelationshipResourceFormat = ProxyResource & {
     lookupMappings?: RelationshipTypeMapping[];
     profileType?: string;
     readonly provisioningState?: ProvisioningStates;
-    readonly relationshipName?: string;
     relatedProfileType?: string;
     readonly relationshipGuidId?: string;
+    readonly relationshipName?: string;
     readonly tenantId?: string;
-};
+}
 
 // @public
 export interface Relationships {
@@ -1569,32 +1533,32 @@ export interface RoleAssignmentListResult {
 }
 
 // @public
-export type RoleAssignmentResourceFormat = ProxyResource & {
-    readonly tenantId?: string;
+export interface RoleAssignmentResourceFormat extends ProxyResource {
     readonly assignmentName?: string;
-    displayName?: {
-        [propertyName: string]: string;
-    };
+    conflationPolicies?: ResourceSetDescription;
+    connectors?: ResourceSetDescription;
     description?: {
         [propertyName: string]: string;
     };
-    readonly provisioningState?: ProvisioningStates;
-    role?: RoleTypes;
+    displayName?: {
+        [propertyName: string]: string;
+    };
+    interactions?: ResourceSetDescription;
+    kpis?: ResourceSetDescription;
+    links?: ResourceSetDescription;
     principals?: AssignmentPrincipal[];
     profiles?: ResourceSetDescription;
-    interactions?: ResourceSetDescription;
-    links?: ResourceSetDescription;
-    kpis?: ResourceSetDescription;
-    sasPolicies?: ResourceSetDescription;
-    connectors?: ResourceSetDescription;
-    views?: ResourceSetDescription;
+    readonly provisioningState?: ProvisioningStates;
     relationshipLinks?: ResourceSetDescription;
     relationships?: ResourceSetDescription;
-    widgetTypes?: ResourceSetDescription;
+    role?: RoleTypes;
     roleAssignments?: ResourceSetDescription;
-    conflationPolicies?: ResourceSetDescription;
+    sasPolicies?: ResourceSetDescription;
     segments?: ResourceSetDescription;
-};
+    readonly tenantId?: string;
+    views?: ResourceSetDescription;
+    widgetTypes?: ResourceSetDescription;
+}
 
 // @public
 export interface RoleAssignments {
@@ -1646,10 +1610,10 @@ export interface RoleListResult {
 }
 
 // @public
-export type RoleResourceFormat = ProxyResource & {
-    roleName?: string;
+export interface RoleResourceFormat extends ProxyResource {
     description?: string;
-};
+    roleName?: string;
+}
 
 // @public
 export interface Roles {
@@ -1728,17 +1692,17 @@ export interface ViewListResult {
 }
 
 // @public
-export type ViewResourceFormat = ProxyResource & {
-    readonly viewName?: string;
-    userId?: string;
-    readonly tenantId?: string;
+export interface ViewResourceFormat extends ProxyResource {
+    readonly changed?: Date;
+    readonly created?: Date;
+    definition?: string;
     displayName?: {
         [propertyName: string]: string;
     };
-    definition?: string;
-    readonly changed?: Date;
-    readonly created?: Date;
-};
+    readonly tenantId?: string;
+    userId?: string;
+    readonly viewName?: string;
+}
 
 // @public
 export interface Views {
@@ -1787,8 +1751,9 @@ export interface WidgetTypeListResult {
 }
 
 // @public
-export type WidgetTypeResourceFormat = ProxyResource & {
-    readonly widgetTypeName?: string;
+export interface WidgetTypeResourceFormat extends ProxyResource {
+    readonly changed?: Date;
+    readonly created?: Date;
     definition?: string;
     description?: string;
     displayName?: {
@@ -1796,10 +1761,9 @@ export type WidgetTypeResourceFormat = ProxyResource & {
     };
     imageUrl?: string;
     readonly tenantId?: string;
+    readonly widgetTypeName?: string;
     widgetVersion?: string;
-    readonly changed?: Date;
-    readonly created?: Date;
-};
+}
 
 // @public
 export interface WidgetTypes {

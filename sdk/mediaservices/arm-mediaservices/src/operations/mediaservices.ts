@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Mediaservices } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,9 +19,10 @@ import {
   MediaService,
   MediaservicesListNextOptionalParams,
   MediaservicesListOptionalParams,
+  MediaservicesListResponse,
   MediaservicesListBySubscriptionNextOptionalParams,
   MediaservicesListBySubscriptionOptionalParams,
-  MediaservicesListResponse,
+  MediaservicesListBySubscriptionResponse,
   MediaservicesGetOptionalParams,
   MediaservicesGetResponse,
   MediaservicesCreateOrUpdateOptionalParams,
@@ -34,7 +36,6 @@ import {
   ListEdgePoliciesInput,
   MediaservicesListEdgePoliciesOptionalParams,
   MediaservicesListEdgePoliciesResponse,
-  MediaservicesListBySubscriptionResponse,
   MediaservicesListNextResponse,
   MediaservicesListBySubscriptionNextResponse
 } from "../models";
@@ -69,19 +70,29 @@ export class MediaservicesImpl implements Mediaservices {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(resourceGroupName, options, settings);
       }
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
-    options?: MediaservicesListOptionalParams
+    options?: MediaservicesListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<MediaService[]> {
-    let result = await this._list(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.odataNextLink;
+    let result: MediaservicesListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.odataNextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -89,7 +100,9 @@ export class MediaservicesImpl implements Mediaservices {
         options
       );
       continuationToken = result.odataNextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -117,22 +130,34 @@ export class MediaservicesImpl implements Mediaservices {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listBySubscriptionPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBySubscriptionPagingPage(options, settings);
       }
     };
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: MediaservicesListBySubscriptionOptionalParams
+    options?: MediaservicesListBySubscriptionOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<MediaService[]> {
-    let result = await this._listBySubscription(options);
-    yield result.value || [];
-    let continuationToken = result.odataNextLink;
+    let result: MediaservicesListBySubscriptionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBySubscription(options);
+      let page = result.value || [];
+      continuationToken = result.odataNextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listBySubscriptionNext(continuationToken, options);
       continuationToken = result.odataNextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -675,7 +700,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -696,7 +720,6 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

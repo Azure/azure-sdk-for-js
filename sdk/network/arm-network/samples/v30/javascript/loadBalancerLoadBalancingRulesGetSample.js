@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Gets the specified load balancer load balancing rule.
  *
  * @summary Gets the specified load balancer load balancing rule.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LoadBalancerLoadBalancingRuleGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/LoadBalancerLoadBalancingRuleGet.json
  */
 async function loadBalancerLoadBalancingRuleGet() {
   const subscriptionId = "subid";

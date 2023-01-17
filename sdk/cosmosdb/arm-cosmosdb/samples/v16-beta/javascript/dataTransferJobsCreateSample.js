@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Creates a Data Transfer Job.
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/data-transfer-service/CosmosDBDataTransferJobCreate.json
  */
 async function cosmosDbDataTransferJobCreate() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
   const jobName = "j1";
   const jobCreateParameters = {
@@ -47,4 +48,8 @@ async function cosmosDbDataTransferJobCreate() {
   console.log(result);
 }
 
-cosmosDbDataTransferJobCreate().catch(console.error);
+async function main() {
+  cosmosDbDataTransferJobCreate();
+}
+
+main().catch(console.error);

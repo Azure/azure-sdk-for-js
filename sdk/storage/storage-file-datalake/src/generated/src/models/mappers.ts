@@ -2218,6 +2218,13 @@ export const PathFlushDataHeaders: coreHttp.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      leaseRenewed: {
+        serializedName: "x-ms-lease-renewed",
+        xmlName: "x-ms-lease-renewed",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -2321,6 +2328,13 @@ export const PathAppendDataHeaders: coreHttp.CompositeMapper = {
         xmlName: "x-ms-encryption-key-sha256",
         type: {
           name: "String"
+        }
+      },
+      leaseRenewed: {
+        serializedName: "x-ms-lease-renewed",
+        xmlName: "x-ms-lease-renewed",
+        type: {
+          name: "Boolean"
         }
       }
     }

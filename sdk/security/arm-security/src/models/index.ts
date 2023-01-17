@@ -1919,6 +1919,55 @@ export interface ApplicationsList {
   readonly nextLink?: string;
 }
 
+/** Page of a list of API collections as represented by Defender for APIs. */
+export interface ApiCollectionResponseList {
+  /**
+   * API collections in this page.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: ApiCollectionResponse[];
+  /**
+   * The URI to fetch the next page.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
 /** CVSS details */
 export interface Cvss {
   /**
@@ -3380,6 +3429,14 @@ export interface Application extends Resource {
   sourceResourceType?: ApplicationSourceResourceType;
   /** The application conditionSets - see examples */
   conditionSets?: Record<string, unknown>[];
+}
+
+/** An API collection as represented by Defender for APIs. */
+export interface ApiCollectionResponse extends Resource {
+  /** The display name of the Azure API Management API. */
+  displayName?: string;
+  /** Additional data regarding the API collection. */
+  additionalData?: { [propertyName: string]: string };
 }
 
 /** Security assessment metadata */
@@ -8625,6 +8682,38 @@ export type SecurityConnectorApplicationCreateOrUpdateResponse = Application;
 
 /** Optional parameters. */
 export interface SecurityConnectorApplicationDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface APICollectionListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type APICollectionListResponse = ApiCollectionResponseList;
+
+/** Optional parameters. */
+export interface APICollectionGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type APICollectionGetResponse = ApiCollectionResponse;
+
+/** Optional parameters. */
+export interface APICollectionListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type APICollectionListNextResponse = ApiCollectionResponseList;
+
+/** Optional parameters. */
+export interface APICollectionOnboardingCreateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the create operation. */
+export type APICollectionOnboardingCreateResponse = ApiCollectionResponse;
+
+/** Optional parameters. */
+export interface APICollectionOffboardingDeleteOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */

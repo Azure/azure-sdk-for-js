@@ -155,6 +155,10 @@ describe("AppConfigurationClient", () => {
         await client.addConfigurationSetting({ key, label, value });
         throw new Error("Test failure");
       } catch (err: any) {
+        assert.equal(
+          (err as { message: string }).message,
+          "Status 412: Setting was already present"
+        );
         assert.notEqual((err as { message: string }).message, "Test failure");
       }
 

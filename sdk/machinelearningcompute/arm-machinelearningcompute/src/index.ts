@@ -7,6 +7,7 @@
  */
 
 /// <reference lib="esnext.asynciterable" />
+export { getContinuationToken } from "./pagingHelper";
 export * from "./models";
 export { MachineLearningComputeManagementClient } from "./machineLearningComputeManagementClient";
 export * from "./operationsInterfaces";

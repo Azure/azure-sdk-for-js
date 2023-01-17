@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { PacketCoreControlPlaneVersions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -14,12 +15,12 @@ import * as Parameters from "../models/parameters";
 import { MobileNetworkManagementClient } from "../mobileNetworkManagementClient";
 import {
   PacketCoreControlPlaneVersion,
-  PacketCoreControlPlaneVersionsListByResourceGroupNextOptionalParams,
-  PacketCoreControlPlaneVersionsListByResourceGroupOptionalParams,
+  PacketCoreControlPlaneVersionsListNextOptionalParams,
+  PacketCoreControlPlaneVersionsListOptionalParams,
+  PacketCoreControlPlaneVersionsListResponse,
   PacketCoreControlPlaneVersionsGetOptionalParams,
   PacketCoreControlPlaneVersionsGetResponse,
-  PacketCoreControlPlaneVersionsListByResourceGroupResponse,
-  PacketCoreControlPlaneVersionsListByResourceGroupNextResponse
+  PacketCoreControlPlaneVersionsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -40,10 +41,10 @@ export class PacketCoreControlPlaneVersionsImpl
    * Lists all supported packet core control planes versions.
    * @param options The options parameters.
    */
-  public listByResourceGroup(
-    options?: PacketCoreControlPlaneVersionsListByResourceGroupOptionalParams
+  public list(
+    options?: PacketCoreControlPlaneVersionsListOptionalParams
   ): PagedAsyncIterableIterator<PacketCoreControlPlaneVersion> {
-    const iter = this.listByResourceGroupPagingAll(options);
+    const iter = this.listPagingAll(options);
     return {
       next() {
         return iter.next();
@@ -51,29 +52,41 @@ export class PacketCoreControlPlaneVersionsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
-  private async *listByResourceGroupPagingPage(
-    options?: PacketCoreControlPlaneVersionsListByResourceGroupOptionalParams
+  private async *listPagingPage(
+    options?: PacketCoreControlPlaneVersionsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PacketCoreControlPlaneVersion[]> {
-    let result = await this._listByResourceGroup(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listByResourceGroupNext(continuationToken, options);
+    let result: PacketCoreControlPlaneVersionsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
       continuationToken = result.nextLink;
-      yield result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listNext(continuationToken, options);
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
-  private async *listByResourceGroupPagingAll(
-    options?: PacketCoreControlPlaneVersionsListByResourceGroupOptionalParams
+  private async *listPagingAll(
+    options?: PacketCoreControlPlaneVersionsListOptionalParams
   ): AsyncIterableIterator<PacketCoreControlPlaneVersion> {
-    for await (const page of this.listByResourceGroupPagingPage(options)) {
+    for await (const page of this.listPagingPage(options)) {
       yield* page;
     }
   }
@@ -97,27 +110,24 @@ export class PacketCoreControlPlaneVersionsImpl
    * Lists all supported packet core control planes versions.
    * @param options The options parameters.
    */
-  private _listByResourceGroup(
-    options?: PacketCoreControlPlaneVersionsListByResourceGroupOptionalParams
-  ): Promise<PacketCoreControlPlaneVersionsListByResourceGroupResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listByResourceGroupOperationSpec
-    );
+  private _list(
+    options?: PacketCoreControlPlaneVersionsListOptionalParams
+  ): Promise<PacketCoreControlPlaneVersionsListResponse> {
+    return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
   /**
-   * ListByResourceGroupNext
-   * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
+   * ListNext
+   * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
-  private _listByResourceGroupNext(
+  private _listNext(
     nextLink: string,
-    options?: PacketCoreControlPlaneVersionsListByResourceGroupNextOptionalParams
-  ): Promise<PacketCoreControlPlaneVersionsListByResourceGroupNextResponse> {
+    options?: PacketCoreControlPlaneVersionsListNextOptionalParams
+  ): Promise<PacketCoreControlPlaneVersionsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listNextOperationSpec
     );
   }
 }
@@ -141,7 +151,7 @@ const getOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
+const listOperationSpec: coreClient.OperationSpec = {
   path: "/providers/Microsoft.MobileNetwork/packetCoreControlPlaneVersions",
   httpMethod: "GET",
   responses: {
@@ -157,7 +167,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
+const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
@@ -168,7 +178,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer

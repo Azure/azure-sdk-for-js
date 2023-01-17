@@ -3277,10 +3277,7 @@ export type MachineExtensionsListResponse = MachineExtensionsListResult;
 
 /** Optional parameters. */
 export interface MachineExtensionsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The expand expression to apply on the operation. */
-  expand?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type MachineExtensionsListNextResponse = MachineExtensionsListResult;

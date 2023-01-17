@@ -50,8 +50,7 @@ async function createPrivateEndpoint() {
           },
         ],
         subnet: {
-          id:
-            "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnet",
+          id: "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnet",
         },
       },
     },
@@ -89,8 +88,7 @@ async function createPrivateEndpointWithApplicationSecurityGroups() {
       properties: {
         applicationSecurityGroups: [
           {
-            id:
-              "/subscriptions/subId/resourceGroups/rg1/provders/Microsoft.Network/applicationSecurityGroup/asg1",
+            id: "/subscriptions/subId/resourceGroups/rg1/provders/Microsoft.Network/applicationSecurityGroup/asg1",
           },
         ],
         privateLinkServiceConnections: [
@@ -104,8 +102,7 @@ async function createPrivateEndpointWithApplicationSecurityGroups() {
           },
         ],
         subnet: {
-          id:
-            "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnet",
+          id: "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnet",
         },
       },
     },
@@ -163,8 +160,7 @@ async function createPrivateEndpointWithManualApprovalConnection() {
           },
         ],
         subnet: {
-          id:
-            "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnet",
+          id: "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnet",
         },
       },
     },

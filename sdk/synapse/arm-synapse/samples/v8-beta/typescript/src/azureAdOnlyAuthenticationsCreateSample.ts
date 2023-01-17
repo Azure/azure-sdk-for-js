@@ -13,6 +13,9 @@ import {
   SynapseManagementClient
 } from "@azure/arm-synapse";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create or Update a Azure Active Directory only authentication property for the workspaces
@@ -21,8 +24,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/CreateOrUpdateAzureADOnlyAuthentication.json
  */
 async function createOrUpdateAzureActiveDirectoryOnlyAuthenticationProperty() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "workspace-6852";
+  const subscriptionId =
+    process.env["SYNAPSE_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SYNAPSE_RESOURCE_GROUP"] || "workspace-6852";
   const workspaceName = "workspace-2080";
   const azureADOnlyAuthenticationName = "default";
   const azureADOnlyAuthenticationInfo: AzureADOnlyAuthentication = {
@@ -39,6 +45,8 @@ async function createOrUpdateAzureActiveDirectoryOnlyAuthenticationProperty() {
   console.log(result);
 }
 
-createOrUpdateAzureActiveDirectoryOnlyAuthenticationProperty().catch(
-  console.error
-);
+async function main() {
+  createOrUpdateAzureActiveDirectoryOnlyAuthenticationProperty();
+}
+
+main().catch(console.error);

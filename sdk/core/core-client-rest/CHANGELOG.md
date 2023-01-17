@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.1 (Unreleased)
+## 1.0.2 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,12 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.0.1 (2023-01-05)
+
+### Fixes
+
+- Fix the `api-version` precedence issue in apiVersionPolicy. [23990](https://github.com/Azure/azure-sdk-for-js/pull/23990)
 
 ## 1.0.0 (2022-08-04)
 

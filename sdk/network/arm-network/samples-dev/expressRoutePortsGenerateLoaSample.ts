@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Generate a letter of authorization for the requested ExpressRoutePort resource.
  *
  * @summary Generate a letter of authorization for the requested ExpressRoutePort resource.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/GenerateExpressRoutePortsLOA.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/GenerateExpressRoutePortsLOA.json
  */
 async function generateExpressRoutePortLoa() {
   const subscriptionId = "subid";

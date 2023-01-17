@@ -15,16 +15,16 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Creates or updates a project.
  *
  * @summary Creates or updates a project.
- * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-10-12-preview/examples/Projects_Put.json
+ * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-11-11-preview/examples/Projects_Put.json
  */
 async function projectsCreateOrUpdate() {
-  const subscriptionId = "{subscriptionId}";
+  const subscriptionId = "0ac520ee-14c0-480f-b6c9-0a90c58ffff";
   const resourceGroupName = "rg1";
-  const projectName = "{projectName}";
+  const projectName = "DevProject";
   const body: Project = {
     description: "This is my first project.",
     devCenterId:
-      "/subscriptions/{subscriptionId}/resourceGroups/rg1/providers/Microsoft.DevCenter/devcenters/{devCenterName}",
+      "/subscriptions/0ac520ee-14c0-480f-b6c9-0a90c58ffff/resourceGroups/rg1/providers/Microsoft.DevCenter/devcenters/Contoso",
     location: "centralus",
     tags: { costCenter: "R&D" }
   };

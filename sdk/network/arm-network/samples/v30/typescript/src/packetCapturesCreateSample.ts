@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Create and start a packet capture on the specified VM.
  *
  * @summary Create and start a packet capture on the specified VM.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkWatcherPacketCaptureCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/NetworkWatcherPacketCaptureCreate.json
  */
 async function createPacketCapture() {
   const subscriptionId = "subid";
@@ -26,7 +26,7 @@ async function createPacketCapture() {
     bytesToCapturePerPacket: 10000,
     filters: [{ localIPAddress: "10.0.0.4", localPort: "80", protocol: "TCP" }],
     storageLocation: {
-      filePath: "D:capturepc1.cap",
+      filePath: "D:\\capture\\pc1.cap",
       storageId:
         "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Storage/storageAccounts/pcstore",
       storagePath:

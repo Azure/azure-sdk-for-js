@@ -26,6 +26,7 @@ async function httpConnectivityCheck() {
     protocolConfiguration: {
       httpConfiguration: {
         method: "GET",
+        headers: [{ name: "", value: "" }],
         validStatusCodes: [200, 204],
       },
     },

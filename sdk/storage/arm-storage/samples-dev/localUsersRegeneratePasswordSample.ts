@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Regenerate the local user SSH password.
  *
  * @summary Regenerate the local user SSH password.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-05-01/examples/LocalUserRegeneratePassword.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/LocalUserRegeneratePassword.json
  */
 async function regenerateLocalUserPassword() {
   const subscriptionId = "{subscription-id}";

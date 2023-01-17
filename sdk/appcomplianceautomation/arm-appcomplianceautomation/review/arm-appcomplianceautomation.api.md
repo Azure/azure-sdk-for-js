@@ -178,6 +178,9 @@ export interface ErrorResponse {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export type IsPass = string;
 
 // @public

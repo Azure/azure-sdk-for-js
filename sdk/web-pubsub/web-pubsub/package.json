@@ -1,6 +1,6 @@
 {
   "name": "@azure/web-pubsub",
-  "version": "1.1.0",
+  "version": "1.1.2",
   "description": "Azure client library for Azure Web PubSub",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -30,7 +30,8 @@
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
     "unit-test:browser": "echo \"Browser is not supported.\" && exit 0",
     "unit-test:node": "dev-tool run test:node-ts-input -- --timeout 1200000 --exclude 'test/**/browser/*.spec.ts' 'test/**/*.spec.ts'",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
+    "generate:client": "autorest --typescript ./swagger/README.md"
   },
   "files": [
     "dist/",
@@ -74,7 +75,7 @@
     "@azure/core-tracing": "^1.0.0",
     "@azure/logger": "^1.0.0",
     "tslib": "^2.2.0",
-    "jsonwebtoken": "^8.5.1"
+    "jsonwebtoken": "^9.0.0"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
@@ -84,7 +85,7 @@
     "@azure-tools/test-recorder": "^2.0.0",
     "@microsoft/api-extractor": "^7.31.1",
     "@types/chai": "^4.1.6",
-    "@types/jsonwebtoken": "~8.5.0",
+    "@types/jsonwebtoken": "^9.0.0",
     "@types/mocha": "^7.0.2",
     "@types/node": "^14.0.0",
     "@types/sinon": "^9.0.4",
@@ -109,7 +110,7 @@
     "mocha-junit-reporter": "^2.0.0",
     "nyc": "^15.0.0",
     "prettier": "^2.5.1",
-    "puppeteer": "^14.0.0",
+    "puppeteer": "^19.2.2",
     "rimraf": "^3.0.0",
     "sinon": "^9.0.2",
     "source-map-support": "^0.5.9",

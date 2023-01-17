@@ -365,15 +365,15 @@ export interface PlanUsageHistory {
 }
 
 /** Represents the association between a commitment plan and some other resource, such as a Machine Learning web service. */
-export type CommitmentAssociation = Resource & {
+export interface CommitmentAssociation extends Resource {
   /** An entity tag used to enforce optimistic concurrency. */
   etag?: string;
   /** The properties of the commitment association resource. */
   properties?: CommitmentAssociationProperties;
-};
+}
 
 /** An Azure ML commitment plan resource. */
-export type CommitmentPlan = Resource & {
+export interface CommitmentPlan extends Resource {
   /** An entity tag used to enforce optimistic concurrency. */
   etag?: string;
   /**
@@ -383,12 +383,15 @@ export type CommitmentPlan = Resource & {
   readonly properties?: CommitmentPlanProperties;
   /** The commitment plan SKU. */
   sku?: ResourceSku;
-};
+}
 
 /** Known values of {@link SkuCapacityScaleType} that the service accepts. */
 export enum KnownSkuCapacityScaleType {
+  /** Automatic */
   Automatic = "Automatic",
+  /** Manual */
   Manual = "Manual",
+  /** None */
   None = "None"
 }
 
@@ -405,7 +408,9 @@ export type SkuCapacityScaleType = string;
 
 /** Known values of {@link ResourceSkuRestrictionsType} that the service accepts. */
 export enum KnownResourceSkuRestrictionsType {
+  /** Location */
   Location = "location",
+  /** Zone */
   Zone = "zone"
 }
 
@@ -421,7 +426,9 @@ export type ResourceSkuRestrictionsType = string;
 
 /** Known values of {@link ResourceSkuRestrictionsReasonCode} that the service accepts. */
 export enum KnownResourceSkuRestrictionsReasonCode {
+  /** QuotaId */
   QuotaId = "QuotaId",
+  /** NotAvailableForSubscription */
   NotAvailableForSubscription = "NotAvailableForSubscription"
 }
 

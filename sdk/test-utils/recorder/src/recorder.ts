@@ -42,6 +42,8 @@ import { setRecordingOptions } from "./options";
 import { isNode } from "@azure/core-util";
 import { env } from "./utils/env";
 import { decodeBase64 } from "./utils/encoding";
+import { isHttpHeadersLike } from "./utils/typeGuards";
+import { relativeAssetsPath } from "./utils/relativePathCalculator";
 
 /**
  * This client manages the recorder life cycle and interacts with the proxy-tool to do the recording,
@@ -60,6 +62,7 @@ export class Recorder {
   private stateManager = new RecordingStateManager();
   private httpClient?: HttpClient;
   private sessionFile?: string;
+  private assetsJson?: string;
   private variables: Record<string, string>;
 
   constructor(private testContext?: Test | undefined) {
@@ -67,6 +70,8 @@ export class Recorder {
     if (isRecordMode() || isPlaybackMode()) {
       if (this.testContext) {
         this.sessionFile = sessionFilePath(this.testContext);
+        this.assetsJson = relativeAssetsPath();
+
         logger.info(`[Recorder#constructor] Using a session file located at ${this.sessionFile}`);
         this.httpClient = createDefaultHttpClient();
       } else {
@@ -134,6 +139,34 @@ export class Recorder {
         request.allowInsecureConnection = true;
       }
     }
+  }
+
+  /**
+   * revertRequestChanges reverts the request in record and playback modes back to the existing url.
+   * Works for both core-v1 and core-v2
+   *
+   * - WebResource -> core-v1
+   * - PipelineRequest -> core-v2
+   *
+   * Wrokflow:
+   *   - recorderHttpPolicy calls this method after the request is made
+   *   1. "redirectRequest" method is called to update the request with the proxy-tool url
+   *   2. Request hits the proxy tool, proxy-tool hits the service and returns the response
+   *   3. Using `revertRequestChanges`, we revert the request back to the original url
+   */
+  private revertRequestChanges(request: WebResource | PipelineRequest, originalUrl: string): void {
+    logger.info(
+      `[Recorder#revertRequestChanges] "undo"s the URL changes made by the recorder to hit the test proxy after the response is received,`,
+      request
+    );
+    const headers = request.headers;
+    const deleteHeaderFunc = isHttpHeadersLike(headers)
+      ? /* core-v1 */ headers.remove
+      : /* core-v2 */ headers.delete;
+    ["x-recording-id", "x-recording-mode"].forEach((headerName) =>
+      deleteHeaderFunc.call(headers, headerName)
+    );
+    request.url = originalUrl;
   }
 
   /**
@@ -214,7 +247,14 @@ export class Recorder {
       const startUri = `${Recorder.url}${isPlaybackMode() ? paths.playback : paths.record}${
         paths.start
       }`;
-      const req = createRecordingRequest(startUri, this.sessionFile, this.recordingId);
+
+      const req = createRecordingRequest(
+        startUri,
+        this.sessionFile,
+        this.recordingId,
+        "POST",
+        this.assetsJson
+      );
 
       if (ensureExistence(this.httpClient, "TestProxyHttpClient.httpClient")) {
         logger.verbose("[Recorder#start] Setting redirect mode");
@@ -271,6 +311,7 @@ export class Recorder {
       const stopUri = `${Recorder.url}${isPlaybackMode() ? paths.playback : paths.record}${
         paths.stop
       }`;
+
       const req = createRecordingRequest(stopUri, undefined, this.recordingId);
       req.headers.set("x-recording-save", "true");
 
@@ -402,10 +443,11 @@ export class Recorder {
         request: PipelineRequest,
         next: SendRequest
       ): Promise<PipelineResponse> => {
+        const originalUrl = request.url;
         this.redirectRequest(request);
         const response = await next(request);
         this.handleTestProxyErrors(response);
-
+        this.revertRequestChanges(request, originalUrl);
         return response;
       },
     };

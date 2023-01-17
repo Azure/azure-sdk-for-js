@@ -2,7 +2,7 @@
   "name": "@azure/keyvault-certificates",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "4.6.1",
+  "version": "4.7.0-beta.1",
   "license": "MIT",
   "description": "Isomorphic client library for Azure KeyVault's certificates.",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-certificates/README.md",
@@ -20,7 +20,7 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "main": "./dist/index.js",
-  "module": "dist-esm/keyvault-certificates/src/index.js",
+  "module": "dist-esm/src/index.js",
   "types": "./types/keyvault-certificates.d.ts",
   "engines": {
     "node": ">=14.0.0"
@@ -28,8 +28,7 @@
   "files": [
     "types/keyvault-certificates.d.ts",
     "dist/",
-    "dist-esm/keyvault-certificates/src",
-    "dist-esm/keyvault-common/src",
+    "dist-esm/src",
     "README.md",
     "LICENSE"
   ],
@@ -114,6 +113,7 @@
     "@azure/core-paging": "^1.1.1",
     "@azure/core-util": "^1.0.0",
     "@azure/core-tracing": "^1.0.0",
+    "@azure/keyvault-common": "^1.0.0-beta.1",
     "@azure/logger": "^1.0.0",
     "tslib": "^2.2.0"
   },
@@ -150,11 +150,10 @@
     "mocha-junit-reporter": "^2.0.0",
     "nyc": "^15.0.0",
     "prettier": "^2.5.1",
-    "puppeteer": "^14.0.0",
+    "puppeteer": "^19.2.2",
     "rimraf": "^3.0.0",
     "sinon": "^9.0.2",
     "source-map-support": "^0.5.9",
-    "typescript": "~4.8.0",
-    "url": "^0.11.0"
+    "typescript": "~4.8.0"
   }
 }

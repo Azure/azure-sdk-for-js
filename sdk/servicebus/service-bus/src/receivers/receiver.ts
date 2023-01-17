@@ -679,7 +679,12 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     entityPath: string,
     options: ReceiveOptions
   ): BatchingReceiver {
-    return BatchingReceiver.create(this.identifier, context, entityPath, options);
+    const receiver = BatchingReceiver.create(this.identifier, context, entityPath, options);
+    logger.verbose(
+      `[${this.logPrefix}] receiver '${receiver.name}' created, with maxConcurrentCalls set to ${options.maxConcurrentCalls}.`
+    );
+
+    return receiver;
   }
 
   /**

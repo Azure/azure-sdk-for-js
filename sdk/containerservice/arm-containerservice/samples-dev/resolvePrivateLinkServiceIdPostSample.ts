@@ -13,16 +13,21 @@ import {
   ContainerServiceClient
 } from "@azure/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets the private link service ID for the specified managed cluster.
  *
  * @summary Gets the private link service ID for the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/stable/2022-09-01/examples/ResolvePrivateLinkServiceId.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/stable/2022-11-01/examples/ResolvePrivateLinkServiceId.json
  */
 async function resolveThePrivateLinkServiceIdForManagedCluster() {
-  const subscriptionId = "subid1";
-  const resourceGroupName = "rg1";
+  const subscriptionId =
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
+  const resourceGroupName =
+    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const parameters: PrivateLinkResource = { name: "management" };
   const credential = new DefaultAzureCredential();
@@ -35,4 +40,8 @@ async function resolveThePrivateLinkServiceIdForManagedCluster() {
   console.log(result);
 }
 
-resolveThePrivateLinkServiceIdForManagedCluster().catch(console.error);
+async function main() {
+  resolveThePrivateLinkServiceIdForManagedCluster();
+}
+
+main().catch(console.error);

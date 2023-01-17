@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { Workflows } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -58,11 +58,15 @@ export class WorkflowsImpl implements Workflows {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByStorageSyncServicePagingPage(
           resourceGroupName,
           storageSyncServiceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -71,9 +75,11 @@ export class WorkflowsImpl implements Workflows {
   private async *listByStorageSyncServicePagingPage(
     resourceGroupName: string,
     storageSyncServiceName: string,
-    options?: WorkflowsListByStorageSyncServiceOptionalParams
+    options?: WorkflowsListByStorageSyncServiceOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<Workflow[]> {
-    let result = await this._listByStorageSyncService(
+    let result: WorkflowsListByStorageSyncServiceResponse;
+    result = await this._listByStorageSyncService(
       resourceGroupName,
       storageSyncServiceName,
       options
