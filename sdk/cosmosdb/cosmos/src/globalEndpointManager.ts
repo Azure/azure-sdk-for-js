@@ -136,7 +136,7 @@ export class GlobalEndpointManager {
       for (const preferredLocation of this.preferredLocations) {
         location = locations.find(
           (loc) =>
-            loc.unavailable === undefined &&
+            loc.locationUnavailability === undefined &&
             normalizeEndpoint(loc.name) === normalizeEndpoint(preferredLocation)
         );
         if (location) {
@@ -155,7 +155,7 @@ export class GlobalEndpointManager {
   }
 
   /**
-   * Refreshes the endpoint list by retrieving the writable and readable locations
+   * Refreshes the endpoint list by clearning stale unavailability retrieving the writable and readable locations
    *  from the geo-replicated database account and then updating the locations cache.
    *   We skip the refreshing if enableEndpointDiscovery is set to False
    */
@@ -199,23 +199,19 @@ export class GlobalEndpointManager {
 
   private updateLocationList(now: number, isReadRequest: boolean) {
     if (isReadRequest) {
-      for (const location of this.unavailableReadableLocations) {
-        const readableLocation = this.readableLocations.find((loc) => loc.name === location.name);
-        if (
-          readableLocation.locationUnavailability &&
-          now - readableLocation.locationUnavailability.lastUnavailabilityTimestamp > 30000
-        ) {
-          readableLocation.locationUnavailability = undefined;
-        }
-      }
+      updateLocation(this.unavailableReadableLocations, this.readableLocations);
     } else {
-      for (const location of this.unavailableWriteableLocations) {
-        const writableLocation = this.writeableLocations.find((loc) => loc.name === location.name);
+      updateLocation(this.unavailableWriteableLocations, this.writeableLocations);
+    }
+    function updateLocation(unavailableLocations: Location[], allLocations: Location[]) {
+      for (const location of unavailableLocations) {
+        const unavaialableLocation = allLocations.find((loc) => loc.name === location.name);
         if (
-          writableLocation.locationUnavailability &&
-          now - writableLocation.locationUnavailability.lastUnavailabilityTimestamp > 30000
+          unavaialableLocation.locationUnavailability &&
+          now - unavaialableLocation.locationUnavailability.lastUnavailabilityTimestamp >
+            Constants.DefaultUnavailableLocationExpirationTimeMS
         ) {
-          writableLocation.locationUnavailability = undefined;
+          unavaialableLocation.locationUnavailability = undefined;
         }
       }
     }
@@ -223,19 +219,20 @@ export class GlobalEndpointManager {
 
   private cleanUnavailableLocationList(now: number, isReadRequest: boolean) {
     if (isReadRequest) {
-      this.unavailableReadableLocations = this.unavailableReadableLocations.filter((loc) => {
-        if (
-          loc.locationUnavailability &&
-          now - loc.locationUnavailability.lastUnavailabilityTimestamp >= 5 * 60 * 1000
-        ) {
-          return true;
-        }
-      });
+      this.unavailableReadableLocations = cleanUnavailableLocationList(
+        this.unavailableReadableLocations
+      );
     } else {
-      this.unavailableWriteableLocations = this.unavailableWriteableLocations.filter((loc) => {
+      this.unavailableWriteableLocations = cleanUnavailableLocationList(
+        this.unavailableWriteableLocations
+      );
+    }
+    function cleanUnavailableLocationList(unavailableLocations: Location[]): Location[] {
+      return unavailableLocations.filter((loc) => {
         if (
           loc.locationUnavailability &&
-          now - loc.locationUnavailability.lastUnavailabilityTimestamp >= 5 * 60 * 1000
+          now - loc.locationUnavailability.lastUnavailabilityTimestamp >=
+            Constants.DefaultUnavailableLocationExpirationTimeMS
         ) {
           return true;
         }

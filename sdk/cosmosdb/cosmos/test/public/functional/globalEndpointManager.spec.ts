@@ -8,8 +8,7 @@ import * as fakeTimers from "@sinonjs/fake-timers";
 
 import assert from "assert";
 
-const locationUnavailableExpirationTime = 6 * 60 * 1000;
-
+const locationUnavailabilityExpiratationTime = 6 * 60 * 1000;
 const headers = {
   "access-control-allow-credentials": "true",
   "access-control-allow-origin": "",
@@ -102,6 +101,7 @@ describe("GlobalEndpointManager", function () {
     });
     it("should resolve to endpoint when call made after server unavailability time", async function () {
       const clock: fakeTimers.InstalledClock = fakeTimers.install();
+
       gem = new GlobalEndpointManager(
         {
           endpoint: "https://test.documents.azure.com:443/",
@@ -127,7 +127,8 @@ describe("GlobalEndpointManager", function () {
         await gem.resolveServiceEndpoint(ResourceType.item, OperationType.Read),
         "https://test.documents.azure.com:443/"
       );
-      clock.tick(locationUnavailableExpirationTime);
+      clock.tick(locationUnavailabilityExpiratationTime);
+      await gem.refreshEndpointList();
       assert.equal(
         await gem.resolveServiceEndpoint(ResourceType.item, OperationType.Read),
         "https://test-westus2.documents.azure.com:443/"
