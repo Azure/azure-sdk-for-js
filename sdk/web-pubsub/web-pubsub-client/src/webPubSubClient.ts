@@ -41,6 +41,7 @@ import { WebPubSubClientProtocol, WebPubSubJsonReliableProtocol } from "./protoc
 import { WebPubSubClientCredential } from "./webPubSubClientCredential";
 import { WebSocketClientFactory } from "./websocket/websocketClient";
 import { WebSocketClientFactoryLike, WebSocketClientLike } from "./websocket/websocketClientLike";
+import { abortablePromise } from "./utils/abortablePromise";
 
 enum WebPubSubClientState {
   Stopped = "Stopped",
@@ -796,6 +797,17 @@ export class WebPubSubClient {
         errorMessage = error.message;
       }
       throw new SendMessageError(errorMessage, { ackId: ackId });
+    }
+
+    if (abortSignal) {
+      try {
+        return await abortablePromise(entity.promise(), abortSignal);
+      } catch (err) {
+        if (err instanceof Error && err.name === "AbortError") {
+          throw new SendMessageError("Cancelled by abortSignal", { ackId: ackId });
+        }
+        throw err;
+      }
     }
 
     return await entity.promise();

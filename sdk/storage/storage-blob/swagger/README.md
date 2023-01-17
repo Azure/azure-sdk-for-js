@@ -12,7 +12,7 @@ enable-xml: true
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/e432d9cc87bfed320d8feead4b448be9481c9181/specification/storage/data-plane/Microsoft.BlobStorage/preview/2021-04-10/blob.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/080b332b7572514a2e100dd2fa1fb86cb8edcb08/specification/storage/data-plane/Microsoft.BlobStorage/preview/2021-12-02/blob.json
 model-date-time-as-string: true
 optional-response-headers: true
 v3: true
@@ -1362,13 +1362,105 @@ directive:
       $["x-ms-enum"]["modelAsString"] = true;
 ```
 
-### Update service version from "2021-04-10" to "2021-10-04"
+### Hide Premium in AccessTier until it's supported in service.
 
 ```yaml
 directive:
   - from: swagger-document
-    where: $.parameters.ApiVersionParameter
-    transform: $.enum = [ "2021-10-04" ];
+    where: $.definitions.AccessTier
+    transform: >
+      $["enum"] = [
+        "P4",
+        "P6",
+        "P10",
+        "P15",
+        "P20",
+        "P30",
+        "P40",
+        "P50",
+        "P60",
+        "P70",
+        "P80",
+        "Hot",
+        "Cool",
+        "Archive",
+        "Cold"
+      ];
+```
+
+### Hide version releated properties in FilterBlobItem until it's supported in service.
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.FilterBlobItem
+    transform: >
+      delete $["properties"]["VersionId"];
+      delete $["properties"]["IsCurrentVersion"];
+```
+
+### Hide FilterBlobsInclude until it's supported in service.
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters
+    transform: >
+      delete $["FilterBlobsInclude"];
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/?comp=blobs"]["get"]
+    transform: >
+      $["parameters"] = [
+          {
+            "$ref": "#/parameters/Timeout"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/ClientRequestId"
+          },
+          {
+            "$ref": "#/parameters/FilterBlobsWhere"
+          },
+          {
+            "$ref": "#/parameters/Marker"
+          },
+          {
+            "$ref": "#/parameters/MaxResults"
+          }
+        ];
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}?restype=container&comp=blobs"]["get"]
+    transform: >
+      $["parameters"] = [
+          {
+            "$ref": "#/parameters/Timeout"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/ClientRequestId"
+          },
+          {
+            "$ref": "#/parameters/FilterBlobsWhere"
+          },
+          {
+            "$ref": "#/parameters/Marker"
+          },
+          {
+            "$ref": "#/parameters/MaxResults"
+          }
+        ];
 ```
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fstorage%2Fstorage-blob%2Fswagger%2FREADME.png)

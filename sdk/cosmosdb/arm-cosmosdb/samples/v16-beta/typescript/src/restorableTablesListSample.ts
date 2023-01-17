@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Show the event feed of all mutations done on all the Azure Cosmos DB Tables. This helps in scenario where table was accidentally deleted. This API requires 'Microsoft.DocumentDB/locations/restorableDatabaseAccounts/.../read' permission
@@ -18,7 +21,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBRestorableTableList.json
  */
 async function cosmosDbRestorableTableList() {
-  const subscriptionId = "subid";
+  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const location = "WestUS";
   const instanceId = "98a570f2-63db-4117-91f0-366327b7b353";
   const credential = new DefaultAzureCredential();
@@ -30,4 +33,8 @@ async function cosmosDbRestorableTableList() {
   console.log(resArray);
 }
 
-cosmosDbRestorableTableList().catch(console.error);
+async function main() {
+  cosmosDbRestorableTableList();
+}
+
+main().catch(console.error);

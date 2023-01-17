@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { DataFactoryManagementClient } = require("@azure/arm-datafactory");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Updates a factory.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/Factories_Update.json
  */
 async function factoriesUpdate() {
-  const subscriptionId = "12345678-1234-1234-1234-12345678abc";
-  const resourceGroupName = "exampleResourceGroup";
+  const subscriptionId =
+    process.env["DATAFACTORY_SUBSCRIPTION_ID"] || "12345678-1234-1234-1234-12345678abc";
+  const resourceGroupName = process.env["DATAFACTORY_RESOURCE_GROUP"] || "exampleResourceGroup";
   const factoryName = "exampleFactoryName";
   const factoryUpdateParameters = {
     tags: { exampleTag: "exampleValue" },
@@ -34,4 +36,8 @@ async function factoriesUpdate() {
   console.log(result);
 }
 
-factoriesUpdate().catch(console.error);
+async function main() {
+  factoriesUpdate();
+}
+
+main().catch(console.error);

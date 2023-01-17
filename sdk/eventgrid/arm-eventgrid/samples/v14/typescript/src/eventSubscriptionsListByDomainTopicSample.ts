@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { EventGridManagementClient } from "@azure/arm-eventgrid";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to List all event subscriptions that have been created for a specific domain topic.
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/EventSubscriptions_ListByDomainTopic.json
  */
 async function eventSubscriptionsListByDomainTopic() {
-  const subscriptionId = "5b4b650e-28b9-4790-b3ab-ddbd88d727c4";
-  const resourceGroupName = "examplerg";
+  const subscriptionId =
+    process.env["EVENTGRID_SUBSCRIPTION_ID"] ||
+    "5b4b650e-28b9-4790-b3ab-ddbd88d727c4";
+  const resourceGroupName =
+    process.env["EVENTGRID_RESOURCE_GROUP"] || "examplerg";
   const domainName = "domain1";
   const topicName = "topic1";
   const credential = new DefaultAzureCredential();
@@ -35,4 +41,8 @@ async function eventSubscriptionsListByDomainTopic() {
   console.log(resArray);
 }
 
-eventSubscriptionsListByDomainTopic().catch(console.error);
+async function main() {
+  eventSubscriptionsListByDomainTopic();
+}
+
+main().catch(console.error);

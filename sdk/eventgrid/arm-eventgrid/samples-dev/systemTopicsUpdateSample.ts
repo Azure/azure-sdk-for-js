@@ -13,6 +13,9 @@ import {
   EventGridManagementClient
 } from "@azure/arm-eventgrid";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Asynchronously updates a system topic with the specified parameters.
@@ -21,8 +24,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/SystemTopics_Update.json
  */
 async function systemTopicsUpdate() {
-  const subscriptionId = "5b4b650e-28b9-4790-b3ab-ddbd88d727c4";
-  const resourceGroupName = "examplerg";
+  const subscriptionId =
+    process.env["EVENTGRID_SUBSCRIPTION_ID"] ||
+    "5b4b650e-28b9-4790-b3ab-ddbd88d727c4";
+  const resourceGroupName =
+    process.env["EVENTGRID_RESOURCE_GROUP"] || "examplerg";
   const systemTopicName = "exampleSystemTopic1";
   const systemTopicUpdateParameters: SystemTopicUpdateParameters = {
     tags: { tag1: "value1", tag2: "value2" }
@@ -37,4 +43,8 @@ async function systemTopicsUpdate() {
   console.log(result);
 }
 
-systemTopicsUpdate().catch(console.error);
+async function main() {
+  systemTopicsUpdate();
+}
+
+main().catch(console.error);
