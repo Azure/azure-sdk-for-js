@@ -209,7 +209,7 @@ export class GlobalEndpointManager {
         if (
           unavaialableLocation.locationUnavailability &&
           now - unavaialableLocation.locationUnavailability.lastUnavailabilityTimestamp >
-            Constants.DefaultUnavailableLocationExpirationTimeMS
+            Constants.LocationUnavailableExpirationTime
         ) {
           unavaialableLocation.locationUnavailability = undefined;
         }
@@ -232,7 +232,7 @@ export class GlobalEndpointManager {
         if (
           loc.locationUnavailability &&
           now - loc.locationUnavailability.lastUnavailabilityTimestamp >=
-            Constants.DefaultUnavailableLocationExpirationTimeMS
+            Constants.LocationUnavailableExpirationTime
         ) {
           return true;
         }
