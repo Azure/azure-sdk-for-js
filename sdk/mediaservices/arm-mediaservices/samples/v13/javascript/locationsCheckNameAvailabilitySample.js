@@ -10,15 +10,17 @@
 // Licensed under the MIT License.
 const { AzureMediaServices } = require("@azure/arm-mediaservices");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Checks whether the Media Service resource name is available.
  *
  * @summary Checks whether the Media Service resource name is available.
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2021-11-01/examples/accounts-check-name-availability.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Accounts/stable/2021-11-01/examples/accounts-check-name-availability.json
  */
 async function checkNameAvailability() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["MEDIASERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const locationName = "japanwest";
   const parameters = {
     name: "contosotv",
@@ -30,4 +32,8 @@ async function checkNameAvailability() {
   console.log(result);
 }
 
-checkNameAvailability().catch(console.error);
+async function main() {
+  checkNameAvailability();
+}
+
+main().catch(console.error);
