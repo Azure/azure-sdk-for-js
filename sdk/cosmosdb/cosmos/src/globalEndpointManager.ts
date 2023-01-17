@@ -155,9 +155,10 @@ export class GlobalEndpointManager {
   }
 
   /**
-   * Refreshes the endpoint list by clearning stale unavailability retrieving the writable and readable locations
-   *  from the geo-replicated database account and then updating the locations cache.
-   *   We skip the refreshing if enableEndpointDiscovery is set to False
+   * Refreshes the endpoint list by clearning stale unavailability and then
+   *  retrieving the writable and readable locations from the geo-replicated database account
+   *  and then updating the locations cache.
+   *  We skip the refreshing if enableEndpointDiscovery is set to False
    */
   public async refreshEndpointList(): Promise<void> {
     if (!this.isRefreshing && this.enableEndpointDiscovery) {
