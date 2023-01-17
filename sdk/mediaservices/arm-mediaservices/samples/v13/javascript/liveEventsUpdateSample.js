@@ -10,16 +10,18 @@
 // Licensed under the MIT License.
 const { AzureMediaServices } = require("@azure/arm-mediaservices");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Updates settings on an existing live event.
  *
  * @summary Updates settings on an existing live event.
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2022-08-01/examples/liveevent-update.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Streaming/stable/2022-08-01/examples/liveevent-update.json
  */
 async function updateALiveEvent() {
-  const subscriptionId = "0a6ec948-5a62-437d-b9df-934dc7c1b722";
-  const resourceGroupName = "mediaresources";
+  const subscriptionId =
+    process.env["MEDIASERVICES_SUBSCRIPTION_ID"] || "0a6ec948-5a62-437d-b9df-934dc7c1b722";
+  const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "mediaresources";
   const accountName = "slitestmedia10";
   const liveEventName = "myLiveEvent1";
   const parameters = {
@@ -50,4 +52,8 @@ async function updateALiveEvent() {
   console.log(result);
 }
 
-updateALiveEvent().catch(console.error);
+async function main() {
+  updateALiveEvent();
+}
+
+main().catch(console.error);

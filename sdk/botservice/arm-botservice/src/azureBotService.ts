@@ -18,8 +18,10 @@ import {
   BotsImpl,
   ChannelsImpl,
   DirectLineImpl,
+  EmailImpl,
   OperationsImpl,
   BotConnectionImpl,
+  QnAMakerEndpointKeysImpl,
   HostSettingsImpl,
   OperationResultsImpl,
   PrivateEndpointConnectionsImpl,
@@ -29,8 +31,10 @@ import {
   Bots,
   Channels,
   DirectLine,
+  Email,
   Operations,
   BotConnection,
+  QnAMakerEndpointKeys,
   HostSettings,
   OperationResults,
   PrivateEndpointConnections,
@@ -70,7 +74,7 @@ export class AzureBotService extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-botservice/4.0.0-beta.6`;
+    const packageDetails = `azsdk-js-arm-botservice/4.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -123,12 +127,14 @@ export class AzureBotService extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-05-01-preview";
+    this.apiVersion = options.apiVersion || "2022-09-15";
     this.bots = new BotsImpl(this);
     this.channels = new ChannelsImpl(this);
     this.directLine = new DirectLineImpl(this);
+    this.email = new EmailImpl(this);
     this.operations = new OperationsImpl(this);
     this.botConnection = new BotConnectionImpl(this);
+    this.qnAMakerEndpointKeys = new QnAMakerEndpointKeysImpl(this);
     this.hostSettings = new HostSettingsImpl(this);
     this.operationResults = new OperationResultsImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
@@ -167,8 +173,10 @@ export class AzureBotService extends coreClient.ServiceClient {
   bots: Bots;
   channels: Channels;
   directLine: DirectLine;
+  email: Email;
   operations: Operations;
   botConnection: BotConnection;
+  qnAMakerEndpointKeys: QnAMakerEndpointKeys;
   hostSettings: HostSettings;
   operationResults: OperationResults;
   privateEndpointConnections: PrivateEndpointConnections;
