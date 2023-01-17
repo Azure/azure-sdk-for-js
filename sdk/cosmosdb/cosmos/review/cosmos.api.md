@@ -939,12 +939,12 @@ export type JSONValue = boolean | number | string | null | JSONArray | JSONObjec
 interface Location_2 {
     // (undocumented)
     databaseAccountEndpoint: string;
-    // (undocumented)
-    name: string;
-    // Warning: (ae-forgotten-export) The symbol "Unavailable" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "LocationUnavailability" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
-    unavailable?: Unavailable;
+    locationUnavailability?: LocationUnavailability;
+    // (undocumented)
+    name: string;
 }
 export { Location_2 as Location }
 
