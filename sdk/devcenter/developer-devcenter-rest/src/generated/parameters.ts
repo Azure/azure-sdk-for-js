@@ -179,14 +179,10 @@ export interface EnvironmentsCreateOrUpdateEnvironmentMediaTypesParam {
 export type EnvironmentsCreateOrUpdateEnvironmentParameters = EnvironmentsCreateOrUpdateEnvironmentMediaTypesParam &
   EnvironmentsCreateOrUpdateEnvironmentBodyParam &
   RequestParameters;
-/** Updatable environment properties. */
-export type EnvironmentUpdatePropertiesResourceMergeAndPatch = Partial<
-  EnvironmentUpdateProperties
->;
 
 export interface EnvironmentsUpdateEnvironmentBodyParam {
   /** Updatable environment properties. */
-  body: EnvironmentUpdatePropertiesResourceMergeAndPatch;
+  body: EnvironmentUpdateProperties;
 }
 
 export interface EnvironmentsUpdateEnvironmentMediaTypesParam {
