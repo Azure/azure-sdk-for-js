@@ -64,6 +64,7 @@ export class SubscribeTest extends EventPerfTest<ReceiverOptions> {
     } = this.parsedOptions;
 
     await sendMessages(sender, numberOfMessages, messageBodySize);
+    await sender.close();
   }
 
   setup() {
