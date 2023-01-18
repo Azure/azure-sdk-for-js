@@ -2,7 +2,7 @@ parameters:
   - name: operatingSystems
     displayName: OperatingSystems (list of operating systems to run)
     type: string
-    default: 'Linux, Windows'
+    default: 'Linux'
   - name: packageVersions
     displayName: PackageVersions (regex of package versions to run)
     type: string
@@ -10,11 +10,11 @@ parameters:
   - name: tests
     displayName: Tests (regex of tests to run)
     type: string
-    default: '^(download|upload)$'
+    default: '^(send|subscribe)$'
   - name: arguments
     displayName: Arguments (regex of arguments to run)
     type: string
-    default: '(10240)'
+    default: '.*'
   - name: iterations
     displayName: Iterations (times to run each test)
     type: number
