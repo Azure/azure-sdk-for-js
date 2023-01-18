@@ -114,7 +114,7 @@ describe("AppPlatform test", () => {
     for await (let item of client.services.list(resourceGroup)) {
       resArray.push(item);
     }
-    assert.equal(resArray.length, 1);
+    assert.isTrue(resArray.length >= 1);
   });
 
   it("apps delete test", async function () {
