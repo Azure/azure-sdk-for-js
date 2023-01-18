@@ -10,7 +10,7 @@ parameters:
   - name: tests
     displayName: Tests (regex of tests to run)
     type: string
-    default: '^(send|subscribe)$'
+    default: '^(send-event-batch|subscribe)$'
   - name: arguments
     displayName: Arguments (regex of arguments to run)
     type: string
