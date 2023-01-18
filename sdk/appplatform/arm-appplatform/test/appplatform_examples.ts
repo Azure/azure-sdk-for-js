@@ -48,10 +48,10 @@ describe("AppPlatform test", () => {
     subscriptionId = env.SUBSCRIPTION_ID || '';
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
-    client = new AppPlatformManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+    client = new AppPlatformManagementClient(credential, subscriptionId, recorder.configureClientOptions({}) as any);
     location = "east us";
     resourceGroup = "myjstest";
-    serviceName = "myservicexxx1";
+    serviceName = "myservicexxx12";
     appName = "myappxxx";
   });
 
@@ -62,8 +62,8 @@ describe("AppPlatform test", () => {
   it("services create test", async function () {
     const res = await client.services.beginCreateOrUpdateAndWait(resourceGroup, serviceName, {
       sku: {
-        name: "S0",
-        tier: "Standard"
+        name: "B0",
+        tier: "Basic"
       },
       tags: {
         key1: "value1"
