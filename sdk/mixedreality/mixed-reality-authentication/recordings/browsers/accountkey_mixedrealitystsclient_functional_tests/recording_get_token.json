@@ -17,8 +17,7 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/109.0.5412.0 Safari/537.36",
-        "x-mrc-cv": "b26iFKyxBBiaz3re9IUgzy",
-        "x-ms-client-request-id": "cd263b6c-0cdc-4575-a7b7-bc2174d4fe17",
+        "x-ms-client-request-id": "33578cd1-8462-46ef-a7b5-6d00a86d3e03",
         "x-ms-useragent": "azsdk-js-mixed-reality-authentication/1.0.0-beta.2 core-rest-pipeline/1.10.2 OS/Win32"
       },
       "RequestBody": null,
@@ -27,14 +26,14 @@
         "Cache-Control": "no-store, no-cache",
         "Content-Length": "1243",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 18 Jan 2023 21:36:20 GMT",
-        "mise-correlation-id": "f4385404-531a-4266-b9b4-cb19d5bb4792",
-        "MS-CV": "2F5k6eeq406iE\u002BjJh5VkJQ.0",
+        "Date": "Wed, 18 Jan 2023 23:03:04 GMT",
+        "mise-correlation-id": "e15d9960-1c9c-4413-8ddb-687c50e7e095",
+        "MS-CV": "HXtqmBPSj06TjNBxTBHJGw.0",
         "Pragma": "no-cache",
         "X-Content-Type-Options": "nosniff"
       },
       "ResponseBody": {
-        "AccessToken": "eyJhbGciOiJSUzI1NiIsImtpZCI6IjIwMjg4NjdGNjE1RjhDRkI5NEEzRENDN0E0RkI1NkI0OTVFRUMzRTMiLCJ4NXQiOiJJQ2lHZjJGZmpQdVVvOXpIcFB0V3RKWHV3LU0iLCJ0eXAiOiJKV1QifQ.eyJqdGkiOiJhN2FiMDg0NS05ZDRhLTRlNmYtYmMyYy01NTYxZTU2YjU3YjYiLCJjYWkiOiJjZDUzY2UxZC01ZjdjLTQ2YmItODlkMi05OGU3ZmIzYTkxM2EiLCJ0aWQiOiIwMDAwMDAwMC0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDAiLCJhaWQiOiJjZDUzY2UxZC01ZjdjLTQ2YmItODlkMi05OGU3ZmIzYTkxM2EiLCJhYW8iOi0xLCJhcHIiOiJlYXN0dXMiLCJyaWQiOiIvc3Vic2NyaXB0aW9ucy9mYWEwODBhZi1jMWQ4LTQwYWQtOWNjZS1lMWE0NTBjYTViNTcvcmVzb3VyY2VHcm91cHMvcmctbWFwcmVhbGl0eS9wcm92aWRlcnMvTWljcm9zb2Z0Lk1peGVkUmVhbGl0eS9zcGF0aWFsQW5jaG9yc0FjY291bnRzL21hcHJlYWxpdHktYXNhLWFjY291bnQiLCJhdHQiOiJEZWZhdWx0IiwibmJmIjoxNjc0MDc3NzgxLCJleHAiOjE2NzQxNjQxODEsImlhdCI6MTY3NDA3Nzc4MSwiaXNzIjoiaHR0cHM6Ly9zdHMuZWFzdHVzLm1peGVkcmVhbGl0eS5henVyZS5jb20vIiwiYXVkIjoiaHR0cHM6Ly9tYW5hZ2Uuc2EuZWFzdHVzLm1peGVkcmVhbGl0eS5henVyZS5jb20vIn0.XJB9M8c9C-YuAPOZuccnhknCfcrXHvPHU3N2pr-Z75W0YFHhuBKtUgNFp-gxJWiEqMyro5hD-ONTFs2cpveWfSpmbeKsPkShbkZgOmuOVSO085HujlbjEcHmGZMlrLCfWrADA1EqSqZIDU09AAo5DrUTfYy290Lfnvh-UYg1txNc0w-nU96M01qsbs3j4o1xzuO8DziyDKyQbhgbpeJzbsVKaMyf6ee7DlBCbTUBoGN81jt4Xs5B4UUQGH2AFINPBJCVZpPRRoS8ievHMyLVJCcW3s9jpLOjDPaahjPPzkei-cjZaLljgLpyXdCvfpGzdlmdS-qJVZGKAFMGdlAlbg"
+        "AccessToken": "eyJhbGciOiJSUzI1NiIsImtpZCI6IjIwMjg4NjdGNjE1RjhDRkI5NEEzRENDN0E0RkI1NkI0OTVFRUMzRTMiLCJ4NXQiOiJJQ2lHZjJGZmpQdVVvOXpIcFB0V3RKWHV3LU0iLCJ0eXAiOiJKV1QifQ.eyJqdGkiOiIyZWVmM2JmZS1hYTliLTRjZTUtYjhjNy04NTdiMDM2ZDhmYzkiLCJjYWkiOiJjZDUzY2UxZC01ZjdjLTQ2YmItODlkMi05OGU3ZmIzYTkxM2EiLCJ0aWQiOiIwMDAwMDAwMC0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDAiLCJhaWQiOiJjZDUzY2UxZC01ZjdjLTQ2YmItODlkMi05OGU3ZmIzYTkxM2EiLCJhYW8iOi0xLCJhcHIiOiJlYXN0dXMiLCJyaWQiOiIvc3Vic2NyaXB0aW9ucy9mYWEwODBhZi1jMWQ4LTQwYWQtOWNjZS1lMWE0NTBjYTViNTcvcmVzb3VyY2VHcm91cHMvcmctbWFwcmVhbGl0eS9wcm92aWRlcnMvTWljcm9zb2Z0Lk1peGVkUmVhbGl0eS9zcGF0aWFsQW5jaG9yc0FjY291bnRzL21hcHJlYWxpdHktYXNhLWFjY291bnQiLCJhdHQiOiJEZWZhdWx0IiwibmJmIjoxNjc0MDgyOTg1LCJleHAiOjE2NzQxNjkzODUsImlhdCI6MTY3NDA4Mjk4NSwiaXNzIjoiaHR0cHM6Ly9zdHMuZWFzdHVzLm1peGVkcmVhbGl0eS5henVyZS5jb20vIiwiYXVkIjoiaHR0cHM6Ly9tYW5hZ2Uuc2EuZWFzdHVzLm1peGVkcmVhbGl0eS5henVyZS5jb20vIn0.OM16J2aXQjRV1hp2bAQPlawG3UPx4eAzRGcBwUrUV7N0vwmZIpx7O-2a042elXvv1BtmM-8VrF3N4PX_pIkqe3sYbwBnSCfeFrwabL9tnp6YP5wpCfwJfzdZhiQ27wpuBK5my2oYiccU_0_3p2Yohs_SITI1ntbB5AP89XLUa8Me5HuKnfFU9uOnqiPob4gs2haW4ZS5WGSN6N9l5O_lACA1ZQtPKjD50w7ASsqjO4ghiLHrWXEUXo5sLuqRLDH9z_SVSrRviDk1qMxaejQJdlvJtTQZrLstEz83WtF0dEYDyKFBLo6AFFgz_0s8PdhOsVOacVVmIUBWrPjcHYGIAw"
       }
     }
   ],

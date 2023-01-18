@@ -52,7 +52,7 @@ module.exports = function (config) {
       "MIXEDREALITY_TENANT_ID",
       "MIXEDREALITY_CLIENT_ID",
       "MIXEDREALITY_CLIENT_SECRET",
-      "RECORDINGS_RELATIVE_PATH"
+      "RECORDINGS_RELATIVE_PATH",
     ],
 
     // test results reporter to use

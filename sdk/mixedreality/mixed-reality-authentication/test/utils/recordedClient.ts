@@ -2,15 +2,10 @@
 // Licensed under the MIT license.
 
 import "./env";
-import {
-  Recorder,
-  RecorderStartOptions,
-  env
-} from "@azure-tools/test-recorder";
-import { AzureKeyCredential } from "@azure/core-auth";
+import { Recorder, RecorderStartOptions, env } from "@azure-tools/test-recorder";
+// import { AzureKeyCredential } from "@azure/core-auth";
 import { Context } from "mocha";
-import { MixedRealityStsClient, MixedRealityStsClientOptions } from "../../src";
-
+import { AzureKeyCredential, MixedRealityStsClient, MixedRealityStsClientOptions } from "../../src";
 // When the recorder observes the values of these environment variables
 // in any recorded HTTP request or response, it will replace them with
 // the values they are mapped to below, which are not real account details.
@@ -45,7 +40,6 @@ export function createClient(options?: MixedRealityStsClientOptions): MixedReali
   const accountDomain = env.MIXEDREALITY_ACCOUNT_DOMAIN as string;
   const accountId = env.MIXEDREALITY_ACCOUNT_ID as string;
   const accountKey = env.MIXEDREALITY_ACCOUNT_KEY as string;
-//   const httpClient = isNode || isLiveMode() ? undefined : createXhrHttpClient();
 
   const keyCredential = new AzureKeyCredential(accountKey);
   return new MixedRealityStsClient(accountId, accountDomain, keyCredential, { ...options });
@@ -69,5 +63,13 @@ export async function createRecorder(context: Context): Promise<Recorder> {
   };
   const recorder = new Recorder(context.currentTest);
   await recorder.start(recorderStartOptions);
+  await recorder.addSanitizers(
+    {
+      removeHeaderSanitizer: {
+        headersForRemoval: ["X-MRC-CV", "x-mrc-cv"],
+      },
+    },
+    ["record", "playback"]
+  );
   return recorder;
 }
