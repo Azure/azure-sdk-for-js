@@ -3,7 +3,6 @@
 
 import "./env";
 import { Recorder, RecorderStartOptions, env } from "@azure-tools/test-recorder";
-// import { AzureKeyCredential } from "@azure/core-auth";
 import { Context } from "mocha";
 import { AzureKeyCredential, MixedRealityStsClient, MixedRealityStsClientOptions } from "../../src";
 
