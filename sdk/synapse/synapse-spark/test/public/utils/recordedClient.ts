@@ -14,7 +14,7 @@ import { createTestCredential } from "@azure-tools/test-credential";
 
 export function createClient(pool: string, options?: SparkClientOptionalParams): SparkClient {
 
-  let credential = createTestCredential();
+  const credential = createTestCredential();
   return new SparkClient(credential, env.ENDPOINT as string, pool, { ...options });
 }
 
