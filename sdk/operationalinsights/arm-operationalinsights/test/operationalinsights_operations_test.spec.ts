@@ -87,7 +87,7 @@ describe("operationalinsights test", () => {
     assert.equal(resArray.length, 1);
   });
 
-  it.only("table list test", async function () {
+  it("table list test", async function () {
 
     const resArray = new Array();
     for await (let item of client.tables.listByWorkspace(resourceGroup, workspaceName)) {
