@@ -1,0 +1,109 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/Microsoft.OperationalInsights/workspaces?api-version=2021-12-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-operationalinsights/9.0.0-beta.2 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "d38119bf-81ea-4de1-a8f0-ae5cada9e8f8"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Length": "1804",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 18 Jan 2023 06:11:14 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "4f0e350e-1f3b-4a62-8974-aa4a6f2aaf49",
+        "x-ms-original-request-ids": [
+          "b2344cad-74a4-4939-9f14-d7ab2dde64fd",
+          ""
+        ],
+        "x-ms-ratelimit-remaining-subscription-reads": "11998",
+        "x-ms-request-id": "4f0e350e-1f3b-4a62-8974-aa4a6f2aaf49",
+        "x-ms-routing-request-id": "KOREASOUTH:20230118T061114Z:4f0e350e-1f3b-4a62-8974-aa4a6f2aaf49"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "properties": {
+              "source": "Azure",
+              "customerId": "2aaff839-8ff6-4b64-a45d-57c097690304",
+              "provisioningState": "Succeeded",
+              "sku": {
+                "name": "pergb2018",
+                "lastSkuUpdate": "Tue, 17 Jan 2023 07:19:00 GMT"
+              },
+              "retentionInDays": 30,
+              "features": {
+                "legacy": 0,
+                "searchVersion": 1,
+                "enableLogAccessUsingOnlyResourcePermissions": true
+              },
+              "workspaceCapping": {
+                "dailyQuotaGb": -1.0,
+                "quotaNextResetTime": "Wed, 18 Jan 2023 07:00:00 GMT",
+                "dataIngestionStatus": "RespectQuota"
+              },
+              "publicNetworkAccessForIngestion": "Enabled",
+              "publicNetworkAccessForQuery": "Enabled",
+              "createdDate": "Tue, 17 Jan 2023 07:19:00 GMT",
+              "modifiedDate": "Wed, 18 Jan 2023 06:11:10 GMT"
+            },
+            "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourcegroups/myjstest/providers/microsoft.operationalinsights/workspaces/workspacetest",
+            "name": "workspacetest",
+            "type": "Microsoft.OperationalInsights/workspaces",
+            "location": "eastus",
+            "tags": {
+              "tag1": "val1"
+            }
+          },
+          {
+            "properties": {
+              "customerId": "88a935db-3dd0-4916-a50a-05bed14f5490",
+              "provisioningState": "Succeeded",
+              "sku": {
+                "name": "PerGB2018",
+                "lastSkuUpdate": "2023-01-16T08:17:46.4633947Z"
+              },
+              "retentionInDays": 30,
+              "features": {
+                "legacy": 0,
+                "searchVersion": 1,
+                "enableLogAccessUsingOnlyResourcePermissions": true
+              },
+              "workspaceCapping": {
+                "dailyQuotaGb": -1.0,
+                "quotaNextResetTime": "2023-01-17T17:00:00Z",
+                "dataIngestionStatus": "RespectQuota"
+              },
+              "publicNetworkAccessForIngestion": "Enabled",
+              "publicNetworkAccessForQuery": "Enabled",
+              "createdDate": "2023-01-16T08:17:46.4633947Z",
+              "modifiedDate": "2023-01-17T07:50:09.8596205Z"
+            },
+            "location": "australiasoutheast",
+            "tags": {
+              "tag1": "val1"
+            },
+            "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.OperationalInsights/workspaces/oiautorest6685",
+            "name": "oiautorest6685",
+            "type": "Microsoft.OperationalInsights/workspaces",
+            "etag": "\u00220200f9ff-0000-1b00-0000-63c64d300000\u0022"
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}
