@@ -1,9 +1,10 @@
 # Release History
     
-## 10.0.0 (2022-12-05)
+## 10.0.0 (2023-01-18)
     
 **Features**
 
+  - Added operation group DeletedProtectionContainers
   - Added Interface AzureBackupGoalFeatureSupportRequest
   - Added Interface AzureBackupServerContainer
   - Added Interface AzureBackupServerEngine
@@ -48,6 +49,9 @@
   - Added Interface AzureVmWorkloadSAPHanaDatabaseProtectableItem
   - Added Interface AzureVmWorkloadSAPHanaDatabaseProtectedItem
   - Added Interface AzureVmWorkloadSAPHanaDatabaseWorkloadItem
+  - Added Interface AzureVmWorkloadSAPHanaDBInstance
+  - Added Interface AzureVmWorkloadSAPHanaDBInstanceProtectedItem
+  - Added Interface AzureVmWorkloadSAPHanaHSR
   - Added Interface AzureVmWorkloadSAPHanaSystemProtectableItem
   - Added Interface AzureVmWorkloadSAPHanaSystemWorkloadItem
   - Added Interface AzureVmWorkloadSQLAvailabilityGroupProtectableItem
@@ -86,6 +90,8 @@
   - Added Interface BackupResourceEncryptionConfigExtendedResource
   - Added Interface BackupResourceEncryptionConfigResource
   - Added Interface BackupResourceVaultConfigResource
+  - Added Interface DeletedProtectionContainersListNextOptionalParams
+  - Added Interface DeletedProtectionContainersListOptionalParams
   - Added Interface DpmBackupEngine
   - Added Interface DpmContainer
   - Added Interface DpmJob
@@ -130,6 +136,7 @@
   - Added Interface ProtectionIntentResourceList
   - Added Interface ProtectionPolicyResource
   - Added Interface ProtectionPolicyResourceList
+  - Added Interface RecoveryPointProperties
   - Added Interface RecoveryPointResource
   - Added Interface RecoveryPointResourceList
   - Added Interface RecoveryPointTierInformationV2
@@ -139,6 +146,7 @@
   - Added Interface SimpleRetentionPolicy
   - Added Interface SimpleSchedulePolicy
   - Added Interface SimpleSchedulePolicyV2
+  - Added Interface TieringPolicy
   - Added Interface ValidateIaasVMRestoreOperationRequest
   - Added Interface ValidateRestoreOperationRequest
   - Added Interface VaultJob
@@ -146,6 +154,39 @@
   - Added Interface WorkloadItemResourceList
   - Added Interface WorkloadProtectableItemResource
   - Added Interface WorkloadProtectableItemResourceList
+  - Added Type Alias DeletedProtectionContainersListNextResponse
+  - Added Type Alias DeletedProtectionContainersListResponse
+  - Added Type Alias ProtectableContainerType
+  - Added Type Alias TieringMode
+  - Interface AzureIaaSVMProtectedItemExtendedInfo has a new optional parameter newestRecoveryPointInArchive
+  - Interface AzureIaaSVMProtectedItemExtendedInfo has a new optional parameter oldestRecoveryPointInArchive
+  - Interface AzureIaaSVMProtectedItemExtendedInfo has a new optional parameter oldestRecoveryPointInVault
+  - Interface AzureVmWorkloadProtectedItemExtendedInfo has a new optional parameter newestRecoveryPointInArchive
+  - Interface AzureVmWorkloadProtectedItemExtendedInfo has a new optional parameter oldestRecoveryPointInArchive
+  - Interface AzureVmWorkloadProtectedItemExtendedInfo has a new optional parameter oldestRecoveryPointInVault
+  - Interface ProtectedItem has a new optional parameter softDeleteRetentionPeriod
+  - Interface SubProtectionPolicy has a new optional parameter tieringPolicy
+  - Added Enum KnownTieringMode
+  - Enum KnownBackupItemType has a new value SAPHanaDBInstance
+  - Enum KnownBackupType has a new value SnapshotCopyOnlyFull
+  - Enum KnownBackupType has a new value SnapshotFull
+  - Enum KnownContainerType has a new value HanaHSRContainer
+  - Enum KnownDataSourceType has a new value SAPHanaDBInstance
+  - Enum KnownPolicyType has a new value SnapshotCopyOnlyFull
+  - Enum KnownPolicyType has a new value SnapshotFull
+  - Enum KnownProtectedItemState has a new value BackupsSuspended
+  - Enum KnownProtectionState has a new value BackupsSuspended
+  - Enum KnownRestorePointQueryType has a new value SnapshotCopyOnlyFull
+  - Enum KnownRestorePointQueryType has a new value SnapshotFull
+  - Enum KnownRestorePointType has a new value SnapshotCopyOnlyFull
+  - Enum KnownRestorePointType has a new value SnapshotFull
+  - Enum KnownWorkloadItemType has a new value SAPHanaDBInstance
+  - Enum KnownWorkloadType has a new value SAPHanaDBInstance
+  - Added function getContinuationToken
+
+**Breaking Changes**
+
+  - Operation ResourceGuardProxy.put has a new signature
   - Interface BackupEnginesListNextOptionalParams no longer has parameter filter
   - Interface BackupEnginesListNextOptionalParams no longer has parameter skipToken
   - Interface BackupJobsListNextOptionalParams no longer has parameter filter
@@ -162,10 +203,12 @@
   - Interface BackupWorkloadItemsListNextOptionalParams no longer has parameter skipToken
   - Interface ProtectableContainersListNextOptionalParams no longer has parameter filter
   - Interface RecoveryPointsListNextOptionalParams no longer has parameter filter
-
-**Breaking Changes**
-
-  - Operation ResourceGuardProxy.put has a new signature
+  - Type of parameter protectedItemType of interface ProtectedItem is changed from "AzureFileShareProtectedItem" | "AzureIaaSVMProtectedItem" | "Microsoft.ClassicCompute/virtualMachines" | "Microsoft.Compute/virtualMachines" | "Microsoft.Sql/servers/databases" | "AzureVmWorkloadProtectedItem" | "AzureVmWorkloadSAPAseDatabase" | "AzureVmWorkloadSAPHanaDatabase" | "AzureVmWorkloadSQLDatabase" | "DPMProtectedItem" | "GenericProtectedItem" | "MabFileFolderProtectedItem" to "AzureFileShareProtectedItem" | "AzureIaaSVMProtectedItem" | "Microsoft.ClassicCompute/virtualMachines" | "Microsoft.Compute/virtualMachines" | "Microsoft.Sql/servers/databases" | "AzureVmWorkloadProtectedItem" | "AzureVmWorkloadSAPAseDatabase" | "AzureVmWorkloadSAPHanaDatabase" | "AzureVmWorkloadSAPHanaDBInstance" | "AzureVmWorkloadSQLDatabase" | "DPMProtectedItem" | "GenericProtectedItem" | "MabFileFolderProtectedItem"
+  - Type of parameter protectableItemType of interface WorkloadProtectableItem is changed from "AzureFileShare" | "IaaSVMProtectableItem" | "Microsoft.ClassicCompute/virtualMachines" | "Microsoft.Compute/virtualMachines" | "AzureVmWorkloadProtectableItem" | "SAPAseSystem" | "SAPHanaDatabase" | "SAPHanaSystem" | "SQLAvailabilityGroupContainer" | "SQLDataBase" | "SQLInstance" to "AzureFileShare" | "IaaSVMProtectableItem" | "Microsoft.ClassicCompute/virtualMachines" | "Microsoft.Compute/virtualMachines" | "AzureVmWorkloadProtectableItem" | "SAPAseSystem" | "SAPHanaDatabase" | "SAPHanaSystem" | "SAPHanaDBInstance" | "SAPHanaHSR" | "SQLAvailabilityGroupContainer" | "SQLDataBase" | "SQLInstance"
+  - Enum KnownContainerType no longer has value AzureWorkloadContainer
+  - Enum KnownContainerType no longer has value MicrosoftClassicComputeVirtualMachines
+  - Enum KnownContainerType no longer has value MicrosoftComputeVirtualMachines
+    
     
 ## 9.0.0 (2022-05-16)
     
