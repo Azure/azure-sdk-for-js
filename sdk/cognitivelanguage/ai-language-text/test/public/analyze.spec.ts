@@ -305,7 +305,11 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
 
         it("service errors on unsupported language", async function () {
           const docs = ["This is some text, but it doesn't matter."];
-          const [result] = await client.analyze(AnalyzeActionNames.EntityRecognition, docs, "notalanguage");
+          const [result] = await client.analyze(
+            AnalyzeActionNames.EntityRecognition,
+            docs,
+            "notalanguage"
+          );
           if (result.error === undefined) {
             assert.fail("Expected an error from the service");
           }
@@ -374,7 +378,11 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
 
         it("service errors on unsupported language", async function () {
           const docs = ["This is some text, but it doesn't matter."];
-          const [result] = await client.analyze(AnalyzeActionNames.KeyPhraseExtraction, docs, "notalanguage");
+          const [result] = await client.analyze(
+            AnalyzeActionNames.KeyPhraseExtraction,
+            docs,
+            "notalanguage"
+          );
           if (result.error === undefined) {
             assert.fail("Expected an error from the service");
           }
@@ -431,7 +439,11 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
 
         it("service errors on unsupported language", async function () {
           const docs = ["This is some text, but it doesn't matter."];
-          const [result] = await client.analyze(AnalyzeActionNames.PiiEntityRecognition, docs, "notalanguage");
+          const [result] = await client.analyze(
+            AnalyzeActionNames.PiiEntityRecognition,
+            docs,
+            "notalanguage"
+          );
           if (result.error === undefined) {
             assert.fail("Expected an error from the service");
           }
