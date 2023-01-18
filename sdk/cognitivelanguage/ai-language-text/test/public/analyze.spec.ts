@@ -17,7 +17,6 @@ import { checkEntityTextOffset, checkOffsetAndLength } from "./utils/stringIndex
 import { Recorder } from "@azure-tools/test-recorder";
 import {
   expectation63,
-  expectation64,
   expectation65,
   expectation66,
   expectation34,
@@ -32,22 +31,18 @@ import {
   expectation43,
   expectation44,
   expectation45,
-  expectation46,
   expectation47,
   expectation48,
   expectation49,
-  expectation50,
   expectation51,
   expectation52,
   expectation53,
   expectation54,
-  expectation55,
   expectation56,
   expectation57,
   expectation58,
   expectation59,
   expectation60,
-  expectation61,
   expectation62,
   expectation67,
   expectation68,
@@ -116,15 +111,16 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           );
         });
 
-        it("service returns error for invalid language", async function () {
-          assertActionResults(
-            await client.analyze(
-              AnalyzeActionNames.SentimentAnalysis,
-              ["Hello world!"],
-              "notalanguage"
-            ),
-            expectation64
+        it("service errors on unsupported language", async function () {
+          const [result] = await client.analyze(
+            AnalyzeActionNames.SentimentAnalysis,
+            ["Hello world!"],
+            "notalanguage"
           );
+          if (result.error === undefined) {
+            assert.fail("Expected an error from the service");
+          }
+          assert.equal(result.error.code, KnownTextAnalysisErrorCode.UnsupportedLanguageCode);
         });
 
         it("service has a bug when referencing assessments in doc #6 or greater", async function () {
@@ -309,10 +305,11 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
 
         it("service errors on unsupported language", async function () {
           const docs = ["This is some text, but it doesn't matter."];
-          assertActionResults(
-            await client.analyze(AnalyzeActionNames.EntityRecognition, docs, "notalanguage"),
-            expectation46
-          );
+          const [result] = await client.analyze(AnalyzeActionNames.EntityRecognition, docs, "notalanguage");
+          if (result.error === undefined) {
+            assert.fail("Expected an error from the service");
+          }
+          assert.equal(result.error.code, KnownTextAnalysisErrorCode.UnsupportedLanguageCode);
         });
 
         it("client accepts mixed-language TextDocumentInput[]", async function () {
@@ -377,10 +374,11 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
 
         it("service errors on unsupported language", async function () {
           const docs = ["This is some text, but it doesn't matter."];
-          assertActionResults(
-            await client.analyze(AnalyzeActionNames.KeyPhraseExtraction, docs, "notalanguage"),
-            expectation50
-          );
+          const [result] = await client.analyze(AnalyzeActionNames.KeyPhraseExtraction, docs, "notalanguage");
+          if (result.error === undefined) {
+            assert.fail("Expected an error from the service");
+          }
+          assert.equal(result.error.code, KnownTextAnalysisErrorCode.UnsupportedLanguageCode);
         });
 
         it("client accepts mixed-language TextDocumentInput[]", async function () {
@@ -433,10 +431,11 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
 
         it("service errors on unsupported language", async function () {
           const docs = ["This is some text, but it doesn't matter."];
-          assertActionResults(
-            await client.analyze(AnalyzeActionNames.PiiEntityRecognition, docs, "notalanguage"),
-            expectation55
-          );
+          const [result] = await client.analyze(AnalyzeActionNames.PiiEntityRecognition, docs, "notalanguage");
+          if (result.error === undefined) {
+            assert.fail("Expected an error from the service");
+          }
+          assert.equal(result.error.code, KnownTextAnalysisErrorCode.UnsupportedLanguageCode);
         });
 
         it("client accepts mixed-language TextDocumentInput[]", async function () {
@@ -516,14 +515,15 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
         });
 
         it("service errors on unsupported language", async function () {
-          assertActionResults(
-            await client.analyze(
-              AnalyzeActionNames.EntityLinking,
-              ["This is some text, but it doesn't matter."],
-              "notalanguage"
-            ),
-            expectation61
+          const [result] = await client.analyze(
+            AnalyzeActionNames.EntityLinking,
+            ["This is some text, but it doesn't matter."],
+            "notalanguage"
           );
+          if (result.error === undefined) {
+            assert.fail("Expected an error from the service");
+          }
+          assert.equal(result.error.code, KnownTextAnalysisErrorCode.UnsupportedLanguageCode);
         });
 
         it("client accepts mixed-language TextDocumentInput[]", async function () {
