@@ -126,7 +126,6 @@
     "@azure/identity": "^2.0.1",
     "@azure/mock-hub": "^1.0.0",
     "@azure/test-utils": "^1.0.0",
-    "@azure/test-utils-perf": "^1.0.0",
     "@microsoft/api-extractor": "^7.31.1",
     "@rollup/plugin-commonjs": "^21.0.1",
     "@rollup/plugin-inject": "^4.0.0",
