@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ElasticSanManagement } = require("@azure/arm-elasticsan");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Update a Elastic San.
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2021-11-20-preview/examples/ElasticSans_Update_MaximumSet_Gen.json
  */
 async function elasticSansUpdateMaximumSetGen() {
-  const subscriptionId = "aaaaaaaaaaaaaaaaaa";
-  const resourceGroupName = "rgelasticsan";
+  const subscriptionId = process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "aaaaaaaaaaaaaaaaaa";
+  const resourceGroupName = process.env["ELASTICSANS_RESOURCE_GROUP"] || "rgelasticsan";
   const elasticSanName = "ti7q-k952-1qB3J_5";
   const parameters = {
     baseSizeTiB: 23,
@@ -36,8 +37,6 @@ async function elasticSansUpdateMaximumSetGen() {
   console.log(result);
 }
 
-elasticSansUpdateMaximumSetGen().catch(console.error);
-
 /**
  * This sample demonstrates how to Update a Elastic San.
  *
@@ -45,8 +44,8 @@ elasticSansUpdateMaximumSetGen().catch(console.error);
  * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2021-11-20-preview/examples/ElasticSans_Update_MinimumSet_Gen.json
  */
 async function elasticSansUpdateMinimumSetGen() {
-  const subscriptionId = "aaaaaaaaaaaaaaaaaa";
-  const resourceGroupName = "rgelasticsan";
+  const subscriptionId = process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "aaaaaaaaaaaaaaaaaa";
+  const resourceGroupName = process.env["ELASTICSANS_RESOURCE_GROUP"] || "rgelasticsan";
   const elasticSanName = "ti7q-k952-1qB3J_5";
   const parameters = {};
   const credential = new DefaultAzureCredential();
@@ -59,4 +58,9 @@ async function elasticSansUpdateMinimumSetGen() {
   console.log(result);
 }
 
-elasticSansUpdateMinimumSetGen().catch(console.error);
+async function main() {
+  elasticSansUpdateMaximumSetGen();
+  elasticSansUpdateMinimumSetGen();
+}
+
+main().catch(console.error);

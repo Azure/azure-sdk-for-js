@@ -39,6 +39,7 @@ import {
   CpkInfo,
   FileSystemListBlobHierarchySegmentHeaders,
   FileSystemListPathsHeaders,
+  LeaseAction,
   ListBlobsHierarchySegmentResponse,
   PathCreateResponse,
   PathDeleteResponse,
@@ -1221,6 +1222,18 @@ export interface FileAppendOptions extends CommonOptions {
    * If file should be flushed automatically after the append
    */
   flush?: boolean;
+  /**
+   * Proposed lease ID, in a GUID string format. The Blob service returns 400 (Invalid request) if the proposed lease ID is not in the correct format. See Guid Constructor (String) for a list of valid GUID string formats.
+   * */
+  proposedLeaseId?: string;
+  /**
+   * The lease duration is required to acquire a lease, and specifies the duration of the lease in seconds.  The lease duration must be between 15 and 60 seconds or -1 for infinite lease.
+   * */
+  leaseDuration?: number;
+  /**
+   * Optional. If "acquire" it will acquire the lease. If "auto-renew" it will renew the lease. If "release" it will release the lease only on flush. If "acquire-release" it will acquire & complete the operation & release the lease once operation is done.
+   * */
+  leaseAction?: LeaseAction;
 }
 
 export interface FileFlushOptions extends CommonOptions {
@@ -1233,6 +1246,18 @@ export interface FileFlushOptions extends CommonOptions {
    * Customer Provided Key Info.
    */
   customerProvidedKey?: CpkInfo;
+  /**
+   * Proposed lease ID, in a GUID string format. The Blob service returns 400 (Invalid request) if the proposed lease ID is not in the correct format. See Guid Constructor (String) for a list of valid GUID string formats.
+   */
+  proposedLeaseId?: string;
+  /**
+   * The lease duration is required to acquire a lease, and specifies the duration of the lease in seconds.  The lease duration must be between 15 and 60 seconds or -1 for infinite lease.
+   */
+  leaseDuration?: number;
+  /**
+   * Optional. If "acquire" it will acquire the lease. If "auto-renew" it will renew the lease. If "release" it will release the lease only on flush. If "acquire-release" it will acquire & complete the operation & release the lease once operation is done.
+   */
+  leaseAction?: LeaseAction;
 }
 
 export interface FileCreateOptions extends PathCreateOptions {}

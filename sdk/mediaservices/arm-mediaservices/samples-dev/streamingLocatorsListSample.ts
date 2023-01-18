@@ -10,16 +10,22 @@
 // Licensed under the MIT License.
 import { AzureMediaServices } from "@azure/arm-mediaservices";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Lists the Streaming Locators in the account
  *
  * @summary Lists the Streaming Locators in the account
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2022-08-01/examples/streaming-locators-list.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2022-08-01/examples/streaming-locators-list.json
  */
 async function listsStreamingLocators() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "contoso";
+  const subscriptionId =
+    process.env["MEDIASERVICES_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
   const accountName = "contosomedia";
   const credential = new DefaultAzureCredential();
   const client = new AzureMediaServices(credential, subscriptionId);
@@ -33,4 +39,8 @@ async function listsStreamingLocators() {
   console.log(resArray);
 }
 
-listsStreamingLocators().catch(console.error);
+async function main() {
+  listsStreamingLocators();
+}
+
+main().catch(console.error);
