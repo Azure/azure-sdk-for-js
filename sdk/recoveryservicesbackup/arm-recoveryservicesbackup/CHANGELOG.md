@@ -183,10 +183,6 @@
   - Enum KnownWorkloadItemType has a new value SAPHanaDBInstance
   - Enum KnownWorkloadType has a new value SAPHanaDBInstance
   - Added function getContinuationToken
-
-**Breaking Changes**
-
-  - Operation ResourceGuardProxy.put has a new signature
   - Interface BackupEnginesListNextOptionalParams no longer has parameter filter
   - Interface BackupEnginesListNextOptionalParams no longer has parameter skipToken
   - Interface BackupJobsListNextOptionalParams no longer has parameter filter
@@ -205,6 +201,10 @@
   - Interface RecoveryPointsListNextOptionalParams no longer has parameter filter
   - Type of parameter protectedItemType of interface ProtectedItem is changed from "AzureFileShareProtectedItem" | "AzureIaaSVMProtectedItem" | "Microsoft.ClassicCompute/virtualMachines" | "Microsoft.Compute/virtualMachines" | "Microsoft.Sql/servers/databases" | "AzureVmWorkloadProtectedItem" | "AzureVmWorkloadSAPAseDatabase" | "AzureVmWorkloadSAPHanaDatabase" | "AzureVmWorkloadSQLDatabase" | "DPMProtectedItem" | "GenericProtectedItem" | "MabFileFolderProtectedItem" to "AzureFileShareProtectedItem" | "AzureIaaSVMProtectedItem" | "Microsoft.ClassicCompute/virtualMachines" | "Microsoft.Compute/virtualMachines" | "Microsoft.Sql/servers/databases" | "AzureVmWorkloadProtectedItem" | "AzureVmWorkloadSAPAseDatabase" | "AzureVmWorkloadSAPHanaDatabase" | "AzureVmWorkloadSAPHanaDBInstance" | "AzureVmWorkloadSQLDatabase" | "DPMProtectedItem" | "GenericProtectedItem" | "MabFileFolderProtectedItem"
   - Type of parameter protectableItemType of interface WorkloadProtectableItem is changed from "AzureFileShare" | "IaaSVMProtectableItem" | "Microsoft.ClassicCompute/virtualMachines" | "Microsoft.Compute/virtualMachines" | "AzureVmWorkloadProtectableItem" | "SAPAseSystem" | "SAPHanaDatabase" | "SAPHanaSystem" | "SQLAvailabilityGroupContainer" | "SQLDataBase" | "SQLInstance" to "AzureFileShare" | "IaaSVMProtectableItem" | "Microsoft.ClassicCompute/virtualMachines" | "Microsoft.Compute/virtualMachines" | "AzureVmWorkloadProtectableItem" | "SAPAseSystem" | "SAPHanaDatabase" | "SAPHanaSystem" | "SAPHanaDBInstance" | "SAPHanaHSR" | "SQLAvailabilityGroupContainer" | "SQLDataBase" | "SQLInstance"
+
+**Breaking Changes**
+
+  - Operation ResourceGuardProxy.put has a new signature
   - Enum KnownContainerType no longer has value AzureWorkloadContainer
   - Enum KnownContainerType no longer has value MicrosoftClassicComputeVirtualMachines
   - Enum KnownContainerType no longer has value MicrosoftComputeVirtualMachines
