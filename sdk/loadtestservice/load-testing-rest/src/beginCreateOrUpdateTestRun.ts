@@ -8,6 +8,7 @@ import { TestRunStatusPoller, PolledOperationOptions } from "./models";
 import { AzureLoadTestingClient } from "./index.js";
 import { TestRunGet200Response } from "./responses";
 import { isUnexpected } from "./isUnexpected";
+import { sleep } from "./util/sleepLROUtility";
 
 /**
  * Creates a poller to poll for test run status.
@@ -153,33 +154,4 @@ export async function beginCreateOrUpdateTestRun(
   };
 
   return poller;
-}
-
-const REJECTED_ERR = new Error("The operation has been aborted");
-
-function sleep(ms: number, signal: AbortSignalLike): Promise<void> {
-  return new Promise<void>((resolve, reject) => {
-    if (signal.aborted) {
-      reject(REJECTED_ERR);
-      return;
-    }
-
-    const id = setTimeout(() => {
-      signal.removeEventListener("abort", onAbort);
-
-      if (signal.aborted) {
-        reject(REJECTED_ERR);
-        return;
-      }
-
-      resolve();
-    }, ms);
-
-    signal.addEventListener("abort", onAbort, { once: true });
-
-    function onAbort(): void {
-      clearTimeout(id);
-      reject(REJECTED_ERR);
-    }
-  });
 }

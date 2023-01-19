@@ -8,6 +8,7 @@ import { AzureLoadTestingClient } from "./index.js";
 import { TestGetFile200Response } from "./responses";
 import { isUnexpected } from "./isUnexpected";
 import { ReadStream } from "fs";
+import { sleep } from "./util/sleepLROUtility";
 
 /**
  * Uploads a file and creates a poller to poll for validation.
@@ -152,33 +153,4 @@ export async function beginUploadTestFile(
   };
 
   return poller;
-}
-
-const REJECTED_ERR = new Error("The operation has been aborted");
-
-function sleep(ms: number, signal: AbortSignalLike): Promise<void> {
-  return new Promise<void>((resolve, reject) => {
-    if (signal.aborted) {
-      reject(REJECTED_ERR);
-      return;
-    }
-
-    const id = setTimeout(() => {
-      signal.removeEventListener("abort", onAbort);
-
-      if (signal.aborted) {
-        reject(REJECTED_ERR);
-        return;
-      }
-
-      resolve();
-    }, ms);
-
-    signal.addEventListener("abort", onAbort, { once: true });
-
-    function onAbort(): void {
-      clearTimeout(id);
-      reject(REJECTED_ERR);
-    }
-  });
 }
