@@ -10,31 +10,69 @@
         "Connection": "keep-alive",
         "Content-Length": "65",
         "Content-Type": "application/merge-patch\u002Bjson",
-        "User-Agent": "azsdk-js-load-testing-rest/1.0.0 core-rest-pipeline/1.10.0 Node/v16.18.0 OS/(x64-Windows_NT-10.0.19045)",
-        "x-ms-client-request-id": "45eaf678-dba1-452a-afa1-704c50a45a4a"
+        "User-Agent": "azsdk-js-load-testing-rest/1.0.0-beta.2 core-rest-pipeline/1.10.0 Node/v16.18.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "5629b78e-93f4-4f5b-a502-64c6a59eeafe"
       },
       "RequestBody": {
         "testId": "abc",
         "displayName": "sample_testrun",
         "virtualUsers": 10
       },
-      "StatusCode": 404,
+      "StatusCode": 201,
       "ResponseHeaders": {
         "api-supported-versions": "2021-07-01-preview, 2022-06-01-preview, 2022-11-01",
         "Connection": "keep-alive",
-        "Content-Length": "152",
+        "Content-Length": "1295",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 17 Nov 2022 16:48:26 GMT",
-        "mise-correlation-id": "865b3696-553c-4d83-bc67-dac026d8412c",
+        "Date": "Thu, 19 Jan 2023 08:04:13 GMT",
+        "Location": "https://endpoint/test-runs/abcde?api-version=2022-11-01",
+        "mise-correlation-id": "6e4731da-0171-4898-b2ff-ca28cb26ce73",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "7ef1cb3f-e101-447d-a1ae-e17120eecafe"
+        "x-ms-correlation-request-id": "1339247f-de2f-4b2a-ad3b-07f524e511be"
       },
       "ResponseBody": {
-        "error": {
-          "code": "TestRunFileNotFound",
-          "message": "Test doesn\u0027t have any jmx file. Please upload a jmx file first, it\u0027s mandatory to create a TestRun."
-        }
+        "loadTestConfiguration": {
+          "engineInstances": 1,
+          "splitAllCSVs": false,
+          "quickStartTest": false
+        },
+        "testArtifacts": {
+          "inputArtifacts": {
+            "configFileInfo": {
+              "url": "https://storageurl.com/",
+              "fileName": "config.yaml",
+              "fileType": "ADDITIONAL_ARTIFACTS",
+              "expireDateTime": "0001-01-01T00:00:00",
+              "validationStatus": "VALIDATION_NOT_REQUIRED"
+            },
+            "testScriptFileInfo": {
+              "url": "https://storageurl.com/",
+              "fileName": "fileName.jmx",
+              "fileType": "JMX_FILE",
+              "expireDateTime": "2023-01-19T09:04:12.8406944",
+              "validationStatus": "VALIDATION_INITIATED"
+            },
+            "inputArtifactsZipFileInfo": {
+              "url": "https://storageurl.com/",
+              "fileName": "inputartifacts.zip",
+              "fileType": "ADDITIONAL_ARTIFACTS",
+              "expireDateTime": "0001-01-01T00:00:00",
+              "validationStatus": "VALIDATION_NOT_REQUIRED"
+            },
+            "additionalFileInfo": []
+          },
+          "outputArtifacts": {}
+        },
+        "testResult": "NOT_APPLICABLE",
+        "testRunId": "abcde",
+        "displayName": "sample_testrun",
+        "testId": "abc",
+        "status": "ACCEPTED",
+        "executedDateTime": "2023-01-19T08:04:12.84Z",
+        "portalUrl": "https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport//resourceId/%2fsubscriptions%2fazure_subscription_id%2fresourcegroups%2fmrinal%2fproviders%2fmicrosoft.loadtestservice%2floadtests%2fmrgautam-auseast/testId/abc/testRunId/abcde",
+        "createdDateTime": "2023-01-19T08:04:13.637Z",
+        "lastModifiedDateTime": "2023-01-19T08:04:13.637Z"
       }
     }
   ],

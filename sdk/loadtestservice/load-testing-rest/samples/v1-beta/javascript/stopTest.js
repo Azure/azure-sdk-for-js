@@ -1,7 +1,7 @@
 /**
- * This sample demonstrates how to run a test and get test status
+ * This sample demonstrates how to run a test and stop execution
  *
- * @summary creates and run a loadtest
+ * @summary creates, run and stop a loadtest
  */
 
 const AzureLoadTesting = require("@azure-rest/load-testing").default,
@@ -55,35 +55,14 @@ async function main() {
     throw new Error("Test Run ID returned as undefined.");
 
   // Checking the test run status
-  var testStatus = null;
-  var getTestRunResult;
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
-  //wait for terminal state
-  while (
-    testStatus == null ||
-    (testStatus != "EXECUTING" && testStatus != "CANCELLED" && testStatus != "FAILED")
-  ) {
-    getTestRunResult = await client
-      .path("/test-runs/{testRunId}", testRunCreationResult.body.testRunId)
-      .get();
-    if (isUnexpected(getTestRunResult)) {
-      throw getTestRunResult.body.error;
-    }
-    testStatus = getTestRunResult.body.status;
+  sleep(30000);
 
-    //Check test status after every 5 seconds
-    sleep(5000);
-  }
+  let stopTestRunResult = await client.path("/test-runs/{testRunId}:stop", testRunId).post();
 
-  if (testStatus == "EXECUTING") {
-    let stopTestRunResult = await client.path("/test-runs/{testRunId}:stop", testRunId).post();
-
-    if (isUnexpected(stopTestRunResult)) {
-      throw stopTestRunResult.body.error;
-    }
-
-    console.log("Test run is stopped.");
+  if (isUnexpected(stopTestRunResult)) {
+    throw stopTestRunResult.body.error;
   }
 }
 main().catch(console.error);

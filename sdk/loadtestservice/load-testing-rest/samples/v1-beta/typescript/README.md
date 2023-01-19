@@ -11,10 +11,10 @@ urlFragment: load-testing-typescript-beta
 
 These sample programs show how to use the TypeScript client libraries for Azure Load Testing rest in some common scenarios.
 
-| **File Name**           | **Description**            |
-| ----------------------- | -------------------------- |
-| [sample.ts][sample]     | creates and run a loadtest |
-| [stopTest.ts][stoptest] | creates and run a loadtest |
+| **File Name**           | **Description**                  |
+| ----------------------- | -------------------------------- |
+| [sample.ts][sample]     | creates and run a loadtest       |
+| [stopTest.ts][stoptest] | creates, run and stop a loadtest |
 
 ## Prerequisites
 

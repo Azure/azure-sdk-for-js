@@ -22,7 +22,7 @@ export async function beginCreateOrUpdateTestRun(
   polledOperationOptions: PolledOperationOptions = {}
 ): Promise<TestRunStatusPoller> {
   const testRunId = uuidv4(); // ID to be assigned to a testRun
- // Creating the test run
+  // Creating the test run
   const testRunCreationResult = await client.path("/test-runs/{testRunId}", testRunId).patch({
     contentType: "application/merge-patch+json",
     body: {

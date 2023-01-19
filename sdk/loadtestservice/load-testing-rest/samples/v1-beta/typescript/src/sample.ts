@@ -7,7 +7,11 @@
  * @summary creates and run a loadtest
  */
 
-import AzureLoadTesting, { isUnexpected, beginCreateOrUpdateTestRun, beginUploadTestFile } from "@azure-rest/load-testing";
+import AzureLoadTesting, {
+  isUnexpected,
+  beginCreateOrUpdateTestRun,
+  beginUploadTestFile,
+} from "@azure-rest/load-testing";
 import { DefaultAzureCredential } from "@azure/identity";
 import { createReadStream } from "fs";
 import { v4 as uuidv4 } from "uuid";
@@ -44,10 +48,14 @@ async function main() {
     throw new Error("Test ID returned as undefined.");
 
   // Uploading .jmx file to a test
-   const fileUploadPoller = await beginUploadTestFile(client, testId, "sample", readStream);
-   const fileUploadResult = await fileUploadPoller.pollUntilDone();
+  const fileUploadPoller = await beginUploadTestFile(client, testId, "sample", readStream);
+  const fileUploadResult = await fileUploadPoller.pollUntilDone();
 
-   if (fileUploadPoller.getOperationState().status != "succeeded") throw new Error("There is some issue in validation, please make sure uploaded file is a valid JMX." + fileUploadResult);
+  if (fileUploadPoller.getOperationState().status != "succeeded")
+    throw new Error(
+      "There is some issue in validation, please make sure uploaded file is a valid JMX." +
+        fileUploadResult
+    );
 
   // Creating/Updating app component
   const appComponentCreationResult = await client
@@ -76,15 +84,11 @@ async function main() {
   const testRunPoller = await beginCreateOrUpdateTestRun(client, testId, displayName);
   const testRunResult = await testRunPoller.pollUntilDone();
 
-  if (fileUploadPoller.getOperationState().status != "succeeded") throw new Error("There is some issue in running the test, Error Response : " + testRunResult);
+  if (fileUploadPoller.getOperationState().status != "succeeded")
+    throw new Error("There is some issue in running the test, Error Response : " + testRunResult);
 
-  //Getting the test run 
-  var getTestRunResult = await client.path("/test-runs/{testRunId}", testRunResult.body.testRunId).get();
-
-  if (isUnexpected(getTestRunResult)) throw new Error("There is some issue in getting the test run.");
-
-  let testRunStarttime = getTestRunResult.body.startDateTime;
-  let testRunEndTime = getTestRunResult.body.endDateTime;
+  let testRunStarttime = testRunResult.body.startDateTime;
+  let testRunEndTime = testRunResult.body.endDateTime;
 
   // get list of all metric namespaces and pick the first one
   let metricNamespaces = await client
@@ -130,7 +134,7 @@ async function main() {
   });
 
   console.log(metricsResult);
-  console.log(getTestRunResult);
+  console.log(testRunResult);
 
   // Deleting test run
   let deleteTestRunResult = await client.path("/test-runs/{testRunId}", testRunId).delete();

@@ -27,6 +27,7 @@ describe("Test Creation", () => {
     await recorder.stop();
   });
 
+  //patch/put
   it("should create a loadtest", async () => {
     const result = await client.path("/tests/{testId}", "abc").patch({
       contentType: "application/merge-patch+json",
@@ -44,17 +45,19 @@ describe("Test Creation", () => {
   });
 
   it("should upload the test file", async () => {
-    const result = await client.path("/tests/{testId}/files/{fileName}", "abc", "fileName").put({
-      contentType: "application/octet-stream",
-      body: readStream,
-    });
+    const result = await client
+      .path("/tests/{testId}/files/{fileName}", "abc", "fileName.jmx")
+      .put({
+        contentType: "application/octet-stream",
+        body: readStream,
+      });
 
     assert.include(["201"], result.status);
   });
 
   it("should create the app components", async () => {
     const SUBSCRIPTION_ID = env["SUBSCRIPTION_ID"] || "";
-    const result = await client.path("/tests/{testId}/app-components", "appcomp123").patch({
+    const result = await client.path("/tests/{testId}/app-components", "abc").patch({
       contentType: "application/merge-patch+json",
       body: {
         testId: "abc",
@@ -73,9 +76,11 @@ describe("Test Creation", () => {
     assert.include(["200", "201"], result.status);
   });
 
-  //get 
+  //get
   it("should get the test file", async () => {
-    const result = await client.path("/tests/{testId}/files/{fileName}", "abc", "fileName").get();
+    const result = await client
+      .path("/tests/{testId}/files/{fileName}", "abc", "fileName.jmx")
+      .get();
 
     assert.include(["200"], result.status);
   });
@@ -94,7 +99,9 @@ describe("Test Creation", () => {
 
   //delete
   it("should delete the test file", async () => {
-    const result = await client.path("/tests/{testId}/files/{fileName}", "abc", "fileName").delete();
+    const result = await client
+      .path("/tests/{testId}/files/{fileName}", "abc", "fileName.jmx")
+      .delete();
 
     assert.include(["204"], result.status);
   });
@@ -104,6 +111,4 @@ describe("Test Creation", () => {
 
     assert.include(["204"], result.status);
   });
-  
-
 });

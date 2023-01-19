@@ -11,10 +11,10 @@ urlFragment: load-testing-javascript-beta
 
 These sample programs show how to use the JavaScript client libraries for Azure Load Testing rest in some common scenarios.
 
-| **File Name**           | **Description**            |
-| ----------------------- | -------------------------- |
-| [sample.js][sample]     | creates and run a loadtest |
-| [stopTest.js][stoptest] | creates and run a loadtest |
+| **File Name**           | **Description**                  |
+| ----------------------- | -------------------------------- |
+| [sample.js][sample]     | creates and run a loadtest       |
+| [stopTest.js][stoptest] | creates, run and stop a loadtest |
 
 ## Prerequisites
 

@@ -5,13 +5,22 @@
       "RequestMethod": "PATCH",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "Content-Length": "113",
         "Content-Type": "application/merge-patch\u002Bjson",
-        "User-Agent": "azsdk-js-load-testing-rest/1.0.0-beta.2 core-rest-pipeline/1.10.0 Node/v16.18.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "99ff5799-04cb-411a-9156-9fe078cc70e8"
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "28b35050-e242-40f3-ac0c-c5cce72516d0",
+        "x-ms-useragent": "azsdk-js-load-testing-rest/1.0.0-beta.2 core-rest-pipeline/1.10.0 OS/Win32"
       },
       "RequestBody": {
         "displayName": "sample_test",
@@ -25,13 +34,13 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-07-01-preview, 2022-06-01-preview, 2022-11-01",
         "Connection": "keep-alive",
-        "Content-Length": "477",
+        "Content-Length": "478",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 19 Jan 2023 08:04:08 GMT",
-        "mise-correlation-id": "907dc9f1-3e62-47c3-aef3-13f13825cb1a",
+        "Date": "Thu, 19 Jan 2023 08:04:29 GMT",
+        "mise-correlation-id": "8cfcaae6-73de-4844-8178-32e07b66aa91",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "41324286-b9b4-4b95-8d7c-5e2a14003674"
+        "x-ms-correlation-request-id": "3284f816-e0ec-4794-91ce-b7421621d557"
       },
       "ResponseBody": {
         "loadTestConfiguration": {
@@ -44,7 +53,7 @@
             "url": "https://storageurl.com/",
             "fileName": "fileName.jmx",
             "fileType": "JMX_FILE",
-            "expireDateTime": "2023-01-19T09:04:08.552821",
+            "expireDateTime": "2023-01-19T09:04:29.770143",
             "validationStatus": "VALIDATION_SUCCESS"
           },
           "additionalFileInfo": []
@@ -53,7 +62,7 @@
         "description": "",
         "displayName": "sample_test",
         "createdDateTime": "2023-01-19T07:20:48.154Z",
-        "lastModifiedDateTime": "2023-01-19T08:04:08.54Z"
+        "lastModifiedDateTime": "2023-01-19T08:04:29.754Z"
       }
     }
   ],

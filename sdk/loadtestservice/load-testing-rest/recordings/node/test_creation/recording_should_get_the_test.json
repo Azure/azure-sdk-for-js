@@ -2,36 +2,27 @@
   "Entries": [
     {
       "RequestUri": "https://endpoint/tests/abc?api-version=2022-11-01",
-      "RequestMethod": "PATCH",
+      "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "113",
-        "Content-Type": "application/merge-patch\u002Bjson",
         "User-Agent": "azsdk-js-load-testing-rest/1.0.0-beta.2 core-rest-pipeline/1.10.0 Node/v16.18.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "99ff5799-04cb-411a-9156-9fe078cc70e8"
+        "x-ms-client-request-id": "eec5976a-47a6-4383-8aee-d0a8dbf60b13"
       },
-      "RequestBody": {
-        "displayName": "sample_test",
-        "description": "",
-        "loadTestConfiguration": {
-          "engineInstances": 1,
-          "splitAllCSVs": false
-        }
-      },
+      "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2021-07-01-preview, 2022-06-01-preview, 2022-11-01",
         "Connection": "keep-alive",
-        "Content-Length": "477",
+        "Content-Length": "481",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 19 Jan 2023 08:04:08 GMT",
-        "mise-correlation-id": "907dc9f1-3e62-47c3-aef3-13f13825cb1a",
+        "Date": "Thu, 19 Jan 2023 08:04:10 GMT",
+        "mise-correlation-id": "564f363d-99f2-4f47-94f3-d906301038c7",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "41324286-b9b4-4b95-8d7c-5e2a14003674"
+        "x-ms-correlation-request-id": "2c2497c7-0887-4ded-be2d-f812968e4b40"
       },
       "ResponseBody": {
         "loadTestConfiguration": {
@@ -44,8 +35,8 @@
             "url": "https://storageurl.com/",
             "fileName": "fileName.jmx",
             "fileType": "JMX_FILE",
-            "expireDateTime": "2023-01-19T09:04:08.552821",
-            "validationStatus": "VALIDATION_SUCCESS"
+            "expireDateTime": "2023-01-19T09:04:10.9476034",
+            "validationStatus": "VALIDATION_INITIATED"
           },
           "additionalFileInfo": []
         },
@@ -53,7 +44,7 @@
         "description": "",
         "displayName": "sample_test",
         "createdDateTime": "2023-01-19T07:20:48.154Z",
-        "lastModifiedDateTime": "2023-01-19T08:04:08.54Z"
+        "lastModifiedDateTime": "2023-01-19T08:04:09.638Z"
       }
     }
   ],

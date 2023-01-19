@@ -21,6 +21,22 @@ describe("Test Run Creation", () => {
     await recorder.stop();
   });
 
+  it("should create a loadtest", async () => {
+    const result = await client.path("/tests/{testId}", "abc").patch({
+      contentType: "application/merge-patch+json",
+      body: {
+        displayName: "sample_test",
+        description: "",
+        loadTestConfiguration: {
+          engineInstances: 1,
+          splitAllCSVs: false,
+        },
+      },
+    });
+
+    assert.include(["200", "201"], result.status);
+  });
+
   it("should create a test run", async () => {
     const result = await client.path("/test-runs/{testRunId}", "abcde").patch({
       contentType: "application/merge-patch+json",
@@ -31,7 +47,7 @@ describe("Test Run Creation", () => {
       },
     });
 
-    assert.include(["200"], result.status);
+    assert.include(["200", "201"], result.status);
   });
 
   it("should get a test run", async () => {
@@ -59,12 +75,6 @@ describe("Test Run Creation", () => {
     assert.include(["200"], result.status);
   });
 
-  it("should get a test run file", async () => {
-    const result = await client.path("/test-runs/{testRunId}/files/{fileName}", "abcde", "filename").get();
-
-    assert.include(["200"], result.status);
-  });
-
   it("should get a test run app components", async () => {
     const result = await client.path("/test-runs/{testRunId}/app-components", "abcde").get();
 
@@ -82,5 +92,4 @@ describe("Test Run Creation", () => {
 
     assert.include(["204"], result.status);
   });
-
 });

@@ -89,16 +89,8 @@ async function main() {
   if (fileUploadPoller.getOperationState().status != "succeeded")
     throw new Error("There is some issue in running the test, Error Response : " + testRunResult);
 
-  //Getting the test run
-  var getTestRunResult = await client
-    .path("/test-runs/{testRunId}", testRunResult.body.testRunId)
-    .get();
-
-  if (isUnexpected(getTestRunResult))
-    throw new Error("There is some issue in getting the test run.");
-
-  let testRunStarttime = getTestRunResult.body.startDateTime;
-  let testRunEndTime = getTestRunResult.body.endDateTime;
+  let testRunStarttime = testRunResult.body.startDateTime;
+  let testRunEndTime = testRunResult.body.endDateTime;
 
   // get list of all metric namespaces and pick the first one
   let metricNamespaces = await client
@@ -144,7 +136,7 @@ async function main() {
   });
 
   console.log(metricsResult);
-  console.log(getTestRunResult);
+  console.log(testRunResult);
 
   // Deleting test run
   let deleteTestRunResult = await client.path("/test-runs/{testRunId}", testRunId).delete();
