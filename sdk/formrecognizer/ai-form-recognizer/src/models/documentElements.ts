@@ -9,6 +9,9 @@ import {
   LengthUnit,
   ParagraphRole,
   SelectionMarkState,
+  DocumentAnnotationKind,
+  DocumentBarcodeKind,
+  DocumentFormulaKind,
 } from "../generated";
 
 /** Simple document elements such as words, selection marks and lines are bounded by the polygon. */
@@ -162,7 +165,29 @@ export interface DocumentKeyValuePair {
   key: DocumentKeyValueElement;
   /** Field value of the key-value pair. */
   value?: DocumentKeyValueElement;
+
+  commonName?: string;
+
   /** Confidence of correctly extracting the key-value pair. */
+  confidence: number;
+}
+
+export interface DocumentAnnotation extends HasBoundingPolygon {
+  kind: DocumentAnnotationKind;
+  confidence: number;
+}
+
+export interface DocumentBarcode extends HasBoundingPolygon {
+  kind: DocumentBarcodeKind;
+  value: string;
+  span: DocumentSpan;
+  confidence: number;
+}
+
+export interface DocumentFormula extends HasBoundingPolygon {
+  kind: DocumentFormulaKind;
+  value: string;
+  span: DocumentSpan;
   confidence: number;
 }
 
@@ -186,4 +211,8 @@ export interface DocumentPage {
   selectionMarks?: DocumentSelectionMark[];
   /** Extracted lines from the page, potentially containing both textual and visual elements. */
   lines?: DocumentLine[];
+
+  annotations?: DocumentAnnotation[];
+  barcodes?: DocumentBarcode[];
+  formulas?: DocumentFormula[];
 }

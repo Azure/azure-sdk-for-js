@@ -50,9 +50,12 @@ checkAssign<Omit<GeneratedDocumentTable, "boundingRegions" | "cells" | "caption"
 );
 checkAssign<Omit<GeneratedDocumentKeyValueElement, "boundingRegions">>(documentKeyValueElement);
 checkAssign<Omit<GeneratedDocument, "boundingRegions">>(document);
-checkAssign<Omit<GeneratedDocumentPage, "images" | "words" | "selectionMarks" | "lines">>(
-  documentPage
-);
+checkAssign<
+  Omit<
+    GeneratedDocumentPage,
+    "images" | "words" | "selectionMarks" | "lines" | "annotations" | "barcodes" | "formulas"
+  >
+>(documentPage);
 
 // The following completes the test for mutual assignability, makes sure there are no mismatches w.r.t the {required/optional}-ity for the properties in Generated vs Publicly Exposed.
 
@@ -76,6 +79,11 @@ checkAssign<Omit<DocumentTable, "boundingRegions" | "cells" | "caption" | "footn
 );
 checkAssign<Omit<DocumentKeyValueElement, "boundingRegions">>(generatedDocumentKeyValueElement);
 checkAssign<Omit<Document, "boundingRegions">>(generatedDocument);
-checkAssign<Omit<DocumentPage, "images" | "words" | "selectionMarks" | "lines">>(
-  generatedDocumentPage
-);
+checkAssign<
+  Omit<
+    DocumentPage,
+    "images" | "words" | "selectionMarks" | "lines" | "annotations" | "barcodes" | "formulas"
+  >
+>(generatedDocumentPage);
+
+// TODO: add tests for new page elements

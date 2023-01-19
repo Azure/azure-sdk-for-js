@@ -57,8 +57,14 @@ directive:
   - from: swagger-document
     where: $.definitions[*].properties
     transform: >
-      for (const p of Object.keys($).filter((k) => k.endsWith("DateTime"))) {
-        $[p]["x-ms-client-name"] = p.replace(/DateTime$/, "On");
+      for (let p of Object.keys($).filter((k) => k.endsWith("DateTime"))) {
+        const name = p;
+        
+        if (p.startsWith("expiration")) {
+          p = p.replace("expiration", "expires");
+        }
+
+        $[name]["x-ms-client-name"] = p.replace(/DateTime$/, "On");
       }
 ```
 

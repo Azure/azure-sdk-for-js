@@ -43,6 +43,8 @@ export interface AnalyzedDocument {
 
 // @public
 export interface AnalyzeDocumentOptions<Result = AnalyzeResult<AnalyzedDocument>> extends OperationOptions, PollerOptions<DocumentAnalysisPollOperationState<Result>> {
+    additionalFields?: string[];
+    features?: string[];
     locale?: string;
     pages?: string;
 }
@@ -68,7 +70,25 @@ export interface AnalyzeResultCommon {
 // @public
 export type AnalyzeResultOperationStatus = "notStarted" | "running" | "failed" | "succeeded";
 
+// @public
+export interface AzureBlobContentSource {
+    containerUrl: string;
+    prefix?: string;
+}
+
+// @public
+export interface AzureBlobFileListSource {
+    containerUrl: string;
+    fileList: string;
+}
+
 export { AzureKeyCredential }
+
+// @public
+export interface BeginBuildDocumentClassifierOptions extends OperationOptions, PollerOptions<DocumentClassifierOperationState> {
+    description?: string;
+    tags?: Record<string, string>;
+}
 
 // @public
 export interface BeginBuildDocumentModelOptions extends CreateDocumentModelOptions {
@@ -85,6 +105,12 @@ export interface BeginCopyModelOptions extends OperationOptions, PollerOptions<D
 // @public
 export interface BoundingRegion extends HasBoundingPolygon {
     pageNumber: number;
+}
+
+// @public
+export interface ClassifierDocumentTypeDetails {
+    azureBlobFileListSource?: AzureBlobFileListSource;
+    azureBlobSource?: AzureBlobContentSource;
 }
 
 // @public
@@ -113,6 +139,7 @@ export function createModelFromSchema(schema: Omit<DocumentModelDetails, "create
 // @public
 export interface CurrencyValue {
     amount: number;
+    currencyCode?: string;
     currencySymbol?: string;
 }
 
@@ -157,11 +184,37 @@ export interface DocumentAnalysisPollOperationState<Result = AnalyzeResult<Analy
     status: AnalyzeResultOperationStatus;
 }
 
+// @public (undocumented)
+export interface DocumentAnnotation extends HasBoundingPolygon {
+    // (undocumented)
+    confidence: number;
+    // (undocumented)
+    kind: DocumentAnnotationKind;
+}
+
+// @public
+export type DocumentAnnotationKind = string;
+
 // @public
 export interface DocumentArrayField<T = DocumentField> extends DocumentFieldCommon {
     kind: "array";
     values: T[];
 }
+
+// @public (undocumented)
+export interface DocumentBarcode extends HasBoundingPolygon {
+    // (undocumented)
+    confidence: number;
+    // (undocumented)
+    kind: DocumentBarcodeKind;
+    // (undocumented)
+    span: DocumentSpan;
+    // (undocumented)
+    value: string;
+}
+
+// @public
+export type DocumentBarcodeKind = string;
 
 // @public
 export type DocumentBuildMode = string;
@@ -172,6 +225,31 @@ export interface DocumentCaption {
     content: string;
     spans: DocumentSpan[];
 }
+
+// @public
+export interface DocumentClassifierBuildOperationDetails extends OperationDetails {
+    kind: "documentClassifierBuild";
+    result?: DocumentClassifierDetails;
+}
+
+// @public
+export interface DocumentClassifierDetails {
+    apiVersion: string;
+    classifierId: string;
+    createdOn: Date;
+    description?: string;
+    docTypes: {
+        [propertyName: string]: ClassifierDocumentTypeDetails;
+    };
+    expiresOn?: Date;
+}
+
+// @public
+export interface DocumentClassifierOperationState extends PollOperationState<DocumentClassifierDetails>, ModelAdministrationOperationStateCommon {
+}
+
+// @public (undocumented)
+export type DocumentClassifierPoller = PollerLike<DocumentClassifierOperationState, DocumentClassifierDetails>;
 
 // @public
 export interface DocumentCountryRegionField extends DocumentFieldCommon {
@@ -222,6 +300,21 @@ export interface DocumentFootnote {
     spans: DocumentSpan[];
 }
 
+// @public (undocumented)
+export interface DocumentFormula extends HasBoundingPolygon {
+    // (undocumented)
+    confidence: number;
+    // (undocumented)
+    kind: DocumentFormulaKind;
+    // (undocumented)
+    span: DocumentSpan;
+    // (undocumented)
+    value: string;
+}
+
+// @public
+export type DocumentFormulaKind = string;
+
 // @public
 export interface DocumentIntegerField extends DocumentValueField<number> {
     kind: "integer";
@@ -236,6 +329,8 @@ export interface DocumentKeyValueElement {
 
 // @public
 export interface DocumentKeyValuePair {
+    // (undocumented)
+    commonName?: string;
     confidence: number;
     key: DocumentKeyValueElement;
     value?: DocumentKeyValueElement;
@@ -267,14 +362,24 @@ export class DocumentModelAdministrationClient {
     constructor(endpoint: string, credential: TokenCredential, options?: DocumentModelAdministrationClientOptions);
     constructor(endpoint: string, credential: KeyCredential, options?: DocumentModelAdministrationClientOptions);
     constructor(endpoint: string, credential: KeyCredential | TokenCredential, options?: DocumentModelAdministrationClientOptions);
+    // (undocumented)
+    beginBuildDocumentClassifier(classifierId: string, docTypes: {
+        [docType: string]: ClassifierDocumentTypeDetails;
+    }, options?: BeginBuildDocumentClassifierOptions): Promise<DocumentClassifierPoller>;
     beginBuildDocumentModel(modelId: string, containerUrl: string, buildMode: DocumentModelBuildMode, options?: BeginBuildDocumentModelOptions): Promise<DocumentModelPoller>;
     beginComposeDocumentModel(modelId: string, componentModelIds: Iterable<string>, options?: BeginComposeDocumentModelOptions): Promise<DocumentModelPoller>;
     beginCopyModelTo(sourceModelId: string, authorization: CopyAuthorization, options?: BeginCopyModelOptions): Promise<DocumentModelPoller>;
+    // (undocumented)
+    deleteDocumentClassifier(classifierId: string, options?: DeleteDocumentModelOptions): Promise<void>;
     deleteDocumentModel(modelId: string, options?: DeleteDocumentModelOptions): Promise<void>;
     getCopyAuthorization(destinationModelId: string, options?: GetCopyAuthorizationOptions): Promise<CopyAuthorization>;
+    // (undocumented)
+    getDocumentClassifier(classifierId: string, options?: GetModelOptions): Promise<DocumentClassifierDetails>;
     getDocumentModel(modelId: string, options?: GetModelOptions): Promise<DocumentModelDetails>;
     getOperation(operationId: string, options?: GetOperationOptions): Promise<OperationDetails>;
     getResourceDetails(options?: GetResourceDetailsOptions): Promise<ResourceDetails>;
+    // (undocumented)
+    listDocumentClassifiers(options?: ListModelsOptions): PagedAsyncIterableIterator<DocumentClassifierDetails>;
     listDocumentModels(options?: ListModelsOptions): PagedAsyncIterableIterator<DocumentModelSummary>;
     listOperations(options?: ListOperationsOptions): PagedAsyncIterableIterator<OperationSummary>;
 }
@@ -318,6 +423,7 @@ export interface DocumentModelDetails {
     docTypes?: {
         [propertyName: string]: DocumentTypeDetails;
     };
+    expiresOn?: Date;
     modelId: string;
     tags?: {
         [propertyName: string]: string;
@@ -325,14 +431,7 @@ export interface DocumentModelDetails {
 }
 
 // @public
-export interface DocumentModelOperationState extends PollOperationState<DocumentModelDetails> {
-    apiVersion?: string;
-    createdOn: Date;
-    lastUpdatedOn: Date;
-    operationId: string;
-    percentCompleted: number;
-    status: OperationStatus;
-    tags?: Record<string, string>;
+export interface DocumentModelOperationState extends PollOperationState<DocumentModelDetails>, ModelAdministrationOperationStateCommon {
 }
 
 // @public
@@ -343,6 +442,7 @@ export interface DocumentModelSummary {
     apiVersion?: string;
     createdOn: Date;
     description?: string;
+    expiresOn?: Date;
     modelId: string;
     tags?: {
         [propertyName: string]: string;
@@ -365,6 +465,12 @@ export interface DocumentObjectField<Properties = {
 // @public
 export interface DocumentPage {
     angle?: number;
+    // (undocumented)
+    annotations?: DocumentAnnotation[];
+    // (undocumented)
+    barcodes?: DocumentBarcode[];
+    // (undocumented)
+    formulas?: DocumentFormula[];
     height?: number;
     lines?: DocumentLine[];
     pageNumber: number;
@@ -424,7 +530,13 @@ export interface DocumentStringField<Value extends string = string> extends Docu
 
 // @public
 export interface DocumentStyle {
+    backgroundColor?: string;
+    color?: string;
     confidence: number;
+    fontFamily?: FontFamily;
+    fontName?: string;
+    fontStyle?: FontStyle;
+    fontWeight?: FontWeight;
     isHandwritten?: boolean;
     spans: DocumentSpan[];
 }
@@ -493,12 +605,23 @@ export interface ErrorModel {
 }
 
 // @public
+export type FontFamily = string;
+
+// @public
+export type FontStyle = string;
+
+// @public
+export type FontWeight = string;
+
+// @public
 export type FormRecognizerApiVersion = (typeof FormRecognizerApiVersion)[keyof typeof FormRecognizerApiVersion];
 
 // @public
 export const FormRecognizerApiVersion: {
-    readonly Latest: "2022-08-31";
+    readonly Latest: "2023-02-28-preview";
     readonly Stable: "2022-08-31";
+    readonly "2022-08-31": "2022-08-31";
+    readonly "2023-02-28-preview": "2023-02-28-preview";
 };
 
 // @public
@@ -552,11 +675,22 @@ export interface ListOperationsOptions extends OperationOptions {
 }
 
 // @public
+export interface ModelAdministrationOperationStateCommon {
+    apiVersion?: string;
+    createdOn: Date;
+    lastUpdatedOn: Date;
+    operationId: string;
+    percentCompleted: number;
+    status: OperationStatus;
+    tags?: Record<string, string>;
+}
+
+// @public
 export interface OperationDetails {
     apiVersion?: string;
     createdOn: Date;
     error?: ErrorModel;
-    kind: "documentModelBuild" | "documentModelCompose" | "documentModelCopyTo";
+    kind: "documentModelBuild" | "documentModelCompose" | "documentModelCopyTo" | "documentClassifierBuild";
     lastUpdatedOn: Date;
     operationId: string;
     percentCompleted?: number;
@@ -568,7 +702,7 @@ export interface OperationDetails {
 }
 
 // @public (undocumented)
-export type OperationDetailsUnion = OperationDetails | DocumentModelBuildOperationDetails | DocumentModelComposeOperationDetails | DocumentModelCopyToOperationDetails;
+export type OperationDetailsUnion = OperationDetails | DocumentModelBuildOperationDetails | DocumentModelComposeOperationDetails | DocumentModelCopyToOperationDetails | DocumentClassifierBuildOperationDetails;
 
 // @public
 export type OperationKind = string;

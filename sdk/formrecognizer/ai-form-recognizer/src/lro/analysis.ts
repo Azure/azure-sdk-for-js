@@ -27,6 +27,7 @@ import {
   DocumentPage,
   DocumentLine,
   DocumentParagraph,
+  DocumentFormula,
 } from "../models/documentElements";
 import {
   Document as GeneratedDocument,
@@ -224,6 +225,22 @@ export function toDocumentPageFromGenerated(generated: GeneratedDocumentPage): D
       ...word,
       polygon: toBoundingPolygon(word.polygon),
     })),
+    annotations: generated.annotations?.map((annotation) => ({
+      ...annotation,
+      polygon: toBoundingPolygon(annotation.polygon),
+    })),
+    barcodes: generated.barcodes?.map((barcode) => ({
+      ...barcode,
+      polygon: toBoundingPolygon(barcode.polygon),
+    })),
+    formulas: generated.formulas?.map(
+      (formula): DocumentFormula => ({
+        ...formula,
+        // TODO: typo in spec
+        kind: formula.kinde!,
+        polygon: toBoundingPolygon(formula.polygon),
+      })
+    ),
   };
 }
 

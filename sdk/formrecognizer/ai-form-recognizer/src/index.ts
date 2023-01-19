@@ -24,6 +24,9 @@ export {
   DocumentSpan,
   DocumentLanguage,
   DocumentStyle,
+  FontFamily,
+  FontStyle,
+  FontWeight,
   DocumentTableCellKind,
   LengthUnit,
   DocumentModelDetails,
@@ -44,6 +47,14 @@ export {
   DocumentModelBuildOperationDetails,
   DocumentModelComposeOperationDetails,
   DocumentModelCopyToOperationDetails,
+  DocumentClassifierBuildOperationDetails,
+  DocumentClassifierDetails,
+  ClassifierDocumentTypeDetails,
+  DocumentAnnotationKind,
+  DocumentBarcodeKind,
+  DocumentFormulaKind,
+  AzureBlobFileListSource,
+  AzureBlobContentSource,
 } from "./generated";
 export {
   AnalysisPoller,
@@ -53,7 +64,13 @@ export {
   AnalyzedDocument,
   FormRecognizerRequestBody,
 } from "./lro/analysis";
-export { DocumentModelPoller, DocumentModelOperationState } from "./lro/administration";
+export {
+  DocumentModelPoller,
+  DocumentClassifierPoller,
+  DocumentModelOperationState,
+  DocumentClassifierOperationState,
+  ModelAdministrationOperationStateCommon,
+} from "./lro/administration";
 export * from "./models";
 export * from "./options";
 export * from "./documentModel";

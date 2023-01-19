@@ -389,6 +389,42 @@ export const DocumentPage: coreClient.CompositeMapper = {
             }
           }
         }
+      },
+      annotations: {
+        serializedName: "annotations",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DocumentAnnotation"
+            }
+          }
+        }
+      },
+      barcodes: {
+        serializedName: "barcodes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DocumentBarcode"
+            }
+          }
+        }
+      },
+      formulas: {
+        serializedName: "formulas",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DocumentFormula"
+            }
+          }
+        }
       }
     }
   }
@@ -556,6 +592,159 @@ export const DocumentLine: coreClient.CompositeMapper = {
               className: "DocumentSpan"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const DocumentAnnotation: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DocumentAnnotation",
+    modelProperties: {
+      kind: {
+        defaultValue: "content",
+        serializedName: "kind",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      polygon: {
+        serializedName: "polygon",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            constraints: {
+              InclusiveMinimum: 0
+            },
+            type: {
+              name: "Number"
+            }
+          }
+        }
+      },
+      confidence: {
+        constraints: {
+          InclusiveMaximum: 1,
+          InclusiveMinimum: 0
+        },
+        serializedName: "confidence",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const DocumentBarcode: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DocumentBarcode",
+    modelProperties: {
+      kind: {
+        defaultValue: "content",
+        serializedName: "kind",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      polygon: {
+        serializedName: "polygon",
+        type: {
+          name: "Sequence",
+          element: {
+            constraints: {
+              InclusiveMinimum: 0
+            },
+            type: {
+              name: "Number"
+            }
+          }
+        }
+      },
+      span: {
+        serializedName: "span",
+        type: {
+          name: "Composite",
+          className: "DocumentSpan"
+        }
+      },
+      confidence: {
+        constraints: {
+          InclusiveMaximum: 1,
+          InclusiveMinimum: 0
+        },
+        serializedName: "confidence",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const DocumentFormula: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DocumentFormula",
+    modelProperties: {
+      kinde: {
+        serializedName: "kinde",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      polygon: {
+        serializedName: "polygon",
+        type: {
+          name: "Sequence",
+          element: {
+            constraints: {
+              InclusiveMinimum: 0
+            },
+            type: {
+              name: "Number"
+            }
+          }
+        }
+      },
+      span: {
+        serializedName: "span",
+        type: {
+          name: "Composite",
+          className: "DocumentSpan"
+        }
+      },
+      confidence: {
+        constraints: {
+          InclusiveMaximum: 1,
+          InclusiveMinimum: 0
+        },
+        serializedName: "confidence",
+        required: true,
+        type: {
+          name: "Number"
         }
       }
     }
@@ -811,6 +1000,12 @@ export const DocumentKeyValuePair: coreClient.CompositeMapper = {
           className: "DocumentKeyValueElement"
         }
       },
+      commonName: {
+        serializedName: "commonName",
+        type: {
+          name: "String"
+        }
+      },
       confidence: {
         constraints: {
           InclusiveMaximum: 1,
@@ -876,6 +1071,48 @@ export const DocumentStyle: coreClient.CompositeMapper = {
         serializedName: "isHandwritten",
         type: {
           name: "Boolean"
+        }
+      },
+      fontFamily: {
+        serializedName: "fontFamily",
+        type: {
+          name: "String"
+        }
+      },
+      fontName: {
+        serializedName: "fontName",
+        type: {
+          name: "String"
+        }
+      },
+      fontStyle: {
+        serializedName: "fontStyle",
+        type: {
+          name: "String"
+        }
+      },
+      fontWeight: {
+        serializedName: "fontWeight",
+        type: {
+          name: "String"
+        }
+      },
+      color: {
+        constraints: {
+          Pattern: new RegExp("#[0-9a-f]{6}")
+        },
+        serializedName: "color",
+        type: {
+          name: "String"
+        }
+      },
+      backgroundColor: {
+        constraints: {
+          Pattern: new RegExp("#[0-9a-f]{6}")
+        },
+        serializedName: "backgroundColor",
+        type: {
+          name: "String"
         }
       },
       spans: {
@@ -1169,6 +1406,12 @@ export const CurrencyValue: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      currencyCode: {
+        serializedName: "currencyCode",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -1269,6 +1512,13 @@ export const BuildDocumentModelRequest: coreClient.CompositeMapper = {
           className: "AzureBlobContentSource"
         }
       },
+      azureBlobFileListSource: {
+        serializedName: "azureBlobFileListSource",
+        type: {
+          name: "Composite",
+          className: "AzureBlobFileListSource"
+        }
+      },
       tags: {
         serializedName: "tags",
         type: {
@@ -1294,6 +1544,29 @@ export const AzureBlobContentSource: coreClient.CompositeMapper = {
       },
       prefix: {
         serializedName: "prefix",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AzureBlobFileListSource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AzureBlobFileListSource",
+    modelProperties: {
+      containerUrl: {
+        serializedName: "containerUrl",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      fileList: {
+        serializedName: "fileList",
+        required: true,
         type: {
           name: "String"
         }
@@ -1722,6 +1995,12 @@ export const DocumentModelSummary: coreClient.CompositeMapper = {
           name: "DateTime"
         }
       },
+      expiresOn: {
+        serializedName: "expirationDateTime",
+        type: {
+          name: "DateTime"
+        }
+      },
       apiVersion: {
         serializedName: "apiVersion",
         type: {
@@ -1766,6 +2045,12 @@ export const DocumentModelDetails: coreClient.CompositeMapper = {
       createdOn: {
         serializedName: "createdDateTime",
         required: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      expiresOn: {
+        serializedName: "expirationDateTime",
         type: {
           name: "DateTime"
         }
@@ -1884,6 +2169,180 @@ export const DocumentFieldSchema: coreClient.CompositeMapper = {
   }
 };
 
+export const BuildDocumentClassifierRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BuildDocumentClassifierRequest",
+    modelProperties: {
+      classifierId: {
+        constraints: {
+          Pattern: new RegExp("[a-zA-Z0-9][a-zA-Z0-9._~-]{1,63}")
+        },
+        serializedName: "classifierId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        constraints: {
+          MaxLength: 4096
+        },
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      docTypes: {
+        serializedName: "docTypes",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "ClassifierDocumentTypeDetails"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ClassifierDocumentTypeDetails: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ClassifierDocumentTypeDetails",
+    modelProperties: {
+      azureBlobSource: {
+        serializedName: "azureBlobSource",
+        type: {
+          name: "Composite",
+          className: "AzureBlobContentSource"
+        }
+      },
+      azureBlobFileListSource: {
+        serializedName: "azureBlobFileListSource",
+        type: {
+          name: "Composite",
+          className: "AzureBlobFileListSource"
+        }
+      }
+    }
+  }
+};
+
+export const GetDocumentClassifiersResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GetDocumentClassifiersResponse",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DocumentClassifierDetails"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DocumentClassifierDetails: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DocumentClassifierDetails",
+    modelProperties: {
+      classifierId: {
+        constraints: {
+          Pattern: new RegExp("[a-zA-Z0-9][a-zA-Z0-9._~-]{1,63}")
+        },
+        serializedName: "classifierId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        constraints: {
+          MaxLength: 4096
+        },
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      createdOn: {
+        serializedName: "createdDateTime",
+        required: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      expiresOn: {
+        serializedName: "expirationDateTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      apiVersion: {
+        serializedName: "apiVersion",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      docTypes: {
+        serializedName: "docTypes",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "ClassifierDocumentTypeDetails"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ClassifyDocumentRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ClassifyDocumentRequest",
+    modelProperties: {
+      urlSource: {
+        serializedName: "urlSource",
+        type: {
+          name: "String"
+        }
+      },
+      base64Source: {
+        serializedName: "base64Source",
+        type: {
+          name: "ByteArray"
+        }
+      }
+    }
+  }
+};
+
 export const ResourceDetails: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1983,6 +2442,26 @@ export const DocumentModelCopyToOperationDetails: coreClient.CompositeMapper = {
   }
 };
 
+export const DocumentClassifierBuildOperationDetails: coreClient.CompositeMapper = {
+  serializedName: "documentClassifierBuild",
+  type: {
+    name: "Composite",
+    className: "DocumentClassifierBuildOperationDetails",
+    uberParent: "OperationDetails",
+    polymorphicDiscriminator: OperationDetails.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...OperationDetails.type.modelProperties,
+      result: {
+        serializedName: "result",
+        type: {
+          name: "Composite",
+          className: "DocumentClassifierDetails"
+        }
+      }
+    }
+  }
+};
+
 export const GeneratedClientAnalyzeDocumentHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2043,9 +2522,40 @@ export const GeneratedClientCopyDocumentModelToHeaders: coreClient.CompositeMapp
   }
 };
 
+export const GeneratedClientBuildDocumentClassifierHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GeneratedClientBuildDocumentClassifierHeaders",
+    modelProperties: {
+      operationLocation: {
+        serializedName: "operation-location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const GeneratedClientClassifyDocumentHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GeneratedClientClassifyDocumentHeaders",
+    modelProperties: {
+      operationLocation: {
+        serializedName: "operation-location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export let discriminators = {
   OperationDetails: OperationDetails,
   "OperationDetails.documentModelBuild": DocumentModelBuildOperationDetails,
   "OperationDetails.documentModelCompose": DocumentModelComposeOperationDetails,
-  "OperationDetails.documentModelCopyTo": DocumentModelCopyToOperationDetails
+  "OperationDetails.documentModelCopyTo": DocumentModelCopyToOperationDetails,
+  "OperationDetails.documentClassifierBuild": DocumentClassifierBuildOperationDetails
 };

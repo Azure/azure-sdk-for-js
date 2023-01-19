@@ -25,8 +25,12 @@ import {
   DocumentModelSummary,
   GetDocumentModelsNextOptionalParams,
   GetDocumentModelsOptionalParams,
+  DocumentClassifierDetails,
+  GetDocumentClassifiersNextOptionalParams,
+  GetDocumentClassifiersOptionalParams,
   ContentType,
   AnalyzeDocument$binaryOptionalParams,
+  AnalyzeDocument$textOptionalParams,
   AnalyzeDocument$jsonOptionalParams,
   AnalyzeDocumentResponse,
   GetAnalyzeDocumentResultOptionalParams,
@@ -50,10 +54,24 @@ import {
   GetDocumentModelOptionalParams,
   GetDocumentModelResponse,
   DeleteDocumentModelOptionalParams,
+  BuildDocumentClassifierRequest,
+  BuildDocumentClassifierOptionalParams,
+  BuildDocumentClassifierResponse,
+  GetDocumentClassifiersOperationResponse,
+  GetDocumentClassifierOptionalParams,
+  GetDocumentClassifierResponse,
+  DeleteDocumentClassifierOptionalParams,
+  ContentType1,
+  ClassifyDocument$binaryOptionalParams,
+  ClassifyDocument$jsonOptionalParams,
+  ClassifyDocumentResponse,
+  GetClassifyDocumentResultOptionalParams,
+  GetClassifyDocumentResultResponse,
   GetResourceDetailsOptionalParams,
   GetResourceDetailsResponse,
   GetOperationsNextResponse,
-  GetDocumentModelsNextResponse
+  GetDocumentModelsNextResponse,
+  GetDocumentClassifiersNextResponse
 } from "./models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -124,7 +142,7 @@ export class GeneratedClient extends coreClient.ServiceClient {
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2022-08-31";
+    this.apiVersion = options.apiVersion || "2022-10-31-preview";
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -241,6 +259,51 @@ export class GeneratedClient extends coreClient.ServiceClient {
   }
 
   /**
+   * List all document classifiers.
+   * @param options The options parameters.
+   */
+  public listDocumentClassifiers(
+    options?: GetDocumentClassifiersOptionalParams
+  ): PagedAsyncIterableIterator<DocumentClassifierDetails> {
+    const iter = this.getDocumentClassifiersPagingAll(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: () => {
+        return this.getDocumentClassifiersPagingPage(options);
+      }
+    };
+  }
+
+  private async *getDocumentClassifiersPagingPage(
+    options?: GetDocumentClassifiersOptionalParams
+  ): AsyncIterableIterator<DocumentClassifierDetails[]> {
+    let result = await this._getDocumentClassifiers(options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
+    while (continuationToken) {
+      result = await this._getDocumentClassifiersNext(
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      yield result.value || [];
+    }
+  }
+
+  private async *getDocumentClassifiersPagingAll(
+    options?: GetDocumentClassifiersOptionalParams
+  ): AsyncIterableIterator<DocumentClassifierDetails> {
+    for await (const page of this.getDocumentClassifiersPagingPage(options)) {
+      yield* page;
+    }
+  }
+
+  /**
    * Analyzes document with document model.
    * @param modelId Unique document model name.
    * @param contentType Upload file type
@@ -250,6 +313,17 @@ export class GeneratedClient extends coreClient.ServiceClient {
     modelId: string,
     contentType: ContentType,
     options?: AnalyzeDocument$binaryOptionalParams
+  ): Promise<AnalyzeDocumentResponse>;
+  /**
+   * Analyzes document with document model.
+   * @param modelId Unique document model name.
+   * @param contentType Upload file type
+   * @param options The options parameters.
+   */
+  analyzeDocument(
+    modelId: string,
+    contentType: "text/html",
+    options?: AnalyzeDocument$textOptionalParams
   ): Promise<AnalyzeDocumentResponse>;
   /**
    * Analyzes document with document model.
@@ -269,6 +343,7 @@ export class GeneratedClient extends coreClient.ServiceClient {
   analyzeDocument(
     ...args:
       | [string, ContentType, AnalyzeDocument$binaryOptionalParams?]
+      | [string, "text/html", AnalyzeDocument$textOptionalParams?]
       | [string, "application/json", AnalyzeDocument$jsonOptionalParams?]
   ): Promise<AnalyzeDocumentResponse> {
     let operationSpec: coreClient.OperationSpec;
@@ -277,6 +352,12 @@ export class GeneratedClient extends coreClient.ServiceClient {
     if (
       args[1] === "application/octet-stream" ||
       args[1] === "application/pdf" ||
+      args[1] ===
+        "application/vnd.openxmlformats-officedocument.presentationml.presentation" ||
+      args[1] ===
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
+      args[1] ===
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
       args[1] === "image/bmp" ||
       args[1] === "image/heif" ||
       args[1] === "image/jpeg" ||
@@ -284,6 +365,14 @@ export class GeneratedClient extends coreClient.ServiceClient {
       args[1] === "image/tiff"
     ) {
       operationSpec = analyzeDocument$binaryOperationSpec;
+      operationArguments = {
+        modelId: args[0],
+        contentType: args[1],
+        options: args[2]
+      };
+      options = args[2];
+    } else if (args[1] === "text/html") {
+      operationSpec = analyzeDocument$textOperationSpec;
       operationArguments = {
         modelId: args[0],
         contentType: args[1],
@@ -456,6 +545,148 @@ export class GeneratedClient extends coreClient.ServiceClient {
   }
 
   /**
+   * Builds a custom document classifier.
+   * @param buildRequest Building request parameters.
+   * @param options The options parameters.
+   */
+  buildDocumentClassifier(
+    buildRequest: BuildDocumentClassifierRequest,
+    options?: BuildDocumentClassifierOptionalParams
+  ): Promise<BuildDocumentClassifierResponse> {
+    return this.sendOperationRequest(
+      { buildRequest, options },
+      buildDocumentClassifierOperationSpec
+    );
+  }
+
+  /**
+   * List all document classifiers.
+   * @param options The options parameters.
+   */
+  private _getDocumentClassifiers(
+    options?: GetDocumentClassifiersOptionalParams
+  ): Promise<GetDocumentClassifiersOperationResponse> {
+    return this.sendOperationRequest(
+      { options },
+      getDocumentClassifiersOperationSpec
+    );
+  }
+
+  /**
+   * Gets detailed document classifier information.
+   * @param classifierId Unique document classifier name.
+   * @param options The options parameters.
+   */
+  getDocumentClassifier(
+    classifierId: string,
+    options?: GetDocumentClassifierOptionalParams
+  ): Promise<GetDocumentClassifierResponse> {
+    return this.sendOperationRequest(
+      { classifierId, options },
+      getDocumentClassifierOperationSpec
+    );
+  }
+
+  /**
+   * Deletes document classifier.
+   * @param classifierId Unique document classifier name.
+   * @param options The options parameters.
+   */
+  deleteDocumentClassifier(
+    classifierId: string,
+    options?: DeleteDocumentClassifierOptionalParams
+  ): Promise<void> {
+    return this.sendOperationRequest(
+      { classifierId, options },
+      deleteDocumentClassifierOperationSpec
+    );
+  }
+
+  /**
+   * Classifies document with document classifier.
+   * @param classifierId Unique document classifier name.
+   * @param contentType Upload file type
+   * @param options The options parameters.
+   */
+  classifyDocument(
+    classifierId: string,
+    contentType: ContentType1,
+    options?: ClassifyDocument$binaryOptionalParams
+  ): Promise<ClassifyDocumentResponse>;
+  /**
+   * Classifies document with document classifier.
+   * @param classifierId Unique document classifier name.
+   * @param contentType Body Parameter content-type
+   * @param options The options parameters.
+   */
+  classifyDocument(
+    classifierId: string,
+    contentType: "application/json",
+    options?: ClassifyDocument$jsonOptionalParams
+  ): Promise<ClassifyDocumentResponse>;
+  /**
+   * Classifies document with document classifier.
+   * @param args Includes all the parameters for this operation.
+   */
+  classifyDocument(
+    ...args:
+      | [string, ContentType1, ClassifyDocument$binaryOptionalParams?]
+      | [string, "application/json", ClassifyDocument$jsonOptionalParams?]
+  ): Promise<ClassifyDocumentResponse> {
+    let operationSpec: coreClient.OperationSpec;
+    let operationArguments: coreClient.OperationArguments;
+    let options;
+    if (
+      args[1] === "application/octet-stream" ||
+      args[1] === "application/pdf" ||
+      args[1] === "image/bmp" ||
+      args[1] === "image/heif" ||
+      args[1] === "image/jpeg" ||
+      args[1] === "image/png" ||
+      args[1] === "image/tiff"
+    ) {
+      operationSpec = classifyDocument$binaryOperationSpec;
+      operationArguments = {
+        classifierId: args[0],
+        contentType: args[1],
+        options: args[2]
+      };
+      options = args[2];
+    } else if (args[1] === "application/json") {
+      operationSpec = classifyDocument$jsonOperationSpec;
+      operationArguments = {
+        classifierId: args[0],
+        contentType: args[1],
+        options: args[2]
+      };
+      options = args[2];
+    } else {
+      throw new TypeError(
+        `"contentType" must be a valid value but instead was "${args[1]}".`
+      );
+    }
+    operationArguments.options = options || {};
+    return this.sendOperationRequest(operationArguments, operationSpec);
+  }
+
+  /**
+   * Gets the result of document classifier.
+   * @param classifierId Unique document classifier name.
+   * @param resultId Analyze operation result ID.
+   * @param options The options parameters.
+   */
+  getClassifyDocumentResult(
+    classifierId: string,
+    resultId: string,
+    options?: GetClassifyDocumentResultOptionalParams
+  ): Promise<GetClassifyDocumentResultResponse> {
+    return this.sendOperationRequest(
+      { classifierId, resultId, options },
+      getClassifyDocumentResultOperationSpec
+    );
+  }
+
+  /**
    * Return information about the current resource.
    * @param options The options parameters.
    */
@@ -497,6 +728,21 @@ export class GeneratedClient extends coreClient.ServiceClient {
       getDocumentModelsNextOperationSpec
     );
   }
+
+  /**
+   * GetDocumentClassifiersNext
+   * @param nextLink The nextLink from the previous successful call to the GetDocumentClassifiers method.
+   * @param options The options parameters.
+   */
+  private _getDocumentClassifiersNext(
+    nextLink: string,
+    options?: GetDocumentClassifiersNextOptionalParams
+  ): Promise<GetDocumentClassifiersNextResponse> {
+    return this.sendOperationRequest(
+      { nextLink, options },
+      getDocumentClassifiersNextOperationSpec
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -517,14 +763,16 @@ const analyzeDocument$binaryOperationSpec: coreClient.OperationSpec = {
     Parameters.pages,
     Parameters.locale,
     Parameters.stringIndexType,
-    Parameters.apiVersion
+    Parameters.apiVersion,
+    Parameters.features,
+    Parameters.additionalFields
   ],
   urlParameters: [Parameters.endpoint, Parameters.modelId],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "binary",
   serializer
 };
-const analyzeDocument$jsonOperationSpec: coreClient.OperationSpec = {
+const analyzeDocument$textOperationSpec: coreClient.OperationSpec = {
   path: "/documentModels/{modelId}:analyze",
   httpMethod: "POST",
   responses: {
@@ -540,10 +788,37 @@ const analyzeDocument$jsonOperationSpec: coreClient.OperationSpec = {
     Parameters.pages,
     Parameters.locale,
     Parameters.stringIndexType,
-    Parameters.apiVersion
+    Parameters.apiVersion,
+    Parameters.features,
+    Parameters.additionalFields
   ],
   urlParameters: [Parameters.endpoint, Parameters.modelId],
   headerParameters: [Parameters.contentType1, Parameters.accept1],
+  mediaType: "text",
+  serializer
+};
+const analyzeDocument$jsonOperationSpec: coreClient.OperationSpec = {
+  path: "/documentModels/{modelId}:analyze",
+  httpMethod: "POST",
+  responses: {
+    202: {
+      headersMapper: Mappers.GeneratedClientAnalyzeDocumentHeaders
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.analyzeRequest2,
+  queryParameters: [
+    Parameters.pages,
+    Parameters.locale,
+    Parameters.stringIndexType,
+    Parameters.apiVersion,
+    Parameters.features,
+    Parameters.additionalFields
+  ],
+  urlParameters: [Parameters.endpoint, Parameters.modelId],
+  headerParameters: [Parameters.contentType2, Parameters.accept2],
   mediaType: "json",
   serializer
 };
@@ -560,7 +835,7 @@ const getAnalyzeDocumentResultOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.modelId, Parameters.resultId],
-  headerParameters: [Parameters.accept1],
+  headerParameters: [Parameters.accept2],
   serializer
 };
 const buildDocumentModelOperationSpec: coreClient.OperationSpec = {
@@ -577,7 +852,7 @@ const buildDocumentModelOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.buildRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.accept1, Parameters.contentType2],
+  headerParameters: [Parameters.accept2, Parameters.contentType3],
   mediaType: "json",
   serializer
 };
@@ -595,7 +870,7 @@ const composeDocumentModelOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.composeRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.accept1, Parameters.contentType2],
+  headerParameters: [Parameters.accept2, Parameters.contentType3],
   mediaType: "json",
   serializer
 };
@@ -613,7 +888,7 @@ const authorizeCopyDocumentModelOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.authorizeCopyRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.accept1, Parameters.contentType2],
+  headerParameters: [Parameters.accept2, Parameters.contentType3],
   mediaType: "json",
   serializer
 };
@@ -631,7 +906,7 @@ const copyDocumentModelToOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.copyToRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.modelId],
-  headerParameters: [Parameters.accept1, Parameters.contentType2],
+  headerParameters: [Parameters.accept2, Parameters.contentType3],
   mediaType: "json",
   serializer
 };
@@ -648,7 +923,7 @@ const getOperationsOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.accept1],
+  headerParameters: [Parameters.accept2],
   serializer
 };
 const getOperationOperationSpec: coreClient.OperationSpec = {
@@ -664,7 +939,7 @@ const getOperationOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.operationId],
-  headerParameters: [Parameters.accept1],
+  headerParameters: [Parameters.accept2],
   serializer
 };
 const getDocumentModelsOperationSpec: coreClient.OperationSpec = {
@@ -680,7 +955,7 @@ const getDocumentModelsOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.accept1],
+  headerParameters: [Parameters.accept2],
   serializer
 };
 const getDocumentModelOperationSpec: coreClient.OperationSpec = {
@@ -696,7 +971,7 @@ const getDocumentModelOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.modelId],
-  headerParameters: [Parameters.accept1],
+  headerParameters: [Parameters.accept2],
   serializer
 };
 const deleteDocumentModelOperationSpec: coreClient.OperationSpec = {
@@ -710,7 +985,127 @@ const deleteDocumentModelOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.modelId],
-  headerParameters: [Parameters.accept1],
+  headerParameters: [Parameters.accept2],
+  serializer
+};
+const buildDocumentClassifierOperationSpec: coreClient.OperationSpec = {
+  path: "/documentClassifiers:build",
+  httpMethod: "POST",
+  responses: {
+    202: {
+      headersMapper: Mappers.GeneratedClientBuildDocumentClassifierHeaders
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.buildRequest1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint],
+  headerParameters: [Parameters.accept2, Parameters.contentType3],
+  mediaType: "json",
+  serializer
+};
+const getDocumentClassifiersOperationSpec: coreClient.OperationSpec = {
+  path: "/documentClassifiers",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GetDocumentClassifiersResponse
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint],
+  headerParameters: [Parameters.accept2],
+  serializer
+};
+const getDocumentClassifierOperationSpec: coreClient.OperationSpec = {
+  path: "/documentClassifiers/{classifierId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DocumentClassifierDetails
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.classifierId],
+  headerParameters: [Parameters.accept2],
+  serializer
+};
+const deleteDocumentClassifierOperationSpec: coreClient.OperationSpec = {
+  path: "/documentClassifiers/{classifierId}",
+  httpMethod: "DELETE",
+  responses: {
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.classifierId],
+  headerParameters: [Parameters.accept2],
+  serializer
+};
+const classifyDocument$binaryOperationSpec: coreClient.OperationSpec = {
+  path: "/documentClassifiers/{classifierId}:analyze",
+  httpMethod: "POST",
+  responses: {
+    202: {
+      headersMapper: Mappers.GeneratedClientClassifyDocumentHeaders
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.classifyRequest,
+  queryParameters: [Parameters.stringIndexType, Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.classifierId],
+  headerParameters: [Parameters.accept, Parameters.contentType4],
+  mediaType: "binary",
+  serializer
+};
+const classifyDocument$jsonOperationSpec: coreClient.OperationSpec = {
+  path: "/documentClassifiers/{classifierId}:analyze",
+  httpMethod: "POST",
+  responses: {
+    202: {
+      headersMapper: Mappers.GeneratedClientClassifyDocumentHeaders
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.classifyRequest1,
+  queryParameters: [Parameters.stringIndexType, Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.classifierId],
+  headerParameters: [Parameters.contentType2, Parameters.accept2],
+  mediaType: "json",
+  serializer
+};
+const getClassifyDocumentResultOperationSpec: coreClient.OperationSpec = {
+  path: "/documentClassifiers/{classifierId}/analyzeResults/{resultId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AnalyzeResultOperation
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.resultId,
+    Parameters.classifierId
+  ],
+  headerParameters: [Parameters.accept2],
   serializer
 };
 const getResourceDetailsOperationSpec: coreClient.OperationSpec = {
@@ -726,7 +1121,7 @@ const getResourceDetailsOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.accept1],
+  headerParameters: [Parameters.accept2],
   serializer
 };
 const getOperationsNextOperationSpec: coreClient.OperationSpec = {
@@ -742,7 +1137,7 @@ const getOperationsNextOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
-  headerParameters: [Parameters.accept1],
+  headerParameters: [Parameters.accept2],
   serializer
 };
 const getDocumentModelsNextOperationSpec: coreClient.OperationSpec = {
@@ -758,6 +1153,22 @@ const getDocumentModelsNextOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
-  headerParameters: [Parameters.accept1],
+  headerParameters: [Parameters.accept2],
+  serializer
+};
+const getDocumentClassifiersNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GetDocumentClassifiersResponse
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.nextLink],
+  headerParameters: [Parameters.accept2],
   serializer
 };

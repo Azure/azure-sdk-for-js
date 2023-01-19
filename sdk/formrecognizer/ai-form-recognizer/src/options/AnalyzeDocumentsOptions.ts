@@ -31,4 +31,19 @@ export interface AnalyzeDocumentOptions<Result = AnalyzeResult<AnalyzedDocument>
    * Examples: "1", "3-5", "1,3-5"
    */
   pages?: string;
+
+  /**
+   * A  list of additional fields to add to the extracted documents.
+   *
+   * Additional fields are calculated using a GPT model and do not require any training.
+   */
+  additionalFields?: string[];
+
+  /**
+   * A list of features to enable in the model. Enabling features may incur additional costs, so be sure to consult the
+   * service documentation to understand the nature of the features and any added costs associated with using them.
+   *
+   * TODO: documentation link, do we need a stronger type?
+   */
+  features?: string[];
 }

@@ -33,4 +33,7 @@ export {
   DocumentWord,
   HasBoundingPolygon,
   DocumentPage,
+  DocumentAnnotation,
+  DocumentBarcode,
+  DocumentFormula,
 } from "./documentElements";

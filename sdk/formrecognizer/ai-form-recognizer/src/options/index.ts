@@ -26,6 +26,8 @@ import { ListModelsOptions } from "./ListModelsOptions";
 import { ListOperationsOptions } from "./ListOperationsOptions";
 import { PollerOptions } from "./PollerOptions";
 
+import { BeginBuildDocumentClassifierOptions } from "./BuildDocumentClassifierOptions";
+
 export {
   AnalyzeDocumentOptions,
   CreateDocumentModelOptions,
@@ -47,4 +49,5 @@ export {
   PollerOptions,
   StringIndexType,
   FormRecognizerApiVersion,
+  BeginBuildDocumentClassifierOptions,
 };

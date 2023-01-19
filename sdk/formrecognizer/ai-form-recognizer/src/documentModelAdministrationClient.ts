@@ -10,11 +10,13 @@ import {
   CopyAuthorization,
   GeneratedClient,
   ResourceDetails,
-  GetOperationResponse,
   DocumentModelDetails,
   DocumentModelSummary,
   OperationSummary,
   OperationDetails,
+  DocumentClassifierDetails,
+  GetOperationResponse,
+  ClassifierDocumentTypeDetails,
 } from "./generated";
 import { accept1 } from "./generated/models/parameters";
 import {
@@ -22,6 +24,10 @@ import {
   DocumentModelOperationState,
   DocumentModelPoller,
   toTrainingPollOperationState,
+  DocumentModelBuildResponse,
+  AdministrationOperationState,
+  DocumentClassifierPoller,
+  DocumentClassifierOperationState,
 } from "./lro/administration";
 import { lro } from "./lro/util/poller";
 import {
@@ -35,6 +41,7 @@ import {
   ListModelsOptions,
   ListOperationsOptions,
 } from "./options";
+import { BeginBuildDocumentClassifierOptions } from "./options/BuildDocumentClassifierOptions";
 import {
   BeginBuildDocumentModelOptions,
   BeginComposeDocumentModelOptions,
@@ -201,7 +208,7 @@ export class DocumentModelAdministrationClient {
       "DocumentModelAdministrationClient.beginBuildDocumentModel",
       options,
       (finalOptions) =>
-        this.createDocumentModelPoller({
+        this.createAdministrationPoller({
           options: finalOptions,
           start: () =>
             this._restClient.buildDocumentModel(
@@ -267,7 +274,7 @@ export class DocumentModelAdministrationClient {
       "DocumentModelAdministrationClient.beginComposeDocumentModel",
       options,
       (finalOptions) =>
-        this.createDocumentModelPoller({
+        this.createAdministrationPoller({
           options: finalOptions,
           start: () =>
             this._restClient.composeDocumentModel(
@@ -368,7 +375,7 @@ export class DocumentModelAdministrationClient {
       "DocumentModelAdministrationClient.beginCopyModel",
       options,
       (finalOptions) =>
-        this.createDocumentModelPoller({
+        this.createAdministrationPoller({
           options: finalOptions,
           start: () =>
             this._restClient.copyDocumentModelTo(sourceModelId, authorization, finalOptions),
@@ -384,9 +391,11 @@ export class DocumentModelAdministrationClient {
    * @param definition - operation definition (start operation method, request options)
    * @returns a model poller (produces a ModelDetails)
    */
-  private async createDocumentModelPoller(
-    definition: TrainingOperationDefinition
-  ): Promise<DocumentModelPoller> {
+  private async createAdministrationPoller<State extends AdministrationOperationState>(
+    definition: TrainingOperationDefinition<State>
+  ): Promise<
+    State extends DocumentModelOperationState ? DocumentModelPoller : DocumentClassifierPoller
+  > {
     const { resumeFrom } = definition.options;
 
     const toInit =
@@ -436,7 +445,10 @@ export class DocumentModelAdministrationClient {
               }
             );
 
-    const poller = await lro<DocumentModelDetails, DocumentModelOperationState>(
+    const poller = await lro<
+      DocumentModelDetails | DocumentClassifierDetails,
+      AdministrationOperationState
+    >(
       {
         init: async () => toTrainingPollOperationState(await toInit()),
         poll: async ({ operationId }) =>
@@ -446,7 +458,7 @@ export class DocumentModelAdministrationClient {
             async (options) => {
               const res = await this._restClient.getOperation(operationId, options);
 
-              return toTrainingPollOperationState(res);
+              return toTrainingPollOperationState(res as DocumentModelBuildResponse);
             }
           ),
         serialize: ({ operationId }) => JSON.stringify({ operationId }),
@@ -455,11 +467,40 @@ export class DocumentModelAdministrationClient {
     );
 
     if (definition.options.onProgress !== undefined) {
-      poller.onProgress(definition.options.onProgress);
-      definition.options.onProgress(poller.getOperationState());
+      poller.onProgress(definition.options.onProgress as () => unknown);
+      definition.options.onProgress(poller.getOperationState() as State);
     }
 
-    return poller;
+    // Need this assertion. The poller above is dynamic, and we can't infer the conditional return type of this method.
+    return poller as never;
+  }
+
+  // #endregion
+
+  // #region Document Classifiers
+
+  public async beginBuildDocumentClassifier(
+    classifierId: string,
+    docTypes: { [docType: string]: ClassifierDocumentTypeDetails },
+    options: BeginBuildDocumentClassifierOptions = {}
+  ): Promise<DocumentClassifierPoller> {
+    return this._tracing.withSpan(
+      "DocumentModelAdministrationClient.beginBuildDocumentClassifier",
+      options,
+      (finalOptions) =>
+        this.createAdministrationPoller<DocumentClassifierOperationState>({
+          options: finalOptions,
+          start: () =>
+            this._restClient.buildDocumentClassifier(
+              {
+                classifierId,
+                description: finalOptions.description,
+                docTypes,
+              },
+              finalOptions
+            ),
+        })
+    );
   }
 
   // #endregion
@@ -709,6 +750,38 @@ export class DocumentModelAdministrationClient {
       "DocumentModelAdministrationClient.deleteDocumentModel",
       options,
       (finalOptions) => this._restClient.deleteDocumentModel(modelId, finalOptions)
+    );
+  }
+
+  // #endregion
+
+  // #region Classifier Management
+
+  public getDocumentClassifier(
+    classifierId: string,
+    options: GetModelOptions = {}
+  ): Promise<DocumentClassifierDetails> {
+    return this._tracing.withSpan(
+      "DocumentModelAdministrationClient.getDocumentClassifier",
+      options,
+      (finalOptions) => this._restClient.getDocumentClassifier(classifierId, finalOptions)
+    );
+  }
+
+  public listDocumentClassifiers(
+    options: ListModelsOptions = {}
+  ): PagedAsyncIterableIterator<DocumentClassifierDetails> {
+    return this._restClient.listDocumentClassifiers(options);
+  }
+
+  public deleteDocumentClassifier(
+    classifierId: string,
+    options: DeleteDocumentModelOptions = {}
+  ): Promise<void> {
+    return this._tracing.withSpan(
+      "DocumentModelAdministrationClient.deleteDocumentClassifier",
+      options,
+      (finalOptions) => this._restClient.deleteDocumentClassifier(classifierId, finalOptions)
     );
   }
 
