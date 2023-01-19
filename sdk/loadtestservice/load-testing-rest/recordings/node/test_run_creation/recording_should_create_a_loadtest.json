@@ -11,7 +11,7 @@
         "Content-Length": "113",
         "Content-Type": "application/merge-patch\u002Bjson",
         "User-Agent": "azsdk-js-load-testing-rest/1.0.0-beta.2 core-rest-pipeline/1.10.0 Node/v16.18.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "28b6b41f-b4b9-461e-9ee4-08b06866e3a8"
+        "x-ms-client-request-id": "24b5aa89-69f2-4c80-bd96-adc81d0fef82"
       },
       "RequestBody": {
         "displayName": "sample_test",
@@ -21,17 +21,18 @@
           "splitAllCSVs": false
         }
       },
-      "StatusCode": 200,
+      "StatusCode": 201,
       "ResponseHeaders": {
         "api-supported-versions": "2021-07-01-preview, 2022-06-01-preview, 2022-11-01",
         "Connection": "keep-alive",
-        "Content-Length": "481",
+        "Content-Length": "289",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 19 Jan 2023 08:04:12 GMT",
-        "mise-correlation-id": "78883cb1-31ad-43e6-ab4a-801510cda647",
+        "Date": "Thu, 19 Jan 2023 18:37:15 GMT",
+        "Location": "https://endpoint/tests/abc?api-version=2022-11-01",
+        "mise-correlation-id": "3c293977-88a8-4a2a-beab-f5d67f21f9b1",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "25a11a80-f1dd-44a9-bee6-3b0135897b6e"
+        "x-ms-correlation-request-id": "211e0b9b-a20c-48b2-ad96-c8b60852e937"
       },
       "ResponseBody": {
         "loadTestConfiguration": {
@@ -40,20 +41,13 @@
           "quickStartTest": false
         },
         "inputArtifacts": {
-          "testScriptFileInfo": {
-            "url": "https://storageurl.com/",
-            "fileName": "fileName.jmx",
-            "fileType": "JMX_FILE",
-            "expireDateTime": "2023-01-19T09:04:12.3817647",
-            "validationStatus": "VALIDATION_INITIATED"
-          },
           "additionalFileInfo": []
         },
         "testId": "abc",
         "description": "",
         "displayName": "sample_test",
-        "createdDateTime": "2023-01-19T07:20:48.154Z",
-        "lastModifiedDateTime": "2023-01-19T08:04:12.374Z"
+        "createdDateTime": "2023-01-19T18:37:15.586Z",
+        "lastModifiedDateTime": "2023-01-19T18:37:15.586Z"
       }
     }
   ],

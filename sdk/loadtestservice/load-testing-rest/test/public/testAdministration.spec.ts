@@ -4,7 +4,8 @@
 import { assert } from "chai";
 import { createClient, createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
-import { AzureLoadTestingClient } from "../../src";
+import { AbortController } from "@azure/abort-controller";
+import { AzureLoadTestingClient, beginUploadTestFile } from "../../src";
 import { env, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import * as fs from "fs";
 import { isNode } from "@azure/core-util";
@@ -12,7 +13,8 @@ import { isNode } from "@azure/core-util";
 describe("Test Creation", () => {
   let recorder: Recorder;
   let client: AzureLoadTestingClient;
-  let readStream: fs.ReadStream;
+  let readStreamTestFile: fs.ReadStream;
+  let readStreamAdditionalFile: fs.ReadStream;
 
   beforeEach(async function (this: Context) {
     recorder = await createRecorder(this);
@@ -20,7 +22,8 @@ describe("Test Creation", () => {
       this.skip();
     }
     client = createClient(recorder);
-    readStream = fs.createReadStream("./test/public/sample.jmx");
+    readStreamTestFile = fs.createReadStream("./test/public/sample.jmx");
+    readStreamAdditionalFile = fs.createReadStream("./test/public/additional-data.csv"); 
   });
 
   afterEach(async function () {
@@ -44,15 +47,33 @@ describe("Test Creation", () => {
     assert.include(["200", "201"], result.status);
   });
 
-  it("should upload the test file", async () => {
+  it("should upload the additional file without LRO", async () => {
     const result = await client
-      .path("/tests/{testId}/files/{fileName}", "abc", "fileName.jmx")
+      .path("/tests/{testId}/files/{fileName}", "abc", "additional-data.csv")
       .put({
         contentType: "application/octet-stream",
-        body: readStream,
+        body: readStreamAdditionalFile,
+        queryParameters: {
+          fileType: "ADDITIONAL_ARTIFACTS",
+        },
       });
 
     assert.include(["201"], result.status);
+  });
+
+  it("should upload the test file with LRO", async () => {
+    const fileUploadPoller = await beginUploadTestFile(client, "abc", "sample.jmx", {
+      queryParameters: {
+        fileType: "JMX_FILE",
+      },
+      contentType: "application/octet-stream",
+      body: readStreamTestFile,
+    });
+    const fileUploadResult = await fileUploadPoller.pollUntilDone({
+      abortSignal: AbortController.timeout(60000), // timeout of 60 seconds
+    });
+
+    assert.equal("VALIDATION_SUCCESS", fileUploadResult.body.validationStatus);
   });
 
   it("should create the app components", async () => {
@@ -79,7 +100,7 @@ describe("Test Creation", () => {
   //get
   it("should get the test file", async () => {
     const result = await client
-      .path("/tests/{testId}/files/{fileName}", "abc", "fileName.jmx")
+      .path("/tests/{testId}/files/{fileName}", "abc", "sample.jmx")
       .get();
 
     assert.include(["200"], result.status);
@@ -100,7 +121,7 @@ describe("Test Creation", () => {
   //delete
   it("should delete the test file", async () => {
     const result = await client
-      .path("/tests/{testId}/files/{fileName}", "abc", "fileName.jmx")
+      .path("/tests/{testId}/files/{fileName}", "abc", "sample.jmx")
       .delete();
 
     assert.include(["204"], result.status);

@@ -1,38 +1,4 @@
 {
-  "Entries": [
-    {
-      "RequestUri": "https://endpoint/test-runs/abcde?api-version=2022-11-01",
-      "RequestMethod": "DELETE",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-US",
-        "Authorization": "Sanitized",
-        "Connection": "keep-alive",
-        "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "fe737fdf-e80a-42ae-90ee-b150d13c8b30",
-        "x-ms-useragent": "azsdk-js-load-testing-rest/1.0.0-beta.2 core-rest-pipeline/1.10.0 OS/Win32"
-      },
-      "RequestBody": null,
-      "StatusCode": 204,
-      "ResponseHeaders": {
-        "api-supported-versions": "2021-07-01-preview, 2022-06-01-preview, 2022-11-01",
-        "Connection": "keep-alive",
-        "Date": "Thu, 19 Jan 2023 08:04:35 GMT",
-        "mise-correlation-id": "bdc16ddb-8fda-4bdd-b108-b95ba77f791c",
-        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
-        "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "b87cc52e-ef3d-4fe0-9909-d30bf7b5b335"
-      },
-      "ResponseBody": null
-    }
-  ],
+  "Entries": [],
   "Variables": {}
 }

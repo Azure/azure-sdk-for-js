@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/tests/abc/files/fileName.jmx?api-version=2022-11-01",
+      "RequestUri": "https://endpoint/tests/abc/files/sample.jmx?api-version=2022-11-01",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -9,18 +9,18 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-load-testing-rest/1.0.0-beta.2 core-rest-pipeline/1.10.0 Node/v16.18.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "852ba0da-266b-45b7-93ec-73ff15d63a82"
+        "x-ms-client-request-id": "be9dfd24-e33f-4ad8-9c98-93dd4fa90208"
       },
       "RequestBody": null,
       "StatusCode": 204,
       "ResponseHeaders": {
         "api-supported-versions": "2021-07-01-preview, 2022-06-01-preview, 2022-11-01",
         "Connection": "keep-alive",
-        "Date": "Thu, 19 Jan 2023 07:20:46 GMT",
-        "mise-correlation-id": "9cc7dad6-33e0-4050-ba2d-eceef3680001",
+        "Date": "Thu, 19 Jan 2023 18:37:14 GMT",
+        "mise-correlation-id": "7b38acb4-23ef-447f-a173-d865d1329d64",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "d74f9bb1-7362-4962-8771-e8a5caab9dec"
+        "x-ms-correlation-request-id": "5757e7bb-2559-403a-8fac-69795b7aaf84"
       },
       "ResponseBody": null
     }

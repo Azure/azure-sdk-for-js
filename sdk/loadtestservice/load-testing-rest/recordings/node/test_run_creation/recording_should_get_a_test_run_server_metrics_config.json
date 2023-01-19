@@ -9,26 +9,51 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-load-testing-rest/1.0.0-beta.2 core-rest-pipeline/1.10.0 Node/v16.18.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "63bfd60c-43f7-41e5-a522-80e87776ee39"
+        "x-ms-client-request-id": "286601e0-ec34-4c88-b66f-596751d013ab"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2021-07-01-preview, 2022-06-01-preview, 2022-11-01",
         "Connection": "keep-alive",
-        "Content-Length": "129",
+        "Content-Length": "2077",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 19 Jan 2023 08:04:15 GMT",
-        "mise-correlation-id": "77ac3fe2-74b1-44d4-b78c-031d09996517",
+        "Date": "Thu, 19 Jan 2023 18:38:07 GMT",
+        "mise-correlation-id": "f717ae9c-17e4-4d7f-bc13-7574383409d9",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "34804ff7-66f7-4acd-acee-dda1931e5185"
+        "x-ms-correlation-request-id": "ff4f9fb1-2134-45d1-8eb3-aeb8bf726fd8"
       },
       "ResponseBody": {
         "testRunId": "abcde",
-        "metrics": {},
-        "createdDateTime": "2023-01-19T08:04:13.539Z",
-        "lastModifiedDateTime": "2023-01-19T08:04:14.614Z"
+        "metrics": {
+          "/subscriptions/{SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo/providers/microsoft.insights/metricdefinitions/Http5xx": {
+            "id": "/subscriptions/{SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo/providers/microsoft.insights/metricdefinitions/Http5xx",
+            "resourceId": "/subscriptions/{SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo",
+            "metricNamespace": "microsoft.web/sites",
+            "name": "Http5xx",
+            "aggregation": "Total",
+            "resourceType": "microsoft.web/sites"
+          },
+          "/subscriptions/{SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo/providers/microsoft.insights/metricdefinitions/Requests": {
+            "id": "/subscriptions/{SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo/providers/microsoft.insights/metricdefinitions/Requests",
+            "resourceId": "/subscriptions/{SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo",
+            "metricNamespace": "microsoft.web/sites",
+            "name": "Requests",
+            "aggregation": "Total",
+            "resourceType": "microsoft.web/sites"
+          },
+          "/subscriptions/{SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo/providers/microsoft.insights/metricdefinitions/HttpResponseTime": {
+            "id": "/subscriptions/{SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo/providers/microsoft.insights/metricdefinitions/HttpResponseTime",
+            "resourceId": "/subscriptions/{SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo",
+            "metricNamespace": "microsoft.web/sites",
+            "name": "HttpResponseTime",
+            "aggregation": "Average",
+            "resourceType": "microsoft.web/sites"
+          }
+        },
+        "createdDateTime": "2023-01-19T18:38:06.114Z",
+        "lastModifiedDateTime": "2023-01-19T18:38:06.114Z"
       }
     }
   ],

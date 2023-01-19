@@ -11,7 +11,7 @@
         "Content-Length": "113",
         "Content-Type": "application/merge-patch\u002Bjson",
         "User-Agent": "azsdk-js-load-testing-rest/1.0.0-beta.2 core-rest-pipeline/1.10.0 Node/v16.18.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "99ff5799-04cb-411a-9156-9fe078cc70e8"
+        "x-ms-client-request-id": "54c77772-05b2-46e7-b845-21042990e0e1"
       },
       "RequestBody": {
         "displayName": "sample_test",
@@ -27,11 +27,11 @@
         "Connection": "keep-alive",
         "Content-Length": "477",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 19 Jan 2023 08:04:08 GMT",
-        "mise-correlation-id": "907dc9f1-3e62-47c3-aef3-13f13825cb1a",
+        "Date": "Thu, 19 Jan 2023 18:37:02 GMT",
+        "mise-correlation-id": "c250f1fa-10f5-479e-87b4-f2a4dcc49282",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "41324286-b9b4-4b95-8d7c-5e2a14003674"
+        "x-ms-correlation-request-id": "dc32f31a-c238-4602-b723-5e9e00efbff7"
       },
       "ResponseBody": {
         "loadTestConfiguration": {
@@ -42,9 +42,9 @@
         "inputArtifacts": {
           "testScriptFileInfo": {
             "url": "https://storageurl.com/",
-            "fileName": "fileName.jmx",
+            "fileName": "sample.jmx",
             "fileType": "JMX_FILE",
-            "expireDateTime": "2023-01-19T09:04:08.552821",
+            "expireDateTime": "2023-01-19T19:37:02.2589509",
             "validationStatus": "VALIDATION_SUCCESS"
           },
           "additionalFileInfo": []
@@ -52,8 +52,8 @@
         "testId": "abc",
         "description": "",
         "displayName": "sample_test",
-        "createdDateTime": "2023-01-19T07:20:48.154Z",
-        "lastModifiedDateTime": "2023-01-19T08:04:08.54Z"
+        "createdDateTime": "2023-01-19T18:31:17.981Z",
+        "lastModifiedDateTime": "2023-01-19T18:37:02.251Z"
       }
     }
   ],

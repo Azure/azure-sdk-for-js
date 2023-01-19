@@ -9,7 +9,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-load-testing-rest/1.0.0-beta.2 core-rest-pipeline/1.10.0 Node/v16.18.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "512471cf-c252-4883-8b0f-7c5dedb37915"
+        "x-ms-client-request-id": "ec47fe41-7952-4a12-8212-bfe9b380f7dc"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -18,11 +18,11 @@
         "Connection": "keep-alive",
         "Content-Length": "568",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 19 Jan 2023 08:04:15 GMT",
-        "mise-correlation-id": "2114334e-75f5-4bb2-886c-1a41a69ce764",
+        "Date": "Thu, 19 Jan 2023 18:38:06 GMT",
+        "mise-correlation-id": "5b77084b-58c9-42bc-811a-38a3ad03cc3c",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "7077e5cb-d3cb-4c3d-8a12-5d4921b4c76b"
+        "x-ms-correlation-request-id": "eccac18b-1d42-412c-a521-e22e76816fd2"
       },
       "ResponseBody": {
         "components": {
@@ -35,8 +35,8 @@
           }
         },
         "testRunId": "abcde",
-        "createdDateTime": "2023-01-19T08:04:13.531Z",
-        "lastModifiedDateTime": "2023-01-19T08:04:14.598Z"
+        "createdDateTime": "2023-01-19T18:38:06.097Z",
+        "lastModifiedDateTime": "2023-01-19T18:38:06.097Z"
       }
     }
   ],

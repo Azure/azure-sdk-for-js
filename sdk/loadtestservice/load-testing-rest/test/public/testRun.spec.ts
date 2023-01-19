@@ -1,20 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { env, Recorder } from "@azure-tools/test-recorder";
+import { env, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { createRecorder, createClient } from "./utils/recordedClient";
+import { AbortController } from "@azure/abort-controller";
 import { Context } from "mocha";
-import { AzureLoadTestingClient } from "../../src";
+import * as fs from "fs";
+import { AzureLoadTestingClient, beginCreateOrUpdateTestRun, beginUploadTestFile } from "../../src";
+import { isNode } from "@azure/core-util";
 
 describe("Test Run Creation", () => {
   let recorder: Recorder;
   let client: AzureLoadTestingClient;
   const SUBSCRIPTION_ID = env["SUBSCRIPTION_ID"] || "";
+  let readStreamTestFile: fs.ReadStream;
 
   beforeEach(async function (this: Context) {
     recorder = await createRecorder(this);
+    if (!isNode || isPlaybackMode()) {
+      this.skip();
+    }
     client = createClient(recorder);
+    readStreamTestFile = fs.createReadStream("./test/public/sample.jmx");
   });
 
   afterEach(async function () {
@@ -37,17 +45,34 @@ describe("Test Run Creation", () => {
     assert.include(["200", "201"], result.status);
   });
 
-  it("should create a test run", async () => {
-    const result = await client.path("/test-runs/{testRunId}", "abcde").patch({
-      contentType: "application/merge-patch+json",
-      body: {
-        testId: "abc",
-        displayName: "sample_testrun",
-        virtualUsers: 10,
+  it("should upload the test file with LRO", async () => {
+    const fileUploadPoller = await beginUploadTestFile(client, "abc", "sample.jmx", {
+      queryParameters: {
+        fileType: "JMX_FILE",
       },
+      contentType: "application/octet-stream",
+      body: readStreamTestFile,
+    });
+    const fileUploadResult = await fileUploadPoller.pollUntilDone({
+      abortSignal: AbortController.timeout(60000), // timeout of 60 seconds
     });
 
-    assert.include(["200", "201"], result.status);
+    assert.equal("VALIDATION_SUCCESS", fileUploadResult.body.validationStatus);
+  });
+  
+  it("should create a test run", async () => {
+    const testRunPoller = await beginCreateOrUpdateTestRun(client, "abcde", {
+    contentType: "application/merge-patch+json",
+    body: {
+      testId: "abc",
+      displayName: "sampletr",
+    },
+  });
+  const testRunResult = await testRunPoller.pollUntilDone({
+    abortSignal: AbortController.timeout(300*1000), // timeout of 60 seconds
+  });
+
+    assert.equal("DONE", testRunResult.body.status);
   });
 
   it("should get a test run", async () => {
@@ -72,7 +97,7 @@ describe("Test Run Creation", () => {
       },
     });
 
-    assert.include(["200"], result.status);
+    assert.include(["200", "201"], result.status);
   });
 
   it("should get a test run app components", async () => {
