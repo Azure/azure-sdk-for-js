@@ -18,7 +18,7 @@ async function main() {
   // Build a client through AAD
   const client = AzureLoadTesting(endpoint, new DefaultAzureCredential());
 
-  // Creating a load test
+  // Patching a load test
   const testCreationResult = await client.path("/tests/{testId}", testId).patch({
     contentType: "application/merge-patch+json",
     body: {
