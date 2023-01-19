@@ -307,6 +307,18 @@ export const parameters11: OperationParameter = {
   mapper: ContentKeyPolicyMapper
 };
 
+export const apiVersion2: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2022-07-01",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const transformName: OperationURLParameter = {
   parameterPath: "transformName",
   mapper: {

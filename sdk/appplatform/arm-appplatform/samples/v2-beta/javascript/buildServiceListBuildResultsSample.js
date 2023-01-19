@@ -10,16 +10,18 @@
 // Licensed under the MIT License.
 const { AppPlatformManagementClient } = require("@azure/arm-appplatform");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to List KPack build results.
  *
  * @summary List KPack build results.
- * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-09-01-preview/examples/BuildService_ListBuildResults.json
+ * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-11-01-preview/examples/BuildService_ListBuildResults.json
  */
 async function buildServiceListBuildResults() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["APPPLATFORM_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["APPPLATFORM_RESOURCE_GROUP"] || "myResourceGroup";
   const serviceName = "myservice";
   const buildServiceName = "default";
   const buildName = "mybuild";
@@ -37,4 +39,8 @@ async function buildServiceListBuildResults() {
   console.log(resArray);
 }
 
-buildServiceListBuildResults().catch(console.error);
+async function main() {
+  buildServiceListBuildResults();
+}
+
+main().catch(console.error);

@@ -10,16 +10,22 @@
 // Licensed under the MIT License.
 import { AppPlatformManagementClient } from "@azure/arm-appplatform";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Get a KPack build result log download URL.
  *
  * @summary Get a KPack build result log download URL.
- * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-09-01-preview/examples/BuildService_GetBuildResultLog.json
+ * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-11-01-preview/examples/BuildService_GetBuildResultLog.json
  */
 async function buildServiceGetBuildResultLog() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["APPPLATFORM_RESOURCE_GROUP"] || "myResourceGroup";
   const serviceName = "myservice";
   const buildServiceName = "default";
   const buildName = "mybuild";
@@ -36,4 +42,8 @@ async function buildServiceGetBuildResultLog() {
   console.log(result);
 }
 
-buildServiceGetBuildResultLog().catch(console.error);
+async function main() {
+  buildServiceGetBuildResultLog();
+}
+
+main().catch(console.error);

@@ -192,8 +192,7 @@
 
   - Interface ContainerServiceClientOptionalParams no longer has parameter apiVersion
   - Class ContainerServiceClient no longer has parameter apiVersion
-    
-    
+
 ## 17.3.0 (2023-01-06)
     
 **Features**

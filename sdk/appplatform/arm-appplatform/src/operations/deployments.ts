@@ -1952,7 +1952,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.version],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1975,7 +1974,6 @@ const listForClusterNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.version],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

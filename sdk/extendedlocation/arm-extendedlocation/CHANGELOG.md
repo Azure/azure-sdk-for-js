@@ -1,13 +1,23 @@
 # Release History
 
+## 1.0.0-beta.4 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 1.0.0-beta.3 (2023-01-10)
 
 **Features**
 
--  Exposes `getContinuationToken` helper function to extract continuation token 
+- Exposes `getContinuationToken` helper function to extract continuation token
 
 **Bugs Fixed**
- 
+
 - A series of small bug fixs relevant to authentication and apiVersion policy
 
 ## 1.0.0-beta.2 (2022-07-20)
