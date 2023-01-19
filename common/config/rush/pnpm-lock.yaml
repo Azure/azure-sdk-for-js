@@ -13478,7 +13478,7 @@ packages:
     dev: false
 
   file:projects/arm-recoveryservicesbackup.tgz:
-    resolution: {integrity: sha512-ujbREIL2OAvAl4obLe3bLdX5pWVhmoIotgheSrxKlwDSXlt1gfgiOPSpHziRnuORPeetdSjiSbRXLRrZIzSl2w==, tarball: file:projects/arm-recoveryservicesbackup.tgz}
+    resolution: {integrity: sha512-Drz5AU6HJ2F5sKCHSOwOYm22MmKSLWNgWOj7tWFVGG/EoF3YDGzUxCeFXZ0zJK9Lykclr7hI6IWZR2c44UQIVQ==, tarball: file:projects/arm-recoveryservicesbackup.tgz}
     name: '@rush-temp/arm-recoveryservicesbackup'
     version: 0.0.0
     dependencies:
@@ -13492,6 +13492,7 @@ packages:
       '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2

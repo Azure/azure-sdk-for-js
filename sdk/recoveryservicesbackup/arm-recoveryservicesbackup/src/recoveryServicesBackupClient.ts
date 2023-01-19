@@ -61,6 +61,7 @@ import {
   ProtectionPolicyOperationStatusesImpl,
   BackupProtectableItemsImpl,
   BackupProtectionContainersImpl,
+  DeletedProtectionContainersImpl,
   SecurityPINsImpl,
   RecoveryPointsRecommendedForMoveImpl,
   ResourceGuardProxiesImpl,
@@ -111,6 +112,7 @@ import {
   ProtectionPolicyOperationStatuses,
   BackupProtectableItems,
   BackupProtectionContainers,
+  DeletedProtectionContainers,
   SecurityPINs,
   RecoveryPointsRecommendedForMove,
   ResourceGuardProxies,
@@ -215,7 +217,7 @@ export class RecoveryServicesBackupClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-03-01";
+    this.apiVersion = options.apiVersion || "2023-01-01";
     this.backupResourceStorageConfigsNonCRR = new BackupResourceStorageConfigsNonCRRImpl(
       this
     );
@@ -282,6 +284,9 @@ export class RecoveryServicesBackupClient extends coreClient.ServiceClient {
     );
     this.backupProtectableItems = new BackupProtectableItemsImpl(this);
     this.backupProtectionContainers = new BackupProtectionContainersImpl(this);
+    this.deletedProtectionContainers = new DeletedProtectionContainersImpl(
+      this
+    );
     this.securityPINs = new SecurityPINsImpl(this);
     this.recoveryPointsRecommendedForMove = new RecoveryPointsRecommendedForMoveImpl(
       this
@@ -679,6 +684,7 @@ export class RecoveryServicesBackupClient extends coreClient.ServiceClient {
   protectionPolicyOperationStatuses: ProtectionPolicyOperationStatuses;
   backupProtectableItems: BackupProtectableItems;
   backupProtectionContainers: BackupProtectionContainers;
+  deletedProtectionContainers: DeletedProtectionContainers;
   securityPINs: SecurityPINs;
   recoveryPointsRecommendedForMove: RecoveryPointsRecommendedForMove;
   resourceGuardProxies: ResourceGuardProxies;

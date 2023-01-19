@@ -13,6 +13,9 @@ import {
   RecoveryServicesBackupClient
 } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Provisions a script which invokes an iSCSI connection to the backup data. Executing this script opens a file
@@ -22,12 +25,16 @@ provisioning, call GetProtectedItemOperationResult API.
  * @summary Provisions a script which invokes an iSCSI connection to the backup data. Executing this script opens a file
 explorer displaying all the recoverable files and folders. This is an asynchronous operation. To know the status of
 provisioning, call GetProtectedItemOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2022-03-01/examples/AzureIaasVm/Provision_Ilr.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/AzureIaasVm/Provision_Ilr.json
  */
 async function provisionInstantItemLevelRecoveryForAzureVM() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const vaultName = "PySDKBackupTestRsVault";
-  const resourceGroupName = "PythonSDKBackupTestRg";
+  const resourceGroupName =
+    process.env["RECOVERYSERVICESBACKUP_RESOURCE_GROUP"] ||
+    "PythonSDKBackupTestRg";
   const fabricName = "Azure";
   const containerName =
     "iaasvmcontainer;iaasvmcontainerv2;pysdktestrg;pysdktestv2vm1";
@@ -57,4 +64,8 @@ async function provisionInstantItemLevelRecoveryForAzureVM() {
   console.log(result);
 }
 
-provisionInstantItemLevelRecoveryForAzureVM().catch(console.error);
+async function main() {
+  provisionInstantItemLevelRecoveryForAzureVM();
+}
+
+main().catch(console.error);
