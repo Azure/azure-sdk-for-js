@@ -135,7 +135,13 @@ const client: AzureLoadTestingClient = AzureLoadTesting(Endpoint, new DefaultAzu
 var TEST_ID = "some-test-id";
 const readStream = createReadStream("./sample.jmx");
 
-const fileUploadPoller = await beginUploadTestFile(client, TEST_ID, "sample.jmx", readStream);
+const fileUploadPoller = await beginUploadTestFile(client, testId, "sample.jmx", {
+  queryParameters: {
+    fileType: "JMX_FILE",
+  },
+  contentType: "application/octet-stream",
+  body: readStream,
+});
 const fileUploadResult = await fileUploadPoller.pollUntilDone({
   abortSignal: AbortController.timeout(60000), // timeout of 60 seconds
 });
@@ -161,7 +167,14 @@ var TEST_ID = "some-test-id";
 var DISPLAY_NAME = "my-load-test";
 
 // Creating/Updating the test run
-const testRunPoller = await beginCreateOrUpdateTestRun(client, TEST_ID, DISPLAY_NAME);
+const testRunPoller = await beginCreateOrUpdateTestRun(client, testRunId, {
+    contentType: "application/merge-patch+json",
+    body: {
+      testId: testId,
+      displayName: displayName,
+      virtualUsers: 10,
+    },
+  });
 const testRunResult = await testRunPoller.pollUntilDone({
   abortSignal: AbortController.timeout(60000), // timeout of 60 seconds
 });

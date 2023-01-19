@@ -3,9 +3,8 @@
 
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 import { CancelOnProgress, OperationState, SimplePollerLike } from "@azure/core-lro";
-import { v4 as uuidv4 } from "uuid";
 import { TestRunStatusPoller, PolledOperationOptions } from "./models";
-import { AzureLoadTestingClient } from "./index.js";
+import { AzureLoadTestingClient, TestRunCreateOrUpdateParameters } from "./index.js";
 import { TestRunGet200Response } from "./responses";
 import { isUnexpected } from "./isUnexpected";
 import { sleep } from "./util/sleepLROUtility";
@@ -18,20 +17,14 @@ import { sleep } from "./util/sleepLROUtility";
  */
 export async function beginCreateOrUpdateTestRun(
   client: AzureLoadTestingClient,
-  testId: string,
-  displayName: string,
+  testRunId: string,
+  testRunParams: TestRunCreateOrUpdateParameters,
   polledOperationOptions: PolledOperationOptions = {}
 ): Promise<TestRunStatusPoller> {
-  const testRunId = uuidv4(); // ID to be assigned to a testRun
   // Creating the test run
-  const testRunCreationResult = await client.path("/test-runs/{testRunId}", testRunId).patch({
-    contentType: "application/merge-patch+json",
-    body: {
-      testId: testId,
-      displayName: displayName,
-      virtualUsers: 10,
-    },
-  });
+  const testRunCreationResult = await client
+    .path("/test-runs/{testRunId}", testRunId)
+    .patch(testRunParams);
 
   if (isUnexpected(testRunCreationResult)) {
     throw testRunCreationResult.body.error;

@@ -4,10 +4,9 @@
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 import { CancelOnProgress, OperationState, SimplePollerLike } from "@azure/core-lro";
 import { FileUploadAndValidatePoller, PolledOperationOptions } from "./models";
-import { AzureLoadTestingClient } from "./index.js";
+import { AzureLoadTestingClient, TestUploadFileParameters } from "./index.js";
 import { TestGetFile200Response } from "./responses";
 import { isUnexpected } from "./isUnexpected";
-import { ReadStream } from "fs";
 import { sleep } from "./util/sleepLROUtility";
 
 /**
@@ -20,15 +19,12 @@ export async function beginUploadTestFile(
   client: AzureLoadTestingClient,
   testId: string,
   fileName: string,
-  file: ReadStream,
+  uploadParams: TestUploadFileParameters,
   polledOperationOptions: PolledOperationOptions = {}
 ): Promise<FileUploadAndValidatePoller> {
   const fileUploadResult = await client
     .path("/tests/{testId}/files/{fileName}", testId, fileName)
-    .put({
-      contentType: "application/octet-stream",
-      body: file,
-    });
+    .put(uploadParams);
 
   if (isUnexpected(fileUploadResult)) {
     throw fileUploadResult.body.error;
@@ -77,7 +73,6 @@ export async function beginUploadTestFile(
       }
 
       await processProgressCallbacks();
-
     },
 
     pollUntilDone(pollOptions?: {

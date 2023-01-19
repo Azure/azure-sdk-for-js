@@ -25,6 +25,7 @@ async function main() {
   const displayName = "some-load-test";
   const SUBSCRIPTION_ID = process.env["SUBSCRIPTION_ID"] || "";
   const testId = uuidv4(); // ID to be assigned to a test
+  const testRunId = uuidv4(); // ID to be assigned to a testRun
 
   // Build a client through AAD
   const client = AzureLoadTesting(endpoint, new DefaultAzureCredential());
@@ -49,7 +50,13 @@ async function main() {
     throw new Error("Test ID returned as undefined.");
 
   // Uploading .jmx file to a test
-  const fileUploadPoller = await beginUploadTestFile(client, testId, "sample.jmx", readStream);
+  const fileUploadPoller = await beginUploadTestFile(client, testId, "sample.jmx", {
+    queryParameters: {
+      fileType: "JMX_FILE",
+    },
+    contentType: "application/octet-stream",
+    body: readStream,
+  });
   const fileUploadResult = await fileUploadPoller.pollUntilDone({
     abortSignal: AbortController.timeout(60000), // timeout of 60 seconds
   });
@@ -86,7 +93,14 @@ async function main() {
   }
 
   // Creating/Updating the test run
-  const testRunPoller = await beginCreateOrUpdateTestRun(client, testId, displayName);
+  const testRunPoller = await beginCreateOrUpdateTestRun(client, testRunId, {
+    contentType: "application/merge-patch+json",
+    body: {
+      testId: testId,
+      displayName: displayName,
+      virtualUsers: 10,
+    },
+  });
   const testRunResult = await testRunPoller.pollUntilDone({
     abortSignal: AbortController.timeout(60000), // timeout of 60 seconds
   });
@@ -96,7 +110,6 @@ async function main() {
 
   let testRunStarttime = testRunResult.body.startDateTime;
   let testRunEndTime = testRunResult.body.endDateTime;
-  let testRunId = testRunResult.body.testRunId;
   if (testRunId) {
     // get list of all metric namespaces and pick the first one
     let metricNamespaces = await client
