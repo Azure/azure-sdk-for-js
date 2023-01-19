@@ -17,7 +17,7 @@ async function main() {
   // Build a client through AAD
   const client = AzureLoadTesting(endpoint, new DefaultAzureCredential());
 
-  // Creating a load test
+  // Patching a load test
   const testCreationResult = await client.path("/tests/{testId}", testId).patch({
     contentType: "application/merge-patch+json",
     body: {
@@ -36,7 +36,7 @@ async function main() {
   if (testCreationResult.body.testId === undefined)
     throw new Error("Test ID returned as undefined.");
 
-  // Creating the test run
+  // Patching the test run
   const testRunCreationResult = await client.path("/test-runs/{testRunId}", testRunId).patch({
     contentType: "application/merge-patch+json",
     body: {
