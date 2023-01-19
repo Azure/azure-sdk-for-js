@@ -6,8 +6,8 @@ import { hashV2PartitionKey } from "./v2";
 /**
  * Generate Hash for a `Multi Hash` type partition.
  * @param partitionKey - to be hashed.
- * @returns 
+ * @returns
  */
 export function hashMultiHashPartitionKey(partitionKey: PrimitivePartitionKeyValue[]): string {
-  return partitionKey.map(keys => hashV2PartitionKey([keys])).join("");
+  return partitionKey.map((keys) => hashV2PartitionKey([keys])).join("");
 }

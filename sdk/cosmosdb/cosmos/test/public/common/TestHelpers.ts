@@ -108,7 +108,7 @@ export async function bulkReadItems(
 ): Promise<void[]> {
   return Promise.all(
     documents.map(async (document) => {
-      const partitionKey = extractPartitionKey(document, partitionKeyDef)
+      const partitionKey = extractPartitionKey(document, partitionKeyDef);
 
       // TODO: should we block or do all requests in parallel?
       const { resource: doc } = await container.item(document.id, partitionKey).read();
@@ -124,7 +124,7 @@ export async function bulkReplaceItems(
 ): Promise<any[]> {
   return Promise.all(
     documents.map(async (document) => {
-      const partitionKey = extractPartitionKey(document, partitionKeyDef)
+      const partitionKey = extractPartitionKey(document, partitionKeyDef);
       const { resource: doc } = await container.item(document.id, partitionKey).replace(document);
       const { _etag: _1, _ts: _2, ...expectedModifiedDocument } = document; // eslint-disable-line @typescript-eslint/no-unused-vars
       const { _etag: _4, _ts: _3, ...actualModifiedDocument } = doc; // eslint-disable-line @typescript-eslint/no-unused-vars
@@ -141,7 +141,7 @@ export async function bulkDeleteItems(
 ): Promise<void> {
   await Promise.all(
     documents.map(async (document) => {
-      const partitionKey = extractPartitionKey(document, partitionKeyDef)
+      const partitionKey = extractPartitionKey(document, partitionKeyDef);
 
       await container.item(document.id, partitionKey).delete();
     })
@@ -152,21 +152,30 @@ export async function bulkQueryItemsWithPartitionKey(
   container: Container,
   documents: any[],
   query: string,
-  parameterGenerator: (doc: any) => {name: string, value: any}[],
+  parameterGenerator: (doc: any) => { name: string; value: any }[]
 ): Promise<void> {
   for (const document of documents) {
     const parameters = parameterGenerator(document);
-    const shouldSkip = parameters.reduce((previous, current) => previous || current['value'] === undefined, false)
-    if(shouldSkip) {
+    const shouldSkip = parameters.reduce(
+      (previous, current) => previous || current["value"] === undefined,
+      false
+    );
+    if (shouldSkip) {
       continue;
     }
     const querySpec = {
       query: query,
-      parameters: parameters
+      parameters: parameters,
     };
 
     const { resources } = await container.items.query(querySpec).fetchAll();
-    assert.equal(resources.length, 1, `Expected exactly 1 document, doc: ${JSON.stringify(document)}, query: '${query}', parameters: ${JSON.stringify(parameters)}`);
+    assert.equal(
+      resources.length,
+      1,
+      `Expected exactly 1 document, doc: ${JSON.stringify(
+        document
+      )}, query: '${query}', parameters: ${JSON.stringify(parameters)}`
+    );
     assert.equal(JSON.stringify(resources[0]), JSON.stringify(document));
   }
 }

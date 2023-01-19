@@ -2,7 +2,13 @@
 // Licensed under the MIT license.
 import { AzureLogger, createClientLogger } from "@azure/logger";
 import { parsePath } from "./common";
-import { NonePartitionKeyLiteral, NullPartitionKeyLiteral, PartitionKeyDefinition, PartitionKeyInternal, PrimitivePartitionKeyValue } from "./documents";
+import {
+  NonePartitionKeyLiteral,
+  NullPartitionKeyLiteral,
+  PartitionKeyDefinition,
+  PartitionKeyInternal,
+  PrimitivePartitionKeyValue,
+} from "./documents";
 
 const logger: AzureLogger = createClientLogger("extractPartitionKey");
 
@@ -36,17 +42,20 @@ export function extractPartitionKey(
           break;
         }
       }
-      if(typeof obj === "string" || typeof obj === "number" || typeof obj === "boolean" ) {
+      if (typeof obj === "string" || typeof obj === "number" || typeof obj === "boolean") {
         partitionKeys.push(obj);
-      } else if(obj === NullPartitionKeyLiteral) {
+      } else if (obj === NullPartitionKeyLiteral) {
         partitionKeys.push(NullPartitionKeyLiteral);
-      } else if(obj === undefined || JSON.stringify(obj) === JSON.stringify(NonePartitionKeyLiteral)) {
-        if(partitionKeyDefinition.systemKey === true) {
-          return []
+      } else if (
+        obj === undefined ||
+        JSON.stringify(obj) === JSON.stringify(NonePartitionKeyLiteral)
+      ) {
+        if (partitionKeyDefinition.systemKey === true) {
+          return [];
         }
         partitionKeys.push(NonePartitionKeyLiteral);
       } else {
-        logger.warning('Unsupported PartitionKey found.');
+        logger.warning("Unsupported PartitionKey found.");
         return undefined;
       }
     });
@@ -58,7 +67,9 @@ export function extractPartitionKey(
 /**
  * @hidden
  */
-export function undefinedPartitionKey(partitionKeyDefinition: PartitionKeyDefinition): PartitionKeyInternal {
+export function undefinedPartitionKey(
+  partitionKeyDefinition: PartitionKeyDefinition
+): PartitionKeyInternal {
   if (partitionKeyDefinition.systemKey === true) {
     return [];
   } else {

@@ -38,11 +38,11 @@ export class PartitionKeyBuilder {
     this.values.push(value);
     return this;
   }
-  public addNullValue() {
-    this.values.push(NullPartitionKeyLiteral)
+  public addNullValue(): void {
+    this.values.push(NullPartitionKeyLiteral);
   }
-  public addNoneValue() {
-    this.values.push(NonePartitionKeyLiteral)
+  public addNoneValue(): void {
+    this.values.push(NonePartitionKeyLiteral);
   }
   public build(): PartitionKey {
     return [...this.values];

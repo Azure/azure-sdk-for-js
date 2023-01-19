@@ -5,5 +5,5 @@
  */
 export enum PartitionKeyDefinitionVersion {
   V1 = 1,
-  V2 = 2
+  V2 = 2,
 }
