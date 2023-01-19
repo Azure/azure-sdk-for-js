@@ -78,9 +78,6 @@ export async function beginUploadTestFile(
 
       await processProgressCallbacks();
 
-      if (state.status === "failed") {
-        throw state.error;
-      }
     },
 
     pollUntilDone(pollOptions?: {
