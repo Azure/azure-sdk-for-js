@@ -8,8 +8,7 @@ Azure Load Testing provides client library in JavaScript to the user by which th
 
 Various documentation is available to help you get started
 
-<!-- - [Source code][source_code] -->
-
+- [Source code][source_code]
 - [API reference documentation][api_reference_doc]
 - [Product Documentation][product_documentation]
 
@@ -45,6 +44,13 @@ can be used to authenticate the client.
 
 Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables:
 AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET
+
+```javascript
+import AzureLoadTesting, { AzureLoadTestingClient } from "@azure-rest/load-testing";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const Client: AzureLoadTestingClient = AzureLoadTesting(Endpoint, new DefaultAzureCredential());
+```
 
 ## Key concepts
 
@@ -93,15 +99,15 @@ In the above example, `eus` represents the Azure region `East US`.
 ### Creating a load test
 
 ```javascript
-import AzureLoadTesting, { AzureLoadTestingClient } from "@azure-rest/load-testing";
+import { AzureLoadTestingClient } from "@azure-rest/load-testing";
 import { DefaultAzureCredential } from "@azure/identity";
 
 var TEST_ID = "some-test-id";
 var DISPLAY_NAME = "my-load-test";
 
-const Client: AzureLoadTestingClient = AzureLoadTesting(Endpoint, new DefaultAzureCredential());
+const client: AzureLoadTestingClient = AzureLoadTesting(Endpoint, new DefaultAzureCredential());
 
-await Client.path("/tests/{testId}", TEST_ID).patch({
+await client.path("/tests/{testId}", TEST_ID).patch({
   contentType: "application/merge-patch+json",
   body: {
     displayName: DISPLAY_NAME,
@@ -120,46 +126,98 @@ await Client.path("/tests/{testId}", TEST_ID).patch({
 ### Uploading .jmx file to a Test
 
 ```javascript
-import { AzureLoadTestingClient } from "@azure-rest/load-testing";
+import { AzureLoadTestingClient, beginUploadTestFile } from "@azure-rest/load-testing";
 import { DefaultAzureCredential } from "@azure/identity";
 import { createReadStream } from "fs";
 
+const client: AzureLoadTestingClient = AzureLoadTesting(Endpoint, new DefaultAzureCredential());
+
 var TEST_ID = "some-test-id";
-var FILE_ID = "some-file-id";
 const readStream = createReadStream("./sample.jmx");
 
-const Client: AzureLoadTestingClient = AzureLoadTesting(Endpoint, new DefaultAzureCredential());
-
-await Client.path("/tests/{testId}/files/{fileId}", TEST_ID, FILE_ID).put({
-  contentType: "multipart/form-data",
-  body: {
-    file: readStream,
-  },
+const fileUploadPoller = await beginUploadTestFile(client, TEST_ID, "sample.jmx", readStream);
+const fileUploadResult = await fileUploadPoller.pollUntilDone({
+  abortSignal: AbortController.timeout(60000), // timeout of 60 seconds
 });
+
+if (fileUploadPoller.getOperationState().status != "succeeded")
+  throw new Error(
+    "There is some issue in validation, please make sure uploaded file is a valid JMX." +
+      fileUploadResult
+  );
+
+console.log(fileUploadResult);
 ```
 
 ### Running a Test
 
 ```javascript
-import { AzureLoadTestingClient } from "@azure-rest/load-testing";
+import { AzureLoadTestingClient, beginCreateOrUpdateTestRun } from "@azure-rest/load-testing";
 import { DefaultAzureCredential } from "@azure/identity";
 
+const client: AzureLoadTestingClient = AzureLoadTesting(Endpoint, new DefaultAzureCredential());
+
 var TEST_ID = "some-test-id";
-var TEST_RUN_ID = "some-testrun-id";
-var DISPLAY_NAME = "my-load-test-run";
+var DISPLAY_NAME = "my-load-test";
 
-const Client: AzureLoadTestingClient = AzureLoadTesting(Endpoint, new DefaultAzureCredential());
-
-await Client.path("/test-runs/{testRunId}", TEST_RUN_ID).patch({
-  contentType: "application/merge-patch+json",
-  body: {
-    testId: TEST_ID,
-    displayName: DISPLAY_NAME,
-  },
+// Creating/Updating the test run
+const testRunPoller = await beginCreateOrUpdateTestRun(client, TEST_ID, DISPLAY_NAME);
+const testRunResult = await testRunPoller.pollUntilDone({
+  abortSignal: AbortController.timeout(60000), // timeout of 60 seconds
 });
 
-var result = await client.path("/test-runs/{testRunId}", TEST_RUN_ID).get();
-console.log(result);
+if (testRunPoller.getOperationState().status != "succeeded" && testRunResult)
+  throw new Error("There is some issue in running the test, Error Response : " + testRunResult);
+
+let testRunStarttime = testRunResult.body.startDateTime;
+let testRunEndTime = testRunResult.body.endDateTime;
+let testRunId = testRunResult.body.testRunId;
+if (testRunId) {
+  // get list of all metric namespaces and pick the first one
+  let metricNamespaces = await client
+    .path("/test-runs/{testRunId}/metric-namespaces", testRunId)
+    .get();
+
+  if (isUnexpected(metricNamespaces)) {
+    throw metricNamespaces.body.error;
+  }
+
+  let metricNamespace = metricNamespaces.body.value[0];
+
+  if (metricNamespace.name === undefined) {
+    throw "No Metric Namespace name is defined.";
+  }
+
+  // get list of all metric definitions and pick the first one
+  let metricDefinitions = await client
+    .path("/test-runs/{testRunId}/metric-definitions", testRunId)
+    .get({
+      queryParameters: {
+        metricNamespace: metricNamespace.name,
+      },
+    });
+
+  if (isUnexpected(metricDefinitions)) {
+    throw metricDefinitions.body.error;
+  }
+
+  let metricDefinition = metricDefinitions.body.value[0];
+
+  if (metricDefinition.name === undefined) {
+    throw "No Metric Namespace name is defined.";
+  }
+
+  // fetch client metrics using metric namespace and metric name
+  let metricsResult = await client.path("/test-runs/{testRunId}/metrics", testRunId).post({
+    queryParameters: {
+      metricname: metricDefinition.name,
+      metricNamespace: metricNamespace.name,
+      timespan: testRunStarttime + "/" + testRunEndTime,
+    },
+  });
+
+  console.log(metricsResult);
+  console.log(testRunResult);
 ```
 
 ## Troubleshooting
@@ -180,7 +238,7 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 
 Azure Loading Testing JavaScript SDK samples are available to you in the SDK's GitHub repository. These samples provide example code for additional scenarios commonly encountered.
 
-<!-- See [Azure Load Testing samples][sample_code]. -->
+See [Azure Load Testing samples][sample_code].
 
 ## Contributing
 
@@ -193,9 +251,9 @@ For details on contributing to this repository, see the [contributing guide](htt
 5. Create new Pull Request
 
 <!-- LINKS -->
-<!-- [source_code]: https://github.com/Azure/azure-sdk-for-java/blob/main/sdk/loadtesting/azure-developer-loadtesting/src -->
-<!-- [sample_code]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/loadtestservice/load-testing-rest/samples/v1-beta -->
 
+[source_code]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/loadtestservice/load-testing-rest/src
+[sample_code]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/loadtestservice/load-testing-rest/samples/v1-beta
 [api_reference_doc]: https://docs.microsoft.com/rest/api/loadtesting/
 [product_documentation]: https://azure.microsoft.com/services/load-testing/
 [azure_subscription]: https://azure.microsoft.com/free/

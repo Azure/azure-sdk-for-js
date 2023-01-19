@@ -91,7 +91,7 @@ async function main() {
     abortSignal: AbortController.timeout(60000), // timeout of 60 seconds
   });
 
-  if (fileUploadPoller.getOperationState().status != "succeeded" && testRunResult)
+  if (testRunPoller.getOperationState().status != "succeeded" && testRunResult)
     throw new Error("There is some issue in running the test, Error Response : " + testRunResult);
 
   let testRunStarttime = testRunResult.body.startDateTime;
