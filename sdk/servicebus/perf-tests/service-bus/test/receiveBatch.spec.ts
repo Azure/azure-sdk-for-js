@@ -87,6 +87,5 @@ export async function sendMessages(
     );
     await sender.sendMessages(currentBatch);
     count = count + currentBatch.count;
-    console.log(`${count} messages sent so far`);
   }
 }
