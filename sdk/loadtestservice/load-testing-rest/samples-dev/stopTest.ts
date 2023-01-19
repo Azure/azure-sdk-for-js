@@ -37,7 +37,7 @@ async function main() {
   if (testCreationResult.body.testId === undefined)
     throw new Error("Test ID returned as undefined.");
 
-  // Creating the test run
+  // Patching the test run
   const testRunCreationResult = await client.path("/test-runs/{testRunId}", testRunId).patch({
     contentType: "application/merge-patch+json",
     body: {
