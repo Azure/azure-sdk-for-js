@@ -7,11 +7,11 @@
 ```yaml
 package-name: "@azure/communication-phone-numbers"
 description: Phone number configuration client
-package-version: 1.2.0-beta.5
+package-version: 1.2.0-beta.4
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-tag: package-phonenumber-2022-06-01-preview
-require: https://github.com/Azure/azure-rest-api-specs/blob/6de2e5bf9286b2dddea9a372c78cc0de214897dd/specification/communication/data-plane/PhoneNumbers/readme.md
+tag: package-phonenumber-2022-12-01
+require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/edf1d7365a436f0b124c0cecbefd63499e049af0/specification/communication/data-plane/PhoneNumbers/readme.md
 model-date-time-as-string: false
 optional-response-headers: true
 payload-flattening-threshold: 10
@@ -52,4 +52,13 @@ directive:
   where: $.paths.*[?(@.operationId == "PhoneNumbers_UpdateCapabilitiesOC")]
   transform: >
     $.operationId = "PhoneNumbers_UpdateCapabilities"
+```
+
+### Change naming of AreaCodeResult to AreaCodeItem
+``` yaml
+directive:
+  from: swagger-document
+  where: "$.definitions.AreaCodeResult"
+  transform: >
+    $["x-ms-client-name"] = "AreaCodeItem";
 ```

@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Creates or updates an express route circuit.
  *
  * @summary Creates or updates an express route circuit.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ExpressRouteCircuitCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/ExpressRouteCircuitCreate.json
  */
 async function createExpressRouteCircuit() {
   const subscriptionId = "subid";
@@ -53,7 +53,7 @@ createExpressRouteCircuit().catch(console.error);
  * This sample demonstrates how to Creates or updates an express route circuit.
  *
  * @summary Creates or updates an express route circuit.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ExpressRouteCircuitCreateOnExpressRoutePort.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/ExpressRouteCircuitCreateOnExpressRoutePort.json
  */
 async function createExpressRouteCircuitOnExpressRoutePort() {
   const subscriptionId = "subid";

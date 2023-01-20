@@ -138,24 +138,25 @@ export interface ProjectResourceListResult {
 }
 
 /** The response to an account resource GET request. */
-export type AccountResource = Resource & {
+export interface AccountResource extends Resource {
   /** Resource properties. */
   properties?: { [propertyName: string]: string };
-};
+}
 
 /** The response to an extension resource GET request. */
-export type ExtensionResource = Resource & {
+export interface ExtensionResource extends Resource {
   /** The extension plan that was purchased. */
   plan?: ExtensionResourcePlan;
   /** Resource properties. */
   properties?: { [propertyName: string]: string };
-};
+}
 
 /** A Visual Studio Team Services project resource. */
-export type ProjectResource = Resource & {
+export interface ProjectResource extends Resource {
   /** Key/value pair of resource properties. */
   properties?: { [propertyName: string]: string };
-};
+}
+
 /** Defines values for AccountResourceRequestOperationType. */
 export type AccountResourceRequestOperationType =
   | "unknown"

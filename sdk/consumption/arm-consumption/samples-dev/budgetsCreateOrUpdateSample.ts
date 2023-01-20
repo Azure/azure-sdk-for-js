@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { Budget, ConsumptionManagementClient } from "@azure/arm-consumption";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to The operation to create or update a budget. You can optionally provide an eTag if desired as a form of concurrency control. To obtain the latest eTag for a given budget, perform a get operation prior to your put operation.
@@ -18,7 +21,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/CreateOrUpdateBudget.json
  */
 async function createOrUpdateBudget() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/00000000-0000-0000-0000-000000000000";
   const budgetName = "TestBudget";
   const parameters: Budget = {
@@ -77,4 +82,8 @@ async function createOrUpdateBudget() {
   console.log(result);
 }
 
-createOrUpdateBudget().catch(console.error);
+async function main() {
+  createOrUpdateBudget();
+}
+
+main().catch(console.error);

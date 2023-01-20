@@ -10,16 +10,22 @@
 // Licensed under the MIT License.
 import { AppPlatformManagementClient } from "@azure/arm-appplatform";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Get the supported buildpack resource.
  *
  * @summary Get the supported buildpack resource.
- * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-09-01-preview/examples/BuildService_GetSupportedBuildpack.json
+ * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-11-01-preview/examples/BuildService_GetSupportedBuildpack.json
  */
 async function buildServiceGetSupportedBuildpack() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["APPPLATFORM_RESOURCE_GROUP"] || "myResourceGroup";
   const serviceName = "myservice";
   const buildServiceName = "default";
   const buildpackName = "tanzu-buildpacks-java-azure";
@@ -34,4 +40,8 @@ async function buildServiceGetSupportedBuildpack() {
   console.log(result);
 }
 
-buildServiceGetSupportedBuildpack().catch(console.error);
+async function main() {
+  buildServiceGetSupportedBuildpack();
+}
+
+main().catch(console.error);

@@ -1,6 +1,16 @@
 # Release History
-    
-## 17.3.0-beta.2 (2022-11-25)
+
+## 17.4.0-beta.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 17.4.0-beta.1 (2023-01-18)
     
 **Features**
 
@@ -17,7 +27,6 @@
   - Added Interface AgentPoolNetworkProfile
   - Added Interface AgentPoolsAbortLatestOperationHeaders
   - Added Interface AgentPoolsAbortLatestOperationOptionalParams
-  - Added Interface AgentPoolsDeleteHeaders
   - Added Interface AgentPoolWindowsProfile
   - Added Interface AzureEntityResource
   - Added Interface ContainerServiceNetworkProfileKubeProxyConfig
@@ -59,14 +68,13 @@
   - Added Interface ManagedClusterAzureMonitorProfileMetrics
   - Added Interface ManagedClusterIngressProfile
   - Added Interface ManagedClusterIngressProfileWebAppRouting
+  - Added Interface ManagedClusterNodeResourceGroupProfile
   - Added Interface ManagedClusterPropertiesForSnapshot
   - Added Interface ManagedClustersAbortLatestOperationHeaders
   - Added Interface ManagedClustersAbortLatestOperationOptionalParams
-  - Added Interface ManagedClustersDeleteHeaders
   - Added Interface ManagedClusterSecurityProfileImageCleaner
   - Added Interface ManagedClusterSecurityProfileNodeRestriction
   - Added Interface ManagedClusterSecurityProfileWorkloadIdentity
-  - Added Interface ManagedClustersGetCommandResultHeaders
   - Added Interface ManagedClusterSnapshot
   - Added Interface ManagedClusterSnapshotListResult
   - Added Interface ManagedClusterSnapshotsCreateOrUpdateOptionalParams
@@ -77,14 +85,6 @@
   - Added Interface ManagedClusterSnapshotsListNextOptionalParams
   - Added Interface ManagedClusterSnapshotsListOptionalParams
   - Added Interface ManagedClusterSnapshotsUpdateTagsOptionalParams
-  - Added Interface ManagedClustersResetAADProfileHeaders
-  - Added Interface ManagedClustersResetServicePrincipalProfileHeaders
-  - Added Interface ManagedClustersRotateClusterCertificatesHeaders
-  - Added Interface ManagedClustersRunCommandHeaders
-  - Added Interface ManagedClustersStartHeaders
-  - Added Interface ManagedClustersStopHeaders
-  - Added Interface ManagedClusterWorkloadAutoScalerProfile
-  - Added Interface ManagedClusterWorkloadAutoScalerProfileKeda
   - Added Interface ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler
   - Added Interface NetworkProfileForSnapshot
   - Added Interface PortRange
@@ -104,7 +104,6 @@
   - Added Interface TrustedAccessRolesListOptionalParams
   - Added Interface WeeklySchedule
   - Added Type Alias AgentPoolsAbortLatestOperationResponse
-  - Added Type Alias AgentPoolsDeleteResponse
   - Added Type Alias BackendPoolType
   - Added Type Alias ControlledValues
   - Added Type Alias EbpfDataplane
@@ -125,7 +124,6 @@
   - Added Type Alias IpvsScheduler
   - Added Type Alias Level
   - Added Type Alias ManagedClustersAbortLatestOperationResponse
-  - Added Type Alias ManagedClustersDeleteResponse
   - Added Type Alias ManagedClusterSnapshotsCreateOrUpdateResponse
   - Added Type Alias ManagedClusterSnapshotsGetResponse
   - Added Type Alias ManagedClusterSnapshotsListByResourceGroupNextResponse
@@ -133,13 +131,11 @@
   - Added Type Alias ManagedClusterSnapshotsListNextResponse
   - Added Type Alias ManagedClusterSnapshotsListResponse
   - Added Type Alias ManagedClusterSnapshotsUpdateTagsResponse
-  - Added Type Alias ManagedClustersRotateClusterCertificatesResponse
-  - Added Type Alias ManagedClustersStartResponse
-  - Added Type Alias ManagedClustersStopResponse
   - Added Type Alias Mode
   - Added Type Alias NetworkPluginMode
   - Added Type Alias NodeOSUpgradeChannel
   - Added Type Alias Protocol
+  - Added Type Alias RestrictionLevel
   - Added Type Alias TrustedAccessRoleBindingProvisioningState
   - Added Type Alias TrustedAccessRoleBindingsCreateOrUpdateResponse
   - Added Type Alias TrustedAccessRoleBindingsGetResponse
@@ -164,7 +160,7 @@
   - Interface ManagedCluster has a new optional parameter enableNamespaceResources
   - Interface ManagedCluster has a new optional parameter guardrailsProfile
   - Interface ManagedCluster has a new optional parameter ingressProfile
-  - Interface ManagedCluster has a new optional parameter workloadAutoScalerProfile
+  - Interface ManagedCluster has a new optional parameter nodeResourceGroupProfile
   - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter capacityReservationGroupID
   - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter enableCustomCATrust
   - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter messageOfTheDay
@@ -181,11 +177,7 @@
   - Interface ManagedClusterSecurityProfile has a new optional parameter nodeRestriction
   - Interface ManagedClusterSecurityProfile has a new optional parameter workloadIdentity
   - Interface ManagedClusterStorageProfileDiskCSIDriver has a new optional parameter version
-  - Class ContainerServiceClient has a new parameter fleetMembers
-  - Class ContainerServiceClient has a new parameter fleets
-  - Class ContainerServiceClient has a new parameter managedClusterSnapshots
-  - Class ContainerServiceClient has a new parameter trustedAccessRoleBindings
-  - Class ContainerServiceClient has a new parameter trustedAccessRoles
+  - Interface ManagedClusterWorkloadAutoScalerProfile has a new optional parameter verticalPodAutoscaler
   - Added Enum KnownBackendPoolType
   - Added Enum KnownControlledValues
   - Added Enum KnownEbpfDataplane
@@ -197,17 +189,42 @@
   - Added Enum KnownNetworkPluginMode
   - Added Enum KnownNodeOSUpgradeChannel
   - Added Enum KnownProtocol
+  - Added Enum KnownRestrictionLevel
   - Added Enum KnownTrustedAccessRoleBindingProvisioningState
   - Added Enum KnownType
   - Added Enum KnownUpdateMode
-  - Enum KnownManagedClusterPodIdentityProvisioningState has a new value Canceled
-  - Enum KnownManagedClusterPodIdentityProvisioningState has a new value Succeeded
   - Enum KnownOssku has a new value Mariner
-  - Enum KnownPrivateEndpointConnectionProvisioningState has a new value Canceled
   - Enum KnownPublicNetworkAccess has a new value SecuredByPerimeter
   - Enum KnownSnapshotType has a new value ManagedCluster
+  - Enum KnownWorkloadRuntime has a new value KataMshvVmIsolation
   - Interface ContainerServiceClientOptionalParams no longer has parameter apiVersion
   - Class ContainerServiceClient no longer has parameter apiVersion
+
+## 17.3.0 (2023-01-06)
+    
+**Features**
+
+  - Added Interface AgentPoolsDeleteHeaders
+  - Added Interface ManagedClustersDeleteHeaders
+  - Added Interface ManagedClustersGetCommandResultHeaders
+  - Added Interface ManagedClustersResetAADProfileHeaders
+  - Added Interface ManagedClustersResetServicePrincipalProfileHeaders
+  - Added Interface ManagedClustersRotateClusterCertificatesHeaders
+  - Added Interface ManagedClustersRunCommandHeaders
+  - Added Interface ManagedClustersStartHeaders
+  - Added Interface ManagedClustersStopHeaders
+  - Added Interface ManagedClusterWorkloadAutoScalerProfile
+  - Added Interface ManagedClusterWorkloadAutoScalerProfileKeda
+  - Added Type Alias AgentPoolsDeleteResponse
+  - Added Type Alias ManagedClustersDeleteResponse
+  - Added Type Alias ManagedClustersRotateClusterCertificatesResponse
+  - Added Type Alias ManagedClustersStartResponse
+  - Added Type Alias ManagedClustersStopResponse
+  - Interface ManagedCluster has a new optional parameter workloadAutoScalerProfile
+  - Enum KnownManagedClusterPodIdentityProvisioningState has a new value Canceled
+  - Enum KnownManagedClusterPodIdentityProvisioningState has a new value Succeeded
+  - Enum KnownPrivateEndpointConnectionProvisioningState has a new value Canceled
+  - Added function getContinuationToken
     
     
 ## 17.2.0 (2022-11-02)

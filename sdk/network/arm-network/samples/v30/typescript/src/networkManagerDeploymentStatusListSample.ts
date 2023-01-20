@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Post to List of Network Manager Deployment Status.
  *
  * @summary Post to List of Network Manager Deployment Status.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkManagerDeploymentStatusList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/NetworkManagerDeploymentStatusList.json
  */
 async function networkManagerDeploymentStatusList() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

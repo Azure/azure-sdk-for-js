@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Merges the partitions of a SQL Container
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBSqlContainerPartitionMerge.json
  */
 async function cosmosDbSqlContainerPartitionMerge() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rgName";
+  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rgName";
   const accountName = "ddb1";
   const databaseName = "databaseName";
   const containerName = "containerName";
@@ -36,4 +37,8 @@ async function cosmosDbSqlContainerPartitionMerge() {
   console.log(result);
 }
 
-cosmosDbSqlContainerPartitionMerge().catch(console.error);
+async function main() {
+  cosmosDbSqlContainerPartitionMerge();
+}
+
+main().catch(console.error);

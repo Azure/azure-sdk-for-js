@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as url from "url";
-
 /**
  * The parsed components of a Key Vault entity identifier.
  */
@@ -41,7 +39,7 @@ export function parseKeyVaultIdentifier(
 
   let baseUri;
   try {
-    baseUri = url.parse(identifier, true, true);
+    baseUri = new URL(identifier);
   } catch (e: any) {
     throw new Error(`Invalid ${collection} identifier: ${identifier}. Not a valid URI`);
   }

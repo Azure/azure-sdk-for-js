@@ -1,7 +1,7 @@
 /**
  * This is the main configuration file for Rush.
  * For full documentation, please see https://rushjs.io
- */ {
+ */{
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
   /**
    * (Required) This specifies the version of the Rush engine to be used in this repo.
@@ -359,11 +359,6 @@
     {
       "packageName": "@azure-rest/confidential-ledger",
       "projectFolder": "sdk/confidentialledger/confidential-ledger-rest",
-      "versionPolicyName": "client"
-    },
-    {
-      "packageName": "@azure/ai-anomaly-detector",
-      "projectFolder": "sdk/anomalydetector/ai-anomaly-detector",
       "versionPolicyName": "client"
     },
     {
@@ -755,11 +750,6 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure-tools/testing-recorder-new",
-      "projectFolder": "sdk/test-utils/testing-recorder-new",
-      "versionPolicyName": "test"
-    },
-    {
       "packageName": "@azure/eslint-plugin-azure-sdk",
       "projectFolder": "common/tools/eslint-plugin-azure-sdk",
       "versionPolicyName": "utility"
@@ -797,11 +787,6 @@
     {
       "packageName": "@azure/iot-modelsrepository",
       "projectFolder": "sdk/iot/iot-modelsrepository",
-      "versionPolicyName": "client"
-    },
-    {
-      "packageName": "@azure/dtdl-parser",
-      "projectFolder": "sdk/digitaltwins/dtdl-parser",
       "versionPolicyName": "client"
     },
     {
@@ -1127,11 +1112,6 @@
     {
       "packageName": "@azure/arm-databricks",
       "projectFolder": "sdk/databricks/arm-databricks",
-      "versionPolicyName": "management"
-    },
-    {
-      "packageName": "@azure/arm-videoanalyzer",
-      "projectFolder": "sdk/videoanalyzer/arm-videoanalyzer",
       "versionPolicyName": "management"
     },
     {
@@ -1477,11 +1457,6 @@
     {
       "packageName": "@azure/arm-webservices",
       "projectFolder": "sdk/machinelearning/arm-webservices",
-      "versionPolicyName": "management"
-    },
-    {
-      "packageName": "@azure/arm-machinelearningservices",
-      "projectFolder": "sdk/machinelearningservices/arm-machinelearningservices",
       "versionPolicyName": "management"
     },
     {
@@ -1942,6 +1917,21 @@
     {
       "packageName": "@azure/arm-loadtesting",
       "projectFolder": "sdk/loadtestservice/arm-loadtesting",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/web-pubsub-client",
+      "projectFolder": "sdk/web-pubsub/web-pubsub-client",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/arm-billingbenefits",
+      "projectFolder": "sdk/billingbenefits/arm-billingbenefits",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-servicenetworking",
+      "projectFolder": "sdk/servicenetworking/arm-servicenetworking",
       "versionPolicyName": "management"
     }
   ]

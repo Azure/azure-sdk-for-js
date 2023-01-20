@@ -12,7 +12,7 @@ import {
   JobRouterAdministrationListDistributionPoliciesOptionalParams,
   JobRouterAdministrationListExceptionPoliciesOptionalParams,
   JobRouterAdministrationListQueuesOptionalParams,
-  JobRouterApiClient
+  JobRouterApiClient,
 } from "./generated/src";
 import {
   CreateClassificationPolicyOptions,
@@ -27,7 +27,7 @@ import {
   UpdateClassificationPolicyOptions,
   UpdateDistributionPolicyOptions,
   UpdateExceptionPolicyOptions,
-  UpdateQueueOptions
+  UpdateQueueOptions,
 } from "./models/options";
 
 import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
@@ -36,7 +36,7 @@ import {
   CommunicationTokenCredential,
   createCommunicationAuthPolicy,
   isKeyCredential,
-  parseClientArguments
+  parseClientArguments,
 } from "@azure/communication-common";
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -46,7 +46,7 @@ import {
   ClassificationPolicyResponse,
   DistributionPolicyResponse,
   ExceptionPolicyResponse,
-  JobQueueResponse
+  JobQueueResponse,
 } from "./models/responses";
 
 /**
@@ -138,8 +138,8 @@ export class RouterAdministrationClient {
       ...options,
       userAgentOptions,
       loggingOptions: {
-        logger: logger.info
-      }
+        logger: logger.info,
+      },
     };
 
     const authPolicy = createCommunicationAuthPolicy(credential);

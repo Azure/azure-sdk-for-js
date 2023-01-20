@@ -1,4 +1,44 @@
 # Release History
+
+## 2.1.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 2.1.0 (2022-12-20)
+    
+**Features**
+
+  - Added Interface Alert
+  - Added Interface BandwidthSchedule
+  - Added Interface Container
+  - Added Interface DataBoxEdgeDevice
+  - Added Interface DataBoxEdgeDeviceExtendedInfo
+  - Added Interface FileEventTrigger
+  - Added Interface IoTRole
+  - Added Interface NetworkSettings
+  - Added Interface Node_2
+  - Added Interface Order
+  - Added Interface PeriodicTimerEventTrigger
+  - Added Interface Role
+  - Added Interface SecuritySettings
+  - Added Interface Share
+  - Added Interface StorageAccount
+  - Added Interface StorageAccountCredential
+  - Added Interface Trigger
+  - Added Interface UpdateSummary
+  - Added Interface User
+  - Added function getContinuationToken
+  - Interface DevicesListByResourceGroupNextOptionalParams no longer has parameter expand
+  - Interface DevicesListBySubscriptionNextOptionalParams no longer has parameter expand
+  - Interface TriggersListByDataBoxEdgeDeviceNextOptionalParams no longer has parameter filter
+  - Interface UsersListByDataBoxEdgeDeviceNextOptionalParams no longer has parameter filter
+    
     
 ## 2.0.0 (2022-03-11)
 

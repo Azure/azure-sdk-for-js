@@ -7,7 +7,7 @@ import { CommonClientOptions } from "@azure/core-client";
  * Valid values of the Form Recognizer service REST API version.
  */
 export type FormRecognizerApiVersion =
-  typeof FormRecognizerApiVersion[keyof typeof FormRecognizerApiVersion];
+  (typeof FormRecognizerApiVersion)[keyof typeof FormRecognizerApiVersion];
 
 /**
  * Supported and common values of FormRecognizerApiVersion.
@@ -29,7 +29,7 @@ export const FormRecognizerApiVersion = {
 /**
  * Valid string index types supported by the Form Recognizer service and SDK clients.
  */
-export type StringIndexType = typeof StringIndexType[keyof typeof StringIndexType];
+export type StringIndexType = (typeof StringIndexType)[keyof typeof StringIndexType];
 
 /**
  * Supported values of StringIndexType.

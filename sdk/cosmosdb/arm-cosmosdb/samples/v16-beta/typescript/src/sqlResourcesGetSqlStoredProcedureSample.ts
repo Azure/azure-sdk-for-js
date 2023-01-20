@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets the SQL storedProcedure under an existing Azure Cosmos DB database account.
@@ -18,8 +21,8 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBSqlStoredProcedureGet.json
  */
 async function cosmosDbSqlStoredProcedureGet() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rgName";
+  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rgName";
   const accountName = "ddb1";
   const databaseName = "databaseName";
   const containerName = "containerName";
@@ -36,4 +39,8 @@ async function cosmosDbSqlStoredProcedureGet() {
   console.log(result);
 }
 
-cosmosDbSqlStoredProcedureGet().catch(console.error);
+async function main() {
+  cosmosDbSqlStoredProcedureGet();
+}
+
+main().catch(console.error);

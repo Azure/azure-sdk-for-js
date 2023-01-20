@@ -40,6 +40,5 @@ extends:
         safeName: azurerestmapsrender
       - name: azure-rest-maps-geolocation
         safeName: azurerestmapsgeolocation
-        safeName: azuremapscommon 
       - name: azure-rest-maps-search
         safeName: azurerestmapssearch

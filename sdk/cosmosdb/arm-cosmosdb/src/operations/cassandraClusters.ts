@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { CassandraClusters } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,11 +17,12 @@ import { LroImpl } from "../lroImpl";
 import {
   ClusterResource,
   CassandraClustersListBySubscriptionOptionalParams,
+  CassandraClustersListBySubscriptionResponse,
   CassandraClustersListByResourceGroupOptionalParams,
+  CassandraClustersListByResourceGroupResponse,
   BackupResource,
   CassandraClustersListBackupsOptionalParams,
-  CassandraClustersListBySubscriptionResponse,
-  CassandraClustersListByResourceGroupResponse,
+  CassandraClustersListBackupsResponse,
   CassandraClustersGetOptionalParams,
   CassandraClustersGetResponse,
   CassandraClustersDeleteOptionalParams,
@@ -32,7 +33,6 @@ import {
   CommandPostBody,
   CassandraClustersInvokeCommandOptionalParams,
   CassandraClustersInvokeCommandResponse,
-  CassandraClustersListBackupsResponse,
   CassandraClustersGetBackupOptionalParams,
   CassandraClustersGetBackupResponse,
   CassandraClustersDeallocateOptionalParams,
@@ -69,16 +69,21 @@ export class CassandraClustersImpl implements CassandraClusters {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listBySubscriptionPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBySubscriptionPagingPage(options, settings);
       }
     };
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: CassandraClustersListBySubscriptionOptionalParams
+    options?: CassandraClustersListBySubscriptionOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<ClusterResource[]> {
-    let result = await this._listBySubscription(options);
+    let result: CassandraClustersListBySubscriptionResponse;
+    result = await this._listBySubscription(options);
     yield result.value || [];
   }
 
@@ -107,17 +112,26 @@ export class CassandraClustersImpl implements CassandraClusters {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: CassandraClustersListByResourceGroupOptionalParams
+    options?: CassandraClustersListByResourceGroupOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<ClusterResource[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
+    let result: CassandraClustersListByResourceGroupResponse;
+    result = await this._listByResourceGroup(resourceGroupName, options);
     yield result.value || [];
   }
 
@@ -156,11 +170,15 @@ export class CassandraClustersImpl implements CassandraClusters {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listBackupsPagingPage(
           resourceGroupName,
           clusterName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -169,13 +187,11 @@ export class CassandraClustersImpl implements CassandraClusters {
   private async *listBackupsPagingPage(
     resourceGroupName: string,
     clusterName: string,
-    options?: CassandraClustersListBackupsOptionalParams
+    options?: CassandraClustersListBackupsOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<BackupResource[]> {
-    let result = await this._listBackups(
-      resourceGroupName,
-      clusterName,
-      options
-    );
+    let result: CassandraClustersListBackupsResponse;
+    result = await this._listBackups(resourceGroupName, clusterName, options);
     yield result.value || [];
   }
 

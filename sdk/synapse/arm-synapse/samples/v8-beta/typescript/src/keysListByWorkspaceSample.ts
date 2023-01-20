@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { SynapseManagementClient } from "@azure/arm-synapse";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Returns a list of keys in a workspace
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/ListKeysInWorkspace.json
  */
 async function listKeysInWorkspace() {
-  const subscriptionId = "01234567-89ab-4def-0123-456789abcdef";
-  const resourceGroupName = "ExampleResourceGroup";
+  const subscriptionId =
+    process.env["SYNAPSE_SUBSCRIPTION_ID"] ||
+    "01234567-89ab-4def-0123-456789abcdef";
+  const resourceGroupName =
+    process.env["SYNAPSE_RESOURCE_GROUP"] || "ExampleResourceGroup";
   const workspaceName = "ExampleWorkspace";
   const credential = new DefaultAzureCredential();
   const client = new SynapseManagementClient(credential, subscriptionId);
@@ -33,4 +39,8 @@ async function listKeysInWorkspace() {
   console.log(resArray);
 }
 
-listKeysInWorkspace().catch(console.error);
+async function main() {
+  listKeysInWorkspace();
+}
+
+main().catch(console.error);

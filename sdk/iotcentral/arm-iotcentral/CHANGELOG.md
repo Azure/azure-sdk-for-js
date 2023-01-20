@@ -1,5 +1,15 @@
 # Release History
-    
+
+## 7.0.0-beta.3 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 7.0.0-beta.2 (2022-11-28)
     
 **Features**

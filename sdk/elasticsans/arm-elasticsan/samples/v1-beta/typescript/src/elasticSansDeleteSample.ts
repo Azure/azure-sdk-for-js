@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { ElasticSanManagement } from "@azure/arm-elasticsan";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Delete a Elastic San.
@@ -18,8 +21,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2021-11-20-preview/examples/ElasticSans_Delete_MaximumSet_Gen.json
  */
 async function elasticSansDeleteMaximumSetGen() {
-  const subscriptionId = "aaaaaaaaaaaaaaaaaa";
-  const resourceGroupName = "rgelasticsan";
+  const subscriptionId =
+    process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "aaaaaaaaaaaaaaaaaa";
+  const resourceGroupName =
+    process.env["ELASTICSANS_RESOURCE_GROUP"] || "rgelasticsan";
   const elasticSanName = "ti7q-k952-1qB3J_5";
   const credential = new DefaultAzureCredential();
   const client = new ElasticSanManagement(credential, subscriptionId);
@@ -29,8 +34,6 @@ async function elasticSansDeleteMaximumSetGen() {
   );
   console.log(result);
 }
-
-elasticSansDeleteMaximumSetGen().catch(console.error);
 
 /**
  * This sample demonstrates how to Delete a Elastic San.
@@ -39,8 +42,10 @@ elasticSansDeleteMaximumSetGen().catch(console.error);
  * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2021-11-20-preview/examples/ElasticSans_Delete_MinimumSet_Gen.json
  */
 async function elasticSansDeleteMinimumSetGen() {
-  const subscriptionId = "aaaaaaaaaaaaaaaaaa";
-  const resourceGroupName = "rgelasticsan";
+  const subscriptionId =
+    process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "aaaaaaaaaaaaaaaaaa";
+  const resourceGroupName =
+    process.env["ELASTICSANS_RESOURCE_GROUP"] || "rgelasticsan";
   const elasticSanName = "ti7q-k952-1qB3J_5";
   const credential = new DefaultAzureCredential();
   const client = new ElasticSanManagement(credential, subscriptionId);
@@ -51,4 +56,9 @@ async function elasticSansDeleteMinimumSetGen() {
   console.log(result);
 }
 
-elasticSansDeleteMinimumSetGen().catch(console.error);
+async function main() {
+  elasticSansDeleteMaximumSetGen();
+  elasticSansDeleteMinimumSetGen();
+}
+
+main().catch(console.error);

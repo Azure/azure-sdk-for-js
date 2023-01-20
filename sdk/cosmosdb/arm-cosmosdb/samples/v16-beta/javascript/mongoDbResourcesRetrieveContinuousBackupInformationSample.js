@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Retrieves continuous backup information for a Mongodb collection.
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBMongoDBCollectionBackupInformation.json
  */
 async function cosmosDbMongoDbcollectionBackupInformation() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rgName";
+  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rgName";
   const accountName = "ddb1";
   const databaseName = "databaseName";
   const collectionName = "collectionName";
@@ -38,4 +39,8 @@ async function cosmosDbMongoDbcollectionBackupInformation() {
   console.log(result);
 }
 
-cosmosDbMongoDbcollectionBackupInformation().catch(console.error);
+async function main() {
+  cosmosDbMongoDbcollectionBackupInformation();
+}
+
+main().catch(console.error);

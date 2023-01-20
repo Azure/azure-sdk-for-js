@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Gets the inbound routes configured for the Virtual Hub on a particular connection.
  *
  * @summary Gets the inbound routes configured for the Virtual Hub on a particular connection.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/GetInboundRoutes.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/GetInboundRoutes.json
  */
 async function inboundRoutesForTheVirtualHubOnAParticularConnection() {
   const subscriptionId = "subid";

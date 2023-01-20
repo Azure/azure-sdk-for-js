@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Will update the status of policy's signature overrides for IDPS
  *
  * @summary Will update the status of policy's signature overrides for IDPS
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/FirewallPolicySignatureOverridesPatch.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/FirewallPolicySignatureOverridesPatch.json
  */
 async function patchSignatureOverrides() {
   const subscriptionId = "e747cc13-97d4-4a79-b463-42d7f4e558f2";

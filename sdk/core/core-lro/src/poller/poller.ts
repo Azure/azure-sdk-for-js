@@ -96,7 +96,7 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
     type Handler = (state: TState) => void;
     const handlers = new Map<symbol, Handler>();
     const handleProgressEvents = async (): Promise<void> => handlers.forEach((h) => h(state));
-
+    const cancelErrMsg = "Operation was canceled";
     let currentPollIntervalInMs = intervalInMs;
 
     const poller: SimplePollerLike<TState, TResult> = {
@@ -132,28 +132,37 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
               await poller.poll({ abortSignal });
             }
           }
-          switch (state.status) {
-            case "succeeded": {
-              return poller.getResult() as TResult;
-            }
-            case "canceled": {
-              if (!resolveOnUnsuccessful) throw new Error("Operation was canceled");
-              return poller.getResult() as TResult;
-            }
-            case "failed": {
-              if (!resolveOnUnsuccessful) throw state.error;
-              return poller.getResult() as TResult;
-            }
-            case "notStarted":
-            case "running": {
-              // Unreachable
-              throw new Error(`polling completed without succeeding or failing`);
+          if (resolveOnUnsuccessful) {
+            return poller.getResult() as TResult;
+          } else {
+            switch (state.status) {
+              case "succeeded":
+                return poller.getResult() as TResult;
+              case "canceled":
+                throw new Error(cancelErrMsg);
+              case "failed":
+                throw state.error;
+              case "notStarted":
+              case "running":
+                throw new Error(`Polling completed without succeeding or failing`);
             }
           }
         })().finally(() => {
           resultPromise = undefined;
         })),
       async poll(pollOptions?: { abortSignal?: AbortSignalLike }): Promise<void> {
+        if (resolveOnUnsuccessful) {
+          if (poller.isDone()) return;
+        } else {
+          switch (state.status) {
+            case "succeeded":
+              return;
+            case "canceled":
+              throw new Error(cancelErrMsg);
+            case "failed":
+              throw state.error;
+          }
+        }
         await pollOperation({
           poll,
           state,
@@ -172,11 +181,13 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
           setErrorAsResult: !resolveOnUnsuccessful,
         });
         await handleProgressEvents();
-        if (state.status === "canceled" && !resolveOnUnsuccessful) {
-          throw new Error("Operation was canceled");
-        }
-        if (state.status === "failed" && !resolveOnUnsuccessful) {
-          throw state.error;
+        if (!resolveOnUnsuccessful) {
+          switch (state.status) {
+            case "canceled":
+              throw new Error(cancelErrMsg);
+            case "failed":
+              throw state.error;
+          }
         }
       },
     };

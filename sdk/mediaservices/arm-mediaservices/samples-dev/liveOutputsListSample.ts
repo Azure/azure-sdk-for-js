@@ -10,16 +10,22 @@
 // Licensed under the MIT License.
 import { AzureMediaServices } from "@azure/arm-mediaservices";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Lists the live outputs of a live event.
  *
  * @summary Lists the live outputs of a live event.
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2022-08-01/examples/liveoutput-list-all.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Streaming/stable/2022-08-01/examples/liveoutput-list-all.json
  */
 async function listAllLiveOutputs() {
-  const subscriptionId = "0a6ec948-5a62-437d-b9df-934dc7c1b722";
-  const resourceGroupName = "mediaresources";
+  const subscriptionId =
+    process.env["MEDIASERVICES_SUBSCRIPTION_ID"] ||
+    "0a6ec948-5a62-437d-b9df-934dc7c1b722";
+  const resourceGroupName =
+    process.env["MEDIASERVICES_RESOURCE_GROUP"] || "mediaresources";
   const accountName = "slitestmedia10";
   const liveEventName = "myLiveEvent1";
   const credential = new DefaultAzureCredential();
@@ -35,4 +41,8 @@ async function listAllLiveOutputs() {
   console.log(resArray);
 }
 
-listAllLiveOutputs().catch(console.error);
+async function main() {
+  listAllLiveOutputs();
+}
+
+main().catch(console.error);

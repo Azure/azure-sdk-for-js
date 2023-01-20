@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Deletes an existing Azure Cosmos DB Graph Resource.
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBGraphResourceDelete.json
  */
 async function cosmosDbSqlDatabaseDelete() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
   const graphName = "graphName";
   const credential = new DefaultAzureCredential();
@@ -32,4 +33,8 @@ async function cosmosDbSqlDatabaseDelete() {
   console.log(result);
 }
 
-cosmosDbSqlDatabaseDelete().catch(console.error);
+async function main() {
+  cosmosDbSqlDatabaseDelete();
+}
+
+main().catch(console.error);

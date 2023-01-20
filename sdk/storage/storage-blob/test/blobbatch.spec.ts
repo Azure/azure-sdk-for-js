@@ -434,6 +434,10 @@ describe("BlobBatch", () => {
     const blockBlobClientsWithVersion: BlockBlobClient[] = [];
     for (let i = 0; i < blockBlobClients.length; i++) {
       const resp = await blockBlobClients[i].setMetadata(metadata);
+      assert.isDefined(
+        resp.versionId,
+        "expected versionId; check if 'Enable versioning for blobs' is enabled for your storage account "
+      );
       blockBlobClientsWithVersion[i] = blockBlobClients[i].withVersion(
         resp.versionId!
       ) as BlockBlobClient;

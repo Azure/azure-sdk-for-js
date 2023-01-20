@@ -11,9 +11,9 @@ import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 
 // @public
-export type AccessControlRecord = BaseModel & {
+export interface AccessControlRecord extends BaseModel {
     initiatorName: string;
-};
+}
 
 // @public
 export interface AccessControlRecordList {
@@ -60,24 +60,24 @@ export interface AccessControlRecordsListByManagerOptionalParams extends coreCli
 export type AccessControlRecordsListByManagerResponse = AccessControlRecordList;
 
 // @public
-export type Alert = BaseModel & {
-    title: string;
-    scope: AlertScope;
+export interface Alert extends BaseModel {
     alertType: string;
-    appearedAtTime: Date;
     appearedAtSourceTime: Date;
-    clearedAtTime?: Date;
+    appearedAtTime: Date;
     clearedAtSourceTime?: Date;
-    source: AlertSource;
-    recommendation?: string;
-    resolutionReason?: string;
-    severity: AlertSeverity;
-    status: AlertStatus;
-    errorDetails?: AlertErrorDetails;
+    clearedAtTime?: Date;
     detailedInformation?: {
         [propertyName: string]: string;
     };
-};
+    errorDetails?: AlertErrorDetails;
+    recommendation?: string;
+    resolutionReason?: string;
+    scope: AlertScope;
+    severity: AlertSeverity;
+    source: AlertSource;
+    status: AlertStatus;
+    title: string;
+}
 
 // @public
 export type AlertEmailNotificationStatus = "Enabled" | "Disabled";
@@ -119,19 +119,18 @@ export interface AlertsClearOptionalParams extends coreClient.OperationOptions {
 export type AlertScope = "Resource" | "Device";
 
 // @public
-export type AlertSettings = BaseModel & {
+export interface AlertSettings extends BaseModel {
+    additionalRecipientEmailList?: string[];
+    alertNotificationCulture: string;
     emailNotification: AlertEmailNotificationStatus;
     notificationToServiceOwners: ServiceOwnersAlertNotificationStatus;
-    alertNotificationCulture: string;
-    additionalRecipientEmailList?: string[];
-};
+}
 
 // @public
 export type AlertSeverity = "Informational" | "Warning" | "Critical";
 
 // @public
 export interface AlertsListByManagerNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -214,23 +213,23 @@ export interface AvailableProviderOperationsOperations {
 }
 
 // @public
-export type Backup = BaseModel & {
-    targetId?: string;
-    targetType?: string;
-    sizeInBytes: number;
+export interface Backup extends BaseModel {
     createdTime?: Date;
-    expirationTime?: Date;
-    initiatedBy: InitiatedBy;
     deviceId: string;
     elements: BackupElement[];
-};
+    expirationTime?: Date;
+    initiatedBy: InitiatedBy;
+    sizeInBytes: number;
+    targetId?: string;
+    targetType?: string;
+}
 
 // @public
-export type BackupElement = BaseModel & {
-    sizeInBytes: number;
-    endpointName: string;
+export interface BackupElement extends BaseModel {
     dataPolicy: DataPolicy;
-};
+    endpointName: string;
+    sizeInBytes: number;
+}
 
 // @public
 export interface BackupFilter {
@@ -255,9 +254,9 @@ export interface Backups {
 }
 
 // @public
-export type BackupScheduleGroup = BaseModel & {
+export interface BackupScheduleGroup extends BaseModel {
     startTime: Time;
-};
+}
 
 // @public
 export interface BackupScheduleGroupList {
@@ -317,8 +316,6 @@ export interface BackupsDeleteOptionalParams extends coreClient.OperationOptions
 
 // @public
 export interface BackupsListByDeviceNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    forFailover?: boolean;
 }
 
 // @public
@@ -335,7 +332,6 @@ export type BackupsListByDeviceResponse = BackupList;
 
 // @public
 export interface BackupsListByManagerNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -357,9 +353,9 @@ export interface BaseModel {
 }
 
 // @public
-export type ChapSettings = BaseModel & {
+export interface ChapSettings extends BaseModel {
     password: AsymmetricEncryptedSecret;
-};
+}
 
 // @public
 export interface ChapSettingsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
@@ -430,21 +426,21 @@ export type ContractVersions = "InvalidVersion" | "V2011_09" | "V2012_02" | "V20
 export type DataPolicy = "Invalid" | "Local" | "Tiered" | "Cloud";
 
 // @public
-export type Device = BaseModel & {
+export interface Device extends BaseModel {
     activationTime?: Date;
     allowedDeviceOperations?: DeviceOperation[];
     culture?: string;
+    details?: DeviceDetails;
     deviceCapabilities?: SupportedDeviceCapabilities[];
-    deviceDescription?: string;
-    domainName?: string;
-    deviceSoftwareVersion?: string;
-    friendlySoftwareName?: string;
     deviceConfigurationStatus?: DeviceConfigurationStatus;
+    deviceDescription?: string;
+    deviceSoftwareVersion?: string;
+    domainName?: string;
+    friendlySoftwareName?: string;
     modelDescription?: string;
     status?: DeviceStatus;
     typePropertiesType?: DeviceType;
-    details?: DeviceDetails;
-};
+}
 
 // @public
 export type DeviceConfigurationStatus = "Complete" | "Pending";
@@ -653,10 +649,10 @@ export type DownloadPhase = "Unknown" | "Initializing" | "Downloading" | "Verify
 export type EncryptionAlgorithm = "None" | "AES256" | "RSAES_PKCS1_v_1_5";
 
 // @public
-export type EncryptionSettings = BaseModel & {
+export interface EncryptionSettings extends BaseModel {
     encryptionStatus: EncryptionStatus;
     keyRolloverStatus: KeyRolloverStatus;
-};
+}
 
 // @public
 export type EncryptionStatus = "Enabled" | "Disabled";
@@ -684,12 +680,12 @@ export interface FailoverRequest {
 }
 
 // @public
-export type FileServer = BaseModel & {
-    domainName: string;
-    storageDomainId: string;
+export interface FileServer extends BaseModel {
     backupScheduleGroupId: string;
     description?: string;
-};
+    domainName: string;
+    storageDomainId: string;
+}
 
 // @public
 export interface FileServerList {
@@ -769,16 +765,16 @@ export interface FileServersListMetricsOptionalParams extends coreClient.Operati
 export type FileServersListMetricsResponse = MetricList;
 
 // @public
-export type FileShare = BaseModel & {
-    description?: string;
-    shareStatus: ShareStatus;
-    dataPolicy: DataPolicy;
+export interface FileShare extends BaseModel {
     adminUser: string;
-    provisionedCapacityInBytes: number;
-    readonly usedCapacityInBytes?: number;
+    dataPolicy: DataPolicy;
+    description?: string;
     readonly localUsedCapacityInBytes?: number;
     monitoringStatus: MonitoringStatus;
-};
+    provisionedCapacityInBytes: number;
+    shareStatus: ShareStatus;
+    readonly usedCapacityInBytes?: number;
+}
 
 // @public
 export interface FileShareList {
@@ -850,6 +846,9 @@ export interface FileSharesListMetricsOptionalParams extends coreClient.Operatio
 export type FileSharesListMetricsResponse = MetricList;
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export type InitiatedBy = "Manual" | "Scheduled";
 
 // @public
@@ -860,16 +859,16 @@ export interface IPConfig {
 }
 
 // @public
-export type IscsiDisk = BaseModel & {
-    description?: string;
-    diskStatus: DiskStatus;
+export interface IscsiDisk extends BaseModel {
     accessControlRecords: string[];
     dataPolicy: DataPolicy;
-    provisionedCapacityInBytes: number;
-    readonly usedCapacityInBytes?: number;
+    description?: string;
+    diskStatus: DiskStatus;
     readonly localUsedCapacityInBytes?: number;
     monitoringStatus: MonitoringStatus;
-};
+    provisionedCapacityInBytes: number;
+    readonly usedCapacityInBytes?: number;
+}
 
 // @public
 export interface IscsiDiskList {
@@ -941,13 +940,13 @@ export interface IscsiDisksListMetricsOptionalParams extends coreClient.Operatio
 export type IscsiDisksListMetricsResponse = MetricList;
 
 // @public
-export type IscsiServer = BaseModel & {
-    storageDomainId: string;
+export interface IscsiServer extends BaseModel {
     backupScheduleGroupId: string;
-    description?: string;
     chapId?: string;
+    description?: string;
     reverseChapId?: string;
-};
+    storageDomainId: string;
+}
 
 // @public
 export interface IscsiServerList {
@@ -1035,26 +1034,26 @@ export interface Item {
 }
 
 // @public
-export type Job = BaseModel & {
-    status: JobStatus;
-    startTime?: Date;
+export interface Job extends BaseModel {
+    backupPointInTime?: Date;
+    deviceId?: string;
+    downloadProgress?: UpdateDownloadProgress;
     endTime?: Date;
-    percentComplete: number;
-    error?: JobErrorDetails;
-    jobType?: JobType;
-    targetId?: string;
     entityId?: string;
     entityType?: string;
-    jobStages?: JobStage[];
-    deviceId?: string;
-    isCancellable?: boolean;
-    stats?: JobStats;
-    targetType?: TargetType;
-    sourceDeviceId?: string;
-    backupPointInTime?: Date;
-    downloadProgress?: UpdateDownloadProgress;
+    error?: JobErrorDetails;
     installProgress?: UpdateInstallProgress;
-};
+    isCancellable?: boolean;
+    jobStages?: JobStage[];
+    jobType?: JobType;
+    percentComplete: number;
+    sourceDeviceId?: string;
+    startTime?: Date;
+    stats?: JobStats;
+    status: JobStatus;
+    targetId?: string;
+    targetType?: TargetType;
+}
 
 // @public
 export interface JobErrorDetails {
@@ -1099,7 +1098,6 @@ export type JobsGetResponse = Job;
 
 // @public
 export interface JobsListByDeviceNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -1115,7 +1113,6 @@ export type JobsListByDeviceResponse = JobList;
 
 // @public
 export interface JobsListByManagerNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -1154,23 +1151,23 @@ export type JobType = "Backup" | "Clone" | "Failover" | "DownloadUpdates" | "Ins
 export type KeyRolloverStatus = "Required" | "NotRequired";
 
 // @public
-export type Manager = Resource & {
-    etag?: string;
+export interface Manager extends Resource {
     cisIntrinsicSettings?: ManagerIntrinsicSettings;
-    sku?: ManagerSku;
+    etag?: string;
     readonly provisioningState?: string;
-};
+    sku?: ManagerSku;
+}
 
 // @public
-export type ManagerExtendedInfo = BaseModel & {
-    etag?: string;
-    version?: string;
-    integrityKey: string;
+export interface ManagerExtendedInfo extends BaseModel {
+    algorithm: string;
     encryptionKey?: string;
     encryptionKeyThumbprint?: string;
+    etag?: string;
+    integrityKey: string;
     portalCertificateThumbprint?: string;
-    algorithm: string;
-};
+    version?: string;
+}
 
 // @public
 export interface ManagerIntrinsicSettings {
@@ -1419,11 +1416,11 @@ export interface NetworkAdapter {
 }
 
 // @public
-export type NetworkSettings = BaseModel & {
+export interface NetworkSettings extends BaseModel {
+    nodeNetworks: NodeNetwork[];
     primaryDnsServer: string;
     secondaryDnsServer?: string;
-    nodeNetworks: NodeNetwork[];
-};
+}
 
 // @public
 export interface NodeNetwork {
@@ -1442,9 +1439,9 @@ export interface Resource {
 }
 
 // @public
-export type SecuritySettings = BaseModel & {
+export interface SecuritySettings extends BaseModel {
     deviceAdminPassword: AsymmetricEncryptedSecret;
-};
+}
 
 // @public
 export interface SendTestAlertEmailRequest {
@@ -1461,14 +1458,14 @@ export type ShareStatus = "Online" | "Offline";
 export type SslStatus = "Enabled" | "Disabled";
 
 // @public
-export type StorageAccountCredential = BaseModel & {
-    cloudType: CloudType;
-    endPoint: string;
-    login: string;
-    location?: string;
-    enableSSL: SslStatus;
+export interface StorageAccountCredential extends BaseModel {
     accessKey?: AsymmetricEncryptedSecret;
-};
+    cloudType: CloudType;
+    enableSSL: SslStatus;
+    endPoint: string;
+    location?: string;
+    login: string;
+}
 
 // @public
 export interface StorageAccountCredentialList {
@@ -1515,11 +1512,11 @@ export interface StorageAccountCredentialsListByManagerOptionalParams extends co
 export type StorageAccountCredentialsListByManagerResponse = StorageAccountCredentialList;
 
 // @public
-export type StorageDomain = BaseModel & {
-    storageAccountCredentialIds: string[];
+export interface StorageDomain extends BaseModel {
     encryptionKey?: AsymmetricEncryptedSecret;
     encryptionStatus: EncryptionStatus;
-};
+    storageAccountCredentialIds: string[];
+}
 
 // @public
 export interface StorageDomainList {
@@ -1633,11 +1630,11 @@ export interface Time {
 }
 
 // @public
-export type TimeSettings = BaseModel & {
-    timeZone: string;
+export interface TimeSettings extends BaseModel {
     primaryTimeServer: string;
     secondaryTimeServer?: string;
-};
+    timeZone: string;
+}
 
 // @public
 export interface UpdateDownloadProgress {
@@ -1660,23 +1657,23 @@ export interface UpdateInstallProgress {
 export type UpdateOperation = "Idle" | "Scanning" | "Downloading" | "Installing";
 
 // @public
-export type Updates = BaseModel & {
-    deviceVersion?: string;
+export interface Updates extends BaseModel {
     deviceLastScannedTime?: Date;
-    regularUpdatesAvailable?: boolean;
-    rebootRequiredForInstall?: boolean;
-    totalItemsPendingForDownload?: number;
-    totalItemsPendingForInstall?: number;
-    status?: UpdateOperation;
-    lastCompletedScanTime?: Date;
+    deviceVersion?: string;
+    inProgressDownloadJobId?: string;
+    inProgressDownloadJobStartedTime?: Date;
+    inProgressInstallJobId?: string;
+    inProgressInstallJobStartedTime?: Date;
+    inProgressScanStartedTime?: Date;
     lastCompletedDownloadJobTime?: Date;
     lastCompletedInstallJobTime?: Date;
-    inProgressDownloadJobId?: string;
-    inProgressInstallJobId?: string;
-    inProgressScanStartedTime?: Date;
-    inProgressDownloadJobStartedTime?: Date;
-    inProgressInstallJobStartedTime?: Date;
-};
+    lastCompletedScanTime?: Date;
+    rebootRequiredForInstall?: boolean;
+    regularUpdatesAvailable?: boolean;
+    status?: UpdateOperation;
+    totalItemsPendingForDownload?: number;
+    totalItemsPendingForInstall?: number;
+}
 
 // @public
 export interface UploadCertificateRequest {
@@ -1686,22 +1683,22 @@ export interface UploadCertificateRequest {
 }
 
 // @public
-export type UploadCertificateResponse = BaseModel & {
-    authType?: AuthType;
-    certificate: string;
-    resourceId: number;
+export interface UploadCertificateResponse extends BaseModel {
     aadAuthority: string;
     aadTenantId: string;
-    servicePrincipalClientId: string;
-    servicePrincipalObjectId: string;
+    authType?: AuthType;
     azureManagementEndpointAudience: string;
-    subject: string;
-    validFrom: Date;
-    validTo: Date;
-    thumbprint: string;
+    certificate: string;
     friendlyName: string;
     issuer: string;
-};
+    resourceId: number;
+    servicePrincipalClientId: string;
+    servicePrincipalObjectId: string;
+    subject: string;
+    thumbprint: string;
+    validFrom: Date;
+    validTo: Date;
+}
 
 // (No @packageDocumentation comment for this package)
 

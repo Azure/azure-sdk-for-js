@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Update RUs per second of the an Azure Cosmos DB MongoDB database
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBMongoDBDatabaseThroughputUpdate.json
  */
 async function cosmosDbMongoDbdatabaseThroughputUpdate() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
   const databaseName = "databaseName";
   const updateThroughputParameters = {
@@ -38,4 +39,8 @@ async function cosmosDbMongoDbdatabaseThroughputUpdate() {
   console.log(result);
 }
 
-cosmosDbMongoDbdatabaseThroughputUpdate().catch(console.error);
+async function main() {
+  cosmosDbMongoDbdatabaseThroughputUpdate();
+}
+
+main().catch(console.error);

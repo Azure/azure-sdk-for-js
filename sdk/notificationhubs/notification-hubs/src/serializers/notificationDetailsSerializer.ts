@@ -16,7 +16,6 @@ import { parseXML } from "@azure/core-xml";
 export async function parseNotificationDetails(bodyText: string): Promise<NotificationDetails> {
   const xml = await parseXML(bodyText, {
     includeRoot: true,
-    stopNodes: ["NotificationDetails.NotificationBody"],
   });
   const notificationDetails = xml["NotificationDetails"];
 

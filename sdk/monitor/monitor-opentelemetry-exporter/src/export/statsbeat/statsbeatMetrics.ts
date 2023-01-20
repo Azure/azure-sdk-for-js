@@ -6,13 +6,13 @@ import {
   createPipelineRequest,
   HttpMethods,
 } from "@azure/core-rest-pipeline";
-import { diag } from "@opentelemetry/api";
 import {
+  diag,
   BatchObservableResult,
+  Meter,
   ObservableGauge,
   ObservableResult,
-} from "@opentelemetry/api-metrics";
-import { Meter } from "@opentelemetry/api-metrics/build/src/types/Meter";
+} from "@opentelemetry/api";
 import {
   MeterProvider,
   PeriodicExportingMetricReader,

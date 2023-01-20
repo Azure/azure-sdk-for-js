@@ -10,16 +10,18 @@
 // Licensed under the MIT License.
 const { AzureMediaServices } = require("@azure/arm-mediaservices");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Updates a Transform.
  *
  * @summary Updates a Transform.
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2021-11-01/examples/transforms-update.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Encoding/stable/2022-07-01/examples/transforms-update.json
  */
 async function updateATransform() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "contosoresources";
+  const subscriptionId =
+    process.env["MEDIASERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contosoresources";
   const accountName = "contosomedia";
   const transformName = "transformToUpdate";
   const parameters = {
@@ -45,4 +47,8 @@ async function updateATransform() {
   console.log(result);
 }
 
-updateATransform().catch(console.error);
+async function main() {
+  updateATransform();
+}
+
+main().catch(console.error);
