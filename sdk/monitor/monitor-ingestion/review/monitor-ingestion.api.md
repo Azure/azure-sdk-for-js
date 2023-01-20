@@ -7,6 +7,15 @@
 import { CommonClientOptions } from '@azure/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
+// @public (undocumented)
+export const AggregateUploadLogsErrorName = "AggregateUploadLogsError";
+
+// @public
+export class AggregateUploadLogsErrror extends Error {
+    constructor(errors: UploadLogsError[], errorMessage?: string);
+    errors: UploadLogsError[];
+}
+
 // @public
 export class LogsIngestionClient {
     constructor(endpoint: string, tokenCredential: TokenCredential, options?: LogsIngestionClientOptions);
@@ -27,17 +36,8 @@ export interface UploadLogsError {
 // @public
 export interface UploadLogsOptions {
     // (undocumented)
-    errorCallback?: (error: Error, failedLog: any) => void;
+    errorCallback?: (uploadLogsError: UploadLogsError) => void;
     maxConcurrency?: number;
 }
-
-// @public
-export type UploadLogsStatus =
-/** Represents Complete Failure scenario where all logs have failed for processing and the list of logs that failed to upload are returned */
-"Failure"
-/** Represents Partial Failure scenario where partial logs have failed for processing and the list of logs that failed to upload are returned */
-| "PartialFailure"
-/** Represents Success scenario where all logs have succeeded and no index is returned */
-| "Success";
 
 ```
