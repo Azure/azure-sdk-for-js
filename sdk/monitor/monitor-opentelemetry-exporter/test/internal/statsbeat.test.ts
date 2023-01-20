@@ -33,10 +33,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
   class TestExporter extends AzureMonitorBaseExporter {
     private thisAsAny: any;
     constructor() {
-      super(
-        { connectionString: `instrumentationkey=foo-ikey` },
-        false
-      );
+      super({ connectionString: `instrumentationkey=foo-ikey` }, false);
       this.thisAsAny = this;
     }
 
@@ -148,7 +145,10 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         assert.strictEqual(longIntervalStatsbeatMetrics.getInstance()["_feature"], 3);
         // Represents the bitwise OR of MONGODB and REDIS instrumentations
         assert.strictEqual(longIntervalStatsbeatMetrics.getInstance()["_instrumentation"], 10);
-        assert.strictEqual(longIntervalStatsbeatMetrics.getInstance()["_attachProperties"].rpId, "");
+        assert.strictEqual(
+          longIntervalStatsbeatMetrics.getInstance()["_attachProperties"].rpId,
+          ""
+        );
       });
 
       it("should turn off statsbeat after max failures", async () => {
@@ -351,10 +351,13 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         // Average Duration
         assert.strictEqual(metrics[5].dataPoints[0].value, 137.5);
       });
-      
+
       it("should track long interval statsbeats", async () => {
         const longIntervalStatsbeat = new LongIntervalStatsbeatMetrics(options);
-        let mockExport = sandbox.stub(longIntervalStatsbeat.getInstance()["_longIntervalAzureExporter"], "export");
+        let mockExport = sandbox.stub(
+          longIntervalStatsbeat.getInstance()["_longIntervalAzureExporter"],
+          "export"
+        );
 
         await new Promise((resolve) => setTimeout(resolve, 120));
         assert.ok(mockExport.called);

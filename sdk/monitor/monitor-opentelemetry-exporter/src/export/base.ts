@@ -12,9 +12,7 @@ import { isRetriable, BreezeResponse } from "../utils/breezeUtils";
 import { DEFAULT_BREEZE_ENDPOINT, ENV_CONNECTION_STRING } from "../Declarations/Constants";
 import { TelemetryItem as Envelope } from "../generated";
 import { StatsbeatMetrics } from "./statsbeat/statsbeatMetrics";
-import {
-  MAX_STATSBEAT_FAILURES
-} from "./statsbeat/types";
+import { MAX_STATSBEAT_FAILURES } from "./statsbeat/types";
 import { LongIntervalStatsbeatMetrics } from "./statsbeat/longIntervalStatsbeatMetrics";
 
 const DEFAULT_BATCH_SEND_RETRY_INTERVAL_MS = 60_000;

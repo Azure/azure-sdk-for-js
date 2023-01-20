@@ -96,14 +96,14 @@ class PrivateLongIntervalStatsbeatMetrics {
     };
 
     if (process.env.STATSBEAT_FEATURES) {
-      this._features = process.env.STATSBEAT_FEATURES.split(',').map((feature) => Number(feature));
+      this._features = process.env.STATSBEAT_FEATURES.split(",").map((feature) => Number(feature));
     }
     if (process.env.STATSBEAT_INSTRUMENTATIONS) {
-      this._instrumentations = process.env.STATSBEAT_INSTRUMENTATIONS.split(',').map((instrumentation) => Number(instrumentation));
+      this._instrumentations = process.env.STATSBEAT_INSTRUMENTATIONS.split(",").map(
+        (instrumentation) => Number(instrumentation)
+      );
     }
-    this._instrumentations?.forEach((instrumentation) =>
-      this._addInstrumentation(instrumentation)
-    );
+    this._instrumentations?.forEach((instrumentation) => this._addInstrumentation(instrumentation));
     this._features?.forEach((feature) => this._addFeature(feature));
 
     this._longIntervalStatsbeatMeterProvider = new MeterProvider();
@@ -112,7 +112,8 @@ class PrivateLongIntervalStatsbeatMetrics {
     // Export Long Interval Statsbeats every day
     const longIntervalMetricReaderOptions: PeriodicExportingMetricReaderOptions = {
       exporter: this._longIntervalAzureExporter,
-      exportIntervalMillis: Number(process.env.LONG_INTERVAL_EXPORT_MILLIS) || this._statsCollectionLongInterval, // 1 day
+      exportIntervalMillis:
+        Number(process.env.LONG_INTERVAL_EXPORT_MILLIS) || this._statsCollectionLongInterval, // 1 day
     };
 
     this._longIntervalMetricReader = new PeriodicExportingMetricReader(
