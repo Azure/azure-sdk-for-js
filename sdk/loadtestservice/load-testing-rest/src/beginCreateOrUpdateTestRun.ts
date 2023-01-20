@@ -2,9 +2,10 @@
 // Licensed under the MIT license.
 
 import { TestRunStatusPoller } from "./models";
-import { AzureLoadTestingClient, TestRunCreateOrUpdateParameters } from "./index.js";
+import { AzureLoadTestingClient } from "./clientDefinitions";
 import { isUnexpected } from "./isUnexpected";
 import { getTestRunPoller } from "./getTestRunPoller";
+import { TestRunCreateOrUpdateParameters } from "./parameters";
 
 /**
  * Creates a poller to poll for test run status.

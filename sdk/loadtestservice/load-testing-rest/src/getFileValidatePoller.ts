@@ -4,7 +4,7 @@
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 import { CancelOnProgress, OperationState, SimplePollerLike } from "@azure/core-lro";
 import { FileUploadAndValidatePoller, PolledOperationOptions } from "./models";
-import { AzureLoadTestingClient } from "./index.js";
+import { AzureLoadTestingClient } from "./clientDefinitions";
 import { TestGetFile200Response, TestUploadFile201Response } from "./responses";
 import { isUnexpected } from "./isUnexpected";
 import { sleep } from "./util/sleepLROUtility";
