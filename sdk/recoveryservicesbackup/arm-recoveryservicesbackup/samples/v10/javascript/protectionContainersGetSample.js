@@ -10,17 +10,19 @@
 // Licensed under the MIT License.
 const { RecoveryServicesBackupClient } = require("@azure/arm-recoveryservicesbackup");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets details of the specific container registered to your Recovery Services Vault.
  *
  * @summary Gets details of the specific container registered to your Recovery Services Vault.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2022-03-01/examples/AzureWorkload/ProtectionContainers_Get.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/AzureWorkload/ProtectionContainers_Get.json
  */
 async function getProtectionContainerDetails() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const vaultName = "testVault";
-  const resourceGroupName = "testRg";
+  const resourceGroupName = process.env["RECOVERYSERVICESBACKUP_RESOURCE_GROUP"] || "testRg";
   const fabricName = "Azure";
   const containerName = "VMAppContainer;Compute;testRG;testSQL";
   const credential = new DefaultAzureCredential();
@@ -34,4 +36,8 @@ async function getProtectionContainerDetails() {
   console.log(result);
 }
 
-getProtectionContainerDetails().catch(console.error);
+async function main() {
+  getProtectionContainerDetails();
+}
+
+main().catch(console.error);

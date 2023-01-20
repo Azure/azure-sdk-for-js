@@ -13,15 +13,20 @@ import {
   RecoveryServicesBackupClient
 } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Get the container backup status
  *
  * @summary Get the container backup status
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2022-03-01/examples/AzureIaasVm/GetBackupStatus.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/AzureIaasVm/GetBackupStatus.json
  */
 async function getAzureVirtualMachineBackupStatus() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const azureRegion = "southeastasia";
   const parameters: BackupStatusRequest = {
     resourceId:
@@ -34,4 +39,8 @@ async function getAzureVirtualMachineBackupStatus() {
   console.log(result);
 }
 
-getAzureVirtualMachineBackupStatus().catch(console.error);
+async function main() {
+  getAzureVirtualMachineBackupStatus();
+}
+
+main().catch(console.error);

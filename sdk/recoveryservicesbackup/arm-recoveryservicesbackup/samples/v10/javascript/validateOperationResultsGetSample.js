@@ -10,17 +10,19 @@
 // Licensed under the MIT License.
 const { RecoveryServicesBackupClient } = require("@azure/arm-recoveryservicesbackup");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Fetches the result of a triggered validate operation.
  *
  * @summary Fetches the result of a triggered validate operation.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2022-03-01/examples/AzureIaasVm/ValidateOperationResults.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/AzureIaasVm/ValidateOperationResults.json
  */
 async function getOperationResultsOfValidateOperation() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const vaultName = "NetSDKTestRsVault";
-  const resourceGroupName = "SwaggerTestRg";
+  const resourceGroupName = process.env["RECOVERYSERVICESBACKUP_RESOURCE_GROUP"] || "SwaggerTestRg";
   const operationId = "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
@@ -32,4 +34,8 @@ async function getOperationResultsOfValidateOperation() {
   console.log(result);
 }
 
-getOperationResultsOfValidateOperation().catch(console.error);
+async function main() {
+  getOperationResultsOfValidateOperation();
+}
+
+main().catch(console.error);
