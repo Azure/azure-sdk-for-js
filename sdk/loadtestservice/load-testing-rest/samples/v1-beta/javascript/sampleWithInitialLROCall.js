@@ -8,15 +8,13 @@
  */
 
 const AzureLoadTesting = require("@azure-rest/load-testing").default,
-  {
-    isUnexpected,
-    beginCreateOrUpdateTestRun,
-    beginUploadTestFile,
-  } = require("@azure-rest/load-testing");
+  { isUnexpected } = require("@azure-rest/load-testing");
 const { AbortController } = require("@azure/abort-controller");
 const { DefaultAzureCredential } = require("@azure/identity");
 const { createReadStream } = require("fs");
 const { v4: uuidv4 } = require("uuid");
+const { getFileValidationPoller } = require("../src/getFileValidationPoller");
+const { getTestRunCompletionPoller } = require("../src/getTestRunCompletionPoller");
 
 const readStream = createReadStream("./sample.jmx");
 
@@ -50,22 +48,29 @@ async function main() {
     throw new Error("Test ID returned as undefined.");
 
   // Uploading .jmx file to a test
-  const fileUploadPoller = await beginUploadTestFile(client, testId, "sample.jmx", {
-    queryParameters: {
-      fileType: "JMX_FILE",
-    },
-    contentType: "application/octet-stream",
-    body: readStream,
-  });
-  await fileUploadPoller.pollUntilDone({
+  const fileUploadResult = await client
+    .path("/tests/{testId}/files/{fileName}", testId, "sample.jmx")
+    .put({
+      contentType: "application/octet-stream",
+      body: readStream,
+    });
+
+  if (isUnexpected(fileUploadResult)) {
+    throw fileUploadResult.body.error;
+  }
+
+  const fileValidatePoller = await getFileValidationPoller(client, fileUploadResult, testId);
+  const fileValidateResult = await fileValidatePoller.pollUntilDone({
     abortSignal: AbortController.timeout(60000), // timeout of 60 seconds
   });
 
-  if (fileUploadPoller.getOperationState().status != "succeeded")
+  if (fileValidatePoller.getOperationState().status != "succeeded")
     throw new Error(
       "There is some issue in validation, please make sure uploaded file is a valid JMX." +
-        fileUploadPoller.getOperationState().error
+        fileValidateResult.body.validationFailureDetails
     );
+
+  console.log(fileUploadResult);
 
   // Creating/Updating app component
   const appComponentCreationResult = await client
@@ -92,7 +97,7 @@ async function main() {
   }
 
   // Creating/Updating the test run
-  const testRunPoller = await beginCreateOrUpdateTestRun(client, testRunId, {
+  const testRunCreationResult = await client.path("/test-runs/{testRunId}", testRunId).patch({
     contentType: "application/merge-patch+json",
     body: {
       testId: testId,
@@ -100,21 +105,27 @@ async function main() {
       virtualUsers: 10,
     },
   });
+
+  if (isUnexpected(testRunCreationResult)) {
+    throw testRunCreationResult.body.error;
+  }
+
+  if (testRunCreationResult.body.testRunId === undefined)
+    throw new Error("Test Run ID returned as undefined.");
+
+  const testRunPoller = await getTestRunCompletionPoller(client, testRunCreationResult);
   const testRunResult = await testRunPoller.pollUntilDone({
     abortSignal: AbortController.timeout(60000), // timeout of 60 seconds
   });
 
   if (testRunPoller.getOperationState().status != "succeeded" && testRunResult)
-    throw new Error(
-      "There is some issue in running the test, Error Response : " +
-        testRunPoller.getOperationState().error
-    );
+    throw new Error("There is some issue in running the test, Error Response : " + testRunResult);
 
-  const testRunStarttime = testRunResult.body.startDateTime;
-  const testRunEndTime = testRunResult.body.endDateTime;
+  let testRunStarttime = testRunResult.body.startDateTime;
+  let testRunEndTime = testRunResult.body.endDateTime;
   if (testRunId) {
     // get list of all metric namespaces and pick the first one
-    const metricNamespaces = await client
+    let metricNamespaces = await client
       .path("/test-runs/{testRunId}/metric-namespaces", testRunId)
       .get();
 
@@ -122,14 +133,14 @@ async function main() {
       throw metricNamespaces.body.error;
     }
 
-    const metricNamespace = metricNamespaces.body.value[0];
+    let metricNamespace = metricNamespaces.body.value[0];
 
     if (metricNamespace.name === undefined) {
       throw "No Metric Namespace name is defined.";
     }
 
     // get list of all metric definitions and pick the first one
-    const metricDefinitions = await client
+    let metricDefinitions = await client
       .path("/test-runs/{testRunId}/metric-definitions", testRunId)
       .get({
         queryParameters: {
@@ -141,14 +152,14 @@ async function main() {
       throw metricDefinitions.body.error;
     }
 
-    const metricDefinition = metricDefinitions.body.value[0];
+    let metricDefinition = metricDefinitions.body.value[0];
 
     if (metricDefinition.name === undefined) {
       throw "No Metric Namespace name is defined.";
     }
 
     // fetch client metrics using metric namespace and metric name
-    const metricsResult = await client.path("/test-runs/{testRunId}/metrics", testRunId).post({
+    let metricsResult = await client.path("/test-runs/{testRunId}/metrics", testRunId).post({
       queryParameters: {
         metricname: metricDefinition.name,
         metricNamespace: metricNamespace.name,
@@ -160,14 +171,14 @@ async function main() {
     console.log(testRunResult);
 
     // Deleting test run
-    const deleteTestRunResult = await client.path("/test-runs/{testRunId}", testRunId).delete();
+    let deleteTestRunResult = await client.path("/test-runs/{testRunId}", testRunId).delete();
 
     if (isUnexpected(deleteTestRunResult)) {
       throw deleteTestRunResult.body.error;
     }
 
     // Deleting test
-    const deleteTestResult = await client.path("/tests/{testId}", testId).delete();
+    let deleteTestResult = await client.path("/tests/{testId}", testId).delete();
 
     if (isUnexpected(deleteTestResult)) {
       throw deleteTestResult.body.error;

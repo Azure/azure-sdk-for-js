@@ -9,20 +9,20 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-load-testing-rest/1.0.0-beta.2 core-rest-pipeline/1.10.0 Node/v16.18.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "7b73f044-e7c3-4b27-9f74-66822e77bc06"
+        "x-ms-client-request-id": "425f9981-6963-434f-ba7d-2cbbf7192986"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2021-07-01-preview, 2022-06-01-preview, 2022-11-01",
         "Connection": "keep-alive",
-        "Content-Length": "669",
+        "Content-Length": "670",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 19 Jan 2023 18:37:13 GMT",
-        "mise-correlation-id": "bb016455-b104-45aa-ba3d-6727661a8541",
+        "Date": "Fri, 20 Jan 2023 15:00:01 GMT",
+        "mise-correlation-id": "32e58b56-cc0e-484d-aebb-89e2f6740550",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "e6113283-7431-4b27-8b27-8baac2e8fd58"
+        "x-ms-correlation-request-id": "f9b06bec-2707-440f-9557-7c6b40a2f8b8"
       },
       "ResponseBody": {
         "loadTestConfiguration": {
@@ -35,15 +35,15 @@
             "url": "https://storageurl.com/",
             "fileName": "sample.jmx",
             "fileType": "JMX_FILE",
-            "expireDateTime": "2023-01-19T19:37:13.0658008",
-            "validationStatus": "VALIDATION_SUCCESS"
+            "expireDateTime": "2023-01-20T16:00:01.8364671",
+            "validationStatus": "VALIDATION_INITIATED"
           },
           "additionalFileInfo": [
             {
               "url": "https://storageurl.com/",
               "fileName": "additional-data.csv",
               "fileType": "ADDITIONAL_ARTIFACTS",
-              "expireDateTime": "2023-01-19T19:37:13.0659031",
+              "expireDateTime": "2023-01-20T16:00:01.8366073",
               "validationStatus": "VALIDATION_NOT_REQUIRED"
             }
           ]
@@ -51,8 +51,8 @@
         "testId": "abc",
         "description": "",
         "displayName": "sample_test",
-        "createdDateTime": "2023-01-19T18:31:17.981Z",
-        "lastModifiedDateTime": "2023-01-19T18:37:12.088Z"
+        "createdDateTime": "2023-01-20T14:56:50.37Z",
+        "lastModifiedDateTime": "2023-01-20T15:00:00.712Z"
       }
     }
   ],

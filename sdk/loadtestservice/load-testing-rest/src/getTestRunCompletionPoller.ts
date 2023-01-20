@@ -41,12 +41,11 @@ export async function getTestRunCompletionPoller(
 
   const poller: SimplePollerLike<OperationState<TestRunGet200Response>, TestRunGet200Response> = {
     async poll(_options?: { abortSignal?: AbortSignalLike }): Promise<void> {
-      
       if (_options?.abortSignal?.aborted) {
-          state.status = "failed";
-          state.error = new Error("The operation was aborted.");
-          return;
-        }
+        state.status = "canceled";
+        state.error = new Error("The operation was aborted.");
+        return;
+      }
 
       if (testRunId) {
         let getTestRunResult = await client.path("/test-runs/{testRunId}", testRunId).get();
@@ -88,7 +87,11 @@ export async function getTestRunCompletionPoller(
           while (!poller.isDone()) {
             const delay = sleep(currentPollIntervalInMs, abortSignal);
             cancelJob = () => abortController.abort();
-            await delay;
+            try {
+              await delay;
+            } catch (ex: any) {
+              state.status = "canceled";
+            }
             await poller.poll({ abortSignal });
           }
         }

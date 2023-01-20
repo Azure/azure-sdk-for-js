@@ -11,7 +11,7 @@
         "Content-Type": "application/octet-stream",
         "Transfer-Encoding": "chunked",
         "User-Agent": "azsdk-js-load-testing-rest/1.0.0-beta.2 core-rest-pipeline/1.10.0 Node/v16.18.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "2f0728ad-df3c-42ff-93a2-deb42ca9616c"
+        "x-ms-client-request-id": "ab996edb-24d3-47e2-afd0-9bdc3a12f174"
       },
       "RequestBody": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPGptZXRlclRlc3RQbGFuIHZlcnNpb249IjEuMiIgcHJvcGVydGllcz0iNS4wIiBqbWV0ZXI9IjUuMyI\u002BCiAgPGhhc2hUcmVlPgogICAgPFRlc3RQbGFuIGd1aWNsYXNzPSJUZXN0UGxhbkd1aSIgdGVzdGNsYXNzPSJUZXN0UGxhbiIgdGVzdG5hbWU9IlRlc3QgUGxhbiIgZW5hYmxlZD0idHJ1ZSI\u002BCiAgICAgIDxzdHJpbmdQcm9wIG5hbWU9IlRlc3RQbGFuLmNvbW1lbnRzIj48L3N0cmluZ1Byb3A\u002BCiAgICAgIDxib29sUHJvcCBuYW1lPSJUZXN0UGxhbi5mdW5jdGlvbmFsX21vZGUiPmZhbHNlPC9ib29sUHJvcD4KICAgICAgPGJvb2xQcm9wIG5hbWU9IlRlc3RQbGFuLnNlcmlhbGl6ZV90aHJlYWRncm91cHMiPmZhbHNlPC9ib29sUHJvcD4KICAgICAgPGVsZW1lbnRQcm9wIG5hbWU9IlRlc3RQbGFuLnVzZXJfZGVmaW5lZF92YXJpYWJsZXMiIGVsZW1lbnRUeXBlPSJBcmd1bWVudHMiIGd1aWNsYXNzPSJBcmd1bWVudHNQYW5lbCIgdGVzdGNsYXNzPSJBcmd1bWVudHMiIHRlc3RuYW1lPSJVc2VyIERlZmluZWQgVmFyaWFibGVzIiBlbmFibGVkPSJ0cnVlIj4KICAgICAgICA8Y29sbGVjdGlvblByb3AgbmFtZT0iQXJndW1lbnRzLmFyZ3VtZW50cyIvPgogICAgICA8L2VsZW1lbnRQcm9wPgogICAgICA8c3RyaW5nUHJvcCBuYW1lPSJUZXN0UGxhbi51c2VyX2RlZmluZV9jbGFzc3BhdGgiPjwvc3RyaW5nUHJvcD4KICAgIDwvVGVzdFBsYW4\u002BCiAgICA8aGFzaFRyZWU\u002BCiAgICAgIDxUaHJlYWRHcm91cCBndWljbGFzcz0iVGhyZWFkR3JvdXBHdWkiIHRlc3RjbGFzcz0iVGhyZWFkR3JvdXAiIHRlc3RuYW1lPSJUaHJlYWQgR3JvdXAiIGVuYWJsZWQ9InRydWUiPgogICAgICAgIDxzdHJpbmdQcm9wIG5hbWU9IlRocmVhZEdyb3VwLm9uX3NhbXBsZV9lcnJvciI\u002BY29udGludWU8L3N0cmluZ1Byb3A\u002BCiAgICAgICAgPGVsZW1lbnRQcm9wIG5hbWU9IlRocmVhZEdyb3VwLm1haW5fY29udHJvbGxlciIgZWxlbWVudFR5cGU9Ikxvb3BDb250cm9sbGVyIiBndWljbGFzcz0iTG9vcENvbnRyb2xQYW5lbCIgdGVzdGNsYXNzPSJMb29wQ29udHJvbGxlciIgdGVzdG5hbWU9Ikxvb3AgQ29udHJvbGxlciIgZW5hYmxlZD0idHJ1ZSI\u002BCiAgICAgICAgICA8Ym9vbFByb3AgbmFtZT0iTG9vcENvbnRyb2xsZXIuY29udGludWVfZm9yZXZlciI\u002BZmFsc2U8L2Jvb2xQcm9wPgogICAgICAgICAgPHN0cmluZ1Byb3AgbmFtZT0iTG9vcENvbnRyb2xsZXIubG9vcHMiPjEwPC9zdHJpbmdQcm9wPgogICAgICAgIDwvZWxlbWVudFByb3A\u002BCiAgICAgICAgPHN0cmluZ1Byb3AgbmFtZT0iVGhyZWFkR3JvdXAubnVtX3RocmVhZHMiPjE8L3N0cmluZ1Byb3A\u002BCiAgICAgICAgPHN0cmluZ1Byb3AgbmFtZT0iVGhyZWFkR3JvdXAucmFtcF90aW1lIj4yPC9zdHJpbmdQcm9wPgogICAgICAgIDxsb25nUHJvcCBuYW1lPSJUaHJlYWRHcm91cC5zdGFydF90aW1lIj4xNTE1MDYzNjUwMDAwPC9sb25nUHJvcD4KICAgICAgICA8bG9uZ1Byb3AgbmFtZT0iVGhyZWFkR3JvdXAuZW5kX3RpbWUiPjE1MTUwNjM2NTAwMDA8L2xvbmdQcm9wPgogICAgICAgIDxib29sUHJvcCBuYW1lPSJUaHJlYWRHcm91cC5zY2hlZHVsZXIiPmZhbHNlPC9ib29sUHJvcD4KICAgICAgICA8c3RyaW5nUHJvcCBuYW1lPSJUaHJlYWRHcm91cC5kdXJhdGlvbiI\u002BMTA8L3N0cmluZ1Byb3A\u002BCiAgICAgICAgPHN0cmluZ1Byb3AgbmFtZT0iVGhyZWFkR3JvdXAuZGVsYXkiPjwvc3RyaW5nUHJvcD4KICAgICAgICA8Ym9vbFByb3AgbmFtZT0iVGhyZWFkR3JvdXAuc2FtZV91c2VyX29uX25leHRfaXRlcmF0aW9uIj50cnVlPC9ib29sUHJvcD4KICAgICAgPC9UaHJlYWRHcm91cD4KICAgICAgPGhhc2hUcmVlPgogICAgICAgIDxIVFRQU2FtcGxlclByb3h5IGd1aWNsYXNzPSJIdHRwVGVzdFNhbXBsZUd1aSIgdGVzdGNsYXNzPSJIVFRQU2FtcGxlclByb3h5IiB0ZXN0bmFtZT0iU2FtcGxlIiBlbmFibGVkPSJ0cnVlIj4KICAgICAgICAgIDxlbGVtZW50UHJvcCBuYW1lPSJIVFRQc2FtcGxlci5Bcmd1bWVudHMiIGVsZW1lbnRUeXBlPSJBcmd1bWVudHMiIGd1aWNsYXNzPSJIVFRQQXJndW1lbnRzUGFuZWwiIHRlc3RjbGFzcz0iQXJndW1lbnRzIiB0ZXN0bmFtZT0iVXNlciBEZWZpbmVkIFZhcmlhYmxlcyIgZW5hYmxlZD0idHJ1ZSI\u002BCiAgICAgICAgICAgIDxjb2xsZWN0aW9uUHJvcCBuYW1lPSJBcmd1bWVudHMuYXJndW1lbnRzIi8\u002BCiAgICAgICAgICA8L2VsZW1lbnRQcm9wPgogICAgICAgICAgPHN0cmluZ1Byb3AgbmFtZT0iSFRUUFNhbXBsZXIuZG9tYWluIj5taWNyb3NvZnQuY29tPC9zdHJpbmdQcm9wPgogICAgICAgICAgPHN0cmluZ1Byb3AgbmFtZT0iSFRUUFNhbXBsZXIucG9ydCI\u002BPC9zdHJpbmdQcm9wPgogICAgICAgICAgPHN0cmluZ1Byb3AgbmFtZT0iSFRUUFNhbXBsZXIucHJvdG9jb2wiPjwvc3RyaW5nUHJvcD4KICAgICAgICAgIDxzdHJpbmdQcm9wIG5hbWU9IkhUVFBTYW1wbGVyLmNvbnRlbnRFbmNvZGluZyI\u002BPC9zdHJpbmdQcm9wPgogICAgICAgICAgPHN0cmluZ1Byb3AgbmFtZT0iSFRUUFNhbXBsZXIucGF0aCI\u002BLzwvc3RyaW5nUHJvcD4KICAgICAgICAgIDxzdHJpbmdQcm9wIG5hbWU9IkhUVFBTYW1wbGVyLm1ldGhvZCI\u002BR0VUPC9zdHJpbmdQcm9wPgogICAgICAgICAgPGJvb2xQcm9wIG5hbWU9IkhUVFBTYW1wbGVyLmZvbGxvd19yZWRpcmVjdHMiPnRydWU8L2Jvb2xQcm9wPgogICAgICAgICAgPGJvb2xQcm9wIG5hbWU9IkhUVFBTYW1wbGVyLmF1dG9fcmVkaXJlY3RzIj5mYWxzZTwvYm9vbFByb3A\u002BCiAgICAgICAgICA8Ym9vbFByb3AgbmFtZT0iSFRUUFNhbXBsZXIudXNlX2tlZXBhbGl2ZSI\u002BdHJ1ZTwvYm9vbFByb3A\u002BCiAgICAgICAgICA8Ym9vbFByb3AgbmFtZT0iSFRUUFNhbXBsZXIuRE9fTVVMVElQQVJUX1BPU1QiPmZhbHNlPC9ib29sUHJvcD4KICAgICAgICAgIDxzdHJpbmdQcm9wIG5hbWU9IkhUVFBTYW1wbGVyLmVtYmVkZGVkX3VybF9yZSI\u002BPC9zdHJpbmdQcm9wPgogICAgICAgICAgPHN0cmluZ1Byb3AgbmFtZT0iSFRUUFNhbXBsZXIuY29ubmVjdF90aW1lb3V0Ij48L3N0cmluZ1Byb3A\u002BCiAgICAgICAgICA8c3RyaW5nUHJvcCBuYW1lPSJIVFRQU2FtcGxlci5yZXNwb25zZV90aW1lb3V0Ij48L3N0cmluZ1Byb3A\u002BCiAgICAgICAgPC9IVFRQU2FtcGxlclByb3h5PgogICAgICAgIDxoYXNoVHJlZS8\u002BCiAgICAgIDwvaGFzaFRyZWU\u002BCiAgICAgIDxSZXN1bHRDb2xsZWN0b3IgZ3VpY2xhc3M9IlZpZXdSZXN1bHRzRnVsbFZpc3VhbGl6ZXIiIHRlc3RjbGFzcz0iUmVzdWx0Q29sbGVjdG9yIiB0ZXN0bmFtZT0iVmlldyBSZXN1bHRzIFRyZWUiIGVuYWJsZWQ9ImZhbHNlIj4KICAgICAgICA8Ym9vbFByb3AgbmFtZT0iUmVzdWx0Q29sbGVjdG9yLmVycm9yX2xvZ2dpbmciPmZhbHNlPC9ib29sUHJvcD4KICAgICAgICA8b2JqUHJvcD4KICAgICAgICAgIDxuYW1lPnNhdmVDb25maWc8L25hbWU\u002BCiAgICAgICAgICA8dmFsdWUgY2xhc3M9IlNhbXBsZVNhdmVDb25maWd1cmF0aW9uIj4KICAgICAgICAgICAgPHRpbWU\u002BdHJ1ZTwvdGltZT4KICAgICAgICAgICAgPGxhdGVuY3k\u002BdHJ1ZTwvbGF0ZW5jeT4KICAgICAgICAgICAgPHRpbWVzdGFtcD50cnVlPC90aW1lc3RhbXA\u002BCiAgICAgICAgICAgIDxzdWNjZXNzPnRydWU8L3N1Y2Nlc3M\u002BCiAgICAgICAgICAgIDxsYWJlbD50cnVlPC9sYWJlbD4KICAgICAgICAgICAgPGNvZGU\u002BdHJ1ZTwvY29kZT4KICAgICAgICAgICAgPG1lc3NhZ2U\u002BdHJ1ZTwvbWVzc2FnZT4KICAgICAgICAgICAgPHRocmVhZE5hbWU\u002BdHJ1ZTwvdGhyZWFkTmFtZT4KICAgICAgICAgICAgPGRhdGFUeXBlPnRydWU8L2RhdGFUeXBlPgogICAgICAgICAgICA8ZW5jb2Rpbmc\u002BZmFsc2U8L2VuY29kaW5nPgogICAgICAgICAgICA8YXNzZXJ0aW9ucz50cnVlPC9hc3NlcnRpb25zPgogICAgICAgICAgICA8c3VicmVzdWx0cz50cnVlPC9zdWJyZXN1bHRzPgogICAgICAgICAgICA8cmVzcG9uc2VEYXRhPmZhbHNlPC9yZXNwb25zZURhdGE\u002BCiAgICAgICAgICAgIDxzYW1wbGVyRGF0YT5mYWxzZTwvc2FtcGxlckRhdGE\u002BCiAgICAgICAgICAgIDx4bWw\u002BZmFsc2U8L3htbD4KICAgICAgICAgICAgPGZpZWxkTmFtZXM\u002BdHJ1ZTwvZmllbGROYW1lcz4KICAgICAgICAgICAgPHJlc3BvbnNlSGVhZGVycz5mYWxzZTwvcmVzcG9uc2VIZWFkZXJzPgogICAgICAgICAgICA8cmVxdWVzdEhlYWRlcnM\u002BZmFsc2U8L3JlcXVlc3RIZWFkZXJzPgogICAgICAgICAgICA8cmVzcG9uc2VEYXRhT25FcnJvcj5mYWxzZTwvcmVzcG9uc2VEYXRhT25FcnJvcj4KICAgICAgICAgICAgPHNhdmVBc3NlcnRpb25SZXN1bHRzRmFpbHVyZU1lc3NhZ2U\u002BdHJ1ZTwvc2F2ZUFzc2VydGlvblJlc3VsdHNGYWlsdXJlTWVzc2FnZT4KICAgICAgICAgICAgPGFzc2VydGlvbnNSZXN1bHRzVG9TYXZlPjA8L2Fzc2VydGlvbnNSZXN1bHRzVG9TYXZlPgogICAgICAgICAgICA8Ynl0ZXM\u002BdHJ1ZTwvYnl0ZXM\u002BCiAgICAgICAgICAgIDxzZW50Qnl0ZXM\u002BdHJ1ZTwvc2VudEJ5dGVzPgogICAgICAgICAgICA8dXJsPnRydWU8L3VybD4KICAgICAgICAgICAgPHRocmVhZENvdW50cz50cnVlPC90aHJlYWRDb3VudHM\u002BCiAgICAgICAgICAgIDxpZGxlVGltZT50cnVlPC9pZGxlVGltZT4KICAgICAgICAgICAgPGNvbm5lY3RUaW1lPnRydWU8L2Nvbm5lY3RUaW1lPgogICAgICAgICAgPC92YWx1ZT4KICAgICAgICA8L29ialByb3A\u002BCiAgICAgICAgPHN0cmluZ1Byb3AgbmFtZT0iZmlsZW5hbWUiPjwvc3RyaW5nUHJvcD4KICAgICAgPC9SZXN1bHRDb2xsZWN0b3I\u002BCiAgICAgIDxoYXNoVHJlZS8\u002BCiAgICA8L2hhc2hUcmVlPgogIDwvaGFzaFRyZWU\u002BCjwvam1ldGVyVGVzdFBsYW4\u002BCg==",
       "StatusCode": 201,
@@ -20,18 +20,18 @@
         "Connection": "keep-alive",
         "Content-Length": "168",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 19 Jan 2023 18:37:03 GMT",
+        "Date": "Fri, 20 Jan 2023 14:59:50 GMT",
         "Location": "https://endpoint/tests/abc/files/sample.jmx?api-version=2022-11-01",
-        "mise-correlation-id": "0570c01f-319a-457d-9d30-47fbe75a8831",
+        "mise-correlation-id": "69f8869d-98e1-4ecd-9814-956053fb3636",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "c2989411-69b9-405d-b97e-cb26f813fa8f"
+        "x-ms-correlation-request-id": "72b75a4c-190b-451e-b82f-1e8471ecf678"
       },
       "ResponseBody": {
         "url": "https://storageurl.com/",
         "fileName": "sample.jmx",
         "fileType": "JMX_FILE",
-        "expireDateTime": "2023-01-19T18:47:03.7391007",
+        "expireDateTime": "2023-01-20T15:09:50.8399486",
         "validationStatus": "VALIDATION_INITIATED"
       }
     },
@@ -44,7 +44,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-load-testing-rest/1.0.0-beta.2 core-rest-pipeline/1.10.0 Node/v16.18.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "5eaea780-f306-476d-8bd6-4e563aec5fd1"
+        "x-ms-client-request-id": "35ecab85-59a9-4a03-b52b-fed7d19809ae"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -53,17 +53,17 @@
         "Connection": "keep-alive",
         "Content-Length": "168",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 19 Jan 2023 18:37:04 GMT",
-        "mise-correlation-id": "e0ba5cb1-6e1a-4835-9846-f0d5c13af66a",
+        "Date": "Fri, 20 Jan 2023 14:59:51 GMT",
+        "mise-correlation-id": "286a10c8-d2ba-471d-98c3-96fa364e067b",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "37a8cd90-4981-4428-979c-53dbf4763f70"
+        "x-ms-correlation-request-id": "6ecc7bce-2431-410c-93c5-a62a3eefed07"
       },
       "ResponseBody": {
         "url": "https://storageurl.com/",
         "fileName": "sample.jmx",
         "fileType": "JMX_FILE",
-        "expireDateTime": "2023-01-19T18:47:04.1015804",
+        "expireDateTime": "2023-01-20T15:09:51.3068987",
         "validationStatus": "VALIDATION_INITIATED"
       }
     },
@@ -76,7 +76,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-load-testing-rest/1.0.0-beta.2 core-rest-pipeline/1.10.0 Node/v16.18.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "228dba81-3d8b-4791-8a30-4a6c324b4c23"
+        "x-ms-client-request-id": "7485404c-e334-4070-aa3b-d6e07bc7b4cb"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -85,17 +85,17 @@
         "Connection": "keep-alive",
         "Content-Length": "168",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 19 Jan 2023 18:37:06 GMT",
-        "mise-correlation-id": "2295b8df-656a-4e28-92e2-ddd10595ccd0",
+        "Date": "Fri, 20 Jan 2023 14:59:53 GMT",
+        "mise-correlation-id": "cb03d348-f29b-4478-83ec-1197b76389df",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "107d2ead-4f9c-4296-afb8-3a963dd3aa98"
+        "x-ms-correlation-request-id": "f0b4a654-2ccc-473b-b8ff-265b617ade13"
       },
       "ResponseBody": {
         "url": "https://storageurl.com/",
         "fileName": "sample.jmx",
         "fileType": "JMX_FILE",
-        "expireDateTime": "2023-01-19T18:47:06.5018553",
+        "expireDateTime": "2023-01-20T15:09:53.7098782",
         "validationStatus": "VALIDATION_INITIATED"
       }
     },
@@ -108,7 +108,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-load-testing-rest/1.0.0-beta.2 core-rest-pipeline/1.10.0 Node/v16.18.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "082dab54-dbb1-4e86-aa0a-2cc8579e4064"
+        "x-ms-client-request-id": "49f4b497-9ecc-4d82-ada2-3d6c029a0f2b"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -117,17 +117,17 @@
         "Connection": "keep-alive",
         "Content-Length": "168",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 19 Jan 2023 18:37:08 GMT",
-        "mise-correlation-id": "6a43a8a8-2182-4173-b6f8-12d69f910172",
+        "Date": "Fri, 20 Jan 2023 14:59:56 GMT",
+        "mise-correlation-id": "df405e0f-746c-4577-8c8b-73fa3320abfc",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "a30fd709-7cb8-4338-81c8-20d34eb29acf"
+        "x-ms-correlation-request-id": "7c461241-2602-47c8-b567-bc514e753845"
       },
       "ResponseBody": {
         "url": "https://storageurl.com/",
         "fileName": "sample.jmx",
         "fileType": "JMX_FILE",
-        "expireDateTime": "2023-01-19T18:47:08.8968905",
+        "expireDateTime": "2023-01-20T15:09:56.0920764",
         "validationStatus": "VALIDATION_INITIATED"
       }
     },
@@ -140,7 +140,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-load-testing-rest/1.0.0-beta.2 core-rest-pipeline/1.10.0 Node/v16.18.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "4803869a-12ba-47f0-8b3d-44f7cdc98ca4"
+        "x-ms-client-request-id": "5f390065-470d-409d-83e2-ede137e767c9"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -149,17 +149,17 @@
         "Connection": "keep-alive",
         "Content-Length": "166",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 19 Jan 2023 18:37:11 GMT",
-        "mise-correlation-id": "acdb6423-02ec-4005-994a-32274ee31e61",
+        "Date": "Fri, 20 Jan 2023 14:59:58 GMT",
+        "mise-correlation-id": "3df2a330-98e9-433d-9815-a6dcb8aadf91",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "0e87e299-5c64-478a-956d-5652cf3d5c14"
+        "x-ms-correlation-request-id": "b859c435-a2a5-4715-90a6-dce27e0a8306"
       },
       "ResponseBody": {
         "url": "https://storageurl.com/",
         "fileName": "sample.jmx",
         "fileType": "JMX_FILE",
-        "expireDateTime": "2023-01-19T18:47:11.3364467",
+        "expireDateTime": "2023-01-20T15:09:58.5041289",
         "validationStatus": "VALIDATION_SUCCESS"
       }
     }

@@ -7,7 +7,13 @@ import { createRecorder, createClient } from "./utils/recordedClient";
 import { AbortController } from "@azure/abort-controller";
 import { Context } from "mocha";
 import * as fs from "fs";
-import { AzureLoadTestingClient, beginCreateOrUpdateTestRun, beginUploadTestFile } from "../../src";
+import {
+  AzureLoadTestingClient,
+  beginCreateOrUpdateTestRun,
+  beginUploadTestFile,
+  getTestRunCompletionPoller,
+  isUnexpected,
+} from "../../src";
 import { isNode } from "@azure/core-util";
 
 describe("Test Run Creation", () => {
@@ -73,6 +79,51 @@ describe("Test Run Creation", () => {
     });
 
     assert.equal("DONE", testRunResult.body.status);
+  });
+
+  it("should not be able to create a test run(404)", async () => {
+    const testRunCreationResult = await client.path("/test-runs/{testRunId}", "abcjad").patch({
+      contentType: "application/merge-patch+json",
+      body: {
+        testId: "abc",
+        displayName: "sample123",
+        virtualUsers: 10,
+      },
+    });
+
+    if (isUnexpected(testRunCreationResult)) {
+      throw testRunCreationResult.body.error;
+    }
+
+    testRunCreationResult.body.testRunId = "adjwfjsdmf";
+    const testRunPoller = await getTestRunCompletionPoller(client, testRunCreationResult);
+    await testRunPoller.pollUntilDone({
+      abortSignal: AbortController.timeout(60000), // timeout of 60 seconds
+    });
+
+    assert.equal(testRunPoller.getOperationState().status, "failed");
+  });
+
+  it("should timeout the test run", async () => {
+    const testRunCreationResult = await client.path("/test-runs/{testRunId}", "abcjad").patch({
+      contentType: "application/merge-patch+json",
+      body: {
+        testId: "abc",
+        displayName: "sample123",
+        virtualUsers: 10,
+      },
+    });
+
+    if (isUnexpected(testRunCreationResult)) {
+      throw testRunCreationResult.body.error;
+    }
+
+    const testRunPoller = await getTestRunCompletionPoller(client, testRunCreationResult);
+    await testRunPoller.pollUntilDone({
+      abortSignal: AbortController.timeout(5000), // timeout of 5 seconds
+    });
+
+    assert.equal("The operation was aborted.", testRunPoller.getOperationState().error?.message);
   });
 
   it("should get a test run", async () => {

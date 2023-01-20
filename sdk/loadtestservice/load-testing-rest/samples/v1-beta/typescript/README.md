@@ -11,10 +11,11 @@ urlFragment: load-testing-typescript-beta
 
 These sample programs show how to use the TypeScript client libraries for Azure Load Testing rest in some common scenarios.
 
-| **File Name**           | **Description**                  |
-| ----------------------- | -------------------------------- |
-| [sample.ts][sample]     | creates and run a loadtest       |
-| [stopTest.ts][stoptest] | creates, run and stop a loadtest |
+| **File Name**                                           | **Description**                  |
+| ------------------------------------------------------- | -------------------------------- |
+| [sample.ts][sample]                                     | creates and run a loadtest       |
+| [sampleWithInitialLROCall.ts][samplewithinitiallrocall] | creates and run a loadtest       |
+| [stopTest.ts][stoptest]                                 | creates, run and stop a loadtest |
 
 ## Prerequisites
 
@@ -69,6 +70,7 @@ npx cross-env LOADTESTSERVICE_ENDPOINT="<loadtestservice endpoint>" SUBSCRIPTION
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [sample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtestservice/load-testing-rest/samples/v1-beta/typescript/src/sample.ts
+[samplewithinitiallrocall]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtestservice/load-testing-rest/samples/v1-beta/typescript/src/sampleWithInitialLROCall.ts
 [stoptest]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtestservice/load-testing-rest/samples/v1-beta/typescript/src/stopTest.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure-rest/load-testing
 [freesub]: https://azure.microsoft.com/free/

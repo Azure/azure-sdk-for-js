@@ -9,20 +9,20 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-load-testing-rest/1.0.0-beta.2 core-rest-pipeline/1.10.0 Node/v16.18.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "d32d1c3c-308f-4b0a-8730-3f28d90bb8ed"
+        "x-ms-client-request-id": "1a03918b-a156-48c3-9946-8d9f87565306"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2021-07-01-preview, 2022-06-01-preview, 2022-11-01",
         "Connection": "keep-alive",
-        "Content-Length": "1577",
+        "Content-Length": "1776",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 19 Jan 2023 18:38:05 GMT",
-        "mise-correlation-id": "bac7361f-1f70-4b3c-aa53-c5af16f4172a",
+        "Date": "Fri, 20 Jan 2023 15:01:04 GMT",
+        "mise-correlation-id": "06cf00f6-4fbf-4d95-9434-5451a8585de6",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "0f6f8e0f-5c1e-43ca-9f71-d247b736a0af"
+        "x-ms-correlation-request-id": "62dcbfea-fcc6-4327-8fa7-8f063fe8b1a1"
       },
       "ResponseBody": {
         "loadTestConfiguration": {
@@ -36,31 +36,38 @@
               "url": "https://storageurl.com/",
               "fileName": "config.yaml",
               "fileType": "ADDITIONAL_ARTIFACTS",
-              "expireDateTime": "2023-01-19T19:38:05.6419337",
+              "expireDateTime": "2023-01-20T16:01:04.2579166",
               "validationStatus": "VALIDATION_NOT_REQUIRED"
             },
             "testScriptFileInfo": {
               "url": "https://storageurl.com/",
               "fileName": "sample.jmx",
               "fileType": "JMX_FILE",
-              "expireDateTime": "2023-01-19T19:38:05.6418176",
+              "expireDateTime": "2023-01-20T16:01:04.2578098",
               "validationStatus": "VALIDATION_SUCCESS"
             },
             "inputArtifactsZipFileInfo": {
               "url": "https://storageurl.com/",
               "fileName": "inputartifacts.zip",
               "fileType": "ADDITIONAL_ARTIFACTS",
-              "expireDateTime": "2023-01-19T19:38:05.6419575",
+              "expireDateTime": "2023-01-20T16:01:04.2579397",
               "validationStatus": "VALIDATION_NOT_REQUIRED"
             },
             "additionalFileInfo": []
           },
           "outputArtifacts": {
+            "resultFileInfo": {
+              "url": "https://storageurl.com/",
+              "fileName": "csv.zip",
+              "fileType": "ADDITIONAL_ARTIFACTS",
+              "expireDateTime": "2023-01-20T16:01:04.2579613",
+              "validationStatus": "VALIDATION_NOT_REQUIRED"
+            },
             "logsFileInfo": {
               "url": "https://storageurl.com/",
               "fileName": "logs.zip",
               "fileType": "ADDITIONAL_ARTIFACTS",
-              "expireDateTime": "2023-01-19T19:38:05.641981",
+              "expireDateTime": "2023-01-20T16:01:04.2579835",
               "validationStatus": "VALIDATION_NOT_REQUIRED"
             }
           }
@@ -70,12 +77,12 @@
         "displayName": "sampletr",
         "testId": "abc",
         "status": "DONE",
-        "startDateTime": "2023-01-19T18:37:26.239Z",
-        "endDateTime": "2023-01-19T18:38:02.658Z",
-        "executedDateTime": "2023-01-19T18:37:24.866Z",
+        "startDateTime": "2023-01-20T15:00:16.821Z",
+        "endDateTime": "2023-01-20T15:00:53.842Z",
+        "executedDateTime": "2023-01-20T15:00:15.461Z",
         "portalUrl": "https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport//resourceId/%2fsubscriptions%2fazure_subscription_id%2fresourcegroups%2fmrinal%2fproviders%2fmicrosoft.loadtestservice%2floadtests%2fmrgautam-auseast/testId/abc/testRunId/abcde",
-        "createdDateTime": "2023-01-19T18:37:26.109Z",
-        "lastModifiedDateTime": "2023-01-19T18:38:04.987Z"
+        "createdDateTime": "2023-01-20T15:00:16.644Z",
+        "lastModifiedDateTime": "2023-01-20T15:00:59.798Z"
       }
     }
   ],

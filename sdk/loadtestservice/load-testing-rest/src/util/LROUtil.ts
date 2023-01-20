@@ -3,7 +3,7 @@
 import { AbortSignalLike } from "@azure/abort-controller";
 import { TestRunOutput } from "../outputModels";
 
-const REJECTED_ERR = new Error("The operation has been aborted");
+const REJECTED_ERR = new Error("The operation was aborted.");
 
 export function sleep(ms: number, signal: AbortSignalLike): Promise<void> {
   return new Promise<void>((resolve, reject) => {
