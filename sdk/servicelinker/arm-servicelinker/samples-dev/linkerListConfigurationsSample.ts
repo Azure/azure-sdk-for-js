@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { ServiceLinkerManagementClient } from "@azure/arm-servicelinker";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to list source configurations for a linker.
@@ -30,4 +33,8 @@ async function getConfiguration() {
   console.log(result);
 }
 
-getConfiguration().catch(console.error);
+async function main() {
+  getConfiguration();
+}
+
+main().catch(console.error);

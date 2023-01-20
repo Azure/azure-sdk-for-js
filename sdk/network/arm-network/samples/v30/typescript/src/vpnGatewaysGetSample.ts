@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Retrieves the details of a virtual wan vpn gateway.
  *
  * @summary Retrieves the details of a virtual wan vpn gateway.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VpnGatewayGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/VpnGatewayGet.json
  */
 async function vpnGatewayGet() {
   const subscriptionId = "subid";

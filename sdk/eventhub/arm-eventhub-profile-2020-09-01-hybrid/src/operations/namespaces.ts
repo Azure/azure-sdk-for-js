@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Namespaces } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,13 +19,14 @@ import {
   EHNamespace,
   NamespacesListNextOptionalParams,
   NamespacesListOptionalParams,
+  NamespacesListResponse,
   NamespacesListByResourceGroupNextOptionalParams,
   NamespacesListByResourceGroupOptionalParams,
+  NamespacesListByResourceGroupResponse,
   AuthorizationRule,
   NamespacesListAuthorizationRulesNextOptionalParams,
   NamespacesListAuthorizationRulesOptionalParams,
-  NamespacesListResponse,
-  NamespacesListByResourceGroupResponse,
+  NamespacesListAuthorizationRulesResponse,
   NamespacesCreateOrUpdateOptionalParams,
   NamespacesCreateOrUpdateResponse,
   NamespacesDeleteOptionalParams,
@@ -32,7 +34,6 @@ import {
   NamespacesGetResponse,
   NamespacesUpdateOptionalParams,
   NamespacesUpdateResponse,
-  NamespacesListAuthorizationRulesResponse,
   NamespacesCreateOrUpdateAuthorizationRuleOptionalParams,
   NamespacesCreateOrUpdateAuthorizationRuleResponse,
   NamespacesDeleteAuthorizationRuleOptionalParams,
@@ -79,22 +80,34 @@ export class NamespacesImpl implements Namespaces {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: NamespacesListOptionalParams
+    options?: NamespacesListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<EHNamespace[]> {
-    let result = await this._list(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: NamespacesListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -123,19 +136,33 @@ export class NamespacesImpl implements Namespaces {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: NamespacesListByResourceGroupOptionalParams
+    options?: NamespacesListByResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<EHNamespace[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: NamespacesListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -143,7 +170,9 @@ export class NamespacesImpl implements Namespaces {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -182,11 +211,15 @@ export class NamespacesImpl implements Namespaces {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listAuthorizationRulesPagingPage(
           resourceGroupName,
           namespaceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -195,15 +228,22 @@ export class NamespacesImpl implements Namespaces {
   private async *listAuthorizationRulesPagingPage(
     resourceGroupName: string,
     namespaceName: string,
-    options?: NamespacesListAuthorizationRulesOptionalParams
+    options?: NamespacesListAuthorizationRulesOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<AuthorizationRule[]> {
-    let result = await this._listAuthorizationRules(
-      resourceGroupName,
-      namespaceName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: NamespacesListAuthorizationRulesResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listAuthorizationRules(
+        resourceGroupName,
+        namespaceName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listAuthorizationRulesNext(
         resourceGroupName,
@@ -212,7 +252,9 @@ export class NamespacesImpl implements Namespaces {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -318,10 +360,12 @@ export class NamespacesImpl implements Namespaces {
       { resourceGroupName, namespaceName, parameters, options },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -403,10 +447,12 @@ export class NamespacesImpl implements Namespaces {
       { resourceGroupName, namespaceName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -980,7 +1026,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1000,7 +1045,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1021,7 +1065,6 @@ const listAuthorizationRulesNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

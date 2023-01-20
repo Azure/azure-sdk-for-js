@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ConsumptionManagementClient } = require("@azure/arm-consumption");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Lists all budgets for the defined scope.
@@ -18,7 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/BudgetsList.json
  */
 async function budgetsList() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
@@ -29,4 +31,8 @@ async function budgetsList() {
   console.log(resArray);
 }
 
-budgetsList().catch(console.error);
+async function main() {
+  budgetsList();
+}
+
+main().catch(console.error);

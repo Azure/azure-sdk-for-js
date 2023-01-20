@@ -110,7 +110,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-08-01",
+    defaultValue: "2022-11-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -1079,7 +1079,7 @@ export const galleryName: OperationURLParameter = {
 export const apiVersion3: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-01-03",
+    defaultValue: "2022-03-03",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -1269,7 +1269,7 @@ export const cloudServiceName: OperationURLParameter = {
 export const apiVersion4: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-04-04",
+    defaultValue: "2022-09-04",
     isConstant: true,
     serializedName: "api-version",
     type: {

@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Gets associated load balancer network interfaces.
  *
  * @summary Gets associated load balancer network interfaces.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LoadBalancerNetworkInterfaceListSimple.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/LoadBalancerNetworkInterfaceListSimple.json
  */
 async function loadBalancerNetworkInterfaceListSimple() {
   const subscriptionId = "subid";
@@ -39,7 +39,7 @@ loadBalancerNetworkInterfaceListSimple().catch(console.error);
  * This sample demonstrates how to Gets associated load balancer network interfaces.
  *
  * @summary Gets associated load balancer network interfaces.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LoadBalancerNetworkInterfaceListVmss.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/LoadBalancerNetworkInterfaceListVmss.json
  */
 async function loadBalancerNetworkInterfaceListVmss() {
   const subscriptionId = "subid";

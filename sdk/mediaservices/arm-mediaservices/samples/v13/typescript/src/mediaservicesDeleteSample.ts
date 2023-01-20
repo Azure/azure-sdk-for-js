@@ -10,16 +10,22 @@
 // Licensed under the MIT License.
 import { AzureMediaServices } from "@azure/arm-mediaservices";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Deletes a Media Services account
  *
  * @summary Deletes a Media Services account
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2021-11-01/examples/accounts-delete.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Accounts/stable/2021-11-01/examples/accounts-delete.json
  */
 async function deleteAMediaServicesAccount() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "contoso";
+  const subscriptionId =
+    process.env["MEDIASERVICES_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
   const accountName = "contososports";
   const credential = new DefaultAzureCredential();
   const client = new AzureMediaServices(credential, subscriptionId);
@@ -30,4 +36,8 @@ async function deleteAMediaServicesAccount() {
   console.log(result);
 }
 
-deleteAMediaServicesAccount().catch(console.error);
+async function main() {
+  deleteAMediaServicesAccount();
+}
+
+main().catch(console.error);

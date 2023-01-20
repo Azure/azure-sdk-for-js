@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { SynapseManagementClient } from "@azure/arm-synapse";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to List all Kusto pools
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/preview/2021-06-01-preview/examples/KustoPoolsListByWorkspace.json
  */
 async function listKustoPoolsInAWorkspace() {
-  const subscriptionId = "12345678-1234-1234-1234-123456789098";
-  const resourceGroupName = "kustorptest";
+  const subscriptionId =
+    process.env["SYNAPSE_SUBSCRIPTION_ID"] ||
+    "12345678-1234-1234-1234-123456789098";
+  const resourceGroupName =
+    process.env["SYNAPSE_RESOURCE_GROUP"] || "kustorptest";
   const workspaceName = "kustorptest";
   const credential = new DefaultAzureCredential();
   const client = new SynapseManagementClient(credential, subscriptionId);
@@ -30,4 +36,8 @@ async function listKustoPoolsInAWorkspace() {
   console.log(result);
 }
 
-listKustoPoolsInAWorkspace().catch(console.error);
+async function main() {
+  listKustoPoolsInAWorkspace();
+}
+
+main().catch(console.error);

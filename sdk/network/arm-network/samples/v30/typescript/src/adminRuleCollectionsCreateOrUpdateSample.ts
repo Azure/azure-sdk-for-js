@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Creates or updates an admin rule collection.
  *
  * @summary Creates or updates an admin rule collection.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkManagerAdminRuleCollectionPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/NetworkManagerAdminRuleCollectionPut.json
  */
 async function createOrUpdateAnAdminRuleCollection() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

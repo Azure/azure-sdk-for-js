@@ -6,25 +6,28 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
+import { EventRoutes } from "../operationsInterfaces";
+import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureDigitalTwinsAPI } from "../azureDigitalTwinsAPI";
 import {
+  EventRoute,
+  EventRoutesListNextOptionalParams,
   EventRoutesListOptionalParams,
   EventRoutesListResponse,
   EventRoutesGetByIdOptionalParams,
   EventRoutesGetByIdResponse,
   EventRoutesAddOptionalParams,
   EventRoutesDeleteOptionalParams,
-  EventRoutesListNextOptionalParams,
   EventRoutesListNextResponse
 } from "../models";
 
-/**
- * Class representing a EventRoutes.
- */
-export class EventRoutes {
+/// <reference lib="esnext.asynciterable" />
+/** Class containing EventRoutes operations. */
+export class EventRoutesImpl implements EventRoutes {
   private readonly client: AzureDigitalTwinsAPI;
 
   /**
@@ -41,16 +44,66 @@ export class EventRoutes {
    * * 200 OK
    * @param options The options parameters.
    */
-  list(
+  public list(
+    options?: EventRoutesListOptionalParams
+  ): PagedAsyncIterableIterator<EventRoute> {
+    const iter = this.listPagingAll(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
+      }
+    };
+  }
+
+  private async *listPagingPage(
+    options?: EventRoutesListOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<EventRoute[]> {
+    let result: EventRoutesListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listNext(continuationToken, options);
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listPagingAll(
+    options?: EventRoutesListOptionalParams
+  ): AsyncIterableIterator<EventRoute> {
+    for await (const page of this.listPagingPage(options)) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Retrieves all event routes.
+   * Status codes:
+   * * 200 OK
+   * @param options The options parameters.
+   */
+  private _list(
     options?: EventRoutesListOptionalParams
   ): Promise<EventRoutesListResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
-    return this.client.sendOperationRequest(
-      { options: operationOptions },
-      listOperationSpec
-    ) as Promise<EventRoutesListResponse>;
+    return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
   /**
@@ -66,13 +119,10 @@ export class EventRoutes {
     id: string,
     options?: EventRoutesGetByIdOptionalParams
   ): Promise<EventRoutesGetByIdResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
     return this.client.sendOperationRequest(
-      { id, options: operationOptions },
+      { id, options },
       getByIdOperationSpec
-    ) as Promise<EventRoutesGetByIdResponse>;
+    );
   }
 
   /**
@@ -87,17 +137,8 @@ export class EventRoutes {
    * @param id The id for an event route. The id is unique within event routes and case sensitive.
    * @param options The options parameters.
    */
-  add(
-    id: string,
-    options?: EventRoutesAddOptionalParams
-  ): Promise<coreHttp.RestResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
-    return this.client.sendOperationRequest(
-      { id, options: operationOptions },
-      addOperationSpec
-    ) as Promise<coreHttp.RestResponse>;
+  add(id: string, options?: EventRoutesAddOptionalParams): Promise<void> {
+    return this.client.sendOperationRequest({ id, options }, addOperationSpec);
   }
 
   /**
@@ -109,17 +150,11 @@ export class EventRoutes {
    * @param id The id for an event route. The id is unique within event routes and case sensitive.
    * @param options The options parameters.
    */
-  delete(
-    id: string,
-    options?: EventRoutesDeleteOptionalParams
-  ): Promise<coreHttp.RestResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
+  delete(id: string, options?: EventRoutesDeleteOptionalParams): Promise<void> {
     return this.client.sendOperationRequest(
-      { id, options: operationOptions },
+      { id, options },
       deleteOperationSpec
-    ) as Promise<coreHttp.RestResponse>;
+    );
   }
 
   /**
@@ -127,24 +162,20 @@ export class EventRoutes {
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
-  listNext(
+  private _listNext(
     nextLink: string,
     options?: EventRoutesListNextOptionalParams
   ): Promise<EventRoutesListNextResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
     return this.client.sendOperationRequest(
-      { nextLink, options: operationOptions },
+      { nextLink, options },
       listNextOperationSpec
-    ) as Promise<EventRoutesListNextResponse>;
+    );
   }
 }
 // Operation Specifications
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
-
-const listOperationSpec: coreHttp.OperationSpec = {
+const listOperationSpec: coreClient.OperationSpec = {
   path: "/eventroutes",
   httpMethod: "GET",
   responses: {
@@ -157,14 +188,10 @@ const listOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
-  headerParameters: [
-    Parameters.traceparent,
-    Parameters.tracestate,
-    Parameters.maxItemsPerPage
-  ],
+  headerParameters: [Parameters.accept, Parameters.resultsPerPage],
   serializer
 };
-const getByIdOperationSpec: coreHttp.OperationSpec = {
+const getByIdOperationSpec: coreClient.OperationSpec = {
   path: "/eventroutes/{id}",
   httpMethod: "GET",
   responses: {
@@ -177,10 +204,10 @@ const getByIdOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.id],
-  headerParameters: [Parameters.traceparent, Parameters.tracestate],
+  headerParameters: [Parameters.accept],
   serializer
 };
-const addOperationSpec: coreHttp.OperationSpec = {
+const addOperationSpec: coreClient.OperationSpec = {
   path: "/eventroutes/{id}",
   httpMethod: "PUT",
   responses: {
@@ -192,15 +219,11 @@ const addOperationSpec: coreHttp.OperationSpec = {
   requestBody: Parameters.eventRoute,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.id],
-  headerParameters: [
-    Parameters.contentType,
-    Parameters.traceparent,
-    Parameters.tracestate
-  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
-const deleteOperationSpec: coreHttp.OperationSpec = {
+const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/eventroutes/{id}",
   httpMethod: "DELETE",
   responses: {
@@ -211,10 +234,10 @@ const deleteOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.id],
-  headerParameters: [Parameters.traceparent, Parameters.tracestate],
+  headerParameters: [Parameters.accept],
   serializer
 };
-const listNextOperationSpec: coreHttp.OperationSpec = {
+const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
@@ -225,12 +248,7 @@ const listNextOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.nextLink],
-  headerParameters: [
-    Parameters.traceparent,
-    Parameters.tracestate,
-    Parameters.maxItemsPerPage
-  ],
+  headerParameters: [Parameters.accept, Parameters.resultsPerPage],
   serializer
 };

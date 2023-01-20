@@ -10,16 +10,22 @@
 // Licensed under the MIT License.
 import { AppPlatformManagementClient } from "@azure/arm-appplatform";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Handle requests to list all API portal custom domains.
  *
  * @summary Handle requests to list all API portal custom domains.
- * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-09-01-preview/examples/ApiPortalCustomDomains_List.json
+ * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-11-01-preview/examples/ApiPortalCustomDomains_List.json
  */
 async function apiPortalCustomDomainsList() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["APPPLATFORM_RESOURCE_GROUP"] || "myResourceGroup";
   const serviceName = "myservice";
   const apiPortalName = "default";
   const credential = new DefaultAzureCredential();
@@ -35,4 +41,8 @@ async function apiPortalCustomDomainsList() {
   console.log(resArray);
 }
 
-apiPortalCustomDomainsList().catch(console.error);
+async function main() {
+  apiPortalCustomDomainsList();
+}
+
+main().catch(console.error);

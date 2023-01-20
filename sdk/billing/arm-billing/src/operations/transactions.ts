@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Transactions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -57,11 +58,15 @@ export class TransactionsImpl implements Transactions {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByInvoicePagingPage(
           billingAccountName,
           invoiceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -70,15 +75,22 @@ export class TransactionsImpl implements Transactions {
   private async *listByInvoicePagingPage(
     billingAccountName: string,
     invoiceName: string,
-    options?: TransactionsListByInvoiceOptionalParams
+    options?: TransactionsListByInvoiceOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Transaction[]> {
-    let result = await this._listByInvoice(
-      billingAccountName,
-      invoiceName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: TransactionsListByInvoiceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByInvoice(
+        billingAccountName,
+        invoiceName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByInvoiceNext(
         billingAccountName,
@@ -87,7 +99,9 @@ export class TransactionsImpl implements Transactions {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 

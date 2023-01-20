@@ -328,6 +328,9 @@ export interface ExtendedLocation {
 export type FirmwareType = string;
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export interface GuestAgent extends ProxyResource {
     credentials?: GuestCredential;
     readonly customResourceName?: string;
@@ -960,7 +963,6 @@ export type MachineExtensionsGetResponse = MachineExtension;
 
 // @public
 export interface MachineExtensionsListNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
 }
 
 // @public

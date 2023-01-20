@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { PrivateLinkResources } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,9 +17,9 @@ import {
   PrivateLinkResource,
   PrivateLinkResourcesListByHostPoolNextOptionalParams,
   PrivateLinkResourcesListByHostPoolOptionalParams,
+  PrivateLinkResourcesListByHostPoolResponse,
   PrivateLinkResourcesListByWorkspaceNextOptionalParams,
   PrivateLinkResourcesListByWorkspaceOptionalParams,
-  PrivateLinkResourcesListByHostPoolResponse,
   PrivateLinkResourcesListByWorkspaceResponse,
   PrivateLinkResourcesListByHostPoolNextResponse,
   PrivateLinkResourcesListByWorkspaceNextResponse
@@ -60,11 +61,15 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByHostPoolPagingPage(
           resourceGroupName,
           hostPoolName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -73,15 +78,22 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
   private async *listByHostPoolPagingPage(
     resourceGroupName: string,
     hostPoolName: string,
-    options?: PrivateLinkResourcesListByHostPoolOptionalParams
+    options?: PrivateLinkResourcesListByHostPoolOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PrivateLinkResource[]> {
-    let result = await this._listByHostPool(
-      resourceGroupName,
-      hostPoolName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: PrivateLinkResourcesListByHostPoolResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByHostPool(
+        resourceGroupName,
+        hostPoolName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByHostPoolNext(
         resourceGroupName,
@@ -90,7 +102,9 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -131,11 +145,15 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByWorkspacePagingPage(
           resourceGroupName,
           workspaceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -144,15 +162,22 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
   private async *listByWorkspacePagingPage(
     resourceGroupName: string,
     workspaceName: string,
-    options?: PrivateLinkResourcesListByWorkspaceOptionalParams
+    options?: PrivateLinkResourcesListByWorkspaceOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PrivateLinkResource[]> {
-    let result = await this._listByWorkspace(
-      resourceGroupName,
-      workspaceName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: PrivateLinkResourcesListByWorkspaceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByWorkspace(
+        resourceGroupName,
+        workspaceName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByWorkspaceNext(
         resourceGroupName,
@@ -161,7 +186,9 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 

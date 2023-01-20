@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { SynapseManagementClient } from "@azure/arm-synapse";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Get Sql pool column
@@ -18,8 +21,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/SqlPoolColumnGet.json
  */
 async function getDatabaseColumn() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "myRG";
+  const subscriptionId =
+    process.env["SYNAPSE_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName = process.env["SYNAPSE_RESOURCE_GROUP"] || "myRG";
   const workspaceName = "serverName";
   const sqlPoolName = "myDatabase";
   const schemaName = "dbo";
@@ -38,4 +43,8 @@ async function getDatabaseColumn() {
   console.log(result);
 }
 
-getDatabaseColumn().catch(console.error);
+async function main() {
+  getDatabaseColumn();
+}
+
+main().catch(console.error);

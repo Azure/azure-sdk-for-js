@@ -643,8 +643,11 @@ const flushDataOperationSpec: coreHttp.OperationSpec = {
     Parameters.encryptionKey,
     Parameters.encryptionKeySha256,
     Parameters.encryptionAlgorithm,
+    Parameters.proposedLeaseId,
+    Parameters.leaseDuration,
     Parameters.contentLength,
-    Parameters.contentMD5
+    Parameters.contentMD5,
+    Parameters.leaseAction
   ],
   serializer
 };
@@ -675,8 +678,11 @@ const appendDataOperationSpec: coreHttp.OperationSpec = {
     Parameters.encryptionKey,
     Parameters.encryptionKeySha256,
     Parameters.encryptionAlgorithm,
+    Parameters.proposedLeaseId,
+    Parameters.leaseDuration,
     Parameters.accept2,
     Parameters.contentLength,
+    Parameters.leaseAction,
     Parameters.contentType2,
     Parameters.transactionalContentHash,
     Parameters.transactionalContentCrc64

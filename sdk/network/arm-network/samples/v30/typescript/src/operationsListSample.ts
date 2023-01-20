@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Lists all of the available Network Rest API operations.
  *
  * @summary Lists all of the available Network Rest API operations.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/OperationList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/OperationList.json
  */
 async function getAListOfOperationsForAResourceProvider() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

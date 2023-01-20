@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Lists all the vpnSiteLinks in a resource group for a vpn site.
  *
  * @summary Lists all the vpnSiteLinks in a resource group for a vpn site.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VpnSiteLinkListByVpnSite.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/VpnSiteLinkListByVpnSite.json
  */
 async function vpnSiteLinkListByVpnSite() {
   const subscriptionId = "subid";

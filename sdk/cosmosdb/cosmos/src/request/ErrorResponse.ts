@@ -55,7 +55,7 @@ export interface GroupByAliasToAggregateType {
   [key: string]: AggregateType;
 }
 
-export interface ErrorResponse extends Error {
+export class ErrorResponse extends Error {
   code?: number;
   substatus?: number;
   body?: ErrorBody;

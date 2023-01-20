@@ -10,16 +10,18 @@
 // Licensed under the MIT License.
 const { AppPlatformManagementClient } = require("@azure/arm-appplatform");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Handles requests to list all resources in a Service.
  *
  * @summary Handles requests to list all resources in a Service.
- * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-09-01-preview/examples/Apps_List.json
+ * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-11-01-preview/examples/Apps_List.json
  */
 async function appsList() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["APPPLATFORM_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["APPPLATFORM_RESOURCE_GROUP"] || "myResourceGroup";
   const serviceName = "myservice";
   const credential = new DefaultAzureCredential();
   const client = new AppPlatformManagementClient(credential, subscriptionId);
@@ -29,18 +31,17 @@ async function appsList() {
   }
   console.log(resArray);
 }
-
-appsList().catch(console.error);
 
 /**
  * This sample demonstrates how to Handles requests to list all resources in a Service.
  *
  * @summary Handles requests to list all resources in a Service.
- * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-09-01-preview/examples/Apps_List_VNetInjection.json
+ * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-11-01-preview/examples/Apps_List_VNetInjection.json
  */
 async function appsListVNetInjection() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["APPPLATFORM_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["APPPLATFORM_RESOURCE_GROUP"] || "myResourceGroup";
   const serviceName = "myservice";
   const credential = new DefaultAzureCredential();
   const client = new AppPlatformManagementClient(credential, subscriptionId);
@@ -51,4 +52,9 @@ async function appsListVNetInjection() {
   console.log(resArray);
 }
 
-appsListVNetInjection().catch(console.error);
+async function main() {
+  appsList();
+  appsListVNetInjection();
+}
+
+main().catch(console.error);

@@ -1,0 +1,144 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.BotService/botServices/mybotxxx/channels/MsTeamsChannel?api-version=2022-09-15",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-botservice/4.0.0 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "42c9d1f1-ecf3-4854-a889-f8375c2f42a7"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "0",
+        "Date": "Mon, 16 Jan 2023 03:17:51 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "93935a52-2040-4628-9e4e-9c374c01bcc3",
+        "x-ms-ratelimit-remaining-subscription-deletes": "14998",
+        "x-ms-request-id": "93935a52-2040-4628-9e4e-9c374c01bcc3",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230116T031751Z:93935a52-2040-4628-9e4e-9c374c01bcc3"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.BotService/botServices/mybotxxx/channels?api-version=2022-09-15",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-botservice/4.0.0 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "4f82dddf-0e9f-4ad7-a6fd-5c2dba710d96"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 16 Jan 2023 03:17:51 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": [
+          "Accept-Encoding",
+          "Accept-Encoding"
+        ],
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "cd82954a-9ef3-412d-82e1-f5f089a6142f",
+        "x-ms-ratelimit-remaining-subscription-reads": "11995",
+        "x-ms-request-id": "40889ac3-5689-40a8-9234-d4ff7cefafb7",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230116T031752Z:cd82954a-9ef3-412d-82e1-f5f089a6142f"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.BotService/botServices/mybotxxx/channels/WebChatChannel",
+            "name": "mybotxxx/WebChatChannel",
+            "type": "Microsoft.BotService/botServices/channels",
+            "etag": "W/\u00228d77368d37daf212f8a06f48c5b6ec5c1/16/2023 3:17:52 AM\u0022",
+            "location": "global",
+            "properties": {
+              "properties": {
+                "webChatEmbedCode": null,
+                "sites": [
+                  {
+                    "siteId": "arsRK8ESXTM",
+                    "siteName": "Default Site",
+                    "key": null,
+                    "key2": null,
+                    "isEnabled": true,
+                    "isWebchatPreviewEnabled": true,
+                    "isDetailedLoggingEnabled": null,
+                    "isNoStorageEnabled": null,
+                    "isEndpointParametersEnabled": null,
+                    "isWebChatSpeechEnabled": null,
+                    "isBlockUserUploadEnabled": false,
+                    "appId": null,
+                    "tenantId": null,
+                    "isTokenEnabled": false
+                  }
+                ]
+              },
+              "etag": "W/\u00228d77368d37daf212f8a06f48c5b6ec5c1/16/2023 3:17:52 AM\u0022",
+              "channelName": "WebChatChannel",
+              "location": "global",
+              "provisioningState": "Succeeded"
+            },
+            "zones": []
+          },
+          {
+            "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.BotService/botServices/mybotxxx/channels/DirectLineChannel",
+            "name": "mybotxxx/DirectLineChannel",
+            "type": "Microsoft.BotService/botServices/channels",
+            "etag": "W/\u002270f3c7bb339b0eee0e6919c9f668ad091/16/2023 3:17:52 AM\u0022",
+            "location": "global",
+            "properties": {
+              "properties": {
+                "DirectLineEmbedCode": null,
+                "sites": [
+                  {
+                    "siteId": "XvhgKLN05t0",
+                    "siteName": "Default Site",
+                    "key": null,
+                    "key2": null,
+                    "isEnabled": true,
+                    "isV1Enabled": true,
+                    "isV3Enabled": true,
+                    "isDetailedLoggingEnabled": null,
+                    "isNoStorageEnabled": null,
+                    "isEndpointParametersEnabled": null,
+                    "isSecureSiteEnabled": false,
+                    "isBlockUserUploadEnabled": false,
+                    "trustedOrigins": null,
+                    "appId": null,
+                    "tenantId": null,
+                    "isTokenEnabled": false
+                  }
+                ],
+                "extensionKey1": "_7TqXHBY2qk.Htrkn50sRa2hzmE5et5xgY_OeKNxylHTaeKJyTwUGEM",
+                "extensionKey2": "_7TqXHBY2qk.9U6eG5C2vGqD0B99Idd3w8uDlGiYR45z9kYU5JdoxJg"
+              },
+              "etag": "W/\u002270f3c7bb339b0eee0e6919c9f668ad091/16/2023 3:17:52 AM\u0022",
+              "channelName": "DirectLineChannel",
+              "location": "global",
+              "provisioningState": "Succeeded"
+            },
+            "zones": []
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

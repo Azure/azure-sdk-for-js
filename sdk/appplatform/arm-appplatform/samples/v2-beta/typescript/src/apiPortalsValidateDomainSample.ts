@@ -13,16 +13,22 @@ import {
   AppPlatformManagementClient
 } from "@azure/arm-appplatform";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Check the domains are valid as well as not in use.
  *
  * @summary Check the domains are valid as well as not in use.
- * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-09-01-preview/examples/ApiPortals_ValidateDomain.json
+ * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-11-01-preview/examples/ApiPortals_ValidateDomain.json
  */
 async function apiPortalsValidateDomain() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["APPPLATFORM_RESOURCE_GROUP"] || "myResourceGroup";
   const serviceName = "myservice";
   const apiPortalName = "default";
   const validatePayload: CustomDomainValidatePayload = { name: "mydomain.io" };
@@ -37,4 +43,8 @@ async function apiPortalsValidateDomain() {
   console.log(result);
 }
 
-apiPortalsValidateDomain().catch(console.error);
+async function main() {
+  apiPortalsValidateDomain();
+}
+
+main().catch(console.error);

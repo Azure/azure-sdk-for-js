@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { DataFactoryManagementClient } = require("@azure/arm-datafactory");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Approves or rejects a private endpoint connection
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/ApproveRejectPrivateEndpointConnection.json
  */
 async function approvesOrRejectsAPrivateEndpointConnectionForAFactory() {
-  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = "exampleResourceGroup";
+  const subscriptionId =
+    process.env["DATAFACTORY_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const resourceGroupName = process.env["DATAFACTORY_RESOURCE_GROUP"] || "exampleResourceGroup";
   const factoryName = "exampleFactoryName";
   const privateEndpointConnectionName = "connection";
   const privateEndpointWrapper = {
@@ -45,4 +47,8 @@ async function approvesOrRejectsAPrivateEndpointConnectionForAFactory() {
   console.log(result);
 }
 
-approvesOrRejectsAPrivateEndpointConnectionForAFactory().catch(console.error);
+async function main() {
+  approvesOrRejectsAPrivateEndpointConnectionForAFactory();
+}
+
+main().catch(console.error);

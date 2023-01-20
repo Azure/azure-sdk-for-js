@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Sets the blob inventory policy to the specified storage account.
  *
  * @summary Sets the blob inventory policy to the specified storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-05-01/examples/StorageAccountSetBlobInventoryPolicy.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/StorageAccountSetBlobInventoryPolicy.json
  */
 async function storageAccountSetBlobInventoryPolicy() {
   const subscriptionId = "{subscription-id}";
@@ -102,7 +102,7 @@ storageAccountSetBlobInventoryPolicy().catch(console.error);
  * This sample demonstrates how to Sets the blob inventory policy to the specified storage account.
  *
  * @summary Sets the blob inventory policy to the specified storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-05-01/examples/StorageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForHnsAccount.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/StorageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForHnsAccount.json
  */
 async function storageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForHnsAccount() {
   const subscriptionId = "{subscription-id}";
@@ -206,7 +206,7 @@ storageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForHnsAccount().cat
  * This sample demonstrates how to Sets the blob inventory policy to the specified storage account.
  *
  * @summary Sets the blob inventory policy to the specified storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-05-01/examples/StorageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForNonHnsAccount.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/StorageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForNonHnsAccount.json
  */
 async function storageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForNonHnsAccount() {
   const subscriptionId = "{subscription-id}";

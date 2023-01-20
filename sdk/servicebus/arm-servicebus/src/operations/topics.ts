@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Topics } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,10 +17,11 @@ import {
   SBAuthorizationRule,
   TopicsListAuthorizationRulesNextOptionalParams,
   TopicsListAuthorizationRulesOptionalParams,
+  TopicsListAuthorizationRulesResponse,
   SBTopic,
   TopicsListByNamespaceNextOptionalParams,
   TopicsListByNamespaceOptionalParams,
-  TopicsListAuthorizationRulesResponse,
+  TopicsListByNamespaceResponse,
   TopicsCreateOrUpdateAuthorizationRuleOptionalParams,
   TopicsCreateOrUpdateAuthorizationRuleResponse,
   TopicsGetAuthorizationRuleOptionalParams,
@@ -30,7 +32,6 @@ import {
   RegenerateAccessKeyParameters,
   TopicsRegenerateKeysOptionalParams,
   TopicsRegenerateKeysResponse,
-  TopicsListByNamespaceResponse,
   TopicsCreateOrUpdateOptionalParams,
   TopicsCreateOrUpdateResponse,
   TopicsDeleteOptionalParams,
@@ -79,12 +80,16 @@ export class TopicsImpl implements Topics {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listAuthorizationRulesPagingPage(
           resourceGroupName,
           namespaceName,
           topicName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -94,16 +99,23 @@ export class TopicsImpl implements Topics {
     resourceGroupName: string,
     namespaceName: string,
     topicName: string,
-    options?: TopicsListAuthorizationRulesOptionalParams
+    options?: TopicsListAuthorizationRulesOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<SBAuthorizationRule[]> {
-    let result = await this._listAuthorizationRules(
-      resourceGroupName,
-      namespaceName,
-      topicName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: TopicsListAuthorizationRulesResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listAuthorizationRules(
+        resourceGroupName,
+        namespaceName,
+        topicName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listAuthorizationRulesNext(
         resourceGroupName,
@@ -113,7 +125,9 @@ export class TopicsImpl implements Topics {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -156,11 +170,15 @@ export class TopicsImpl implements Topics {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByNamespacePagingPage(
           resourceGroupName,
           namespaceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -169,15 +187,22 @@ export class TopicsImpl implements Topics {
   private async *listByNamespacePagingPage(
     resourceGroupName: string,
     namespaceName: string,
-    options?: TopicsListByNamespaceOptionalParams
+    options?: TopicsListByNamespaceOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<SBTopic[]> {
-    let result = await this._listByNamespace(
-      resourceGroupName,
-      namespaceName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: TopicsListByNamespaceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByNamespace(
+        resourceGroupName,
+        namespaceName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByNamespaceNext(
         resourceGroupName,
@@ -186,7 +211,9 @@ export class TopicsImpl implements Topics {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -732,7 +759,6 @@ const listAuthorizationRulesNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -755,7 +781,6 @@ const listByNamespaceNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.skip, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

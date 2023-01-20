@@ -18,7 +18,7 @@ import { PollerOptions } from "./PollerOptions";
  * Please see the following link for more information: https://aka.ms/azsdk/formrecognizer/buildmode
  */
 export type DocumentModelBuildMode =
-  typeof DocumentModelBuildMode[keyof typeof DocumentModelBuildMode];
+  (typeof DocumentModelBuildMode)[keyof typeof DocumentModelBuildMode];
 
 /**
  * Supported values of `DocumentModelBuildMode`.

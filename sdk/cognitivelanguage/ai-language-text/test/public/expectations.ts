@@ -410,7 +410,7 @@ export const expectation9: AnalyzeBatchResult[] = [
               {
                 target: {
                   sentiment: "negative",
-                  confidenceScores: { positive: 0, negative: 1 },
+                  confidenceScores: { positive: 0.02, negative: 0.98 },
                   offset: 4,
                   length: 4,
                   text: "food",
@@ -418,7 +418,7 @@ export const expectation9: AnalyzeBatchResult[] = [
                 assessments: [
                   {
                     sentiment: "negative",
-                    confidenceScores: { positive: 0, negative: 1 },
+                    confidenceScores: { positive: 0.02, negative: 0.98 },
                     offset: 13,
                     length: 12,
                     text: "unacceptable",
@@ -625,14 +625,6 @@ export const expectation9: AnalyzeBatchResult[] = [
                     text: "nice",
                     isNegated: false,
                   },
-                  {
-                    sentiment: "positive",
-                    confidenceScores: { positive: 1, negative: 0 },
-                    offset: 59,
-                    length: 5,
-                    text: "clean",
-                    isNegated: false,
-                  },
                 ],
               },
               {
@@ -686,14 +678,6 @@ export const expectation9: AnalyzeBatchResult[] = [
                     offset: 8,
                     length: 5,
                     text: "great",
-                    isNegated: false,
-                  },
-                  {
-                    sentiment: "positive",
-                    confidenceScores: { positive: 0.99, negative: 0.01 },
-                    offset: 14,
-                    length: 12,
-                    text: "unobstructed",
                     isNegated: false,
                   },
                 ],
@@ -756,7 +740,7 @@ export const expectation9: AnalyzeBatchResult[] = [
               {
                 target: {
                   sentiment: "negative",
-                  confidenceScores: { positive: 0, negative: 1 },
+                  confidenceScores: { positive: 0.01, negative: 0.99 },
                   offset: 42,
                   length: 6,
                   text: "toilet",
@@ -764,7 +748,7 @@ export const expectation9: AnalyzeBatchResult[] = [
                 assessments: [
                   {
                     sentiment: "negative",
-                    confidenceScores: { positive: 0, negative: 1 },
+                    confidenceScores: { positive: 0.01, negative: 0.99 },
                     offset: 53,
                     length: 5,
                     text: "dirty",
@@ -828,7 +812,7 @@ export const expectation10: AnalyzeBatchResult[] = [
         error: {
           code: "UnsupportedLanguageCode",
           message:
-            "Invalid language code. Supported languages: en,es,de,fr,zh-Hans,ar,cs,da,fi,hu,it,ja,ko,no,nl,pl,pt-BR,pt-PT,ru,sv,tr. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition",
+            "Invalid language code. Supported languages: en,es,de,fr,zh-Hans,ar,cs,da,fi,hu,it,ja,ko,no,nl,pl,pt-BR,pt-PT,ru,sv,tr. For additional details see https://aka.ms/language-service/language-support",
         },
       },
       {
@@ -858,7 +842,7 @@ export const expectation10: AnalyzeBatchResult[] = [
         error: {
           code: "UnsupportedLanguageCode",
           message:
-            "Invalid language code. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition",
+            "Invalid language code. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT. For additional details see https://aka.ms/language-service/language-support",
         },
       },
       {
@@ -880,7 +864,7 @@ export const expectation10: AnalyzeBatchResult[] = [
         error: {
           code: "UnsupportedLanguageCode",
           message:
-            "Invalid language code. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT,af,bg,ca,da,el,et,fi,hr,hu,id,lv,nl,no,pl,ro,ru,sk,sl,sv,tr. For additional details see https://aka.ms/text-analytics/language-support?tabs=key-phrase-extraction",
+            "Invalid language code. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT,af,bg,ca,da,el,et,fi,hr,hu,id,lv,nl,no,pl,ro,ru,sk,sl,sv,tr. For additional details see https://aka.ms/language-service/language-support",
         },
       },
       { id: "3", warnings: [], keyPhrases: ["good food", "restaurant"] },
@@ -900,7 +884,7 @@ export const expectation11: AnalyzeBatchResult[] = [
         error: {
           code: "UnsupportedLanguageCode",
           message:
-            "Invalid language code. Supported languages: en,es,de,fr,zh-Hans,ar,cs,da,fi,hu,it,ja,ko,no,nl,pl,pt-BR,pt-PT,ru,sv,tr. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition",
+            "Invalid language code. Supported languages: en,es,de,fr,zh-Hans,ar,cs,da,fi,hu,it,ja,ko,no,nl,pl,pt-BR,pt-PT,ru,sv,tr. For additional details see https://aka.ms/language-service/language-support",
         },
       },
       { id: "3", error: { code: "InvalidDocument", message: "Document text is empty." } },
@@ -917,7 +901,7 @@ export const expectation11: AnalyzeBatchResult[] = [
         error: {
           code: "UnsupportedLanguageCode",
           message:
-            "Invalid language code. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition",
+            "Invalid language code. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT. For additional details see https://aka.ms/language-service/language-support",
         },
       },
       { id: "3", error: { code: "InvalidDocument", message: "Document text is empty." } },
@@ -934,7 +918,7 @@ export const expectation11: AnalyzeBatchResult[] = [
         error: {
           code: "UnsupportedLanguageCode",
           message:
-            "Invalid language code. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT,af,bg,ca,da,el,et,fi,hr,hu,id,lv,nl,no,pl,ro,ru,sk,sl,sv,tr. For additional details see https://aka.ms/text-analytics/language-support?tabs=key-phrase-extraction",
+            "Invalid language code. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT,af,bg,ca,da,el,et,fi,hr,hu,id,lv,nl,no,pl,ro,ru,sk,sl,sv,tr. For additional details see https://aka.ms/language-service/language-support",
         },
       },
       { id: "3", error: { code: "InvalidDocument", message: "Document text is empty." } },
@@ -1219,7 +1203,7 @@ export const expectation16: AnalyzeBatchResult[] = [
         error: {
           code: "UnsupportedLanguageCode",
           message:
-            "Invalid language code. Supported languages: en,es,de,fr,zh-Hans,ar,cs,da,fi,hu,it,ja,ko,no,nl,pl,pt-BR,pt-PT,ru,sv,tr. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition",
+            "Invalid language code. Supported languages: en,es,de,fr,zh-Hans,ar,cs,da,fi,hu,it,ja,ko,no,nl,pl,pt-BR,pt-PT,ru,sv,tr. For additional details see https://aka.ms/language-service/language-support",
         },
       },
     ],
@@ -1234,7 +1218,7 @@ export const expectation16: AnalyzeBatchResult[] = [
         error: {
           code: "UnsupportedLanguageCode",
           message:
-            "Invalid language code. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition",
+            "Invalid language code. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT. For additional details see https://aka.ms/language-service/language-support",
         },
       },
     ],
@@ -1249,7 +1233,7 @@ export const expectation16: AnalyzeBatchResult[] = [
         error: {
           code: "UnsupportedLanguageCode",
           message:
-            "Invalid language code. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT,af,bg,ca,da,el,et,fi,hr,hu,id,lv,nl,no,pl,ro,ru,sk,sl,sv,tr. For additional details see https://aka.ms/text-analytics/language-support?tabs=key-phrase-extraction",
+            "Invalid language code. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT,af,bg,ca,da,el,et,fi,hr,hu,id,lv,nl,no,pl,ro,ru,sk,sl,sv,tr. For additional details see https://aka.ms/language-service/language-support",
         },
       },
     ],
@@ -5534,7 +5518,7 @@ export const expectation30: AnalyzeBatchResult[] = [
         id: "0",
         summaries: [
           {
-            text: "Microsoft's Windows 365 puts the Windows operating system in the cloud. Windows 365 is a new virtualization technology for Windows that is easy to set up and deploy. Users access their Cloud PC through a native application or web browser on any device. Windows 365 follows other products and services to the cloud, from Windows Server on Azure to the suite of Microsoft Office applications in Microsoft 365.",
+            text: "Microsoft’s Cloud PC is a new type of virtualization for Windows.\nThe Cloud PC lets users access Windows 10 or Windows 11 on any device, from anywhere with an internet connection.\n\nThe Cloud PCs are designed for a mobile and mobile workforce.",
             contexts: [{ offset: 0, length: 7519 }],
           },
         ],
@@ -5544,7 +5528,7 @@ export const expectation30: AnalyzeBatchResult[] = [
         id: "1",
         summaries: [
           {
-            text: "Microsoft has launched Windows 365 Cloud PCs for remote workers. The new service lets workers access their old PCs from anywhere on any device. The Cloud PCs are powered by Microsoft's cloud computing platform.",
+            text: "Microsoft’s new Cloud PC, Windows 365, is designed to support a hybrid workforce.\nThe new system allows remote workers to access their work environment from anywhere.\n\nThe Government of Nunavut is testing Windows 365.",
             contexts: [{ offset: 0, length: 3416 }],
           },
         ],
@@ -5564,7 +5548,7 @@ export const expectation31: AnalyzeBatchResult[] = [
         id: "0",
         summaries: [
           {
-            text: "Microsoft's Windows 365 puts the Windows operating system in the cloud.Windows 365 is a new virtualization technology for Windows that is easy to set up and deploy.Users access their Cloud PC through a native application or web browser on any device, from anywhere with an internet connection.",
+            text: "Microsoft’s Cloud PC puts Windows in the cloud.",
             contexts: [{ offset: 0, length: 7519 }],
           },
         ],
@@ -5574,7 +5558,7 @@ export const expectation31: AnalyzeBatchResult[] = [
         id: "1",
         summaries: [
           {
-            text: "Microsoft has launched Windows 365 Cloud PCs for remote workers.The new service lets workers access their old desktop from anywhere on any device.The ability to login to a Cloud PC from anywhere is part of Microsoft's larger strategy.",
+            text: "Microsoft’s new Cloud PC, Windows 365, is designed to support a hybrid workforce.",
             contexts: [{ offset: 0, length: 3416 }],
           },
         ],
@@ -6805,17 +6789,51 @@ export const expectation33: AnalyzeBatchResult[] = [
         id: "0",
         warnings: [],
         entities: [
-          { text: "sneaker", category: "Product", offset: 17, length: 7, confidenceScore: 0.87 },
           {
-            text: "120 EUR",
+            text: "first",
             category: "Quantity",
-            subCategory: "Currency",
-            offset: 28,
-            length: 7,
-            confidenceScore: 1,
+            subCategory: "Ordinal",
+            offset: 12,
+            length: 5,
+            confidenceScore: 0.8,
             resolutions: [
-              { resolutionKind: "CurrencyResolution", value: 120, unit: "Euro", iso4217: "EUR" },
+              { resolutionKind: "OrdinalResolution", offset: "1", relativeTo: "Start", value: "1" },
             ],
+          },
+          { text: "aircraft", category: "Product", offset: 18, length: 8, confidenceScore: 0.87 },
+          {
+            text: "1,300 meter per second",
+            category: "Quantity",
+            subCategory: "Dimension",
+            offset: 59,
+            length: 22,
+            confidenceScore: 0.8,
+            resolutions: [
+              { resolutionKind: "SpeedResolution", value: 1300, unit: "MeterPerSecond" },
+            ],
+          },
+          {
+            text: "65-80",
+            category: "Quantity",
+            subCategory: "NumberRange",
+            offset: 92,
+            length: 5,
+            confidenceScore: 0.9,
+            resolutions: [
+              {
+                resolutionKind: "NumericRangeResolution",
+                rangeKind: "Number",
+                minimum: 65,
+                maximum: 80,
+              },
+            ],
+          },
+          {
+            text: "passengers",
+            category: "PersonType",
+            offset: 98,
+            length: 10,
+            confidenceScore: 0.98,
           },
         ],
       },
@@ -6823,25 +6841,135 @@ export const expectation33: AnalyzeBatchResult[] = [
         id: "1",
         warnings: [],
         entities: [
-          { text: "Bill Gates", category: "Person", offset: 0, length: 10, confidenceScore: 0.98 },
+          { text: "apartment", category: "Location", offset: 4, length: 9, confidenceScore: 0.89 },
           {
-            text: "66 years old",
+            text: "840 sqft",
             category: "Quantity",
-            subCategory: "Age",
-            offset: 14,
+            subCategory: "Dimension",
+            offset: 17,
+            length: 8,
+            confidenceScore: 0.8,
+            resolutions: [{ resolutionKind: "AreaResolution", value: 840, unit: "SquareFoot" }],
+          },
+          {
+            text: "2",
+            category: "Quantity",
+            subCategory: "Number",
+            offset: 38,
+            length: 1,
+            confidenceScore: 0.99,
+            resolutions: [{ resolutionKind: "NumberResolution", numberKind: "Integer", value: 2 }],
+          },
+          { text: "bedrooms", category: "Location", offset: 40, length: 8, confidenceScore: 0.88 },
+          {
+            text: "2,000 US dollars",
+            category: "Quantity",
+            subCategory: "Currency",
+            offset: 59,
+            length: 16,
+            confidenceScore: 1,
+            resolutions: [
+              {
+                resolutionKind: "CurrencyResolution",
+                value: 2000,
+                iso4217: "USD",
+                unit: "United States dollar",
+              },
+            ],
+          },
+          {
+            text: "11/01/2022",
+            category: "DateTime",
+            subCategory: "Date",
+            offset: 111,
+            length: 10,
+            confidenceScore: 1,
+            resolutions: [
+              {
+                resolutionKind: "DateTimeResolution",
+                timex: "2022-11-01",
+                dateTimeSubKind: "Date",
+                value: "2022-11-01",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        id: "2",
+        warnings: [],
+        entities: [
+          {
+            text: "200 terabytes",
+            category: "Quantity",
+            subCategory: "Dimension",
+            offset: 15,
+            length: 13,
+            confidenceScore: 0.8,
+            resolutions: [
+              { resolutionKind: "InformationResolution", value: 200, unit: "Terabyte" },
+            ],
+          },
+          {
+            text: "between",
+            category: "DateTime",
+            subCategory: "DateRange",
+            offset: 37,
+            length: 7,
+            confidenceScore: 0.65,
+          },
+          {
+            text: "October 24th, 2022",
+            category: "DateTime",
+            subCategory: "Date",
+            offset: 45,
+            length: 18,
+            confidenceScore: 0.64,
+            resolutions: [
+              {
+                resolutionKind: "DateTimeResolution",
+                timex: "2022-10-24",
+                dateTimeSubKind: "Date",
+                value: "2022-10-24",
+              },
+            ],
+          },
+          {
+            text: "October 28th",
+            category: "DateTime",
+            subCategory: "Date",
+            offset: 68,
             length: 12,
-            confidenceScore: 0.96,
-            resolutions: [{ resolutionKind: "AgeResolution", value: 66, unit: "Year" }],
+            confidenceScore: 0.56,
+            resolutions: [
+              {
+                resolutionKind: "DateTimeResolution",
+                timex: "XXXX-10-28",
+                dateTimeSubKind: "Date",
+                value: "2022-10-28",
+              },
+              {
+                resolutionKind: "DateTimeResolution",
+                timex: "XXXX-10-28",
+                dateTimeSubKind: "Date",
+                value: "2023-10-28",
+              },
+            ],
           },
           {
             text: "2022",
             category: "DateTime",
             subCategory: "DateRange",
-            offset: 30,
+            offset: 82,
             length: 4,
-            confidenceScore: 0.97,
+            confidenceScore: 0.63,
             resolutions: [
-              { resolutionKind: "TemporalSpanResolution", begin: "2022-01-01", end: "2023-01-01" },
+              {
+                resolutionKind: "TemporalSpanResolution",
+                begin: "2022-01-01",
+                end: "2023-01-01",
+                timex: "2022",
+              },
             ],
           },
         ],
@@ -6851,7 +6979,6 @@ export const expectation33: AnalyzeBatchResult[] = [
     modelVersion,
   },
 ];
-
 export const expectation63: SentimentAnalysisResult[] = [
   {
     id: "0",
@@ -6927,17 +7054,6 @@ export const expectation63: SentimentAnalysisResult[] = [
   },
 ];
 
-export const expectation64: SentimentAnalysisResult[] = [
-  {
-    id: "0",
-    error: {
-      code: "UnsupportedLanguageCode",
-      message:
-        "Invalid language code 'notalanguage'. Supported languages: af,am,ar,as,az,be,bg,bn,br,bs,ca,cs,cy,da,de,el,en,eo,es,et,eu,fa,fi,fil,fr,fy,ga,gd,gl,gu,ha,he,hi,hr,hu,hy,id,it,ja,jv,ka,kk,km,kn,ko,ku,ky,la,lo,lt,lv,mg,mk,ml,mn,mr,ms,my,ne,nl,no,om,or,pa,pl,ps,pt-BR,pt-PT,ro,ru,sa,sd,si,sk,sl,so,sq,sr,su,sv,sw,ta,te,th,tr,ug,uk,ur,uz,vi,xh,yi,zh-Hans,zh-Hant. For additional details see https://aka.ms/text-analytics/language-support?tabs=sentiment-analysis",
-    },
-  },
-];
-
 export const expectation65: SentimentAnalysisResult[] = [
   {
     id: "0",
@@ -6955,7 +7071,7 @@ export const expectation65: SentimentAnalysisResult[] = [
           {
             target: {
               sentiment: "negative",
-              confidenceScores: { positive: 0, negative: 1 },
+              confidenceScores: { positive: 0.02, negative: 0.98 },
               offset: 4,
               length: 4,
               text: "food",
@@ -6963,7 +7079,7 @@ export const expectation65: SentimentAnalysisResult[] = [
             assessments: [
               {
                 sentiment: "negative",
-                confidenceScores: { positive: 0, negative: 1 },
+                confidenceScores: { positive: 0.02, negative: 0.98 },
                 offset: 13,
                 length: 12,
                 text: "unacceptable",
@@ -7170,14 +7286,6 @@ export const expectation65: SentimentAnalysisResult[] = [
                 text: "nice",
                 isNegated: false,
               },
-              {
-                sentiment: "positive",
-                confidenceScores: { positive: 1, negative: 0 },
-                offset: 59,
-                length: 5,
-                text: "clean",
-                isNegated: false,
-              },
             ],
           },
           {
@@ -7231,14 +7339,6 @@ export const expectation65: SentimentAnalysisResult[] = [
                 offset: 8,
                 length: 5,
                 text: "great",
-                isNegated: false,
-              },
-              {
-                sentiment: "positive",
-                confidenceScores: { positive: 0.99, negative: 0.01 },
-                offset: 14,
-                length: 12,
-                text: "unobstructed",
                 isNegated: false,
               },
             ],
@@ -7301,7 +7401,7 @@ export const expectation65: SentimentAnalysisResult[] = [
           {
             target: {
               sentiment: "negative",
-              confidenceScores: { positive: 0, negative: 1 },
+              confidenceScores: { positive: 0.01, negative: 0.99 },
               offset: 42,
               length: 6,
               text: "toilet",
@@ -7309,7 +7409,7 @@ export const expectation65: SentimentAnalysisResult[] = [
             assessments: [
               {
                 sentiment: "negative",
-                confidenceScores: { positive: 0, negative: 1 },
+                confidenceScores: { positive: 0.01, negative: 0.99 },
                 offset: 53,
                 length: 5,
                 text: "dirty",
@@ -7632,8 +7732,8 @@ export const expectation36: SentimentAnalysisResult[] = [
           },
           {
             target: {
-              sentiment: "positive",
-              confidenceScores: { positive: 1, negative: 0 },
+              sentiment: "negative",
+              confidenceScores: { positive: 0, negative: 1 },
               offset: 13,
               length: 7,
               text: "service",
@@ -7699,7 +7799,7 @@ export const expectation38: LanguageDetectionResult[] = [
 
 export const expectation39: LanguageDetectionResult[] = [
   {
-    primaryLanguage: { name: "French", iso6391Name: "fr", confidenceScore: 1 },
+    primaryLanguage: { name: "English", iso6391Name: "en", confidenceScore: 1 },
     id: "0",
     warnings: [],
   },
@@ -7930,17 +8030,6 @@ export const expectation45: EntityRecognitionResult[] = [
   },
 ];
 
-export const expectation46: EntityRecognitionResult[] = [
-  {
-    id: "0",
-    error: {
-      code: "UnsupportedLanguageCode",
-      message:
-        "Invalid language code 'notalanguage'. Supported languages: ar,cs,da,de,en,es,fi,fr,hu,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv,tr,zh-Hans. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition",
-    },
-  },
-];
-
 export const expectation47: EntityRecognitionResult[] = [
   {
     id: "1",
@@ -8046,17 +8135,6 @@ export const expectation49: KeyPhraseExtractionResult[] = [
   { id: "1", warnings: [], keyPhrases: ["entire trip", "Space Needle", "Seattle"] },
   { id: "2", warnings: [], keyPhrases: ["movie", "Saturday"] },
   { id: "3", warnings: [], keyPhrases: ["last book"] },
-];
-
-export const expectation50: KeyPhraseExtractionResult[] = [
-  {
-    id: "0",
-    error: {
-      code: "UnsupportedLanguageCode",
-      message:
-        "Invalid language code 'notalanguage'. Supported languages: af,am,ar,as,az,be,bg,bn,br,bs,ca,cs,cy,da,de,el,en,eo,es,et,eu,fa,fi,fil,fr,fy,ga,gd,gl,gu,ha,he,hi,hr,hu,hy,id,it,ja,jv,ka,kk,km,kn,ko,ku,ky,la,lo,lt,lv,mg,mk,ml,mn,mr,ms,my,ne,nl,no,om,or,pa,pl,ps,pt-BR,pt-PT,ro,ru,sa,sd,si,sk,sl,so,sq,sr,su,sv,sw,ta,te,th,tr,ug,uk,ur,uz,vi,xh,yi,zh-Hans,zh-Hant. For additional details see https://aka.ms/text-analytics/language-support?tabs=key-phrase-extraction",
-    },
-  },
 ];
 
 export const expectation51: KeyPhraseExtractionResult[] = [
@@ -8178,17 +8256,6 @@ export const expectation54: PiiEntityRecognitionResult[] = [
         confidenceScore: 0.65,
       },
     ],
-  },
-];
-
-export const expectation55: PiiEntityRecognitionResult[] = [
-  {
-    id: "0",
-    error: {
-      code: "UnsupportedLanguageCode",
-      message:
-        "Invalid language code 'notalanguage'. Supported languages: de,en,es,fr,it,ja,ko,pt-BR,pt-PT,zh-Hans. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition",
-    },
   },
 ];
 
@@ -8373,17 +8440,6 @@ export const expectation60: EntityLinkingResult[] = [
     ],
   },
   { id: "3", warnings: [], entities: [] },
-];
-
-export const expectation61: EntityLinkingResult[] = [
-  {
-    id: "0",
-    error: {
-      code: "UnsupportedLanguageCode",
-      message:
-        "Invalid language code 'notalanguage'. Supported languages: en,es. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition",
-    },
-  },
 ];
 
 export const expectation62: EntityLinkingResult[] = [
@@ -8594,14 +8650,14 @@ export const expectation71: any = [
         id: "1",
         warnings: [],
         sentiment: "neutral",
-        confidenceScores: { positive: 0.04, neutral: 0.92, negative: 0.04 },
+        confidenceScores: { positive: 0.02, neutral: 0.98, negative: 0 },
         detectedLanguage: { name: "Spanish", iso6391Name: "es", confidenceScore: 0.75 },
         isLanguageDefaulted: false,
         sentences: [
           {
             text: "Este es un document escrito en Español.",
             sentiment: "neutral",
-            confidenceScores: { positive: 0.04, neutral: 0.92, negative: 0.04 },
+            confidenceScores: { positive: 0.02, neutral: 0.98, negative: 0 },
             offset: 0,
             length: 39,
             opinions: [],
@@ -8612,14 +8668,14 @@ export const expectation71: any = [
         id: "2",
         warnings: [],
         sentiment: "positive",
-        confidenceScores: { positive: 0.99, neutral: 0.01, negative: 0 },
+        confidenceScores: { positive: 0.96, neutral: 0.04, negative: 0.01 },
         detectedLanguage: { name: "Japanese", iso6391Name: "ja", confidenceScore: 1 },
         isLanguageDefaulted: false,
         sentences: [
           {
             text: "猫は幸せ",
             sentiment: "positive",
-            confidenceScores: { positive: 0.99, neutral: 0.01, negative: 0 },
+            confidenceScores: { positive: 0.96, neutral: 0.04, negative: 0.01 },
             offset: 0,
             length: 4,
             opinions: [],
@@ -8670,18 +8726,17 @@ export const expectation71: any = [
       },
       {
         id: "1",
-        error: {
-          code: "UnsupportedLanguageCode",
-          message:
-            "Invalid language code 'es'. Supported languages: en. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition",
-        },
+        warnings: [],
+        entities: [],
+        detectedLanguage: { name: "Spanish", iso6391Name: "es", confidenceScore: 0.75 },
+        isLanguageDefaulted: false,
       },
       {
         id: "2",
         error: {
           code: "UnsupportedLanguageCode",
           message:
-            "Invalid language code 'ja'. Supported languages: en,es. For additional details see https://aka.ms/text-analytics/language-support?tabs=entity-linking",
+            "Invalid language code 'ja'. Supported languages: en,es. For additional details see https://aka.ms/language-service/language-support",
         },
       },
     ],
@@ -8694,9 +8749,9 @@ export const expectation71: any = [
       {
         entities: [],
         entityRelations: [],
+        detectedLanguage: { iso6391Name: "en" },
         id: "0",
         warnings: [],
-        detectedLanguage: { iso6391Name: "en" },
         isLanguageDefaulted: false,
       },
       {
@@ -8704,7 +8759,7 @@ export const expectation71: any = [
         error: {
           code: "UnsupportedLanguageCode",
           message:
-            "Invalid language code 'es'. Supported languages: en. For additional details see https://aka.ms/text-analytics/language-support",
+            "Invalid language code 'es'. Supported languages: en. For additional details see https://aka.ms/language-service/language-support",
         },
       },
       {
@@ -8712,7 +8767,7 @@ export const expectation71: any = [
         error: {
           code: "UnsupportedLanguageCode",
           message:
-            "Invalid language code 'ja'. Supported languages: en. For additional details see https://aka.ms/text-analytics/language-support",
+            "Invalid language code 'ja'. Supported languages: en. For additional details see https://aka.ms/language-service/language-support",
         },
       },
     ],
