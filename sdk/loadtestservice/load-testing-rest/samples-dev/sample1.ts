@@ -63,7 +63,9 @@ async function main() {
   }
 
   const fileValidatePoller = await getFileValidatePoller(client, fileUploadResult, testId);
-  const fileValidateResult = await fileValidatePoller.pollUntilDone();
+  const fileValidateResult = await fileValidatePoller.pollUntilDone({
+    abortSignal: AbortController.timeout(60000), // timeout of 60 seconds
+  });
 
   if (fileValidatePoller.getOperationState().status != "succeeded")
     throw new Error(
@@ -114,7 +116,9 @@ async function main() {
     throw new Error("Test Run ID returned as undefined.");
 
   const testRunPoller = await getTestRunPoller(client, testRunCreationResult);
-  const testRunResult = await testRunPoller.pollUntilDone();
+  const testRunResult = await testRunPoller.pollUntilDone({
+    abortSignal: AbortController.timeout(60000), // timeout of 60 seconds
+  });
 
   if (testRunPoller.getOperationState().status != "succeeded" && testRunResult)
     throw new Error("There is some issue in running the test, Error Response : " + testRunResult);

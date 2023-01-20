@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { AbortSignalLike } from "@azure/abort-controller";
+import { TestRunOutput } from "../outputModels";
 
 const REJECTED_ERR = new Error("The operation has been aborted");
 
@@ -29,4 +30,23 @@ export function sleep(ms: number, signal: AbortSignalLike): Promise<void> {
       reject(REJECTED_ERR);
     }
   });
+}
+
+export function isTestRunInProgress(testRunOutput: TestRunOutput): boolean {
+  switch (testRunOutput.status) {
+    case "ACCEPTED":
+    case "NOTSTARTED":
+    case "PROVISIONING":
+    case "PROVISIONED":
+    case "CONFIGURING":
+    case "CONFIGURED":
+    case "EXECUTING":
+    case "EXECUTED":
+    case "DEPROVISIONING":
+    case "DEPROVISIONED":
+    case "CANCELLING":
+      return true;
+    default:
+      return false;
+  }
 }

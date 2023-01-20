@@ -7,7 +7,7 @@ import { FileUploadAndValidatePoller, PolledOperationOptions } from "./models";
 import { AzureLoadTestingClient } from "./clientDefinitions";
 import { TestGetFile200Response, TestUploadFile201Response } from "./responses";
 import { isUnexpected } from "./isUnexpected";
-import { sleep } from "./util/sleepLROUtility";
+import { sleep } from "./util/LROUtil";
 
 /**
  * Uploads a file and creates a poller to poll for validation.
@@ -43,27 +43,32 @@ export async function getFileValidatePoller(
           .path("/tests/{testId}/files/{fileName}", testId, fileName)
           .get();
         if (isUnexpected(fileValidationResponse)) {
-          throw fileValidationResponse.body.error;
+          state.status = "failed";
+          state.error = new Error(fileValidationResponse.body.error.message);
+          return;
         }
-        if (
-          fileValidationResponse.body.validationStatus === "VALIDATION_INITIATED" ||
-          fileValidationResponse.body.validationStatus === "NOT_VALIDATED"
-        ) {
+        if (fileValidationResponse.body.validationStatus === "VALIDATION_INITIATED") {
           state.status = "running";
         }
-
+        if (fileValidationResponse.body.validationStatus === "NOT_VALIDATED") {
+          if (fileValidationResponse.body.fileType == "JMX_FILE") {
+            state.status = "running";
+          } else {
+            state.status = "succeeded";
+          }
+        }
         if (
           fileValidationResponse.body.validationStatus === "VALIDATION_SUCCESS" ||
           fileValidationResponse.body.validationStatus === "VALIDATION_NOT_REQUIRED"
         ) {
           state.status = "succeeded";
-          state.result = fileValidationResponse;
         }
 
         if (fileValidationResponse.body.validationStatus === "VALIDATION_FAILURE") {
           state.status = "failed";
           state.error = new Error(fileValidationResponse.body.validationStatus);
         }
+        state.result = fileValidationResponse;
 
         await processProgressCallbacks();
       }

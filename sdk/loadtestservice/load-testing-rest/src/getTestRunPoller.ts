@@ -11,7 +11,7 @@ import {
   TestRunGet200Response,
 } from "./responses";
 import { isUnexpected } from "./isUnexpected";
-import { sleep } from "./util/sleepLROUtility";
+import { sleep, isTestRunInProgress } from "./util/LROUtil";
 
 /**
  * Creates a poller to poll for test run status.
@@ -44,7 +44,9 @@ export async function getTestRunPoller(
       if (testRunId) {
         let getTestRunResult = await client.path("/test-runs/{testRunId}", testRunId).get();
         if (isUnexpected(getTestRunResult)) {
-          throw getTestRunResult.body.error;
+          state.status = "failed";
+          state.error = new Error(getTestRunResult.body.error.message);
+          return;
         }
 
         if (getTestRunResult.body.status === "FAILED") {
@@ -52,18 +54,18 @@ export async function getTestRunPoller(
           state.error = new Error(getTestRunResult.body.status);
         }
 
-        if (
-          getTestRunResult.body.status === "CANCELLING" ||
-          getTestRunResult.body.status === "CANCELLED"
-        ) {
+        if (getTestRunResult.body.status === "CANCELLED") {
           state.status === "canceled";
         }
 
         if (getTestRunResult.body.status === "DONE") {
           state.status = "succeeded";
-          state.result = getTestRunResult;
         }
 
+        if (isTestRunInProgress(getTestRunResult.body)) {
+          state.status = "running";
+        }
+        state.result = getTestRunResult;
         await processProgressCallbacks();
       }
     },
