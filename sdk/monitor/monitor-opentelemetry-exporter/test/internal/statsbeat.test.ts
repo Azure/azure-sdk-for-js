@@ -17,13 +17,15 @@ import {
   // StatsbeatInstrumentation,
 } from "../../src/export/statsbeat/types";
 import { LongIntervalStatsbeatMetrics } from "../../src/export/statsbeat/longIntervalStatsbeatMetrics";
-import { Test } from "mocha";
 
 describe("#AzureMonitorStatsbeatExporter", () => {
   // Represents REDIS and MONGODB instrumentations enabled
   process.env.STATSBEAT_INSTRUMENTATIONS = "2,8";
   // Represents DISK_RETRY and AAD_HANDLING features enabled
   process.env.STATSBEAT_FEATURES = "1,2";
+  // Used for exporting long interval statsbeat in testing
+  process.env.LONG_INTERVAL_EXPORT_MILLIS = "100";
+
   let options = {
     instrumentationKey: "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;",
     endpointUrl: "IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com",
@@ -349,12 +351,10 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         // Average Duration
         assert.strictEqual(metrics[5].dataPoints[0].value, 137.5);
       });
-
-      // TODO: Figure out how to fix this test
+      
       it("should track long interval statsbeats", async () => {
+        const longIntervalStatsbeat = new LongIntervalStatsbeatMetrics(options);
         let mockExport = sandbox.stub(longIntervalStatsbeat.getInstance()["_longIntervalAzureExporter"], "export");
-        statsbeat.countSuccess(200);
-        longIntervalStatsbeat.getInstance().isInitialized;
 
         await new Promise((resolve) => setTimeout(resolve, 120));
         assert.ok(mockExport.called);

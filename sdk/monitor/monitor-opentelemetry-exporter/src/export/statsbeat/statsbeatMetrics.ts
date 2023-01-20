@@ -28,11 +28,9 @@ import {
   AIMS_URI,
   AIMS_API_VERSION,
   AIMS_FORMAT,
-  /* TODO: Add these back for production
   EU_CONNECTION_STRING,
   EU_ENDPOINTS,
   NON_EU_CONNECTION_STRING,
-  */
   CommonStatsbeatProperties,
   NetworkStatsbeatProperties,
   IVirtualMachineInfo,
@@ -77,9 +75,7 @@ export class StatsbeatMetrics {
   private _host: string;
 
   constructor(options: StatsbeatOptions) {
-    // TODO: Add this back in production
-    // this._connectionString = this._getConnectionString(options.endpointUrl);
-    this._connectionString = "InstrumentationKey=b59d565e-da91-4140-8671-6c79b6938b4d;IngestionEndpoint=https://westus2-2.in.applicationinsights.azure.com/;LiveEndpoint=https://westus2.livediagnostics.monitor.azure.com/";
+    this._connectionString = this._getConnectionString(options.endpointUrl);
     this._networkStatsbeatMeterProvider = new MeterProvider();
 
     const exporterConfig: AzureMonitorExporterOptions = {
@@ -439,7 +435,6 @@ export class StatsbeatMetrics {
     return shortHost;
   }
 
-  /* TODO: Add this back
   private _getConnectionString(endpointUrl: string) {
     let currentEndpoint = endpointUrl;
     for (let i = 0; i < EU_ENDPOINTS.length; i++) {
@@ -449,5 +444,4 @@ export class StatsbeatMetrics {
     }
     return NON_EU_CONNECTION_STRING;
   }
-  */
 }

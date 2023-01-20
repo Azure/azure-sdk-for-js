@@ -28,11 +28,9 @@ import {
   AIMS_URI,
   AIMS_API_VERSION,
   AIMS_FORMAT,
-  /* TODO: Add these back for production
   EU_CONNECTION_STRING,
   EU_ENDPOINTS,
   NON_EU_CONNECTION_STRING,
-  */
   CommonStatsbeatProperties,
   IVirtualMachineInfo,
   AttachStatsbeatProperties,
@@ -56,7 +54,7 @@ export class LongIntervalStatsbeatMetrics {
 }
 
 class PrivateLongIntervalStatsbeatMetrics {
-  private _statsCollectionLongInterval: number = 86400000; // 1 day
+  private _statsCollectionLongInterval: number = 8600; // 1 day
   private _isInitialized: boolean = false;
 
   // Custom dimensions
@@ -92,10 +90,7 @@ class PrivateLongIntervalStatsbeatMetrics {
   private _attachStatsbeatGauge: ObservableGauge;
 
   constructor(options: StatsbeatOptions) {
-    // TODO: Change this out for production
-    // this._connectionString = this._getConnectionString(options.endpointUrl);
-    this._connectionString = "InstrumentationKey=b59d565e-da91-4140-8671-6c79b6938b4d;IngestionEndpoint=https://westus2-2.in.applicationinsights.azure.com/;LiveEndpoint=https://westus2.livediagnostics.monitor.azure.com/";
-
+    this._connectionString = this._getConnectionString(options.endpointUrl);
     const exporterConfig: AzureMonitorExporterOptions = {
       connectionString: this._connectionString,
     };
@@ -117,7 +112,7 @@ class PrivateLongIntervalStatsbeatMetrics {
     // Export Long Interval Statsbeats every day
     const longIntervalMetricReaderOptions: PeriodicExportingMetricReaderOptions = {
       exporter: this._longIntervalAzureExporter,
-      exportIntervalMillis: options.longCollectionInterval || this._statsCollectionLongInterval, // 1 day
+      exportIntervalMillis: Number(process.env.LONG_INTERVAL_EXPORT_MILLIS) || this._statsCollectionLongInterval, // 1 day
     };
 
     this._longIntervalMetricReader = new PeriodicExportingMetricReader(
@@ -283,7 +278,6 @@ class PrivateLongIntervalStatsbeatMetrics {
     this._instrumentation |= instrumentation;
   }
 
-  /* TODO: Add this back
   private _getConnectionString(endpointUrl: string) {
     let currentEndpoint = endpointUrl;
     for (let i = 0; i < EU_ENDPOINTS.length; i++) {
@@ -293,7 +287,6 @@ class PrivateLongIntervalStatsbeatMetrics {
     }
     return NON_EU_CONNECTION_STRING;
   }
-  */
 
   public isInitialized() {
     return this._isInitialized;
