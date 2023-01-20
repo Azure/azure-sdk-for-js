@@ -13,10 +13,9 @@ import { DEFAULT_BREEZE_ENDPOINT, ENV_CONNECTION_STRING } from "../Declarations/
 import { TelemetryItem as Envelope } from "../generated";
 import { StatsbeatMetrics } from "./statsbeat/statsbeatMetrics";
 import {
-  MAX_STATSBEAT_FAILURES,
-  StatsbeatFeature,
-  StatsbeatInstrumentation,
+  MAX_STATSBEAT_FAILURES
 } from "./statsbeat/types";
+import { LongIntervalStatsbeatMetrics } from "./statsbeat/longIntervalStatsbeatMetrics";
 
 const DEFAULT_BATCH_SEND_RETRY_INTERVAL_MS = 60_000;
 /**
@@ -33,6 +32,7 @@ export abstract class AzureMonitorBaseExporter {
   private _numConsecutiveRedirects: number;
   private _retryTimer: NodeJS.Timer | null;
   private _statsbeatMetrics: StatsbeatMetrics | undefined;
+  private _longIntervalStatsbeatMetrics: LongIntervalStatsbeatMetrics | undefined;
   private _isStatsbeatExporter: boolean;
   private _statsbeatFailureCount: number = 0;
   private _batchSendRetryIntervalMs: number = DEFAULT_BATCH_SEND_RETRY_INTERVAL_MS;
@@ -45,12 +45,7 @@ export abstract class AzureMonitorBaseExporter {
    * Initializes a new instance of the AzureMonitorBaseExporter class.
    * @param AzureMonitorExporterOptions - Exporter configuration.
    */
-  constructor(
-    options: AzureMonitorExporterOptions = {},
-    isStatsbeatExporter?: boolean,
-    instrumentations?: StatsbeatInstrumentation[],
-    features?: StatsbeatFeature[]
-  ) {
+  constructor(options: AzureMonitorExporterOptions = {}, isStatsbeatExporter?: boolean) {
     this._options = options;
     this._numConsecutiveRedirects = 0;
     this._instrumentationKey = "";
@@ -81,10 +76,10 @@ export abstract class AzureMonitorBaseExporter {
         instrumentationKey: this._instrumentationKey,
         endpointUrl: this._endpointUrl,
       });
-      instrumentations?.forEach((instrumentation) =>
-        this._statsbeatMetrics?.addInstrumentation(instrumentation)
-      );
-      features?.forEach((feature) => this._statsbeatMetrics?.addFeature(feature));
+      this._longIntervalStatsbeatMetrics = new LongIntervalStatsbeatMetrics({
+        instrumentationKey: this._instrumentationKey,
+        endpointUrl: this._endpointUrl,
+      });
     }
     this._retryTimer = null;
     diag.debug("AzureMonitorExporter was successfully setup");
@@ -241,6 +236,7 @@ export abstract class AzureMonitorBaseExporter {
     if (this._statsbeatFailureCount > MAX_STATSBEAT_FAILURES) {
       this._isStatsbeatExporter = false;
       this._statsbeatMetrics?.shutdown();
+      this._longIntervalStatsbeatMetrics?.getInstance().shutdown();
       this._statsbeatMetrics = undefined;
       this._statsbeatFailureCount = 0;
     }

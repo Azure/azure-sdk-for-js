@@ -13,11 +13,17 @@ import { StatsbeatMetrics } from "../../src/export/statsbeat/statsbeatMetrics";
 import sinon from "sinon";
 import {
   StatsbeatCounter,
-  StatsbeatFeature,
-  StatsbeatInstrumentation,
+  // StatsbeatFeature,
+  // StatsbeatInstrumentation,
 } from "../../src/export/statsbeat/types";
+import { LongIntervalStatsbeatMetrics } from "../../src/export/statsbeat/longIntervalStatsbeatMetrics";
+import { Test } from "mocha";
 
 describe("#AzureMonitorStatsbeatExporter", () => {
+  // Represents REDIS and MONGODB instrumentations enabled
+  process.env.STATSBEAT_INSTRUMENTATIONS = "2,8";
+  // Represents DISK_RETRY and AAD_HANDLING features enabled
+  process.env.STATSBEAT_FEATURES = "1,2";
   let options = {
     instrumentationKey: "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;",
     endpointUrl: "IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com",
@@ -27,9 +33,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
     constructor() {
       super(
         { connectionString: `instrumentationkey=foo-ikey` },
-        false,
-        [StatsbeatInstrumentation.MONGODB, StatsbeatInstrumentation.REDIS],
-        [StatsbeatFeature.AAD_HANDLING]
+        false
       );
       this.thisAsAny = this;
     }
@@ -133,13 +137,16 @@ describe("#AzureMonitorStatsbeatExporter", () => {
       it("should add correct long interval properties to the custom metric", async () => {
         const exporter = new TestExporter();
         const statsbeatMetrics = exporter["_statsbeatMetrics"];
+        const longIntervalStatsbeatMetrics = new LongIntervalStatsbeatMetrics(options);
         assert.ok(statsbeatMetrics);
-        // Represents the bitwise OR of MONGODB and REDIS instrumentations
-        assert.strictEqual(statsbeatMetrics["_instrumentation"], 10);
-        // Represents the bitwise OR of NONE and AAD_HANDLING features
-        assert.strictEqual(statsbeatMetrics["_feature"], 2);
 
-        assert.strictEqual(statsbeatMetrics["_attachProperties"].rpId, "");
+        // const longIntervalStatsbeatMetrics = exporter["_longIntervalStatsbeatMetrics"]?.getInstance();
+        assert.ok(longIntervalStatsbeatMetrics);
+        // Represents the bitwise OR of NONE and AAD_HANDLING features
+        assert.strictEqual(longIntervalStatsbeatMetrics.getInstance()["_feature"], 3);
+        // Represents the bitwise OR of MONGODB and REDIS instrumentations
+        assert.strictEqual(longIntervalStatsbeatMetrics.getInstance()["_instrumentation"], 10);
+        assert.strictEqual(longIntervalStatsbeatMetrics.getInstance()["_attachProperties"].rpId, "");
       });
 
       it("should turn off statsbeat after max failures", async () => {
@@ -241,7 +248,6 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         statsbeat = new StatsbeatMetrics({
           ...options,
           networkCollectionInterval: 100,
-          longCollectionInterval: 100,
         });
       });
 
@@ -344,9 +350,11 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         assert.strictEqual(metrics[5].dataPoints[0].value, 137.5);
       });
 
+      // TODO: Figure out how to fix this test
       it("should track long interval statsbeats", async () => {
-        let mockExport = sandbox.stub(statsbeat["_longIntervalAzureExporter"], "export");
+        let mockExport = sandbox.stub(longIntervalStatsbeat.getInstance()["_longIntervalAzureExporter"], "export");
         statsbeat.countSuccess(200);
+        longIntervalStatsbeat.getInstance().isInitialized;
 
         await new Promise((resolve) => setTimeout(resolve, 120));
         assert.ok(mockExport.called);

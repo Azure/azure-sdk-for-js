@@ -114,64 +114,11 @@ export interface NetworkStatsbeatProperties {
   host: string;
 }
 
-/**
- * Azure Monitor Statsbeat Feature Types
- */
-export enum StatsbeatFeature {
-  /**
-   * No Features
-   */
-  NONE = 0,
-  /**
-   * Disk Retry Feature
-   */
-  DISK_RETRY = 1,
-  /**
-   * AAD Handling Feature
-   */
-  AAD_HANDLING = 2,
-}
-
-/**
- * Azure Monitor Statsbeat Instrumentation Types
- */
-export enum StatsbeatInstrumentation {
-  /**
-   * No Instrumentations
-   */
-  NONE = 0,
-  /**
-   * Azure Core Tracing Instrumentation
-   */
-  AZURE_CORE_TRACING = 1,
-  /**
-   * MongoDB Instrumentation
-   */
-  MONGODB = 2,
-  /**
-   * MySQL Instrumentation
-   */
-  MYSQL = 4,
-  /**
-   * Redis Instrumentation
-   */
-  REDIS = 8,
-  /**
-   * Postgres Instrumentation
-   */
-  POSTGRES = 16,
-  /**
-   * Bunyan Instrumentation
-   */
-  BUNYAN = 32,
-  /**
-   * Winston Instrumentation
-   */
-  WINSTON = 64,
-  /**
-   * Console Instrumentation
-   */
-  CONSOLE = 128,
+export interface StatsbeatOptions {
+  instrumentationKey: string;
+  endpointUrl: string;
+  networkCollectionInterval?: number;
+  longCollectionInterval?: number;
 }
 
 export enum StatsbeatFeatureType {

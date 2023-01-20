@@ -8,8 +8,6 @@ export { AzureMonitorMetricExporter } from "./export/metric";
 export { AzureMonitorStatsbeatExporter } from "./export/statsbeat";
 export { AzureMonitorExporterOptions } from "./config";
 export { ServiceApiVersion } from "./Declarations/Constants";
-export { StatsbeatInstrumentation } from "./export/statsbeat/types";
-export { StatsbeatFeature } from "./export/statsbeat/types";
 export {
   ApplicationInsightsClientOptionalParams,
   MonitorBase,

@@ -8,7 +8,6 @@ import { AzureMonitorBaseExporter } from "./base";
 import { AzureMonitorExporterOptions } from "../config";
 import { TelemetryItem as Envelope } from "../generated";
 import { readableSpanToEnvelope, spanEventsToEnvelopes } from "../utils/spanUtils";
-import { StatsbeatFeature, StatsbeatInstrumentation } from "./statsbeat/types";
 
 /**
  * Azure Monitor OpenTelemetry Trace Exporter.
@@ -24,11 +23,9 @@ export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implemen
    * @param AzureExporterConfig - Exporter configuration.
    */
   constructor(
-    options: AzureMonitorExporterOptions = {},
-    instrumentations?: StatsbeatInstrumentation[],
-    features?: StatsbeatFeature[]
+    options: AzureMonitorExporterOptions = {}
   ) {
-    super(options, false, instrumentations, features);
+    super(options, false);
     diag.debug("AzureMonitorTraceExporter was successfully setup");
   }
 
