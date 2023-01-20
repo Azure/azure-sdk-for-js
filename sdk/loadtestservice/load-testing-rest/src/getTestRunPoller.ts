@@ -65,13 +65,6 @@ export async function getTestRunPoller(
         }
 
         await processProgressCallbacks();
-
-        if (state.status === "canceled") {
-          throw new Error("Operation was canceled");
-        }
-        if (state.status === "failed") {
-          throw state.error;
-        }
       }
     },
 

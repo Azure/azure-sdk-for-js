@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { OperationState, SimplePollerLike } from "@azure/core-lro";
-import { OperationOptions } from "@azure/core-client";
 import { TestGetFile200Response, TestRunGet200Response } from "./responses";
 
 /** Load test model */
@@ -411,7 +410,7 @@ export type TestRunStatusPoller = SimplePollerLike<
   TestRunGet200Response
 >;
 
-export interface PolledOperationOptions extends OperationOptions {
+export interface PolledOperationOptions {
   /**
    * Time delay between poll requests, in milliseconds.
    */

@@ -57,17 +57,15 @@ async function main() {
     contentType: "application/octet-stream",
     body: readStream,
   });
-  const fileUploadResult = await fileUploadPoller.pollUntilDone({
+  await fileUploadPoller.pollUntilDone({
     abortSignal: AbortController.timeout(60000), // timeout of 60 seconds
   });
 
   if (fileUploadPoller.getOperationState().status != "succeeded")
     throw new Error(
       "There is some issue in validation, please make sure uploaded file is a valid JMX." +
-        fileUploadResult
+        fileUploadPoller.getOperationState().error
     );
-
-  console.log(fileUploadResult);
 
   // Creating/Updating app component
   const appComponentCreationResult = await client
@@ -106,13 +104,16 @@ async function main() {
   });
 
   if (testRunPoller.getOperationState().status != "succeeded" && testRunResult)
-    throw new Error("There is some issue in running the test, Error Response : " + testRunResult);
+    throw new Error(
+      "There is some issue in running the test, Error Response : " +
+        testRunPoller.getOperationState().error
+    );
 
-  let testRunStarttime = testRunResult.body.startDateTime;
-  let testRunEndTime = testRunResult.body.endDateTime;
+  const testRunStarttime = testRunResult.body.startDateTime;
+  const testRunEndTime = testRunResult.body.endDateTime;
   if (testRunId) {
     // get list of all metric namespaces and pick the first one
-    let metricNamespaces = await client
+    const metricNamespaces = await client
       .path("/test-runs/{testRunId}/metric-namespaces", testRunId)
       .get();
 
@@ -120,14 +121,14 @@ async function main() {
       throw metricNamespaces.body.error;
     }
 
-    let metricNamespace = metricNamespaces.body.value[0];
+    const metricNamespace = metricNamespaces.body.value[0];
 
     if (metricNamespace.name === undefined) {
       throw "No Metric Namespace name is defined.";
     }
 
     // get list of all metric definitions and pick the first one
-    let metricDefinitions = await client
+    const metricDefinitions = await client
       .path("/test-runs/{testRunId}/metric-definitions", testRunId)
       .get({
         queryParameters: {
@@ -139,14 +140,14 @@ async function main() {
       throw metricDefinitions.body.error;
     }
 
-    let metricDefinition = metricDefinitions.body.value[0];
+    const metricDefinition = metricDefinitions.body.value[0];
 
     if (metricDefinition.name === undefined) {
       throw "No Metric Namespace name is defined.";
     }
 
     // fetch client metrics using metric namespace and metric name
-    let metricsResult = await client.path("/test-runs/{testRunId}/metrics", testRunId).post({
+    const metricsResult = await client.path("/test-runs/{testRunId}/metrics", testRunId).post({
       queryParameters: {
         metricname: metricDefinition.name,
         metricNamespace: metricNamespace.name,
@@ -158,14 +159,14 @@ async function main() {
     console.log(testRunResult);
 
     // Deleting test run
-    let deleteTestRunResult = await client.path("/test-runs/{testRunId}", testRunId).delete();
+    const deleteTestRunResult = await client.path("/test-runs/{testRunId}", testRunId).delete();
 
     if (isUnexpected(deleteTestRunResult)) {
       throw deleteTestRunResult.body.error;
     }
 
     // Deleting test
-    let deleteTestResult = await client.path("/tests/{testId}", testId).delete();
+    const deleteTestResult = await client.path("/tests/{testId}", testId).delete();
 
     if (isUnexpected(deleteTestResult)) {
       throw deleteTestResult.body.error;
