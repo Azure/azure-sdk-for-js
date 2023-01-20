@@ -189,13 +189,11 @@ export class GlobalEndpointManager {
 
   private refreshStaleUnavailableLocations(): void {
     const now = Date.now();
-    let isReadRequestType: boolean = true;
-    this.updateLocationList(now, isReadRequestType);
-    this.cleanUnavailableLocationList(now, isReadRequestType);
+    this.updateLocationList(now, /*isReadRequestType*/ true);
+    this.cleanUnavailableLocationList(now, /*isReadRequestType*/ true);
 
-    isReadRequestType = false;
-    this.updateLocationList(now, isReadRequestType);
-    this.cleanUnavailableLocationList(now, isReadRequestType);
+    this.updateLocationList(now, /*isReadRequestType*/ false);
+    this.cleanUnavailableLocationList(now, /*isReadRequestType*/ false);
   }
 
   private updateLocationList(now: number, isReadRequest: boolean) {
