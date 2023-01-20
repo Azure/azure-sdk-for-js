@@ -15,7 +15,7 @@ import { sleep } from "./util/LROUtil";
  * @param options - The operation options.
  * @returns A poller which can be called to poll until completion of the job.
  */
-export async function getFileValidatePoller(
+export async function getFileValidationPoller(
   client: AzureLoadTestingClient,
   fileUploadResult: TestUploadFile201Response,
   testId: string,
@@ -38,6 +38,12 @@ export async function getFileValidatePoller(
 
   const poller: SimplePollerLike<OperationState<TestGetFile200Response>, TestGetFile200Response> = {
     async poll(_options?: { abortSignal?: AbortSignalLike }): Promise<void> {
+      if (_options?.abortSignal?.aborted) {
+          state.status = "failed";
+          state.error = new Error("The operation was aborted.");
+          return;
+        }
+
       if (fileName) {
         let fileValidationResponse = await client
           .path("/tests/{testId}/files/{fileName}", testId, fileName)

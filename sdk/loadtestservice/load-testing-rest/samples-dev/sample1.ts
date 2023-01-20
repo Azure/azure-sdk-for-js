@@ -10,14 +10,13 @@
 
 import AzureLoadTesting, {
   isUnexpected,
-  beginCreateOrUpdateTestRun,
 } from "@azure-rest/load-testing";
 import { AbortController } from "@azure/abort-controller";
 import { DefaultAzureCredential } from "@azure/identity";
 import { createReadStream } from "fs";
 import { v4 as uuidv4 } from "uuid";
-import { getFileValidatePoller } from "../src/getFileValidatePoller";
-import { getTestRunPoller } from "../src/getTestRunPoller";
+import { getFileValidationPoller } from "../src/getFileValidationPoller";
+import { getTestRunCompletionPoller } from "../src/getTestRunCompletionPoller";
 
 const readStream = createReadStream("./sample.jmx");
 
@@ -62,7 +61,7 @@ async function main() {
     throw fileUploadResult.body.error;
   }
 
-  const fileValidatePoller = await getFileValidatePoller(client, fileUploadResult, testId);
+  const fileValidatePoller = await getFileValidationPoller(client, fileUploadResult, testId);
   const fileValidateResult = await fileValidatePoller.pollUntilDone({
     abortSignal: AbortController.timeout(60000), // timeout of 60 seconds
   });
@@ -115,7 +114,7 @@ async function main() {
   if (testRunCreationResult.body.testRunId === undefined)
     throw new Error("Test Run ID returned as undefined.");
 
-  const testRunPoller = await getTestRunPoller(client, testRunCreationResult);
+  const testRunPoller = await getTestRunCompletionPoller(client, testRunCreationResult);
   const testRunResult = await testRunPoller.pollUntilDone({
     abortSignal: AbortController.timeout(60000), // timeout of 60 seconds
   });

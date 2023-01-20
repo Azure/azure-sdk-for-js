@@ -4,7 +4,7 @@
 import { TestRunStatusPoller } from "./models";
 import { AzureLoadTestingClient } from "./clientDefinitions";
 import { isUnexpected } from "./isUnexpected";
-import { getTestRunPoller } from "./getTestRunPoller";
+import { getTestRunCompletionPoller } from "./getTestRunCompletionPoller";
 import { TestRunCreateOrUpdateParameters } from "./parameters";
 
 /**
@@ -30,5 +30,5 @@ export async function beginCreateOrUpdateTestRun(
   if (testRunCreationResult.body.testRunId === undefined)
     throw new Error("Test Run ID returned as undefined.");
 
-  return getTestRunPoller(client, testRunCreationResult);
+  return getTestRunCompletionPoller(client, testRunCreationResult);
 }

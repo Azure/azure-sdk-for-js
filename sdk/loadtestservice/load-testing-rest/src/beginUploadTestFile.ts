@@ -4,7 +4,7 @@
 import { FileUploadAndValidatePoller } from "./models";
 import { AzureLoadTestingClient } from "./clientDefinitions";
 import { isUnexpected } from "./isUnexpected";
-import { getFileValidatePoller } from "./getFileValidatePoller";
+import { getFileValidationPoller } from "./getFileValidationPoller";
 import { TestUploadFileParameters } from "./parameters";
 
 /**
@@ -27,5 +27,5 @@ export async function beginUploadTestFile(
     throw fileUploadResult.body.error;
   }
 
-  return getFileValidatePoller(client, fileUploadResult, testId);
+  return getFileValidationPoller(client, fileUploadResult, testId);
 }

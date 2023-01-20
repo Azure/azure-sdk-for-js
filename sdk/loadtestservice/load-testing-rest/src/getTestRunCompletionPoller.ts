@@ -19,7 +19,7 @@ import { sleep, isTestRunInProgress } from "./util/LROUtil";
  * @param options - The operation options.
  * @returns A poller which can be called to poll until completion of the job.
  */
-export async function getTestRunPoller(
+export async function getTestRunCompletionPoller(
   client: AzureLoadTestingClient,
   createTestRunResponse: TestRunCreateOrUpdate200Response | TestRunCreateOrUpdate201Response,
   polledOperationOptions: PolledOperationOptions = {}
@@ -41,6 +41,13 @@ export async function getTestRunPoller(
 
   const poller: SimplePollerLike<OperationState<TestRunGet200Response>, TestRunGet200Response> = {
     async poll(_options?: { abortSignal?: AbortSignalLike }): Promise<void> {
+      
+      if (_options?.abortSignal?.aborted) {
+          state.status = "failed";
+          state.error = new Error("The operation was aborted.");
+          return;
+        }
+
       if (testRunId) {
         let getTestRunResult = await client.path("/test-runs/{testRunId}", testRunId).get();
         if (isUnexpected(getTestRunResult)) {
