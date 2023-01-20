@@ -103,6 +103,16 @@ describe("Test batch split based on size", function () {
     );
   }
 
+  it("For An empty batch, empty batch should be returned", function () {
+    runBatchSplitTestCase({
+      inputOperationDescription: [],
+      resultingBatchDescription: {
+        resultingBatchLength: 0,
+        resultingOperationsLengths: [],
+      },
+    });
+  });
+
   it("If all operations are cumulatively less than DefaultMaxBulkRequestBodySizeInBytes, Batch should not split", function () {
     runBatchSplitTestCase({
       inputOperationDescription: [...Array(20).keys()].map((index) => ({

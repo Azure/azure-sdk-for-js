@@ -222,7 +222,7 @@ export function decorateOperation(
  * @hidden
  */
 export function splitBatchBasedOnBodySize(originalBatch: Batch): Batch[] {
-  if (originalBatch?.operations === undefined && originalBatch.operations.length < 1) return [];
+  if (originalBatch?.operations === undefined || originalBatch.operations.length < 1) return [];
   let currentBatchSize = calculateObjectSizeInBytes(originalBatch.operations[0]);
   let currentBatch: Batch = {
     ...originalBatch,
