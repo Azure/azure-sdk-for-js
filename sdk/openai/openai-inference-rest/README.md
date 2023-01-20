@@ -9,7 +9,6 @@ Key links:
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/openai/openai-inference-rest)
 - [Package (NPM)](https://www.npmjs.com/package/@azure-rest/openai-inference)
 - [API reference documentation](https://learn.microsoft.com/en-us/azure/cognitive-services/openai/)
-- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/openai/openai-inference-rest/samples)
 
 ## Getting started
 
