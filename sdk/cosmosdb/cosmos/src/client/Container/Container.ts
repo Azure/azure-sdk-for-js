@@ -242,12 +242,14 @@ export class Container {
   }
 
   public async deleteAllItemsForPartitionKey(partitionKey: PartitionKey, options?: RequestOptions): Promise<ContainerResponse> {
-    const path = getPathFromLink(this.url);
+    let path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
-
+    console.log("path: "+ path);
+    console.log("id: "+ id);
+    path = path + "/operations/partitionkeydelete";
     const response = await this.clientContext.delete<ContainerDefinition>({
       path,
-      resourceType: ResourceType.partitionkey,
+      resourceType: ResourceType.container,
       resourceId: id,
       options,
       partitionKey: partitionKey,
