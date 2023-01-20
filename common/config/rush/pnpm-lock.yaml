@@ -271,6 +271,7 @@ specifiers:
   '@rush-temp/monitor-opentelemetry-exporter': file:./projects/monitor-opentelemetry-exporter.tgz
   '@rush-temp/monitor-query': file:./projects/monitor-query.tgz
   '@rush-temp/notification-hubs': file:./projects/notification-hubs.tgz
+  '@rush-temp/openai-inference': file:./projects/openai-inference.tgz
   '@rush-temp/opentelemetry-instrumentation-azure-sdk': file:./projects/opentelemetry-instrumentation-azure-sdk.tgz
   '@rush-temp/perf-ai-form-recognizer': file:./projects/perf-ai-form-recognizer.tgz
   '@rush-temp/perf-ai-language-text': file:./projects/perf-ai-language-text.tgz
@@ -596,6 +597,7 @@ dependencies:
   '@rush-temp/monitor-opentelemetry-exporter': file:projects/monitor-opentelemetry-exporter.tgz
   '@rush-temp/monitor-query': file:projects/monitor-query.tgz
   '@rush-temp/notification-hubs': file:projects/notification-hubs.tgz
+  '@rush-temp/openai-inference': file:projects/openai-inference.tgz
   '@rush-temp/opentelemetry-instrumentation-azure-sdk': file:projects/opentelemetry-instrumentation-azure-sdk.tgz
   '@rush-temp/perf-ai-form-recognizer': file:projects/perf-ai-form-recognizer.tgz
   '@rush-temp/perf-ai-language-text': file:projects/perf-ai-language-text.tgz
@@ -3690,7 +3692,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20230118
+      typescript: 5.0.0-dev.20230119
     dev: false
 
   /downlevel-dts/0.7.0:
@@ -6850,6 +6852,12 @@ packages:
     engines: {node: '>= 0.8.0'}
     dev: false
 
+  /prettier/2.2.1:
+    resolution: {integrity: sha512-PqyhM2yCjg/oKkFPtTGUojv7gnZAoG80ttl45O6x2Ug/rMJw4wcc9k6aaf2hibP7BGVCCM33gZoGjyvt9mm16Q==}
+    engines: {node: '>=10.13.0'}
+    hasBin: true
+    dev: false
+
   /prettier/2.8.3:
     resolution: {integrity: sha512-tJ/oJ4amDihPoufT5sM0Z1SKEuKay8LfVAMlbbhnnkvt6BUserZylqo2PN+p9KeljLr0OHa2rXHU1T8reeoTrw==}
     engines: {node: '>=10.13.0'}
@@ -8303,8 +8311,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20230118:
-    resolution: {integrity: sha512-mLhr9b2PSXo21+f210MSRD3EOdsrOg9NTWghkJNDaY0K7iWVK8E5FsflAsRzi+Rn/CsO7tH3pyl0LeGwVX25Cg==}
+  /typescript/5.0.0-dev.20230119:
+    resolution: {integrity: sha512-mKWeVo6QT8+OaLFGay06+BBF1pc4crMnIHNKdX+KoE258e//x32ftH+ZW1OAvYAPTa2huYw5C0rfDfDHwlN1IA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -17259,7 +17267,7 @@ packages:
     dev: false
 
   file:projects/mixed-reality-authentication.tgz:
-    resolution: {integrity: sha512-KPtxhPskYZ4WC6vCXfAtMTJV4DbAJnrDwxr1+ZvMPjDWDsVCD/gAHG+qIfKHqUieZONCboadXyk+k0vBGcJ3Vw==, tarball: file:projects/mixed-reality-authentication.tgz}
+    resolution: {integrity: sha512-AOrUXKHybO2RJBZGzLYfZ0LwWYUv4NyWT1EetYb6ZxSrsdLAuHbYlyKevhADKDcQDTXjG0drozth73Ln5hj+IA==, tarball: file:projects/mixed-reality-authentication.tgz}
     name: '@rush-temp/mixed-reality-authentication'
     version: 0.0.0
     dependencies:
@@ -17299,7 +17307,6 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
@@ -17545,6 +17552,50 @@ packages:
       - bufferutil
       - debug
       - encoding
+      - supports-color
+      - utf-8-validate
+    dev: false
+
+  file:projects/openai-inference.tgz:
+    resolution: {integrity: sha512-Ia+jT+uxoIwx2Zv3+V1YAh3q04XSt1lszEUjKbFCLFMniecOES7FftegTxHLc9+gKrASannpT9GNyH1pWFmYhA==, tarball: file:projects/openai-inference.tgz}
+    name: '@rush-temp/openai-inference'
+    version: 0.0.0
+    dependencies:
+      '@azure-rest/core-client': 1.0.0-beta.10
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.33.7
+      '@types/chai': 4.3.4
+      '@types/mocha': 7.0.2
+      '@types/node': 14.18.36
+      autorest: 3.6.3
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 8.6.0
+      eslint: 8.32.0
+      karma: 6.4.1
+      karma-chrome-launcher: 3.1.1
+      karma-coverage: 2.2.0
+      karma-edge-launcher: 0.4.2_karma@6.4.1
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-ie-launcher: 1.0.0_karma@6.4.1
+      karma-junit-reporter: 2.0.1_karma@6.4.1
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.4.1
+      karma-source-map-support: 1.4.0
+      karma-sourcemap-loader: 0.3.8
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      nyc: 15.1.0
+      prettier: 2.2.1
+      rimraf: 3.0.2
+      source-map-support: 0.5.21
+      tslib: 2.4.1
+      typescript: 4.8.4
+    transitivePeerDependencies:
+      - bufferutil
+      - debug
       - supports-color
       - utf-8-validate
     dev: false
@@ -19017,7 +19068,7 @@ packages:
     dev: false
 
   file:projects/synapse-spark.tgz:
-    resolution: {integrity: sha512-jfrHMjLPTK7RiCl9Fx/wxUrP6bMqqqBZ5iUAHD1A1YspdoL6R2C9NDxUWRyRFlKenH+XmDI+KY6BsBampO0keQ==, tarball: file:projects/synapse-spark.tgz}
+    resolution: {integrity: sha512-t7DSfouGB01NC+wHH2UZXnST5wagwmItVywPvQgOE+ltt7lL+QEVgSmOW5WPXLmb9llBK+6aj/dTHrbIuc+yRg==, tarball: file:projects/synapse-spark.tgz}
     name: '@rush-temp/synapse-spark'
     version: 0.0.0
     dependencies:
@@ -19057,7 +19108,6 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - debug
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
