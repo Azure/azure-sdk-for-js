@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { LogsIngestionClient } from "../../src";
+import { AggregateUploadLogsErrror, LogsIngestionClient } from "../../src";
 import { Context } from "mocha";
 import { assert } from "chai";
 import { AdditionalPolicyConfig } from "@azure/core-client";
@@ -54,42 +54,50 @@ describe("LogsIngestionClient live tests", function () {
     try{
       await client.upload(getDcrId(), "Custom-MyTableRawData", []);
     }
-    catch(e){
-      assert.isFalse(e)
+    catch(e: any){
+      assert.fail(e);
     }
   });
 
   it("sends basic data", async function () {
-    const result = await client.upload(getDcrId(), "Custom-MyTableRawData", [
-      {
-        Time: "2021-12-08T23:51:14.1104269Z",
-        Computer: "Computer1",
-        AdditionalContext: "kaghiya-1",
-      },
-      {
-        Time: "2021-12-08T23:51:14.1104269Z",
-        Computer: "Computer2",
-        AdditionalContext: {
-          InstanceName: "kaghiya-2",
-          TimeZone: "Central Time",
-          Level: 3,
-          CounterName: "test",
-          CounterValue: 23.5,
+    try{
+      await client.upload(getDcrId(), "Custom-MyTableRawData", [
+        {
+          Time: "2021-12-08T23:51:14.1104269Z",
+          Computer: "Computer1",
+          AdditionalContext: "kaghiya-1",
         },
-      },
-    ]);
-    assert.equal(result,[]);
+        {
+          Time: "2021-12-08T23:51:14.1104269Z",
+          Computer: "Computer2",
+          AdditionalContext: {
+            InstanceName: "kaghiya-2",
+            TimeZone: "Central Time",
+            Level: 3,
+            CounterName: "test",
+            CounterValue: 23.5,
+          },
+        },
+      ]);
+    }
+    catch(e: any){
+      assert.fail(e);
+    } 
   });
 
   it("Success Test - divides huge data into chunks", async function () {
-    const result = await client.upload(getDcrId(), "Custom-MyTableRawData", getObjects(10000), {
-      maxConcurrency: 3,
-    });
-
-    assert.equal(result, []);
+    try{
+      await client.upload(getDcrId(), "Custom-MyTableRawData", getObjects(10000), {
+        maxConcurrency: 3,
+      });
+    }
+    catch(e: any){
+      assert.fail(e);
+    }
   });
 
   it("Partial Fail Test - when dcr id is incorrect for alternate requests", async function () {
+   
     const noOfElements = 25000;
     const logData = getObjects(noOfElements);
     const additionalPolicies = createFailedPolicies({ isFailed: false });
@@ -101,45 +109,55 @@ describe("LogsIngestionClient live tests", function () {
       })
     );
     recordedClient.client = client;
-    const result = await client.upload(getDcrId(), "Custom-MyTableRawData", logData, {
-      maxConcurrency: 3,
-    });
-    if (result.length > 0) {
-      result.forEach((err) => {
-        assert.equal(
-          err.cause.message,
-          `Data collection rule with immutable Id 'fake-id' not found.`
-        );
+    try{
+      await client.upload(getDcrId(), "Custom-MyTableRawData", logData, {
+        maxConcurrency: 3,
       });
-
-      const chunkArraySize = getChunkArraylength(noOfElements);
-      assert.isAbove(chunkArraySize, 1);
-      if (chunkArraySize % 2 === 0) {
-        assert.equal(result.length, chunkArraySize / 2);
-      }
-      if (chunkArraySize % 2 === 1) {
-        assert.equal(result.length, (chunkArraySize - 1) / 2);
-      }
     }
+    catch(e: any){
+      let result = (e as AggregateUploadLogsErrror).errors
+      if (result.length > 0) {
+        result.forEach((err) => {
+          assert.equal(
+            err.cause.message,
+            `Data collection rule with immutable Id 'fake-id' not found.`
+          );
+        });
+  
+        const chunkArraySize = getChunkArraylength(noOfElements);
+        assert.isAbove(chunkArraySize, 1);
+        if (chunkArraySize % 2 === 0) {
+          assert.equal(result.length, chunkArraySize / 2);
+        }
+        if (chunkArraySize % 2 === 1) {
+          assert.equal(result.length, (chunkArraySize - 1) / 2);
+        }
+      }
+    }   
   });
 
   it("Throws error when all logs fail", async function () {
     const noOfElements = 25000;
     const logData = getObjects(noOfElements);
-    const result = await client.upload("immutable-id-123", "Custom-MyTableRawData", logData, {
-      maxConcurrency: 3,
-    });
-    if (result.length > 0) {
-      result.forEach((err) => {
-        assert.equal(
-          err.cause.message,
-          `Data collection rule with immutable Id 'immutable-id-123' not found.`
-        );
+    try{
+      await client.upload("immutable-id-123", "Custom-MyTableRawData", logData, {
+        maxConcurrency: 3,
       });
-      const chunkArraySize = getChunkArraylength(noOfElements);
-      assert.isAbove(chunkArraySize, 1);
-      assert.equal(chunkArraySize, result.length);
     }
+    catch(e: any){
+      let result = (e as AggregateUploadLogsErrror).errors;
+      if (result.length > 0) {
+        result.forEach((err) => {
+          assert.equal(
+            err.cause.message,
+            `Data collection rule with immutable Id 'immutable-id-123' not found.`
+          );
+        });
+        const chunkArraySize = getChunkArraylength(noOfElements);
+        assert.isAbove(chunkArraySize, 1);
+        assert.equal(chunkArraySize, result.length);
+      }
+    }  
   });
 });
 
