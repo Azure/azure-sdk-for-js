@@ -59,18 +59,18 @@ describe("Test Run Creation", () => {
 
     assert.equal("VALIDATION_SUCCESS", fileUploadResult.body.validationStatus);
   });
-  
+
   it("should create a test run", async () => {
     const testRunPoller = await beginCreateOrUpdateTestRun(client, "abcde", {
-    contentType: "application/merge-patch+json",
-    body: {
-      testId: "abc",
-      displayName: "sampletr",
-    },
-  });
-  const testRunResult = await testRunPoller.pollUntilDone({
-    abortSignal: AbortController.timeout(300*1000), // timeout of 60 seconds
-  });
+      contentType: "application/merge-patch+json",
+      body: {
+        testId: "abc",
+        displayName: "sampletr",
+      },
+    });
+    const testRunResult = await testRunPoller.pollUntilDone({
+      abortSignal: AbortController.timeout(300 * 1000), // timeout of 60 seconds
+    });
 
     assert.equal("DONE", testRunResult.body.status);
   });

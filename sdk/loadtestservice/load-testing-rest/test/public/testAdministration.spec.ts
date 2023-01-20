@@ -23,7 +23,7 @@ describe("Test Creation", () => {
     }
     client = createClient(recorder);
     readStreamTestFile = fs.createReadStream("./test/public/sample.jmx");
-    readStreamAdditionalFile = fs.createReadStream("./test/public/additional-data.csv"); 
+    readStreamAdditionalFile = fs.createReadStream("./test/public/additional-data.csv");
   });
 
   afterEach(async function () {
@@ -99,9 +99,7 @@ describe("Test Creation", () => {
 
   //get
   it("should get the test file", async () => {
-    const result = await client
-      .path("/tests/{testId}/files/{fileName}", "abc", "sample.jmx")
-      .get();
+    const result = await client.path("/tests/{testId}/files/{fileName}", "abc", "sample.jmx").get();
 
     assert.include(["200"], result.status);
   });
