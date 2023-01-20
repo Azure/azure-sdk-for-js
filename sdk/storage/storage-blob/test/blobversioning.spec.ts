@@ -3,7 +3,7 @@
 
 import { assert } from "chai";
 import * as fs from "fs";
-import { isNode, delay } from "@azure/core-http";
+import { isNode, delay } from "@azure/core-util";
 import { getBSU, recorderEnvSetup, bodyToString, getGenericCredential } from "./utils";
 import { record, Recorder } from "@azure-tools/test-recorder";
 import {
@@ -109,12 +109,12 @@ describe("Blob versioning", () => {
     const getRes = await blobVersionClient.getProperties();
     assert.equal(getRes.contentLength, content.length);
     assert.equal(getRes.versionId, uploadRes.versionId);
-    assert.ok(!getRes.isCurrentVersion);
+    assert.isNotTrue(getRes.isCurrentVersion, "first upload version should not be current");
 
     const getRes2 = await blobClient.getProperties();
     assert.equal(getRes2.contentLength, 0);
     assert.equal(getRes2.versionId, uploadRes2.versionId);
-    assert.ok(getRes2.isCurrentVersion);
+    assert.isTrue(getRes2.isCurrentVersion, "second upload version should be current");
 
     // specify both snapshot and versionId
     const snapshotRes = await blobClient.createSnapshot();
@@ -125,10 +125,10 @@ describe("Blob versioning", () => {
       assert.equal(err.details.errorCode, "MutuallyExclusiveQueryParameters");
       exceptionCaught = true;
     }
-    assert.ok(exceptionCaught);
+    assert.isTrue(exceptionCaught, "expected getProperties to throw");
 
     const existRes = await blobVersionClient.exists();
-    assert.ok(existRes);
+    assert.isTrue(existRes, "blob version should exist");
   });
 
   it("delete a version", async function () {

@@ -1,12 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import {
-  TokenCredential,
-  isTokenCredential,
-  isNode,
-  HttpResponse,
-  getDefaultProxySettings,
-} from "@azure/core-http";
+import { TokenCredential, isTokenCredential } from "@azure/core-auth";
+import { getDefaultProxySettings } from "@azure/core-rest-pipeline";
+import { isNode } from "@azure/core-util";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { AbortSignalLike } from "@azure/abort-controller";
 import {
@@ -29,7 +25,7 @@ import {
   FilterBlobSegment,
   FilterBlobItem,
 } from "./generatedModels";
-import { Container, Service } from "./generated/src/operations";
+import { Service } from "./generated/src/operationsInterfaces";
 import { newPipeline, StoragePipelineOptions, PipelineLike, isPipelineLike } from "./Pipeline";
 import {
   ContainerClient,
@@ -41,13 +37,14 @@ import {
   appendToURLQuery,
   extractConnectionStringParts,
   toTags,
+  WithResponse,
 } from "./utils/utils.common";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
-import { truncatedISO8061Date } from "./utils/utils.common";
-import { convertTracingToRequestOptionsBase, createSpan } from "./utils/tracing";
+import { truncatedISO8061Date, assertResponse } from "./utils/utils.common";
+import { createSpan } from "./utils/tracing";
 import { BlobBatchClient } from "./BlobBatchClient";
 import { CommonOptions, StorageClient } from "./StorageClient";
 import { AccountSASPermissions } from "./sas/AccountSASPermissions";
@@ -55,7 +52,13 @@ import { SASProtocol } from "./sas/SASQueryParameters";
 import { SasIPRange } from "./sas/SasIPRange";
 import { generateAccountSASQueryParameters } from "./sas/AccountSASSignatureValues";
 import { AccountSASServices } from "./sas/AccountSASServices";
-import { ListContainersIncludeType } from "./generated/src";
+import {
+  ContainerRenameHeaders,
+  ContainerRestoreHeaders,
+  ListContainersIncludeType,
+  ServiceFilterBlobsResponse,
+  ServiceGetUserDelegationKeyResponse as ServiceGetUserDelegationKeyResponseModel,
+} from "./generated/src";
 
 /**
  * Options to configure the {@link BlobServiceClient.getProperties} operation.
@@ -209,28 +212,11 @@ export interface ServiceFindBlobByTagsOptions extends CommonOptions {
 /**
  * The response of {@link BlobServiceClient.findBlobsByTags} operation.
  */
-export type ServiceFindBlobsByTagsSegmentResponse = FilterBlobSegment &
-  ServiceFilterBlobsHeaders & {
-    /**
-     * The underlying HTTP response.
-     */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ServiceFilterBlobsHeaders;
-
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FilterBlobSegmentModel;
-    };
-  };
+export type ServiceFindBlobsByTagsSegmentResponse = WithResponse<
+  FilterBlobSegment & ServiceFilterBlobsHeaders,
+  ServiceFilterBlobsHeaders,
+  FilterBlobSegmentModel
+>;
 
 /**
  * A user delegation key.
@@ -269,28 +255,11 @@ export interface UserDelegationKey {
 /**
  * Contains response data for the {@link getUserDelegationKey} operation.
  */
-export declare type ServiceGetUserDelegationKeyResponse = UserDelegationKey &
-  ServiceGetUserDelegationKeyHeaders & {
-    /**
-     * The underlying HTTP response.
-     */
-    _response: HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ServiceGetUserDelegationKeyHeaders;
-
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UserDelegationKeyModel;
-    };
-  };
+export declare type ServiceGetUserDelegationKeyResponse = WithResponse<
+  UserDelegationKey & ServiceGetUserDelegationKeyHeaders,
+  ServiceGetUserDelegationKeyHeaders,
+  UserDelegationKeyModel
+>;
 
 /**
  * Options to configure {@link BlobServiceClient.undeleteContainer} operation.
@@ -486,7 +455,7 @@ export class BlobServiceClient extends StorageClient {
       pipeline = newPipeline(new AnonymousCredential(), options);
     }
     super(url, pipeline);
-    this.serviceContext = new Service(this.storageClientContext);
+    this.serviceContext = this.storageClientContext.service;
   }
 
   /**
@@ -590,12 +559,17 @@ export class BlobServiceClient extends StorageClient {
         options.destinationContainerName || deletedContainerName
       );
       // Hack to access a protected member.
-      const containerContext = new Container(containerClient["storageClientContext"]);
-      const containerUndeleteResponse = await containerContext.restore({
-        deletedContainerName,
-        deletedContainerVersion,
-        ...updatedOptions,
-      });
+      const containerContext = containerClient["storageClientContext"].container;
+      const containerUndeleteResponse = assertResponse<
+        ContainerRestoreHeaders,
+        ContainerRestoreHeaders
+      >(
+        await containerContext.restore({
+          deletedContainerName,
+          deletedContainerVersion,
+          tracingOptions: updatedOptions.tracingOptions,
+        })
+      );
       return { containerClient, containerUndeleteResponse };
     } catch (e: any) {
       span.setStatus({
@@ -629,11 +603,16 @@ export class BlobServiceClient extends StorageClient {
     try {
       const containerClient = this.getContainerClient(destinationContainerName);
       // Hack to access a protected member.
-      const containerContext = new Container(containerClient["storageClientContext"]);
-      const containerRenameResponse = await containerContext.rename(sourceContainerName, {
-        ...updatedOptions,
-        sourceLeaseId: options.sourceCondition?.leaseId,
-      });
+      const containerContext = containerClient["storageClientContext"].container;
+      const containerRenameResponse = assertResponse<
+        ContainerRenameHeaders,
+        ContainerRenameHeaders
+      >(
+        await containerContext.rename(sourceContainerName, {
+          ...updatedOptions,
+          sourceLeaseId: options.sourceCondition?.leaseId,
+        })
+      );
       return { containerClient, containerRenameResponse };
     } catch (e: any) {
       span.setStatus({
@@ -659,10 +638,12 @@ export class BlobServiceClient extends StorageClient {
   ): Promise<ServiceGetPropertiesResponse> {
     const { span, updatedOptions } = createSpan("BlobServiceClient-getProperties", options);
     try {
-      return await this.serviceContext.getProperties({
-        abortSignal: options.abortSignal,
-        ...convertTracingToRequestOptionsBase(updatedOptions),
-      });
+      return assertResponse(
+        await this.serviceContext.getProperties({
+          abortSignal: options.abortSignal,
+          tracingOptions: updatedOptions.tracingOptions,
+        })
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -689,10 +670,12 @@ export class BlobServiceClient extends StorageClient {
   ): Promise<ServiceSetPropertiesResponse> {
     const { span, updatedOptions } = createSpan("BlobServiceClient-setProperties", options);
     try {
-      return await this.serviceContext.setProperties(properties, {
-        abortSignal: options.abortSignal,
-        ...convertTracingToRequestOptionsBase(updatedOptions),
-      });
+      return assertResponse(
+        await this.serviceContext.setProperties(properties, {
+          abortSignal: options.abortSignal,
+          tracingOptions: updatedOptions.tracingOptions,
+        })
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -718,10 +701,12 @@ export class BlobServiceClient extends StorageClient {
   ): Promise<ServiceGetStatisticsResponse> {
     const { span, updatedOptions } = createSpan("BlobServiceClient-getStatistics", options);
     try {
-      return await this.serviceContext.getStatistics({
-        abortSignal: options.abortSignal,
-        ...convertTracingToRequestOptionsBase(updatedOptions),
-      });
+      return assertResponse(
+        await this.serviceContext.getStatistics({
+          abortSignal: options.abortSignal,
+          tracingOptions: updatedOptions.tracingOptions,
+        })
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -748,10 +733,12 @@ export class BlobServiceClient extends StorageClient {
   ): Promise<ServiceGetAccountInfoResponse> {
     const { span, updatedOptions } = createSpan("BlobServiceClient-getAccountInfo", options);
     try {
-      return await this.serviceContext.getAccountInfo({
-        abortSignal: options.abortSignal,
-        ...convertTracingToRequestOptionsBase(updatedOptions),
-      });
+      return assertResponse(
+        await this.serviceContext.getAccountInfo({
+          abortSignal: options.abortSignal,
+          tracingOptions: updatedOptions.tracingOptions,
+        })
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -784,13 +771,15 @@ export class BlobServiceClient extends StorageClient {
     const { span, updatedOptions } = createSpan("BlobServiceClient-listContainersSegment", options);
 
     try {
-      return await this.serviceContext.listContainersSegment({
-        abortSignal: options.abortSignal,
-        marker,
-        ...options,
-        include: typeof options.include === "string" ? [options.include] : options.include,
-        ...convertTracingToRequestOptionsBase(updatedOptions),
-      });
+      return assertResponse(
+        await this.serviceContext.listContainersSegment({
+          abortSignal: options.abortSignal,
+          marker,
+          ...options,
+          include: typeof options.include === "string" ? [options.include] : options.include,
+          tracingOptions: updatedOptions.tracingOptions,
+        })
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -831,13 +820,19 @@ export class BlobServiceClient extends StorageClient {
     );
 
     try {
-      const response = await this.serviceContext.filterBlobs({
-        abortSignal: options.abortSignal,
-        where: tagFilterSqlExpression,
-        marker,
-        maxPageSize: options.maxPageSize,
-        ...convertTracingToRequestOptionsBase(updatedOptions),
-      });
+      const response = assertResponse<
+        ServiceFilterBlobsResponse,
+        ServiceFilterBlobsHeaders,
+        FilterBlobSegmentModel
+      >(
+        await this.serviceContext.filterBlobs({
+          abortSignal: options.abortSignal,
+          where: tagFilterSqlExpression,
+          marker,
+          maxPageSize: options.maxPageSize,
+          tracingOptions: updatedOptions.tracingOptions,
+        })
+      );
 
       const wrappedResponse: ServiceFindBlobsByTagsSegmentResponse = {
         ...response,
@@ -1215,15 +1210,21 @@ export class BlobServiceClient extends StorageClient {
   ): Promise<ServiceGetUserDelegationKeyResponse> {
     const { span, updatedOptions } = createSpan("BlobServiceClient-getUserDelegationKey", options);
     try {
-      const response = await this.serviceContext.getUserDelegationKey(
-        {
-          startsOn: truncatedISO8061Date(startsOn, false),
-          expiresOn: truncatedISO8061Date(expiresOn, false),
-        },
-        {
-          abortSignal: options.abortSignal,
-          ...convertTracingToRequestOptionsBase(updatedOptions),
-        }
+      const response = assertResponse<
+        ServiceGetUserDelegationKeyResponseModel,
+        ServiceGetUserDelegationKeyHeaders,
+        UserDelegationKeyModel
+      >(
+        await this.serviceContext.getUserDelegationKey(
+          {
+            startsOn: truncatedISO8061Date(startsOn, false),
+            expiresOn: truncatedISO8061Date(expiresOn, false),
+          },
+          {
+            abortSignal: options.abortSignal,
+            tracingOptions: updatedOptions.tracingOptions,
+          }
+        )
       );
 
       const userDelegationKey = {
