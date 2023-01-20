@@ -11,7 +11,7 @@ import * as coreHttpCompat from "@azure/core-http-compat";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
 import {
-  ApiVersion10,
+  ApiVersion20221101Preview,
   AppConfigurationOptionalParams,
   GetKeysOptionalParams,
   GetKeysResponse,
@@ -29,6 +29,20 @@ import {
   DeleteKeyValueResponse,
   CheckKeyValueOptionalParams,
   CheckKeyValueResponse,
+  GetSnapshotsOptionalParams,
+  GetSnapshotsResponse,
+  CheckSnapshotsOptionalParams,
+  CheckSnapshotsResponse,
+  GetSnapshotOptionalParams,
+  GetSnapshotResponse,
+  Snapshot,
+  CreateSnapshotOptionalParams,
+  CreateSnapshotResponse,
+  SnapshotUpdateParameters,
+  UpdateSnapshotOptionalParams,
+  UpdateSnapshotResponse,
+  CheckSnapshotOptionalParams,
+  CheckSnapshotResponse,
   GetLabelsOptionalParams,
   GetLabelsResponse,
   CheckLabelsOptionalParams,
@@ -45,6 +59,8 @@ import {
   GetKeysNextResponse,
   GetKeyValuesNextOptionalParams,
   GetKeyValuesNextResponse,
+  GetSnapshotsNextOptionalParams,
+  GetSnapshotsNextResponse,
   GetLabelsNextOptionalParams,
   GetLabelsNextResponse,
   GetRevisionsNextOptionalParams,
@@ -55,7 +71,7 @@ import {
 export class AppConfiguration extends coreHttpCompat.ExtendedServiceClient {
   endpoint: string;
   syncToken?: string;
-  apiVersion: ApiVersion10;
+  apiVersion: ApiVersion20221101Preview;
 
   /**
    * Initializes a new instance of the AppConfiguration class.
@@ -65,7 +81,7 @@ export class AppConfiguration extends coreHttpCompat.ExtendedServiceClient {
    */
   constructor(
     endpoint: string,
-    apiVersion: ApiVersion10,
+    apiVersion: ApiVersion20221101Preview,
     options?: AppConfigurationOptionalParams
   ) {
     if (endpoint === undefined) {
@@ -200,6 +216,90 @@ export class AppConfiguration extends coreHttpCompat.ExtendedServiceClient {
   }
 
   /**
+   * Gets a list of key-value snapshots.
+   * @param options The options parameters.
+   */
+  getSnapshots(
+    options?: GetSnapshotsOptionalParams
+  ): Promise<GetSnapshotsResponse> {
+    return this.sendOperationRequest({ options }, getSnapshotsOperationSpec);
+  }
+
+  /**
+   * Requests the headers and status of the given resource.
+   * @param options The options parameters.
+   */
+  checkSnapshots(
+    options?: CheckSnapshotsOptionalParams
+  ): Promise<CheckSnapshotsResponse> {
+    return this.sendOperationRequest({ options }, checkSnapshotsOperationSpec);
+  }
+
+  /**
+   * Gets a single key-value snapshot.
+   * @param name The name of the key-value snapshot to retrieve.
+   * @param options The options parameters.
+   */
+  getSnapshot(
+    name: string,
+    options?: GetSnapshotOptionalParams
+  ): Promise<GetSnapshotResponse> {
+    return this.sendOperationRequest(
+      { name, options },
+      getSnapshotOperationSpec
+    );
+  }
+
+  /**
+   * Creates a key-value snapshot.
+   * @param name The name of the key-value snapshot to create.
+   * @param entity The key-value snapshot to create.
+   * @param options The options parameters.
+   */
+  createSnapshot(
+    name: string,
+    entity: Snapshot,
+    options?: CreateSnapshotOptionalParams
+  ): Promise<CreateSnapshotResponse> {
+    return this.sendOperationRequest(
+      { name, entity, options },
+      createSnapshotOperationSpec
+    );
+  }
+
+  /**
+   * Updates the state of a key-value snapshot.
+   * @param name The name of the key-value snapshot to delete.
+   * @param entity The parameters used to update the snapshot.
+   * @param options The options parameters.
+   */
+  updateSnapshot(
+    name: string,
+    entity: SnapshotUpdateParameters,
+    options?: UpdateSnapshotOptionalParams
+  ): Promise<UpdateSnapshotResponse> {
+    return this.sendOperationRequest(
+      { name, entity, options },
+      updateSnapshotOperationSpec
+    );
+  }
+
+  /**
+   * Requests the headers and status of the given resource.
+   * @param name The name of the key-value snapshot to check.
+   * @param options The options parameters.
+   */
+  checkSnapshot(
+    name: string,
+    options?: CheckSnapshotOptionalParams
+  ): Promise<CheckSnapshotResponse> {
+    return this.sendOperationRequest(
+      { name, options },
+      checkSnapshotOperationSpec
+    );
+  }
+
+  /**
    * Gets a list of labels.
    * @param options The options parameters.
    */
@@ -292,6 +392,21 @@ export class AppConfiguration extends coreHttpCompat.ExtendedServiceClient {
   }
 
   /**
+   * GetSnapshotsNext
+   * @param nextLink The nextLink from the previous successful call to the GetSnapshots method.
+   * @param options The options parameters.
+   */
+  getSnapshotsNext(
+    nextLink: string,
+    options?: GetSnapshotsNextOptionalParams
+  ): Promise<GetSnapshotsNextResponse> {
+    return this.sendOperationRequest(
+      { nextLink, options },
+      getSnapshotsNextOperationSpec
+    );
+  }
+
+  /**
    * GetLabelsNext
    * @param nextLink The nextLink from the previous successful call to the GetLabels method.
    * @param options The options parameters.
@@ -376,7 +491,8 @@ const getKeyValuesOperationSpec: coreClient.OperationSpec = {
     Parameters.after,
     Parameters.key,
     Parameters.label,
-    Parameters.select
+    Parameters.select,
+    Parameters.snapshot
   ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [
@@ -400,7 +516,8 @@ const checkKeyValuesOperationSpec: coreClient.OperationSpec = {
     Parameters.after,
     Parameters.key,
     Parameters.label,
-    Parameters.select1
+    Parameters.select,
+    Parameters.snapshot
   ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.syncToken, Parameters.acceptDatetime],
@@ -421,11 +538,7 @@ const getKeyValueOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorModel
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.label,
-    Parameters.select2
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.label, Parameters.select],
   urlParameters: [Parameters.endpoint, Parameters.key1],
   headerParameters: [
     Parameters.syncToken,
@@ -497,15 +610,136 @@ const checkKeyValueOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.label,
-    Parameters.select3
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.label, Parameters.select],
   urlParameters: [Parameters.endpoint, Parameters.key1],
   headerParameters: [
     Parameters.syncToken,
     Parameters.acceptDatetime,
+    Parameters.ifMatch,
+    Parameters.ifNoneMatch
+  ],
+  serializer
+};
+const getSnapshotsOperationSpec: coreClient.OperationSpec = {
+  path: "/snapshots",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SnapshotListResult,
+      headersMapper: Mappers.AppConfigurationGetSnapshotsHeaders
+    },
+    default: {
+      bodyMapper: Mappers.ErrorModel
+    }
+  },
+  queryParameters: [
+    Parameters.name,
+    Parameters.apiVersion,
+    Parameters.after,
+    Parameters.select1,
+    Parameters.status
+  ],
+  urlParameters: [Parameters.endpoint],
+  headerParameters: [Parameters.syncToken, Parameters.accept3],
+  serializer
+};
+const checkSnapshotsOperationSpec: coreClient.OperationSpec = {
+  path: "/snapshots",
+  httpMethod: "HEAD",
+  responses: {
+    200: {
+      headersMapper: Mappers.AppConfigurationCheckSnapshotsHeaders
+    },
+    default: {}
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.after],
+  urlParameters: [Parameters.endpoint],
+  headerParameters: [Parameters.syncToken],
+  serializer
+};
+const getSnapshotOperationSpec: coreClient.OperationSpec = {
+  path: "/snapshots/{name}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Snapshot,
+      headersMapper: Mappers.AppConfigurationGetSnapshotHeaders
+    },
+    default: {
+      bodyMapper: Mappers.ErrorModel
+    }
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.select1],
+  urlParameters: [Parameters.endpoint, Parameters.name1],
+  headerParameters: [
+    Parameters.syncToken,
+    Parameters.ifMatch,
+    Parameters.ifNoneMatch,
+    Parameters.accept4
+  ],
+  serializer
+};
+const createSnapshotOperationSpec: coreClient.OperationSpec = {
+  path: "/snapshots/{name}",
+  httpMethod: "PUT",
+  responses: {
+    201: {
+      bodyMapper: Mappers.Snapshot,
+      headersMapper: Mappers.AppConfigurationCreateSnapshotHeaders
+    },
+    default: {
+      bodyMapper: Mappers.ErrorModel
+    }
+  },
+  requestBody: Parameters.entity1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.name2],
+  headerParameters: [
+    Parameters.syncToken,
+    Parameters.accept4,
+    Parameters.contentType1
+  ],
+  mediaType: "json",
+  serializer
+};
+const updateSnapshotOperationSpec: coreClient.OperationSpec = {
+  path: "/snapshots/{name}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Snapshot,
+      headersMapper: Mappers.AppConfigurationUpdateSnapshotHeaders
+    },
+    default: {
+      bodyMapper: Mappers.ErrorModel
+    }
+  },
+  requestBody: Parameters.entity2,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.name1],
+  headerParameters: [
+    Parameters.syncToken,
+    Parameters.ifMatch,
+    Parameters.ifNoneMatch,
+    Parameters.accept4,
+    Parameters.contentType2
+  ],
+  mediaType: "json",
+  serializer
+};
+const checkSnapshotOperationSpec: coreClient.OperationSpec = {
+  path: "/snapshots/{name}",
+  httpMethod: "HEAD",
+  responses: {
+    200: {
+      headersMapper: Mappers.AppConfigurationCheckSnapshotHeaders
+    },
+    default: {}
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.name1],
+  headerParameters: [
+    Parameters.syncToken,
     Parameters.ifMatch,
     Parameters.ifNoneMatch
   ],
@@ -527,13 +761,13 @@ const getLabelsOperationSpec: coreClient.OperationSpec = {
     Parameters.name,
     Parameters.apiVersion,
     Parameters.after,
-    Parameters.select4
+    Parameters.select2
   ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [
     Parameters.syncToken,
     Parameters.acceptDatetime,
-    Parameters.accept3
+    Parameters.accept5
   ],
   serializer
 };
@@ -550,7 +784,7 @@ const checkLabelsOperationSpec: coreClient.OperationSpec = {
     Parameters.name,
     Parameters.apiVersion,
     Parameters.after,
-    Parameters.select4
+    Parameters.select2
   ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.syncToken, Parameters.acceptDatetime],
@@ -617,7 +851,7 @@ const getRevisionsOperationSpec: coreClient.OperationSpec = {
     Parameters.after,
     Parameters.key,
     Parameters.label,
-    Parameters.select5
+    Parameters.select
   ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [
@@ -641,7 +875,7 @@ const checkRevisionsOperationSpec: coreClient.OperationSpec = {
     Parameters.after,
     Parameters.key,
     Parameters.label,
-    Parameters.select6
+    Parameters.select
   ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.syncToken, Parameters.acceptDatetime],
@@ -685,7 +919,8 @@ const getKeyValuesNextOperationSpec: coreClient.OperationSpec = {
     Parameters.after,
     Parameters.key,
     Parameters.label,
-    Parameters.select
+    Parameters.select,
+    Parameters.snapshot
   ],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [
@@ -693,6 +928,29 @@ const getKeyValuesNextOperationSpec: coreClient.OperationSpec = {
     Parameters.acceptDatetime,
     Parameters.accept1
   ],
+  serializer
+};
+const getSnapshotsNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SnapshotListResult,
+      headersMapper: Mappers.AppConfigurationGetSnapshotsNextHeaders
+    },
+    default: {
+      bodyMapper: Mappers.ErrorModel
+    }
+  },
+  queryParameters: [
+    Parameters.name,
+    Parameters.apiVersion,
+    Parameters.after,
+    Parameters.select1,
+    Parameters.status
+  ],
+  urlParameters: [Parameters.endpoint, Parameters.nextLink],
+  headerParameters: [Parameters.syncToken, Parameters.accept3],
   serializer
 };
 const getLabelsNextOperationSpec: coreClient.OperationSpec = {
@@ -711,13 +969,13 @@ const getLabelsNextOperationSpec: coreClient.OperationSpec = {
     Parameters.name,
     Parameters.apiVersion,
     Parameters.after,
-    Parameters.select4
+    Parameters.select2
   ],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [
     Parameters.syncToken,
     Parameters.acceptDatetime,
-    Parameters.accept3
+    Parameters.accept5
   ],
   serializer
 };
@@ -738,7 +996,7 @@ const getRevisionsNextOperationSpec: coreClient.OperationSpec = {
     Parameters.after,
     Parameters.key,
     Parameters.label,
-    Parameters.select5
+    Parameters.select
   ],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [

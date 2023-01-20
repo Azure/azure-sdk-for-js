@@ -11,13 +11,17 @@ import {
   OperationURLParameter,
   OperationQueryParameter
 } from "@azure/core-client";
-import { KeyValue as KeyValueMapper } from "../models/mappers";
+import {
+  KeyValue as KeyValueMapper,
+  Snapshot as SnapshotMapper,
+  SnapshotUpdateParameters as SnapshotUpdateParametersMapper
+} from "../models/mappers";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
   mapper: {
     defaultValue:
-      "application/vnd.microsoft.appconfig.keyset+json, application/json, application/problem+json",
+      "application/vnd.microsoft.appconfig.keyset+json, application/problem+json",
     isConstant: true,
     serializedName: "Accept",
     type: {
@@ -93,7 +97,7 @@ export const accept1: OperationParameter = {
   parameterPath: "accept",
   mapper: {
     defaultValue:
-      "application/vnd.microsoft.appconfig.kvset+json, application/json, application/problem+json",
+      "application/vnd.microsoft.appconfig.kvset+json, application/problem+json",
     isConstant: true,
     serializedName: "Accept",
     type: {
@@ -138,27 +142,21 @@ export const select: OperationQueryParameter = {
   collectionFormat: "CSV"
 };
 
-export const select1: OperationQueryParameter = {
-  parameterPath: ["options", "select"],
+export const snapshot: OperationQueryParameter = {
+  parameterPath: ["options", "snapshot"],
   mapper: {
-    serializedName: "$Select",
+    serializedName: "snapshot",
     type: {
-      name: "Sequence",
-      element: {
-        type: {
-          name: "String"
-        }
-      }
+      name: "String"
     }
-  },
-  collectionFormat: "CSV"
+  }
 };
 
 export const accept2: OperationParameter = {
   parameterPath: "accept",
   mapper: {
     defaultValue:
-      "application/vnd.microsoft.appconfig.kv+json, application/json, application/problem+json",
+      "application/vnd.microsoft.appconfig.kv+json, application/problem+json",
     isConstant: true,
     serializedName: "Accept",
     type: {
@@ -198,22 +196,6 @@ export const ifNoneMatch: OperationParameter = {
   }
 };
 
-export const select2: OperationQueryParameter = {
-  parameterPath: ["options", "select"],
-  mapper: {
-    serializedName: "$Select",
-    type: {
-      name: "Sequence",
-      element: {
-        type: {
-          name: "String"
-        }
-      }
-    }
-  },
-  collectionFormat: "CSV"
-};
-
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],
   mapper: {
@@ -231,27 +213,11 @@ export const entity: OperationParameter = {
   mapper: KeyValueMapper
 };
 
-export const select3: OperationQueryParameter = {
-  parameterPath: ["options", "select"],
-  mapper: {
-    serializedName: "$Select",
-    type: {
-      name: "Sequence",
-      element: {
-        type: {
-          name: "String"
-        }
-      }
-    }
-  },
-  collectionFormat: "CSV"
-};
-
 export const accept3: OperationParameter = {
   parameterPath: "accept",
   mapper: {
     defaultValue:
-      "application/vnd.microsoft.appconfig.labelset+json, application/json, application/problem+json",
+      "application/vnd.microsoft.appconfig.snapshotset+json, application/problem+json",
     isConstant: true,
     serializedName: "Accept",
     type: {
@@ -260,25 +226,7 @@ export const accept3: OperationParameter = {
   }
 };
 
-export const select4: OperationQueryParameter = {
-  parameterPath: ["options", "select"],
-  mapper: {
-    serializedName: "$Select",
-    type: {
-      name: "Sequence",
-      element: {
-        defaultValue: "name",
-        isConstant: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  },
-  collectionFormat: "CSV"
-};
-
-export const select5: OperationQueryParameter = {
+export const select1: OperationQueryParameter = {
   parameterPath: ["options", "select"],
   mapper: {
     serializedName: "$Select",
@@ -294,7 +242,102 @@ export const select5: OperationQueryParameter = {
   collectionFormat: "CSV"
 };
 
-export const select6: OperationQueryParameter = {
+export const status: OperationQueryParameter = {
+  parameterPath: ["options", "status"],
+  mapper: {
+    serializedName: "Status",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const accept4: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue:
+      "application/vnd.microsoft.appconfig.snapshot+json, application/problem+json",
+    isConstant: true,
+    serializedName: "Accept",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const name1: OperationURLParameter = {
+  parameterPath: "name",
+  mapper: {
+    serializedName: "name",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const contentType1: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/vnd.microsoft.appconfig.snapshot+json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const entity1: OperationParameter = {
+  parameterPath: "entity",
+  mapper: SnapshotMapper
+};
+
+export const name2: OperationURLParameter = {
+  parameterPath: "name",
+  mapper: {
+    constraints: {
+      MaxLength: 256
+    },
+    serializedName: "name",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const contentType2: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const entity2: OperationParameter = {
+  parameterPath: "entity",
+  mapper: SnapshotUpdateParametersMapper
+};
+
+export const accept5: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue:
+      "application/vnd.microsoft.appconfig.labelset+json, application/problem+json",
+    isConstant: true,
+    serializedName: "Accept",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const select2: OperationQueryParameter = {
   parameterPath: ["options", "select"],
   mapper: {
     serializedName: "$Select",
