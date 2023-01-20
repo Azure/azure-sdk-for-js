@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/openai/openai-inference-rest)
 - [Package (NPM)](https://www.npmjs.com/package/@azure-rest/openai-inference)
-- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure-rest/openai-inference?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/en-us/azure/cognitive-services/openai/)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/openai/openai-inference-rest/samples)
 
 ## Getting started
@@ -35,7 +35,7 @@ To use an [Azure Active Directory (AAD) token credential](https://github.com/Azu
 provide an instance of the desired credential type obtained from the
 [@azure/identity](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#credentials) library.
 
-To authenticate with AAD, you must first `npm` install [`@azure/identity`](https://www.npmjs.com/package/@azure/identity) 
+To authenticate with AAD, you must first `npm` install [`@azure/identity`](https://www.npmjs.com/package/@azure/identity)
 
 After setup, you can choose which type of [credential](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#credentials) from `@azure/identity` to use.
 As an example, [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential)
