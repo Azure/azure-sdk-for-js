@@ -11,11 +11,7 @@ import nock from "nock";
 import { StatsbeatMetrics } from "../../src/export/statsbeat/statsbeatMetrics";
 // @ts-ignore Need to ignore this while we do not import types
 import sinon from "sinon";
-import {
-  StatsbeatCounter,
-  // StatsbeatFeature,
-  // StatsbeatInstrumentation,
-} from "../../src/export/statsbeat/types";
+import { StatsbeatCounter } from "../../src/export/statsbeat/types";
 import { LongIntervalStatsbeatMetrics } from "../../src/export/statsbeat/longIntervalStatsbeatMetrics";
 
 describe("#AzureMonitorStatsbeatExporter", () => {
