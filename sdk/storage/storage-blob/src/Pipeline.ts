@@ -435,5 +435,8 @@ function isCoreHttpPolicyFactory(factory: RequestPolicyFactory): boolean {
   };
   const policyInstance = factory.create(mockHttpClient, mockRequestPolicyOptions);
   const policyName = policyInstance.constructor.name;
-  return knownPolicies.includes(policyName);
+  // bundlers sometimes add a custom suffix to the class name to make it unique
+  return knownPolicies.some((knownPolicyName) => {
+    return policyName.startsWith(knownPolicyName);
+  });
 }
