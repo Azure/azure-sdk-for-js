@@ -55,7 +55,7 @@ describe("LogsIngestionClient live tests", function () {
       await client.upload(getDcrId(), "Custom-MyTableRawData", []);
     }
     catch(e){
-      assert(e)
+      assert.isFalse(e)
     }
   });
 
