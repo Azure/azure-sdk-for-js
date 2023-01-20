@@ -51,16 +51,15 @@ describe("LogsIngestionClient live tests", function () {
   });
 
   it("sends empty data", async function () {
-    try{
+    try {
       await client.upload(getDcrId(), "Custom-MyTableRawData", []);
-    }
-    catch(e: any){
+    } catch (e: any) {
       assert.fail(e);
     }
   });
 
   it("sends basic data", async function () {
-    try{
+    try {
       await client.upload(getDcrId(), "Custom-MyTableRawData", [
         {
           Time: "2021-12-08T23:51:14.1104269Z",
@@ -79,25 +78,22 @@ describe("LogsIngestionClient live tests", function () {
           },
         },
       ]);
-    }
-    catch(e: any){
+    } catch (e: any) {
       assert.fail(e);
-    } 
+    }
   });
 
   it("Success Test - divides huge data into chunks", async function () {
-    try{
+    try {
       await client.upload(getDcrId(), "Custom-MyTableRawData", getObjects(10000), {
         maxConcurrency: 3,
       });
-    }
-    catch(e: any){
+    } catch (e: any) {
       assert.fail(e);
     }
   });
 
   it("Partial Fail Test - when dcr id is incorrect for alternate requests", async function () {
-   
     const noOfElements = 25000;
     const logData = getObjects(noOfElements);
     const additionalPolicies = createFailedPolicies({ isFailed: false });
@@ -109,13 +105,12 @@ describe("LogsIngestionClient live tests", function () {
       })
     );
     recordedClient.client = client;
-    try{
+    try {
       await client.upload(getDcrId(), "Custom-MyTableRawData", logData, {
         maxConcurrency: 3,
       });
-    }
-    catch(e: any){
-      let result = (e as AggregateUploadLogsErrror).errors
+    } catch (e: any) {
+      const result = (e as AggregateUploadLogsErrror).errors;
       if (result.length > 0) {
         result.forEach((err) => {
           assert.equal(
@@ -123,7 +118,7 @@ describe("LogsIngestionClient live tests", function () {
             `Data collection rule with immutable Id 'fake-id' not found.`
           );
         });
-  
+
         const chunkArraySize = getChunkArraylength(noOfElements);
         assert.isAbove(chunkArraySize, 1);
         if (chunkArraySize % 2 === 0) {
@@ -133,19 +128,18 @@ describe("LogsIngestionClient live tests", function () {
           assert.equal(result.length, (chunkArraySize - 1) / 2);
         }
       }
-    }   
+    }
   });
 
   it("Throws error when all logs fail", async function () {
     const noOfElements = 25000;
     const logData = getObjects(noOfElements);
-    try{
+    try {
       await client.upload("immutable-id-123", "Custom-MyTableRawData", logData, {
         maxConcurrency: 3,
       });
-    }
-    catch(e: any){
-      let result = (e as AggregateUploadLogsErrror).errors;
+    } catch (e: any) {
+      const result = (e as AggregateUploadLogsErrror).errors;
       if (result.length > 0) {
         result.forEach((err) => {
           assert.equal(
@@ -157,7 +151,7 @@ describe("LogsIngestionClient live tests", function () {
         assert.isAbove(chunkArraySize, 1);
         assert.equal(chunkArraySize, result.length);
       }
-    }  
+    }
   });
 });
 

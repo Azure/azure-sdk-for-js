@@ -14,12 +14,12 @@ export const gZippingPolicyName = "GzippingPolicy";
 export const GZippingPolicy: PipelinePolicy = {
   name: gZippingPolicyName,
   sendRequest: async (req, next) => {
-    if(req.headers.get("content-encoding") !== "gzip"){
+    if (req.headers.get("content-encoding") !== "gzip") {
       if (req.body) {
         const buffer = await gzipping(req.body);
         req.body = buffer;
       }
-    }  
+    }
     return next(req);
   },
 };

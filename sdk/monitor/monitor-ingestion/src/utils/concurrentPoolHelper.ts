@@ -9,7 +9,7 @@ export async function concurrentRun<T>(
   const dataQueue = [...inputData].reverse();
   const promises: Array<Promise<void>> = [];
 
-  function removePromise(p: Promise<void>) {
+  function removePromise(p: Promise<void>): void {
     promises.splice(promises.indexOf(p), 1);
   }
   while (dataQueue.length) {

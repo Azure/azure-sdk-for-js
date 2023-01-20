@@ -8,7 +8,7 @@ import { AggregateUploadLogsErrror, UploadLogsError, UploadLogsOptions } from ".
 import { GZippingPolicy } from "./gZippingPolicy";
 import { concurrentRun } from "./utils/concurrentPoolHelper";
 import { splitDataToChunks } from "./utils/splitDataToChunksHelper";
-import {isError} from "@azure/core-util"
+import { isError } from "@azure/core-util";
 /**
  * Options for Monitor Logs Ingestion Client
  */
@@ -62,7 +62,7 @@ export class LogsIngestionClient {
     logs: Record<string, unknown>[],
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: UploadLogsOptions
-  ): Promise<void>{
+  ): Promise<void> {
     // TODO: Do we need to worry about memory issues when loading data for 100GB ?? JS max allocation is 1 or 2GB
 
     // This splits logs into 1MB chunks
@@ -76,16 +76,15 @@ export class LogsIngestionClient {
           contentEncoding: "gzip",
         });
       } catch (e: any) {
-        if(options?.errorCallback){
-          options.errorCallback({failedLogs: eachChunk, cause: isError(e)? e: new Error(e)});
-        }     
+        if (options?.errorCallback) {
+          options.errorCallback({ failedLogs: eachChunk, cause: isError(e) ? e : new Error(e) });
+        }
         uploadResultErrors.push({
           cause: e,
           failedLogs: eachChunk,
         });
       }
     });
-    if (uploadResultErrors.length > 0)
-      throw(new AggregateUploadLogsErrror(uploadResultErrors));
+    if (uploadResultErrors.length > 0) throw new AggregateUploadLogsErrror(uploadResultErrors);
   }
 }
