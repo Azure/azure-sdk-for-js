@@ -187,9 +187,6 @@
   - Enum KnownPublicNetworkAccess has a new value SecuredByPerimeter
   - Enum KnownSnapshotType has a new value ManagedCluster
   - Enum KnownWorkloadRuntime has a new value KataMshvVmIsolation
-
-**Breaking Changes**
-
   - Interface ContainerServiceClientOptionalParams no longer has parameter apiVersion
   - Class ContainerServiceClient no longer has parameter apiVersion
 
