@@ -13,7 +13,7 @@
     "build:browser": "tsc -p . && dev-tool run bundle",
     "build:node": "tsc -p . && dev-tool run bundle",
     "build:samples": "echo Obsolete.",
-    "build:test": "tsc -p . && dev-tool run bundle",
+    "build:test": "tsc -p . && rollup -c rollup.test.config.js 2>&1",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* temp types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
@@ -141,7 +141,10 @@
     "mocha-testdata": "^1.2.0",
     "nyc": "^15.0.0",
     "prettier": "^2.5.1",
+    "process": "^0.11.10",
     "rimraf": "^3.0.0",
+    "rollup": "^2.0.0",
+    "rollup-plugin-shim": "^1.0.0",
     "sinon": "^9.0.2",
     "typescript": "~4.8.0"
   }

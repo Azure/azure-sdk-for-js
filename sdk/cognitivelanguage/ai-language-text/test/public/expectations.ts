@@ -812,7 +812,7 @@ export const expectation10: AnalyzeBatchResult[] = [
         error: {
           code: "UnsupportedLanguageCode",
           message:
-            "Invalid language code. Supported languages: en,es,de,fr,zh-Hans,ar,cs,da,fi,hu,it,ja,ko,no,nl,pl,pt-BR,pt-PT,ru,sv,tr. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition",
+            "Invalid language code. Supported languages: en,es,de,fr,zh-Hans,ar,cs,da,fi,hu,it,ja,ko,no,nl,pl,pt-BR,pt-PT,ru,sv,tr. For additional details see https://aka.ms/language-service/language-support",
         },
       },
       {
@@ -842,7 +842,7 @@ export const expectation10: AnalyzeBatchResult[] = [
         error: {
           code: "UnsupportedLanguageCode",
           message:
-            "Invalid language code. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition",
+            "Invalid language code. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT. For additional details see https://aka.ms/language-service/language-support",
         },
       },
       {
@@ -864,7 +864,7 @@ export const expectation10: AnalyzeBatchResult[] = [
         error: {
           code: "UnsupportedLanguageCode",
           message:
-            "Invalid language code. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT,af,bg,ca,da,el,et,fi,hr,hu,id,lv,nl,no,pl,ro,ru,sk,sl,sv,tr. For additional details see https://aka.ms/text-analytics/language-support?tabs=key-phrase-extraction",
+            "Invalid language code. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT,af,bg,ca,da,el,et,fi,hr,hu,id,lv,nl,no,pl,ro,ru,sk,sl,sv,tr. For additional details see https://aka.ms/language-service/language-support",
         },
       },
       { id: "3", warnings: [], keyPhrases: ["good food", "restaurant"] },
@@ -884,7 +884,7 @@ export const expectation11: AnalyzeBatchResult[] = [
         error: {
           code: "UnsupportedLanguageCode",
           message:
-            "Invalid language code. Supported languages: en,es,de,fr,zh-Hans,ar,cs,da,fi,hu,it,ja,ko,no,nl,pl,pt-BR,pt-PT,ru,sv,tr. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition",
+            "Invalid language code. Supported languages: en,es,de,fr,zh-Hans,ar,cs,da,fi,hu,it,ja,ko,no,nl,pl,pt-BR,pt-PT,ru,sv,tr. For additional details see https://aka.ms/language-service/language-support",
         },
       },
       { id: "3", error: { code: "InvalidDocument", message: "Document text is empty." } },
@@ -901,7 +901,7 @@ export const expectation11: AnalyzeBatchResult[] = [
         error: {
           code: "UnsupportedLanguageCode",
           message:
-            "Invalid language code. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition",
+            "Invalid language code. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT. For additional details see https://aka.ms/language-service/language-support",
         },
       },
       { id: "3", error: { code: "InvalidDocument", message: "Document text is empty." } },
@@ -918,7 +918,7 @@ export const expectation11: AnalyzeBatchResult[] = [
         error: {
           code: "UnsupportedLanguageCode",
           message:
-            "Invalid language code. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT,af,bg,ca,da,el,et,fi,hr,hu,id,lv,nl,no,pl,ro,ru,sk,sl,sv,tr. For additional details see https://aka.ms/text-analytics/language-support?tabs=key-phrase-extraction",
+            "Invalid language code. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT,af,bg,ca,da,el,et,fi,hr,hu,id,lv,nl,no,pl,ro,ru,sk,sl,sv,tr. For additional details see https://aka.ms/language-service/language-support",
         },
       },
       { id: "3", error: { code: "InvalidDocument", message: "Document text is empty." } },
@@ -1203,7 +1203,7 @@ export const expectation16: AnalyzeBatchResult[] = [
         error: {
           code: "UnsupportedLanguageCode",
           message:
-            "Invalid language code. Supported languages: en,es,de,fr,zh-Hans,ar,cs,da,fi,hu,it,ja,ko,no,nl,pl,pt-BR,pt-PT,ru,sv,tr. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition",
+            "Invalid language code. Supported languages: en,es,de,fr,zh-Hans,ar,cs,da,fi,hu,it,ja,ko,no,nl,pl,pt-BR,pt-PT,ru,sv,tr. For additional details see https://aka.ms/language-service/language-support",
         },
       },
     ],
@@ -1218,7 +1218,7 @@ export const expectation16: AnalyzeBatchResult[] = [
         error: {
           code: "UnsupportedLanguageCode",
           message:
-            "Invalid language code. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition",
+            "Invalid language code. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT. For additional details see https://aka.ms/language-service/language-support",
         },
       },
     ],
@@ -1233,7 +1233,7 @@ export const expectation16: AnalyzeBatchResult[] = [
         error: {
           code: "UnsupportedLanguageCode",
           message:
-            "Invalid language code. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT,af,bg,ca,da,el,et,fi,hr,hu,id,lv,nl,no,pl,ro,ru,sk,sl,sv,tr. For additional details see https://aka.ms/text-analytics/language-support?tabs=key-phrase-extraction",
+            "Invalid language code. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT,af,bg,ca,da,el,et,fi,hr,hu,id,lv,nl,no,pl,ro,ru,sk,sl,sv,tr. For additional details see https://aka.ms/language-service/language-support",
         },
       },
     ],
@@ -7054,17 +7054,6 @@ export const expectation63: SentimentAnalysisResult[] = [
   },
 ];
 
-export const expectation64: SentimentAnalysisResult[] = [
-  {
-    id: "0",
-    error: {
-      code: "UnsupportedLanguageCode",
-      message:
-        "Invalid language code 'notalanguage'. Supported languages: af,am,ar,as,az,be,bg,bn,br,bs,ca,cs,cy,da,de,el,en,eo,es,et,eu,fa,fi,fil,fr,fy,ga,gd,gl,gu,ha,he,hi,hr,hu,hy,id,it,ja,jv,ka,kk,km,kn,ko,ku,ky,la,lo,lt,lv,mg,mk,ml,mn,mr,ms,my,ne,nl,no,om,or,pa,pl,ps,pt-BR,pt-PT,ro,ru,sa,sd,si,sk,sl,so,sq,sr,su,sv,sw,ta,te,th,tr,ug,uk,ur,uz,vi,xh,yi,zh-Hans,zh-Hant. For additional details see https://aka.ms/text-analytics/language-support?tabs=sentiment-analysis",
-    },
-  },
-];
-
 export const expectation65: SentimentAnalysisResult[] = [
   {
     id: "0",
@@ -8041,17 +8030,6 @@ export const expectation45: EntityRecognitionResult[] = [
   },
 ];
 
-export const expectation46: EntityRecognitionResult[] = [
-  {
-    id: "0",
-    error: {
-      code: "UnsupportedLanguageCode",
-      message:
-        "Invalid language code 'notalanguage'. Supported languages: ar,cs,da,de,en,es,fi,fr,hu,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv,tr,zh-Hans. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition",
-    },
-  },
-];
-
 export const expectation47: EntityRecognitionResult[] = [
   {
     id: "1",
@@ -8157,17 +8135,6 @@ export const expectation49: KeyPhraseExtractionResult[] = [
   { id: "1", warnings: [], keyPhrases: ["entire trip", "Space Needle", "Seattle"] },
   { id: "2", warnings: [], keyPhrases: ["movie", "Saturday"] },
   { id: "3", warnings: [], keyPhrases: ["last book"] },
-];
-
-export const expectation50: KeyPhraseExtractionResult[] = [
-  {
-    id: "0",
-    error: {
-      code: "UnsupportedLanguageCode",
-      message:
-        "Invalid language code 'notalanguage'. Supported languages: af,am,ar,as,az,be,bg,bn,br,bs,ca,cs,cy,da,de,el,en,eo,es,et,eu,fa,fi,fil,fr,fy,ga,gd,gl,gu,ha,he,hi,hr,hu,hy,id,it,ja,jv,ka,kk,km,kn,ko,ku,ky,la,lo,lt,lv,mg,mk,ml,mn,mr,ms,my,ne,nl,no,om,or,pa,pl,ps,pt-BR,pt-PT,ro,ru,sa,sd,si,sk,sl,so,sq,sr,su,sv,sw,ta,te,th,tr,ug,uk,ur,uz,vi,xh,yi,zh-Hans,zh-Hant. For additional details see https://aka.ms/text-analytics/language-support?tabs=key-phrase-extraction",
-    },
-  },
 ];
 
 export const expectation51: KeyPhraseExtractionResult[] = [
@@ -8289,17 +8256,6 @@ export const expectation54: PiiEntityRecognitionResult[] = [
         confidenceScore: 0.65,
       },
     ],
-  },
-];
-
-export const expectation55: PiiEntityRecognitionResult[] = [
-  {
-    id: "0",
-    error: {
-      code: "UnsupportedLanguageCode",
-      message:
-        "Invalid language code 'notalanguage'. Supported languages: de,en,es,fr,it,ja,ko,pt-BR,pt-PT,zh-Hans. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition",
-    },
   },
 ];
 
@@ -8484,17 +8440,6 @@ export const expectation60: EntityLinkingResult[] = [
     ],
   },
   { id: "3", warnings: [], entities: [] },
-];
-
-export const expectation61: EntityLinkingResult[] = [
-  {
-    id: "0",
-    error: {
-      code: "UnsupportedLanguageCode",
-      message:
-        "Invalid language code 'notalanguage'. Supported languages: en,es. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition",
-    },
-  },
 ];
 
 export const expectation62: EntityLinkingResult[] = [
@@ -8791,7 +8736,7 @@ export const expectation71: any = [
         error: {
           code: "UnsupportedLanguageCode",
           message:
-            "Invalid language code 'ja'. Supported languages: en,es. For additional details see https://aka.ms/text-analytics/language-support?tabs=entity-linking",
+            "Invalid language code 'ja'. Supported languages: en,es. For additional details see https://aka.ms/language-service/language-support",
         },
       },
     ],
@@ -8814,7 +8759,7 @@ export const expectation71: any = [
         error: {
           code: "UnsupportedLanguageCode",
           message:
-            "Invalid language code 'es'. Supported languages: en. For additional details see https://aka.ms/text-analytics/language-support",
+            "Invalid language code 'es'. Supported languages: en. For additional details see https://aka.ms/language-service/language-support",
         },
       },
       {
@@ -8822,7 +8767,7 @@ export const expectation71: any = [
         error: {
           code: "UnsupportedLanguageCode",
           message:
-            "Invalid language code 'ja'. Supported languages: en. For additional details see https://aka.ms/text-analytics/language-support",
+            "Invalid language code 'ja'. Supported languages: en. For additional details see https://aka.ms/language-service/language-support",
         },
       },
     ],

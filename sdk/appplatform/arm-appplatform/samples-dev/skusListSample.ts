@@ -10,15 +10,20 @@
 // Licensed under the MIT License.
 import { AppPlatformManagementClient } from "@azure/arm-appplatform";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Lists all of the available skus of the Microsoft.AppPlatform provider.
  *
  * @summary Lists all of the available skus of the Microsoft.AppPlatform provider.
- * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-09-01-preview/examples/Skus_List.json
+ * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-11-01-preview/examples/Skus_List.json
  */
 async function skusList() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new AppPlatformManagementClient(credential, subscriptionId);
   const resArray = new Array();
@@ -28,4 +33,8 @@ async function skusList() {
   console.log(resArray);
 }
 
-skusList().catch(console.error);
+async function main() {
+  skusList();
+}
+
+main().catch(console.error);

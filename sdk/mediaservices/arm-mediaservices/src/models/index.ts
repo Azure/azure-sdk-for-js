@@ -64,7 +64,7 @@ export type AudioAnalyzerPresetUnion =
   | AudioAnalyzerPreset
   | VideoAnalyzerPreset;
 export type JobInputClipUnion = JobInputClip | JobInputAsset | JobInputHttp;
-export type AudioUnion = Audio | AacAudio;
+export type AudioUnion = Audio | AacAudio | DDAudio;
 export type VideoUnion = Video | H265Video | ImageUnion | H264Video;
 export type AudioTrackDescriptorUnion =
   | AudioTrackDescriptor
@@ -1487,6 +1487,7 @@ export interface Codec {
   odataType:
     | "#Microsoft.Media.Audio"
     | "#Microsoft.Media.AacAudio"
+    | "#Microsoft.Media.DDAudio"
     | "#Microsoft.Media.Video"
     | "#Microsoft.Media.H265Video"
     | "#Microsoft.Media.CopyVideo"
@@ -1497,6 +1498,16 @@ export interface Codec {
     | "#Microsoft.Media.PngImage";
   /** An optional label for the codec. The label can be used to control muxing behavior. */
   label?: string;
+}
+
+/** Describes the properties of a Fade effect applied to the input media. */
+export interface Fade {
+  /** The Duration of the fade effect in the video. The value can be in ISO 8601 format (For example, PT05S to fade In/Out a color during 5 seconds), or a frame count (For example, 10 to fade 10 frames from the start time), or a relative value to stream duration (For example, 10% to fade 10% of stream duration) */
+  duration: string;
+  /** The Color for the fade In/Out. it can be on the CSS Level1 colors https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/color_keywords or an RGB/hex value: e.g: rgb(255,0,0), 0xFF0000 or #FF0000 */
+  fadeColor: string;
+  /** The position in the input video from where to start fade. The value can be in ISO 8601 format (For example, PT05S to start at 5 seconds), or a frame count (For example, 10 to start at the 10th frame), or a relative value to stream duration (For example, 10% to start at 10% of stream duration). Default is 0 */
+  start?: string;
 }
 
 /** The encoder can be configured to produce video and/or images (thumbnails) at different resolutions, by specifying a layer for each desired resolution. A layer represents the properties for the video or image at a resolution. */
@@ -1560,7 +1571,7 @@ export interface Format {
     | "#Microsoft.Media.MultiBitrateFormat"
     | "#Microsoft.Media.Mp4Format"
     | "#Microsoft.Media.TransportStreamFormat";
-  /** The pattern of the file names for the generated output files. The following macros are supported in the file name: {Basename} - An expansion macro that will use the name of the input video file. If the base name(the file suffix is not included) of the input video file is less than 32 characters long, the base name of input video files will be used. If the length of base name of the input video file exceeds 32 characters, the base name is truncated to the first 32 characters in total length. {Extension} - The appropriate extension for this format. {Label} - The label assigned to the codec/layer. {Index} - A unique index for thumbnails. Only applicable to thumbnails. {Bitrate} - The audio/video bitrate. Not applicable to thumbnails. {Codec} - The type of the audio/video codec. {Resolution} - The video resolution. Any unsubstituted macros will be collapsed and removed from the filename. */
+  /** The file naming pattern used for the creation of output files. The following macros are supported in the file name: {Basename} - An expansion macro that will use the name of the input video file. If the base name(the file suffix is not included) of the input video file is less than 32 characters long, the base name of input video files will be used. If the length of base name of the input video file exceeds 32 characters, the base name is truncated to the first 32 characters in total length. {Extension} - The appropriate extension for this format. {Label} - The label assigned to the codec/layer. {Index} - A unique index for thumbnails. Only applicable to thumbnails. {AudioStream} - string "Audio" plus audio stream number(start from 1). {Bitrate} - The audio/video bitrate in kbps. Not applicable to thumbnails. {Codec} - The type of the audio/video codec. {Resolution} - The video resolution. Any unsubstituted macros will be collapsed and removed from the filename. */
   filenamePattern: string;
 }
 
@@ -1592,6 +1603,10 @@ export interface Filters {
   rotation?: Rotation;
   /** The parameters for the rectangular window with which to crop the input video. */
   crop?: Rectangle;
+  /** Describes the properties of a Fade effect applied to the input media. */
+  fadeIn?: Fade;
+  /** Describes the properties of a Fade effect applied to the input media. */
+  fadeOut?: Fade;
   /** The properties of overlays to be applied to the input video. These could be audio, image or video overlays. */
   overlays?: OverlayUnion[];
 }
@@ -1757,7 +1772,7 @@ export interface ContentKeyPolicyFairPlayConfiguration
   extends ContentKeyPolicyConfiguration {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.ContentKeyPolicyFairPlayConfiguration";
-  /** The key that must be used as FairPlay Application Secret key. */
+  /** The key that must be used as FairPlay Application Secret key. This needs to be base64 encoded. */
   ask: Uint8Array | null;
   /** The password encrypting FairPlay certificate in PKCS 12 (pfx) format. */
   fairPlayPfxPassword: string | null;
@@ -1848,6 +1863,8 @@ export interface BuiltInStandardEncoderPreset extends Preset {
 export interface StandardEncoderPreset extends Preset {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odataType: "#Microsoft.Media.StandardEncoderPreset";
+  /** Dictionary containing key value pairs for parameters not exposed in the preset itself */
+  experimentalOptions?: { [propertyName: string]: string };
   /** One or more filtering operations that are applied to the input media before encoding. */
   filters?: Filters;
   /** The list of codecs to be used when encoding the input video. */
@@ -1947,7 +1964,10 @@ export interface ContentKeyPolicyX509CertificateTokenKey
 /** Defines the common properties for all audio codecs. */
 export interface Audio extends Codec {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  odataType: "#Microsoft.Media.Audio" | "#Microsoft.Media.AacAudio";
+  odataType:
+    | "#Microsoft.Media.Audio"
+    | "#Microsoft.Media.AacAudio"
+    | "#Microsoft.Media.DDAudio";
   /** The number of channels in the audio. */
   channels?: number;
   /** The sampling rate to use for encoding in hertz. */
@@ -2566,6 +2586,12 @@ export interface AacAudio extends Audio {
   odataType: "#Microsoft.Media.AacAudio";
   /** The encoding profile to be used when encoding audio with AAC. */
   profile?: AacAudioProfile;
+}
+
+/** Describes Dolby Digital Audio Codec (AC3) audio encoding settings. The current implementation for Dolby Digital Audio support are: Audio channel numbers at 1((mono), 2(stereo), 6(5.1side); Audio sampling frequency rates at: 32K/44.1K/48K Hz; Audio bitrate values as AC3 specification supports: 32000, 40000, 48000, 56000, 64000, 80000, 96000, 112000, 128000, 160000, 192000, 224000, 256000, 320000, 384000, 448000, 512000, 576000, 640000 bps. */
+export interface DDAudio extends Audio {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  odataType: "#Microsoft.Media.DDAudio";
 }
 
 /** Describes all the properties for encoding a video with the H.265 codec. */
@@ -3216,7 +3242,9 @@ export enum KnownJobErrorCode {
   /** There was a problem with the input content (for example: zero byte files, or corrupt/non-decodable files), check the input files. */
   ContentMalformed = "ContentMalformed",
   /** There was a problem with the format of the input (not valid media file, or an unsupported file/codec), check the validity of the input files. */
-  ContentUnsupported = "ContentUnsupported"
+  ContentUnsupported = "ContentUnsupported",
+  /** There was an error verifying to the account identity. Check and fix the identity configurations and retry. If unsuccessful, please contact support. */
+  IdentityUnsupported = "IdentityUnsupported"
 }
 
 /**
@@ -3232,7 +3260,8 @@ export enum KnownJobErrorCode {
  * **UploadTransientError**: While trying to upload the output files, there was an issue during transfer (storage service, network errors), see details and check your destination. \
  * **ConfigurationUnsupported**: There was a problem with the combination of input files and the configuration settings applied, fix the configuration settings and retry with the same input, or change input to match the configuration. \
  * **ContentMalformed**: There was a problem with the input content (for example: zero byte files, or corrupt\/non-decodable files), check the input files. \
- * **ContentUnsupported**: There was a problem with the format of the input (not valid media file, or an unsupported file\/codec), check the validity of the input files.
+ * **ContentUnsupported**: There was a problem with the format of the input (not valid media file, or an unsupported file\/codec), check the validity of the input files. \
+ * **IdentityUnsupported**: There was an error verifying to the account identity. Check and fix the identity configurations and retry. If unsuccessful, please contact support.
  */
 export type JobErrorCode = string;
 
@@ -3247,7 +3276,9 @@ export enum KnownJobErrorCategory {
   /** The error is configuration related. */
   Configuration = "Configuration",
   /** The error is related to data in the input files. */
-  Content = "Content"
+  Content = "Content",
+  /** The error is related to account information. */
+  Account = "Account"
 }
 
 /**
@@ -3259,7 +3290,8 @@ export enum KnownJobErrorCategory {
  * **Download**: The error is download related. \
  * **Upload**: The error is upload related. \
  * **Configuration**: The error is configuration related. \
- * **Content**: The error is related to data in the input files.
+ * **Content**: The error is related to data in the input files. \
+ * **Account**: The error is related to account information.
  */
 export type JobErrorCategory = string;
 
@@ -3832,7 +3864,7 @@ export enum KnownChannelMapping {
   FrontRight = "FrontRight",
   /** The Center Channel. */
   Center = "Center",
-  /** Low Frequency Effects Channel.  Sometimes referred to as the Subwoofer. */
+  /** Low Frequency Effects Channel.  Sometimes referred to as the subwoofer. */
   LowFrequencyEffects = "LowFrequencyEffects",
   /** The Back Left Channel.  Sometimes referred to as the Left Surround Channel. */
   BackLeft = "BackLeft",
@@ -3852,7 +3884,7 @@ export enum KnownChannelMapping {
  * **FrontLeft**: The Front Left Channel. \
  * **FrontRight**: The Front Right Channel. \
  * **Center**: The Center Channel. \
- * **LowFrequencyEffects**: Low Frequency Effects Channel.  Sometimes referred to as the Subwoofer. \
+ * **LowFrequencyEffects**: Low Frequency Effects Channel.  Sometimes referred to as the subwoofer. \
  * **BackLeft**: The Back Left Channel.  Sometimes referred to as the Left Surround Channel. \
  * **BackRight**: The Back Right Channel.  Sometimes referred to as the Right Surround Channel. \
  * **StereoLeft**: The Left Stereo channel.  Sometimes referred to as Down Mix Left. \
@@ -4194,8 +4226,10 @@ export enum KnownEncoderNamedPreset {
   H264SingleBitrate1080P = "H264SingleBitrate1080p",
   /** Produces a set of GOP aligned MP4 files with H.264 video and stereo AAC audio. Auto-generates a bitrate ladder based on the input resolution, bitrate and frame rate. The auto-generated preset will never exceed the input resolution. For example, if the input is 720p, output will remain 720p at best. */
   AdaptiveStreaming = "AdaptiveStreaming",
-  /** Produces a single MP4 file containing only stereo audio encoded at 192 kbps. */
+  /** Produces a single MP4 file containing only AAC stereo audio encoded at 192 kbps. */
   AACGoodQualityAudio = "AACGoodQualityAudio",
+  /** Produces a single MP4 file containing only DD(Digital Dolby) stereo audio encoded at 192 kbps. */
+  DDGoodQualityAudio = "DDGoodQualityAudio",
   /** Exposes an experimental preset for content-aware encoding. Given any input content, the service attempts to automatically determine the optimal number of layers, appropriate bitrate and resolution settings for delivery by adaptive streaming. The underlying algorithms will continue to evolve over time. The output will contain MP4 files with video and audio interleaved. */
   ContentAwareEncodingExperimental = "ContentAwareEncodingExperimental",
   /** Produces a set of GOP-aligned MP4s by using content-aware encoding. Given any input content, the service performs an initial lightweight analysis of the input content, and uses the results to determine the optimal number of layers, appropriate bitrate and resolution settings for delivery by adaptive streaming. This preset is particularly effective for low and medium complexity videos, where the output files will be at lower bitrates but at a quality that still delivers a good experience to viewers. The output will contain MP4 files with video and audio interleaved. */
@@ -4229,7 +4263,8 @@ export enum KnownEncoderNamedPreset {
  * **H264SingleBitrate720p**: Produces an MP4 file where the video is encoded with H.264 codec at 4500 kbps and a picture height of 720 pixels, and the stereo audio is encoded with AAC-LC codec at 128 kbps. \
  * **H264SingleBitrate1080p**: Produces an MP4 file where the video is encoded with H.264 codec at 6750 kbps and a picture height of 1080 pixels, and the stereo audio is encoded with AAC-LC codec at 128 kbps. \
  * **AdaptiveStreaming**: Produces a set of GOP aligned MP4 files with H.264 video and stereo AAC audio. Auto-generates a bitrate ladder based on the input resolution, bitrate and frame rate. The auto-generated preset will never exceed the input resolution. For example, if the input is 720p, output will remain 720p at best. \
- * **AACGoodQualityAudio**: Produces a single MP4 file containing only stereo audio encoded at 192 kbps. \
+ * **AACGoodQualityAudio**: Produces a single MP4 file containing only AAC stereo audio encoded at 192 kbps. \
+ * **DDGoodQualityAudio**: Produces a single MP4 file containing only DD(Digital Dolby) stereo audio encoded at 192 kbps. \
  * **ContentAwareEncodingExperimental**: Exposes an experimental preset for content-aware encoding. Given any input content, the service attempts to automatically determine the optimal number of layers, appropriate bitrate and resolution settings for delivery by adaptive streaming. The underlying algorithms will continue to evolve over time. The output will contain MP4 files with video and audio interleaved. \
  * **ContentAwareEncoding**: Produces a set of GOP-aligned MP4s by using content-aware encoding. Given any input content, the service performs an initial lightweight analysis of the input content, and uses the results to determine the optimal number of layers, appropriate bitrate and resolution settings for delivery by adaptive streaming. This preset is particularly effective for low and medium complexity videos, where the output files will be at lower bitrates but at a quality that still delivers a good experience to viewers. The output will contain MP4 files with video and audio interleaved. \
  * **CopyAllBitrateNonInterleaved**: Copy all video and audio streams from the input asset as non-interleaved video and audio output files. This preset can be used to clip an existing asset or convert a group of key frame (GOP) aligned MP4 files as an asset that can be streamed. \
@@ -4507,14 +4542,7 @@ export type AssetsListStreamingLocatorsResponse = ListStreamingLocatorsResponse;
 
 /** Optional parameters. */
 export interface AssetsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Restricts the set of items returned. */
-  filter?: string;
-  /** Specifies a non-negative integer n that limits the number of items returned from a collection. The service returns the number of available items up to but not greater than the specified value n. */
-  top?: number;
-  /** Specifies the key by which the result collection should be ordered. */
-  orderby?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type AssetsListNextResponse = AssetCollection;
@@ -4681,14 +4709,7 @@ export type ContentKeyPoliciesGetPolicyPropertiesWithSecretsResponse = ContentKe
 
 /** Optional parameters. */
 export interface ContentKeyPoliciesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Restricts the set of items returned. */
-  filter?: string;
-  /** Specifies a non-negative integer n that limits the number of items returned from a collection. The service returns the number of available items up to but not greater than the specified value n. */
-  top?: number;
-  /** Specifies the key by which the result collection should be ordered. */
-  orderby?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ContentKeyPoliciesListNextResponse = ContentKeyPolicyCollection;
@@ -4732,12 +4753,7 @@ export type TransformsUpdateResponse = Transform;
 
 /** Optional parameters. */
 export interface TransformsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Restricts the set of items returned. */
-  filter?: string;
-  /** Specifies the key by which the result collection should be ordered. */
-  orderby?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type TransformsListNextResponse = TransformCollection;
@@ -4780,12 +4796,7 @@ export interface JobsCancelJobOptionalParams
 
 /** Optional parameters. */
 export interface JobsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Restricts the set of items returned. */
-  filter?: string;
-  /** Specifies the key by which the result collection should be ordered. */
-  orderby?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type JobsListNextResponse = JobCollection;
@@ -4824,14 +4835,7 @@ export interface StreamingPoliciesDeleteOptionalParams
 
 /** Optional parameters. */
 export interface StreamingPoliciesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Restricts the set of items returned. */
-  filter?: string;
-  /** Specifies a non-negative integer n that limits the number of items returned from a collection. The service returns the number of available items up to but not greater than the specified value n. */
-  top?: number;
-  /** Specifies the key by which the result collection should be ordered. */
-  orderby?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type StreamingPoliciesListNextResponse = StreamingPolicyCollection;
@@ -4884,14 +4888,7 @@ export type StreamingLocatorsListPathsResponse = ListPathsResponse;
 
 /** Optional parameters. */
 export interface StreamingLocatorsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Restricts the set of items returned. */
-  filter?: string;
-  /** Specifies a non-negative integer n that limits the number of items returned from a collection. The service returns the number of available items up to but not greater than the specified value n. */
-  top?: number;
-  /** Specifies the key by which the result collection should be ordered. */
-  orderby?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type StreamingLocatorsListNextResponse = StreamingLocatorCollection;
