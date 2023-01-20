@@ -2,6 +2,8 @@
 
 <!-- NOTE: This is an example README copied from the real Azure App Configuration SDK. The real SDK has much more functionality than is exposed in the template/tutorial project, but this README can serve as an example to help you write a high-quality README for your own package. -->
 
+<!-- dev-tool snippets ignore -->
+
 [Azure App Configuration](https://docs.microsoft.com/azure/azure-app-configuration/overview) is a managed service that helps developers centralize their application and feature settings simply and securely.
 
 Use the client library for App Configuration to:
@@ -100,7 +102,7 @@ This means this pattern works:
 
 ```typescript
 const setting = await client.getConfigurationSetting({
-  key: "hello"
+  key: "hello",
 });
 
 setting.value = "new value!";
@@ -119,7 +121,7 @@ or, for example, re-getting a setting:
 
 ```typescript
 let setting = await client.getConfigurationSetting({
-  key: "hello"
+  key: "hello",
 });
 
 // re-get the setting
@@ -144,12 +146,12 @@ async function run() {
     // Labels allow you to create variants of a key tailored
     // for specific use-cases like supporting multiple environments.
     // https://docs.microsoft.com/azure/azure-app-configuration/concept-key-value#label-keys
-    label: "optional-label"
+    label: "optional-label",
   });
 
   let retrievedSetting = await client.getConfigurationSetting({
     key: "testkey",
-    label: "optional-label"
+    label: "optional-label",
   });
 
   console.log("Retrieved value:", retrievedSetting.value);

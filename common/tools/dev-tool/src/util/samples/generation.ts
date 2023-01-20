@@ -3,7 +3,7 @@ import path from "path";
 import { copy, dir, file, FileTreeFactory, lazy, safeClean, temp } from "../fileTree";
 import { findMatchingFiles } from "../findMatchingFiles";
 import { createPrinter } from "../printer";
-import { ProjectInfo, resolveRoot } from "../resolveProject";
+import { bindRequireFunction, ProjectInfo, resolveRoot } from "../resolveProject";
 import {
   getSampleConfiguration,
   MIN_SUPPORTED_NODE_VERSION,
@@ -103,17 +103,7 @@ export async function makeSampleGenerationInfo(
     return undefined as never;
   }
 
-  const requireInScope = (moduleSpecifier: string) => {
-    try {
-      return require(path.join(
-        projectInfo.path,
-        "node_modules",
-        moduleSpecifier.split("/").join(path.sep)
-      ));
-    } catch {
-      return require(moduleSpecifier);
-    }
-  };
+  const requireInScope = bindRequireFunction(projectInfo);
 
   const moduleInfos = await processSources(sampleSourcesPath, sampleSources, fail, requireInScope);
 
