@@ -40,6 +40,9 @@ import {
 
 const os = require("os");
 
+/**
+ * Presents a singleton pattern by removing public access to the PrivateLongIntervalStatsbeatMetrics constructor.
+ */
 export class LongIntervalStatsbeatMetrics {
   private static _instance: PrivateLongIntervalStatsbeatMetrics;
   constructor(options: StatsbeatOptions) {
