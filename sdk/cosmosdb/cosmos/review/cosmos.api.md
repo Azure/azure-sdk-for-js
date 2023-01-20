@@ -943,14 +943,18 @@ export type JSONValue = boolean | number | string | null | JSONArray | JSONObjec
 interface Location_2 {
     // (undocumented)
     databaseAccountEndpoint: string;
-    // Warning: (ae-forgotten-export) The symbol "LocationUnavailability" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     locationUnavailability?: LocationUnavailability;
     // (undocumented)
     name: string;
 }
 export { Location_2 as Location }
+
+// @public (undocumented)
+export interface LocationUnavailability {
+    // (undocumented)
+    lastUnavailabilityTimestamp: number;
+}
 
 // @public
 export type Next<T> = (context: RequestContext) => Promise<Response_2<T>>;
