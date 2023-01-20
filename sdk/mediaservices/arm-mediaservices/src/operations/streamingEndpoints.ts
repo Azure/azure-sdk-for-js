@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { StreamingEndpoints } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -71,8 +72,16 @@ export class StreamingEndpointsImpl implements StreamingEndpoints {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, accountName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          accountName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -80,11 +89,18 @@ export class StreamingEndpointsImpl implements StreamingEndpoints {
   private async *listPagingPage(
     resourceGroupName: string,
     accountName: string,
-    options?: StreamingEndpointsListOptionalParams
+    options?: StreamingEndpointsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<StreamingEndpoint[]> {
-    let result = await this._list(resourceGroupName, accountName, options);
-    yield result.value || [];
-    let continuationToken = result.odataNextLink;
+    let result: StreamingEndpointsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, accountName, options);
+      let page = result.value || [];
+      continuationToken = result.odataNextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -93,7 +109,9 @@ export class StreamingEndpointsImpl implements StreamingEndpoints {
         options
       );
       continuationToken = result.odataNextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -1092,7 +1110,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

@@ -13,16 +13,22 @@ import {
   AppPlatformManagementClient
 } from "@azure/arm-appplatform";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create or update a KPack builder.
  *
  * @summary Create or update a KPack builder.
- * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-09-01-preview/examples/BuildServiceBuilder_CreateOrUpdate.json
+ * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-11-01-preview/examples/BuildServiceBuilder_CreateOrUpdate.json
  */
 async function buildServiceBuilderCreateOrUpdate() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["APPPLATFORM_RESOURCE_GROUP"] || "myResourceGroup";
   const serviceName = "myservice";
   const buildServiceName = "default";
   const builderName = "mybuilder";
@@ -46,4 +52,8 @@ async function buildServiceBuilderCreateOrUpdate() {
   console.log(result);
 }
 
-buildServiceBuilderCreateOrUpdate().catch(console.error);
+async function main() {
+  buildServiceBuilderCreateOrUpdate();
+}
+
+main().catch(console.error);

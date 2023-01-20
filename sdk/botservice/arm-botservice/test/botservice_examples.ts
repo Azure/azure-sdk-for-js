@@ -110,7 +110,7 @@ describe("Botservice test", () => {
     for await (let item of client.channels.listByResourceGroup(resourceGroup, botresourceName)) {
       resArray.push(item);
     }
-    assert.equal(resArray.length, 2);
+    assert.equal(resArray.length, 3);//bot has 2 basic channels
   });
 
   it("MsTeamsChannel delete test", async function () {
@@ -119,7 +119,7 @@ describe("Botservice test", () => {
     for await (let item of client.channels.listByResourceGroup(resourceGroup, botresourceName)) {
       resArray.push(item);
     }
-    assert.equal(resArray.length, 1);
+    assert.equal(resArray.length, 2);//bot has 2 basic channels
   });
 
   it("bots delete test", async function () {

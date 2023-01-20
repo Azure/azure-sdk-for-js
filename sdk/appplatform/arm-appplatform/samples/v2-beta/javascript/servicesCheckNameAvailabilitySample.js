@@ -10,15 +10,17 @@
 // Licensed under the MIT License.
 const { AppPlatformManagementClient } = require("@azure/arm-appplatform");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Checks that the resource name is valid and is not already in use.
  *
  * @summary Checks that the resource name is valid and is not already in use.
- * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-09-01-preview/examples/Services_CheckNameAvailability.json
+ * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-11-01-preview/examples/Services_CheckNameAvailability.json
  */
 async function servicesCheckNameAvailability() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["APPPLATFORM_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const location = "eastus";
   const availabilityParameters = {
     name: "myservice",
@@ -30,4 +32,8 @@ async function servicesCheckNameAvailability() {
   console.log(result);
 }
 
-servicesCheckNameAvailability().catch(console.error);
+async function main() {
+  servicesCheckNameAvailability();
+}
+
+main().catch(console.error);

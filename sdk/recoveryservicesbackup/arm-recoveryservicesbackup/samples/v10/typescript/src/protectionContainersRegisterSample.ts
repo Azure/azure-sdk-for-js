@@ -13,6 +13,9 @@ import {
   RecoveryServicesBackupClient
 } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Registers the container with Recovery Services vault.
@@ -22,12 +25,15 @@ the operation.
  * @summary Registers the container with Recovery Services vault.
 This is an asynchronous operation. To track the operation status, use location header to call get latest status of
 the operation.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2022-03-01/examples/AzureStorage/ProtectionContainers_Register.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/AzureStorage/ProtectionContainers_Register.json
  */
 async function registerAzureStorageProtectionContainers() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const vaultName = "swaggertestvault";
-  const resourceGroupName = "SwaggerTestRg";
+  const resourceGroupName =
+    process.env["RECOVERYSERVICESBACKUP_RESOURCE_GROUP"] || "SwaggerTestRg";
   const fabricName = "Azure";
   const containerName = "StorageContainer;Storage;SwaggerTestRg;swaggertestsa";
   const parameters: ProtectionContainerResource = {
@@ -52,4 +58,8 @@ async function registerAzureStorageProtectionContainers() {
   console.log(result);
 }
 
-registerAzureStorageProtectionContainers().catch(console.error);
+async function main() {
+  registerAzureStorageProtectionContainers();
+}
+
+main().catch(console.error);

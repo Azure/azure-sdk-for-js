@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for EventGridManagementClient.",
-  "version": "14.1.0",
+  "version": "14.1.1",
   "engines": {
     "node": ">=14.0.0"
   },

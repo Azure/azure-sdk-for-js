@@ -25,6 +25,8 @@ import {
   GatewaysCreateOrUpdateOptionalParams,
   GatewaysCreateOrUpdateResponse,
   GatewaysDeleteOptionalParams,
+  GatewaysListEnvSecretsOptionalParams,
+  GatewaysListEnvSecretsResponse,
   CustomDomainValidatePayload,
   GatewaysValidateDomainOptionalParams,
   GatewaysValidateDomainResponse,
@@ -330,6 +332,26 @@ export class GatewaysImpl implements Gateways {
   }
 
   /**
+   * List sensitive environment variables of Spring Cloud Gateway.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param gatewayName The name of Spring Cloud Gateway.
+   * @param options The options parameters.
+   */
+  listEnvSecrets(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayName: string,
+    options?: GatewaysListEnvSecretsOptionalParams
+  ): Promise<GatewaysListEnvSecretsResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serviceName, gatewayName, options },
+      listEnvSecretsOperationSpec
+    );
+  }
+
+  /**
    * Handles requests to list all resources in a Service.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
@@ -473,6 +495,31 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
+const listEnvSecretsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/gateways/{gatewayName}/listEnvSecrets",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: {
+        type: { name: "Dictionary", value: { type: { name: "String" } } }
+      }
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+    Parameters.gatewayName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const listOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/gateways",
@@ -531,7 +578,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

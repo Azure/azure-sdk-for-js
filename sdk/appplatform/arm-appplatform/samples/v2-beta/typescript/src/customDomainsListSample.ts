@@ -10,16 +10,22 @@
 // Licensed under the MIT License.
 import { AppPlatformManagementClient } from "@azure/arm-appplatform";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to List the custom domains of one lifecycle application.
  *
  * @summary List the custom domains of one lifecycle application.
- * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-09-01-preview/examples/CustomDomains_List.json
+ * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-11-01-preview/examples/CustomDomains_List.json
  */
 async function customDomainsList() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["APPPLATFORM_RESOURCE_GROUP"] || "myResourceGroup";
   const serviceName = "myservice";
   const appName = "myapp";
   const credential = new DefaultAzureCredential();
@@ -35,4 +41,8 @@ async function customDomainsList() {
   console.log(resArray);
 }
 
-customDomainsList().catch(console.error);
+async function main() {
+  customDomainsList();
+}
+
+main().catch(console.error);
