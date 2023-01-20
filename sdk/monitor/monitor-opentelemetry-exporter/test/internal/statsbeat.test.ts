@@ -368,6 +368,11 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         assert.strictEqual(metrics.length, 2, "Metrics count");
         assert.strictEqual(metrics[0].descriptor.name, StatsbeatCounter.FEATURE);
         assert.strictEqual(metrics[1].descriptor.name, StatsbeatCounter.ATTACH);
+
+        // Clean up env variables
+        delete process.env.STATSBEAT_INSTRUMENTATIONS;
+        delete process.env.STATSBEAT_FEATURES;
+        delete process.env.LONG_INTERVAL_EXPORT_MILLIS;
       });
     });
   });
