@@ -88,13 +88,6 @@ export const EU_ENDPOINTS = [
   "ukwest",
 ];
 
-export interface IVirtualMachineInfo {
-  isVM?: boolean;
-  id?: string;
-  subscriptionId?: string;
-  osType?: string;
-}
-
 export interface CommonStatsbeatProperties {
   os: string;
   rp: string;
@@ -121,14 +114,14 @@ export interface StatsbeatOptions {
   longCollectionInterval?: number;
 }
 
-export enum StatsbeatFeatureType {
-  FEATURE = "Feature",
-  INSTRUMENTATION = "Instrumentation",
-}
-
-export interface IVirtualMachineInfo {
+export interface VirtualMachineInfo {
   isVM?: boolean;
   id?: string;
   subscriptionId?: string;
   osType?: string;
+}
+
+export enum StatsbeatFeatureType {
+  FEATURE = "Feature",
+  INSTRUMENTATION = "Instrumentation",
 }

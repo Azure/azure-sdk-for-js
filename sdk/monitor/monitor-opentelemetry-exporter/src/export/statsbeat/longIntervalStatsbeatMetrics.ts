@@ -32,36 +32,27 @@ import {
   EU_ENDPOINTS,
   NON_EU_CONNECTION_STRING,
   CommonStatsbeatProperties,
-  IVirtualMachineInfo,
+  VirtualMachineInfo,
   AttachStatsbeatProperties,
   StatsbeatFeatureType,
   StatsbeatOptions,
 } from "./types";
 
+let instance: LongIntervalStatsbeatMetrics | null = null;
+
 const os = require("os");
 
 /**
- * Presents a singleton pattern by removing public access to the PrivateLongIntervalStatsbeatMetrics constructor.
+ * Long Interval Statsbeat Metrics
+ * @internal
  */
-export class LongIntervalStatsbeatMetrics {
-  private static _instance: PrivateLongIntervalStatsbeatMetrics;
-  constructor(options: StatsbeatOptions) {
-    if (!LongIntervalStatsbeatMetrics._instance) {
-      LongIntervalStatsbeatMetrics._instance = new PrivateLongIntervalStatsbeatMetrics(options);
-    }
-  }
-
-  public getInstance() {
-    return LongIntervalStatsbeatMetrics._instance;
-  }
-}
-
-class PrivateLongIntervalStatsbeatMetrics {
-  private _statsCollectionLongInterval: number = 8600; // 1 day
+class LongIntervalStatsbeatMetrics {
+  private _AZURE_MONITOR_STATSBEAT_FEATURES = process.env.AZURE_MONITOR_STATSBEAT_FEATURES;
+  private _statsCollectionLongInterval: number = 86400000; // 1 day
   private _isInitialized: boolean = false;
 
   // Custom dimensions
-  private _vmInfo: IVirtualMachineInfo = {};
+  private _vmInfo: VirtualMachineInfo = {};
   private _resourceIdentifier: string = "";
   private _resourceProvider: string = StatsbeatResourceProvider.unknown;
   private _os: string = os.type();
@@ -76,9 +67,6 @@ class PrivateLongIntervalStatsbeatMetrics {
 
   private _feature: number = 0;
   private _instrumentation: number = 0;
-
-  private _features: number[] = [];
-  private _instrumentations: number[] = [];
 
   private _longIntervalStatsbeatMeterProvider: MeterProvider;
   private _longIntervalAzureExporter: AzureMonitorStatsbeatExporter;
@@ -98,16 +86,10 @@ class PrivateLongIntervalStatsbeatMetrics {
       connectionString: this._connectionString,
     };
 
-    if (process.env.STATSBEAT_FEATURES) {
-      this._features = process.env.STATSBEAT_FEATURES.split(",").map((feature) => Number(feature));
+    if (this._AZURE_MONITOR_STATSBEAT_FEATURES) {
+      this._feature = JSON.parse(this._AZURE_MONITOR_STATSBEAT_FEATURES).feature;
+      this._instrumentation = JSON.parse(this._AZURE_MONITOR_STATSBEAT_FEATURES).instrumentation;
     }
-    if (process.env.STATSBEAT_INSTRUMENTATIONS) {
-      this._instrumentations = process.env.STATSBEAT_INSTRUMENTATIONS.split(",").map(
-        (instrumentation) => Number(instrumentation)
-      );
-    }
-    this._instrumentations?.forEach((instrumentation) => this._addInstrumentation(instrumentation));
-    this._features?.forEach((feature) => this._addFeature(feature));
 
     this._longIntervalStatsbeatMeterProvider = new MeterProvider();
     this._longIntervalAzureExporter = new AzureMonitorStatsbeatExporter(exporterConfig);
@@ -273,15 +255,6 @@ class PrivateLongIntervalStatsbeatMetrics {
     }
   }
 
-  // Long interval statsbeat methods
-  private _addFeature(feature: number) {
-    this._feature |= feature;
-  }
-
-  private _addInstrumentation(instrumentation: number) {
-    this._instrumentation |= instrumentation;
-  }
-
   private _getConnectionString(endpointUrl: string) {
     let currentEndpoint = endpointUrl;
     for (let i = 0; i < EU_ENDPOINTS.length; i++) {
@@ -299,4 +272,15 @@ class PrivateLongIntervalStatsbeatMetrics {
   public shutdown() {
     this._longIntervalStatsbeatMeterProvider.shutdown();
   }
+}
+
+/**
+ * Singleton LongIntervalStatsbeatMetrics instance.
+ * @internal
+ */
+export function getInstance(options: StatsbeatOptions): LongIntervalStatsbeatMetrics {
+  if (!instance) {
+    instance = new LongIntervalStatsbeatMetrics(options);
+  }
+  return instance;
 }

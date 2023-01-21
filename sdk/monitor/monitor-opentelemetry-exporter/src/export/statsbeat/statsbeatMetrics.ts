@@ -33,7 +33,7 @@ import {
   NON_EU_CONNECTION_STRING,
   CommonStatsbeatProperties,
   NetworkStatsbeatProperties,
-  IVirtualMachineInfo,
+  VirtualMachineInfo,
   StatsbeatOptions,
 } from "./types";
 
@@ -52,7 +52,7 @@ export class StatsbeatMetrics {
   private _networkMetricReader: PeriodicExportingMetricReader;
 
   // Custom dimensions
-  private _vmInfo: IVirtualMachineInfo = {};
+  private _vmInfo: VirtualMachineInfo = {};
   private _resourceProvider: string = StatsbeatResourceProvider.unknown;
   private _os: string = os.type();
   private _cikey: string;

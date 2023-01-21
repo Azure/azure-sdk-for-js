@@ -13,7 +13,7 @@ import { DEFAULT_BREEZE_ENDPOINT, ENV_CONNECTION_STRING } from "../Declarations/
 import { TelemetryItem as Envelope } from "../generated";
 import { StatsbeatMetrics } from "./statsbeat/statsbeatMetrics";
 import { MAX_STATSBEAT_FAILURES } from "./statsbeat/types";
-import { LongIntervalStatsbeatMetrics } from "./statsbeat/longIntervalStatsbeatMetrics";
+import { getInstance } from "./statsbeat/longIntervalStatsbeatMetrics";
 
 const DEFAULT_BATCH_SEND_RETRY_INTERVAL_MS = 60_000;
 /**
@@ -30,7 +30,7 @@ export abstract class AzureMonitorBaseExporter {
   private _numConsecutiveRedirects: number;
   private _retryTimer: NodeJS.Timer | null;
   private _statsbeatMetrics: StatsbeatMetrics | undefined;
-  private _longIntervalStatsbeatMetrics: LongIntervalStatsbeatMetrics | undefined;
+  private _longIntervalStatsbeatMetrics;
   private _isStatsbeatExporter: boolean;
   private _statsbeatFailureCount: number = 0;
   private _batchSendRetryIntervalMs: number = DEFAULT_BATCH_SEND_RETRY_INTERVAL_MS;
@@ -74,7 +74,7 @@ export abstract class AzureMonitorBaseExporter {
         instrumentationKey: this._instrumentationKey,
         endpointUrl: this._endpointUrl,
       });
-      this._longIntervalStatsbeatMetrics = new LongIntervalStatsbeatMetrics({
+      this._longIntervalStatsbeatMetrics = getInstance({
         instrumentationKey: this._instrumentationKey,
         endpointUrl: this._endpointUrl,
       });
@@ -234,7 +234,7 @@ export abstract class AzureMonitorBaseExporter {
     if (this._statsbeatFailureCount > MAX_STATSBEAT_FAILURES) {
       this._isStatsbeatExporter = false;
       this._statsbeatMetrics?.shutdown();
-      this._longIntervalStatsbeatMetrics?.getInstance().shutdown();
+      this._longIntervalStatsbeatMetrics?.shutdown();
       this._statsbeatMetrics = undefined;
       this._statsbeatFailureCount = 0;
     }

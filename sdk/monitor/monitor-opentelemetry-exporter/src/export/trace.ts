@@ -23,7 +23,7 @@ export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implemen
    * @param AzureExporterConfig - Exporter configuration.
    */
   constructor(options: AzureMonitorExporterOptions = {}) {
-    super(options, false);
+    super(options);
     diag.debug("AzureMonitorTraceExporter was successfully setup");
   }
 
