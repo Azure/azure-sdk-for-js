@@ -57,6 +57,13 @@ export interface ReceiveOptions extends SubscribeOptions {
    * prefer to work directly with the bytes present in the message body than have the client attempt to parse it.
    */
   skipParsingBodyAsJson: boolean;
+
+  /**
+   * Whether to preserve Date type on properties of message annotations or application properties
+   * when receiving the message. By default, properties of Date type is converted into ISO string
+   * for compatibility.
+   */
+  keepDateType: boolean;
 }
 
 /**

@@ -75,6 +75,7 @@ describe("StreamingReceiver unit tests", () => {
         lockRenewer: undefined,
         receiveMode: "receiveAndDelete",
         skipParsingBodyAsJson: false,
+        keepDateType: false,
       });
 
       try {
@@ -246,6 +247,7 @@ describe("StreamingReceiver unit tests", () => {
       lockRenewer: undefined,
       receiveMode: "peekLock",
       skipParsingBodyAsJson: false,
+      keepDateType: false,
     });
 
     let processErrorMessages: string[] = [];
