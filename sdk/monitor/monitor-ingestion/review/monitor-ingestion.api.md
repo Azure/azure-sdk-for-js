@@ -35,7 +35,6 @@ export interface UploadLogsError {
 
 // @public
 export interface UploadLogsOptions {
-    // (undocumented)
     errorCallback?: (uploadLogsError: UploadLogsError) => void;
     maxConcurrency?: number;
 }
