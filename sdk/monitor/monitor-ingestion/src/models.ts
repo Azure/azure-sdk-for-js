@@ -10,6 +10,11 @@ export interface UploadLogsOptions {
    * The default value is 1.
    */
   maxConcurrency?: number;
+  /**
+   * Callback function for error handling when logs fail to upload
+   * @param uploadLogsError This is the {@link UploadLogsError} object
+   * @returns void
+   */
   errorCallback?: (uploadLogsError: UploadLogsError) => void;
 }
 
