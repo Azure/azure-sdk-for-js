@@ -135,8 +135,6 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         const statsbeatMetrics = exporter["_statsbeatMetrics"];
         const longIntervalStatsbeatMetrics = getInstance(options);
         assert.ok(statsbeatMetrics);
-
-        // const longIntervalStatsbeatMetrics = exporter["_longIntervalStatsbeatMetrics"]?.getInstance();
         assert.ok(longIntervalStatsbeatMetrics);
         // Represents the bitwise OR of NONE and AAD_HANDLING features
         assert.strictEqual(longIntervalStatsbeatMetrics["_feature"], 3);
