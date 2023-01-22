@@ -36,6 +36,8 @@ const fiveMinutesInMs = 5 * 60 * 1000;
  */
 export class ChallengeHandler implements ChallengeCallbacks {
   private readonly cycler: AccessTokenRefresher<ContainerRegistryGetTokenOptions>;
+  private cachedAcrAccessToken: string | undefined;
+
   constructor(
     private credential: ContainerRegistryRefreshTokenCredential,
     private options: GetTokenOptions & { claims?: string } = {}
@@ -45,7 +47,12 @@ export class ChallengeHandler implements ChallengeCallbacks {
     });
   }
 
-  authorizeRequest(_options: AuthorizeRequestOptions): Promise<void> {
+  authorizeRequest(options: AuthorizeRequestOptions): Promise<void> {
+    // Try using the existing token in case we don't need to refresh.
+    if (this.cachedAcrAccessToken) {
+      options.request.headers.set("Authorization", `Bearer ${this.cachedAcrAccessToken}`);
+    }
+
     return Promise.resolve();
   }
 
@@ -94,6 +101,8 @@ export class ChallengeHandler implements ChallengeCallbacks {
 
     // Step 5 - Authorize Request.  At this point we're done with AAD and using an ACR access token.
     options.request.headers.set("Authorization", `Bearer ${acrAccessToken}`);
+
+    this.cachedAcrAccessToken = acrAccessToken;
 
     return true;
   }
