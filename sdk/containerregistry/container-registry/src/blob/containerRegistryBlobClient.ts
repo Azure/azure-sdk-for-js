@@ -20,17 +20,20 @@ import {
   DownloadManifestOptions,
   DownloadManifestResult,
   OciManifest,
+  UploadBlobOptions,
   UploadBlobResult,
   UploadManifestOptions,
   UploadManifestResult,
 } from "./models";
 import * as Mappers from "../generated/models/mappers";
 import { CommonClientOptions, createSerializer } from "@azure/core-client";
-import { readStreamToEnd } from "../utils/helpers";
+import { readChunksFromStream, readStreamToEnd } from "../utils/helpers";
 import { Readable } from "stream";
 import { tracingClient } from "../tracing";
 
 const LATEST_API_VERSION = "2021-07-01";
+
+const DEFAULT_CHUNK_SIZE = 4 * 1024 * 1024; // 4 MB
 
 enum KnownManifestMediaType {
   OciManifestMediaType = "application/vnd.oci.image.manifest.v1+json",
@@ -293,7 +296,8 @@ export class ContainerRegistryBlobClient {
 
    */
   public async uploadBlob(
-    blobStreamFactory: () => NodeJS.ReadableStream
+    blobStreamFactory: () => NodeJS.ReadableStream,
+    options?: UploadBlobOptions
   ): Promise<UploadBlobResult>;
 
   /**
@@ -301,14 +305,18 @@ export class ContainerRegistryBlobClient {
    *
    * @param blobStream - the stream containing the blob data.
    */
-  public async uploadBlob(blobStream: NodeJS.ReadableStream): Promise<UploadBlobResult>;
+  public async uploadBlob(
+    blobStream: NodeJS.ReadableStream,
+    options?: UploadBlobOptions
+  ): Promise<UploadBlobResult>;
 
   public async uploadBlob(
-    blobStreamOrFactory: (() => NodeJS.ReadableStream) | NodeJS.ReadableStream
+    blobStreamOrFactory: (() => NodeJS.ReadableStream) | NodeJS.ReadableStream,
+    options: UploadBlobOptions = {}
   ): Promise<UploadBlobResult> {
     return tracingClient.withSpan(
       "ContainerRegistryBlobClient.uploadBlob",
-      {},
+      options,
       async (updatedOptions) => {
         const startUploadResult = await this.client.containerRegistryBlob.startUpload(
           this.repositoryName,
@@ -316,32 +324,37 @@ export class ContainerRegistryBlobClient {
         );
 
         assertHasProperty(startUploadResult, "location");
+        let location = startUploadResult.location.substring(1);
 
-        let requestBody: (() => NodeJS.ReadableStream) | Buffer;
         let digest: string;
 
+        let readableFactory: () => NodeJS.ReadableStream;
         if (typeof blobStreamOrFactory === "function") {
-          requestBody = blobStreamOrFactory;
-          digest = await calculateDigest(blobStreamOrFactory());
+          readableFactory = blobStreamOrFactory;
         } else {
-          requestBody = await readStreamToEnd(blobStreamOrFactory);
-          digest = await calculateDigest(requestBody);
+          const buffer = await readStreamToEnd(blobStreamOrFactory);
+          readableFactory = () => Readable.from(buffer);
         }
 
-        const uploadChunkResult = await this.client.containerRegistryBlob.uploadChunk(
-          startUploadResult.location.substring(1),
-          requestBody,
-          updatedOptions
+        const chunks = readChunksFromStream(
+          readableFactory(),
+          options.chunkSize ?? DEFAULT_CHUNK_SIZE
         );
 
-        assertHasProperty(uploadChunkResult, "location");
-
-        const { dockerContentDigest: digestFromResponse } =
-          await this.client.containerRegistryBlob.completeUpload(
-            digest,
-            uploadChunkResult.location.substring(1),
+        for await (const chunk of chunks) {
+          const result = await this.client.containerRegistryBlob.uploadChunk(
+            location,
+            chunk,
             updatedOptions
           );
+          assertHasProperty(result, "location");
+          location = result.location.substring(1);
+        }
+
+        digest = await calculateDigest(readableFactory());
+
+        const { dockerContentDigest: digestFromResponse } =
+          await this.client.containerRegistryBlob.completeUpload(digest, location, updatedOptions);
 
         if (digest !== digestFromResponse) {
           throw new DigestMismatchError(
