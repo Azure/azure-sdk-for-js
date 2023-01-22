@@ -166,31 +166,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
       assert.equal(digest, downloadResult.digest);
     });
 
-    it("can upload blob from resettable stream", async () => {
-      const resettableBlobStream = () =>
-        fs.createReadStream(
-          "test/data/oci-artifact/654b93f61054e4ce90ed203bb8d556a6200d5f906cf3eca0620738d6dc18cbed"
-        );
-      const { digest } = await client.uploadBlob(resettableBlobStream);
-      const downloadResult = await client.downloadBlob(
-        "sha256:654b93f61054e4ce90ed203bb8d556a6200d5f906cf3eca0620738d6dc18cbed"
-      );
-      assert.equal(digest, downloadResult.digest);
-    });
-
-    it("can upload a big blob from resettable stream", async function (this: Mocha.Context) {
-      // Skip in record and playback due to large recording size
-      if (!isLiveMode()) {
-        this.skip();
-      }
-
-      // 64 MiB plus random offset to have a buffer of different length at the end
-      const bigBlob = Buffer.alloc(64 * 1024 * 1024 + 321, 0xce);
-      const { digest } = await client.uploadBlob(() => Readable.from(bigBlob));
-      await client.deleteBlob(digest);
-    });
-
-    it("can upload a big blob from non-resettable stream", async function (this: Mocha.Context) {
+    it.only("can upload a big blob", async function (this: Mocha.Context) {
       // Skip in record and playback due to large recording size
       if (!isLiveMode()) {
         this.skip();

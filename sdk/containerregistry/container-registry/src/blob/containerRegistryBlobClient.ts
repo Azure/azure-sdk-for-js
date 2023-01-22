@@ -30,6 +30,7 @@ import { CommonClientOptions, createSerializer } from "@azure/core-client";
 import { readChunksFromStream, readStreamToEnd } from "../utils/helpers";
 import { Readable } from "stream";
 import { tracingClient } from "../tracing";
+import crypto from "crypto";
 
 const LATEST_API_VERSION = "2021-07-01";
 
@@ -292,26 +293,10 @@ export class ContainerRegistryBlobClient {
   /**
    * Upload an artifact blob.
    *
-   * @param blobStreamFactory - a factory which produces a stream containing the blob data. This function may be called multiple times; each time the function is called a fresh stream should be returned.
-
-   */
-  public async uploadBlob(
-    blobStreamFactory: () => NodeJS.ReadableStream,
-    options?: UploadBlobOptions
-  ): Promise<UploadBlobResult>;
-
-  /**
-   * Upload an artifact blob.
-   *
    * @param blobStream - the stream containing the blob data.
    */
   public async uploadBlob(
     blobStream: NodeJS.ReadableStream,
-    options?: UploadBlobOptions
-  ): Promise<UploadBlobResult>;
-
-  public async uploadBlob(
-    blobStreamOrFactory: (() => NodeJS.ReadableStream) | NodeJS.ReadableStream,
     options: UploadBlobOptions = {}
   ): Promise<UploadBlobResult> {
     return tracingClient.withSpan(
@@ -328,20 +313,11 @@ export class ContainerRegistryBlobClient {
 
         let digest: string;
 
-        let readableFactory: () => NodeJS.ReadableStream;
-        if (typeof blobStreamOrFactory === "function") {
-          readableFactory = blobStreamOrFactory;
-        } else {
-          const buffer = await readStreamToEnd(blobStreamOrFactory);
-          readableFactory = () => Readable.from(buffer);
-        }
-
-        const chunks = readChunksFromStream(
-          readableFactory(),
-          options.chunkSize ?? DEFAULT_CHUNK_SIZE
-        );
+        const chunks = readChunksFromStream(blobStream, options.chunkSize ?? DEFAULT_CHUNK_SIZE);
+        const hash = crypto.createHash("sha256");
 
         for await (const chunk of chunks) {
+          hash.write(chunk);
           const result = await this.client.containerRegistryBlob.uploadChunk(
             location,
             chunk,
@@ -351,7 +327,8 @@ export class ContainerRegistryBlobClient {
           location = result.location.substring(1);
         }
 
-        digest = await calculateDigest(readableFactory());
+        hash.end();
+        digest = `sha256:${hash.digest("hex")}`;
 
         const { dockerContentDigest: digestFromResponse } =
           await this.client.containerRegistryBlob.completeUpload(digest, location, updatedOptions);
