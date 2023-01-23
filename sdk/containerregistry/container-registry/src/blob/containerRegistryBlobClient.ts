@@ -311,8 +311,6 @@ export class ContainerRegistryBlobClient {
         assertHasProperty(startUploadResult, "location");
         let location = startUploadResult.location.substring(1);
 
-        let digest: string;
-
         const chunks = readChunksFromStream(blobStream, options.chunkSize ?? DEFAULT_CHUNK_SIZE);
         const hash = crypto.createHash("sha256");
 
@@ -328,7 +326,7 @@ export class ContainerRegistryBlobClient {
         }
 
         hash.end();
-        digest = `sha256:${hash.digest("hex")}`;
+        const digest = `sha256:${hash.digest("hex")}`;
 
         const { dockerContentDigest: digestFromResponse } =
           await this.client.containerRegistryBlob.completeUpload(digest, location, updatedOptions);
