@@ -8,14 +8,13 @@ import {
     isKeyCredential,
     createCommunicationAuthPolicy
 } from "@azure/communication-common";
-import { logger } from "./logger";
-import { SDK_VERSION } from "./constants";
-import { CallAutomationApiClient, RejectCallRequest } from "./generated/src";
+import { logger } from "./models/logger";
+import { SDK_VERSION } from "./models/constants";
+import { CallAutomationApiClient } from "./generated/src";
 import { CallConnectionImpl, CallMediaImpl, CallRecordingImpl } from "./generated/src/operations";
 import { CallConnection } from "./callConnection";
 import { CallRecording } from "./callRecording";
 import { RejectCallOptions } from "./models";
-import { extractOperationOptions } from "./utli/extractOperationOptions";
 
 /**
 * Client options used to configure CallingServer Client API requests.
