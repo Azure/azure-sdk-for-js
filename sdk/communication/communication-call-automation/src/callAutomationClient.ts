@@ -10,11 +10,11 @@ import {
 } from "@azure/communication-common";
 import { logger } from "./models/logger";
 import { SDK_VERSION } from "./models/constants";
-import { CallAutomationApiClient } from "./generated/src";
+import { CallAutomationApiClient, RejectCallRequest } from "./generated/src";
 import { CallConnectionImpl, CallMediaImpl, CallRecordingImpl } from "./generated/src/operations";
 import { CallConnection } from "./callConnection";
 import { CallRecording } from "./callRecording";
-import { RejectCallOptions } from "./models";
+import { RejectCallOptions } from "./models/models";
 
 /**
 * Client options used to configure CallingServer Client API requests.
