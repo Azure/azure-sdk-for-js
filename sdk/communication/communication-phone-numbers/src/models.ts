@@ -8,6 +8,11 @@ import {
   PhoneNumbersListAreaCodesOptionalParams,
   PhoneNumberType,
 } from "./generated/src/models/";
+import { InactiveStatusReason,
+         OverallHealthStatus,
+         PingStatus,
+         TlsStatus
+        } from "./generated/src/siprouting/models";
 
 /**
  * The result of the phone numbers purchase operation.
@@ -92,7 +97,13 @@ export {
   PurchasedPhoneNumber,
 } from "./generated/src/models/";
 
-export { SipRoutingError, SipTrunkRoute } from "./generated/src/siprouting/models";
+export { SipRoutingError,
+  SipTrunkRoute,
+  TlsStatus,
+  PingStatus,
+  OverallHealthStatus,
+  InactiveStatusReason,
+} from "./generated/src/siprouting/models";
 
 /**
  * Represents a SIP trunk for routing calls. See RFC 4904.
@@ -116,33 +127,54 @@ export type SipTrunkExpanded = SipTrunk & {
   health?: SipTrunkHealth;
 };
 
+/**
+ * Represents health state of SIP trunk.
+ */
 export interface SipTrunkHealth {
-  tls: TlsHealth;
-  ping: PingHealth;
-  overall: OverallHealth;
+  /**
+   * Trunk's TLS connection status details.
+   */
+  tls: SipTrunkTls;
+  /**
+   * Trunk's Ping connection status details.
+   */
+  ping: SipTrunkPing;
+  /**
+   * Trunk's overall health.
+   */
+  overall: SipTrunkOverallHealth;
 }
 
-export interface TlsHealth {
+/**
+ * Details about the status of TLS connection between Direct Routing infrastructure and the SBC.
+ */
+export interface SipTrunkTls {
+  /**
+   * Status of TLS connection.
+   */
   status: TlsStatus;
 }
 
-export interface PingHealth {
+/**
+ * Details about the status of options message sent by SBC.
+ */
+export interface SipTrunkPing {
+  /**
+   * Status of options message sent by SBC.
+   */
   status: PingStatus;
 }
 
-export interface OverallHealth {
-  status: OverallStatus;
+/**
+ * Details about the status of options message sent by SBC.
+ */
+export interface SipTrunkOverallHealth {
+  /**
+   * The overall health status of SBC.
+   */
+  status: OverallHealthStatus;
+  /**
+   * The reason why overall status of SBC is inactive.
+   */
   reason?: InactiveStatusReason;
 }
-
-/** Possible values of the status of TLS connections between Direct Routing and the SBC */
-export type TlsStatus = "unknown" | "ok" | "certExpiring" | "certExpired";
-
-/** Possible values of the status of options message send by SBC */
-export type PingStatus = "unknown" | "ok" | "expired" | "error";
-
-/** Possible values of the overall status of SBC*/
-export type OverallStatus = "unknown" | "active" | "inactive";
-
-/** Possible values of the overall status of SBC*/
-export type InactiveStatusReason = "noRecentCalls" | "noRecentPings" | "noRecentCallsAndPings";

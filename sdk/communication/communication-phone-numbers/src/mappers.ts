@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { SipTrunk, SipTrunkExpanded } from "./models";
 import {
   SipTrunk as RestSipTrunk,
-  TrunkExpanded as RestTrunkExpanded,
+  SipTrunkExpanded as RestSipTrunkExpanded,
 } from "./generated/src/siprouting/models";
+import { SipTrunk, SipTrunkExpanded } from "./models";
 
 /**
  * @internal

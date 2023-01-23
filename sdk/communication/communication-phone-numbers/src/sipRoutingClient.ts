@@ -7,13 +7,13 @@ import {
   parseClientArguments,
 } from "@azure/communication-common";
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
-import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
-import { logger } from "./utils";
 import { SipRoutingClient as SipRoutingGeneratedClient } from "./generated/src/siprouting/sipRoutingClient";
 import { SipConfigurationPatch, SipRoutingError } from "./generated/src/siprouting/models";
-import { SipTrunk, SipTrunkRoute } from "./models";
+import { SipTrunk, SipTrunkExpanded, SipTrunkRoute } from "./models";
 import { transformFromRestModel, transformIntoRestModel } from "./mappers";
 import { CommonClientOptions, OperationOptions } from "@azure/core-client";
+import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
+import { logger } from "./utils";
 import { tracingClient } from "./generated/src/tracing";
 
 export * from "./models";
@@ -241,4 +241,44 @@ export class SipRoutingClient {
       }
     );
   }
+
+  /**
+   * Returns list of the statuses of configured SIP trunks.
+   *
+   * Status of all configured SIP trunks.
+   *
+   * @param options - The optional parameters.
+   */
+  public getExpandedTrunks(options: OperationOptions = {}): Promise<SipTrunkExpanded[]> {
+    const expandedOptions = { ...options, expand: "trunkHealth" };
+    return tracingClient.withSpan(
+      "SipRoutingClient-getTrunksStatuses",
+      expandedOptions,
+      async (updatedOptions) => {
+        const config = await this.client.getSipConfiguration(updatedOptions);
+        return mapExpandedTrunks(config.trunks);
+      }
+    );
+  }
+
+    /**
+   * Returns status of a configured SIP trunksSIP trunk.
+   * @param fqdn - The trunk's FQDN.
+   * @param options - The options parameters.
+   */
+     public getExpandedTrunk(fqdn:string, options: OperationOptions = {}): Promise<SipTrunkExpanded> {
+      const expandedOptions = { ...options, expand: "trunkHealth" };
+      return tracingClient.withSpan(
+        "SipRoutingClient-getTrunkStatus",
+        expandedOptions,
+        async (updatedOptions) => {
+          const trunks = await this.getExpandedTrunks(updatedOptions)
+          const trunk = trunks.find((value: SipTrunkExpanded) => value.fqdn === fqdn);
+      if (trunk) {
+        return Promise.resolve(trunk);
+      }
+      throw { code: "NotFound", message: "Not Found" } as CommunicationError;
+        }
+      );
+    }
 }

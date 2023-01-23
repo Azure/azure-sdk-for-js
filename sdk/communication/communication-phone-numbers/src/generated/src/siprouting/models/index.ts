@@ -14,16 +14,13 @@ import * as coreClient from "@azure/core-client";
  * A route is matched by its number pattern.
  * Call is then directed into route's first available trunk, based on the order in the route's trunks list. The configuration can be expanded with additional data.
  */
-export interface SipConfigurationExpanded {
- * Call is then directed into route's first available trunk, based on the order in the route's trunks list.
- */
+
 export interface SipConfiguration {
   /**
    * SIP trunks for routing calls.
    * Map key is trunk's FQDN (1-249 characters).
    */
-  trunks?: { [propertyName: string]: TrunkExpanded };
-  trunks?: { [propertyName: string]: SipTrunk };
+  trunks?: { [propertyName: string]: SipTrunkExpanded };
   /** Trunk routes for routing calls. */
   routes?: SipTrunkRoute[];
 }
@@ -150,122 +147,25 @@ export interface SipConfiguration {
 }
 
 /** Represents a SIP trunk for routing calls. See RFC 4904. Can be expanded with additional data. */
-export type TrunkExpanded = SipTrunk & {
+export type SipTrunkExpanded = SipTrunk & {
   /** Represents health state of a SIP trunk for routing calls. */
   health?: TrunkExpandedHealth;
 };
-
-/** Known values of {@link ExpandEnum} that the service accepts. */
-export enum KnownExpandEnum {
-  /** Health state of a SIP trunk for routing calls. */
-  TrunkHealth = "trunkHealth"
-}
-
-/**
- * Defines values for ExpandEnum. \
- * {@link KnownExpandEnum} can be used interchangeably with ExpandEnum,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **trunkHealth**: Health state of a SIP trunk for routing calls.
- */
-export type ExpandEnum = string;
-
-/** Known values of {@link TlsStatus} that the service accepts. */
-export enum KnownTlsStatus {
-  /** Indicates an unknown status. */
-  Unknown = "unknown",
-  /** Indicates the status is okay. */
-  Ok = "ok",
-  /** Indicates the SBC certificate is expiring. */
-  CertExpiring = "certExpiring",
-  /** Indicates the SBC certificate is expired. */
-  CertExpired = "certExpired"
-}
-
-/**
- * Defines values for TlsStatus. \
- * {@link KnownTlsStatus} can be used interchangeably with TlsStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **unknown**: Indicates an unknown status. \
- * **ok**: Indicates the status is okay. \
- * **certExpiring**: Indicates the SBC certificate is expiring. \
- * **certExpired**: Indicates the SBC certificate is expired.
- */
-export type TlsStatus = string;
-
-/** Known values of {@link PingStatus} that the service accepts. */
-export enum KnownPingStatus {
-  /** Indicates an unknown status. */
-  Unknown = "unknown",
-  /** Indicates the status is okay. */
-  Ok = "ok",
-  /** Indicates the status is expired. */
-  Expired = "expired",
-  /** Indicates the status is at an error level. */
-  Error = "error"
-}
-
-/**
- * Defines values for PingStatus. \
- * {@link KnownPingStatus} can be used interchangeably with PingStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **unknown**: Indicates an unknown status. \
- * **ok**: Indicates the status is okay. \
- * **expired**: Indicates the status is expired. \
- * **error**: Indicates the status is at an error level.
- */
-export type PingStatus = string;
-
-/** Known values of {@link OverallHealthStatus} that the service accepts. */
-export enum KnownOverallHealthStatus {
-  /** Indicates an unknown health status. */
-  Unknown = "unknown",
-  /** Indicates the SBC is active. */
-  Active = "active",
-  /** Indicates the SBC is inactive. */
-  Inactive = "inactive"
-}
-
-/**
- * Defines values for OverallHealthStatus. \
- * {@link KnownOverallHealthStatus} can be used interchangeably with OverallHealthStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **unknown**: Indicates an unknown health status. \
- * **active**: Indicates the SBC is active. \
- * **inactive**: Indicates the SBC is inactive.
- */
-export type OverallHealthStatus = string;
-
-/** Known values of {@link InactiveStatusReason} that the service accepts. */
-export enum KnownInactiveStatusReason {
-  /** Indicates no recent calls. */
-  NoRecentCalls = "noRecentCalls",
-  /** Indicates ping status is expired. */
-  NoRecentPings = "noRecentPings",
-  /** Indicates no recent calls and ping status is expired. */
-  NoRecentCallsAndPings = "noRecentCallsAndPings"
-}
-
-/**
- * Defines values for InactiveStatusReason. \
- * {@link KnownInactiveStatusReason} can be used interchangeably with InactiveStatusReason,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **noRecentCalls**: Indicates no recent calls. \
- * **noRecentPings**: Indicates ping status is expired. \
- * **noRecentCallsAndPings**: Indicates no recent calls and ping status is expired.
- */
-export type InactiveStatusReason = string;
+/** Defines values for TlsStatus. */
+export type TlsStatus = "unknown" | "ok" | "certExpiring" | "certExpired";
+/** Defines values for PingStatus. */
+export type PingStatus = "unknown" | "ok" | "expired" | "error";
+/** Defines values for OverallHealthStatus. */
+export type OverallHealthStatus = "unknown" | "active" | "inactive";
+/** Defines values for InactiveStatusReason. */
+export type InactiveStatusReason =
+  | "noRecentCalls"
+  | "noRecentPings"
+  | "noRecentCallsAndPings";
 
 /** Optional parameters. */
 export interface GetSipConfigurationOptionalParams
-  extends coreClient.OperationOptions {
-  /** Sip configuration expand. Optional. */
-  expand?: ExpandEnum;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getSipConfiguration operation. */
 export type GetSipConfigurationResponse = SipConfigurationExpanded;

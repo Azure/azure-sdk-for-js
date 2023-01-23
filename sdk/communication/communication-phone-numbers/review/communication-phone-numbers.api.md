@@ -83,6 +83,8 @@ export interface PhoneNumberAdministrativeDivision {
 export interface PhoneNumberAreaCode {
     areaCode?: string;
 }
+// @public
+export type OverallHealthStatus = "unknown" | "active" | "inactive";
 
 // @public
 export type PhoneNumberAssignmentType = "person" | "application";
@@ -185,12 +187,6 @@ export interface PhoneNumbersListAreaCodesOptionalParams extends coreClient.Oper
 // @public
 export type PhoneNumberType = "geographic" | "tollFree";
 
-// @public (undocumented)
-export interface PingHealth {
-    // (undocumented)
-    status: PingStatus;
-}
-
 // @public
 export type PingStatus = "unknown" | "ok" | "expired" | "error";
 
@@ -225,6 +221,8 @@ export class SipRoutingClient {
     constructor(endpoint: string, credential: KeyCredential, options?: SipRoutingClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: SipRoutingClientOptions);
     deleteTrunk(fqdn: string, options?: OperationOptions): Promise<void>;
+    getExpandedTrunk(fqdn: string, options?: OperationOptions): Promise<SipTrunkExpanded>;
+    getExpandedTrunks(options?: OperationOptions): Promise<SipTrunkExpanded[]>;
     getRoutes(options?: OperationOptions): Promise<SipTrunkRoute[]>;
     getTrunk(fqdn: string, options?: OperationOptions): Promise<SipTrunk>;
     getTrunks(options?: OperationOptions): Promise<SipTrunk[]>;
@@ -253,12 +251,43 @@ export interface SipTrunk {
 }
 
 // @public
+export type SipTrunkExpanded = SipTrunk & {
+    health?: SipTrunkHealth;
+};
+
+// @public
+export interface SipTrunkHealth {
+    overall: SipTrunkOverallHealth;
+    ping: SipTrunkPing;
+    tls: SipTrunkTls;
+}
+
+// @public
+export interface SipTrunkOverallHealth {
+    reason?: InactiveStatusReason;
+    status: OverallHealthStatus;
+}
+
+// @public
+export interface SipTrunkPing {
+    status: PingStatus;
+}
+
+// @public
 export interface SipTrunkRoute {
     description?: string;
     name: string;
     numberPattern: string;
     trunks?: string[];
 }
+
+// @public
+export interface SipTrunkTls {
+    status: TlsStatus;
+}
+
+// @public
+export type TlsStatus = "unknown" | "ok" | "certExpiring" | "certExpired";
 
 // (No @packageDocumentation comment for this package)
 

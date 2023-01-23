@@ -17,12 +17,33 @@ tag: package-phonenumber-siprouting-2021-05-01-preview
 input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/15d66311cc2b64f04692fdf021d1b235b538e1bc/specification/communication/data-plane/SipRouting/preview/2021-05-01-preview/communicationservicessiprouting.json
 optional-response-headers: true
 payload-flattening-threshold: 10
+skip-enum-validation: true
 use-extension:
   "@autorest/typescript": "6.0.0-beta.15"
 add-credentials: false
 azure-arm: false
 title: Sip Routing Client
 v3: true
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters[*]["x-ms-enum"]
+    transform: >
+      if ($.modelAsString) {
+        $.modelAsString = false
+      }
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions[*].properties[*].properties[*].properties[*]["x-ms-enum"]
+    transform: >
+      if ($.modelAsString) {
+        $.modelAsString = false
+      }
 ```
 
 ### Directive renaming "Trunk" model to "SipTrunk"
@@ -65,8 +86,16 @@ directive:
       $["x-nullable"] = true;
 ```
 
-### Directive for resolving default error type as "CommunicationErrorResponse"
+### Directive renaming "TrunkExpanded" model to "SipTrunkExpanded"
+```yaml
+directive:
+    - from: swagger-document
+      where: "$.definitions.TrunkExpanded" 
+      transform: >
+          $["x-ms-client-name"] = "SipTrunkExpanded";
+```
 
+### Directive for resolving default error type as "CommunicationErrorResponse"
 ```yaml
 directive:
   from: swagger-document
