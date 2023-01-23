@@ -149,11 +149,10 @@ describe("RetryPolicy", () => {
     const credential = (dataLakeFileSystemClient as any).pipeline.factories[
       (dataLakeFileSystemClient as any).pipeline.factories.length - 1
     ];
-    const factories = newPipeline(credential, {
+    const pipeline = newPipeline(credential, {
       retryOptions: { maxTries: 2, secondaryHost },
-    }).factories;
-    factories.push(injector);
-    const pipeline = new Pipeline(factories);
+    });
+    pipeline.factories.push(injector);
     const injectContainerClient = new DataLakeFileSystemClient(
       dataLakeFileSystemClient.url,
       pipeline
