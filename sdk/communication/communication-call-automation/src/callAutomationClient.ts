@@ -10,11 +10,12 @@ import {
 } from "@azure/communication-common";
 import { logger } from "./logger";
 import { SDK_VERSION } from "./constants";
-import { CallAutomationApiClient } from "./generated/src";
+import { CallAutomationApiClient, RejectCallRequest } from "./generated/src";
 import { CallConnectionImpl, CallMediaImpl, CallRecordingImpl } from "./generated/src/operations";
 import { CallConnection } from "./callConnection";
 import { CallRecording } from "./callRecording";
 import { RejectCallOptions } from "./models";
+import { extractOperationOptions } from "./utli/extractOperationOptions";
 
 /**
 * Client options used to configure CallingServer Client API requests.
@@ -125,30 +126,14 @@ export class CallAutomationClient {
         incomingCallContext: string,
         options: RejectCallOptions = {}
     ): Promise<void> {
-        const { operationOptions, restOptions } = extractOperationOptions(options);
-        const { span, updatedOptions } = createSpan(
-            "ServerCallRestClient-RejectCall",
-            operationOptions
-        );
-
         const request: RejectCallRequest = {
             incomingCallContext: incomingCallContext,
-            callRejectReason: restOptions.callRejectReason
+            callRejectReason: options.callRejectReason
         };
 
-        try {
-            await this.serverCallRestClient.rejectCall(
-                request,
-                operationOptionsToRequestOptionsBase(updatedOptions)
-            );
-        } catch (e) {
-            span.setStatus({
-                code: SpanStatusCode.ERROR,
-                message: e.message
-            });
-            throw e;
-        } finally {
-            span.end();
-        }
+        return await this.callAutomationApiClient.rejectCall(
+            request,
+            options
+        );
     }
 }
