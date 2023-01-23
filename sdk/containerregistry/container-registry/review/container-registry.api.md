@@ -66,7 +66,6 @@ export class ContainerRegistryBlobClient {
     downloadManifest(tagOrDigest: string, options?: DownloadManifestOptions): Promise<DownloadManifestResult>;
     readonly endpoint: string;
     readonly repositoryName: string;
-    uploadBlob(blobStreamFactory: () => NodeJS.ReadableStream, options?: UploadBlobOptions): Promise<UploadBlobResult>;
     uploadBlob(blobStream: NodeJS.ReadableStream, options?: UploadBlobOptions): Promise<UploadBlobResult>;
     uploadManifest(manifest: (() => NodeJS.ReadableStream) | NodeJS.ReadableStream | OciManifest, options?: UploadManifestOptions): Promise<UploadManifestResult>;
 }
