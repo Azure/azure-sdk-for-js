@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { OperationOptions } from "@azure/core-client";
-import { CallRejectReason } from "./generated/src";
+import { CallRejectReason } from "../generated/src/models/index";
 
 /**
  * Options to reject call.

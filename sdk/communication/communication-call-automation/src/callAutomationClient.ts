@@ -8,8 +8,8 @@ import {
     isKeyCredential,
     createCommunicationAuthPolicy
 } from "@azure/communication-common";
-import { logger } from "./logger";
-import { SDK_VERSION } from "./constants";
+import { logger } from "./models/logger";
+import { SDK_VERSION } from "./models/constants";
 import { CallAutomationApiClient } from "./generated/src";
 import { CallConnectionImpl, CallMediaImpl, CallRecordingImpl } from "./generated/src/operations";
 import { CallConnection } from "./callConnection";
