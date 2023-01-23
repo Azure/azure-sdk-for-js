@@ -166,7 +166,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
       assert.equal(digest, downloadResult.digest);
     });
 
-    it.only("can upload a big blob", async function (this: Mocha.Context) {
+    it("can upload a big blob", async function (this: Mocha.Context) {
       // Skip in record and playback due to large recording size
       if (!isLiveMode()) {
         this.skip();
