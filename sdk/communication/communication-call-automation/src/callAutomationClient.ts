@@ -14,6 +14,7 @@ import { CallAutomationApiClient } from "./generated/src";
 import { CallConnectionImpl, CallMediaImpl, CallRecordingImpl } from "./generated/src/operations";
 import { CallConnection } from "./callConnection";
 import { CallRecording } from "./callRecording";
+import { RejectCallOptions } from "./models";
 
 /**
 * Client options used to configure CallingServer Client API requests.
@@ -112,5 +113,42 @@ export class CallAutomationClient {
     */
     public getCallRecording(): CallRecording {
         return new CallRecording(this.callRecordingImpl);
+    }
+
+    /**
+    * Reject the call.
+    *
+    * @param incomingCallContext - The context associated with the call.
+    * @param options - Additional request options contains rejectCall api options.
+    */
+    public async rejectCall(
+        incomingCallContext: string,
+        options: RejectCallOptions = {}
+    ): Promise<void> {
+        const { operationOptions, restOptions } = extractOperationOptions(options);
+        const { span, updatedOptions } = createSpan(
+            "ServerCallRestClient-RejectCall",
+            operationOptions
+        );
+
+        const request: RejectCallRequest = {
+            incomingCallContext: incomingCallContext,
+            callRejectReason: restOptions.callRejectReason
+        };
+
+        try {
+            await this.serverCallRestClient.rejectCall(
+                request,
+                operationOptionsToRequestOptionsBase(updatedOptions)
+            );
+        } catch (e) {
+            span.setStatus({
+                code: SpanStatusCode.ERROR,
+                message: e.message
+            });
+            throw e;
+        } finally {
+            span.end();
+        }
     }
 }
