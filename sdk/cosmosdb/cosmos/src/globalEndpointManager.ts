@@ -189,54 +189,41 @@ export class GlobalEndpointManager {
 
   private refreshStaleUnavailableLocations(): void {
     const now = Date.now();
-    this.updateLocationList(now, /*isReadRequestType*/ true);
-    this.cleanUnavailableLocationList(now, /*isReadRequestType*/ true);
+    this.updateLocation(now, this.unavailableReadableLocations, this.readableLocations);
+    this.unavailableReadableLocations = this.cleanUnavailableLocationList(
+      now,
+      this.unavailableReadableLocations
+    );
 
-    this.updateLocationList(now, /*isReadRequestType*/ false);
-    this.cleanUnavailableLocationList(now, /*isReadRequestType*/ false);
+    this.updateLocation(now, this.unavailableWriteableLocations, this.writeableLocations);
+    this.unavailableWriteableLocations = this.cleanUnavailableLocationList(
+      now,
+      this.unavailableWriteableLocations
+    );
   }
-
-  private updateLocationList(now: number, isReadRequest: boolean) {
-    if (isReadRequest) {
-      updateLocation(this.unavailableReadableLocations, this.readableLocations);
-    } else {
-      updateLocation(this.unavailableWriteableLocations, this.writeableLocations);
-    }
-    function updateLocation(unavailableLocations: Location[], allLocations: Location[]) {
-      for (const location of unavailableLocations) {
-        const unavaialableLocation = allLocations.find((loc) => loc.name === location.name);
-        if (
-          unavaialableLocation.locationUnavailability &&
-          now - unavaialableLocation.locationUnavailability.lastUnavailabilityTimestamp >
-            Constants.LocationUnavailableExpirationTime
-        ) {
-          unavaialableLocation.locationUnavailability = undefined;
-        }
+  private updateLocation(now: number, unavailableLocations: Location[], allLocations: Location[]) {
+    for (const location of unavailableLocations) {
+      const unavaialableLocation = allLocations.find((loc) => loc.name === location.name);
+      if (
+        unavaialableLocation.locationUnavailability &&
+        now - unavaialableLocation.locationUnavailability.lastUnavailabilityTimestamp >
+          Constants.LocationUnavailableExpirationTime
+      ) {
+        unavaialableLocation.locationUnavailability = undefined;
       }
     }
   }
 
-  private cleanUnavailableLocationList(now: number, isReadRequest: boolean) {
-    if (isReadRequest) {
-      this.unavailableReadableLocations = cleanUnavailableLocationList(
-        this.unavailableReadableLocations
-      );
-    } else {
-      this.unavailableWriteableLocations = cleanUnavailableLocationList(
-        this.unavailableWriteableLocations
-      );
-    }
-    function cleanUnavailableLocationList(unavailableLocations: Location[]): Location[] {
-      return unavailableLocations.filter((loc) => {
-        if (
-          loc.locationUnavailability &&
-          now - loc.locationUnavailability.lastUnavailabilityTimestamp >=
-            Constants.LocationUnavailableExpirationTime
-        ) {
-          return true;
-        }
-      });
-    }
+  private cleanUnavailableLocationList(now: number, unavailableLocations: Location[]): Location[] {
+    return unavailableLocations.filter((loc) => {
+      if (
+        loc.locationUnavailability &&
+        now - loc.locationUnavailability.lastUnavailabilityTimestamp >=
+          Constants.LocationUnavailableExpirationTime
+      ) {
+        return true;
+      }
+    });
   }
 
   /**
