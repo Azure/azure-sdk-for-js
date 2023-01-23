@@ -289,31 +289,25 @@ export class BlobBatch {
       options = {};
     }
 
-    const { span, updatedOptions } = createSpan("BatchSetTierRequest-addSubRequest", options);
-
-    try {
-      this.setBatchType("setAccessTier");
-      await this.addSubRequestInternal(
-        {
-          url: url,
-          credential: credential,
-        },
-        async () => {
-          await new BlobClient(url, this.batchRequest.createPipeline(credential)).setAccessTier(
-            tier,
-            updatedOptions
-          );
-        }
-      );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "BatchSetTierRequest-addSubRequest",
+      options,
+      async (updatedOptions) => {
+        this.setBatchType("setAccessTier");
+        await this.addSubRequestInternal(
+          {
+            url: url,
+            credential: credential,
+          },
+          async () => {
+            await new BlobClient(url, this.batchRequest.createPipeline(credential)).setAccessTier(
+              tier,
+              updatedOptions
+            );
+          }
+        );
+      }
+    );
   }
 }
 

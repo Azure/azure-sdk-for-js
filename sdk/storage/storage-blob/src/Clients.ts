@@ -9,7 +9,6 @@ import {
 import { isTokenCredential, TokenCredential } from "@azure/core-auth";
 import { isNode } from "@azure/core-util";
 import { PollOperationState } from "@azure/core-lro";
-import { SpanStatusCode } from "@azure/core-tracing";
 import { v4 as generateUuid } from "uuid";
 import { Readable } from "stream";
 
@@ -24,8 +23,36 @@ import {
   PageBlob,
 } from "./generated/src/operationsInterfaces";
 import {
+  AppendBlobAppendBlockFromUrlHeaders,
+  AppendBlobAppendBlockHeaders,
+  AppendBlobCreateHeaders,
+  AppendBlobSealHeaders,
+  BlobAbortCopyFromURLHeaders,
+  BlobCopyFromURLHeaders,
+  BlobCreateSnapshotHeaders,
+  BlobDeleteHeaders,
+  BlobDeleteImmutabilityPolicyHeaders,
   BlobGetPropertiesResponse as BlobGetPropertiesResponseInternal,
   BlobGetTagsResponse as BlobGetTagsResponseInternal,
+  BlobSetHttpHeadersHeaders,
+  BlobSetImmutabilityPolicyHeaders,
+  BlobSetLegalHoldHeaders,
+  BlobSetMetadataHeaders,
+  BlobSetTagsHeaders,
+  BlobSetTierHeaders,
+  BlobStartCopyFromURLHeaders,
+  BlobUndeleteHeaders,
+  BlockBlobCommitBlockListHeaders,
+  BlockBlobPutBlobFromUrlHeaders,
+  BlockBlobStageBlockFromURLHeaders,
+  BlockBlobStageBlockHeaders,
+  PageBlobClearPagesHeaders,
+  PageBlobCopyIncrementalHeaders,
+  PageBlobCreateHeaders,
+  PageBlobResizeHeaders,
+  PageBlobUpdateSequenceNumberHeaders,
+  PageBlobUploadPagesFromURLHeaders,
+  PageBlobUploadPagesHeaders,
 } from "./generated/src";
 import {
   AppendBlobAppendBlockFromUrlResponse,
@@ -40,7 +67,6 @@ import {
   BlobGetPropertiesResponseModel,
   BlobGetTagsHeaders,
   BlobSetHTTPHeadersResponse,
-  BlobSetMetadataResponse,
   BlobSetTagsResponse,
   BlobSetTierResponse,
   BlobStartCopyFromURLResponse,
@@ -86,6 +112,7 @@ import {
   BlobDeleteImmutabilityPolicyResponse,
   BlobSetImmutabilityPolicyResponse,
   BlobSetLegalHoldResponse,
+  BlobSetMetadataResponse,
 } from "./generatedModels";
 import {
   AppendBlobRequestConditions,
@@ -1169,9 +1196,7 @@ export class BlobClient extends StorageClient {
     options.conditions = options.conditions || {};
     ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
 
-    const { span, updatedOptions } = createSpan("BlobClient-download", options);
-
-    try {
+    return tracingClient.withSpan("BlobClient-download", options, async (updatedOptions) => {
       const res = assertResponse<BlobDownloadResponseInternal, BlobDownloadHeaders>(
         await this.blobContext.download({
           abortSignal: options.abortSignal,
@@ -1264,15 +1289,7 @@ export class BlobClient extends StorageClient {
           onProgress: options.onProgress,
         }
       );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -1285,37 +1302,31 @@ export class BlobClient extends StorageClient {
    * @param options - options to Exists operation.
    */
   public async exists(options: BlobExistsOptions = {}): Promise<boolean> {
-    const { span, updatedOptions } = createSpan("BlobClient-exists", options);
-    try {
-      ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-      await this.getProperties({
-        abortSignal: options.abortSignal,
-        customerProvidedKey: options.customerProvidedKey,
-        conditions: options.conditions,
-        tracingOptions: updatedOptions.tracingOptions,
-      });
-      return true;
-    } catch (e: any) {
-      if (e.statusCode === 404) {
-        // Expected exception when checking blob existence
-        return false;
-      } else if (
-        e.statusCode === 409 &&
-        (e.details.errorCode === BlobUsesCustomerSpecifiedEncryptionMsg ||
-          e.details.errorCode === BlobDoesNotUseCustomerSpecifiedEncryption)
-      ) {
-        // Expected exception when checking blob existence
+    return tracingClient.withSpan("BlobClient-exists", options, async (updatedOptions) => {
+      try {
+        ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
+        await this.getProperties({
+          abortSignal: options.abortSignal,
+          customerProvidedKey: options.customerProvidedKey,
+          conditions: options.conditions,
+          tracingOptions: updatedOptions.tracingOptions,
+        });
         return true;
+      } catch (e: any) {
+        if (e.statusCode === 404) {
+          // Expected exception when checking blob existence
+          return false;
+        } else if (
+          e.statusCode === 409 &&
+          (e.details.errorCode === BlobUsesCustomerSpecifiedEncryptionMsg ||
+            e.details.errorCode === BlobDoesNotUseCustomerSpecifiedEncryption)
+        ) {
+          // Expected exception when checking blob existence
+          return true;
+        }
+        throw e;
       }
-
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -1333,10 +1344,9 @@ export class BlobClient extends StorageClient {
   public async getProperties(
     options: BlobGetPropertiesOptions = {}
   ): Promise<BlobGetPropertiesResponse> {
-    const { span, updatedOptions } = createSpan("BlobClient-getProperties", options);
-    try {
-      options.conditions = options.conditions || {};
-      ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
+    options.conditions = options.conditions || {};
+    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
+    return tracingClient.withSpan("BlobClient-getProperties", options, async (updatedOptions) => {
       const res = assertResponse<BlobGetPropertiesResponseInternal, BlobGetPropertiesHeaders>(
         await this.blobContext.getProperties({
           abortSignal: options.abortSignal,
@@ -1356,15 +1366,7 @@ export class BlobClient extends StorageClient {
         objectReplicationDestinationPolicyId: res.objectReplicationPolicyId,
         objectReplicationSourceProperties: parseObjectReplicationRecord(res.objectReplicationRules),
       };
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -1377,10 +1379,9 @@ export class BlobClient extends StorageClient {
    * @param options - Optional options to Blob Delete operation.
    */
   public async delete(options: BlobDeleteOptions = {}): Promise<BlobDeleteResponse> {
-    const { span, updatedOptions } = createSpan("BlobClient-delete", options);
     options.conditions = options.conditions || {};
-    try {
-      return assertResponse(
+    return tracingClient.withSpan("BlobClient-delete", options, async (updatedOptions) => {
+      return assertResponse<BlobDeleteHeaders, BlobDeleteHeaders>(
         await this.blobContext.delete({
           abortSignal: options.abortSignal,
           deleteSnapshots: options.deleteSnapshots,
@@ -1392,15 +1393,7 @@ export class BlobClient extends StorageClient {
           tracingOptions: updatedOptions.tracingOptions,
         })
       );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -1415,34 +1408,25 @@ export class BlobClient extends StorageClient {
   public async deleteIfExists(
     options: BlobDeleteOptions = {}
   ): Promise<BlobDeleteIfExistsResponse> {
-    const { span, updatedOptions } = createSpan("BlobClient-deleteIfExists", options);
-    try {
-      const res = assertResponse(await this.delete(updatedOptions));
-      return {
-        succeeded: true,
-        ...res,
-        _response: res._response, // _response is made non-enumerable
-      };
-    } catch (e: any) {
-      if (e.details?.errorCode === "BlobNotFound") {
-        span.setStatus({
-          code: SpanStatusCode.ERROR,
-          message: "Expected exception when deleting a blob or snapshot only if it exists.",
-        });
+    return tracingClient.withSpan("BlobClient-deleteIfExists", options, async (updatedOptions) => {
+      try {
+        const res = assertResponse(await this.delete(updatedOptions));
         return {
-          succeeded: false,
-          ...e.response?.parsedHeaders,
-          _response: e.response,
+          succeeded: true,
+          ...res,
+          _response: res._response, // _response is made non-enumerable
         };
+      } catch (e: any) {
+        if (e.details?.errorCode === "BlobNotFound") {
+          return {
+            succeeded: false,
+            ...e.response?.parsedHeaders,
+            _response: e.response,
+          };
+        }
+        throw e;
       }
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -1454,23 +1438,14 @@ export class BlobClient extends StorageClient {
    * @param options - Optional options to Blob Undelete operation.
    */
   public async undelete(options: BlobUndeleteOptions = {}): Promise<BlobUndeleteResponse> {
-    const { span, updatedOptions } = createSpan("BlobClient-undelete", options);
-    try {
-      return assertResponse(
+    return tracingClient.withSpan("BlobClient-undelete", options, async (updatedOptions) => {
+      return assertResponse<BlobUndeleteHeaders, BlobUndeleteHeaders>(
         await this.blobContext.undelete({
           abortSignal: options.abortSignal,
           tracingOptions: updatedOptions.tracingOptions,
         })
       );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -1492,11 +1467,10 @@ export class BlobClient extends StorageClient {
     blobHTTPHeaders?: BlobHTTPHeaders,
     options: BlobSetHTTPHeadersOptions = {}
   ): Promise<BlobSetHTTPHeadersResponse> {
-    const { span, updatedOptions } = createSpan("BlobClient-setHTTPHeaders", options);
     options.conditions = options.conditions || {};
-    try {
-      ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-      return assertResponse(
+    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
+    return tracingClient.withSpan("BlobClient-setHTTPHeaders", options, async (updatedOptions) => {
+      return assertResponse<BlobSetHttpHeadersHeaders, BlobSetHttpHeadersHeaders>(
         await this.blobContext.setHttpHeaders({
           abortSignal: options.abortSignal,
           blobHttpHeaders: blobHTTPHeaders,
@@ -1509,15 +1483,7 @@ export class BlobClient extends StorageClient {
           tracingOptions: updatedOptions.tracingOptions,
         })
       );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -1535,11 +1501,10 @@ export class BlobClient extends StorageClient {
     metadata?: Metadata,
     options: BlobSetMetadataOptions = {}
   ): Promise<BlobSetMetadataResponse> {
-    const { span, updatedOptions } = createSpan("BlobClient-setMetadata", options);
     options.conditions = options.conditions || {};
-    try {
-      ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-      return assertResponse(
+    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
+    return tracingClient.withSpan("BlobClient-setMetadata", options, async (updatedOptions) => {
+      return assertResponse<BlobSetMetadataHeaders, BlobSetMetadataHeaders>(
         await this.blobContext.setMetadata({
           abortSignal: options.abortSignal,
           leaseAccessConditions: options.conditions,
@@ -1553,15 +1518,7 @@ export class BlobClient extends StorageClient {
           tracingOptions: updatedOptions.tracingOptions,
         })
       );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -1574,9 +1531,8 @@ export class BlobClient extends StorageClient {
    * @param options -
    */
   public async setTags(tags: Tags, options: BlobSetTagsOptions = {}): Promise<BlobSetTagsResponse> {
-    const { span, updatedOptions } = createSpan("BlobClient-setTags", options);
-    try {
-      return assertResponse(
+    return tracingClient.withSpan("BlobClient-setTags", options, async (updatedOptions) => {
+      return assertResponse<BlobSetTagsHeaders, BlobSetTagsHeaders>(
         await this.blobContext.setTags({
           abortSignal: options.abortSignal,
           leaseAccessConditions: options.conditions,
@@ -1588,15 +1544,7 @@ export class BlobClient extends StorageClient {
           tags: toBlobTags(tags),
         })
       );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -1605,8 +1553,7 @@ export class BlobClient extends StorageClient {
    * @param options -
    */
   public async getTags(options: BlobGetTagsOptions = {}): Promise<BlobGetTagsResponse> {
-    const { span, updatedOptions } = createSpan("BlobClient-getTags", options);
-    try {
+    return tracingClient.withSpan("BlobClient-getTags", options, async (updatedOptions) => {
       const response = assertResponse<BlobGetTagsResponseInternal, BlobGetTagsHeaders, BlobTags>(
         await this.blobContext.getTags({
           abortSignal: options.abortSignal,
@@ -1624,15 +1571,7 @@ export class BlobClient extends StorageClient {
         tags: toTags({ blobTagSet: response.blobTagSet }) || {},
       };
       return wrappedResponse;
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -1654,11 +1593,10 @@ export class BlobClient extends StorageClient {
   public async createSnapshot(
     options: BlobCreateSnapshotOptions = {}
   ): Promise<BlobCreateSnapshotResponse> {
-    const { span, updatedOptions } = createSpan("BlobClient-createSnapshot", options);
     options.conditions = options.conditions || {};
-    try {
-      ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-      return assertResponse(
+    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
+    return tracingClient.withSpan("BlobClient-createSnapshot", options, async (updatedOptions) => {
+      return assertResponse<BlobCreateSnapshotHeaders, BlobCreateSnapshotHeaders>(
         await this.blobContext.createSnapshot({
           abortSignal: options.abortSignal,
           leaseAccessConditions: options.conditions,
@@ -1672,15 +1610,7 @@ export class BlobClient extends StorageClient {
           tracingOptions: updatedOptions.tracingOptions,
         })
       );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -1797,24 +1727,19 @@ export class BlobClient extends StorageClient {
     copyId: string,
     options: BlobAbortCopyFromURLOptions = {}
   ): Promise<BlobAbortCopyFromURLResponse> {
-    const { span, updatedOptions } = createSpan("BlobClient-abortCopyFromURL", options);
-    try {
-      return assertResponse(
-        await this.blobContext.abortCopyFromURL(copyId, {
-          abortSignal: options.abortSignal,
-          leaseAccessConditions: options.conditions,
-          tracingOptions: updatedOptions.tracingOptions,
-        })
-      );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "BlobClient-abortCopyFromURL",
+      options,
+      async (updatedOptions) => {
+        return assertResponse<BlobAbortCopyFromURLHeaders, BlobAbortCopyFromURLHeaders>(
+          await this.blobContext.abortCopyFromURL(copyId, {
+            abortSignal: options.abortSignal,
+            leaseAccessConditions: options.conditions,
+            tracingOptions: updatedOptions.tracingOptions,
+          })
+        );
+      }
+    );
   }
 
   /**
@@ -1829,12 +1754,10 @@ export class BlobClient extends StorageClient {
     copySource: string,
     options: BlobSyncCopyFromURLOptions = {}
   ): Promise<BlobCopyFromURLResponse> {
-    const { span, updatedOptions } = createSpan("BlobClient-syncCopyFromURL", options);
     options.conditions = options.conditions || {};
     options.sourceConditions = options.sourceConditions || {};
-
-    try {
-      return assertResponse(
+    return tracingClient.withSpan("BlobClient-syncCopyFromURL", options, async (updatedOptions) => {
+      return assertResponse<BlobCopyFromURLHeaders, BlobCopyFromURLHeaders>(
         await this.blobContext.copyFromURL(copySource, {
           abortSignal: options.abortSignal,
           metadata: options.metadata,
@@ -1844,10 +1767,10 @@ export class BlobClient extends StorageClient {
             ifTags: options.conditions?.tagConditions,
           },
           sourceModifiedAccessConditions: {
-            sourceIfMatch: options.sourceConditions.ifMatch,
-            sourceIfModifiedSince: options.sourceConditions.ifModifiedSince,
-            sourceIfNoneMatch: options.sourceConditions.ifNoneMatch,
-            sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince,
+            sourceIfMatch: options.sourceConditions?.ifMatch,
+            sourceIfModifiedSince: options.sourceConditions?.ifModifiedSince,
+            sourceIfNoneMatch: options.sourceConditions?.ifNoneMatch,
+            sourceIfUnmodifiedSince: options.sourceConditions?.ifUnmodifiedSince,
           },
           sourceContentMD5: options.sourceContentMD5,
           copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
@@ -1861,15 +1784,7 @@ export class BlobClient extends StorageClient {
           tracingOptions: updatedOptions.tracingOptions,
         })
       );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -1887,9 +1802,8 @@ export class BlobClient extends StorageClient {
     tier: BlockBlobTier | PremiumPageBlobTier | string,
     options: BlobSetTierOptions = {}
   ): Promise<BlobSetTierResponse> {
-    const { span, updatedOptions } = createSpan("BlobClient-setAccessTier", options);
-    try {
-      return assertResponse(
+    return tracingClient.withSpan("BlobClient-setAccessTier", options, async (updatedOptions) => {
+      return assertResponse<BlobSetTierHeaders, BlobSetTierHeaders>(
         await this.blobContext.setTier(toAccessTier(tier)!, {
           abortSignal: options.abortSignal,
           leaseAccessConditions: options.conditions,
@@ -1901,15 +1815,7 @@ export class BlobClient extends StorageClient {
           tracingOptions: updatedOptions.tracingOptions,
         })
       );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   // High level function
@@ -1975,100 +1881,94 @@ export class BlobClient extends StorageClient {
       count = typeof param2 === "number" ? param2 : 0;
       options = (param3 as BlobDownloadToBufferOptions) || {};
     }
-    const { span, updatedOptions } = createSpan("BlobClient-downloadToBuffer", options);
 
-    try {
-      if (!options.blockSize) {
-        options.blockSize = 0;
-      }
-      if (options.blockSize < 0) {
-        throw new RangeError("blockSize option must be >= 0");
-      }
-      if (options.blockSize === 0) {
-        options.blockSize = DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES;
-      }
+    let blockSize = options.blockSize ?? 0;
 
-      if (offset < 0) {
-        throw new RangeError("offset option must be >= 0");
-      }
+    if (blockSize < 0) {
+      throw new RangeError("blockSize option must be >= 0");
+    }
+    if (blockSize === 0) {
+      blockSize = DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES;
+    }
 
-      if (count && count <= 0) {
-        throw new RangeError("count option must be greater than 0");
-      }
+    if (offset < 0) {
+      throw new RangeError("offset option must be >= 0");
+    }
 
-      if (!options.conditions) {
-        options.conditions = {};
-      }
+    if (count && count <= 0) {
+      throw new RangeError("count option must be greater than 0");
+    }
 
-      // Customer doesn't specify length, get it
-      if (!count) {
-        const response = await this.getProperties({
-          ...options,
-          tracingOptions: updatedOptions.tracingOptions,
-        });
-        count = response.contentLength! - offset;
-        if (count < 0) {
-          throw new RangeError(
-            `offset ${offset} shouldn't be larger than blob size ${response.contentLength!}`
-          );
-        }
-      }
+    if (!options.conditions) {
+      options.conditions = {};
+    }
 
-      // Allocate the buffer of size = count if the buffer is not provided
-      if (!buffer) {
-        try {
-          buffer = Buffer.alloc(count);
-        } catch (error: any) {
-          throw new Error(
-            `Unable to allocate the buffer of size: ${count}(in bytes). Please try passing your own buffer to the "downloadToBuffer" method or try using other methods like "download" or "downloadToFile".\t ${error.message}`
-          );
-        }
-      }
-
-      if (buffer.length < count) {
-        throw new RangeError(
-          `The buffer's size should be equal to or larger than the request count of bytes: ${count}`
-        );
-      }
-
-      let transferProgress: number = 0;
-      const batch = new Batch(options.concurrency);
-      for (let off = offset; off < offset + count; off = off + options.blockSize) {
-        batch.addOperation(async () => {
-          // Exclusive chunk end position
-          let chunkEnd = offset + count!;
-          if (off + options.blockSize! < chunkEnd) {
-            chunkEnd = off + options.blockSize!;
-          }
-          const response = await this.download(off, chunkEnd - off, {
-            abortSignal: options.abortSignal,
-            conditions: options.conditions,
-            maxRetryRequests: options.maxRetryRequestsPerBlock,
-            customerProvidedKey: options.customerProvidedKey,
+    return tracingClient.withSpan(
+      "BlobClient-downloadToBuffer",
+      options,
+      async (updatedOptions) => {
+        // Customer doesn't specify length, get it
+        if (!count) {
+          const response = await this.getProperties({
+            ...options,
             tracingOptions: updatedOptions.tracingOptions,
           });
-          const stream = response.readableStreamBody!;
-          await streamToBuffer(stream, buffer!, off - offset, chunkEnd - offset);
-          // Update progress after block is downloaded, in case of block trying
-          // Could provide finer grained progress updating inside HTTP requests,
-          // only if convenience layer download try is enabled
-          transferProgress += chunkEnd - off;
-          if (options.onProgress) {
-            options.onProgress({ loadedBytes: transferProgress });
+          count = response.contentLength! - offset;
+          if (count < 0) {
+            throw new RangeError(
+              `offset ${offset} shouldn't be larger than blob size ${response.contentLength!}`
+            );
           }
-        });
+        }
+
+        // Allocate the buffer of size = count if the buffer is not provided
+        if (!buffer) {
+          try {
+            buffer = Buffer.alloc(count);
+          } catch (error: any) {
+            throw new Error(
+              `Unable to allocate the buffer of size: ${count}(in bytes). Please try passing your own buffer to the "downloadToBuffer" method or try using other methods like "download" or "downloadToFile".\t ${error.message}`
+            );
+          }
+        }
+
+        if (buffer.length < count) {
+          throw new RangeError(
+            `The buffer's size should be equal to or larger than the request count of bytes: ${count}`
+          );
+        }
+
+        let transferProgress: number = 0;
+        const batch = new Batch(options.concurrency);
+        for (let off = offset; off < offset + count; off = off + blockSize) {
+          batch.addOperation(async () => {
+            // Exclusive chunk end position
+            let chunkEnd = offset + count!;
+            if (off + blockSize < chunkEnd) {
+              chunkEnd = off + blockSize;
+            }
+            const response = await this.download(off, chunkEnd - off, {
+              abortSignal: options.abortSignal,
+              conditions: options.conditions,
+              maxRetryRequests: options.maxRetryRequestsPerBlock,
+              customerProvidedKey: options.customerProvidedKey,
+              tracingOptions: updatedOptions.tracingOptions,
+            });
+            const stream = response.readableStreamBody!;
+            await streamToBuffer(stream, buffer!, off - offset, chunkEnd - offset);
+            // Update progress after block is downloaded, in case of block trying
+            // Could provide finer grained progress updating inside HTTP requests,
+            // only if convenience layer download try is enabled
+            transferProgress += chunkEnd - off;
+            if (options.onProgress) {
+              options.onProgress({ loadedBytes: transferProgress });
+            }
+          });
+        }
+        await batch.do();
+        return buffer;
       }
-      await batch.do();
-      return buffer;
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    );
   }
 
   /**
@@ -2093,8 +1993,7 @@ export class BlobClient extends StorageClient {
     count?: number,
     options: BlobDownloadOptions = {}
   ): Promise<BlobDownloadResponseParsed> {
-    const { span, updatedOptions } = createSpan("BlobClient-downloadToFile", options);
-    try {
+    return tracingClient.withSpan("BlobClient-downloadToFile", options, async (updatedOptions) => {
       const response = await this.download(offset, count, {
         ...options,
         tracingOptions: updatedOptions.tracingOptions,
@@ -2106,15 +2005,7 @@ export class BlobClient extends StorageClient {
       // The stream is no longer accessible so setting it to undefined.
       (response as any).blobDownloadStream = undefined;
       return response;
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   private getBlobAndContainerNamesFromUrl(): { blobName: string; containerName: string } {
@@ -2187,46 +2078,40 @@ export class BlobClient extends StorageClient {
     copySource: string,
     options: BlobStartCopyFromURLOptions = {}
   ): Promise<BlobStartCopyFromURLResponse> {
-    const { span, updatedOptions } = createSpan("BlobClient-startCopyFromURL", options);
-    options.conditions = options.conditions || {};
-    options.sourceConditions = options.sourceConditions || {};
-
-    try {
-      return assertResponse(
-        await this.blobContext.startCopyFromURL(copySource, {
-          abortSignal: options.abortSignal,
-          leaseAccessConditions: options.conditions,
-          metadata: options.metadata,
-          modifiedAccessConditions: {
-            ...options.conditions,
-            ifTags: options.conditions?.tagConditions,
-          },
-          sourceModifiedAccessConditions: {
-            sourceIfMatch: options.sourceConditions.ifMatch,
-            sourceIfModifiedSince: options.sourceConditions.ifModifiedSince,
-            sourceIfNoneMatch: options.sourceConditions.ifNoneMatch,
-            sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince,
-            sourceIfTags: options.sourceConditions.tagConditions,
-          },
-          immutabilityPolicyExpiry: options.immutabilityPolicy?.expiriesOn,
-          immutabilityPolicyMode: options.immutabilityPolicy?.policyMode,
-          legalHold: options.legalHold,
-          rehydratePriority: options.rehydratePriority,
-          tier: toAccessTier(options.tier),
-          blobTagsString: toBlobTagsString(options.tags),
-          sealBlob: options.sealBlob,
-          tracingOptions: updatedOptions.tracingOptions,
-        })
-      );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "BlobClient-startCopyFromURL",
+      options,
+      async (updatedOptions) => {
+        options.conditions = options.conditions || {};
+        options.sourceConditions = options.sourceConditions || {};
+        return assertResponse<BlobStartCopyFromURLHeaders, BlobStartCopyFromURLHeaders>(
+          await this.blobContext.startCopyFromURL(copySource, {
+            abortSignal: options.abortSignal,
+            leaseAccessConditions: options.conditions,
+            metadata: options.metadata,
+            modifiedAccessConditions: {
+              ...options.conditions,
+              ifTags: options.conditions?.tagConditions,
+            },
+            sourceModifiedAccessConditions: {
+              sourceIfMatch: options.sourceConditions.ifMatch,
+              sourceIfModifiedSince: options.sourceConditions.ifModifiedSince,
+              sourceIfNoneMatch: options.sourceConditions.ifNoneMatch,
+              sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince,
+              sourceIfTags: options.sourceConditions.tagConditions,
+            },
+            immutabilityPolicyExpiry: options.immutabilityPolicy?.expiriesOn,
+            immutabilityPolicyMode: options.immutabilityPolicy?.policyMode,
+            legalHold: options.legalHold,
+            rehydratePriority: options.rehydratePriority,
+            tier: toAccessTier(options.tier),
+            blobTagsString: toBlobTagsString(options.tags),
+            sealBlob: options.sealBlob,
+            tracingOptions: updatedOptions.tracingOptions,
+          })
+        );
+      }
+    );
   }
 
   /**
@@ -2269,53 +2154,46 @@ export class BlobClient extends StorageClient {
    * @param options - Optional options to delete immutability policy on the blob.
    */
   public async deleteImmutabilityPolicy(
-    options?: BlobDeleteImmutabilityPolicyOptions
+    options: BlobDeleteImmutabilityPolicyOptions = {}
   ): Promise<BlobDeleteImmutabilityPolicyResponse> {
-    const { span, updatedOptions } = createSpan("BlobClient-deleteImmutabilityPolicy", options);
-    try {
-      return assertResponse(
-        await this.blobContext.deleteImmutabilityPolicy({
-          tracingOptions: updatedOptions.tracingOptions,
-        })
-      );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "BlobClient-deleteImmutabilityPolicy",
+      options,
+      async (updatedOptions) => {
+        return assertResponse<
+          BlobDeleteImmutabilityPolicyHeaders,
+          BlobDeleteImmutabilityPolicyHeaders
+        >(
+          await this.blobContext.deleteImmutabilityPolicy({
+            tracingOptions: updatedOptions.tracingOptions,
+          })
+        );
+      }
+    );
   }
 
   /**
-   * Set immutablility policy on the blob.
+   * Set immutability policy on the blob.
    *
    * @param options - Optional options to set immutability policy on the blob.
    */
   public async setImmutabilityPolicy(
     immutabilityPolicy: BlobImmutabilityPolicy,
-    options?: BlobSetImmutabilityPolicyOptions
+    options: BlobSetImmutabilityPolicyOptions = {}
   ): Promise<BlobSetImmutabilityPolicyResponse> {
-    const { span, updatedOptions } = createSpan("BlobClient-setImmutabilityPolicy", options);
-    try {
-      return assertResponse(
-        await this.blobContext.setImmutabilityPolicy({
-          immutabilityPolicyExpiry: immutabilityPolicy.expiriesOn,
-          immutabilityPolicyMode: immutabilityPolicy.policyMode,
-          tracingOptions: updatedOptions.tracingOptions,
-        })
-      );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "BlobClient-setImmutabilityPolicy",
+      options,
+      async (updatedOptions) => {
+        return assertResponse<BlobSetImmutabilityPolicyHeaders, BlobSetImmutabilityPolicyHeaders>(
+          await this.blobContext.setImmutabilityPolicy({
+            immutabilityPolicyExpiry: immutabilityPolicy.expiriesOn,
+            immutabilityPolicyMode: immutabilityPolicy.policyMode,
+            tracingOptions: updatedOptions.tracingOptions,
+          })
+        );
+      }
+    );
   }
 
   /**
@@ -2325,24 +2203,15 @@ export class BlobClient extends StorageClient {
    */
   public async setLegalHold(
     legalHoldEnabled: boolean,
-    options?: BlobSetLegalHoldOptions
+    options: BlobSetLegalHoldOptions = {}
   ): Promise<BlobSetLegalHoldResponse> {
-    const { span, updatedOptions } = createSpan("BlobClient-setLegalHold", options);
-    try {
-      return assertResponse(
+    return tracingClient.withSpan("BlobClient-setLegalHold", options, async (updatedOptions) => {
+      return assertResponse<BlobSetLegalHoldHeaders, BlobSetLegalHoldHeaders>(
         await this.blobContext.setLegalHold(legalHoldEnabled, {
           tracingOptions: updatedOptions.tracingOptions,
         })
       );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 }
 
@@ -2761,12 +2630,10 @@ export class AppendBlobClient extends BlobClient {
    * ```
    */
   public async create(options: AppendBlobCreateOptions = {}): Promise<AppendBlobCreateResponse> {
-    const { span, updatedOptions } = createSpan("AppendBlobClient-create", options);
     options.conditions = options.conditions || {};
-    try {
-      ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-
-      return assertResponse(
+    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
+    return tracingClient.withSpan("AppendBlobClient-create", options, async (updatedOptions) => {
+      return assertResponse<AppendBlobCreateHeaders, AppendBlobCreateHeaders>(
         await this.appendBlobContext.create(0, {
           abortSignal: options.abortSignal,
           blobHttpHeaders: options.blobHTTPHeaders,
@@ -2785,15 +2652,7 @@ export class AppendBlobClient extends BlobClient {
           tracingOptions: updatedOptions.tracingOptions,
         })
       );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -2806,41 +2665,35 @@ export class AppendBlobClient extends BlobClient {
   public async createIfNotExists(
     options: AppendBlobCreateIfNotExistsOptions = {}
   ): Promise<AppendBlobCreateIfNotExistsResponse> {
-    const { span, updatedOptions } = createSpan("AppendBlobClient-createIfNotExists", options);
     const conditions = { ifNoneMatch: ETagAny };
-    try {
-      const res = assertResponse(
-        await this.create({
-          ...updatedOptions,
-          conditions,
-        })
-      );
-      return {
-        succeeded: true,
-        ...res,
-        _response: res._response, // _response is made non-enumerable
-      };
-    } catch (e: any) {
-      if (e.details?.errorCode === "BlobAlreadyExists") {
-        span.setStatus({
-          code: SpanStatusCode.ERROR,
-          message: "Expected exception when creating a blob only if it does not already exist.",
-        });
-        return {
-          succeeded: false,
-          ...e.response?.parsedHeaders,
-          _response: e.response,
-        };
+    return tracingClient.withSpan(
+      "AppendBlobClient-createIfNotExists",
+      options,
+      async (updatedOptions) => {
+        try {
+          const res = assertResponse(
+            await this.create({
+              ...updatedOptions,
+              conditions,
+            })
+          );
+          return {
+            succeeded: true,
+            ...res,
+            _response: res._response, // _response is made non-enumerable
+          };
+        } catch (e: any) {
+          if (e.details?.errorCode === "BlobAlreadyExists") {
+            return {
+              succeeded: false,
+              ...e.response?.parsedHeaders,
+              _response: e.response,
+            };
+          }
+          throw e;
+        }
       }
-
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    );
   }
 
   /**
@@ -2849,10 +2702,9 @@ export class AppendBlobClient extends BlobClient {
    * @param options -
    */
   public async seal(options: AppendBlobSealOptions = {}): Promise<AppendBlobAppendBlockResponse> {
-    const { span, updatedOptions } = createSpan("AppendBlobClient-seal", options);
     options.conditions = options.conditions || {};
-    try {
-      return assertResponse(
+    return tracingClient.withSpan("AppendBlobClient-seal", options, async (updatedOptions) => {
+      return assertResponse<AppendBlobSealHeaders, AppendBlobSealHeaders>(
         await this.appendBlobContext.seal({
           abortSignal: options.abortSignal,
           appendPositionAccessConditions: options.conditions,
@@ -2864,15 +2716,7 @@ export class AppendBlobClient extends BlobClient {
           tracingOptions: updatedOptions.tracingOptions,
         })
       );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -2904,39 +2748,33 @@ export class AppendBlobClient extends BlobClient {
     contentLength: number,
     options: AppendBlobAppendBlockOptions = {}
   ): Promise<AppendBlobAppendBlockResponse> {
-    const { span, updatedOptions } = createSpan("AppendBlobClient-appendBlock", options);
     options.conditions = options.conditions || {};
-    try {
-      ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-
-      return assertResponse(
-        await this.appendBlobContext.appendBlock(contentLength, body, {
-          abortSignal: options.abortSignal,
-          appendPositionAccessConditions: options.conditions,
-          leaseAccessConditions: options.conditions,
-          modifiedAccessConditions: {
-            ...options.conditions,
-            ifTags: options.conditions?.tagConditions,
-          },
-          requestOptions: {
-            onUploadProgress: options.onProgress,
-          },
-          transactionalContentMD5: options.transactionalContentMD5,
-          transactionalContentCrc64: options.transactionalContentCrc64,
-          cpkInfo: options.customerProvidedKey,
-          encryptionScope: options.encryptionScope,
-          tracingOptions: updatedOptions.tracingOptions,
-        })
-      );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
+    return tracingClient.withSpan(
+      "AppendBlobClient-appendBlock",
+      options,
+      async (updatedOptions) => {
+        return assertResponse<AppendBlobAppendBlockHeaders, AppendBlobAppendBlockHeaders>(
+          await this.appendBlobContext.appendBlock(contentLength, body, {
+            abortSignal: options.abortSignal,
+            appendPositionAccessConditions: options.conditions,
+            leaseAccessConditions: options.conditions,
+            modifiedAccessConditions: {
+              ...options.conditions,
+              ifTags: options.conditions?.tagConditions,
+            },
+            requestOptions: {
+              onUploadProgress: options.onProgress,
+            },
+            transactionalContentMD5: options.transactionalContentMD5,
+            transactionalContentCrc64: options.transactionalContentCrc64,
+            cpkInfo: options.customerProvidedKey,
+            encryptionScope: options.encryptionScope,
+            tracingOptions: updatedOptions.tracingOptions,
+          })
+        );
+      }
+    );
   }
 
   /**
@@ -2959,45 +2797,43 @@ export class AppendBlobClient extends BlobClient {
     count: number,
     options: AppendBlobAppendBlockFromURLOptions = {}
   ): Promise<AppendBlobAppendBlockFromUrlResponse> {
-    const { span, updatedOptions } = createSpan("AppendBlobClient-appendBlockFromURL", options);
     options.conditions = options.conditions || {};
     options.sourceConditions = options.sourceConditions || {};
-    try {
-      ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
 
-      return assertResponse(
-        await this.appendBlobContext.appendBlockFromUrl(sourceURL, 0, {
-          abortSignal: options.abortSignal,
-          sourceRange: rangeToString({ offset: sourceOffset, count }),
-          sourceContentMD5: options.sourceContentMD5,
-          sourceContentCrc64: options.sourceContentCrc64,
-          leaseAccessConditions: options.conditions,
-          appendPositionAccessConditions: options.conditions,
-          modifiedAccessConditions: {
-            ...options.conditions,
-            ifTags: options.conditions?.tagConditions,
-          },
-          sourceModifiedAccessConditions: {
-            sourceIfMatch: options.sourceConditions.ifMatch,
-            sourceIfModifiedSince: options.sourceConditions.ifModifiedSince,
-            sourceIfNoneMatch: options.sourceConditions.ifNoneMatch,
-            sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince,
-          },
-          copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
-          cpkInfo: options.customerProvidedKey,
-          encryptionScope: options.encryptionScope,
-          tracingOptions: updatedOptions.tracingOptions,
-        })
-      );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
+    return tracingClient.withSpan(
+      "AppendBlobClient-appendBlockFromURL",
+      options,
+      async (updatedOptions) => {
+        return assertResponse<
+          AppendBlobAppendBlockFromUrlHeaders,
+          AppendBlobAppendBlockFromUrlHeaders
+        >(
+          await this.appendBlobContext.appendBlockFromUrl(sourceURL, 0, {
+            abortSignal: options.abortSignal,
+            sourceRange: rangeToString({ offset: sourceOffset, count }),
+            sourceContentMD5: options.sourceContentMD5,
+            sourceContentCrc64: options.sourceContentCrc64,
+            leaseAccessConditions: options.conditions,
+            appendPositionAccessConditions: options.conditions,
+            modifiedAccessConditions: {
+              ...options.conditions,
+              ifTags: options.conditions?.tagConditions,
+            },
+            sourceModifiedAccessConditions: {
+              sourceIfMatch: options.sourceConditions?.ifMatch,
+              sourceIfModifiedSince: options.sourceConditions?.ifModifiedSince,
+              sourceIfNoneMatch: options.sourceConditions?.ifNoneMatch,
+              sourceIfUnmodifiedSince: options.sourceConditions?.ifUnmodifiedSince,
+            },
+            copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
+            cpkInfo: options.customerProvidedKey,
+            encryptionScope: options.encryptionScope,
+            tracingOptions: updatedOptions.tracingOptions,
+          })
+        );
+      }
+    );
   }
 }
 
@@ -3799,14 +3635,11 @@ export class BlockBlobClient extends BlobClient {
     options: BlockBlobQueryOptions = {}
   ): Promise<BlobDownloadResponseModel> {
     ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
+    if (!isNode) {
+      throw new Error("This operation currently is only supported in Node.js.");
+    }
 
-    const { span, updatedOptions } = createSpan("BlockBlobClient-query", options);
-
-    try {
-      if (!isNode) {
-        throw new Error("This operation currently is only supported in Node.js.");
-      }
-      ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
+    return tracingClient.withSpan("BlockBlobClient-query", options, async (updatedOptions) => {
       const response = assertResponse<BlobQueryResponseInternal, BlobQueryHeaders>(
         await this._blobContext.query({
           abortSignal: options.abortSignal,
@@ -3830,15 +3663,7 @@ export class BlockBlobClient extends BlobClient {
         onProgress: options.onProgress,
         onError: options.onError,
       });
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -3874,10 +3699,9 @@ export class BlockBlobClient extends BlobClient {
     options: BlockBlobUploadOptions = {}
   ): Promise<BlockBlobUploadResponse> {
     options.conditions = options.conditions || {};
-    const { span, updatedOptions } = createSpan("BlockBlobClient-upload", options);
-    try {
-      ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-      return assertResponse(
+    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
+    return tracingClient.withSpan("BlockBlobClient-upload", options, async (updatedOptions) => {
+      return assertResponse<BlockBlobUploadHeaders, BlockBlobUploadHeaders>(
         await this.blockBlobContext.upload(contentLength, body, {
           abortSignal: options.abortSignal,
           blobHttpHeaders: options.blobHTTPHeaders,
@@ -3900,15 +3724,7 @@ export class BlockBlobClient extends BlobClient {
           tracingOptions: updatedOptions.tracingOptions,
         })
       );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -3935,42 +3751,37 @@ export class BlockBlobClient extends BlobClient {
     options: BlockBlobSyncUploadFromURLOptions = {}
   ): Promise<BlockBlobPutBlobFromUrlResponse> {
     options.conditions = options.conditions || {};
-    const { span, updatedOptions } = createSpan("BlockBlobClient-syncUploadFromURL", options);
-    try {
-      ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-      return assertResponse(
-        await this.blockBlobContext.putBlobFromUrl(0, sourceURL, {
-          ...options,
-          blobHttpHeaders: options.blobHTTPHeaders,
-          leaseAccessConditions: options.conditions,
-          modifiedAccessConditions: {
-            ...options.conditions,
-            ifTags: options.conditions.tagConditions,
-          },
-          sourceModifiedAccessConditions: {
-            sourceIfMatch: options.sourceConditions?.ifMatch,
-            sourceIfModifiedSince: options.sourceConditions?.ifModifiedSince,
-            sourceIfNoneMatch: options.sourceConditions?.ifNoneMatch,
-            sourceIfUnmodifiedSince: options.sourceConditions?.ifUnmodifiedSince,
-            sourceIfTags: options.sourceConditions?.tagConditions,
-          },
-          cpkInfo: options.customerProvidedKey,
-          copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
-          tier: toAccessTier(options.tier),
-          blobTagsString: toBlobTagsString(options.tags),
-          copySourceTags: options.copySourceTags,
-          tracingOptions: updatedOptions.tracingOptions,
-        })
-      );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
+    return tracingClient.withSpan(
+      "BlockBlobClient-syncUploadFromURL",
+      options,
+      async (updatedOptions) => {
+        return assertResponse<BlockBlobPutBlobFromUrlHeaders, BlockBlobPutBlobFromUrlHeaders>(
+          await this.blockBlobContext.putBlobFromUrl(0, sourceURL, {
+            ...options,
+            blobHttpHeaders: options.blobHTTPHeaders,
+            leaseAccessConditions: options.conditions,
+            modifiedAccessConditions: {
+              ...options.conditions,
+              ifTags: options.conditions?.tagConditions,
+            },
+            sourceModifiedAccessConditions: {
+              sourceIfMatch: options.sourceConditions?.ifMatch,
+              sourceIfModifiedSince: options.sourceConditions?.ifModifiedSince,
+              sourceIfNoneMatch: options.sourceConditions?.ifNoneMatch,
+              sourceIfUnmodifiedSince: options.sourceConditions?.ifUnmodifiedSince,
+              sourceIfTags: options.sourceConditions?.tagConditions,
+            },
+            cpkInfo: options.customerProvidedKey,
+            copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
+            tier: toAccessTier(options.tier),
+            blobTagsString: toBlobTagsString(options.tags),
+            copySourceTags: options.copySourceTags,
+            tracingOptions: updatedOptions.tracingOptions,
+          })
+        );
+      }
+    );
   }
 
   /**
@@ -3990,10 +3801,9 @@ export class BlockBlobClient extends BlobClient {
     contentLength: number,
     options: BlockBlobStageBlockOptions = {}
   ): Promise<BlockBlobStageBlockResponse> {
-    const { span, updatedOptions } = createSpan("BlockBlobClient-stageBlock", options);
-    try {
-      ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-      return assertResponse(
+    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
+    return tracingClient.withSpan("BlockBlobClient-stageBlock", options, async (updatedOptions) => {
+      return assertResponse<BlockBlobStageBlockHeaders, BlockBlobStageBlockHeaders>(
         await this.blockBlobContext.stageBlock(blockId, contentLength, body, {
           abortSignal: options.abortSignal,
           leaseAccessConditions: options.conditions,
@@ -4007,15 +3817,7 @@ export class BlockBlobClient extends BlobClient {
           tracingOptions: updatedOptions.tracingOptions,
         })
       );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -4046,31 +3848,26 @@ export class BlockBlobClient extends BlobClient {
     count?: number,
     options: BlockBlobStageBlockFromURLOptions = {}
   ): Promise<BlockBlobStageBlockFromURLResponse> {
-    const { span, updatedOptions } = createSpan("BlockBlobClient-stageBlockFromURL", options);
-    try {
-      ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-      return assertResponse(
-        await this.blockBlobContext.stageBlockFromURL(blockId, 0, sourceURL, {
-          abortSignal: options.abortSignal,
-          leaseAccessConditions: options.conditions,
-          sourceContentMD5: options.sourceContentMD5,
-          sourceContentCrc64: options.sourceContentCrc64,
-          sourceRange: offset === 0 && !count ? undefined : rangeToString({ offset, count }),
-          cpkInfo: options.customerProvidedKey,
-          encryptionScope: options.encryptionScope,
-          copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
-          tracingOptions: updatedOptions.tracingOptions,
-        })
-      );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
+    return tracingClient.withSpan(
+      "BlockBlobClient-stageBlockFromURL",
+      options,
+      async (updatedOptions) => {
+        return assertResponse<BlockBlobStageBlockFromURLHeaders, BlockBlobStageBlockFromURLHeaders>(
+          await this.blockBlobContext.stageBlockFromURL(blockId, 0, sourceURL, {
+            abortSignal: options.abortSignal,
+            leaseAccessConditions: options.conditions,
+            sourceContentMD5: options.sourceContentMD5,
+            sourceContentCrc64: options.sourceContentCrc64,
+            sourceRange: offset === 0 && !count ? undefined : rangeToString({ offset, count }),
+            cpkInfo: options.customerProvidedKey,
+            encryptionScope: options.encryptionScope,
+            copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
+            tracingOptions: updatedOptions.tracingOptions,
+          })
+        );
+      }
+    );
   }
 
   /**
@@ -4090,41 +3887,36 @@ export class BlockBlobClient extends BlobClient {
     options: BlockBlobCommitBlockListOptions = {}
   ): Promise<BlockBlobCommitBlockListResponse> {
     options.conditions = options.conditions || {};
-    const { span, updatedOptions } = createSpan("BlockBlobClient-commitBlockList", options);
-    try {
-      ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-      return assertResponse(
-        await this.blockBlobContext.commitBlockList(
-          { latest: blocks },
-          {
-            abortSignal: options.abortSignal,
-            blobHttpHeaders: options.blobHTTPHeaders,
-            leaseAccessConditions: options.conditions,
-            metadata: options.metadata,
-            modifiedAccessConditions: {
-              ...options.conditions,
-              ifTags: options.conditions?.tagConditions,
-            },
-            cpkInfo: options.customerProvidedKey,
-            encryptionScope: options.encryptionScope,
-            immutabilityPolicyExpiry: options.immutabilityPolicy?.expiriesOn,
-            immutabilityPolicyMode: options.immutabilityPolicy?.policyMode,
-            legalHold: options.legalHold,
-            tier: toAccessTier(options.tier),
-            blobTagsString: toBlobTagsString(options.tags),
-            tracingOptions: updatedOptions.tracingOptions,
-          }
-        )
-      );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
+    return tracingClient.withSpan(
+      "BlockBlobClient-commitBlockList",
+      options,
+      async (updatedOptions) => {
+        return assertResponse<BlockBlobCommitBlockListHeaders, BlockBlobCommitBlockListHeaders>(
+          await this.blockBlobContext.commitBlockList(
+            { latest: blocks },
+            {
+              abortSignal: options.abortSignal,
+              blobHttpHeaders: options.blobHTTPHeaders,
+              leaseAccessConditions: options.conditions,
+              metadata: options.metadata,
+              modifiedAccessConditions: {
+                ...options.conditions,
+                ifTags: options.conditions?.tagConditions,
+              },
+              cpkInfo: options.customerProvidedKey,
+              encryptionScope: options.encryptionScope,
+              immutabilityPolicyExpiry: options.immutabilityPolicy?.expiriesOn,
+              immutabilityPolicyMode: options.immutabilityPolicy?.policyMode,
+              legalHold: options.legalHold,
+              tier: toAccessTier(options.tier),
+              blobTagsString: toBlobTagsString(options.tags),
+              tracingOptions: updatedOptions.tracingOptions,
+            }
+          )
+        );
+      }
+    );
   }
 
   /**
@@ -4141,41 +3933,36 @@ export class BlockBlobClient extends BlobClient {
     listType: BlockListType,
     options: BlockBlobGetBlockListOptions = {}
   ): Promise<BlockBlobGetBlockListResponse> {
-    const { span, updatedOptions } = createSpan("BlockBlobClient-getBlockList", options);
-    try {
-      const res = assertResponse<
-        BlockBlobGetBlockListResponseInternal,
-        BlockBlobGetBlockListHeaders
-      >(
-        await this.blockBlobContext.getBlockList(listType, {
-          abortSignal: options.abortSignal,
-          leaseAccessConditions: options.conditions,
-          modifiedAccessConditions: {
-            ...options.conditions,
-            ifTags: options.conditions?.tagConditions,
-          },
-          tracingOptions: updatedOptions.tracingOptions,
-        })
-      );
+    return tracingClient.withSpan(
+      "BlockBlobClient-getBlockList",
+      options,
+      async (updatedOptions) => {
+        const res = assertResponse<
+          BlockBlobGetBlockListResponseInternal,
+          BlockBlobGetBlockListHeaders
+        >(
+          await this.blockBlobContext.getBlockList(listType, {
+            abortSignal: options.abortSignal,
+            leaseAccessConditions: options.conditions,
+            modifiedAccessConditions: {
+              ...options.conditions,
+              ifTags: options.conditions?.tagConditions,
+            },
+            tracingOptions: updatedOptions.tracingOptions,
+          })
+        );
 
-      if (!res.committedBlocks) {
-        res.committedBlocks = [];
+        if (!res.committedBlocks) {
+          res.committedBlocks = [];
+        }
+
+        if (!res.uncommittedBlocks) {
+          res.uncommittedBlocks = [];
+        }
+
+        return res;
       }
-
-      if (!res.uncommittedBlocks) {
-        res.uncommittedBlocks = [];
-      }
-
-      return res;
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    );
   }
 
   // High level functions
@@ -4199,8 +3986,7 @@ export class BlockBlobClient extends BlobClient {
     data: Buffer | Blob | ArrayBuffer | ArrayBufferView,
     options: BlockBlobParallelUploadOptions = {}
   ): Promise<BlobUploadCommonResponse> {
-    const { span, updatedOptions } = createSpan("BlockBlobClient-uploadData", options);
-    try {
+    return tracingClient.withSpan("BlockBlobClient-uploadData", options, async (updatedOptions) => {
       if (isNode) {
         let buffer: Buffer;
         if (data instanceof Buffer) {
@@ -4225,15 +4011,7 @@ export class BlockBlobClient extends BlobClient {
           updatedOptions
         );
       }
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -4259,23 +4037,18 @@ export class BlockBlobClient extends BlobClient {
     browserData: Blob | ArrayBuffer | ArrayBufferView,
     options: BlockBlobParallelUploadOptions = {}
   ): Promise<BlobUploadCommonResponse> {
-    const { span, updatedOptions } = createSpan("BlockBlobClient-uploadBrowserData", options);
-    try {
-      const browserBlob = new Blob([browserData]);
-      return await this.uploadSeekableInternal(
-        (offset: number, size: number): Blob => browserBlob.slice(offset, offset + size),
-        browserBlob.size,
-        updatedOptions
-      );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "BlockBlobClient-uploadBrowserData",
+      options,
+      async (updatedOptions) => {
+        const browserBlob = new Blob([browserData]);
+        return this.uploadSeekableInternal(
+          (offset: number, size: number): Blob => browserBlob.slice(offset, offset + size),
+          browserBlob.size,
+          updatedOptions
+        );
+      }
+    );
   }
 
   /**
@@ -4298,35 +4071,29 @@ export class BlockBlobClient extends BlobClient {
     size: number,
     options: BlockBlobParallelUploadOptions = {}
   ): Promise<BlobUploadCommonResponse> {
-    if (!options.blockSize) {
-      options.blockSize = 0;
-    }
-    if (options.blockSize < 0 || options.blockSize > BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES) {
+    let blockSize = options.blockSize ?? 0;
+    if (blockSize < 0 || blockSize > BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES) {
       throw new RangeError(
         `blockSize option must be >= 0 and <= ${BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES}`
       );
     }
 
-    if (options.maxSingleShotSize !== 0 && !options.maxSingleShotSize) {
-      options.maxSingleShotSize = BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES;
-    }
-    if (
-      options.maxSingleShotSize < 0 ||
-      options.maxSingleShotSize > BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES
-    ) {
+    const maxSingleShotSize = options.maxSingleShotSize ?? BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES;
+
+    if (maxSingleShotSize < 0 || maxSingleShotSize > BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES) {
       throw new RangeError(
         `maxSingleShotSize option must be >= 0 and <= ${BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES}`
       );
     }
 
-    if (options.blockSize === 0) {
+    if (blockSize === 0) {
       if (size > BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES * BLOCK_BLOB_MAX_BLOCKS) {
         throw new RangeError(`${size} is too larger to upload to a block blob.`);
       }
-      if (size > options.maxSingleShotSize) {
-        options.blockSize = Math.ceil(size / BLOCK_BLOB_MAX_BLOCKS);
-        if (options.blockSize < DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES) {
-          options.blockSize = DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES;
+      if (size > maxSingleShotSize) {
+        blockSize = Math.ceil(size / BLOCK_BLOB_MAX_BLOCKS);
+        if (blockSize < DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES) {
+          blockSize = DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES;
         }
       }
     }
@@ -4337,61 +4104,55 @@ export class BlockBlobClient extends BlobClient {
       options.conditions = {};
     }
 
-    const { span, updatedOptions } = createSpan("BlockBlobClient-uploadSeekableInternal", options);
+    return tracingClient.withSpan(
+      "BlockBlobClient-uploadSeekableInternal",
+      options,
+      async (updatedOptions) => {
+        if (size <= maxSingleShotSize) {
+          return assertResponse(await this.upload(bodyFactory(0, size), size, updatedOptions));
+        }
 
-    try {
-      if (size <= options.maxSingleShotSize) {
-        return assertResponse(await this.upload(bodyFactory(0, size), size, updatedOptions));
-      }
+        const numBlocks: number = Math.floor((size - 1) / blockSize) + 1;
+        if (numBlocks > BLOCK_BLOB_MAX_BLOCKS) {
+          throw new RangeError(
+            `The buffer's size is too big or the BlockSize is too small;` +
+              `the number of blocks must be <= ${BLOCK_BLOB_MAX_BLOCKS}`
+          );
+        }
 
-      const numBlocks: number = Math.floor((size - 1) / options.blockSize) + 1;
-      if (numBlocks > BLOCK_BLOB_MAX_BLOCKS) {
-        throw new RangeError(
-          `The buffer's size is too big or the BlockSize is too small;` +
-            `the number of blocks must be <= ${BLOCK_BLOB_MAX_BLOCKS}`
-        );
-      }
+        const blockList: string[] = [];
+        const blockIDPrefix = generateUuid();
+        let transferProgress: number = 0;
 
-      const blockList: string[] = [];
-      const blockIDPrefix = generateUuid();
-      let transferProgress: number = 0;
-
-      const batch = new Batch(options.concurrency);
-      for (let i = 0; i < numBlocks; i++) {
-        batch.addOperation(async (): Promise<any> => {
-          const blockID = generateBlockID(blockIDPrefix, i);
-          const start = options.blockSize! * i;
-          const end = i === numBlocks - 1 ? size : start + options.blockSize!;
-          const contentLength = end - start;
-          blockList.push(blockID);
-          await this.stageBlock(blockID, bodyFactory(start, contentLength), contentLength, {
-            abortSignal: options.abortSignal,
-            conditions: options.conditions,
-            encryptionScope: options.encryptionScope,
-            tracingOptions: updatedOptions.tracingOptions,
-          });
-          // Update progress after block is successfully uploaded to server, in case of block trying
-          // TODO: Hook with convenience layer progress event in finer level
-          transferProgress += contentLength;
-          if (options.onProgress) {
-            options.onProgress!({
-              loadedBytes: transferProgress,
+        const batch = new Batch(options.concurrency);
+        for (let i = 0; i < numBlocks; i++) {
+          batch.addOperation(async (): Promise<any> => {
+            const blockID = generateBlockID(blockIDPrefix, i);
+            const start = blockSize * i;
+            const end = i === numBlocks - 1 ? size : start + blockSize;
+            const contentLength = end - start;
+            blockList.push(blockID);
+            await this.stageBlock(blockID, bodyFactory(start, contentLength), contentLength, {
+              abortSignal: options.abortSignal,
+              conditions: options.conditions,
+              encryptionScope: options.encryptionScope,
+              tracingOptions: updatedOptions.tracingOptions,
             });
-          }
-        });
-      }
-      await batch.do();
+            // Update progress after block is successfully uploaded to server, in case of block trying
+            // TODO: Hook with convenience layer progress event in finer level
+            transferProgress += contentLength;
+            if (options.onProgress) {
+              options.onProgress!({
+                loadedBytes: transferProgress,
+              });
+            }
+          });
+        }
+        await batch.do();
 
-      return this.commitBlockList(blockList, updatedOptions);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+        return this.commitBlockList(blockList, updatedOptions);
+      }
+    );
   }
 
   /**
@@ -4411,10 +4172,9 @@ export class BlockBlobClient extends BlobClient {
     filePath: string,
     options: BlockBlobParallelUploadOptions = {}
   ): Promise<BlobUploadCommonResponse> {
-    const { span, updatedOptions } = createSpan("BlockBlobClient-uploadFile", options);
-    try {
+    return tracingClient.withSpan("BlockBlobClient-uploadFile", options, async (updatedOptions) => {
       const size = (await fsStat(filePath)).size;
-      return await this.uploadSeekableInternal(
+      return this.uploadSeekableInternal(
         (offset, count) => {
           return () =>
             fsCreateReadStream(filePath, {
@@ -4429,15 +4189,7 @@ export class BlockBlobClient extends BlobClient {
           tracingOptions: updatedOptions.tracingOptions,
         }
       );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -4469,58 +4221,52 @@ export class BlockBlobClient extends BlobClient {
       options.conditions = {};
     }
 
-    const { span, updatedOptions } = createSpan("BlockBlobClient-uploadStream", options);
+    return tracingClient.withSpan(
+      "BlockBlobClient-uploadStream",
+      options,
+      async (updatedOptions) => {
+        let blockNum = 0;
+        const blockIDPrefix = generateUuid();
+        let transferProgress: number = 0;
+        const blockList: string[] = [];
 
-    try {
-      let blockNum = 0;
-      const blockIDPrefix = generateUuid();
-      let transferProgress: number = 0;
-      const blockList: string[] = [];
+        const scheduler = new BufferScheduler(
+          stream,
+          bufferSize,
+          maxConcurrency,
+          async (body, length) => {
+            const blockID = generateBlockID(blockIDPrefix, blockNum);
+            blockList.push(blockID);
+            blockNum++;
 
-      const scheduler = new BufferScheduler(
-        stream,
-        bufferSize,
-        maxConcurrency,
-        async (body, length) => {
-          const blockID = generateBlockID(blockIDPrefix, blockNum);
-          blockList.push(blockID);
-          blockNum++;
+            await this.stageBlock(blockID, body, length, {
+              conditions: options.conditions,
+              encryptionScope: options.encryptionScope,
+              tracingOptions: updatedOptions.tracingOptions,
+            });
 
-          await this.stageBlock(blockID, body, length, {
-            conditions: options.conditions,
-            encryptionScope: options.encryptionScope,
+            // Update progress after block is successfully uploaded to server, in case of block trying
+            transferProgress += length;
+            if (options.onProgress) {
+              options.onProgress({ loadedBytes: transferProgress });
+            }
+          },
+          // concurrency should set a smaller value than maxConcurrency, which is helpful to
+          // reduce the possibility when a outgoing handler waits for stream data, in
+          // this situation, outgoing handlers are blocked.
+          // Outgoing queue shouldn't be empty.
+          Math.ceil((maxConcurrency / 4) * 3)
+        );
+        await scheduler.do();
+
+        return assertResponse(
+          await this.commitBlockList(blockList, {
+            ...options,
             tracingOptions: updatedOptions.tracingOptions,
-          });
-
-          // Update progress after block is successfully uploaded to server, in case of block trying
-          transferProgress += length;
-          if (options.onProgress) {
-            options.onProgress({ loadedBytes: transferProgress });
-          }
-        },
-        // concurrency should set a smaller value than maxConcurrency, which is helpful to
-        // reduce the possibility when a outgoing handler waits for stream data, in
-        // this situation, outgoing handlers are blocked.
-        // Outgoing queue shouldn't be empty.
-        Math.ceil((maxConcurrency / 4) * 3)
-      );
-      await scheduler.do();
-
-      return assertResponse(
-        await this.commitBlockList(blockList, {
-          ...options,
-          tracingOptions: updatedOptions.tracingOptions,
-        })
-      );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+          })
+        );
+      }
+    );
   }
 }
 
@@ -5130,10 +4876,9 @@ export class PageBlobClient extends BlobClient {
     options: PageBlobCreateOptions = {}
   ): Promise<PageBlobCreateResponse> {
     options.conditions = options.conditions || {};
-    const { span, updatedOptions } = createSpan("PageBlobClient-create", options);
-    try {
-      ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-      return assertResponse(
+    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
+    return tracingClient.withSpan("PageBlobClient-create", options, async (updatedOptions) => {
+      return assertResponse<PageBlobCreateHeaders, PageBlobCreateHeaders>(
         await this.pageBlobContext.create(0, size, {
           abortSignal: options.abortSignal,
           blobHttpHeaders: options.blobHTTPHeaders,
@@ -5154,15 +4899,7 @@ export class PageBlobClient extends BlobClient {
           tracingOptions: updatedOptions.tracingOptions,
         })
       );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -5178,42 +4915,37 @@ export class PageBlobClient extends BlobClient {
     size: number,
     options: PageBlobCreateIfNotExistsOptions = {}
   ): Promise<PageBlobCreateIfNotExistsResponse> {
-    const { span, updatedOptions } = createSpan("PageBlobClient-createIfNotExists", options);
-    try {
-      const conditions = { ifNoneMatch: ETagAny };
-      const res = assertResponse(
-        await this.create(size, {
-          ...options,
-          conditions,
-          tracingOptions: updatedOptions.tracingOptions,
-        })
-      );
-      return {
-        succeeded: true,
-        ...res,
-        _response: res._response, // _response is made non-enumerable
-      };
-    } catch (e: any) {
-      if (e.details?.errorCode === "BlobAlreadyExists") {
-        span.setStatus({
-          code: SpanStatusCode.ERROR,
-          message: "Expected exception when creating a blob only if it does not already exist.",
-        });
-        return {
-          succeeded: false,
-          ...e.response?.parsedHeaders,
-          _response: e.response,
-        };
-      }
+    return tracingClient.withSpan(
+      "PageBlobClient-createIfNotExists",
+      options,
+      async (updatedOptions) => {
+        try {
+          const conditions = { ifNoneMatch: ETagAny };
+          const res = assertResponse(
+            await this.create(size, {
+              ...options,
+              conditions,
+              tracingOptions: updatedOptions.tracingOptions,
+            })
+          );
+          return {
+            succeeded: true,
+            ...res,
+            _response: res._response, // _response is made non-enumerable
+          };
+        } catch (e: any) {
+          if (e.details?.errorCode === "BlobAlreadyExists") {
+            return {
+              succeeded: false,
+              ...e.response?.parsedHeaders,
+              _response: e.response,
+            };
+          }
 
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+          throw e;
+        }
+      }
+    );
   }
 
   /**
@@ -5233,10 +4965,9 @@ export class PageBlobClient extends BlobClient {
     options: PageBlobUploadPagesOptions = {}
   ): Promise<PageBlobUploadPagesResponse> {
     options.conditions = options.conditions || {};
-    const { span, updatedOptions } = createSpan("PageBlobClient-uploadPages", options);
-    try {
-      ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-      return assertResponse(
+    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
+    return tracingClient.withSpan("PageBlobClient-uploadPages", options, async (updatedOptions) => {
+      return assertResponse<PageBlobUploadPagesHeaders, PageBlobUploadPagesHeaders>(
         await this.pageBlobContext.uploadPages(count, body, {
           abortSignal: options.abortSignal,
           leaseAccessConditions: options.conditions,
@@ -5256,15 +4987,7 @@ export class PageBlobClient extends BlobClient {
           tracingOptions: updatedOptions.tracingOptions,
         })
       );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -5287,47 +5010,42 @@ export class PageBlobClient extends BlobClient {
   ): Promise<PageBlobUploadPagesFromURLResponse> {
     options.conditions = options.conditions || {};
     options.sourceConditions = options.sourceConditions || {};
-    const { span, updatedOptions } = createSpan("PageBlobClient-uploadPagesFromURL", options);
-    try {
-      ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-      return assertResponse(
-        await this.pageBlobContext.uploadPagesFromURL(
-          sourceURL,
-          rangeToString({ offset: sourceOffset, count }),
-          0,
-          rangeToString({ offset: destOffset, count }),
-          {
-            abortSignal: options.abortSignal,
-            sourceContentMD5: options.sourceContentMD5,
-            sourceContentCrc64: options.sourceContentCrc64,
-            leaseAccessConditions: options.conditions,
-            sequenceNumberAccessConditions: options.conditions,
-            modifiedAccessConditions: {
-              ...options.conditions,
-              ifTags: options.conditions?.tagConditions,
-            },
-            sourceModifiedAccessConditions: {
-              sourceIfMatch: options.sourceConditions.ifMatch,
-              sourceIfModifiedSince: options.sourceConditions.ifModifiedSince,
-              sourceIfNoneMatch: options.sourceConditions.ifNoneMatch,
-              sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince,
-            },
-            cpkInfo: options.customerProvidedKey,
-            encryptionScope: options.encryptionScope,
-            copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
-            tracingOptions: updatedOptions.tracingOptions,
-          }
-        )
-      );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
+    return tracingClient.withSpan(
+      "PageBlobClient-uploadPagesFromURL",
+      options,
+      async (updatedOptions) => {
+        return assertResponse<PageBlobUploadPagesFromURLHeaders, PageBlobUploadPagesFromURLHeaders>(
+          await this.pageBlobContext.uploadPagesFromURL(
+            sourceURL,
+            rangeToString({ offset: sourceOffset, count }),
+            0,
+            rangeToString({ offset: destOffset, count }),
+            {
+              abortSignal: options.abortSignal,
+              sourceContentMD5: options.sourceContentMD5,
+              sourceContentCrc64: options.sourceContentCrc64,
+              leaseAccessConditions: options.conditions,
+              sequenceNumberAccessConditions: options.conditions,
+              modifiedAccessConditions: {
+                ...options.conditions,
+                ifTags: options.conditions?.tagConditions,
+              },
+              sourceModifiedAccessConditions: {
+                sourceIfMatch: options.sourceConditions?.ifMatch,
+                sourceIfModifiedSince: options.sourceConditions?.ifModifiedSince,
+                sourceIfNoneMatch: options.sourceConditions?.ifNoneMatch,
+                sourceIfUnmodifiedSince: options.sourceConditions?.ifUnmodifiedSince,
+              },
+              cpkInfo: options.customerProvidedKey,
+              encryptionScope: options.encryptionScope,
+              copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
+              tracingOptions: updatedOptions.tracingOptions,
+            }
+          )
+        );
+      }
+    );
   }
 
   /**
@@ -5345,9 +5063,8 @@ export class PageBlobClient extends BlobClient {
     options: PageBlobClearPagesOptions = {}
   ): Promise<PageBlobClearPagesResponse> {
     options.conditions = options.conditions || {};
-    const { span, updatedOptions } = createSpan("PageBlobClient-clearPages", options);
-    try {
-      return assertResponse(
+    return tracingClient.withSpan("PageBlobClient-clearPages", options, async (updatedOptions) => {
+      return assertResponse<PageBlobClearPagesHeaders, PageBlobClearPagesHeaders>(
         await this.pageBlobContext.clearPages(0, {
           abortSignal: options.abortSignal,
           leaseAccessConditions: options.conditions,
@@ -5362,15 +5079,7 @@ export class PageBlobClient extends BlobClient {
           tracingOptions: updatedOptions.tracingOptions,
         })
       );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -5388,34 +5097,29 @@ export class PageBlobClient extends BlobClient {
     options: PageBlobGetPageRangesOptions = {}
   ): Promise<PageBlobGetPageRangesResponse> {
     options.conditions = options.conditions || {};
-    const { span, updatedOptions } = createSpan("PageBlobClient-getPageRanges", options);
-    try {
-      const response = assertResponse<
-        PageBlobGetPageRangesResponseInternal,
-        PageBlobGetPageRangesHeaders,
-        PageListInternal
-      >(
-        await this.pageBlobContext.getPageRanges({
-          abortSignal: options.abortSignal,
-          leaseAccessConditions: options.conditions,
-          modifiedAccessConditions: {
-            ...options.conditions,
-            ifTags: options.conditions?.tagConditions,
-          },
-          range: rangeToString({ offset, count }),
-          tracingOptions: updatedOptions.tracingOptions,
-        })
-      );
-      return rangeResponseFromModel(response);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "PageBlobClient-getPageRanges",
+      options,
+      async (updatedOptions) => {
+        const response = assertResponse<
+          PageBlobGetPageRangesResponseInternal,
+          PageBlobGetPageRangesHeaders,
+          PageListInternal
+        >(
+          await this.pageBlobContext.getPageRanges({
+            abortSignal: options.abortSignal,
+            leaseAccessConditions: options.conditions,
+            modifiedAccessConditions: {
+              ...options.conditions,
+              ifTags: options.conditions?.tagConditions,
+            },
+            range: rangeToString({ offset, count }),
+            tracingOptions: updatedOptions.tracingOptions,
+          })
+        );
+        return rangeResponseFromModel(response);
+      }
+    );
   }
 
   /**
@@ -5436,31 +5140,30 @@ export class PageBlobClient extends BlobClient {
     marker?: string,
     options: PageBlobListPageRangesSegmentOptions = {}
   ): Promise<PageBlobGetPageRangesResponseModel> {
-    const { span, updatedOptions } = createSpan("PageBlobClient-getPageRangesSegment", options);
-    try {
-      return assertResponse(
-        await this.pageBlobContext.getPageRanges({
-          abortSignal: options.abortSignal,
-          leaseAccessConditions: options.conditions,
-          modifiedAccessConditions: {
-            ...options.conditions,
-            ifTags: options.conditions?.tagConditions,
-          },
-          range: rangeToString({ offset, count }),
-          marker: marker,
-          maxPageSize: options.maxPageSize,
-          tracingOptions: updatedOptions.tracingOptions,
-        })
-      );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "PageBlobClient-getPageRangesSegment",
+      options,
+      async (updatedOptions) => {
+        return assertResponse<
+          PageBlobGetPageRangesResponseInternal,
+          PageBlobGetPageRangesHeaders,
+          PageListInternal
+        >(
+          await this.pageBlobContext.getPageRanges({
+            abortSignal: options.abortSignal,
+            leaseAccessConditions: options.conditions,
+            modifiedAccessConditions: {
+              ...options.conditions,
+              ifTags: options.conditions?.tagConditions,
+            },
+            range: rangeToString({ offset, count }),
+            marker: marker,
+            maxPageSize: options.maxPageSize,
+            tracingOptions: updatedOptions.tracingOptions,
+          })
+        );
+      }
+    );
   }
   /**
    * Returns an AsyncIterableIterator for {@link PageBlobGetPageRangesResponseModel}
@@ -5641,36 +5344,30 @@ export class PageBlobClient extends BlobClient {
     options: PageBlobGetPageRangesDiffOptions = {}
   ): Promise<PageBlobGetPageRangesDiffResponse> {
     options.conditions = options.conditions || {};
-    const { span, updatedOptions } = createSpan("PageBlobClient-getPageRangesDiff", options);
-
-    try {
-      const result = assertResponse<
-        PageBlobGetPageRangesDiffResponseInternal,
-        PageBlobGetPageRangesDiffHeaders,
-        PageListInternal
-      >(
-        await this.pageBlobContext.getPageRangesDiff({
-          abortSignal: options.abortSignal,
-          leaseAccessConditions: options.conditions,
-          modifiedAccessConditions: {
-            ...options.conditions,
-            ifTags: options.conditions?.tagConditions,
-          },
-          prevsnapshot: prevSnapshot,
-          range: rangeToString({ offset, count }),
-          tracingOptions: updatedOptions.tracingOptions,
-        })
-      );
-      return rangeResponseFromModel(result);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "PageBlobClient-getPageRangesDiff",
+      options,
+      async (updatedOptions) => {
+        const result = assertResponse<
+          PageBlobGetPageRangesDiffResponseInternal,
+          PageBlobGetPageRangesDiffHeaders,
+          PageListInternal
+        >(
+          await this.pageBlobContext.getPageRangesDiff({
+            abortSignal: options.abortSignal,
+            leaseAccessConditions: options.conditions,
+            modifiedAccessConditions: {
+              ...options.conditions,
+              ifTags: options.conditions?.tagConditions,
+            },
+            prevsnapshot: prevSnapshot,
+            range: rangeToString({ offset, count }),
+            tracingOptions: updatedOptions.tracingOptions,
+          })
+        );
+        return rangeResponseFromModel(result);
+      }
+    );
   }
 
   /**
@@ -5692,37 +5389,36 @@ export class PageBlobClient extends BlobClient {
     count: number,
     prevSnapshotOrUrl: string,
     marker?: string,
-    options?: PageBlobListPageRangesDiffSegmentOptions
+    options: PageBlobListPageRangesDiffSegmentOptions = {}
   ): Promise<PageBlobGetPageRangesResponseModel> {
-    const { span, updatedOptions } = createSpan("PageBlobClient-getPageRangesDiffSegment", options);
-    try {
-      return assertResponse(
-        await this.pageBlobContext.getPageRangesDiff({
-          abortSignal: options?.abortSignal,
-          leaseAccessConditions: options?.conditions,
-          modifiedAccessConditions: {
-            ...options?.conditions,
-            ifTags: options?.conditions?.tagConditions,
-          },
-          prevsnapshot: prevSnapshotOrUrl,
-          range: rangeToString({
-            offset: offset,
-            count: count,
-          }),
-          marker: marker,
-          maxPageSize: options?.maxPageSize,
-          tracingOptions: updatedOptions.tracingOptions,
-        })
-      );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "PageBlobClient-getPageRangesDiffSegment",
+      options,
+      async (updatedOptions) => {
+        return assertResponse<
+          PageBlobGetPageRangesResponseInternal,
+          PageBlobGetPageRangesHeaders,
+          PageListInternal
+        >(
+          await this.pageBlobContext.getPageRangesDiff({
+            abortSignal: options?.abortSignal,
+            leaseAccessConditions: options?.conditions,
+            modifiedAccessConditions: {
+              ...options?.conditions,
+              ifTags: options?.conditions?.tagConditions,
+            },
+            prevsnapshot: prevSnapshotOrUrl,
+            range: rangeToString({
+              offset: offset,
+              count: count,
+            }),
+            marker: marker,
+            maxPageSize: options?.maxPageSize,
+            tracingOptions: updatedOptions.tracingOptions,
+          })
+        );
+      }
+    );
   }
   /**
    * Returns an AsyncIterableIterator for {@link PageBlobGetPageRangesDiffResponseModel}
@@ -5921,39 +5617,30 @@ export class PageBlobClient extends BlobClient {
     options: PageBlobGetPageRangesDiffOptions = {}
   ): Promise<PageBlobGetPageRangesDiffResponse> {
     options.conditions = options.conditions || {};
-    const { span, updatedOptions } = createSpan(
+    return tracingClient.withSpan(
       "PageBlobClient-GetPageRangesDiffForManagedDisks",
-      options
+      options,
+      async (updatedOptions) => {
+        const response = assertResponse<
+          PageBlobGetPageRangesDiffResponseInternal,
+          PageBlobGetPageRangesDiffHeaders,
+          PageListInternal
+        >(
+          await this.pageBlobContext.getPageRangesDiff({
+            abortSignal: options.abortSignal,
+            leaseAccessConditions: options.conditions,
+            modifiedAccessConditions: {
+              ...options.conditions,
+              ifTags: options.conditions?.tagConditions,
+            },
+            prevSnapshotUrl,
+            range: rangeToString({ offset, count }),
+            tracingOptions: updatedOptions.tracingOptions,
+          })
+        );
+        return rangeResponseFromModel(response);
+      }
     );
-
-    try {
-      const response = assertResponse<
-        PageBlobGetPageRangesDiffResponseInternal,
-        PageBlobGetPageRangesDiffHeaders,
-        PageListInternal
-      >(
-        await this.pageBlobContext.getPageRangesDiff({
-          abortSignal: options.abortSignal,
-          leaseAccessConditions: options.conditions,
-          modifiedAccessConditions: {
-            ...options.conditions,
-            ifTags: options.conditions?.tagConditions,
-          },
-          prevSnapshotUrl,
-          range: rangeToString({ offset, count }),
-          tracingOptions: updatedOptions.tracingOptions,
-        })
-      );
-      return rangeResponseFromModel(response);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -5969,9 +5656,8 @@ export class PageBlobClient extends BlobClient {
     options: PageBlobResizeOptions = {}
   ): Promise<PageBlobResizeResponse> {
     options.conditions = options.conditions || {};
-    const { span, updatedOptions } = createSpan("PageBlobClient-resize", options);
-    try {
-      return assertResponse(
+    return tracingClient.withSpan("PageBlobClient-resize", options, async (updatedOptions) => {
+      return assertResponse<PageBlobResizeHeaders, PageBlobResizeHeaders>(
         await this.pageBlobContext.resize(size, {
           abortSignal: options.abortSignal,
           leaseAccessConditions: options.conditions,
@@ -5983,15 +5669,7 @@ export class PageBlobClient extends BlobClient {
           tracingOptions: updatedOptions.tracingOptions,
         })
       );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -6009,29 +5687,27 @@ export class PageBlobClient extends BlobClient {
     options: PageBlobUpdateSequenceNumberOptions = {}
   ): Promise<PageBlobUpdateSequenceNumberResponse> {
     options.conditions = options.conditions || {};
-    const { span, updatedOptions } = createSpan("PageBlobClient-updateSequenceNumber", options);
-    try {
-      return assertResponse(
-        await this.pageBlobContext.updateSequenceNumber(sequenceNumberAction, {
-          abortSignal: options.abortSignal,
-          blobSequenceNumber: sequenceNumber,
-          leaseAccessConditions: options.conditions,
-          modifiedAccessConditions: {
-            ...options.conditions,
-            ifTags: options.conditions?.tagConditions,
-          },
-          tracingOptions: updatedOptions.tracingOptions,
-        })
-      );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "PageBlobClient-updateSequenceNumber",
+      options,
+      async (updatedOptions) => {
+        return assertResponse<
+          PageBlobUpdateSequenceNumberHeaders,
+          PageBlobUpdateSequenceNumberHeaders
+        >(
+          await this.pageBlobContext.updateSequenceNumber(sequenceNumberAction, {
+            abortSignal: options.abortSignal,
+            blobSequenceNumber: sequenceNumber,
+            leaseAccessConditions: options.conditions,
+            modifiedAccessConditions: {
+              ...options.conditions,
+              ifTags: options.conditions?.tagConditions,
+            },
+            tracingOptions: updatedOptions.tracingOptions,
+          })
+        );
+      }
+    );
   }
 
   /**
@@ -6051,26 +5727,21 @@ export class PageBlobClient extends BlobClient {
     copySource: string,
     options: PageBlobStartCopyIncrementalOptions = {}
   ): Promise<PageBlobCopyIncrementalResponse> {
-    const { span, updatedOptions } = createSpan("PageBlobClient-startCopyIncremental", options);
-    try {
-      return assertResponse(
-        await this.pageBlobContext.copyIncremental(copySource, {
-          abortSignal: options.abortSignal,
-          modifiedAccessConditions: {
-            ...options.conditions,
-            ifTags: options.conditions?.tagConditions,
-          },
-          tracingOptions: updatedOptions.tracingOptions,
-        })
-      );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "PageBlobClient-startCopyIncremental",
+      options,
+      async (updatedOptions) => {
+        return assertResponse<PageBlobCopyIncrementalHeaders, PageBlobCopyIncrementalHeaders>(
+          await this.pageBlobContext.copyIncremental(copySource, {
+            abortSignal: options.abortSignal,
+            modifiedAccessConditions: {
+              ...options.conditions,
+              ifTags: options.conditions?.tagConditions,
+            },
+            tracingOptions: updatedOptions.tracingOptions,
+          })
+        );
+      }
+    );
   }
 }

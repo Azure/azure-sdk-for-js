@@ -75,7 +75,17 @@ import {
   PageBlobClient,
 } from "./Clients";
 import { BlobBatchClient } from "./BlobBatchClient";
-import { ContainerCreateHeaders, ListBlobsIncludeItem } from "./generated/src";
+import {
+  ContainerCreateHeaders,
+  ListBlobsIncludeItem,
+  ContainerGetPropertiesHeaders,
+  ContainerDeleteHeaders,
+  ContainerSetMetadataHeaders,
+  ContainerSetAccessPolicyHeaders,
+  ListBlobsFlatSegmentResponse as ListBlobsFlatSegmentResponseInternal,
+  ListBlobsHierarchySegmentResponse as ListBlobsHierarchySegmentResponseInternal,
+  ContainerListBlobHierarchySegmentResponse as ContainerListBlobHierarchySegmentResponseModel,
+} from "./generated/src";
 
 /**
  * Options to configure {@link ContainerClient.create} operation.
@@ -861,24 +871,19 @@ export class ContainerClient extends StorageClient {
       options.conditions = {};
     }
 
-    const { span, updatedOptions } = createSpan("ContainerClient-getProperties", options);
-    try {
-      return assertResponse(
-        await this.containerContext.getProperties({
-          abortSignal: options.abortSignal,
-          ...options.conditions,
-          tracingOptions: updatedOptions.tracingOptions,
-        })
-      );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "ContainerClient-getProperties",
+      options,
+      async (updatedOptions) => {
+        return assertResponse<ContainerGetPropertiesHeaders, ContainerGetPropertiesHeaders>(
+          await this.containerContext.getProperties({
+            abortSignal: options.abortSignal,
+            ...options.conditions,
+            tracingOptions: updatedOptions.tracingOptions,
+          })
+        );
+      }
+    );
   }
 
   /**
@@ -895,9 +900,8 @@ export class ContainerClient extends StorageClient {
       options.conditions = {};
     }
 
-    const { span, updatedOptions } = createSpan("ContainerClient-delete", options);
-    try {
-      return assertResponse(
+    return tracingClient.withSpan("ContainerClient-delete", options, async (updatedOptions) => {
+      return assertResponse<ContainerDeleteHeaders, ContainerDeleteHeaders>(
         await this.containerContext.delete({
           abortSignal: options.abortSignal,
           leaseAccessConditions: options.conditions,
@@ -905,15 +909,7 @@ export class ContainerClient extends StorageClient {
           tracingOptions: updatedOptions.tracingOptions,
         })
       );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -926,35 +922,29 @@ export class ContainerClient extends StorageClient {
   public async deleteIfExists(
     options: ContainerDeleteMethodOptions = {}
   ): Promise<ContainerDeleteIfExistsResponse> {
-    const { span, updatedOptions } = createSpan("ContainerClient-deleteIfExists", options);
-
-    try {
-      const res = await this.delete(updatedOptions);
-      return {
-        succeeded: true,
-        ...res,
-        _response: res._response, // _response is made non-enumerable
-      };
-    } catch (e: any) {
-      if (e.details?.errorCode === "ContainerNotFound") {
-        span.setStatus({
-          code: SpanStatusCode.ERROR,
-          message: "Expected exception when deleting a container only if it exists.",
-        });
-        return {
-          succeeded: false,
-          ...e.response?.parsedHeaders,
-          _response: e.response,
-        };
+    return tracingClient.withSpan(
+      "ContainerClient-deleteIfExists",
+      options,
+      async (updatedOptions) => {
+        try {
+          const res = await this.delete(updatedOptions);
+          return {
+            succeeded: true,
+            ...res,
+            _response: res._response,
+          };
+        } catch (e: any) {
+          if (e.details?.errorCode === "ContainerNotFound") {
+            return {
+              succeeded: false,
+              ...e.response?.parsedHeaders,
+              _response: e.response,
+            };
+          }
+          throw e;
+        }
       }
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    );
   }
 
   /**
@@ -983,27 +973,21 @@ export class ContainerClient extends StorageClient {
       );
     }
 
-    const { span, updatedOptions } = createSpan("ContainerClient-setMetadata", options);
-
-    try {
-      return assertResponse(
-        await this.containerContext.setMetadata({
-          abortSignal: options.abortSignal,
-          leaseAccessConditions: options.conditions,
-          metadata,
-          modifiedAccessConditions: options.conditions,
-          tracingOptions: updatedOptions.tracingOptions,
-        })
-      );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "ContainerClient-setMetadata",
+      options,
+      async (updatedOptions) => {
+        return assertResponse<ContainerSetMetadataHeaders, ContainerSetMetadataHeaders>(
+          await this.containerContext.setMetadata({
+            abortSignal: options.abortSignal,
+            leaseAccessConditions: options.conditions,
+            metadata,
+            modifiedAccessConditions: options.conditions,
+            tracingOptions: updatedOptions.tracingOptions,
+          })
+        );
+      }
+    );
   }
 
   /**
@@ -1024,66 +1008,60 @@ export class ContainerClient extends StorageClient {
       options.conditions = {};
     }
 
-    const { span, updatedOptions } = createSpan("ContainerClient-getAccessPolicy", options);
+    return tracingClient.withSpan(
+      "ContainerClient-getAccessPolicy",
+      options,
+      async (updatedOptions) => {
+        const response = assertResponse<
+          ContainerGetAccessPolicyResponseModel,
+          ContainerGetAccessPolicyHeaders,
+          SignedIdentifierModel
+        >(
+          await this.containerContext.getAccessPolicy({
+            abortSignal: options.abortSignal,
+            leaseAccessConditions: options.conditions,
+            tracingOptions: updatedOptions.tracingOptions,
+          })
+        );
 
-    try {
-      const response = assertResponse<
-        ContainerGetAccessPolicyResponseModel,
-        ContainerGetAccessPolicyHeaders,
-        SignedIdentifierModel
-      >(
-        await this.containerContext.getAccessPolicy({
-          abortSignal: options.abortSignal,
-          leaseAccessConditions: options.conditions,
-          tracingOptions: updatedOptions.tracingOptions,
-        })
-      );
+        const res: ContainerGetAccessPolicyResponse = {
+          _response: response._response,
+          blobPublicAccess: response.blobPublicAccess,
+          date: response.date,
+          etag: response.etag,
+          errorCode: response.errorCode,
+          lastModified: response.lastModified,
+          requestId: response.requestId,
+          clientRequestId: response.clientRequestId,
+          signedIdentifiers: [],
+          version: response.version,
+        };
 
-      const res: ContainerGetAccessPolicyResponse = {
-        _response: response._response,
-        blobPublicAccess: response.blobPublicAccess,
-        date: response.date,
-        etag: response.etag,
-        errorCode: response.errorCode,
-        lastModified: response.lastModified,
-        requestId: response.requestId,
-        clientRequestId: response.clientRequestId,
-        signedIdentifiers: [],
-        version: response.version,
-      };
+        for (const identifier of response) {
+          let accessPolicy: any = undefined;
+          if (identifier.accessPolicy) {
+            accessPolicy = {
+              permissions: identifier.accessPolicy.permissions,
+            };
 
-      for (const identifier of response) {
-        let accessPolicy: any = undefined;
-        if (identifier.accessPolicy) {
-          accessPolicy = {
-            permissions: identifier.accessPolicy.permissions,
-          };
+            if (identifier.accessPolicy.expiresOn) {
+              accessPolicy.expiresOn = new Date(identifier.accessPolicy.expiresOn);
+            }
 
-          if (identifier.accessPolicy.expiresOn) {
-            accessPolicy.expiresOn = new Date(identifier.accessPolicy.expiresOn);
+            if (identifier.accessPolicy.startsOn) {
+              accessPolicy.startsOn = new Date(identifier.accessPolicy.startsOn);
+            }
           }
 
-          if (identifier.accessPolicy.startsOn) {
-            accessPolicy.startsOn = new Date(identifier.accessPolicy.startsOn);
-          }
+          res.signedIdentifiers.push({
+            accessPolicy,
+            id: identifier.id,
+          });
         }
 
-        res.signedIdentifiers.push({
-          accessPolicy,
-          id: identifier.id,
-        });
+        return res;
       }
-
-      return res;
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    );
   }
 
   /**
@@ -1109,43 +1087,38 @@ export class ContainerClient extends StorageClient {
     options: ContainerSetAccessPolicyOptions = {}
   ): Promise<ContainerSetAccessPolicyResponse> {
     options.conditions = options.conditions || {};
-    const { span, updatedOptions } = createSpan("ContainerClient-setAccessPolicy", options);
-    try {
-      const acl: SignedIdentifierModel[] = [];
-      for (const identifier of containerAcl || []) {
-        acl.push({
-          accessPolicy: {
-            expiresOn: identifier.accessPolicy.expiresOn
-              ? truncatedISO8061Date(identifier.accessPolicy.expiresOn)
-              : "",
-            permissions: identifier.accessPolicy.permissions,
-            startsOn: identifier.accessPolicy.startsOn
-              ? truncatedISO8061Date(identifier.accessPolicy.startsOn)
-              : "",
-          },
-          id: identifier.id,
-        });
-      }
+    return tracingClient.withSpan(
+      "ContainerClient-setAccessPolicy",
+      options,
+      async (updatedOptions) => {
+        const acl: SignedIdentifierModel[] = [];
+        for (const identifier of containerAcl || []) {
+          acl.push({
+            accessPolicy: {
+              expiresOn: identifier.accessPolicy.expiresOn
+                ? truncatedISO8061Date(identifier.accessPolicy.expiresOn)
+                : "",
+              permissions: identifier.accessPolicy.permissions,
+              startsOn: identifier.accessPolicy.startsOn
+                ? truncatedISO8061Date(identifier.accessPolicy.startsOn)
+                : "",
+            },
+            id: identifier.id,
+          });
+        }
 
-      return assertResponse(
-        await this.containerContext.setAccessPolicy({
-          abortSignal: options.abortSignal,
-          access,
-          containerAcl: acl,
-          leaseAccessConditions: options.conditions,
-          modifiedAccessConditions: options.conditions,
-          tracingOptions: updatedOptions.tracingOptions,
-        })
-      );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+        return assertResponse<ContainerSetAccessPolicyHeaders, ContainerSetAccessPolicyHeaders>(
+          await this.containerContext.setAccessPolicy({
+            abortSignal: options.abortSignal,
+            access,
+            containerAcl: acl,
+            leaseAccessConditions: options.conditions,
+            modifiedAccessConditions: options.conditions,
+            tracingOptions: updatedOptions.tracingOptions,
+          })
+        );
+      }
+    );
   }
 
   /**
@@ -1186,23 +1159,18 @@ export class ContainerClient extends StorageClient {
     contentLength: number,
     options: BlockBlobUploadOptions = {}
   ): Promise<{ blockBlobClient: BlockBlobClient; response: BlockBlobUploadResponse }> {
-    const { span, updatedOptions } = createSpan("ContainerClient-uploadBlockBlob", options);
-    try {
-      const blockBlobClient = this.getBlockBlobClient(blobName);
-      const response = await blockBlobClient.upload(body, contentLength, updatedOptions);
-      return {
-        blockBlobClient,
-        response,
-      };
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "ContainerClient-uploadBlockBlob",
+      options,
+      async (updatedOptions) => {
+        const blockBlobClient = this.getBlockBlobClient(blobName);
+        const response = await blockBlobClient.upload(body, contentLength, updatedOptions);
+        return {
+          blockBlobClient,
+          response,
+        };
+      }
+    );
   }
 
   /**
@@ -1220,22 +1188,13 @@ export class ContainerClient extends StorageClient {
     blobName: string,
     options: ContainerDeleteBlobOptions = {}
   ): Promise<BlobDeleteResponse> {
-    const { span, updatedOptions } = createSpan("ContainerClient-deleteBlob", options);
-    try {
+    return tracingClient.withSpan("ContainerClient-deleteBlob", options, async (updatedOptions) => {
       let blobClient = this.getBlobClient(blobName);
       if (options.versionId) {
         blobClient = blobClient.withVersion(options.versionId);
       }
-      return await blobClient.delete(updatedOptions);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+      return blobClient.delete(updatedOptions);
+    });
   }
 
   /**
@@ -1252,51 +1211,46 @@ export class ContainerClient extends StorageClient {
     marker?: string,
     options: ContainerListBlobsSegmentOptions = {}
   ): Promise<ContainerListBlobFlatSegmentResponse> {
-    const { span, updatedOptions } = createSpan("ContainerClient-listBlobFlatSegment", options);
-    try {
-      const response = assertResponse<
-        ListBlobsFlatSegmentResponseInternal,
-        ContainerListBlobFlatSegmentHeaders,
-        ListBlobsFlatSegmentResponseInternal
-      >(
-        await this.containerContext.listBlobFlatSegment({
-          marker,
-          ...options,
-          tracingOptions: updatedOptions.tracingOptions,
-        })
-      );
+    return tracingClient.withSpan(
+      "ContainerClient-listBlobFlatSegment",
+      options,
+      async (updatedOptions) => {
+        const response = assertResponse<
+          ListBlobsFlatSegmentResponseInternal,
+          ContainerListBlobFlatSegmentHeaders,
+          ListBlobsFlatSegmentResponseInternal
+        >(
+          await this.containerContext.listBlobFlatSegment({
+            marker,
+            ...options,
+            tracingOptions: updatedOptions.tracingOptions,
+          })
+        );
 
-      const wrappedResponse: ContainerListBlobFlatSegmentResponse = {
-        ...response,
-        _response: {
-          ...response._response,
-          parsedBody: ConvertInternalResponseOfListBlobFlat(response._response.parsedBody),
-        }, // _response is made non-enumerable
-        segment: {
-          ...response.segment,
-          blobItems: response.segment.blobItems.map((blobItemInternal) => {
-            const blobItem: BlobItem = {
-              ...blobItemInternal,
-              name: BlobNameToString(blobItemInternal.name),
-              tags: toTags(blobItemInternal.blobTags),
-              objectReplicationSourceProperties: parseObjectReplicationRecord(
-                blobItemInternal.objectReplicationMetadata
-              ),
-            };
-            return blobItem;
-          }),
-        },
-      };
-      return wrappedResponse;
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+        const wrappedResponse: ContainerListBlobFlatSegmentResponse = {
+          ...response,
+          _response: {
+            ...response._response,
+            parsedBody: ConvertInternalResponseOfListBlobFlat(response._response.parsedBody),
+          }, // _response is made non-enumerable
+          segment: {
+            ...response.segment,
+            blobItems: response.segment.blobItems.map((blobItemInternal) => {
+              const blobItem: BlobItem = {
+                ...blobItemInternal,
+                name: BlobNameToString(blobItemInternal.name),
+                tags: toTags(blobItemInternal.blobTags),
+                objectReplicationSourceProperties: parseObjectReplicationRecord(
+                  blobItemInternal.objectReplicationMetadata
+                ),
+              };
+              return blobItem;
+            }),
+          },
+        };
+        return wrappedResponse;
+      }
+    );
   }
 
   /**
@@ -1315,60 +1269,52 @@ export class ContainerClient extends StorageClient {
     marker?: string,
     options: ContainerListBlobsSegmentOptions = {}
   ): Promise<ContainerListBlobHierarchySegmentResponse> {
-    const { span, updatedOptions } = createSpan(
+    return tracingClient.withSpan(
       "ContainerClient-listBlobHierarchySegment",
-      options
-    );
-    try {
-      const response = assertResponse<
-        ContainerListBlobHierarchySegmentResponseModel,
-        ContainerListBlobHierarchySegmentHeaders,
-        ListBlobsHierarchySegmentResponseInternal
-      >(
-        await this.containerContext.listBlobHierarchySegment(delimiter, {
-          marker,
-          ...options,
-          tracingOptions: updatedOptions.tracingOptions,
-        })
-      );
+      options,
+      async (updatedOptions) => {
+        const response = assertResponse<
+          ContainerListBlobHierarchySegmentResponseModel,
+          ContainerListBlobHierarchySegmentHeaders,
+          ListBlobsHierarchySegmentResponseInternal
+        >(
+          await this.containerContext.listBlobHierarchySegment(delimiter, {
+            marker,
+            ...options,
+            tracingOptions: updatedOptions.tracingOptions,
+          })
+        );
 
-      const wrappedResponse: ContainerListBlobHierarchySegmentResponse = {
-        ...response,
-        _response: {
-          ...response._response,
-          parsedBody: ConvertInternalResponseOfListBlobHierarchy(response._response.parsedBody),
-        }, // _response is made non-enumerable
-        segment: {
-          ...response.segment,
-          blobItems: response.segment.blobItems.map((blobItemInternal) => {
-            const blobItem: BlobItem = {
-              ...blobItemInternal,
-              name: BlobNameToString(blobItemInternal.name),
-              tags: toTags(blobItemInternal.blobTags),
-              objectReplicationSourceProperties: parseObjectReplicationRecord(
-                blobItemInternal.objectReplicationMetadata
-              ),
-            };
-            return blobItem;
-          }),
-          blobPrefixes: response.segment.blobPrefixes?.map((blobPrefixInternal) => {
-            const blobPrefix: BlobPrefix = {
-              name: BlobNameToString(blobPrefixInternal.name),
-            };
-            return blobPrefix;
-          }),
-        },
-      };
-      return wrappedResponse;
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+        const wrappedResponse: ContainerListBlobHierarchySegmentResponse = {
+          ...response,
+          _response: {
+            ...response._response,
+            parsedBody: ConvertInternalResponseOfListBlobHierarchy(response._response.parsedBody),
+          }, // _response is made non-enumerable
+          segment: {
+            ...response.segment,
+            blobItems: response.segment.blobItems.map((blobItemInternal) => {
+              const blobItem: BlobItem = {
+                ...blobItemInternal,
+                name: BlobNameToString(blobItemInternal.name),
+                tags: toTags(blobItemInternal.blobTags),
+                objectReplicationSourceProperties: parseObjectReplicationRecord(
+                  blobItemInternal.objectReplicationMetadata
+                ),
+              };
+              return blobItem;
+            }),
+            blobPrefixes: response.segment.blobPrefixes?.map((blobPrefixInternal) => {
+              const blobPrefix: BlobPrefix = {
+                name: BlobNameToString(blobPrefixInternal.name),
+              };
+              return blobPrefix;
+            }),
+          },
+        };
+        return wrappedResponse;
+      }
+    );
   }
 
   /**
@@ -1791,44 +1737,38 @@ export class ContainerClient extends StorageClient {
     marker?: string,
     options: ContainerFindBlobsByTagsSegmentOptions = {}
   ): Promise<ContainerFindBlobsByTagsSegmentResponse> {
-    const { span, updatedOptions } = createSpan("ContainerClient-findBlobsByTagsSegment", options);
+    return tracingClient.withSpan(
+      "ContainerClient-findBlobsByTagsSegment",
+      options,
+      async (updatedOptions) => {
+        const response = assertResponse<
+          ContainerFilterBlobsResponse,
+          ContainerFilterBlobsHeaders,
+          FilterBlobSegmentModel
+        >(
+          await this.containerContext.filterBlobs({
+            abortSignal: options.abortSignal,
+            where: tagFilterSqlExpression,
+            marker,
+            maxPageSize: options.maxPageSize,
+            tracingOptions: updatedOptions.tracingOptions,
+          })
+        );
 
-    try {
-      const response = assertResponse<
-        ContainerFilterBlobsResponse,
-        ContainerFilterBlobsHeaders,
-        FilterBlobSegmentModel
-      >(
-        await this.containerContext.filterBlobs({
-          abortSignal: options.abortSignal,
-          where: tagFilterSqlExpression,
-          marker,
-          maxPageSize: options.maxPageSize,
-          tracingOptions: updatedOptions.tracingOptions,
-        })
-      );
-
-      const wrappedResponse: ContainerFindBlobsByTagsSegmentResponse = {
-        ...response,
-        _response: response._response, // _response is made non-enumerable
-        blobs: response.blobs.map((blob) => {
-          let tagValue = "";
-          if (blob.tags?.blobTagSet.length === 1) {
-            tagValue = blob.tags.blobTagSet[0].value;
-          }
-          return { ...blob, tags: toTags(blob.tags), tagValue };
-        }),
-      };
-      return wrappedResponse;
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+        const wrappedResponse: ContainerFindBlobsByTagsSegmentResponse = {
+          ...response,
+          _response: response._response, // _response is made non-enumerable
+          blobs: response.blobs.map((blob) => {
+            let tagValue = "";
+            if (blob.tags?.blobTagSet.length === 1) {
+              tagValue = blob.tags.blobTagSet[0].value;
+            }
+            return { ...blob, tags: toTags(blob.tags), tagValue };
+          }),
+        };
+        return wrappedResponse;
+      }
+    );
   }
 
   /**

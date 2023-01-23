@@ -11,6 +11,11 @@ import { tracingClient } from "./utils/tracing";
 import { BlobClient } from "./Clients";
 import { ContainerClient } from "./ContainerClient";
 import { assertResponse, WithResponse } from "./utils/utils.common";
+import {
+  ContainerAcquireLeaseHeaders,
+  ContainerBreakLeaseHeaders,
+  ContainerReleaseLeaseHeaders,
+} from "./generated/src";
 
 /**
  * The details for a specific lease.
@@ -149,8 +154,6 @@ export class BlobLeaseClient {
     duration: number,
     options: LeaseOperationOptions = {}
   ): Promise<LeaseOperationResponse> {
-    const { span, updatedOptions } = createSpan("BlobLeaseClient-acquireLease", options);
-
     if (
       this._isContainer &&
       ((options.conditions?.ifMatch && options.conditions?.ifMatch !== ETagNone) ||
@@ -161,29 +164,24 @@ export class BlobLeaseClient {
         "The IfMatch, IfNoneMatch and tags access conditions are ignored by the service. Values other than undefined or their default values are not acceptable."
       );
     }
-
-    try {
-      return assertResponse(
-        await this._containerOrBlobOperation.acquireLease({
-          abortSignal: options.abortSignal,
-          duration,
-          modifiedAccessConditions: {
-            ...options.conditions,
-            ifTags: options.conditions?.tagConditions,
-          },
-          proposedLeaseId: this._leaseId,
-          tracingOptions: updatedOptions.tracingOptions,
-        })
-      );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "BlobLeaseClient-acquireLease",
+      options,
+      async (updatedOptions) => {
+        return assertResponse<ContainerAcquireLeaseHeaders, ContainerAcquireLeaseHeaders>(
+          await this._containerOrBlobOperation.acquireLease({
+            abortSignal: options.abortSignal,
+            duration,
+            modifiedAccessConditions: {
+              ...options.conditions,
+              ifTags: options.conditions?.tagConditions,
+            },
+            proposedLeaseId: this._leaseId,
+            tracingOptions: updatedOptions.tracingOptions,
+          })
+        );
+      }
+    );
   }
 
   /**
@@ -200,8 +198,6 @@ export class BlobLeaseClient {
     proposedLeaseId: string,
     options: LeaseOperationOptions = {}
   ): Promise<LeaseOperationResponse> {
-    const { span, updatedOptions } = createSpan("BlobLeaseClient-changeLease", options);
-
     if (
       this._isContainer &&
       ((options.conditions?.ifMatch && options.conditions?.ifMatch !== ETagNone) ||
@@ -213,28 +209,24 @@ export class BlobLeaseClient {
       );
     }
 
-    try {
-      const response = assertResponse<Lease, Lease>(
-        await this._containerOrBlobOperation.changeLease(this._leaseId, proposedLeaseId, {
-          abortSignal: options.abortSignal,
-          modifiedAccessConditions: {
-            ...options.conditions,
-            ifTags: options.conditions?.tagConditions,
-          },
-          tracingOptions: updatedOptions.tracingOptions,
-        })
-      );
-      this._leaseId = proposedLeaseId;
-      return response;
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "BlobLeaseClient-changeLease",
+      options,
+      async (updatedOptions) => {
+        const response = assertResponse<Lease, Lease>(
+          await this._containerOrBlobOperation.changeLease(this._leaseId, proposedLeaseId, {
+            abortSignal: options.abortSignal,
+            modifiedAccessConditions: {
+              ...options.conditions,
+              ifTags: options.conditions?.tagConditions,
+            },
+            tracingOptions: updatedOptions.tracingOptions,
+          })
+        );
+        this._leaseId = proposedLeaseId;
+        return response;
+      }
+    );
   }
 
   /**
@@ -248,8 +240,6 @@ export class BlobLeaseClient {
    * @returns Response data for release lease operation.
    */
   public async releaseLease(options: LeaseOperationOptions = {}): Promise<LeaseOperationResponse> {
-    const { span, updatedOptions } = createSpan("BlobLeaseClient-releaseLease", options);
-
     if (
       this._isContainer &&
       ((options.conditions?.ifMatch && options.conditions?.ifMatch !== ETagNone) ||
@@ -260,27 +250,22 @@ export class BlobLeaseClient {
         "The IfMatch, IfNoneMatch and tags access conditions are ignored by the service. Values other than undefined or their default values are not acceptable."
       );
     }
-
-    try {
-      return assertResponse(
-        await this._containerOrBlobOperation.releaseLease(this._leaseId, {
-          abortSignal: options.abortSignal,
-          modifiedAccessConditions: {
-            ...options.conditions,
-            ifTags: options.conditions?.tagConditions,
-          },
-          tracingOptions: updatedOptions.tracingOptions,
-        })
-      );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "BlobLeaseClient-releaseLease",
+      options,
+      async (updatedOptions) => {
+        return assertResponse<ContainerReleaseLeaseHeaders, ContainerReleaseLeaseHeaders>(
+          await this._containerOrBlobOperation.releaseLease(this._leaseId, {
+            abortSignal: options.abortSignal,
+            modifiedAccessConditions: {
+              ...options.conditions,
+              ifTags: options.conditions?.tagConditions,
+            },
+            tracingOptions: updatedOptions.tracingOptions,
+          })
+        );
+      }
+    );
   }
 
   /**
@@ -293,8 +278,6 @@ export class BlobLeaseClient {
    * @returns Response data for renew lease operation.
    */
   public async renewLease(options: LeaseOperationOptions = {}): Promise<Lease> {
-    const { span, updatedOptions } = createSpan("BlobLeaseClient-renewLease", options);
-
     if (
       this._isContainer &&
       ((options.conditions?.ifMatch && options.conditions?.ifMatch !== ETagNone) ||
@@ -305,9 +288,8 @@ export class BlobLeaseClient {
         "The IfMatch, IfNoneMatch and tags access conditions are ignored by the service. Values other than undefined or their default values are not acceptable."
       );
     }
-
-    try {
-      return await this._containerOrBlobOperation.renewLease(this._leaseId, {
+    return tracingClient.withSpan("BlobLeaseClient-renewLease", options, async (updatedOptions) => {
+      return this._containerOrBlobOperation.renewLease(this._leaseId, {
         abortSignal: options.abortSignal,
         modifiedAccessConditions: {
           ...options.conditions,
@@ -315,15 +297,7 @@ export class BlobLeaseClient {
         },
         tracingOptions: updatedOptions.tracingOptions,
       });
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -341,8 +315,6 @@ export class BlobLeaseClient {
     breakPeriod: number,
     options: LeaseOperationOptions = {}
   ): Promise<LeaseOperationResponse> {
-    const { span, updatedOptions } = createSpan("BlobLeaseClient-breakLease", options);
-
     if (
       this._isContainer &&
       ((options.conditions?.ifMatch && options.conditions?.ifMatch !== ETagNone) ||
@@ -354,7 +326,7 @@ export class BlobLeaseClient {
       );
     }
 
-    try {
+    return tracingClient.withSpan("BlobLeaseClient-breakLease", options, async (updatedOptions) => {
       const operationOptions: ContainerBreakLeaseOptionalParams = {
         abortSignal: options.abortSignal,
         breakPeriod,
@@ -364,15 +336,9 @@ export class BlobLeaseClient {
         },
         tracingOptions: updatedOptions.tracingOptions,
       };
-      return assertResponse(await this._containerOrBlobOperation.breakLease(operationOptions));
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+      return assertResponse<ContainerBreakLeaseHeaders, ContainerBreakLeaseHeaders>(
+        await this._containerOrBlobOperation.breakLease(operationOptions)
+      );
+    });
   }
 }
