@@ -2,18 +2,22 @@
 // Licensed under the MIT license.
 
 import {
+  AbstractiveSummary,
   AssessmentSentiment,
   ClassificationCategory,
   CustomEntityRecognitionAction,
   CustomMultiLabelClassificationAction,
   CustomSingleLabelClassificationAction,
   DetectedLanguage,
+  DocumentDetectedLanguage,
   DocumentSentimentLabel,
   DocumentWarning,
+  DynamicClassificationAction,
   Entity,
   EntityDataSource,
   EntityLinkingAction,
   EntityRecognitionAction,
+  EntityWithResolution,
   ExtractiveSummarizationAction,
   HealthcareAction,
   HealthcareAssertion,
@@ -23,12 +27,12 @@ import {
   KnownInnerErrorCode,
   LanguageDetectionAction,
   LinkedEntity,
-  OperationStatus,
   PiiEntityRecognitionAction,
   RelationType,
   SentenceSentimentLabel,
   SentimentAnalysisAction,
   SentimentConfidenceScores,
+  StringIndexType,
   SummarySentence,
   TargetConfidenceScores,
   TextDocumentBatchStatistics,
@@ -36,7 +40,7 @@ import {
   TokenSentimentLabel,
 } from "./generated";
 import { CommonClientOptions, OperationOptions } from "@azure/core-client";
-import { PollOperationState, PollerLike } from "@azure/core-lro";
+import { OperationState, SimplePollerLike } from "@azure/core-lro";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 /**
@@ -55,7 +59,7 @@ export interface TextAnalysisClientOptions extends CommonClientOptions {
   /**
    * The version of the Cognitive Language Service API to use.
    */
-  apiVersion?: string;
+  serviceVersion?: string;
 }
 
 /**
@@ -66,10 +70,6 @@ export interface TextAnalysisOperationOptions extends OperationOptions {
    * If set to true, response will contain input and document level statistics.
    */
   includeStatistics?: boolean;
-  /**
-   * The version of the Cognitive Language Service API to use.
-   */
-  apiVersion?: string;
 }
 
 /**
@@ -84,6 +84,10 @@ export interface BeginAnalyzeBatchOptions extends TextAnalysisOperationOptions {
    * The operation's display name.
    */
   displayName?: string;
+  /**
+   * Default language code to use for records requesting automatic language detection
+   */
+  defaultLanguage?: string;
 }
 
 /**
@@ -106,6 +110,7 @@ export const AnalyzeActionNames = {
   PiiEntityRecognition: "PiiEntityRecognition",
   LanguageDetection: "LanguageDetection",
   SentimentAnalysis: "SentimentAnalysis",
+  DynamicClassification: "DynamicClassification",
 } as const;
 
 /**
@@ -119,6 +124,7 @@ export const AnalyzeBatchActionNames = {
   EntityLinking: "EntityLinking",
   Healthcare: "Healthcare",
   ExtractiveSummarization: "ExtractiveSummarization",
+  AbstractiveSummarization: "AbstractiveSummarization",
   CustomEntityRecognition: "CustomEntityRecognition",
   CustomSingleLabelClassification: "CustomSingleLabelClassification",
   CustomMultiLabelClassification: "CustomMultiLabelClassification",
@@ -138,16 +144,9 @@ export type AnalyzeActionParameters<ActionName extends AnalyzeActionName> = {
   PiiEntityRecognition: PiiEntityRecognitionAction;
   KeyPhraseExtraction: KeyPhraseExtractionAction;
   SentimentAnalysis: SentimentAnalysisAction;
+  DynamicClassification: DynamicClassificationAction;
   LanguageDetection: LanguageDetectionAction;
 }[ActionName];
-
-/**
- * Known values of the {@link HealthcareAction.fhirVersion} parameter.
- */
-export enum KnownFhirVersion {
-  /** 4.0.1 */
-  "4.0.1" = "4.0.1",
-}
 
 /**
  * The type of results of every action in ${@link AnalyzeActionNames}.
@@ -158,8 +157,29 @@ export type AnalyzeResult<ActionName extends AnalyzeActionName> = {
   PiiEntityRecognition: PiiEntityRecognitionResult[];
   KeyPhraseExtraction: KeyPhraseExtractionResult[];
   SentimentAnalysis: SentimentAnalysisResult[];
+  DynamicClassification: DynamicClassificationResult[];
   LanguageDetection: LanguageDetectionResult[];
 }[ActionName];
+
+/**
+ * Known values of the {@link HealthcareAction.fhirVersion} parameter.
+ */
+export enum KnownFhirVersion {
+  /** 4.0.1 */
+  "4.0.1" = "4.0.1",
+}
+
+/** Options for an Abstractive Summarization action. */
+export interface AbstractiveSummarizationAction {
+  /** The max number of sentences to be part of the summary. */
+  maxSentenceCount?: number;
+  /**
+   * Specifies the measurement unit used to calculate the offset and length properties. For a list of possible values, see {@link KnownStringIndexType}.
+   *
+   * The default is the JavaScript's default which is "Utf16CodeUnit".
+   */
+  stringIndexType?: StringIndexType;
+}
 
 /**
  * Enum of possible error codes of a {@link TextAnalysisError}.
@@ -241,7 +261,7 @@ export interface EntityRecognitionSuccessResult extends TextAnalysisSuccessResul
   /**
    * The collection of entities identified in the input document.
    */
-  readonly entities: Entity[];
+  readonly entities: EntityWithResolution[];
 }
 
 /**
@@ -455,6 +475,29 @@ export interface Opinion {
 }
 
 /**
+ * The result of a language detection action on a single document.
+ */
+export type DynamicClassificationResult =
+  | DynamicClassificationSuccessResult
+  | DynamicClassificationErrorResult;
+
+/**
+ * The result of a language detection action on a single document,
+ * containing a prediction of what language the document is written in.
+ */
+export interface DynamicClassificationSuccessResult extends TextAnalysisSuccessResult {
+  /**
+   * The collection of classifications in the input document.
+   */
+  readonly classifications: ClassificationCategory[];
+}
+
+/**
+ * An error result from a language detection action on a single document.
+ */
+export type DynamicClassificationErrorResult = TextAnalysisErrorResult;
+
+/**
  * A healthcare entity represented as a node in a directed graph where the edges are
  * a particular type of relationship between the source and target nodes.
  */
@@ -537,6 +580,10 @@ export interface HealthcareEntityRelation {
    * The list of healthcare entities and their roles in the healthcare relation.
    */
   readonly roles: HealthcareEntityRelationRole[];
+  /**
+   * The confidence score between 0 and 1 of the extracted relation.
+   */
+  readonly confidenceScore?: number;
 }
 
 /**
@@ -571,15 +618,15 @@ export type HealthcareResult = HealthcareSuccessResult | HealthcareErrorResult;
 /**
  * The result of the extractive summarization action on a single document.
  */
-export type SummarizationExtractionResult =
-  | SummarizationExtractionSuccessResult
-  | SummarizationExtractionErrorResult;
+export type ExtractiveSummarizationResult =
+  | ExtractiveSummarizationSuccessResult
+  | ExtractiveSummarizationErrorResult;
 
 /**
  * The result of the extractive summarization action on a single document,
  * containing a collection of the summary identified in that document.
  */
-export interface SummarizationExtractionSuccessResult extends TextAnalysisSuccessResult {
+export interface ExtractiveSummarizationSuccessResult extends TextAnalysisSuccessResult {
   /**
    * A list of sentences composing a summary of the input document.
    */
@@ -589,7 +636,30 @@ export interface SummarizationExtractionSuccessResult extends TextAnalysisSucces
 /**
  * An error result from the extractive summarization action on a single document.
  */
-export type SummarizationExtractionErrorResult = TextAnalysisErrorResult;
+export type ExtractiveSummarizationErrorResult = TextAnalysisErrorResult;
+
+/**
+ * The result of the abstractive summarization action on a single document.
+ */
+export type AbstractiveSummarizationResult =
+  | AbstractiveSummarizationSuccessResult
+  | AbstractiveSummarizationErrorResult;
+
+/**
+ * The result of the abstractive summarization action on a single document,
+ * containing a collection of the summaries identified for that document.
+ */
+export interface AbstractiveSummarizationSuccessResult extends TextAnalysisSuccessResult {
+  /**
+   * A list of summaries of the input document.
+   */
+  readonly summaries: AbstractiveSummary[];
+}
+
+/**
+ * An error result from the abstractive summarization action on a single document.
+ */
+export type AbstractiveSummarizationErrorResult = TextAnalysisErrorResult;
 
 /**
  * The result of the custom entity recognition action on a single document.
@@ -716,6 +786,16 @@ export interface HealthcareBatchAction extends AnalyzeBatchActionCommon, Healthc
   kind: "Healthcare";
 }
 
+/** Options for a sentiment analysis batch action. */
+export interface SentimentAnalysisBatchAction
+  extends AnalyzeBatchActionCommon,
+    SentimentAnalysisAction {
+  /**
+   * The kind of the action.
+   */
+  kind: "SentimentAnalysis";
+}
+
 /** Options for an extractive summarization batch action. */
 export interface ExtractiveSummarizationBatchAction
   extends AnalyzeBatchActionCommon,
@@ -726,14 +806,14 @@ export interface ExtractiveSummarizationBatchAction
   kind: "ExtractiveSummarization";
 }
 
-/** Options for a sentiment analysis batch action. */
-export interface SentimentAnalysisBatchAction
+/** Options for an abstractive summarization batch action. */
+export interface AbstractiveSummarizationBatchAction
   extends AnalyzeBatchActionCommon,
-    SentimentAnalysisAction {
+    AbstractiveSummarizationAction {
   /**
    * The kind of the action.
    */
-  kind: "SentimentAnalysis";
+  kind: "AbstractiveSummarization";
 }
 
 /** Options for a custom entity recognition batch action. */
@@ -775,8 +855,9 @@ export type AnalyzeBatchAction =
   | KeyPhraseExtractionBatchAction
   | PiiEntityRecognitionBatchAction
   | HealthcareBatchAction
-  | ExtractiveSummarizationBatchAction
   | SentimentAnalysisBatchAction
+  | ExtractiveSummarizationBatchAction
+  | AbstractiveSummarizationBatchAction
   | CustomEntityRecognitionBatchAction
   | CustomSingleLabelClassificationBatchAction
   | CustomMultiLabelClassificationBatchAction;
@@ -827,6 +908,15 @@ export interface CustomActionMetadata {
 }
 
 /**
+ * Document results with potentially automatically detected language.
+ */
+export type WithDetectedLanguage<T> = T &
+  DocumentDetectedLanguage & {
+    /** Indicates whether the default language hint was used */
+    isLanguageDefaulted?: boolean;
+  };
+
+/**
  * The state of a succeeded batched action.
  */
 export interface BatchActionSuccessResult<T, Kind extends AnalyzeBatchActionName>
@@ -834,7 +924,7 @@ export interface BatchActionSuccessResult<T, Kind extends AnalyzeBatchActionName
   /**
    * The list of document results.
    */
-  readonly results: T[];
+  readonly results: WithDetectedLanguage<T>[];
   /**
    * When this action was completed by the service.
    */
@@ -907,7 +997,13 @@ export type HealthcareBatchResult = ActionMetadata &
  * The result of an extractive summarization batch action.
  */
 export type ExtractiveSummarizationBatchResult = ActionMetadata &
-  BatchActionResult<SummarizationExtractionResult, "ExtractiveSummarization">;
+  BatchActionResult<ExtractiveSummarizationResult, "ExtractiveSummarization">;
+
+/**
+ * The result of an abstractive summarization batch action.
+ */
+export type AbstractiveSummarizationBatchResult = ActionMetadata &
+  BatchActionResult<AbstractiveSummarizationResult, "AbstractiveSummarization">;
 
 /**
  * The result of a custom entity recognition batch action.
@@ -937,6 +1033,7 @@ export type AnalyzeBatchResult =
   | SentimentAnalysisBatchResult
   | HealthcareBatchResult
   | ExtractiveSummarizationBatchResult
+  | AbstractiveSummarizationBatchResult
   | CustomEntityRecognitionBatchResult
   | CustomSingleLabelClassificationBatchResult
   | CustomMultiLabelClassificationBatchResult;
@@ -977,10 +1074,6 @@ export interface AnalyzeBatchOperationMetadata {
    */
   readonly modifiedOn: Date;
   /**
-   * The current status of the operation.
-   */
-  readonly status: OperationStatus;
-  /**
    * Number of successfully completed actions.
    */
   readonly actionSucceededCount: number;
@@ -1002,5 +1095,16 @@ export interface AnalyzeBatchOperationMetadata {
  * The state of the begin analyze polling operation.
  */
 export interface AnalyzeBatchOperationState
-  extends PollOperationState<PagedAnalyzeBatchResult>,
+  extends OperationState<PagedAnalyzeBatchResult>,
     AnalyzeBatchOperationMetadata {}
+
+/**
+ * Abstract representation of a poller, intended to expose just the minimal API that the user needs to work with.
+ */
+export interface PollerLike<TState extends OperationState<TResult>, TResult>
+  extends SimplePollerLike<TState, TResult> {
+  /**
+   * sends a cancellation request.
+   */
+  sendCancellationRequest: () => Promise<void>;
+}

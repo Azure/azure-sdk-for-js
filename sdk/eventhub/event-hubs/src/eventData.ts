@@ -483,11 +483,12 @@ function convertDatesToNumbers<T = unknown>(thing: T): T {
     Examples:
     { foo: new Date(), children: { nested: new Date() }}
   */
-  if (typeof thing === "object" && isDefined(thing)) {
-    thing = { ...thing };
-    for (const key of Object.keys(thing)) {
-      (thing as any)[key] = convertDatesToNumbers((thing as any)[key]);
+  if (typeof thing === "object" && isDefined<object>(thing)) {
+    const thingShallowCopy = { ...thing };
+    for (const key of Object.keys(thingShallowCopy)) {
+      (thingShallowCopy as any)[key] = convertDatesToNumbers((thingShallowCopy as any)[key]);
     }
+    return thingShallowCopy;
   }
 
   return thing;

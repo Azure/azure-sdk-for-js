@@ -13,6 +13,9 @@ import {
   EventGridManagementClient
 } from "@azure/arm-eventgrid";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Update an existing event subscription for a topic.
@@ -21,8 +24,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/TopicEventSubscriptions_Update.json
  */
 async function topicEventSubscriptionsUpdate() {
-  const subscriptionId = "5b4b650e-28b9-4790-b3ab-ddbd88d727c4";
-  const resourceGroupName = "examplerg";
+  const subscriptionId =
+    process.env["EVENTGRID_SUBSCRIPTION_ID"] ||
+    "5b4b650e-28b9-4790-b3ab-ddbd88d727c4";
+  const resourceGroupName =
+    process.env["EVENTGRID_RESOURCE_GROUP"] || "examplerg";
   const topicName = "exampleTopic1";
   const eventSubscriptionName = "exampleEventSubscriptionName1";
   const eventSubscriptionUpdateParameters: EventSubscriptionUpdateParameters = {
@@ -48,4 +54,8 @@ async function topicEventSubscriptionsUpdate() {
   console.log(result);
 }
 
-topicEventSubscriptionsUpdate().catch(console.error);
+async function main() {
+  topicEventSubscriptionsUpdate();
+}
+
+main().catch(console.error);

@@ -98,7 +98,7 @@ These sample programs show how to use the TypeScript client libraries for in som
 
 ## Prerequisites
 
-The sample programs are compatible with [LTS versions of Node.js](https://nodejs.org/about/releases/).
+The sample programs are compatible with [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule).
 
 Before running the samples in Node, they must be compiled to JavaScript using the TypeScript compiler. For more information on TypeScript, see the [TypeScript documentation][typescript]. Install the TypeScript compiler using:
 
@@ -139,7 +139,7 @@ node dist/activityRunsQueryByPipelineRunSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env  node dist/activityRunsQueryByPipelineRunSample.js
+npx cross-env DATAFACTORY_SUBSCRIPTION_ID="<datafactory subscription id>" DATAFACTORY_RESOURCE_GROUP="<datafactory resource group>" node dist/activityRunsQueryByPipelineRunSample.js
 ```
 
 ## Next Steps

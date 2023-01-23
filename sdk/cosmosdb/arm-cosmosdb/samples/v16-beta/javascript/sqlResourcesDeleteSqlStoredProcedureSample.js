@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Deletes an existing Azure Cosmos DB SQL storedProcedure.
  *
  * @summary Deletes an existing Azure Cosmos DB SQL storedProcedure.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-05-15-preview/examples/CosmosDBSqlStoredProcedureDelete.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBSqlStoredProcedureDelete.json
  */
 async function cosmosDbSqlStoredProcedureDelete() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
   const databaseName = "databaseName";
   const containerName = "containerName";
@@ -36,4 +37,8 @@ async function cosmosDbSqlStoredProcedureDelete() {
   console.log(result);
 }
 
-cosmosDbSqlStoredProcedureDelete().catch(console.error);
+async function main() {
+  cosmosDbSqlStoredProcedureDelete();
+}
+
+main().catch(console.error);

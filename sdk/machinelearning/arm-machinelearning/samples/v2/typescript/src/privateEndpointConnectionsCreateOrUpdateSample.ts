@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Update the state of specified private endpoint connection associated with the workspace.
  *
  * @summary Update the state of specified private endpoint connection associated with the workspace.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-05-01/examples/PrivateEndpointConnection/createOrUpdate.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/PrivateEndpointConnection/createOrUpdate.json
  */
 async function workspacePutPrivateEndpointConnection() {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";

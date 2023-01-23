@@ -3,7 +3,7 @@
 
 "use strict";
 
-import * as coreHttp from "../src/coreHttp";
+import * as coreHttp from "../src";
 
 /* This is an example token credential that uses a token value directly. Ordinarily, clients should use a
  * TokenCredential provided by the user when the client is created. Users should use DefaultAzureCredential
@@ -15,9 +15,7 @@ class TestTokenCredential implements coreHttp.TokenCredential {
 
   constructor(token: string, expiresOn?: Date) {
     this.token = token;
-    this.expiresOn = expiresOn
-      ? expiresOn.getTime()
-      : Date.now() + 60 * 60 * 1000;
+    this.expiresOn = expiresOn ? expiresOn.getTime() : Date.now() + 60 * 60 * 1000;
   }
 
   async getToken(
@@ -26,7 +24,7 @@ class TestTokenCredential implements coreHttp.TokenCredential {
   ): Promise<coreHttp.AccessToken | null> {
     return {
       token: this.token,
-      expiresOnTimestamp: this.expiresOn
+      expiresOnTimestamp: this.expiresOn,
     };
   }
 }
@@ -42,19 +40,16 @@ const creds = new TestTokenCredential(token);
 const clientOptions: coreHttp.ServiceClientOptions = {
   requestPolicyFactories: [
     coreHttp.logPolicy(),
-    coreHttp.bearerTokenAuthenticationPolicy(
-      creds,
-      "https://management.azure.com"
-    )
-  ]
+    coreHttp.bearerTokenAuthenticationPolicy(creds, "https://management.azure.com"),
+  ],
 };
 
 const client = new coreHttp.ServiceClient(creds, clientOptions);
 const req: coreHttp.RequestPrepareOptions = {
   url: `https://management.azure.com/subscriptions/${subscriptionId}/providers/Microsoft.Storage/storageAccounts?api-version=2015-06-15`,
-  method: "GET"
+  method: "GET",
 };
 
-client.sendRequest(req).then(function(res: coreHttp.HttpOperationResponse) {
+client.sendRequest(req).then(function (res: coreHttp.HttpOperationResponse) {
   console.log(res.bodyAsText!.substr(0, 1000));
 });

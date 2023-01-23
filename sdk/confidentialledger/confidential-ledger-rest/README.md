@@ -130,7 +130,7 @@ This section contains code snippets for the following samples:
 const entry: LedgerEntry = {
   contents: contentBody,
 };
-const ledgerEntry: PostLedgerEntryParameters = {
+const ledgerEntry: CreateLedgerEntryParameters = {
   contentType: "application/json",
   body: entry,
 };

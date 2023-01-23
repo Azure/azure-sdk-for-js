@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Creates or updates an attached database configuration.
  *
  * @summary Creates or updates an attached database configuration.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-02-01/examples/KustoAttachedDatabaseConfigurationsCreateOrUpdate.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoAttachedDatabaseConfigurationsCreateOrUpdate.json
  */
 async function attachedDatabaseConfigurationsCreateOrUpdate() {
   const subscriptionId = "12345678-1234-1234-1234-123456789098";
@@ -30,6 +30,7 @@ async function attachedDatabaseConfigurationsCreateOrUpdate() {
     clusterResourceId:
       "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/Clusters/kustoCluster2",
     databaseName: "kustodatabase",
+    databaseNameOverride: "overridekustodatabase",
     defaultPrincipalsModificationKind: "Union",
     location: "westus",
     tableLevelSharingProperties: {

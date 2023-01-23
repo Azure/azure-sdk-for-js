@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { SqlPoolBlobAuditingPolicies } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,11 +17,11 @@ import {
   SqlPoolBlobAuditingPolicy,
   SqlPoolBlobAuditingPoliciesListBySqlPoolNextOptionalParams,
   SqlPoolBlobAuditingPoliciesListBySqlPoolOptionalParams,
+  SqlPoolBlobAuditingPoliciesListBySqlPoolResponse,
   SqlPoolBlobAuditingPoliciesGetOptionalParams,
   SqlPoolBlobAuditingPoliciesGetResponse,
   SqlPoolBlobAuditingPoliciesCreateOrUpdateOptionalParams,
   SqlPoolBlobAuditingPoliciesCreateOrUpdateResponse,
-  SqlPoolBlobAuditingPoliciesListBySqlPoolResponse,
   SqlPoolBlobAuditingPoliciesListBySqlPoolNextResponse
 } from "../models";
 
@@ -64,12 +65,16 @@ export class SqlPoolBlobAuditingPoliciesImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listBySqlPoolPagingPage(
           resourceGroupName,
           workspaceName,
           sqlPoolName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -79,16 +84,23 @@ export class SqlPoolBlobAuditingPoliciesImpl
     resourceGroupName: string,
     workspaceName: string,
     sqlPoolName: string,
-    options?: SqlPoolBlobAuditingPoliciesListBySqlPoolOptionalParams
+    options?: SqlPoolBlobAuditingPoliciesListBySqlPoolOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<SqlPoolBlobAuditingPolicy[]> {
-    let result = await this._listBySqlPool(
-      resourceGroupName,
-      workspaceName,
-      sqlPoolName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: SqlPoolBlobAuditingPoliciesListBySqlPoolResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBySqlPool(
+        resourceGroupName,
+        workspaceName,
+        sqlPoolName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listBySqlPoolNext(
         resourceGroupName,
@@ -98,7 +110,9 @@ export class SqlPoolBlobAuditingPoliciesImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -280,7 +294,6 @@ const listBySqlPoolNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

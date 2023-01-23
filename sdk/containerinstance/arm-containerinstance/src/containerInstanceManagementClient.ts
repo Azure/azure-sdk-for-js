@@ -18,13 +18,15 @@ import {
   ContainerGroupsImpl,
   OperationsImpl,
   LocationImpl,
-  ContainersImpl
+  ContainersImpl,
+  SubnetServiceAssociationLinkImpl
 } from "./operations";
 import {
   ContainerGroups,
   Operations,
   Location,
-  Containers
+  Containers,
+  SubnetServiceAssociationLink
 } from "./operationsInterfaces";
 import { ContainerInstanceManagementClientOptionalParams } from "./models";
 
@@ -61,22 +63,19 @@ export class ContainerInstanceManagementClient extends coreClient.ServiceClient 
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-containerinstance/8.2.1`;
+    const packageDetails = `azsdk-js-arm-containerinstance/9.1.0-beta.2`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
         : `${packageDetails}`;
 
-    if (!options.credentialScopes) {
-      options.credentialScopes = ["https://management.azure.com/.default"];
-    }
     const optionsWithDefaults = {
       ...defaults,
       ...options,
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri:
+      endpoint:
         options.endpoint ?? options.baseUri ?? "https://management.azure.com"
     };
     super(optionsWithDefaults);
@@ -102,7 +101,9 @@ export class ContainerInstanceManagementClient extends coreClient.ServiceClient 
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
           credential: credentials,
-          scopes: `${optionsWithDefaults.credentialScopes}`,
+          scopes:
+            optionsWithDefaults.credentialScopes ??
+            `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
               coreClient.authorizeRequestOnClaimChallenge
@@ -115,11 +116,14 @@ export class ContainerInstanceManagementClient extends coreClient.ServiceClient 
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-10-01";
+    this.apiVersion = options.apiVersion || "2022-10-01-preview";
     this.containerGroups = new ContainerGroupsImpl(this);
     this.operations = new OperationsImpl(this);
     this.location = new LocationImpl(this);
     this.containers = new ContainersImpl(this);
+    this.subnetServiceAssociationLink = new SubnetServiceAssociationLinkImpl(
+      this
+    );
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -155,4 +159,5 @@ export class ContainerInstanceManagementClient extends coreClient.ServiceClient 
   operations: Operations;
   location: Location;
   containers: Containers;
+  subnetServiceAssociationLink: SubnetServiceAssociationLink;
 }

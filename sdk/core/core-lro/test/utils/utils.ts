@@ -8,6 +8,7 @@ import {
   createHttpHeaders,
   isRestError,
 } from "@azure/core-rest-pipeline";
+import { ResponseBody } from "../../src/http/models";
 import { assert } from "@azure/test-utils";
 
 export interface RouteProcessor {
@@ -23,6 +24,11 @@ export interface LroResponseSpec {
   body?: string;
   headers?: Record<string, string>;
 }
+
+export type ImplementationName = "LroEngine" | "createPoller";
+
+export type Result = ResponseBody & { statusCode: number };
+export type State = any;
 
 export function createProcessor(settings: {
   status: number;
@@ -61,9 +67,10 @@ export async function assertError(
   options: {
     statusCode?: number;
     messagePattern?: RegExp;
+    name?: string;
   } = {}
 ): Promise<void> {
-  const { statusCode, messagePattern } = options;
+  const { statusCode, messagePattern, name } = options;
   try {
     await error;
     assert.fail(`Should have failed instead!`);
@@ -81,6 +88,57 @@ export async function assertError(
       } else {
         assert.fail(`Unexpected error: ${JSON.stringify(e)}`);
       }
+    }
+    if (name) {
+      if (e instanceof Error) {
+        assert.equal(e.name, name);
+      } else {
+        assert.fail(`Unexpected error: ${JSON.stringify(e)}`);
+      }
+    }
+  }
+}
+
+export async function assertDivergentBehavior(inputs: {
+  op: Promise<Result>;
+  throwOnNon2xxResponse: boolean;
+  throwing: {
+    statusCode?: number;
+    messagePattern?: RegExp;
+  };
+  notThrowing: {
+    result?: any;
+    partResult?: any;
+    statusCode?: number;
+    messagePattern?: RegExp;
+  };
+}): Promise<void> {
+  const {
+    op,
+    throwOnNon2xxResponse,
+    throwing: { messagePattern, statusCode },
+    notThrowing: {
+      messagePattern: notThrowingMessagePattern,
+      statusCode: notThrowingStatusCode,
+      result,
+      partResult,
+    },
+  } = inputs;
+  if (throwOnNon2xxResponse) {
+    await assertError(op, {
+      statusCode,
+      messagePattern,
+    });
+  } else {
+    if (notThrowingStatusCode !== undefined || notThrowingMessagePattern !== undefined) {
+      await assertError(op, {
+        statusCode: notThrowingStatusCode,
+        messagePattern: notThrowingMessagePattern,
+      });
+    } else if (partResult !== undefined) {
+      assert.deepInclude(await op, partResult);
+    } else {
+      assert.deepEqual(await op, result);
     }
   }
 }

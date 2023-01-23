@@ -93,6 +93,18 @@ export const certificateName: OperationURLParameter = {
   }
 };
 
+export const apiVersion: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2022-08-01",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],
   mapper: {
@@ -108,18 +120,6 @@ export const contentType: OperationParameter = {
 export const body: OperationParameter = {
   parameterPath: ["options", "body"],
   mapper: NginxCertificateMapper
-};
-
-export const apiVersion: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2022-08-01",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
 };
 
 export const nextLink: OperationURLParameter = {

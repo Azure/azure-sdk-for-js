@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Create a Metadata.
  *
  * @summary Create a Metadata.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/metadata/PutMetadata.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/metadata/PutMetadata.json
  */
 async function createOrUpdateFullMetadata() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -101,7 +101,7 @@ createOrUpdateFullMetadata().catch(console.error);
  * This sample demonstrates how to Create a Metadata.
  *
  * @summary Create a Metadata.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/metadata/PutMetadataMinimal.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/metadata/PutMetadataMinimal.json
  */
 async function createOrUpdateMinimalMetadata() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";

@@ -6,6 +6,7 @@ import { createClient, createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
+import { env } from "process";
 
 describe("Get ledger history", () => {
   let recorder: Recorder;
@@ -21,6 +22,10 @@ describe("Get ledger history", () => {
   });
 
   it("should obtain ledger entries from ledger", async function () {
+    if (isLiveMode()) {
+      this.skip();
+    }
+
     const result = await client.path("/app/transactions").get();
 
     assert.equal(result.status, "200");
@@ -38,3 +43,7 @@ describe("Get ledger history", () => {
     assert.typeOf(currentTransactionsResult.body.transactionId, "string");
   });
 });
+
+export function isLiveMode(): boolean {
+  return env.TEST_MODE?.toLowerCase() === "live";
+}

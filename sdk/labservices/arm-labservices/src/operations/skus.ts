@@ -34,7 +34,7 @@ export class SkusImpl implements Skus {
   }
 
   /**
-   * Returns a list of all the Azure Lab Services resource SKUs.
+   * Returns a list of Azure Lab Services resource SKUs.
    * @param options The options parameters.
    */
   public list(
@@ -76,7 +76,7 @@ export class SkusImpl implements Skus {
   }
 
   /**
-   * Returns a list of all the Azure Lab Services resource SKUs.
+   * Returns a list of Azure Lab Services resource SKUs.
    * @param options The options parameters.
    */
   private _list(options?: SkusListOptionalParams): Promise<SkusListResponse> {

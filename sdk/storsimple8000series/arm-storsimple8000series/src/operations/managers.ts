@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { Managers } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -15,15 +15,18 @@ import { StorSimple8000SeriesManagementClient } from "../storSimple8000SeriesMan
 import {
   Manager,
   ManagersListOptionalParams,
+  ManagersListResponse,
   ManagersListByResourceGroupOptionalParams,
+  ManagersListByResourceGroupResponse,
   Feature,
   ManagersListFeatureSupportStatusOptionalParams,
+  ManagersListFeatureSupportStatusResponse,
   Metrics,
   ManagersListMetricsOptionalParams,
+  ManagersListMetricsResponse,
   MetricDefinition,
   ManagersListMetricDefinitionOptionalParams,
-  ManagersListResponse,
-  ManagersListByResourceGroupResponse,
+  ManagersListMetricDefinitionResponse,
   ManagersGetOptionalParams,
   ManagersGetResponse,
   ManagersCreateOrUpdateOptionalParams,
@@ -44,13 +47,10 @@ import {
   ManagersDeleteExtendedInfoOptionalParams,
   ManagersUpdateExtendedInfoOptionalParams,
   ManagersUpdateExtendedInfoResponse,
-  ManagersListFeatureSupportStatusResponse,
   ManagersGetActivationKeyOptionalParams,
   ManagersGetActivationKeyResponse,
   ManagersGetPublicEncryptionKeyOptionalParams,
   ManagersGetPublicEncryptionKeyResponse,
-  ManagersListMetricsResponse,
-  ManagersListMetricDefinitionResponse,
   ManagersRegenerateActivationKeyOptionalParams,
   ManagersRegenerateActivationKeyResponse
 } from "../models";
@@ -83,16 +83,21 @@ export class ManagersImpl implements Managers {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: ManagersListOptionalParams
+    options?: ManagersListOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<Manager[]> {
-    let result = await this._list(options);
+    let result: ManagersListResponse;
+    result = await this._list(options);
     yield result.value || [];
   }
 
@@ -121,17 +126,26 @@ export class ManagersImpl implements Managers {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: ManagersListByResourceGroupOptionalParams
+    options?: ManagersListByResourceGroupOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<Manager[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
+    let result: ManagersListByResourceGroupResponse;
+    result = await this._listByResourceGroup(resourceGroupName, options);
     yield result.value || [];
   }
 
@@ -170,11 +184,15 @@ export class ManagersImpl implements Managers {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listFeatureSupportStatusPagingPage(
           resourceGroupName,
           managerName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -183,9 +201,11 @@ export class ManagersImpl implements Managers {
   private async *listFeatureSupportStatusPagingPage(
     resourceGroupName: string,
     managerName: string,
-    options?: ManagersListFeatureSupportStatusOptionalParams
+    options?: ManagersListFeatureSupportStatusOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<Feature[]> {
-    let result = await this._listFeatureSupportStatus(
+    let result: ManagersListFeatureSupportStatusResponse;
+    result = await this._listFeatureSupportStatus(
       resourceGroupName,
       managerName,
       options
@@ -233,12 +253,16 @@ export class ManagersImpl implements Managers {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listMetricsPagingPage(
           resourceGroupName,
           managerName,
           filter,
-          options
+          options,
+          settings
         );
       }
     };
@@ -248,9 +272,11 @@ export class ManagersImpl implements Managers {
     resourceGroupName: string,
     managerName: string,
     filter: string,
-    options?: ManagersListMetricsOptionalParams
+    options?: ManagersListMetricsOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<Metrics[]> {
-    let result = await this._listMetrics(
+    let result: ManagersListMetricsResponse;
+    result = await this._listMetrics(
       resourceGroupName,
       managerName,
       filter,
@@ -298,11 +324,15 @@ export class ManagersImpl implements Managers {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listMetricDefinitionPagingPage(
           resourceGroupName,
           managerName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -311,9 +341,11 @@ export class ManagersImpl implements Managers {
   private async *listMetricDefinitionPagingPage(
     resourceGroupName: string,
     managerName: string,
-    options?: ManagersListMetricDefinitionOptionalParams
+    options?: ManagersListMetricDefinitionOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<MetricDefinition[]> {
-    let result = await this._listMetricDefinition(
+    let result: ManagersListMetricDefinitionResponse;
+    result = await this._listMetricDefinition(
       resourceGroupName,
       managerName,
       options

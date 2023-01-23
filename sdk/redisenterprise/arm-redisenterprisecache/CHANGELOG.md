@@ -1,6 +1,6 @@
 # Release History
 
-## 2.1.1 (Unreleased)
+## 2.2.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,18 @@
 
 ### Other Changes
 
+## 2.2.0 (2022-12-07)
+    
+**Features**
+
+  - Added Interface Cluster
+  - Added Interface Database
+  - Added Interface PrivateEndpointConnection
+  - Added Interface PrivateLinkResource
+  - Added Interface ProxyResource
+  - Added Interface TrackedResource
+    
+    
 ## 2.1.0 (2022-04-11)
     
 **Features**

@@ -1,13 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { logger } from "@azure/identity";
 import { setAuthorizationHeader } from "../auth";
 import { Constants, HTTPMethod, jsonStringifyAndEscapeNonASCII, ResourceType } from "../common";
 import { CosmosClientOptions } from "../CosmosClientOptions";
 import { PartitionKey } from "../documents";
 import { CosmosHeaders } from "../queryExecutionContext";
 import { FeedOptions, RequestOptions } from "./index";
-
+import { defaultLogger } from "../common/logger";
 // ----------------------------------------------------------------------------
 // Utility methods
 //
@@ -133,7 +132,7 @@ export async function getHeaders({
       headers[Constants.HttpHeaders.DedicatedGatewayPerRequestCacheStaleness] =
         options.maxIntegratedCacheStalenessInMs.toString();
     } else {
-      logger.error(
+      defaultLogger.error(
         `RangeError: maxIntegratedCacheStalenessInMs "${options.maxIntegratedCacheStalenessInMs}" is not a valid parameter.`
       );
       headers[Constants.HttpHeaders.DedicatedGatewayPerRequestCacheStaleness] = "null";

@@ -2097,6 +2097,7 @@ const relocateOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/relocate",
   httpMethod: "POST",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
+  requestBody: Parameters.body14,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -2106,6 +2107,8 @@ const relocateOperationSpec: coreClient.OperationSpec = {
     Parameters.poolName,
     Parameters.volumeName
   ],
+  headerParameters: [Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const finalizeRelocationOperationSpec: coreClient.OperationSpec = {

@@ -13,16 +13,19 @@ import {
   CosmosDBManagementClient
 } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Regenerates an access key for the specified Azure Cosmos DB database account.
  *
  * @summary Regenerates an access key for the specified Azure Cosmos DB database account.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-05-15-preview/examples/CosmosDBDatabaseAccountRegenerateKey.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBDatabaseAccountRegenerateKey.json
  */
 async function cosmosDbDatabaseAccountRegenerateKey() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
   const keyToRegenerate: DatabaseAccountRegenerateKeyParameters = {
     keyKind: "primary"
@@ -37,4 +40,8 @@ async function cosmosDbDatabaseAccountRegenerateKey() {
   console.log(result);
 }
 
-cosmosDbDatabaseAccountRegenerateKey().catch(console.error);
+async function main() {
+  cosmosDbDatabaseAccountRegenerateKey();
+}
+
+main().catch(console.error);

@@ -8,16 +8,16 @@ import { Recorder } from "@azure-tools/test-recorder";
 
 import { createClients } from "../utils/recordedClient";
 import {
+  AutocompleteResult,
+  AzureKeyCredential,
+  IndexDocumentsBatch,
+  KnownQueryLanguage,
+  KnownSpeller,
   SearchClient,
   SearchIndexClient,
-  AutocompleteResult,
-  IndexDocumentsBatch,
-  KnownSpeller,
-  KnownQueryLanguage,
-  AzureKeyCredential,
 } from "../../../src";
 import { Hotel } from "../utils/interfaces";
-import { createIndex, createRandomIndexName, populateIndex, WAIT_TIME } from "../utils/setup";
+import { WAIT_TIME, createIndex, createRandomIndexName, populateIndex } from "../utils/setup";
 import { delay, serviceVersions } from "../../../src/serviceUtils";
 import { versionsToTest } from "@azure/test-utils";
 

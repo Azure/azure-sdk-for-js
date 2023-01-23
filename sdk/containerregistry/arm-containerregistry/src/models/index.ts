@@ -1613,7 +1613,7 @@ export interface OverrideTaskStepProperties {
 }
 
 /** An object that represents a connected registry for a container registry. */
-export type ConnectedRegistry = ProxyResource & {
+export interface ConnectedRegistry extends ProxyResource {
   /**
    * Provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1656,10 +1656,10 @@ export type ConnectedRegistry = ProxyResource & {
   readonly statusDetails?: StatusDetailProperties[];
   /** The list of notifications subscription information for the connected registry. */
   notificationsList?: string[];
-};
+}
 
 /** An object that represents an export pipeline for a container registry. */
-export type ExportPipeline = ProxyResource & {
+export interface ExportPipeline extends ProxyResource {
   /** The location of the export pipeline. */
   location?: string;
   /** The identity of the export pipeline. */
@@ -1673,10 +1673,10 @@ export type ExportPipeline = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
-};
+}
 
 /** An object that represents an import pipeline for a container registry. */
-export type ImportPipeline = ProxyResource & {
+export interface ImportPipeline extends ProxyResource {
   /** The location of the import pipeline. */
   location?: string;
   /** The identity of the import pipeline. */
@@ -1692,10 +1692,10 @@ export type ImportPipeline = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
-};
+}
 
 /** An object that represents a pipeline run for a container registry. */
-export type PipelineRun = ProxyResource & {
+export interface PipelineRun extends ProxyResource {
   /**
    * The provisioning state of a pipeline run.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1710,10 +1710,10 @@ export type PipelineRun = ProxyResource & {
   readonly response?: PipelineRunResponse;
   /** How the pipeline run should be forced to recreate even if the pipeline run configuration has not changed. */
   forceUpdateTag?: string;
-};
+}
 
 /** An object that represents a private endpoint connection for a container registry. */
-export type PrivateEndpointConnection = ProxyResource & {
+export interface PrivateEndpointConnection extends ProxyResource {
   /** The resource of private endpoint. */
   privateEndpoint?: PrivateEndpoint;
   /** A collection of information about the state of the connection between service consumer and provider. */
@@ -1723,10 +1723,10 @@ export type PrivateEndpointConnection = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
-};
+}
 
 /** An object that represents a scope map for a container registry. */
-export type ScopeMap = ProxyResource & {
+export interface ScopeMap extends ProxyResource {
   /** The user friendly description of the scope map. */
   description?: string;
   /**
@@ -1750,10 +1750,10 @@ export type ScopeMap = ProxyResource & {
    * repositories/repository-name/metadata/write
    */
   actions?: string[];
-};
+}
 
 /** An object that represents a token for a container registry. */
-export type Token = ProxyResource & {
+export interface Token extends ProxyResource {
   /**
    * The creation date of scope map.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1770,10 +1770,10 @@ export type Token = ProxyResource & {
   credentials?: TokenCredentialsProperties;
   /** The status of the token example enabled or disabled. */
   status?: TokenStatus;
-};
+}
 
 /** Run resource properties */
-export type Run = ProxyResource & {
+export interface Run extends ProxyResource {
   /** The unique identifier for the run. */
   runId?: string;
   /** The current status of the run. */
@@ -1824,13 +1824,13 @@ export type Run = ProxyResource & {
   provisioningState?: ProvisioningState;
   /** The value that indicates whether archiving is enabled or not. */
   isArchiveEnabled?: boolean;
-};
+}
 
 /**
  * The task run that has the ARM resource and properties.
  * The task run will have the information of request and result of a run.
  */
-export type TaskRun = ProxyResource & {
+export interface TaskRun extends ProxyResource {
   /** Identity for the resource. */
   identity?: IdentityProperties;
   /** The location of the resource */
@@ -1849,10 +1849,10 @@ export type TaskRun = ProxyResource & {
   readonly runResult?: Run;
   /** How the run should be forced to rerun even if the run request configuration has not changed */
   forceUpdateTag?: string;
-};
+}
 
 /** An object that represents a container registry. */
-export type Registry = Resource & {
+export interface Registry extends Resource {
   /** The SKU of the container registry. */
   sku: Sku;
   /** The identity of the container registry. */
@@ -1905,10 +1905,10 @@ export type Registry = Resource & {
   zoneRedundancy?: ZoneRedundancy;
   /** Enables registry-wide pull from unauthenticated clients. */
   anonymousPullEnabled?: boolean;
-};
+}
 
 /** An object that represents a replication for a container registry. */
-export type Replication = Resource & {
+export interface Replication extends Resource {
   /**
    * The provisioning state of the replication at the time the operation was called.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1923,10 +1923,10 @@ export type Replication = Resource & {
   regionEndpointEnabled?: boolean;
   /** Whether or not zone redundancy is enabled for this container registry replication */
   zoneRedundancy?: ZoneRedundancy;
-};
+}
 
 /** An object that represents a webhook for a container registry. */
-export type Webhook = Resource & {
+export interface Webhook extends Resource {
   /** The status of the webhook at the time the operation was called. */
   status?: WebhookStatus;
   /** The scope of repositories where the event can be triggered. For example, 'foo:*' means events for all tags under repository 'foo'. 'foo:bar' means events for 'foo:bar' only. 'foo' is equivalent to 'foo:latest'. Empty means all events. */
@@ -1938,13 +1938,13 @@ export type Webhook = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
-};
+}
 
 /**
  * The agentpool that has the ARM resource and properties.
  * The agentpool will have all information to create an agent pool.
  */
-export type AgentPool = Resource & {
+export interface AgentPool extends Resource {
   /** The count of agent machine */
   count?: number;
   /** The Tier of agent machine */
@@ -1958,13 +1958,13 @@ export type AgentPool = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
-};
+}
 
 /**
  * The task that has the ARM resource and task properties.
  * The task will have all information to schedule a run against it.
  */
-export type Task = Resource & {
+export interface Task extends Resource {
   /** Identity for the resource. */
   identity?: IdentityProperties;
   /**
@@ -1997,18 +1997,18 @@ export type Task = Resource & {
   logTemplate?: string;
   /** The value of this property indicates whether the task resource is system task or not. */
   isSystemTask?: boolean;
-};
+}
 
 /** The event for a webhook. */
-export type Event = EventInfo & {
+export interface Event extends EventInfo {
   /** The event request message sent to the service URI. */
   eventRequestMessage?: EventRequestMessage;
   /** The event response message received from the service URI. */
   eventResponseMessage?: EventResponseMessage;
-};
+}
 
 /** The parameters for a docker quick build. */
-export type DockerBuildRequest = RunRequest & {
+export interface DockerBuildRequest extends RunRequest {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "DockerBuildRequest";
   /** The fully qualified image names including the repository and tag. */
@@ -2036,10 +2036,10 @@ export type DockerBuildRequest = RunRequest & {
   sourceLocation?: string;
   /** The properties that describes a set of credentials that will be used when this run is invoked. */
   credentials?: Credentials;
-};
+}
 
 /** The request parameters for a scheduling run against a task file. */
-export type FileTaskRunRequest = RunRequest & {
+export interface FileTaskRunRequest extends RunRequest {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "FileTaskRunRequest";
   /** The template/definition file path relative to the source. */
@@ -2061,20 +2061,20 @@ export type FileTaskRunRequest = RunRequest & {
   sourceLocation?: string;
   /** The properties that describes a set of credentials that will be used when this run is invoked. */
   credentials?: Credentials;
-};
+}
 
 /** The parameters for a task run request. */
-export type TaskRunRequest = RunRequest & {
+export interface TaskRunRequest extends RunRequest {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "TaskRunRequest";
   /** The resource ID of task against which run has to be queued. */
   taskId: string;
   /** Set of overridable parameters that can be passed when running a Task. */
   overrideTaskStepProperties?: OverrideTaskStepProperties;
-};
+}
 
 /** The parameters for a quick task run request. */
-export type EncodedTaskRunRequest = RunRequest & {
+export interface EncodedTaskRunRequest extends RunRequest {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "EncodedTaskRunRequest";
   /** Base64 encoded value of the template/definition file content. */
@@ -2096,10 +2096,10 @@ export type EncodedTaskRunRequest = RunRequest & {
   sourceLocation?: string;
   /** The properties that describes a set of credentials that will be used when this run is invoked. */
   credentials?: Credentials;
-};
+}
 
 /** The Docker build step. */
-export type DockerBuildStep = TaskStepProperties & {
+export interface DockerBuildStep extends TaskStepProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Docker";
   /** The fully qualified image names including the repository and tag. */
@@ -2114,10 +2114,10 @@ export type DockerBuildStep = TaskStepProperties & {
   target?: string;
   /** The collection of override arguments to be used when executing this build step. */
   arguments?: Argument[];
-};
+}
 
 /** The properties of a task step. */
-export type FileTaskStep = TaskStepProperties & {
+export interface FileTaskStep extends TaskStepProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "FileTask";
   /** The task template/definition file path relative to the source context. */
@@ -2126,10 +2126,10 @@ export type FileTaskStep = TaskStepProperties & {
   valuesFilePath?: string;
   /** The collection of overridable values that can be passed when running a task. */
   values?: SetValue[];
-};
+}
 
 /** The properties of a encoded task step. */
-export type EncodedTaskStep = TaskStepProperties & {
+export interface EncodedTaskStep extends TaskStepProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "EncodedTask";
   /** Base64 encoded value of the template/definition file content. */
@@ -2138,10 +2138,11 @@ export type EncodedTaskStep = TaskStepProperties & {
   encodedValuesContent?: string;
   /** The collection of overridable values that can be passed when running a task. */
   values?: SetValue[];
-};
+}
 
 /** The properties for updating a docker build step. */
-export type DockerBuildStepUpdateParameters = TaskStepUpdateParameters & {
+export interface DockerBuildStepUpdateParameters
+  extends TaskStepUpdateParameters {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Docker";
   /** The fully qualified image names including the repository and tag. */
@@ -2156,10 +2157,10 @@ export type DockerBuildStepUpdateParameters = TaskStepUpdateParameters & {
   arguments?: Argument[];
   /** The name of the target build stage for the docker build. */
   target?: string;
-};
+}
 
 /** The properties of updating a task step. */
-export type FileTaskStepUpdateParameters = TaskStepUpdateParameters & {
+export interface FileTaskStepUpdateParameters extends TaskStepUpdateParameters {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "FileTask";
   /** The task template/definition file path relative to the source context. */
@@ -2168,10 +2169,11 @@ export type FileTaskStepUpdateParameters = TaskStepUpdateParameters & {
   valuesFilePath?: string;
   /** The collection of overridable values that can be passed when running a task. */
   values?: SetValue[];
-};
+}
 
 /** The properties for updating encoded task step. */
-export type EncodedTaskStepUpdateParameters = TaskStepUpdateParameters & {
+export interface EncodedTaskStepUpdateParameters
+  extends TaskStepUpdateParameters {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "EncodedTask";
   /** Base64 encoded value of the template/definition file content. */
@@ -2180,15 +2182,21 @@ export type EncodedTaskStepUpdateParameters = TaskStepUpdateParameters & {
   encodedValuesContent?: string;
   /** The collection of overridable values that can be passed when running a task. */
   values?: SetValue[];
-};
+}
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
+  /** Creating */
   Creating = "Creating",
+  /** Updating */
   Updating = "Updating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Canceled */
   Canceled = "Canceled"
 }
 
@@ -2208,9 +2216,13 @@ export type ProvisioningState = string;
 
 /** Known values of {@link ConnectedRegistryMode} that the service accepts. */
 export enum KnownConnectedRegistryMode {
+  /** ReadWrite */
   ReadWrite = "ReadWrite",
+  /** ReadOnly */
   ReadOnly = "ReadOnly",
+  /** Registry */
   Registry = "Registry",
+  /** Mirror */
   Mirror = "Mirror"
 }
 
@@ -2228,9 +2240,13 @@ export type ConnectedRegistryMode = string;
 
 /** Known values of {@link ConnectionState} that the service accepts. */
 export enum KnownConnectionState {
+  /** Online */
   Online = "Online",
+  /** Offline */
   Offline = "Offline",
+  /** Syncing */
   Syncing = "Syncing",
+  /** Unhealthy */
   Unhealthy = "Unhealthy"
 }
 
@@ -2248,7 +2264,9 @@ export type ConnectionState = string;
 
 /** Known values of {@link ActivationStatus} that the service accepts. */
 export enum KnownActivationStatus {
+  /** Active */
   Active = "Active",
+  /** Inactive */
   Inactive = "Inactive"
 }
 
@@ -2264,7 +2282,9 @@ export type ActivationStatus = string;
 
 /** Known values of {@link TlsStatus} that the service accepts. */
 export enum KnownTlsStatus {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -2280,6 +2300,7 @@ export type TlsStatus = string;
 
 /** Known values of {@link CertificateType} that the service accepts. */
 export enum KnownCertificateType {
+  /** LocalDirectory */
   LocalDirectory = "LocalDirectory"
 }
 
@@ -2294,10 +2315,15 @@ export type CertificateType = string;
 
 /** Known values of {@link LogLevel} that the service accepts. */
 export enum KnownLogLevel {
+  /** Debug */
   Debug = "Debug",
+  /** Information */
   Information = "Information",
+  /** Warning */
   Warning = "Warning",
+  /** Error */
   Error = "Error",
+  /** None */
   None = "None"
 }
 
@@ -2316,7 +2342,9 @@ export type LogLevel = string;
 
 /** Known values of {@link AuditLogStatus} that the service accepts. */
 export enum KnownAuditLogStatus {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -2332,9 +2360,13 @@ export type AuditLogStatus = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -2352,9 +2384,13 @@ export type CreatedByType = string;
 
 /** Known values of {@link LastModifiedByType} that the service accepts. */
 export enum KnownLastModifiedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -2372,9 +2408,13 @@ export type LastModifiedByType = string;
 
 /** Known values of {@link PipelineOptions} that the service accepts. */
 export enum KnownPipelineOptions {
+  /** OverwriteTags */
   OverwriteTags = "OverwriteTags",
+  /** OverwriteBlobs */
   OverwriteBlobs = "OverwriteBlobs",
+  /** DeleteSourceBlobOnSuccess */
   DeleteSourceBlobOnSuccess = "DeleteSourceBlobOnSuccess",
+  /** ContinueOnErrors */
   ContinueOnErrors = "ContinueOnErrors"
 }
 
@@ -2392,7 +2432,9 @@ export type PipelineOptions = string;
 
 /** Known values of {@link ImportMode} that the service accepts. */
 export enum KnownImportMode {
+  /** NoForce */
   NoForce = "NoForce",
+  /** Force */
   Force = "Force"
 }
 
@@ -2408,6 +2450,7 @@ export type ImportMode = string;
 
 /** Known values of {@link PipelineSourceType} that the service accepts. */
 export enum KnownPipelineSourceType {
+  /** AzureStorageBlobContainer */
   AzureStorageBlobContainer = "AzureStorageBlobContainer"
 }
 
@@ -2422,7 +2465,9 @@ export type PipelineSourceType = string;
 
 /** Known values of {@link TriggerStatus} that the service accepts. */
 export enum KnownTriggerStatus {
+  /** Disabled */
   Disabled = "Disabled",
+  /** Enabled */
   Enabled = "Enabled"
 }
 
@@ -2438,6 +2483,7 @@ export type TriggerStatus = string;
 
 /** Known values of {@link PipelineRunSourceType} that the service accepts. */
 export enum KnownPipelineRunSourceType {
+  /** AzureStorageBlob */
   AzureStorageBlob = "AzureStorageBlob"
 }
 
@@ -2452,6 +2498,7 @@ export type PipelineRunSourceType = string;
 
 /** Known values of {@link PipelineRunTargetType} that the service accepts. */
 export enum KnownPipelineRunTargetType {
+  /** AzureStorageBlob */
   AzureStorageBlob = "AzureStorageBlob"
 }
 
@@ -2466,9 +2513,13 @@ export type PipelineRunTargetType = string;
 
 /** Known values of {@link ConnectionStatus} that the service accepts. */
 export enum KnownConnectionStatus {
+  /** Approved */
   Approved = "Approved",
+  /** Pending */
   Pending = "Pending",
+  /** Rejected */
   Rejected = "Rejected",
+  /** Disconnected */
   Disconnected = "Disconnected"
 }
 
@@ -2486,7 +2537,9 @@ export type ConnectionStatus = string;
 
 /** Known values of {@link ActionsRequired} that the service accepts. */
 export enum KnownActionsRequired {
+  /** None */
   None = "None",
+  /** Recreate */
   Recreate = "Recreate"
 }
 
@@ -2502,9 +2555,13 @@ export type ActionsRequired = string;
 
 /** Known values of {@link SkuName} that the service accepts. */
 export enum KnownSkuName {
+  /** Classic */
   Classic = "Classic",
+  /** Basic */
   Basic = "Basic",
+  /** Standard */
   Standard = "Standard",
+  /** Premium */
   Premium = "Premium"
 }
 
@@ -2522,9 +2579,13 @@ export type SkuName = string;
 
 /** Known values of {@link SkuTier} that the service accepts. */
 export enum KnownSkuTier {
+  /** Classic */
   Classic = "Classic",
+  /** Basic */
   Basic = "Basic",
+  /** Standard */
   Standard = "Standard",
+  /** Premium */
   Premium = "Premium"
 }
 
@@ -2542,7 +2603,9 @@ export type SkuTier = string;
 
 /** Known values of {@link DefaultAction} that the service accepts. */
 export enum KnownDefaultAction {
+  /** Allow */
   Allow = "Allow",
+  /** Deny */
   Deny = "Deny"
 }
 
@@ -2558,6 +2621,7 @@ export type DefaultAction = string;
 
 /** Known values of {@link Action} that the service accepts. */
 export enum KnownAction {
+  /** Allow */
   Allow = "Allow"
 }
 
@@ -2572,7 +2636,9 @@ export type Action = string;
 
 /** Known values of {@link PolicyStatus} that the service accepts. */
 export enum KnownPolicyStatus {
+  /** Enabled */
   Enabled = "enabled",
+  /** Disabled */
   Disabled = "disabled"
 }
 
@@ -2588,6 +2654,7 @@ export type PolicyStatus = string;
 
 /** Known values of {@link TrustPolicyType} that the service accepts. */
 export enum KnownTrustPolicyType {
+  /** Notary */
   Notary = "Notary"
 }
 
@@ -2602,7 +2669,9 @@ export type TrustPolicyType = string;
 
 /** Known values of {@link ExportPolicyStatus} that the service accepts. */
 export enum KnownExportPolicyStatus {
+  /** Enabled */
   Enabled = "enabled",
+  /** Disabled */
   Disabled = "disabled"
 }
 
@@ -2618,7 +2687,9 @@ export type ExportPolicyStatus = string;
 
 /** Known values of {@link AzureADAuthenticationAsArmPolicyStatus} that the service accepts. */
 export enum KnownAzureADAuthenticationAsArmPolicyStatus {
+  /** Enabled */
   Enabled = "enabled",
+  /** Disabled */
   Disabled = "disabled"
 }
 
@@ -2634,7 +2705,9 @@ export type AzureADAuthenticationAsArmPolicyStatus = string;
 
 /** Known values of {@link EncryptionStatus} that the service accepts. */
 export enum KnownEncryptionStatus {
+  /** Enabled */
   Enabled = "enabled",
+  /** Disabled */
   Disabled = "disabled"
 }
 
@@ -2650,7 +2723,9 @@ export type EncryptionStatus = string;
 
 /** Known values of {@link PublicNetworkAccess} that the service accepts. */
 export enum KnownPublicNetworkAccess {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -2666,7 +2741,9 @@ export type PublicNetworkAccess = string;
 
 /** Known values of {@link NetworkRuleBypassOptions} that the service accepts. */
 export enum KnownNetworkRuleBypassOptions {
+  /** AzureServices */
   AzureServices = "AzureServices",
+  /** None */
   None = "None"
 }
 
@@ -2682,7 +2759,9 @@ export type NetworkRuleBypassOptions = string;
 
 /** Known values of {@link ZoneRedundancy} that the service accepts. */
 export enum KnownZoneRedundancy {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -2698,7 +2777,9 @@ export type ZoneRedundancy = string;
 
 /** Known values of {@link RegistryUsageUnit} that the service accepts. */
 export enum KnownRegistryUsageUnit {
+  /** Count */
   Count = "Count",
+  /** Bytes */
   Bytes = "Bytes"
 }
 
@@ -2714,7 +2795,9 @@ export type RegistryUsageUnit = string;
 
 /** Known values of {@link TokenCertificateName} that the service accepts. */
 export enum KnownTokenCertificateName {
+  /** Certificate1 */
   Certificate1 = "certificate1",
+  /** Certificate2 */
   Certificate2 = "certificate2"
 }
 
@@ -2730,7 +2813,9 @@ export type TokenCertificateName = string;
 
 /** Known values of {@link TokenPasswordName} that the service accepts. */
 export enum KnownTokenPasswordName {
+  /** Password1 */
   Password1 = "password1",
+  /** Password2 */
   Password2 = "password2"
 }
 
@@ -2746,7 +2831,9 @@ export type TokenPasswordName = string;
 
 /** Known values of {@link TokenStatus} that the service accepts. */
 export enum KnownTokenStatus {
+  /** Enabled */
   Enabled = "enabled",
+  /** Disabled */
   Disabled = "disabled"
 }
 
@@ -2762,7 +2849,9 @@ export type TokenStatus = string;
 
 /** Known values of {@link WebhookStatus} that the service accepts. */
 export enum KnownWebhookStatus {
+  /** Enabled */
   Enabled = "enabled",
+  /** Disabled */
   Disabled = "disabled"
 }
 
@@ -2778,10 +2867,15 @@ export type WebhookStatus = string;
 
 /** Known values of {@link WebhookAction} that the service accepts. */
 export enum KnownWebhookAction {
+  /** Push */
   Push = "push",
+  /** Delete */
   Delete = "delete",
+  /** Quarantine */
   Quarantine = "quarantine",
+  /** ChartPush */
   ChartPush = "chart_push",
+  /** ChartDelete */
   ChartDelete = "chart_delete"
 }
 
@@ -2800,7 +2894,9 @@ export type WebhookAction = string;
 
 /** Known values of {@link OS} that the service accepts. */
 export enum KnownOS {
+  /** Windows */
   Windows = "Windows",
+  /** Linux */
   Linux = "Linux"
 }
 
@@ -2816,13 +2912,21 @@ export type OS = string;
 
 /** Known values of {@link RunStatus} that the service accepts. */
 export enum KnownRunStatus {
+  /** Queued */
   Queued = "Queued",
+  /** Started */
   Started = "Started",
+  /** Running */
   Running = "Running",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Error */
   Error = "Error",
+  /** Timeout */
   Timeout = "Timeout"
 }
 
@@ -2844,9 +2948,13 @@ export type RunStatus = string;
 
 /** Known values of {@link RunType} that the service accepts. */
 export enum KnownRunType {
+  /** QuickBuild */
   QuickBuild = "QuickBuild",
+  /** QuickRun */
   QuickRun = "QuickRun",
+  /** AutoBuild */
   AutoBuild = "AutoBuild",
+  /** AutoRun */
   AutoRun = "AutoRun"
 }
 
@@ -2864,10 +2972,15 @@ export type RunType = string;
 
 /** Known values of {@link Architecture} that the service accepts. */
 export enum KnownArchitecture {
+  /** Amd64 */
   Amd64 = "amd64",
+  /** X86 */
   X86 = "x86",
+  /** ThreeHundredEightySix */
   ThreeHundredEightySix = "386",
+  /** Arm */
   Arm = "arm",
+  /** Arm64 */
   Arm64 = "arm64"
 }
 
@@ -2886,8 +2999,11 @@ export type Architecture = string;
 
 /** Known values of {@link Variant} that the service accepts. */
 export enum KnownVariant {
+  /** V6 */
   V6 = "v6",
+  /** V7 */
   V7 = "v7",
+  /** V8 */
   V8 = "v8"
 }
 
@@ -2904,7 +3020,9 @@ export type Variant = string;
 
 /** Known values of {@link TaskStatus} that the service accepts. */
 export enum KnownTaskStatus {
+  /** Disabled */
   Disabled = "Disabled",
+  /** Enabled */
   Enabled = "Enabled"
 }
 
@@ -2920,8 +3038,11 @@ export type TaskStatus = string;
 
 /** Known values of {@link StepType} that the service accepts. */
 export enum KnownStepType {
+  /** Docker */
   Docker = "Docker",
+  /** FileTask */
   FileTask = "FileTask",
+  /** EncodedTask */
   EncodedTask = "EncodedTask"
 }
 
@@ -2938,7 +3059,9 @@ export type StepType = string;
 
 /** Known values of {@link BaseImageDependencyType} that the service accepts. */
 export enum KnownBaseImageDependencyType {
+  /** BuildTime */
   BuildTime = "BuildTime",
+  /** RunTime */
   RunTime = "RunTime"
 }
 
@@ -2954,7 +3077,9 @@ export type BaseImageDependencyType = string;
 
 /** Known values of {@link SourceControlType} that the service accepts. */
 export enum KnownSourceControlType {
+  /** Github */
   Github = "Github",
+  /** VisualStudioTeamService */
   VisualStudioTeamService = "VisualStudioTeamService"
 }
 
@@ -2970,7 +3095,9 @@ export type SourceControlType = string;
 
 /** Known values of {@link TokenType} that the service accepts. */
 export enum KnownTokenType {
+  /** PAT */
   PAT = "PAT",
+  /** OAuth */
   OAuth = "OAuth"
 }
 
@@ -2986,7 +3113,9 @@ export type TokenType = string;
 
 /** Known values of {@link SourceTriggerEvent} that the service accepts. */
 export enum KnownSourceTriggerEvent {
+  /** Commit */
   Commit = "commit",
+  /** Pullrequest */
   Pullrequest = "pullrequest"
 }
 
@@ -3002,7 +3131,9 @@ export type SourceTriggerEvent = string;
 
 /** Known values of {@link BaseImageTriggerType} that the service accepts. */
 export enum KnownBaseImageTriggerType {
+  /** All */
   All = "All",
+  /** Runtime */
   Runtime = "Runtime"
 }
 
@@ -3018,7 +3149,9 @@ export type BaseImageTriggerType = string;
 
 /** Known values of {@link UpdateTriggerPayloadType} that the service accepts. */
 export enum KnownUpdateTriggerPayloadType {
+  /** Default */
   Default = "Default",
+  /** Token */
   Token = "Token"
 }
 
@@ -3034,7 +3167,9 @@ export type UpdateTriggerPayloadType = string;
 
 /** Known values of {@link SourceRegistryLoginMode} that the service accepts. */
 export enum KnownSourceRegistryLoginMode {
+  /** None */
   None = "None",
+  /** Default */
   Default = "Default"
 }
 
@@ -3050,7 +3185,9 @@ export type SourceRegistryLoginMode = string;
 
 /** Known values of {@link SecretObjectType} that the service accepts. */
 export enum KnownSecretObjectType {
+  /** Opaque */
   Opaque = "Opaque",
+  /** Vaultsecret */
   Vaultsecret = "Vaultsecret"
 }
 

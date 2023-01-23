@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Gets a batch inference deployment by id.
  *
  * @summary Gets a batch inference deployment by id.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-05-01/examples/BatchDeployment/get.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/BatchDeployment/get.json
  */
 async function getBatchDeployment() {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";

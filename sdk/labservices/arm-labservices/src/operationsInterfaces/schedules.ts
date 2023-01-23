@@ -27,8 +27,8 @@ export interface Schedules {
   /**
    * Returns a list of all schedules for a lab.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param options The options parameters.
    */
   listByLab(
@@ -39,8 +39,8 @@ export interface Schedules {
   /**
    * Returns the properties of a lab Schedule.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param scheduleName The name of the schedule that uniquely identifies it within containing lab. Used
    *                     in resource URIs.
    * @param options The options parameters.
@@ -54,8 +54,8 @@ export interface Schedules {
   /**
    * Operation to create or update a lab schedule.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param scheduleName The name of the schedule that uniquely identifies it within containing lab. Used
    *                     in resource URIs.
    * @param body The request body.
@@ -71,8 +71,8 @@ export interface Schedules {
   /**
    * Operation to update a lab schedule.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param scheduleName The name of the schedule that uniquely identifies it within containing lab. Used
    *                     in resource URIs.
    * @param body The request body.
@@ -88,8 +88,8 @@ export interface Schedules {
   /**
    * Operation to delete a schedule resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param scheduleName The name of the schedule that uniquely identifies it within containing lab. Used
    *                     in resource URIs.
    * @param options The options parameters.
@@ -103,8 +103,8 @@ export interface Schedules {
   /**
    * Operation to delete a schedule resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param scheduleName The name of the schedule that uniquely identifies it within containing lab. Used
    *                     in resource URIs.
    * @param options The options parameters.

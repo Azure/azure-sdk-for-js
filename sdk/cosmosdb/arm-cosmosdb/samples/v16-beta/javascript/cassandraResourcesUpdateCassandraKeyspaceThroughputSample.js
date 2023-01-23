@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Update RUs per second of an Azure Cosmos DB Cassandra Keyspace
  *
  * @summary Update RUs per second of an Azure Cosmos DB Cassandra Keyspace
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-05-15-preview/examples/CosmosDBCassandraKeyspaceThroughputUpdate.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBCassandraKeyspaceThroughputUpdate.json
  */
 async function cosmosDbCassandraKeyspaceThroughputUpdate() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
   const keyspaceName = "keyspaceName";
   const updateThroughputParameters = {
@@ -38,4 +39,8 @@ async function cosmosDbCassandraKeyspaceThroughputUpdate() {
   console.log(result);
 }
 
-cosmosDbCassandraKeyspaceThroughputUpdate().catch(console.error);
+async function main() {
+  cosmosDbCassandraKeyspaceThroughputUpdate();
+}
+
+main().catch(console.error);

@@ -53,12 +53,23 @@ export interface HubSendToAllOptions extends OperationOptions {
    * Connection ids to exclude from receiving this message.
    */
   excludedConnections?: string[];
+  /**
+   * The filter syntax to filter out the connections to send the messages to following OData filter syntax.
+   * Examples:
+   *  * Exclude connections from `user1` and `user2`: `userId ne 'user1' and userId ne 'user2'`
+   *  * Exclude connections in `group1`: `not('group1' in groups)`
+   * Details about `filter` syntax please see [OData filter syntax for Azure Web PubSub](https://aka.ms/awps/filter-syntax).
+   */
+  filter?: string;
 }
 
 /**
  * Options for sending text messages to hubs.
  */
 export interface HubSendTextToAllOptions extends HubSendToAllOptions {
+  /**
+   * The content will be sent to the clients in plain text.
+   */
   contentType: "text/plain";
 }
 
@@ -76,6 +87,28 @@ export interface WebPubSubServiceClientOptions extends CommonClientOptions {
    * Reverse proxy endpoint (for example, your Azure API management endpoint)
    */
   reverseProxyEndpoint?: string;
+  /**
+   * Options to configure the logging options.
+   */
+  loggingOptions?: WebPubSubServiceClientLogOptions;
+}
+
+/**
+ * Options to configure the logging options.
+ */
+export declare interface WebPubSubServiceClientLogOptions {
+  /**
+   * Header names whose values will be logged when logging is enabled.
+   * Defaults include a list of well-known safe headers. Any headers
+   * specified in this field will be added to that list.  Any other values will
+   * be written to logs as "REDACTED".
+   */
+  additionalAllowedHeaderNames?: string[];
+  /**
+   * Query string names whose values will be logged when logging is enabled. By default no
+   * query string values are logged.
+   */
+  additionalAllowedQueryParameters?: string[];
 }
 
 /**
@@ -113,12 +146,24 @@ export interface HubSendTextToConnectionOptions extends HubSendToConnectionOptio
 /**
  * Options for sending a message to a user.
  */
-export interface HubSendToUserOptions extends OperationOptions {}
+export interface HubSendToUserOptions extends OperationOptions {
+  /**
+   * The filter syntax to filter out the connections to send the messages to following OData filter syntax.
+   * Examples:
+   *  * Exclude connections in `group1`: `not('group1' in groups)`
+   *  * Send to connections in `group1` or `group2`: `'group1' in groups or `group2` in groups`
+   * Details about `filter` syntax please see [OData filter syntax for Azure Web PubSub](https://aka.ms/awps/filter-syntax).
+   */
+  filter?: string;
+}
 
 /**
  * Options for sending a text message to a user.
  */
 export interface HubSendTextToUserOptions extends HubSendToUserOptions {
+  /**
+   * The content will be sent to the clients in plain text.
+   */
   contentType: "text/plain";
 }
 
@@ -182,6 +227,11 @@ export interface GenerateClientTokenOptions extends OperationOptions {
    * Minutes until the token expires.
    */
   expirationTimeInMinutes?: number;
+
+  /**
+   * The groups to join when the client connects
+   */
+  groups?: string[];
 }
 
 /**
@@ -217,7 +267,7 @@ export class WebPubSubServiceClient {
   /**
    * The Web PubSub API version being used by this client
    */
-  public readonly apiVersion: string = "2021-10-01";
+  public readonly apiVersion: string = "2022-11-01";
 
   /**
    * The Web PubSub endpoint this client is connected to
@@ -287,6 +337,10 @@ export class WebPubSubServiceClient {
       ...{
         apiVersion: this.apiVersion,
         loggingOptions: {
+          additionalAllowedHeaderNames:
+            this.clientOptions?.loggingOptions?.additionalAllowedHeaderNames,
+          additionalAllowedQueryParameters:
+            this.clientOptions?.loggingOptions?.additionalAllowedQueryParameters,
           logger: logger.info,
         },
       },
@@ -593,6 +647,28 @@ export class WebPubSubServiceClient {
   }
 
   /**
+   * Remove a specific connection from all groups they are joined to
+   * @param connectionId - The connection id to remove from all groups
+   * @param options - Additional options
+   */
+  public async removeConnectionFromAllGroups(
+    connectionId: string,
+    options: HubCloseConnectionOptions = {}
+  ): Promise<void> {
+    return tracingClient.withSpan(
+      "WebPubSubServiceClient.removeConnectionFromAllGroups",
+      options,
+      (updatedOptions) => {
+        return this.client.webPubSub.removeConnectionFromAllGroups(
+          this.hubName,
+          connectionId,
+          updatedOptions
+        );
+      }
+    );
+  }
+
+  /**
    * Check if a particular group exists (i.e. has active connections).
    *
    * @param groupName - The group name to check for
@@ -794,7 +870,7 @@ export class WebPubSubServiceClient {
         } else {
           const key = this.credential.key;
           const audience = `${endpoint}client/hubs/${this.hubName}`;
-          const payload = { role: options?.roles };
+          const payload = { role: options?.roles, "webpubsub.group": options?.groups };
           const signOptions: jwt.SignOptions = {
             audience: audience,
             expiresIn:

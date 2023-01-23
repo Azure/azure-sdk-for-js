@@ -9,11 +9,11 @@ import {
 
 /**
  * @internal
- * Mapping SIP trunks REST model to SDK model
+ * Transforming SIP trunks REST model to SDK model
  */
-export const mapTrunks = (
+export function transformFromRestModel(
   trunks: { [propertyName: string]: RestSipTrunk } | undefined
-): SipTrunk[] => {
+): SipTrunk[] {
   const result: SipTrunk[] = [];
 
   if (trunks) {
@@ -24,32 +24,15 @@ export const mapTrunks = (
   }
 
   return result;
-};
+}
 
 /**
  * @internal
- * Mapping SIP extended trunks REST model to SDK model
+ * Transforming SIP trunks SDK model to REST model
  */
-export const mapExpandedTrunks = (
-  trunks: { [propertyName: string]: RestTrunkExpanded } | undefined
-): SipTrunkExpanded[] => {
-  const result: SipTrunkExpanded[] = [];
-
-  if (trunks) {
-    Object.keys(trunks).forEach((fqdn: string) => {
-      result.push({ fqdn: fqdn, ...trunks[fqdn] } as SipTrunkExpanded);
-    });
-  }
-  return result;
-};
-
-/**
- * @internal
- * Mapping SIP trunks SDK model to REST model
- */
-export const mapTrunksToRestModel = (
-  trunks: SipTrunk[]
-): { [propertyName: string]: RestSipTrunk } => {
+export function transformIntoRestModel(trunks: SipTrunk[]): {
+  [propertyName: string]: RestSipTrunk;
+} {
   const result: { [propertyName: string]: RestSipTrunk } = {};
 
   trunks.forEach((trunk: SipTrunk) => {
@@ -57,4 +40,5 @@ export const mapTrunksToRestModel = (
   });
 
   return result;
-};
+}
+

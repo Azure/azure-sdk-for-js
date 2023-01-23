@@ -22,7 +22,11 @@ import {
   LiveEventsStartOptionalParams,
   LiveEventActionInput,
   LiveEventsStopOptionalParams,
-  LiveEventsResetOptionalParams
+  LiveEventsResetOptionalParams,
+  LiveEventsAsyncOperationOptionalParams,
+  LiveEventsAsyncOperationResponse,
+  LiveEventsOperationLocationOptionalParams,
+  LiveEventsOperationLocationResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -262,4 +266,32 @@ export interface LiveEvents {
     liveEventName: string,
     options?: LiveEventsResetOptionalParams
   ): Promise<void>;
+  /**
+   * Get a live event operation status.
+   * @param resourceGroupName The name of the resource group within the Azure subscription.
+   * @param accountName The Media Services account name.
+   * @param operationId The ID of an ongoing async operation.
+   * @param options The options parameters.
+   */
+  asyncOperation(
+    resourceGroupName: string,
+    accountName: string,
+    operationId: string,
+    options?: LiveEventsAsyncOperationOptionalParams
+  ): Promise<LiveEventsAsyncOperationResponse>;
+  /**
+   * Get a live event operation status.
+   * @param resourceGroupName The name of the resource group within the Azure subscription.
+   * @param accountName The Media Services account name.
+   * @param liveEventName The name of the live event, maximum length is 32.
+   * @param operationId The ID of an ongoing async operation.
+   * @param options The options parameters.
+   */
+  operationLocation(
+    resourceGroupName: string,
+    accountName: string,
+    liveEventName: string,
+    operationId: string,
+    options?: LiveEventsOperationLocationOptionalParams
+  ): Promise<LiveEventsOperationLocationResponse>;
 }

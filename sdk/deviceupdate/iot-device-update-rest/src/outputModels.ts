@@ -184,13 +184,13 @@ export interface DeviceClassesListOutput {
 }
 
 export interface DeviceClassOutput {
-  /** The device class identifier. */
+  /** The device class identifier. This is generated from the model Id and the compat properties reported by the device update agent in the Device Update PnP interface in IoT Hub. It is a hex-encoded SHA1 hash. */
   deviceClassId: string;
   /** The device class friendly name. This can be updated by callers after the device class has been automatically created. */
   friendlyName?: string;
   /** The device class properties that are used to calculate the device class Id */
   deviceClassProperties: DeviceClassPropertiesOutput;
-  /** Update that is best compatible with this device class. */
+  /** Update that is the highest version compatible with this device class. */
   bestCompatibleUpdate?: UpdateInfoOutput;
 }
 
@@ -237,7 +237,7 @@ export interface DeviceOutput {
   deploymentStatus?: "Succeeded" | "InProgress" | "Canceled" | "Failed";
   /** Currently installed update on device. */
   installedUpdate?: UpdateInfoOutput;
-  /** Boolean flag indicating whether the latest update is installed on the device */
+  /** Boolean flag indicating whether the latest update (the best compatible update for the device's device class and group) is installed on the device */
   onLatestUpdate: boolean;
   /** The deployment identifier for the last deployment to the device */
   lastDeploymentId?: string;
@@ -288,7 +288,7 @@ export interface GroupsListOutput {
 }
 
 export interface GroupOutput {
-  /** Group identity. */
+  /** Group identity. This is created from the value of the ADUGroup tag in the Iot Hub's device/module twin or $default for devices with no tag. */
   groupId: string;
   /** Group type. */
   groupType: "IoTHubTag" | "DefaultNoTag";
@@ -332,7 +332,7 @@ export interface DeploymentsListOutput {
 }
 
 export interface DeploymentOutput {
-  /** The caller-provided deployment identifier. */
+  /** The caller-provided deployment identifier. This cannot be longer than 73 characters, must be all lower-case, and cannot contain '&', '^', '[', ']', '{', '}', '|', '<', '>', forward slash, backslash, or double quote. The Updates view in the Azure Portal IoT Hub resource generates a GUID for deploymentId when you create a deployment. */
   deploymentId: string;
   /** The deployment start datetime. */
   startDateTime: string;
@@ -406,7 +406,7 @@ export interface DeviceClassSubgroupsListOutput {
 }
 
 export interface DeviceClassSubgroupOutput {
-  /** Device class subgroup identity. */
+  /** Device class subgroup identity. This is generated from the model Id and the compat properties reported by the device update agent in the Device Update PnP interface in IoT Hub. It is a hex-encoded SHA1 hash. */
   deviceClassId: string;
   /** Group identity. */
   groupId: string;

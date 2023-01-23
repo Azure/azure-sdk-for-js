@@ -38,4 +38,10 @@ describe("odata", () => {
     const testString = odata`test string ${testValue}`;
     assert.equal(testString, "test string '\"FooBar\"'");
   });
+
+  it("should not escape property names unnecessarily", () => {
+    const testDate = new Date(1);
+    const testString = odata`test lt ${testDate}`;
+    assert.equal(testString, `test lt datetime'${testDate.toISOString()}'`);
+  });
 });

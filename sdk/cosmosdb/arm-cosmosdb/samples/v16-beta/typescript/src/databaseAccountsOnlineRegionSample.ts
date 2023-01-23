@@ -13,16 +13,19 @@ import {
   CosmosDBManagementClient
 } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Online the specified region for the specified Azure Cosmos DB database account.
  *
  * @summary Online the specified region for the specified Azure Cosmos DB database account.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-05-15-preview/examples/CosmosDBDatabaseAccountOnlineRegion.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBDatabaseAccountOnlineRegion.json
  */
 async function cosmosDbDatabaseAccountOnlineRegion() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
   const regionParameterForOnline: RegionForOnlineOffline = {
     region: ""
@@ -37,4 +40,8 @@ async function cosmosDbDatabaseAccountOnlineRegion() {
   console.log(result);
 }
 
-cosmosDbDatabaseAccountOnlineRegion().catch(console.error);
+async function main() {
+  cosmosDbDatabaseAccountOnlineRegion();
+}
+
+main().catch(console.error);

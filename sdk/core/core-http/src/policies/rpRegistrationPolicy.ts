@@ -10,7 +10,7 @@ import {
 } from "./requestPolicy";
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { WebResourceLike } from "../webResource";
-import { delay } from "../util/delay";
+import { delay } from "@azure/core-util";
 
 export function rpRegistrationPolicy(retryTimeout = 30): RequestPolicyFactory {
   return {

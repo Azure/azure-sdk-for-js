@@ -8,7 +8,7 @@
  */
 
 const AccessControl = require("@azure-rest/synapse-access-control").default,
-  { paginate } = require("@azure-rest/synapse-access-control");
+  { isUnexpected, paginate } = require("@azure-rest/synapse-access-control");
 const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
@@ -18,7 +18,7 @@ async function main() {
   const client = AccessControl(endpoint, new DefaultAzureCredential());
   const initialResponse = await client.path("/roleAssignments").get();
 
-  if (initialResponse.status !== "200") {
+  if (isUnexpected(initialResponse)) {
     throw initialResponse.body.error;
   }
 

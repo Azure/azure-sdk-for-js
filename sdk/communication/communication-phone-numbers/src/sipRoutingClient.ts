@@ -10,9 +10,9 @@ import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-a
 import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
 import { logger } from "./utils";
 import { SipRoutingClient as SipRoutingGeneratedClient } from "./generated/src/siprouting/sipRoutingClient";
-import { CommunicationError, SipConfigurationPatch } from "./generated/src/siprouting/models";
-import { SipTrunk, SipTrunkExpanded, SipTrunkRoute } from "./models";
-import { mapTrunks, mapExpandedTrunks, mapTrunksToRestModel } from "./mappers";
+import { SipConfigurationPatch, SipRoutingError } from "./generated/src/siprouting/models";
+import { SipTrunk, SipTrunkRoute } from "./models";
+import { transformFromRestModel, transformIntoRestModel } from "./mappers";
 import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import { tracingClient } from "./generated/src/tracing";
 
@@ -105,7 +105,7 @@ export class SipRoutingClient {
   public async getTrunks(options: OperationOptions = {}): Promise<SipTrunk[]> {
     return tracingClient.withSpan("SipRoutingClient-getTrunks", options, async (updatedOptions) => {
       const config = await this.client.getSipConfiguration(updatedOptions);
-      return mapTrunks(config.trunks);
+      return transformFromRestModel(config.trunks);
     });
   }
 
@@ -119,10 +119,10 @@ export class SipRoutingClient {
       const trunks = await this.getTrunks(updatedOptions);
       const trunk = trunks.find((value: SipTrunk) => value.fqdn === fqdn);
       if (trunk) {
-        return Promise.resolve(trunk);
+        return trunk;
       }
 
-      throw { code: "NotFound", message: "Not Found" } as CommunicationError;
+      throw { code: "NotFound", message: "Not Found" } as SipRoutingError;
     });
   }
 
@@ -144,9 +144,9 @@ export class SipRoutingClient {
    */
   public async setTrunks(trunks: SipTrunk[], options: OperationOptions = {}): Promise<SipTrunk[]> {
     return tracingClient.withSpan("SipRoutingClient-setTrunks", options, async (updatedOptions) => {
-      const patch: SipConfigurationPatch = { trunks: mapTrunksToRestModel(trunks) };
+      const patch: SipConfigurationPatch = { trunks: transformIntoRestModel(trunks) };
       let config = await this.client.getSipConfiguration(updatedOptions);
-      const storedFqdns = mapTrunks(config.trunks).map((trunk) => trunk.fqdn);
+      const storedFqdns = transformFromRestModel(config.trunks).map((trunk) => trunk.fqdn);
       const setFqdns = trunks.map((trunk) => trunk.fqdn);
       storedFqdns.forEach((storedFqdn) => {
         const shouldDeleteStoredTrunk = !setFqdns.find((value) => value === storedFqdn);
@@ -164,7 +164,7 @@ export class SipRoutingClient {
         config = await this.client.patchSipConfiguration(payload);
       }
 
-      return mapTrunks(config.trunks);
+      return transformFromRestModel(config.trunks);
     });
   }
 
@@ -176,21 +176,21 @@ export class SipRoutingClient {
   public async setTrunk(trunk: SipTrunk, options: OperationOptions = {}): Promise<SipTrunk> {
     return tracingClient.withSpan("SipRoutingClient-setTrunk", options, async (updatedOptions) => {
       const patch: SipConfigurationPatch = {
-        trunks: mapTrunksToRestModel([trunk]),
+        trunks: transformIntoRestModel([trunk]),
       };
       const payload = {
         ...updatedOptions,
         ...patch,
       };
       const config = await this.client.patchSipConfiguration(payload);
-      const storedTrunk = mapTrunks(config.trunks).find(
+      const storedTrunk = transformFromRestModel(config.trunks).find(
         (value: SipTrunk) => value.fqdn === trunk.fqdn
       );
       if (storedTrunk) {
-        return Promise.resolve(storedTrunk);
+        return storedTrunk;
       }
 
-      throw { code: "NotFound", message: "Not Found" } as CommunicationError;
+      throw { code: "NotFound", message: "Not Found" } as SipRoutingError;
     });
   }
 
@@ -241,19 +241,4 @@ export class SipRoutingClient {
       }
     );
   }
-
-  /**
-   * Returns list of the statuses of configured SIP trunks.
-   *
-   * Status of all configured SIP trunks.
-   *
-   * @param options - The optional parameters.
-   */
-  public getExpandedTrunks(options: OperationOptions = {}): Promise<SipTrunkExpanded[]> {
-    const expandedOptions = {...options, expand: "trunkHealth"}
-    return tracingClient.withSpan("SipRoutingClient-getTrunksStatuses", expandedOptions, async (updatedOptions) => {
-      const config = await this.client.getSipConfiguration(updatedOptions);
-      return mapExpandedTrunks(config.trunks);
-    });
-  };
 }

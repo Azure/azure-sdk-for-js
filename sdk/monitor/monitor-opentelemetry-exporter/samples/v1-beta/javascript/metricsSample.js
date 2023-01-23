@@ -3,13 +3,13 @@
 
 /**
  * This example shows how to use
- * [@opentelemetry/sdk-metrics-base](https://github.com/open-telemetry/opentelemetry-js/tree/main/experimental/packages/opentelemetry-sdk-metrics-base)
+ * [@opentelemetry/sdk-metrics](https://github.com/open-telemetry/opentelemetry-js/tree/main/experimental/packages/opentelemetry-sdk-metrics)
  * to generate Metrics in a simple Node.js application and export them to Azure Monitor.
  *
  * @summary Basic use of Metrics in Node.js application.
  */
 
-const { MeterProvider, PeriodicExportingMetricReader } = require("@opentelemetry/sdk-metrics-base");
+const { MeterProvider, PeriodicExportingMetricReader } = require("@opentelemetry/sdk-metrics");
 const { Resource } = require("@opentelemetry/resources");
 const { SemanticResourceAttributes } = require("@opentelemetry/semantic-conventions");
 const { AzureMonitorMetricExporter } = require("@azure/monitor-opentelemetry-exporter");

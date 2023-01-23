@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Migrate an Azure Cosmos DB Cassandra view from manual throughput to autoscale
  *
  * @summary Migrate an Azure Cosmos DB Cassandra view from manual throughput to autoscale
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-05-15-preview/examples/CosmosDBCassandraViewMigrateToAutoscale.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBCassandraViewMigrateToAutoscale.json
  */
 async function cosmosDbCassandraViewMigrateToAutoscale() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
   const keyspaceName = "keyspacename";
   const viewName = "viewname";
@@ -34,4 +35,8 @@ async function cosmosDbCassandraViewMigrateToAutoscale() {
   console.log(result);
 }
 
-cosmosDbCassandraViewMigrateToAutoscale().catch(console.error);
+async function main() {
+  cosmosDbCassandraViewMigrateToAutoscale();
+}
+
+main().catch(console.error);

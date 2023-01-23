@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Lists the Gremlin databases under an existing Azure Cosmos DB database account.
  *
  * @summary Lists the Gremlin databases under an existing Azure Cosmos DB database account.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-05-15-preview/examples/CosmosDBGremlinDatabaseList.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBGremlinDatabaseList.json
  */
 async function cosmosDbGremlinDatabaseList() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rgName";
+  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rgName";
   const accountName = "ddb1";
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
@@ -33,4 +34,8 @@ async function cosmosDbGremlinDatabaseList() {
   console.log(resArray);
 }
 
-cosmosDbGremlinDatabaseList().catch(console.error);
+async function main() {
+  cosmosDbGremlinDatabaseList();
+}
+
+main().catch(console.error);

@@ -13,13 +13,12 @@
  * @azsdk-weight 100
  */
 
-import { createClientContext } from "@azure/notification-hubs/client";
-import { createAppleInstallation } from "@azure/notification-hubs/models/installation";
-import { createOrUpdateInstallation } from "@azure/notification-hubs/client/createOrUpdateInstallation";
+import * as dotenv from "dotenv";
+import { createClientContext, createOrUpdateInstallation } from "@azure/notification-hubs/api";
+import { createAppleInstallation } from "@azure/notification-hubs/models";
 import { v4 as uuid } from "uuid";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
 dotenv.config();
 
 // Define connection string and hub name

@@ -17,19 +17,23 @@ export interface PageSettings {
 /**
  * An interface that allows async iterable iteration both to completion and by page.
  */
-export interface PagedAsyncIterableIterator<T, PageT = T[], PageSettingsT = PageSettings> {
+export interface PagedAsyncIterableIterator<
+  TElement,
+  TPage = TElement[],
+  TPageSettings = PageSettings
+> {
   /**
    * The next method, part of the iteration protocol
    */
-  next(): Promise<IteratorResult<T>>;
+  next(): Promise<IteratorResult<TElement>>;
   /**
    * The connection to the async iterator, part of the iteration protocol
    */
-  [Symbol.asyncIterator](): PagedAsyncIterableIterator<T, PageT, PageSettingsT>;
+  [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
   /**
    * Return an AsyncIterableIterator that works a page at a time
    */
-  byPage: (settings?: PageSettingsT) => AsyncIterableIterator<PageT>;
+  byPage: (settings?: TPageSettings) => AsyncIterableIterator<TPage>;
 }
 
 /**
@@ -46,10 +50,15 @@ export interface PagedResult<TPage, TPageSettings = PageSettings, TLink = string
   getPage: (
     pageLink: TLink,
     maxPageSize?: number
-  ) => Promise<{ page: TPage; nextPageLink?: TLink }>;
+  ) => Promise<{ page: TPage; nextPageLink?: TLink } | undefined>;
   /**
    * a function to implement the `byPage` method on the paged async iterator. The default is
    * one that sets the `maxPageSizeParam` from `settings.maxPageSize`.
    */
   byPage?: (settings?: TPageSettings) => AsyncIterableIterator<TPage>;
+
+  /**
+   * A function to extract elements from a page.
+   */
+  toElements?: (page: TPage) => unknown[];
 }

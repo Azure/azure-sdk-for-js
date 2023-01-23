@@ -8,8 +8,8 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-mediaservices/12.1.0 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "6cf123f3-1076-4c90-bd0d-5731c7b3a555"
+        "User-Agent": "azsdk-js-arm-mediaservices/13.1.0 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "4582d16d-548e-4c96-86c8-c2f7be7149c7"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,7 +17,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; odata.metadata=minimal",
-        "Date": "Fri, 29 Jul 2022 06:43:05 GMT",
+        "Date": "Mon, 16 Jan 2023 09:30:50 GMT",
         "Expires": "-1",
         "OData-Version": "4.0",
         "Pragma": "no-cache",
@@ -26,11 +26,11 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-client-request-id": "6cf123f3-1076-4c90-bd0d-5731c7b3a555",
-        "x-ms-correlation-request-id": "3ba4c516-aa14-4f5c-85b2-5a17b348de1a",
-        "x-ms-ratelimit-remaining-subscription-reads": "11993",
-        "x-ms-request-id": "4c9f2fde-51d8-4311-aa34-b0b34966a368",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220729T064305Z:3ba4c516-aa14-4f5c-85b2-5a17b348de1a"
+        "x-ms-client-request-id": "4582d16d-548e-4c96-86c8-c2f7be7149c7",
+        "x-ms-correlation-request-id": "f51d35a9-7c4e-48a6-a78f-34f19e7a9320",
+        "x-ms-ratelimit-remaining-subscription-reads": "11996",
+        "x-ms-request-id": "64873efb-acbb-4502-b88f-fa9f5db6119a",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230116T093051Z:f51d35a9-7c4e-48a6-a78f-34f19e7a9320"
       },
       "ResponseBody": {
         "value": [
@@ -40,7 +40,7 @@
             "type": "Microsoft.Media/mediaservices",
             "location": "East US",
             "properties": {
-              "mediaServiceId": "6f82db32-f2cf-4cf8-b461-993d62c3f653",
+              "mediaServiceId": "e5db1d3a-33c1-457d-81c1-838033d77616",
               "storageAccounts": [
                 {
                   "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Storage/storageAccounts/mystorageaccountxxx111",

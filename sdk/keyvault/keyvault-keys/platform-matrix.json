@@ -9,7 +9,7 @@
         }
       },
       "TestType": "node",
-      "NodeTestVersion": "12.x"
+      "NodeTestVersion": "14.x"
     },
     {
       "Agent": {
@@ -19,7 +19,7 @@
         }
       },
       "TestType": "node",
-      "NodeTestVersion": "14.x",
+      "NodeTestVersion": "16.x",
       "ServiceVersion": ["7.0", "7.1", "7.2"]
     }
   ],

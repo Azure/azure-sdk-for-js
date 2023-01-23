@@ -13,16 +13,19 @@ import {
   CosmosDBManagementClient
 } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create or update an Azure Cosmos DB SQL trigger
  *
  * @summary Create or update an Azure Cosmos DB SQL trigger
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-05-15-preview/examples/CosmosDBSqlTriggerCreateUpdate.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBSqlTriggerCreateUpdate.json
  */
 async function cosmosDbSqlTriggerCreateUpdate() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
   const databaseName = "databaseName";
   const containerName = "containerName";
@@ -49,4 +52,8 @@ async function cosmosDbSqlTriggerCreateUpdate() {
   console.log(result);
 }
 
-cosmosDbSqlTriggerCreateUpdate().catch(console.error);
+async function main() {
+  cosmosDbSqlTriggerCreateUpdate();
+}
+
+main().catch(console.error);

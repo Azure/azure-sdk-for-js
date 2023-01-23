@@ -5,15 +5,20 @@ import { assert } from "chai";
 import { Context } from "mocha";
 
 import {
-  MetricsAdvisorAdministrationClient,
-  WebNotificationHook,
   EmailNotificationHook,
   EmailNotificationHookPatch,
+  MetricsAdvisorAdministrationClient,
+  WebNotificationHook,
   WebNotificationHookPatch,
 } from "../../src";
 import { createRecordedAdminClient, makeCredential } from "./util/recordedClients";
 import { Recorder } from "@azure-tools/test-recorder";
-import { matrix, getYieldedValue } from "@azure/test-utils";
+import {
+  fakeTestPassPlaceholder,
+  fakeTestSecretPlaceholder,
+  getYieldedValue,
+  matrix,
+} from "@azure/test-utils";
 
 matrix([[true, false]] as const, async (useAad) => {
   describe(`[${useAad ? "AAD" : "API Key"}]`, () => {
@@ -63,7 +68,7 @@ matrix([[true, false]] as const, async (useAad) => {
           hookParameter: {
             endpoint: "https://httpbin.org/post",
             username: "user",
-            password: "pass",
+            password: fakeTestPassPlaceholder,
           },
         };
         const created = await client.createHook(hook);
@@ -93,7 +98,7 @@ matrix([[true, false]] as const, async (useAad) => {
           hookParameter: {
             endpoint: "https://httpbin.org/post",
             username: "user1",
-            password: "SecretPlaceholder",
+            password: fakeTestSecretPlaceholder,
           },
         };
         const updated = await client.updateHook(createdWebHookId, webPatch);

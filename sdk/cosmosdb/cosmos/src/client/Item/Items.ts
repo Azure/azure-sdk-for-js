@@ -501,7 +501,7 @@ export class Items {
     operations: OperationInput[],
     partitionKey: string = "[{}]",
     options?: RequestOptions
-  ): Promise<Response<any>> {
+  ): Promise<Response<OperationResponse[]>> {
     operations.map((operation) => decorateBatchOperation(operation, options));
 
     const path = getPathFromLink(this.container.url, ResourceType.item);
@@ -510,7 +510,7 @@ export class Items {
       throw new Error("Cannot run batch request with more than 100 operations per partition");
     }
     try {
-      const response = await this.clientContext.batch({
+      const response: Response<OperationResponse[]> = await this.clientContext.batch({
         body: operations,
         partitionKey,
         path,

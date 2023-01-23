@@ -46,7 +46,7 @@ describe("Key Vault Admin's user agent", function () {
       version = fileContents.version;
     } catch {
       const fileContents = JSON.parse(
-        fs.readFileSync(path.join(__dirname, "../../../../package.json"), { encoding: "utf-8" })
+        fs.readFileSync(path.join(__dirname, "../../../package.json"), { encoding: "utf-8" })
       );
       version = fileContents.version;
     }

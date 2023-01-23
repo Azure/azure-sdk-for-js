@@ -10,16 +10,19 @@
 // Licensed under the MIT License.
 import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Lists the Cassandra table under an existing Azure Cosmos DB database account.
  *
  * @summary Lists the Cassandra table under an existing Azure Cosmos DB database account.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-05-15-preview/examples/CosmosDBCassandraTableList.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBCassandraTableList.json
  */
 async function cosmosDbCassandraTableList() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rgName";
+  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rgName";
   const accountName = "ddb1";
   const keyspaceName = "keyspaceName";
   const credential = new DefaultAzureCredential();
@@ -35,4 +38,8 @@ async function cosmosDbCassandraTableList() {
   console.log(resArray);
 }
 
-cosmosDbCassandraTableList().catch(console.error);
+async function main() {
+  cosmosDbCassandraTableList();
+}
+
+main().catch(console.error);

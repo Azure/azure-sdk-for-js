@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Compute/virtualMachines/virtualmachinex?api-version=2022-03-01",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Compute/virtualMachines/virtualmachinex?api-version=2022-11-01",
       "RequestMethod": "PATCH",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -10,8 +10,8 @@
         "Connection": "keep-alive",
         "Content-Length": "214",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-arm-compute/19.1.0 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "57c64635-a678-44e3-bfa8-66262205b09c"
+        "User-Agent": "azsdk-js-arm-compute/20.0.0 core-rest-pipeline/1.10.1 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "b72cd3dd-6549-4791-9911-bf9f9bedba9a"
       },
       "RequestBody": {
         "properties": {
@@ -29,10 +29,12 @@
       },
       "StatusCode": 200,
       "ResponseHeaders": {
+        "Azure-AsyncNotification": "Enabled",
+        "Azure-AsyncOperation": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.Compute/locations/eastus/operations/1af53af3-7845-46c2-b6ae-c91d739cf06b?p=f8cfeb74-5cf7-40e0-89b1-3d95a1060fe7\u0026api-version=2022-11-01",
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 27 Jun 2022 07:43:22 GMT",
+        "Date": "Fri, 06 Jan 2023 06:06:10 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": [
@@ -43,15 +45,15 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "f756f78b-ddd5-4328-8e09-2f3084311ca5",
-        "x-ms-ratelimit-remaining-resource": "Microsoft.Compute/PutVM3Min;238,Microsoft.Compute/PutVM30Min;1187",
+        "x-ms-correlation-request-id": "eff89128-c25f-4968-a61d-a6b991a171af",
+        "x-ms-ratelimit-remaining-resource": "Microsoft.Compute/PutVM3Min;236,Microsoft.Compute/PutVM30Min;1182",
         "x-ms-ratelimit-remaining-subscription-writes": "1193",
-        "x-ms-request-id": "b756b2ae-34a4-48a6-a56f-fbc84b0a7399",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220627T074322Z:f756f78b-ddd5-4328-8e09-2f3084311ca5"
+        "x-ms-request-id": "1af53af3-7845-46c2-b6ae-c91d739cf06b",
+        "x-ms-routing-request-id": "KOREASOUTH:20230106T060610Z:eff89128-c25f-4968-a61d-a6b991a171af"
       },
       "ResponseBody": {
         "name": "virtualmachinex",
-        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Compute/virtualMachines/virtualmachinex",
+        "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Compute/virtualMachines/virtualmachinex",
         "type": "Microsoft.Compute/virtualMachines",
         "location": "eastus",
         "tags": {
@@ -59,7 +61,7 @@
           "platformsettings.host_environment.service.platform_optedin_for_rootcerts": "true"
         },
         "properties": {
-          "vmId": "1716fcad-9750-4b6a-a92c-cb590422849b",
+          "vmId": "7b3df10f-2564-468f-a1b4-d57cdea6acb5",
           "hardwareProfile": {
             "vmSize": "Standard_D2_v2"
           },
@@ -69,7 +71,7 @@
               "offer": "WindowsServer",
               "sku": "2016-Datacenter",
               "version": "latest",
-              "exactVersion": "14393.5192.220612"
+              "exactVersion": "14393.5582.221207"
             },
             "osDisk": {
               "osType": "Windows",
@@ -78,7 +80,7 @@
               "caching": "ReadWrite",
               "managedDisk": {
                 "storageAccountType": "Standard_LRS",
-                "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Compute/disks/myVMosdisk"
+                "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Compute/disks/myVMosdisk"
               },
               "deleteOption": "Detach",
               "diskSizeGB": 127
@@ -86,12 +88,12 @@
             "dataDisks": [
               {
                 "lun": 0,
-                "name": "virtualmachinex_disk2_1f02e8e7bfda4b19a8733ed3964460ad",
+                "name": "virtualmachinex_disk2_dece6b76277945daa291a30d0a7c7a0c",
                 "createOption": "Empty",
                 "caching": "None",
                 "managedDisk": {
                   "storageAccountType": "Standard_LRS",
-                  "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Compute/disks/virtualmachinex_disk2_1f02e8e7bfda4b19a8733ed3964460ad"
+                  "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Compute/disks/virtualmachinex_disk2_dece6b76277945daa291a30d0a7c7a0c"
                 },
                 "deleteOption": "Detach",
                 "diskSizeGB": 1023,
@@ -99,12 +101,12 @@
               },
               {
                 "lun": 1,
-                "name": "virtualmachinex_disk3_f6791349105b4f41b28e782bb1bc0e92",
+                "name": "virtualmachinex_disk3_0489e7cff4de4582890719b69d329c40",
                 "createOption": "Empty",
                 "caching": "None",
                 "managedDisk": {
                   "storageAccountType": "Standard_LRS",
-                  "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Compute/disks/virtualmachinex_disk3_f6791349105b4f41b28e782bb1bc0e92"
+                  "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Compute/disks/virtualmachinex_disk3_0489e7cff4de4582890719b69d329c40"
                 },
                 "deleteOption": "Detach",
                 "diskSizeGB": 1023,
@@ -131,7 +133,7 @@
           "networkProfile": {
             "networkInterfaces": [
               {
-                "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/networkInterfaces/interfacex",
+                "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Network/networkInterfaces/interfacex",
                 "properties": {
                   "primary": true
                 }
@@ -139,12 +141,12 @@
             ]
           },
           "provisioningState": "Updating",
-          "timeCreated": "2022-06-27T07:40:40.6698336\u002B00:00"
+          "timeCreated": "2023-01-06T06:04:19.6969519\u002B00:00"
         }
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Compute/virtualMachines/virtualmachinex?api-version=2022-03-01",
+      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.Compute/locations/eastus/operations/1af53af3-7845-46c2-b6ae-c91d739cf06b?p=f8cfeb74-5cf7-40e0-89b1-3d95a1060fe7\u0026api-version=2022-11-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -152,8 +154,8 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-arm-compute/19.1.0 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "41d696f1-f7d0-4361-b092-2c58fae819f5"
+        "User-Agent": "azsdk-js-arm-compute/20.0.0 core-rest-pipeline/1.10.1 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "dc6924fb-e15c-42cf-ab90-9415699676b4"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -161,7 +163,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 27 Jun 2022 07:43:23 GMT",
+        "Date": "Fri, 06 Jan 2023 06:06:10 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": [
@@ -172,15 +174,56 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "97278fa5-cb49-4be1-af4a-de9efb371faf",
-        "x-ms-ratelimit-remaining-resource": "Microsoft.Compute/LowCostGet3Min;3994,Microsoft.Compute/LowCostGet30Min;31984",
-        "x-ms-ratelimit-remaining-subscription-reads": "11985",
-        "x-ms-request-id": "ccaa925d-acae-449a-ba8e-3c9fa682a772",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220627T074323Z:97278fa5-cb49-4be1-af4a-de9efb371faf"
+        "x-ms-correlation-request-id": "1adc47fe-7a64-47d7-9e2c-ae1970188d3f",
+        "x-ms-ratelimit-remaining-resource": "Microsoft.Compute/GetOperation3Min;14994,Microsoft.Compute/GetOperation30Min;29951",
+        "x-ms-ratelimit-remaining-subscription-reads": "11981",
+        "x-ms-request-id": "1a5593b0-5608-4910-904e-f77c41ccb761",
+        "x-ms-routing-request-id": "KOREASOUTH:20230106T060611Z:1adc47fe-7a64-47d7-9e2c-ae1970188d3f"
+      },
+      "ResponseBody": {
+        "startTime": "2023-01-06T06:06:09.1183587\u002B00:00",
+        "endTime": "2023-01-06T06:06:09.274606\u002B00:00",
+        "status": "Succeeded",
+        "name": "1af53af3-7845-46c2-b6ae-c91d739cf06b"
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Compute/virtualMachines/virtualmachinex?api-version=2022-11-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-compute/20.0.0 core-rest-pipeline/1.10.1 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "b2f234ff-c455-468e-a157-8abbcbd533cf"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 06 Jan 2023 06:06:11 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": [
+          "Microsoft-HTTPAPI/2.0",
+          "Microsoft-HTTPAPI/2.0"
+        ],
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "b73d6d26-fefd-4922-a49d-b8d38d6316d0",
+        "x-ms-ratelimit-remaining-resource": "Microsoft.Compute/LowCostGet3Min;3993,Microsoft.Compute/LowCostGet30Min;31951",
+        "x-ms-ratelimit-remaining-subscription-reads": "11980",
+        "x-ms-request-id": "fa8884ca-c906-4329-b792-7f9597360dc6",
+        "x-ms-routing-request-id": "KOREASOUTH:20230106T060612Z:b73d6d26-fefd-4922-a49d-b8d38d6316d0"
       },
       "ResponseBody": {
         "name": "virtualmachinex",
-        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Compute/virtualMachines/virtualmachinex",
+        "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Compute/virtualMachines/virtualmachinex",
         "type": "Microsoft.Compute/virtualMachines",
         "location": "eastus",
         "tags": {
@@ -188,7 +231,7 @@
           "platformsettings.host_environment.service.platform_optedin_for_rootcerts": "true"
         },
         "properties": {
-          "vmId": "1716fcad-9750-4b6a-a92c-cb590422849b",
+          "vmId": "7b3df10f-2564-468f-a1b4-d57cdea6acb5",
           "hardwareProfile": {
             "vmSize": "Standard_D2_v2"
           },
@@ -198,7 +241,7 @@
               "offer": "WindowsServer",
               "sku": "2016-Datacenter",
               "version": "latest",
-              "exactVersion": "14393.5192.220612"
+              "exactVersion": "14393.5582.221207"
             },
             "osDisk": {
               "osType": "Windows",
@@ -207,7 +250,7 @@
               "caching": "ReadWrite",
               "managedDisk": {
                 "storageAccountType": "Standard_LRS",
-                "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Compute/disks/myVMosdisk"
+                "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Compute/disks/myVMosdisk"
               },
               "deleteOption": "Detach",
               "diskSizeGB": 127
@@ -215,12 +258,12 @@
             "dataDisks": [
               {
                 "lun": 0,
-                "name": "virtualmachinex_disk2_1f02e8e7bfda4b19a8733ed3964460ad",
+                "name": "virtualmachinex_disk2_dece6b76277945daa291a30d0a7c7a0c",
                 "createOption": "Empty",
                 "caching": "None",
                 "managedDisk": {
                   "storageAccountType": "Standard_LRS",
-                  "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Compute/disks/virtualmachinex_disk2_1f02e8e7bfda4b19a8733ed3964460ad"
+                  "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Compute/disks/virtualmachinex_disk2_dece6b76277945daa291a30d0a7c7a0c"
                 },
                 "deleteOption": "Detach",
                 "diskSizeGB": 1023,
@@ -228,12 +271,12 @@
               },
               {
                 "lun": 1,
-                "name": "virtualmachinex_disk3_f6791349105b4f41b28e782bb1bc0e92",
+                "name": "virtualmachinex_disk3_0489e7cff4de4582890719b69d329c40",
                 "createOption": "Empty",
                 "caching": "None",
                 "managedDisk": {
                   "storageAccountType": "Standard_LRS",
-                  "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Compute/disks/virtualmachinex_disk3_f6791349105b4f41b28e782bb1bc0e92"
+                  "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Compute/disks/virtualmachinex_disk3_0489e7cff4de4582890719b69d329c40"
                 },
                 "deleteOption": "Detach",
                 "diskSizeGB": 1023,
@@ -260,7 +303,7 @@
           "networkProfile": {
             "networkInterfaces": [
               {
-                "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/networkInterfaces/interfacex",
+                "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Network/networkInterfaces/interfacex",
                 "properties": {
                   "primary": true
                 }
@@ -268,7 +311,7 @@
             ]
           },
           "provisioningState": "Succeeded",
-          "timeCreated": "2022-06-27T07:40:40.6698336\u002B00:00"
+          "timeCreated": "2023-01-06T06:04:19.6969519\u002B00:00"
         }
       }
     }

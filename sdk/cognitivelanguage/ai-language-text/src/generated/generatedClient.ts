@@ -7,7 +7,6 @@
  */
 
 import * as coreClient from "@azure/core-client";
-import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
@@ -21,7 +20,10 @@ import {
   GeneratedClientOptionalParams,
   AnalyzeActionUnion,
   AnalyzeOptionalParams,
-  AnalyzeResponse
+  AnalyzeResponse,
+  AnalyzeTextJobsInput,
+  AnalyzeBatchOptionalParams,
+  AnalyzeBatchResponse
 } from "./models";
 
 /** @internal */
@@ -48,7 +50,7 @@ export class GeneratedClient extends coreClient.ServiceClient {
       requestContentType: "application/json; charset=utf-8"
     };
 
-    const packageDetails = `azsdk-js-ai-language-text/1.0.0-beta.1`;
+    const packageDetails = `azsdk-js-ai-language-text/1.1.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -63,34 +65,11 @@ export class GeneratedClient extends coreClient.ServiceClient {
       baseUri: options.endpoint ?? options.baseUri ?? "{Endpoint}/language"
     };
     super(optionsWithDefaults);
-
-    if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
-      const bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
-        (pipelinePolicy) =>
-          pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
-      );
-      if (!bearerTokenAuthenticationPolicyFound) {
-        this.pipeline.removePolicy({
-          name: coreRestPipeline.bearerTokenAuthenticationPolicyName
-        });
-        this.pipeline.addPolicy(
-          coreRestPipeline.bearerTokenAuthenticationPolicy({
-            scopes: `${optionsWithDefaults.baseUri}/.default`,
-            challengeCallbacks: {
-              authorizeRequestOnChallenge:
-                coreClient.authorizeRequestOnClaimChallenge
-            }
-          })
-        );
-      }
-    }
     // Parameter assignments
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2022-04-01-preview";
+    this.apiVersion = options.apiVersion || "2022-10-01-preview";
     this.analyzeText = new AnalyzeTextImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
@@ -136,6 +115,22 @@ export class GeneratedClient extends coreClient.ServiceClient {
     return this.sendOperationRequest({ body, options }, analyzeOperationSpec);
   }
 
+  /**
+   * Submit a collection of text documents for analysis. Specify one or more unique tasks to be executed
+   * as a long-running operation.
+   * @param body Collection of documents to analyze and one or more tasks to execute.
+   * @param options The options parameters.
+   */
+  analyzeBatch(
+    body: AnalyzeTextJobsInput,
+    options?: AnalyzeBatchOptionalParams
+  ): Promise<AnalyzeBatchResponse> {
+    return this.sendOperationRequest(
+      { body, options },
+      analyzeBatchOperationSpec
+    );
+  }
+
   analyzeText: AnalyzeText;
 }
 // Operation Specifications
@@ -154,6 +149,24 @@ const analyzeOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: Parameters.body,
   queryParameters: [Parameters.apiVersion, Parameters.includeStatistics],
+  urlParameters: [Parameters.endpoint],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer
+};
+const analyzeBatchOperationSpec: coreClient.OperationSpec = {
+  path: "/analyze-text/jobs",
+  httpMethod: "POST",
+  responses: {
+    202: {
+      headersMapper: Mappers.GeneratedClientAnalyzeBatchHeaders
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.body1,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",

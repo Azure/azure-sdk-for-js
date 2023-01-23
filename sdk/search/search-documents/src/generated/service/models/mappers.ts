@@ -2816,7 +2816,7 @@ export const CustomEntityAlias: coreClient.CompositeMapper = {
 };
 
 export const SearchIndexerDataNoneIdentity: coreClient.CompositeMapper = {
-  serializedName: "#Microsoft.Azure.Search.SearchIndexerDataNoneIdentity",
+  serializedName: "#Microsoft.Azure.Search.DataNoneIdentity",
   type: {
     name: "Composite",
     className: "SearchIndexerDataNoneIdentity",
@@ -2830,8 +2830,7 @@ export const SearchIndexerDataNoneIdentity: coreClient.CompositeMapper = {
 };
 
 export const SearchIndexerDataUserAssignedIdentity: coreClient.CompositeMapper = {
-  serializedName:
-    "#Microsoft.Azure.Search.SearchIndexerDataUserAssignedIdentity",
+  serializedName: "#Microsoft.Azure.Search.DataUserAssignedIdentity",
   type: {
     name: "Composite",
     className: "SearchIndexerDataUserAssignedIdentity",
@@ -5545,8 +5544,8 @@ export let discriminators = {
   CharFilter: CharFilter,
   LexicalNormalizer: LexicalNormalizer,
   Similarity: Similarity,
-  "SearchIndexerDataIdentity.#Microsoft.Azure.Search.SearchIndexerDataNoneIdentity": SearchIndexerDataNoneIdentity,
-  "SearchIndexerDataIdentity.#Microsoft.Azure.Search.SearchIndexerDataUserAssignedIdentity": SearchIndexerDataUserAssignedIdentity,
+  "SearchIndexerDataIdentity.#Microsoft.Azure.Search.DataNoneIdentity": SearchIndexerDataNoneIdentity,
+  "SearchIndexerDataIdentity.#Microsoft.Azure.Search.DataUserAssignedIdentity": SearchIndexerDataUserAssignedIdentity,
   "DataChangeDetectionPolicy.#Microsoft.Azure.Search.HighWaterMarkChangeDetectionPolicy": HighWaterMarkChangeDetectionPolicy,
   "DataChangeDetectionPolicy.#Microsoft.Azure.Search.SqlIntegratedChangeTrackingPolicy": SqlIntegratedChangeTrackingPolicy,
   "DataDeletionDetectionPolicy.#Microsoft.Azure.Search.SoftDeleteColumnDeletionDetectionPolicy": SoftDeleteColumnDeletionDetectionPolicy,

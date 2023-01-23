@@ -13,7 +13,8 @@ export const fieldIdToName: Record<
   technology: "Technology",
   iconUrl: "iconUrl",
 
-  resourceId: "Azure API Management resource ID",
+  resourceId:
+    "Azure API Management resource ID (following format: subscriptions/<subscription-id>/resourceGroups/<resource-group-name>/providers/Microsoft.ApiManagement/service/<api-management service-name>)",
   managementApiEndpoint: "Management API hostname",
   apiVersion: "Management API version",
 
@@ -80,12 +81,7 @@ export const validateDeployConfig: Validate<DeploymentConfig> = {
       ? true
       : "Resource ID needs to be a valid Azure resource ID. For example, subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso-group/providers/Microsoft.ApiManagement/service/contoso-apis.";
   },
-  managementApiEndpoint: (input) => {
-    const required = validateRequired(fieldIdToName.managementApiEndpoint)(input);
-    if (required !== true) return required;
-
-    return validateUrl(fieldIdToName.managementApiEndpoint)(input);
-  },
+  managementApiEndpoint: (input) => validateRequired(fieldIdToName.managementApiEndpoint)(input),
 };
 
 export const validateMiscConfig: Validate<Options> = {
@@ -129,9 +125,16 @@ export const promptDeployConfig = (partial: Partial<DeploymentConfig>): Promise<
       },
       {
         name: "managementApiEndpoint",
-        type: "input",
-        message: fieldIdToName.managementApiEndpoint, // (e.g., management.azure.com for the public Azure cloud)
-        default: "management.azure.com",
+        type: "list",
+        message: fieldIdToName.managementApiEndpoint,
+        choices: [
+          {
+            name: "management.azure.com (if you're not sure what to select, use this option)",
+            value: "management.azure.com",
+          },
+          { name: "management.usgovcloudapi.net", value: "management.usgovcloudapi.net" },
+          { name: "management.chinacloudapi.cn", value: "management.chinacloudapi.cn" },
+        ],
         transformer: prefixUrlProtocol,
         validate: validateDeployConfig.managementApiEndpoint,
       },

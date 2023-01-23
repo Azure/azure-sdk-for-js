@@ -424,6 +424,22 @@ export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
   }
 };
 
+export const Sku: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Sku",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const Trial: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -492,22 +508,6 @@ export const PrivateCloudList: coreClient.CompositeMapper = {
       nextLink: {
         serializedName: "nextLink",
         readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const Sku: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "Sku",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        required: true,
         type: {
           name: "String"
         }
@@ -807,6 +807,13 @@ export const EncryptionKeyVaultProperties: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      autoDetectedKeyVersion: {
+        serializedName: "autoDetectedKeyVersion",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
       keyVaultUrl: {
         serializedName: "keyVaultUrl",
         type: {
@@ -1008,6 +1015,55 @@ export const ClusterUpdate: coreClient.CompositeMapper = {
   }
 };
 
+export const ClusterZoneList: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ClusterZoneList",
+    modelProperties: {
+      zones: {
+        serializedName: "zones",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ClusterZone"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ClusterZone: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ClusterZone",
+    modelProperties: {
+      hosts: {
+        serializedName: "hosts",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      zone: {
+        serializedName: "zone",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const DatastoreList: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1199,6 +1255,35 @@ export const GlobalReachConnectionList: coreClient.CompositeMapper = {
             type: {
               name: "Composite",
               className: "GlobalReachConnection"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const WorkloadNetworkList: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "WorkloadNetworkList",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "WorkloadNetwork"
             }
           }
         }
@@ -1799,6 +1884,18 @@ export const PlacementPolicyUpdate: coreClient.CompositeMapper = {
             }
           }
         }
+      },
+      affinityStrength: {
+        serializedName: "properties.affinityStrength",
+        type: {
+          name: "String"
+        }
+      },
+      azureHybridBenefitType: {
+        serializedName: "properties.azureHybridBenefitType",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -2060,6 +2157,13 @@ export const PrivateCloudProperties: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "Circuit"
+        }
+      },
+      nsxPublicIpQuotaRaised: {
+        serializedName: "nsxPublicIpQuotaRaised",
+        readOnly: true,
+        type: {
+          name: "String"
         }
       }
     }
@@ -2486,6 +2590,25 @@ export const AddonHcxProperties: coreClient.CompositeMapper = {
   }
 };
 
+export const AddonArcProperties: coreClient.CompositeMapper = {
+  serializedName: "Arc",
+  type: {
+    name: "Composite",
+    className: "AddonArcProperties",
+    uberParent: "AddonProperties",
+    polymorphicDiscriminator: AddonProperties.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...AddonProperties.type.modelProperties,
+      vCenter: {
+        serializedName: "vCenter",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const VmPlacementPolicyProperties: coreClient.CompositeMapper = {
   serializedName: "VmVm",
   type: {
@@ -2556,6 +2679,18 @@ export const VmHostPlacementPolicyProperties: coreClient.CompositeMapper = {
       affinityType: {
         serializedName: "affinityType",
         required: true,
+        type: {
+          name: "String"
+        }
+      },
+      affinityStrength: {
+        serializedName: "affinityStrength",
+        type: {
+          name: "String"
+        }
+      },
+      azureHybridBenefitType: {
+        serializedName: "azureHybridBenefitType",
         type: {
           name: "String"
         }
@@ -2782,7 +2917,24 @@ export const PrivateCloud: coreClient.CompositeMapper = {
           name: "Composite",
           className: "Circuit"
         }
+      },
+      nsxPublicIpQuotaRaised: {
+        serializedName: "properties.nsxPublicIpQuotaRaised",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
       }
+    }
+  }
+};
+
+export const WorkloadNetwork: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "WorkloadNetwork",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties
     }
   }
 };
@@ -3234,6 +3386,20 @@ export const ScriptPackage: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      company: {
+        serializedName: "properties.company",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      uri: {
+        serializedName: "properties.uri",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -3428,6 +3594,7 @@ export let discriminators = {
   "AddonProperties.SRM": AddonSrmProperties,
   "AddonProperties.VR": AddonVrProperties,
   "AddonProperties.HCX": AddonHcxProperties,
+  "AddonProperties.Arc": AddonArcProperties,
   "PlacementPolicyProperties.VmVm": VmPlacementPolicyProperties,
   "PlacementPolicyProperties.VmHost": VmHostPlacementPolicyProperties,
   "ScriptExecutionParameter.SecureValue": ScriptSecureStringExecutionParameter,

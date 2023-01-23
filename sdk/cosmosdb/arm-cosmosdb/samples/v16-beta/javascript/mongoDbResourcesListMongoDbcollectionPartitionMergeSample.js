@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Merges the partitions of a MongoDB Collection
  *
  * @summary Merges the partitions of a MongoDB Collection
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-05-15-preview/examples/CosmosDBMongoDBCollectionPartitionMerge.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBMongoDBCollectionPartitionMerge.json
  */
 async function cosmosDbMongoDbcollectionPartitionMerge() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rgName";
+  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rgName";
   const accountName = "ddb1";
   const databaseName = "databaseName";
   const collectionName = "collectionName";
@@ -36,4 +37,8 @@ async function cosmosDbMongoDbcollectionPartitionMerge() {
   console.log(result);
 }
 
-cosmosDbMongoDbcollectionPartitionMerge().catch(console.error);
+async function main() {
+  cosmosDbMongoDbcollectionPartitionMerge();
+}
+
+main().catch(console.error);

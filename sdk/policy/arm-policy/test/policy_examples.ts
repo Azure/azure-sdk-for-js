@@ -17,7 +17,7 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
 import { Context } from "mocha";
 import { PolicyClient } from "../src/policyClient";
-//import { ManagementGroupsAPI } from "@azure/arm-managementgroups";
+import { ManagementGroupsAPI } from "@azure/arm-managementgroups";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -44,7 +44,7 @@ describe("Policy test", () => {
   let policyName: string;
   let scope: string;
   let policyAssignmentName: string;
-  //let managementclient: ManagementGroupsAPI;
+  let managementclient: ManagementGroupsAPI;
 
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
@@ -53,7 +53,7 @@ describe("Policy test", () => {
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new PolicyClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    //managementclient = new ManagementGroupsAPI(credential)
+    managementclient = new ManagementGroupsAPI(credential, recorder.configureClientOptions({}))
     location = "eastus";
     resourceGroup = "myjstest";
     groupId = "20000000-0001-0000-0000-000000000123";
@@ -67,10 +67,10 @@ describe("Policy test", () => {
   });
 
   it("policyDefinitions create test", async function () {
-    //const result = await managementclient.managementGroups.beginCreateOrUpdateAndWait(
-      //groupId,
-      //{ name: groupId }
-    //)
+    const result = await managementclient.managementGroups.beginCreateOrUpdateAndWait(
+      groupId,
+      { name: groupId }
+    )
 
     const res = await client.policyDefinitions.createOrUpdateAtManagementGroup(policyName, groupId, {
       policyType: "Custom",

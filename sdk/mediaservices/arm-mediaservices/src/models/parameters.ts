@@ -95,7 +95,7 @@ export const accountName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-11-01",
+    defaultValue: "2022-08-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -142,6 +142,18 @@ export const nextLink: OperationURLParameter = {
     }
   },
   skipEncoding: true
+};
+
+export const apiVersion1: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2021-11-01",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
 };
 
 export const parameters1: OperationParameter = {
@@ -295,6 +307,18 @@ export const parameters11: OperationParameter = {
   mapper: ContentKeyPolicyMapper
 };
 
+export const apiVersion2: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2022-07-01",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const transformName: OperationURLParameter = {
   parameterPath: "transformName",
   mapper: {
@@ -393,6 +417,20 @@ export const autoStart: OperationQueryParameter = {
 export const parameters17: OperationParameter = {
   parameterPath: "parameters",
   mapper: LiveEventActionInputMapper
+};
+
+export const operationId1: OperationURLParameter = {
+  parameterPath: "operationId",
+  mapper: {
+    constraints: {
+      MinLength: 1
+    },
+    serializedName: "operationId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
 };
 
 export const liveOutputName: OperationURLParameter = {

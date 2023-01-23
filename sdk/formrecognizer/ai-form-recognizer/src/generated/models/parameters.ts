@@ -29,9 +29,6 @@ export const contentType: OperationParameter = {
       allowedValues: [
         "application/octet-stream",
         "application/pdf",
-        "application/vnd.openxmlformats-officedocument.presentationml.presentation",
-        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
         "image/bmp",
         "image/heif",
         "image/jpeg",
@@ -67,7 +64,7 @@ export const accept: OperationParameter = {
 export const contentType1: OperationParameter = {
   parameterPath: "contentType",
   mapper: {
-    defaultValue: "text/html",
+    defaultValue: "application/json",
     isConstant: true,
     serializedName: "Content-Type",
     type: {
@@ -78,44 +75,10 @@ export const contentType1: OperationParameter = {
 
 export const analyzeRequest1: OperationParameter = {
   parameterPath: ["options", "analyzeRequest"],
-  mapper: {
-    serializedName: "analyzeRequest",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const accept1: OperationParameter = {
-  parameterPath: "accept",
-  mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Accept",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const contentType2: OperationParameter = {
-  parameterPath: "contentType",
-  mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Content-Type",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const analyzeRequest2: OperationParameter = {
-  parameterPath: ["options", "analyzeRequest"],
   mapper: AnalyzeDocumentRequestMapper
 };
 
-export const accept2: OperationParameter = {
+export const accept1: OperationParameter = {
   parameterPath: "accept",
   mapper: {
     defaultValue: "application/json",
@@ -189,7 +152,7 @@ export const stringIndexType: OperationQueryParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-06-30-preview",
+    defaultValue: "2022-08-31",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -209,7 +172,7 @@ export const resultId: OperationURLParameter = {
   }
 };
 
-export const contentType3: OperationParameter = {
+export const contentType2: OperationParameter = {
   parameterPath: ["options", "contentType"],
   mapper: {
     defaultValue: "application/json",

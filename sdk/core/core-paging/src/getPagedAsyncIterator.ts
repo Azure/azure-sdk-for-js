@@ -10,6 +10,7 @@ import { PageSettings, PagedAsyncIterableIterator, PagedResult } from "./models"
  * @param pagedResult - an object that specifies how to get pages.
  * @returns a paged async iterator that iterates over results.
  */
+
 export function getPagedAsyncIterator<
   TElement,
   TPage = TElement[],
@@ -28,13 +29,13 @@ export function getPagedAsyncIterator<
     },
     byPage:
       pagedResult?.byPage ??
-      ((settings?: PageSettings) => {
+      (((settings?: PageSettings) => {
         const { continuationToken, maxPageSize } = settings ?? {};
-        return getPageAsyncIterator(pagedResult as PagedResult<TPage, PageSettings, TLink>, {
+        return getPageAsyncIterator(pagedResult, {
           pageLink: continuationToken as unknown as TLink | undefined,
           maxPageSize,
         });
-      }),
+      }) as unknown as (settings?: TPageSettings) => AsyncIterableIterator<TPage>),
   };
 }
 
@@ -45,9 +46,18 @@ async function* getItemAsyncIterator<TElement, TPage, TLink, TPageSettings>(
   const firstVal = await pages.next();
   // if the result does not have an array shape, i.e. TPage = TElement, then we return it as is
   if (!Array.isArray(firstVal.value)) {
-    yield firstVal.value;
-    // `pages` is of type `AsyncIterableIterator<TPage>` but TPage = TElement in this case
-    yield* pages as unknown as AsyncIterableIterator<TElement>;
+    // can extract elements from this page
+    const { toElements } = pagedResult;
+    if (toElements) {
+      yield* toElements(firstVal.value) as TElement[];
+      for await (const page of pages) {
+        yield* toElements(page) as TElement[];
+      }
+    } else {
+      yield firstVal.value;
+      // `pages` is of type `AsyncIterableIterator<TPage>` but TPage = TElement in this case
+      yield* pages as unknown as AsyncIterableIterator<TElement>;
+    }
   } else {
     yield* firstVal.value;
     for await (const page of pages) {
@@ -67,9 +77,15 @@ async function* getPageAsyncIterator<TPage, TLink, TPageSettings>(
 ): AsyncIterableIterator<TPage> {
   const { pageLink, maxPageSize } = options;
   let response = await pagedResult.getPage(pageLink ?? pagedResult.firstPageLink, maxPageSize);
+  if (!response) {
+    return;
+  }
   yield response.page;
   while (response.nextPageLink) {
     response = await pagedResult.getPage(response.nextPageLink, maxPageSize);
+    if (!response) {
+      return;
+    }
     yield response.page;
   }
 }

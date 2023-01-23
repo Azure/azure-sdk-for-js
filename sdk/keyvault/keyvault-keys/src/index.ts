@@ -20,7 +20,7 @@ import {
 } from "./generated/models";
 import { KeyVaultClient } from "./generated/keyVaultClient";
 import { SDK_VERSION } from "./constants";
-import { createChallengeCallbacks } from "../../keyvault-common/src";
+import { createKeyVaultChallengeCallbacks } from "../../keyvault-common/src";
 
 import { DeleteKeyPoller } from "./lro/delete/poller";
 import { RecoverDeletedKeyPoller } from "./lro/recover/poller";
@@ -69,6 +69,7 @@ import {
   RotateKeyOptions,
   UpdateKeyPropertiesOptions,
   UpdateKeyRotationPolicyOptions,
+  CreateOkpKeyOptions,
 } from "./keysModels";
 
 import { CryptographyClient } from "./cryptographyClient";
@@ -124,6 +125,7 @@ export {
   CreateKeyOptions,
   CreateRsaKeyOptions,
   CreateOctKeyOptions,
+  CreateOkpKeyOptions,
   CryptographyClient,
   CryptographyOptions,
   RsaEncryptionAlgorithm,
@@ -239,7 +241,7 @@ export class KeyClient {
    *
    * let client = new KeyClient(vaultUrl, credentials);
    * ```
-   * @param vaultUrl - the URL of the Key Vault. It should have this shape: `https://${your-key-vault-name}.vault.azure.net`
+   * @param vaultUrl - the URL of the Key Vault. It should have this shape: `https://${your-key-vault-name}.vault.azure.net`. You should validate that this URL references a valid Key Vault or Managed HSM resource. See https://aka.ms/azsdk/blog/vault-uri for details.
    * @param credential - An object that implements the `TokenCredential` interface used to authenticate requests to the service. Use the \@azure/identity package to create a credential that suits your needs.
    * @param pipelineOptions - Pipeline options used to configure Key Vault API requests. Omit this parameter to use the default pipeline configuration.
    */
@@ -264,7 +266,7 @@ export class KeyClient {
     const authPolicy = bearerTokenAuthenticationPolicy({
       credential,
       scopes: [], // Scopes are going to be defined by the challenge callbacks.
-      challengeCallbacks: createChallengeCallbacks(),
+      challengeCallbacks: createKeyVaultChallengeCallbacks(pipelineOptions),
     });
 
     const internalPipelineOptions = {
@@ -300,7 +302,7 @@ export class KeyClient {
    * ```
    * Creates a new key, stores it, then returns key parameters and properties to the client.
    * @param name - The name of the key.
-   * @param keyType - The type of the key. One of the following: 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'.
+   * @param keyType - The type of the key. One of the following: 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct', 'OKP', 'OKP-HSM'.
    * @param options - The optional parameters.
    */
   public createKey(
@@ -330,6 +332,25 @@ export class KeyClient {
         return getKeyFromKeyBundle(response);
       }
     );
+  }
+
+  /**
+   * The createOKPKey method creates a new OKP key in Azure Key Vault. If the named key
+   * already exists, Azure Key Vault creates a new version of the key. It requires the keys/create
+   * permission.
+   *
+   * Example usage:
+   * ```ts
+   * const client = new KeyClient(url, credentials);
+   * let result = await client.createOkpKey("MyKey");
+   * ```
+   * Creates a new key, stores it, then returns key parameters and properties to the client.
+   * @param name - The name of the key.
+   * @param options - The optional parameters.
+   */
+  public createOkpKey(name: string, options?: CreateOkpKeyOptions): Promise<KeyVaultKey> {
+    const keyType = options?.hsm ? KnownKeyTypes.OKPHSM : KnownKeyTypes.OKP;
+    return this.createKey(name, keyType, options);
   }
 
   /**

@@ -52,8 +52,15 @@ export async function parseNotificationHubJobEntry(bodyText: string): Promise<No
  */
 export async function parseNotificationHubJobFeed(bodyText: string): Promise<NotificationHubJob[]> {
   const xml = await parseXML(bodyText, { includeRoot: true });
-  const results = [];
-  for (const item of xml.feed.entry) {
+  const results: NotificationHubJob[] = [];
+
+  if (!isDefined(xml.feed.entry)) {
+    return results;
+  }
+
+  const entries = Array.isArray(xml.feed.entry) ? xml.feed.entry : [xml.feed.entry];
+
+  for (const item of entries) {
     results.push(createNotificationHubJob(item.content.NotificationHubJob));
   }
 
@@ -62,7 +69,10 @@ export async function parseNotificationHubJobFeed(bodyText: string): Promise<Not
 
 function createInputOutputProperties(content: Record<string, any>): Record<string, string> {
   const props: Record<string, string> = {};
-  for (const item of content["d3p1:KeyValueOfstringstring"]) {
+
+  const keyValues = content["d3p1:KeyValueOfstringstring"];
+  const keyValueArray = Array.isArray(keyValues) ? keyValues : [keyValues];
+  for (const item of keyValueArray) {
     props[item["d3p1:Key"]] = item["d3p1:Value"];
   }
 

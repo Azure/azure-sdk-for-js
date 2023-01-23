@@ -19,7 +19,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Create or update datastore.
  *
  * @summary Create or update datastore.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-05-01/examples/Datastore/AzureDataLakeGen1WServicePrincipal/createOrUpdate.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Datastore/AzureDataLakeGen1WServicePrincipal/createOrUpdate.json
  */
 async function createOrUpdateDatastoreAzureDataLakeGen1WOrServicePrincipal() {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
@@ -65,7 +65,7 @@ createOrUpdateDatastoreAzureDataLakeGen1WOrServicePrincipal().catch(
  * This sample demonstrates how to Create or update datastore.
  *
  * @summary Create or update datastore.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-05-01/examples/Datastore/AzureDataLakeGen2WServicePrincipal/createOrUpdate.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Datastore/AzureDataLakeGen2WServicePrincipal/createOrUpdate.json
  */
 async function createOrUpdateDatastoreAzureDataLakeGen2WOrServicePrincipal() {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
@@ -114,7 +114,7 @@ createOrUpdateDatastoreAzureDataLakeGen2WOrServicePrincipal().catch(
  * This sample demonstrates how to Create or update datastore.
  *
  * @summary Create or update datastore.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-05-01/examples/Datastore/AzureFileWAccountKey/createOrUpdate.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Datastore/AzureFileWAccountKey/createOrUpdate.json
  */
 async function createOrUpdateDatastoreAzureFileStoreWOrAccountKey() {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
@@ -157,7 +157,7 @@ createOrUpdateDatastoreAzureFileStoreWOrAccountKey().catch(console.error);
  * This sample demonstrates how to Create or update datastore.
  *
  * @summary Create or update datastore.
- * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-05-01/examples/Datastore/AzureBlobWAccountKey/createOrUpdate.json
+ * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-10-01/examples/Datastore/AzureBlobWAccountKey/createOrUpdate.json
  */
 async function createOrUpdateDatastoreAzureBlobWOrAccountKey() {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";

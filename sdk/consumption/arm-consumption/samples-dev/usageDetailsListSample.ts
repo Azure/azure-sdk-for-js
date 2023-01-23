@@ -13,6 +13,9 @@ import {
   ConsumptionManagementClient
 } from "@azure/arm-consumption";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Lists the usage details for the defined scope. Usage details are available via this API only for May 1, 2014 or later.
@@ -21,7 +24,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/UsageDetailsListByBillingAccount.json
  */
 async function billingAccountUsageDetailsListLegacy() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const scope = "providers/Microsoft.Billing/BillingAccounts/1234";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
@@ -32,8 +37,6 @@ async function billingAccountUsageDetailsListLegacy() {
   console.log(resArray);
 }
 
-billingAccountUsageDetailsListLegacy().catch(console.error);
-
 /**
  * This sample demonstrates how to Lists the usage details for the defined scope. Usage details are available via this API only for May 1, 2014 or later.
  *
@@ -41,7 +44,9 @@ billingAccountUsageDetailsListLegacy().catch(console.error);
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/UsageDetailsListByMCABillingAccount.json
  */
 async function billingAccountUsageDetailsListModern() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const scope = "providers/Microsoft.Billing/BillingAccounts/1234:56789";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
@@ -52,8 +57,6 @@ async function billingAccountUsageDetailsListModern() {
   console.log(resArray);
 }
 
-billingAccountUsageDetailsListModern().catch(console.error);
-
 /**
  * This sample demonstrates how to Lists the usage details for the defined scope. Usage details are available via this API only for May 1, 2014 or later.
  *
@@ -61,7 +64,9 @@ billingAccountUsageDetailsListModern().catch(console.error);
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/UsageDetailsListForBillingPeriodByBillingAccount.json
  */
 async function billingAccountUsageDetailsListForBillingPeriodLegacy() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const scope = "providers/Microsoft.Billing/BillingAccounts/1234";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
@@ -72,8 +77,6 @@ async function billingAccountUsageDetailsListForBillingPeriodLegacy() {
   console.log(resArray);
 }
 
-billingAccountUsageDetailsListForBillingPeriodLegacy().catch(console.error);
-
 /**
  * This sample demonstrates how to Lists the usage details for the defined scope. Usage details are available via this API only for May 1, 2014 or later.
  *
@@ -81,7 +84,9 @@ billingAccountUsageDetailsListForBillingPeriodLegacy().catch(console.error);
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/UsageDetailsListByMCABillingProfile.json
  */
 async function billingProfileUsageDetailsListModern() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const scope =
     "providers/Microsoft.Billing/BillingAccounts/1234:56789/billingProfiles/2468";
   const credential = new DefaultAzureCredential();
@@ -93,8 +98,6 @@ async function billingProfileUsageDetailsListModern() {
   console.log(resArray);
 }
 
-billingProfileUsageDetailsListModern().catch(console.error);
-
 /**
  * This sample demonstrates how to Lists the usage details for the defined scope. Usage details are available via this API only for May 1, 2014 or later.
  *
@@ -102,7 +105,9 @@ billingProfileUsageDetailsListModern().catch(console.error);
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/UsageDetailsListByMCACustomer.json
  */
 async function customerUsageDetailsListModern() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const scope =
     "providers/Microsoft.Billing/BillingAccounts/1234:56789/customers/00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
@@ -114,8 +119,6 @@ async function customerUsageDetailsListModern() {
   console.log(resArray);
 }
 
-customerUsageDetailsListModern().catch(console.error);
-
 /**
  * This sample demonstrates how to Lists the usage details for the defined scope. Usage details are available via this API only for May 1, 2014 or later.
  *
@@ -123,7 +126,9 @@ customerUsageDetailsListModern().catch(console.error);
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/UsageDetailsListByDepartment.json
  */
 async function departmentUsageDetailsListLegacy() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const scope = "providers/Microsoft.Billing/Departments/1234";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
@@ -133,8 +138,6 @@ async function departmentUsageDetailsListLegacy() {
   }
   console.log(resArray);
 }
-
-departmentUsageDetailsListLegacy().catch(console.error);
 
 /**
  * This sample demonstrates how to Lists the usage details for the defined scope. Usage details are available via this API only for May 1, 2014 or later.
@@ -143,7 +146,9 @@ departmentUsageDetailsListLegacy().catch(console.error);
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/UsageDetailsListForBillingPeriodByDepartment.json
  */
 async function departmentUsageDetailsListForBillingPeriodLegacy() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const scope = "providers/Microsoft.Billing/Departments/1234";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
@@ -154,8 +159,6 @@ async function departmentUsageDetailsListForBillingPeriodLegacy() {
   console.log(resArray);
 }
 
-departmentUsageDetailsListForBillingPeriodLegacy().catch(console.error);
-
 /**
  * This sample demonstrates how to Lists the usage details for the defined scope. Usage details are available via this API only for May 1, 2014 or later.
  *
@@ -163,7 +166,9 @@ departmentUsageDetailsListForBillingPeriodLegacy().catch(console.error);
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/UsageDetailsListByEnrollmentAccount.json
  */
 async function enrollmentAccountUsageDetailsListLegacy() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const scope = "providers/Microsoft.Billing/EnrollmentAccounts/1234";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
@@ -173,8 +178,6 @@ async function enrollmentAccountUsageDetailsListLegacy() {
   }
   console.log(resArray);
 }
-
-enrollmentAccountUsageDetailsListLegacy().catch(console.error);
 
 /**
  * This sample demonstrates how to Lists the usage details for the defined scope. Usage details are available via this API only for May 1, 2014 or later.
@@ -183,7 +186,9 @@ enrollmentAccountUsageDetailsListLegacy().catch(console.error);
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/UsageDetailsListForBillingPeriodByEnrollmentAccount.json
  */
 async function enrollmentAccountUsageDetailsListForBillingPeriodLegacy() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const scope = "providers/Microsoft.Billing/EnrollmentAccounts/1234";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
@@ -194,8 +199,6 @@ async function enrollmentAccountUsageDetailsListForBillingPeriodLegacy() {
   console.log(resArray);
 }
 
-enrollmentAccountUsageDetailsListForBillingPeriodLegacy().catch(console.error);
-
 /**
  * This sample demonstrates how to Lists the usage details for the defined scope. Usage details are available via this API only for May 1, 2014 or later.
  *
@@ -203,7 +206,9 @@ enrollmentAccountUsageDetailsListForBillingPeriodLegacy().catch(console.error);
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/UsageDetailsListByMCAInvoiceSection.json
  */
 async function invoiceSectionUsageDetailsListModern() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const scope =
     "providers/Microsoft.Billing/BillingAccounts/1234:56789/invoiceSections/98765";
   const credential = new DefaultAzureCredential();
@@ -215,8 +220,6 @@ async function invoiceSectionUsageDetailsListModern() {
   console.log(resArray);
 }
 
-invoiceSectionUsageDetailsListModern().catch(console.error);
-
 /**
  * This sample demonstrates how to Lists the usage details for the defined scope. Usage details are available via this API only for May 1, 2014 or later.
  *
@@ -224,7 +227,9 @@ invoiceSectionUsageDetailsListModern().catch(console.error);
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/UsageDetailsListByManagementGroup.json
  */
 async function managementGroupUsageDetailsListLegacy() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
@@ -234,8 +239,6 @@ async function managementGroupUsageDetailsListLegacy() {
   }
   console.log(resArray);
 }
-
-managementGroupUsageDetailsListLegacy().catch(console.error);
 
 /**
  * This sample demonstrates how to Lists the usage details for the defined scope. Usage details are available via this API only for May 1, 2014 or later.
@@ -244,7 +247,9 @@ managementGroupUsageDetailsListLegacy().catch(console.error);
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/UsageDetailsListForBillingPeriodByManagementGroup.json
  */
 async function managementGroupUsageDetailsListForBillingPeriodLegacy() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
@@ -255,8 +260,6 @@ async function managementGroupUsageDetailsListForBillingPeriodLegacy() {
   console.log(resArray);
 }
 
-managementGroupUsageDetailsListForBillingPeriodLegacy().catch(console.error);
-
 /**
  * This sample demonstrates how to Lists the usage details for the defined scope. Usage details are available via this API only for May 1, 2014 or later.
  *
@@ -264,7 +267,9 @@ managementGroupUsageDetailsListForBillingPeriodLegacy().catch(console.error);
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/UsageDetailsExpand.json
  */
 async function usageDetailsExpandLegacy() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/00000000-0000-0000-0000-000000000000";
   const expand = "meterDetails,additionalInfo";
   const filter = "tags eq 'dev:tools'";
@@ -279,8 +284,6 @@ async function usageDetailsExpandLegacy() {
   console.log(resArray);
 }
 
-usageDetailsExpandLegacy().catch(console.error);
-
 /**
  * This sample demonstrates how to Lists the usage details for the defined scope. Usage details are available via this API only for May 1, 2014 or later.
  *
@@ -288,7 +291,9 @@ usageDetailsExpandLegacy().catch(console.error);
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/UsageDetailsList.json
  */
 async function usageDetailsListLegacy() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
@@ -299,8 +304,6 @@ async function usageDetailsListLegacy() {
   console.log(resArray);
 }
 
-usageDetailsListLegacy().catch(console.error);
-
 /**
  * This sample demonstrates how to Lists the usage details for the defined scope. Usage details are available via this API only for May 1, 2014 or later.
  *
@@ -308,7 +311,9 @@ usageDetailsListLegacy().catch(console.error);
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/UsageDetailsListByMetricActualCost.json
  */
 async function usageDetailsListByMetricActualCostLegacy() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/00000000-0000-0000-0000-000000000000";
   const metric = "actualcost";
   const options: UsageDetailsListOptionalParams = { metric };
@@ -321,8 +326,6 @@ async function usageDetailsListByMetricActualCostLegacy() {
   console.log(resArray);
 }
 
-usageDetailsListByMetricActualCostLegacy().catch(console.error);
-
 /**
  * This sample demonstrates how to Lists the usage details for the defined scope. Usage details are available via this API only for May 1, 2014 or later.
  *
@@ -330,7 +333,9 @@ usageDetailsListByMetricActualCostLegacy().catch(console.error);
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/UsageDetailsListByMetricAmortizedCost.json
  */
 async function usageDetailsListByMetricAmortizedCostLegacy() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/00000000-0000-0000-0000-000000000000";
   const metric = "amortizedcost";
   const options: UsageDetailsListOptionalParams = { metric };
@@ -343,8 +348,6 @@ async function usageDetailsListByMetricAmortizedCostLegacy() {
   console.log(resArray);
 }
 
-usageDetailsListByMetricAmortizedCostLegacy().catch(console.error);
-
 /**
  * This sample demonstrates how to Lists the usage details for the defined scope. Usage details are available via this API only for May 1, 2014 or later.
  *
@@ -352,7 +355,9 @@ usageDetailsListByMetricAmortizedCostLegacy().catch(console.error);
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/UsageDetailsListByMetricUsage.json
  */
 async function usageDetailsListByMetricUsageLegacy() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/00000000-0000-0000-0000-000000000000";
   const metric = "usage";
   const options: UsageDetailsListOptionalParams = { metric };
@@ -365,8 +370,6 @@ async function usageDetailsListByMetricUsageLegacy() {
   console.log(resArray);
 }
 
-usageDetailsListByMetricUsageLegacy().catch(console.error);
-
 /**
  * This sample demonstrates how to Lists the usage details for the defined scope. Usage details are available via this API only for May 1, 2014 or later.
  *
@@ -374,7 +377,9 @@ usageDetailsListByMetricUsageLegacy().catch(console.error);
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/UsageDetailsListFilterByTag.json
  */
 async function usageDetailsListFilterByTagLegacy() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/00000000-0000-0000-0000-000000000000";
   const filter = "tags eq 'dev:tools'";
   const options: UsageDetailsListOptionalParams = { filter };
@@ -387,8 +392,6 @@ async function usageDetailsListFilterByTagLegacy() {
   console.log(resArray);
 }
 
-usageDetailsListFilterByTagLegacy().catch(console.error);
-
 /**
  * This sample demonstrates how to Lists the usage details for the defined scope. Usage details are available via this API only for May 1, 2014 or later.
  *
@@ -396,7 +399,9 @@ usageDetailsListFilterByTagLegacy().catch(console.error);
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/UsageDetailsListForBillingPeriod.json
  */
 async function usageDetailsListForBillingPeriodLegacy() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
@@ -407,4 +412,26 @@ async function usageDetailsListForBillingPeriodLegacy() {
   console.log(resArray);
 }
 
-usageDetailsListForBillingPeriodLegacy().catch(console.error);
+async function main() {
+  billingAccountUsageDetailsListLegacy();
+  billingAccountUsageDetailsListModern();
+  billingAccountUsageDetailsListForBillingPeriodLegacy();
+  billingProfileUsageDetailsListModern();
+  customerUsageDetailsListModern();
+  departmentUsageDetailsListLegacy();
+  departmentUsageDetailsListForBillingPeriodLegacy();
+  enrollmentAccountUsageDetailsListLegacy();
+  enrollmentAccountUsageDetailsListForBillingPeriodLegacy();
+  invoiceSectionUsageDetailsListModern();
+  managementGroupUsageDetailsListLegacy();
+  managementGroupUsageDetailsListForBillingPeriodLegacy();
+  usageDetailsExpandLegacy();
+  usageDetailsListLegacy();
+  usageDetailsListByMetricActualCostLegacy();
+  usageDetailsListByMetricAmortizedCostLegacy();
+  usageDetailsListByMetricUsageLegacy();
+  usageDetailsListFilterByTagLegacy();
+  usageDetailsListForBillingPeriodLegacy();
+}
+
+main().catch(console.error);

@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Deletes an existing Azure Cosmos DB Cassandra view.
  *
  * @summary Deletes an existing Azure Cosmos DB Cassandra view.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-05-15-preview/examples/CosmosDBCassandraViewDelete.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBCassandraViewDelete.json
  */
 async function cosmosDbCassandraViewDelete() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
   const keyspaceName = "keyspacename";
   const viewName = "viewname";
@@ -34,4 +35,8 @@ async function cosmosDbCassandraViewDelete() {
   console.log(result);
 }
 
-cosmosDbCassandraViewDelete().catch(console.error);
+async function main() {
+  cosmosDbCassandraViewDelete();
+}
+
+main().catch(console.error);

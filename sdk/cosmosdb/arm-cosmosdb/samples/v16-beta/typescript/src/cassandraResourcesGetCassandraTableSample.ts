@@ -10,16 +10,19 @@
 // Licensed under the MIT License.
 import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets the Cassandra table under an existing Azure Cosmos DB database account.
  *
  * @summary Gets the Cassandra table under an existing Azure Cosmos DB database account.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-05-15-preview/examples/CosmosDBCassandraTableGet.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBCassandraTableGet.json
  */
 async function cosmosDbCassandraTableGet() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
   const keyspaceName = "keyspaceName";
   const tableName = "tableName";
@@ -34,4 +37,8 @@ async function cosmosDbCassandraTableGet() {
   console.log(result);
 }
 
-cosmosDbCassandraTableGet().catch(console.error);
+async function main() {
+  cosmosDbCassandraTableGet();
+}
+
+main().catch(console.error);

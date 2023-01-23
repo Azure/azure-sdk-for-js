@@ -78,7 +78,7 @@ These sample programs show how to use the JavaScript client libraries for in som
 
 ## Prerequisites
 
-The sample programs are compatible with [LTS versions of Node.js](https://nodejs.org/about/releases/).
+The sample programs are compatible with [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule).
 
 You need [an Azure subscription][freesub] to run these sample programs.
 
@@ -107,7 +107,7 @@ node clustersCreateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env  node clustersCreateSample.js
+npx cross-env CONNECTEDVMWARE_SUBSCRIPTION_ID="<connectedvmware subscription id>" CONNECTEDVMWARE_RESOURCE_GROUP="<connectedvmware resource group>" node clustersCreateSample.js
 ```
 
 ## Next Steps

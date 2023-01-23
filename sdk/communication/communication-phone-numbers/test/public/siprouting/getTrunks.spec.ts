@@ -6,69 +6,95 @@ import { Context } from "mocha";
 
 import { SipRoutingClient } from "../../../src";
 
-import { Recorder } from "@azure-tools/test-recorder";
+import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { SipTrunk } from "../../../src/models";
-import { createRecordedClient } from "./utils/recordedClient";
+import {
+  clearSipConfiguration,
+  createRecordedClient,
+  createRecordedClientWithToken,
+  getUniqueFqdn,
+  resetUniqueFqdns,
+} from "./utils/recordedClient";
+import { matrix } from "@azure/test-utils";
 
-describe("SipRoutingClient - get trunks", function () {
-  let client: SipRoutingClient;
-  let recorder: Recorder;
+matrix([[true, false]], async function (useAad) {
+  describe(`SipRoutingClient - get trunks${useAad ? " [AAD]" : ""}`, function () {
+    let client: SipRoutingClient;
+    let recorder: Recorder;
+    let firstFqdn = "";
+    let secondFqdn = "";
+    let thirdFqdn = "";
+    let fourthFqdn = "";
 
-  beforeEach(function (this: Context) {
-    ({ client, recorder } = createRecordedClient(this));
-  });
+    before(async function (this: Context) {
+      if (!isPlaybackMode()) {
+        await clearSipConfiguration();
+      }
+    });
 
-  afterEach(async function (this: Context) {
-    if (!this.currentTest?.isPending()) {
-      await recorder.stop();
-    }
-  });
+    beforeEach(async function (this: Context) {
+      ({ client, recorder } = useAad
+        ? await createRecordedClientWithToken(this)
+        : await createRecordedClient(this));
+      firstFqdn = getUniqueFqdn(recorder);
+      secondFqdn = getUniqueFqdn(recorder);
+      thirdFqdn = getUniqueFqdn(recorder);
+      fourthFqdn = getUniqueFqdn(recorder);
+    });
 
-  it("cannot retrieve a not existing trunk", async () => {
-    try {
-      await client.getTrunk("not.existing.fqdn");
-    } catch (error: any) {
-      assert.equal(error.code, "NotFound");
-      return;
-    }
-    assert.fail("NotFound expected.");
-  });
+    afterEach(async function (this: Context) {
+      if (!this.currentTest?.isPending()) {
+        await recorder.stop();
+      }
+      resetUniqueFqdns();
+    });
 
-  it("can retrieve an existing trunk", async () => {
-    await client.setTrunk({ fqdn: "44.fqdn.com", sipSignalingPort: 4567 } as SipTrunk);
+    it("cannot retrieve a not existing trunk", async () => {
+      try {
+        await client.getTrunk("not.existing.fqdn");
+      } catch (error: any) {
+        assert.equal(error.code, "NotFound");
+        return;
+      }
+      assert.fail("NotFound expected.");
+    });
 
-    const trunk = await client.getTrunk("44.fqdn.com");
+    it("can retrieve an existing trunk", async () => {
+      await client.setTrunk({ fqdn: fourthFqdn, sipSignalingPort: 4567 } as SipTrunk);
 
-    assert.isNotNull(trunk);
-    assert.equal(trunk?.sipSignalingPort, 4567);
-  });
+      const trunk = await client.getTrunk(fourthFqdn);
 
-  it("can retrieve trunks", async () => {
-    assert.isArray(await client.getTrunks());
-  });
+      assert.isNotNull(trunk);
+      assert.equal(trunk?.sipSignalingPort, 4567);
+    });
 
-  it("can retrieve empty trunks", async () => {
-    await client.setTrunks([]);
+    it("can retrieve trunks", async () => {
+      assert.isArray(await client.getTrunks());
+    });
 
-    const trunks = await client.getTrunks();
+    it("can retrieve empty trunks", async () => {
+      await client.setTrunks([]);
 
-    assert.isNotNull(trunks);
-    assert.isArray(trunks);
-    assert.isEmpty(trunks);
-  });
+      const trunks = await client.getTrunks();
 
-  it("can retrieve not empty trunks", async () => {
-    const expectedTrunks = [
-      { fqdn: "11.fqdn.com", sipSignalingPort: 1239 },
-      { fqdn: "22.fqdn.com", sipSignalingPort: 2348 },
-      { fqdn: "33.fqdn.com", sipSignalingPort: 3457 },
-    ];
-    await client.setTrunks(expectedTrunks);
+      assert.isNotNull(trunks);
+      assert.isArray(trunks);
+      assert.isEmpty(trunks);
+    });
 
-    const trunks = await client.getTrunks();
+    it("can retrieve not empty trunks", async () => {
+      const expectedTrunks = [
+        { fqdn: firstFqdn, sipSignalingPort: 1239 },
+        { fqdn: secondFqdn, sipSignalingPort: 2348 },
+        { fqdn: thirdFqdn, sipSignalingPort: 3457 },
+      ];
+      await client.setTrunks(expectedTrunks);
 
-    assert.isNotNull(trunks);
-    assert.isArray(trunks);
-    assert.deepEqual(trunks, expectedTrunks);
+      const trunks = await client.getTrunks();
+
+      assert.isNotNull(trunks);
+      assert.isArray(trunks);
+      assert.deepEqual(trunks, expectedTrunks);
+    });
   });
 });

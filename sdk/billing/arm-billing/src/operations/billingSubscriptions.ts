@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { BillingSubscriptions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,15 +19,15 @@ import {
   BillingSubscription,
   BillingSubscriptionsListByCustomerNextOptionalParams,
   BillingSubscriptionsListByCustomerOptionalParams,
+  BillingSubscriptionsListByCustomerResponse,
   BillingSubscriptionsListByBillingAccountNextOptionalParams,
   BillingSubscriptionsListByBillingAccountOptionalParams,
+  BillingSubscriptionsListByBillingAccountResponse,
   BillingSubscriptionsListByBillingProfileNextOptionalParams,
   BillingSubscriptionsListByBillingProfileOptionalParams,
+  BillingSubscriptionsListByBillingProfileResponse,
   BillingSubscriptionsListByInvoiceSectionNextOptionalParams,
   BillingSubscriptionsListByInvoiceSectionOptionalParams,
-  BillingSubscriptionsListByCustomerResponse,
-  BillingSubscriptionsListByBillingAccountResponse,
-  BillingSubscriptionsListByBillingProfileResponse,
   BillingSubscriptionsListByInvoiceSectionResponse,
   BillingSubscriptionsGetOptionalParams,
   BillingSubscriptionsGetResponse,
@@ -80,11 +81,15 @@ export class BillingSubscriptionsImpl implements BillingSubscriptions {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByCustomerPagingPage(
           billingAccountName,
           customerName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -93,15 +98,22 @@ export class BillingSubscriptionsImpl implements BillingSubscriptions {
   private async *listByCustomerPagingPage(
     billingAccountName: string,
     customerName: string,
-    options?: BillingSubscriptionsListByCustomerOptionalParams
+    options?: BillingSubscriptionsListByCustomerOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<BillingSubscription[]> {
-    let result = await this._listByCustomer(
-      billingAccountName,
-      customerName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: BillingSubscriptionsListByCustomerResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByCustomer(
+        billingAccountName,
+        customerName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByCustomerNext(
         billingAccountName,
@@ -110,7 +122,9 @@ export class BillingSubscriptionsImpl implements BillingSubscriptions {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -149,19 +163,33 @@ export class BillingSubscriptionsImpl implements BillingSubscriptions {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByBillingAccountPagingPage(billingAccountName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByBillingAccountPagingPage(
+          billingAccountName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByBillingAccountPagingPage(
     billingAccountName: string,
-    options?: BillingSubscriptionsListByBillingAccountOptionalParams
+    options?: BillingSubscriptionsListByBillingAccountOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<BillingSubscription[]> {
-    let result = await this._listByBillingAccount(billingAccountName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: BillingSubscriptionsListByBillingAccountResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByBillingAccount(billingAccountName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByBillingAccountNext(
         billingAccountName,
@@ -169,7 +197,9 @@ export class BillingSubscriptionsImpl implements BillingSubscriptions {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -209,11 +239,15 @@ export class BillingSubscriptionsImpl implements BillingSubscriptions {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByBillingProfilePagingPage(
           billingAccountName,
           billingProfileName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -222,15 +256,22 @@ export class BillingSubscriptionsImpl implements BillingSubscriptions {
   private async *listByBillingProfilePagingPage(
     billingAccountName: string,
     billingProfileName: string,
-    options?: BillingSubscriptionsListByBillingProfileOptionalParams
+    options?: BillingSubscriptionsListByBillingProfileOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<BillingSubscription[]> {
-    let result = await this._listByBillingProfile(
-      billingAccountName,
-      billingProfileName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: BillingSubscriptionsListByBillingProfileResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByBillingProfile(
+        billingAccountName,
+        billingProfileName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByBillingProfileNext(
         billingAccountName,
@@ -239,7 +280,9 @@ export class BillingSubscriptionsImpl implements BillingSubscriptions {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -284,12 +327,16 @@ export class BillingSubscriptionsImpl implements BillingSubscriptions {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByInvoiceSectionPagingPage(
           billingAccountName,
           billingProfileName,
           invoiceSectionName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -299,16 +346,23 @@ export class BillingSubscriptionsImpl implements BillingSubscriptions {
     billingAccountName: string,
     billingProfileName: string,
     invoiceSectionName: string,
-    options?: BillingSubscriptionsListByInvoiceSectionOptionalParams
+    options?: BillingSubscriptionsListByInvoiceSectionOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<BillingSubscription[]> {
-    let result = await this._listByInvoiceSection(
-      billingAccountName,
-      billingProfileName,
-      invoiceSectionName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: BillingSubscriptionsListByInvoiceSectionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByInvoiceSection(
+        billingAccountName,
+        billingProfileName,
+        invoiceSectionName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByInvoiceSectionNext(
         billingAccountName,
@@ -318,7 +372,9 @@ export class BillingSubscriptionsImpl implements BillingSubscriptions {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 

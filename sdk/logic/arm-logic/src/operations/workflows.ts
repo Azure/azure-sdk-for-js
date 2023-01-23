@@ -401,10 +401,12 @@ export class WorkflowsImpl implements Workflows {
       { resourceGroupName, workflowName, move, options },
       moveOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -698,9 +700,7 @@ const generateUpgradedDefinitionOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: {
-        type: { name: "Dictionary", value: { type: { name: "any" } } }
-      }
+      bodyMapper: { type: { name: "any" } }
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -748,9 +748,7 @@ const listSwaggerOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: {
-        type: { name: "Dictionary", value: { type: { name: "any" } } }
-      }
+      bodyMapper: { type: { name: "any" } }
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

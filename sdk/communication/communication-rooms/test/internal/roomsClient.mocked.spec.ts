@@ -8,8 +8,8 @@ import {
   createRoomsClient,
   generateHttpClient,
   mockCreateRoomsResult,
-  mockUpdateRoomsResult,
   mockSdkModelParticipant,
+  mockUpdateRoomsResult,
 } from "./utils/mockedClient";
 
 describe("[Mocked] RoomsClient", async () => {

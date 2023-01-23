@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Catalogs } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -46,7 +47,7 @@ export class CatalogsImpl implements Catalogs {
 
   /**
    * Lists catalogs for a devcenter.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param options The options parameters.
    */
@@ -67,11 +68,15 @@ export class CatalogsImpl implements Catalogs {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByDevCenterPagingPage(
           resourceGroupName,
           devCenterName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -80,15 +85,22 @@ export class CatalogsImpl implements Catalogs {
   private async *listByDevCenterPagingPage(
     resourceGroupName: string,
     devCenterName: string,
-    options?: CatalogsListByDevCenterOptionalParams
+    options?: CatalogsListByDevCenterOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Catalog[]> {
-    let result = await this._listByDevCenter(
-      resourceGroupName,
-      devCenterName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: CatalogsListByDevCenterResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByDevCenter(
+        resourceGroupName,
+        devCenterName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByDevCenterNext(
         resourceGroupName,
@@ -97,7 +109,9 @@ export class CatalogsImpl implements Catalogs {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -117,7 +131,7 @@ export class CatalogsImpl implements Catalogs {
 
   /**
    * Lists catalogs for a devcenter.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param options The options parameters.
    */
@@ -134,7 +148,7 @@ export class CatalogsImpl implements Catalogs {
 
   /**
    * Gets a catalog
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param catalogName The name of the Catalog.
    * @param options The options parameters.
@@ -153,7 +167,7 @@ export class CatalogsImpl implements Catalogs {
 
   /**
    * Creates or updates a catalog.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param catalogName The name of the Catalog.
    * @param body Represents a catalog.
@@ -226,7 +240,7 @@ export class CatalogsImpl implements Catalogs {
 
   /**
    * Creates or updates a catalog.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param catalogName The name of the Catalog.
    * @param body Represents a catalog.
@@ -251,7 +265,7 @@ export class CatalogsImpl implements Catalogs {
 
   /**
    * Partially updates a catalog.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param catalogName The name of the Catalog.
    * @param body Updatable catalog properties.
@@ -324,7 +338,7 @@ export class CatalogsImpl implements Catalogs {
 
   /**
    * Partially updates a catalog.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param catalogName The name of the Catalog.
    * @param body Updatable catalog properties.
@@ -349,7 +363,7 @@ export class CatalogsImpl implements Catalogs {
 
   /**
    * Deletes a catalog resource.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param catalogName The name of the Catalog.
    * @param options The options parameters.
@@ -415,7 +429,7 @@ export class CatalogsImpl implements Catalogs {
 
   /**
    * Deletes a catalog resource.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param catalogName The name of the Catalog.
    * @param options The options parameters.
@@ -437,7 +451,7 @@ export class CatalogsImpl implements Catalogs {
 
   /**
    * Syncs templates for a template source.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param catalogName The name of the Catalog.
    * @param options The options parameters.
@@ -495,7 +509,7 @@ export class CatalogsImpl implements Catalogs {
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      lroResourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -503,7 +517,7 @@ export class CatalogsImpl implements Catalogs {
 
   /**
    * Syncs templates for a template source.
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param catalogName The name of the Catalog.
    * @param options The options parameters.
@@ -525,7 +539,7 @@ export class CatalogsImpl implements Catalogs {
 
   /**
    * ListByDevCenterNext
-   * @param resourceGroupName Name of the resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param devCenterName The name of the devcenter.
    * @param nextLink The nextLink from the previous successful call to the ListByDevCenter method.
    * @param options The options parameters.

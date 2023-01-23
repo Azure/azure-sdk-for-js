@@ -6,210 +6,232 @@ import { Context } from "mocha";
 
 import { SipRoutingClient } from "../../../src";
 
-import { Recorder } from "@azure-tools/test-recorder";
+import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { SipTrunk, SipTrunkRoute } from "../../../src/models";
-import { createRecordedClient } from "./utils/recordedClient";
+import {
+  clearSipConfiguration,
+  createRecordedClient,
+  createRecordedClientWithToken,
+  getUniqueFqdn,
+  resetUniqueFqdns,
+} from "./utils/recordedClient";
+import { matrix } from "@azure/test-utils";
 
-describe("SipRoutingClient - set trunks", function () {
-  let client: SipRoutingClient;
-  let recorder: Recorder;
+matrix([[true, false]], async function (useAad) {
+  describe(`SipRoutingClient - set trunks${useAad ? " [AAD]" : ""}`, function () {
+    let client: SipRoutingClient;
+    let recorder: Recorder;
+    let firstFqdn = "";
+    let secondFqdn = "";
 
-  beforeEach(function (this: Context) {
-    ({ client, recorder } = createRecordedClient(this));
-  });
+    before(async function (this: Context) {
+      if (!isPlaybackMode()) {
+        await clearSipConfiguration();
+      }
+    });
 
-  afterEach(async function (this: Context) {
-    if (!this.currentTest?.isPending()) {
-      await recorder.stop();
-    }
-  });
+    beforeEach(async function (this: Context) {
+      ({ client, recorder } = useAad
+        ? await createRecordedClientWithToken(this)
+        : await createRecordedClient(this));
+      firstFqdn = getUniqueFqdn(recorder);
+      secondFqdn = getUniqueFqdn(recorder);
+    });
 
-  it("can set a new trunk", async () => {
-    const trunk: SipTrunk = { fqdn: "111.fqdn.com", sipSignalingPort: 1231 };
+    afterEach(async function (this: Context) {
+      if (!this.currentTest?.isPending()) {
+        await recorder.stop();
+      }
+      resetUniqueFqdns();
+    });
 
-    const setTrunk = await client.setTrunk(trunk);
-    assert.deepEqual(setTrunk, trunk);
+    it("can set a new trunk", async () => {
+      const trunk: SipTrunk = { fqdn: firstFqdn, sipSignalingPort: 1231 };
 
-    const getTrunk = await client.getTrunk("111.fqdn.com");
-    assert.deepEqual(getTrunk, trunk);
-  });
+      const setTrunk = await client.setTrunk(trunk);
+      assert.deepEqual(setTrunk, trunk);
 
-  it("can set an existing trunk", async () => {
-    const trunk: SipTrunk = { fqdn: "111.fqdn.com", sipSignalingPort: 1231 };
-    await client.setTrunk(trunk);
+      const getTrunk = await client.getTrunk(firstFqdn);
+      assert.deepEqual(getTrunk, trunk);
+    });
 
-    trunk.sipSignalingPort = 6789;
+    it("can set an existing trunk", async () => {
+      const trunk: SipTrunk = { fqdn: firstFqdn, sipSignalingPort: 1231 };
+      await client.setTrunk(trunk);
 
-    const setTrunk = await client.setTrunk(trunk);
-    assert.deepEqual(setTrunk, trunk);
+      trunk.sipSignalingPort = 6789;
 
-    const getTrunk = await client.getTrunk("111.fqdn.com");
-    assert.deepEqual(getTrunk, trunk);
-  });
+      const setTrunk = await client.setTrunk(trunk);
+      assert.deepEqual(setTrunk, trunk);
 
-  it("can set multiple new trunks when empty before", async () => {
-    await client.setTrunks([]);
+      const getTrunk = await client.getTrunk(firstFqdn);
+      assert.deepEqual(getTrunk, trunk);
+    });
 
-    const trunks: SipTrunk[] = [
-      { fqdn: "111.fqdn.com", sipSignalingPort: 8239 },
-      { fqdn: "222.fqdn.com", sipSignalingPort: 7348 },
-    ];
+    it("can set multiple new trunks when empty before", async () => {
+      await client.setTrunks([]);
 
-    const setTrunks = await client.setTrunks(trunks);
-    assert.deepEqual(setTrunks, trunks);
+      const trunks: SipTrunk[] = [
+        { fqdn: firstFqdn, sipSignalingPort: 8239 },
+        { fqdn: secondFqdn, sipSignalingPort: 7348 },
+      ];
 
-    const getTrunks = await client.getTrunks();
-    assert.deepEqual(getTrunks, trunks);
-  });
+      const setTrunks = await client.setTrunks(trunks);
+      assert.deepEqual(setTrunks, trunks);
 
-  it("can set multiple existing trunks", async () => {
-    const trunks: SipTrunk[] = [
-      { fqdn: "111.fqdn.com", sipSignalingPort: 8239 },
-      { fqdn: "222.fqdn.com", sipSignalingPort: 7348 },
-    ];
-    await client.setTrunks(trunks);
+      const storedTrunks = await client.getTrunks();
+      assert.deepEqual(storedTrunks, trunks);
+    });
 
-    trunks[0].sipSignalingPort = 6789;
-    trunks[1].sipSignalingPort = 9876;
+    it("can set multiple existing trunks", async () => {
+      const trunks: SipTrunk[] = [
+        { fqdn: firstFqdn, sipSignalingPort: 8239 },
+        { fqdn: secondFqdn, sipSignalingPort: 7348 },
+      ];
+      await client.setTrunks(trunks);
 
-    const setTrunks = await client.setTrunks(trunks);
-    assert.deepEqual(setTrunks, trunks);
+      trunks[0].sipSignalingPort = 6789;
+      trunks[1].sipSignalingPort = 9876;
 
-    const getTrunks = await client.getTrunks();
-    assert.deepEqual(getTrunks, trunks);
-  });
+      const setTrunks = await client.setTrunks(trunks);
+      assert.deepEqual(setTrunks, trunks);
 
-  it("can set empty trunks when empty before", async () => {
-    await client.setTrunks([]);
+      const storedTrunks = await client.getTrunks();
+      assert.deepEqual(storedTrunks, trunks);
+    });
 
-    await client.setTrunks([]);
+    it("can set empty trunks when empty before", async () => {
+      await client.setTrunks([]);
 
-    const getTrunks = await client.getTrunks();
-    assert.isNotNull(getTrunks);
-    assert.isArray(getTrunks);
-    assert.isEmpty(getTrunks);
-  });
+      await client.setTrunks([]);
 
-  it("can set empty trunks when not empty before", async () => {
-    const trunks: SipTrunk[] = [
-      { fqdn: "111.fqdn.com", sipSignalingPort: 8239 },
-      { fqdn: "222.fqdn.com", sipSignalingPort: 7348 },
-    ];
-    await client.setTrunks(trunks);
+      const storedTrunks = await client.getTrunks();
+      assert.isNotNull(storedTrunks);
+      assert.isArray(storedTrunks);
+      assert.isEmpty(storedTrunks);
+    });
 
-    await client.setTrunks([]);
+    it("can set empty trunks when not empty before", async () => {
+      const trunks: SipTrunk[] = [
+        { fqdn: firstFqdn, sipSignalingPort: 8239 },
+        { fqdn: secondFqdn, sipSignalingPort: 7348 },
+      ];
+      await client.setTrunks(trunks);
 
-    const getTrunks = await client.getTrunks();
-    assert.isNotNull(getTrunks);
-    assert.isArray(getTrunks);
-    assert.isEmpty(getTrunks);
-  });
+      await client.setTrunks([]);
 
-  it("cannot set invalid fqdn trunk", async () => {
-    const invalidTrunk: SipTrunk = { fqdn: "-1", sipSignalingPort: 8239 };
-    try {
-      await client.setTrunk(invalidTrunk);
-    } catch (error: any) {
-      assert.equal(error.code, "UnprocessableConfiguration");
+      const storedTrunks = await client.getTrunks();
+      assert.isNotNull(storedTrunks);
+      assert.isArray(storedTrunks);
+      assert.isEmpty(storedTrunks);
+    });
+
+    it("cannot set invalid fqdn trunk", async () => {
+      const invalidTrunk: SipTrunk = { fqdn: "-1", sipSignalingPort: 8239 };
+      try {
+        await client.setTrunk(invalidTrunk);
+      } catch (error: any) {
+        assert.equal(error.code, "UnprocessableConfiguration");
+
+        try {
+          await client.getTrunk("-1");
+        } catch (getError: any) {
+          assert.equal(getError.code, "NotFound");
+          return;
+        }
+        assert.fail("NotFound expected.");
+      }
+      assert.fail("UnprocessableConfiguration expected.");
+    });
+
+    it("cannot set invalid port trunk", async () => {
+      await client.setTrunks([]);
+
+      const invalidTrunk: SipTrunk = { fqdn: firstFqdn, sipSignalingPort: 0 };
 
       try {
-        await client.getTrunk("-1");
-      } catch (getError: any) {
-        assert.equal(getError.code, "NotFound");
-        return;
+        await client.setTrunk(invalidTrunk);
+      } catch (error: any) {
+        assert.equal(error.code, "UnprocessableConfiguration");
+
+        try {
+          await client.getTrunk(firstFqdn);
+        } catch (getError: any) {
+          assert.equal(getError.code, "NotFound");
+          return;
+        }
+        assert.fail("NotFound expected.");
       }
-      assert.fail("NotFound expected.");
-    }
-    assert.fail("UnprocessableConfiguration expected.");
-  });
+      assert.fail("UnprocessableConfiguration expected.");
+    });
 
-  it("cannot set invalid port trunk", async () => {
-    await client.setTrunks([]);
+    it("cannot set trunks without trunk used in route", async () => {
+      const expectedTrunks: SipTrunk[] = [
+        { fqdn: firstFqdn, sipSignalingPort: 8239 },
+        { fqdn: secondFqdn, sipSignalingPort: 7348 },
+      ];
+      await client.setTrunks(expectedTrunks);
 
-    const invalidTrunk: SipTrunk = { fqdn: "111.fqdn.com", sipSignalingPort: 0 };
-
-    try {
-      await client.setTrunk(invalidTrunk);
-    } catch (error: any) {
-      assert.equal(error.code, "UnprocessableConfiguration");
+      const expectedRoutes = [
+        {
+          name: "myFirstRoute",
+          description: "myFirstRoute's description",
+          numberPattern: "^+[1-9][0-9]{3,23}$",
+          trunks: [firstFqdn, secondFqdn],
+        },
+        {
+          name: "mySecondRoute",
+          description: "mySecondRoute's description",
+          numberPattern: "^+[1-9][0-9]{3,23}$",
+          trunks: [firstFqdn],
+        },
+      ];
+      await client.setRoutes(expectedRoutes);
 
       try {
-        await client.getTrunk("111.fqdn.com");
-      } catch (getError: any) {
-        assert.equal(getError.code, "NotFound");
+        await client.setTrunks([{ fqdn: firstFqdn, sipSignalingPort: 1234 }]);
+      } catch (error: any) {
+        assert.equal(error.code, "UnprocessableConfiguration");
+        const storedTrunks = await client.getTrunks();
+        assert.isNotNull(storedTrunks);
+        assert.isArray(storedTrunks);
+        assert.deepEqual(storedTrunks, expectedTrunks);
         return;
       }
-      assert.fail("NotFound expected.");
-    }
-    assert.fail("UnprocessableConfiguration expected.");
-  });
+      assert.fail("UnprocessableConfiguration expected.");
+    });
 
-  it("cannot set trunks without trunk used in route", async () => {
-    const expectedTrunks: SipTrunk[] = [
-      { fqdn: "111.fqdn.com", sipSignalingPort: 8239 },
-      { fqdn: "222.fqdn.com", sipSignalingPort: 7348 },
-    ];
-    await client.setTrunks(expectedTrunks);
+    it("can set multiple new trunks without affecting routes via PATCH", async () => {
+      const routes: SipTrunkRoute[] = [
+        {
+          name: "myFirstRoute",
+          description: "myFirstRoute's description",
+          numberPattern: "^+[1-9][0-9]{3,23}$",
+          trunks: [],
+        },
+        {
+          name: "mySecondRoute",
+          description: "mySecondRoute's description",
+          numberPattern: "^+[1-9][0-9]{3,23}$",
+          trunks: [],
+        },
+      ];
+      await client.setRoutes(routes);
 
-    const expectedRoutes = [
-      {
-        name: "myFirstRoute",
-        description: "myFirstRoute's description",
-        numberPattern: "^+[1-9][0-9]{3,23}$",
-        trunks: ["111.fqdn.com", "222.fqdn.com"],
-      },
-      {
-        name: "mySecondRoute",
-        description: "mySecondRoute's description",
-        numberPattern: "^+[1-9][0-9]{3,23}$",
-        trunks: ["111.fqdn.com"],
-      },
-    ];
-    await client.setRoutes(expectedRoutes);
+      const trunks: SipTrunk[] = [
+        {
+          fqdn: getUniqueFqdn(recorder),
+          sipSignalingPort: 5678,
+        },
+        {
+          fqdn: getUniqueFqdn(recorder),
+          sipSignalingPort: 5678,
+        },
+      ];
+      await client.setTrunks(trunks);
 
-    try {
-      await client.setTrunks([{ fqdn: "111.fqdn.com", sipSignalingPort: 1234 }]);
-    } catch (error: any) {
-      assert.equal(error.code, "UnprocessableConfiguration");
-      const getTrunks = await client.getTrunks();
-      assert.isNotNull(getTrunks);
-      assert.isArray(getTrunks);
-      assert.deepEqual(getTrunks, expectedTrunks);
-      return;
-    }
-    assert.fail("UnprocessableConfiguration expected.");
-  });
-
-  it("can set multiple new trunks without affecting routes via PATCH", async () => {
-    const routes: SipTrunkRoute[] = [
-      {
-        name: "myFirstRoute",
-        description: "myFirstRoute's description",
-        numberPattern: "^+[1-9][0-9]{3,23}$",
-        trunks: [],
-      },
-      {
-        name: "mySecondRoute",
-        description: "mySecondRoute's description",
-        numberPattern: "^+[1-9][0-9]{3,23}$",
-        trunks: [],
-      },
-    ];
-    await client.setRoutes(routes);
-
-    const trunks: SipTrunk[] = [
-      {
-        fqdn: "777.fqdn.com",
-        sipSignalingPort: 5678,
-      },
-      {
-        fqdn: "888.fqdn.com",
-        sipSignalingPort: 5678,
-      },
-    ];
-    await client.setTrunks(trunks);
-
-    assert.deepEqual(await client.getTrunks(), trunks);
-    assert.deepEqual(await client.getRoutes(), routes);
+      assert.deepEqual(await client.getTrunks(), trunks);
+      assert.deepEqual(await client.getRoutes(), routes);
+    });
   });
 });

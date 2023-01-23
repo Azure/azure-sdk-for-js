@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Diagnoses network connectivity status for external resources on which the service is dependent on.
  *
  * @summary Diagnoses network connectivity status for external resources on which the service is dependent on.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-02-01/examples/KustoClustersDiagnoseVirtualNetwork.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoClustersDiagnoseVirtualNetwork.json
  */
 async function kustoClusterDiagnoseVirtualNetwork() {
   const subscriptionId = "12345678-1234-1234-1234-123456789098";

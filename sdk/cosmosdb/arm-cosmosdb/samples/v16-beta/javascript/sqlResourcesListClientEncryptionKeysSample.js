@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Lists the ClientEncryptionKeys under an existing Azure Cosmos DB SQL database.
  *
  * @summary Lists the ClientEncryptionKeys under an existing Azure Cosmos DB SQL database.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-05-15-preview/examples/CosmosDBSqlClientEncryptionKeysList.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBSqlClientEncryptionKeysList.json
  */
 async function cosmosDbClientEncryptionKeysList() {
-  const subscriptionId = "subId";
-  const resourceGroupName = "rgName";
+  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subId";
+  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rgName";
   const accountName = "accountName";
   const databaseName = "databaseName";
   const credential = new DefaultAzureCredential();
@@ -35,4 +36,8 @@ async function cosmosDbClientEncryptionKeysList() {
   console.log(resArray);
 }
 
-cosmosDbClientEncryptionKeysList().catch(console.error);
+async function main() {
+  cosmosDbClientEncryptionKeysList();
+}
+
+main().catch(console.error);

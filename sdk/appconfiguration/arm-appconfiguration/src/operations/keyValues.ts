@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { KeyValues } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -63,11 +64,15 @@ export class KeyValuesImpl implements KeyValues {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByConfigurationStorePagingPage(
           resourceGroupName,
           configStoreName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -76,15 +81,22 @@ export class KeyValuesImpl implements KeyValues {
   private async *listByConfigurationStorePagingPage(
     resourceGroupName: string,
     configStoreName: string,
-    options?: KeyValuesListByConfigurationStoreOptionalParams
+    options?: KeyValuesListByConfigurationStoreOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<KeyValue[]> {
-    let result = await this._listByConfigurationStore(
-      resourceGroupName,
-      configStoreName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: KeyValuesListByConfigurationStoreResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByConfigurationStore(
+        resourceGroupName,
+        configStoreName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByConfigurationStoreNext(
         resourceGroupName,
@@ -93,7 +105,9 @@ export class KeyValuesImpl implements KeyValues {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 

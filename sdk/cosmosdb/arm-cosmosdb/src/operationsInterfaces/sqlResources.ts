@@ -63,9 +63,13 @@ import {
   SqlResourcesMigrateSqlContainerToManualThroughputOptionalParams,
   SqlResourcesMigrateSqlContainerToManualThroughputResponse,
   RetrieveThroughputParameters,
+  SqlResourcesSqlDatabaseRetrieveThroughputDistributionOptionalParams,
+  SqlResourcesSqlDatabaseRetrieveThroughputDistributionResponse,
+  RedistributeThroughputParameters,
+  SqlResourcesSqlDatabaseRedistributeThroughputOptionalParams,
+  SqlResourcesSqlDatabaseRedistributeThroughputResponse,
   SqlResourcesSqlContainerRetrieveThroughputDistributionOptionalParams,
   SqlResourcesSqlContainerRetrieveThroughputDistributionResponse,
-  RedistributeThroughputParameters,
   SqlResourcesSqlContainerRedistributeThroughputOptionalParams,
   SqlResourcesSqlContainerRedistributeThroughputResponse,
   SqlResourcesGetSqlStoredProcedureOptionalParams,
@@ -708,6 +712,82 @@ export interface SqlResources {
     containerName: string,
     options?: SqlResourcesMigrateSqlContainerToManualThroughputOptionalParams
   ): Promise<SqlResourcesMigrateSqlContainerToManualThroughputResponse>;
+  /**
+   * Retrieve throughput distribution for an Azure Cosmos DB SQL database
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param retrieveThroughputParameters The parameters to provide for retrieving throughput distribution
+   *                                     for the current SQL database.
+   * @param options The options parameters.
+   */
+  beginSqlDatabaseRetrieveThroughputDistribution(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    retrieveThroughputParameters: RetrieveThroughputParameters,
+    options?: SqlResourcesSqlDatabaseRetrieveThroughputDistributionOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<
+        SqlResourcesSqlDatabaseRetrieveThroughputDistributionResponse
+      >,
+      SqlResourcesSqlDatabaseRetrieveThroughputDistributionResponse
+    >
+  >;
+  /**
+   * Retrieve throughput distribution for an Azure Cosmos DB SQL database
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param retrieveThroughputParameters The parameters to provide for retrieving throughput distribution
+   *                                     for the current SQL database.
+   * @param options The options parameters.
+   */
+  beginSqlDatabaseRetrieveThroughputDistributionAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    retrieveThroughputParameters: RetrieveThroughputParameters,
+    options?: SqlResourcesSqlDatabaseRetrieveThroughputDistributionOptionalParams
+  ): Promise<SqlResourcesSqlDatabaseRetrieveThroughputDistributionResponse>;
+  /**
+   * Redistribute throughput for an Azure Cosmos DB SQL database
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param redistributeThroughputParameters The parameters to provide for redistributing throughput for
+   *                                         the current SQL database.
+   * @param options The options parameters.
+   */
+  beginSqlDatabaseRedistributeThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    redistributeThroughputParameters: RedistributeThroughputParameters,
+    options?: SqlResourcesSqlDatabaseRedistributeThroughputOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<SqlResourcesSqlDatabaseRedistributeThroughputResponse>,
+      SqlResourcesSqlDatabaseRedistributeThroughputResponse
+    >
+  >;
+  /**
+   * Redistribute throughput for an Azure Cosmos DB SQL database
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param redistributeThroughputParameters The parameters to provide for redistributing throughput for
+   *                                         the current SQL database.
+   * @param options The options parameters.
+   */
+  beginSqlDatabaseRedistributeThroughputAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    redistributeThroughputParameters: RedistributeThroughputParameters,
+    options?: SqlResourcesSqlDatabaseRedistributeThroughputOptionalParams
+  ): Promise<SqlResourcesSqlDatabaseRedistributeThroughputResponse>;
   /**
    * Retrieve throughput distribution for an Azure Cosmos DB SQL container
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

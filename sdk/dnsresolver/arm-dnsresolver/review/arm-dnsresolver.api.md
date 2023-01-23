@@ -27,13 +27,13 @@ export interface CloudErrorBody {
 export type CreatedByType = string;
 
 // @public
-export type DnsForwardingRuleset = TrackedResource & {
+export interface DnsForwardingRuleset extends TrackedResource {
+    dnsResolverOutboundEndpoints: SubResource[];
     readonly etag?: string;
-    readonly systemData?: SystemData;
-    dnsResolverOutboundEndpoints?: SubResource[];
     readonly provisioningState?: ProvisioningState;
     readonly resourceGuid?: string;
-};
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface DnsForwardingRulesetListResult {
@@ -43,6 +43,7 @@ export interface DnsForwardingRulesetListResult {
 
 // @public
 export interface DnsForwardingRulesetPatch {
+    dnsResolverOutboundEndpoints?: SubResource[];
     tags?: {
         [propertyName: string]: string;
     };
@@ -146,14 +147,14 @@ export interface DnsForwardingRulesetsUpdateOptionalParams extends coreClient.Op
 export type DnsForwardingRulesetsUpdateResponse = DnsForwardingRuleset;
 
 // @public
-export type DnsResolver = TrackedResource & {
-    readonly etag?: string;
-    readonly systemData?: SystemData;
-    virtualNetwork?: SubResource;
+export interface DnsResolver extends TrackedResource {
     readonly dnsResolverState?: DnsResolverState;
+    readonly etag?: string;
     readonly provisioningState?: ProvisioningState;
     readonly resourceGuid?: string;
-};
+    readonly systemData?: SystemData;
+    virtualNetwork: SubResource;
+}
 
 // @public
 export interface DnsResolverListResult {
@@ -299,17 +300,17 @@ export interface DnsResolversUpdateOptionalParams extends coreClient.OperationOp
 export type DnsResolversUpdateResponse = DnsResolver;
 
 // @public
-export type ForwardingRule = ProxyResource & {
+export interface ForwardingRule extends ProxyResource {
+    domainName: string;
     readonly etag?: string;
-    readonly systemData?: SystemData;
-    domainName?: string;
-    targetDnsServers?: TargetDnsServer[];
+    forwardingRuleState?: ForwardingRuleState;
     metadata?: {
         [propertyName: string]: string;
     };
-    forwardingRuleState?: ForwardingRuleState;
     readonly provisioningState?: ProvisioningState;
-};
+    readonly systemData?: SystemData;
+    targetDnsServers: TargetDnsServer[];
+}
 
 // @public
 export interface ForwardingRuleListResult {
@@ -384,13 +385,13 @@ export interface ForwardingRulesUpdateOptionalParams extends coreClient.Operatio
 export type ForwardingRulesUpdateResponse = ForwardingRule;
 
 // @public
-export type InboundEndpoint = TrackedResource & {
+export interface InboundEndpoint extends TrackedResource {
     readonly etag?: string;
-    readonly systemData?: SystemData;
-    ipConfigurations?: IpConfiguration[];
+    ipConfigurations: IpConfiguration[];
     readonly provisioningState?: ProvisioningState;
     readonly resourceGuid?: string;
-};
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface InboundEndpointListResult {
@@ -475,69 +476,53 @@ export type IpAllocationMethod = string;
 export interface IpConfiguration {
     privateIpAddress?: string;
     privateIpAllocationMethod?: IpAllocationMethod;
-    subnet?: SubResource;
+    subnet: SubResource;
 }
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownDnsResolverState {
-    // (undocumented)
     Connected = "Connected",
-    // (undocumented)
     Disconnected = "Disconnected"
 }
 
 // @public
 export enum KnownForwardingRuleState {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownIpAllocationMethod {
-    // (undocumented)
     Dynamic = "Dynamic",
-    // (undocumented)
     Static = "Static"
 }
 
 // @public
 export enum KnownProvisioningState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
-export type OutboundEndpoint = TrackedResource & {
+export interface OutboundEndpoint extends TrackedResource {
     readonly etag?: string;
-    readonly systemData?: SystemData;
-    subnet?: SubResource;
     readonly provisioningState?: ProvisioningState;
     readonly resourceGuid?: string;
-};
+    subnet: SubResource;
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface OutboundEndpointListResult {
@@ -619,7 +604,8 @@ export type OutboundEndpointsUpdateResponse = OutboundEndpoint;
 export type ProvisioningState = string;
 
 // @public
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {
+}
 
 // @public
 export interface Resource {
@@ -630,7 +616,7 @@ export interface Resource {
 
 // @public
 export interface SubResource {
-    id?: string;
+    id: string;
 }
 
 // @public
@@ -651,17 +637,17 @@ export interface SystemData {
 
 // @public
 export interface TargetDnsServer {
-    ipAddress?: string;
+    ipAddress: string;
     port?: number;
 }
 
 // @public
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
+    location: string;
     tags?: {
         [propertyName: string]: string;
     };
-    location: string;
-};
+}
 
 // @public
 export interface VirtualNetworkDnsForwardingRuleset {
@@ -676,15 +662,15 @@ export interface VirtualNetworkDnsForwardingRulesetListResult {
 }
 
 // @public
-export type VirtualNetworkLink = ProxyResource & {
+export interface VirtualNetworkLink extends ProxyResource {
     readonly etag?: string;
-    readonly systemData?: SystemData;
-    virtualNetwork?: SubResource;
     metadata?: {
         [propertyName: string]: string;
     };
     readonly provisioningState?: ProvisioningState;
-};
+    readonly systemData?: SystemData;
+    virtualNetwork: SubResource;
+}
 
 // @public
 export interface VirtualNetworkLinkListResult {

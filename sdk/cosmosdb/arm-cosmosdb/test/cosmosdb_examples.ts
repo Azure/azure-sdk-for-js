@@ -36,7 +36,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("Cosmosdb test", () => {
+describe.only("Cosmosdb test", () => {
   let recorder: Recorder;
   let client: CosmosDBManagementClient;
   let subscriptionId: string;
@@ -91,7 +91,7 @@ describe("Cosmosdb test", () => {
 
   it("databaseAccounts list test", async function () {
     const resArray = new Array();
-    for await (let item of client.databaseAccounts.list()) {
+    for await (let item of client.databaseAccounts.listByResourceGroup(resourceGroupName)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);

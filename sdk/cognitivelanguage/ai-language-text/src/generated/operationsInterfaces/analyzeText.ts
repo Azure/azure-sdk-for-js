@@ -7,9 +7,6 @@
  */
 
 import {
-  AnalyzeTextJobsInput,
-  AnalyzeTextSubmitJobOptionalParams,
-  AnalyzeTextSubmitJobResponse,
   AnalyzeTextJobStatusOptionalParams,
   AnalyzeTextJobStatusResponse,
   AnalyzeTextCancelJobOptionalParams,
@@ -18,16 +15,6 @@ import {
 
 /** Interface representing a AnalyzeText. */
 export interface AnalyzeText {
-  /**
-   * Submit a collection of text documents for analysis. Specify one or more unique tasks to be executed
-   * as a long-running operation.
-   * @param body Collection of documents to analyze and one or more tasks to execute.
-   * @param options The options parameters.
-   */
-  submitJob(
-    body: AnalyzeTextJobsInput,
-    options?: AnalyzeTextSubmitJobOptionalParams
-  ): Promise<AnalyzeTextSubmitJobResponse>;
   /**
    * Get the status of an analysis job.  A job may consist of one or more tasks.  Once all tasks are
    * succeeded, the job will transition to the succeeded state and results will be available for each

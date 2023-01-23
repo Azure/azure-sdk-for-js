@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/language/:analyze-text?api-version=2022-04-01-preview",
+      "RequestUri": "https://endpoint/language/:analyze-text?api-version=2022-10-01-preview",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -18,9 +18,9 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
-        "x-ms-client-request-id": "03f419fc-24fc-4f88-a086-5e0a5fee137a",
-        "x-ms-useragent": "azsdk-js-ai-language-text/1.0.0-beta.1 core-rest-pipeline/1.8.1 OS/Linuxx86_64"
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "c74d9ce2-bab6-4282-baee-5f1df47e2a44",
+        "x-ms-useragent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 OS/Linuxx86_64"
       },
       "RequestBody": {
         "kind": "SentimentAnalysis",
@@ -57,14 +57,16 @@
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "4b7fff64-8eb6-4856-bb16-3b060c8ca662",
-        "Content-Length": "1737",
+        "apim-request-id": "504934ba-0f88-4ed1-aee8-22446b0e3dae",
+        "Content-Length": "1734",
         "Content-Type": "application/json; charset=utf-8",
         "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=4,CognitiveServices.TextAnalytics.TextRecords=4",
-        "Date": "Fri, 06 May 2022 20:18:33 GMT",
+        "Date": "Tue, 01 Nov 2022 23:34:27 GMT",
+        "Set-Cookie": ".AspNetCore.Mvc.CookieTempDataProvider=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; samesite=lax; httponly",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "23"
+        "x-envoy-upstream-service-time": "37",
+        "x-ms-region": "East US"
       },
       "ResponseBody": {
         "kind": "SentimentAnalysisResults",
@@ -116,9 +118,9 @@
                 {
                   "sentiment": "neutral",
                   "confidenceScores": {
-                    "positive": 0.03,
-                    "neutral": 0.58,
-                    "negative": 0.39
+                    "positive": 0.0,
+                    "neutral": 0.92,
+                    "negative": 0.08
                   },
                   "offset": 59,
                   "length": 43,
@@ -129,19 +131,19 @@
             },
             {
               "id": "3",
-              "sentiment": "positive",
+              "sentiment": "negative",
               "confidenceScores": {
-                "positive": 0.71,
-                "neutral": 0.06,
-                "negative": 0.23
+                "positive": 0.19,
+                "neutral": 0.28,
+                "negative": 0.53
               },
               "sentences": [
                 {
-                  "sentiment": "positive",
+                  "sentiment": "negative",
                   "confidenceScores": {
-                    "positive": 0.71,
-                    "neutral": 0.06,
-                    "negative": 0.23
+                    "positive": 0.19,
+                    "neutral": 0.28,
+                    "negative": 0.53
                   },
                   "offset": 0,
                   "length": 101,
@@ -154,7 +156,7 @@
               "id": "4",
               "sentiment": "negative",
               "confidenceScores": {
-                "positive": 0.01,
+                "positive": 0.0,
                 "neutral": 0.01,
                 "negative": 0.99
               },
@@ -162,7 +164,7 @@
                 {
                   "sentiment": "negative",
                   "confidenceScores": {
-                    "positive": 0.01,
+                    "positive": 0.0,
                     "neutral": 0.01,
                     "negative": 0.99
                   },
@@ -187,7 +189,7 @@
               }
             }
           ],
-          "modelVersion": "2021-10-01"
+          "modelVersion": "2022-10-01"
         }
       }
     }

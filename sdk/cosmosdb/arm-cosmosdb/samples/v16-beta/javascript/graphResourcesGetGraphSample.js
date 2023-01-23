@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets the Graph resource under an existing Azure Cosmos DB database account with the provided name.
  *
  * @summary Gets the Graph resource under an existing Azure Cosmos DB database account with the provided name.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-05-15-preview/examples/CosmosDBGraphResourceGet.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBGraphResourceGet.json
  */
 async function cosmosDbSqlDatabaseGet() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
   const graphName = "graphName";
   const credential = new DefaultAzureCredential();
@@ -28,4 +29,8 @@ async function cosmosDbSqlDatabaseGet() {
   console.log(result);
 }
 
-cosmosDbSqlDatabaseGet().catch(console.error);
+async function main() {
+  cosmosDbSqlDatabaseGet();
+}
+
+main().catch(console.error);

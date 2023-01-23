@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Configurations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -21,6 +22,7 @@ import {
   ConfigurationsListByServerResponse,
   ConfigurationsGetOptionalParams,
   ConfigurationsGetResponse,
+  ConfigurationForUpdate,
   ConfigurationsUpdateOptionalParams,
   ConfigurationsUpdateResponse,
   ConfigurationsPutOptionalParams,
@@ -64,11 +66,15 @@ export class ConfigurationsImpl implements Configurations {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByServerPagingPage(
           resourceGroupName,
           serverName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -77,15 +83,18 @@ export class ConfigurationsImpl implements Configurations {
   private async *listByServerPagingPage(
     resourceGroupName: string,
     serverName: string,
-    options?: ConfigurationsListByServerOptionalParams
+    options?: ConfigurationsListByServerOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Configuration[]> {
-    let result = await this._listByServer(
-      resourceGroupName,
-      serverName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ConfigurationsListByServerResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByServer(resourceGroupName, serverName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByServerNext(
         resourceGroupName,
@@ -94,7 +103,9 @@ export class ConfigurationsImpl implements Configurations {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -160,7 +171,7 @@ export class ConfigurationsImpl implements Configurations {
     resourceGroupName: string,
     serverName: string,
     configurationName: string,
-    parameters: Configuration,
+    parameters: ConfigurationForUpdate,
     options?: ConfigurationsUpdateOptionalParams
   ): Promise<
     PollerLike<
@@ -214,7 +225,8 @@ export class ConfigurationsImpl implements Configurations {
     );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -232,7 +244,7 @@ export class ConfigurationsImpl implements Configurations {
     resourceGroupName: string,
     serverName: string,
     configurationName: string,
-    parameters: Configuration,
+    parameters: ConfigurationForUpdate,
     options?: ConfigurationsUpdateOptionalParams
   ): Promise<ConfigurationsUpdateResponse> {
     const poller = await this.beginUpdate(
@@ -311,7 +323,8 @@ export class ConfigurationsImpl implements Configurations {
     );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -373,7 +386,7 @@ const listByServerOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ConfigurationListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -395,7 +408,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.Configuration
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -427,10 +440,10 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.Configuration
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters4,
+  requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -461,10 +474,10 @@ const putOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.Configuration
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters4,
+  requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -485,10 +498,9 @@ const listByServerNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ConfigurationListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

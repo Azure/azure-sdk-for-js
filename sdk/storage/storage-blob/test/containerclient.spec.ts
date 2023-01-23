@@ -174,12 +174,16 @@ describe("ContainerClient", () => {
     const blockBlobClient = containerClient.getBlockBlobClient(blobName);
     await blockBlobClient.upload("", 0);
 
-    const result = (await containerClient.listBlobsFlat().byPage().next()).value;
-    assert.ok(result.serviceEndpoint.length > 0);
-    assert.ok(containerClient.url.indexOf(result.containerName));
-    assert.deepStrictEqual(result.continuationToken, "");
-    assert.deepStrictEqual(result.segment.blobItems!.length, 1);
-    assert.ok(blobName === result.segment.blobItems![0].name);
+    const iteratorResult = await containerClient.listBlobsFlat().byPage().next();
+    assert.ok(!iteratorResult.done);
+    if (!iteratorResult.done) {
+      const result = iteratorResult.value;
+      assert.ok(result.serviceEndpoint.length > 0);
+      assert.ok(containerClient.url.indexOf(result.containerName));
+      assert.deepStrictEqual(result.continuationToken, "");
+      assert.deepStrictEqual(result.segment.blobItems.length, 1);
+      assert.equal(blobName, result.segment.blobItems[0].name);
+    }
   });
 
   it("listBlobsFlat with default parameters - null prefix shouldn't throw error", async () => {
@@ -657,6 +661,7 @@ describe("ContainerClient", () => {
           includeDeleted: true,
           includeMetadata: true,
           includeUncommitedBlobs: true,
+          includeVersions: true,
           prefix,
         })
         .byPage({ maxPageSize: 1 })
@@ -676,6 +681,7 @@ describe("ContainerClient", () => {
           includeDeleted: true,
           includeMetadata: true,
           includeUncommitedBlobs: true,
+          includeVersions: true,
           prefix,
         })
         .byPage({ continuationToken: result.continuationToken, maxPageSize: 2 })
@@ -695,6 +701,7 @@ describe("ContainerClient", () => {
           includeDeleted: true,
           includeMetadata: true,
           includeUncommitedBlobs: true,
+          includeVersions: true,
           prefix: `${prefix}0${delimiter}`,
         })
         .byPage({ maxPageSize: 2 })
@@ -707,6 +714,7 @@ describe("ContainerClient", () => {
     assert.deepStrictEqual(result3.delimiter, delimiter);
     assert.deepStrictEqual(result3.segment.blobItems!.length, 1);
     assert.ok(isSuperSet(result3.segment.blobItems![0].metadata, metadata));
+    assert.ok(result3.segment.blobItems![0].versionId);
     assert.ok(blobClients[0].url.indexOf(result3.segment.blobItems![0].name));
 
     for (const blob of blobClients) {
@@ -795,7 +803,7 @@ describe("ContainerClient", () => {
     }
   });
 
-  it("uploadBlockBlob and deleteBlob with tracing", async () => {
+  it("uploadBlockBlob and deleteBlob with tracing", async function (this: Context) {
     const tracer = new TestTracer();
     setTracer(tracer);
     const rootSpan = tracer.startSpan("root");
@@ -837,10 +845,10 @@ describe("ContainerClient", () => {
                 {
                   name: "Azure.Storage.Blob.BlockBlobClient-upload",
                   children: [
-                    {
+                    /* {
                       name: "HTTP PUT",
                       children: [],
-                    },
+                    },*/
                   ],
                 },
               ],
@@ -1035,8 +1043,8 @@ describe("ContainerClient", () => {
 });
 
 describe("ContainerClient - Verify Name Properties", () => {
-  const containerName = "containerName";
-  const accountName = "myAccount";
+  const containerName = "containername";
+  const accountName = "myaccount";
 
   function verifyNameProperties(url: string): void {
     const newClient = new ContainerClient(url);

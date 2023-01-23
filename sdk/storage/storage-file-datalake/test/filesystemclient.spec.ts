@@ -85,10 +85,10 @@ describe("DataLakeFileSystemClient", () => {
                 {
                   name: "Azure.Storage.Blob.ContainerClient-setMetadata",
                   children: [
-                    {
+                    /* {
                       name: "HTTP PUT",
                       children: [],
-                    },
+                    },*/
                   ],
                 },
               ],

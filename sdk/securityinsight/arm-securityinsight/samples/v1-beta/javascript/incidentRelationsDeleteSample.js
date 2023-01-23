@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Delete the incident relation.
  *
  * @summary Delete the incident relation.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/incidents/relations/DeleteIncidentRelation.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/incidents/relations/DeleteIncidentRelation.json
  */
 async function deleteTheIncidentRelation() {
   const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";

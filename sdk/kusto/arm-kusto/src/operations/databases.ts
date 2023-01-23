@@ -682,7 +682,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.parameters3,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.callerRole],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -716,7 +716,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.parameters3,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.callerRole],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

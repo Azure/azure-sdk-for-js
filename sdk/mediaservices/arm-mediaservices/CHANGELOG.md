@@ -1,6 +1,6 @@
 # Release History
 
-## 12.1.1 (Unreleased)
+## 13.1.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,86 @@
 
 ### Other Changes
 
+## 13.1.0 (2023-01-16)
+    
+**Features**
+
+  - Added Interface DDAudio
+  - Added Interface Fade
+  - Interface Filters has a new optional parameter fadeIn
+  - Interface Filters has a new optional parameter fadeOut
+  - Interface StandardEncoderPreset has a new optional parameter experimentalOptions
+  - Enum KnownEncoderNamedPreset has a new value DDGoodQualityAudio
+  - Enum KnownJobErrorCategory has a new value Account
+  - Enum KnownJobErrorCode has a new value IdentityUnsupported
+  - Added function getContinuationToken
+  - Interface AssetsListNextOptionalParams no longer has parameter filter
+  - Interface AssetsListNextOptionalParams no longer has parameter orderby
+  - Interface AssetsListNextOptionalParams no longer has parameter top
+  - Interface ContentKeyPoliciesListNextOptionalParams no longer has parameter filter
+  - Interface ContentKeyPoliciesListNextOptionalParams no longer has parameter orderby
+  - Interface ContentKeyPoliciesListNextOptionalParams no longer has parameter top
+  - Interface JobsListNextOptionalParams no longer has parameter filter
+  - Interface JobsListNextOptionalParams no longer has parameter orderby
+  - Interface StreamingLocatorsListNextOptionalParams no longer has parameter filter
+  - Interface StreamingLocatorsListNextOptionalParams no longer has parameter orderby
+  - Interface StreamingLocatorsListNextOptionalParams no longer has parameter top
+  - Interface StreamingPoliciesListNextOptionalParams no longer has parameter filter
+  - Interface StreamingPoliciesListNextOptionalParams no longer has parameter orderby
+  - Interface StreamingPoliciesListNextOptionalParams no longer has parameter top
+  - Interface TransformsListNextOptionalParams no longer has parameter filter
+  - Interface TransformsListNextOptionalParams no longer has parameter orderby
+  - Type of parameter odataType of interface Audio_2 is changed from "#Microsoft.Media.Audio" | "#Microsoft.Media.AacAudio" to "#Microsoft.Media.Audio" | "#Microsoft.Media.AacAudio" | "#Microsoft.Media.DDAudio"
+  - Type of parameter odataType of interface Codec is changed from "#Microsoft.Media.Audio" | "#Microsoft.Media.AacAudio" | "#Microsoft.Media.Video" | "#Microsoft.Media.H265Video" | "#Microsoft.Media.CopyVideo" | "#Microsoft.Media.Image" | "#Microsoft.Media.CopyAudio" | "#Microsoft.Media.H264Video" | "#Microsoft.Media.JpgImage" | "#Microsoft.Media.PngImage" to "#Microsoft.Media.Audio" | "#Microsoft.Media.AacAudio" | "#Microsoft.Media.DDAudio" | "#Microsoft.Media.Video" | "#Microsoft.Media.H265Video" | "#Microsoft.Media.CopyVideo" | "#Microsoft.Media.Image" | "#Microsoft.Media.CopyAudio" | "#Microsoft.Media.H264Video" | "#Microsoft.Media.JpgImage" | "#Microsoft.Media.PngImage"
+    
+    
+## 13.0.0 (2022-09-06)
+    
+**Features**
+
+  - Added operation LiveEvents.asyncOperation
+  - Added operation LiveEvents.operationLocation
+  - Added operation LiveOutputs.asyncOperation
+  - Added operation LiveOutputs.operationLocation
+  - Added operation StreamingEndpoints.asyncOperation
+  - Added operation StreamingEndpoints.operationLocation
+  - Added Interface AsyncOperationResult
+  - Added Interface ClearKeyEncryptionConfiguration
+  - Added Interface DashSettings
+  - Added Interface LiveEventsAsyncOperationOptionalParams
+  - Added Interface LiveEventsOperationLocationOptionalParams
+  - Added Interface LiveOutputsAsyncOperationOptionalParams
+  - Added Interface LiveOutputsOperationLocationOptionalParams
+  - Added Interface StreamingEndpointsAsyncOperationOptionalParams
+  - Added Interface StreamingEndpointsOperationLocationOptionalParams
+  - Added Type Alias AsyncOperationStatus
+  - Added Type Alias LiveEventsAsyncOperationResponse
+  - Added Type Alias LiveEventsOperationLocationResponse
+  - Added Type Alias LiveOutputsAsyncOperationResponse
+  - Added Type Alias LiveOutputsOperationLocationResponse
+  - Added Type Alias SecurityLevel
+  - Added Type Alias StreamingEndpointsAsyncOperationResponse
+  - Added Type Alias StreamingEndpointsOperationLocationResponse
+  - Interface AudioTrack has a new optional parameter bitRate
+  - Interface AudioTrack has a new optional parameter dashSettings
+  - Interface AudioTrack has a new optional parameter displayName
+  - Interface AudioTrack has a new optional parameter fileName
+  - Interface AudioTrack has a new optional parameter hlsSettings
+  - Interface AudioTrack has a new optional parameter languageCode
+  - Interface AudioTrack has a new optional parameter mpeg4TrackId
+  - Interface CommonEncryptionCbcs has a new optional parameter clearKeyEncryptionConfiguration
+  - Interface CommonEncryptionCenc has a new optional parameter clearKeyEncryptionConfiguration
+  - Interface ContentKeyPolicyPlayReadyLicense has a new optional parameter securityLevel
+  - Interface LiveOutput has a new optional parameter rewindWindowLength
+  - Added Enum KnownAsyncOperationStatus
+  - Added Enum KnownSecurityLevel
+
+**Breaking Changes**
+
+  - Interface AzureMediaServicesOptionalParams no longer has parameter apiVersion
+  - Class AzureMediaServices no longer has parameter apiVersion
+    
+    
 ## 12.1.0 (2022-07-29)
     
 **Features**

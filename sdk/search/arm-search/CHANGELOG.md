@@ -1,6 +1,6 @@
 # Release History
 
-## 3.0.2 (Unreleased)
+## 3.1.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,17 @@
 
 ### Other Changes
 
+## 3.1.0 (2022-12-07)
+    
+**Features**
+
+  - Added Interface PrivateEndpointConnection
+  - Added Interface PrivateLinkResource
+  - Added Interface SearchService
+  - Added Interface SearchServiceUpdate
+  - Added Interface SharedPrivateLinkResource
+  - Added Interface TrackedResource
+    
 ## 3.0.1 (2022-04-29)
 
 **Features**

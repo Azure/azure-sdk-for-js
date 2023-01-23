@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { GremlinResources } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,9 +17,10 @@ import { LroImpl } from "../lroImpl";
 import {
   GremlinDatabaseGetResults,
   GremlinResourcesListGremlinDatabasesOptionalParams,
+  GremlinResourcesListGremlinDatabasesResponse,
   GremlinGraphGetResults,
   GremlinResourcesListGremlinGraphsOptionalParams,
-  GremlinResourcesListGremlinDatabasesResponse,
+  GremlinResourcesListGremlinGraphsResponse,
   GremlinResourcesGetGremlinDatabaseOptionalParams,
   GremlinResourcesGetGremlinDatabaseResponse,
   GremlinDatabaseCreateUpdateParameters,
@@ -35,7 +36,6 @@ import {
   GremlinResourcesMigrateGremlinDatabaseToAutoscaleResponse,
   GremlinResourcesMigrateGremlinDatabaseToManualThroughputOptionalParams,
   GremlinResourcesMigrateGremlinDatabaseToManualThroughputResponse,
-  GremlinResourcesListGremlinGraphsResponse,
   GremlinResourcesGetGremlinGraphOptionalParams,
   GremlinResourcesGetGremlinGraphResponse,
   GremlinGraphCreateUpdateParameters,
@@ -91,11 +91,15 @@ export class GremlinResourcesImpl implements GremlinResources {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listGremlinDatabasesPagingPage(
           resourceGroupName,
           accountName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -104,9 +108,11 @@ export class GremlinResourcesImpl implements GremlinResources {
   private async *listGremlinDatabasesPagingPage(
     resourceGroupName: string,
     accountName: string,
-    options?: GremlinResourcesListGremlinDatabasesOptionalParams
+    options?: GremlinResourcesListGremlinDatabasesOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<GremlinDatabaseGetResults[]> {
-    let result = await this._listGremlinDatabases(
+    let result: GremlinResourcesListGremlinDatabasesResponse;
+    result = await this._listGremlinDatabases(
       resourceGroupName,
       accountName,
       options
@@ -154,12 +160,16 @@ export class GremlinResourcesImpl implements GremlinResources {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listGremlinGraphsPagingPage(
           resourceGroupName,
           accountName,
           databaseName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -169,9 +179,11 @@ export class GremlinResourcesImpl implements GremlinResources {
     resourceGroupName: string,
     accountName: string,
     databaseName: string,
-    options?: GremlinResourcesListGremlinGraphsOptionalParams
+    options?: GremlinResourcesListGremlinGraphsOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<GremlinGraphGetResults[]> {
-    let result = await this._listGremlinGraphs(
+    let result: GremlinResourcesListGremlinGraphsResponse;
+    result = await this._listGremlinGraphs(
       resourceGroupName,
       accountName,
       databaseName,

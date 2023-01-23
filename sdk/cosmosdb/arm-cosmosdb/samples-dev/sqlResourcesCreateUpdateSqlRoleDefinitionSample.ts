@@ -13,17 +13,22 @@ import {
   CosmosDBManagementClient
 } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates or updates an Azure Cosmos DB SQL Role Definition.
  *
  * @summary Creates or updates an Azure Cosmos DB SQL Role Definition.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-05-15-preview/examples/CosmosDBSqlRoleDefinitionCreateUpdate.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBSqlRoleDefinitionCreateUpdate.json
  */
 async function cosmosDbSqlRoleDefinitionCreateUpdate() {
-  const subscriptionId = "mySubscriptionId";
+  const subscriptionId =
+    process.env["COSMOSDB_SUBSCRIPTION_ID"] || "mySubscriptionId";
   const roleDefinitionId = "myRoleDefinitionId";
-  const resourceGroupName = "myResourceGroupName";
+  const resourceGroupName =
+    process.env["COSMOSDB_RESOURCE_GROUP"] || "myResourceGroupName";
   const accountName = "myAccountName";
   const createUpdateSqlRoleDefinitionParameters: SqlRoleDefinitionCreateUpdateParameters = {
     type: "CustomRole",
@@ -53,4 +58,8 @@ async function cosmosDbSqlRoleDefinitionCreateUpdate() {
   console.log(result);
 }
 
-cosmosDbSqlRoleDefinitionCreateUpdate().catch(console.error);
+async function main() {
+  cosmosDbSqlRoleDefinitionCreateUpdate();
+}
+
+main().catch(console.error);

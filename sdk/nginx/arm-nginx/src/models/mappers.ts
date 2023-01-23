@@ -72,6 +72,7 @@ export const NginxCertificateProperties: coreClient.CompositeMapper = {
     modelProperties: {
       provisioningState: {
         serializedName: "provisioningState",
+        readOnly: true,
         type: {
           name: "String"
         }
@@ -316,12 +317,25 @@ export const NginxConfigurationProperties: coreClient.CompositeMapper = {
     modelProperties: {
       provisioningState: {
         serializedName: "provisioningState",
+        readOnly: true,
         type: {
           name: "String"
         }
       },
       files: {
         serializedName: "files",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "NginxConfigurationFile"
+            }
+          }
+        }
+      },
+      protectedFiles: {
+        serializedName: "protectedFiles",
         type: {
           name: "Sequence",
           element: {
@@ -524,6 +538,7 @@ export const NginxDeploymentProperties: coreClient.CompositeMapper = {
     modelProperties: {
       provisioningState: {
         serializedName: "provisioningState",
+        readOnly: true,
         type: {
           name: "String"
         }

@@ -8,16 +8,16 @@
 
 import * as coreClient from "@azure/core-client";
 
-export const SipConfigurationExpanded: coreClient.CompositeMapper = {
+export const SipConfiguration: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "SipConfigurationExpanded",
+    className: "SipConfiguration",
     modelProperties: {
       trunks: {
         serializedName: "trunks",
         type: {
           name: "Dictionary",
-          value: { type: { name: "Composite", className: "TrunkExpanded" } }
+          value: { type: { name: "Composite", className: "SipTrunk" } }
         }
       },
       routes: {
@@ -30,90 +30,6 @@ export const SipConfigurationExpanded: coreClient.CompositeMapper = {
               className: "SipTrunkRoute"
             }
           }
-        }
-      }
-    }
-  }
-};
-
-export const TrunkExpandedHealth: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "TrunkExpandedHealth",
-    modelProperties: {
-      tls: {
-        serializedName: "tls",
-        type: {
-          name: "Composite",
-          className: "TrunkExpandedHealthTls"
-        }
-      },
-      ping: {
-        serializedName: "ping",
-        type: {
-          name: "Composite",
-          className: "TrunkExpandedHealthPing"
-        }
-      },
-      overall: {
-        serializedName: "overall",
-        type: {
-          name: "Composite",
-          className: "TrunkExpandedHealthOverall"
-        }
-      }
-    }
-  }
-};
-
-export const TrunkExpandedHealthTls: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "TrunkExpandedHealthTls",
-    modelProperties: {
-      status: {
-        serializedName: "status",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const TrunkExpandedHealthPing: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "TrunkExpandedHealthPing",
-    modelProperties: {
-      status: {
-        serializedName: "status",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const TrunkExpandedHealthOverall: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "TrunkExpandedHealthOverall",
-    modelProperties: {
-      status: {
-        serializedName: "status",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      reason: {
-        serializedName: "reason",
-        type: {
-          name: "String"
         }
       }
     }
@@ -194,17 +110,17 @@ export const CommunicationErrorResponse: coreClient.CompositeMapper = {
         serializedName: "error",
         type: {
           name: "Composite",
-          className: "CommunicationError"
+          className: "SipRoutingError"
         }
       }
     }
   }
 };
 
-export const CommunicationError: coreClient.CompositeMapper = {
+export const SipRoutingError: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "CommunicationError",
+    className: "SipRoutingError",
     modelProperties: {
       code: {
         serializedName: "code",
@@ -235,7 +151,7 @@ export const CommunicationError: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "CommunicationError"
+              className: "SipRoutingError"
             }
           }
         }
@@ -244,7 +160,7 @@ export const CommunicationError: coreClient.CompositeMapper = {
         serializedName: "innererror",
         type: {
           name: "Composite",
-          className: "CommunicationError"
+          className: "SipRoutingError"
         }
       }
     }
@@ -288,51 +204,6 @@ export const TrunkPatch: coreClient.CompositeMapper = {
         serializedName: "sipSignalingPort",
         type: {
           name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const SipConfiguration: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SipConfiguration",
-    modelProperties: {
-      trunks: {
-        serializedName: "trunks",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "Composite", className: "SipTrunk" } }
-        }
-      },
-      routes: {
-        serializedName: "routes",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "SipTrunkRoute"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const TrunkExpanded: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "TrunkExpanded",
-    modelProperties: {
-      ...SipTrunk.type.modelProperties,
-      health: {
-        serializedName: "health",
-        type: {
-          name: "Composite",
-          className: "TrunkExpandedHealth"
         }
       }
     }

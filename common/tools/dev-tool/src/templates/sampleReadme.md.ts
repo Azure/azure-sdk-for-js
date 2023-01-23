@@ -176,7 +176,7 @@ ${table(info)}
 
 ## Prerequisites
 
-The sample programs are compatible with [LTS versions of Node.js](https://nodejs.org/about/releases/).
+The sample programs are compatible with [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule).
 
 ${(() => {
   if (info.useTypeScript) {

@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { PrivateLinks } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -15,9 +15,9 @@ import { IotCentralClient } from "../iotCentralClient";
 import {
   PrivateLinkResource,
   PrivateLinksListOptionalParams,
+  PrivateLinksListResponse,
   PrivateLinksGetOptionalParams,
-  PrivateLinksGetResponse,
-  PrivateLinksListResponse
+  PrivateLinksGetResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -52,8 +52,16 @@ export class PrivateLinksImpl implements PrivateLinks {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, resourceName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          resourceName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -61,9 +69,11 @@ export class PrivateLinksImpl implements PrivateLinks {
   private async *listPagingPage(
     resourceGroupName: string,
     resourceName: string,
-    options?: PrivateLinksListOptionalParams
+    options?: PrivateLinksListOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<PrivateLinkResource[]> {
-    let result = await this._list(resourceGroupName, resourceName, options);
+    let result: PrivateLinksListResponse;
+    result = await this._list(resourceGroupName, resourceName, options);
     yield result.value || [];
   }
 

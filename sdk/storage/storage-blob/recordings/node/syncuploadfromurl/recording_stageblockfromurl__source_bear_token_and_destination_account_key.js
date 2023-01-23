@@ -1,83 +1,87 @@
 let nock = require('nock');
 
-module.exports.hash = "bbb8d9627e5933584577a0f941fac109";
+module.exports.hash = "9a7692306c1d84bf253dc3e482407bdb";
 
-module.exports.testInfo = {"uniqueName":{"container":"container164137349378804424","blockblob":"blockblob164137349389204301","srcblob/%2+%2F":"srcblob/%2+%2F164137349389300622","newblockblob":"newblockblob164137349450702610"},"newDate":{"expiry":"2022-01-05T09:04:53.998Z"}}
+module.exports.testInfo = {"uniqueName":{"container":"container165900074811408317","blockblob":"blockblob165900074821501118","srcblob/%2+%2F":"srcblob/%2+%2F165900074821608109","newblockblob":"newblockblob165900074902607855"},"newDate":{"expiry":"2022-07-28T09:32:28.317Z"}}
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/container164137349378804424')
+  .put('/container165900074811408317')
   .query(true)
   .reply(201, "", [
   'Content-Length',
   '0',
   'Last-Modified',
-  'Wed, 05 Jan 2022 09:04:54 GMT',
+  'Thu, 28 Jul 2022 09:32:28 GMT',
   'ETag',
-  '"0x8D9D02A703F82EB"',
+  '"0x8DA707C169CCCEC"',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'cccf2df8-e01e-0002-4613-025a01000000',
+  '9eef45c4-401e-000b-6c64-a21fd2000000',
   'x-ms-client-request-id',
-  '2a08c5de-1b77-4dea-a472-ace81a710d4b',
+  'c24e2cee-2b4e-4c71-825b-17ef86e03b29',
   'x-ms-version',
-  '2021-02-12',
+  '2021-08-06',
   'Date',
-  'Wed, 05 Jan 2022 09:04:53 GMT'
+  'Thu, 28 Jul 2022 09:32:27 GMT'
 ]);
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/container164137349378804424/srcblob%2F%252%2B%252F164137349389300622', "Hello World")
+  .put('/container165900074811408317/srcblob/%252%2B%252F165900074821608109', "Hello World")
   .reply(201, "", [
   'Content-Length',
   '0',
   'Content-MD5',
   'sQqNsWTgdUEFt6mb5y4/5Q==',
   'Last-Modified',
-  'Wed, 05 Jan 2022 09:04:54 GMT',
+  'Thu, 28 Jul 2022 09:32:28 GMT',
   'ETag',
-  '"0x8D9D02A704F92B4"',
+  '"0x8DA707C16AD9D5F"',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'cccf2e08-e01e-0002-5513-025a01000000',
+  '9eef4601-401e-000b-2064-a21fd2000000',
   'x-ms-client-request-id',
-  '21e437df-4e65-4baa-acc6-148a4ac22fe3',
+  'e9885caa-c816-4045-bbbd-d3c15604097c',
   'x-ms-version',
-  '2021-02-12',
+  '2021-08-06',
   'x-ms-content-crc64',
   'YeJLfssylmU=',
   'x-ms-request-server-encrypted',
   'true',
+  'x-ms-version-id',
+  '2022-07-28T09:32:28.5078879Z',
   'Date',
-  'Wed, 05 Jan 2022 09:04:53 GMT'
+  'Thu, 28 Jul 2022 09:32:27 GMT'
 ]);
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/container164137349378804424/blockblob164137349389204301', "HelloWorld")
+  .put('/container165900074811408317/blockblob165900074821501118', "HelloWorld")
   .reply(201, "", [
   'Content-Length',
   '0',
   'Content-MD5',
   'aOEJ8PQMpyoV4FzCJ4b45g==',
   'Last-Modified',
-  'Wed, 05 Jan 2022 09:04:54 GMT',
+  'Thu, 28 Jul 2022 09:32:28 GMT',
   'ETag',
-  '"0x8D9D02A70605926"',
+  '"0x8DA707C16BCDD34"',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'cccf2e18-e01e-0002-6313-025a01000000',
+  '9eef462c-401e-000b-4764-a21fd2000000',
   'x-ms-client-request-id',
-  '70ca317e-44b5-4b8f-aae3-fd5ea6e81141',
+  '8b7ed1fb-7b19-4914-89fd-109229ff1880',
   'x-ms-version',
-  '2021-02-12',
+  '2021-08-06',
   'x-ms-content-crc64',
   '8R2aIe9T07E=',
   'x-ms-request-server-encrypted',
   'true',
+  'x-ms-version-id',
+  '2022-07-28T09:32:28.6078260Z',
   'Date',
-  'Wed, 05 Jan 2022 09:04:53 GMT'
+  'Thu, 28 Jul 2022 09:32:27 GMT'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
@@ -99,19 +103,21 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '882ce76a-8151-44e0-b77f-469e2c348100',
+  'ac53e1e0-c44c-46f7-8bc1-1a5b7f670500',
   'x-ms-ests-server',
-  '2.1.12261.17 - KRSLR2 ProdSlices',
+  '2.1.13355.6 - SEASLR2 ProdSlices',
+  'X-XSS-Protection',
+  '0',
   'Set-Cookie',
-  'fpc=Ao8itCPCs1VBrKnx_w4VreQ; expires=Fri, 04-Feb-2022 09:04:54 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AvCrSb3BsGJKi-qcHq3kaxc; expires=Sat, 27-Aug-2022 09:32:28 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrWgk9jJbLYuOAMYRIXziGa3XiVvhEEs5Sl0P7Wc5ve8fpOrOAWwIq_NuA3EMjDsnLLqEsHUrKXD3qQs_4IAPMeg21FXoY6_Mu2lUiLzZblTJoEhrsGX6pCSKwCtnONvlQJo1JQ98WCrBLnoWbtytSO2E59pHTMm6GR_omRPD7Di0gAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrlM9g-90aMbbWE8JgEwKSRXKb0pLvO0h737g8yBX3PL_PpDCzrewXWQdNkDJHLkMZkRfyk0TwqoMHOx-xWyuI895n_6XTAz0jjj4yl8fxy1veRR2HY8TXwmLaQEKNcwuNasGqmOgquDVM9Edo9i8pr8LeM-rsfc7ccJ0uWth8V1wgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 05 Jan 2022 09:04:53 GMT',
+  'Thu, 28 Jul 2022 09:32:27 GMT',
   'Content-Length',
   '980'
 ]);
@@ -134,25 +140,27 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '91a6d8dc-a007-449e-8811-fbe651100600',
+  '38f8779e-1ba4-46e6-9737-1ca6445a3b00',
   'x-ms-ests-server',
-  '2.1.12261.17 - SEASLR1 ProdSlices',
+  '2.1.13355.6 - KRC ProdSlices',
+  'X-XSS-Protection',
+  '0',
   'Set-Cookie',
-  'fpc=AuhWQ72fR5RPryI8xBFHbbY; expires=Fri, 04-Feb-2022 09:04:54 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Au-MP7lfk9dIk-R7RyRHMyI; expires=Sat, 27-Aug-2022 09:32:28 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrTnw9bCZ8-fXp__Ys3pixvcBhTLgn6h2dYWzp-paSKMzuT_rC1OBKjWYi8g9NuGkEZ0emrNZir52Rd5TUqG82GdBcv8QeLBSXZgpwLWz61rTEcLdUu6bAioBoJ-PstLqe5BsuO8d1d10Z9lmhzKutHYKt4ByqMFaEHZmkVW5X1XEgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevrj82epKkTuZfxYIzJqd9FPZKKul6-RL5Vy561IMIPKEepSo1acYJR7tjE3BEqK-Sv31udAE-jZ6GgCpNRwyvCPEB1J3q9OLTppBArEmXW87MDaBQmL-7bnT6ZI2xHuwOA2U7yIvURTq1sCZtGvjiuE6Og42jU2YsLd4yKW3Ah0MIgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 05 Jan 2022 09:04:53 GMT',
+  'Thu, 28 Jul 2022 09:32:28 GMT',
   'Content-Length',
   '1753'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/aaaaa/oauth2/v2.0/token', "client_id=aaaaa&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.4.0&x-client-OS=win32&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|771,2,,,|,&x-client-last-telemetry=5|0|||0,0&client-request-id=776cbeb1-7dff-443d-a336-6ceea80e9d49&client_secret=aaaaa&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D")
+  .post('/aaaaa/oauth2/v2.0/token', "client_id=aaaaa&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.11.0&x-client-OS=win32&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|771,2,,,|,&x-client-last-telemetry=5|0|||0,0&client-request-id=04ef109d-2b9d-4b9f-8389-c12ba3778db0&client_secret=aaaaa&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D")
   .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
   'Cache-Control',
   'no-store, no-cache',
@@ -169,25 +177,27 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '882ce76a-8151-44e0-b77f-469e2f348100',
+  '087690f7-9838-47aa-9998-e0aad7d33800',
   'x-ms-ests-server',
-  '2.1.12261.17 - KRSLR2 ProdSlices',
+  '2.1.13355.6 - SEASLR1 ProdSlices',
   'x-ms-clitelem',
   '1,0,0,,',
+  'X-XSS-Protection',
+  '0',
   'Set-Cookie',
-  'fpc=AhQGEdkP0IJLoSsPp1FeG7feeSdeAQAAADZWZ9kOAAAA; expires=Fri, 04-Feb-2022 09:04:54 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Ag-4H9lNNvNLn_fWbzHL8ZveeSdeAQAAAKxOdNoOAAAA; expires=Sat, 27-Aug-2022 09:32:29 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 05 Jan 2022 09:04:53 GMT',
+  'Thu, 28 Jul 2022 09:32:28 GMT',
   'Content-Length',
   '1318'
 ]);
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/container164137349378804424/newblockblob164137349450702610')
+  .put('/container165900074811408317/newblockblob165900074902607855')
   .query(true)
   .reply(201, "", [
   'Content-Length',
@@ -195,21 +205,21 @@ nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParam
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'cccf2e74-e01e-0002-3013-025a01000000',
+  '9eef473d-401e-000b-2b64-a21fd2000000',
   'x-ms-client-request-id',
-  'ee7d736c-4d30-4946-ad4f-0575f66ea0a8',
+  '7cc5d773-5112-4a17-8220-bc26f7be5ada',
   'x-ms-version',
-  '2021-02-12',
+  '2021-08-06',
   'x-ms-content-crc64',
   '8R2aIe9T07E=',
   'x-ms-request-server-encrypted',
   'true',
   'Date',
-  'Wed, 05 Jan 2022 09:04:54 GMT'
+  'Thu, 28 Jul 2022 09:32:28 GMT'
 ]);
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/container164137349378804424/newblockblob164137349450702610')
+  .put('/container165900074811408317/newblockblob165900074902607855')
   .query(true)
   .reply(201, "", [
   'Content-Length',
@@ -217,47 +227,49 @@ nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParam
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'cccf2e97-e01e-0002-4e13-025a01000000',
+  '9eef475a-401e-000b-4664-a21fd2000000',
   'x-ms-client-request-id',
-  '59a5b7ce-3ed7-4d72-9e05-e490a6067de0',
+  '64d25632-a639-42b8-97d3-b43e6dcb7340',
   'x-ms-version',
-  '2021-02-12',
+  '2021-08-06',
   'x-ms-content-crc64',
   '8R2aIe9T07E=',
   'x-ms-request-server-encrypted',
   'true',
   'Date',
-  'Wed, 05 Jan 2022 09:04:54 GMT'
+  'Thu, 28 Jul 2022 09:32:28 GMT'
 ]);
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/container164137349378804424/newblockblob164137349450702610', "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><BlockList><Latest>MQ==</Latest><Latest>Mg==</Latest></BlockList>")
+  .put('/container165900074811408317/newblockblob165900074902607855', "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><BlockList><Latest>MQ==</Latest><Latest>Mg==</Latest></BlockList>")
   .query(true)
   .reply(201, "", [
   'Content-Length',
   '0',
   'Last-Modified',
-  'Wed, 05 Jan 2022 09:04:54 GMT',
+  'Thu, 28 Jul 2022 09:32:29 GMT',
   'ETag',
-  '"0x8D9D02A70D6B092"',
+  '"0x8DA707C174CAA66"',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'cccf2eb9-e01e-0002-6c13-025a01000000',
+  '9eef476a-401e-000b-5664-a21fd2000000',
   'x-ms-client-request-id',
-  'b644f0b2-8a2b-4d4e-9392-060df2b43d48',
+  'a73cf98a-fe93-4ee8-a4cc-49ecd0f496bd',
   'x-ms-version',
-  '2021-02-12',
+  '2021-08-06',
   'x-ms-content-crc64',
   'GFi/o1BSQtU=',
+  'x-ms-version-id',
+  '2022-07-28T09:32:29.5502438Z',
   'x-ms-request-server-encrypted',
   'true',
   'Date',
-  'Wed, 05 Jan 2022 09:04:54 GMT'
+  'Thu, 28 Jul 2022 09:32:28 GMT'
 ]);
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .get('/container164137349378804424/newblockblob164137349450702610')
+  .get('/container165900074811408317/newblockblob165900074902607855')
   .query(true)
   .reply(200, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><BlockList><CommittedBlocks><Block><Name>MQ==</Name><Size>10</Size></Block><Block><Name>Mg==</Name><Size>10</Size></Block></CommittedBlocks></BlockList>", [
   'Transfer-Encoding',
@@ -265,25 +277,29 @@ nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParam
   'Content-Type',
   'application/xml',
   'Last-Modified',
-  'Wed, 05 Jan 2022 09:04:54 GMT',
+  'Thu, 28 Jul 2022 09:32:29 GMT',
   'ETag',
-  '"0x8D9D02A70D6B092"',
+  '"0x8DA707C174CAA66"',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'cccf2edf-e01e-0002-0f13-025a01000000',
+  '9eef4771-401e-000b-5c64-a21fd2000000',
   'x-ms-client-request-id',
-  'f8c22835-3933-4376-beb4-8fc670e4991a',
+  'fa945f02-7a0b-40fa-8912-0ce83129321d',
   'x-ms-version',
-  '2021-02-12',
+  '2021-08-06',
   'x-ms-blob-content-length',
   '20',
+  'Access-Control-Expose-Headers',
+  'x-ms-request-id,x-ms-client-request-id,Server,x-ms-version,Last-Modified,ETag,x-ms-blob-content-length,Content-Type,Content-Length,Date,Transfer-Encoding',
+  'Access-Control-Allow-Origin',
+  '*',
   'Date',
-  'Wed, 05 Jan 2022 09:04:54 GMT'
+  'Thu, 28 Jul 2022 09:32:28 GMT'
 ]);
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .delete('/container164137349378804424')
+  .delete('/container165900074811408317')
   .query(true)
   .reply(202, "", [
   'Content-Length',
@@ -291,11 +307,11 @@ nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParam
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'cccf2f06-e01e-0002-1d13-025a01000000',
+  '9eef4799-401e-000b-8064-a21fd2000000',
   'x-ms-client-request-id',
-  '71512ac2-0735-476d-adb2-9c1f4d831f77',
+  'c9f0ea0c-99a4-4bc2-9f80-e20203493743',
   'x-ms-version',
-  '2021-02-12',
+  '2021-08-06',
   'Date',
-  'Wed, 05 Jan 2022 09:04:54 GMT'
+  'Thu, 28 Jul 2022 09:32:29 GMT'
 ]);

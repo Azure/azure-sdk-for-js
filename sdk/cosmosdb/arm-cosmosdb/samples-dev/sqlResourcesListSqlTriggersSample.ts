@@ -10,16 +10,19 @@
 // Licensed under the MIT License.
 import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Lists the SQL trigger under an existing Azure Cosmos DB database account.
  *
  * @summary Lists the SQL trigger under an existing Azure Cosmos DB database account.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-05-15-preview/examples/CosmosDBSqlTriggerList.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBSqlTriggerList.json
  */
 async function cosmosDbSqlTriggerList() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rgName";
+  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rgName";
   const accountName = "ddb1";
   const databaseName = "databaseName";
   const containerName = "containerName";
@@ -37,4 +40,8 @@ async function cosmosDbSqlTriggerList() {
   console.log(resArray);
 }
 
-cosmosDbSqlTriggerList().catch(console.error);
+async function main() {
+  cosmosDbSqlTriggerList();
+}
+
+main().catch(console.error);

@@ -15,11 +15,15 @@ import * as coreClient from "@azure/core-client";
  * Call is then directed into route's first available trunk, based on the order in the route's trunks list. The configuration can be expanded with additional data.
  */
 export interface SipConfigurationExpanded {
+ * Call is then directed into route's first available trunk, based on the order in the route's trunks list.
+ */
+export interface SipConfiguration {
   /**
    * SIP trunks for routing calls.
    * Map key is trunk's FQDN (1-249 characters).
    */
   trunks?: { [propertyName: string]: TrunkExpanded };
+  trunks?: { [propertyName: string]: SipTrunk };
   /** Trunk routes for routing calls. */
   routes?: SipTrunkRoute[];
 }
@@ -84,6 +88,11 @@ export interface CommunicationErrorResponse {
 
 /** The Communication Services error. */
 export interface CommunicationError {
+  error: SipRoutingError;
+}
+
+/** The Communication Services error. */
+export interface SipRoutingError {
   /** The error code. */
   code: string;
   /** The error message. */
@@ -98,11 +107,13 @@ export interface CommunicationError {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly details?: CommunicationError[];
+  readonly details?: SipRoutingError[];
   /**
    * The inner error if any.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly innerError?: CommunicationError;
+  readonly innerError?: SipRoutingError;
 }
 
 /** Represents a SIP configuration patch. */
@@ -258,6 +269,12 @@ export interface GetSipConfigurationOptionalParams
 
 /** Contains response data for the getSipConfiguration operation. */
 export type GetSipConfigurationResponse = SipConfigurationExpanded;
+/** Optional parameters. */
+export interface GetSipConfigurationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getSipConfiguration operation. */
+export type GetSipConfigurationResponse = SipConfiguration;
 
 /** Optional parameters. */
 export interface PatchSipConfigurationOptionalParams

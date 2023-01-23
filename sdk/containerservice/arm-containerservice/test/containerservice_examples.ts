@@ -99,7 +99,7 @@ describe("ContainerService test", () => {
 
   it("managedClusters list test", async function () {
     const resArray = new Array();
-    for await (let item of client.managedClusters.list()) {
+    for await (let item of client.managedClusters.listByResourceGroup(resourceGroupName)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
@@ -113,7 +113,7 @@ describe("ContainerService test", () => {
   it("managedClusters delete test", async function () {
     const res = await client.managedClusters.beginDeleteAndWait(resourceGroupName, resourceName, testPollingOptions);
     const resArray = new Array();
-    for await (let item of client.managedClusters.list()) {
+    for await (let item of client.managedClusters.listByResourceGroup(resourceGroupName)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);

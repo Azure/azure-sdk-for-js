@@ -11,18 +11,20 @@ import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 
 // @public
-export type Attestation = Resource & {
-    readonly systemData?: SystemData;
+export interface Attestation extends Resource {
+    assessmentDate?: Date;
+    comments?: string;
+    complianceState?: ComplianceState;
+    evidence?: AttestationEvidence[];
+    expiresOn?: Date;
+    readonly lastComplianceStateChangeAt?: Date;
+    metadata?: Record<string, unknown>;
+    owner?: string;
     policyAssignmentId: string;
     policyDefinitionReferenceId?: string;
-    complianceState?: ComplianceState;
-    expiresOn?: Date;
-    owner?: string;
-    comments?: string;
-    evidence?: AttestationEvidence[];
     readonly provisioningState?: string;
-    readonly lastComplianceStateChangeAt?: Date;
-};
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface AttestationEvidence {
@@ -312,13 +314,9 @@ export enum KnownComplianceState {
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
@@ -331,27 +329,22 @@ export enum KnownFieldRestrictionResult {
 
 // @public
 export enum KnownPolicyEventsResourceType {
-    // (undocumented)
     Default = "default"
 }
 
 // @public
 export enum KnownPolicyStatesResource {
-    // (undocumented)
     Default = "default",
-    // (undocumented)
     Latest = "latest"
 }
 
 // @public
 export enum KnownPolicyStatesSummaryResourceType {
-    // (undocumented)
     Latest = "latest"
 }
 
 // @public
 export enum KnownPolicyTrackedResourcesResourceType {
-    // (undocumented)
     Default = "default"
 }
 
@@ -715,10 +708,10 @@ export interface PolicyMetadataOperations {
 }
 
 // @public
-export type PolicyMetadataProperties = PolicyMetadataSlimProperties & {
+export interface PolicyMetadataProperties extends PolicyMetadataSlimProperties {
     readonly description?: string;
     readonly requirements?: string;
-};
+}
 
 // @public
 export interface PolicyMetadataSlimProperties {

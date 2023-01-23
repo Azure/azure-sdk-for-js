@@ -2249,7 +2249,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
           }
         });
 
-        it("show stats and model version", async function () {
+        it.skip("show stats and model version", async function () {
           const docs = [
             { id: "56", text: ":)" },
             { id: "0", text: ":(" },

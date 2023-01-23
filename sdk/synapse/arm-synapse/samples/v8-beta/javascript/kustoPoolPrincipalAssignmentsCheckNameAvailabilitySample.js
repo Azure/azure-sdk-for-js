@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { SynapseManagementClient } = require("@azure/arm-synapse");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Checks that the principal assignment name is valid and is not already in use.
@@ -18,10 +19,11 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/preview/2021-06-01-preview/examples/KustoPoolPrincipalAssignmentsCheckNameAvailability.json
  */
 async function kustoPoolPrincipalAssignmentsCheckNameAvailability() {
-  const subscriptionId = "12345678-1234-1234-1234-123456789098";
+  const subscriptionId =
+    process.env["SYNAPSE_SUBSCRIPTION_ID"] || "12345678-1234-1234-1234-123456789098";
   const workspaceName = "synapseWorkspaceName";
   const kustoPoolName = "kustoclusterrptest4";
-  const resourceGroupName = "kustorptest";
+  const resourceGroupName = process.env["SYNAPSE_RESOURCE_GROUP"] || "kustorptest";
   const principalAssignmentName = {
     name: "kustoprincipal1",
     type: "Microsoft.Synapse/workspaces/kustoPools/principalAssignments",
@@ -37,4 +39,8 @@ async function kustoPoolPrincipalAssignmentsCheckNameAvailability() {
   console.log(result);
 }
 
-kustoPoolPrincipalAssignmentsCheckNameAvailability().catch(console.error);
+async function main() {
+  kustoPoolPrincipalAssignmentsCheckNameAvailability();
+}
+
+main().catch(console.error);

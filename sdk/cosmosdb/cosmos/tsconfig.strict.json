@@ -144,6 +144,7 @@
     "test/internal/unit/utils/batch.spec.ts",
     "test/internal/unit/utils/checkURL.spec.ts",
     "test/internal/unit/utils/offer.spec.ts",
+    "test/internal/unit/client.spec.ts",
     "test/public/common/BaselineTest.PathParser.ts",
     "test/public/common/TestData.ts",
     "test/public/common/setup.ts",

@@ -6,58 +6,73 @@ import { Context } from "mocha";
 
 import { SipRoutingClient } from "../../../src";
 
-import { Recorder } from "@azure-tools/test-recorder";
-import { createRecordedClient } from "./utils/recordedClient";
+import { matrix } from "@azure/test-utils";
+import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
+import {
+  clearSipConfiguration,
+  createRecordedClient,
+  createRecordedClientWithToken,
+} from "./utils/recordedClient";
 
-describe("SipRoutingClient - get routes", function () {
-  let client: SipRoutingClient;
-  let recorder: Recorder;
+matrix([[true, false]], async function (useAad) {
+  describe(`SipRoutingClient - get routes${useAad ? " [AAD]" : ""}`, function () {
+    let client: SipRoutingClient;
+    let recorder: Recorder;
 
-  beforeEach(function (this: Context) {
-    ({ client, recorder } = createRecordedClient(this));
-  });
+    before(async function (this: Context) {
+      if (!isPlaybackMode()) {
+        await clearSipConfiguration();
+      }
+    });
 
-  afterEach(async function (this: Context) {
-    if (!this.currentTest?.isPending()) {
-      await recorder.stop();
-    }
-  });
+    beforeEach(async function (this: Context) {
+      ({ client, recorder } = useAad
+        ? await createRecordedClientWithToken(this)
+        : await createRecordedClient(this));
+    });
 
-  it("can retrieve routes", async () => {
-    assert.isArray(await client.getRoutes());
-  });
+    afterEach(async function (this: Context) {
+      if (!this.currentTest?.isPending()) {
+        await recorder.stop();
+      }
+    });
 
-  it("can retrieve empty routes", async () => {
-    await client.setRoutes([]);
+    it("can retrieve routes", async () => {
+      assert.isArray(await client.getRoutes());
+    });
 
-    const routes = await client.getRoutes();
+    it("can retrieve empty routes", async () => {
+      await client.setRoutes([]);
 
-    assert.isNotNull(routes);
-    assert.isArray(routes);
-    assert.isEmpty(routes);
-  });
+      const routes = await client.getRoutes();
 
-  it("can retrieve not empty routes", async () => {
-    const expectedRoutes = [
-      {
-        name: "myFirstRoute",
-        description: "myFirstRoute's description",
-        numberPattern: "^+[1-9][0-9]{3,23}$",
-        trunks: [],
-      },
-      {
-        name: "mySecondRoute",
-        description: "mySecondRoute's description",
-        numberPattern: "^+[1-9][0-9]{3,23}$",
-        trunks: [],
-      },
-    ];
-    await client.setRoutes(expectedRoutes);
+      assert.isNotNull(routes);
+      assert.isArray(routes);
+      assert.isEmpty(routes);
+    });
 
-    const routes = await client.getRoutes();
+    it("can retrieve not empty routes", async () => {
+      const expectedRoutes = [
+        {
+          name: "myFirstRoute",
+          description: "myFirstRoute's description",
+          numberPattern: "^+[1-9][0-9]{3,23}$",
+          trunks: [],
+        },
+        {
+          name: "mySecondRoute",
+          description: "mySecondRoute's description",
+          numberPattern: "^+[1-9][0-9]{3,23}$",
+          trunks: [],
+        },
+      ];
+      await client.setRoutes(expectedRoutes);
 
-    assert.isNotNull(routes);
-    assert.isArray(routes);
-    assert.deepEqual(routes, expectedRoutes);
+      const routes = await client.getRoutes();
+
+      assert.isNotNull(routes);
+      assert.isArray(routes);
+      assert.deepEqual(routes, expectedRoutes);
+    });
   });
 });

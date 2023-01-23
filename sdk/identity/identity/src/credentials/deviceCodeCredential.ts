@@ -2,13 +2,17 @@
 // Licensed under the MIT license.
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-
-import { credentialLogger } from "../util/logging";
+import {
+  processMultiTenantRequest,
+  resolveAddionallyAllowedTenantIds,
+} from "../util/tenantIdUtils";
+import { DeviceCodeCredentialOptions, DeviceCodeInfo } from "./deviceCodeCredentialOptions";
+import { AuthenticationRecord } from "../msal/types";
 import { MsalDeviceCode } from "../msal/nodeFlows/msalDeviceCode";
 import { MsalFlow } from "../msal/flows";
-import { AuthenticationRecord } from "../msal/types";
+import { credentialLogger } from "../util/logging";
+import { ensureScopes } from "../util/scopeUtils";
 import { tracingClient } from "../util/tracing";
-import { DeviceCodeCredentialOptions, DeviceCodeInfo } from "./deviceCodeCredentialOptions";
 
 const logger = credentialLogger("DeviceCodeCredential");
 
@@ -25,6 +29,8 @@ export function defaultDeviceCodePromptCallback(deviceCodeInfo: DeviceCodeInfo):
  * that the user can enter into https://microsoft.com/devicelogin.
  */
 export class DeviceCodeCredential implements TokenCredential {
+  private tenantId?: string;
+  private additionallyAllowedTenantIds: string[];
   private msalFlow: MsalFlow;
   private disableAutomaticAuthentication?: boolean;
 
@@ -49,6 +55,10 @@ export class DeviceCodeCredential implements TokenCredential {
    * @param options - Options for configuring the client which makes the authentication requests.
    */
   constructor(options?: DeviceCodeCredentialOptions) {
+    this.tenantId = options?.tenantId;
+    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
+      options?.additionallyAllowedTenants
+    );
     this.msalFlow = new MsalDeviceCode({
       ...options,
       logger,
@@ -75,7 +85,13 @@ export class DeviceCodeCredential implements TokenCredential {
       `${this.constructor.name}.getToken`,
       options,
       async (newOptions) => {
-        const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
+        newOptions.tenantId = processMultiTenantRequest(
+          this.tenantId,
+          newOptions,
+          this.additionallyAllowedTenantIds
+        );
+
+        const arrayScopes = ensureScopes(scopes);
         return this.msalFlow.getToken(arrayScopes, {
           ...newOptions,
           disableAutomaticAuthentication: this.disableAutomaticAuthentication,

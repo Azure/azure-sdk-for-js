@@ -8,8 +8,8 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-apimanagement/8.1.0 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "022f39d2-b04a-42bd-a0fe-33d3b730dbe5"
+        "User-Agent": "azsdk-js-arm-apimanagement/8.1.3 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "6f2db624-51bd-4ddb-a4af-ba48d564f5f7"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,8 +17,8 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 04 Aug 2022 02:12:49 GMT",
-        "ETag": "\u0022AAAAAABtk2E=\u0022",
+        "Date": "Fri, 11 Nov 2022 07:40:49 GMT",
+        "ETag": "\u0022AAAAAACCVOg=\u0022",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "Microsoft-HTTPAPI/2.0",
@@ -26,10 +26,10 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "6fa40ab1-9b1f-4fde-b455-9cdd1a4869da",
-        "x-ms-ratelimit-remaining-subscription-reads": "11952",
-        "x-ms-request-id": "6fa40ab1-9b1f-4fde-b455-9cdd1a4869da",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220804T021250Z:6fa40ab1-9b1f-4fde-b455-9cdd1a4869da"
+        "x-ms-correlation-request-id": "65967aff-3556-47d5-8c97-fbaf5c371106",
+        "x-ms-ratelimit-remaining-subscription-reads": "11947",
+        "x-ms-request-id": "65967aff-3556-47d5-8c97-fbaf5c371106",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221111T074049Z:65967aff-3556-47d5-8c97-fbaf5c371106"
       },
       "ResponseBody": {
         "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ApiManagement/service/myserviceyyy1",
@@ -37,14 +37,14 @@
         "type": "Microsoft.ApiManagement/service",
         "tags": {},
         "location": "East US",
-        "etag": "AAAAAABtk2E=",
+        "etag": "AAAAAACCVOg=",
         "properties": {
           "publisherEmail": "foo@contoso.com",
           "publisherName": "foo",
           "notificationSenderEmail": "apimgmt-noreply@mail.windowsazure.com",
           "provisioningState": "Succeeded",
           "targetProvisioningState": "",
-          "createdAtUtc": "2022-08-04T01:26:45.0593048Z",
+          "createdAtUtc": "2022-11-11T06:45:19.6326619Z",
           "gatewayUrl": "https://myserviceyyy1.azure-api.net",
           "gatewayRegionalUrl": "https://myserviceyyy1-eastus-01.regional.azure-api.net",
           "portalUrl": "https://myserviceyyy1.portal.azure-api.net",
@@ -67,7 +67,7 @@
             }
           ],
           "publicIPAddresses": [
-            "20.85.161.60"
+            "20.121.73.5"
           ],
           "privateIPAddresses": null,
           "additionalLocations": null,
@@ -102,10 +102,10 @@
         "systemData": {
           "createdBy": "azure_client_id",
           "createdByType": "Application",
-          "createdAt": "2022-08-04T01:26:44.1737987Z",
+          "createdAt": "2022-11-11T06:45:19.4933744Z",
           "lastModifiedBy": "azure_client_id",
           "lastModifiedByType": "Application",
-          "lastModifiedAt": "2022-08-04T01:26:44.1737987Z"
+          "lastModifiedAt": "2022-11-11T06:45:19.4933744Z"
         }
       }
     }

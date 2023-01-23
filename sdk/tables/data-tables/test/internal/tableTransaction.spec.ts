@@ -69,4 +69,21 @@ describe("TableTransaction", () => {
       assert.isTrue(isProxy);
     });
   });
+
+  describe("updateEntity", () => {
+    it("should have ergonomic overloads", () => {
+      const transaction = new TableTransaction();
+      const entity = { partitionKey: "1", rowKey: "1" };
+      transaction.updateEntity(entity);
+      transaction.updateEntity(entity, "Replace");
+      transaction.updateEntity(entity, { etag: "" });
+      transaction.updateEntity(entity, "Merge", { etag: "" });
+      assert.deepEqual(transaction.actions, [
+        ["update", { partitionKey: "1", rowKey: "1" }, "Merge", {}],
+        ["update", { partitionKey: "1", rowKey: "1" }, "Replace", {}],
+        ["update", { partitionKey: "1", rowKey: "1" }, "Merge", { etag: "" }],
+        ["update", { partitionKey: "1", rowKey: "1" }, "Merge", { etag: "" }],
+      ]);
+    });
+  });
 });
