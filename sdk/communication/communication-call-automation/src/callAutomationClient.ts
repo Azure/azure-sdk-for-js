@@ -6,14 +6,17 @@ import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
 import {
     parseClientArguments,
     isKeyCredential,
-    createCommunicationAuthPolicy
+    createCommunicationAuthPolicy,
+    CommunicationIdentifier,
+    serializeCommunicationIdentifier
 } from "@azure/communication-common";
 import { logger } from "./models/logger";
 import { SDK_VERSION } from "./models/constants";
-import { CallAutomationApiClient } from "./generated/src";
+import { AnswerCallRequest, CallAutomationApiClient, CallSource, CreateCallRequest, RedirectCallRequest, RejectCallRequest } from "./generated/src";
 import { CallConnectionImpl, CallMediaImpl, CallRecordingImpl } from "./generated/src/operations";
 import { CallConnection } from "./callConnection";
 import { CallRecording } from "./callRecording";
+import { AnswerCallOptions, CreateCallOptions, RedirectCallOptions, RejectCallOptions } from "./models/options";
 
 /**
 * Client options used to configure CallingServer Client API requests.
@@ -112,5 +115,113 @@ export class CallAutomationClient {
     */
     public getCallRecording(): CallRecording {
         return new CallRecording(this.callRecordingImpl);
+    }
+
+    /**
+    * Create an outgoing call from source to target identities.
+    * @param source - The source of caller.
+    * @param targets - The target identities.
+    * @param callbackUrl - The callback url.
+    * @param options - Additional request options contains createCallConnection api options.
+    */
+    // TODO: missing mediaStreamingConfig and proper return type
+    public async createCall(
+        source: CallSource,
+        targets: CommunicationIdentifier[],
+        callbackUrl: string,
+        options: CreateCallOptions = {}
+    ): Promise<CallConnection> {
+        const request: CreateCallRequest = {
+            source: source,
+            targets: targets.map((m) => serializeCommunicationIdentifier(m)),
+            callbackUri: callbackUrl,
+            operationContext: options.operationContext,
+            azureCognitiveServicesEndpointUrl: options.azureCognitiveServicesEndpointUrl,
+            mediaStreamingConfiguration: undefined
+        };
+
+        const result = await this.callAutomationApiClient.createCall(
+            request,
+            options
+        );
+
+        if (result.callConnectionId) {
+            return new CallConnection(result.callConnectionId, this.callConnectionImpl, this.callMediaImpl);
+        }
+        throw "callConnectionId is missing in createCall result";
+    }
+
+    /**
+    * Answer the call.
+    * @param incomingCallContext - The context associated with the call.
+    * @param callbackUrl - The callback url.
+    * @param options - Additional request options contains answerCall api options.
+    */
+    //TODO: missing mediaStreamingOptions in options and proper return type.
+    public async answerCall(
+        incomingCallContext: string,
+        callbackUrl: string,
+        options: AnswerCallOptions = {}
+    ): Promise<CallConnection> {
+        const request: AnswerCallRequest = {
+            incomingCallContext: incomingCallContext,
+            callbackUri: callbackUrl,
+            mediaStreamingConfiguration: undefined,
+            azureCognitiveServicesEndpointUrl: options.azureCognitiveServicesEndpointUrl
+        };
+
+        const result = await this.callAutomationApiClient.answerCall(
+            request,
+            options
+        );
+        if (result.callConnectionId) {
+            return new CallConnection(result.callConnectionId, this.callConnectionImpl, this.callMediaImpl);
+        }
+        throw "callConnectionId is missing in createCall result";
+    }
+
+    /**
+    * Redirect the call.
+    *
+    * @param incomingCallContext - The context associated with the call.
+    * @param target - The target identity to redirect the call to.
+    * @param options - Additional request options contains redirectCall api options.
+    */
+    public async redirectCall(
+        incomingCallContext: string,
+        target: CommunicationIdentifier,
+        options: RedirectCallOptions = {}
+    ): Promise<void> {
+        const request: RedirectCallRequest = {
+            incomingCallContext: incomingCallContext,
+            target: serializeCommunicationIdentifier(target)
+        };
+
+        return await this.callAutomationApiClient.redirectCall(
+            request,
+            options
+        );
+    }
+
+
+    /**
+    * Reject the call.
+    *
+    * @param incomingCallContext - The context associated with the call.
+    * @param options - Additional request options contains rejectCall api options.
+    */
+    public async rejectCall(
+        incomingCallContext: string,
+        options: RejectCallOptions = {}
+    ): Promise<void> {
+        const request: RejectCallRequest = {
+            incomingCallContext: incomingCallContext,
+            callRejectReason: options.callRejectReason
+        };
+
+        return await this.callAutomationApiClient.rejectCall(
+            request,
+            options
+        );
     }
 }
