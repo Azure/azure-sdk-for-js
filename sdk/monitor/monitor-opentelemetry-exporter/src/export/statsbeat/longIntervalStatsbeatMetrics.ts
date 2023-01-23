@@ -2,18 +2,13 @@
 // Licensed under the MIT license.
 
 import {
-  createDefaultHttpClient,
-  createPipelineRequest,
-  HttpMethods,
-} from "@azure/core-rest-pipeline";
-import {
   diag,
   BatchObservableResult,
   ObservableGauge,
   ObservableResult,
   Meter,
 } from "@opentelemetry/api";
-import { ExportResultCode } from "@opentelemetry/core";
+import { ExportResult, ExportResultCode } from "@opentelemetry/core";
 import {
   MeterProvider,
   PeriodicExportingMetricReader,
@@ -21,18 +16,11 @@ import {
 } from "@opentelemetry/sdk-metrics";
 import { AzureMonitorExporterOptions, AzureMonitorStatsbeatExporter } from "../../index";
 import * as ai from "../../utils/constants/applicationinsights";
+import { StatsbeatMetrics } from "./statsbeatMetrics";
 import {
   StatsbeatCounter,
-  StatsbeatResourceProvider,
   STATSBEAT_LANGUAGE,
-  AIMS_URI,
-  AIMS_API_VERSION,
-  AIMS_FORMAT,
-  EU_CONNECTION_STRING,
-  EU_ENDPOINTS,
-  NON_EU_CONNECTION_STRING,
   CommonStatsbeatProperties,
-  VirtualMachineInfo,
   AttachStatsbeatProperties,
   StatsbeatFeatureType,
   StatsbeatOptions,
@@ -40,22 +28,16 @@ import {
 
 let instance: LongIntervalStatsbeatMetrics | null = null;
 
-const os = require("os");
-
 /**
  * Long Interval Statsbeat Metrics
  * @internal
  */
-class LongIntervalStatsbeatMetrics {
+class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
   private _AZURE_MONITOR_STATSBEAT_FEATURES = process.env.AZURE_MONITOR_STATSBEAT_FEATURES;
   private _statsCollectionLongInterval: number = 86400000; // 1 day
   private _isInitialized: boolean = false;
 
   // Custom dimensions
-  private _vmInfo: VirtualMachineInfo = {};
-  private _resourceIdentifier: string = "";
-  private _resourceProvider: string = StatsbeatResourceProvider.unknown;
-  private _os: string = os.type();
   private _cikey: string;
   private _runtimeVersion: string;
   private _language: string;
@@ -81,14 +63,21 @@ class LongIntervalStatsbeatMetrics {
   private _attachStatsbeatGauge: ObservableGauge;
 
   constructor(options: StatsbeatOptions) {
-    this._connectionString = this._getConnectionString(options.endpointUrl);
+    super();
+    this._connectionString = super._getConnectionString(options.endpointUrl);
     const exporterConfig: AzureMonitorExporterOptions = {
       connectionString: this._connectionString,
     };
 
     if (this._AZURE_MONITOR_STATSBEAT_FEATURES) {
-      this._feature = JSON.parse(this._AZURE_MONITOR_STATSBEAT_FEATURES).feature;
-      this._instrumentation = JSON.parse(this._AZURE_MONITOR_STATSBEAT_FEATURES).instrumentation;
+      try {
+        this._feature = JSON.parse(this._AZURE_MONITOR_STATSBEAT_FEATURES).feature;
+        this._instrumentation = JSON.parse(this._AZURE_MONITOR_STATSBEAT_FEATURES).instrumentation;
+      } catch (error) {
+        diag.error(
+          `LongIntervalStatsbeat: Failed to parse features/instrumentations (error ${error})`
+        );
+      }
     }
 
     this._longIntervalStatsbeatMeterProvider = new MeterProvider();
@@ -123,8 +112,8 @@ class LongIntervalStatsbeatMetrics {
     );
 
     this._commonProperties = {
-      os: this._os,
-      rp: this._resourceProvider,
+      os: super._os,
+      rp: super._resourceProvider,
       cikey: this._cikey,
       runtimeVersion: this._runtimeVersion,
       language: this._language,
@@ -133,7 +122,7 @@ class LongIntervalStatsbeatMetrics {
     };
 
     this._attachProperties = {
-      rpId: this._resourceIdentifier,
+      rpId: super._resourceIdentifier,
     };
 
     this._isInitialized = true;
@@ -154,7 +143,7 @@ class LongIntervalStatsbeatMetrics {
       // Export Feature/Attach Statsbeat once upon app initialization
       this._longIntervalAzureExporter.export(
         (await this._longIntervalMetricReader.collect()).resourceMetrics,
-        (result) => {
+        (result: ExportResult) => {
           if (result.code !== ExportResultCode.SUCCESS) {
             diag.error(`LongIntervalStatsbeat: metrics export failed (error ${result.error})`);
           }
@@ -189,80 +178,6 @@ class LongIntervalStatsbeatMetrics {
   private _attachCallback(observableResult: ObservableResult) {
     let attributes = { ...this._commonProperties, ...this._attachProperties };
     observableResult.observe(1, attributes);
-  }
-
-  public async getAzureComputeMetadata(): Promise<boolean> {
-    const httpClient = createDefaultHttpClient();
-    const method: HttpMethods = "GET";
-
-    const options = {
-      url: `${AIMS_URI}?${AIMS_API_VERSION}&${AIMS_FORMAT}`,
-      timeout: 5000, // 5 seconds
-      method: method,
-      allowInsecureConnection: true,
-    };
-    const request = createPipelineRequest(options);
-
-    await httpClient
-      .sendRequest(request)
-      .then((res: any) => {
-        if (res.status === 200) {
-          // Success; VM
-          this._vmInfo.isVM = true;
-          let virtualMachineData = "";
-          res.on("data", (data: any) => {
-            virtualMachineData += data;
-          });
-          res.on("end", () => {
-            try {
-              let data = JSON.parse(virtualMachineData);
-              this._vmInfo.id = data["vmId"] || "";
-              this._vmInfo.subscriptionId = data["subscriptionId"] || "";
-              this._vmInfo.osType = data["osType"] || "";
-            } catch (error) {
-              diag.debug("Failed to parse JSON: ", error);
-            }
-          });
-          return true;
-        } else {
-          return false;
-        }
-      })
-      .catch(() => {
-        return false;
-      });
-    return false;
-  }
-
-  private async _getResourceProvider(): Promise<void> {
-    // Check resource provider
-    this._resourceProvider = StatsbeatResourceProvider.unknown;
-    if (process.env.WEBSITE_SITE_NAME) {
-      // Web apps
-      this._resourceProvider = StatsbeatResourceProvider.appsvc;
-    } else if (process.env.FUNCTIONS_WORKER_RUNTIME) {
-      // Function apps
-      this._resourceProvider = StatsbeatResourceProvider.functions;
-    } else if (await this.getAzureComputeMetadata()) {
-      this._resourceProvider = StatsbeatResourceProvider.vm;
-      this._resourceIdentifier = this._vmInfo.id + "/" + this._vmInfo.subscriptionId;
-      // Overrride OS as VM info have higher precedence
-      if (this._vmInfo.osType) {
-        this._os = this._vmInfo.osType;
-      }
-    } else {
-      this._resourceProvider = StatsbeatResourceProvider.unknown;
-    }
-  }
-
-  private _getConnectionString(endpointUrl: string) {
-    let currentEndpoint = endpointUrl;
-    for (let i = 0; i < EU_ENDPOINTS.length; i++) {
-      if (currentEndpoint.includes(EU_ENDPOINTS[i])) {
-        return EU_CONNECTION_STRING;
-      }
-    }
-    return NON_EU_CONNECTION_STRING;
   }
 
   public isInitialized() {

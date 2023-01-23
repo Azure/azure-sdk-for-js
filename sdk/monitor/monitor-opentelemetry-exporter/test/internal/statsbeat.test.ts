@@ -8,7 +8,7 @@ import { AzureMonitorBaseExporter } from "../../src/index";
 import { DEFAULT_BREEZE_ENDPOINT } from "../../src/Declarations/Constants";
 import { TelemetryItem as Envelope } from "../../src/generated";
 import nock from "nock";
-import { StatsbeatMetrics } from "../../src/export/statsbeat/statsbeatMetrics";
+import { NetworkStatsbeatMetrics } from "../../src/export/statsbeat/networkStatsbeatMetrics";
 // @ts-ignore Need to ignore this while we do not import types
 import sinon from "sinon";
 import { StatsbeatCounter } from "../../src/export/statsbeat/types";
@@ -70,12 +70,12 @@ describe("#AzureMonitorStatsbeatExporter", () => {
 
         const result = await exporter.exportEnvelopesPrivate([envelope]);
         assert.strictEqual(result.code, ExportResultCode.SUCCESS);
-        assert.ok(exporter["_statsbeatMetrics"]);
-        assert.strictEqual(exporter["_statsbeatMetrics"]?.isInitialized(), true);
+        assert.ok(exporter["_networkStatsbeatMetrics"]);
+        assert.strictEqual(exporter["_networkStatsbeatMetrics"]?.isInitialized(), true);
       });
 
       it("should use non EU connection string", () => {
-        const statsbeat = new StatsbeatMetrics({
+        const statsbeat = new NetworkStatsbeatMetrics({
           instrumentationKey: "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;",
           endpointUrl: "IngestionEndpoint=https://westus-0.in.applicationinsights.azure.com",
         });
@@ -83,12 +83,12 @@ describe("#AzureMonitorStatsbeatExporter", () => {
       });
 
       it("should use EU connection string", () => {
-        const statsbeat = new StatsbeatMetrics(options);
+        const statsbeat = new NetworkStatsbeatMetrics(options);
         assert.strictEqual(statsbeat["_host"], "IngestionEndpoint=https://westeurope-5");
       });
 
       it("_getShortHost", () => {
-        const statsbeat = new StatsbeatMetrics(options);
+        const statsbeat = new NetworkStatsbeatMetrics(options);
         assert.strictEqual(
           statsbeat["_getShortHost"]("http://westus02-1.in.applicationinsights.azure.com"),
           "westus02"
@@ -105,7 +105,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
       });
 
       it("should add correct network properites to the custom metric", (done) => {
-        const statsbeat = new StatsbeatMetrics(options);
+        const statsbeat = new NetworkStatsbeatMetrics(options);
         statsbeat["_statsCollectionShortInterval"];
         statsbeat.countSuccess(100);
         let metric = statsbeat["_networkStatsbeatCollection"][0];
@@ -132,7 +132,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
 
       it("should add correct long interval properties to the custom metric", async () => {
         const exporter = new TestExporter();
-        const statsbeatMetrics = exporter["_statsbeatMetrics"];
+        const statsbeatMetrics = exporter["_networkStatsbeatMetrics"];
         const longIntervalStatsbeatMetrics = getInstance(options);
         assert.ok(statsbeatMetrics);
         assert.ok(longIntervalStatsbeatMetrics);
@@ -140,7 +140,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         assert.strictEqual(longIntervalStatsbeatMetrics["_feature"], 3);
         // Represents the bitwise OR of MONGODB and REDIS instrumentations
         assert.strictEqual(longIntervalStatsbeatMetrics["_instrumentation"], 10);
-        assert.strictEqual(longIntervalStatsbeatMetrics["_attachProperties"].rpId, "");
+        assert.strictEqual(longIntervalStatsbeatMetrics["_attachProperties"].rpId, undefined);
       });
 
       it("should turn off statsbeat after max failures", async () => {
@@ -165,7 +165,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         sandbox.restore();
       });
 
-      const statsbeat = new StatsbeatMetrics(options);
+      const statsbeat = new NetworkStatsbeatMetrics(options);
 
       it("it should determine if the rp is unknown", (done) => {
         statsbeat["_getResourceProvider"]()
@@ -234,12 +234,12 @@ describe("#AzureMonitorStatsbeatExporter", () => {
 
     describe("Track data from statsbeats", () => {
       let sandbox: sinon.SinonSandbox;
-      let statsbeat: StatsbeatMetrics;
+      let statsbeat: NetworkStatsbeatMetrics;
 
       before(() => {
         sandbox = sinon.createSandbox();
         process.env.WEBSITE_SITE_NAME = "test";
-        statsbeat = new StatsbeatMetrics({
+        statsbeat = new NetworkStatsbeatMetrics({
           ...options,
           networkCollectionInterval: 100,
         });
