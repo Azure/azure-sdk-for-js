@@ -76,7 +76,7 @@
     "@azure/core-rest-pipeline": "^1.8.0",
     "@azure/logger": "^1.0.0",
     "tslib": "^2.2.0",
-    "@azure/core-lro": "~2.4.1",
+    "@azure/core-lro": "^2.4.1",
     "@azure/core-util": "~1.1.2",
     "@azure/abort-controller": "~1.1.1"
   },

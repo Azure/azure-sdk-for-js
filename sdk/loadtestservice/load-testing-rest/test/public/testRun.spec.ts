@@ -9,8 +9,7 @@ import { Context } from "mocha";
 import * as fs from "fs";
 import {
   AzureLoadTestingClient,
-  beginCreateOrUpdateTestRun,
-  beginUploadTestFile,
+  getFileValidationPoller,
   getTestRunCompletionPoller,
   isUnexpected,
 } from "../../src";
@@ -52,33 +51,22 @@ describe("Test Run Creation", () => {
   });
 
   it("should upload the test file with LRO", async () => {
-    const fileUploadPoller = await beginUploadTestFile(client, "abc", "sample.jmx", {
-      queryParameters: {
-        fileType: "JMX_FILE",
-      },
-      contentType: "application/octet-stream",
-      body: readStreamTestFile,
-    });
-    const fileUploadResult = await fileUploadPoller.pollUntilDone({
+    const fileUploadResult = await client
+      .path("/tests/{testId}/files/{fileName}", "abc", "sample.jmx")
+      .put({
+        contentType: "application/octet-stream",
+        body: readStreamTestFile,
+      });
+
+    if (isUnexpected(fileUploadResult)) {
+      throw fileUploadResult.body.error;
+    }
+
+    const fileValidatePoller = await getFileValidationPoller(client, fileUploadResult);
+    await fileValidatePoller.pollUntilDone({
       abortSignal: AbortController.timeout(60000), // timeout of 60 seconds
     });
-
-    assert.equal("VALIDATION_SUCCESS", fileUploadResult.body.validationStatus);
-  });
-
-  it("should create a test run", async () => {
-    const testRunPoller = await beginCreateOrUpdateTestRun(client, "abcde", {
-      contentType: "application/merge-patch+json",
-      body: {
-        testId: "abc",
-        displayName: "sampletr",
-      },
-    });
-    const testRunResult = await testRunPoller.pollUntilDone({
-      abortSignal: AbortController.timeout(300 * 1000), // timeout of 60 seconds
-    });
-
-    assert.equal("DONE", testRunResult.body.status);
+    assert.equal(fileValidatePoller.getOperationState().status, "succeeded");
   });
 
   it("should not be able to create a test run(404)", async () => {
@@ -124,6 +112,28 @@ describe("Test Run Creation", () => {
     });
 
     assert.equal("The operation was aborted.", testRunPoller.getOperationState().error?.message);
+  });
+
+  it("should be able to create a test run", async () => {
+    const testRunCreationResult = await client.path("/test-runs/{testRunId}", "abcde").patch({
+      contentType: "application/merge-patch+json",
+      body: {
+        testId: "abc",
+        displayName: "sample123",
+        virtualUsers: 10,
+      },
+    });
+
+    if (isUnexpected(testRunCreationResult)) {
+      throw testRunCreationResult.body.error;
+    }
+
+    const testRunPoller = await getTestRunCompletionPoller(client, testRunCreationResult);
+    await testRunPoller.pollUntilDone({
+      abortSignal: AbortController.timeout(60000), // timeout of 60 seconds
+    });
+
+    assert.equal(testRunPoller.getOperationState().status, "succeeded");
   });
 
   it("should get a test run", async () => {

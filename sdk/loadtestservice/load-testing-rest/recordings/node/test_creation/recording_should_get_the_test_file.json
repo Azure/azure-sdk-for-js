@@ -9,27 +9,27 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-load-testing-rest/1.0.0-beta.2 core-rest-pipeline/1.10.0 Node/v16.18.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "a2726c60-1c96-465a-9c78-2340d5ea9dc6"
+        "x-ms-client-request-id": "2441cd00-3d1d-4f10-b0ee-0d3a8b994482"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2021-07-01-preview, 2022-06-01-preview, 2022-11-01",
         "Connection": "keep-alive",
-        "Content-Length": "168",
+        "Content-Length": "166",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 20 Jan 2023 15:00:01 GMT",
-        "mise-correlation-id": "e768fc9d-1392-46c5-9cfc-237d39ee528c",
+        "Date": "Sun, 22 Jan 2023 10:00:43 GMT",
+        "mise-correlation-id": "0fe042b6-21a9-434b-bae0-e0b0fd150b7d",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "05570931-ad0a-427e-ba9c-5365fb5a88ff"
+        "x-ms-correlation-request-id": "d274580d-f269-4e1c-b489-c382f6d73a64"
       },
       "ResponseBody": {
         "url": "https://storageurl.com/",
         "fileName": "sample.jmx",
         "fileType": "JMX_FILE",
-        "expireDateTime": "2023-01-20T15:10:01.2144175",
-        "validationStatus": "VALIDATION_INITIATED"
+        "expireDateTime": "2023-01-22T10:10:43.9695788",
+        "validationStatus": "VALIDATION_SUCCESS"
       }
     }
   ],

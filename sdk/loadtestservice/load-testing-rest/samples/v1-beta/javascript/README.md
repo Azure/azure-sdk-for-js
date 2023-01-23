@@ -11,11 +11,10 @@ urlFragment: load-testing-javascript-beta
 
 These sample programs show how to use the JavaScript client libraries for Azure Load Testing rest in some common scenarios.
 
-| **File Name**                                           | **Description**                  |
-| ------------------------------------------------------- | -------------------------------- |
-| [sample.js][sample]                                     | creates and run a loadtest       |
-| [sampleWithInitialLROCall.js][samplewithinitiallrocall] | creates and run a loadtest       |
-| [stopTest.js][stoptest]                                 | creates, run and stop a loadtest |
+| **File Name**           | **Description**                  |
+| ----------------------- | -------------------------------- |
+| [sample.js][sample]     | creates and run a loadtest       |
+| [stopTest.js][stoptest] | creates, run and stop a loadtest |
 
 ## Prerequisites
 
@@ -58,9 +57,8 @@ npx cross-env LOADTESTSERVICE_ENDPOINT="<loadtestservice endpoint>" SUBSCRIPTION
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [sample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtestservice/load-testing-rest/samples/v1-beta/javascript/sample.js
-[samplewithinitiallrocall]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtestservice/load-testing-rest/samples/v1-beta/javascript/sampleWithInitialLROCall.js
 [stoptest]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtestservice/load-testing-rest/samples/v1-beta/javascript/stopTest.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure-rest/load-testing
+[apiref]: https://docs.microsoft.com/javascript/api/@azure/load-testing
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azureloadtestingserviceinstance]: https://learn.microsoft.com/azure/load-testing/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/loadtestservice/load-testing-rest/README.md

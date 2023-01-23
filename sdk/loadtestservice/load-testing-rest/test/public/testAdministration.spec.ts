@@ -5,12 +5,7 @@ import { assert } from "chai";
 import { createClient, createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
 import { AbortController } from "@azure/abort-controller";
-import {
-  AzureLoadTestingClient,
-  beginUploadTestFile,
-  getFileValidationPoller,
-  isUnexpected,
-} from "../../src";
+import { AzureLoadTestingClient, getFileValidationPoller, isUnexpected } from "../../src";
 import { env, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import * as fs from "fs";
 import { isNode } from "@azure/core-util";
@@ -66,22 +61,7 @@ describe("Test Creation", () => {
     assert.include(["201"], result.status);
   });
 
-  it("should upload the test file with LRO", async () => {
-    const fileUploadPoller = await beginUploadTestFile(client, "abc", "sample.jmx", {
-      queryParameters: {
-        fileType: "JMX_FILE",
-      },
-      contentType: "application/octet-stream",
-      body: readStreamTestFile,
-    });
-    const fileUploadResult = await fileUploadPoller.pollUntilDone({
-      abortSignal: AbortController.timeout(60000), // timeout of 60 seconds
-    });
-
-    assert.equal(fileUploadResult.body.validationStatus, "VALIDATION_SUCCESS");
-  });
-
-  it("should fail to upload the test file with LRO(404)", async () => {
+  it("should upload the test file with LRO(404)", async () => {
     const fileUploadResult = await client
       .path("/tests/{testId}/files/{fileName}", "abc", "sample.jmx")
       .put({
@@ -93,11 +73,11 @@ describe("Test Creation", () => {
       throw fileUploadResult.body.error;
     }
 
-    const fileValidatePoller = await getFileValidationPoller(client, fileUploadResult, "abcd");
+    const fileValidatePoller = await getFileValidationPoller(client, fileUploadResult);
     await fileValidatePoller.pollUntilDone({
       abortSignal: AbortController.timeout(60000), // timeout of 60 seconds
     });
-    assert.equal(fileValidatePoller.getOperationState().status, "failed");
+    assert.equal(fileValidatePoller.getOperationState().status, "succeeded");
   });
 
   it("should create the app components", async () => {

@@ -11,8 +11,6 @@ export * from "./isUnexpected";
 export * from "./models";
 export * from "./outputModels";
 export * from "./paginateHelper";
-export { beginCreateOrUpdateTestRun } from "./beginCreateOrUpdateTestRun";
-export { beginUploadTestFile } from "./beginUploadTestFile";
 export { getFileValidationPoller } from "./getFileValidationPoller";
 export { getTestRunCompletionPoller } from "./getTestRunCompletionPoller";
 export default AzureLoadTesting;

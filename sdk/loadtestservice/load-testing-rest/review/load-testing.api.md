@@ -9,12 +9,10 @@
 import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
 import { HttpResponse } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure/core-client';
 import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PathUncheckedResponse } from '@azure-rest/core-client';
 import { RawHttpHeaders } from '@azure/core-rest-pipeline';
-import { ReadStream } from 'fs';
 import { RequestParameters } from '@azure-rest/core-client';
 import { SimplePollerLike } from '@azure/core-lro';
 import { StreamableMethod } from '@azure-rest/core-client';
@@ -46,12 +44,6 @@ export interface AppComponentOutput {
 export type AzureLoadTestingClient = Client & {
     path: Routes;
 };
-
-// @public
-export function beginCreateOrUpdateTestRun(client: AzureLoadTestingClient, testId: string, displayName: string, polledOperationOptions?: PolledOperationOptions): Promise<TestRunStatusPoller>;
-
-// @public
-export function beginUploadTestFile(client: AzureLoadTestingClient, testId: string, fileName: string, file: ReadStream, polledOperationOptions?: PolledOperationOptions): Promise<FileUploadAndValidatePoller>;
 
 // @public
 export interface CertificateMetadata {
@@ -145,10 +137,16 @@ export type FileUploadAndValidatePoller = SimplePollerLike<OperationState<TestGe
 export type GetArrayType<T> = T extends Array<infer TData> ? TData : never;
 
 // @public
+export function getFileValidationPoller(client: AzureLoadTestingClient, fileUploadResult: TestUploadFile201Response, polledOperationOptions?: PolledOperationOptions): Promise<FileUploadAndValidatePoller>;
+
+// @public
 export type GetPage<TPage> = (pageLink: string, maxPageSize?: number) => Promise<{
     page: TPage;
     nextPageLink?: string;
 }>;
+
+// @public
+export function getTestRunCompletionPoller(client: AzureLoadTestingClient, createTestRunResponse: TestRunCreateOrUpdate200Response | TestRunCreateOrUpdate201Response, polledOperationOptions?: PolledOperationOptions): Promise<TestRunStatusPoller>;
 
 // @public (undocumented)
 export function isUnexpected(response: TestCreateOrUpdate200Response | TestCreateOrUpdate201Response | TestCreateOrUpdateDefaultResponse): response is TestCreateOrUpdateDefaultResponse;
@@ -366,7 +364,7 @@ export interface PassFailMetricOutput {
 }
 
 // @public (undocumented)
-export interface PolledOperationOptions extends OperationOptions {
+export interface PolledOperationOptions {
     updateIntervalInMs?: number;
 }
 

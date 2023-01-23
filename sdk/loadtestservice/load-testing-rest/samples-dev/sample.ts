@@ -8,15 +8,13 @@
  * @azsdk-weight 10
  */
 
-import AzureLoadTesting, {
-  isUnexpected,
-  beginCreateOrUpdateTestRun,
-  beginUploadTestFile,
-} from "@azure-rest/load-testing";
+import AzureLoadTesting, { isUnexpected } from "@azure-rest/load-testing";
 import { AbortController } from "@azure/abort-controller";
 import { DefaultAzureCredential } from "@azure/identity";
 import { createReadStream } from "fs";
 import { v4 as uuidv4 } from "uuid";
+import { getFileValidationPoller } from "../src/getFileValidationPoller";
+import { getTestRunCompletionPoller } from "../src/getTestRunCompletionPoller";
 
 const readStream = createReadStream("./sample.jmx");
 
@@ -50,21 +48,26 @@ async function main() {
     throw new Error("Test ID returned as undefined.");
 
   // Uploading .jmx file to a test
-  const fileUploadPoller = await beginUploadTestFile(client, testId, "sample.jmx", {
-    queryParameters: {
-      fileType: "JMX_FILE",
-    },
-    contentType: "application/octet-stream",
-    body: readStream,
-  });
-  await fileUploadPoller.pollUntilDone({
+  const fileUploadResult = await client
+    .path("/tests/{testId}/files/{fileName}", testId, "sample.jmx")
+    .put({
+      contentType: "application/octet-stream",
+      body: readStream,
+    });
+
+  if (isUnexpected(fileUploadResult)) {
+    throw fileUploadResult.body.error;
+  }
+
+  const fileValidatePoller = await getFileValidationPoller(client, fileUploadResult);
+  const fileValidateResult = await fileValidatePoller.pollUntilDone({
     abortSignal: AbortController.timeout(60000), // timeout of 60 seconds
   });
 
-  if (fileUploadPoller.getOperationState().status != "succeeded")
+  if (fileValidatePoller.getOperationState().status != "succeeded")
     throw new Error(
       "There is some issue in validation, please make sure uploaded file is a valid JMX." +
-        fileUploadPoller.getOperationState().error
+        fileValidateResult.body.validationFailureDetails
     );
 
   // Creating/Updating app component
@@ -91,7 +94,7 @@ async function main() {
   }
 
   // Creating/Updating the test run
-  const testRunPoller = await beginCreateOrUpdateTestRun(client, testRunId, {
+  const testRunCreationResult = await client.path("/test-runs/{testRunId}", testRunId).patch({
     contentType: "application/merge-patch+json",
     body: {
       testId: testId,
@@ -99,18 +102,24 @@ async function main() {
       virtualUsers: 10,
     },
   });
+
+  if (isUnexpected(testRunCreationResult)) {
+    throw testRunCreationResult.body.error;
+  }
+
+  if (testRunCreationResult.body.testRunId === undefined)
+    throw new Error("Test Run ID returned as undefined.");
+
+  const testRunPoller = await getTestRunCompletionPoller(client, testRunCreationResult);
   const testRunResult = await testRunPoller.pollUntilDone({
     abortSignal: AbortController.timeout(60000), // timeout of 60 seconds
   });
 
   if (testRunPoller.getOperationState().status != "succeeded" && testRunResult)
-    throw new Error(
-      "There is some issue in running the test, Error Response : " +
-        testRunPoller.getOperationState().error
-    );
+    throw new Error("There is some issue in running the test, Error Response : " + testRunResult);
 
-  const testRunStarttime = testRunResult.body.startDateTime;
-  const testRunEndTime = testRunResult.body.endDateTime;
+  let testRunStarttime = testRunResult.body.startDateTime;
+  let testRunEndTime = testRunResult.body.endDateTime;
   if (testRunId) {
     // get list of all metric namespaces and pick the first one
     const metricNamespaces = await client

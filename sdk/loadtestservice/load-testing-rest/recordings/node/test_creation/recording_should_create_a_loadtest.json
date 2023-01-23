@@ -11,7 +11,7 @@
         "Content-Length": "113",
         "Content-Type": "application/merge-patch\u002Bjson",
         "User-Agent": "azsdk-js-load-testing-rest/1.0.0-beta.2 core-rest-pipeline/1.10.0 Node/v16.18.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "cc05ae2f-dfa8-47b8-acd2-05ff29af966c"
+        "x-ms-client-request-id": "01e4eada-6f48-4252-9efb-c195092a191e"
       },
       "RequestBody": {
         "displayName": "sample_test",
@@ -25,13 +25,13 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-07-01-preview, 2022-06-01-preview, 2022-11-01",
         "Connection": "keep-alive",
-        "Content-Length": "476",
+        "Content-Length": "477",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 20 Jan 2023 14:59:49 GMT",
-        "mise-correlation-id": "7d5ae247-1ff4-4460-ae95-b5dbe2e9ea22",
+        "Date": "Sun, 22 Jan 2023 10:00:32 GMT",
+        "mise-correlation-id": "5a0e9082-e410-481e-b3b1-7e03e74e4aab",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "20fa6fb4-7de7-4de5-8400-959ec8b260ce"
+        "x-ms-correlation-request-id": "39750596-4386-44f1-845d-81dd9976427e"
       },
       "ResponseBody": {
         "loadTestConfiguration": {
@@ -44,7 +44,7 @@
             "url": "https://storageurl.com/",
             "fileName": "sample.jmx",
             "fileType": "JMX_FILE",
-            "expireDateTime": "2023-01-20T15:59:49.6222984",
+            "expireDateTime": "2023-01-22T11:00:32.2671785",
             "validationStatus": "VALIDATION_SUCCESS"
           },
           "additionalFileInfo": []
@@ -52,8 +52,8 @@
         "testId": "abc",
         "description": "",
         "displayName": "sample_test",
-        "createdDateTime": "2023-01-20T14:56:50.37Z",
-        "lastModifiedDateTime": "2023-01-20T14:59:49.616Z"
+        "createdDateTime": "2023-01-22T09:57:27.647Z",
+        "lastModifiedDateTime": "2023-01-22T10:00:32.259Z"
       }
     }
   ],

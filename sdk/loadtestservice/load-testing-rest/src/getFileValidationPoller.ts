@@ -18,10 +18,15 @@ import { sleep } from "./util/LROUtil";
 export async function getFileValidationPoller(
   client: AzureLoadTestingClient,
   fileUploadResult: TestUploadFile201Response,
-  testId: string,
   polledOperationOptions: PolledOperationOptions = {}
 ): Promise<FileUploadAndValidatePoller> {
+  //get filename and testid from initial response
   const fileName = fileUploadResult.body.fileName;
+  const requestUrl = fileUploadResult.request.url;
+  const testId = requestUrl.substring(
+    requestUrl.indexOf("tests/") + 6,
+    requestUrl.lastIndexOf("/files")
+  );
   type Handler = (state: OperationState<TestGetFile200Response>) => void;
 
   const state: OperationState<TestGetFile200Response> = {
