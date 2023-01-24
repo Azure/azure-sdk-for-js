@@ -44,7 +44,7 @@ export async function getFileValidationPoller(
   const poller: SimplePollerLike<OperationState<TestGetFile200Response>, TestGetFile200Response> = {
     async poll(options?: { abortSignal?: AbortSignalLike }): Promise<void> {
       if (options?.abortSignal?.aborted) {
-        state.error = new Error("The operation was aborted.");
+        state.error = new Error("The polling was aborted.");
         return;
       }
 
@@ -78,7 +78,7 @@ export async function getFileValidationPoller(
           }
           case "VALIDATION_FAILURE": {
             state.status = "failed";
-            state.error = new Error(fileValidationResponse.body.validationStatus);
+            state.error = new Error(fileValidationResponse.body.validationFailureDetails);
             break;
           }
         }

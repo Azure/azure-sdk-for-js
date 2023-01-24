@@ -58,9 +58,6 @@ async function main() {
   }
 
   const fileValidatePoller = await getLongRunningPoller(client, fileUploadResult);
-  if (!fileValidatePoller) {
-    throw new Error("Missing poller");
-  }
   const fileValidateResult = await fileValidatePoller.pollUntilDone({
     abortSignal: AbortController.timeout(60000), // timeout of 60 seconds
   });
@@ -113,9 +110,6 @@ async function main() {
     throw new Error("Test Run ID returned as undefined.");
 
   const testRunPoller = await getLongRunningPoller(client, testRunCreationResult);
-  if (!testRunPoller) {
-    throw new Error("Missing poller");
-  }
   const testRunResult = await testRunPoller.pollUntilDone({
     abortSignal: AbortController.timeout(60000), // timeout of 60 seconds
   });

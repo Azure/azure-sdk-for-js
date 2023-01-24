@@ -135,24 +135,27 @@ const client: AzureLoadTestingClient = AzureLoadTesting(Endpoint, new DefaultAzu
 var TEST_ID = "some-test-id";
 const readStream = createReadStream("./sample.jmx");
 
-const fileUploadPoller = await beginUploadTestFile(client, testId, "sample.jmx", {
-  queryParameters: {
-    fileType: "JMX_FILE",
-  },
-  contentType: "application/octet-stream",
-  body: readStream,
-});
-const fileUploadResult = await fileUploadPoller.pollUntilDone({
-  abortSignal: AbortController.timeout(60000), // timeout of 60 seconds
-});
+const fileUploadResult = await client
+    .path("/tests/{testId}/files/{fileName}", TEST_ID, "sample.jmx")
+    .put({
+      contentType: "application/octet-stream",
+      body: readStream,
+    });
+
+  if (isUnexpected(fileUploadResult)) {
+    throw fileUploadResult.body.error;
+  }
+
+  const fileValidatePoller = await getLongRunningPoller(client, fileUploadResult);
+  const fileValidateResult = await fileValidatePoller.pollUntilDone({
+    abortSignal: AbortController.timeout(60000), // timeout of 60 seconds
+  });
 
 if (fileUploadPoller.getOperationState().status != "succeeded")
   throw new Error(
     "There is some issue in validation, please make sure uploaded file is a valid JMX." +
-      fileUploadResult
+      fileValidateResult.body.validationFailureDetails
   );
-
-console.log(fileUploadResult);
 ```
 
 ### Running a Test
@@ -165,19 +168,28 @@ const client: AzureLoadTestingClient = AzureLoadTesting(Endpoint, new DefaultAzu
 
 var TEST_ID = "some-test-id";
 var DISPLAY_NAME = "my-load-test";
+var TEST_RUN_ID = "some-test-run-id";
 
 // Creating/Updating the test run
-const testRunPoller = await beginCreateOrUpdateTestRun(client, testRunId, {
+  const testRunCreationResult = await client.path("/test-runs/{testRunId}", TEST_RUN_ID).patch({
     contentType: "application/merge-patch+json",
     body: {
-      testId: testId,
-      displayName: displayName,
-      virtualUsers: 10,
+      testId: TEST_ID,
+      displayName: DISPLAY_NAME,
     },
   });
-const testRunResult = await testRunPoller.pollUntilDone({
-  abortSignal: AbortController.timeout(60000), // timeout of 60 seconds
-});
+
+  if (isUnexpected(testRunCreationResult)) {
+    throw testRunCreationResult.body.error;
+  }
+
+  if (testRunCreationResult.body.testRunId === undefined)
+    throw new Error("Test Run ID returned as undefined.");
+
+  const testRunPoller = await getLongRunningPoller(client, testRunCreationResult);
+  const testRunResult = await testRunPoller.pollUntilDone({
+    abortSignal: AbortController.timeout(60000), // timeout of 60 seconds
+  });
 
 if (testRunPoller.getOperationState().status != "succeeded" && testRunResult)
   throw new Error("There is some issue in running the test, Error Response : " + testRunResult);
@@ -231,6 +243,7 @@ if (testRunId) {
 
   console.log(metricsResult);
   console.log(testRunResult);
+}
 ```
 
 ## Troubleshooting
