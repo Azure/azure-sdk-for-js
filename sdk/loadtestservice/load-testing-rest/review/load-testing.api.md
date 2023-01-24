@@ -133,17 +133,14 @@ export interface FileInfoOutput {
 // @public
 export type FileUploadAndValidatePoller = SimplePollerLike<OperationState<TestGetFile200Response>, TestGetFile200Response>;
 
-// @public (undocumented)
-export type FileValidationResponse = TestUploadFile201Response;
-
 // @public
 export type GetArrayType<T> = T extends Array<infer TData> ? TData : never;
 
 // @public (undocumented)
-export function getLongRunningPoller(client: AzureLoadTestingClient, initialResponse3: FileValidationResponse): Promise<FileUploadAndValidatePoller | undefined>;
+export function getLongRunningPoller(client: AzureLoadTestingClient, initialResponse: TestUploadFileSuccessResponse): Promise<FileUploadAndValidatePoller | undefined>;
 
 // @public (undocumented)
-export function getLongRunningPoller(client: AzureLoadTestingClient, initialResponse2: TestRunCompletionResponse): Promise<TestRunCompletionPoller | undefined>;
+export function getLongRunningPoller(client: AzureLoadTestingClient, initialResponse: TestRunCreateOrUpdateSuccessResponse): Promise<TestRunCompletionPoller | undefined>;
 
 // @public
 export type GetPage<TPage> = (pageLink: string, maxPageSize?: number) => Promise<{
@@ -965,9 +962,6 @@ export interface TestRunArtifactsOutput {
 // @public (undocumented)
 export type TestRunCompletionPoller = SimplePollerLike<OperationState<TestRunGet200Response>, TestRunGet200Response>;
 
-// @public (undocumented)
-export type TestRunCompletionResponse = TestRunCreateOrUpdate200Response | TestRunCreateOrUpdate201Response;
-
 // @public
 export interface TestRunCreateOrUpdate200Response extends HttpResponse {
     // (undocumented)
@@ -1122,6 +1116,9 @@ export interface TestRunCreateOrUpdateServerMetricsConfigMediaTypesParam {
 
 // @public (undocumented)
 export type TestRunCreateOrUpdateServerMetricsConfigParameters = TestRunCreateOrUpdateServerMetricsConfigMediaTypesParam & TestRunCreateOrUpdateServerMetricsConfigBodyParam & RequestParameters;
+
+// @public (undocumented)
+export type TestRunCreateOrUpdateSuccessResponse = TestRunCreateOrUpdate200Response | TestRunCreateOrUpdate201Response;
 
 // @public (undocumented)
 export interface TestRunDelete {
@@ -1719,6 +1716,9 @@ export interface TestUploadFileQueryParam {
 export interface TestUploadFileQueryParamProperties {
     fileType?: "JMX_FILE" | "USER_PROPERTIES" | "ADDITIONAL_ARTIFACTS";
 }
+
+// @public (undocumented)
+export type TestUploadFileSuccessResponse = TestUploadFile201Response;
 
 // @public
 export interface TimeSeriesElementOutput {
