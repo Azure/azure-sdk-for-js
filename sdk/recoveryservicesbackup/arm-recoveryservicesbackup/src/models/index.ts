@@ -123,6 +123,7 @@ export type AzureVmWorkloadProtectedItemUnion =
   | AzureVmWorkloadProtectedItem
   | AzureVmWorkloadSAPAseDatabaseProtectedItem
   | AzureVmWorkloadSAPHanaDatabaseProtectedItem
+  | AzureVmWorkloadSAPHanaDBInstanceProtectedItem
   | AzureVmWorkloadSQLDatabaseProtectedItem;
 export type AzureWorkloadRecoveryPointUnion =
   | AzureWorkloadRecoveryPoint
@@ -166,6 +167,8 @@ export type AzureVmWorkloadProtectableItemUnion =
   | AzureVmWorkloadSAPAseSystemProtectableItem
   | AzureVmWorkloadSAPHanaDatabaseProtectableItem
   | AzureVmWorkloadSAPHanaSystemProtectableItem
+  | AzureVmWorkloadSAPHanaDBInstance
+  | AzureVmWorkloadSAPHanaHSR
   | AzureVmWorkloadSQLAvailabilityGroupProtectableItem
   | AzureVmWorkloadSQLDatabaseProtectableItem
   | AzureVmWorkloadSQLInstanceProtectableItem;
@@ -652,14 +655,21 @@ export interface ProtectedItem {
     | "AzureVmWorkloadProtectedItem"
     | "AzureVmWorkloadSAPAseDatabase"
     | "AzureVmWorkloadSAPHanaDatabase"
+    | "AzureVmWorkloadSAPHanaDBInstance"
     | "AzureVmWorkloadSQLDatabase"
     | "DPMProtectedItem"
     | "GenericProtectedItem"
     | "MabFileFolderProtectedItem";
-  /** Type of backup management for the backed up item. */
-  backupManagementType?: BackupManagementType;
-  /** Type of workload this item represents. */
-  workloadType?: DataSourceType;
+  /**
+   * Type of backup management for the backed up item.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly backupManagementType?: BackupManagementType;
+  /**
+   * Type of workload this item represents.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly workloadType?: DataSourceType;
   /** Unique name of container */
   containerName?: string;
   /** ARM ID of the resource to be backed up. */
@@ -688,6 +698,8 @@ export interface ProtectedItem {
   isArchiveEnabled?: boolean;
   /** Name of the policy used for protection */
   policyName?: string;
+  /** Soft delete retention period in days */
+  softDeleteRetentionPeriod?: number;
 }
 
 /** Base class for backup copies. Workload-specific backup copies are derived from this class. */
@@ -961,6 +973,8 @@ export interface WorkloadProtectableItem {
     | "SAPAseSystem"
     | "SAPHanaDatabase"
     | "SAPHanaSystem"
+    | "SAPHanaDBInstance"
+    | "SAPHanaHSR"
     | "SQLAvailabilityGroupContainer"
     | "SQLDataBase"
     | "SQLInstance";
@@ -1083,6 +1097,14 @@ export interface AzureFileshareProtectedItemExtendedInfo {
   readonly resourceStateSyncTime?: Date;
 }
 
+/** Properties of Recovery Point */
+export interface RecoveryPointProperties {
+  /** Expiry time of Recovery Point in UTC. */
+  expiryTime?: string;
+  /** Rule name tagged on Recovery Point that governs life cycle */
+  ruleName?: string;
+}
+
 /** Restore file specs like file path, type and target folder path info. */
 export interface RestoreFileSpecs {
   /** Source File/Folder path */
@@ -1122,6 +1144,12 @@ export interface SubProtectionPolicy {
   schedulePolicy?: SchedulePolicyUnion;
   /** Retention policy with the details on backup copy retention ranges. */
   retentionPolicy?: RetentionPolicyUnion;
+  /**
+   * Tiering policy to automatically move RPs to another tier.
+   * Key is Target Tier, defined in RecoveryPointTierType enum.
+   * Tiering policy specifies the criteria to move RP to the target tier.
+   */
+  tieringPolicy?: { [propertyName: string]: TieringPolicy };
 }
 
 /** Base class for backup schedule. */
@@ -1140,10 +1168,40 @@ export interface RetentionPolicy {
   retentionPolicyType: "LongTermRetentionPolicy" | "SimpleRetentionPolicy";
 }
 
+/**
+ * Tiering Policy for a target tier.
+ * If the policy is not specified for a given target tier, service retains the existing configured tiering policy for that tier
+ */
+export interface TieringPolicy {
+  /**
+   * Tiering Mode to control automatic tiering of recovery points. Supported values are:
+   * 1. TierRecommended: Tier all recovery points recommended to be tiered
+   * 2. TierAfter: Tier all recovery points after a fixed period, as specified in duration + durationType below.
+   * 3. DoNotTier: Do not tier any recovery points
+   */
+  tieringMode?: TieringMode;
+  /**
+   * Number of days/weeks/months/years to retain backups in current tier before tiering.
+   * Used only if TieringMode is set to TierAfter
+   */
+  duration?: number;
+  /**
+   * Retention duration type: days/weeks/months/years
+   * Used only if TieringMode is set to TierAfter
+   */
+  durationType?: RetentionDurationType;
+}
+
 /** Additional information on Azure IaaS VM specific backup item. */
 export interface AzureIaaSVMProtectedItemExtendedInfo {
-  /** The oldest backup copy available for this backup item. */
+  /** The oldest backup copy available for this backup item across all tiers. */
   oldestRecoveryPoint?: Date;
+  /** The oldest backup copy available for this backup item in vault tier */
+  oldestRecoveryPointInVault?: Date;
+  /** The oldest backup copy available for this backup item in archive tier */
+  oldestRecoveryPointInArchive?: Date;
+  /** The latest backup copy available for this backup item in archive tier */
+  newestRecoveryPointInArchive?: Date;
   /** Number of backup copies available for this backup item. */
   recoveryPointCount?: number;
   /** Specifies if backup policy associated with the backup item is inconsistent. */
@@ -1273,8 +1331,14 @@ export interface AzureStorageJobTaskDetails {
 
 /** Additional information on Azure Workload for SQL specific backup item. */
 export interface AzureVmWorkloadProtectedItemExtendedInfo {
-  /** The oldest backup copy available for this backup item. */
+  /** The oldest backup copy available for this backup item across all tiers. */
   oldestRecoveryPoint?: Date;
+  /** The oldest backup copy available for this backup item in vault tier */
+  oldestRecoveryPointInVault?: Date;
+  /** The oldest backup copy available for this backup item in archive tier */
+  oldestRecoveryPointInArchive?: Date;
+  /** The latest backup copy available for this backup item in archive tier */
+  newestRecoveryPointInArchive?: Date;
   /** Number of backup copies available for this backup item. */
   recoveryPointCount?: number;
   /** Indicates consistency of policy object and policy applied to this backup item. */
@@ -2324,26 +2388,41 @@ export interface AzureIaaSVMProtectedItem extends ProtectedItem {
     | "AzureIaaSVMProtectedItem"
     | "Microsoft.ClassicCompute/virtualMachines"
     | "Microsoft.Compute/virtualMachines";
-  /** Friendly name of the VM represented by this backup item. */
-  friendlyName?: string;
-  /** Fully qualified ARM ID of the virtual machine represented by this item. */
-  virtualMachineId?: string;
+  /**
+   * Friendly name of the VM represented by this backup item.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly friendlyName?: string;
+  /**
+   * Fully qualified ARM ID of the virtual machine represented by this item.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly virtualMachineId?: string;
   /** Backup status of this backup item. */
   protectionStatus?: string;
   /** Backup state of this backup item. */
   protectionState?: ProtectionState;
-  /** Health status of protected item. */
-  healthStatus?: HealthStatus;
+  /**
+   * Health status of protected item.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly healthStatus?: HealthStatus;
   /** Health details on this backup item. */
   healthDetails?: AzureIaaSVMHealthDetails[];
   /** Health details of different KPIs */
   kpisHealths?: { [propertyName: string]: KPIResourceHealthDetails };
   /** Last backup operation status. */
   lastBackupStatus?: string;
-  /** Timestamp of the last backup operation on this backup item. */
-  lastBackupTime?: Date;
-  /** Data ID of the protected item. */
-  protectedItemDataId?: string;
+  /**
+   * Timestamp of the last backup operation on this backup item.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastBackupTime?: Date;
+  /**
+   * Data ID of the protected item.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly protectedItemDataId?: string;
   /** Additional information for this backup item. */
   extendedInfo?: AzureIaaSVMProtectedItemExtendedInfo;
   /** Extended Properties for Azure IaasVM Backup. */
@@ -2369,17 +2448,24 @@ export interface AzureVmWorkloadProtectedItem extends ProtectedItem {
     | "AzureVmWorkloadProtectedItem"
     | "AzureVmWorkloadSAPAseDatabase"
     | "AzureVmWorkloadSAPHanaDatabase"
+    | "AzureVmWorkloadSAPHanaDBInstance"
     | "AzureVmWorkloadSQLDatabase";
-  /** Friendly name of the DB represented by this backup item. */
-  friendlyName?: string;
+  /**
+   * Friendly name of the DB represented by this backup item.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly friendlyName?: string;
   /** Host/Cluster Name for instance or AG */
   serverName?: string;
   /** Parent name of the DB such as Instance or Availability Group. */
   parentName?: string;
   /** Parent type of protected item, example: for a DB, standalone server or distributed */
   parentType?: string;
-  /** Backup status of this backup item. */
-  protectionStatus?: string;
+  /**
+   * Backup status of this backup item.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly protectionStatus?: string;
   /** Backup state of this backup item. */
   protectionState?: ProtectionState;
   /** Last backup operation status. Possible values: Healthy, Unhealthy. */
@@ -2462,6 +2548,8 @@ export interface AzureFileShareRecoveryPoint extends RecoveryPoint {
   fileShareSnapshotUri?: string;
   /** Contains recovery point size */
   recoveryPointSizeInGB?: number;
+  /** Properties of Recovery Point */
+  recoveryPointProperties?: RecoveryPointProperties;
 }
 
 /** Workload specific recovery point, specifically encapsulates full/diff recovery point */
@@ -2484,6 +2572,8 @@ export interface AzureWorkloadRecoveryPoint extends RecoveryPoint {
   recoveryPointMoveReadinessInfo?: {
     [propertyName: string]: RecoveryPointMoveReadinessInfo;
   };
+  /** Properties of Recovery Point */
+  recoveryPointProperties?: RecoveryPointProperties;
 }
 
 /** Generic backup copy. */
@@ -2498,6 +2588,8 @@ export interface GenericRecoveryPoint extends RecoveryPoint {
   recoveryPointTime?: Date;
   /** Additional information associated with this backup copy. */
   recoveryPointAdditionalInfo?: string;
+  /** Properties of Recovery Point */
+  recoveryPointProperties?: RecoveryPointProperties;
 }
 
 /** IaaS VM workload specific backup copy. */
@@ -2536,6 +2628,8 @@ export interface IaasVMRecoveryPoint extends RecoveryPoint {
   recoveryPointMoveReadinessInfo?: {
     [propertyName: string]: RecoveryPointMoveReadinessInfo;
   };
+  /** Properties of Recovery Point */
+  recoveryPointProperties?: RecoveryPointProperties;
 }
 
 /** AzureFileShare Restore Request */
@@ -2689,11 +2783,16 @@ export interface AzureIaaSVMProtectionPolicy extends ProtectionPolicy {
   schedulePolicy?: SchedulePolicyUnion;
   /** Retention policy with the details on backup copy retention ranges. */
   retentionPolicy?: RetentionPolicyUnion;
+  /**
+   * Tiering policy to automatically move RPs to another tier
+   * Key is Target Tier, defined in RecoveryPointTierType enum.
+   * Tiering policy specifies the criteria to move RP to the target tier.
+   */
+  tieringPolicy?: { [propertyName: string]: TieringPolicy };
   /** Instant RP retention policy range in days */
   instantRpRetentionRangeInDays?: number;
   /** TimeZone optional input as string. For example: TimeZone = "Pacific Standard Time". */
   timeZone?: string;
-  /** Type of backup policy type */
   policyType?: IaasvmPolicyType;
 }
 
@@ -3141,6 +3240,8 @@ export interface AzureVmWorkloadProtectableItem
     | "SAPAseSystem"
     | "SAPHanaDatabase"
     | "SAPHanaSystem"
+    | "SAPHanaDBInstance"
+    | "SAPHanaHSR"
     | "SQLAvailabilityGroupContainer"
     | "SQLDataBase"
     | "SQLInstance";
@@ -3273,6 +3374,13 @@ export interface AzureVmWorkloadSAPHanaDatabaseProtectedItem
   extends AzureVmWorkloadProtectedItem {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   protectedItemType: "AzureVmWorkloadSAPHanaDatabase";
+}
+
+/** Azure VM workload-specific protected item representing SAP HANA DBInstance. */
+export interface AzureVmWorkloadSAPHanaDBInstanceProtectedItem
+  extends AzureVmWorkloadProtectedItem {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  protectedItemType: "AzureVmWorkloadSAPHanaDBInstance";
 }
 
 /** Azure VM workload-specific protected item representing SQL Database. */
@@ -3477,6 +3585,20 @@ export interface AzureVmWorkloadSAPHanaSystemProtectableItem
   extends AzureVmWorkloadProtectableItem {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   protectableItemType: "SAPHanaSystem";
+}
+
+/** Azure VM workload-specific protectable item representing SAP HANA Dbinstance. */
+export interface AzureVmWorkloadSAPHanaDBInstance
+  extends AzureVmWorkloadProtectableItem {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  protectableItemType: "SAPHanaDBInstance";
+}
+
+/** Azure VM workload-specific protectable item representing SAP HANA Dbinstance. */
+export interface AzureVmWorkloadSAPHanaHSR
+  extends AzureVmWorkloadProtectableItem {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  protectableItemType: "SAPHanaHSR";
 }
 
 /** Azure VM workload-specific protectable item representing SQL Availability Group. */
@@ -3704,7 +3826,9 @@ export enum KnownDataSourceType {
   /** SAPHanaDatabase */
   SAPHanaDatabase = "SAPHanaDatabase",
   /** SAPAseDatabase */
-  SAPAseDatabase = "SAPAseDatabase"
+  SAPAseDatabase = "SAPAseDatabase",
+  /** SAPHanaDBInstance */
+  SAPHanaDBInstance = "SAPHanaDBInstance"
 }
 
 /**
@@ -3726,7 +3850,8 @@ export enum KnownDataSourceType {
  * **SQLDataBase** \
  * **AzureFileShare** \
  * **SAPHanaDatabase** \
- * **SAPAseDatabase**
+ * **SAPAseDatabase** \
+ * **SAPHanaDBInstance**
  */
 export type DataSourceType = string;
 
@@ -4180,72 +4305,6 @@ export enum KnownBackupEngineType {
  */
 export type BackupEngineType = string;
 
-/** Known values of {@link ContainerType} that the service accepts. */
-export enum KnownContainerType {
-  /** Invalid */
-  Invalid = "Invalid",
-  /** Unknown */
-  Unknown = "Unknown",
-  /** IaasVMContainer */
-  IaasVMContainer = "IaasVMContainer",
-  /** IaasVMServiceContainer */
-  IaasVMServiceContainer = "IaasVMServiceContainer",
-  /** DPMContainer */
-  DPMContainer = "DPMContainer",
-  /** AzureBackupServerContainer */
-  AzureBackupServerContainer = "AzureBackupServerContainer",
-  /** MABContainer */
-  MABContainer = "MABContainer",
-  /** Cluster */
-  Cluster = "Cluster",
-  /** AzureSqlContainer */
-  AzureSqlContainer = "AzureSqlContainer",
-  /** Windows */
-  Windows = "Windows",
-  /** VCenter */
-  VCenter = "VCenter",
-  /** VMAppContainer */
-  VMAppContainer = "VMAppContainer",
-  /** SqlagWorkLoadContainer */
-  SqlagWorkLoadContainer = "SQLAGWorkLoadContainer",
-  /** StorageContainer */
-  StorageContainer = "StorageContainer",
-  /** GenericContainer */
-  GenericContainer = "GenericContainer",
-  /** MicrosoftClassicComputeVirtualMachines */
-  MicrosoftClassicComputeVirtualMachines = "Microsoft.ClassicCompute/virtualMachines",
-  /** MicrosoftComputeVirtualMachines */
-  MicrosoftComputeVirtualMachines = "Microsoft.Compute/virtualMachines",
-  /** AzureWorkloadContainer */
-  AzureWorkloadContainer = "AzureWorkloadContainer"
-}
-
-/**
- * Defines values for ContainerType. \
- * {@link KnownContainerType} can be used interchangeably with ContainerType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Invalid** \
- * **Unknown** \
- * **IaasVMContainer** \
- * **IaasVMServiceContainer** \
- * **DPMContainer** \
- * **AzureBackupServerContainer** \
- * **MABContainer** \
- * **Cluster** \
- * **AzureSqlContainer** \
- * **Windows** \
- * **VCenter** \
- * **VMAppContainer** \
- * **SQLAGWorkLoadContainer** \
- * **StorageContainer** \
- * **GenericContainer** \
- * **Microsoft.ClassicCompute\/virtualMachines** \
- * **Microsoft.Compute\/virtualMachines** \
- * **AzureWorkloadContainer**
- */
-export type ContainerType = string;
-
 /** Known values of {@link ProtectionState} that the service accepts. */
 export enum KnownProtectionState {
   /** Invalid */
@@ -4259,7 +4318,9 @@ export enum KnownProtectionState {
   /** ProtectionStopped */
   ProtectionStopped = "ProtectionStopped",
   /** ProtectionPaused */
-  ProtectionPaused = "ProtectionPaused"
+  ProtectionPaused = "ProtectionPaused",
+  /** BackupsSuspended */
+  BackupsSuspended = "BackupsSuspended"
 }
 
 /**
@@ -4272,7 +4333,8 @@ export enum KnownProtectionState {
  * **Protected** \
  * **ProtectionError** \
  * **ProtectionStopped** \
- * **ProtectionPaused**
+ * **ProtectionPaused** \
+ * **BackupsSuspended**
  */
 export type ProtectionState = string;
 
@@ -4412,7 +4474,9 @@ export enum KnownWorkloadType {
   /** SAPHanaDatabase */
   SAPHanaDatabase = "SAPHanaDatabase",
   /** SAPAseDatabase */
-  SAPAseDatabase = "SAPAseDatabase"
+  SAPAseDatabase = "SAPAseDatabase",
+  /** SAPHanaDBInstance */
+  SAPHanaDBInstance = "SAPHanaDBInstance"
 }
 
 /**
@@ -4434,7 +4498,8 @@ export enum KnownWorkloadType {
  * **SQLDataBase** \
  * **AzureFileShare** \
  * **SAPHanaDatabase** \
- * **SAPAseDatabase**
+ * **SAPAseDatabase** \
+ * **SAPHanaDBInstance**
  */
 export type WorkloadType = string;
 
@@ -4451,7 +4516,11 @@ export enum KnownPolicyType {
   /** CopyOnlyFull */
   CopyOnlyFull = "CopyOnlyFull",
   /** Incremental */
-  Incremental = "Incremental"
+  Incremental = "Incremental",
+  /** SnapshotFull */
+  SnapshotFull = "SnapshotFull",
+  /** SnapshotCopyOnlyFull */
+  SnapshotCopyOnlyFull = "SnapshotCopyOnlyFull"
 }
 
 /**
@@ -4464,9 +4533,62 @@ export enum KnownPolicyType {
  * **Differential** \
  * **Log** \
  * **CopyOnlyFull** \
- * **Incremental**
+ * **Incremental** \
+ * **SnapshotFull** \
+ * **SnapshotCopyOnlyFull**
  */
 export type PolicyType = string;
+
+/** Known values of {@link TieringMode} that the service accepts. */
+export enum KnownTieringMode {
+  /** Invalid */
+  Invalid = "Invalid",
+  /** TierRecommended */
+  TierRecommended = "TierRecommended",
+  /** TierAfter */
+  TierAfter = "TierAfter",
+  /** DoNotTier */
+  DoNotTier = "DoNotTier"
+}
+
+/**
+ * Defines values for TieringMode. \
+ * {@link KnownTieringMode} can be used interchangeably with TieringMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Invalid** \
+ * **TierRecommended** \
+ * **TierAfter** \
+ * **DoNotTier**
+ */
+export type TieringMode = string;
+
+/** Known values of {@link RetentionDurationType} that the service accepts. */
+export enum KnownRetentionDurationType {
+  /** Invalid */
+  Invalid = "Invalid",
+  /** Days */
+  Days = "Days",
+  /** Weeks */
+  Weeks = "Weeks",
+  /** Months */
+  Months = "Months",
+  /** Years */
+  Years = "Years"
+}
+
+/**
+ * Defines values for RetentionDurationType. \
+ * {@link KnownRetentionDurationType} can be used interchangeably with RetentionDurationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Invalid** \
+ * **Days** \
+ * **Weeks** \
+ * **Months** \
+ * **Years**
+ */
+export type RetentionDurationType = string;
 
 /** Known values of {@link HealthStatus} that the service accepts. */
 export enum KnownHealthStatus {
@@ -4526,7 +4648,9 @@ export enum KnownProtectedItemState {
   /** ProtectionStopped */
   ProtectionStopped = "ProtectionStopped",
   /** ProtectionPaused */
-  ProtectionPaused = "ProtectionPaused"
+  ProtectionPaused = "ProtectionPaused",
+  /** BackupsSuspended */
+  BackupsSuspended = "BackupsSuspended"
 }
 
 /**
@@ -4539,7 +4663,8 @@ export enum KnownProtectedItemState {
  * **Protected** \
  * **ProtectionError** \
  * **ProtectionStopped** \
- * **ProtectionPaused**
+ * **ProtectionPaused** \
+ * **BackupsSuspended**
  */
 export type ProtectedItemState = string;
 
@@ -4605,7 +4730,11 @@ export enum KnownRestorePointType {
   /** Differential */
   Differential = "Differential",
   /** Incremental */
-  Incremental = "Incremental"
+  Incremental = "Incremental",
+  /** SnapshotFull */
+  SnapshotFull = "SnapshotFull",
+  /** SnapshotCopyOnlyFull */
+  SnapshotCopyOnlyFull = "SnapshotCopyOnlyFull"
 }
 
 /**
@@ -4617,7 +4746,9 @@ export enum KnownRestorePointType {
  * **Full** \
  * **Log** \
  * **Differential** \
- * **Incremental**
+ * **Incremental** \
+ * **SnapshotFull** \
+ * **SnapshotCopyOnlyFull**
  */
 export type RestorePointType = string;
 
@@ -4699,7 +4830,11 @@ export enum KnownRestorePointQueryType {
   /** All */
   All = "All",
   /** Incremental */
-  Incremental = "Incremental"
+  Incremental = "Incremental",
+  /** SnapshotFull */
+  SnapshotFull = "SnapshotFull",
+  /** SnapshotCopyOnlyFull */
+  SnapshotCopyOnlyFull = "SnapshotCopyOnlyFull"
 }
 
 /**
@@ -4713,36 +4848,11 @@ export enum KnownRestorePointQueryType {
  * **Differential** \
  * **FullAndDifferential** \
  * **All** \
- * **Incremental**
+ * **Incremental** \
+ * **SnapshotFull** \
+ * **SnapshotCopyOnlyFull**
  */
 export type RestorePointQueryType = string;
-
-/** Known values of {@link RetentionDurationType} that the service accepts. */
-export enum KnownRetentionDurationType {
-  /** Invalid */
-  Invalid = "Invalid",
-  /** Days */
-  Days = "Days",
-  /** Weeks */
-  Weeks = "Weeks",
-  /** Months */
-  Months = "Months",
-  /** Years */
-  Years = "Years"
-}
-
-/**
- * Defines values for RetentionDurationType. \
- * {@link KnownRetentionDurationType} can be used interchangeably with RetentionDurationType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Invalid** \
- * **Days** \
- * **Weeks** \
- * **Months** \
- * **Years**
- */
-export type RetentionDurationType = string;
 
 /** Known values of {@link JobStatus} that the service accepts. */
 export enum KnownJobStatus {
@@ -5042,7 +5152,11 @@ export enum KnownBackupType {
   /** CopyOnlyFull */
   CopyOnlyFull = "CopyOnlyFull",
   /** Incremental */
-  Incremental = "Incremental"
+  Incremental = "Incremental",
+  /** SnapshotFull */
+  SnapshotFull = "SnapshotFull",
+  /** SnapshotCopyOnlyFull */
+  SnapshotCopyOnlyFull = "SnapshotCopyOnlyFull"
 }
 
 /**
@@ -5055,7 +5169,9 @@ export enum KnownBackupType {
  * **Differential** \
  * **Log** \
  * **CopyOnlyFull** \
- * **Incremental**
+ * **Incremental** \
+ * **SnapshotFull** \
+ * **SnapshotCopyOnlyFull**
  */
 export type BackupType = string;
 
@@ -5074,7 +5190,9 @@ export enum KnownWorkloadItemType {
   /** SAPAseSystem */
   SAPAseSystem = "SAPAseSystem",
   /** SAPAseDatabase */
-  SAPAseDatabase = "SAPAseDatabase"
+  SAPAseDatabase = "SAPAseDatabase",
+  /** SAPHanaDBInstance */
+  SAPHanaDBInstance = "SAPHanaDBInstance"
 }
 
 /**
@@ -5088,7 +5206,8 @@ export enum KnownWorkloadItemType {
  * **SAPHanaSystem** \
  * **SAPHanaDatabase** \
  * **SAPAseSystem** \
- * **SAPAseDatabase**
+ * **SAPAseDatabase** \
+ * **SAPHanaDBInstance**
  */
 export type WorkloadItemType = string;
 
@@ -5134,6 +5253,66 @@ export enum KnownIntentItemType {
  */
 export type IntentItemType = string;
 
+/** Known values of {@link ContainerType} that the service accepts. */
+export enum KnownContainerType {
+  /** Invalid */
+  Invalid = "Invalid",
+  /** Unknown */
+  Unknown = "Unknown",
+  /** IaasVMContainer */
+  IaasVMContainer = "IaasVMContainer",
+  /** IaasVMServiceContainer */
+  IaasVMServiceContainer = "IaasVMServiceContainer",
+  /** DPMContainer */
+  DPMContainer = "DPMContainer",
+  /** AzureBackupServerContainer */
+  AzureBackupServerContainer = "AzureBackupServerContainer",
+  /** MABContainer */
+  MABContainer = "MABContainer",
+  /** Cluster */
+  Cluster = "Cluster",
+  /** AzureSqlContainer */
+  AzureSqlContainer = "AzureSqlContainer",
+  /** Windows */
+  Windows = "Windows",
+  /** VCenter */
+  VCenter = "VCenter",
+  /** VMAppContainer */
+  VMAppContainer = "VMAppContainer",
+  /** SqlagWorkLoadContainer */
+  SqlagWorkLoadContainer = "SQLAGWorkLoadContainer",
+  /** StorageContainer */
+  StorageContainer = "StorageContainer",
+  /** GenericContainer */
+  GenericContainer = "GenericContainer",
+  /** HanaHSRContainer */
+  HanaHSRContainer = "HanaHSRContainer"
+}
+
+/**
+ * Defines values for ContainerType. \
+ * {@link KnownContainerType} can be used interchangeably with ContainerType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Invalid** \
+ * **Unknown** \
+ * **IaasVMContainer** \
+ * **IaasVMServiceContainer** \
+ * **DPMContainer** \
+ * **AzureBackupServerContainer** \
+ * **MABContainer** \
+ * **Cluster** \
+ * **AzureSqlContainer** \
+ * **Windows** \
+ * **VCenter** \
+ * **VMAppContainer** \
+ * **SQLAGWorkLoadContainer** \
+ * **StorageContainer** \
+ * **GenericContainer** \
+ * **HanaHSRContainer**
+ */
+export type ContainerType = string;
+
 /** Known values of {@link BackupItemType} that the service accepts. */
 export enum KnownBackupItemType {
   /** Invalid */
@@ -5165,7 +5344,9 @@ export enum KnownBackupItemType {
   /** SAPHanaDatabase */
   SAPHanaDatabase = "SAPHanaDatabase",
   /** SAPAseDatabase */
-  SAPAseDatabase = "SAPAseDatabase"
+  SAPAseDatabase = "SAPAseDatabase",
+  /** SAPHanaDBInstance */
+  SAPHanaDBInstance = "SAPHanaDBInstance"
 }
 
 /**
@@ -5187,7 +5368,8 @@ export enum KnownBackupItemType {
  * **SQLDataBase** \
  * **AzureFileShare** \
  * **SAPHanaDatabase** \
- * **SAPAseDatabase**
+ * **SAPAseDatabase** \
+ * **SAPHanaDBInstance**
  */
 export type BackupItemType = string;
 
@@ -5257,6 +5439,26 @@ export type HttpStatusCode =
   | "ServiceUnavailable"
   | "GatewayTimeout"
   | "HttpVersionNotSupported";
+/** Defines values for ProtectableContainerType. */
+export type ProtectableContainerType =
+  | "Invalid"
+  | "Unknown"
+  | "IaasVMContainer"
+  | "IaasVMServiceContainer"
+  | "DPMContainer"
+  | "AzureBackupServerContainer"
+  | "MABContainer"
+  | "Cluster"
+  | "AzureSqlContainer"
+  | "Windows"
+  | "VCenter"
+  | "VMAppContainer"
+  | "SQLAGWorkLoadContainer"
+  | "StorageContainer"
+  | "GenericContainer"
+  | "Microsoft.ClassicCompute/virtualMachines"
+  | "Microsoft.Compute/virtualMachines"
+  | "AzureWorkloadContainer";
 /** Defines values for RecoveryPointTierType. */
 export type RecoveryPointTierType =
   | "Invalid"
@@ -5901,6 +6103,23 @@ export interface BackupProtectionContainersListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type BackupProtectionContainersListNextResponse = ProtectionContainerResourceList;
+
+/** Optional parameters. */
+export interface DeletedProtectionContainersListOptionalParams
+  extends coreClient.OperationOptions {
+  /** OData filter options. */
+  filter?: string;
+}
+
+/** Contains response data for the list operation. */
+export type DeletedProtectionContainersListResponse = ProtectionContainerResourceList;
+
+/** Optional parameters. */
+export interface DeletedProtectionContainersListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type DeletedProtectionContainersListNextResponse = ProtectionContainerResourceList;
 
 /** Optional parameters. */
 export interface SecurityPINsGetOptionalParams

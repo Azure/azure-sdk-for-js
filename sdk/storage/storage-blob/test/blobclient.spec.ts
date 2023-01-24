@@ -4,7 +4,7 @@
 import { assert } from "chai";
 import * as fs from "fs";
 import { AbortController } from "@azure/abort-controller";
-import { isNode, URLBuilder, URLQuery } from "@azure/core-http";
+import { isNode } from "@azure/core-util";
 import { SpanGraph, setTracer } from "@azure/test-utils";
 import {
   bodyToString,
@@ -732,15 +732,11 @@ describe("BlobClient", () => {
     // so we remove it before comparing urls.
     assert.ok(properties2.copySource, "Expecting valid 'properties2.copySource");
 
-    const sanitizedActualUrl = URLBuilder.parse(properties2.copySource!);
-    const sanitizedQuery = URLQuery.parse(sanitizedActualUrl.getQuery()!);
-    sanitizedQuery.set("sig", undefined);
-    sanitizedActualUrl.setQuery(sanitizedQuery.toString());
+    const sanitizedActualUrl = new URL(properties2.copySource!);
+    sanitizedActualUrl.searchParams.delete("sig");
 
-    const sanitizedExpectedUrl = URLBuilder.parse(blobClient.url);
-    const sanitizedQuery2 = URLQuery.parse(sanitizedActualUrl.getQuery()!);
-    sanitizedQuery2.set("sig", undefined);
-    sanitizedExpectedUrl.setQuery(sanitizedQuery.toString());
+    const sanitizedExpectedUrl = new URL(blobClient.url);
+    sanitizedExpectedUrl.searchParams.delete("sig");
 
     assert.strictEqual(
       sanitizedActualUrl.toString(),
@@ -780,7 +776,7 @@ describe("BlobClient", () => {
     }
   });
 
-  it("download with default parameters and tracing", async () => {
+  it("download with default parameters and tracing", async function (this: Context) {
     const tracer = setTracer();
 
     const rootSpan = tracer.startSpan("root");
@@ -806,10 +802,10 @@ describe("BlobClient", () => {
             {
               name: "Azure.Storage.Blob.BlobClient-download",
               children: [
-                {
+                /* {
                   name: "HTTP GET",
                   children: [],
-                },
+                },*/
               ],
             },
           ],

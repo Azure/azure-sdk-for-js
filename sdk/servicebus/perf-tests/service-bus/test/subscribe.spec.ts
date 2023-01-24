@@ -32,7 +32,7 @@ export class SubscribeTest extends EventPerfTest<ReceiverOptions> {
       required: true,
       description: "Size of each message body in bytes",
       shortName: "size",
-      longName: "size-in-bytes",
+      longName: "message-size",
       defaultValue: 2000,
     },
     "max-concurrent-calls": {
@@ -64,6 +64,7 @@ export class SubscribeTest extends EventPerfTest<ReceiverOptions> {
     } = this.parsedOptions;
 
     await sendMessages(sender, numberOfMessages, messageBodySize);
+    await sender.close();
   }
 
   setup() {
