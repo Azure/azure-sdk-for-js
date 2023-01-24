@@ -133,20 +133,23 @@ export interface FileInfoOutput {
 // @public
 export type FileUploadAndValidatePoller = SimplePollerLike<OperationState<TestGetFile200Response>, TestGetFile200Response>;
 
+// @public (undocumented)
+export type FileValidationResponse = TestUploadFile201Response;
+
 // @public
 export type GetArrayType<T> = T extends Array<infer TData> ? TData : never;
 
-// @public
-export function getFileValidationPoller(client: AzureLoadTestingClient, fileUploadResult: TestUploadFile201Response, polledOperationOptions?: PolledOperationOptions): Promise<FileUploadAndValidatePoller>;
+// @public (undocumented)
+export function getLongRunningPoller(client: AzureLoadTestingClient, initialResponse3: FileValidationResponse): Promise<FileUploadAndValidatePoller | undefined>;
+
+// @public (undocumented)
+export function getLongRunningPoller(client: AzureLoadTestingClient, initialResponse2: TestRunCompletionResponse): Promise<TestRunCompletionPoller | undefined>;
 
 // @public
 export type GetPage<TPage> = (pageLink: string, maxPageSize?: number) => Promise<{
     page: TPage;
     nextPageLink?: string;
 }>;
-
-// @public
-export function getTestRunCompletionPoller(client: AzureLoadTestingClient, createTestRunResponse: TestRunCreateOrUpdate200Response | TestRunCreateOrUpdate201Response, polledOperationOptions?: PolledOperationOptions): Promise<TestRunStatusPoller>;
 
 // @public (undocumented)
 export function isUnexpected(response: TestCreateOrUpdate200Response | TestCreateOrUpdate201Response | TestCreateOrUpdateDefaultResponse): response is TestCreateOrUpdateDefaultResponse;
@@ -959,6 +962,12 @@ export interface TestRunArtifactsOutput {
     outputArtifacts?: TestRunOutputArtifactsOutput;
 }
 
+// @public (undocumented)
+export type TestRunCompletionPoller = SimplePollerLike<OperationState<TestRunGet200Response>, TestRunGet200Response>;
+
+// @public (undocumented)
+export type TestRunCompletionResponse = TestRunCreateOrUpdate200Response | TestRunCreateOrUpdate201Response;
+
 // @public
 export interface TestRunCreateOrUpdate200Response extends HttpResponse {
     // (undocumented)
@@ -1599,9 +1608,6 @@ export interface TestRunStatisticsOutput {
     throughput?: number;
     transaction?: string;
 }
-
-// @public (undocumented)
-export type TestRunStatusPoller = SimplePollerLike<OperationState<TestRunGet200Response>, TestRunGet200Response>;
 
 // @public (undocumented)
 export interface TestRunStop {
