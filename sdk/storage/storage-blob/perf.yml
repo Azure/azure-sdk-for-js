@@ -31,7 +31,6 @@ extends:
   parameters:
     OperatingSystems: ${{ parameters.OperatingSystems }}
     ServiceDirectory: storage/storage-blob
-    Services: "^storage-blob$"
     PackageVersions: ${{ parameters.PackageVersions }}
     Tests: ${{ parameters.Tests }}
     Arguments: ${{ parameters.Arguments }}
