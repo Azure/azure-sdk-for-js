@@ -3680,7 +3680,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20230115
+      typescript: 5.0.0-dev.20230123
     dev: false
 
   /downlevel-dts/0.7.0:
@@ -8277,8 +8277,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20230115:
-    resolution: {integrity: sha512-nwKvgk3rIDN9pa4fuI5vdpvR9LcLnFsLV/1HE4I5LTULB/DsN6MMeE1UF69L2RKCsv0PFYx4GXCWOsZUt/Jx9w==}
+  /typescript/5.0.0-dev.20230123:
+    resolution: {integrity: sha512-edLR1yM+/2DAL3tZNDtoXLoe2ks7VOYxLUafJMswhWrvpzN4YDNy76zpYORpufCNBn32V5aYA48P0Wkk4U4Ugg==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -12507,7 +12507,7 @@ packages:
     dev: false
 
   file:projects/arm-mediaservices.tgz:
-    resolution: {integrity: sha512-2YYMhqb2wGP1LBP8oJkP5dHZV6hh625QROa22VHaS+m7xvvkB3KxjqNbJt6pZ92p0zc1v+WH6G6se3iH3JxtHw==, tarball: file:projects/arm-mediaservices.tgz}
+    resolution: {integrity: sha512-XQqC8pQQU0ttihsBXEwGGVZwz/nDFNzK2eZcNooR2VoF7G1oD7QeOTxzhmQAQT67LSciEtBGcBpiMoFeyk8Rgg==, tarball: file:projects/arm-mediaservices.tgz}
     name: '@rush-temp/arm-mediaservices'
     version: 0.0.0
     dependencies:
@@ -15937,7 +15937,7 @@ packages:
     dev: false
 
   file:projects/cosmos.tgz:
-    resolution: {integrity: sha512-7WRvO12h/mPrNGh7QmiCgPCK5looiplJhVnqNLvqVRPs7bCW5CKcUWLi0HAKwarKSrphJSUyAOLSS9U9Bg+raQ==, tarball: file:projects/cosmos.tgz}
+    resolution: {integrity: sha512-BaiYgmnoUp7butG89R72cphwtxOUCqg48In55RNAhVC/nZ9SmUMPwk1goOu4sPG7axyoxIP7jc3JMrhmOB6E+Q==, tarball: file:projects/cosmos.tgz}
     name: '@rush-temp/cosmos'
     version: 0.0.0
     dependencies:
@@ -15949,6 +15949,7 @@ packages:
       '@types/priorityqueuejs': 1.0.1
       '@types/semaphore': 1.1.1
       '@types/sinon': 9.0.11
+      '@types/sinonjs__fake-timers': 8.1.2
       '@types/underscore': 1.11.4
       '@types/uuid': 8.3.4
       cross-env: 7.0.3
