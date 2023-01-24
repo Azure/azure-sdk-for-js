@@ -2,7 +2,13 @@
 // Licensed under the MIT license.
 
 import { OperationState, SimplePollerLike } from "@azure/core-lro";
-import { TestGetFile200Response, TestRunGet200Response } from "./responses";
+import {
+  TestGetFile200Response,
+  TestRunCreateOrUpdate200Response,
+  TestRunCreateOrUpdate201Response,
+  TestRunGet200Response,
+  TestUploadFile201Response,
+} from "./responses";
 
 /** Load test model */
 export interface Test {
@@ -405,10 +411,16 @@ export type FileUploadAndValidatePoller = SimplePollerLike<
   TestGetFile200Response
 >;
 
-export type TestRunStatusPoller = SimplePollerLike<
+export type TestRunCompletionPoller = SimplePollerLike<
   OperationState<TestRunGet200Response>,
   TestRunGet200Response
 >;
+
+export type TestRunCompletionResponse =
+  | TestRunCreateOrUpdate200Response
+  | TestRunCreateOrUpdate201Response;
+
+export type FileValidationResponse = TestUploadFile201Response;
 
 export interface PolledOperationOptions {
   /**

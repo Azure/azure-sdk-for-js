@@ -11,7 +11,7 @@
         "Content-Type": "application/octet-stream",
         "Transfer-Encoding": "chunked",
         "User-Agent": "azsdk-js-load-testing-rest/1.0.0-beta.2 core-rest-pipeline/1.10.0 Node/v16.18.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "9bbaff0f-6538-473d-bfdc-bd954d71bfe4"
+        "x-ms-client-request-id": "5ce33e4d-ca0f-4c06-b37a-d5f3e21ccfe5"
       },
       "RequestBody": "YSxiLGMsZAoxLDIsMyw0Cg==",
       "StatusCode": 201,
@@ -20,18 +20,18 @@
         "Connection": "keep-alive",
         "Content-Length": "192",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Sun, 22 Jan 2023 10:00:32 GMT",
+        "Date": "Tue, 24 Jan 2023 04:45:03 GMT",
         "Location": "https://endpoint/tests/abc/files/additional-data.csv?api-version=2022-11-01",
-        "mise-correlation-id": "2bd64d80-5ae3-469c-b281-b2fc88436abb",
+        "mise-correlation-id": "9aa5515b-21cc-4e33-b5ef-581f35040941",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "937c7fd5-9ad2-47a6-99a7-96723752d39d"
+        "x-ms-correlation-request-id": "de7b68f0-c8bd-423c-9401-278e37295fe4"
       },
       "ResponseBody": {
         "url": "https://storageurl.com/",
         "fileName": "additional-data.csv",
         "fileType": "ADDITIONAL_ARTIFACTS",
-        "expireDateTime": "2023-01-22T10:10:32.8630917",
+        "expireDateTime": "2023-01-24T04:55:03.7764101",
         "validationStatus": "VALIDATION_NOT_REQUIRED"
       }
     }

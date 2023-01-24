@@ -8,13 +8,11 @@
  */
 
 const AzureLoadTesting = require("@azure-rest/load-testing").default,
-  { isUnexpected } = require("@azure-rest/load-testing");
+  { isUnexpected, getLongRunningPoller } = require("@azure-rest/load-testing");
 const { AbortController } = require("@azure/abort-controller");
 const { DefaultAzureCredential } = require("@azure/identity");
 const { createReadStream } = require("fs");
 const { v4: uuidv4 } = require("uuid");
-const { getFileValidationPoller } = require("../src/getFileValidationPoller");
-const { getTestRunCompletionPoller } = require("../src/getTestRunCompletionPoller");
 
 const readStream = createReadStream("./sample.jmx");
 
@@ -59,7 +57,10 @@ async function main() {
     throw fileUploadResult.body.error;
   }
 
-  const fileValidatePoller = await getFileValidationPoller(client, fileUploadResult);
+  const fileValidatePoller = await getLongRunningPoller(client, fileUploadResult);
+  if (!fileValidatePoller) {
+    throw new Error("Missing poller");
+  }
   const fileValidateResult = await fileValidatePoller.pollUntilDone({
     abortSignal: AbortController.timeout(60000), // timeout of 60 seconds
   });
@@ -111,7 +112,10 @@ async function main() {
   if (testRunCreationResult.body.testRunId === undefined)
     throw new Error("Test Run ID returned as undefined.");
 
-  const testRunPoller = await getTestRunCompletionPoller(client, testRunCreationResult);
+  const testRunPoller = await getLongRunningPoller(client, testRunCreationResult);
+  if (!testRunPoller) {
+    throw new Error("Missing poller");
+  }
   const testRunResult = await testRunPoller.pollUntilDone({
     abortSignal: AbortController.timeout(60000), // timeout of 60 seconds
   });

@@ -5,10 +5,11 @@ import { assert } from "chai";
 import { createClient, createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
 import { AbortController } from "@azure/abort-controller";
-import { AzureLoadTestingClient, getFileValidationPoller, isUnexpected } from "../../src";
+import { AzureLoadTestingClient, isUnexpected } from "../../src";
 import { env, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import * as fs from "fs";
 import { isNode } from "@azure/core-util";
+import { getLongRunningPoller } from "../../src/pollingHelper";
 
 describe("Test Creation", () => {
   let recorder: Recorder;
@@ -30,7 +31,7 @@ describe("Test Creation", () => {
     await recorder.stop();
   });
 
-  //patch/put
+  // patch/put
   it("should create a loadtest", async () => {
     const result = await client.path("/tests/{testId}", "abc").patch({
       contentType: "application/merge-patch+json",
@@ -61,7 +62,7 @@ describe("Test Creation", () => {
     assert.include(["201"], result.status);
   });
 
-  it("should upload the test file with LRO(404)", async () => {
+  it("should upload the test file with LRO", async () => {
     const fileUploadResult = await client
       .path("/tests/{testId}/files/{fileName}", "abc", "sample.jmx")
       .put({
@@ -73,7 +74,10 @@ describe("Test Creation", () => {
       throw fileUploadResult.body.error;
     }
 
-    const fileValidatePoller = await getFileValidationPoller(client, fileUploadResult);
+    const fileValidatePoller = await getLongRunningPoller(client, fileUploadResult);
+    if (!fileValidatePoller) {
+      throw new Error("Missing poller");
+    }
     await fileValidatePoller.pollUntilDone({
       abortSignal: AbortController.timeout(60000), // timeout of 60 seconds
     });
@@ -101,7 +105,7 @@ describe("Test Creation", () => {
     assert.include(["200", "201"], result.status);
   });
 
-  //get
+  // get
   it("should get the test file", async () => {
     const result = await client.path("/tests/{testId}/files/{fileName}", "abc", "sample.jmx").get();
 
@@ -120,7 +124,7 @@ describe("Test Creation", () => {
     assert.include(["200"], result.status);
   });
 
-  //delete
+  // delete
   it("should delete the test file", async () => {
     const result = await client
       .path("/tests/{testId}/files/{fileName}", "abc", "sample.jmx")

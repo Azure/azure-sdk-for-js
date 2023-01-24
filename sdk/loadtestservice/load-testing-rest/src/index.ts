@@ -11,6 +11,5 @@ export * from "./isUnexpected";
 export * from "./models";
 export * from "./outputModels";
 export * from "./paginateHelper";
-export { getFileValidationPoller } from "./getFileValidationPoller";
-export { getTestRunCompletionPoller } from "./getTestRunCompletionPoller";
+export { getLongRunningPoller } from "./pollingHelper";
 export default AzureLoadTesting;

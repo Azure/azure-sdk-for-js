@@ -11,7 +11,7 @@
         "Content-Length": "60",
         "Content-Type": "application/merge-patch\u002Bjson",
         "User-Agent": "azsdk-js-load-testing-rest/1.0.0-beta.2 core-rest-pipeline/1.10.0 Node/v16.18.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "2be89d88-f81c-4759-9fde-aaca79194795"
+        "x-ms-client-request-id": "401f077b-1c58-45de-a6fc-29c5d51ef9ce"
       },
       "RequestBody": {
         "testId": "abc",
@@ -22,14 +22,14 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-07-01-preview, 2022-06-01-preview, 2022-11-01",
         "Connection": "keep-alive",
-        "Content-Length": "1289",
+        "Content-Length": "1287",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Sun, 22 Jan 2023 10:00:58 GMT",
+        "Date": "Tue, 24 Jan 2023 04:45:28 GMT",
         "Location": "https://endpoint/test-runs/abcjad?api-version=2022-11-01",
-        "mise-correlation-id": "94604f61-dabf-4f49-8886-2cf5e0e93eac",
+        "mise-correlation-id": "8169c94c-3a9d-46c3-ac14-cc04399dfa9b",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "61709980-ce14-4ec1-84f3-ff7e7da3ffec"
+        "x-ms-correlation-request-id": "f51ae026-ee36-40b1-b2d7-f7054600bcea"
       },
       "ResponseBody": {
         "loadTestConfiguration": {
@@ -50,7 +50,7 @@
               "url": "https://storageurl.com/",
               "fileName": "sample.jmx",
               "fileType": "JMX_FILE",
-              "expireDateTime": "2023-01-22T11:00:57.4451411",
+              "expireDateTime": "2023-01-24T05:45:26.6808045",
               "validationStatus": "VALIDATION_SUCCESS"
             },
             "inputArtifactsZipFileInfo": {
@@ -69,10 +69,10 @@
         "displayName": "sample123",
         "testId": "abc",
         "status": "ACCEPTED",
-        "executedDateTime": "2023-01-22T10:00:57.445Z",
+        "executedDateTime": "2023-01-24T04:45:26.683Z",
         "portalUrl": "https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport//resourceId/%2fsubscriptions%2fazure_subscription_id%2fresourcegroups%2fmrinal%2fproviders%2fmicrosoft.loadtestservice%2floadtests%2fmrgautam-auseast/testId/abc/testRunId/abcjad",
-        "createdDateTime": "2023-01-22T10:00:58.447Z",
-        "lastModifiedDateTime": "2023-01-22T10:00:58.447Z"
+        "createdDateTime": "2023-01-24T04:45:28.19Z",
+        "lastModifiedDateTime": "2023-01-24T04:45:28.19Z"
       }
     },
     {
@@ -84,7 +84,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-load-testing-rest/1.0.0-beta.2 core-rest-pipeline/1.10.0 Node/v16.18.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "88b6f997-3e91-42b5-b6fe-334146677cd2"
+        "x-ms-client-request-id": "acf26c03-2956-4f47-b3aa-432d71929581"
       },
       "RequestBody": null,
       "StatusCode": 404,
@@ -93,11 +93,11 @@
         "Connection": "keep-alive",
         "Content-Length": "99",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Sun, 22 Jan 2023 10:00:58 GMT",
-        "mise-correlation-id": "c446384f-d8f1-44bb-93cd-18f0ac337f32",
+        "Date": "Tue, 24 Jan 2023 04:45:28 GMT",
+        "mise-correlation-id": "dbde731f-33bf-44ab-8c0f-d29fa22d91eb",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "5a231032-83f8-4de0-b7af-46f53adbbb38"
+        "x-ms-correlation-request-id": "8bba7f6f-84c3-43b8-9dba-0c8c8e9f403b"
       },
       "ResponseBody": {
         "error": {

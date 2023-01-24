@@ -20,7 +20,7 @@ export async function getFileValidationPoller(
   fileUploadResult: TestUploadFile201Response,
   polledOperationOptions: PolledOperationOptions = {}
 ): Promise<FileUploadAndValidatePoller> {
-  //get filename and testid from initial response
+  // get filename and testid from initial response
   const fileName = fileUploadResult.body.fileName;
   const requestUrl = fileUploadResult.request.url;
   const testId = requestUrl.substring(
@@ -50,7 +50,7 @@ export async function getFileValidationPoller(
       }
 
       if (fileName) {
-        let fileValidationResponse = await client
+        const fileValidationResponse = await client
           .path("/tests/{testId}/files/{fileName}", testId, fileName)
           .get();
         if (isUnexpected(fileValidationResponse)) {
@@ -62,7 +62,7 @@ export async function getFileValidationPoller(
           state.status = "running";
         }
         if (fileValidationResponse.body.validationStatus === "NOT_VALIDATED") {
-          if (fileValidationResponse.body.fileType == "JMX_FILE") {
+          if (fileValidationResponse.body.fileType === "JMX_FILE") {
             state.status = "running";
           } else {
             state.status = "succeeded";

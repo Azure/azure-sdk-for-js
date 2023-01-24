@@ -11,7 +11,7 @@
         "Content-Length": "427",
         "Content-Type": "application/merge-patch\u002Bjson",
         "User-Agent": "azsdk-js-load-testing-rest/1.0.0-beta.2 core-rest-pipeline/1.10.0 Node/v16.18.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "9cd7e1ff-3128-45e5-b9a2-d47cc544c1d3"
+        "x-ms-client-request-id": "e260bc37-91dd-4763-b3d9-0f1d8ff6efec"
       },
       "RequestBody": {
         "testId": "abc",
@@ -30,12 +30,12 @@
         "Connection": "keep-alive",
         "Content-Length": "563",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Sun, 22 Jan 2023 10:00:43 GMT",
+        "Date": "Tue, 24 Jan 2023 04:45:12 GMT",
         "Location": "https://endpoint/tests/abc/app-components?api-version=2022-11-01",
-        "mise-correlation-id": "0fcdc4e2-ff16-4d38-9f8d-436b5184c377",
+        "mise-correlation-id": "9508b4ca-cc51-4b2d-aedb-18b8d0664956",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "35e0be98-806c-4be2-bbff-d60e3ff35ea3"
+        "x-ms-correlation-request-id": "0310df60-11df-4315-b5ba-efda08139302"
       },
       "ResponseBody": {
         "components": {
@@ -48,8 +48,8 @@
           }
         },
         "testId": "abc",
-        "createdDateTime": "2023-01-22T10:00:43.423Z",
-        "lastModifiedDateTime": "2023-01-22T10:00:43.423Z"
+        "createdDateTime": "2023-01-24T04:45:12.795Z",
+        "lastModifiedDateTime": "2023-01-24T04:45:12.795Z"
       }
     }
   ],

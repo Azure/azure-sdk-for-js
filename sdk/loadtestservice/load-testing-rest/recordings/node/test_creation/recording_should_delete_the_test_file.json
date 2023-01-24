@@ -9,18 +9,18 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-load-testing-rest/1.0.0-beta.2 core-rest-pipeline/1.10.0 Node/v16.18.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "01528f23-26f6-4c7a-845d-998ea03da518"
+        "x-ms-client-request-id": "7686e804-4567-4c26-928f-c9d013166492"
       },
       "RequestBody": null,
       "StatusCode": 204,
       "ResponseHeaders": {
         "api-supported-versions": "2021-07-01-preview, 2022-06-01-preview, 2022-11-01",
         "Connection": "keep-alive",
-        "Date": "Sun, 22 Jan 2023 10:00:45 GMT",
-        "mise-correlation-id": "56a3d7b0-77aa-49a6-ac6b-a7c3851934e5",
+        "Date": "Tue, 24 Jan 2023 04:45:14 GMT",
+        "mise-correlation-id": "2faf834f-6440-4918-bae5-0b708f124e69",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "285fa474-d836-4e53-8d35-e85576223f09"
+        "x-ms-correlation-request-id": "9aa24ed5-27eb-4903-8595-8201258b619a"
       },
       "ResponseBody": null
     }

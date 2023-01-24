@@ -11,7 +11,7 @@
         "Content-Length": "60",
         "Content-Type": "application/merge-patch\u002Bjson",
         "User-Agent": "azsdk-js-load-testing-rest/1.0.0-beta.2 core-rest-pipeline/1.10.0 Node/v16.18.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "23e1c79f-38b8-44a2-b718-70c51281e34e"
+        "x-ms-client-request-id": "bd1208a1-721b-426d-90c3-65d7fdb4504b"
       },
       "RequestBody": {
         "testId": "abc",
@@ -22,14 +22,14 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-07-01-preview, 2022-06-01-preview, 2022-11-01",
         "Connection": "keep-alive",
-        "Content-Length": "1286",
+        "Content-Length": "1287",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Sun, 22 Jan 2023 10:01:06 GMT",
+        "Date": "Tue, 24 Jan 2023 04:45:36 GMT",
         "Location": "https://endpoint/test-runs/abcde?api-version=2022-11-01",
-        "mise-correlation-id": "045a4d3a-1a2d-41eb-8487-8770d8d36198",
+        "mise-correlation-id": "11314e55-1e78-48b8-bfae-8d03a38b6f05",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "b0593e91-1bfc-4d55-8044-a6a855b15fe8"
+        "x-ms-correlation-request-id": "15963d40-f143-4e0c-a317-9abda373bad7"
       },
       "ResponseBody": {
         "loadTestConfiguration": {
@@ -50,7 +50,7 @@
               "url": "https://storageurl.com/",
               "fileName": "sample.jmx",
               "fileType": "JMX_FILE",
-              "expireDateTime": "2023-01-22T11:01:05.767674",
+              "expireDateTime": "2023-01-24T05:45:35.0977217",
               "validationStatus": "VALIDATION_SUCCESS"
             },
             "inputArtifactsZipFileInfo": {
@@ -69,10 +69,10 @@
         "displayName": "sample123",
         "testId": "abc",
         "status": "ACCEPTED",
-        "executedDateTime": "2023-01-22T10:01:05.767Z",
+        "executedDateTime": "2023-01-24T04:45:35.099Z",
         "portalUrl": "https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport//resourceId/%2fsubscriptions%2fazure_subscription_id%2fresourcegroups%2fmrinal%2fproviders%2fmicrosoft.loadtestservice%2floadtests%2fmrgautam-auseast/testId/abc/testRunId/abcde",
-        "createdDateTime": "2023-01-22T10:01:06.635Z",
-        "lastModifiedDateTime": "2023-01-22T10:01:06.635Z"
+        "createdDateTime": "2023-01-24T04:45:36.856Z",
+        "lastModifiedDateTime": "2023-01-24T04:45:36.856Z"
       }
     },
     {
@@ -84,7 +84,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-load-testing-rest/1.0.0-beta.2 core-rest-pipeline/1.10.0 Node/v16.18.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "392142cc-96fa-4519-a512-c1b76ea8b0ca"
+        "x-ms-client-request-id": "58626759-fc82-4fcb-8ea8-7be99a24523a"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -93,11 +93,11 @@
         "Connection": "keep-alive",
         "Content-Length": "1350",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Sun, 22 Jan 2023 10:01:07 GMT",
-        "mise-correlation-id": "0e53494e-bbd8-4582-9e14-ce49d3aec947",
+        "Date": "Tue, 24 Jan 2023 04:45:37 GMT",
+        "mise-correlation-id": "45210f02-c88e-4745-b817-6dca83230016",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "cc832390-ae8f-443d-b7ca-511f17511e9c"
+        "x-ms-correlation-request-id": "9e9bb722-a488-4d9f-a665-e19fd178db1e"
       },
       "ResponseBody": {
         "loadTestConfiguration": {
@@ -111,21 +111,21 @@
               "url": "https://storageurl.com/",
               "fileName": "config.yaml",
               "fileType": "ADDITIONAL_ARTIFACTS",
-              "expireDateTime": "2023-01-22T11:01:07.0881538",
+              "expireDateTime": "2023-01-24T05:45:37.2499718",
               "validationStatus": "VALIDATION_NOT_REQUIRED"
             },
             "testScriptFileInfo": {
               "url": "https://storageurl.com/",
               "fileName": "sample.jmx",
               "fileType": "JMX_FILE",
-              "expireDateTime": "2023-01-22T11:01:07.0880522",
+              "expireDateTime": "2023-01-24T05:45:37.2498714",
               "validationStatus": "VALIDATION_SUCCESS"
             },
             "inputArtifactsZipFileInfo": {
               "url": "https://storageurl.com/",
               "fileName": "inputartifacts.zip",
               "fileType": "ADDITIONAL_ARTIFACTS",
-              "expireDateTime": "2023-01-22T11:01:07.0881768",
+              "expireDateTime": "2023-01-24T05:45:37.2499956",
               "validationStatus": "VALIDATION_NOT_REQUIRED"
             },
             "additionalFileInfo": []
@@ -137,11 +137,11 @@
         "displayName": "sample123",
         "testId": "abc",
         "status": "PROVISIONING",
-        "startDateTime": "2023-01-22T10:01:06.757Z",
-        "executedDateTime": "2023-01-22T10:01:05.767Z",
+        "startDateTime": "2023-01-24T04:45:36.997Z",
+        "executedDateTime": "2023-01-24T04:45:35.099Z",
         "portalUrl": "https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport//resourceId/%2fsubscriptions%2fazure_subscription_id%2fresourcegroups%2fmrinal%2fproviders%2fmicrosoft.loadtestservice%2floadtests%2fmrgautam-auseast/testId/abc/testRunId/abcde",
-        "createdDateTime": "2023-01-22T10:01:06.635Z",
-        "lastModifiedDateTime": "2023-01-22T10:01:07.011Z"
+        "createdDateTime": "2023-01-24T04:45:36.856Z",
+        "lastModifiedDateTime": "2023-01-24T04:45:37.211Z"
       }
     },
     {
@@ -153,76 +153,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-load-testing-rest/1.0.0-beta.2 core-rest-pipeline/1.10.0 Node/v16.18.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "0d696f2e-a2aa-463a-a92c-2ac888e4f1a8"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "api-supported-versions": "2021-07-01-preview, 2022-06-01-preview, 2022-11-01",
-        "Connection": "keep-alive",
-        "Content-Length": "1349",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Sun, 22 Jan 2023 10:01:09 GMT",
-        "mise-correlation-id": "b4a1086c-352b-4344-870b-89b7a3901663",
-        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
-        "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "aae4ce28-52e6-40d8-a2fc-41163ef9b306"
-      },
-      "ResponseBody": {
-        "loadTestConfiguration": {
-          "engineInstances": 1,
-          "splitAllCSVs": false,
-          "quickStartTest": false
-        },
-        "testArtifacts": {
-          "inputArtifacts": {
-            "configFileInfo": {
-              "url": "https://storageurl.com/",
-              "fileName": "config.yaml",
-              "fileType": "ADDITIONAL_ARTIFACTS",
-              "expireDateTime": "2023-01-22T11:01:09.4524648",
-              "validationStatus": "VALIDATION_NOT_REQUIRED"
-            },
-            "testScriptFileInfo": {
-              "url": "https://storageurl.com/",
-              "fileName": "sample.jmx",
-              "fileType": "JMX_FILE",
-              "expireDateTime": "2023-01-22T11:01:09.452364",
-              "validationStatus": "VALIDATION_SUCCESS"
-            },
-            "inputArtifactsZipFileInfo": {
-              "url": "https://storageurl.com/",
-              "fileName": "inputartifacts.zip",
-              "fileType": "ADDITIONAL_ARTIFACTS",
-              "expireDateTime": "2023-01-22T11:01:09.4524868",
-              "validationStatus": "VALIDATION_NOT_REQUIRED"
-            },
-            "additionalFileInfo": []
-          },
-          "outputArtifacts": {}
-        },
-        "testResult": "NOT_APPLICABLE",
-        "testRunId": "abcde",
-        "displayName": "sample123",
-        "testId": "abc",
-        "status": "PROVISIONING",
-        "startDateTime": "2023-01-22T10:01:06.757Z",
-        "executedDateTime": "2023-01-22T10:01:05.767Z",
-        "portalUrl": "https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport//resourceId/%2fsubscriptions%2fazure_subscription_id%2fresourcegroups%2fmrinal%2fproviders%2fmicrosoft.loadtestservice%2floadtests%2fmrgautam-auseast/testId/abc/testRunId/abcde",
-        "createdDateTime": "2023-01-22T10:01:06.635Z",
-        "lastModifiedDateTime": "2023-01-22T10:01:07.011Z"
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/test-runs/abcde?api-version=2022-11-01",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-load-testing-rest/1.0.0-beta.2 core-rest-pipeline/1.10.0 Node/v16.18.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "66a4c540-7d6f-4d0a-9ed1-95e6ff3a9501"
+        "x-ms-client-request-id": "5763101f-919c-4168-9cf9-c7474db9feab"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -231,11 +162,11 @@
         "Connection": "keep-alive",
         "Content-Length": "1350",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Sun, 22 Jan 2023 10:01:11 GMT",
-        "mise-correlation-id": "f857396b-589a-4260-86dc-55bc9e38354b",
+        "Date": "Tue, 24 Jan 2023 04:45:39 GMT",
+        "mise-correlation-id": "e51e4921-b590-4b16-af0e-43787a9e90ca",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "c7fc6a2b-76d2-43bf-8abf-30790446d7d8"
+        "x-ms-correlation-request-id": "4c5ed63a-864e-45e5-b990-cec934446041"
       },
       "ResponseBody": {
         "loadTestConfiguration": {
@@ -249,21 +180,21 @@
               "url": "https://storageurl.com/",
               "fileName": "config.yaml",
               "fileType": "ADDITIONAL_ARTIFACTS",
-              "expireDateTime": "2023-01-22T11:01:11.8733009",
+              "expireDateTime": "2023-01-24T05:45:39.6239037",
               "validationStatus": "VALIDATION_NOT_REQUIRED"
             },
             "testScriptFileInfo": {
               "url": "https://storageurl.com/",
               "fileName": "sample.jmx",
               "fileType": "JMX_FILE",
-              "expireDateTime": "2023-01-22T11:01:11.8729907",
+              "expireDateTime": "2023-01-24T05:45:39.6238043",
               "validationStatus": "VALIDATION_SUCCESS"
             },
             "inputArtifactsZipFileInfo": {
               "url": "https://storageurl.com/",
               "fileName": "inputartifacts.zip",
               "fileType": "ADDITIONAL_ARTIFACTS",
-              "expireDateTime": "2023-01-22T11:01:11.8733365",
+              "expireDateTime": "2023-01-24T05:45:39.6239258",
               "validationStatus": "VALIDATION_NOT_REQUIRED"
             },
             "additionalFileInfo": []
@@ -275,11 +206,11 @@
         "displayName": "sample123",
         "testId": "abc",
         "status": "PROVISIONING",
-        "startDateTime": "2023-01-22T10:01:06.757Z",
-        "executedDateTime": "2023-01-22T10:01:05.767Z",
+        "startDateTime": "2023-01-24T04:45:36.997Z",
+        "executedDateTime": "2023-01-24T04:45:35.099Z",
         "portalUrl": "https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport//resourceId/%2fsubscriptions%2fazure_subscription_id%2fresourcegroups%2fmrinal%2fproviders%2fmicrosoft.loadtestservice%2floadtests%2fmrgautam-auseast/testId/abc/testRunId/abcde",
-        "createdDateTime": "2023-01-22T10:01:06.635Z",
-        "lastModifiedDateTime": "2023-01-22T10:01:07.011Z"
+        "createdDateTime": "2023-01-24T04:45:36.856Z",
+        "lastModifiedDateTime": "2023-01-24T04:45:37.211Z"
       }
     },
     {
@@ -291,20 +222,20 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-load-testing-rest/1.0.0-beta.2 core-rest-pipeline/1.10.0 Node/v16.18.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "6ba0d21c-6057-4738-a145-d2de8e881b17"
+        "x-ms-client-request-id": "b8d2cb02-6323-414c-9cba-ada928c6c376"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2021-07-01-preview, 2022-06-01-preview, 2022-11-01",
         "Connection": "keep-alive",
-        "Content-Length": "1349",
+        "Content-Length": "1350",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Sun, 22 Jan 2023 10:01:14 GMT",
-        "mise-correlation-id": "860d5710-e0f4-45cb-8564-1257b6955f51",
+        "Date": "Tue, 24 Jan 2023 04:45:41 GMT",
+        "mise-correlation-id": "bc76c40d-674c-4407-950f-fe7e7b70752a",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "eb686028-42bb-4b3e-9bf1-7619a8ed8b9f"
+        "x-ms-correlation-request-id": "45bd115a-a2bc-4580-8e64-ab5ef80a93cf"
       },
       "ResponseBody": {
         "loadTestConfiguration": {
@@ -318,21 +249,90 @@
               "url": "https://storageurl.com/",
               "fileName": "config.yaml",
               "fileType": "ADDITIONAL_ARTIFACTS",
-              "expireDateTime": "2023-01-22T11:01:14.2991423",
+              "expireDateTime": "2023-01-24T05:45:41.9892097",
               "validationStatus": "VALIDATION_NOT_REQUIRED"
             },
             "testScriptFileInfo": {
               "url": "https://storageurl.com/",
               "fileName": "sample.jmx",
               "fileType": "JMX_FILE",
-              "expireDateTime": "2023-01-22T11:01:14.2990404",
+              "expireDateTime": "2023-01-24T05:45:41.9890845",
               "validationStatus": "VALIDATION_SUCCESS"
             },
             "inputArtifactsZipFileInfo": {
               "url": "https://storageurl.com/",
               "fileName": "inputartifacts.zip",
               "fileType": "ADDITIONAL_ARTIFACTS",
-              "expireDateTime": "2023-01-22T11:01:14.2991648",
+              "expireDateTime": "2023-01-24T05:45:41.9892346",
+              "validationStatus": "VALIDATION_NOT_REQUIRED"
+            },
+            "additionalFileInfo": []
+          },
+          "outputArtifacts": {}
+        },
+        "testResult": "NOT_APPLICABLE",
+        "testRunId": "abcde",
+        "displayName": "sample123",
+        "testId": "abc",
+        "status": "PROVISIONING",
+        "startDateTime": "2023-01-24T04:45:36.997Z",
+        "executedDateTime": "2023-01-24T04:45:35.099Z",
+        "portalUrl": "https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport//resourceId/%2fsubscriptions%2fazure_subscription_id%2fresourcegroups%2fmrinal%2fproviders%2fmicrosoft.loadtestservice%2floadtests%2fmrgautam-auseast/testId/abc/testRunId/abcde",
+        "createdDateTime": "2023-01-24T04:45:36.856Z",
+        "lastModifiedDateTime": "2023-01-24T04:45:37.211Z"
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/test-runs/abcde?api-version=2022-11-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-load-testing-rest/1.0.0-beta.2 core-rest-pipeline/1.10.0 Node/v16.18.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "b40a2549-e8ac-4e6b-8928-3ecf0cc2d240"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-07-01-preview, 2022-06-01-preview, 2022-11-01",
+        "Connection": "keep-alive",
+        "Content-Length": "1349",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 24 Jan 2023 04:45:44 GMT",
+        "mise-correlation-id": "5ee95503-16bb-4fef-b9f4-f103765cb105",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "5fb66f27-61ed-41cd-b541-ec10a08567c5"
+      },
+      "ResponseBody": {
+        "loadTestConfiguration": {
+          "engineInstances": 1,
+          "splitAllCSVs": false,
+          "quickStartTest": false
+        },
+        "testArtifacts": {
+          "inputArtifacts": {
+            "configFileInfo": {
+              "url": "https://storageurl.com/",
+              "fileName": "config.yaml",
+              "fileType": "ADDITIONAL_ARTIFACTS",
+              "expireDateTime": "2023-01-24T05:45:44.4603246",
+              "validationStatus": "VALIDATION_NOT_REQUIRED"
+            },
+            "testScriptFileInfo": {
+              "url": "https://storageurl.com/",
+              "fileName": "sample.jmx",
+              "fileType": "JMX_FILE",
+              "expireDateTime": "2023-01-24T05:45:44.4602229",
+              "validationStatus": "VALIDATION_SUCCESS"
+            },
+            "inputArtifactsZipFileInfo": {
+              "url": "https://storageurl.com/",
+              "fileName": "inputartifacts.zip",
+              "fileType": "ADDITIONAL_ARTIFACTS",
+              "expireDateTime": "2023-01-24T05:45:44.4603467",
               "validationStatus": "VALIDATION_NOT_REQUIRED"
             },
             "additionalFileInfo": []
@@ -344,11 +344,11 @@
         "displayName": "sample123",
         "testId": "abc",
         "status": "PROVISIONED",
-        "startDateTime": "2023-01-22T10:01:06.757Z",
-        "executedDateTime": "2023-01-22T10:01:05.767Z",
+        "startDateTime": "2023-01-24T04:45:36.997Z",
+        "executedDateTime": "2023-01-24T04:45:35.099Z",
         "portalUrl": "https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport//resourceId/%2fsubscriptions%2fazure_subscription_id%2fresourcegroups%2fmrinal%2fproviders%2fmicrosoft.loadtestservice%2floadtests%2fmrgautam-auseast/testId/abc/testRunId/abcde",
-        "createdDateTime": "2023-01-22T10:01:06.635Z",
-        "lastModifiedDateTime": "2023-01-22T10:01:14.262Z"
+        "createdDateTime": "2023-01-24T04:45:36.856Z",
+        "lastModifiedDateTime": "2023-01-24T04:45:44.431Z"
       }
     },
     {
@@ -360,7 +360,76 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-load-testing-rest/1.0.0-beta.2 core-rest-pipeline/1.10.0 Node/v16.18.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "ef3b9715-36ba-4b66-ad5d-69a99832ef0a"
+        "x-ms-client-request-id": "c8336b9d-eb91-46d5-970e-e3c2af6ef7cb"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-07-01-preview, 2022-06-01-preview, 2022-11-01",
+        "Connection": "keep-alive",
+        "Content-Length": "1349",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 24 Jan 2023 04:45:46 GMT",
+        "mise-correlation-id": "f791f3e3-ac22-4cf6-b599-7fd55a9b09b0",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "cbb8ea63-cb52-453d-8d8f-269b12057000"
+      },
+      "ResponseBody": {
+        "loadTestConfiguration": {
+          "engineInstances": 1,
+          "splitAllCSVs": false,
+          "quickStartTest": false
+        },
+        "testArtifacts": {
+          "inputArtifacts": {
+            "configFileInfo": {
+              "url": "https://storageurl.com/",
+              "fileName": "config.yaml",
+              "fileType": "ADDITIONAL_ARTIFACTS",
+              "expireDateTime": "2023-01-24T05:45:46.8332468",
+              "validationStatus": "VALIDATION_NOT_REQUIRED"
+            },
+            "testScriptFileInfo": {
+              "url": "https://storageurl.com/",
+              "fileName": "sample.jmx",
+              "fileType": "JMX_FILE",
+              "expireDateTime": "2023-01-24T05:45:46.8331476",
+              "validationStatus": "VALIDATION_SUCCESS"
+            },
+            "inputArtifactsZipFileInfo": {
+              "url": "https://storageurl.com/",
+              "fileName": "inputartifacts.zip",
+              "fileType": "ADDITIONAL_ARTIFACTS",
+              "expireDateTime": "2023-01-24T05:45:46.8332684",
+              "validationStatus": "VALIDATION_NOT_REQUIRED"
+            },
+            "additionalFileInfo": []
+          },
+          "outputArtifacts": {}
+        },
+        "testResult": "NOT_APPLICABLE",
+        "testRunId": "abcde",
+        "displayName": "sample123",
+        "testId": "abc",
+        "status": "CONFIGURING",
+        "startDateTime": "2023-01-24T04:45:36.997Z",
+        "executedDateTime": "2023-01-24T04:45:35.099Z",
+        "portalUrl": "https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport//resourceId/%2fsubscriptions%2fazure_subscription_id%2fresourcegroups%2fmrinal%2fproviders%2fmicrosoft.loadtestservice%2floadtests%2fmrgautam-auseast/testId/abc/testRunId/abcde",
+        "createdDateTime": "2023-01-24T04:45:36.856Z",
+        "lastModifiedDateTime": "2023-01-24T04:45:44.509Z"
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/test-runs/abcde?api-version=2022-11-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-load-testing-rest/1.0.0-beta.2 core-rest-pipeline/1.10.0 Node/v16.18.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "d10e6b42-ff26-4675-be1b-241db97ff827"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -369,11 +438,11 @@
         "Connection": "keep-alive",
         "Content-Length": "1348",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Sun, 22 Jan 2023 10:01:16 GMT",
-        "mise-correlation-id": "835de479-1388-49c8-a831-4bb554e00065",
+        "Date": "Tue, 24 Jan 2023 04:45:49 GMT",
+        "mise-correlation-id": "e5f97a28-25b8-436c-8482-bafc702018fa",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "28859ac3-d8d4-4b73-832f-379f5bc7a5e9"
+        "x-ms-correlation-request-id": "63bfd602-e0e4-4128-8e18-3ea428e98494"
       },
       "ResponseBody": {
         "loadTestConfiguration": {
@@ -387,21 +456,21 @@
               "url": "https://storageurl.com/",
               "fileName": "config.yaml",
               "fileType": "ADDITIONAL_ARTIFACTS",
-              "expireDateTime": "2023-01-22T11:01:16.6900415",
+              "expireDateTime": "2023-01-24T05:45:49.2668773",
               "validationStatus": "VALIDATION_NOT_REQUIRED"
             },
             "testScriptFileInfo": {
               "url": "https://storageurl.com/",
               "fileName": "sample.jmx",
               "fileType": "JMX_FILE",
-              "expireDateTime": "2023-01-22T11:01:16.689891",
+              "expireDateTime": "2023-01-24T05:45:49.2667373",
               "validationStatus": "VALIDATION_SUCCESS"
             },
             "inputArtifactsZipFileInfo": {
               "url": "https://storageurl.com/",
               "fileName": "inputartifacts.zip",
               "fileType": "ADDITIONAL_ARTIFACTS",
-              "expireDateTime": "2023-01-22T11:01:16.6900854",
+              "expireDateTime": "2023-01-24T05:45:49.266916",
               "validationStatus": "VALIDATION_NOT_REQUIRED"
             },
             "additionalFileInfo": []
@@ -413,11 +482,11 @@
         "displayName": "sample123",
         "testId": "abc",
         "status": "CONFIGURING",
-        "startDateTime": "2023-01-22T10:01:06.757Z",
-        "executedDateTime": "2023-01-22T10:01:05.767Z",
+        "startDateTime": "2023-01-24T04:45:36.997Z",
+        "executedDateTime": "2023-01-24T04:45:35.099Z",
         "portalUrl": "https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport//resourceId/%2fsubscriptions%2fazure_subscription_id%2fresourcegroups%2fmrinal%2fproviders%2fmicrosoft.loadtestservice%2floadtests%2fmrgautam-auseast/testId/abc/testRunId/abcde",
-        "createdDateTime": "2023-01-22T10:01:06.635Z",
-        "lastModifiedDateTime": "2023-01-22T10:01:14.408Z"
+        "createdDateTime": "2023-01-24T04:45:36.856Z",
+        "lastModifiedDateTime": "2023-01-24T04:45:44.509Z"
       }
     },
     {
@@ -429,7 +498,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-load-testing-rest/1.0.0-beta.2 core-rest-pipeline/1.10.0 Node/v16.18.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "df873236-d7b9-4e5e-b2b2-d1dd2de5e63e"
+        "x-ms-client-request-id": "a4bf4e62-a482-4cda-ab76-ed99ecdfb850"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -438,11 +507,11 @@
         "Connection": "keep-alive",
         "Content-Length": "1349",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Sun, 22 Jan 2023 10:01:19 GMT",
-        "mise-correlation-id": "ffdb055d-3fe8-4001-9c84-cd6c7e194874",
+        "Date": "Tue, 24 Jan 2023 04:45:51 GMT",
+        "mise-correlation-id": "9b2f6d9b-6a6c-45a0-a510-8545bf28c9d5",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "55c19928-5ac2-4f8d-9b87-3fe407921ea0"
+        "x-ms-correlation-request-id": "4dc5e9b4-380b-4305-ad39-cacfe63d7b5c"
       },
       "ResponseBody": {
         "loadTestConfiguration": {
@@ -456,21 +525,21 @@
               "url": "https://storageurl.com/",
               "fileName": "config.yaml",
               "fileType": "ADDITIONAL_ARTIFACTS",
-              "expireDateTime": "2023-01-22T11:01:19.0903406",
+              "expireDateTime": "2023-01-24T05:45:51.6515598",
               "validationStatus": "VALIDATION_NOT_REQUIRED"
             },
             "testScriptFileInfo": {
               "url": "https://storageurl.com/",
               "fileName": "sample.jmx",
               "fileType": "JMX_FILE",
-              "expireDateTime": "2023-01-22T11:01:19.0901416",
+              "expireDateTime": "2023-01-24T05:45:51.6514573",
               "validationStatus": "VALIDATION_SUCCESS"
             },
             "inputArtifactsZipFileInfo": {
               "url": "https://storageurl.com/",
               "fileName": "inputartifacts.zip",
               "fileType": "ADDITIONAL_ARTIFACTS",
-              "expireDateTime": "2023-01-22T11:01:19.0903752",
+              "expireDateTime": "2023-01-24T05:45:51.6515816",
               "validationStatus": "VALIDATION_NOT_REQUIRED"
             },
             "additionalFileInfo": []
@@ -482,11 +551,11 @@
         "displayName": "sample123",
         "testId": "abc",
         "status": "CONFIGURING",
-        "startDateTime": "2023-01-22T10:01:06.757Z",
-        "executedDateTime": "2023-01-22T10:01:05.767Z",
+        "startDateTime": "2023-01-24T04:45:36.997Z",
+        "executedDateTime": "2023-01-24T04:45:35.099Z",
         "portalUrl": "https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport//resourceId/%2fsubscriptions%2fazure_subscription_id%2fresourcegroups%2fmrinal%2fproviders%2fmicrosoft.loadtestservice%2floadtests%2fmrgautam-auseast/testId/abc/testRunId/abcde",
-        "createdDateTime": "2023-01-22T10:01:06.635Z",
-        "lastModifiedDateTime": "2023-01-22T10:01:14.408Z"
+        "createdDateTime": "2023-01-24T04:45:36.856Z",
+        "lastModifiedDateTime": "2023-01-24T04:45:44.509Z"
       }
     },
     {
@@ -498,20 +567,20 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-load-testing-rest/1.0.0-beta.2 core-rest-pipeline/1.10.0 Node/v16.18.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "860c6153-c689-4907-8f4c-ffcd970ddd23"
+        "x-ms-client-request-id": "1d15ec86-a2ce-465e-a0bd-c4817d20636d"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2021-07-01-preview, 2022-06-01-preview, 2022-11-01",
         "Connection": "keep-alive",
-        "Content-Length": "1349",
+        "Content-Length": "1345",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Sun, 22 Jan 2023 10:01:21 GMT",
-        "mise-correlation-id": "4d727762-3fd4-4791-84ec-0c0a269ea954",
+        "Date": "Tue, 24 Jan 2023 04:45:54 GMT",
+        "mise-correlation-id": "0be1bf31-fc64-431a-962a-925e2e14c6be",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "d67f5ec6-3080-44d4-8474-5324e5720b91"
+        "x-ms-correlation-request-id": "ded2f000-59bd-451e-b704-bd6a2f7c9867"
       },
       "ResponseBody": {
         "loadTestConfiguration": {
@@ -525,90 +594,21 @@
               "url": "https://storageurl.com/",
               "fileName": "config.yaml",
               "fileType": "ADDITIONAL_ARTIFACTS",
-              "expireDateTime": "2023-01-22T11:01:21.4426689",
+              "expireDateTime": "2023-01-24T05:45:54.0408337",
               "validationStatus": "VALIDATION_NOT_REQUIRED"
             },
             "testScriptFileInfo": {
               "url": "https://storageurl.com/",
               "fileName": "sample.jmx",
               "fileType": "JMX_FILE",
-              "expireDateTime": "2023-01-22T11:01:21.4425481",
+              "expireDateTime": "2023-01-24T05:45:54.04072",
               "validationStatus": "VALIDATION_SUCCESS"
             },
             "inputArtifactsZipFileInfo": {
               "url": "https://storageurl.com/",
               "fileName": "inputartifacts.zip",
               "fileType": "ADDITIONAL_ARTIFACTS",
-              "expireDateTime": "2023-01-22T11:01:21.4427016",
-              "validationStatus": "VALIDATION_NOT_REQUIRED"
-            },
-            "additionalFileInfo": []
-          },
-          "outputArtifacts": {}
-        },
-        "testResult": "NOT_APPLICABLE",
-        "testRunId": "abcde",
-        "displayName": "sample123",
-        "testId": "abc",
-        "status": "CONFIGURING",
-        "startDateTime": "2023-01-22T10:01:06.757Z",
-        "executedDateTime": "2023-01-22T10:01:05.767Z",
-        "portalUrl": "https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport//resourceId/%2fsubscriptions%2fazure_subscription_id%2fresourcegroups%2fmrinal%2fproviders%2fmicrosoft.loadtestservice%2floadtests%2fmrgautam-auseast/testId/abc/testRunId/abcde",
-        "createdDateTime": "2023-01-22T10:01:06.635Z",
-        "lastModifiedDateTime": "2023-01-22T10:01:14.408Z"
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/test-runs/abcde?api-version=2022-11-01",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-load-testing-rest/1.0.0-beta.2 core-rest-pipeline/1.10.0 Node/v16.18.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "ffa1bf69-77a6-41d5-998e-ea216f28cba2"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "api-supported-versions": "2021-07-01-preview, 2022-06-01-preview, 2022-11-01",
-        "Connection": "keep-alive",
-        "Content-Length": "1347",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Sun, 22 Jan 2023 10:01:23 GMT",
-        "mise-correlation-id": "6300610d-4ecc-4080-80d3-69292a588bef",
-        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
-        "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "a8d61f58-884e-4dda-b730-4a8a09276b2f"
-      },
-      "ResponseBody": {
-        "loadTestConfiguration": {
-          "engineInstances": 1,
-          "splitAllCSVs": false,
-          "quickStartTest": false
-        },
-        "testArtifacts": {
-          "inputArtifacts": {
-            "configFileInfo": {
-              "url": "https://storageurl.com/",
-              "fileName": "config.yaml",
-              "fileType": "ADDITIONAL_ARTIFACTS",
-              "expireDateTime": "2023-01-22T11:01:23.8474231",
-              "validationStatus": "VALIDATION_NOT_REQUIRED"
-            },
-            "testScriptFileInfo": {
-              "url": "https://storageurl.com/",
-              "fileName": "sample.jmx",
-              "fileType": "JMX_FILE",
-              "expireDateTime": "2023-01-22T11:01:23.8473122",
-              "validationStatus": "VALIDATION_SUCCESS"
-            },
-            "inputArtifactsZipFileInfo": {
-              "url": "https://storageurl.com/",
-              "fileName": "inputartifacts.zip",
-              "fileType": "ADDITIONAL_ARTIFACTS",
-              "expireDateTime": "2023-01-22T11:01:23.8474467",
+              "expireDateTime": "2023-01-24T05:45:54.0408564",
               "validationStatus": "VALIDATION_NOT_REQUIRED"
             },
             "additionalFileInfo": []
@@ -620,11 +620,11 @@
         "displayName": "sample123",
         "testId": "abc",
         "status": "EXECUTING",
-        "startDateTime": "2023-01-22T10:01:06.757Z",
-        "executedDateTime": "2023-01-22T10:01:05.767Z",
+        "startDateTime": "2023-01-24T04:45:36.997Z",
+        "executedDateTime": "2023-01-24T04:45:35.099Z",
         "portalUrl": "https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport//resourceId/%2fsubscriptions%2fazure_subscription_id%2fresourcegroups%2fmrinal%2fproviders%2fmicrosoft.loadtestservice%2floadtests%2fmrgautam-auseast/testId/abc/testRunId/abcde",
-        "createdDateTime": "2023-01-22T10:01:06.635Z",
-        "lastModifiedDateTime": "2023-01-22T10:01:22.562Z"
+        "createdDateTime": "2023-01-24T04:45:36.856Z",
+        "lastModifiedDateTime": "2023-01-24T04:45:52.905Z"
       }
     },
     {
@@ -636,7 +636,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-load-testing-rest/1.0.0-beta.2 core-rest-pipeline/1.10.0 Node/v16.18.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "9cf807c3-118f-4581-9689-9f293ed690bb"
+        "x-ms-client-request-id": "cedb64f2-ab9a-4a8b-82b5-09e82042f03f"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -645,11 +645,11 @@
         "Connection": "keep-alive",
         "Content-Length": "1347",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Sun, 22 Jan 2023 10:01:26 GMT",
-        "mise-correlation-id": "12ffc7d3-7eef-404b-a012-0a7f6cdddfa1",
+        "Date": "Tue, 24 Jan 2023 04:45:56 GMT",
+        "mise-correlation-id": "48facd6e-5369-4671-bf2e-bbb548e90fe7",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "4ac79038-d7af-472f-982d-93cccff77ac5"
+        "x-ms-correlation-request-id": "de2538ee-24dd-4b03-ac1c-bf39e95ff331"
       },
       "ResponseBody": {
         "loadTestConfiguration": {
@@ -663,21 +663,21 @@
               "url": "https://storageurl.com/",
               "fileName": "config.yaml",
               "fileType": "ADDITIONAL_ARTIFACTS",
-              "expireDateTime": "2023-01-22T11:01:26.2184591",
+              "expireDateTime": "2023-01-24T05:45:56.4250023",
               "validationStatus": "VALIDATION_NOT_REQUIRED"
             },
             "testScriptFileInfo": {
               "url": "https://storageurl.com/",
               "fileName": "sample.jmx",
               "fileType": "JMX_FILE",
-              "expireDateTime": "2023-01-22T11:01:26.2183611",
+              "expireDateTime": "2023-01-24T05:45:56.4248466",
               "validationStatus": "VALIDATION_SUCCESS"
             },
             "inputArtifactsZipFileInfo": {
               "url": "https://storageurl.com/",
               "fileName": "inputartifacts.zip",
               "fileType": "ADDITIONAL_ARTIFACTS",
-              "expireDateTime": "2023-01-22T11:01:26.2184811",
+              "expireDateTime": "2023-01-24T05:45:56.4250254",
               "validationStatus": "VALIDATION_NOT_REQUIRED"
             },
             "additionalFileInfo": []
@@ -689,11 +689,11 @@
         "displayName": "sample123",
         "testId": "abc",
         "status": "EXECUTING",
-        "startDateTime": "2023-01-22T10:01:06.757Z",
-        "executedDateTime": "2023-01-22T10:01:05.767Z",
+        "startDateTime": "2023-01-24T04:45:36.997Z",
+        "executedDateTime": "2023-01-24T04:45:35.099Z",
         "portalUrl": "https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport//resourceId/%2fsubscriptions%2fazure_subscription_id%2fresourcegroups%2fmrinal%2fproviders%2fmicrosoft.loadtestservice%2floadtests%2fmrgautam-auseast/testId/abc/testRunId/abcde",
-        "createdDateTime": "2023-01-22T10:01:06.635Z",
-        "lastModifiedDateTime": "2023-01-22T10:01:22.562Z"
+        "createdDateTime": "2023-01-24T04:45:36.856Z",
+        "lastModifiedDateTime": "2023-01-24T04:45:52.905Z"
       }
     },
     {
@@ -705,7 +705,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-load-testing-rest/1.0.0-beta.2 core-rest-pipeline/1.10.0 Node/v16.18.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "f583ee6a-f942-4943-a3ff-dc5a88ce2805"
+        "x-ms-client-request-id": "4ce47903-a181-4d15-99e5-fbe9fbf24f33"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -714,11 +714,11 @@
         "Connection": "keep-alive",
         "Content-Length": "1346",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Sun, 22 Jan 2023 10:01:28 GMT",
-        "mise-correlation-id": "8655eb88-a584-4de7-8edf-411d87c90fc9",
+        "Date": "Tue, 24 Jan 2023 04:45:58 GMT",
+        "mise-correlation-id": "874374dd-b8cc-4703-8a21-a0b83a946235",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "6bf28b29-c2f7-4393-8a91-cb2643b95663"
+        "x-ms-correlation-request-id": "37cafbd1-1e2a-4eeb-9139-2fc541b9fbc5"
       },
       "ResponseBody": {
         "loadTestConfiguration": {
@@ -732,21 +732,21 @@
               "url": "https://storageurl.com/",
               "fileName": "config.yaml",
               "fileType": "ADDITIONAL_ARTIFACTS",
-              "expireDateTime": "2023-01-22T11:01:28.6367686",
+              "expireDateTime": "2023-01-24T05:45:58.789472",
               "validationStatus": "VALIDATION_NOT_REQUIRED"
             },
             "testScriptFileInfo": {
               "url": "https://storageurl.com/",
               "fileName": "sample.jmx",
               "fileType": "JMX_FILE",
-              "expireDateTime": "2023-01-22T11:01:28.636654",
+              "expireDateTime": "2023-01-24T05:45:58.7893733",
               "validationStatus": "VALIDATION_SUCCESS"
             },
             "inputArtifactsZipFileInfo": {
               "url": "https://storageurl.com/",
               "fileName": "inputartifacts.zip",
               "fileType": "ADDITIONAL_ARTIFACTS",
-              "expireDateTime": "2023-01-22T11:01:28.6367912",
+              "expireDateTime": "2023-01-24T05:45:58.7894956",
               "validationStatus": "VALIDATION_NOT_REQUIRED"
             },
             "additionalFileInfo": []
@@ -758,11 +758,11 @@
         "displayName": "sample123",
         "testId": "abc",
         "status": "EXECUTING",
-        "startDateTime": "2023-01-22T10:01:06.757Z",
-        "executedDateTime": "2023-01-22T10:01:05.767Z",
+        "startDateTime": "2023-01-24T04:45:36.997Z",
+        "executedDateTime": "2023-01-24T04:45:35.099Z",
         "portalUrl": "https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport//resourceId/%2fsubscriptions%2fazure_subscription_id%2fresourcegroups%2fmrinal%2fproviders%2fmicrosoft.loadtestservice%2floadtests%2fmrgautam-auseast/testId/abc/testRunId/abcde",
-        "createdDateTime": "2023-01-22T10:01:06.635Z",
-        "lastModifiedDateTime": "2023-01-22T10:01:22.562Z"
+        "createdDateTime": "2023-01-24T04:45:36.856Z",
+        "lastModifiedDateTime": "2023-01-24T04:45:52.905Z"
       }
     },
     {
@@ -774,7 +774,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-load-testing-rest/1.0.0-beta.2 core-rest-pipeline/1.10.0 Node/v16.18.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "d0f2d47d-c831-4e0e-964b-16cbcec244ae"
+        "x-ms-client-request-id": "ec5b3be0-190a-4daa-872a-31cc4df236e5"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -783,11 +783,11 @@
         "Connection": "keep-alive",
         "Content-Length": "1347",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Sun, 22 Jan 2023 10:01:31 GMT",
-        "mise-correlation-id": "6cc26436-df5c-47cf-9a6a-03d0f8e2a15c",
+        "Date": "Tue, 24 Jan 2023 04:46:01 GMT",
+        "mise-correlation-id": "b83eb0c4-fd83-451d-9836-f4b970643cef",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "2974cf27-928f-43d6-a8a6-cfffdbd980d3"
+        "x-ms-correlation-request-id": "ed9595b2-be10-43a4-8312-210e988c9323"
       },
       "ResponseBody": {
         "loadTestConfiguration": {
@@ -801,21 +801,21 @@
               "url": "https://storageurl.com/",
               "fileName": "config.yaml",
               "fileType": "ADDITIONAL_ARTIFACTS",
-              "expireDateTime": "2023-01-22T11:01:31.0265722",
+              "expireDateTime": "2023-01-24T05:46:01.2224407",
               "validationStatus": "VALIDATION_NOT_REQUIRED"
             },
             "testScriptFileInfo": {
               "url": "https://storageurl.com/",
               "fileName": "sample.jmx",
               "fileType": "JMX_FILE",
-              "expireDateTime": "2023-01-22T11:01:31.0264729",
+              "expireDateTime": "2023-01-24T05:46:01.2222698",
               "validationStatus": "VALIDATION_SUCCESS"
             },
             "inputArtifactsZipFileInfo": {
               "url": "https://storageurl.com/",
               "fileName": "inputartifacts.zip",
               "fileType": "ADDITIONAL_ARTIFACTS",
-              "expireDateTime": "2023-01-22T11:01:31.0265941",
+              "expireDateTime": "2023-01-24T05:46:01.2224748",
               "validationStatus": "VALIDATION_NOT_REQUIRED"
             },
             "additionalFileInfo": []
@@ -827,11 +827,11 @@
         "displayName": "sample123",
         "testId": "abc",
         "status": "EXECUTING",
-        "startDateTime": "2023-01-22T10:01:06.757Z",
-        "executedDateTime": "2023-01-22T10:01:05.767Z",
+        "startDateTime": "2023-01-24T04:45:36.997Z",
+        "executedDateTime": "2023-01-24T04:45:35.099Z",
         "portalUrl": "https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport//resourceId/%2fsubscriptions%2fazure_subscription_id%2fresourcegroups%2fmrinal%2fproviders%2fmicrosoft.loadtestservice%2floadtests%2fmrgautam-auseast/testId/abc/testRunId/abcde",
-        "createdDateTime": "2023-01-22T10:01:06.635Z",
-        "lastModifiedDateTime": "2023-01-22T10:01:22.562Z"
+        "createdDateTime": "2023-01-24T04:45:36.856Z",
+        "lastModifiedDateTime": "2023-01-24T04:45:52.905Z"
       }
     },
     {
@@ -843,76 +843,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-load-testing-rest/1.0.0-beta.2 core-rest-pipeline/1.10.0 Node/v16.18.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "e4133205-638b-4ae4-8efd-74befd2b54d7"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "api-supported-versions": "2021-07-01-preview, 2022-06-01-preview, 2022-11-01",
-        "Connection": "keep-alive",
-        "Content-Length": "1346",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Sun, 22 Jan 2023 10:01:33 GMT",
-        "mise-correlation-id": "3138c0f4-2ceb-4e00-bf13-85ea2578b40e",
-        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
-        "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "5bcf8cda-2602-4157-a09f-6478d3215c45"
-      },
-      "ResponseBody": {
-        "loadTestConfiguration": {
-          "engineInstances": 1,
-          "splitAllCSVs": false,
-          "quickStartTest": false
-        },
-        "testArtifacts": {
-          "inputArtifacts": {
-            "configFileInfo": {
-              "url": "https://storageurl.com/",
-              "fileName": "config.yaml",
-              "fileType": "ADDITIONAL_ARTIFACTS",
-              "expireDateTime": "2023-01-22T11:01:33.5889301",
-              "validationStatus": "VALIDATION_NOT_REQUIRED"
-            },
-            "testScriptFileInfo": {
-              "url": "https://storageurl.com/",
-              "fileName": "sample.jmx",
-              "fileType": "JMX_FILE",
-              "expireDateTime": "2023-01-22T11:01:33.5888293",
-              "validationStatus": "VALIDATION_SUCCESS"
-            },
-            "inputArtifactsZipFileInfo": {
-              "url": "https://storageurl.com/",
-              "fileName": "inputartifacts.zip",
-              "fileType": "ADDITIONAL_ARTIFACTS",
-              "expireDateTime": "2023-01-22T11:01:33.588953",
-              "validationStatus": "VALIDATION_NOT_REQUIRED"
-            },
-            "additionalFileInfo": []
-          },
-          "outputArtifacts": {}
-        },
-        "testResult": "NOT_APPLICABLE",
-        "testRunId": "abcde",
-        "displayName": "sample123",
-        "testId": "abc",
-        "status": "EXECUTING",
-        "startDateTime": "2023-01-22T10:01:06.757Z",
-        "executedDateTime": "2023-01-22T10:01:05.767Z",
-        "portalUrl": "https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport//resourceId/%2fsubscriptions%2fazure_subscription_id%2fresourcegroups%2fmrinal%2fproviders%2fmicrosoft.loadtestservice%2floadtests%2fmrgautam-auseast/testId/abc/testRunId/abcde",
-        "createdDateTime": "2023-01-22T10:01:06.635Z",
-        "lastModifiedDateTime": "2023-01-22T10:01:22.562Z"
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/test-runs/abcde?api-version=2022-11-01",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-load-testing-rest/1.0.0-beta.2 core-rest-pipeline/1.10.0 Node/v16.18.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "b7e630bd-c8c0-4d59-ba0e-647b762dd535"
+        "x-ms-client-request-id": "c3cc5d48-6109-4a47-a021-670950995973"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -921,11 +852,11 @@
         "Connection": "keep-alive",
         "Content-Length": "1347",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Sun, 22 Jan 2023 10:01:35 GMT",
-        "mise-correlation-id": "8c20c5a1-ccf3-40f8-bb95-eb3f6ee9cac7",
+        "Date": "Tue, 24 Jan 2023 04:46:03 GMT",
+        "mise-correlation-id": "1c9b057a-3087-4d09-88dc-a9b76b20e1ca",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "f4b98803-9370-4db4-90eb-56530f94fa0f"
+        "x-ms-correlation-request-id": "725373a1-a58a-4111-b5d4-732ef47b88c7"
       },
       "ResponseBody": {
         "loadTestConfiguration": {
@@ -939,21 +870,21 @@
               "url": "https://storageurl.com/",
               "fileName": "config.yaml",
               "fileType": "ADDITIONAL_ARTIFACTS",
-              "expireDateTime": "2023-01-22T11:01:35.9476599",
+              "expireDateTime": "2023-01-24T05:46:03.6920444",
               "validationStatus": "VALIDATION_NOT_REQUIRED"
             },
             "testScriptFileInfo": {
               "url": "https://storageurl.com/",
               "fileName": "sample.jmx",
               "fileType": "JMX_FILE",
-              "expireDateTime": "2023-01-22T11:01:35.9475618",
+              "expireDateTime": "2023-01-24T05:46:03.6919414",
               "validationStatus": "VALIDATION_SUCCESS"
             },
             "inputArtifactsZipFileInfo": {
               "url": "https://storageurl.com/",
               "fileName": "inputartifacts.zip",
               "fileType": "ADDITIONAL_ARTIFACTS",
-              "expireDateTime": "2023-01-22T11:01:35.9476812",
+              "expireDateTime": "2023-01-24T05:46:03.6920673",
               "validationStatus": "VALIDATION_NOT_REQUIRED"
             },
             "additionalFileInfo": []
@@ -965,11 +896,11 @@
         "displayName": "sample123",
         "testId": "abc",
         "status": "EXECUTING",
-        "startDateTime": "2023-01-22T10:01:06.757Z",
-        "executedDateTime": "2023-01-22T10:01:05.767Z",
+        "startDateTime": "2023-01-24T04:45:36.997Z",
+        "executedDateTime": "2023-01-24T04:45:35.099Z",
         "portalUrl": "https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport//resourceId/%2fsubscriptions%2fazure_subscription_id%2fresourcegroups%2fmrinal%2fproviders%2fmicrosoft.loadtestservice%2floadtests%2fmrgautam-auseast/testId/abc/testRunId/abcde",
-        "createdDateTime": "2023-01-22T10:01:06.635Z",
-        "lastModifiedDateTime": "2023-01-22T10:01:22.562Z"
+        "createdDateTime": "2023-01-24T04:45:36.856Z",
+        "lastModifiedDateTime": "2023-01-24T04:45:52.905Z"
       }
     },
     {
@@ -981,7 +912,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-load-testing-rest/1.0.0-beta.2 core-rest-pipeline/1.10.0 Node/v16.18.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "32958a2e-05a1-422b-9b7e-faa6ec3af395"
+        "x-ms-client-request-id": "6dfb3934-5977-4f9c-a03a-afabd72cdbb8"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -990,11 +921,11 @@
         "Connection": "keep-alive",
         "Content-Length": "1347",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Sun, 22 Jan 2023 10:01:38 GMT",
-        "mise-correlation-id": "59f5e5cb-2788-419b-acc2-71b5e77a2f75",
+        "Date": "Tue, 24 Jan 2023 04:46:06 GMT",
+        "mise-correlation-id": "d0637888-1014-4be2-9993-1ab9402fd55f",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "eeb5cc30-ff6b-49e5-a04e-d01d5e4ec8c1"
+        "x-ms-correlation-request-id": "a1905ef4-53bd-4ffc-ae32-f64e208298e3"
       },
       "ResponseBody": {
         "loadTestConfiguration": {
@@ -1008,21 +939,21 @@
               "url": "https://storageurl.com/",
               "fileName": "config.yaml",
               "fileType": "ADDITIONAL_ARTIFACTS",
-              "expireDateTime": "2023-01-22T11:01:38.3666375",
+              "expireDateTime": "2023-01-24T05:46:06.1339151",
               "validationStatus": "VALIDATION_NOT_REQUIRED"
             },
             "testScriptFileInfo": {
               "url": "https://storageurl.com/",
               "fileName": "sample.jmx",
               "fileType": "JMX_FILE",
-              "expireDateTime": "2023-01-22T11:01:38.3665348",
+              "expireDateTime": "2023-01-24T05:46:06.1338106",
               "validationStatus": "VALIDATION_SUCCESS"
             },
             "inputArtifactsZipFileInfo": {
               "url": "https://storageurl.com/",
               "fileName": "inputartifacts.zip",
               "fileType": "ADDITIONAL_ARTIFACTS",
-              "expireDateTime": "2023-01-22T11:01:38.3666606",
+              "expireDateTime": "2023-01-24T05:46:06.1339378",
               "validationStatus": "VALIDATION_NOT_REQUIRED"
             },
             "additionalFileInfo": []
@@ -1034,11 +965,11 @@
         "displayName": "sample123",
         "testId": "abc",
         "status": "EXECUTING",
-        "startDateTime": "2023-01-22T10:01:06.757Z",
-        "executedDateTime": "2023-01-22T10:01:05.767Z",
+        "startDateTime": "2023-01-24T04:45:36.997Z",
+        "executedDateTime": "2023-01-24T04:45:35.099Z",
         "portalUrl": "https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport//resourceId/%2fsubscriptions%2fazure_subscription_id%2fresourcegroups%2fmrinal%2fproviders%2fmicrosoft.loadtestservice%2floadtests%2fmrgautam-auseast/testId/abc/testRunId/abcde",
-        "createdDateTime": "2023-01-22T10:01:06.635Z",
-        "lastModifiedDateTime": "2023-01-22T10:01:22.562Z"
+        "createdDateTime": "2023-01-24T04:45:36.856Z",
+        "lastModifiedDateTime": "2023-01-24T04:45:52.905Z"
       }
     },
     {
@@ -1050,7 +981,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-load-testing-rest/1.0.0-beta.2 core-rest-pipeline/1.10.0 Node/v16.18.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "9abbbee5-67cb-4459-ad9c-137e4aa9b7da"
+        "x-ms-client-request-id": "1af19e51-7ab9-44ff-bd72-0ca231789a3e"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -1059,11 +990,11 @@
         "Connection": "keep-alive",
         "Content-Length": "1347",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Sun, 22 Jan 2023 10:01:40 GMT",
-        "mise-correlation-id": "7e6c0a84-b387-4890-8847-789b1a0ec25d",
+        "Date": "Tue, 24 Jan 2023 04:46:08 GMT",
+        "mise-correlation-id": "a66d5506-b83d-4913-8f22-1661afa25137",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "fa92d9f8-82b8-43ab-9c46-0164f3e1fee5"
+        "x-ms-correlation-request-id": "a1ff205c-3839-478c-ae50-57c7a35b9765"
       },
       "ResponseBody": {
         "loadTestConfiguration": {
@@ -1077,21 +1008,21 @@
               "url": "https://storageurl.com/",
               "fileName": "config.yaml",
               "fileType": "ADDITIONAL_ARTIFACTS",
-              "expireDateTime": "2023-01-22T11:01:40.7281199",
+              "expireDateTime": "2023-01-24T05:46:08.5311241",
               "validationStatus": "VALIDATION_NOT_REQUIRED"
             },
             "testScriptFileInfo": {
               "url": "https://storageurl.com/",
               "fileName": "sample.jmx",
               "fileType": "JMX_FILE",
-              "expireDateTime": "2023-01-22T11:01:40.7280165",
+              "expireDateTime": "2023-01-24T05:46:08.5310211",
               "validationStatus": "VALIDATION_SUCCESS"
             },
             "inputArtifactsZipFileInfo": {
               "url": "https://storageurl.com/",
               "fileName": "inputartifacts.zip",
               "fileType": "ADDITIONAL_ARTIFACTS",
-              "expireDateTime": "2023-01-22T11:01:40.7281407",
+              "expireDateTime": "2023-01-24T05:46:08.5311479",
               "validationStatus": "VALIDATION_NOT_REQUIRED"
             },
             "additionalFileInfo": []
@@ -1103,11 +1034,11 @@
         "displayName": "sample123",
         "testId": "abc",
         "status": "EXECUTING",
-        "startDateTime": "2023-01-22T10:01:06.757Z",
-        "executedDateTime": "2023-01-22T10:01:05.767Z",
+        "startDateTime": "2023-01-24T04:45:36.997Z",
+        "executedDateTime": "2023-01-24T04:45:35.099Z",
         "portalUrl": "https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport//resourceId/%2fsubscriptions%2fazure_subscription_id%2fresourcegroups%2fmrinal%2fproviders%2fmicrosoft.loadtestservice%2floadtests%2fmrgautam-auseast/testId/abc/testRunId/abcde",
-        "createdDateTime": "2023-01-22T10:01:06.635Z",
-        "lastModifiedDateTime": "2023-01-22T10:01:22.562Z"
+        "createdDateTime": "2023-01-24T04:45:36.856Z",
+        "lastModifiedDateTime": "2023-01-24T04:45:52.905Z"
       }
     },
     {
@@ -1119,20 +1050,20 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-load-testing-rest/1.0.0-beta.2 core-rest-pipeline/1.10.0 Node/v16.18.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "a2dc0eed-d1ba-4a0a-8afb-96c5f0754404"
+        "x-ms-client-request-id": "ec2d1ba0-4390-4d3f-9d43-dcb72abfaa6d"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2021-07-01-preview, 2022-06-01-preview, 2022-11-01",
         "Connection": "keep-alive",
-        "Content-Length": "1578",
+        "Content-Length": "1347",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Sun, 22 Jan 2023 10:01:43 GMT",
-        "mise-correlation-id": "564ae078-222a-4842-a2ed-e48e517406dc",
+        "Date": "Tue, 24 Jan 2023 04:46:10 GMT",
+        "mise-correlation-id": "8b18ecc8-3b1d-4e0b-86fe-345f75d636c2",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "a01c803f-7a55-4ffe-bac1-9fc836ecab06"
+        "x-ms-correlation-request-id": "1d243ade-ed5f-487e-abcb-44cd151567cd"
       },
       "ResponseBody": {
         "loadTestConfiguration": {
@@ -1146,21 +1077,90 @@
               "url": "https://storageurl.com/",
               "fileName": "config.yaml",
               "fileType": "ADDITIONAL_ARTIFACTS",
-              "expireDateTime": "2023-01-22T11:01:43.1428887",
+              "expireDateTime": "2023-01-24T05:46:10.9004086",
               "validationStatus": "VALIDATION_NOT_REQUIRED"
             },
             "testScriptFileInfo": {
               "url": "https://storageurl.com/",
               "fileName": "sample.jmx",
               "fileType": "JMX_FILE",
-              "expireDateTime": "2023-01-22T11:01:43.1427496",
+              "expireDateTime": "2023-01-24T05:46:10.9003066",
               "validationStatus": "VALIDATION_SUCCESS"
             },
             "inputArtifactsZipFileInfo": {
               "url": "https://storageurl.com/",
               "fileName": "inputartifacts.zip",
               "fileType": "ADDITIONAL_ARTIFACTS",
-              "expireDateTime": "2023-01-22T11:01:43.142918",
+              "expireDateTime": "2023-01-24T05:46:10.9004309",
+              "validationStatus": "VALIDATION_NOT_REQUIRED"
+            },
+            "additionalFileInfo": []
+          },
+          "outputArtifacts": {}
+        },
+        "testResult": "NOT_APPLICABLE",
+        "testRunId": "abcde",
+        "displayName": "sample123",
+        "testId": "abc",
+        "status": "EXECUTING",
+        "startDateTime": "2023-01-24T04:45:36.997Z",
+        "executedDateTime": "2023-01-24T04:45:35.099Z",
+        "portalUrl": "https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport//resourceId/%2fsubscriptions%2fazure_subscription_id%2fresourcegroups%2fmrinal%2fproviders%2fmicrosoft.loadtestservice%2floadtests%2fmrgautam-auseast/testId/abc/testRunId/abcde",
+        "createdDateTime": "2023-01-24T04:45:36.856Z",
+        "lastModifiedDateTime": "2023-01-24T04:45:52.905Z"
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/test-runs/abcde?api-version=2022-11-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-load-testing-rest/1.0.0-beta.2 core-rest-pipeline/1.10.0 Node/v16.18.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "4dd8f830-5494-4bf8-8f25-01de1efcfbb8"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-07-01-preview, 2022-06-01-preview, 2022-11-01",
+        "Connection": "keep-alive",
+        "Content-Length": "1579",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 24 Jan 2023 04:46:13 GMT",
+        "mise-correlation-id": "5cd77d86-708d-453f-b510-baae79aa9350",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "5fd8e922-b37b-4787-af00-c3e0ba8ec892"
+      },
+      "ResponseBody": {
+        "loadTestConfiguration": {
+          "engineInstances": 1,
+          "splitAllCSVs": false,
+          "quickStartTest": false
+        },
+        "testArtifacts": {
+          "inputArtifacts": {
+            "configFileInfo": {
+              "url": "https://storageurl.com/",
+              "fileName": "config.yaml",
+              "fileType": "ADDITIONAL_ARTIFACTS",
+              "expireDateTime": "2023-01-24T05:46:13.3118267",
+              "validationStatus": "VALIDATION_NOT_REQUIRED"
+            },
+            "testScriptFileInfo": {
+              "url": "https://storageurl.com/",
+              "fileName": "sample.jmx",
+              "fileType": "JMX_FILE",
+              "expireDateTime": "2023-01-24T05:46:13.3117207",
+              "validationStatus": "VALIDATION_SUCCESS"
+            },
+            "inputArtifactsZipFileInfo": {
+              "url": "https://storageurl.com/",
+              "fileName": "inputartifacts.zip",
+              "fileType": "ADDITIONAL_ARTIFACTS",
+              "expireDateTime": "2023-01-24T05:46:13.3118481",
               "validationStatus": "VALIDATION_NOT_REQUIRED"
             },
             "additionalFileInfo": []
@@ -1170,7 +1170,7 @@
               "url": "https://storageurl.com/",
               "fileName": "logs.zip",
               "fileType": "ADDITIONAL_ARTIFACTS",
-              "expireDateTime": "2023-01-22T11:01:43.1429467",
+              "expireDateTime": "2023-01-24T05:46:13.3118696",
               "validationStatus": "VALIDATION_NOT_REQUIRED"
             }
           }
@@ -1180,12 +1180,12 @@
         "displayName": "sample123",
         "testId": "abc",
         "status": "DONE",
-        "startDateTime": "2023-01-22T10:01:06.757Z",
-        "endDateTime": "2023-01-22T10:01:42.603Z",
-        "executedDateTime": "2023-01-22T10:01:05.767Z",
+        "startDateTime": "2023-01-24T04:45:36.997Z",
+        "endDateTime": "2023-01-24T04:46:12.948Z",
+        "executedDateTime": "2023-01-24T04:45:35.099Z",
         "portalUrl": "https://portal.azure.com/#blade/Microsoft_Azure_CloudNativeTesting/NewReport//resourceId/%2fsubscriptions%2fazure_subscription_id%2fresourcegroups%2fmrinal%2fproviders%2fmicrosoft.loadtestservice%2floadtests%2fmrgautam-auseast/testId/abc/testRunId/abcde",
-        "createdDateTime": "2023-01-22T10:01:06.635Z",
-        "lastModifiedDateTime": "2023-01-22T10:01:43.025Z"
+        "createdDateTime": "2023-01-24T04:45:36.856Z",
+        "lastModifiedDateTime": "2023-01-24T04:46:13.301Z"
       }
     }
   ],

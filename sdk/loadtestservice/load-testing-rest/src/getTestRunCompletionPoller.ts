@@ -3,7 +3,7 @@
 
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 import { CancelOnProgress, OperationState, SimplePollerLike } from "@azure/core-lro";
-import { TestRunStatusPoller, PolledOperationOptions } from "./models";
+import { TestRunCompletionPoller, PolledOperationOptions } from "./models";
 import { AzureLoadTestingClient } from "./clientDefinitions";
 import {
   TestRunCreateOrUpdate200Response,
@@ -23,7 +23,7 @@ export async function getTestRunCompletionPoller(
   client: AzureLoadTestingClient,
   createTestRunResponse: TestRunCreateOrUpdate200Response | TestRunCreateOrUpdate201Response,
   polledOperationOptions: PolledOperationOptions = {}
-): Promise<TestRunStatusPoller> {
+): Promise<TestRunCompletionPoller> {
   type Handler = (state: OperationState<TestRunGet200Response>) => void;
 
   const state: OperationState<TestRunGet200Response> = {
@@ -48,7 +48,7 @@ export async function getTestRunCompletionPoller(
       }
 
       if (testRunId) {
-        let getTestRunResult = await client.path("/test-runs/{testRunId}", testRunId).get();
+        const getTestRunResult = await client.path("/test-runs/{testRunId}", testRunId).get();
         if (isUnexpected(getTestRunResult)) {
           state.status = "failed";
           state.error = new Error(getTestRunResult.body.error.message);
@@ -61,7 +61,7 @@ export async function getTestRunCompletionPoller(
         }
 
         if (getTestRunResult.body.status === "CANCELLED") {
-          state.status === "canceled";
+          state.status = "canceled";
         }
 
         if (getTestRunResult.body.status === "DONE") {

@@ -7,13 +7,9 @@ import { createRecorder, createClient } from "./utils/recordedClient";
 import { AbortController } from "@azure/abort-controller";
 import { Context } from "mocha";
 import * as fs from "fs";
-import {
-  AzureLoadTestingClient,
-  getFileValidationPoller,
-  getTestRunCompletionPoller,
-  isUnexpected,
-} from "../../src";
+import { AzureLoadTestingClient, isUnexpected } from "../../src";
 import { isNode } from "@azure/core-util";
+import { getLongRunningPoller } from "../../src/pollingHelper";
 
 describe("Test Run Creation", () => {
   let recorder: Recorder;
@@ -62,7 +58,10 @@ describe("Test Run Creation", () => {
       throw fileUploadResult.body.error;
     }
 
-    const fileValidatePoller = await getFileValidationPoller(client, fileUploadResult);
+    const fileValidatePoller = await getLongRunningPoller(client, fileUploadResult);
+    if (!fileValidatePoller) {
+      throw new Error("Missing poller");
+    }
     await fileValidatePoller.pollUntilDone({
       abortSignal: AbortController.timeout(60000), // timeout of 60 seconds
     });
@@ -84,7 +83,10 @@ describe("Test Run Creation", () => {
     }
 
     testRunCreationResult.body.testRunId = "adjwfjsdmf";
-    const testRunPoller = await getTestRunCompletionPoller(client, testRunCreationResult);
+    const testRunPoller = await getLongRunningPoller(client, testRunCreationResult);
+    if (!testRunPoller) {
+      throw new Error("Missing poller");
+    }
     await testRunPoller.pollUntilDone({
       abortSignal: AbortController.timeout(60000), // timeout of 60 seconds
     });
@@ -106,7 +108,10 @@ describe("Test Run Creation", () => {
       throw testRunCreationResult.body.error;
     }
 
-    const testRunPoller = await getTestRunCompletionPoller(client, testRunCreationResult);
+    const testRunPoller = await getLongRunningPoller(client, testRunCreationResult);
+    if (!testRunPoller) {
+      throw new Error("Missing poller");
+    }
     await testRunPoller.pollUntilDone({
       abortSignal: AbortController.timeout(5000), // timeout of 5 seconds
     });
@@ -128,7 +133,10 @@ describe("Test Run Creation", () => {
       throw testRunCreationResult.body.error;
     }
 
-    const testRunPoller = await getTestRunCompletionPoller(client, testRunCreationResult);
+    const testRunPoller = await getLongRunningPoller(client, testRunCreationResult);
+    if (!testRunPoller) {
+      throw new Error("Missing poller");
+    }
     await testRunPoller.pollUntilDone({
       abortSignal: AbortController.timeout(60000), // timeout of 60 seconds
     });
