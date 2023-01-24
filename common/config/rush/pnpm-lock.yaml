@@ -221,6 +221,7 @@ specifiers:
   '@rush-temp/communication-rooms': file:./projects/communication-rooms.tgz
   '@rush-temp/communication-short-codes': file:./projects/communication-short-codes.tgz
   '@rush-temp/communication-sms': file:./projects/communication-sms.tgz
+  '@rush-temp/communication-toll-free-verification': file:./projects/communication-toll-free-verification.tgz
   '@rush-temp/confidential-ledger': file:./projects/confidential-ledger.tgz
   '@rush-temp/container-registry': file:./projects/container-registry.tgz
   '@rush-temp/core-amqp': file:./projects/core-amqp.tgz
@@ -546,6 +547,7 @@ dependencies:
   '@rush-temp/communication-rooms': file:projects/communication-rooms.tgz
   '@rush-temp/communication-short-codes': file:projects/communication-short-codes.tgz
   '@rush-temp/communication-sms': file:projects/communication-sms.tgz
+  '@rush-temp/communication-toll-free-verification': file:projects/communication-toll-free-verification.tgz
   '@rush-temp/confidential-ledger': file:projects/confidential-ledger.tgz
   '@rush-temp/container-registry': file:projects/container-registry.tgz
   '@rush-temp/core-amqp': file:projects/core-amqp.tgz
@@ -15747,6 +15749,50 @@ packages:
       tslib: 2.5.0
       typescript: 4.8.4
       util: 0.12.5
+      uuid: 8.3.2
+    transitivePeerDependencies:
+      - bufferutil
+      - debug
+      - supports-color
+      - utf-8-validate
+    dev: false
+
+  file:projects/communication-toll-free-verification.tgz:
+    resolution: {integrity: sha512-SaLxY/lsHkLik7nd1FRec6WKrL30TcOUSWYCbT8tSD73OEyD/Rq+EShUQY3s4WoSLA1+4OD3jNqFLQ8TQ/IqGg==, tarball: file:projects/communication-toll-free-verification.tgz}
+    name: '@rush-temp/communication-toll-free-verification'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.34.0
+      '@types/chai': 4.3.4
+      '@types/mocha': 7.0.2
+      '@types/node': 12.20.55
+      '@types/sinon': 9.0.11
+      '@types/uuid': 8.3.4
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 8.6.0
+      eslint: 8.33.0
+      inherits: 2.0.4
+      karma: 6.4.1
+      karma-chrome-launcher: 3.1.1
+      karma-coverage: 2.2.0
+      karma-edge-launcher: 0.4.2_karma@6.4.1
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-ie-launcher: 1.0.0_karma@6.4.1
+      karma-junit-reporter: 2.0.1_karma@6.4.1
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.4.1
+      karma-sourcemap-loader: 0.3.8
+      mocha: 7.2.0
+      mocha-junit-reporter: 2.2.0_mocha@7.2.0
+      nyc: 15.1.0
+      prettier: 2.8.3
+      rimraf: 3.0.2
+      sinon: 9.2.4
+      tslib: 2.5.0
+      typescript: 4.2.4
       uuid: 8.3.2
     transitivePeerDependencies:
       - bufferutil
