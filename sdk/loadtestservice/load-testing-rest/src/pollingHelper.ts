@@ -6,35 +6,35 @@ import { getFileValidationPoller } from "./getFileValidationPoller";
 import { getTestRunCompletionPoller } from "./getTestRunCompletionPoller";
 import {
   FileUploadAndValidatePoller,
-  FileValidationResponse,
+  TestUploadFileSuccessResponse,
   TestRunCompletionPoller,
-  TestRunCompletionResponse,
+  TestRunCreateOrUpdateSuccessResponse,
 } from "./models";
 
 export async function getLongRunningPoller(
   client: AzureLoadTestingClient,
-  initialResponse3: FileValidationResponse
+  initialResponse: TestUploadFileSuccessResponse
 ): Promise<FileUploadAndValidatePoller | undefined>;
 export async function getLongRunningPoller(
   client: AzureLoadTestingClient,
-  initialResponse2: TestRunCompletionResponse
+  initialResponse: TestRunCreateOrUpdateSuccessResponse
 ): Promise<TestRunCompletionPoller | undefined>;
 export async function getLongRunningPoller(
   client: AzureLoadTestingClient,
-  initialResponse: TestRunCompletionResponse | FileValidationResponse
+  initialResponse: TestRunCreateOrUpdateSuccessResponse | TestUploadFileSuccessResponse
 ): Promise<TestRunCompletionPoller | FileUploadAndValidatePoller | undefined> {
-  if (isFileValidation(initialResponse)) {
+  if (isFileUpload(initialResponse)) {
     return getFileValidationPoller(client, initialResponse);
-  } else if (isTestRunCompletion(initialResponse)) {
+  } else if (isTestRunCreation(initialResponse)) {
     return getTestRunCompletionPoller(client, initialResponse);
   }
   return undefined;
 }
 
-function isFileValidation(response: any): response is FileValidationResponse {
-  return response.request.url.includes("files");
+function isFileUpload(response: any): response is TestUploadFileSuccessResponse {
+  return response.request.url.includes("/files/");
 }
 
-function isTestRunCompletion(response: any): response is TestRunCompletionResponse {
-  return response.request.url.includes("test-runs");
+function isTestRunCreation(response: any): response is TestRunCreateOrUpdateSuccessResponse {
+  return response.request.url.includes("/test-runs/");
 }

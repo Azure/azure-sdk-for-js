@@ -416,11 +416,11 @@ export type TestRunCompletionPoller = SimplePollerLike<
   TestRunGet200Response
 >;
 
-export type TestRunCompletionResponse =
+export type TestRunCreateOrUpdateSuccessResponse =
   | TestRunCreateOrUpdate200Response
   | TestRunCreateOrUpdate201Response;
 
-export type FileValidationResponse = TestUploadFile201Response;
+export type TestUploadFileSuccessResponse = TestUploadFile201Response;
 
 export interface PolledOperationOptions {
   /**
