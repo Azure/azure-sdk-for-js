@@ -1,183 +1,380 @@
 {
- "recordings": [
-  {
-   "method": "DELETE",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTComponentTestsModel%3B1",
-   "query": {
-    "api-version": "2022-05-31"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"ModelNotFound\",\"message\":\"There is no Model(s) available that matches the provided id(s) dtmi:samples:DTComponentTestsModel;1. Check that the Model ID provided is valid by doing a Model_List API call.\"}}",
-   "responseHeaders": {
-    "content-length": "221",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 28 Jun 2022 18:50:35 GMT",
-    "mise-correlation-id": "314f89fd-ede0-4e6a-9761-bcce21408c13",
-    "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-f72cfa3fe61c6c13f81e64b6fc0c212c-a0c473b5b2e5a744-01"
-   }
-  },
-  {
-   "method": "DELETE",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTComponentTestsComponent%3B1",
-   "query": {
-    "api-version": "2022-05-31"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"ModelNotFound\",\"message\":\"There is no Model(s) available that matches the provided id(s) dtmi:samples:DTComponentTestsComponent;1. Check that the Model ID provided is valid by doing a Model_List API call.\"}}",
-   "responseHeaders": {
-    "content-length": "225",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 28 Jun 2022 18:50:35 GMT",
-    "mise-correlation-id": "64822827-6827-4b9e-b2dd-548e18bf8fdc",
-    "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-b702020518200f3b67bc2ab4cb25f94b-ddecb10731122bfe-01"
-   }
-  },
-  {
-   "method": "POST",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/models",
-   "query": {
-    "api-version": "2022-05-31"
-   },
-   "requestBody": "[{\"@id\":\"dtmi:samples:DTComponentTestsComponent;1\",\"@type\":\"Interface\",\"@context\":\"dtmi:dtdl:context;2\",\"displayName\":\"Component1\",\"contents\":[{\"@type\":\"Property\",\"name\":\"ComponentProp1\",\"schema\":\"string\"},{\"@type\":\"Telemetry\",\"name\":\"ComponentTelemetry1\",\"schema\":\"integer\"}]},{\"@id\":\"dtmi:samples:DTComponentTestsModel;1\",\"@type\":\"Interface\",\"@context\":\"dtmi:dtdl:context;2\",\"displayName\":\"TempModel\",\"contents\":[{\"@type\":\"Property\",\"name\":\"Prop1\",\"schema\":\"string\"},{\"@type\":\"Component\",\"name\":\"Component1\",\"schema\":\"dtmi:samples:DTComponentTestsComponent;1\"},{\"@type\":\"Telemetry\",\"name\":\"Telemetry1\",\"schema\":\"integer\"}]}]",
-   "status": 201,
-   "response": "[{\"id\":\"dtmi:samples:DTComponentTestsComponent;1\",\"description\":{},\"displayName\":{\"en\":\"Component1\"},\"decommissioned\":false,\"uploadTime\":\"2022-06-28T18:50:36.5629895+00:00\"},{\"id\":\"dtmi:samples:DTComponentTestsModel;1\",\"description\":{},\"displayName\":{\"en\":\"TempModel\"},\"decommissioned\":false,\"uploadTime\":\"2022-06-28T18:50:36.5630173+00:00\"}]",
-   "responseHeaders": {
-    "content-length": "342",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 28 Jun 2022 18:50:35 GMT",
-    "mise-correlation-id": "79cba3ad-6ecd-4585-ae30-2142dbf0cc60",
-    "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-2f7b168dffc9e3ee45a827310600ee1f-5eec68a3e3e26fde-01"
-   }
-  },
-  {
-   "method": "DELETE",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/digitaltwins/DTComponentTestsTempTwin",
-   "query": {
-    "api-version": "2022-05-31"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"DigitalTwinNotFound\",\"message\":\"There is no digital twin instance that exists with the ID DTComponentTestsTempTwin. Please verify that the twin id is valid and ensure that the twin is not deleted. See section on querying the twins https://aka.ms/adtv2query.\"}}",
-   "responseHeaders": {
-    "content-length": "278",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 28 Jun 2022 18:50:35 GMT",
-    "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-ac062bbda45147489cee822cc6844741-9d6b35165e0a2642-01"
-   }
-  },
-  {
-   "method": "PUT",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/digitaltwins/DTComponentTestsTempTwin",
-   "query": {
-    "api-version": "2022-05-31"
-   },
-   "requestBody": "{\"$metadata\":{\"$model\":\"dtmi:samples:DTComponentTestsModel;1\"},\"Prop1\":\"value\",\"Component1\":{\"$metadata\":{},\"ComponentProp1\":\"value1\"}}",
-   "status": 200,
-   "response": "{\"$dtId\":\"DTComponentTestsTempTwin\",\"$etag\":\"W/\\\"f0fc92e4-b9d7-4169-b6b5-e458a72e20db\\\"\",\"Prop1\":\"value\",\"Component1\":{\"ComponentProp1\":\"value1\",\"$metadata\":{\"$lastUpdateTime\":\"2022-06-28T18:50:36.7177359Z\",\"ComponentProp1\":{\"lastUpdateTime\":\"2022-06-28T18:50:36.7177359Z\"}}},\"$metadata\":{\"$model\":\"dtmi:samples:DTComponentTestsModel;1\",\"$lastUpdateTime\":\"2022-06-28T18:50:36.7177359Z\",\"Prop1\":{\"lastUpdateTime\":\"2022-06-28T18:50:36.7177359Z\"}}}",
-   "responseHeaders": {
-    "content-length": "445",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 28 Jun 2022 18:50:35 GMT",
-    "etag": "W/\"f0fc92e4-b9d7-4169-b6b5-e458a72e20db\"",
-    "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-31ac9dadcc4de34d9ef06fd69f710a37-d439d197428cca4c-01"
-   }
-  },
-  {
-   "method": "PATCH",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/digitaltwins/DTComponentTestsTempTwin/components/Component1",
-   "query": {
-    "api-version": "2022-05-31"
-   },
-   "requestBody": "[{\"op\":\"replace\",\"path\":\"/ComponentProp1\",\"value\":\"value2\"}]",
-   "status": 204,
-   "response": "",
-   "responseHeaders": {
-    "content-length": "0",
-    "date": "Tue, 28 Jun 2022 18:50:35 GMT",
-    "etag": "W/\"5868c018-c03e-4eca-a86e-87673fe0eee4\"",
-    "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-f653864cbc05ee42839ee896a5e02d31-3029f75ac37a284f-01"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/digitaltwins/DTComponentTestsTempTwin/components/Component1",
-   "query": {
-    "api-version": "2022-05-31"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"ComponentProp1\":\"value2\",\"$metadata\":{\"$lastUpdateTime\":\"2022-06-28T18:50:36.7977106Z\",\"ComponentProp1\":{\"lastUpdateTime\":\"2022-06-28T18:50:36.7977106Z\"}}}",
-   "responseHeaders": {
-    "content-length": "157",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 28 Jun 2022 18:50:36 GMT",
-    "etag": "W/\"5868c018-c03e-4eca-a86e-87673fe0eee4\"",
-    "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-5d6fd00057f1314e9c50e266d0c1aa98-6f522d807863e344-01"
-   }
-  },
-  {
-   "method": "DELETE",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/digitaltwins/DTComponentTestsTempTwin",
-   "query": {
-    "api-version": "2022-05-31"
-   },
-   "requestBody": null,
-   "status": 204,
-   "response": "",
-   "responseHeaders": {
-    "content-length": "0",
-    "date": "Tue, 28 Jun 2022 18:50:36 GMT",
-    "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-c8d7a7020834ac4fbd4dbd7b884544e5-516f79a7ae930b42-01"
-   }
-  },
-  {
-   "method": "DELETE",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTComponentTestsModel%3B1",
-   "query": {
-    "api-version": "2022-05-31"
-   },
-   "requestBody": null,
-   "status": 204,
-   "response": "",
-   "responseHeaders": {
-    "content-length": "0",
-    "date": "Tue, 28 Jun 2022 18:50:36 GMT",
-    "mise-correlation-id": "796be248-f9e9-4bb3-b789-49e6256d3950",
-    "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-c181f28362164fc289a3978e1a44b8c0-6dfaac223f4cd278-01"
-   }
-  },
-  {
-   "method": "DELETE",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTComponentTestsComponent%3B1",
-   "query": {
-    "api-version": "2022-05-31"
-   },
-   "requestBody": null,
-   "status": 204,
-   "response": "",
-   "responseHeaders": {
-    "content-length": "0",
-    "date": "Tue, 28 Jun 2022 18:50:36 GMT",
-    "mise-correlation-id": "77fb1344-b35e-4840-9312-9f83047b3517",
-    "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-ec9568141ff3eba2c39e64f9c8ef2e82-4a20d1551ec2d6cd-01"
-   }
-  }
- ],
- "uniqueTestInfo": {
-  "uniqueName": {},
-  "newDate": {}
- },
- "hash": "acab7bb88467d9c7f12fc573587d340d"
+  "Entries": [
+    {
+      "RequestUri": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTComponentTestsModel%3B1?api-version=2020-10-31",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/109.0.5412.0 Safari/537.36",
+        "x-ms-client-request-id": "7927ba14-0719-4135-839b-eab632c448ba",
+        "x-ms-useragent": "azsdk-js-digital-twins-core/2.0.0 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "Content-Length": "221",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 09 Jan 2023 23:30:15 GMT",
+        "mise-correlation-id": "e96d5cdf-3eeb-4d51-8686-c3c63bf3334a",
+        "Strict-Transport-Security": "max-age=2592000",
+        "traceresponse": "00-bea69ff68e61931fa3ad900153054957-fa2cf3dc56a3a5ca-01"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "ModelNotFound",
+          "message": "There is no Model(s) available that matches the provided id(s) dtmi:samples:DTComponentTestsModel;1. Check that the Model ID provided is valid by doing a Model_List API call."
+        }
+      }
+    },
+    {
+      "RequestUri": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTComponentTestsComponent%3B1?api-version=2020-10-31",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/109.0.5412.0 Safari/537.36",
+        "x-ms-client-request-id": "0e0f6ea2-94d5-4b3b-978d-6ce414bdf099",
+        "x-ms-useragent": "azsdk-js-digital-twins-core/2.0.0 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "Content-Length": "225",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 09 Jan 2023 23:30:15 GMT",
+        "mise-correlation-id": "a80f4c93-fb19-4080-afa5-e2adb028031b",
+        "Strict-Transport-Security": "max-age=2592000",
+        "traceresponse": "00-f1826644aa5d5e28946bce081e97ee42-77446edb6d54dbe8-01"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "ModelNotFound",
+          "message": "There is no Model(s) available that matches the provided id(s) dtmi:samples:DTComponentTestsComponent;1. Check that the Model ID provided is valid by doing a Model_List API call."
+        }
+      }
+    },
+    {
+      "RequestUri": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/models?api-version=2020-10-31",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "626",
+        "Content-Type": "application/json",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/109.0.5412.0 Safari/537.36",
+        "x-ms-client-request-id": "15d67d37-0fbb-41cd-ad30-0f93f81b1ce0",
+        "x-ms-useragent": "azsdk-js-digital-twins-core/2.0.0 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
+      },
+      "RequestBody": "[{\u0022@id\u0022:\u0022dtmi:samples:DTComponentTestsComponent;1\u0022,\u0022@type\u0022:\u0022Interface\u0022,\u0022@context\u0022:\u0022dtmi:dtdl:context;2\u0022,\u0022displayName\u0022:\u0022Component1\u0022,\u0022contents\u0022:[{\u0022@type\u0022:\u0022Property\u0022,\u0022name\u0022:\u0022ComponentProp1\u0022,\u0022schema\u0022:\u0022string\u0022},{\u0022@type\u0022:\u0022Telemetry\u0022,\u0022name\u0022:\u0022ComponentTelemetry1\u0022,\u0022schema\u0022:\u0022integer\u0022}]},{\u0022@id\u0022:\u0022dtmi:samples:DTComponentTestsModel;1\u0022,\u0022@type\u0022:\u0022Interface\u0022,\u0022@context\u0022:\u0022dtmi:dtdl:context;2\u0022,\u0022displayName\u0022:\u0022TempModel\u0022,\u0022contents\u0022:[{\u0022@type\u0022:\u0022Property\u0022,\u0022name\u0022:\u0022Prop1\u0022,\u0022schema\u0022:\u0022string\u0022},{\u0022@type\u0022:\u0022Component\u0022,\u0022name\u0022:\u0022Component1\u0022,\u0022schema\u0022:\u0022dtmi:samples:DTComponentTestsComponent;1\u0022},{\u0022@type\u0022:\u0022Telemetry\u0022,\u0022name\u0022:\u0022Telemetry1\u0022,\u0022schema\u0022:\u0022integer\u0022}]}]",
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "Content-Length": "342",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 09 Jan 2023 23:30:16 GMT",
+        "mise-correlation-id": "dfe0ba07-89d9-42f7-b74e-fd8166c0b107",
+        "Strict-Transport-Security": "max-age=2592000",
+        "traceresponse": "00-6cfb9f6542a9ea533a49c56e87204eac-47ce130a2e5ce599-01"
+      },
+      "ResponseBody": "[{\u0022id\u0022:\u0022dtmi:samples:DTComponentTestsComponent;1\u0022,\u0022description\u0022:{},\u0022displayName\u0022:{\u0022en\u0022:\u0022Component1\u0022},\u0022decommissioned\u0022:false,\u0022uploadTime\u0022:\u00222023-01-09T23:30:16.1329409\u002B00:00\u0022},{\u0022id\u0022:\u0022dtmi:samples:DTComponentTestsModel;1\u0022,\u0022description\u0022:{},\u0022displayName\u0022:{\u0022en\u0022:\u0022TempModel\u0022},\u0022decommissioned\u0022:false,\u0022uploadTime\u0022:\u00222023-01-09T23:30:16.1329648\u002B00:00\u0022}]"
+    },
+    {
+      "RequestUri": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/digitaltwins/DTComponentTestsTempTwin?api-version=2020-10-31",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/109.0.5412.0 Safari/537.36",
+        "x-ms-client-request-id": "561e2034-dc83-4427-b694-cf9fdc3d3a84",
+        "x-ms-useragent": "azsdk-js-digital-twins-core/2.0.0 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "Content-Length": "278",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 09 Jan 2023 23:30:16 GMT",
+        "mise-correlation-id": "fc023634-f199-42ee-90a0-5b4f053ad03d",
+        "Strict-Transport-Security": "max-age=2592000",
+        "traceresponse": "00-3d00afbcfeed5f680825d4747ab3d4b1-cf5176598263dbf9-01"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "DigitalTwinNotFound",
+          "message": "There is no digital twin instance that exists with the ID DTComponentTestsTempTwin. Please verify that the twin id is valid and ensure that the twin is not deleted. See section on querying the twins https://aka.ms/adtv2query."
+        }
+      }
+    },
+    {
+      "RequestUri": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/digitaltwins/DTComponentTestsTempTwin?api-version=2020-10-31",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "135",
+        "Content-Type": "application/json",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/109.0.5412.0 Safari/537.36",
+        "x-ms-client-request-id": "9c8d0805-3a4c-422f-a5b9-f5524336470b",
+        "x-ms-useragent": "azsdk-js-digital-twins-core/2.0.0 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
+      },
+      "RequestBody": {
+        "$metadata": {
+          "$model": "dtmi:samples:DTComponentTestsModel;1"
+        },
+        "Prop1": "value",
+        "Component1": {
+          "$metadata": {},
+          "ComponentProp1": "value1"
+        }
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "347",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 09 Jan 2023 23:30:16 GMT",
+        "ETag": "W/\u0022bc1cac67-1617-4cf7-904c-f7ffd5f051d2\u0022",
+        "mise-correlation-id": "b43acb71-72ff-48d9-9866-c33380d2f0c7",
+        "Strict-Transport-Security": "max-age=2592000",
+        "traceresponse": "00-58ee211da47e946f40315f0df90da558-d8e615288d81f281-01"
+      },
+      "ResponseBody": {
+        "$dtId": "DTComponentTestsTempTwin",
+        "$etag": "W/\u0022bc1cac67-1617-4cf7-904c-f7ffd5f051d2\u0022",
+        "Prop1": "value",
+        "Component1": {
+          "ComponentProp1": "value1",
+          "$metadata": {
+            "ComponentProp1": {
+              "lastUpdateTime": "2023-01-09T23:30:16.5263907Z"
+            }
+          }
+        },
+        "$metadata": {
+          "$model": "dtmi:samples:DTComponentTestsModel;1",
+          "Prop1": {
+            "lastUpdateTime": "2023-01-09T23:30:16.5263907Z"
+          }
+        }
+      }
+    },
+    {
+      "RequestUri": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/digitaltwins/DTComponentTestsTempTwin/components/Component1?api-version=2020-10-31",
+      "RequestMethod": "PATCH",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "60",
+        "Content-Type": "application/json-patch\u002Bjson",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/109.0.5412.0 Safari/537.36",
+        "x-ms-client-request-id": "fefb5358-6bc5-4c9c-8ecf-542681d0b6b0",
+        "x-ms-useragent": "azsdk-js-digital-twins-core/2.0.0 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
+      },
+      "RequestBody": "[{\u0022op\u0022:\u0022replace\u0022,\u0022path\u0022:\u0022/ComponentProp1\u0022,\u0022value\u0022:\u0022value2\u0022}]",
+      "StatusCode": 204,
+      "ResponseHeaders": {
+        "Content-Length": "0",
+        "Date": "Mon, 09 Jan 2023 23:30:16 GMT",
+        "ETag": "W/\u0022b935ba90-9d66-4983-a2d6-ce0a46efb569\u0022",
+        "mise-correlation-id": "da261cab-32bd-40b9-9af3-0b1bfa1aa646",
+        "Strict-Transport-Security": "max-age=2592000",
+        "traceresponse": "00-37554944638e8bc70f75bd9f7726f5cf-aff88e22799133cc-01"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/digitaltwins/DTComponentTestsTempTwin/components/Component1?api-version=2020-10-31",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/109.0.5412.0 Safari/537.36",
+        "x-ms-client-request-id": "1ad334fa-49f6-444a-a0ed-0e3cefdac421",
+        "x-ms-useragent": "azsdk-js-digital-twins-core/2.0.0 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "157",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 09 Jan 2023 23:30:16 GMT",
+        "ETag": "W/\u0022b935ba90-9d66-4983-a2d6-ce0a46efb569\u0022",
+        "mise-correlation-id": "c3f4362b-dea8-4819-ba21-77a2f6f16d10",
+        "Strict-Transport-Security": "max-age=2592000",
+        "traceresponse": "00-525273161a7d52fee6cd195717cd3220-023a3cb467d4f70e-01"
+      },
+      "ResponseBody": {
+        "ComponentProp1": "value2",
+        "$metadata": {
+          "$lastUpdateTime": "2023-01-09T23:30:16.5785033Z",
+          "ComponentProp1": {
+            "lastUpdateTime": "2023-01-09T23:30:16.5785033Z"
+          }
+        }
+      }
+    },
+    {
+      "RequestUri": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/digitaltwins/DTComponentTestsTempTwin?api-version=2020-10-31",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/109.0.5412.0 Safari/537.36",
+        "x-ms-client-request-id": "a9f4cc69-96f3-4d9e-994d-e1aeda822ca5",
+        "x-ms-useragent": "azsdk-js-digital-twins-core/2.0.0 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 204,
+      "ResponseHeaders": {
+        "Content-Length": "0",
+        "Date": "Mon, 09 Jan 2023 23:30:16 GMT",
+        "mise-correlation-id": "e11b2038-3ab2-4b39-bfb1-2b49c5f95ebb",
+        "Strict-Transport-Security": "max-age=2592000",
+        "traceresponse": "00-71e4c82d7bcca67900f9117499460803-c5e29c0764818f9f-01"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTComponentTestsModel%3B1?api-version=2020-10-31",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/109.0.5412.0 Safari/537.36",
+        "x-ms-client-request-id": "bc05c139-b076-4780-b094-cbbb5bb05670",
+        "x-ms-useragent": "azsdk-js-digital-twins-core/2.0.0 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 204,
+      "ResponseHeaders": {
+        "Content-Length": "0",
+        "Date": "Mon, 09 Jan 2023 23:30:16 GMT",
+        "mise-correlation-id": "b215f7fb-47ed-4be9-9776-a75f0695a2b8",
+        "Strict-Transport-Security": "max-age=2592000",
+        "traceresponse": "00-e56bcccf6938547128a74a326702c72a-1014c5ff4a647249-01"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTComponentTestsComponent%3B1?api-version=2020-10-31",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/109.0.5412.0 Safari/537.36",
+        "x-ms-client-request-id": "b3a8ec4a-2cf1-42df-a156-eb009f602ee0",
+        "x-ms-useragent": "azsdk-js-digital-twins-core/2.0.0 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 204,
+      "ResponseHeaders": {
+        "Content-Length": "0",
+        "Date": "Mon, 09 Jan 2023 23:30:16 GMT",
+        "mise-correlation-id": "f9a0ad46-622a-442a-a14f-c2682c20e20d",
+        "Strict-Transport-Security": "max-age=2592000",
+        "traceresponse": "00-744b8bf9fbe3421c3faa0cae20c29e03-ee6201796edab649-01"
+      },
+      "ResponseBody": null
+    }
+  ],
+  "Variables": {}
 }

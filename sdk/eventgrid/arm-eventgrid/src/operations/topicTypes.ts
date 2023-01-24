@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { TopicTypes } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -15,12 +15,12 @@ import { EventGridManagementClient } from "../eventGridManagementClient";
 import {
   TopicTypeInfo,
   TopicTypesListOptionalParams,
+  TopicTypesListResponse,
   EventType,
   TopicTypesListEventTypesOptionalParams,
-  TopicTypesListResponse,
+  TopicTypesListEventTypesResponse,
   TopicTypesGetOptionalParams,
-  TopicTypesGetResponse,
-  TopicTypesListEventTypesResponse
+  TopicTypesGetResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -51,16 +51,21 @@ export class TopicTypesImpl implements TopicTypes {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: TopicTypesListOptionalParams
+    options?: TopicTypesListOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<TopicTypeInfo[]> {
-    let result = await this._list(options);
+    let result: TopicTypesListResponse;
+    result = await this._list(options);
     yield result.value || [];
   }
 
@@ -89,17 +94,22 @@ export class TopicTypesImpl implements TopicTypes {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listEventTypesPagingPage(topicTypeName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listEventTypesPagingPage(topicTypeName, options, settings);
       }
     };
   }
 
   private async *listEventTypesPagingPage(
     topicTypeName: string,
-    options?: TopicTypesListEventTypesOptionalParams
+    options?: TopicTypesListEventTypesOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<EventType[]> {
-    let result = await this._listEventTypes(topicTypeName, options);
+    let result: TopicTypesListEventTypesResponse;
+    result = await this._listEventTypes(topicTypeName, options);
     yield result.value || [];
   }
 

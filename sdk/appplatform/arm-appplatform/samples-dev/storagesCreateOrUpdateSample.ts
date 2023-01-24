@@ -13,16 +13,22 @@ import {
   AppPlatformManagementClient
 } from "@azure/arm-appplatform";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create or update storage resource.
  *
  * @summary Create or update storage resource.
- * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-09-01-preview/examples/Storages_CreateOrUpdate.json
+ * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-11-01-preview/examples/Storages_CreateOrUpdate.json
  */
 async function storagesCreateOrUpdate() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["APPPLATFORM_RESOURCE_GROUP"] || "myResourceGroup";
   const serviceName = "myservice";
   const storageName = "mystorage";
   const storageResource: StorageResource = {
@@ -43,4 +49,8 @@ async function storagesCreateOrUpdate() {
   console.log(result);
 }
 
-storagesCreateOrUpdate().catch(console.error);
+async function main() {
+  storagesCreateOrUpdate();
+}
+
+main().catch(console.error);

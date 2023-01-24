@@ -13,17 +13,23 @@ import {
   RecoveryServicesBackupClient
 } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Lists the containers registered to Recovery Services Vault.
  *
  * @summary Lists the containers registered to Recovery Services Vault.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2022-03-01/examples/AzureStorage/ProtectionContainers_List.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/AzureStorage/ProtectionContainers_List.json
  */
 async function listBackupProtectionContainers() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const vaultName = "testVault";
-  const resourceGroupName = "testRg";
+  const resourceGroupName =
+    process.env["RECOVERYSERVICESBACKUP_RESOURCE_GROUP"] || "testRg";
   const filter = "backupManagementType eq 'AzureWorkload'";
   const options: BackupProtectionContainersListOptionalParams = { filter };
   const credential = new DefaultAzureCredential();
@@ -39,4 +45,8 @@ async function listBackupProtectionContainers() {
   console.log(resArray);
 }
 
-listBackupProtectionContainers().catch(console.error);
+async function main() {
+  listBackupProtectionContainers();
+}
+
+main().catch(console.error);

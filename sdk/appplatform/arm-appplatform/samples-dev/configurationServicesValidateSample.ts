@@ -13,16 +13,22 @@ import {
   AppPlatformManagementClient
 } from "@azure/arm-appplatform";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Check if the Application Configuration Service settings are valid.
  *
  * @summary Check if the Application Configuration Service settings are valid.
- * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-09-01-preview/examples/ConfigurationServices_Validate.json
+ * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-11-01-preview/examples/ConfigurationServices_Validate.json
  */
 async function configurationServicesValidate() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["APPPLATFORM_RESOURCE_GROUP"] || "myResourceGroup";
   const serviceName = "myservice";
   const configurationServiceName = "default";
   const settings: ConfigurationServiceSettings = {
@@ -48,4 +54,8 @@ async function configurationServicesValidate() {
   console.log(result);
 }
 
-configurationServicesValidate().catch(console.error);
+async function main() {
+  configurationServicesValidate();
+}
+
+main().catch(console.error);

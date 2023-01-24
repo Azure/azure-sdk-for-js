@@ -10,17 +10,19 @@
 // Licensed under the MIT License.
 const { RecoveryServicesBackupClient } = require("@azure/arm-recoveryservicesbackup");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Fetches the result of any operation on the backup item.
  *
  * @summary Fetches the result of any operation on the backup item.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2022-03-01/examples/AzureIaasVm/ProtectedItemOperationResults.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/AzureIaasVm/ProtectedItemOperationResults.json
  */
 async function getOperationResultsOfProtectedVM() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const vaultName = "NetSDKTestRsVault";
-  const resourceGroupName = "SwaggerTestRg";
+  const resourceGroupName = process.env["RECOVERYSERVICESBACKUP_RESOURCE_GROUP"] || "SwaggerTestRg";
   const fabricName = "Azure";
   const containerName = "IaasVMContainer;iaasvmcontainerv2;netsdktestrg;netvmtestv2vm1";
   const protectedItemName = "VM;iaasvmcontainerv2;netsdktestrg;netvmtestv2vm1";
@@ -38,4 +40,8 @@ async function getOperationResultsOfProtectedVM() {
   console.log(result);
 }
 
-getOperationResultsOfProtectedVM().catch(console.error);
+async function main() {
+  getOperationResultsOfProtectedVM();
+}
+
+main().catch(console.error);

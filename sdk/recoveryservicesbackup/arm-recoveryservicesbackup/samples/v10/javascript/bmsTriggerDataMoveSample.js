@@ -10,17 +10,19 @@
 // Licensed under the MIT License.
 const { RecoveryServicesBackupClient } = require("@azure/arm-recoveryservicesbackup");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Triggers Data Move Operation on target vault
  *
  * @summary Triggers Data Move Operation on target vault
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2022-03-01/examples/BackupDataMove/TriggerDataMove_Post.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/BackupDataMove/TriggerDataMove_Post.json
  */
 async function triggerDataMove() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const vaultName = "target-rsv";
-  const resourceGroupName = "targetRG";
+  const resourceGroupName = process.env["RECOVERYSERVICESBACKUP_RESOURCE_GROUP"] || "targetRG";
   const parameters = {
     correlationId: "MTg2OTcyMzM4NzYyMjc1NDY3Nzs1YmUzYmVmNi04YjJiLTRhOTItOTllYi01NTM0MDllYjk2NjE=",
     dataMoveLevel: "Vault",
@@ -38,4 +40,8 @@ async function triggerDataMove() {
   console.log(result);
 }
 
-triggerDataMove().catch(console.error);
+async function main() {
+  triggerDataMove();
+}
+
+main().catch(console.error);

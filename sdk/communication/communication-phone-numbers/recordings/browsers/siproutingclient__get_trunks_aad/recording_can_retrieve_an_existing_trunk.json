@@ -18,13 +18,13 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/108.0.5351.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.3 OS/Win32"
+        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
       },
       "RequestBody": {
         "trunks": {
-          "test.29ac8ed2bdd449b1a4e4bc943ced3f97.com": {
+          "test.820041ac2426446ab9eb8ab94bd27b1d.com": {
             "sipSignalingPort": 4567
           }
         }
@@ -33,17 +33,17 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 02 Dec 2022 00:18:07 GMT",
-        "MS-CV": "waifFFq8N0y04uLhdjFjeg.0",
+        "Date": "Fri, 06 Jan 2023 17:37:34 GMT",
+        "MS-CV": "/xlg7WOXBUSlMRGu6YJh0A.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0PkSJYwAAAACSYE/nbX3cQ5E4kbkoMmcwUFJHMDFFREdFMDkwNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0Xly4YwAAAAAt4GBh3GY9SqjQLqk\u002B3YxKTUVYMzBFREdFMTEwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "1199ms"
+        "X-Processing-Time": "512ms"
       },
       "ResponseBody": {
         "trunks": {
-          "test.29ac8ed2bdd449b1a4e4bc943ced3f97.com": {
+          "test.820041ac2426446ab9eb8ab94bd27b1d.com": {
             "sipSignalingPort": 4567
           }
         },
@@ -66,26 +66,26 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/108.0.5351.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.3 OS/Win32"
+        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 02 Dec 2022 00:18:08 GMT",
-        "MS-CV": "K2pWk9bcbEuD/l/7WZqTUg.0",
+        "Date": "Fri, 06 Jan 2023 17:37:34 GMT",
+        "MS-CV": "kqKOVM8Zs0q5b4rTq9bkKw.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0QESJYwAAAAAliXf1S6COTpn1LbTqaWbeUFJHMDFFREdFMDkwNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0Xly4YwAAAACdWOafibrqQrIvNyPVHJRSTUVYMzBFREdFMTEwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "1439ms"
+        "X-Processing-Time": "104ms"
       },
       "ResponseBody": {
         "trunks": {
-          "test.29ac8ed2bdd449b1a4e4bc943ced3f97.com": {
+          "test.820041ac2426446ab9eb8ab94bd27b1d.com": {
             "sipSignalingPort": 4567
           }
         },
@@ -94,9 +94,9 @@
     }
   ],
   "Variables": {
-    "fqdn-1": "test.aff0b6c1191647b88f112e4eea8ea36c.com",
-    "fqdn-2": "test.5c49ee967318493b96b9b2beb6ad4bb8.com",
-    "fqdn-3": "test.54d77e25344a400eb8487a216cbb2430.com",
-    "fqdn-4": "test.29ac8ed2bdd449b1a4e4bc943ced3f97.com"
+    "fqdn-1": "test.a97d041a9edf453994c910e2c3d04cee.com",
+    "fqdn-2": "test.0f0122b6ccb348c8a3cd94dec69f75aa.com",
+    "fqdn-3": "test.f30aaa3a7f50480c991cb3f776341478.com",
+    "fqdn-4": "test.820041ac2426446ab9eb8ab94bd27b1d.com"
   }
 }

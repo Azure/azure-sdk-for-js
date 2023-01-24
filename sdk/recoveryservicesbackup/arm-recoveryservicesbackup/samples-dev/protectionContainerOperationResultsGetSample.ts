@@ -10,17 +10,23 @@
 // Licensed under the MIT License.
 import { RecoveryServicesBackupClient } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Fetches the result of any operation on the container.
  *
  * @summary Fetches the result of any operation on the container.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2022-03-01/examples/AzureStorage/ProtectionContainers_Inquire_Result.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/AzureStorage/ProtectionContainers_Inquire_Result.json
  */
 async function getAzureStorageProtectionContainerOperationResult() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const vaultName = "testvault";
-  const resourceGroupName = "test-rg";
+  const resourceGroupName =
+    process.env["RECOVERYSERVICESBACKUP_RESOURCE_GROUP"] || "test-rg";
   const fabricName = "Azure";
   const containerName = "VMAppContainer;Compute;testRG;testSQL";
   const operationId = "00000000-0000-0000-0000-000000000000";
@@ -36,4 +42,8 @@ async function getAzureStorageProtectionContainerOperationResult() {
   console.log(result);
 }
 
-getAzureStorageProtectionContainerOperationResult().catch(console.error);
+async function main() {
+  getAzureStorageProtectionContainerOperationResult();
+}
+
+main().catch(console.error);

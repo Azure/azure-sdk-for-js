@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { EventGridManagementClient } = require("@azure/arm-eventgrid");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Unauthorize a single partner either by partner registration immutable Id or by partner name.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/PartnerConfigurations_UnauthorizePartner.json
  */
 async function partnerConfigurationsUnauthorizePartner() {
-  const subscriptionId = "5b4b650e-28b9-4790-b3ab-ddbd88d727c4";
-  const resourceGroupName = "examplerg";
+  const subscriptionId =
+    process.env["EVENTGRID_SUBSCRIPTION_ID"] || "5b4b650e-28b9-4790-b3ab-ddbd88d727c4";
+  const resourceGroupName = process.env["EVENTGRID_RESOURCE_GROUP"] || "examplerg";
   const partnerInfo = {
     authorizationExpirationTimeInUtc: new Date("2022-01-28T01:20:55.142Z"),
     partnerName: "Contoso.Finance",
@@ -34,4 +36,8 @@ async function partnerConfigurationsUnauthorizePartner() {
   console.log(result);
 }
 
-partnerConfigurationsUnauthorizePartner().catch(console.error);
+async function main() {
+  partnerConfigurationsUnauthorizePartner();
+}
+
+main().catch(console.error);

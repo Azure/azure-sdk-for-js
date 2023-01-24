@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { EventGridManagementClient } from "@azure/arm-eventgrid";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Get properties of a domain topic.
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/DomainTopics_Get.json
  */
 async function domainTopicsGet() {
-  const subscriptionId = "5b4b650e-28b9-4790-b3ab-ddbd88d727c4";
-  const resourceGroupName = "examplerg";
+  const subscriptionId =
+    process.env["EVENTGRID_SUBSCRIPTION_ID"] ||
+    "5b4b650e-28b9-4790-b3ab-ddbd88d727c4";
+  const resourceGroupName =
+    process.env["EVENTGRID_RESOURCE_GROUP"] || "examplerg";
   const domainName = "exampledomain2";
   const domainTopicName = "topic1";
   const credential = new DefaultAzureCredential();
@@ -32,4 +38,8 @@ async function domainTopicsGet() {
   console.log(result);
 }
 
-domainTopicsGet().catch(console.error);
+async function main() {
+  domainTopicsGet();
+}
+
+main().catch(console.error);
