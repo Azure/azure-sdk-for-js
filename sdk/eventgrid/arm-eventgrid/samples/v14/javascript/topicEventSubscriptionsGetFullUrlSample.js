@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { EventGridManagementClient } = require("@azure/arm-eventgrid");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Get the full endpoint URL for an event subscription for topic.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/TopicEventSubscriptions_GetFullUrl.json
  */
 async function topicEventSubscriptionsGetFullUrl() {
-  const subscriptionId = "5b4b650e-28b9-4790-b3ab-ddbd88d727c4";
-  const resourceGroupName = "examplerg";
+  const subscriptionId =
+    process.env["EVENTGRID_SUBSCRIPTION_ID"] || "5b4b650e-28b9-4790-b3ab-ddbd88d727c4";
+  const resourceGroupName = process.env["EVENTGRID_RESOURCE_GROUP"] || "examplerg";
   const topicName = "exampleTopic1";
   const eventSubscriptionName = "examplesubscription1";
   const credential = new DefaultAzureCredential();
@@ -32,4 +34,8 @@ async function topicEventSubscriptionsGetFullUrl() {
   console.log(result);
 }
 
-topicEventSubscriptionsGetFullUrl().catch(console.error);
+async function main() {
+  topicEventSubscriptionsGetFullUrl();
+}
+
+main().catch(console.error);

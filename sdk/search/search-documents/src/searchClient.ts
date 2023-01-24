@@ -207,8 +207,11 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
       let documentsCount: number = 0;
       await this.client.documents.count({
         ...updatedOptions,
-        onResponse: (response) => {
-          documentsCount = Number(response.bodyAsText);
+        onResponse: (rawResponse, flatResponse) => {
+          documentsCount = Number(rawResponse.bodyAsText);
+          if (updatedOptions.onResponse) {
+            updatedOptions.onResponse(rawResponse, flatResponse);
+          }
         },
       });
 
@@ -516,8 +519,11 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
         { actions: serialize(batch.actions) },
         {
           ...updatedOptions,
-          onResponse: (response) => {
-            status = response.status;
+          onResponse: (rawResponse, flatResponse) => {
+            status = rawResponse.status;
+            if (updatedOptions.onResponse) {
+              updatedOptions.onResponse(rawResponse, flatResponse);
+            }
           },
         }
       );

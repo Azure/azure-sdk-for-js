@@ -518,8 +518,6 @@ export class MobileNetworkManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     operations: Operations;
     // (undocumented)
-    packetCoreControlPlaneOperations: PacketCoreControlPlaneOperations;
-    // (undocumented)
     packetCoreControlPlanes: PacketCoreControlPlanes;
     // (undocumented)
     packetCoreControlPlaneVersions: PacketCoreControlPlaneVersions;
@@ -529,8 +527,6 @@ export class MobileNetworkManagementClient extends coreClient.ServiceClient {
     services: Services;
     // (undocumented)
     simGroups: SimGroups;
-    // (undocumented)
-    simOperations: SimOperations;
     // (undocumented)
     simPolicies: SimPolicies;
     // (undocumented)
@@ -702,59 +698,37 @@ export interface PacketCoreControlPlaneCollectDiagnosticsPackage {
 }
 
 // @public
-export interface PacketCoreControlPlaneCollectDiagnosticsPackageOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type PacketCoreControlPlaneCollectDiagnosticsPackageResponse = AsyncOperationStatus;
-
-// @public
 export interface PacketCoreControlPlaneListResult {
     readonly nextLink?: string;
     value?: PacketCoreControlPlane[];
 }
 
 // @public
-export interface PacketCoreControlPlaneOperations {
-    beginCollectDiagnosticsPackage(resourceGroupName: string, packetCoreControlPlaneName: string, parameters: PacketCoreControlPlaneCollectDiagnosticsPackage, options?: PacketCoreControlPlaneCollectDiagnosticsPackageOptionalParams): Promise<PollerLike<PollOperationState<PacketCoreControlPlaneCollectDiagnosticsPackageResponse>, PacketCoreControlPlaneCollectDiagnosticsPackageResponse>>;
-    beginCollectDiagnosticsPackageAndWait(resourceGroupName: string, packetCoreControlPlaneName: string, parameters: PacketCoreControlPlaneCollectDiagnosticsPackage, options?: PacketCoreControlPlaneCollectDiagnosticsPackageOptionalParams): Promise<PacketCoreControlPlaneCollectDiagnosticsPackageResponse>;
-    beginReinstall(resourceGroupName: string, packetCoreControlPlaneName: string, options?: PacketCoreControlPlaneReinstallOptionalParams): Promise<PollerLike<PollOperationState<PacketCoreControlPlaneReinstallResponse>, PacketCoreControlPlaneReinstallResponse>>;
-    beginReinstallAndWait(resourceGroupName: string, packetCoreControlPlaneName: string, options?: PacketCoreControlPlaneReinstallOptionalParams): Promise<PacketCoreControlPlaneReinstallResponse>;
-    beginRollback(resourceGroupName: string, packetCoreControlPlaneName: string, options?: PacketCoreControlPlaneRollbackOptionalParams): Promise<PollerLike<PollOperationState<PacketCoreControlPlaneRollbackResponse>, PacketCoreControlPlaneRollbackResponse>>;
-    beginRollbackAndWait(resourceGroupName: string, packetCoreControlPlaneName: string, options?: PacketCoreControlPlaneRollbackOptionalParams): Promise<PacketCoreControlPlaneRollbackResponse>;
-}
-
-// @public
-export interface PacketCoreControlPlaneReinstallOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type PacketCoreControlPlaneReinstallResponse = AsyncOperationStatus;
-
-// @public
-export interface PacketCoreControlPlaneRollbackOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type PacketCoreControlPlaneRollbackResponse = AsyncOperationStatus;
-
-// @public
 export interface PacketCoreControlPlanes {
+    beginCollectDiagnosticsPackage(resourceGroupName: string, packetCoreControlPlaneName: string, parameters: PacketCoreControlPlaneCollectDiagnosticsPackage, options?: PacketCoreControlPlanesCollectDiagnosticsPackageOptionalParams): Promise<PollerLike<PollOperationState<PacketCoreControlPlanesCollectDiagnosticsPackageResponse>, PacketCoreControlPlanesCollectDiagnosticsPackageResponse>>;
+    beginCollectDiagnosticsPackageAndWait(resourceGroupName: string, packetCoreControlPlaneName: string, parameters: PacketCoreControlPlaneCollectDiagnosticsPackage, options?: PacketCoreControlPlanesCollectDiagnosticsPackageOptionalParams): Promise<PacketCoreControlPlanesCollectDiagnosticsPackageResponse>;
     beginCreateOrUpdate(resourceGroupName: string, packetCoreControlPlaneName: string, parameters: PacketCoreControlPlane, options?: PacketCoreControlPlanesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<PacketCoreControlPlanesCreateOrUpdateResponse>, PacketCoreControlPlanesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, packetCoreControlPlaneName: string, parameters: PacketCoreControlPlane, options?: PacketCoreControlPlanesCreateOrUpdateOptionalParams): Promise<PacketCoreControlPlanesCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, packetCoreControlPlaneName: string, options?: PacketCoreControlPlanesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, packetCoreControlPlaneName: string, options?: PacketCoreControlPlanesDeleteOptionalParams): Promise<void>;
+    beginReinstall(resourceGroupName: string, packetCoreControlPlaneName: string, options?: PacketCoreControlPlanesReinstallOptionalParams): Promise<PollerLike<PollOperationState<PacketCoreControlPlanesReinstallResponse>, PacketCoreControlPlanesReinstallResponse>>;
+    beginReinstallAndWait(resourceGroupName: string, packetCoreControlPlaneName: string, options?: PacketCoreControlPlanesReinstallOptionalParams): Promise<PacketCoreControlPlanesReinstallResponse>;
+    beginRollback(resourceGroupName: string, packetCoreControlPlaneName: string, options?: PacketCoreControlPlanesRollbackOptionalParams): Promise<PollerLike<PollOperationState<PacketCoreControlPlanesRollbackResponse>, PacketCoreControlPlanesRollbackResponse>>;
+    beginRollbackAndWait(resourceGroupName: string, packetCoreControlPlaneName: string, options?: PacketCoreControlPlanesRollbackOptionalParams): Promise<PacketCoreControlPlanesRollbackResponse>;
     get(resourceGroupName: string, packetCoreControlPlaneName: string, options?: PacketCoreControlPlanesGetOptionalParams): Promise<PacketCoreControlPlanesGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: PacketCoreControlPlanesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<PacketCoreControlPlane>;
     listBySubscription(options?: PacketCoreControlPlanesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<PacketCoreControlPlane>;
     updateTags(resourceGroupName: string, packetCoreControlPlaneName: string, parameters: TagsObject, options?: PacketCoreControlPlanesUpdateTagsOptionalParams): Promise<PacketCoreControlPlanesUpdateTagsResponse>;
 }
+
+// @public
+export interface PacketCoreControlPlanesCollectDiagnosticsPackageOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type PacketCoreControlPlanesCollectDiagnosticsPackageResponse = AsyncOperationStatus;
 
 // @public
 export interface PacketCoreControlPlanesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
@@ -805,6 +779,24 @@ export interface PacketCoreControlPlanesListBySubscriptionOptionalParams extends
 
 // @public
 export type PacketCoreControlPlanesListBySubscriptionResponse = PacketCoreControlPlaneListResult;
+
+// @public
+export interface PacketCoreControlPlanesReinstallOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type PacketCoreControlPlanesReinstallResponse = AsyncOperationStatus;
+
+// @public
+export interface PacketCoreControlPlanesRollbackOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type PacketCoreControlPlanesRollbackResponse = AsyncOperationStatus;
 
 // @public
 export interface PacketCoreControlPlanesUpdateTagsOptionalParams extends coreClient.OperationOptions {
@@ -1120,33 +1112,6 @@ export interface Sim extends ProxyResource {
 }
 
 // @public
-export interface SimBulkDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type SimBulkDeleteResponse = AsyncOperationStatus;
-
-// @public
-export interface SimBulkUploadEncryptedOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type SimBulkUploadEncryptedResponse = AsyncOperationStatus;
-
-// @public
-export interface SimBulkUploadOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type SimBulkUploadResponse = AsyncOperationStatus;
-
-// @public
 export interface SimDeleteList {
     sims: string[];
 }
@@ -1283,16 +1248,6 @@ export interface SimNameAndProperties {
 }
 
 // @public
-export interface SimOperations {
-    beginBulkDelete(resourceGroupName: string, simGroupName: string, parameters: SimDeleteList, options?: SimBulkDeleteOptionalParams): Promise<PollerLike<PollOperationState<SimBulkDeleteResponse>, SimBulkDeleteResponse>>;
-    beginBulkDeleteAndWait(resourceGroupName: string, simGroupName: string, parameters: SimDeleteList, options?: SimBulkDeleteOptionalParams): Promise<SimBulkDeleteResponse>;
-    beginBulkUpload(resourceGroupName: string, simGroupName: string, parameters: SimUploadList, options?: SimBulkUploadOptionalParams): Promise<PollerLike<PollOperationState<SimBulkUploadResponse>, SimBulkUploadResponse>>;
-    beginBulkUploadAndWait(resourceGroupName: string, simGroupName: string, parameters: SimUploadList, options?: SimBulkUploadOptionalParams): Promise<SimBulkUploadResponse>;
-    beginBulkUploadEncrypted(resourceGroupName: string, simGroupName: string, parameters: EncryptedSimUploadList, options?: SimBulkUploadEncryptedOptionalParams): Promise<PollerLike<PollOperationState<SimBulkUploadEncryptedResponse>, SimBulkUploadEncryptedResponse>>;
-    beginBulkUploadEncryptedAndWait(resourceGroupName: string, simGroupName: string, parameters: EncryptedSimUploadList, options?: SimBulkUploadEncryptedOptionalParams): Promise<SimBulkUploadEncryptedResponse>;
-}
-
-// @public
 export interface SimPolicies {
     beginCreateOrUpdate(resourceGroupName: string, mobileNetworkName: string, simPolicyName: string, parameters: SimPolicy, options?: SimPoliciesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<SimPoliciesCreateOrUpdateResponse>, SimPoliciesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, mobileNetworkName: string, simPolicyName: string, parameters: SimPolicy, options?: SimPoliciesCreateOrUpdateOptionalParams): Promise<SimPoliciesCreateOrUpdateResponse>;
@@ -1378,6 +1333,12 @@ export interface SimPropertiesFormat extends CommonSimPropertiesFormat {
 
 // @public
 export interface Sims {
+    beginBulkDelete(resourceGroupName: string, simGroupName: string, parameters: SimDeleteList, options?: SimsBulkDeleteOptionalParams): Promise<PollerLike<PollOperationState<SimsBulkDeleteResponse>, SimsBulkDeleteResponse>>;
+    beginBulkDeleteAndWait(resourceGroupName: string, simGroupName: string, parameters: SimDeleteList, options?: SimsBulkDeleteOptionalParams): Promise<SimsBulkDeleteResponse>;
+    beginBulkUpload(resourceGroupName: string, simGroupName: string, parameters: SimUploadList, options?: SimsBulkUploadOptionalParams): Promise<PollerLike<PollOperationState<SimsBulkUploadResponse>, SimsBulkUploadResponse>>;
+    beginBulkUploadAndWait(resourceGroupName: string, simGroupName: string, parameters: SimUploadList, options?: SimsBulkUploadOptionalParams): Promise<SimsBulkUploadResponse>;
+    beginBulkUploadEncrypted(resourceGroupName: string, simGroupName: string, parameters: EncryptedSimUploadList, options?: SimsBulkUploadEncryptedOptionalParams): Promise<PollerLike<PollOperationState<SimsBulkUploadEncryptedResponse>, SimsBulkUploadEncryptedResponse>>;
+    beginBulkUploadEncryptedAndWait(resourceGroupName: string, simGroupName: string, parameters: EncryptedSimUploadList, options?: SimsBulkUploadEncryptedOptionalParams): Promise<SimsBulkUploadEncryptedResponse>;
     beginCreateOrUpdate(resourceGroupName: string, simGroupName: string, simName: string, parameters: Sim, options?: SimsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<SimsCreateOrUpdateResponse>, SimsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, simGroupName: string, simName: string, parameters: Sim, options?: SimsCreateOrUpdateOptionalParams): Promise<SimsCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, simGroupName: string, simName: string, options?: SimsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
@@ -1385,6 +1346,33 @@ export interface Sims {
     get(resourceGroupName: string, simGroupName: string, simName: string, options?: SimsGetOptionalParams): Promise<SimsGetResponse>;
     listByGroup(resourceGroupName: string, simGroupName: string, options?: SimsListByGroupOptionalParams): PagedAsyncIterableIterator<Sim>;
 }
+
+// @public
+export interface SimsBulkDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SimsBulkDeleteResponse = AsyncOperationStatus;
+
+// @public
+export interface SimsBulkUploadEncryptedOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SimsBulkUploadEncryptedResponse = AsyncOperationStatus;
+
+// @public
+export interface SimsBulkUploadOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SimsBulkUploadResponse = AsyncOperationStatus;
 
 // @public
 export interface SimsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {

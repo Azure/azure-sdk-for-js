@@ -85,6 +85,12 @@ export interface ContainerGroupProperties {
   encryptionProperties?: EncryptionProperties;
   /** The init containers for a container group. */
   initContainers?: InitContainerDefinition[];
+  /** extensions used by virtual kubelet */
+  extensions?: DeploymentExtensionSpec[];
+  /** The properties for confidential container group */
+  confidentialComputeProperties?: ConfidentialComputeProperties;
+  /** The priority of the container group. */
+  priority?: ContainerGroupPriority;
 }
 
 /** Identity for the container group. */
@@ -478,6 +484,8 @@ export interface EncryptionProperties {
   keyName: string;
   /** The encryption key version. */
   keyVersion: string;
+  /** The keyvault managed identity. */
+  identity?: string;
 }
 
 /** The init container definition. */
@@ -521,6 +529,26 @@ export interface InitContainerPropertiesDefinitionInstanceView {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly events?: Event[];
+}
+
+/** Extension sidecars to be added to the deployment. */
+export interface DeploymentExtensionSpec {
+  /** Name of the extension. */
+  name: string;
+  /** Type of extension to be added. */
+  extensionType?: string;
+  /** Version of the extension being used. */
+  version?: string;
+  /** Settings for the extension. */
+  settings?: Record<string, unknown>;
+  /** Protected settings for the extension. */
+  protectedSettings?: Record<string, unknown>;
+}
+
+/** The properties for confidential container group */
+export interface ConfidentialComputeProperties {
+  /** The base64 encoded confidential compute enforcement policy */
+  ccePolicy?: string;
 }
 
 /** An error response from the Container Instance service. */
@@ -925,7 +953,9 @@ export enum KnownContainerGroupSku {
   /** Standard */
   Standard = "Standard",
   /** Dedicated */
-  Dedicated = "Dedicated"
+  Dedicated = "Dedicated",
+  /** Confidential */
+  Confidential = "Confidential"
 }
 
 /**
@@ -934,9 +964,28 @@ export enum KnownContainerGroupSku {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Standard** \
- * **Dedicated**
+ * **Dedicated** \
+ * **Confidential**
  */
 export type ContainerGroupSku = string;
+
+/** Known values of {@link ContainerGroupPriority} that the service accepts. */
+export enum KnownContainerGroupPriority {
+  /** Regular */
+  Regular = "Regular",
+  /** Spot */
+  Spot = "Spot"
+}
+
+/**
+ * Defines values for ContainerGroupPriority. \
+ * {@link KnownContainerGroupPriority} can be used interchangeably with ContainerGroupPriority,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Regular** \
+ * **Spot**
+ */
+export type ContainerGroupPriority = string;
 
 /** Known values of {@link ContainerInstanceOperationsOrigin} that the service accepts. */
 export enum KnownContainerInstanceOperationsOrigin {

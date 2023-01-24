@@ -10,16 +10,18 @@
 // Licensed under the MIT License.
 const { AppPlatformManagementClient } = require("@azure/arm-appplatform");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Operation to delete a Binding.
  *
  * @summary Operation to delete a Binding.
- * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-09-01-preview/examples/Bindings_Delete.json
+ * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-11-01-preview/examples/Bindings_Delete.json
  */
 async function bindingsDelete() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["APPPLATFORM_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["APPPLATFORM_RESOURCE_GROUP"] || "myResourceGroup";
   const serviceName = "myservice";
   const appName = "myapp";
   const bindingName = "mybinding";
@@ -34,4 +36,8 @@ async function bindingsDelete() {
   console.log(result);
 }
 
-bindingsDelete().catch(console.error);
+async function main() {
+  bindingsDelete();
+}
+
+main().catch(console.error);

@@ -8,9 +8,10 @@ import {
   DigitalTwinsUpdateOptionalParams,
 } from "../../src";
 import { authenticate } from "../utils/testAuthentication";
-import { Recorder } from "@azure-tools/test-recorder";
-import { delay } from "@azure/core-http";
+import { isLiveMode, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
+import { delay } from "@azure/core-util";
 import chai from "chai";
+import { isRestError } from "@azure/core-rest-pipeline";
 
 const assert = chai.assert;
 const should = chai.should();
@@ -52,8 +53,11 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
   async function deleteModels(): Promise<void> {
     try {
       await client.deleteModel(BUILDING_MODEL_ID);
-    } catch (Exception: any) {
-      console.error("deleteModel failure during test setup or cleanup");
+    } catch (e: any) {
+      if (!isRestError(e) || e.statusCode !== 404) {
+        console.error("deleteModel failed during test setup or cleanup", e);
+        throw e;
+      }
     }
   }
 
@@ -70,8 +74,11 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
   async function deleteDigitalTwin(digitalTwinId: string): Promise<void> {
     try {
       await client.deleteDigitalTwin(digitalTwinId);
-    } catch (Exception: any) {
-      console.error("deleteDigitalTwin failure during test setup or cleanup");
+    } catch (e: any) {
+      if (!isRestError(e) || e.statusCode !== 404) {
+        console.error("deleteDigitalTwin failure during test setup or cleanup", e);
+        throw e;
+      }
     }
   }
 
@@ -79,15 +86,21 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     try {
       const queryResult = client.queryTwins("SELECT * FROM digitaltwins");
       for await (const item of queryResult) {
-        await client.deleteDigitalTwin(item.$dtId);
+        await client.deleteDigitalTwin(item.$dtId as string);
       }
-    } catch (Exception: any) {
-      console.error("deleteDigitalTwin failure during test setup or cleanup");
+    } catch (e: any) {
+      if (!isRestError(e) || e.statusCode !== 404) {
+        console.error("deleteDigitalTwin failure during test setup or cleanup", e);
+        throw e;
+      }
     }
   }
 
   it("create a simple digital twin", async function () {
-    const digitalTwinId = recorder.getUniqueName("digitalTwin", "create-simple-digitaltwin");
+    const digitalTwinId = recorder.variable(
+      "digitalTwin",
+      `digitalTwin${Math.floor(Math.random() * 1000)}`
+    );
 
     await setUpModels();
     await deleteDigitalTwin(digitalTwinId);
@@ -100,32 +113,32 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
       TemperatureUnit: "Celsius",
     };
     try {
-      const createdTwin = await client.upsertDigitalTwin(
+      const createdTwin: any = await client.upsertDigitalTwin(
         digitalTwinId,
         JSON.stringify(buildingTwin)
       );
 
       assert.equal(
-        createdTwin.body.$dtId,
+        createdTwin.$dtId,
         digitalTwinId,
         "Unexpected dtId result from upsertDigitalTwin()."
       );
       assert.equal(
-        createdTwin.body.$metadata.$model,
+        createdTwin.$metadata.$model,
         BUILDING_MODEL_ID,
         "Unexpected model result from upsertDigitalTwin()."
       );
       assert.equal(
-        createdTwin.body.AverageTemperature,
+        createdTwin.AverageTemperature,
         buildingTwin["AverageTemperature"],
         "Unexpected AverageTemperature result from upsertDigitalTwin()."
       );
       assert.equal(
-        createdTwin.body.TemperatureUnit,
+        createdTwin.TemperatureUnit,
         buildingTwin["TemperatureUnit"],
         "Unexpected TemperatureUnit result from upsertDigitalTwin()."
       );
-      assert.notEqual(createdTwin.body.$etag, "", "No etag in result from upsertDigitalTwin().");
+      assert.notEqual(createdTwin.$etag, "", "No etag in result from upsertDigitalTwin().");
     } finally {
       await deleteDigitalTwin(digitalTwinId);
       await deleteModels();
@@ -133,7 +146,10 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
   });
 
   it("create digitaltwin without model", async function () {
-    const digitalTwinId = recorder.getUniqueName("digitalTwin", "create-digitaltwin-without-model");
+    const digitalTwinId = recorder.variable(
+      "digitalTwin",
+      `digitalTwin${Math.floor(Math.random() * 1000)}`
+    );
 
     await deleteDigitalTwin(digitalTwinId);
 
@@ -158,7 +174,10 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
   });
 
   it("create invalid digitaltwin", async function () {
-    const digitalTwinId = recorder.getUniqueName("digitalTwin", "create-invalid-digitaltwin");
+    const digitalTwinId = recorder.variable(
+      "digitalTwin",
+      `create-simple-digitaltwin-${Math.floor(Math.random() * 1000)}`
+    );
 
     await deleteDigitalTwin(digitalTwinId);
 
@@ -182,9 +201,9 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
   });
 
   it("create digitaltwin conditionally if missing", async function () {
-    const digitalTwinId = recorder.getUniqueName(
+    const digitalTwinId = recorder.variable(
       "digitalTwin",
-      "create-digitaltwin-conditionally-if-missing"
+      `create-simple-digitaltwin-${Math.floor(Math.random() * 1000)}`
     );
 
     await setUpModels();
@@ -221,7 +240,10 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
   });
 
   it("update a simple digital twin", async function () {
-    const digitalTwinId = recorder.getUniqueName("digitalTwin", "upsert-simple-digitaltwin");
+    const digitalTwinId = recorder.variable(
+      "digitalTwin",
+      `create-simple-digitaltwin-${Math.floor(Math.random() * 1000)}`
+    );
 
     await setUpModels();
     await deleteDigitalTwin(digitalTwinId);
@@ -234,59 +256,59 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
       TemperatureUnit: "Celsius",
     };
     try {
-      const createdTwin = await client.upsertDigitalTwin(
+      const createdTwin: any = await client.upsertDigitalTwin(
         digitalTwinId,
         JSON.stringify(buildingTwin)
       );
       assert.equal(
-        createdTwin.body.$dtId,
+        createdTwin.$dtId,
         digitalTwinId,
         "Unexpected dtId result from upsertDigitalTwin()."
       );
       assert.equal(
-        createdTwin.body.$metadata.$model,
+        createdTwin.$metadata.$model,
         BUILDING_MODEL_ID,
         "Unexpected model result from upsertDigitalTwin()."
       );
       assert.equal(
-        createdTwin.body.AverageTemperature,
+        createdTwin.AverageTemperature,
         buildingTwin["AverageTemperature"],
         "Unexpected AverageTemperature result from upsertDigitalTwin()."
       );
       assert.equal(
-        createdTwin.body.TemperatureUnit,
+        createdTwin.TemperatureUnit,
         buildingTwin["TemperatureUnit"],
         "Unexpected TemperatureUnit result from upsertDigitalTwin()."
       );
-      assert.notEqual(createdTwin.body.$etag, "", "No etag in result from upsertDigitalTwin().");
+      assert.notEqual(createdTwin.$etag, "", "No etag in result from upsertDigitalTwin().");
 
       const newTemperature = 69;
       buildingTwin.AverageTemperature = newTemperature;
-      const updatedTwin = await client.upsertDigitalTwin(
+      const updatedTwin: any = await client.upsertDigitalTwin(
         digitalTwinId,
         JSON.stringify(buildingTwin)
       );
       assert.equal(
-        updatedTwin.body.$dtId,
+        updatedTwin.$dtId,
         digitalTwinId,
         "Unexpected dtId result from upsertDigitalTwin()."
       );
       assert.equal(
-        updatedTwin.body.$metadata.$model,
+        updatedTwin.$metadata.$model,
         BUILDING_MODEL_ID,
         "Unexpected model result from upsertDigitalTwin()."
       );
       assert.equal(
-        updatedTwin.body.AverageTemperature,
+        updatedTwin.AverageTemperature,
         newTemperature,
         "Unexpected AverageTemperature result from upsertDigitalTwin()."
       );
       assert.equal(
-        updatedTwin.body.TemperatureUnit,
+        updatedTwin.TemperatureUnit,
         buildingTwin["TemperatureUnit"],
         "Unexpected TemperatureUnit result from upsertDigitalTwin()."
       );
-      assert.notEqual(updatedTwin.body.$etag, "", "No etag in result from upsertDigitalTwin().");
+      assert.notEqual(updatedTwin.$etag, "", "No etag in result from upsertDigitalTwin().");
     } finally {
       await deleteDigitalTwin(digitalTwinId);
       await deleteModels();
@@ -294,9 +316,9 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
   });
 
   it("upsert digital twin invalid conditions", async function () {
-    const digitalTwinId = recorder.getUniqueName(
+    const digitalTwinId = recorder.variable(
       "digitalTwin",
-      "upsert-digitaltwin-invalid-conditions"
+      `create-simple-digitaltwin-${Math.floor(Math.random() * 1000)}`
     );
 
     await setUpModels();
@@ -329,7 +351,10 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
   });
 
   it("get digitaltwin", async function () {
-    const digitalTwinId = recorder.getUniqueName("digitalTwin", "get-digitaltwin");
+    const digitalTwinId = recorder.variable(
+      "digitalTwin",
+      `create-simple-digitaltwin-${Math.floor(Math.random() * 1000)}`
+    );
 
     await setUpModels();
     await deleteDigitalTwin(digitalTwinId);
@@ -348,7 +373,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
       );
       const getTwin = await client.getDigitalTwin(digitalTwinId);
 
-      assert.deepEqual(createdTwin.body, getTwin.body);
+      assert.deepEqual(createdTwin, getTwin);
     } finally {
       await deleteDigitalTwin(digitalTwinId);
       await deleteModels();
@@ -356,7 +381,10 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
   });
 
   it("get digitaltwin not existing", async function () {
-    const digitalTwinId = recorder.getUniqueName("digitalTwin", "get-digitaltwin-not-existing");
+    const digitalTwinId = recorder.variable(
+      "digitalTwin",
+      `create-simple-digitaltwin-${Math.floor(Math.random() * 1000)}`
+    );
 
     await setUpModels();
     await deleteDigitalTwin(digitalTwinId);
@@ -375,7 +403,10 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
   });
 
   it("delete digitaltwin", async function () {
-    const digitalTwinId = recorder.getUniqueName("digitalTwin", "delete-digitaltwin");
+    const digitalTwinId = recorder.variable(
+      "digitalTwin",
+      `create-simple-digitaltwin-${Math.floor(Math.random() * 1000)}`
+    );
 
     await setUpModels();
     await deleteDigitalTwin(digitalTwinId);
@@ -414,7 +445,10 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
   });
 
   it("delete digitaltwin not existing", async function () {
-    const digitalTwinId = recorder.getUniqueName("digitalTwin", "delete-digitaltwin-not-exisiting");
+    const digitalTwinId = recorder.variable(
+      "digitalTwin",
+      `create-simple-digitaltwin-${Math.floor(Math.random() * 1000)}`
+    );
 
     await setUpModels();
     await deleteDigitalTwin(digitalTwinId);
@@ -433,7 +467,10 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
   });
 
   it("delete digitaltwin if present", async function () {
-    const digitalTwinId = recorder.getUniqueName("digitalTwin", "delete-digitaltwin-if-present");
+    const digitalTwinId = recorder.variable(
+      "digitalTwin",
+      `create-simple-digitaltwin-${Math.floor(Math.random() * 1000)}`
+    );
 
     await setUpModels();
     await deleteDigitalTwin(digitalTwinId);
@@ -475,9 +512,9 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
   });
 
   it("delete digital twin invalid conditions", async function () {
-    const digitalTwinId = recorder.getUniqueName(
+    const digitalTwinId = recorder.variable(
       "digitalTwin",
-      "delete-digitaltwin-invalid-conditions"
+      `create-simple-digitaltwin-${Math.floor(Math.random() * 1000)}`
     );
 
     await setUpModels();
@@ -512,7 +549,10 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
   });
 
   it("update digital twin replace", async function () {
-    const digitalTwinId = recorder.getUniqueName("digitalTwin", "update-digitaltwin-replace");
+    const digitalTwinId = recorder.variable(
+      "digitalTwin",
+      `create-simple-digitaltwin-${Math.floor(Math.random() * 1000)}`
+    );
 
     await setUpModels();
     await deleteDigitalTwin(digitalTwinId);
@@ -536,14 +576,14 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
 
     let errorWasThrown = false;
     try {
-      const updatedTwin = await client.getDigitalTwin(digitalTwinId);
+      const updatedTwin: any = await client.getDigitalTwin(digitalTwinId);
       assert.equal(
-        updatedTwin.body.TemperatureUnit,
+        updatedTwin.TemperatureUnit,
         "Celsius",
         "Unexpected TemperatureUnit result from updateDigitalTwin()."
       );
       assert.equal(
-        updatedTwin.body.AverageTemperature,
+        updatedTwin.AverageTemperature,
         42,
         "Unexpected TemperatureUnit result from updateDigitalTwin()."
       );
@@ -558,7 +598,10 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
   });
 
   it("update digital twin remove", async function () {
-    const digitalTwinId = recorder.getUniqueName("digitalTwin", "update-digitaltwin-remove");
+    const digitalTwinId = recorder.variable(
+      "digitalTwin",
+      `create-simple-digitaltwin-${Math.floor(Math.random() * 1000)}`
+    );
 
     await setUpModels();
     await deleteDigitalTwin(digitalTwinId);
@@ -581,14 +624,14 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
 
     let errorWasThrown = false;
     try {
-      const updatedTwin = await client.getDigitalTwin(digitalTwinId);
+      const updatedTwin: any = await client.getDigitalTwin(digitalTwinId);
       assert.equal(
-        updatedTwin.body.TemperatureUnit,
+        updatedTwin.TemperatureUnit,
         "Celsius",
         "Unexpected TemperatureUnit result from updateDigitalTwin()."
       );
       assert.doesNotHaveAnyKeys(
-        updatedTwin.body,
+        updatedTwin,
         ["AverageTemperature"],
         "Unexpected AverageTemperature result from updateDigitalTwin()."
       );
@@ -603,7 +646,10 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
   });
 
   it("update digital twin add", async function () {
-    const digitalTwinId = recorder.getUniqueName("digitalTwin", "update-digitaltwin-add");
+    const digitalTwinId = recorder.variable(
+      "digitalTwin",
+      `create-simple-digitaltwin-${Math.floor(Math.random() * 1000)}`
+    );
 
     await setUpModels();
     await deleteDigitalTwin(digitalTwinId);
@@ -626,14 +672,14 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
 
     let errorWasThrown = false;
     try {
-      const updatedTwin = await client.getDigitalTwin(digitalTwinId);
+      const updatedTwin: any = await client.getDigitalTwin(digitalTwinId);
       assert.equal(
-        updatedTwin.body.AverageTemperature,
+        updatedTwin.AverageTemperature,
         68,
         "Unexpected AverageTemperature result from updateDigitalTwin()."
       );
       assert.equal(
-        updatedTwin.body.TemperatureUnit,
+        updatedTwin.TemperatureUnit,
         "Celsius",
         "Unexpected TemperatureUnit result from updateDigitalTwin()."
       );
@@ -648,7 +694,10 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
   });
 
   it("update digital twin multiple", async function () {
-    const digitalTwinId = recorder.getUniqueName("digitalTwin", "update-digitaltwin-multiple");
+    const digitalTwinId = recorder.variable(
+      "digitalTwin",
+      `create-simple-digitaltwin-${Math.floor(Math.random() * 1000)}`
+    );
 
     await setUpModels();
     await deleteDigitalTwin(digitalTwinId);
@@ -676,14 +725,14 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
 
     let errorWasThrown = false;
     try {
-      const updatedTwin = await client.getDigitalTwin(digitalTwinId);
+      const updatedTwin: any = await client.getDigitalTwin(digitalTwinId);
       assert.equal(
-        updatedTwin.body.AverageTemperature,
+        updatedTwin.AverageTemperature,
         42,
         "Unexpected AverageTemperature result from updateDigitalTwin()."
       );
       assert.equal(
-        updatedTwin.body.TemperatureUnit,
+        updatedTwin.TemperatureUnit,
         "Celsius",
         "Unexpected TemperatureUnit result from updateDigitalTwin()."
       );
@@ -698,7 +747,10 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
   });
 
   it("update digital twin invalid patch", async function () {
-    const digitalTwinId = recorder.getUniqueName("digitalTwin", "update-digitaltwin-invalid-patch");
+    const digitalTwinId = recorder.variable(
+      "digitalTwin",
+      `create-simple-digitaltwin-${Math.floor(Math.random() * 1000)}`
+    );
 
     await setUpModels();
     await deleteDigitalTwin(digitalTwinId);
@@ -732,9 +784,9 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
   });
 
   it("update digital twin confditionally if present", async function () {
-    const digitalTwinId = recorder.getUniqueName(
+    const digitalTwinId = recorder.variable(
       "digitalTwin",
-      "update-digitaltwin-conditionally-if-present"
+      `create-simple-digitaltwin-${Math.floor(Math.random() * 1000)}`
     );
 
     await setUpModels();
@@ -761,9 +813,9 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
 
     let errorWasThrown = false;
     try {
-      const updatedTwin = await client.getDigitalTwin(digitalTwinId);
+      const updatedTwin: any = await client.getDigitalTwin(digitalTwinId);
       assert.equal(
-        updatedTwin.body.AverageTemperature,
+        updatedTwin.AverageTemperature,
         42,
         "Unexpected TemperatureUnit result from updateDigitalTwin()."
       );
@@ -778,9 +830,9 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
   });
 
   it("update digital twin invalid conditions", async function () {
-    const digitalTwinId = recorder.getUniqueName(
+    const digitalTwinId = recorder.variable(
       "digitalTwin",
-      "update-digitaltwin-invalid-conditions"
+      `create-simple-digitaltwin-${Math.floor(Math.random() * 1000)}`
     );
 
     await setUpModels();
@@ -822,7 +874,10 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
   });
 
   it("update digital twin not existing", async function () {
-    const digitalTwinId = recorder.getUniqueName("digitalTwin", "update-digitaltwin-not-existing");
+    const digitalTwinId = recorder.variable(
+      "digitalTwin",
+      `create-simple-digitaltwin-${Math.floor(Math.random() * 1000)}`
+    );
 
     await setUpModels();
     await deleteDigitalTwin(digitalTwinId);
@@ -849,7 +904,10 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
   });
 
   it("query digital twin", async function () {
-    const digitalTwinId = recorder.getUniqueName("digitalTwin", "query-digitaltwin");
+    const digitalTwinId = recorder.variable(
+      "digitalTwin",
+      `create-simple-digitaltwin-${Math.floor(Math.random() * 1000)}`
+    );
 
     await setUpModels();
     await deleteDigitalTwins();
@@ -864,7 +922,9 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     await client.upsertDigitalTwin(digitalTwinId, JSON.stringify(buildingTwin));
 
     // Wait for the service to be ready
-    await delay(5000);
+    if (!isPlaybackMode()) {
+      await delay(5000);
+    }
 
     let twinFound = false;
     try {
@@ -884,11 +944,10 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
   });
 
   it("query digital twin invalid expression", async function () {
-    const digitalTwinId = recorder.getUniqueName(
+    const digitalTwinId = recorder.variable(
       "digitalTwin",
-      "query-digitaltwin-invalid-expression"
+      `create-simple-digitaltwin-${Math.floor(Math.random() * 1000)}`
     );
-
     await setUpModels();
     await deleteDigitalTwins();
 
@@ -896,9 +955,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     try {
       const query = "foo";
       const queryResult = client.queryTwins(query);
-      for await (const _ of queryResult) {
-        /* ignored */
-      }
+      await queryResult.next();
     } catch (error: any) {
       errorWasThrown = true;
       assert.include(
@@ -914,9 +971,13 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
   });
 
   it("publish telemetry", async function () {
-    recorder.skip(undefined, "The method creates a unique Id");
-
-    const digitalTwinId = recorder.getUniqueName("digitalTwin", "publish-telemetry");
+    if (!isLiveMode()) {
+      this.skip();
+    }
+    const digitalTwinId = recorder.variable(
+      "digitalTwin",
+      `create-simple-digitaltwin-${Math.floor(Math.random() * 1000)}`
+    );
 
     await setUpModels();
     await deleteDigitalTwins();
@@ -930,7 +991,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     };
     await client.upsertDigitalTwin(digitalTwinId, JSON.stringify(buildingTwin));
 
-    const telemetry = "Telemetry1";
+    const telemetry = { Telemetry1: 1 };
     const messageId = "MessageId1";
     let errorWasThrown = false;
     try {

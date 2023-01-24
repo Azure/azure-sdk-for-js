@@ -565,6 +565,8 @@ export interface PathFlushDataHeaders {
   isServerEncrypted?: boolean;
   /** The SHA-256 hash of the encryption key used to encrypt the blob. This header is only returned when the blob was encrypted with a customer-provided key. */
   encryptionKeySha256?: string;
+  /** If the lease was auto-renewed with this request */
+  leaseRenewed?: boolean;
 }
 
 /** Defines headers for Path_flushData operation. */
@@ -597,6 +599,8 @@ export interface PathAppendDataHeaders {
   isServerEncrypted?: boolean;
   /** The SHA-256 hash of the encryption key used to encrypt the blob. This header is only returned when the blob was encrypted with a customer-provided key. */
   encryptionKeySha256?: string;
+  /** If the lease was auto-renewed with this request */
+  leaseRenewed?: boolean;
 }
 
 /** Defines headers for Path_appendData operation. */
@@ -761,6 +765,12 @@ export type PathLeaseAction =
   | "release";
 /** Defines values for PathGetPropertiesAction. */
 export type PathGetPropertiesAction = "getAccessControl" | "getStatus";
+/** Defines values for LeaseAction. */
+export type LeaseAction =
+  | "acquire"
+  | "auto-renew"
+  | "release"
+  | "acquire-release";
 
 /** Optional parameters. */
 export interface ServiceListFileSystemsOptionalParams
@@ -1242,6 +1252,10 @@ export interface PathFlushDataOptionalParams extends coreHttp.OperationOptions {
   requestId?: string;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeout?: number;
+  /** Proposed lease ID, in a GUID string format. The Blob service returns 400 (Invalid request) if the proposed lease ID is not in the correct format. See Guid Constructor (String) for a list of valid GUID string formats. */
+  proposedLeaseId?: string;
+  /** The lease duration is required to acquire a lease, and specifies the duration of the lease in seconds.  The lease duration must be between 15 and 60 seconds or -1 for infinite lease. */
+  leaseDuration?: number;
   /** This parameter allows the caller to upload data in parallel and control the order in which it is appended to the file.  It is required when uploading data to be appended to the file and when flushing previously uploaded data to the file.  The value must be the position where the data is to be appended.  Uploaded data is not immediately flushed, or written, to the file.  To flush, the previously uploaded data must be contiguous, the position parameter must be specified and equal to the length of the file after all data has been written, and there must not be a request entity body included with the request. */
   position?: number;
   /** Valid only for flush operations.  If "true", uncommitted data is retained after the flush operation completes; otherwise, the uncommitted data is deleted after the flush operation.  The default is false.  Data at offsets less than the specified position are written to the file when flush succeeds, but this optional parameter allows data after the flush position to be retained for a future flush operation. */
@@ -1250,6 +1264,8 @@ export interface PathFlushDataOptionalParams extends coreHttp.OperationOptions {
   close?: boolean;
   /** Required for "Append Data" and "Flush Data".  Must be 0 for "Flush Data".  Must be the length of the request content in bytes for "Append Data". */
   contentLength?: number;
+  /** Optional. If "acquire" it will acquire the lease. If "auto-renew" it will renew the lease. If "release" it will release the lease only on flush. If "acquire-release" it will acquire & complete the operation & release the lease once operation is done. */
+  leaseAction?: LeaseAction;
 }
 
 /** Contains response data for the flushData operation. */
@@ -1274,10 +1290,16 @@ export interface PathAppendDataOptionalParams
   requestId?: string;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
   timeout?: number;
+  /** Proposed lease ID, in a GUID string format. The Blob service returns 400 (Invalid request) if the proposed lease ID is not in the correct format. See Guid Constructor (String) for a list of valid GUID string formats. */
+  proposedLeaseId?: string;
+  /** The lease duration is required to acquire a lease, and specifies the duration of the lease in seconds.  The lease duration must be between 15 and 60 seconds or -1 for infinite lease. */
+  leaseDuration?: number;
   /** This parameter allows the caller to upload data in parallel and control the order in which it is appended to the file.  It is required when uploading data to be appended to the file and when flushing previously uploaded data to the file.  The value must be the position where the data is to be appended.  Uploaded data is not immediately flushed, or written, to the file.  To flush, the previously uploaded data must be contiguous, the position parameter must be specified and equal to the length of the file after all data has been written, and there must not be a request entity body included with the request. */
   position?: number;
   /** Required for "Append Data" and "Flush Data".  Must be 0 for "Flush Data".  Must be the length of the request content in bytes for "Append Data". */
   contentLength?: number;
+  /** Optional. If "acquire" it will acquire the lease. If "auto-renew" it will renew the lease. If "release" it will release the lease only on flush. If "acquire-release" it will acquire & complete the operation & release the lease once operation is done. */
+  leaseAction?: LeaseAction;
   /** Specify the transactional crc64 for the body, to be validated by the service. */
   transactionalContentCrc64?: Uint8Array;
   /** If file should be flushed after the append */

@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { ElasticSanManagement } from "@azure/arm-elasticsan";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to List VolumeGroups.
@@ -18,8 +21,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2021-11-20-preview/examples/VolumeGroups_ListByElasticSan_MaximumSet_Gen.json
  */
 async function volumeGroupsListByElasticSanMaximumSetGen() {
-  const subscriptionId = "aaaaaaaaaaaaaaaaaa";
-  const resourceGroupName = "rgelasticsan";
+  const subscriptionId =
+    process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "aaaaaaaaaaaaaaaaaa";
+  const resourceGroupName =
+    process.env["ELASTICSANS_RESOURCE_GROUP"] || "rgelasticsan";
   const elasticSanName = "ti7q-k952-1qB3J_5";
   const credential = new DefaultAzureCredential();
   const client = new ElasticSanManagement(credential, subscriptionId);
@@ -32,8 +37,6 @@ async function volumeGroupsListByElasticSanMaximumSetGen() {
   }
   console.log(resArray);
 }
-
-volumeGroupsListByElasticSanMaximumSetGen().catch(console.error);
 
 /**
  * This sample demonstrates how to List VolumeGroups.
@@ -42,8 +45,10 @@ volumeGroupsListByElasticSanMaximumSetGen().catch(console.error);
  * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2021-11-20-preview/examples/VolumeGroups_ListByElasticSan_MinimumSet_Gen.json
  */
 async function volumeGroupsListByElasticSanMinimumSetGen() {
-  const subscriptionId = "aaaaaaaaaaaaaaaaaa";
-  const resourceGroupName = "rgelasticsan";
+  const subscriptionId =
+    process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "aaaaaaaaaaaaaaaaaa";
+  const resourceGroupName =
+    process.env["ELASTICSANS_RESOURCE_GROUP"] || "rgelasticsan";
   const elasticSanName = "ti7q-k952-1qB3J_5";
   const credential = new DefaultAzureCredential();
   const client = new ElasticSanManagement(credential, subscriptionId);
@@ -57,4 +62,9 @@ async function volumeGroupsListByElasticSanMinimumSetGen() {
   console.log(resArray);
 }
 
-volumeGroupsListByElasticSanMinimumSetGen().catch(console.error);
+async function main() {
+  volumeGroupsListByElasticSanMaximumSetGen();
+  volumeGroupsListByElasticSanMinimumSetGen();
+}
+
+main().catch(console.error);
