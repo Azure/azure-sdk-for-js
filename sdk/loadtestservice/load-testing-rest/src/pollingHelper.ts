@@ -14,21 +14,21 @@ import {
 export async function getLongRunningPoller(
   client: AzureLoadTestingClient,
   initialResponse: TestUploadFileSuccessResponse
-): Promise<FileUploadAndValidatePoller | undefined>;
+): Promise<FileUploadAndValidatePoller>;
 export async function getLongRunningPoller(
   client: AzureLoadTestingClient,
   initialResponse: TestRunCreateOrUpdateSuccessResponse
-): Promise<TestRunCompletionPoller | undefined>;
+): Promise<TestRunCompletionPoller>;
 export async function getLongRunningPoller(
   client: AzureLoadTestingClient,
   initialResponse: TestRunCreateOrUpdateSuccessResponse | TestUploadFileSuccessResponse
-): Promise<TestRunCompletionPoller | FileUploadAndValidatePoller | undefined> {
+): Promise<TestRunCompletionPoller | FileUploadAndValidatePoller> {
   if (isFileUpload(initialResponse)) {
     return getFileValidationPoller(client, initialResponse);
   } else if (isTestRunCreation(initialResponse)) {
     return getTestRunCompletionPoller(client, initialResponse);
   }
-  return undefined;
+  throw new Error("The Operation is not a long running operation.");
 }
 
 function isFileUpload(response: any): response is TestUploadFileSuccessResponse {

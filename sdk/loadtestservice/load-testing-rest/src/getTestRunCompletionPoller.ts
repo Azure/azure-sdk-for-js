@@ -40,9 +40,8 @@ export async function getTestRunCompletionPoller(
   const testRunId = createTestRunResponse.body.testRunId;
 
   const poller: SimplePollerLike<OperationState<TestRunGet200Response>, TestRunGet200Response> = {
-    async poll(_options?: { abortSignal?: AbortSignalLike }): Promise<void> {
-      if (_options?.abortSignal?.aborted) {
-        state.status = "canceled";
+    async poll(options?: { abortSignal?: AbortSignalLike }): Promise<void> {
+      if (options?.abortSignal?.aborted) {
         state.error = new Error("The operation was aborted.");
         return;
       }

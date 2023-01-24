@@ -42,9 +42,8 @@ export async function getFileValidationPoller(
   const currentPollIntervalInMs = polledOperationOptions.updateIntervalInMs ?? 2000;
 
   const poller: SimplePollerLike<OperationState<TestGetFile200Response>, TestGetFile200Response> = {
-    async poll(_options?: { abortSignal?: AbortSignalLike }): Promise<void> {
-      if (_options?.abortSignal?.aborted) {
-        state.status = "canceled";
+    async poll(options?: { abortSignal?: AbortSignalLike }): Promise<void> {
+      if (options?.abortSignal?.aborted) {
         state.error = new Error("The operation was aborted.");
         return;
       }
@@ -58,26 +57,30 @@ export async function getFileValidationPoller(
           state.error = new Error(fileValidationResponse.body.error.message);
           return;
         }
-        if (fileValidationResponse.body.validationStatus === "VALIDATION_INITIATED") {
-          state.status = "running";
-        }
-        if (fileValidationResponse.body.validationStatus === "NOT_VALIDATED") {
-          if (fileValidationResponse.body.fileType === "JMX_FILE") {
-            state.status = "running";
-          } else {
-            state.status = "succeeded";
-          }
-        }
-        if (
-          fileValidationResponse.body.validationStatus === "VALIDATION_SUCCESS" ||
-          fileValidationResponse.body.validationStatus === "VALIDATION_NOT_REQUIRED"
-        ) {
-          state.status = "succeeded";
-        }
 
-        if (fileValidationResponse.body.validationStatus === "VALIDATION_FAILURE") {
-          state.status = "failed";
-          state.error = new Error(fileValidationResponse.body.validationStatus);
+        switch (fileValidationResponse.body.validationStatus) {
+          case "NOT_VALIDATED": {
+            if (fileValidationResponse.body.fileType === "JMX_FILE") {
+              state.status = "running";
+            } else {
+              state.status = "succeeded";
+            }
+            break;
+          }
+          case "VALIDATION_INITIATED": {
+            state.status = "running";
+            break;
+          }
+          case "VALIDATION_SUCCESS":
+          case "VALIDATION_NOT_REQUIRED": {
+            state.status = "succeeded";
+            break;
+          }
+          case "VALIDATION_FAILURE": {
+            state.status = "failed";
+            state.error = new Error(fileValidationResponse.body.validationStatus);
+            break;
+          }
         }
         state.result = fileValidationResponse;
 
