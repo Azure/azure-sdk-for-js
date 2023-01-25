@@ -4,6 +4,5 @@ parameters:
 steps:
   - template: ../pipelines/templates/steps/publish-artifact.yml
     parameters:
-      ArtifactName: "proxy-logs"
+      ArtifactName: "$(System.JobName)-proxy-logs"
       ArtifactPath: "${{ parameters.rootFolder }}/test-proxy.log"
-
