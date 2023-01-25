@@ -2,7 +2,8 @@
 // Licensed under the MIT license.
 
 import { OperationOptions } from "@azure/core-client";
-import { CallRejectReason } from "../generated/src/models/index";
+import { MediaStreamingConfiguration } from "../models/models";
+import { CallRejectReason } from "./models";
 
 /**
  * Options to create a call.
@@ -12,6 +13,8 @@ export interface CreateCallOptions extends OperationOptions {
     operationContext?: string;
     /** The Azure cognitive services end point url. */
     azureCognitiveServicesEndpointUrl?: string;
+    /** Configuration of Media streaming. */
+    mediaStreamingConfiguration?: MediaStreamingConfiguration
 }
 
 /**
@@ -20,6 +23,8 @@ export interface CreateCallOptions extends OperationOptions {
 export interface AnswerCallOptions extends OperationOptions {
     /** The Azure cognitive services end point url. */
     azureCognitiveServicesEndpointUrl?: string;
+    /** Configuration of Media streaming. */
+    mediaStreamingConfiguration?: MediaStreamingConfiguration
 }
 
 /**
