@@ -160,10 +160,15 @@ export class LockRenewer {
           // spin up an auto-renewer - it's already held for the duration.
           totalAutoLockRenewDurationDate > bMessage.lockedUntilUtc!;
 
+        if (!renewalNeededToMaintainLock) {
+          logger.verbose(`${logPrefix} Autolockrenew not needed as message's lockedUntilUtc ${bMessage.lockedUntilUtc} is after the total autolockrenew duration ${totalAutoLockRenewDurationDate} for message with messageId '${bMessage.messageId}'. Hence we will stop the autoLockRenewTask.`);
+          this.stop(linkEntity, bMessage);
+        } else if (Date.now() >= totalAutoLockRenewDuration) {
         // once we've exceeded the max amount of time we'll renew we can stop.
-        const haventExceededMaxLockRenewalTime = Date.now() < totalAutoLockRenewDuration;
-
-        if (renewalNeededToMaintainLock && haventExceededMaxLockRenewalTime) {
+          logger.verbose(`${logPrefix} Current time ${new Date()} exceeds the total autolockrenew duration ${totalAutoLockRenewDurationDate} for message with messageId '${bMessage.messageId
+            }'. Hence we will stop the autoLockRenewTask.`);
+          this.stop(linkEntity, bMessage);
+        } else {
           if (linkMessageMap.has(bMessage.messageId as string)) {
             // TODO: We can run into problems with clock skew between the client and the server.
             // It would be better to calculate the duration based on the "lockDuration" property
@@ -213,15 +218,6 @@ export class LockRenewer {
               `${logPrefix} Looks like the message lock renew timer has already been cleared for message with id '${bMessage.messageId}'.`
             );
           }
-        } else {
-          const msg = !renewalNeededToMaintainLock
-            ? `${logPrefix} autolockrenew not needed as message's lockedUntilUtc ${bMessage.lockedUntilUtc} is later than the total autolockrenew duration ${totalAutoLockRenewDurationDate} for message with messageId '${bMessage.messageId}'. Hence we will stop the autoLockRenewTask.`
-            : `${logPrefix} Current time ${new Date()} exceeds the total autolockrenew duration ${totalAutoLockRenewDurationDate} for message with messageId '${
-                bMessage.messageId
-              }'. Hence we will stop the autoLockRenewTask.`;
-
-          logger.verbose(msg);
-          this.stop(linkEntity, bMessage);
         }
       };
 
