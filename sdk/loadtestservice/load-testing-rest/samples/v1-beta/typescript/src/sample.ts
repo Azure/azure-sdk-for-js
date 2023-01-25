@@ -115,12 +115,12 @@ async function main() {
       abortSignal: AbortController.timeout(60000), // timeout of 60 seconds
     });
   } catch (ex: any) {
-    new Error("Error in polling test run completion" + ex.message); //polling timed out 
+    new Error("Error in polling test run completion" + ex.message); //polling timed out
   }
 
   if (testRunPoller.getOperationState().status != "succeeded")
     throw new Error("There is some issue in running the test, Error Response : " + testRunResult);
-    
+
   if (testRunResult) {
     let testRunStarttime = testRunResult.body.startDateTime;
     let testRunEndTime = testRunResult.body.endDateTime;
