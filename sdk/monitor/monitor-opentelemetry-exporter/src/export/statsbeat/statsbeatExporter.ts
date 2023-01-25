@@ -3,16 +3,15 @@
 import { context } from "@opentelemetry/api";
 import { PushMetricExporter, ResourceMetrics } from "@opentelemetry/sdk-metrics";
 import { ExportResult, ExportResultCode, suppressTracing } from "@opentelemetry/core";
-import { AzureMonitorExporterOptions } from "../config";
-import { TelemetryItem as Envelope } from "../generated";
-import { resourceMetricsToEnvelope } from "../utils/metricUtils";
-import { AzureMonitorBaseExporter } from "./base";
+import { AzureMonitorExporterOptions } from "../../config";
+import { TelemetryItem as Envelope } from "../../generated";
+import { resourceMetricsToEnvelope } from "../../utils/metricUtils";
+import { AzureMonitorBaseExporter } from "../base";
 
 /**
- * @internal
  * Azure Monitor Statsbeat Exporter
  */
-export class _AzureMonitorStatsbeatExporter
+export class AzureMonitorStatsbeatExporter
   extends AzureMonitorBaseExporter
   implements PushMetricExporter
 {

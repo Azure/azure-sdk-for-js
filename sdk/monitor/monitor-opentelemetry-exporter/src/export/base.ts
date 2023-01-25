@@ -11,8 +11,9 @@ import { PersistentStorage, Sender } from "../types";
 import { isRetriable, BreezeResponse } from "../utils/breezeUtils";
 import { DEFAULT_BREEZE_ENDPOINT, ENV_CONNECTION_STRING } from "../Declarations/Constants";
 import { TelemetryItem as Envelope } from "../generated";
-import { StatsbeatMetrics } from "./statsbeat/statsbeatMetrics";
+import { NetworkStatsbeatMetrics } from "./statsbeat/networkStatsbeatMetrics";
 import { MAX_STATSBEAT_FAILURES } from "./statsbeat/types";
+import { getInstance } from "./statsbeat/longIntervalStatsbeatMetrics";
 
 const DEFAULT_BATCH_SEND_RETRY_INTERVAL_MS = 60_000;
 /**
@@ -28,7 +29,8 @@ export abstract class AzureMonitorBaseExporter {
   private readonly _sender: Sender;
   private _numConsecutiveRedirects: number;
   private _retryTimer: NodeJS.Timer | null;
-  private _statsbeatMetrics: StatsbeatMetrics | undefined;
+  private _networkStatsbeatMetrics: NetworkStatsbeatMetrics | undefined;
+  private _longIntervalStatsbeatMetrics;
   private _isStatsbeatExporter: boolean;
   private _statsbeatFailureCount: number = 0;
   private _batchSendRetryIntervalMs: number = DEFAULT_BATCH_SEND_RETRY_INTERVAL_MS;
@@ -68,7 +70,11 @@ export abstract class AzureMonitorBaseExporter {
 
     if (!this._isStatsbeatExporter) {
       // Initialize statsbeatMetrics
-      this._statsbeatMetrics = new StatsbeatMetrics({
+      this._networkStatsbeatMetrics = new NetworkStatsbeatMetrics({
+        instrumentationKey: this._instrumentationKey,
+        endpointUrl: this._endpointUrl,
+      });
+      this._longIntervalStatsbeatMetrics = getInstance({
         instrumentationKey: this._instrumentationKey,
         endpointUrl: this._endpointUrl,
       });
@@ -128,12 +134,12 @@ export abstract class AzureMonitorBaseExporter {
           this._retryTimer.unref();
         }
         // If we are not exportings statsbeat and statsbeat is not disabled -- count success
-        this._statsbeatMetrics?.countSuccess(duration);
+        this._networkStatsbeatMetrics?.countSuccess(duration);
         return { code: ExportResultCode.SUCCESS };
       } else if (statusCode && isRetriable(statusCode)) {
         // Failed -- persist failed data
         if (statusCode === 429 || statusCode === 439) {
-          this._statsbeatMetrics?.countThrottle(statusCode);
+          this._networkStatsbeatMetrics?.countThrottle(statusCode);
         }
         if (result) {
           diag.info(result);
@@ -147,25 +153,25 @@ export abstract class AzureMonitorBaseExporter {
             });
           }
           if (filteredEnvelopes.length > 0) {
-            this._statsbeatMetrics?.countRetry(statusCode);
+            this._networkStatsbeatMetrics?.countRetry(statusCode);
             // calls resultCallback(ExportResult) based on result of persister.push
             return await this._persist(filteredEnvelopes);
           }
           // Failed -- not retriable
-          this._statsbeatMetrics?.countFailure(duration, statusCode);
+          this._networkStatsbeatMetrics?.countFailure(duration, statusCode);
           return {
             code: ExportResultCode.FAILED,
           };
         } else {
           // calls resultCallback(ExportResult) based on result of persister.push
-          this._statsbeatMetrics?.countRetry(statusCode);
+          this._networkStatsbeatMetrics?.countRetry(statusCode);
           return await this._persist(envelopes);
         }
       } else {
         // Failed -- not retriable
-        if (this._statsbeatMetrics) {
+        if (this._networkStatsbeatMetrics) {
           if (statusCode) {
-            this._statsbeatMetrics.countFailure(duration, statusCode);
+            this._networkStatsbeatMetrics.countFailure(duration, statusCode);
           }
         } else {
           this._incrementStatsbeatFailure();
@@ -196,16 +202,16 @@ export abstract class AzureMonitorBaseExporter {
           }
         } else {
           let redirectError = new Error("Circular redirect");
-          this._statsbeatMetrics?.countException(redirectError);
+          this._networkStatsbeatMetrics?.countException(redirectError);
           return { code: ExportResultCode.FAILED, error: redirectError };
         }
       } else if (restError.statusCode && isRetriable(restError.statusCode)) {
-        this._statsbeatMetrics?.countRetry(restError.statusCode);
+        this._networkStatsbeatMetrics?.countRetry(restError.statusCode);
         return await this._persist(envelopes);
       }
       if (this._isNetworkError(restError)) {
         if (restError.statusCode) {
-          this._statsbeatMetrics?.countRetry(restError.statusCode);
+          this._networkStatsbeatMetrics?.countRetry(restError.statusCode);
         }
         diag.error(
           "Retrying due to transient client side error. Error message:",
@@ -213,7 +219,7 @@ export abstract class AzureMonitorBaseExporter {
         );
         return await this._persist(envelopes);
       }
-      this._statsbeatMetrics?.countException(restError);
+      this._networkStatsbeatMetrics?.countException(restError);
       diag.error(
         "Envelopes could not be exported and are not retriable. Error message:",
         restError.message
@@ -227,8 +233,9 @@ export abstract class AzureMonitorBaseExporter {
     this._statsbeatFailureCount++;
     if (this._statsbeatFailureCount > MAX_STATSBEAT_FAILURES) {
       this._isStatsbeatExporter = false;
-      this._statsbeatMetrics?.shutdown();
-      this._statsbeatMetrics = undefined;
+      this._networkStatsbeatMetrics?.shutdown();
+      this._longIntervalStatsbeatMetrics?.shutdown();
+      this._networkStatsbeatMetrics = undefined;
       this._statsbeatFailureCount = 0;
     }
   }
