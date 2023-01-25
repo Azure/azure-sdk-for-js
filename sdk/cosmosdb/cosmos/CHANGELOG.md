@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Expose delete by partition key feature
+
 ### Breaking Changes
 
 ### Bugs Fixed
