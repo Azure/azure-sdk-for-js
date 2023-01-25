@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortController, AbortSignalLike } from "@azure/abort-controller";
+import { AbortController, AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { CancelOnProgress, OperationState, SimplePollerLike } from "@azure/core-lro";
 import { FileUploadAndValidatePoller, PolledOperationOptions } from "./models";
 import { AzureLoadTestingClient } from "./clientDefinitions";
@@ -44,8 +44,7 @@ export async function getFileValidationPoller(
   const poller: SimplePollerLike<OperationState<TestGetFile200Response>, TestGetFile200Response> = {
     async poll(options?: { abortSignal?: AbortSignalLike }): Promise<void> {
       if (options?.abortSignal?.aborted) {
-        state.error = new Error("The polling was aborted.");
-        return;
+        throw new AbortError("The polling was aborted.");
       }
 
       if (fileName) {
@@ -101,11 +100,7 @@ export async function getFileValidationPoller(
           while (!poller.isDone()) {
             const delay = sleep(currentPollIntervalInMs, abortSignal);
             cancelJob = () => abortController.abort();
-            try {
-              await delay;
-            } catch (ex: any) {
-              state.status = "canceled";
-            }
+            await delay;
             await poller.poll({ abortSignal });
           }
         }

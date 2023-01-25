@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { AbortSignalLike } from "@azure/abort-controller";
+import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { TestRunOutput } from "../outputModels";
 
-const REJECTED_ERR = new Error("The operation was aborted.");
+const REJECTED_ERR = new AbortError("The polling was aborted.");
 
 export function sleep(ms: number, signal: AbortSignalLike): Promise<void> {
   return new Promise<void>((resolve, reject) => {

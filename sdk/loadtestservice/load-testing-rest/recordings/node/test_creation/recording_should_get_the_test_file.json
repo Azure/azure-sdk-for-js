@@ -9,7 +9,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-load-testing-rest/1.0.0-beta.2 core-rest-pipeline/1.10.0 Node/v16.18.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "7a8d6f3b-a4c2-46aa-bbcb-a38ad84e260a"
+        "x-ms-client-request-id": "92e9791f-3e9f-4c5d-918c-41c0c213a8b5"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -18,17 +18,17 @@
         "Connection": "keep-alive",
         "Content-Length": "166",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 24 Jan 2023 04:45:13 GMT",
-        "mise-correlation-id": "28bad869-eda6-4f1d-9569-364e8f24f452",
+        "Date": "Wed, 25 Jan 2023 11:39:11 GMT",
+        "mise-correlation-id": "e00ffaef-638b-49b0-b769-46218619a5bb",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "e4aed82b-1fc3-4fe3-8e35-16d1adae1a94"
+        "x-ms-correlation-request-id": "7c03dc75-778a-43cb-a424-997cd96b7692"
       },
       "ResponseBody": {
         "url": "https://storageurl.com/",
         "fileName": "sample.jmx",
         "fileType": "JMX_FILE",
-        "expireDateTime": "2023-01-24T04:55:13.3216731",
+        "expireDateTime": "2023-01-25T11:49:11.7813573",
         "validationStatus": "VALIDATION_SUCCESS"
       }
     }

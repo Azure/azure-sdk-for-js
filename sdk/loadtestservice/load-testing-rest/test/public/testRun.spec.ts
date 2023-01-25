@@ -59,9 +59,6 @@ describe("Test Run Creation", () => {
     }
 
     const fileValidatePoller = await getLongRunningPoller(client, fileUploadResult);
-    if (!fileValidatePoller) {
-      throw new Error("Missing poller");
-    }
     await fileValidatePoller.pollUntilDone({
       abortSignal: AbortController.timeout(60000), // timeout of 60 seconds
     });
@@ -84,9 +81,6 @@ describe("Test Run Creation", () => {
 
     testRunCreationResult.body.testRunId = "adjwfjsdmf";
     const testRunPoller = await getLongRunningPoller(client, testRunCreationResult);
-    if (!testRunPoller) {
-      throw new Error("Missing poller");
-    }
     await testRunPoller.pollUntilDone({
       abortSignal: AbortController.timeout(60000), // timeout of 60 seconds
     });
@@ -95,28 +89,32 @@ describe("Test Run Creation", () => {
   });
 
   it("should timeout the test run", async () => {
-    const testRunCreationResult = await client.path("/test-runs/{testRunId}", "abcjad").patch({
-      contentType: "application/merge-patch+json",
-      body: {
-        testId: "abc",
-        displayName: "sample123",
-        virtualUsers: 10,
-      },
-    });
+    const testRunCreationResult = await client
+      .path("/test-runs/{testRunId}", "randomtestrun4")
+      .patch({
+        contentType: "application/merge-patch+json",
+        body: {
+          testId: "abc",
+          displayName: "sample123",
+          virtualUsers: 10,
+        },
+      });
 
     if (isUnexpected(testRunCreationResult)) {
       throw testRunCreationResult.body.error;
     }
 
     const testRunPoller = await getLongRunningPoller(client, testRunCreationResult);
-    if (!testRunPoller) {
-      throw new Error("Missing poller");
+    try {
+      await testRunPoller.pollUntilDone({
+        abortSignal: AbortController.timeout(10), // timeout of 10 millieconds
+      });
+    } catch (ex: any) {
+      assert.equal(ex.name, "AbortError");
+      return;
     }
-    await testRunPoller.pollUntilDone({
-      abortSignal: AbortController.timeout(5000), // timeout of 5 seconds
-    });
 
-    assert.equal("The operation was aborted.", testRunPoller.getOperationState().error?.message);
+    assert.fail();
   });
 
   it("should be able to create a test run", async () => {
@@ -134,9 +132,6 @@ describe("Test Run Creation", () => {
     }
 
     const testRunPoller = await getLongRunningPoller(client, testRunCreationResult);
-    if (!testRunPoller) {
-      throw new Error("Missing poller");
-    }
     await testRunPoller.pollUntilDone({
       abortSignal: AbortController.timeout(60000), // timeout of 60 seconds
     });
@@ -183,6 +178,12 @@ describe("Test Run Creation", () => {
 
   it("should delete a test run", async () => {
     const result = await client.path("/test-runs/{testRunId}", "abcde").delete();
+
+    assert.include(["204"], result.status);
+  });
+
+  it("should delete the test", async () => {
+    const result = await client.path("/tests/{testId}", "abc").delete();
 
     assert.include(["204"], result.status);
   });

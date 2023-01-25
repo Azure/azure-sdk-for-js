@@ -62,6 +62,31 @@ describe("Test Creation", () => {
     assert.include(["201"], result.status);
   });
 
+  it("should not upload the test file with LRO(timeout)", async () => {
+    const fileUploadResult = await client
+      .path("/tests/{testId}/files/{fileName}", "abc", "sample.jmx")
+      .put({
+        contentType: "application/octet-stream",
+        body: readStreamTestFile,
+      });
+
+    if (isUnexpected(fileUploadResult)) {
+      throw fileUploadResult.body.error;
+    }
+
+    const fileValidatePoller = await getLongRunningPoller(client, fileUploadResult);
+    try {
+      await fileValidatePoller.pollUntilDone({
+        abortSignal: AbortController.timeout(10), // timeout of 10 milliseconds
+      });
+    } catch (ex: any) {
+      assert.equal(ex.message, "The polling was aborted.");
+      return;
+    }
+
+    assert.fail();
+  });
+
   it("should upload the test file with LRO", async () => {
     const fileUploadResult = await client
       .path("/tests/{testId}/files/{fileName}", "abc", "sample.jmx")
@@ -75,9 +100,6 @@ describe("Test Creation", () => {
     }
 
     const fileValidatePoller = await getLongRunningPoller(client, fileUploadResult);
-    if (!fileValidatePoller) {
-      throw new Error("Missing poller");
-    }
     await fileValidatePoller.pollUntilDone({
       abortSignal: AbortController.timeout(60000), // timeout of 60 seconds
     });

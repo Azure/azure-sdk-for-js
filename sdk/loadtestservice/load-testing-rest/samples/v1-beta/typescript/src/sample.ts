@@ -108,16 +108,23 @@ async function main() {
     throw new Error("Test Run ID returned as undefined.");
 
   const testRunPoller = await getLongRunningPoller(client, testRunCreationResult);
-  const testRunResult = await testRunPoller.pollUntilDone({
-    abortSignal: AbortController.timeout(60000), // timeout of 60 seconds
-  });
+  let testRunResult;
 
-  if (testRunPoller.getOperationState().status != "succeeded" && testRunResult)
+  try {
+    testRunResult = await testRunPoller.pollUntilDone({
+      abortSignal: AbortController.timeout(60000), // timeout of 60 seconds
+    });
+  } catch (ex: any) {
+    new Error("Error in polling test run completion" + ex.message); //polling timed out 
+  }
+
+  if (testRunPoller.getOperationState().status != "succeeded")
     throw new Error("There is some issue in running the test, Error Response : " + testRunResult);
+    
+  if (testRunResult) {
+    let testRunStarttime = testRunResult.body.startDateTime;
+    let testRunEndTime = testRunResult.body.endDateTime;
 
-  let testRunStarttime = testRunResult.body.startDateTime;
-  let testRunEndTime = testRunResult.body.endDateTime;
-  if (testRunId) {
     // get list of all metric namespaces and pick the first one
     const metricNamespaces = await client
       .path("/test-runs/{testRunId}/metric-namespaces", testRunId)
