@@ -5,6 +5,7 @@ import {
   createDocumentCollectionUri,
   getIdFromLink,
   getPathFromLink,
+  HTTPMethod,
   isResourceValid,
   ResourceType,
 } from "../../common";
@@ -241,11 +242,18 @@ export class Container {
     return this.clientContext.queryPartitionKeyRanges(this.url, undefined, feedOptions);
   }
 
-  public async deleteAllItemsForPartitionKey(partitionKey: PartitionKey, options?: RequestOptions): Promise<ContainerResponse> {
+  /**
+   * Delete all documents belong to the container for the provided partition key value
+   * @param partitionKey
+   * @param options
+   * @returns
+   */
+  public async deleteAllItemsForPartitionKey(
+    partitionKey: PartitionKey,
+    options?: RequestOptions
+  ): Promise<ContainerResponse> {
     let path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
-    console.log("path: "+ path);
-    console.log("id: "+ id);
     path = path + "/operations/partitionkeydelete";
     const response = await this.clientContext.delete<ContainerDefinition>({
       path,
@@ -253,6 +261,7 @@ export class Container {
       resourceId: id,
       options,
       partitionKey: partitionKey,
+      method: HTTPMethod.post,
     });
     return new ContainerResponse(response.result, response.headers, response.code, this);
   }

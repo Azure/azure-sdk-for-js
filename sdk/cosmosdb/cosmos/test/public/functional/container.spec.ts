@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import assert from "assert";
 import { Suite } from "mocha";
-import { Constants, ContainerResponse } from "../../../src";
+import { Constants, ContainerResponse, StatusCodes } from "../../../src";
 import { ContainerDefinition, Database, Container } from "../../../src";
 import { ContainerRequest } from "../../../src";
 import { DataType, IndexedPath, IndexingMode, IndexingPolicy, IndexKind } from "../../../src";
@@ -487,11 +487,10 @@ describe("container.create", function () {
 });
 
 describe("container.deleteAllItemsForPartitionKey", function () {
-  before(async () => {
-  });
+  before(async () => {});
 
   it("should delete all items for partition key", async function () {
-    const container = await getTestContainer("container");
+    const container = await getTestContainer("container", undefined, { partitionKey: "/pk" });
     const { resource: create1 } = await container.items.create({
       id: "1",
       key: "value",
@@ -508,9 +507,8 @@ describe("container.deleteAllItemsForPartitionKey", function () {
       pk: "rk",
     });
     await container.deleteAllItemsForPartitionKey("pk");
-    await assertThrowsAsync(async () => await container.item(create1.id).read(), 404);
-    await assertThrowsAsync(async () => await container.item(create2.id).read(), 404);
-    // console.log("read: " + await container.item(create3.id).read());
-    assert(await (await container.item(create3.id).read()).item.id === create3.id);
-  })
+    assert((await container.item(create1.id).read()).statusCode === StatusCodes.NotFound);
+    assert((await container.item(create2.id).read()).statusCode === StatusCodes.NotFound);
+    assert((await (await container.item(create3.id).read()).item.id) === create3.id);
+  });
 });
