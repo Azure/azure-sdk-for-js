@@ -52,6 +52,9 @@ steps:
         cat $(Build.SourcesDirectory)/test-proxy.log
       displayName: 'Dump Test Proxy logs'
       condition: succeededOrFailed()
+
+    - template: /eng/common/testproxy/publish-proxy-logs.yml
+
       
   # Unlink node_modules folders to significantly improve performance of subsequent tasks
   # which need to walk the directory tree (and are hardcoded to follow symlinks).
