@@ -137,10 +137,10 @@ export type FileUploadAndValidatePoller = SimplePollerLike<OperationState<TestGe
 export type GetArrayType<T> = T extends Array<infer TData> ? TData : never;
 
 // @public (undocumented)
-export function getLongRunningPoller(client: AzureLoadTestingClient, initialResponse: TestUploadFileSuccessResponse): Promise<FileUploadAndValidatePoller | undefined>;
+export function getLongRunningPoller(client: AzureLoadTestingClient, initialResponse: TestUploadFileSuccessResponse): Promise<FileUploadAndValidatePoller>;
 
 // @public (undocumented)
-export function getLongRunningPoller(client: AzureLoadTestingClient, initialResponse: TestRunCreateOrUpdateSuccessResponse): Promise<TestRunCompletionPoller | undefined>;
+export function getLongRunningPoller(client: AzureLoadTestingClient, initialResponse: TestRunCreateOrUpdateSuccessResponse): Promise<TestRunCompletionPoller>;
 
 // @public
 export type GetPage<TPage> = (pageLink: string, maxPageSize?: number) => Promise<{
