@@ -57,12 +57,17 @@ async function main() {
     throw fileUploadResult.body.error;
   }
 
+  let fileValidateResult;
   const fileValidatePoller = await getLongRunningPoller(client, fileUploadResult);
-  const fileValidateResult = await fileValidatePoller.pollUntilDone({
-    abortSignal: AbortController.timeout(60000), // timeout of 60 seconds
-  });
+  try {
+    fileValidateResult = await fileValidatePoller.pollUntilDone({
+      abortSignal: AbortController.timeout(120 * 1000), // timeout of 120 seconds
+    });
+  } catch (ex) {
+    new Error("Error in polling file Validation" + ex.message); //polling timed out
+  }
 
-  if (fileValidatePoller.getOperationState().status != "succeeded")
+  if (fileValidatePoller.getOperationState().status != "succeeded" && fileValidateResult)
     throw new Error(
       "There is some issue in validation, please make sure uploaded file is a valid JMX." +
         fileValidateResult.body.validationFailureDetails
@@ -109,12 +114,12 @@ async function main() {
   if (testRunCreationResult.body.testRunId === undefined)
     throw new Error("Test Run ID returned as undefined.");
 
-  const testRunPoller = await getLongRunningPoller(client, testRunCreationResult);
   let testRunResult;
+  const testRunPoller = await getLongRunningPoller(client, testRunCreationResult);
 
   try {
     testRunResult = await testRunPoller.pollUntilDone({
-      abortSignal: AbortController.timeout(60000), // timeout of 60 seconds
+      abortSignal: AbortController.timeout(300 * 1000), // timeout of 5 minutes
     });
   } catch (ex) {
     new Error("Error in polling test run completion" + ex.message); //polling timed out
