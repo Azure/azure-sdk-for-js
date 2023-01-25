@@ -5,22 +5,23 @@ import { assert } from "chai";
 
 import { BlobServiceClient, newPipeline, StorageSharedKeyCredential } from "../../src";
 import { getBSU, getConnectionStringFromEnvironment, recorderEnvSetup } from "../utils";
-import { record, Recorder } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 
 describe("BlobServiceClient Node.js only", () => {
   let recorder: Recorder;
 
   beforeEach(async function (this: Context) {
-    recorder = record(this, recorderEnvSetup);
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderEnvSetup);
   });
 
   afterEach(async function () {
     await recorder.stop();
   });
 
-  it("can be created with a url and a credential", async () => {
-    const serviceClient = getBSU();
+  it("can be created with a url and a credential", async function() {
+    const serviceClient = getBSU(recorder);
     const credential = (serviceClient as any).credential as StorageSharedKeyCredential;
     const newClient = new BlobServiceClient(serviceClient.url, credential);
 
@@ -32,8 +33,8 @@ describe("BlobServiceClient Node.js only", () => {
     assert.ok(result.version!.length > 0);
   });
 
-  it("can be created with a url and a credential and an option bag", async () => {
-    const serviceClient = getBSU();
+  it("can be created with a url and a credential and an option bag", async function() {
+    const serviceClient = getBSU(recorder);
     const credential = (serviceClient as any).credential as StorageSharedKeyCredential;
     const newClient = new BlobServiceClient(serviceClient.url, credential, {
       retryOptions: {
@@ -49,8 +50,8 @@ describe("BlobServiceClient Node.js only", () => {
     assert.ok(result.version!.length > 0);
   });
 
-  it("can be created with a url and a pipeline", async () => {
-    const serviceClient = getBSU();
+  it("can be created with a url and a pipeline", async function() {
+    const serviceClient = getBSU(recorder);
     const credential = (serviceClient as any).credential as StorageSharedKeyCredential;
     const pipeline = newPipeline(credential);
     const newClient = new BlobServiceClient(serviceClient.url, pipeline);
@@ -63,7 +64,7 @@ describe("BlobServiceClient Node.js only", () => {
     assert.ok(result.version!.length > 0);
   });
 
-  it("can be created from a connection string", async () => {
+  it("can be created from a connection string", async function() {
     const newClient = BlobServiceClient.fromConnectionString(getConnectionStringFromEnvironment());
 
     const result = await newClient.getProperties();
@@ -72,7 +73,7 @@ describe("BlobServiceClient Node.js only", () => {
     assert.ok(result.requestId!.length > 0);
   });
 
-  it("can be created from a connection string and an option bag", async () => {
+  it("can be created from a connection string and an option bag", async function() {
     const newClient = BlobServiceClient.fromConnectionString(getConnectionStringFromEnvironment(), {
       retryOptions: {
         maxTries: 5,

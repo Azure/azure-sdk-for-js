@@ -3,7 +3,7 @@
 
 import { assert } from "chai";
 import { getBSU, getEncryptionScope_1, getEncryptionScope_2, recorderEnvSetup } from "./utils";
-import { record, Recorder } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import { BlobServiceClient, BlobClient, BlockBlobClient, ContainerClient } from "../src";
 import { Test_CPK_INFO } from "./utils/fakeTestSecrets";
 import { Context } from "mocha";
@@ -23,7 +23,8 @@ describe("Encryption Scope", function () {
   let recorder: Recorder;
 
   beforeEach(async function (this: Context) {
-    recorder = record(this, recorderEnvSetup);
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderEnvSetup);
 
     try {
       encryptionScopeName1 = getEncryptionScope_1();
@@ -32,10 +33,10 @@ describe("Encryption Scope", function () {
       this.skip();
     }
 
-    blobServiceClient = getBSU();
-    containerName = recorder.getUniqueName("container");
+    blobServiceClient = getBSU(recorder);
+    containerName = recorder.variable("container", `container-${Date.now()}`);
     containerClient = blobServiceClient.getContainerClient(containerName);
-    blobName = recorder.getUniqueName("blob");
+    blobName = recorder.variable("blob", `blob-${Date.now()}`);
     blobClient = containerClient.getBlobClient(blobName);
     blockBlobClient = blobClient.getBlockBlobClient();
   });
@@ -47,7 +48,7 @@ describe("Encryption Scope", function () {
     await recorder.stop();
   });
 
-  it("create container", async () => {
+  it("create container", async function() {
     await containerClient.create();
     let containerChecked = false;
     for await (const container of blobServiceClient.listContainers({
@@ -67,7 +68,7 @@ describe("Encryption Scope", function () {
     });
   });
 
-  it("create container preventEncryptionScopeOverride", async () => {
+  it("create container preventEncryptionScopeOverride", async function() {
     await containerClient.create({
       containerEncryptionScope: {
         defaultEncryptionScope: encryptionScopeName1,

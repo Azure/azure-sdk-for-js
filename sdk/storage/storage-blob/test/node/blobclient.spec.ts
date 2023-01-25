@@ -8,7 +8,7 @@ import { join } from "path";
 import { AbortController } from "@azure/abort-controller";
 import { TokenCredential } from "@azure/core-auth";
 import { isNode } from "@azure/core-util";
-import { delay, record, Recorder } from "@azure-tools/test-recorder";
+import { delay, isLiveMode, Recorder } from "@azure-tools/test-recorder";
 
 import {
   BlobClient,
@@ -51,12 +51,13 @@ describe("BlobClient Node.js only", () => {
 
   let blobServiceClient: BlobServiceClient;
   beforeEach(async function (this: Context) {
-    recorder = record(this, recorderEnvSetup);
-    blobServiceClient = getBSU();
-    containerName = recorder.getUniqueName("container");
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderEnvSetup);
+    blobServiceClient = getBSU(recorder);
+    containerName = recorder.variable("container", `container-${Date.now()}`);
     containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
-    blobName = recorder.getUniqueName("blob");
+    blobName = recorder.variable("blob", `blob-${Date.now()}`);
     blobClient = containerClient.getBlobClient(blobName);
     blockBlobClient = blobClient.getBlockBlobClient();
     await blockBlobClient.upload(content, content.length);
@@ -73,19 +74,19 @@ describe("BlobClient Node.js only", () => {
     }
   });
 
-  it("download with with default parameters", async () => {
+  it("download with with default parameters", async function() {
     const result = await blobClient.download();
     assert.deepStrictEqual(await bodyToString(result, content.length), content);
   });
 
-  it("download all parameters set", async () => {
+  it("download all parameters set", async function() {
     const result = await blobClient.download(0, 1, {
       rangeGetContentMD5: true,
     });
     assert.deepStrictEqual(await bodyToString(result, 1), content[0]);
   });
 
-  it("setMetadata with new metadata set", async () => {
+  it("setMetadata with new metadata set", async function() {
     const metadata = {
       a: "a",
       b: "b",
@@ -95,7 +96,7 @@ describe("BlobClient Node.js only", () => {
     assert.deepStrictEqual(result.metadata, metadata);
   });
 
-  it("setMetadata with cleaning up metadata", async () => {
+  it("setMetadata with cleaning up metadata", async function() {
     const metadata = {
       a: "a",
       b: "b",
@@ -109,7 +110,7 @@ describe("BlobClient Node.js only", () => {
     assert.deepStrictEqual(result2.metadata, {});
   });
 
-  it("setHTTPHeaders with default parameters", async () => {
+  it("setHTTPHeaders with default parameters", async function() {
     await blobClient.setHTTPHeaders({});
     const result = await blobClient.getProperties();
 
@@ -124,7 +125,7 @@ describe("BlobClient Node.js only", () => {
     assert.ok(!result.contentDisposition);
   });
 
-  it("setHTTPHeaders with all parameters set", async () => {
+  it("setHTTPHeaders with all parameters set", async function() {
     const headers = {
       blobCacheControl: "blobCacheControl",
       blobContentDisposition: "blobContentDisposition",
@@ -147,12 +148,12 @@ describe("BlobClient Node.js only", () => {
     assert.deepStrictEqual(result.contentDisposition, headers.blobContentDisposition);
   });
 
-  it("delete", async () => {
+  it("delete", async function() {
     await blobClient.delete();
   });
 
   // The following code illustrates deleting a snapshot after creating one
-  it("delete snapshot", async () => {
+  it("delete snapshot", async function() {
     const result = await blobClient.createSnapshot();
     assert.ok(result.snapshot);
 
@@ -175,7 +176,7 @@ describe("BlobClient Node.js only", () => {
     assert.equal(result2.segment.blobItems!.length, 0);
   });
 
-  it("createSnapshot", async () => {
+  it("createSnapshot", async function() {
     const result = await blobClient.createSnapshot();
     assert.ok(result.snapshot);
 
@@ -218,11 +219,11 @@ describe("BlobClient Node.js only", () => {
       this.skip();
     }
 
-    const newBlobName = recorder.getUniqueName("copiedblob");
+    const newBlobName = recorder.variable("copiedblob", `copiedblob-${Date.now()}`);
     const newBlobClient = containerClient.getBlobClient(newBlobName);
 
     // Different from startCopyFromURL, syncCopyFromURL requires sourceURL includes a valid SAS
-    const expiryTime = recorder.newDate("expiry");
+    const expiryTime = new Date(recorder.variable("expiry", (new Date()).toISOString()));
     expiryTime.setDate(expiryTime.getDate() + 1);
 
     const credential = (containerClient as any).credential as StorageSharedKeyCredential;
@@ -251,15 +252,15 @@ describe("BlobClient Node.js only", () => {
   });
 
   it("syncCopyFromURL - source SAS and destination bearer token", async function (this: Context) {
-    const newBlobName = recorder.getUniqueName("copiedblob");
-    const tokenBlobServiceClient = getTokenBSUWithDefaultCredential();
+    const newBlobName = recorder.variable("copiedblob", `copiedblob-${Date.now()}`);
+    const tokenBlobServiceClient = getTokenBSUWithDefaultCredential(recorder);
     const tokenNewBlobClient = tokenBlobServiceClient
       .getContainerClient(containerName)
       .getAppendBlobClient(newBlobName);
     const newBlobClient = containerClient.getBlobClient(newBlobName);
 
     // Different from startCopyFromURL, syncCopyFromURL requires sourceURL includes a valid SAS
-    const expiryTime = recorder.newDate("expiry");
+    const expiryTime = new Date(recorder.variable("expiry", (new Date()).toISOString()));
     expiryTime.setDate(expiryTime.getDate() + 1);
 
     const credential = (containerClient as any).credential as StorageSharedKeyCredential;
@@ -285,8 +286,8 @@ describe("BlobClient Node.js only", () => {
   });
 
   it("syncCopyFromURL - destination bearer token", async function (this: Context) {
-    const newBlobName = recorder.getUniqueName("copiedblob");
-    const tokenBlobServiceClient = getTokenBSUWithDefaultCredential();
+    const newBlobName = recorder.variable("copiedblob", `copiedblob-${Date.now()}`);
+    const tokenBlobServiceClient = getTokenBSUWithDefaultCredential(recorder);
     const tokenNewBlobClient = tokenBlobServiceClient
       .getContainerClient(containerName)
       .getAppendBlobClient(newBlobName);
@@ -302,7 +303,7 @@ describe("BlobClient Node.js only", () => {
   });
 
   it("syncCopyFromURL - source bearer token and destination account key", async function (this: Context) {
-    const newBlobName = recorder.getUniqueName("copiedblob");
+    const newBlobName = recorder.variable("copiedblob", `copiedblob-${Date.now()}`);
     const newBlobClient = containerClient.getBlobClient(newBlobName);
 
     const accessToken = await getStorageAccessTokenWithDefaultCredential();
@@ -321,11 +322,11 @@ describe("BlobClient Node.js only", () => {
     assert.deepStrictEqual(properties2.copyId, result.copyId);
   });
 
-  it("syncCopyFromURL", async () => {
-    const newBlobClient = containerClient.getBlobClient(recorder.getUniqueName("copiedblob"));
+  it("syncCopyFromURL", async function() {
+    const newBlobClient = containerClient.getBlobClient(recorder.variable("copiedblob", `copiedblob-${Date.now()}`));
 
     // Different from startCopyFromURL, syncCopyFromURL requires sourceURL includes a valid SAS
-    const expiryTime = recorder.newDate("expiry");
+    const expiryTime = new Date(recorder.variable("expiry", (new Date()).toISOString()));
     expiryTime.setDate(expiryTime.getDate() + 1);
 
     const credential = (containerClient as any).credential as StorageSharedKeyCredential;
@@ -351,13 +352,13 @@ describe("BlobClient Node.js only", () => {
   });
 
   it("syncCopyFromURL - with COPY tags", async () => {
-    const newBlobClient = containerClient.getBlobClient(recorder.getUniqueName("copiedblob"));
+    const newBlobClient = containerClient.getBlobClient(recorder.variable("copiedblob", `copiedblob-${Date.now()}`));
     await blobClient.setTags({
       tag1: "val1",
     });
 
     // Different from startCopyFromURL, syncCopyFromURL requires sourceURL includes a valid SAS
-    const expiryTime = recorder.newDate("expiry");
+    const expiryTime = new Date(recorder.variable("expiry", (new Date()).toISOString()));
     expiryTime.setDate(expiryTime.getDate() + 1);
 
     const credential = (containerClient as any).credential as StorageSharedKeyCredential;
@@ -387,13 +388,13 @@ describe("BlobClient Node.js only", () => {
   });
 
   it("syncCopyFromURL - with REPLACE tags", async () => {
-    const newBlobClient = containerClient.getBlobClient(recorder.getUniqueName("copiedblob"));
+    const newBlobClient = containerClient.getBlobClient(recorder.variable("copiedblob", `copiedblob-${Date.now()}`));
     await blobClient.setTags({
       tag1: "val1",
     });
 
     // Different from startCopyFromURL, syncCopyFromURL requires sourceURL includes a valid SAS
-    const expiryTime = recorder.newDate("expiry");
+    const expiryTime = new Date(recorder.variable("expiry", (new Date()).toISOString()));
     expiryTime.setDate(expiryTime.getDate() + 1);
 
     const credential = (containerClient as any).credential as StorageSharedKeyCredential;
@@ -425,8 +426,8 @@ describe("BlobClient Node.js only", () => {
     assert.deepStrictEqual(tags, destBlobTags.tags);
   });
 
-  it("abortCopyFromClient should failed for a completed copy operation", async () => {
-    const newBlobClient = containerClient.getBlobClient(recorder.getUniqueName("copiedblob"));
+  it("abortCopyFromClient should failed for a completed copy operation", async function() {
+    const newBlobClient = containerClient.getBlobClient(recorder.variable("copiedblob", `copiedblob-${Date.now()}`));
     const result = await (await newBlobClient.beginCopyFromURL(blobClient.url)).pollUntilDone();
     assert.ok(result.copyId);
     delay(1 * 1000);
@@ -441,13 +442,13 @@ describe("BlobClient Node.js only", () => {
     }
   });
 
-  it("setAccessTier set default to cool", async () => {
+  it("setAccessTier set default to cool", async function() {
     await blockBlobClient.setAccessTier("Cool");
     const properties = await blockBlobClient.getProperties();
     assert.equal(properties.accessTier!.toLowerCase(), "cool");
   });
 
-  it("setAccessTier set archive to hot", async () => {
+  it("setAccessTier set archive to hot", async function() {
     await blockBlobClient.setAccessTier("Archive");
     let properties = await blockBlobClient.getProperties();
     assert.equal(properties.accessTier!.toLowerCase(), "archive");
@@ -459,7 +460,7 @@ describe("BlobClient Node.js only", () => {
     }
   });
 
-  it("can be created with a url and a credential", async () => {
+  it("can be created with a url and a credential", async function() {
     const credential = (blobClient as any).credential as StorageSharedKeyCredential;
     const newClient = new BlobClient(blobClient.url, credential);
 
@@ -472,7 +473,7 @@ describe("BlobClient Node.js only", () => {
     assert.deepStrictEqual(result.metadata, metadata);
   });
 
-  it("can be created with a url and a credential and an option bag", async () => {
+  it("can be created with a url and a credential and an option bag", async function() {
     const credential = (blobClient as any).credential as StorageSharedKeyCredential;
     const newClient = new BlobClient(blobClient.url, credential, {
       retryOptions: {
@@ -489,7 +490,7 @@ describe("BlobClient Node.js only", () => {
     assert.deepStrictEqual(result.metadata, metadata);
   });
 
-  it("can be created with a url and a TokenCredential", async () => {
+  it("can be created with a url and a TokenCredential", async function() {
     const tokenCredential: TokenCredential = {
       getToken: () =>
         Promise.resolve({
@@ -501,7 +502,7 @@ describe("BlobClient Node.js only", () => {
     assertClientUsesTokenCredential(newClient);
   });
 
-  it("can be created with a url and a pipeline", async () => {
+  it("can be created with a url and a pipeline", async function() {
     const credential = (blobClient as any).credential as StorageSharedKeyCredential;
     const pipeline = newPipeline(credential);
     const newClient = new BlobClient(blobClient.url, pipeline);
@@ -515,7 +516,7 @@ describe("BlobClient Node.js only", () => {
     assert.deepStrictEqual(result.metadata, metadata);
   });
 
-  it("can be created with a connection string", async () => {
+  it("can be created with a connection string", async function() {
     const newClient = new BlobClient(getConnectionStringFromEnvironment(), containerName, blobName);
     const metadata = {
       a: "a",
@@ -526,7 +527,7 @@ describe("BlobClient Node.js only", () => {
     assert.deepStrictEqual(result.metadata, metadata);
   });
 
-  it("can be created with a connection string and an option bag", async () => {
+  it("can be created with a connection string and an option bag", async function() {
     const newClient = new BlobClient(
       getConnectionStringFromEnvironment(),
       containerName,
@@ -669,7 +670,7 @@ describe("BlobClient Node.js only", () => {
   });
 
   it("query should work with large file", async function () {
-    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
+    if (isNode && !isLiveMode()) { this.skip(); }
     const csvContentUnit = "100,200,300,400\n150,250,350,450\n";
     const tempFileLarge = await createRandomLocalFile(
       tempFolderPath,
@@ -680,7 +681,7 @@ describe("BlobClient Node.js only", () => {
 
     const response = await blockBlobClient.query("select * from BlobStorage");
 
-    const downloadedFile = join(tempFolderPath, recorder.getUniqueName("downloadfile."));
+    const downloadedFile = join(tempFolderPath, recorder.variable("downloadfile.", `downloadfile.-${Date.now()}`));
     await readStreamToLocalFileWithLogs(response.readableStreamBody!, downloadedFile);
 
     const downloadedData = await readFileSync(downloadedFile);
@@ -693,7 +694,7 @@ describe("BlobClient Node.js only", () => {
   });
 
   it("query should work with aborter", async function () {
-    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
+    if (isNode && !isLiveMode()) { this.skip(); }
     const csvContentUnit = "100,200,300,400\n150,250,350,450\n";
     const tempFileLarge = await createRandomLocalFile(
       tempFolderPath,
@@ -711,7 +712,7 @@ describe("BlobClient Node.js only", () => {
       },
     });
 
-    const downloadedFile = join(tempFolderPath, recorder.getUniqueName("downloadfile."));
+    const downloadedFile = join(tempFolderPath, recorder.variable("downloadfile.", `downloadfile.-${Date.now()}`));
 
     try {
       await readStreamToLocalFileWithLogs(response.readableStreamBody!, downloadedFile);
@@ -915,15 +916,16 @@ describe("BlobClient Node.js Only - ImmutabilityPolicy", () => {
   let recorder: Recorder;
 
   beforeEach(async function (this: Context) {
-    recorder = record(this, recorderEnvSetup);
-    blobServiceClient = getBSU();
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderEnvSetup);
+    blobServiceClient = getBSU(recorder);
     try {
       containerName = getImmutableContainerName();
     } catch {
       this.skip();
     }
     containerClient = blobServiceClient.getContainerClient(containerName);
-    blobName = recorder.getUniqueName("blob");
+    blobName = recorder.variable("blob", `blob-${Date.now()}`);
     blobClient = containerClient.getBlobClient(blobName);
   });
 
@@ -950,12 +952,12 @@ describe("BlobClient Node.js Only - ImmutabilityPolicy", () => {
     }
   });
 
-  it("Blob syncCopyFromURL with immutability policy", async () => {
-    const sourceName = recorder.getUniqueName("blobsource");
+  it("Blob syncCopyFromURL with immutability policy", async function() {
+    const sourceName = recorder.variable("blobsource", `blobsource-${Date.now()}`);
     const sourceBlobClient = containerClient.getBlockBlobClient(sourceName);
     await sourceBlobClient.upload(content, content.length);
 
-    const aDayLater = recorder.newDate("aDayLater");
+    const aDayLater = new Date(recorder.variable("aDayLater", (new Date()).toISOString()));
     aDayLater.setDate(aDayLater.getDate() + 1);
 
     const sourceUrl = await sourceBlobClient.generateSasUrl({
@@ -963,7 +965,7 @@ describe("BlobClient Node.js Only - ImmutabilityPolicy", () => {
       expiresOn: aDayLater,
     });
 
-    const minutesLater = recorder.newDate("minutesLater");
+    const minutesLater = new Date(recorder.variable("minutesLater", (new Date()).toISOString()));
     minutesLater.setMinutes(minutesLater.getMinutes() + 5);
     await blobClient.syncCopyFromURL(sourceUrl, {
       immutabilityPolicy: {
@@ -980,12 +982,12 @@ describe("BlobClient Node.js Only - ImmutabilityPolicy", () => {
     );
   });
 
-  it("Blob syncCopyFromURL with legalhold", async () => {
-    const sourceName = recorder.getUniqueName("blobsource");
+  it("Blob syncCopyFromURL with legalhold", async function() {
+    const sourceName = recorder.variable("blobsource", `blobsource-${Date.now()}`);
     const sourceBlobClient = containerClient.getBlockBlobClient(sourceName);
     await sourceBlobClient.upload(content, content.length);
 
-    const aDayLater = recorder.newDate("aDayLater");
+    const aDayLater = new Date(recorder.variable("aDayLater", (new Date()).toISOString()));
     aDayLater.setDate(aDayLater.getDate() + 1);
 
     const sourceUrl = await sourceBlobClient.generateSasUrl({

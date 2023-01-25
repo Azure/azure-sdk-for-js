@@ -3,19 +3,46 @@
 
 import { padStart } from "../../src/utils/utils.common";
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
-import { isPlaybackMode, env, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
+import { isPlaybackMode, Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
+import { BlobServiceClient } from "../../src";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export const testPollerProperties = {
   intervalInMs: isPlaybackMode() ? 0 : undefined,
 };
+
+export function configureBlobStorageClient(recorder: Recorder, serviceClient: BlobServiceClient): void {
+  const options = recorder.configureClientOptions({});
+
+  const pipeline: Pipeline = (serviceClient as any).storageClientContext.pipeline;
+  for (const { policy } of options.additionalPolicies ?? []) {
+    pipeline.addPolicy(policy, { afterPhase: "Retry", afterPolicies: ["injectorPolicy"] });
+  }
+}
+
+function getUriSanitizerForQueryParam(paramName: string) {
+  return {regex: true, target: `http.+\?[^&]*&?(?<param>${paramName}=[^&]+&?)`, groupForReplace: "param", value: ""};
+}
 
 const mockAccountName = "fakestorageaccount";
 const mockMDAccountName = "md-fakestorageaccount";
 const mockAccountName1 = "fakestorageaccount1";
 const mockAccountKey = "aaaaa";
 const mockSas = "fakeSasToken";
-export const recorderEnvSetup: RecorderEnvironmentSetup = {
-  replaceableVariables: {
+
+const sasParams = ["se",
+    "sig",
+    "sip",
+    "sp",
+    "spr",
+    "srt",
+    "ss",
+    "sr",
+    "st",
+    "sv"]
+export const recorderEnvSetup: RecorderStartOptions = {
+  
+  envSetupForPlayback: {
     // Used in record and playback modes
     // 1. The key-value pairs will be used as the environment variables in playback mode
     // 2. If the env variables are present in the recordings as plain strings, they will be replaced with the provided values in record mode
@@ -45,35 +72,14 @@ export const recorderEnvSetup: RecorderEnvironmentSetup = {
     SOFT_DELETE_ACCOUNT_SAS: `${mockSas}`,
     SOFT_DELETE_STORAGE_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${mockAccountName};AccountKey=${mockAccountKey};EndpointSuffix=core.windows.net`,
   },
-  customizationsOnRecordings: [
-    // Used in record mode
-    // Array of callback functions can be provided to customize the generated recordings in record mode
-    // `sig` param of SAS Token is being filtered here
-    (recording: string): string =>
-      recording.replace(
-        new RegExp(env.ACCOUNT_SAS.match("(.*)&sig=(.*)")[2], "g"),
-        `${mockAccountKey}`
-      ),
-    (recording: string): string =>
-      recording.replace(
-        /Authorization: SharedKey [^\\]+/g,
-        "Authorization: SharedKey fakestorageaccount:pass123"
-      ),
-  ],
-  // SAS token may contain sensitive information
-  queryParametersToSkip: [
-    // Used in record and playback modes
-    "se",
-    "sig",
-    "sip",
-    "sp",
-    "spr",
-    "srt",
-    "ss",
-    "sr",
-    "st",
-    "sv",
-  ],
+  sanitizerOptions: {
+    generalSanitizers: [ 
+      {regex: true, target: "(.*)&sig=(?<sig_value>.*)", groupForReplace: "sig_value", value: mockAccountKey},
+      {regex: true, target: "Authorization: SharedKey (?<shared_key>[^\\]+)", groupForReplace: "shared_key", value: "fakestorageaccount:pass123" }
+    ],
+    // SAS token may contain sensitive information
+    uriSanitizers: sasParams.map(getUriSanitizerForQueryParam)
+  }
 };
 
 /**
@@ -177,7 +183,7 @@ export function sleep(seconds: number): Promise<void> {
  *
  * @param byteLength -
  */
-export function genearteRandomUint8Array(byteLength: number): Uint8Array {
+export function generateRandomUint8Array(byteLength: number): Uint8Array {
   const uint8Arr = new Uint8Array(byteLength);
   for (let j = 0; j < byteLength; j++) {
     uint8Arr[j] = Math.floor(Math.random() * 256);

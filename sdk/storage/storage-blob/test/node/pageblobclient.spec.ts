@@ -24,7 +24,7 @@ import {
 } from "../../src";
 import { TokenCredential } from "@azure/core-auth";
 import { assertClientUsesTokenCredential } from "../utils/assert";
-import { record, delay, Recorder, isLiveMode } from "@azure-tools/test-recorder";
+import { delay, Recorder, isLiveMode } from "@azure-tools/test-recorder";
 import { Test_CPK_INFO } from "../utils/fakeTestSecrets";
 import { Context } from "mocha";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -40,12 +40,13 @@ describe("PageBlobClient Node.js only", () => {
 
   let blobServiceClient: BlobServiceClient;
   beforeEach(async function (this: Context) {
-    recorder = record(this, recorderEnvSetup);
-    blobServiceClient = getBSU();
-    containerName = recorder.getUniqueName("container");
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderEnvSetup);
+    blobServiceClient = getBSU(recorder);
+    containerName = recorder.variable("container", `container-${Date.now()}`);
     containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
-    blobName = recorder.getUniqueName("blob");
+    blobName = recorder.variable("blob", `blob-${Date.now()}`);
     blobClient = containerClient.getBlobClient(blobName);
     pageBlobClient = blobClient.getPageBlobClient();
   });
@@ -84,7 +85,7 @@ describe("PageBlobClient Node.js only", () => {
     assert.ok(result.contentLength);
   });
 
-  it("startCopyIncremental", async () => {
+  it("startCopyIncremental", async function() {
     await pageBlobClient.create(1024, {
       metadata: {
         sourcemeta: "val",
@@ -95,7 +96,7 @@ describe("PageBlobClient Node.js only", () => {
     let snapshotResult = await pageBlobClient.createSnapshot();
     assert.ok(snapshotResult.snapshot);
 
-    const destPageBlobClient = containerClient.getPageBlobClient(recorder.getUniqueName("page"));
+    const destPageBlobClient = containerClient.getPageBlobClient(recorder.variable("page", `page-${Date.now()}`));
 
     await containerClient.setAccessPolicy("container");
     // Container cache may take up to 30 seconds to take effect.
@@ -164,20 +165,20 @@ describe("PageBlobClient Node.js only", () => {
     assert.equal(pageBlobProperties.metadata!.sourcemeta, "val");
   });
 
-  it("uploadPagesFromURL", async () => {
+  it("uploadPagesFromURL", async function() {
     await pageBlobClient.create(1024);
 
     const result = await blobClient.download(0);
     assert.equal(await bodyToString(result, 1024), "\u0000".repeat(1024));
 
     const content = "a".repeat(512) + "b".repeat(512);
-    const blockBlobName = recorder.getUniqueName("blockblob");
+    const blockBlobName = recorder.variable("blockblob", `blockblob-${Date.now()}`);
     const blockBlobClient = containerClient.getBlockBlobClient(blockBlobName);
     await blockBlobClient.upload(content, content.length);
 
     const sharedKeyCredential = (blobClient as any).credential as StorageSharedKeyCredential;
     // Get a SAS for blobURL
-    const expiryTime = recorder.newDate("expiry");
+    const expiryTime = new Date(recorder.variable("expiry", (new Date()).toISOString()));
     expiryTime.setDate(expiryTime.getDate() + 1);
     const sas = generateBlobSASQueryParameters(
       {
@@ -206,13 +207,13 @@ describe("PageBlobClient Node.js only", () => {
     assert.equal(await bodyToString(result, 1024), "\u0000".repeat(1024));
 
     const content = "a".repeat(512) + "b".repeat(512);
-    const blockBlobName = recorder.getUniqueName("blockblob");
+    const blockBlobName = recorder.variable("blockblob", `blockblob-${Date.now()}`);
     const blockBlobClient = containerClient.getBlockBlobClient(blockBlobName);
     await blockBlobClient.upload(content, content.length);
 
     const sharedKeyCredential = (blobClient as any).credential as StorageSharedKeyCredential;
     // Get a SAS for blobURL
-    const expiryTime = recorder.newDate("expiry");
+    const expiryTime = new Date(recorder.variable("expiry", (new Date()).toISOString()));
     expiryTime.setDate(expiryTime.getDate() + 1);
     const sas = generateBlobSASQueryParameters(
       {
@@ -224,7 +225,7 @@ describe("PageBlobClient Node.js only", () => {
       sharedKeyCredential as StorageSharedKeyCredential
     );
 
-    const tokenBlobServiceClient = getTokenBSUWithDefaultCredential();
+    const tokenBlobServiceClient = getTokenBSUWithDefaultCredential(recorder);
     const tokenPageBlobClient = tokenBlobServiceClient
       .getContainerClient(containerName)
       .getPageBlobClient(blobName);
@@ -246,7 +247,7 @@ describe("PageBlobClient Node.js only", () => {
     assert.equal(await bodyToString(result, 1024), "\u0000".repeat(1024));
 
     const content = "a".repeat(512) + "b".repeat(512);
-    const blockBlobName = recorder.getUniqueName("blockblob");
+    const blockBlobName = recorder.variable("blockblob", `blockblob-${Date.now()}`);
     const blockBlobClient = containerClient.getBlockBlobClient(blockBlobName);
 
     await blockBlobClient.upload(content, content.length);
@@ -281,11 +282,11 @@ describe("PageBlobClient Node.js only", () => {
     assert.equal(await bodyToString(result, 1024), "\u0000".repeat(1024));
 
     const content = "a".repeat(512) + "b".repeat(512);
-    const blockBlobName = recorder.getUniqueName("blockblob");
+    const blockBlobName = recorder.variable("blockblob", `blockblob-${Date.now()}`);
     const blockBlobClient = containerClient.getBlockBlobClient(blockBlobName);
 
     await blockBlobClient.upload(content, content.length);
-    const tokenBlobServiceClient = getTokenBSUWithDefaultCredential();
+    const tokenBlobServiceClient = getTokenBSUWithDefaultCredential(recorder);
     const tokenPageBlobClient = tokenBlobServiceClient
       .getContainerClient(containerName)
       .getPageBlobClient(blobName);
@@ -300,7 +301,7 @@ describe("PageBlobClient Node.js only", () => {
     assert.equal(await bodyToString(page2, 512), "b".repeat(512));
   });
 
-  it("can be created with a url and a credential", async () => {
+  it("can be created with a url and a credential", async function() {
     const credential = (pageBlobClient as any).credential as StorageSharedKeyCredential;
     const newClient = new PageBlobClient(pageBlobClient.url, credential);
 
@@ -309,7 +310,7 @@ describe("PageBlobClient Node.js only", () => {
     assert.deepStrictEqual(await bodyToString(result, 512), "\u0000".repeat(512));
   });
 
-  it("can be created with a url and a credential and an option bag", async () => {
+  it("can be created with a url and a credential and an option bag", async function() {
     const credential = (pageBlobClient as any).credential as StorageSharedKeyCredential;
     const newClient = new PageBlobClient(pageBlobClient.url, credential, {
       retryOptions: {
@@ -322,7 +323,7 @@ describe("PageBlobClient Node.js only", () => {
     assert.deepStrictEqual(await bodyToString(result, 512), "\u0000".repeat(512));
   });
 
-  it("can be created with a url and a TokenCredential", async () => {
+  it("can be created with a url and a TokenCredential", async function() {
     const tokenCredential: TokenCredential = {
       getToken: () =>
         Promise.resolve({
@@ -334,7 +335,7 @@ describe("PageBlobClient Node.js only", () => {
     assertClientUsesTokenCredential(newClient);
   });
 
-  it("can be created with a url and a pipeline", async () => {
+  it("can be created with a url and a pipeline", async function() {
     const credential = (pageBlobClient as any).credential as StorageSharedKeyCredential;
     const pipeline = newPipeline(credential);
     const newClient = new PageBlobClient(pageBlobClient.url, pipeline);
@@ -344,7 +345,7 @@ describe("PageBlobClient Node.js only", () => {
     assert.deepStrictEqual(await bodyToString(result, 512), "\u0000".repeat(512));
   });
 
-  it("can be created with a connection string", async () => {
+  it("can be created with a connection string", async function() {
     const newClient = new PageBlobClient(
       getConnectionStringFromEnvironment(),
       containerName,
@@ -356,7 +357,7 @@ describe("PageBlobClient Node.js only", () => {
     assert.deepStrictEqual(await bodyToString(result, 512), "\u0000".repeat(512));
   });
 
-  it("can be created with a connection string and an option bag", async () => {
+  it("can be created with a connection string and an option bag", async function() {
     const newClient = new PageBlobClient(
       getConnectionStringFromEnvironment(),
       containerName,
@@ -389,13 +390,13 @@ describe("PageBlobClient Node.js only", () => {
     assert.ok(exceptionCaught);
 
     const content = "b".repeat(512);
-    const blockBlobName = recorder.getUniqueName("blockblob");
+    const blockBlobName = recorder.variable("blockblob", `blockblob-${Date.now()}`);
     const blockBlobClient = containerClient.getBlockBlobClient(blockBlobName);
     await blockBlobClient.upload(content, content.length);
 
     // Get a SAS for blobURL
     const credential = (blobClient as any).credential as StorageSharedKeyCredential;
-    const expiryTime = recorder.newDate("expiry");
+    const expiryTime = new Date(recorder.variable("expiry", (new Date()).toISOString()));
     expiryTime.setDate(expiryTime.getDate() + 1);
     const sas = generateBlobSASQueryParameters(
       {
@@ -496,7 +497,7 @@ describe("PageBlobClient Node.js only", () => {
       await delay(30 * 1000);
 
       const destPageBlobClient = containerClient.getPageBlobClient(
-        recorder.getUniqueName("destPageBlob")
+        recorder.variable("destPageBlob", `destPageBlob-${Date.now()}`)
       );
 
       const copyResponse = await destPageBlobClient.startCopyIncremental(copySource);
@@ -523,18 +524,18 @@ describe("PageBlobClient Node.js only", () => {
       await destPageBlobClient.startCopyIncremental(copySource1, { conditions: tagConditionMet });
     });
 
-    it("uploadPagesFromURL with conditional tags for destination blob", async () => {
+    it("uploadPagesFromURL with conditional tags for destination blob", async function() {
       const result = await blobClient.download(0);
       assert.equal(await bodyToString(result, 1024), "\u0000".repeat(1024));
 
       const content = "a".repeat(512) + "b".repeat(512);
-      const blockBlobName = recorder.getUniqueName("blockblob");
+      const blockBlobName = recorder.variable("blockblob", `blockblob-${Date.now()}`);
       const blockBlobClient = containerClient.getBlockBlobClient(blockBlobName);
       await blockBlobClient.upload(content, content.length);
 
       const sharedKeyCredential = (blobClient as any).credential as StorageSharedKeyCredential;
       // Get a SAS for blobURL
-      const expiryTime = recorder.newDate("expiry");
+      const expiryTime = new Date(recorder.variable("expiry", (new Date()).toISOString()));
       expiryTime.setDate(expiryTime.getDate() + 1);
       const sas = generateBlobSASQueryParameters(
         {

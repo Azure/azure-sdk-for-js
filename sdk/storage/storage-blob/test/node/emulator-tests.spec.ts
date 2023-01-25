@@ -9,7 +9,7 @@ import {
   BlockBlobClient,
   PageBlobClient,
 } from "../../src";
-import { getBSU, getConnectionStringFromEnvironment, bodyToString, getUniqueName } from "../utils";
+import { getConnectionStringFromEnvironment, bodyToString, getUniqueName } from "../utils";
 import { env } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 
@@ -25,10 +25,10 @@ describe("Emulator Tests", () => {
   const content = "Hello World";
 
   beforeEach(async function (this: Context) {
-    if (!env.STORAGE_CONNECTION_STRING.startsWith("UseDevelopmentStorage=true")) {
+    if (!env.STORAGE_CONNECTION_STRING?.startsWith("UseDevelopmentStorage=true")) {
       this.skip();
     }
-    blobServiceClient = getBSU();
+    blobServiceClient =  BlobServiceClient.fromConnectionString(getConnectionStringFromEnvironment());
     containerName = getUniqueName("container");
     blobName = getUniqueName("blob");
     containerClient = blobServiceClient.getContainerClient(containerName);
@@ -44,7 +44,7 @@ describe("Emulator Tests", () => {
     }
   });
 
-  it("BlobClient can be created with a connection string", async () => {
+  it("BlobClient can be created with a connection string", async function() {
     const newClient = new BlobClient(getConnectionStringFromEnvironment(), containerName, blobName);
     const metadata = {
       a: "a",
@@ -61,7 +61,7 @@ describe("Emulator Tests", () => {
     assert.deepStrictEqual(result.metadata, metadata);
   });
 
-  it("BlobServiceClient can be created from a connection string", async () => {
+  it("BlobServiceClient can be created from a connection string", async function() {
     const newClient = BlobServiceClient.fromConnectionString(getConnectionStringFromEnvironment());
 
     const result = await newClient.getProperties();
@@ -70,7 +70,7 @@ describe("Emulator Tests", () => {
     assert.ok(result.requestId!.length > 0);
   });
 
-  it("BlockBlobClient can be created with a connection string", async () => {
+  it("BlockBlobClient can be created with a connection string", async function() {
     const newClient = new BlockBlobClient(
       getConnectionStringFromEnvironment(),
       containerName,
@@ -89,7 +89,7 @@ describe("Emulator Tests", () => {
     assert.deepStrictEqual(await bodyToString(result, body.length), body);
   });
 
-  it("ContainerClient can be created with a connection string and a container name and an option bag", async () => {
+  it("ContainerClient can be created with a connection string and a container name and an option bag", async function() {
     const newClient = new ContainerClient(getConnectionStringFromEnvironment(), containerName, {
       retryOptions: {
         maxTries: 5,
@@ -129,7 +129,7 @@ describe("Emulator Tests", () => {
     assert.ok(result.requestId);
   });
 
-  it("PageBlobClient can be created with a connection string", async () => {
+  it("PageBlobClient can be created with a connection string", async function() {
     const newClient = new PageBlobClient(
       getConnectionStringFromEnvironment(),
       containerName,
