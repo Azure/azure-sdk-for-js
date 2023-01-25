@@ -8,22 +8,25 @@
 package-name: "@azure/communication-phone-numbers"
 description: Azure Communication SIP Configuration Service
 package-version: 1.2.0-beta.4
-generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-source-code-folder-path: src/siprouting
-clear-output-folder: false
 tag: package-phonenumber-siprouting-2021-05-01-preview
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/15d66311cc2b64f04692fdf021d1b235b538e1bc/specification/communication/data-plane/SipRouting/preview/2021-05-01-preview/communicationservicessiprouting.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/4642bf0933d3cb4f318c2c1bcb4effc210499e33/specification/communication/data-plane/SipRouting/preview/2023-01-01-preview/communicationservicessiprouting.json
+model-date-time-as-string: false
 optional-response-headers: true
 payload-flattening-threshold: 10
-skip-enum-validation: true
-use-extension:
-  "@autorest/typescript": "6.0.0-beta.15"
 add-credentials: false
-azure-arm: false
+skip-enum-validation: true
 title: Sip Routing Client
 v3: true
+use-extension:
+  "@autorest/typescript": "6.0.0-beta.15"
+source-code-folder-path: src/siprouting
+clear-output-folder: false
+
+typescript:
+  generate-metadata: false
+  azure-arm: false
 ```
 
 ```yaml
@@ -39,7 +42,7 @@ directive:
 ```yaml
 directive:
   - from: swagger-document
-    where: $.definitions[*].properties[*].properties[*].properties[*]["x-ms-enum"]
+    where: $.definitions[*].properties[*]["x-ms-enum"]
     transform: >
       if ($.modelAsString) {
         $.modelAsString = false
@@ -86,13 +89,13 @@ directive:
       $["x-nullable"] = true;
 ```
 
-### Directive renaming "TrunkExpanded" model to "SipTrunkExpanded"
+### Directive renaming "TrunkExpanded" model to "SipTrunkStatus"
 ```yaml
 directive:
     - from: swagger-document
       where: "$.definitions.TrunkExpanded" 
       transform: >
-          $["x-ms-client-name"] = "SipTrunkExpanded";
+          $["x-ms-client-name"] = "SipTrunkStatus";
 ```
 
 ### Directive for resolving default error type as "CommunicationErrorResponse"

@@ -1,10 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  SipTrunk as RestSipTrunk,
-  SipTrunkExpanded as RestSipTrunkExpanded,
-} from "./generated/src/siprouting/models";
+import { SipTrunk as RestSipTrunk } from "./generated/src/siprouting/models";
 import { SipTrunk, SipTrunkExpanded } from "./models";
 
 /**
@@ -28,6 +25,24 @@ export function transformFromRestModel(
 
 /**
  * @internal
+ * Transforming SIP trunks REST model to SDK model
+ */
+export function transformExpandedTrunkFromModel(
+  trunks: { [propertyName: string]: RestSipTrunk } | undefined
+): SipTrunkExpanded[] {
+  const result: SipTrunkExpanded[] = [];
+
+  if (trunks) {
+    Object.keys(trunks).forEach((fqdn: string) => {
+      result.push({ fqdn: fqdn, ...trunks[fqdn] } as SipTrunkExpanded);
+    });
+  }
+
+  return result;
+}
+
+/**
+ * @internal
  * Transforming SIP trunks SDK model to REST model
  */
 export function transformIntoRestModel(trunks: SipTrunk[]): {
@@ -41,4 +56,3 @@ export function transformIntoRestModel(trunks: SipTrunk[]): {
 
   return result;
 }
-

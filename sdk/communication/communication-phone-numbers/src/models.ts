@@ -8,11 +8,12 @@ import {
   PhoneNumbersListAreaCodesOptionalParams,
   PhoneNumberType,
 } from "./generated/src/models/";
-import { InactiveStatusReason,
-         OverallHealthStatus,
-         PingStatus,
-         TlsStatus
-        } from "./generated/src/siprouting/models";
+import {
+  InactiveStatusReason,
+  OverallHealthStatus,
+  PingStatus,
+  TlsStatus,
+} from "./generated/src/siprouting/models";
 
 /**
  * The result of the phone numbers purchase operation.
@@ -97,7 +98,8 @@ export {
   PurchasedPhoneNumber,
 } from "./generated/src/models/";
 
-export { SipRoutingError,
+export {
+  SipRoutingError,
   SipTrunkRoute,
   TlsStatus,
   PingStatus,
@@ -124,7 +126,7 @@ export interface SipTrunk {
  */
 export type SipTrunkExpanded = SipTrunk & {
   /** Represents health state of a SIP trunk for routing calls. */
-  health?: SipTrunkHealth;
+  readonly health: SipTrunkHealth;
 };
 
 /**

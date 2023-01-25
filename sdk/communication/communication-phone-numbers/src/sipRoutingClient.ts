@@ -10,7 +10,11 @@ import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-a
 import { SipRoutingClient as SipRoutingGeneratedClient } from "./generated/src/siprouting/sipRoutingClient";
 import { SipConfigurationPatch, SipRoutingError } from "./generated/src/siprouting/models";
 import { SipTrunk, SipTrunkExpanded, SipTrunkRoute } from "./models";
-import { transformFromRestModel, transformIntoRestModel } from "./mappers";
+import {
+  transformExpandedTrunkFromModel,
+  transformFromRestModel,
+  transformIntoRestModel,
+} from "./mappers";
 import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
 import { logger } from "./utils";
@@ -104,7 +108,7 @@ export class SipRoutingClient {
    */
   public async getTrunks(options: OperationOptions = {}): Promise<SipTrunk[]> {
     return tracingClient.withSpan("SipRoutingClient-getTrunks", options, async (updatedOptions) => {
-      const config = await this.client.getSipConfiguration(updatedOptions);
+      const config = await this.client.sipRouting.get(updatedOptions);
       return transformFromRestModel(config.trunks);
     });
   }
@@ -132,7 +136,7 @@ export class SipRoutingClient {
    */
   public async getRoutes(options: OperationOptions = {}): Promise<SipTrunkRoute[]> {
     return tracingClient.withSpan("SipRoutingClient-getRoutes", options, async (updatedOptions) => {
-      const config = await this.client.getSipConfiguration(updatedOptions);
+      const config = await this.client.sipRouting.get(updatedOptions);
       return config.routes || [];
     });
   }
@@ -145,7 +149,7 @@ export class SipRoutingClient {
   public async setTrunks(trunks: SipTrunk[], options: OperationOptions = {}): Promise<SipTrunk[]> {
     return tracingClient.withSpan("SipRoutingClient-setTrunks", options, async (updatedOptions) => {
       const patch: SipConfigurationPatch = { trunks: transformIntoRestModel(trunks) };
-      let config = await this.client.getSipConfiguration(updatedOptions);
+      let config = await this.client.sipRouting.get(updatedOptions);
       const storedFqdns = transformFromRestModel(config.trunks).map((trunk) => trunk.fqdn);
       const setFqdns = trunks.map((trunk) => trunk.fqdn);
       storedFqdns.forEach((storedFqdn) => {
@@ -161,7 +165,7 @@ export class SipRoutingClient {
           ...updatedOptions,
           ...patch,
         };
-        config = await this.client.patchSipConfiguration(payload);
+        config = await this.client.sipRouting.patch(payload);
       }
 
       return transformFromRestModel(config.trunks);
@@ -182,7 +186,7 @@ export class SipRoutingClient {
         ...updatedOptions,
         ...patch,
       };
-      const config = await this.client.patchSipConfiguration(payload);
+      const config = await this.client.sipRouting.patch(payload);
       const storedTrunk = transformFromRestModel(config.trunks).find(
         (value: SipTrunk) => value.fqdn === trunk.fqdn
       );
@@ -211,7 +215,7 @@ export class SipRoutingClient {
         ...updatedOptions,
         ...patch,
       };
-      const config = await this.client.patchSipConfiguration(payload);
+      const config = await this.client.sipRouting.patch(payload);
       const storedRoutes = config.routes || (await this.getRoutes(updatedOptions));
       return storedRoutes;
     });
@@ -237,7 +241,7 @@ export class SipRoutingClient {
           ...updatedOptions,
           ...patch,
         };
-        await this.client.patchSipConfiguration(payload);
+        await this.client.sipRouting.patch(payload);
       }
     );
   }
@@ -252,33 +256,33 @@ export class SipRoutingClient {
   public getExpandedTrunks(options: OperationOptions = {}): Promise<SipTrunkExpanded[]> {
     const expandedOptions = { ...options, expand: "trunkHealth" };
     return tracingClient.withSpan(
-      "SipRoutingClient-getTrunksStatuses",
+      "SipRoutingClient-getExpandedTrunks",
       expandedOptions,
       async (updatedOptions) => {
-        const config = await this.client.getSipConfiguration(updatedOptions);
-        return mapExpandedTrunks(config.trunks);
+        const config = await this.client.sipRouting.get(updatedOptions);
+        return transformExpandedTrunkFromModel(config.trunks);
       }
     );
   }
 
-    /**
+  /**
    * Returns status of a configured SIP trunksSIP trunk.
    * @param fqdn - The trunk's FQDN.
    * @param options - The options parameters.
    */
-     public getExpandedTrunk(fqdn:string, options: OperationOptions = {}): Promise<SipTrunkExpanded> {
-      const expandedOptions = { ...options, expand: "trunkHealth" };
-      return tracingClient.withSpan(
-        "SipRoutingClient-getTrunkStatus",
-        expandedOptions,
-        async (updatedOptions) => {
-          const trunks = await this.getExpandedTrunks(updatedOptions)
-          const trunk = trunks.find((value: SipTrunkExpanded) => value.fqdn === fqdn);
-      if (trunk) {
-        return Promise.resolve(trunk);
-      }
-      throw { code: "NotFound", message: "Not Found" } as CommunicationError;
+  public getExpandedTrunk(fqdn: string, options: OperationOptions = {}): Promise<SipTrunkExpanded> {
+    const expandedOptions = { ...options, expand: "trunkHealth" };
+    return tracingClient.withSpan(
+      "SipRoutingClient-getExpandedTrunk",
+      expandedOptions,
+      async (updatedOptions) => {
+        const trunks = await this.getExpandedTrunks(updatedOptions);
+        const trunk = trunks.find((value: SipTrunkExpanded) => value.fqdn === fqdn);
+        if (trunk) {
+          return Promise.resolve(trunk);
         }
-      );
-    }
+        throw { code: "NotFound", message: "Not Found" } as SipRoutingError;
+      }
+    );
+  }
 }

@@ -14,51 +14,71 @@ import * as coreClient from "@azure/core-client";
  * A route is matched by its number pattern.
  * Call is then directed into route's first available trunk, based on the order in the route's trunks list. The configuration can be expanded with additional data.
  */
-
 export interface SipConfiguration {
+  /**
+   * Validated Domains.
+   * Map key is domain.
+   */
+  domains?: { [propertyName: string]: Domain };
   /**
    * SIP trunks for routing calls.
    * Map key is trunk's FQDN (1-249 characters).
    */
-  trunks?: { [propertyName: string]: SipTrunkExpanded };
+  trunks?: { [propertyName: string]: SipTrunk };
   /** Trunk routes for routing calls. */
   routes?: SipTrunkRoute[];
 }
 
-/** Represents health state of a SIP trunk for routing calls. */
-export interface TrunkExpandedHealth {
-  /** The status of the TLS connections between Direct Routing and the SBC. */
-  tls: TrunkExpandedHealthTls;
-  /** The status of options message sent by SBC. */
-  ping: TrunkExpandedHealthPing;
-  /** The overall health status of SBC. */
-  overall: TrunkExpandedHealthOverall;
+/**
+ * Represents Domain object as response of validation api.
+ * Map key is domain.
+ */
+export interface Domain {
+  /** Enabled flag */
+  enabled: boolean;
 }
 
-/** The status of the TLS connections between Direct Routing and the SBC. */
-export interface TrunkExpandedHealthTls {
-  /** The status of the TLS connections between Direct Routing and the SBC. */
-  status: TlsStatus;
-}
-
-/** The status of options message sent by SBC. */
-export interface TrunkExpandedHealthPing {
-  /** The status of options message sent by SBC. */
-  status: PingStatus;
-}
-
-/** The overall health status of SBC. */
-export interface TrunkExpandedHealthOverall {
-  /** The overall health status of SBC. */
-  status: OverallHealthStatus;
-  /** The reason overall status of SBC is inactive. */
-  reason?: InactiveStatusReason;
-}
-
-/** Represents a SIP trunk for routing calls. See RFC 4904. */
+/** Represents a SIP trunk for routing calls. See RFC 4904. Can be expanded with additional data. */
 export interface SipTrunk {
   /** Gets or sets SIP signaling port of the trunk. */
   sipSignalingPort: number;
+  /** Enabled flag */
+  enabled: boolean;
+  /**
+   * Represents health state of a SIP trunk for routing calls.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly health?: Health;
+}
+
+/** Represents health state of a SIP trunk for routing calls. */
+export interface Health {
+  /** The status of the TLS connections of the Trunk. */
+  tls: Tls;
+  /** The status of SIP OPTIONS message sent by Trunk. */
+  ping: Ping;
+  /** The overall health status of Trunk. */
+  overall: OverallHealth;
+}
+
+/** The status of the TLS connections of the Trunk. */
+export interface Tls {
+  /** The status of the TLS connections of the Trunk. */
+  status: TlsStatus;
+}
+
+/** The status of SIP OPTIONS message sent by Trunk. */
+export interface Ping {
+  /** The status of SIP OPTIONS message sent by Trunk. */
+  status: PingStatus;
+}
+
+/** The overall health status of Trunk. */
+export interface OverallHealth {
+  /** The overall health status of Trunk. */
+  status: OverallHealthStatus;
+  /** The reason overall status of Trunk is inactive. */
+  reason?: InactiveStatusReason;
 }
 
 /** Represents a trunk route for routing calls. */
@@ -80,11 +100,6 @@ export interface SipTrunkRoute {
 /** The Communication Services error. */
 export interface CommunicationErrorResponse {
   /** The Communication Services error. */
-  error: CommunicationError;
-}
-
-/** The Communication Services error. */
-export interface CommunicationError {
   error: SipRoutingError;
 }
 
@@ -103,18 +118,21 @@ export interface SipRoutingError {
    * Further details about specific errors that led to this error.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly details?: CommunicationError[];
   readonly details?: SipRoutingError[];
   /**
    * The inner error if any.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly innerError?: CommunicationError;
   readonly innerError?: SipRoutingError;
 }
 
 /** Represents a SIP configuration patch. */
 export interface SipConfigurationPatch {
+  /**
+   * Domains that will be validated and used.
+   * Map key is domain.
+   */
+  domains?: { [propertyName: string]: DomainPatch };
   /**
    * SIP trunks for routing calls.
    * Map key is trunk's FQDN (1-249 characters).
@@ -124,33 +142,41 @@ export interface SipConfigurationPatch {
   routes?: SipTrunkRoute[];
 }
 
+/**
+ * Represents Domain that will be validated and used.
+ * Map key is domain.
+ */
+export interface DomainPatch {
+  /** Enabled flag */
+  enabled?: boolean;
+}
+
 /** Represents a SIP trunk patch. */
 export interface TrunkPatch {
   /** Gets or sets SIP signaling port of the trunk. */
   sipSignalingPort?: number;
+  /** Enabled flag */
+  enabled?: boolean;
 }
 
-/**
- * Represents a SIP configuration.
- * When a call is being routed the routes are applied in the same order as in the routes list.
- * A route is matched by its number pattern.
- * Call is then directed into route's first available trunk, based on the order in the route's trunks list.
- */
-export interface SipConfiguration {
-  /**
-   * SIP trunks for routing calls.
-   * Map key is trunk's FQDN (1-249 characters).
-   */
-  trunks?: { [propertyName: string]: SipTrunk };
-  /** Trunk routes for routing calls. */
-  routes?: SipTrunkRoute[];
+/** Represents number routing validation details. */
+export interface RoutesForNumber {
+  /** The list of routes whose number patterns are matched by the target number. The routes are displayed and apply in the same order as in SipConfiguration. */
+  matchingRoutes?: SipTrunkRoute[];
 }
 
-/** Represents a SIP trunk for routing calls. See RFC 4904. Can be expanded with additional data. */
-export type SipTrunkExpanded = SipTrunk & {
-  /** Represents health state of a SIP trunk for routing calls. */
-  health?: TrunkExpandedHealth;
-};
+/** Defines headers for SipRouting_get operation. */
+export interface SipRoutingGetExceptionHeaders {
+  /** Error code */
+  xMsErrorCode?: string;
+}
+
+/** Defines headers for SipRouting_patch operation. */
+export interface SipRoutingPatchExceptionHeaders {
+  /** Error code */
+  xMsErrorCode?: string;
+}
+
 /** Defines values for TlsStatus. */
 export type TlsStatus = "unknown" | "ok" | "certExpiring" | "certExpired";
 /** Defines values for PingStatus. */
@@ -164,21 +190,20 @@ export type InactiveStatusReason =
   | "noRecentCallsAndPings";
 
 /** Optional parameters. */
-export interface GetSipConfigurationOptionalParams
+export interface SipRoutingGetOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the getSipConfiguration operation. */
-export type GetSipConfigurationResponse = SipConfigurationExpanded;
-/** Optional parameters. */
-export interface GetSipConfigurationOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getSipConfiguration operation. */
-export type GetSipConfigurationResponse = SipConfiguration;
+/** Contains response data for the get operation. */
+export type SipRoutingGetResponse = SipConfiguration;
 
 /** Optional parameters. */
-export interface PatchSipConfigurationOptionalParams
+export interface SipRoutingPatchOptionalParams
   extends coreClient.OperationOptions {
+  /**
+   * Domains that will be validated and used.
+   * Map key is domain.
+   */
+  domains?: { [propertyName: string]: DomainPatch };
   /**
    * SIP trunks for routing calls.
    * Map key is trunk's FQDN (1-249 characters).
@@ -188,8 +213,28 @@ export interface PatchSipConfigurationOptionalParams
   routes?: SipTrunkRoute[];
 }
 
-/** Contains response data for the patchSipConfiguration operation. */
-export type PatchSipConfigurationResponse = SipConfiguration;
+/** Contains response data for the patch operation. */
+export type SipRoutingPatchResponse = SipConfiguration;
+
+/** Optional parameters. */
+export interface SipRoutingTestRoutesWithNumberOptionalParams
+  extends coreClient.OperationOptions {
+  /**
+   * Validated Domains.
+   * Map key is domain.
+   */
+  domains?: { [propertyName: string]: Domain };
+  /**
+   * SIP trunks for routing calls.
+   * Map key is trunk's FQDN (1-249 characters).
+   */
+  trunks?: { [propertyName: string]: SipTrunk };
+  /** Trunk routes for routing calls. */
+  routes?: SipTrunkRoute[];
+}
+
+/** Contains response data for the testRoutesWithNumber operation. */
+export type SipRoutingTestRoutesWithNumberResponse = RoutesForNumber;
 
 /** Optional parameters. */
 export interface SipRoutingClientOptionalParams

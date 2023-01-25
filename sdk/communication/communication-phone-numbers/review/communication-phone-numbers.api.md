@@ -32,16 +32,10 @@ export interface BeginUpdatePhoneNumberCapabilitiesOptions extends OperationOpti
 }
 
 // @public
-export interface CommunicationError {
-    code: string;
-    readonly details?: CommunicationError[];
-    readonly innerError?: CommunicationError;
-    message: string;
-    readonly target?: string;
-}
+export type GetPurchasedPhoneNumberOptions = OperationOptions;
 
 // @public
-export type GetPurchasedPhoneNumberOptions = OperationOptions;
+export type InactiveStatusReason = "noRecentCalls" | "noRecentPings" | "noRecentCallsAndPings";
 
 // @public
 export interface ListAvailableCountriesOptions extends OperationOptions {
@@ -74,6 +68,9 @@ export interface ListTollFreeAreaCodesOptions extends Omit<PhoneNumbersListAreaC
 }
 
 // @public
+export type OverallHealthStatus = "unknown" | "active" | "inactive";
+
+// @public
 export interface PhoneNumberAdministrativeDivision {
     abbreviatedName: string;
     localizedName: string;
@@ -83,8 +80,6 @@ export interface PhoneNumberAdministrativeDivision {
 export interface PhoneNumberAreaCode {
     areaCode?: string;
 }
-// @public
-export type OverallHealthStatus = "unknown" | "active" | "inactive";
 
 // @public
 export type PhoneNumberAssignmentType = "person" | "application";
@@ -252,7 +247,7 @@ export interface SipTrunk {
 
 // @public
 export type SipTrunkExpanded = SipTrunk & {
-    health?: SipTrunkHealth;
+    readonly health: SipTrunkHealth;
 };
 
 // @public

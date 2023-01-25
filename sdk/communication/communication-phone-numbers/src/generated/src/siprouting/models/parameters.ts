@@ -11,7 +11,10 @@ import {
   OperationURLParameter,
   OperationQueryParameter
 } from "@azure/core-client";
-import { SipConfigurationPatch as SipConfigurationPatchMapper } from "../models/mappers";
+import {
+  SipConfigurationPatch as SipConfigurationPatchMapper,
+  SipConfiguration as SipConfigurationMapper
+} from "../models/mappers";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -40,7 +43,7 @@ export const endpoint: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-05-01-preview",
+    defaultValue: "2023-01-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -52,7 +55,7 @@ export const apiVersion: OperationQueryParameter = {
 export const expand: OperationQueryParameter = {
   parameterPath: ["options", "expand"],
   mapper: {
-    defaultValue: "trunkHealth",
+    defaultValue: "trunks/health",
     isConstant: true,
     serializedName: "expand",
     type: {
@@ -73,6 +76,11 @@ export const contentType: OperationParameter = {
   }
 };
 
+export const domains: OperationParameter = {
+  parameterPath: ["options", "domains"],
+  mapper: SipConfigurationPatchMapper
+};
+
 export const trunks: OperationParameter = {
   parameterPath: ["options", "trunks"],
   mapper: SipConfigurationPatchMapper
@@ -81,4 +89,42 @@ export const trunks: OperationParameter = {
 export const routes: OperationParameter = {
   parameterPath: ["options", "routes"],
   mapper: SipConfigurationPatchMapper
+};
+
+export const contentType1: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const domains1: OperationParameter = {
+  parameterPath: ["options", "domains"],
+  mapper: SipConfigurationMapper
+};
+
+export const trunks1: OperationParameter = {
+  parameterPath: ["options", "trunks"],
+  mapper: SipConfigurationMapper
+};
+
+export const routes1: OperationParameter = {
+  parameterPath: ["options", "routes"],
+  mapper: SipConfigurationMapper
+};
+
+export const targetPhoneNumber: OperationQueryParameter = {
+  parameterPath: "targetPhoneNumber",
+  mapper: {
+    serializedName: "targetPhoneNumber",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
 };
