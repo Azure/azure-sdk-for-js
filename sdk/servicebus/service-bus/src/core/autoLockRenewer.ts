@@ -147,17 +147,18 @@ export class LockRenewer {
         }' is locked until ${bMessage.lockedUntilUtc!.toString()}.`
       );
       const totalAutoLockRenewDuration = Date.now() + this._maxAutoRenewDurationInMs;
+      const totalAutoLockRenewDurationDate = new Date(totalAutoLockRenewDuration);
       logger.verbose(
         `${logPrefix} Total autolockrenew duration for message with id '${
           bMessage.messageId
-        }' is: ${new Date(totalAutoLockRenewDuration).toString()}`
+        }' is: ${totalAutoLockRenewDurationDate.toString()}`
       );
 
       const autoRenewLockTask = (): void => {
         const renewalNeededToMaintainLock =
           // if the lock expires _after_ our max auto-renew duration there's no reason to
           // spin up an auto-renewer - it's already held for the duration.
-          new Date(totalAutoLockRenewDuration) > bMessage.lockedUntilUtc!;
+          totalAutoLockRenewDurationDate > bMessage.lockedUntilUtc!;
 
         // once we've exceeded the max amount of time we'll renew we can stop.
         const haventExceededMaxLockRenewalTime = Date.now() < totalAutoLockRenewDuration;
@@ -213,14 +214,13 @@ export class LockRenewer {
             );
           }
         } else {
-          logger.verbose(
-            `${logPrefix} Current time ${new Date()} exceeds the total autolockrenew duration ${new Date(
-              totalAutoLockRenewDuration
-            )} for message with messageId '${
-              bMessage.messageId
-            }'. Hence we will stop the autoLockRenewTask.`
-          );
+          const msg = !renewalNeededToMaintainLock
+            ? `${logPrefix} autolockrenew not needed as message's lockedUntilUtc ${bMessage.lockedUntilUtc} is later than the total autolockrenew duration ${totalAutoLockRenewDurationDate} for message with messageId '${bMessage.messageId}'. Hence we will stop the autoLockRenewTask.`
+            : `${logPrefix} Current time ${new Date()} exceeds the total autolockrenew duration ${totalAutoLockRenewDurationDate} for message with messageId '${
+                bMessage.messageId
+              }'. Hence we will stop the autoLockRenewTask.`;
 
+          logger.verbose(msg);
           this.stop(linkEntity, bMessage);
         }
       };
