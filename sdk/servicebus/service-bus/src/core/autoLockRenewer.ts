@@ -161,12 +161,17 @@ export class LockRenewer {
           totalAutoLockRenewDurationDate > bMessage.lockedUntilUtc!;
 
         if (!renewalNeededToMaintainLock) {
-          logger.verbose(`${logPrefix} Autolockrenew not needed as message's lockedUntilUtc ${bMessage.lockedUntilUtc} is after the total autolockrenew duration ${totalAutoLockRenewDurationDate} for message with messageId '${bMessage.messageId}'. Hence we will stop the autoLockRenewTask.`);
+          logger.verbose(
+            `${logPrefix} Autolockrenew not needed as message's lockedUntilUtc ${bMessage.lockedUntilUtc} is after the total autolockrenew duration ${totalAutoLockRenewDurationDate} for message with messageId '${bMessage.messageId}'. Hence we will stop the autoLockRenewTask.`
+          );
           this.stop(linkEntity, bMessage);
         } else if (Date.now() >= totalAutoLockRenewDuration) {
-        // once we've exceeded the max amount of time we'll renew we can stop.
-          logger.verbose(`${logPrefix} Current time ${new Date()} exceeds the total autolockrenew duration ${totalAutoLockRenewDurationDate} for message with messageId '${bMessage.messageId
-            }'. Hence we will stop the autoLockRenewTask.`);
+          // once we've exceeded the max amount of time we'll renew we can stop.
+          logger.verbose(
+            `${logPrefix} Current time ${new Date()} exceeds the total autolockrenew duration ${totalAutoLockRenewDurationDate} for message with messageId '${
+              bMessage.messageId
+            }'. Hence we will stop the autoLockRenewTask.`
+          );
           this.stop(linkEntity, bMessage);
         } else {
           if (linkMessageMap.has(bMessage.messageId as string)) {
