@@ -52,13 +52,13 @@ const AVAILABLE_TEST_PROXY_BINARIES: TestProxyBinary[] = [
     platform: "linux",
     architecture: "x64",
     fileName: "test-proxy-standalone-linux-x64.tar.gz",
-    executableLocation: "tools/test-proxy/linux-x64/test-proxy",
+    executableLocation: "test-proxy",
   },
   {
     platform: "linux",
     architecture: "arm64",
     fileName: "test-proxy-standalone-linux-arm64.tar.gz",
-    executableLocation: "tools/test-proxy/linux-arm64/test-proxy",
+    executableLocation: "test-proxy",
   },
   {
     platform: "darwin",
@@ -206,8 +206,7 @@ export async function isProxyToolActive(): Promise<boolean> {
 }
 
 async function getTargetVersion() {
-  // Temporarily pinning to 1.0.0-dev.20221212.3 until changes made to eng/common in Jan '23.
-  return "1.0.0-dev.20221212.3";
+  return "1.0.0-dev.20230126.1";
 
   // Grab the tag from the `/eng/common/testproxy/target_version.txt` file [..is used to control the default version]
   // Example content:
@@ -215,7 +214,7 @@ async function getTargetVersion() {
   // 1.0.0-dev.20220224.2
   // (Bot regularly updates the tag in the file above.)
   // try {
-  //   const contentInVersionFile = await readFile(
+  //   const contentInVersionFile = await fs.readFile(
   //     `${path.join(await resolveRoot(), "eng/common/testproxy/target_version.txt")}`,
   //     "utf-8"
   //   );
