@@ -1,5 +1,10 @@
 # Release History
 
+## 1.0.1 (2023-01-23)
+
+Updates the dependency `@azure-tools/test-recorder` to version `^2.0.0`.
+[#]
+
 ## 1.0.0 (2022-04-11)
 
 ### Features Added
