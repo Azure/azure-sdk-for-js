@@ -10,6 +10,7 @@ import {
   getGenericBSU,
   getSASConnectionStringFromEnvironment,
   getTokenBSU,
+  getUniqueName,
   recorderEnvSetup,
   sleep,
 } from "./utils";
@@ -89,7 +90,7 @@ describe("BlobServiceClient", () => {
   it("ListContainers with all parameters configured", async function() {
     const blobServiceClient = getBSU(recorder);
 
-    const containerNamePrefix = recorder.variable("container", `container-${Date.now()}`);
+    const containerNamePrefix = recorder.variable("container", getUniqueName("container"));
     const containerName1 = `${containerNamePrefix}x1`;
     const containerName2 = `${containerNamePrefix}x2`;
     const containerClient1 = blobServiceClient.getContainerClient(containerName1);
@@ -147,7 +148,7 @@ describe("BlobServiceClient", () => {
     const containerClients = [];
     const blobServiceClient = getBSU(recorder);
 
-    const containerNamePrefix = recorder.variable("container", `container-${Date.now()}`);
+    const containerNamePrefix = recorder.variable("container", getUniqueName("container"));
 
     for (let i = 0; i < 4; i++) {
       const containerName = `${containerNamePrefix}x${i}`;
@@ -178,7 +179,7 @@ describe("BlobServiceClient", () => {
   it("Verify PagedAsyncIterableIterator(generator .next() syntax) for ListContainers", async () => {
     const blobServiceClient = getBSU(recorder);
 
-    const containerNamePrefix = recorder.variable("container", `container-${Date.now()}`);
+    const containerNamePrefix = recorder.variable("container", getUniqueName("container"));
     const containerName1 = `${containerNamePrefix}x1`;
     const containerName2 = `${containerNamePrefix}x2`;
     const containerClient1 = blobServiceClient.getContainerClient(containerName1);
@@ -219,7 +220,7 @@ describe("BlobServiceClient", () => {
     const containerClients = [];
     const blobServiceClient = getBSU(recorder);
 
-    const containerNamePrefix = recorder.variable("container", `container-${Date.now()}`);
+    const containerNamePrefix = recorder.variable("container", getUniqueName("container"));
 
     for (let i = 0; i < 4; i++) {
       const containerName = `${containerNamePrefix}x${i}`;
@@ -255,7 +256,7 @@ describe("BlobServiceClient", () => {
     const containerClients = [];
     const blobServiceClient = getBSU(recorder);
 
-    const containerNamePrefix = recorder.variable("container", `container-${Date.now()}`);
+    const containerNamePrefix = recorder.variable("container", getUniqueName("container"));
 
     for (let i = 0; i < 4; i++) {
       const containerName = `${containerNamePrefix}x${i}`;
@@ -425,7 +426,7 @@ describe("BlobServiceClient", () => {
 
   it("createContainer and deleteContainer", async function() {
     const blobServiceClient = getBSU(recorder);
-    const containerName = recorder.variable("container", `container-${Date.now()}`);
+    const containerName = recorder.variable("container", getUniqueName("container"));
     const access = "container";
     const metadata = { key: "value" };
 
@@ -491,31 +492,31 @@ describe("BlobServiceClient", () => {
   it("Find blob by tags should work", async function () {
     const blobServiceClient = getBSU(recorder);
 
-    const containerName = recorder.variable("container1", `container1-${Date.now()}`);
+    const containerName = recorder.variable("container1", getUniqueName("container1"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
 
-    const key1 = recorder.variable("key", `key-${Date.now()}`);
-    const key2 = recorder.variable("key2", `key2-${Date.now()}`);
+    const key1 = recorder.variable("key", getUniqueName("key"));
+    const key2 = recorder.variable("key2", getUniqueName("key2"));
 
-    const blobName1 = recorder.variable("blobname1", `blobname1-${Date.now()}`);
+    const blobName1 = recorder.variable("blobname1", getUniqueName("blobname1"));
     const appendBlobClient1 = containerClient.getAppendBlobClient(blobName1);
     const tags1: Tags = {};
-    tags1[key1] = recorder.variable("val1", `val1-${Date.now()}`);
+    tags1[key1] = recorder.variable("val1", getUniqueName("val1"));
     tags1[key2] = "default";
     await appendBlobClient1.create({ tags: tags1 });
 
-    const blobName2 = recorder.variable("blobname2", `blobname2-${Date.now()}`);
+    const blobName2 = recorder.variable("blobname2", getUniqueName("blobname2"));
     const appendBlobClient2 = containerClient.getAppendBlobClient(blobName2);
     const tags2: Tags = {};
-    tags2[key1] = recorder.variable("val2", `val2-${Date.now()}`);
+    tags2[key1] = recorder.variable("val2", getUniqueName("val2"));
     tags2[key2] = "default";
     await appendBlobClient2.create({ tags: tags2 });
 
-    const blobName3 = recorder.variable("blobname3", `blobname3-${Date.now()}`);
+    const blobName3 = recorder.variable("blobname3", getUniqueName("blobname3"));
     const appendBlobClient3 = containerClient.getAppendBlobClient(blobName3);
     const tags3: Tags = {};
-    tags3[key1] = recorder.variable("val3", `val3-${Date.now()}`);
+    tags3[key1] = recorder.variable("val3", getUniqueName("val3"));
     tags3[key2] = "default";
     await appendBlobClient3.create({ tags: tags3 });
 
@@ -598,7 +599,7 @@ describe("BlobServiceClient", () => {
       this.skip();
     }
 
-    const containerName = recorder.variable("container", `container-${Date.now()}`);
+    const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
 
     await containerClient.create();
@@ -635,11 +636,11 @@ describe("BlobServiceClient", () => {
 
     const blobServiceClient = getBSU(recorder);
 
-    const containerName = recorder.variable("container", `container-${Date.now()}`);
+    const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
 
-    const newContainerName = recorder.variable("newcontainer", `newcontainer-${Date.now()}`);
+    const newContainerName = recorder.variable("newcontainer", getUniqueName("newcontainer"));
     // const renameRes = await blobServiceClient.renameContainer(containerName, newContainerName);
     const renameRes = await blobServiceClient["renameContainer"](containerName, newContainerName);
 
@@ -659,14 +660,14 @@ describe("BlobServiceClient", () => {
 
     const blobServiceClient = getBSU(recorder);
 
-    const containerName = recorder.variable("container", `container-${Date.now()}`);
+    const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
 
     const leaseClient = containerClient.getBlobLeaseClient();
     await leaseClient.acquireLease(-1);
 
-    const newContainerName = recorder.variable("newcontainer", `newcontainer-${Date.now()}`);
+    const newContainerName = recorder.variable("newcontainer", getUniqueName("newcontainer"));
 
     // const renameRes = await blobServiceClient.renameContainer(containerName, newContainerName, {
     const renameRes = await blobServiceClient["renameContainer"](containerName, newContainerName, {

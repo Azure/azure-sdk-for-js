@@ -3,7 +3,7 @@
 
 import { assert } from "chai";
 
-import { getBSU, getConnectionStringFromEnvironment, recorderEnvSetup } from "../utils";
+import { getBSU, getConnectionStringFromEnvironment, getUniqueName, recorderEnvSetup } from "../utils";
 import { PublicAccessType } from "../../src";
 import {
   ContainerClient,
@@ -27,7 +27,7 @@ describe("ContainerClient Node.js only", () => {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
     blobServiceClient = getBSU(recorder);
-    containerName = recorder.variable("container", `container-${Date.now()}`);
+    containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
   });

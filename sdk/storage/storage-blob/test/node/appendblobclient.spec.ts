@@ -19,6 +19,7 @@ import {
   recorderEnvSetup,
   getTokenBSUWithDefaultCredential,
   getStorageAccessTokenWithDefaultCredential,
+  getUniqueName,
 } from "../utils";
 import { TokenCredential } from "@azure/core-auth";
 import { assertClientUsesTokenCredential } from "../utils/assert";
@@ -39,10 +40,10 @@ describe("AppendBlobClient Node.js only", () => {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
     blobServiceClient = getBSU(recorder);
-    containerName = recorder.variable("container", `container-${Date.now()}`);
+    containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
-    blobName = recorder.variable("blob", `blob-${Date.now()}`);
+    blobName = recorder.variable("blob", getUniqueName("blob"));
     appendBlobClient = containerClient.getAppendBlobClient(blobName);
   });
 
@@ -121,7 +122,7 @@ describe("AppendBlobClient Node.js only", () => {
     await appendBlobClient.create();
 
     const content = "Hello World!";
-    const blockBlobName = recorder.variable("blockblob", `blockblob-${Date.now()}`);
+    const blockBlobName = recorder.variable("blockblob", getUniqueName("blockblob"));
     const blockBlobClient = containerClient.getBlockBlobClient(blockBlobName);
     await blockBlobClient.upload(content, content.length);
 
@@ -154,7 +155,7 @@ describe("AppendBlobClient Node.js only", () => {
     await appendBlobClient.create();
 
     const content = "Hello World!";
-    const blockBlobName = recorder.variable("blockblob", `blockblob-${Date.now()}`);
+    const blockBlobName = recorder.variable("blockblob", getUniqueName("blockblob"));
     const blockBlobClient = containerClient.getBlockBlobClient(blockBlobName);
     await blockBlobClient.upload(content, content.length);
 
@@ -194,7 +195,7 @@ describe("AppendBlobClient Node.js only", () => {
     await appendBlobClient.create();
 
     const content = "Hello World!";
-    const blockBlobName = recorder.variable("blockblob", `blockblob-${Date.now()}`);
+    const blockBlobName = recorder.variable("blockblob", getUniqueName("blockblob"));
     const blockBlobClient = containerClient.getBlockBlobClient(blockBlobName);
     await blockBlobClient.upload(content, content.length);
 
@@ -218,7 +219,7 @@ describe("AppendBlobClient Node.js only", () => {
     await appendBlobClient.create();
 
     const content = "Hello World!";
-    const blockBlobName = recorder.variable("blockblob", `blockblob-${Date.now()}`);
+    const blockBlobName = recorder.variable("blockblob", getUniqueName("blockblob"));
     const blockBlobClient = containerClient.getBlockBlobClient(blockBlobName);
     await blockBlobClient.upload(content, content.length);
 
@@ -234,14 +235,14 @@ describe("AppendBlobClient Node.js only", () => {
   });
 
   it("conditional tags for appendBlockFromURL's destination blob", async () => {
-    const newBlobClient = containerClient.getAppendBlobClient(recorder.variable("copiedblob", `copiedblob-${Date.now()}`));
+    const newBlobClient = containerClient.getAppendBlobClient(recorder.variable("copiedblob", getUniqueName("copiedblob")));
     const tags2 = {
       tag: "val",
     };
     await newBlobClient.create({ tags: tags2 });
 
     const content = "Hello World!";
-    const blockBlobName = recorder.variable("blockblob", `blockblob-${Date.now()}`);
+    const blockBlobName = recorder.variable("blockblob", getUniqueName("blockblob"));
     const blockBlobClient = containerClient.getBlockBlobClient(blockBlobName);
     await blockBlobClient.upload(content, content.length);
     // Get a SAS for blobURL
@@ -281,7 +282,7 @@ describe("AppendBlobClient Node.js only", () => {
     assert.equal(cResp.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256);
 
     const content = "Hello World!";
-    const blockBlobName = recorder.variable("blockblob", `blockblob-${Date.now()}`);
+    const blockBlobName = recorder.variable("blockblob", getUniqueName("blockblob"));
     const blobClient = containerClient.getBlockBlobClient(blockBlobName);
     await blobClient.upload(content, content.length);
 

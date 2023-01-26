@@ -5,7 +5,7 @@ import { assert } from "chai";
 
 import { getBSU } from "./utils";
 import { Recorder, isRecordMode, isPlaybackMode, isLiveMode } from "@azure-tools/test-recorder";
-import { recorderEnvSetup, testPollerProperties } from "./utils/testutils.common";
+import { getUniqueName, recorderEnvSetup, testPollerProperties } from "./utils/testutils.common";
 import { BlobClient, BlockBlobClient, ContainerClient, BlobBeginCopyFromURLResponse } from "../src";
 import { Context } from "mocha";
 import { isNode } from "@azure/test-utils";
@@ -26,14 +26,14 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
     const blobServiceClient = getBSU(recorder);
-    containerName = recorder.variable("container", `container-${Date.now()}`);
+    containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
-    blobName = recorder.variable("blob", `blob-${Date.now()}`);
+    blobName = recorder.variable("blob", getUniqueName("blob"));
     blobClient = containerClient.getBlobClient(blobName);
     blockBlobClient = blobClient.getBlockBlobClient();
     await blockBlobClient.upload(content, content.length);
-    destinationContainerName = recorder.variable("dest-container", `dest-container-${Date.now()}`);
+    destinationContainerName = recorder.variable("dest-container", getUniqueName("dest-container"));
     destinationContainerClient = blobServiceClient.getContainerClient(destinationContainerName);
     await destinationContainerClient.create();
   });
@@ -49,7 +49,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
   it("supports automatic polling via pollUntilDone", async function() {
     if (!isNode && !isLiveMode()) { this.skip(); }
     const newBlobClient = destinationContainerClient.getBlobClient(
-      recorder.variable("copiedblob", `copiedblob-${Date.now()}`)
+      recorder.variable("copiedblob", getUniqueName("copiedblob"))
     );
 
     // specify poller type to ensure types are properly exported
@@ -83,7 +83,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
   it("supports manual polling via poll", async function() {
     if (!isNode && !isLiveMode()) { this.skip(); }
     const newBlobClient = destinationContainerClient.getBlobClient(
-      recorder.variable("copiedblob", `copiedblob-${Date.now()}`)
+      recorder.variable("copiedblob", getUniqueName("copiedblob"))
     );
     const poller = await newBlobClient.beginCopyFromURL(blobClient.url, testPollerProperties);
     let result: BlobBeginCopyFromURLResponse;
@@ -128,7 +128,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     }
     if (!isNode && !isLiveMode()) { this.skip(); }
     const newBlobClient = destinationContainerClient.getBlobClient(
-      recorder.variable("copiedblob", `copiedblob-${Date.now()}`)
+      recorder.variable("copiedblob", getUniqueName("copiedblob"))
     );
     const poller = await newBlobClient.beginCopyFromURL(
       "https://azure.github.io/azure-sdk-for-js/index.html",
@@ -152,7 +152,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     }
     if (!isNode && !isLiveMode()) { this.skip(); }
     const newBlobClient = destinationContainerClient.getBlobClient(
-      recorder.variable("copiedblob", `copiedblob-${Date.now()}`)
+      recorder.variable("copiedblob", getUniqueName("copiedblob"))
     );
     let onProgressCalled = false;
     const poller = await newBlobClient.beginCopyFromURL(
@@ -171,7 +171,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
   it("supports restoring poller state from another poller", async function() {
     if (!isNode && !isLiveMode()) { this.skip(); }
     const newBlobClient = destinationContainerClient.getBlobClient(
-      recorder.variable("copiedblob", `copiedblob-${Date.now()}`)
+      recorder.variable("copiedblob", getUniqueName("copiedblob"))
     );
 
     const copySourceUrl = "https://azure.github.io/azure-sdk-for-js/index.html";

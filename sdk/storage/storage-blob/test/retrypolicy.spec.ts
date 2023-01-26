@@ -6,7 +6,7 @@ import { Pipeline } from "@azure/core-rest-pipeline";
 
 import { AbortController } from "@azure/abort-controller";
 import { ContainerClient, RestError, BlobServiceClient } from "../src";
-import { getBSU, recorderEnvSetup } from "./utils";
+import { getBSU, getUniqueName, recorderEnvSetup } from "./utils";
 import { injectorPolicy, injectorPolicyName } from "./utils/InjectorPolicy";
 import { Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
@@ -22,7 +22,7 @@ describe("RetryPolicy", () => {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
     blobServiceClient = getBSU(recorder);
-    containerName = recorder.variable("container", `container-${Date.now()}`);
+    containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
   });

@@ -29,6 +29,7 @@ import {
   getEncryptionScope_1,
   getImmutableContainerName,
   getTokenBSUWithDefaultCredential,
+  getUniqueName,
   recorderEnvSetup,
   sleep,
 } from "../utils";
@@ -102,10 +103,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const sasClient = `${blobServiceClient.url}?${sas}`;
     const serviceClientWithSAS = new BlobServiceClient(sasClient, newPipeline());
-    const containerName = recorder.variable("container", `container-${Date.now()}`);
+    const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = serviceClientWithSAS.getContainerClient(containerName);
     await containerClient.create();
-    const blobName = recorder.variable("blobname", `blobname-${Date.now()}`);
+    const blobName = recorder.variable("blobname", getUniqueName("blobname"));
     const appendBlobClient = containerClient.getAppendBlobClient(blobName);
     await appendBlobClient.create();
     await appendBlobClient.delete();
@@ -243,11 +244,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sasClient = `${blobServiceClient.url}?${sas}`;
     const serviceClientWithSAS = new BlobServiceClient(sasClient, newPipeline());
 
-    const containerName = recorder.variable("container", `container-${Date.now()}`);
+    const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
 
-    const appendBlobName = recorder.variable("appendblob", `appendblob-${Date.now()}`);
+    const appendBlobName = recorder.variable("appendblob", getUniqueName("appendblob"));
     const appendBlobClient = serviceClientWithSAS
       .getContainerClient(containerName)
       .getAppendBlobClient(appendBlobName);
@@ -267,7 +268,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const sharedKeyCredential = (blobServiceClient as any).credential;
 
-    const containerName = recorder.variable("container", `container-${Date.now()}`);
+    const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
 
@@ -312,7 +313,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const sharedKeyCredential = (blobServiceClient as any).credential;
 
-    const containerName = recorder.variable("container", `container-${Date.now()}`);
+    const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
 
@@ -336,7 +337,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       newPipeline(new AnonymousCredential())
     );
 
-    const appendBlobName = recorder.variable("appendblob", `appendblob-${Date.now()}`);
+    const appendBlobName = recorder.variable("appendblob", getUniqueName("appendblob"));
     const appendBlobClient = containerClientWithSAS.getAppendBlobClient(appendBlobName);
     await appendBlobClient.create({
       encryptionScope: encryptionScopeName,
@@ -353,10 +354,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const sharedKeyCredential = (blobServiceClient as any).credential;
 
-    const containerName = recorder.variable("container", `container-${Date.now()}`);
+    const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
-    const blobName = recorder.variable("blob", `blob-${Date.now()}`);
+    const blobName = recorder.variable("blob", getUniqueName("blob"));
     const blobClient = containerClient.getPageBlobClient(blobName);
     await blobClient.create(1024, {
       blobHTTPHeaders: {
@@ -405,11 +406,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const sharedKeyCredential = (blobServiceClient as any).credential;
 
-    const containerName = recorder.variable("container", `container-${Date.now()}`);
+    const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
 
-    const blobName = recorder.variable("blob", `blob-${Date.now()}`);
+    const blobName = recorder.variable("blob", getUniqueName("blob"));
     const blobClient = containerClient.getPageBlobClient(blobName);
     await blobClient.create(1024, {
       blobHTTPHeaders: {
@@ -457,11 +458,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const sharedKeyCredential = (blobServiceClient as any).credential;
 
-    const containerName = recorder.variable("container", `container-${Date.now()}`);
+    const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
 
-    const blobName = recorder.variable("blob", `blob-${Date.now()}`);
+    const blobName = recorder.variable("blob", getUniqueName("blob"));
     const blobClient = containerClient.getPageBlobClient(blobName);
     await blobClient.create(1024);
 
@@ -501,11 +502,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const sharedKeyCredential = (blobServiceClient as any).credential;
 
-    const containerName = recorder.variable("container", `container-${Date.now()}`);
+    const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
 
-    const blobName = recorder.variable("blob", `blob-${Date.now()}`);
+    const blobName = recorder.variable("blob", getUniqueName("blob"));
     const blobClient = containerClient.getPageBlobClient(blobName);
 
     const blobSAS = generateBlobSASQueryParameters(
@@ -554,11 +555,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const sharedKeyCredential = (blobServiceClient as any).credential;
 
-    const containerName = recorder.variable("container", `container-${Date.now()}`);
+    const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
 
-    const blobName = recorder.variable("blob", `blob-${Date.now()}`);
+    const blobName = recorder.variable("blob", getUniqueName("blob"));
     const blobClient = containerClient.getPageBlobClient(blobName);
     await blobClient.create(1024, {
       blobHTTPHeaders: {
@@ -612,11 +613,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const sharedKeyCredential = (blobServiceClient as any).credential;
 
-    const containerName = recorder.variable("container", `container-${Date.now()}`);
+    const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
 
-    const blobName = recorder.variable("blob", `blob-${Date.now()}`);
+    const blobName = recorder.variable("blob", getUniqueName("blob"));
     const blobClient = containerClient.getPageBlobClient(blobName);
     await blobClient.create(1024, {
       blobHTTPHeaders: {
@@ -669,11 +670,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const sharedKeyCredential = (blobServiceClient as any).credential;
 
-    const containerName = recorder.variable("container", `container-${Date.now()}`);
+    const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
 
-    const blobName = recorder.variable("blob", `blob-${Date.now()}`);
+    const blobName = recorder.variable("blob", getUniqueName("blob"));
     const blobClient = containerClient.getPageBlobClient(blobName);
     await blobClient.create(1024, {
       blobHTTPHeaders: {
@@ -724,11 +725,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const sharedKeyCredential = (blobServiceClient as any).credential;
 
-    const containerName = recorder.variable("container", `container-${Date.now()}`);
+    const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
 
-    const blobName = recorder.variable("blob", `blob-${Date.now()}`);
+    const blobName = recorder.variable("blob", getUniqueName("blob"));
     const blobClient = containerClient.getPageBlobClient(blobName);
     await blobClient.create(1024);
 
@@ -769,14 +770,14 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const sharedKeyCredential = (blobServiceClient as any).credential;
 
-    const containerName = recorder.variable("container-with-dash", `container-with-dash-${Date.now()}`);
+    const containerName = recorder.variable("container-with-dash", getUniqueName("container-with-dash"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
 
     // NOTICE: Azure Storage Server will replace "\" with "/" in the blob names
     const blobName = recorder.variable(
       "////Upper/blob/empty /another 汉字 ру́сский язы́к ру́сский язы́к عربي/عربى にっぽんご/にほんご . special ~!@#$%^&*()_+`1234567890-={}|[]\\:\";'<>?,/'",
-      `////Upper/blob/empty /another 汉字 ру́сский язы́к ру́сский язы́к عربي/عربى にっぽんご/にほんご . special ~!@#$%^&*()_+\`1234567890-={}|[]\\:\";'<>?,/'-${Date.now()}`
+      getUniqueName("////Upper/blob/empty /another 汉字 ру́сский язы́к ру́сский язы́к عربي/عربى にっぽんご/にほんご . special ~!@#$%^&*()_+\`1234567890-={}|[]\\:\";'<>?,/'")
     );
     const blobClient = containerClient.getPageBlobClient(blobName);
     await blobClient.create(1024, {
@@ -825,11 +826,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const sharedKeyCredential = (blobServiceClient as any).credential;
 
-    const containerName = recorder.variable("container", `container-${Date.now()}`);
+    const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
 
-    const blobName = recorder.variable("blob", `blob-${Date.now()}`);
+    const blobName = recorder.variable("blob", getUniqueName("blob"));
     const blobClient = containerClient.getPageBlobClient(blobName);
     await blobClient.create(1024);
 
@@ -878,11 +879,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const sharedKeyCredential = (blobServiceClient as any).credential;
 
-    const containerName = recorder.variable("container", `container-${Date.now()}`);
+    const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
 
-    const blobName = recorder.variable("blob", `blob-${Date.now()}`);
+    const blobName = recorder.variable("blob", getUniqueName("blob"));
     const blobClient = containerClient.getPageBlobClient(blobName);
     await blobClient.create(1024);
 
@@ -948,7 +949,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const accountName = sharedKeyCredential.accountName;
 
-    const containerName = recorder.variable("container", `container-${Date.now()}`);
+    const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
 
@@ -1003,7 +1004,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const accountName = sharedKeyCredential.accountName;
 
-    const containerName = recorder.variable("container", `container-${Date.now()}`);
+    const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
 
@@ -1054,11 +1055,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const accountName = sharedKeyCredential.accountName;
 
-    const containerName = recorder.variable("container", `container-${Date.now()}`);
+    const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
 
-    const blobName = recorder.variable("blob", `blob-${Date.now()}`);
+    const blobName = recorder.variable("blob", getUniqueName("blob"));
     const blobClient = containerClient.getPageBlobClient(blobName);
     await blobClient.create(1024, {
       blobHTTPHeaders: {
@@ -1123,11 +1124,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const accountName = sharedKeyCredential.accountName;
 
-    const containerName = recorder.variable("container", `container-${Date.now()}`);
+    const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
 
-    const blobName = recorder.variable("blob", `blob-${Date.now()}`);
+    const blobName = recorder.variable("blob", getUniqueName("blob"));
     const blobClient = containerClient.getPageBlobClient(blobName);
     await blobClient.create(1024, {
       blobHTTPHeaders: {
@@ -1193,11 +1194,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const accountName = sharedKeyCredential.accountName;
 
-    const containerName = recorder.variable("container", `container-${Date.now()}`);
+    const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
 
-    const blobName = recorder.variable("blob", `blob-${Date.now()}`);
+    const blobName = recorder.variable("blob", getUniqueName("blob"));
     const blobClient = containerClient.getPageBlobClient(blobName);
 
     const blobSAS = generateBlobSASQueryParameters(
@@ -1255,11 +1256,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const accountName = sharedKeyCredential.accountName;
 
-    const containerName = recorder.variable("container", `container-${Date.now()}`);
+    const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
 
-    const blobName = recorder.variable("blob", `blob-${Date.now()}`);
+    const blobName = recorder.variable("blob", getUniqueName("blob"));
     const blobClient = containerClient.getPageBlobClient(blobName);
     await blobClient.create(1024, {
       blobHTTPHeaders: {
@@ -1328,11 +1329,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const accountName = sharedKeyCredential.accountName;
 
-    const containerName = recorder.variable("container", `container-${Date.now()}`);
+    const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
 
-    const blobName = recorder.variable("blob", `blob-${Date.now()}`);
+    const blobName = recorder.variable("blob", getUniqueName("blob"));
     const blobClient = containerClient.getPageBlobClient(blobName);
     await blobClient.create(1024, {
       blobHTTPHeaders: {
@@ -1366,11 +1367,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
   it("generateAccountSASQueryParameters should work for blob version delete", async function () {
     // create versions
-    const containerName = recorder.variable("container", `container-${Date.now()}`);
+    const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
     const content = "Hello World";
-    const blobName = recorder.variable("blob", `blob-${Date.now()}`);
+    const blobName = recorder.variable("blob", getUniqueName("blob"));
     const blobClient = containerClient.getBlobClient(blobName);
     const blockBlobClient = blobClient.getBlockBlobClient();
     const uploadRes = await blockBlobClient.upload(content, content.length);
@@ -1408,11 +1409,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
   it("generateAccountSASQueryParameters should work for blob version delete with permanentDelete permission", async function (this: Context) {
     // create versions
-    const containerName = recorder.variable("container", `container-${Date.now()}`);
+    const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
     const content = "Hello World";
-    const blobName = recorder.variable("blob", `blob-${Date.now()}`);
+    const blobName = recorder.variable("blob", getUniqueName("blob"));
     const blobClient = containerClient.getBlobClient(blobName);
     const blockBlobClient = blobClient.getBlockBlobClient();
     const uploadRes = await blockBlobClient.upload(content, content.length);
@@ -1450,11 +1451,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
   it("generateBlobSASQueryParameters should work for blob version delete", async function () {
     // create versions
-    const containerName = recorder.variable("container", `container-${Date.now()}`);
+    const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
     const content = "Hello World";
-    const blobName = recorder.variable("blob", `blob-${Date.now()}`);
+    const blobName = recorder.variable("blob", getUniqueName("blob"));
     const blobClient = containerClient.getBlobClient(blobName);
     const blockBlobClient = blobClient.getBlockBlobClient();
     const uploadRes = await blockBlobClient.upload(content, content.length);
@@ -1492,11 +1493,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
   it("generateBlobSASQueryParameters should work for blob version delete with permanentDelete permission", async function (this: Context) {
     // create versions
-    const containerName = recorder.variable("container", `container-${Date.now()}`);
+    const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
     const content = "Hello World";
-    const blobName = recorder.variable("blob", `blob-${Date.now()}`);
+    const blobName = recorder.variable("blob", getUniqueName("blob"));
     const blobClient = containerClient.getBlobClient(blobName);
     const blockBlobClient = blobClient.getBlockBlobClient();
     const uploadRes = await blockBlobClient.upload(content, content.length);
@@ -1548,11 +1549,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     }
 
     // create versions
-    const containerName = recorder.variable("container", `container-${Date.now()}`);
+    const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
     const content = "Hello World";
-    const blobName = recorder.variable("blob", `blob-${Date.now()}`);
+    const blobName = recorder.variable("blob", getUniqueName("blob"));
     const blobClient = containerClient.getBlobClient(blobName);
     const blockBlobClient = blobClient.getBlockBlobClient();
     const uploadRes = await blockBlobClient.upload(content, content.length);
@@ -1610,11 +1611,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     }
 
     // create versions
-    const containerName = recorder.variable("container", `container-${Date.now()}`);
+    const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
     const content = "Hello World";
-    const blobName = recorder.variable("blob", `blob-${Date.now()}`);
+    const blobName = recorder.variable("blob", getUniqueName("blob"));
     const blobClient = containerClient.getBlobClient(blobName);
     const blockBlobClient = blobClient.getBlockBlobClient();
     const uploadRes = await blockBlobClient.upload(content, content.length);
@@ -1656,11 +1657,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
   it("generateBlobSASQueryParameters should work for blob version delete and blob tags", async function () {
     // create versions
-    const containerName = recorder.variable("container", `container-${Date.now()}`);
+    const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
     const content = "Hello World";
-    const blobName = recorder.variable("blob", `blob-${Date.now()}`);
+    const blobName = recorder.variable("blob", getUniqueName("blob"));
     const blobClient = containerClient.getBlobClient(blobName);
     const blockBlobClient = blobClient.getBlockBlobClient();
     const uploadRes = await blockBlobClient.upload(content, content.length);
@@ -1732,24 +1733,24 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     );
 
     // prepare
-    const containerName = recorder.variable("container1", `container1-${Date.now()}`);
+    const containerName = recorder.variable("container1", getUniqueName("container1"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
 
-    const key1 = recorder.variable("key", `key-${Date.now()}`);
-    const key2 = recorder.variable("key2", `key2-${Date.now()}`);
+    const key1 = recorder.variable("key", getUniqueName("key"));
+    const key2 = recorder.variable("key2", getUniqueName("key2"));
 
-    const blobName1 = recorder.variable("blobname1", `blobname1-${Date.now()}`);
+    const blobName1 = recorder.variable("blobname1", getUniqueName("blobname1"));
     const appendBlobClient1 = containerClient.getAppendBlobClient(blobName1);
     const tags1: Tags = {};
-    tags1[key1] = recorder.variable("val1", `val1-${Date.now()}`);
+    tags1[key1] = recorder.variable("val1", getUniqueName("val1"));
     tags1[key2] = "default";
     await appendBlobClient1.create({ tags: tags1 });
 
-    const blobName2 = recorder.variable("blobname2", `blobname2-${Date.now()}`);
+    const blobName2 = recorder.variable("blobname2", getUniqueName("blobname2"));
     const appendBlobClient2 = containerClient.getAppendBlobClient(blobName2);
     const tags2: Tags = {};
-    tags2[key1] = recorder.variable("val2", `val2-${Date.now()}`);
+    tags2[key1] = recorder.variable("val2", getUniqueName("val2"));
     tags2[key2] = "default";
     await appendBlobClient2.create({ tags: tags2 });
 
@@ -1795,11 +1796,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     );
 
     // create version
-    const containerName = recorder.variable("container", `container-${Date.now()}`);
+    const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = serviceClientWithSAS.getContainerClient(containerName);
     await containerClient.create();
     const content = "Hello World";
-    const blobName = recorder.variable("blob", `blob-${Date.now()}`);
+    const blobName = recorder.variable("blob", getUniqueName("blob"));
     const blobClient = containerClient.getBlobClient(blobName);
     const blockBlobClient = blobClient.getBlockBlobClient();
     const uploadRes = await blockBlobClient.upload(content, content.length);
@@ -1821,10 +1822,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const sharedKeyCredential = (blobServiceClient as any).credential;
 
-    const containerName = recorder.variable("container", `container-${Date.now()}`);
+    const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
-    const blobName = recorder.variable("blob", `blob-${Date.now()}`);
+    const blobName = recorder.variable("blob", getUniqueName("blob"));
     const blobClient = containerClient.getPageBlobClient(blobName);
     await blobClient.create(1024);
 
@@ -1852,7 +1853,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const sharedKeyCredential = (blobServiceClient as any).credential;
 
-    const containerName = recorder.variable("container", `container-${Date.now()}`);
+    const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
 
@@ -1908,7 +1909,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const tmr = new Date(recorder.variable("tmr", (new Date()).toISOString()));
     tmr.setDate(tmr.getDate() + 1);
-    const containerName = recorder.variable("container", `container-${Date.now()}`);
+    const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
 
@@ -1925,7 +1926,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     );
 
     const serviceClientWithSAS = new BlobServiceClient(sasURL);
-    const blobName = recorder.variable("appendblob", `appendblob-${Date.now()}`);
+    const blobName = recorder.variable("appendblob", getUniqueName("appendblob"));
     const blobClientWithSAS = serviceClientWithSAS
       .getContainerClient(containerName)
       .getAppendBlobClient(blobName);
@@ -1942,7 +1943,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const tmr = new Date(recorder.variable("tmr", (new Date()).toISOString()));
     tmr.setDate(tmr.getDate() + 1);
-    const containerName = recorder.variable("container", `container-${Date.now()}`);
+    const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
 
@@ -1958,7 +1959,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     );
 
     const serviceClientWithSAS = new BlobServiceClient(sasURL);
-    const blobName = recorder.variable("appendblob", `appendblob-${Date.now()}`);
+    const blobName = recorder.variable("appendblob", getUniqueName("appendblob"));
     const blobClientWithSAS = serviceClientWithSAS
       .getContainerClient(containerName)
       .getAppendBlobClient(blobName);
@@ -1975,7 +1976,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const tmr = new Date(recorder.variable("tmr", (new Date()).toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
-    const containerName = recorder.variable("container", `container-${Date.now()}`);
+    const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
 
@@ -2015,7 +2016,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const tmr = new Date(recorder.variable("tmr", (new Date()).toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
-    const containerName = recorder.variable("container", `container-${Date.now()}`);
+    const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
 
@@ -2030,7 +2031,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const containerClientWithSAS = new ContainerClient(sasURL);
 
-    const appendBlobName = recorder.variable("appendblob", `appendblob-${Date.now()}`);
+    const appendBlobName = recorder.variable("appendblob", getUniqueName("appendblob"));
     const appendBlobClient = containerClientWithSAS.getAppendBlobClient(appendBlobName);
     await appendBlobClient.create({
       encryptionScope: encryptionScopeName,
@@ -2043,7 +2044,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const tmr = new Date(recorder.variable("tmr", (new Date()).toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
-    const containerName = recorder.variable("container", `container-${Date.now()}`);
+    const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
 
@@ -2052,7 +2053,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       tag2: "val2",
     };
 
-    const appendBlobName = recorder.variable("appendblob", `appendblob-${Date.now()}`);
+    const appendBlobName = recorder.variable("appendblob", getUniqueName("appendblob"));
     const appendBlobClient = containerClient.getAppendBlobClient(appendBlobName);
     await appendBlobClient.create({ tags: tags });
 
@@ -2088,11 +2089,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const tmr = new Date(recorder.variable("tmr", (new Date()).toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
-    const containerName = recorder.variable("container", `container-${Date.now()}`);
+    const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
 
-    const blobName = recorder.variable("blob", `blob-${Date.now()}`);
+    const blobName = recorder.variable("blob", getUniqueName("blob"));
     const blobClient = containerClient.getPageBlobClient(blobName);
     await blobClient.create(1024, {
       blobHTTPHeaders: {
@@ -2137,11 +2138,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const tmr = new Date(recorder.variable("tmr", (new Date()).toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
-    const containerName = recorder.variable("container", `container-${Date.now()}`);
+    const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
 
-    const blobName = recorder.variable("blob", `blob-${Date.now()}`);
+    const blobName = recorder.variable("blob", getUniqueName("blob"));
     const blobClient = containerClient.getPageBlobClient(blobName);
 
     const sasURL = await blobClient.generateSasUrl({
@@ -2168,11 +2169,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const tmr = new Date(recorder.variable("tmr", (new Date()).toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
-    const containerName = recorder.variable("container", `container-${Date.now()}`);
+    const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
 
-    const blobName = recorder.variable("blob", `blob-${Date.now()}`);
+    const blobName = recorder.variable("blob", getUniqueName("blob"));
     const blobClient = containerClient.getPageBlobClient(blobName);
 
     const sasURL = await blobClient.generateSasUrl({
@@ -2197,10 +2198,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const tmr = new Date(recorder.variable("tmr", (new Date()).toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
-    const containerName = recorder.variable("container", `container-${Date.now()}`);
+    const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
-    const blobName = recorder.variable("blob", `blob-${Date.now()}`);
+    const blobName = recorder.variable("blob", getUniqueName("blob"));
     const blobClient = containerClient.getPageBlobClient(blobName);
     await blobClient.create(1024, {
       blobHTTPHeaders: {
@@ -2246,11 +2247,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
   it("BlobClient.generateSasUrl should work for blob version", async () => {
     // create versions
-    const containerName = recorder.variable("container", `container-${Date.now()}`);
+    const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
     const content = "Hello World";
-    const blobName = recorder.variable("blob", `blob-${Date.now()}`);
+    const blobName = recorder.variable("blob", getUniqueName("blob"));
     const blockBlobClient = containerClient.getBlockBlobClient(blobName);
     const uploadRes = await blockBlobClient.upload(content, content.length);
     await blockBlobClient.upload("", 0);
@@ -2285,10 +2286,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const tmr = new Date(recorder.variable("tmr", (new Date()).toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
-    const containerName = recorder.variable("container", `container-${Date.now()}`);
+    const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
-    const blobName = recorder.variable("blob", `blob-${Date.now()}`);
+    const blobName = recorder.variable("blob", getUniqueName("blob"));
     const blobClient = containerClient.getPageBlobClient(blobName);
     await blobClient.create(1024, {
       blobHTTPHeaders: {
@@ -2327,11 +2328,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
   it("BlobClient.generateSasUrl should work for blob version with permanentDelete permission", async function (this: Context) {
     // create versions
-    const containerName = recorder.variable("container", `container-${Date.now()}`);
+    const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
     const content = "Hello World";
-    const blobName = recorder.variable("blob", `blob-${Date.now()}`);
+    const blobName = recorder.variable("blob", getUniqueName("blob"));
     const blockBlobClient = containerClient.getBlockBlobClient(blobName);
     const uploadRes = await blockBlobClient.upload(content, content.length);
     await blockBlobClient.upload("", 0);
@@ -2363,14 +2364,14 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const tmr = new Date(recorder.variable("tmr", (new Date()).toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
-    const containerName = recorder.variable("container-with-dash", `container-with-dash-${Date.now()}`);
+    const containerName = recorder.variable("container-with-dash", getUniqueName("container-with-dash"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
 
     // NOTICE: Azure Storage Server will replace "\" with "/" in the blob names
     const blobName = recorder.variable(
       "////Upper/blob/empty /another 汉字 ру́сский язы́к ру́сский язы́к عربي/عربى にっぽんご/にほんご . special ~!@#$%^&*()_+`1234567890-={}|[]\\:\";'<>?,/'+%2F'%25%",
-      `////Upper/blob/empty /another 汉字 ру́сский язы́к ру́сский язы́к عربي/عربى にっぽんご/にほんご . special ~!@#$%^&*()_+\`1234567890-={}|[]\\:\";'<>?,/'+%2F'%25%-${Date.now()}`
+      getUniqueName("////Upper/blob/empty /another 汉字 ру́сский язы́к ру́сский язы́к عربي/عربى にっぽんご/にほんご . special ~!@#$%^&*()_+\`1234567890-={}|[]\\:\";'<>?,/'+%2F'%25%")
     );
     const blobClient = containerClient.getPageBlobClient(blobName);
     await blobClient.create(1024);
@@ -2419,7 +2420,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const sharedKeyCredential = blobServiceClient.credential;
 
-    const containerName = recorder.variable("container", `container-${Date.now()}`);
+    const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
 
@@ -2507,11 +2508,11 @@ describe("Generation for user delegation SAS Node.js only", () => {
     tmr.setDate(tmr.getDate() + 5);
     userDelegationKey = await blobServiceClient.getUserDelegationKey(now, tmr);
 
-    const containerName = recorder.variable("container", `container-${Date.now()}`);
+    const containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
     const content = "Hello World";
-    const blobName = recorder.variable("blob", `blob-${Date.now()}`);
+    const blobName = recorder.variable("blob", getUniqueName("blob"));
     blobClient = containerClient.getBlobClient(blobName);
     const blockBlobClient = blobClient.getBlockBlobClient();
     await blockBlobClient.upload(content, content.length);
@@ -2598,7 +2599,7 @@ describe("Shared Access Signature (SAS) generation Node.js Only - ImmutabilityPo
       this.skip();
     }
     containerClient = blobServiceClient.getContainerClient(containerName);
-    blobName = recorder.variable("blob", `blob-${Date.now()}`);
+    blobName = recorder.variable("blob", getUniqueName("blob"));
     blobClient = containerClient.getBlobClient(blobName);
   });
 

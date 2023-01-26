@@ -10,6 +10,7 @@ import {
   recorderEnvSetup,
   getTokenBSUWithDefaultCredential,
   getStorageAccessTokenWithDefaultCredential,
+  getUniqueName,
 } from "../utils";
 import {
   newPipeline,
@@ -43,10 +44,10 @@ describe("PageBlobClient Node.js only", () => {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
     blobServiceClient = getBSU(recorder);
-    containerName = recorder.variable("container", `container-${Date.now()}`);
+    containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
-    blobName = recorder.variable("blob", `blob-${Date.now()}`);
+    blobName = recorder.variable("blob", getUniqueName("blob"));
     blobClient = containerClient.getBlobClient(blobName);
     pageBlobClient = blobClient.getPageBlobClient();
   });
@@ -96,7 +97,7 @@ describe("PageBlobClient Node.js only", () => {
     let snapshotResult = await pageBlobClient.createSnapshot();
     assert.ok(snapshotResult.snapshot);
 
-    const destPageBlobClient = containerClient.getPageBlobClient(recorder.variable("page", `page-${Date.now()}`));
+    const destPageBlobClient = containerClient.getPageBlobClient(recorder.variable("page", getUniqueName("page")));
 
     await containerClient.setAccessPolicy("container");
     // Container cache may take up to 30 seconds to take effect.
@@ -172,7 +173,7 @@ describe("PageBlobClient Node.js only", () => {
     assert.equal(await bodyToString(result, 1024), "\u0000".repeat(1024));
 
     const content = "a".repeat(512) + "b".repeat(512);
-    const blockBlobName = recorder.variable("blockblob", `blockblob-${Date.now()}`);
+    const blockBlobName = recorder.variable("blockblob", getUniqueName("blockblob"));
     const blockBlobClient = containerClient.getBlockBlobClient(blockBlobName);
     await blockBlobClient.upload(content, content.length);
 
@@ -207,7 +208,7 @@ describe("PageBlobClient Node.js only", () => {
     assert.equal(await bodyToString(result, 1024), "\u0000".repeat(1024));
 
     const content = "a".repeat(512) + "b".repeat(512);
-    const blockBlobName = recorder.variable("blockblob", `blockblob-${Date.now()}`);
+    const blockBlobName = recorder.variable("blockblob", getUniqueName("blockblob"));
     const blockBlobClient = containerClient.getBlockBlobClient(blockBlobName);
     await blockBlobClient.upload(content, content.length);
 
@@ -247,7 +248,7 @@ describe("PageBlobClient Node.js only", () => {
     assert.equal(await bodyToString(result, 1024), "\u0000".repeat(1024));
 
     const content = "a".repeat(512) + "b".repeat(512);
-    const blockBlobName = recorder.variable("blockblob", `blockblob-${Date.now()}`);
+    const blockBlobName = recorder.variable("blockblob", getUniqueName("blockblob"));
     const blockBlobClient = containerClient.getBlockBlobClient(blockBlobName);
 
     await blockBlobClient.upload(content, content.length);
@@ -282,7 +283,7 @@ describe("PageBlobClient Node.js only", () => {
     assert.equal(await bodyToString(result, 1024), "\u0000".repeat(1024));
 
     const content = "a".repeat(512) + "b".repeat(512);
-    const blockBlobName = recorder.variable("blockblob", `blockblob-${Date.now()}`);
+    const blockBlobName = recorder.variable("blockblob", getUniqueName("blockblob"));
     const blockBlobClient = containerClient.getBlockBlobClient(blockBlobName);
 
     await blockBlobClient.upload(content, content.length);
@@ -390,7 +391,7 @@ describe("PageBlobClient Node.js only", () => {
     assert.ok(exceptionCaught);
 
     const content = "b".repeat(512);
-    const blockBlobName = recorder.variable("blockblob", `blockblob-${Date.now()}`);
+    const blockBlobName = recorder.variable("blockblob", getUniqueName("blockblob"));
     const blockBlobClient = containerClient.getBlockBlobClient(blockBlobName);
     await blockBlobClient.upload(content, content.length);
 
@@ -497,7 +498,7 @@ describe("PageBlobClient Node.js only", () => {
       await delay(30 * 1000);
 
       const destPageBlobClient = containerClient.getPageBlobClient(
-        recorder.variable("destPageBlob", `destPageBlob-${Date.now()}`)
+        recorder.variable("destPageBlob", getUniqueName("destPageBlob"))
       );
 
       const copyResponse = await destPageBlobClient.startCopyIncremental(copySource);
@@ -529,7 +530,7 @@ describe("PageBlobClient Node.js only", () => {
       assert.equal(await bodyToString(result, 1024), "\u0000".repeat(1024));
 
       const content = "a".repeat(512) + "b".repeat(512);
-      const blockBlobName = recorder.variable("blockblob", `blockblob-${Date.now()}`);
+      const blockBlobName = recorder.variable("blockblob", getUniqueName("blockblob"));
       const blockBlobClient = containerClient.getBlockBlobClient(blockBlobName);
       await blockBlobClient.upload(content, content.length);
 

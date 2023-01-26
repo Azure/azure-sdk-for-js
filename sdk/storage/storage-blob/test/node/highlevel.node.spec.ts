@@ -14,6 +14,7 @@ import {
   bodyToString,
   getBSU,
   createRandomLocalFileWithTotalSize,
+  getUniqueName,
 } from "../utils";
 import { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
@@ -49,10 +50,10 @@ describe("Highlevel", () => {
         enable: true,
       },
     });
-    containerName = recorder.variable("container", `container-${Date.now()}`);
+    containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
-    blobName = recorder.variable("blob", `blob-${Date.now()}`);
+    blobName = recorder.variable("blob", getUniqueName("blob"));
     blobClient = containerClient.getBlobClient(blobName);
     blockBlobClient = blobClient.getBlockBlobClient();
   });
@@ -120,7 +121,7 @@ describe("Highlevel", () => {
     });
 
     const downloadResponse = await blockBlobClient.download(0);
-    const downloadedFile = path.join(tempFolderPath, recorder.variable("downloadfile.", `downloadfile.-${Date.now()}`));
+    const downloadedFile = path.join(tempFolderPath, recorder.variable("downloadfile.", getUniqueName("downloadfile.")));
     await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
 
     const downloadedData = await fs.readFileSync(downloadedFile);
@@ -156,7 +157,7 @@ describe("Highlevel", () => {
     });
 
     const downloadResponse = await blockBlobClient.download(0);
-    const downloadedFile = path.join(tempFolderPath, recorder.variable("downloadfile.", `downloadfile.-${Date.now()}`));
+    const downloadedFile = path.join(tempFolderPath, recorder.variable("downloadfile.", getUniqueName("downloadfile.")));
     await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
 
     const downloadedData = await fs.readFileSync(downloadedFile);
@@ -173,7 +174,7 @@ describe("Highlevel", () => {
     });
 
     const downloadResponse = await blockBlobClient.download(0);
-    const downloadedFile = path.join(tempFolderPath, recorder.variable("downloadfile.", `downloadfile.-${Date.now()}`));
+    const downloadedFile = path.join(tempFolderPath, recorder.variable("downloadfile.", getUniqueName("downloadfile.")));
     await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
 
     const downloadedData = await fs.readFileSync(downloadedFile);
@@ -281,7 +282,7 @@ describe("Highlevel", () => {
 
     const downloadResponse = await blockBlobClient.download(0);
 
-    const downloadFilePath = path.join(tempFolderPath, recorder.variable("downloadFile", `downloadFile-${Date.now()}`));
+    const downloadFilePath = path.join(tempFolderPath, recorder.variable("downloadFile", getUniqueName("downloadFile")));
     await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadFilePath);
 
     const downloadedBuffer = fs.readFileSync(downloadFilePath);
@@ -512,7 +513,7 @@ describe("Highlevel", () => {
 
   it("downloadToBuffer with CPK", async function() {
     const content = "Hello World";
-    const CPKblobName = recorder.variable("blobCPK", `blobCPK-${Date.now()}`);
+    const CPKblobName = recorder.variable("blobCPK", getUniqueName("blobCPK"));
     const CPKblobClient = containerClient.getBlobClient(CPKblobName);
     const CPKblockBlobClient = CPKblobClient.getBlockBlobClient();
     await CPKblockBlobClient.upload(content, content.length, {
@@ -558,7 +559,7 @@ describe("Highlevel", () => {
     retirableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
     /* eslint-enable prefer-const */
 
-    const downloadedFile = path.join(tempFolderPath, recorder.variable("downloadfile.", `downloadfile.-${Date.now()}`));
+    const downloadedFile = path.join(tempFolderPath, recorder.variable("downloadfile.", getUniqueName("downloadfile.")));
     await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
 
     const downloadedData = await fs.readFileSync(downloadedFile);
@@ -593,7 +594,7 @@ describe("Highlevel", () => {
     retirableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
     /* eslint-enable prefer-const */
 
-    const downloadedFile = path.join(tempFolderPath, recorder.variable("downloadfile.", `downloadfile.-${Date.now()}`));
+    const downloadedFile = path.join(tempFolderPath, recorder.variable("downloadfile.", getUniqueName("downloadfile.")));
     await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
 
     const downloadedData = await fs.readFileSync(downloadedFile);
@@ -630,7 +631,7 @@ describe("Highlevel", () => {
     retirableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
     /* eslint-enable prefer-const */
 
-    const downloadedFile = path.join(tempFolderPath, recorder.variable("downloadfile.", `downloadfile.-${Date.now()}`));
+    const downloadedFile = path.join(tempFolderPath, recorder.variable("downloadfile.", getUniqueName("downloadfile.")));
     await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
 
     const downloadedData = await fs.readFileSync(downloadedFile);
@@ -647,7 +648,7 @@ describe("Highlevel", () => {
       concurrency: 20,
     });
 
-    const downloadedFile = path.join(tempFolderPath, recorder.variable("downloadfile.", `downloadfile.-${Date.now()}`));
+    const downloadedFile = path.join(tempFolderPath, recorder.variable("downloadfile.", getUniqueName("downloadfile.")));
 
     let retirableReadableStreamOptions: RetriableReadableStreamOptions;
     let injectedErrors = 0;
@@ -682,7 +683,7 @@ describe("Highlevel", () => {
       concurrency: 20,
     });
 
-    const downloadedFile = path.join(tempFolderPath, recorder.variable("downloadfile.", `downloadfile.-${Date.now()}`));
+    const downloadedFile = path.join(tempFolderPath, recorder.variable("downloadfile.", getUniqueName("downloadfile.")));
 
     let retirableReadableStreamOptions: RetriableReadableStreamOptions;
     let injectedErrors = 0;
@@ -741,7 +742,7 @@ describe("Highlevel", () => {
 
   it("downloadToFile should success", async function() {
     if (isNode && !isLiveMode()) { this.skip(); }
-    const downloadedFilePath = recorder.variable("downloadedtofile.", `downloadedtofile.-${Date.now()}`);
+    const downloadedFilePath = recorder.variable("downloadedtofile.", getUniqueName("downloadedtofile."));
     const rs = fs.createReadStream(tempFileSmall);
     await blockBlobClient.uploadStream(rs, 4 * 1024 * 1024, 20);
 

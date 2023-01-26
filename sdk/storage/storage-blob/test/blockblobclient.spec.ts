@@ -9,6 +9,7 @@ import {
   bodyToString,
   getBSU,
   getSASConnectionStringFromEnvironment,
+  getUniqueName,
   recorderEnvSetup,
 } from "./utils";
 import { ContainerClient, BlobClient, BlockBlobClient } from "../src";
@@ -30,10 +31,10 @@ describe("BlockBlobClient", () => {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
     const blobServiceClient = getBSU(recorder);
-    containerName = recorder.variable("container", `container-${Date.now()}`);
+    containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
-    blobName = recorder.variable("blob", `blob-${Date.now()}`);
+    blobName = recorder.variable("blob", getUniqueName("blob"));
     blobClient = containerClient.getBlobClient(blobName);
     blockBlobClient = blobClient.getBlockBlobClient();
   });
@@ -46,14 +47,14 @@ describe("BlockBlobClient", () => {
   });
 
   it("upload with string body and default parameters", async function() {
-    const body: string = recorder.variable("randomstring", `randomstring-${Date.now()}`);
+    const body: string = recorder.variable("randomstring", getUniqueName("randomstring"));
     await blockBlobClient.upload(body, body.length);
     const result = await blobClient.download(0);
     assert.deepStrictEqual(await bodyToString(result, body.length), body);
   });
 
   it("upload with progress report", async function() {
-    const body: string = recorder.variable("randomstring", `randomstring-${Date.now()}`);
+    const body: string = recorder.variable("randomstring", getUniqueName("randomstring"));
     await blockBlobClient.upload(body, body.length, {
       onProgress: () => {
         /* empty */
@@ -64,7 +65,7 @@ describe("BlockBlobClient", () => {
   });
 
   it("upload with string body and all parameters set", async function() {
-    const body: string = recorder.variable("randomstring", `randomstring-${Date.now()}`);
+    const body: string = recorder.variable("randomstring", getUniqueName("randomstring"));
     const options = {
       blobCacheControl: "blobCacheControl",
       blobContentDisposition: "blobContentDisposition",
@@ -138,7 +139,7 @@ describe("BlockBlobClient", () => {
     }
 
     const newBlockBlobClient = containerClient.getBlockBlobClient(
-      recorder.variable("newblockblob", `newblockblob-${Date.now()}`)
+      recorder.variable("newblockblob", getUniqueName("newblockblob"))
     );
     await newBlockBlobClient.stageBlockFromURL(base64encode("1"), blockBlobClient.url);
 
@@ -159,7 +160,7 @@ describe("BlockBlobClient", () => {
     }
 
     const newBlockBlobClient = containerClient.getBlockBlobClient(
-      recorder.variable("newblockblob", `newblockblob-${Date.now()}`)
+      recorder.variable("newblockblob", getUniqueName("newblockblob"))
     );
     await newBlockBlobClient.stageBlockFromURL(base64encode("1"), blockBlobClient.url, 0, 4);
     await newBlockBlobClient.stageBlockFromURL(base64encode("2"), blockBlobClient.url, 4, 4);
@@ -274,7 +275,7 @@ describe("BlockBlobClient", () => {
       blobName
     );
 
-    const body: string = recorder.variable("randomstring", `randomstring-${Date.now()}`);
+    const body: string = recorder.variable("randomstring", getUniqueName("randomstring"));
     await newClient.upload(body, body.length);
     const result = await newClient.download(0);
     assert.deepStrictEqual(await bodyToString(result, body.length), body);
@@ -308,7 +309,7 @@ describe("BlockBlobClient", () => {
   });
 
   it("upload and download with CPK", async function() {
-    const body: string = recorder.variable("randomstring", `randomstring-${Date.now()}`);
+    const body: string = recorder.variable("randomstring", getUniqueName("randomstring"));
     const options = {
       blobCacheControl: "blobCacheControl",
       blobContentDisposition: "blobContentDisposition",
@@ -349,7 +350,7 @@ describe("BlockBlobClient", () => {
     }
 
     const newBlockBlobURL = containerClient.getBlockBlobClient(
-      recorder.variable("newblockblob", `newblockblob-${Date.now()}`)
+      recorder.variable("newblockblob", getUniqueName("newblockblob"))
     );
     const sResp = await newBlockBlobURL.stageBlock(base64encode("1"), body.substring(0, 4), 4, {
       customerProvidedKey: Test_CPK_INFO,
@@ -391,7 +392,7 @@ describe("BlockBlobClient", () => {
   });
 
   it("download without CPK should fail, if upload with CPK", async () => {
-    const body: string = recorder.variable("randomstring", `randomstring-${Date.now()}`);
+    const body: string = recorder.variable("randomstring", getUniqueName("randomstring"));
     await blockBlobClient.upload(body, body.length, {
       customerProvidedKey: Test_CPK_INFO,
     });

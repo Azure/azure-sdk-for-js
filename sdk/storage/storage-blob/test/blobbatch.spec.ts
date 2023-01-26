@@ -9,6 +9,7 @@ import {
   SimpleTokenCredential,
   recorderEnvSetup,
   getTokenBSU,
+  getUniqueName,
 } from "./utils";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { BlobBatch } from "../src";
@@ -43,7 +44,7 @@ describe("BlobBatch", () => {
     blobBatchClient = blobServiceClient.getBlobBatchClient();
     credential = getGenericCredential("");
 
-    containerName = recorder.variable("container", `container-${Date.now()}`);
+    containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
     containerScopedBatchClient = containerClient.getBlobBatchClient();
@@ -715,7 +716,7 @@ describe("BlobBatch Token auth", () => {
 
     blobBatchClient = blobServiceClient.getBlobBatchClient();
 
-    const containerName = recorder.variable("container", `container-${Date.now()}`);
+    const containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
 

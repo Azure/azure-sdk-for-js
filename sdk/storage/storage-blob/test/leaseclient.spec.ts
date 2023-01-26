@@ -3,7 +3,7 @@
 
 import { assert } from "chai";
 
-import { getBSU, recorderEnvSetup } from "./utils";
+import { getBSU, getUniqueName, recorderEnvSetup } from "./utils";
 import { delay, Recorder } from "@azure-tools/test-recorder";
 import { ContainerClient, BlobClient, BlockBlobClient, BlobServiceClient } from "../src";
 import { Context } from "mocha";
@@ -19,7 +19,7 @@ describe("LeaseClient from Container", () => {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
     blobServiceClient = getBSU(recorder);
-    containerName = recorder.variable("container", `container-${Date.now()}`);
+    containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
   });
@@ -154,10 +154,10 @@ describe("LeaseClient from Blob", () => {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
     const blobServiceClient = getBSU(recorder);
-    containerName = recorder.variable("container", `container-${Date.now()}`);
+    containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
-    blobName = recorder.variable("blob", `blob-${Date.now()}`);
+    blobName = recorder.variable("blob", getUniqueName("blob"));
     blobClient = containerClient.getBlobClient(blobName);
     blockBlobClient = blobClient.getBlockBlobClient();
     await blockBlobClient.upload(content, content.length);

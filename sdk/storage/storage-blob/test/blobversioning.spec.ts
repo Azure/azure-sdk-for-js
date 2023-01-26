@@ -4,7 +4,7 @@
 import { assert } from "chai";
 import * as fs from "fs";
 import { isNode, delay } from "@azure/core-util";
-import { getBSU, recorderEnvSetup, bodyToString, getGenericCredential } from "./utils";
+import { getBSU, recorderEnvSetup, bodyToString, getGenericCredential, getUniqueName } from "./utils";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import {
   ContainerClient,
@@ -34,10 +34,10 @@ describe("Blob versioning", () => {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
     blobServiceClient = getBSU(recorder);
-    containerName = recorder.variable("container", `container-${Date.now()}`);
+    containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
-    blobName = recorder.variable("blob", `blob-${Date.now()}`);
+    blobName = recorder.variable("blob", getUniqueName("blob"));
     blobClient = containerClient.getBlobClient(blobName);
     blockBlobClient = blobClient.getBlockBlobClient();
     uploadRes = await blockBlobClient.upload(content, content.length);
@@ -55,7 +55,7 @@ describe("Blob versioning", () => {
 
     const prefix = "blockblob";
     for (let i = 0; i < 2; i++) {
-      const tmpBlobClient = containerClient.getBlobClient(recorder.variable(`${prefix}/${i}`, `${prefix}/${i}-${Date.now()}`));
+      const tmpBlobClient = containerClient.getBlobClient(recorder.variable(`${prefix}/${i}`, getUniqueName(`${prefix}/${i}`)));
       const tmpBlockBlobClient = tmpBlobClient.getBlockBlobClient();
       await tmpBlockBlobClient.upload("", 0);
       blobClients.push(tmpBlobClient);
@@ -97,7 +97,7 @@ describe("Blob versioning", () => {
       // downloadToFile only available in Node.js
       this.skip();
     }
-    const downloadedFilePath = recorder.variable("downloadedtofile", `downloadedtofile-${Date.now()}`);
+    const downloadedFilePath = recorder.variable("downloadedtofile", getUniqueName("downloadedtofile"));
     await blobClient.withVersion(uploadRes.versionId!).downloadToFile(downloadedFilePath);
     const downloadedFileContent = fs.readFileSync(downloadedFilePath);
     assert.ok(downloadedFileContent.equals(Buffer.from(content)));
@@ -315,12 +315,12 @@ describe("Blob versioning", () => {
   });
 
   it("blob create return versionId", async function() {
-    const appendBlobName = recorder.variable("appendblob", `appendblob-${Date.now()}`);
+    const appendBlobName = recorder.variable("appendblob", getUniqueName("appendblob"));
     const appendBlobClient = containerClient.getBlobClient(appendBlobName).getAppendBlobClient();
     const appendCreateRes = await appendBlobClient.create();
     assert.ok(appendCreateRes.versionId);
 
-    const pageBlobName = recorder.variable("pageblob", `pageblob-${Date.now()}`);
+    const pageBlobName = recorder.variable("pageblob", getUniqueName("pageblob"));
     const pageBlobClient = containerClient.getBlobClient(pageBlobName).getAppendBlobClient();
     const pageCreateRes = await pageBlobClient.create();
     assert.ok(pageCreateRes.versionId);
@@ -341,7 +341,7 @@ describe("Blob versioning", () => {
   });
 
   it("asynchorous copy return versionId", async function() {
-    const newBlobClient = containerClient.getBlobClient(recorder.variable("copiedblob", `copiedblob-${Date.now()}`));
+    const newBlobClient = containerClient.getBlobClient(recorder.variable("copiedblob", getUniqueName("copiedblob")));
     const result = await (await newBlobClient.beginCopyFromURL(blobClient.url)).pollUntilDone();
     assert.ok(result.versionId);
   });

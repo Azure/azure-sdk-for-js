@@ -30,6 +30,7 @@ import {
   getImmutableContainerName,
   getStorageAccessTokenWithDefaultCredential,
   getTokenBSUWithDefaultCredential,
+  getUniqueName,
   recorderEnvSetup,
 } from "../utils";
 import { assertClientUsesTokenCredential } from "../utils/assert";
@@ -54,10 +55,10 @@ describe("BlobClient Node.js only", () => {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
     blobServiceClient = getBSU(recorder);
-    containerName = recorder.variable("container", `container-${Date.now()}`);
+    containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
-    blobName = recorder.variable("blob", `blob-${Date.now()}`);
+    blobName = recorder.variable("blob", getUniqueName("blob"));
     blobClient = containerClient.getBlobClient(blobName);
     blockBlobClient = blobClient.getBlockBlobClient();
     await blockBlobClient.upload(content, content.length);
@@ -219,7 +220,7 @@ describe("BlobClient Node.js only", () => {
       this.skip();
     }
 
-    const newBlobName = recorder.variable("copiedblob", `copiedblob-${Date.now()}`);
+    const newBlobName = recorder.variable("copiedblob", getUniqueName("copiedblob"));
     const newBlobClient = containerClient.getBlobClient(newBlobName);
 
     // Different from startCopyFromURL, syncCopyFromURL requires sourceURL includes a valid SAS
@@ -252,7 +253,7 @@ describe("BlobClient Node.js only", () => {
   });
 
   it("syncCopyFromURL - source SAS and destination bearer token", async function (this: Context) {
-    const newBlobName = recorder.variable("copiedblob", `copiedblob-${Date.now()}`);
+    const newBlobName = recorder.variable("copiedblob", getUniqueName("copiedblob"));
     const tokenBlobServiceClient = getTokenBSUWithDefaultCredential(recorder);
     const tokenNewBlobClient = tokenBlobServiceClient
       .getContainerClient(containerName)
@@ -286,7 +287,7 @@ describe("BlobClient Node.js only", () => {
   });
 
   it("syncCopyFromURL - destination bearer token", async function (this: Context) {
-    const newBlobName = recorder.variable("copiedblob", `copiedblob-${Date.now()}`);
+    const newBlobName = recorder.variable("copiedblob", getUniqueName("copiedblob"));
     const tokenBlobServiceClient = getTokenBSUWithDefaultCredential(recorder);
     const tokenNewBlobClient = tokenBlobServiceClient
       .getContainerClient(containerName)
@@ -303,7 +304,7 @@ describe("BlobClient Node.js only", () => {
   });
 
   it("syncCopyFromURL - source bearer token and destination account key", async function (this: Context) {
-    const newBlobName = recorder.variable("copiedblob", `copiedblob-${Date.now()}`);
+    const newBlobName = recorder.variable("copiedblob", getUniqueName("copiedblob"));
     const newBlobClient = containerClient.getBlobClient(newBlobName);
 
     const accessToken = await getStorageAccessTokenWithDefaultCredential();
@@ -323,7 +324,7 @@ describe("BlobClient Node.js only", () => {
   });
 
   it("syncCopyFromURL", async function() {
-    const newBlobClient = containerClient.getBlobClient(recorder.variable("copiedblob", `copiedblob-${Date.now()}`));
+    const newBlobClient = containerClient.getBlobClient(recorder.variable("copiedblob", getUniqueName("copiedblob")));
 
     // Different from startCopyFromURL, syncCopyFromURL requires sourceURL includes a valid SAS
     const expiryTime = new Date(recorder.variable("expiry", (new Date()).toISOString()));
@@ -352,7 +353,7 @@ describe("BlobClient Node.js only", () => {
   });
 
   it("syncCopyFromURL - with COPY tags", async () => {
-    const newBlobClient = containerClient.getBlobClient(recorder.variable("copiedblob", `copiedblob-${Date.now()}`));
+    const newBlobClient = containerClient.getBlobClient(recorder.variable("copiedblob", getUniqueName("copiedblob")));
     await blobClient.setTags({
       tag1: "val1",
     });
@@ -388,7 +389,7 @@ describe("BlobClient Node.js only", () => {
   });
 
   it("syncCopyFromURL - with REPLACE tags", async () => {
-    const newBlobClient = containerClient.getBlobClient(recorder.variable("copiedblob", `copiedblob-${Date.now()}`));
+    const newBlobClient = containerClient.getBlobClient(recorder.variable("copiedblob", getUniqueName("copiedblob")));
     await blobClient.setTags({
       tag1: "val1",
     });
@@ -427,7 +428,7 @@ describe("BlobClient Node.js only", () => {
   });
 
   it("abortCopyFromClient should failed for a completed copy operation", async function() {
-    const newBlobClient = containerClient.getBlobClient(recorder.variable("copiedblob", `copiedblob-${Date.now()}`));
+    const newBlobClient = containerClient.getBlobClient(recorder.variable("copiedblob", getUniqueName("copiedblob")));
     const result = await (await newBlobClient.beginCopyFromURL(blobClient.url)).pollUntilDone();
     assert.ok(result.copyId);
     delay(1 * 1000);
@@ -681,7 +682,7 @@ describe("BlobClient Node.js only", () => {
 
     const response = await blockBlobClient.query("select * from BlobStorage");
 
-    const downloadedFile = join(tempFolderPath, recorder.variable("downloadfile.", `downloadfile.-${Date.now()}`));
+    const downloadedFile = join(tempFolderPath, recorder.variable("downloadfile.", getUniqueName("downloadfile.")));
     await readStreamToLocalFileWithLogs(response.readableStreamBody!, downloadedFile);
 
     const downloadedData = await readFileSync(downloadedFile);
@@ -712,7 +713,7 @@ describe("BlobClient Node.js only", () => {
       },
     });
 
-    const downloadedFile = join(tempFolderPath, recorder.variable("downloadfile.", `downloadfile.-${Date.now()}`));
+    const downloadedFile = join(tempFolderPath, recorder.variable("downloadfile.", getUniqueName("downloadfile.")));
 
     try {
       await readStreamToLocalFileWithLogs(response.readableStreamBody!, downloadedFile);
@@ -925,7 +926,7 @@ describe("BlobClient Node.js Only - ImmutabilityPolicy", () => {
       this.skip();
     }
     containerClient = blobServiceClient.getContainerClient(containerName);
-    blobName = recorder.variable("blob", `blob-${Date.now()}`);
+    blobName = recorder.variable("blob", getUniqueName("blob"));
     blobClient = containerClient.getBlobClient(blobName);
   });
 
@@ -953,7 +954,7 @@ describe("BlobClient Node.js Only - ImmutabilityPolicy", () => {
   });
 
   it("Blob syncCopyFromURL with immutability policy", async function() {
-    const sourceName = recorder.variable("blobsource", `blobsource-${Date.now()}`);
+    const sourceName = recorder.variable("blobsource", getUniqueName("blobsource"));
     const sourceBlobClient = containerClient.getBlockBlobClient(sourceName);
     await sourceBlobClient.upload(content, content.length);
 
@@ -983,7 +984,7 @@ describe("BlobClient Node.js Only - ImmutabilityPolicy", () => {
   });
 
   it("Blob syncCopyFromURL with legalhold", async function() {
-    const sourceName = recorder.variable("blobsource", `blobsource-${Date.now()}`);
+    const sourceName = recorder.variable("blobsource", getUniqueName("blobsource"));
     const sourceBlobClient = containerClient.getBlockBlobClient(sourceName);
     await sourceBlobClient.upload(content, content.length);
 

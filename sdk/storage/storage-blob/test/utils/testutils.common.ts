@@ -137,6 +137,10 @@ export function getUniqueName(prefix: string): string {
   )}`;
 }
 
+export function getRecorderUniqueVariable(recorder: Recorder, name: string): string {
+  return recorder.variable(name, getUniqueName(name));
+}
+
 export function base64encode(content: string): string {
   return isBrowser() ? btoa(content) : Buffer.from(content).toString("base64");
 }

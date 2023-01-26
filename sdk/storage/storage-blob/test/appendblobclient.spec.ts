@@ -10,6 +10,7 @@ import {
   bodyToString,
   getBSU,
   getSASConnectionStringFromEnvironment,
+  getUniqueName,
   recorderEnvSetup,
 } from "./utils";
 
@@ -25,10 +26,10 @@ describe("AppendBlobClient", () => {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
     const blobServiceClient = getBSU(recorder);
-    containerName = recorder.variable("container", `container-${Date.now()}`);
+    containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
-    blobName = recorder.variable("blob", `blob-${Date.now()}`);
+    blobName = recorder.variable("blob", getUniqueName("blob"));
     appendBlobClient = containerClient.getAppendBlobClient(blobName);
   });
 
@@ -189,7 +190,7 @@ describe("AppendBlobClient", () => {
     await appendBlobClient.create();
     await appendBlobClient.seal();
 
-    let destBlobClient = containerClient.getAppendBlobClient(recorder.variable("copiedblob1", `copiedblob1-${Date.now()}`));
+    let destBlobClient = containerClient.getAppendBlobClient(recorder.variable("copiedblob1", getUniqueName("copiedblob1")));
     await (
       await destBlobClient.beginCopyFromURL(appendBlobClient.url, {
         sealBlob: false,
@@ -198,12 +199,12 @@ describe("AppendBlobClient", () => {
     let properties = await destBlobClient.getProperties();
     assert.deepStrictEqual(properties.isSealed, undefined);
 
-    destBlobClient = containerClient.getAppendBlobClient(recorder.variable("copiedblob2", `copiedblob2-${Date.now()}`));
+    destBlobClient = containerClient.getAppendBlobClient(recorder.variable("copiedblob2", getUniqueName("copiedblob2")));
     await (await destBlobClient.beginCopyFromURL(appendBlobClient.url, {})).pollUntilDone();
     properties = await destBlobClient.getProperties();
     assert.deepStrictEqual(properties.isSealed, true);
 
-    destBlobClient = containerClient.getAppendBlobClient(recorder.variable("copiedblob3", `copiedblob3-${Date.now()}`));
+    destBlobClient = containerClient.getAppendBlobClient(recorder.variable("copiedblob3", getUniqueName("copiedblob3")));
     await (
       await destBlobClient.beginCopyFromURL(appendBlobClient.url, {
         sealBlob: true,

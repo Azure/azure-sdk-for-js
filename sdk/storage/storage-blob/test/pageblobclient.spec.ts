@@ -7,6 +7,7 @@ import {
   getBSU,
   getGenericBSU,
   getSASConnectionStringFromEnvironment,
+  getUniqueName,
   recorderEnvSetup,
 } from "./utils";
 import {
@@ -34,10 +35,10 @@ describe("PageBlobClient", () => {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
     blobServiceClient = getBSU(recorder);
-    containerName = recorder.variable("container", `container-${Date.now()}`);
+    containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
-    blobName = recorder.variable("blob", `blob-${Date.now()}`);
+    blobName = recorder.variable("blob", getUniqueName("blob"));
     blobClient = containerClient.getBlobClient(blobName);
     pageBlobClient = blobClient.getPageBlobClient();
   });
@@ -208,10 +209,10 @@ describe("PageBlobClient", () => {
       // managed disk account is not properly configured
       return this.skip();
     }
-    const mdContainerName = recorder.variable("md-container", `md-container-${Date.now()}`);
+    const mdContainerName = recorder.variable("md-container", getUniqueName("md-container"));
     const mdContainerClient = mdBlobServiceClient.getContainerClient(mdContainerName);
     await mdContainerClient.create();
-    const mdBlobName = recorder.variable("md-blob", `md-blob-${Date.now()}`);
+    const mdBlobName = recorder.variable("md-blob", getUniqueName("md-blob"));
     const mdBlobClient = mdContainerClient.getBlobClient(mdBlobName);
     const mdPageBlobClient = mdBlobClient.getPageBlobClient();
 

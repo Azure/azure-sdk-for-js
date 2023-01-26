@@ -11,6 +11,7 @@ import {
   bodyToString,
   getBrowserFile,
   getBSU,
+  getUniqueName,
   recorderEnvSetup,
 } from "../utils/index.browser";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
@@ -35,10 +36,10 @@ describe("Highlevel", () => {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
     blobServiceClient = getBSU(recorder);
-    containerName = recorder.variable("container", `container-${Date.now()}`);
+    containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
-    blobName = recorder.variable("blob", `blob-${Date.now()}`);
+    blobName = recorder.variable("blob", getUniqueName("blob"));
     blobClient = containerClient.getBlobClient(blobName);
     blockBlobClient = blobClient.getBlockBlobClient();
   });
@@ -52,8 +53,8 @@ describe("Highlevel", () => {
 
   before(async function (this: Context) {
     if (isLiveMode()) {
-    tempFile1 = getBrowserFile(recorder.variable("browserfile", `browserfile-${Date.now()}`), tempFile1Length);
-    tempFile2 = getBrowserFile(recorder.variable("browserfile2", `browserfile2-${Date.now()}`), tempFile2Length);
+    tempFile1 = getBrowserFile(recorder.variable("browserfile", getUniqueName("browserfile")), tempFile1Length);
+    tempFile2 = getBrowserFile(recorder.variable("browserfile2", getUniqueName("browserfile2")), tempFile2Length);
     }
   });
 

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { getBSU, getEncryptionScope_1, getEncryptionScope_2, recorderEnvSetup } from "./utils";
+import { getBSU, getEncryptionScope_1, getEncryptionScope_2, getUniqueName, recorderEnvSetup } from "./utils";
 import { Recorder } from "@azure-tools/test-recorder";
 import { BlobServiceClient, BlobClient, BlockBlobClient, ContainerClient } from "../src";
 import { Test_CPK_INFO } from "./utils/fakeTestSecrets";
@@ -34,9 +34,9 @@ describe("Encryption Scope", function () {
     }
 
     blobServiceClient = getBSU(recorder);
-    containerName = recorder.variable("container", `container-${Date.now()}`);
+    containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);
-    blobName = recorder.variable("blob", `blob-${Date.now()}`);
+    blobName = recorder.variable("blob", getUniqueName("blob"));
     blobClient = containerClient.getBlobClient(blobName);
     blockBlobClient = blobClient.getBlockBlobClient();
   });
