@@ -353,7 +353,7 @@ describe("LinkEntity unit tests", () => {
           lockRenewer: undefined,
           receiveMode: "receiveAndDelete",
           skipParsingBodyAsJson: false,
-          keepDateType: false,
+          skipConvertingDate: false,
           tracingOptions: {},
         }
       );
@@ -383,7 +383,7 @@ describe("LinkEntity unit tests", () => {
           lockRenewer: undefined,
           receiveMode: "receiveAndDelete",
           skipParsingBodyAsJson: false,
-          keepDateType: false,
+          skipConvertingDate: false,
           tracingOptions: {},
         }
       );
@@ -431,7 +431,7 @@ describe("LinkEntity unit tests", () => {
           abortSignal: undefined,
           retryOptions: {},
           skipParsingBodyAsJson: false,
-          keepDateType: false,
+          skipConvertingDate: false,
         }
       );
 

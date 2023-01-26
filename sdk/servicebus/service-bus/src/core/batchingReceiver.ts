@@ -78,7 +78,7 @@ export class BatchingReceiver extends MessageReceiver {
       },
       this.receiveMode,
       options.skipParsingBodyAsJson ?? false,
-      options.keepDateType ?? false
+      options.skipConvertingDate ?? false
     );
   }
 
@@ -249,7 +249,7 @@ export class BatchingReceiverLite {
     ) => Promise<MinimalReceiver | undefined>,
     private _receiveMode: ReceiveMode,
     _skipParsingBodyAsJson: boolean,
-    _keepDateType: boolean
+    _skipConvertingDate: boolean
   ) {
     this._createServiceBusMessage = (context: MessageAndDelivery) => {
       return new ServiceBusMessageImpl(
@@ -258,7 +258,7 @@ export class BatchingReceiverLite {
         true,
         this._receiveMode,
         _skipParsingBodyAsJson,
-        _keepDateType
+        _skipConvertingDate
       );
     };
 

@@ -166,11 +166,12 @@ export interface ServiceBusReceiverOptions {
    */
   skipParsingBodyAsJson?: boolean;
   /**
-   * Whether to preserve Date type on properties of message annotations or application properties
-   * when receiving the message. By default, properties of Date type is converted into ISO string
-   * for compatibility.
+   * Whether to skip converting Date type on properties of message annotations
+   * or application properties into numbers when receiving the message. By
+   * default, properties of Date type is converted into UNIX epoch number for
+   * compatibility.
    */
-  keepDateType?: boolean;
+  skipConvertingDate?: boolean;
   /**
    * Sets the name to identify the receiver. This can be used to correlate logs and exceptions.
    * If not specified or empty, a random unique one will be used.
@@ -298,11 +299,12 @@ export interface ServiceBusSessionReceiverOptions extends OperationOptionsBase {
    */
   skipParsingBodyAsJson?: boolean;
   /**
-   * Whether to preserve Date type on properties of message annotations or application properties
-   * when receiving the message. By default, properties of Date type is converted into ISO string
-   * for compatibility.
+   * Whether to skip converting Date type on properties of message annotations
+   * or application properties into numbers when receiving the message. By
+   * default, properties of Date type is converted into UNIX epoch number for
+   * compatibility.
    */
-  keepDateType?: boolean;
+  skipConvertingDate?: boolean;
   /**
    * Sets the name to identify the session receiver. This can be used to correlate logs and exceptions.
    * If not specified or empty, a random unique one will be used.

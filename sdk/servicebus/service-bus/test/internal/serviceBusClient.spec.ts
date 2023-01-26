@@ -124,7 +124,7 @@ describe("ServiceBusClient live tests", () => {
           getEnvVars().SERVICEBUS_CONNECTION_STRING.replace("sb://", "CheeseBurger://")
         );
         const sender = sbClientWithRelaxedEndPoint.createSender(entities.queue || entities.topic!);
-        const receiveOptions = { keepDateType: true };
+        const receiveOptions = { skipConvertingDate: true };
         const receiver = entities.queue
           ? sbClientWithRelaxedEndPoint.createReceiver(entities.queue, receiveOptions)
           : sbClientWithRelaxedEndPoint.createReceiver(

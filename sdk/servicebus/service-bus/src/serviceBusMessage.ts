@@ -518,7 +518,7 @@ export function fromRheaMessage(
   rheaMessage: RheaMessage,
   options: {
     skipParsingBodyAsJson: boolean;
-    keepDateType?: boolean;
+    skipConvertingDate?: boolean;
     delivery?: Delivery;
     shouldReorderLockToken?: boolean;
   }
@@ -528,7 +528,12 @@ export function fromRheaMessage(
       body: undefined,
     };
   }
-  const { skipParsingBodyAsJson, delivery, shouldReorderLockToken, keepDateType = false } = options;
+  const {
+    skipParsingBodyAsJson,
+    delivery,
+    shouldReorderLockToken,
+    skipConvertingDate = false,
+  } = options;
   const { body, bodyType } = defaultDataTransformer.decodeWithType(
     rheaMessage.body,
     skipParsingBodyAsJson
@@ -539,7 +544,7 @@ export function fromRheaMessage(
   };
 
   if (rheaMessage.application_properties != null) {
-    sbmsg.applicationProperties = keepDateType
+    sbmsg.applicationProperties = skipConvertingDate
       ? rheaMessage.application_properties
       : convertDatesToNumbers(rheaMessage.application_properties);
   }
@@ -640,17 +645,17 @@ export function fromRheaMessage(
   rawMessage.bodyType = bodyType;
 
   if (rawMessage.applicationProperties) {
-    rawMessage.applicationProperties = keepDateType
+    rawMessage.applicationProperties = skipConvertingDate
       ? rawMessage.applicationProperties
       : convertDatesToNumbers(rawMessage.applicationProperties);
   }
   if (rawMessage.deliveryAnnotations) {
-    rawMessage.deliveryAnnotations = keepDateType
+    rawMessage.deliveryAnnotations = skipConvertingDate
       ? rawMessage.deliveryAnnotations
       : convertDatesToNumbers(rawMessage.deliveryAnnotations);
   }
   if (rawMessage.messageAnnotations) {
-    rawMessage.messageAnnotations = keepDateType
+    rawMessage.messageAnnotations = skipConvertingDate
       ? rawMessage.messageAnnotations
       : convertDatesToNumbers(rawMessage.messageAnnotations);
   }
@@ -911,12 +916,12 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
     shouldReorderLockToken: boolean,
     receiveMode: ReceiveMode,
     skipParsingBodyAsJson: boolean,
-    keepDateType: boolean
+    skipConvertingDate: boolean
   ) {
     const { _rawAmqpMessage, ...restOfMessageProps } = fromRheaMessage(
       msg,
 
-      { skipParsingBodyAsJson, delivery, shouldReorderLockToken, keepDateType }
+      { skipParsingBodyAsJson, delivery, shouldReorderLockToken, skipConvertingDate }
     );
     this._rawAmqpMessage = _rawAmqpMessage; // need to initialize _rawAmqpMessage property to make compiler happy
     Object.assign(this, restOfMessageProps);

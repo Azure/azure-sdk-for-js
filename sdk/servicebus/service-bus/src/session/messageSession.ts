@@ -63,7 +63,7 @@ export type MessageSessionOptions = Pick<
   receiveMode?: ReceiveMode;
   retryOptions: RetryOptions | undefined;
   skipParsingBodyAsJson: boolean;
-  keepDateType: boolean;
+  skipConvertingDate: boolean;
 };
 
 /**
@@ -188,10 +188,12 @@ export class MessageSession extends LinkEntity<Receiver> {
   private skipParsingBodyAsJson: boolean;
 
   /**
-   * Whether to preserve Date type on properties of message annotations or application properties
-   * when receiving the message.
+   * Whether to skip converting Date type on properties of message annotations
+   * or application properties into numbers when receiving the message. By
+   * default, properties of Date type is converted into UNIX epoch number for
+   * compatibility.
    */
-  private keepDateType: boolean;
+  private skipConvertingDate: boolean;
 
   public get receiverHelper(): ReceiverHelper {
     return this._receiverHelper;
@@ -398,7 +400,7 @@ export class MessageSession extends LinkEntity<Receiver> {
     if (isDefined(this._providedSessionId)) this.sessionId = this._providedSessionId;
     this.receiveMode = options.receiveMode || "peekLock";
     this.skipParsingBodyAsJson = options.skipParsingBodyAsJson;
-    this.keepDateType = options.keepDateType;
+    this.skipConvertingDate = options.skipConvertingDate;
     this.maxAutoRenewDurationInMs =
       options.maxAutoLockRenewalDurationInMs != null
         ? options.maxAutoLockRenewalDurationInMs
@@ -415,7 +417,7 @@ export class MessageSession extends LinkEntity<Receiver> {
       },
       this.receiveMode,
       this.skipParsingBodyAsJson,
-      this.keepDateType
+      this.skipConvertingDate
     );
 
     // setting all the handlers
@@ -658,7 +660,7 @@ export class MessageSession extends LinkEntity<Receiver> {
           true,
           this.receiveMode,
           this.skipParsingBodyAsJson,
-          this.keepDateType
+          this.skipConvertingDate
         );
 
         try {

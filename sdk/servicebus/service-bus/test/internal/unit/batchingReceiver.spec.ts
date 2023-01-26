@@ -93,7 +93,7 @@ describe("BatchingReceiver unit tests", () => {
           receiveMode: "peekLock",
           lockRenewer: undefined,
           skipParsingBodyAsJson: false,
-          keepDateType: false,
+          skipConvertingDate: false,
         }
       );
 
@@ -119,7 +119,7 @@ describe("BatchingReceiver unit tests", () => {
           receiveMode: "peekLock",
           lockRenewer: undefined,
           skipParsingBodyAsJson: false,
-          keepDateType: false,
+          skipConvertingDate: false,
         }
       );
       closeables.push(receiver);
@@ -211,7 +211,7 @@ describe("BatchingReceiver unit tests", () => {
             receiveMode: lockMode,
             lockRenewer: undefined,
             skipParsingBodyAsJson: false,
-            keepDateType: false,
+            skipConvertingDate: false,
           }
         );
         closeables.push(batchingReceiver);
@@ -246,7 +246,7 @@ describe("BatchingReceiver unit tests", () => {
             receiveMode: lockMode,
             lockRenewer: undefined,
             skipParsingBodyAsJson: false,
-            keepDateType: false,
+            skipConvertingDate: false,
           }
         );
         closeables.push(receiver);
@@ -281,7 +281,7 @@ describe("BatchingReceiver unit tests", () => {
               receiveMode: lockMode,
               lockRenewer: undefined,
               skipParsingBodyAsJson: false,
-              keepDateType: false,
+              skipConvertingDate: false,
             }
           );
           closeables.push(batchingReceiver);
@@ -332,7 +332,7 @@ describe("BatchingReceiver unit tests", () => {
             receiveMode: lockMode,
             lockRenewer: undefined,
             skipParsingBodyAsJson: false,
-            keepDateType: false,
+            skipConvertingDate: false,
           }
         );
         closeables.push(batchingReceiver);
@@ -389,7 +389,7 @@ describe("BatchingReceiver unit tests", () => {
               receiveMode: lockMode,
               lockRenewer: undefined,
               skipParsingBodyAsJson: false,
-              keepDateType: false,
+              skipConvertingDate: false,
             }
           );
           closeables.push(batchingReceiver);

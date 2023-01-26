@@ -76,11 +76,12 @@ export interface SendManagementRequestOptions extends SendRequestOptions {
    */
   skipParsingBodyAsJson?: boolean;
   /**
-   * Whether to preserve Date type on properties of message annotations or application properties
-   * when receiving the message. By default, properties of Date type is converted into ISO string
-   * for compatibility.
+   * Whether to skip converting Date type on properties of message annotations
+   * or application properties into numbers when receiving the message. By
+   * default, properties of Date type is converted into UNIX epoch number for
+   * compatibility.
    */
-  keepDateType?: boolean;
+  skipConvertingDate?: boolean;
 }
 
 /**
@@ -554,7 +555,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
           const decodedMessage = RheaMessageUtil.decode(msg.message);
           const message = fromRheaMessage(decodedMessage as any, {
             skipParsingBodyAsJson: options?.skipParsingBodyAsJson ?? false,
-            keepDateType: options?.keepDateType ?? false,
+            skipConvertingDate: options?.skipConvertingDate ?? false,
           });
           messageList.push(message);
           this._lastPeekedSequenceNumber = message.sequenceNumber!;

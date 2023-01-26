@@ -59,11 +59,12 @@ export interface ReceiveOptions extends SubscribeOptions {
   skipParsingBodyAsJson: boolean;
 
   /**
-   * Whether to preserve Date type on properties of message annotations or application properties
-   * when receiving the message. By default, properties of Date type is converted into ISO string
-   * for compatibility.
+   * Whether to skip converting Date type on properties of message annotations
+   * or application properties into numbers when receiving the message. By
+   * default, properties of Date type is converted into UNIX epoch number for
+   * compatibility.
    */
-  keepDateType: boolean;
+  skipConvertingDate: boolean;
 }
 
 /**

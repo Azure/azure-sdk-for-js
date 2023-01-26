@@ -57,7 +57,7 @@ describe("Message session unit tests", () => {
               receiveMode: lockMode,
               retryOptions: undefined,
               skipParsingBodyAsJson: false,
-              keepDateType: false,
+              skipConvertingDate: false,
             }
           );
 
@@ -90,7 +90,7 @@ describe("Message session unit tests", () => {
               receiveMode: lockMode,
               retryOptions: undefined,
               skipParsingBodyAsJson: false,
-              keepDateType: false,
+              skipConvertingDate: false,
             }
           );
 
@@ -123,7 +123,7 @@ describe("Message session unit tests", () => {
                 receiveMode: lockMode,
                 retryOptions: undefined,
                 skipParsingBodyAsJson: false,
-                keepDateType: false,
+                skipConvertingDate: false,
               }
             );
 
@@ -172,7 +172,7 @@ describe("Message session unit tests", () => {
               receiveMode: lockMode,
               retryOptions: undefined,
               skipParsingBodyAsJson: false,
-              keepDateType: false,
+              skipConvertingDate: false,
             }
           );
 
@@ -227,7 +227,7 @@ describe("Message session unit tests", () => {
                 receiveMode: lockMode,
                 retryOptions: undefined,
                 skipParsingBodyAsJson: false,
-                keepDateType: false,
+                skipConvertingDate: false,
               }
             );
 
@@ -378,7 +378,7 @@ describe("Message session unit tests", () => {
           receiveMode: "receiveAndDelete",
           retryOptions: undefined,
           skipParsingBodyAsJson: false,
-          keepDateType: false,
+          skipConvertingDate: false,
         }
       );
 
