@@ -62,6 +62,8 @@ export enum StatsbeatCounter {
   THROTTLE_COUNT = "Throttle Count",
   EXCEPTION_COUNT = "Exception Count",
   AVERAGE_DURATION = "Request Duration",
+  ATTACH = "Attach",
+  FEATURE = "Feature",
 }
 
 export const AIMS_URI = "http://169.254.169.254/metadata/instance/compute";
@@ -82,14 +84,9 @@ export const EU_ENDPOINTS = [
   "swedencentral",
   "switzerlandnorth",
   "switzerlandwest",
+  "uksouth",
+  "ukwest",
 ];
-
-export interface IVirtualMachineInfo {
-  isVM?: boolean;
-  id?: string;
-  subscriptionId?: string;
-  osType?: string;
-}
 
 export interface CommonStatsbeatProperties {
   os: string;
@@ -101,7 +98,30 @@ export interface CommonStatsbeatProperties {
   attach: string;
 }
 
+export interface AttachStatsbeatProperties {
+  rpId: string;
+}
+
 export interface NetworkStatsbeatProperties {
   endpoint: string;
   host: string;
+}
+
+export interface StatsbeatOptions {
+  instrumentationKey: string;
+  endpointUrl: string;
+  networkCollectionInterval?: number;
+  longCollectionInterval?: number;
+}
+
+export interface VirtualMachineInfo {
+  isVM?: boolean;
+  id?: string;
+  subscriptionId?: string;
+  osType?: string;
+}
+
+export enum StatsbeatFeatureType {
+  FEATURE = "Feature",
+  INSTRUMENTATION = "Instrumentation",
 }

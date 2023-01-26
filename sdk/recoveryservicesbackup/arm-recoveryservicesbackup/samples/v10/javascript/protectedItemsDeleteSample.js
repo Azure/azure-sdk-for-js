@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { RecoveryServicesBackupClient } = require("@azure/arm-recoveryservicesbackup");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Used to disable backup of an item within a container. This is an asynchronous operation. To know the status of the
@@ -17,12 +18,14 @@ request, call the GetItemOperationResult API.
  *
  * @summary Used to disable backup of an item within a container. This is an asynchronous operation. To know the status of the
 request, call the GetItemOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2022-03-01/examples/Common/ProtectedItem_Delete.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/Common/ProtectedItem_Delete.json
  */
 async function deleteProtectionFromAzureVirtualMachine() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const vaultName = "PySDKBackupTestRsVault";
-  const resourceGroupName = "PythonSDKBackupTestRg";
+  const resourceGroupName =
+    process.env["RECOVERYSERVICESBACKUP_RESOURCE_GROUP"] || "PythonSDKBackupTestRg";
   const fabricName = "Azure";
   const containerName = "iaasvmcontainer;iaasvmcontainerv2;pysdktestrg;pysdktestv2vm1";
   const protectedItemName = "vm;iaasvmcontainerv2;pysdktestrg;pysdktestv2vm1";
@@ -38,4 +41,8 @@ async function deleteProtectionFromAzureVirtualMachine() {
   console.log(result);
 }
 
-deleteProtectionFromAzureVirtualMachine().catch(console.error);
+async function main() {
+  deleteProtectionFromAzureVirtualMachine();
+}
+
+main().catch(console.error);
