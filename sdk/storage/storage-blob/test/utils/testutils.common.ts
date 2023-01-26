@@ -75,7 +75,7 @@ export const recorderEnvSetup: RecorderStartOptions = {
   sanitizerOptions: {
     generalSanitizers: [ 
       {regex: true, target: "(.*)&sig=(?<sig_value>.*)", groupForReplace: "sig_value", value: mockAccountKey},
-      {regex: true, target: "Authorization: SharedKey (?<shared_key>[^\\]+)", groupForReplace: "shared_key", value: "fakestorageaccount:pass123" }
+      {regex: true, target: "Authorization: SharedKey (?<shared_key>[^\\\\]+)", groupForReplace: "shared_key", value: "fakestorageaccount:pass123" }
     ],
     // SAS token may contain sensitive information
     uriSanitizers: sasParams.map(getUriSanitizerForQueryParam)
