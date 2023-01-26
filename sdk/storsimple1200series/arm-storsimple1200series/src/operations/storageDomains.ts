@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { StorageDomains } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -61,11 +61,15 @@ export class StorageDomainsImpl implements StorageDomains {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByManagerPagingPage(
           resourceGroupName,
           managerName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -74,13 +78,11 @@ export class StorageDomainsImpl implements StorageDomains {
   private async *listByManagerPagingPage(
     resourceGroupName: string,
     managerName: string,
-    options?: StorageDomainsListByManagerOptionalParams
+    options?: StorageDomainsListByManagerOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<StorageDomain[]> {
-    let result = await this._listByManager(
-      resourceGroupName,
-      managerName,
-      options
-    );
+    let result: StorageDomainsListByManagerResponse;
+    result = await this._listByManager(resourceGroupName, managerName, options);
     yield result.value || [];
   }
 

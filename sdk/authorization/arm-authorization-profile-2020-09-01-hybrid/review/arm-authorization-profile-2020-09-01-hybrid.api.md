@@ -57,6 +57,9 @@ export interface ErrorResponse {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export interface GlobalAdministrator {
     elevateAccess(options?: GlobalAdministratorElevateAccessOptionalParams): Promise<void>;
 }
@@ -141,7 +144,6 @@ export type ProviderOperationsMetadataGetResponse = ProviderOperationsMetadata;
 
 // @public
 export interface ProviderOperationsMetadataListNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
 }
 
 // @public
@@ -269,7 +271,6 @@ export type RoleAssignmentsGetResponse = RoleAssignment;
 
 // @public
 export interface RoleAssignmentsListForResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -285,7 +286,6 @@ export type RoleAssignmentsListForResourceGroupResponse = RoleAssignmentListResu
 
 // @public
 export interface RoleAssignmentsListForResourceNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -301,7 +301,6 @@ export type RoleAssignmentsListForResourceResponse = RoleAssignmentListResult;
 
 // @public
 export interface RoleAssignmentsListForScopeNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -317,7 +316,6 @@ export type RoleAssignmentsListForScopeResponse = RoleAssignmentListResult;
 
 // @public
 export interface RoleAssignmentsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -393,7 +391,6 @@ export type RoleDefinitionsGetResponse = RoleDefinition;
 
 // @public
 export interface RoleDefinitionsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public

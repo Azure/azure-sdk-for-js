@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { RecoveryServicesBackupClient } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Deletes specified backup policy from your Recovery Services Vault. This is an asynchronous operation. Status of the
@@ -17,12 +20,15 @@ operation can be fetched using GetProtectionPolicyOperationResult API.
  *
  * @summary Deletes specified backup policy from your Recovery Services Vault. This is an asynchronous operation. Status of the
 operation can be fetched using GetProtectionPolicyOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2022-03-01/examples/AzureIaasVm/ProtectionPolicies_Delete.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/AzureIaasVm/ProtectionPolicies_Delete.json
  */
 async function deleteAzureVMProtectionPolicy() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const vaultName = "NetSDKTestRsVault";
-  const resourceGroupName = "SwaggerTestRg";
+  const resourceGroupName =
+    process.env["RECOVERYSERVICESBACKUP_RESOURCE_GROUP"] || "SwaggerTestRg";
   const policyName = "testPolicy1";
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
@@ -34,4 +40,8 @@ async function deleteAzureVMProtectionPolicy() {
   console.log(result);
 }
 
-deleteAzureVMProtectionPolicy().catch(console.error);
+async function main() {
+  deleteAzureVMProtectionPolicy();
+}
+
+main().catch(console.error);

@@ -355,31 +355,31 @@ export interface MessagingRegionsProperties {
 }
 
 /** Definition of resource. */
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
   /** Resource location. */
   location?: string;
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
-};
+}
 
 /** Properties of the PrivateEndpointConnection. */
-export type PrivateEndpointConnection = Resource & {
+export interface PrivateEndpointConnection extends Resource {
   /** The Private Endpoint resource for this Connection. */
   privateEndpoint?: PrivateEndpoint;
   /** Details about the state of the connection. */
   privateLinkServiceConnectionState?: ConnectionState;
   /** Provisioning state of the Private Endpoint Connection. */
   provisioningState?: EndPointProvisioningState;
-};
+}
 
 /** Single item in a List or Get AuthorizationRule operation */
-export type AuthorizationRule = Resource & {
+export interface AuthorizationRule extends Resource {
   /** The rights associated with the rule. */
   rights?: AccessRights[];
-};
+}
 
 /** Single item in List or Get Consumer group operation */
-export type ConsumerGroup = Resource & {
+export interface ConsumerGroup extends Resource {
   /**
    * Exact time the message was created.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -392,10 +392,10 @@ export type ConsumerGroup = Resource & {
   readonly updatedAt?: Date;
   /** User Metadata is a placeholder to store user-defined string data with maximum length 1024. e.g. it can be used to store descriptive data, such as list of teams and their contact information also user-defined configuration settings can be stored. */
   userMetadata?: string;
-};
+}
 
 /** Single item in List or Get Event Hub operation */
-export type Eventhub = Resource & {
+export interface Eventhub extends Resource {
   /**
    * Current number of shards on the Event Hub.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -419,10 +419,10 @@ export type Eventhub = Resource & {
   status?: EntityStatus;
   /** Properties of capture description */
   captureDescription?: CaptureDescription;
-};
+}
 
 /** Single Event Hubs Cluster resource in List or Get operations. */
-export type Cluster = TrackedResource & {
+export interface Cluster extends TrackedResource {
   /** Properties of the cluster SKU. */
   sku?: ClusterSku;
   /**
@@ -445,10 +445,10 @@ export type Cluster = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly status?: string;
-};
+}
 
 /** Single Namespace item in List or Get Operation */
-export type EHNamespace = TrackedResource & {
+export interface EHNamespace extends TrackedResource {
   /** Properties of sku resource */
   sku?: Sku;
   /** Properties of BYOK Identity description */
@@ -495,16 +495,17 @@ export type EHNamespace = TrackedResource & {
   zoneRedundant?: boolean;
   /** Properties of BYOK Encryption description */
   encryption?: Encryption;
-};
+}
 
 /** Messaging Region */
-export type MessagingRegions = TrackedResource & {
+export interface MessagingRegions extends TrackedResource {
   /** Properties of Messaging Region */
   properties?: MessagingRegionsProperties;
-};
+}
 
 /** Known values of {@link ClusterSkuName} that the service accepts. */
 export enum KnownClusterSkuName {
+  /** Dedicated */
   Dedicated = "Dedicated"
 }
 
@@ -519,7 +520,9 @@ export type ClusterSkuName = string;
 
 /** Known values of {@link SkuName} that the service accepts. */
 export enum KnownSkuName {
+  /** Basic */
   Basic = "Basic",
+  /** Standard */
   Standard = "Standard"
 }
 
@@ -535,7 +538,9 @@ export type SkuName = string;
 
 /** Known values of {@link SkuTier} that the service accepts. */
 export enum KnownSkuTier {
+  /** Basic */
   Basic = "Basic",
+  /** Standard */
   Standard = "Standard"
 }
 
@@ -551,9 +556,13 @@ export type SkuTier = string;
 
 /** Known values of {@link PrivateLinkConnectionStatus} that the service accepts. */
 export enum KnownPrivateLinkConnectionStatus {
+  /** Pending */
   Pending = "Pending",
+  /** Approved */
   Approved = "Approved",
+  /** Rejected */
   Rejected = "Rejected",
+  /** Disconnected */
   Disconnected = "Disconnected"
 }
 
@@ -571,11 +580,17 @@ export type PrivateLinkConnectionStatus = string;
 
 /** Known values of {@link EndPointProvisioningState} that the service accepts. */
 export enum KnownEndPointProvisioningState {
+  /** Creating */
   Creating = "Creating",
+  /** Updating */
   Updating = "Updating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Failed */
   Failed = "Failed"
 }
 
@@ -595,8 +610,11 @@ export type EndPointProvisioningState = string;
 
 /** Known values of {@link AccessRights} that the service accepts. */
 export enum KnownAccessRights {
+  /** Manage */
   Manage = "Manage",
+  /** Send */
   Send = "Send",
+  /** Listen */
   Listen = "Listen"
 }
 
@@ -968,12 +986,7 @@ export type EventHubsListAuthorizationRulesNextResponse = AuthorizationRuleListR
 
 /** Optional parameters. */
 export interface EventHubsListByNamespaceNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Skip is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skip parameter that specifies a starting point to use for subsequent calls. */
-  skip?: number;
-  /** May be used to limit the number of results to the most recent N usageDetails. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByNamespaceNext operation. */
 export type EventHubsListByNamespaceNextResponse = EventHubListResult;
@@ -1010,12 +1023,7 @@ export type ConsumerGroupsListByEventHubResponse = ConsumerGroupListResult;
 
 /** Optional parameters. */
 export interface ConsumerGroupsListByEventHubNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Skip is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skip parameter that specifies a starting point to use for subsequent calls. */
-  skip?: number;
-  /** May be used to limit the number of results to the most recent N usageDetails. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByEventHubNext operation. */
 export type ConsumerGroupsListByEventHubNextResponse = ConsumerGroupListResult;

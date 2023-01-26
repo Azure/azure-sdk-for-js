@@ -7,7 +7,8 @@
  */
 
 import { tracingClient } from "../tracing";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { KqlScripts } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -49,22 +50,34 @@ export class KqlScriptsImpl implements KqlScripts {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.getAllPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.getAllPagingPage(options, settings);
       }
     };
   }
 
   private async *getAllPagingPage(
-    options?: KqlScriptsGetAllOptionalParams
+    options?: KqlScriptsGetAllOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<KqlScriptResource[]> {
-    let result = await this._getAll(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: KqlScriptsGetAllResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._getAll(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._getAllNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -146,7 +159,6 @@ const getAllNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorContract
     }
   },
-  queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer

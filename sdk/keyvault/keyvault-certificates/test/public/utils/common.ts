@@ -44,7 +44,7 @@ export const serviceVersions = ["7.0", "7.1", "7.2", "7.3", "7.4-preview.1"] as 
  */
 export function getServiceVersion(): NonNullable<CertificateClientOptions["serviceVersion"]> {
   return (
-    (env.SERVICE_VERSION as typeof serviceVersions[number] | undefined) ||
+    (env.SERVICE_VERSION as (typeof serviceVersions)[number] | undefined) ||
     serviceVersions[serviceVersions.length - 1]
   );
 }

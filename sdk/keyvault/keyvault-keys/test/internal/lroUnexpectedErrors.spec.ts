@@ -16,7 +16,7 @@ describe("The LROs properly throw on unexpected errors", () => {
         async deleteKey(): Promise<any> {
           return {
             key: {
-              kid: "/version/name/version",
+              kid: "https://keyVaultName.vault.azure.net/version/name/version",
             },
             recoveryId: "something",
           };
@@ -42,7 +42,7 @@ describe("The LROs properly throw on unexpected errors", () => {
         async deleteKey(): Promise<any> {
           return {
             key: {
-              kid: "/version/name/version",
+              kid: "https://keyVaultName.vault.azure.net/version/name/version",
             },
             recoveryId: "something",
           };
@@ -70,7 +70,7 @@ describe("The LROs properly throw on unexpected errors", () => {
           async deleteKey(): Promise<any> {
             return {
               key: {
-                kid: "/version/name/version",
+                kid: "https://keyVaultName.vault.azure.net/version/name/version",
               },
               recoveryId: "something",
             };
@@ -104,7 +104,7 @@ describe("The LROs properly throw on unexpected errors", () => {
         async recoverDeletedKey(): Promise<any> {
           return {
             key: {
-              kid: "/version/name/version",
+              kid: "https://keyVaultName.vault.azure.net/version/name/version",
             },
             recoveryId: "something",
           };
@@ -130,7 +130,7 @@ describe("The LROs properly throw on unexpected errors", () => {
         async recoverDeletedKey(): Promise<any> {
           return {
             key: {
-              kid: "/version/name/version",
+              kid: "https://keyVaultName.vault.azure.net/version/name/version",
             },
             recoveryId: "something",
           };
@@ -158,7 +158,7 @@ describe("The LROs properly throw on unexpected errors", () => {
           async recoverDeletedKey(): Promise<any> {
             return {
               key: {
-                kid: "/version/name/version",
+                kid: "https://keyVaultName.vault.azure.net/version/name/version",
               },
               recoveryId: "something",
             };

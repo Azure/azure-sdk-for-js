@@ -8,35 +8,48 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
+import {
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest
+} from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
-  ServersImpl,
-  FirewallRulesImpl,
-  ConfigurationsImpl,
-  CheckNameAvailabilityImpl,
+  AdministratorsImpl,
+  BackupsImpl,
   LocationBasedCapabilitiesImpl,
-  VirtualNetworkSubnetUsageImpl,
-  OperationsImpl,
+  CheckNameAvailabilityImpl,
+  CheckNameAvailabilityWithLocationImpl,
+  ConfigurationsImpl,
   DatabasesImpl,
-  GetPrivateDnsZoneSuffixImpl
+  FirewallRulesImpl,
+  ServersImpl,
+  OperationsImpl,
+  GetPrivateDnsZoneSuffixImpl,
+  ReplicasImpl,
+  VirtualNetworkSubnetUsageImpl
 } from "./operations";
 import {
-  Servers,
-  FirewallRules,
-  Configurations,
-  CheckNameAvailability,
+  Administrators,
+  Backups,
   LocationBasedCapabilities,
-  VirtualNetworkSubnetUsage,
-  Operations,
+  CheckNameAvailability,
+  CheckNameAvailabilityWithLocation,
+  Configurations,
   Databases,
-  GetPrivateDnsZoneSuffix
+  FirewallRules,
+  Servers,
+  Operations,
+  GetPrivateDnsZoneSuffix,
+  Replicas,
+  VirtualNetworkSubnetUsage
 } from "./operationsInterfaces";
 import { PostgreSQLManagementFlexibleServerClientOptionalParams } from "./models";
 
 export class PostgreSQLManagementFlexibleServerClient extends coreClient.ServiceClient {
   $host: string;
-  apiVersion: string;
   subscriptionId: string;
+  apiVersion: string;
 
   /**
    * Initializes a new instance of the PostgreSQLManagementFlexibleServerClient class.
@@ -65,72 +78,117 @@ export class PostgreSQLManagementFlexibleServerClient extends coreClient.Service
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-postgresql-flexible/6.0.1`;
+    const packageDetails = `azsdk-js-arm-postgresql-flexible/7.0.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
         : `${packageDetails}`;
 
-    if (!options.credentialScopes) {
-      options.credentialScopes = ["https://management.azure.com/.default"];
-    }
     const optionsWithDefaults = {
       ...defaults,
       ...options,
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri:
+      endpoint:
         options.endpoint ?? options.baseUri ?? "https://management.azure.com"
     };
     super(optionsWithDefaults);
 
+    let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
       const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
-      const bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
+      bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
           coreRestPipeline.bearerTokenAuthenticationPolicyName
       );
-      if (!bearerTokenAuthenticationPolicyFound) {
-        this.pipeline.removePolicy({
-          name: coreRestPipeline.bearerTokenAuthenticationPolicyName
-        });
-        this.pipeline.addPolicy(
-          coreRestPipeline.bearerTokenAuthenticationPolicy({
-            scopes: `${optionsWithDefaults.baseUri}/.default`,
-            challengeCallbacks: {
-              authorizeRequestOnChallenge:
-                coreClient.authorizeRequestOnClaimChallenge
-            }
-          })
-        );
-      }
+    }
+    if (
+      !options ||
+      !options.pipeline ||
+      options.pipeline.getOrderedPolicies().length == 0 ||
+      !bearerTokenAuthenticationPolicyFound
+    ) {
+      this.pipeline.removePolicy({
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+      });
+      this.pipeline.addPolicy(
+        coreRestPipeline.bearerTokenAuthenticationPolicy({
+          credential: credentials,
+          scopes:
+            optionsWithDefaults.credentialScopes ??
+            `${optionsWithDefaults.endpoint}/.default`,
+          challengeCallbacks: {
+            authorizeRequestOnChallenge:
+              coreClient.authorizeRequestOnClaimChallenge
+          }
+        })
+      );
     }
     // Parameter assignments
     this.subscriptionId = subscriptionId;
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-06-01";
-    this.servers = new ServersImpl(this);
-    this.firewallRules = new FirewallRulesImpl(this);
-    this.configurations = new ConfigurationsImpl(this);
-    this.checkNameAvailability = new CheckNameAvailabilityImpl(this);
+    this.apiVersion = options.apiVersion || "2022-12-01";
+    this.administrators = new AdministratorsImpl(this);
+    this.backups = new BackupsImpl(this);
     this.locationBasedCapabilities = new LocationBasedCapabilitiesImpl(this);
-    this.virtualNetworkSubnetUsage = new VirtualNetworkSubnetUsageImpl(this);
-    this.operations = new OperationsImpl(this);
+    this.checkNameAvailability = new CheckNameAvailabilityImpl(this);
+    this.checkNameAvailabilityWithLocation = new CheckNameAvailabilityWithLocationImpl(
+      this
+    );
+    this.configurations = new ConfigurationsImpl(this);
     this.databases = new DatabasesImpl(this);
+    this.firewallRules = new FirewallRulesImpl(this);
+    this.servers = new ServersImpl(this);
+    this.operations = new OperationsImpl(this);
     this.getPrivateDnsZoneSuffix = new GetPrivateDnsZoneSuffixImpl(this);
+    this.replicas = new ReplicasImpl(this);
+    this.virtualNetworkSubnetUsage = new VirtualNetworkSubnetUsageImpl(this);
+    this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
-  servers: Servers;
-  firewallRules: FirewallRules;
-  configurations: Configurations;
-  checkNameAvailability: CheckNameAvailability;
+  /** A function that adds a policy that sets the api-version (or equivalent) to reflect the library version. */
+  private addCustomApiVersionPolicy(apiVersion?: string) {
+    if (!apiVersion) {
+      return;
+    }
+    const apiVersionPolicy = {
+      name: "CustomApiVersionPolicy",
+      async sendRequest(
+        request: PipelineRequest,
+        next: SendRequest
+      ): Promise<PipelineResponse> {
+        const param = request.url.split("?");
+        if (param.length > 1) {
+          const newParams = param[1].split("&").map((item) => {
+            if (item.indexOf("api-version") > -1) {
+              return "api-version=" + apiVersion;
+            } else {
+              return item;
+            }
+          });
+          request.url = param[0] + "?" + newParams.join("&");
+        }
+        return next(request);
+      }
+    };
+    this.pipeline.addPolicy(apiVersionPolicy);
+  }
+
+  administrators: Administrators;
+  backups: Backups;
   locationBasedCapabilities: LocationBasedCapabilities;
-  virtualNetworkSubnetUsage: VirtualNetworkSubnetUsage;
-  operations: Operations;
+  checkNameAvailability: CheckNameAvailability;
+  checkNameAvailabilityWithLocation: CheckNameAvailabilityWithLocation;
+  configurations: Configurations;
   databases: Databases;
+  firewallRules: FirewallRules;
+  servers: Servers;
+  operations: Operations;
   getPrivateDnsZoneSuffix: GetPrivateDnsZoneSuffix;
+  replicas: Replicas;
+  virtualNetworkSubnetUsage: VirtualNetworkSubnetUsage;
 }

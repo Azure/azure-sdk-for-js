@@ -22,7 +22,7 @@ async function alertsListByManager() {
   const resourceGroupName = "ResourceGroupForSDKTest";
   const managerName = "ManagerForSDKTest1";
   const filter =
-    "status eq 'Active' and appearedOnTime ge '2017-06-09T18:30:00Z' and appearedOnTime le '2017-06-19T18:30:00Z' and sourceType eq 'Device' and sourceName eq 'Device05ForSDKTest'";
+    "status%20eq%20'Active'%20and%20appearedOnTime%20ge%20'2017-06-09T18:30:00Z'%20and%20appearedOnTime%20le%20'2017-06-19T18:30:00Z'%20and%20sourceType%20eq%20'Device'%20and%20sourceName%20eq%20'Device05ForSDKTest'";
   const options = { filter };
   const credential = new DefaultAzureCredential();
   const client = new StorSimple8000SeriesManagementClient(credential, subscriptionId);

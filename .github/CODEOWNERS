@@ -89,7 +89,7 @@
 #/<NotInRepo>/ @sajeetharan @abkolant-MSFT @pjohari-ms
 
 # PRLabel: %Digital Twins
-/sdk/digitaltwins/ @johngallardo @olivakar @sjiherzig
+/sdk/digitaltwins/ @sjiherzig @johngallardo @olivakar
 
 # PRLabel: %Event Grid
 /sdk/eventgrid/ @ellismg @xirzec
@@ -145,10 +145,10 @@
 /sdk/test-utils/ @HarshaNalluru @timovv
 
 # PRLabel: %Cognitive - Text Analytics
-/sdk/textanalytics/ @deyaaeldeen @witemple-msft
+/sdk/textanalytics/ @minhanh-phan @deyaaeldeen @witemple-msft
 
 # PRLabel: %Cognitive - Language
-/sdk/cognitivelanguage/ @deyaaeldeen
+/sdk/cognitivelanguage/ @minhanh-phan @deyaaeldeen
 
 # PRLabel: %Schema Registry
 /sdk/schemaregistry/ @deyaaeldeen
@@ -1249,7 +1249,7 @@ sdk/dnsresolver/ci.mgmt.yml @qiaozha @dw511214992 @MaryGao
 #/<NotInRepo>/          @derek1ee
 
 # ServiceLabel: %Search %Service Attention
-#/<NotInRepo>/          @brjohnstmsft @bleroy @tjacobhi @markheff @miwelsh
+#/<NotInRepo>/          @bleroy @tjacobhi @markheff @miwelsh
 
 # ServiceLabel: %Security %Service Attention
 #/<NotInRepo>/          @chlahav

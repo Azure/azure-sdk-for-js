@@ -13,6 +13,9 @@ import {
   CosmosDBManagementClient
 } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Retrieve throughput distribution for an Azure Cosmos DB MongoDB container
@@ -21,8 +24,8 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBMongoDBCollectionRetrieveThroughputDistribution.json
  */
 async function cosmosDbMongoDbcollectionRetrieveThroughputDistribution() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
   const databaseName = "databaseName";
   const collectionName = "collectionName";
@@ -41,4 +44,8 @@ async function cosmosDbMongoDbcollectionRetrieveThroughputDistribution() {
   console.log(result);
 }
 
-cosmosDbMongoDbcollectionRetrieveThroughputDistribution().catch(console.error);
+async function main() {
+  cosmosDbMongoDbcollectionRetrieveThroughputDistribution();
+}
+
+main().catch(console.error);

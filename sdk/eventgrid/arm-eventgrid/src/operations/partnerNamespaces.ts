@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { PartnerNamespaces } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,8 +19,10 @@ import {
   PartnerNamespace,
   PartnerNamespacesListBySubscriptionNextOptionalParams,
   PartnerNamespacesListBySubscriptionOptionalParams,
+  PartnerNamespacesListBySubscriptionResponse,
   PartnerNamespacesListByResourceGroupNextOptionalParams,
   PartnerNamespacesListByResourceGroupOptionalParams,
+  PartnerNamespacesListByResourceGroupResponse,
   PartnerNamespacesGetOptionalParams,
   PartnerNamespacesGetResponse,
   PartnerNamespacesCreateOrUpdateOptionalParams,
@@ -27,8 +30,6 @@ import {
   PartnerNamespacesDeleteOptionalParams,
   PartnerNamespaceUpdateParameters,
   PartnerNamespacesUpdateOptionalParams,
-  PartnerNamespacesListBySubscriptionResponse,
-  PartnerNamespacesListByResourceGroupResponse,
   PartnerNamespacesListSharedAccessKeysOptionalParams,
   PartnerNamespacesListSharedAccessKeysResponse,
   PartnerNamespaceRegenerateKeyRequest,
@@ -66,22 +67,34 @@ export class PartnerNamespacesImpl implements PartnerNamespaces {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listBySubscriptionPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBySubscriptionPagingPage(options, settings);
       }
     };
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: PartnerNamespacesListBySubscriptionOptionalParams
+    options?: PartnerNamespacesListBySubscriptionOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PartnerNamespace[]> {
-    let result = await this._listBySubscription(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: PartnerNamespacesListBySubscriptionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBySubscription(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listBySubscriptionNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -110,19 +123,33 @@ export class PartnerNamespacesImpl implements PartnerNamespaces {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: PartnerNamespacesListByResourceGroupOptionalParams
+    options?: PartnerNamespacesListByResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PartnerNamespace[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: PartnerNamespacesListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -130,7 +157,9 @@ export class PartnerNamespacesImpl implements PartnerNamespaces {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -705,7 +734,6 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -723,7 +751,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

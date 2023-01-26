@@ -10,15 +10,17 @@
 // Licensed under the MIT License.
 const { AzureMediaServices } = require("@azure/arm-mediaservices");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Get media service operation status.
  *
  * @summary Get media service operation status.
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2021-11-01/examples/media-service-operation-status-by-id-non-terminal-state-failed.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Accounts/stable/2021-11-01/examples/media-service-operation-status-by-id-non-terminal-state-failed.json
  */
 async function getStatusOfAsynchronousOperationWhenItIsCompletedWithError() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["MEDIASERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const locationName = "westus";
   const operationId = "D612C429-2526-49D5-961B-885AE11406FD";
   const credential = new DefaultAzureCredential();
@@ -27,16 +29,15 @@ async function getStatusOfAsynchronousOperationWhenItIsCompletedWithError() {
   console.log(result);
 }
 
-getStatusOfAsynchronousOperationWhenItIsCompletedWithError().catch(console.error);
-
 /**
  * This sample demonstrates how to Get media service operation status.
  *
  * @summary Get media service operation status.
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2021-11-01/examples/media-service-operation-status-by-id-terminal-state.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Accounts/stable/2021-11-01/examples/media-service-operation-status-by-id-terminal-state.json
  */
 async function getStatusOfAsynchronousOperationWhenItIsCompleted() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["MEDIASERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const locationName = "westus";
   const operationId = "D612C429-2526-49D5-961B-885AE11406FD";
   const credential = new DefaultAzureCredential();
@@ -44,17 +45,16 @@ async function getStatusOfAsynchronousOperationWhenItIsCompleted() {
   const result = await client.mediaServicesOperationStatuses.get(locationName, operationId);
   console.log(result);
 }
-
-getStatusOfAsynchronousOperationWhenItIsCompleted().catch(console.error);
 
 /**
  * This sample demonstrates how to Get media service operation status.
  *
  * @summary Get media service operation status.
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2021-11-01/examples/media-service-operation-status-by-id-non-terminal-state.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Accounts/stable/2021-11-01/examples/media-service-operation-status-by-id-non-terminal-state.json
  */
 async function getStatusOfAsynchronousOperationWhenItIsOngoing() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["MEDIASERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const locationName = "westus";
   const operationId = "D612C429-2526-49D5-961B-885AE11406FD";
   const credential = new DefaultAzureCredential();
@@ -63,4 +63,10 @@ async function getStatusOfAsynchronousOperationWhenItIsOngoing() {
   console.log(result);
 }
 
-getStatusOfAsynchronousOperationWhenItIsOngoing().catch(console.error);
+async function main() {
+  getStatusOfAsynchronousOperationWhenItIsCompletedWithError();
+  getStatusOfAsynchronousOperationWhenItIsCompleted();
+  getStatusOfAsynchronousOperationWhenItIsOngoing();
+}
+
+main().catch(console.error);

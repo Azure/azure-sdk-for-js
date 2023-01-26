@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Processes } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,15 +17,15 @@ import {
   Port,
   ProcessesListAcceptingPortsNextOptionalParams,
   ProcessesListAcceptingPortsOptionalParams,
+  ProcessesListAcceptingPortsResponse,
   Connection,
   ProcessesListConnectionsNextOptionalParams,
   ProcessesListConnectionsOptionalParams,
+  ProcessesListConnectionsResponse,
   ProcessesGetOptionalParams,
   ProcessesGetResponse,
   ProcessesGetLivenessOptionalParams,
   ProcessesGetLivenessResponse,
-  ProcessesListAcceptingPortsResponse,
-  ProcessesListConnectionsResponse,
   ProcessesListAcceptingPortsNextResponse,
   ProcessesListConnectionsNextResponse
 } from "../models";
@@ -71,13 +72,17 @@ export class ProcessesImpl implements Processes {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listAcceptingPortsPagingPage(
           resourceGroupName,
           workspaceName,
           machineName,
           processName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -88,17 +93,24 @@ export class ProcessesImpl implements Processes {
     workspaceName: string,
     machineName: string,
     processName: string,
-    options?: ProcessesListAcceptingPortsOptionalParams
+    options?: ProcessesListAcceptingPortsOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Port[]> {
-    let result = await this._listAcceptingPorts(
-      resourceGroupName,
-      workspaceName,
-      machineName,
-      processName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ProcessesListAcceptingPortsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listAcceptingPorts(
+        resourceGroupName,
+        workspaceName,
+        machineName,
+        processName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listAcceptingPortsNext(
         resourceGroupName,
@@ -109,7 +121,9 @@ export class ProcessesImpl implements Processes {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -160,13 +174,17 @@ export class ProcessesImpl implements Processes {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listConnectionsPagingPage(
           resourceGroupName,
           workspaceName,
           machineName,
           processName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -177,17 +195,24 @@ export class ProcessesImpl implements Processes {
     workspaceName: string,
     machineName: string,
     processName: string,
-    options?: ProcessesListConnectionsOptionalParams
+    options?: ProcessesListConnectionsOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Connection[]> {
-    let result = await this._listConnections(
-      resourceGroupName,
-      workspaceName,
-      machineName,
-      processName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ProcessesListConnectionsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listConnections(
+        resourceGroupName,
+        workspaceName,
+        machineName,
+        processName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listConnectionsNext(
         resourceGroupName,
@@ -198,7 +223,9 @@ export class ProcessesImpl implements Processes {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -486,11 +513,6 @@ const listAcceptingPortsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.startTime,
-    Parameters.endTime
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -514,11 +536,6 @@ const listConnectionsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.startTime,
-    Parameters.endTime
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

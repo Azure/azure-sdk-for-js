@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { DataFactoryManagementClient } from "@azure/arm-datafactory";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Upgrade self-hosted integration runtime to latest version if availability.
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/IntegrationRuntimes_Upgrade.json
  */
 async function integrationRuntimesUpgrade() {
-  const subscriptionId = "12345678-1234-1234-1234-12345678abc";
-  const resourceGroupName = "exampleResourceGroup";
+  const subscriptionId =
+    process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
+    "12345678-1234-1234-1234-12345678abc";
+  const resourceGroupName =
+    process.env["DATAFACTORY_RESOURCE_GROUP"] || "exampleResourceGroup";
   const factoryName = "exampleFactoryName";
   const integrationRuntimeName = "exampleIntegrationRuntime";
   const credential = new DefaultAzureCredential();
@@ -32,4 +38,8 @@ async function integrationRuntimesUpgrade() {
   console.log(result);
 }
 
-integrationRuntimesUpgrade().catch(console.error);
+async function main() {
+  integrationRuntimesUpgrade();
+}
+
+main().catch(console.error);

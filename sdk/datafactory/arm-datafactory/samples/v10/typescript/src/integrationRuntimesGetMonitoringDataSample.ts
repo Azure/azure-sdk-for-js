@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { DataFactoryManagementClient } from "@azure/arm-datafactory";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Get the integration runtime monitoring data, which includes the monitor data for all the nodes under this integration runtime.
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/IntegrationRuntimes_GetMonitoringData.json
  */
 async function integrationRuntimesGetMonitoringData() {
-  const subscriptionId = "12345678-1234-1234-1234-12345678abc";
-  const resourceGroupName = "exampleResourceGroup";
+  const subscriptionId =
+    process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
+    "12345678-1234-1234-1234-12345678abc";
+  const resourceGroupName =
+    process.env["DATAFACTORY_RESOURCE_GROUP"] || "exampleResourceGroup";
   const factoryName = "exampleFactoryName";
   const integrationRuntimeName = "exampleIntegrationRuntime";
   const credential = new DefaultAzureCredential();
@@ -32,4 +38,8 @@ async function integrationRuntimesGetMonitoringData() {
   console.log(result);
 }
 
-integrationRuntimesGetMonitoringData().catch(console.error);
+async function main() {
+  integrationRuntimesGetMonitoringData();
+}
+
+main().catch(console.error);

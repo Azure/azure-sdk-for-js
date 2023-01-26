@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Retrieves the properties of an existing Azure Cosmos DB Mongo User Definition with the given Id.
@@ -18,9 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBMongoDBUserDefinitionGet.json
  */
 async function cosmosDbMongoDbuserDefinitionGet() {
-  const subscriptionId = "mySubscriptionId";
+  const subscriptionId =
+    process.env["COSMOSDB_SUBSCRIPTION_ID"] || "mySubscriptionId";
   const mongoUserDefinitionId = "myMongoUserDefinitionId";
-  const resourceGroupName = "myResourceGroupName";
+  const resourceGroupName =
+    process.env["COSMOSDB_RESOURCE_GROUP"] || "myResourceGroupName";
   const accountName = "myAccountName";
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
@@ -32,4 +37,8 @@ async function cosmosDbMongoDbuserDefinitionGet() {
   console.log(result);
 }
 
-cosmosDbMongoDbuserDefinitionGet().catch(console.error);
+async function main() {
+  cosmosDbMongoDbuserDefinitionGet();
+}
+
+main().catch(console.error);

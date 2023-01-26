@@ -54,7 +54,6 @@ import {
   expectation71,
 } from "./expectations";
 import { windows365ArticlePart1, windows365ArticlePart2 } from "./inputs";
-import { getDocIDsFromState } from "../../src/lro";
 
 const FIXME1 = {
   // FIXME: remove this check when the service updates its message
@@ -1056,7 +1055,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           }
           const serializedState = originalPoller.toString();
           assert.deepEqual(
-            getDocIDsFromState(serializedState),
+            JSON.parse(serializedState).state.docIds,
             docs.map(({ id }) => id)
           );
           const rehydratedPoller = await client.restoreAnalyzeBatchPoller(serializedState, {
