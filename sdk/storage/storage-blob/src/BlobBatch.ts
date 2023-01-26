@@ -184,7 +184,7 @@ export class BlobBatch {
       options = {};
     }
 
-    tracingClient.withSpan("BatchDeleteRequest-addSubRequest", options, async (updatedOptions) => {
+    return tracingClient.withSpan("BatchDeleteRequest-addSubRequest", options, async (updatedOptions) => {
       this.setBatchType("delete");
       await this.addSubRequestInternal(
         {
