@@ -8,8 +8,7 @@ import {
     isKeyCredential,
     createCommunicationAuthPolicy,
     CommunicationIdentifier,
-    serializeCommunicationIdentifier,
-    deserializeCommunicationIdentifier
+    serializeCommunicationIdentifier
 } from "@azure/communication-common";
 import { logger } from "./models/logger";
 import { SDK_VERSION } from "./models/constants";
@@ -20,7 +19,7 @@ import { CallRecording } from "./callRecording";
 import { AnswerCallOptions, CreateCallOptions, RedirectCallOptions, RejectCallOptions } from "./models/options";
 import { AnswerCallResult, CreateCallResult } from "./models/responses";
 import { CallConnectionPropertiesDto, CallSourceDto } from "./models/models";
-import { CallSourceConverter, CallSourceDtoConverter, CommunicationIdentifierConverter } from "./utli/converters";
+import { callSourceConverter, callSourceDtoConverter, communicationIdentifierConverter } from "./utli/converters";
 
 /**
 * Client options used to configure CallingServer Client API requests.
@@ -135,7 +134,7 @@ export class CallAutomationClient {
         options: CreateCallOptions = {}
     ): Promise<CreateCallResult> {
         const request: CreateCallRequest = {
-            source: CallSourceConverter(source),
+            source: callSourceConverter(source),
             targets: targets.map((m) => serializeCommunicationIdentifier(m)),
             callbackUri: callbackUrl,
             operationContext: options.operationContext,
@@ -151,8 +150,8 @@ export class CallAutomationClient {
         if (result?.callConnectionId) {
             const callConnectionPropertiesDto: CallConnectionPropertiesDto = {
                 ...result,
-                source: result.source? CallSourceDtoConverter(result.source) : undefined,
-                targets: result.targets?.map(target => CommunicationIdentifierConverter(target))
+                source: result.source? callSourceDtoConverter(result.source) : undefined,
+                targets: result.targets?.map(target => communicationIdentifierConverter(target))
             }
             const callConnection = new CallConnection(result.callConnectionId, this.callConnectionImpl, this.callMediaImpl);
             const createCallResult: CreateCallResult = {
@@ -190,8 +189,8 @@ export class CallAutomationClient {
         if (result?.callConnectionId) {
             const callConnectionPropertiesDto: CallConnectionPropertiesDto = {
                 ...result,
-                source: result.source ? CallSourceDtoConverter(result.source) : undefined,
-                targets: result.targets?.map(target => CommunicationIdentifierConverter(target))
+                source: result.source ? callSourceDtoConverter(result.source) : undefined,
+                targets: result.targets?.map(target => communicationIdentifierConverter(target))
             }
             const callConnection = new CallConnection(result.callConnectionId, this.callConnectionImpl, this.callMediaImpl);
             const answerCallResult: AnswerCallResult = {

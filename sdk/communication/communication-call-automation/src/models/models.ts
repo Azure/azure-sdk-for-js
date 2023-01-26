@@ -10,12 +10,9 @@ export {
     MediaStreamingConfiguration,
     MediaStreamingTransportType,
     MediaStreamingContentType,
-    MediaStreamingAudioChannelType
-} from "../generated/src/models/index";
-
-export {
+    MediaStreamingAudioChannelType,
     CallConnectionStateModel
-} from "../generated/src";
+} from "../generated/src/models/index";
 
 /** The caller. */
 export interface CallSourceDto {
@@ -46,4 +43,12 @@ export interface CallConnectionPropertiesDto {
     callbackUri?: string;
     /** SubscriptionId for media streaming */
     mediaSubscriptionId?: string;
+}
+
+/** Contract model of an ACS call participant */
+export interface CallParticipant {
+    /** Communication identifier of the participant */
+    identifier?: CommunicationIdentifier;
+    /** Is participant muted */
+    isMuted?: boolean;
 }

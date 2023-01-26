@@ -12,8 +12,15 @@ import {
     isPhoneNumberIdentifier,
     isUnknownIdentifier
 } from "@azure/communication-common";
-import { CallSource, CommunicationIdentifierModel, CommunicationIdentifierModelKind, KnownCommunicationIdentifierModelKind, PhoneNumberIdentifierModel } from "../generated/src";
-import { CallSourceDto } from "../models/models";
+import {
+    AcsCallParticipant,
+    CallSource,
+    CommunicationIdentifierModel,
+    CommunicationIdentifierModelKind,
+    KnownCommunicationIdentifierModelKind,
+    PhoneNumberIdentifierModel
+} from "../generated/src";
+import { CallParticipant, CallSourceDto } from "../models/models";
 
 function extractKind(identifierModel: CommunicationIdentifierModel): CommunicationIdentifierModelKind {
     if (identifierModel.communicationUser != undefined) {
@@ -28,8 +35,8 @@ function extractKind(identifierModel: CommunicationIdentifierModel): Communicati
     return KnownCommunicationIdentifierModelKind.Unknown;
 }
 
-export function SerializedPhoneNumberIdentifierConverter(phoneNumberIdentifier: PhoneNumberIdentifier | undefined
-): SerializedPhoneNumberIdentifier | undefined {
+export function PhoneNumberIdentifierModelConverter(phoneNumberIdentifier: PhoneNumberIdentifier | undefined
+): PhoneNumberIdentifierModel | undefined {
     if (phoneNumberIdentifier == undefined || phoneNumberIdentifier.phoneNumber == undefined) {
         return undefined;
     }
@@ -38,7 +45,7 @@ export function SerializedPhoneNumberIdentifierConverter(phoneNumberIdentifier: 
     return phoneNumberIdentifierModel;
 }
 
-export function PhoneNumberIdentifierConverter(serializedPhoneNumberIdentifier: SerializedPhoneNumberIdentifier | undefined
+export function phoneNumberIdentifierConverter(serializedPhoneNumberIdentifier: SerializedPhoneNumberIdentifier | undefined
 ): PhoneNumberIdentifier | undefined {
     if (serializedPhoneNumberIdentifier == undefined || serializedPhoneNumberIdentifier?.value == null) {
         return undefined;
@@ -50,7 +57,7 @@ export function PhoneNumberIdentifierConverter(serializedPhoneNumberIdentifier: 
     return phoneNumberIdentifier;
 }
 
-export function CommunicationIdentifierConverter(identifierModel: CommunicationIdentifierModel
+export function communicationIdentifierConverter(identifierModel: CommunicationIdentifierModel
 ): CommunicationIdentifier {
     const rawId = identifierModel.rawId;
     const kind = (identifierModel.kind != undefined) ? identifierModel.kind : extractKind(identifierModel);
@@ -78,7 +85,7 @@ export function CommunicationIdentifierConverter(identifierModel: CommunicationI
     return unknownIdentifier;
 }
 
-export function CommunicationIdentifierModelConverter(identifier: CommunicationIdentifier
+export function communicationIdentifierModelConverter(identifier: CommunicationIdentifier
 ): CommunicationIdentifierModel {
     if (isCommunicationUserIdentifier(identifier)) {
         const communicationUserIdentifierModel: CommunicationIdentifierModel = {
@@ -113,20 +120,28 @@ export function CommunicationIdentifierModelConverter(identifier: CommunicationI
     throw new Error();
 }
 
-export function CallSourceConverter(callSourceDto: CallSourceDto): CallSource {
+export function callSourceConverter(callSourceDto: CallSourceDto): CallSource {
     const callSource: CallSource = {
         ...callSourceDto,
-        identifier: CommunicationIdentifierModelConverter(callSourceDto.identifier),
-        callerId: SerializedPhoneNumberIdentifierConverter(callSourceDto.callerId)
+        identifier: communicationIdentifierModelConverter(callSourceDto.identifier),
+        callerId: PhoneNumberIdentifierModelConverter(callSourceDto.callerId)
     }
     return callSource;
 }
 
-export function CallSourceDtoConverter(callSource: CallSource): CallSourceDto {
+export function callSourceDtoConverter(callSource: CallSource): CallSourceDto {
     const callSourceDto: CallSourceDto = {
         ...callSource,
-        identifier: CommunicationIdentifierConverter(callSource.identifier),
-        callerId: PhoneNumberIdentifierConverter(callSource.callerId)
+        identifier: communicationIdentifierConverter(callSource.identifier),
+        callerId: phoneNumberIdentifierConverter(callSource.callerId)
     }
     return callSourceDto;
+}
+
+export function callParticipantConverter(acsCallParticipant: AcsCallParticipant): CallParticipant {
+    const callParticipant: CallParticipant = {
+        ...acsCallParticipant,
+        identifier: acsCallParticipant.identifier ? communicationIdentifierConverter(acsCallParticipant.identifier) : undefined
+    }
+    return callParticipant;
 }
