@@ -54,6 +54,6 @@ export async function* readChunksFromStream(
   }
 
   if (chunkCursor > 0) {
-    yield chunk.slice(0, chunkCursor);
+    yield chunk.subarray(0, chunkCursor);
   }
 }
