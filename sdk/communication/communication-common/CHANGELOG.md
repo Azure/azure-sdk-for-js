@@ -1,10 +1,10 @@
 # Release History
 
-## 2.2.1 (Unreleased)
+## 2.3.0 (Unreleased)
 
 ### Features Added
 
-- Added support for a new communication identifier MicrosoftTeamsBotIdentifier.
+- Added support for a new communication identifier `MicrosoftTeamsBotIdentifier`.
 
 ### Breaking Changes
 

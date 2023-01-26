@@ -45,7 +45,7 @@ export interface MicrosoftTeamsUserIdentifier {
   rawId?: string;
 
   /**
-   * Id of the Microsoft Teams user.
+   * Id of the Microsoft Teams user. If the user isn't anonymous, the id is the AAD object id of the user.
    */
   microsoftTeamsUserId: string;
 
@@ -55,7 +55,7 @@ export interface MicrosoftTeamsUserIdentifier {
   isAnonymous?: boolean;
 
   /**
-   * The cloud that the Microsoft Teams bot belongs to. If missing, the cloud is "public".
+   * The cloud that the Microsoft Teams user belongs to. If missing, the cloud is "public".
    */
   cloud?: "public" | "dod" | "gcch";
 }
@@ -70,7 +70,7 @@ export interface MicrosoftTeamsBotIdentifier {
   rawId?: string;
 
   /**
-   * Id of the Microsoft Teams bot. If the bot isn't anonymous, the id is the AAD object id of the user.
+   * Id of the Microsoft Teams bot. If the bot isn't anonymous, the id is the AAD object id of the bot.
    */
   microsoftTeamsBotId: string;
 
@@ -268,8 +268,6 @@ export const getIdentifierRawId = (identifier: CommunicationIdentifier): string 
           return `28:dod-global:${microsoftTeamsBotId}`;
         case "gcch":
           return `28:gcch-global:${microsoftTeamsBotId}`;
-        case "public":
-          return `28:${microsoftTeamsBotId}`;
         }
         return `28:${microsoftTeamsBotId}`;
       }
@@ -278,8 +276,6 @@ export const getIdentifierRawId = (identifier: CommunicationIdentifier): string 
           return `28:dod:${microsoftTeamsBotId}`;
         case "gcch":
           return `28:gcch:${microsoftTeamsBotId}`;
-        case "public":
-          return `28:orgid:${microsoftTeamsBotId}`;
       }
       return `28:orgid:${microsoftTeamsBotId}`;
     }
@@ -306,7 +302,7 @@ export const createIdentifierFromRawId = (rawId: string): CommunicationIdentifie
 
   const segments = rawId.split(":");
   if (segments.length < 3) {
-    if(segments.length == 2 && segments[0] == "28"){
+    if(segments.length === 2 && segments[0] === "28"){
       return { kind: "microsoftTeamsBot", microsoftTeamsBotId: segments[1], cloud: "public", isGlobal: true };
     }
     return { kind: "unknown", id: rawId };
