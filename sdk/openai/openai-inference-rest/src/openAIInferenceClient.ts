@@ -6,7 +6,7 @@ import { TokenCredential, KeyCredential } from "@azure/core-auth";
 import { OpenAIInferenceClient } from "./clientDefinitions";
 
 /**
- * Initialize a new instance of the class OpenAIInferenceClient class.
+ * Initialize a new instance of `OpenAIInferenceClient`.
  * @param endpoint type: string
  * @param credentials type: TokenCredential | KeyCredential
  */
