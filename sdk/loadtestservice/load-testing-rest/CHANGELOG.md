@@ -1,12 +1,12 @@
 # Release History
 
-## 1.0.0-beta.2 (Unreleased)
+## 1.0.0-beta.2 (2023-01-26)
 
 Second preview release of Azure Load Testing client library for Javascript.
 
 ### Features Added
 
-- Added `LoadTestClient.beginUploadTestFile` and `LoadTestClient.beginCreateOrUpdateTestRun` Long-Running operation
+- Added `LoadTestClient.getLongRunningPoller` Long-Running operation helper
 
 ### Breaking Changes
 
