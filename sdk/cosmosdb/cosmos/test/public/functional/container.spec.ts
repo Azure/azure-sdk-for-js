@@ -487,8 +487,6 @@ describe("container.create", function () {
 });
 
 describe("container.deleteAllItemsForPartitionKey", function () {
-  before(async () => {});
-
   it("should delete all items for partition key", async function () {
     const container = await getTestContainer("container", undefined, { partitionKey: "/pk" });
     const { resource: create1 } = await container.items.create({

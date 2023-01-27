@@ -244,9 +244,7 @@ export class Container {
 
   /**
    * Delete all documents belong to the container for the provided partition key value
-   * @param partitionKey
-   * @param options
-   * @returns
+   * @param partitionKey - The partition key value of the items to be deleted
    */
   public async deleteAllItemsForPartitionKey(
     partitionKey: PartitionKey,
