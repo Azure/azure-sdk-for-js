@@ -4,12 +4,6 @@
 
 - Add attach and feature Statsbeat Metrics.
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
 ## 1.0.0-beta.10 (2022-11-09)
 
 ### Features Added
