@@ -26,7 +26,7 @@ export function configureBlobStorageClient(
 function getUriSanitizerForQueryParam(paramName: string) {
   return {
     regex: true,
-    target: `http.+\?[^&]*&?(?<param>${paramName}=[^&]+&?)`,
+    target: `http.+?[^&]*&?(?<param>${paramName}=[^&]+&?)`,
     groupForReplace: "param",
     value: "",
   };
