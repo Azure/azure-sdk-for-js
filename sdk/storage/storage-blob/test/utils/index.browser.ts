@@ -113,7 +113,10 @@ export function getImmutableContainerName(): string {
   return immutableContainerName;
 }
 
-export function getBSU(recorder: Recorder, pipelineOptions: StoragePipelineOptions = {}): BlobServiceClient {
+export function getBSU(
+  recorder: Recorder,
+  pipelineOptions: StoragePipelineOptions = {}
+): BlobServiceClient {
   return getGenericBSU(recorder, "", undefined, pipelineOptions);
 }
 

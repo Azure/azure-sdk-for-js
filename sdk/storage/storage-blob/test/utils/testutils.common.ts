@@ -11,7 +11,10 @@ export const testPollerProperties = {
   intervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-export function configureBlobStorageClient(recorder: Recorder, serviceClient: BlobServiceClient): void {
+export function configureBlobStorageClient(
+  recorder: Recorder,
+  serviceClient: BlobServiceClient
+): void {
   const options = recorder.configureClientOptions({});
 
   const pipeline: Pipeline = (serviceClient as any).storageClientContext.pipeline;
@@ -21,7 +24,12 @@ export function configureBlobStorageClient(recorder: Recorder, serviceClient: Bl
 }
 
 function getUriSanitizerForQueryParam(paramName: string) {
-  return {regex: true, target: `http.+\?[^&]*&?(?<param>${paramName}=[^&]+&?)`, groupForReplace: "param", value: ""};
+  return {
+    regex: true,
+    target: `http.+\?[^&]*&?(?<param>${paramName}=[^&]+&?)`,
+    groupForReplace: "param",
+    value: "",
+  };
 }
 
 const mockAccountName = "fakestorageaccount";
@@ -30,18 +38,8 @@ const mockAccountName1 = "fakestorageaccount1";
 const mockAccountKey = "aaaaa";
 const mockSas = "fakeSasToken";
 
-const sasParams = ["se",
-    "sig",
-    "sip",
-    "sp",
-    "spr",
-    "srt",
-    "ss",
-    "sr",
-    "st",
-    "sv"]
+const sasParams = ["se", "sig", "sip", "sp", "spr", "srt", "ss", "sr", "st", "sv"];
 export const recorderEnvSetup: RecorderStartOptions = {
-  
   envSetupForPlayback: {
     // Used in record and playback modes
     // 1. The key-value pairs will be used as the environment variables in playback mode
@@ -73,13 +71,23 @@ export const recorderEnvSetup: RecorderStartOptions = {
     SOFT_DELETE_STORAGE_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${mockAccountName};AccountKey=${mockAccountKey};EndpointSuffix=core.windows.net`,
   },
   sanitizerOptions: {
-    generalSanitizers: [ 
-      {regex: true, target: "(.*)&sig=(?<sig_value>.*)", groupForReplace: "sig_value", value: mockAccountKey},
-      {regex: true, target: "Authorization: SharedKey (?<shared_key>[^\\\\]+)", groupForReplace: "shared_key", value: "fakestorageaccount:pass123" }
+    generalSanitizers: [
+      {
+        regex: true,
+        target: "(.*)&sig=(?<sig_value>.*)",
+        groupForReplace: "sig_value",
+        value: mockAccountKey,
+      },
+      {
+        regex: true,
+        target: "Authorization: SharedKey (?<shared_key>[^\\\\]+)",
+        groupForReplace: "shared_key",
+        value: "fakestorageaccount:pass123",
+      },
     ],
     // SAS token may contain sensitive information
-    uriSanitizers: sasParams.map(getUriSanitizerForQueryParam)
-  }
+    uriSanitizers: sasParams.map(getUriSanitizerForQueryParam),
+  },
 };
 
 /**

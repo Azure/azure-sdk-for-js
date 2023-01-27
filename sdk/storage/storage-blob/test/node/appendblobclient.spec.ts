@@ -52,7 +52,7 @@ describe("AppendBlobClient Node.js only", () => {
     await recorder.stop();
   });
 
-  it("can be created with a url and a credential", async function() {
+  it("can be created with a url and a credential", async function () {
     const credential = (appendBlobClient as any).credential as StorageSharedKeyCredential;
     const newClient = new AppendBlobClient(appendBlobClient.url, credential);
 
@@ -60,7 +60,7 @@ describe("AppendBlobClient Node.js only", () => {
     await newClient.download();
   });
 
-  it("can be created with a url and a credential and an option bag", async function() {
+  it("can be created with a url and a credential and an option bag", async function () {
     const credential = (appendBlobClient as any).credential as StorageSharedKeyCredential;
     const newClient = new AppendBlobClient(appendBlobClient.url, credential, {
       userAgentOptions: { userAgentPrefix: "test/1.0" },
@@ -70,7 +70,7 @@ describe("AppendBlobClient Node.js only", () => {
     await newClient.download();
   });
 
-  it("can be created with a url and a TokenCredential", async function() {
+  it("can be created with a url and a TokenCredential", async function () {
     const tokenCredential: TokenCredential = {
       getToken: () =>
         Promise.resolve({
@@ -82,7 +82,7 @@ describe("AppendBlobClient Node.js only", () => {
     assertClientUsesTokenCredential(newClient);
   });
 
-  it("can be created with a url and a pipeline", async function() {
+  it("can be created with a url and a pipeline", async function () {
     const credential = (appendBlobClient as any).credential as StorageSharedKeyCredential;
     const pipeline = newPipeline(credential);
     const newClient = new AppendBlobClient(appendBlobClient.url, pipeline);
@@ -91,7 +91,7 @@ describe("AppendBlobClient Node.js only", () => {
     await newClient.download();
   });
 
-  it("can be created with a connection string", async function() {
+  it("can be created with a connection string", async function () {
     const newClient = new AppendBlobClient(
       getConnectionStringFromEnvironment(),
       containerName,
@@ -102,7 +102,7 @@ describe("AppendBlobClient Node.js only", () => {
     await newClient.download();
   });
 
-  it("can be created with a connection string and an option bag", async function() {
+  it("can be created with a connection string and an option bag", async function () {
     const newClient = new AppendBlobClient(
       getConnectionStringFromEnvironment(),
       containerName,
@@ -118,7 +118,7 @@ describe("AppendBlobClient Node.js only", () => {
     await newClient.download();
   });
 
-  it("appendBlockFromURL", async function() {
+  it("appendBlockFromURL", async function () {
     await appendBlobClient.create();
 
     const content = "Hello World!";
@@ -128,7 +128,7 @@ describe("AppendBlobClient Node.js only", () => {
 
     // Get a SAS for blobURL
 
-    const expiryTime = new Date(recorder.variable("expiry", (new Date()).toISOString()));
+    const expiryTime = new Date(recorder.variable("expiry", new Date().toISOString()));
     expiryTime.setDate(expiryTime.getDate() + 1);
 
     const credential = (blockBlobClient as any).credential as StorageSharedKeyCredential;
@@ -160,7 +160,7 @@ describe("AppendBlobClient Node.js only", () => {
     await blockBlobClient.upload(content, content.length);
 
     // Get a SAS for blobURL
-    const expiryTime = new Date(recorder.variable("expiry", (new Date()).toISOString()));
+    const expiryTime = new Date(recorder.variable("expiry", new Date().toISOString()));
     expiryTime.setDate(expiryTime.getDate() + 1);
 
     const credential = (blockBlobClient as any).credential as StorageSharedKeyCredential;
@@ -235,7 +235,9 @@ describe("AppendBlobClient Node.js only", () => {
   });
 
   it("conditional tags for appendBlockFromURL's destination blob", async () => {
-    const newBlobClient = containerClient.getAppendBlobClient(recorder.variable("copiedblob", getUniqueName("copiedblob")));
+    const newBlobClient = containerClient.getAppendBlobClient(
+      recorder.variable("copiedblob", getUniqueName("copiedblob"))
+    );
     const tags2 = {
       tag: "val",
     };
@@ -247,7 +249,7 @@ describe("AppendBlobClient Node.js only", () => {
     await blockBlobClient.upload(content, content.length);
     // Get a SAS for blobURL
     const credential = (blockBlobClient as any).credential as StorageSharedKeyCredential;
-    const expiryTime = new Date(recorder.variable("expiry", (new Date()).toISOString()));
+    const expiryTime = new Date(recorder.variable("expiry", new Date().toISOString()));
     expiryTime.setDate(expiryTime.getDate() + 1);
     const sas = generateBlobSASQueryParameters(
       {
@@ -288,7 +290,7 @@ describe("AppendBlobClient Node.js only", () => {
 
     // Get a SAS for blobURL
     const credential = (blobClient as any).credential as StorageSharedKeyCredential;
-    const expiryTime = new Date(recorder.variable("expiry", (new Date()).toISOString()));
+    const expiryTime = new Date(recorder.variable("expiry", new Date().toISOString()));
     expiryTime.setDate(expiryTime.getDate() + 1);
     const sas = generateBlobSASQueryParameters(
       {

@@ -3,7 +3,12 @@
 
 import { assert } from "chai";
 
-import { getBSU, getConnectionStringFromEnvironment, getUniqueName, recorderEnvSetup } from "../utils";
+import {
+  getBSU,
+  getConnectionStringFromEnvironment,
+  getUniqueName,
+  recorderEnvSetup,
+} from "../utils";
 import { PublicAccessType } from "../../src";
 import {
   ContainerClient,
@@ -37,7 +42,7 @@ describe("ContainerClient Node.js only", () => {
     await recorder.stop();
   });
 
-  it("getAccessPolicy", async function() {
+  it("getAccessPolicy", async function () {
     const result = await containerClient.getAccessPolicy();
     assert.ok(result.etag!.length > 0);
     assert.ok(result.lastModified);
@@ -47,7 +52,7 @@ describe("ContainerClient Node.js only", () => {
     assert.ok(result.date);
   });
 
-  it("setAccessPolicy", async function() {
+  it("setAccessPolicy", async function () {
     const access: PublicAccessType = "blob";
     const containerAcl = [
       {
@@ -95,7 +100,7 @@ describe("ContainerClient Node.js only", () => {
     assert.deepEqual(resultEmpty.blobPublicAccess, access);
   });
 
-  it("can be created with a url and a credential", async function() {
+  it("can be created with a url and a credential", async function () {
     const credential = (containerClient as any).credential as StorageSharedKeyCredential;
     const newClient = new ContainerClient(containerClient.url, credential);
 
@@ -112,7 +117,7 @@ describe("ContainerClient Node.js only", () => {
     assert.ok(!result.blobPublicAccess);
   });
 
-  it("can be created with a url and a credential and an option bag", async function() {
+  it("can be created with a url and a credential and an option bag", async function () {
     const credential = (containerClient as any).credential as StorageSharedKeyCredential;
     const newClient = new ContainerClient(containerClient.url, credential, {
       retryOptions: {
@@ -133,7 +138,7 @@ describe("ContainerClient Node.js only", () => {
     assert.ok(!result.blobPublicAccess);
   });
 
-  it("can be created with a url and a TokenCredential", async function() {
+  it("can be created with a url and a TokenCredential", async function () {
     const tokenCredential: TokenCredential = {
       getToken: () =>
         Promise.resolve({
@@ -145,7 +150,7 @@ describe("ContainerClient Node.js only", () => {
     assertClientUsesTokenCredential(newClient);
   });
 
-  it("can be created with a url and a pipeline", async function() {
+  it("can be created with a url and a pipeline", async function () {
     const credential = (containerClient as any).credential as StorageSharedKeyCredential;
     const pipeline = newPipeline(credential);
     const newClient = new ContainerClient(containerClient.url, pipeline);
@@ -163,7 +168,7 @@ describe("ContainerClient Node.js only", () => {
     assert.ok(!result.blobPublicAccess);
   });
 
-  it("can be created with a connection string", async function() {
+  it("can be created with a connection string", async function () {
     const newClient = new ContainerClient(getConnectionStringFromEnvironment(), containerName);
 
     const result = await newClient.getProperties();
@@ -179,7 +184,7 @@ describe("ContainerClient Node.js only", () => {
     assert.ok(!result.blobPublicAccess);
   });
 
-  it("can be created with a connection string and a container name and an option bag", async function() {
+  it("can be created with a connection string and a container name and an option bag", async function () {
     const newClient = new ContainerClient(getConnectionStringFromEnvironment(), containerName, {
       retryOptions: {
         maxTries: 5,

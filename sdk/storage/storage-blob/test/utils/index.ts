@@ -78,7 +78,7 @@ export function getGenericBSU(
   } else {
     const credential = getGenericCredential(accountType) as StorageSharedKeyCredential;
 
-    const pipeline = newPipeline(credential,pipelineOptions);
+    const pipeline = newPipeline(credential, pipelineOptions);
     const blobPrimaryURL = `https://${credential.accountName}${accountNameSuffix}.blob.core.windows.net/`;
     const client = new BlobServiceClient(blobPrimaryURL, pipeline);
     configureBlobStorageClient(recorder, client);
@@ -142,7 +142,10 @@ export async function getStorageAccessTokenWithDefaultCredential(): Promise<Acce
   return credential.getToken(["https://storage.azure.com/.default"]);
 }
 
-export function getBSU(recorder: Recorder, pipelineOptions: StoragePipelineOptions = {}): BlobServiceClient {
+export function getBSU(
+  recorder: Recorder,
+  pipelineOptions: StoragePipelineOptions = {}
+): BlobServiceClient {
   return getGenericBSU(recorder, "", undefined, pipelineOptions);
 }
 

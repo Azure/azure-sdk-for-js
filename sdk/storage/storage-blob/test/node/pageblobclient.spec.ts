@@ -86,7 +86,7 @@ describe("PageBlobClient Node.js only", () => {
     assert.ok(result.contentLength);
   });
 
-  it("startCopyIncremental", async function() {
+  it("startCopyIncremental", async function () {
     await pageBlobClient.create(1024, {
       metadata: {
         sourcemeta: "val",
@@ -97,7 +97,9 @@ describe("PageBlobClient Node.js only", () => {
     let snapshotResult = await pageBlobClient.createSnapshot();
     assert.ok(snapshotResult.snapshot);
 
-    const destPageBlobClient = containerClient.getPageBlobClient(recorder.variable("page", getUniqueName("page")));
+    const destPageBlobClient = containerClient.getPageBlobClient(
+      recorder.variable("page", getUniqueName("page"))
+    );
 
     await containerClient.setAccessPolicy("container");
     // Container cache may take up to 30 seconds to take effect.
@@ -166,7 +168,7 @@ describe("PageBlobClient Node.js only", () => {
     assert.equal(pageBlobProperties.metadata!.sourcemeta, "val");
   });
 
-  it("uploadPagesFromURL", async function() {
+  it("uploadPagesFromURL", async function () {
     await pageBlobClient.create(1024);
 
     const result = await blobClient.download(0);
@@ -179,7 +181,7 @@ describe("PageBlobClient Node.js only", () => {
 
     const sharedKeyCredential = (blobClient as any).credential as StorageSharedKeyCredential;
     // Get a SAS for blobURL
-    const expiryTime = new Date(recorder.variable("expiry", (new Date()).toISOString()));
+    const expiryTime = new Date(recorder.variable("expiry", new Date().toISOString()));
     expiryTime.setDate(expiryTime.getDate() + 1);
     const sas = generateBlobSASQueryParameters(
       {
@@ -214,7 +216,7 @@ describe("PageBlobClient Node.js only", () => {
 
     const sharedKeyCredential = (blobClient as any).credential as StorageSharedKeyCredential;
     // Get a SAS for blobURL
-    const expiryTime = new Date(recorder.variable("expiry", (new Date()).toISOString()));
+    const expiryTime = new Date(recorder.variable("expiry", new Date().toISOString()));
     expiryTime.setDate(expiryTime.getDate() + 1);
     const sas = generateBlobSASQueryParameters(
       {
@@ -302,7 +304,7 @@ describe("PageBlobClient Node.js only", () => {
     assert.equal(await bodyToString(page2, 512), "b".repeat(512));
   });
 
-  it("can be created with a url and a credential", async function() {
+  it("can be created with a url and a credential", async function () {
     const credential = (pageBlobClient as any).credential as StorageSharedKeyCredential;
     const newClient = new PageBlobClient(pageBlobClient.url, credential);
 
@@ -311,7 +313,7 @@ describe("PageBlobClient Node.js only", () => {
     assert.deepStrictEqual(await bodyToString(result, 512), "\u0000".repeat(512));
   });
 
-  it("can be created with a url and a credential and an option bag", async function() {
+  it("can be created with a url and a credential and an option bag", async function () {
     const credential = (pageBlobClient as any).credential as StorageSharedKeyCredential;
     const newClient = new PageBlobClient(pageBlobClient.url, credential, {
       retryOptions: {
@@ -324,7 +326,7 @@ describe("PageBlobClient Node.js only", () => {
     assert.deepStrictEqual(await bodyToString(result, 512), "\u0000".repeat(512));
   });
 
-  it("can be created with a url and a TokenCredential", async function() {
+  it("can be created with a url and a TokenCredential", async function () {
     const tokenCredential: TokenCredential = {
       getToken: () =>
         Promise.resolve({
@@ -336,7 +338,7 @@ describe("PageBlobClient Node.js only", () => {
     assertClientUsesTokenCredential(newClient);
   });
 
-  it("can be created with a url and a pipeline", async function() {
+  it("can be created with a url and a pipeline", async function () {
     const credential = (pageBlobClient as any).credential as StorageSharedKeyCredential;
     const pipeline = newPipeline(credential);
     const newClient = new PageBlobClient(pageBlobClient.url, pipeline);
@@ -346,7 +348,7 @@ describe("PageBlobClient Node.js only", () => {
     assert.deepStrictEqual(await bodyToString(result, 512), "\u0000".repeat(512));
   });
 
-  it("can be created with a connection string", async function() {
+  it("can be created with a connection string", async function () {
     const newClient = new PageBlobClient(
       getConnectionStringFromEnvironment(),
       containerName,
@@ -358,7 +360,7 @@ describe("PageBlobClient Node.js only", () => {
     assert.deepStrictEqual(await bodyToString(result, 512), "\u0000".repeat(512));
   });
 
-  it("can be created with a connection string and an option bag", async function() {
+  it("can be created with a connection string and an option bag", async function () {
     const newClient = new PageBlobClient(
       getConnectionStringFromEnvironment(),
       containerName,
@@ -397,7 +399,7 @@ describe("PageBlobClient Node.js only", () => {
 
     // Get a SAS for blobURL
     const credential = (blobClient as any).credential as StorageSharedKeyCredential;
-    const expiryTime = new Date(recorder.variable("expiry", (new Date()).toISOString()));
+    const expiryTime = new Date(recorder.variable("expiry", new Date().toISOString()));
     expiryTime.setDate(expiryTime.getDate() + 1);
     const sas = generateBlobSASQueryParameters(
       {
@@ -525,7 +527,7 @@ describe("PageBlobClient Node.js only", () => {
       await destPageBlobClient.startCopyIncremental(copySource1, { conditions: tagConditionMet });
     });
 
-    it("uploadPagesFromURL with conditional tags for destination blob", async function() {
+    it("uploadPagesFromURL with conditional tags for destination blob", async function () {
       const result = await blobClient.download(0);
       assert.equal(await bodyToString(result, 1024), "\u0000".repeat(1024));
 
@@ -536,7 +538,7 @@ describe("PageBlobClient Node.js only", () => {
 
       const sharedKeyCredential = (blobClient as any).credential as StorageSharedKeyCredential;
       // Get a SAS for blobURL
-      const expiryTime = new Date(recorder.variable("expiry", (new Date()).toISOString()));
+      const expiryTime = new Date(recorder.variable("expiry", new Date().toISOString()));
       expiryTime.setDate(expiryTime.getDate() + 1);
       const sas = generateBlobSASQueryParameters(
         {

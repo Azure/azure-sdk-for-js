@@ -61,7 +61,7 @@ describe("BlockBlobClient Node.js only", () => {
     }
   });
 
-  it("upload with Readable stream body and default parameters", async function() {
+  it("upload with Readable stream body and default parameters", async function () {
     const body: string = recorder.variable("randomstring", getUniqueName("randomstring"));
     const bodyBuffer = Buffer.from(body);
 
@@ -82,14 +82,14 @@ describe("BlockBlobClient Node.js only", () => {
     assert.deepStrictEqual(downloadedBody, body);
   });
 
-  it("upload with Chinese string body and default parameters", async function() {
+  it("upload with Chinese string body and default parameters", async function () {
     const body: string = recorder.variable("randomstring你好", getUniqueName("randomstring你好"));
     await blockBlobClient.upload(body, Buffer.byteLength(body));
     const result = await blobClient.download(0);
     assert.deepStrictEqual(await bodyToString(result, Buffer.byteLength(body)), body);
   });
 
-  it("can be created with a url and a credential", async function() {
+  it("can be created with a url and a credential", async function () {
     const credential = (blockBlobClient as any).credential as StorageSharedKeyCredential;
     const newClient = new BlockBlobClient(blockBlobClient.url, credential);
 
@@ -99,7 +99,7 @@ describe("BlockBlobClient Node.js only", () => {
     assert.deepStrictEqual(await bodyToString(result, body.length), body);
   });
 
-  it("can be created with a url and a credential and an option bag", async function() {
+  it("can be created with a url and a credential and an option bag", async function () {
     const credential = (blockBlobClient as any).credential as StorageSharedKeyCredential;
     const newClient = new BlockBlobClient(blockBlobClient.url, credential, {
       retryOptions: {
@@ -113,7 +113,7 @@ describe("BlockBlobClient Node.js only", () => {
     assert.deepStrictEqual(await bodyToString(result, body.length), body);
   });
 
-  it("can be created with a url and a TokenCredential", async function() {
+  it("can be created with a url and a TokenCredential", async function () {
     const tokenCredential: TokenCredential = {
       getToken: () =>
         Promise.resolve({
@@ -125,7 +125,7 @@ describe("BlockBlobClient Node.js only", () => {
     assertClientUsesTokenCredential(newClient);
   });
 
-  it("can be created with a url and a pipeline", async function() {
+  it("can be created with a url and a pipeline", async function () {
     const credential = (blockBlobClient as any).credential as StorageSharedKeyCredential;
     const pipeline = newPipeline(credential);
     const newClient = new BlockBlobClient(blockBlobClient.url, pipeline);
@@ -136,7 +136,7 @@ describe("BlockBlobClient Node.js only", () => {
     assert.deepStrictEqual(await bodyToString(result, body.length), body);
   });
 
-  it("can be created with a connection string", async function() {
+  it("can be created with a connection string", async function () {
     const newClient = new BlockBlobClient(
       getConnectionStringFromEnvironment(),
       containerName,
@@ -149,7 +149,7 @@ describe("BlockBlobClient Node.js only", () => {
     assert.deepStrictEqual(await bodyToString(result, body.length), body);
   });
 
-  it("can be created with a connection string and an option bag", async function() {
+  it("can be created with a connection string and an option bag", async function () {
     const newClient = new BlockBlobClient(
       getConnectionStringFromEnvironment(),
       containerName,
@@ -167,7 +167,7 @@ describe("BlockBlobClient Node.js only", () => {
     assert.deepStrictEqual(await bodyToString(result, body.length), body);
   });
 
-  it("should not decompress during downloading", async function() {
+  it("should not decompress during downloading", async function () {
     const body: string = "hello world body string!";
     const deflated = zlib.deflateSync(body);
 
@@ -216,7 +216,7 @@ describe("syncUploadFromURL", () => {
     blockBlobClient = containerClient.getBlockBlobClient(blobName);
 
     // generate source blob SAS
-    
+
     const srcBlobName = recorder.variable("srcblob/%2+%2F", getUniqueName("srcblob/%2+%2F"));
     sourceBlob = containerClient.getBlockBlobClient(srcBlobName);
     const uploadSrcRes = await sourceBlob.upload(content, content.length, {
@@ -224,7 +224,7 @@ describe("syncUploadFromURL", () => {
     });
     srcEtag = uploadSrcRes.etag;
 
-    const expiryTime = new Date(recorder.variable("expiry", (new Date()).toISOString()));
+    const expiryTime = new Date(recorder.variable("expiry", new Date().toISOString()));
     expiryTime.setDate(expiryTime.getDate() + 1);
     const sas = generateBlobSASQueryParameters(
       {
@@ -429,7 +429,7 @@ describe("syncUploadFromURL", () => {
     assert.equal(downloadRes.contentLength!, body.length);
   });
 
-  it("with default options", async function() {
+  it("with default options", async function () {
     await blockBlobClient.syncUploadFromURL(sourceBlobURLWithSAS);
 
     // Validate source and destination blob content match.
@@ -445,7 +445,7 @@ describe("syncUploadFromURL", () => {
     assert.deepStrictEqual(downloadRes.contentType, srcHttpHeaders.blobContentType);
   });
 
-  it("set some of the properties on the request", async function() {
+  it("set some of the properties on the request", async function () {
     const blobHTTPHeaders = {
       blobContentLanguage: "blobContentLanguage1",
       blobContentType: "blobContentType1",
@@ -478,7 +478,7 @@ describe("syncUploadFromURL", () => {
       tag1: "val1",
     };
     await sourceBlob.setTags(tags);
-    const expiryTime = new Date(recorder.variable("tagtestexpiry", (new Date()).toISOString()));
+    const expiryTime = new Date(recorder.variable("tagtestexpiry", new Date().toISOString()));
     expiryTime.setDate(expiryTime.getDate() + 1);
     const sas = generateBlobSASQueryParameters(
       {
@@ -548,7 +548,7 @@ describe("syncUploadFromURL", () => {
     assert.deepStrictEqual(downloadRes.contentType, blobHTTPHeaders.blobContentType);
   });
 
-  it("destination conditon", async function() {
+  it("destination conditon", async function () {
     // upload to dest blob first
     const hello = "hello";
     await blockBlobClient.upload(hello, hello.length);
@@ -572,7 +572,7 @@ describe("syncUploadFromURL", () => {
     }
   });
 
-  it("source conditon", async function() {
+  it("source conditon", async function () {
     await blockBlobClient.syncUploadFromURL(sourceBlobURLWithSAS, {
       sourceConditions: {
         ifMatch: srcEtag,
@@ -591,7 +591,7 @@ describe("syncUploadFromURL", () => {
     }
   });
 
-  it("sourceContentMD5", async function() {
+  it("sourceContentMD5", async function () {
     const sourceContentMD5 = crypto.createHash("md5").update(Buffer.from(content)).digest();
     await blockBlobClient.syncUploadFromURL(sourceBlobURLWithSAS, {
       sourceContentMD5,
@@ -608,14 +608,18 @@ describe("syncUploadFromURL", () => {
     }
   });
 
-  it("large content", async function() {
-    if (!isLiveMode()) { this.skip(); }
+  it("large content", async function () {
+    if (!isLiveMode()) {
+      this.skip();
+    }
     await sourceBlob.uploadData(largeContent);
     await blockBlobClient.syncUploadFromURL(sourceBlobURLWithSAS);
   }).timeout(10 * 60 * 1000);
 
-  it("large content with timeout", async function() {
-    if (!isLiveMode()) { this.skip(); }
+  it("large content with timeout", async function () {
+    if (!isLiveMode()) {
+      this.skip();
+    }
     await sourceBlob.uploadData(largeContent);
 
     let exceptionCaught = false;

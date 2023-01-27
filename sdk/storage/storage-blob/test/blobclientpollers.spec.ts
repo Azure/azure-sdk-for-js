@@ -46,8 +46,10 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     }
   });
 
-  it("supports automatic polling via pollUntilDone", async function() {
-    if (!isNode && !isLiveMode()) { this.skip(); }
+  it("supports automatic polling via pollUntilDone", async function () {
+    if (!isNode && !isLiveMode()) {
+      this.skip();
+    }
     const newBlobClient = destinationContainerClient.getBlobClient(
       recorder.variable("copiedblob", getUniqueName("copiedblob"))
     );
@@ -80,8 +82,10 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     );
   });
 
-  it("supports manual polling via poll", async function() {
-    if (!isNode && !isLiveMode()) { this.skip(); }
+  it("supports manual polling via poll", async function () {
+    if (!isNode && !isLiveMode()) {
+      this.skip();
+    }
     const newBlobClient = destinationContainerClient.getBlobClient(
       recorder.variable("copiedblob", getUniqueName("copiedblob"))
     );
@@ -126,7 +130,9 @@ describe("BlobClient beginCopyFromURL Poller", () => {
       // these tests will only run with the unit tests with pre-recorded service responses.
       this.skip();
     }
-    if (!isNode && !isLiveMode()) { this.skip(); }
+    if (!isNode && !isLiveMode()) {
+      this.skip();
+    }
     const newBlobClient = destinationContainerClient.getBlobClient(
       recorder.variable("copiedblob", getUniqueName("copiedblob"))
     );
@@ -150,7 +156,9 @@ describe("BlobClient beginCopyFromURL Poller", () => {
       // these tests will only run with the unit tests with pre-recorded service responses.
       this.skip();
     }
-    if (!isNode && !isLiveMode()) { this.skip(); }
+    if (!isNode && !isLiveMode()) {
+      this.skip();
+    }
     const newBlobClient = destinationContainerClient.getBlobClient(
       recorder.variable("copiedblob", getUniqueName("copiedblob"))
     );
@@ -168,8 +176,10 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     assert.equal(onProgressCalled, true, "onProgress handler was not called.");
   });
 
-  it("supports restoring poller state from another poller", async function() {
-    if (!isNode && !isLiveMode()) { this.skip(); }
+  it("supports restoring poller state from another poller", async function () {
+    if (!isNode && !isLiveMode()) {
+      this.skip();
+    }
     const newBlobClient = destinationContainerClient.getBlobClient(
       recorder.variable("copiedblob", getUniqueName("copiedblob"))
     );

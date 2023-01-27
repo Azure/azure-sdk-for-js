@@ -31,7 +31,7 @@ describe("BlobServiceClient", () => {
     await recorder.stop();
   });
 
-  it("ListContainers with default parameters", async function() {
+  it("ListContainers with default parameters", async function () {
     const blobServiceClient = getBSU(recorder);
     const result = (await blobServiceClient.listContainers().byPage().next()).value;
     assert.ok(typeof result.requestId);
@@ -87,7 +87,7 @@ describe("BlobServiceClient", () => {
     }
   });
 
-  it("ListContainers with all parameters configured", async function() {
+  it("ListContainers with all parameters configured", async function () {
     const blobServiceClient = getBSU(recorder);
 
     const containerNamePrefix = recorder.variable("container", getUniqueName("container"));
@@ -144,7 +144,7 @@ describe("BlobServiceClient", () => {
     await containerClient2.delete();
   });
 
-  it("Verify PagedAsyncIterableIterator for ListContainers", async function() {
+  it("Verify PagedAsyncIterableIterator for ListContainers", async function () {
     const containerClients = [];
     const blobServiceClient = getBSU(recorder);
 
@@ -309,7 +309,7 @@ describe("BlobServiceClient", () => {
     }
   });
 
-  it("GetProperties", async function() {
+  it("GetProperties", async function () {
     const blobServiceClient = getBSU(recorder);
     const result = await blobServiceClient.getProperties();
 
@@ -329,7 +329,7 @@ describe("BlobServiceClient", () => {
     }
   });
 
-  it("SetProperties", async function() {
+  it("SetProperties", async function () {
     const blobServiceClient = getBSU(recorder);
 
     const serviceProperties = await blobServiceClient.getProperties();
@@ -415,7 +415,7 @@ describe("BlobServiceClient", () => {
       .catch(done);
   });
 
-  it("getAccountInfo", async function() {
+  it("getAccountInfo", async function () {
     const blobServiceClient = getBSU(recorder);
 
     const accountInfo = await blobServiceClient.getAccountInfo();
@@ -424,7 +424,7 @@ describe("BlobServiceClient", () => {
     assert.deepStrictEqual(accountInfo.isHierarchicalNamespaceEnabled, false);
   });
 
-  it("createContainer and deleteContainer", async function() {
+  it("createContainer and deleteContainer", async function () {
     const blobServiceClient = getBSU(recorder);
     const containerName = recorder.variable("container", getUniqueName("container"));
     const access = "container";
@@ -449,7 +449,7 @@ describe("BlobServiceClient", () => {
     }
   });
 
-  it("can be created from a sas connection string", async function() {
+  it("can be created from a sas connection string", async function () {
     const newClient = BlobServiceClient.fromConnectionString(
       getSASConnectionStringFromEnvironment(recorder)
     );
@@ -475,9 +475,9 @@ describe("BlobServiceClient", () => {
       this.skip();
     }
 
-    const now = new Date(recorder.variable("now", (new Date()).toISOString()));
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setHours(now.getHours() + 1);
-    const tmr = new Date(recorder.variable("tmr", (new Date()).toISOString()));
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
     const response = await serviceURLWithToken!.getUserDelegationKey(now, tmr);
     assert.notDeepEqual(response.value, undefined);
@@ -567,12 +567,12 @@ describe("BlobServiceClient", () => {
     await containerClient.delete();
   });
 
-  it("verify custom endpoint without valid accountName", async function() {
+  it("verify custom endpoint without valid accountName", async function () {
     const newClient = new BlobServiceClient(`https://customdomain.com`);
     assert.equal(newClient.accountName, "", "Account name is not the same as expected.");
   });
 
-  it("setProperties for static website", async function() {
+  it("setProperties for static website", async function () {
     const errorDocument404Path = "error/404.html";
     const defaultIndexDocumentPath = "index.html";
 

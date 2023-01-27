@@ -2,7 +2,13 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { getBSU, getEncryptionScope_1, getEncryptionScope_2, getUniqueName, recorderEnvSetup } from "./utils";
+import {
+  getBSU,
+  getEncryptionScope_1,
+  getEncryptionScope_2,
+  getUniqueName,
+  recorderEnvSetup,
+} from "./utils";
 import { Recorder } from "@azure-tools/test-recorder";
 import { BlobServiceClient, BlobClient, BlockBlobClient, ContainerClient } from "../src";
 import { Test_CPK_INFO } from "./utils/fakeTestSecrets";
@@ -48,7 +54,7 @@ describe("Encryption Scope", function () {
     await recorder.stop();
   });
 
-  it("create container", async function() {
+  it("create container", async function () {
     await containerClient.create();
     let containerChecked = false;
     for await (const container of blobServiceClient.listContainers({
@@ -68,7 +74,7 @@ describe("Encryption Scope", function () {
     });
   });
 
-  it("create container preventEncryptionScopeOverride", async function() {
+  it("create container preventEncryptionScopeOverride", async function () {
     await containerClient.create({
       containerEncryptionScope: {
         defaultEncryptionScope: encryptionScopeName1,

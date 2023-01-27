@@ -20,7 +20,7 @@ describe("BlobServiceClient Node.js only", () => {
     await recorder.stop();
   });
 
-  it("can be created with a url and a credential", async function() {
+  it("can be created with a url and a credential", async function () {
     const serviceClient = getBSU(recorder);
     const credential = (serviceClient as any).credential as StorageSharedKeyCredential;
     const newClient = new BlobServiceClient(serviceClient.url, credential);
@@ -33,7 +33,7 @@ describe("BlobServiceClient Node.js only", () => {
     assert.ok(result.version!.length > 0);
   });
 
-  it("can be created with a url and a credential and an option bag", async function() {
+  it("can be created with a url and a credential and an option bag", async function () {
     const serviceClient = getBSU(recorder);
     const credential = (serviceClient as any).credential as StorageSharedKeyCredential;
     const newClient = new BlobServiceClient(serviceClient.url, credential, {
@@ -50,7 +50,7 @@ describe("BlobServiceClient Node.js only", () => {
     assert.ok(result.version!.length > 0);
   });
 
-  it("can be created with a url and a pipeline", async function() {
+  it("can be created with a url and a pipeline", async function () {
     const serviceClient = getBSU(recorder);
     const credential = (serviceClient as any).credential as StorageSharedKeyCredential;
     const pipeline = newPipeline(credential);
@@ -64,7 +64,7 @@ describe("BlobServiceClient Node.js only", () => {
     assert.ok(result.version!.length > 0);
   });
 
-  it("can be created from a connection string", async function() {
+  it("can be created from a connection string", async function () {
     const newClient = BlobServiceClient.fromConnectionString(getConnectionStringFromEnvironment());
 
     const result = await newClient.getProperties();
@@ -73,7 +73,7 @@ describe("BlobServiceClient Node.js only", () => {
     assert.ok(result.requestId!.length > 0);
   });
 
-  it("can be created from a connection string and an option bag", async function() {
+  it("can be created from a connection string and an option bag", async function () {
     const newClient = BlobServiceClient.fromConnectionString(getConnectionStringFromEnvironment(), {
       retryOptions: {
         maxTries: 5,

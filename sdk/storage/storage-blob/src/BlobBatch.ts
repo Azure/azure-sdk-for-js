@@ -184,20 +184,24 @@ export class BlobBatch {
       options = {};
     }
 
-    return tracingClient.withSpan("BatchDeleteRequest-addSubRequest", options, async (updatedOptions) => {
-      this.setBatchType("delete");
-      await this.addSubRequestInternal(
-        {
-          url: url,
-          credential: credential,
-        },
-        async () => {
-          await new BlobClient(url, this.batchRequest.createPipeline(credential)).delete(
-            updatedOptions
-          );
-        }
-      );
-    });
+    return tracingClient.withSpan(
+      "BatchDeleteRequest-addSubRequest",
+      options,
+      async (updatedOptions) => {
+        this.setBatchType("delete");
+        await this.addSubRequestInternal(
+          {
+            url: url,
+            credential: credential,
+          },
+          async () => {
+            await new BlobClient(url, this.batchRequest.createPipeline(credential)).delete(
+              updatedOptions
+            );
+          }
+        );
+      }
+    );
   }
 
   /**

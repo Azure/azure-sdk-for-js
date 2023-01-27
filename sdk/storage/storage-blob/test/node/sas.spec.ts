@@ -51,11 +51,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await recorder.stop();
   });
 
-  it("generateAccountSASQueryParameters should work", async function() {
-    const now = new Date(recorder.variable("now", (new Date()).toISOString()));
+  it("generateAccountSASQueryParameters should work", async function () {
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
-    const tmr = new Date(recorder.variable("tmr", (new Date()).toISOString()));
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
     const sharedKeyCredential = (blobServiceClient as any).credential;
@@ -80,10 +80,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateAccountSASQueryParameters should work with permanentDelete permission", async function (this: Context) {
-    const now = new Date(recorder.variable("now", (new Date()).toISOString()));
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
-    const tmr = new Date(recorder.variable("tmr", (new Date()).toISOString()));
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
     const sharedKeyCredential = (blobServiceClient as any).credential;
@@ -112,8 +112,8 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await appendBlobClient.delete();
   });
 
-  it("generateAccountSASQueryParameters should not work with invalid permission", async function() {
-    const tmr = new Date(recorder.variable("tmr", (new Date()).toISOString()));
+  it("generateAccountSASQueryParameters should not work with invalid permission", async function () {
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
     const sharedKeyCredential = (blobServiceClient as any).credential;
@@ -144,8 +144,8 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     assert.ok(error);
   });
 
-  it("generateAccountSASQueryParameters should not work with invalid service", async function() {
-    const tmr = new Date(recorder.variable("tmr", (new Date()).toISOString()));
+  it("generateAccountSASQueryParameters should not work with invalid service", async function () {
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
     const sharedKeyCredential = (blobServiceClient as any).credential;
@@ -176,8 +176,8 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     assert.ok(error);
   });
 
-  it("generateAccountSASQueryParameters should not work with invalid resource type", async function() {
-    const tmr = new Date(recorder.variable("tmr", (new Date()).toISOString()));
+  it("generateAccountSASQueryParameters should not work with invalid resource type", async function () {
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
     const sharedKeyCredential = (blobServiceClient as any).credential;
@@ -219,10 +219,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       this.skip();
     }
 
-    const now = new Date(recorder.variable("now", (new Date()).toISOString()));
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
-    const tmr = new Date(recorder.variable("tmr", (new Date()).toISOString()));
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
     const sharedKeyCredential = (blobServiceClient as any).credential;
@@ -259,11 +259,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await containerClient.delete();
   });
 
-  it("generateBlobSASQueryParameters should work for container", async function() {
-    const now = new Date(recorder.variable("now", (new Date()).toISOString()));
+  it("generateBlobSASQueryParameters should work for container", async function () {
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
-    const tmr = new Date(recorder.variable("tmr", (new Date()).toISOString()));
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
     const sharedKeyCredential = (blobServiceClient as any).credential;
@@ -305,10 +305,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       this.skip();
     }
 
-    const now = new Date(recorder.variable("now", (new Date()).toISOString()));
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
-    const tmr = new Date(recorder.variable("tmr", (new Date()).toISOString()));
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
     const sharedKeyCredential = (blobServiceClient as any).credential;
@@ -345,11 +345,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await containerClient.delete();
   });
 
-  it("generateBlobSASQueryParameters should work for blob with previous API version", async function() {
-    const now = new Date(recorder.variable("now", (new Date()).toISOString()));
+  it("generateBlobSASQueryParameters should work for blob with previous API version", async function () {
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
-    const tmr = new Date(recorder.variable("tmr", (new Date()).toISOString()));
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
     const sharedKeyCredential = (blobServiceClient as any).credential;
@@ -397,11 +397,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await containerClient.delete();
   });
 
-  it("generateBlobSASQueryParameters should work for blob", async function() {
-    const now = new Date(recorder.variable("now", (new Date()).toISOString()));
+  it("generateBlobSASQueryParameters should work for blob", async function () {
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
-    const tmr = new Date(recorder.variable("tmr", (new Date()).toISOString()));
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
     const sharedKeyCredential = (blobServiceClient as any).credential;
@@ -450,10 +450,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateBlobSASQueryParameters should work for blob with permanentDelete permission", async function (this: Context) {
-    const now = new Date(recorder.variable("now", (new Date()).toISOString()));
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
-    const tmr = new Date(recorder.variable("tmr", (new Date()).toISOString()));
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
     const sharedKeyCredential = (blobServiceClient as any).credential;
@@ -494,10 +494,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       this.skip();
     }
 
-    const now = new Date(recorder.variable("now", (new Date()).toISOString()));
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
-    const tmr = new Date(recorder.variable("tmr", (new Date()).toISOString()));
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
     const sharedKeyCredential = (blobServiceClient as any).credential;
@@ -547,10 +547,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateBlobSASQueryParameters should work for blob tags", async function () {
-    const now = new Date(recorder.variable("now", (new Date()).toISOString()));
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
-    const tmr = new Date(recorder.variable("tmr", (new Date()).toISOString()));
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
     const sharedKeyCredential = (blobServiceClient as any).credential;
@@ -605,10 +605,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateBlobSASQueryParameters should work for container for blob tags", async function () {
-    const now = new Date(recorder.variable("now", (new Date()).toISOString()));
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
-    const tmr = new Date(recorder.variable("tmr", (new Date()).toISOString()));
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
     const sharedKeyCredential = (blobServiceClient as any).credential;
@@ -661,11 +661,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await containerClient.delete();
   });
 
-  it("generateBlobSASQueryParameters should work for blob snapshot", async function() {
-    const now = new Date(recorder.variable("now", (new Date()).toISOString()));
+  it("generateBlobSASQueryParameters should work for blob snapshot", async function () {
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
-    const tmr = new Date(recorder.variable("tmr", (new Date()).toISOString()));
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
     const sharedKeyCredential = (blobServiceClient as any).credential;
@@ -717,10 +717,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateBlobSASQueryParameters should work for blob snapshot with permanentDelete permission", async function (this: Context) {
-    const now = new Date(recorder.variable("now", (new Date()).toISOString()));
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
-    const tmr = new Date(recorder.variable("tmr", (new Date()).toISOString()));
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
     const sharedKeyCredential = (blobServiceClient as any).credential;
@@ -761,23 +761,28 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await containerClient.delete();
   });
 
-  it("generateBlobSASQueryParameters should work for blob with special namings", async function() {
-    const now = new Date(recorder.variable("now", (new Date()).toISOString()));
+  it("generateBlobSASQueryParameters should work for blob with special namings", async function () {
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
-    const tmr = new Date(recorder.variable("tmr", (new Date()).toISOString()));
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
     const sharedKeyCredential = (blobServiceClient as any).credential;
 
-    const containerName = recorder.variable("container-with-dash", getUniqueName("container-with-dash"));
+    const containerName = recorder.variable(
+      "container-with-dash",
+      getUniqueName("container-with-dash")
+    );
     const containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
 
     // NOTICE: Azure Storage Server will replace "\" with "/" in the blob names
     const blobName = recorder.variable(
       "////Upper/blob/empty /another 汉字 ру́сский язы́к ру́сский язы́к عربي/عربى にっぽんご/にほんご . special ~!@#$%^&*()_+`1234567890-={}|[]\\:\";'<>?,/'",
-      getUniqueName("////Upper/blob/empty /another 汉字 ру́сский язы́к ру́сский язы́к عربي/عربى にっぽんご/にほんご . special ~!@#$%^&*()_+\`1234567890-={}|[]\\:\";'<>?,/'")
+      getUniqueName(
+        "////Upper/blob/empty /another 汉字 ру́сский язы́к ру́сский язы́к عربي/عربى にっぽんご/にほんご . special ~!@#$%^&*()_+`1234567890-={}|[]\\:\";'<>?,/'"
+      )
     );
     const blobClient = containerClient.getPageBlobClient(blobName);
     await blobClient.create(1024, {
@@ -817,11 +822,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await containerClient.delete();
   });
 
-  it("generateBlobSASQueryParameters should work for blob with container SAS using access policy", async function() {
-    const now = new Date(recorder.variable("now", (new Date()).toISOString()));
+  it("generateBlobSASQueryParameters should work for blob with container SAS using access policy", async function () {
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
-    const tmr = new Date(recorder.variable("tmr", (new Date()).toISOString()));
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
     const sharedKeyCredential = (blobServiceClient as any).credential;
@@ -870,11 +875,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await containerClient.delete();
   });
 
-  it("generateBlobSASQueryParameters should work for blob with blob SAS using access policy", async function() {
-    const now = new Date(recorder.variable("now", (new Date()).toISOString()));
+  it("generateBlobSASQueryParameters should work for blob with blob SAS using access policy", async function () {
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
-    const tmr = new Date(recorder.variable("tmr", (new Date()).toISOString()));
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
     const sharedKeyCredential = (blobServiceClient as any).credential;
@@ -939,9 +944,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       this.skip();
     }
 
-    const now = new Date(recorder.variable("now", (new Date()).toISOString()));
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setHours(now.getHours() - 1);
-    const tmr = new Date(recorder.variable("tmr", (new Date()).toISOString()));
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
     const userDelegationKey = await blobServiceClientWithToken!.getUserDelegationKey(now, tmr);
 
@@ -994,9 +999,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       this.skip();
     }
 
-    const now = new Date(recorder.variable("now", (new Date()).toISOString()));
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setHours(now.getHours() - 1);
-    const tmr = new Date(recorder.variable("tmr", (new Date()).toISOString()));
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
     const userDelegationKey = await blobServiceClientWithToken!.getUserDelegationKey(now, tmr);
 
@@ -1045,9 +1050,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       this.skip();
     }
 
-    const now = new Date(recorder.variable("now", (new Date()).toISOString()));
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setHours(now.getHours() - 1);
-    const tmr = new Date(recorder.variable("tmr", (new Date()).toISOString()));
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
     const userDelegationKey = await blobServiceClientWithToken!.getUserDelegationKey(now, tmr);
 
@@ -1114,9 +1119,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       this.skip();
     }
 
-    const now = new Date(recorder.variable("now", (new Date()).toISOString()));
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setHours(now.getHours() - 1);
-    const tmr = new Date(recorder.variable("tmr", (new Date()).toISOString()));
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
     const userDelegationKey = await blobServiceClientWithToken!.getUserDelegationKey(now, tmr);
 
@@ -1184,9 +1189,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       this.skip();
     }
 
-    const now = new Date(recorder.variable("now", (new Date()).toISOString()));
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setHours(now.getHours() - 1);
-    const tmr = new Date(recorder.variable("tmr", (new Date()).toISOString()));
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
     const userDelegationKey = await blobServiceClientWithToken!.getUserDelegationKey(now, tmr);
 
@@ -1246,9 +1251,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       this.skip();
     }
 
-    const now = new Date(recorder.variable("now", (new Date()).toISOString()));
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setHours(now.getHours() - 1);
-    const tmr = new Date(recorder.variable("tmr", (new Date()).toISOString()));
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
     const userDelegationKey = await blobServiceClientWithToken!.getUserDelegationKey(now, tmr);
 
@@ -1319,9 +1324,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       this.skip();
     }
 
-    const now = new Date(recorder.variable("now", (new Date()).toISOString()));
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setHours(now.getHours() - 1);
-    const tmr = new Date(recorder.variable("tmr", (new Date()).toISOString()));
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
     const userDelegationKey = await blobServiceClientWithToken!.getUserDelegationKey(now, tmr);
 
@@ -1462,9 +1467,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await blockBlobClient.upload("", 0);
 
     // generate SAS
-    const now = new Date(recorder.variable("now", (new Date()).toISOString()));
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
-    const tmr = new Date(recorder.variable("tmr", (new Date()).toISOString()));
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
     const sharedKeyCredential = (blobServiceClient as any).credential;
@@ -1504,9 +1509,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await blockBlobClient.upload("", 0);
 
     // generate SAS
-    const now = new Date(recorder.variable("now", (new Date()).toISOString()));
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
-    const tmr = new Date(recorder.variable("tmr", (new Date()).toISOString()));
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
     const sharedKeyCredential = (blobServiceClient as any).credential;
@@ -1560,9 +1565,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await blockBlobClient.upload("", 0);
 
     // generate SAS
-    const now = new Date(recorder.variable("now", (new Date()).toISOString()));
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
-    const tmr = new Date(recorder.variable("tmr", (new Date()).toISOString()));
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
     const sharedKeyCredential = (blobServiceClient as any).credential;
@@ -1622,9 +1627,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await blockBlobClient.upload("", 0);
 
     // generate SAS
-    const now = new Date(recorder.variable("now", (new Date()).toISOString()));
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
-    const tmr = new Date(recorder.variable("tmr", (new Date()).toISOString()));
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
     const sharedKeyCredential = (blobServiceClient as any).credential;
@@ -1668,9 +1673,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await blockBlobClient.upload("", 0);
 
     // generate SAS
-    const now = new Date(recorder.variable("now", (new Date()).toISOString()));
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
-    const tmr = new Date(recorder.variable("tmr", (new Date()).toISOString()));
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
     const sharedKeyCredential = (blobServiceClient as any).credential;
@@ -1705,9 +1710,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("account SAS permission f, t for blob tags should work", async function () {
-    const now = new Date(recorder.variable("now", (new Date()).toISOString()));
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
-    const tmr = new Date(recorder.variable("tmr", (new Date()).toISOString()));
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
     const sharedKeyCredential = (blobServiceClient as any).credential;
@@ -1768,9 +1773,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("account SAS permission x for blob version delete should work", async function () {
-    const now = new Date(recorder.variable("now", (new Date()).toISOString()));
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
-    const tmr = new Date(recorder.variable("tmr", (new Date()).toISOString()));
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
     const sharedKeyCredential = (blobServiceClient as any).credential;
@@ -1814,10 +1819,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("SAS permission m, e for blob should work", async function () {
-    const now = new Date(recorder.variable("now", (new Date()).toISOString()));
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
-    const tmr = new Date(recorder.variable("tmr", (new Date()).toISOString()));
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
     const sharedKeyCredential = (blobServiceClient as any).credential;
@@ -1845,10 +1850,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("SAS permission m, e for container should work", async function () {
-    const now = new Date(recorder.variable("now", (new Date()).toISOString()));
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
-    const tmr = new Date(recorder.variable("tmr", (new Date()).toISOString()));
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
     const sharedKeyCredential = (blobServiceClient as any).credential;
@@ -1872,10 +1877,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateAccountSasUrl", async function () {
-    const now = new Date(recorder.variable("now", (new Date()).toISOString()));
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
-    const tmr = new Date(recorder.variable("tmr", (new Date()).toISOString()));
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
     const sasURL = blobServiceClient.generateAccountSasUrl(
@@ -1904,10 +1909,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       this.skip();
     }
 
-    const now = new Date(recorder.variable("now", (new Date()).toISOString()));
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
-    const tmr = new Date(recorder.variable("tmr", (new Date()).toISOString()));
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
     const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
@@ -1938,10 +1943,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateAccountSasUrl with permanentDelete permission", async function (this: Context) {
-    const now = new Date(recorder.variable("now", (new Date()).toISOString()));
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
-    const tmr = new Date(recorder.variable("tmr", (new Date()).toISOString()));
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
     const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
@@ -1970,10 +1975,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("ContainerClient.generateSasUrl", async () => {
-    const now = new Date(recorder.variable("now", (new Date()).toISOString()));
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
-    const tmr = new Date(recorder.variable("tmr", (new Date()).toISOString()));
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
     const containerName = recorder.variable("container", getUniqueName("container"));
@@ -2010,10 +2015,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       this.skip();
     }
 
-    const now = new Date(recorder.variable("now", (new Date()).toISOString()));
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
-    const tmr = new Date(recorder.variable("tmr", (new Date()).toISOString()));
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
     const containerName = recorder.variable("container", getUniqueName("container"));
@@ -2041,7 +2046,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("ContainerClient.generateSasUrl should work with filtertag permission", async function (this: Context) {
-    const tmr = new Date(recorder.variable("tmr", (new Date()).toISOString()));
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
     const containerName = recorder.variable("container", getUniqueName("container"));
@@ -2083,10 +2088,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("BlobClient.generateSasUrl should work for blob", async () => {
-    const now = new Date(recorder.variable("now", (new Date()).toISOString()));
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
-    const tmr = new Date(recorder.variable("tmr", (new Date()).toISOString()));
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
     const containerName = recorder.variable("container", getUniqueName("container"));
@@ -2132,10 +2137,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     } catch {
       this.skip();
     }
-    const now = new Date(recorder.variable("now", (new Date()).toISOString()));
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
-    const tmr = new Date(recorder.variable("tmr", (new Date()).toISOString()));
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
     const containerName = recorder.variable("container", getUniqueName("container"));
@@ -2163,10 +2168,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("BlobClient.generateSasUrl should work with permanentDelete permission for blob", async function (this: Context) {
-    const now = new Date(recorder.variable("now", (new Date()).toISOString()));
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
-    const tmr = new Date(recorder.variable("tmr", (new Date()).toISOString()));
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
     const containerName = recorder.variable("container", getUniqueName("container"));
@@ -2192,10 +2197,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("BlobClient.generateSasUrl should work for blob snapshot", async () => {
-    const now = new Date(recorder.variable("now", (new Date()).toISOString()));
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
-    const tmr = new Date(recorder.variable("tmr", (new Date()).toISOString()));
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
     const containerName = recorder.variable("container", getUniqueName("container"));
@@ -2258,7 +2263,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const blobClientWithVersion = blockBlobClient.withVersion(uploadRes.versionId!);
 
     // generate SAS
-    const tmr = new Date(recorder.variable("tmr", (new Date()).toISOString()));
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
     const sasURL = await blobClientWithVersion.generateSasUrl({
       expiresOn: tmr,
@@ -2280,10 +2285,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("BlobClient.generateSasUrl should work for blob snapshot with permanentDelete permission", async function (this: Context) {
-    const now = new Date(recorder.variable("now", (new Date()).toISOString()));
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
-    const tmr = new Date(recorder.variable("tmr", (new Date()).toISOString()));
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
     const containerName = recorder.variable("container", getUniqueName("container"));
@@ -2339,7 +2344,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const blobClientWithVersion = blockBlobClient.withVersion(uploadRes.versionId!);
 
     // generate SAS
-    const tmr = new Date(recorder.variable("tmr", (new Date()).toISOString()));
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
     const sasURL = await blobClientWithVersion.generateSasUrl({
       expiresOn: tmr,
@@ -2361,17 +2366,22 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("BlobClient.generateSasUrl should work for blob with special namings", async () => {
-    const tmr = new Date(recorder.variable("tmr", (new Date()).toISOString()));
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
-    const containerName = recorder.variable("container-with-dash", getUniqueName("container-with-dash"));
+    const containerName = recorder.variable(
+      "container-with-dash",
+      getUniqueName("container-with-dash")
+    );
     const containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
 
     // NOTICE: Azure Storage Server will replace "\" with "/" in the blob names
     const blobName = recorder.variable(
       "////Upper/blob/empty /another 汉字 ру́сский язы́к ру́сский язы́к عربي/عربى にっぽんご/にほんご . special ~!@#$%^&*()_+`1234567890-={}|[]\\:\";'<>?,/'+%2F'%25%",
-      getUniqueName("////Upper/blob/empty /another 汉字 ру́сский язы́к ру́сский язы́к عربي/عربى にっぽんご/にほんご . special ~!@#$%^&*()_+\`1234567890-={}|[]\\:\";'<>?,/'+%2F'%25%")
+      getUniqueName(
+        "////Upper/blob/empty /another 汉字 ру́сский язы́к ру́сский язы́к عربي/عربى にっぽんご/にほんご . special ~!@#$%^&*()_+`1234567890-={}|[]\\:\";'<>?,/'+%2F'%25%"
+      )
     );
     const blobClient = containerClient.getPageBlobClient(blobName);
     await blobClient.create(1024);
@@ -2386,7 +2396,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await containerClient.delete();
   });
 
-  it("SAS permission parse from raw object should work", async function() {
+  it("SAS permission parse from raw object should work", async function () {
     const orderedBlobPermissionStr = "racwdxtme";
     const blobPermission = BlobSASPermissions.parse(orderedBlobPermissionStr);
     assert.deepStrictEqual(
@@ -2409,13 +2419,15 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     );
   });
 
-  it("Batch operation should work with container sas", async function() {
-    if (!isLiveMode()) { this.skip(); }
+  it("Batch operation should work with container sas", async function () {
+    if (!isLiveMode()) {
+      this.skip();
+    }
 
     // generate conatianer sas
-    const now = new Date(recorder.variable("now", (new Date()).toISOString()));
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
-    const tmr = new Date(recorder.variable("tmr", (new Date()).toISOString()));
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
     const sharedKeyCredential = blobServiceClient.credential;
@@ -2502,9 +2514,9 @@ describe("Generation for user delegation SAS Node.js only", () => {
     }
     accountName = process.env["ACCOUNT_NAME"] || "";
 
-    now = new Date(recorder.variable("now", (new Date()).toISOString()));
+    now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setHours(now.getHours() - 1);
-    tmr = new Date(recorder.variable("tmr", (new Date()).toISOString()));
+    tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 5);
     userDelegationKey = await blobServiceClient.getUserDelegationKey(now, tmr);
 
@@ -2630,7 +2642,7 @@ describe("Shared Access Signature (SAS) generation Node.js Only - ImmutabilityPo
     const blockBlobClient = blobClient.getBlockBlobClient();
     await blockBlobClient.upload(content, content.length);
 
-    const aDayLater = new Date(recorder.variable("aDayLater", (new Date()).toISOString()));
+    const aDayLater = new Date(recorder.variable("aDayLater", new Date().toISOString()));
     aDayLater.setDate(aDayLater.getDate() + 1);
 
     const sas = generateAccountSASQueryParameters(
@@ -2653,7 +2665,7 @@ describe("Shared Access Signature (SAS) generation Node.js Only - ImmutabilityPo
       .getContainerClient(containerName)
       .getBlobClient(blobName);
 
-    const minutesLater = new Date(recorder.variable("minutesLater", (new Date()).toISOString()));
+    const minutesLater = new Date(recorder.variable("minutesLater", new Date().toISOString()));
     minutesLater.setMinutes(minutesLater.getMinutes() + 5);
 
     const result = await sasBlobClient.setImmutabilityPolicy({
@@ -2684,7 +2696,7 @@ describe("Shared Access Signature (SAS) generation Node.js Only - ImmutabilityPo
     const blockBlobClient = blobClient.getBlockBlobClient();
     await blockBlobClient.upload(content, content.length);
 
-    const aDayLater = new Date(recorder.variable("aDayLater", (new Date()).toISOString()));
+    const aDayLater = new Date(recorder.variable("aDayLater", new Date().toISOString()));
     aDayLater.setDate(aDayLater.getDate() + 1);
     const containerSAS = generateBlobSASQueryParameters(
       {
@@ -2700,7 +2712,7 @@ describe("Shared Access Signature (SAS) generation Node.js Only - ImmutabilityPo
     const sasContainerClient = new ContainerClient(`${containerClient.url}?${containerSAS}`);
     const sasBlobClient = sasContainerClient.getBlobClient(blobName);
 
-    const minutesLater = new Date(recorder.variable("minutesLater", (new Date()).toISOString()));
+    const minutesLater = new Date(recorder.variable("minutesLater", new Date().toISOString()));
     minutesLater.setMinutes(minutesLater.getMinutes() + 5);
 
     const result = await sasBlobClient.setImmutabilityPolicy({
@@ -2731,7 +2743,7 @@ describe("Shared Access Signature (SAS) generation Node.js Only - ImmutabilityPo
     const blockBlobClient = blobClient.getBlockBlobClient();
     await blockBlobClient.upload(content, content.length);
 
-    const aDayLater = new Date(recorder.variable("aDayLater", (new Date()).toISOString()));
+    const aDayLater = new Date(recorder.variable("aDayLater", new Date().toISOString()));
     aDayLater.setDate(aDayLater.getDate() + 1);
     const blobSAS = generateBlobSASQueryParameters(
       {
@@ -2745,7 +2757,7 @@ describe("Shared Access Signature (SAS) generation Node.js Only - ImmutabilityPo
     );
     const sasBlobClient = new BlobClient(`${blobClient.url}?${blobSAS}`);
 
-    const minutesLater = new Date(recorder.variable("minutesLater", (new Date()).toISOString()));
+    const minutesLater = new Date(recorder.variable("minutesLater", new Date().toISOString()));
     minutesLater.setMinutes(minutesLater.getMinutes() + 5);
 
     const result = await sasBlobClient.setImmutabilityPolicy({
