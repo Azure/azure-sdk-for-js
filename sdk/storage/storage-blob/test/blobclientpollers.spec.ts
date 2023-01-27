@@ -39,11 +39,13 @@ describe("BlobClient beginCopyFromURL Poller", () => {
   });
 
   afterEach(async function (this: Context) {
-    if (!this.currentTest?.isPending()) {
+    if (containerClient) {
       await containerClient.delete();
-      await destinationContainerClient.delete();
-      await recorder.stop();
     }
+    if (destinationContainerClient) {
+      await destinationContainerClient.delete();
+    }
+    await recorder.stop();
   });
 
   it("supports automatic polling via pollUntilDone", async function () {
@@ -156,7 +158,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
       // these tests will only run with the unit tests with pre-recorded service responses.
       this.skip();
     }
-    if (!isNode && !isLiveMode()) {
+    if (!isNode) {
       this.skip();
     }
     const newBlobClient = destinationContainerClient.getBlobClient(

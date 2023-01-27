@@ -4,15 +4,16 @@
 import {
   base64encode,
   bodyToString,
+  configureBlobStorageClient,
   getBSU,
   getRecorderUniqueVariable,
   getSASConnectionStringFromEnvironment,
   getUniqueName,
   isSuperSet,
   recorderEnvSetup,
-  sleep,
+  uriSanitizers,
 } from "./utils";
-import { Recorder } from "@azure-tools/test-recorder";
+import { delay, Recorder } from "@azure-tools/test-recorder";
 import { getYieldedValue, assert } from "@azure/test-utils";
 import {
   ContainerClient,
@@ -36,6 +37,7 @@ describe("ContainerClient", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({uriSanitizers}, ["record", "playback"]);
     blobServiceClient = getBSU(recorder);
     containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);
@@ -872,6 +874,7 @@ describe("ContainerClient", () => {
       getSASConnectionStringFromEnvironment(recorder),
       containerName
     );
+    configureBlobStorageClient(recorder, newClient);
 
     const result = await newClient.getProperties();
 
@@ -896,6 +899,7 @@ describe("ContainerClient", () => {
         },
       }
     );
+    configureBlobStorageClient(recorder, newClient);
 
     const result = await newClient.getProperties();
 
@@ -1002,7 +1006,7 @@ describe("ContainerClient", () => {
     await appendBlobClient3.create({ tags: tags3 });
 
     // Wait for indexing tags
-    await sleep(2);
+    await delay(2 * 1000);
 
     const expectedTags1: Tags = {};
     expectedTags1[key1] = tags1[key1];

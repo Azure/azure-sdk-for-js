@@ -8,10 +8,12 @@ import { Context } from "mocha";
 import { AppendBlobClient, ContainerClient } from "../src";
 import {
   bodyToString,
+  configureBlobStorageClient,
   getBSU,
   getSASConnectionStringFromEnvironment,
   getUniqueName,
   recorderEnvSetup,
+  uriSanitizers,
 } from "./utils";
 
 describe("AppendBlobClient", () => {
@@ -25,6 +27,8 @@ describe("AppendBlobClient", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
+    // make sure we add the sanitizers on playback for SAS strings
+    await recorder.addSanitizers({uriSanitizers}, ["record", "playback"]);
     const blobServiceClient = getBSU(recorder);
     containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);
@@ -110,6 +114,7 @@ describe("AppendBlobClient", () => {
       containerName,
       blobName
     );
+    configureBlobStorageClient(recorder, newClient);
 
     await newClient.create();
     await newClient.download();

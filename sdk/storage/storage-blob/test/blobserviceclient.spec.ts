@@ -5,6 +5,7 @@ import { assert } from "chai";
 
 import { BlobServiceClient } from "../src";
 import {
+  configureBlobStorageClient,
   getAlternateBSU,
   getBSU,
   getGenericBSU,
@@ -12,7 +13,7 @@ import {
   getTokenBSU,
   getUniqueName,
   recorderEnvSetup,
-  sleep,
+  uriSanitizers,
 } from "./utils";
 import { delay, Recorder, isLiveMode } from "@azure-tools/test-recorder";
 import { getYieldedValue } from "@azure/test-utils";
@@ -25,6 +26,7 @@ describe("BlobServiceClient", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({uriSanitizers}, ["record", "playback"]);
   });
 
   afterEach(async function () {
@@ -52,7 +54,8 @@ describe("BlobServiceClient", () => {
     }
   });
 
-  it("ListContainers including system containers", async function (this: Context) {
+  // needs feature enabled to record test
+  it.skip("ListContainers including system containers", async function (this: Context) {
     if (isLiveMode()) {
       // Skip the test case until the feature is enabled in production.
       this.skip();
@@ -453,6 +456,7 @@ describe("BlobServiceClient", () => {
     const newClient = BlobServiceClient.fromConnectionString(
       getSASConnectionStringFromEnvironment(recorder)
     );
+    configureBlobStorageClient(recorder, newClient);
 
     const result = await newClient.getProperties();
 
@@ -463,23 +467,19 @@ describe("BlobServiceClient", () => {
   it("getUserDelegationKey should work", async function (this: Context) {
     // Try to get serviceURL object with TokenCredential
     // when ACCOUNT_TOKEN environment variable is set
-    let serviceURLWithToken: BlobServiceClient | undefined;
-    /* eslint no-empty: ["error", { "allowEmptyCatch": true }] */
+    let serviceURLWithToken: BlobServiceClient;
     try {
       serviceURLWithToken = getTokenBSU(recorder);
-    } catch {}
-
-    // Requires bearer token for this case which cannot be generated in the runtime
-    // Make sure this case passed in sanity test
-    if (serviceURLWithToken === undefined) {
+    } catch {
+      // Requires bearer token for this case which cannot be generated in the runtime
+      // Make sure this case passed in sanity test
       this.skip();
     }
-
     const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setHours(now.getHours() + 1);
     const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
-    const response = await serviceURLWithToken!.getUserDelegationKey(now, tmr);
+    const response = await serviceURLWithToken.getUserDelegationKey(now, tmr);
     assert.notDeepEqual(response.value, undefined);
     assert.notDeepEqual(response.signedVersion, undefined);
     assert.notDeepEqual(response.signedTenantId, undefined);
@@ -521,7 +521,7 @@ describe("BlobServiceClient", () => {
     await appendBlobClient3.create({ tags: tags3 });
 
     // Wait for indexing tags
-    await sleep(2);
+    await delay(2 * 1000);
 
     const expectedTags1: Tags = {};
     expectedTags1[key1] = tags1[key1];
@@ -628,7 +628,8 @@ describe("BlobServiceClient", () => {
     assert.ok(listed);
   });
 
-  it("rename container", async function (this: Context) {
+  // need feature to record test
+  it.skip("rename container", async function (this: Context) {
     if (isLiveMode()) {
       // Turn on this case when the Container Rename feature is ready in the service side.
       this.skip();
@@ -652,7 +653,8 @@ describe("BlobServiceClient", () => {
     await newContainerClient.delete();
   });
 
-  it("rename container should work with source lease", async function (this: Context) {
+  // need feature to record test
+  it.skip("rename container should work with source lease", async function (this: Context) {
     if (isLiveMode()) {
       // Turn on this case when the Container Rename feature is ready in the service side.
       this.skip();

@@ -23,6 +23,7 @@ import {
 } from "../../src";
 import {
   bodyToString,
+  configureBlobStorageClient,
   createRandomLocalFile,
   getBSU,
   getConnectionStringFromEnvironment,
@@ -54,6 +55,7 @@ describe("BlobClient Node.js only", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({removeHeaderSanitizer: {headersForRemoval: ["x-ms-copy-source", "x-ms-copy-source-authorization"]}}, ["playback", "record"]);
     blobServiceClient = getBSU(recorder);
     containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);
@@ -472,6 +474,7 @@ describe("BlobClient Node.js only", () => {
   it("can be created with a url and a credential", async function () {
     const credential = (blobClient as any).credential as StorageSharedKeyCredential;
     const newClient = new BlobClient(blobClient.url, credential);
+    configureBlobStorageClient(recorder, newClient);
 
     const metadata = {
       a: "a",
@@ -489,6 +492,7 @@ describe("BlobClient Node.js only", () => {
         maxTries: 5,
       },
     });
+    configureBlobStorageClient(recorder, newClient);
 
     const metadata = {
       a: "a",
@@ -515,6 +519,7 @@ describe("BlobClient Node.js only", () => {
     const credential = (blobClient as any).credential as StorageSharedKeyCredential;
     const pipeline = newPipeline(credential);
     const newClient = new BlobClient(blobClient.url, pipeline);
+    configureBlobStorageClient(recorder, newClient);
 
     const metadata = {
       a: "a",
@@ -531,6 +536,7 @@ describe("BlobClient Node.js only", () => {
       a: "a",
       b: "b",
     };
+    configureBlobStorageClient(recorder, newClient);
     await newClient.setMetadata(metadata);
     const result = await newClient.getProperties();
     assert.deepStrictEqual(result.metadata, metadata);
@@ -551,6 +557,7 @@ describe("BlobClient Node.js only", () => {
       a: "a",
       b: "b",
     };
+    configureBlobStorageClient(recorder, newClient);
     await newClient.setMetadata(metadata);
     const result = await newClient.getProperties();
     assert.deepStrictEqual(result.metadata, metadata);
@@ -949,7 +956,7 @@ describe("BlobClient Node.js Only - ImmutabilityPolicy", () => {
   });
 
   afterEach(async function (this: Context) {
-    if (!this.currentTest?.isPending()) {
+    if (containerClient) {
       const listResult = (
         await containerClient
           .listBlobsFlat({
@@ -967,8 +974,8 @@ describe("BlobClient Node.js Only - ImmutabilityPolicy", () => {
         await deleteBlobClient.deleteImmutabilityPolicy();
         await deleteBlobClient.delete();
       }
-      await recorder.stop();
     }
+    await recorder.stop();
   });
 
   it("Blob syncCopyFromURL with immutability policy", async function () {

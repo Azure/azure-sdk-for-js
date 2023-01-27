@@ -41,7 +41,7 @@ describe("Emulator Tests", () => {
   });
 
   afterEach(async function (this: Context) {
-    if (!this.currentTest?.isPending()) {
+    if (containerClient) {
       await containerClient.delete();
     }
   });

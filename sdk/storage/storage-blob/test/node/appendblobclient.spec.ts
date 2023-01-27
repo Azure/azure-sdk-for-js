@@ -20,6 +20,7 @@ import {
   getTokenBSUWithDefaultCredential,
   getStorageAccessTokenWithDefaultCredential,
   getUniqueName,
+  configureBlobStorageClient,
 } from "../utils";
 import { TokenCredential } from "@azure/core-auth";
 import { assertClientUsesTokenCredential } from "../utils/assert";
@@ -39,6 +40,7 @@ describe("AppendBlobClient Node.js only", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({removeHeaderSanitizer: {headersForRemoval: ["x-ms-copy-source", "x-ms-copy-source-authorization"]}}, ["playback", "record"]);
     blobServiceClient = getBSU(recorder);
     containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);
@@ -55,6 +57,7 @@ describe("AppendBlobClient Node.js only", () => {
   it("can be created with a url and a credential", async function () {
     const credential = (appendBlobClient as any).credential as StorageSharedKeyCredential;
     const newClient = new AppendBlobClient(appendBlobClient.url, credential);
+    configureBlobStorageClient(recorder, newClient);
 
     await newClient.create();
     await newClient.download();
@@ -65,6 +68,7 @@ describe("AppendBlobClient Node.js only", () => {
     const newClient = new AppendBlobClient(appendBlobClient.url, credential, {
       userAgentOptions: { userAgentPrefix: "test/1.0" },
     });
+    configureBlobStorageClient(recorder, newClient);
 
     await newClient.create();
     await newClient.download();
@@ -86,6 +90,7 @@ describe("AppendBlobClient Node.js only", () => {
     const credential = (appendBlobClient as any).credential as StorageSharedKeyCredential;
     const pipeline = newPipeline(credential);
     const newClient = new AppendBlobClient(appendBlobClient.url, pipeline);
+    configureBlobStorageClient(recorder, newClient);
 
     await newClient.create();
     await newClient.download();
@@ -97,6 +102,7 @@ describe("AppendBlobClient Node.js only", () => {
       containerName,
       blobName
     );
+    configureBlobStorageClient(recorder, newClient);
 
     await newClient.create();
     await newClient.download();
@@ -113,6 +119,7 @@ describe("AppendBlobClient Node.js only", () => {
         },
       }
     );
+    configureBlobStorageClient(recorder, newClient);
 
     await newClient.create();
     await newClient.download();

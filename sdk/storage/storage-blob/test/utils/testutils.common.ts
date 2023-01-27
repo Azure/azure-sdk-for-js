@@ -4,8 +4,9 @@
 import { padStart } from "../../src/utils/utils.common";
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
 import { isPlaybackMode, Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
-import { BlobServiceClient } from "../../src";
+import { StorageClient } from "../../src/StorageClient";
 import { Pipeline } from "@azure/core-rest-pipeline";
+import { FindReplaceSanitizer } from "@azure-tools/test-recorder/types/src/utils/utils";
 
 export const testPollerProperties = {
   intervalInMs: isPlaybackMode() ? 0 : undefined,
@@ -13,7 +14,7 @@ export const testPollerProperties = {
 
 export function configureBlobStorageClient(
   recorder: Recorder,
-  serviceClient: BlobServiceClient
+  serviceClient: StorageClient
 ): void {
   const options = recorder.configureClientOptions({});
 
@@ -39,18 +40,19 @@ const mockAccountKey = "aaaaa";
 const mockSas = "fakeSasToken";
 
 const sasParams = ["se", "sig", "sip", "sp", "spr", "srt", "ss", "sr", "st", "sv"];
+export const uriSanitizers: FindReplaceSanitizer[] = sasParams.map(getUriSanitizerForQueryParam);
 export const recorderEnvSetup: RecorderStartOptions = {
   envSetupForPlayback: {
     // Used in record and playback modes
     // 1. The key-value pairs will be used as the environment variables in playback mode
     // 2. If the env variables are present in the recordings as plain strings, they will be replaced with the provided values in record mode
-    ACCOUNT_NAME: `${mockAccountName}`,
+   
     ACCOUNT_KEY: `${mockAccountKey}`,
     ACCOUNT_SAS: `${mockSas}`,
     STORAGE_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${mockAccountName};AccountKey=${mockAccountKey};EndpointSuffix=core.windows.net`,
     // Comment following line to skip user delegation key/SAS related cases in record and play
     // which depends on this environment variable
-    ACCOUNT_TOKEN: `${mockAccountKey}`,
+    // ACCOUNT_TOKEN: `${mockAccountKey}`,
     AZURE_CLIENT_ID: `${mockAccountKey}`,
     AZURE_TENANT_ID: `${mockAccountKey}`,
     AZURE_CLIENT_SECRET: `${mockAccountKey}`,
@@ -58,8 +60,8 @@ export const recorderEnvSetup: RecorderStartOptions = {
     MD_ACCOUNT_KEY: `${mockAccountKey}`,
     MD_ACCOUNT_SAS: `${mockSas}`,
     MD_STORAGE_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${mockMDAccountName};AccountKey=${mockAccountKey};EndpointSuffix=core.windows.net`,
-    ENCRYPTION_SCOPE_1: "antjoscope1",
-    ENCRYPTION_SCOPE_2: "antjoscope2",
+    //ENCRYPTION_SCOPE_1: "antjoscope1",
+    //ENCRYPTION_SCOPE_2: "antjoscope2",
     IMMUTABLE_CONTAINER_NAME: "fakecontainername",
     ORS_DEST_ACCOUNT_NAME: `${mockAccountName1}`,
     ORS_DEST_ACCOUNT_KEY: `${mockAccountKey}`,
@@ -69,9 +71,11 @@ export const recorderEnvSetup: RecorderStartOptions = {
     SOFT_DELETE_ACCOUNT_KEY: `${mockAccountKey}`,
     SOFT_DELETE_ACCOUNT_SAS: `${mockSas}`,
     SOFT_DELETE_STORAGE_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${mockAccountName};AccountKey=${mockAccountKey};EndpointSuffix=core.windows.net`,
+    ACCOUNT_NAME: `${mockAccountName}`,
   },
   sanitizerOptions: {
-    generalSanitizers: [
+    removeHeaderSanitizer: { headersForRemoval: ["x-ms-copy-source-authorization", "x-ms-copy-source"] },
+    bodySanitizers: [
       {
         regex: true,
         target: "(.*)&sig=(?<sig_value>.*)",
@@ -86,7 +90,7 @@ export const recorderEnvSetup: RecorderStartOptions = {
       },
     ],
     // SAS token may contain sensitive information
-    uriSanitizers: sasParams.map(getUriSanitizerForQueryParam),
+    uriSanitizers
   },
 };
 
@@ -177,17 +181,6 @@ export function isSuperSet(m1?: BlobMetadata, m2?: BlobMetadata): boolean {
   }
 
   return true;
-}
-
-/**
- * Sleep for seconds.
- *
- * @param seconds -
- */
-export function sleep(seconds: number): Promise<void> {
-  return new Promise((resolve) => {
-    setTimeout(resolve, seconds * 1000);
-  });
 }
 
 /**

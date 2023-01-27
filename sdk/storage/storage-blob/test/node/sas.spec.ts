@@ -31,9 +31,8 @@ import {
   getTokenBSUWithDefaultCredential,
   getUniqueName,
   recorderEnvSetup,
-  sleep,
 } from "../utils";
-import { delay, isLiveMode, Recorder } from "@azure-tools/test-recorder";
+import { delay, isLiveMode, Recorder, env } from "@azure-tools/test-recorder";
 import { SERVICE_VERSION } from "../../src/utils/constants";
 import { Context } from "mocha";
 
@@ -1760,7 +1759,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await appendBlobClient2.create({ tags: tags2 });
 
     // Wait for indexing tags
-    await sleep(2);
+    await delay(2 * 1000);
 
     const expectedTags1: Tags = {};
     expectedTags1[key1] = tags1[key1];
@@ -2063,7 +2062,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await appendBlobClient.create({ tags: tags });
 
     // Wait for indexing tags
-    await sleep(2);
+    await delay(2 * 1000);
 
     const sasURL = await containerClient.generateSasUrl({
       expiresOn: tmr,
@@ -2512,7 +2511,7 @@ describe("Generation for user delegation SAS Node.js only", () => {
       console.log(err);
       this.skip();
     }
-    accountName = process.env["ACCOUNT_NAME"] || "";
+    accountName = env["ACCOUNT_NAME"] || "";
 
     now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setHours(now.getHours() - 1);
@@ -2616,7 +2615,7 @@ describe("Shared Access Signature (SAS) generation Node.js Only - ImmutabilityPo
   });
 
   afterEach(async function (this: Context) {
-    if (!this.currentTest?.isPending()) {
+    if (containerClient) {
       const listResult = (
         await containerClient
           .listBlobsFlat({
@@ -2634,8 +2633,8 @@ describe("Shared Access Signature (SAS) generation Node.js Only - ImmutabilityPo
         await deleteBlobClient.deleteImmutabilityPolicy();
         await deleteBlobClient.delete();
       }
-      await recorder.stop();
     }
+    await recorder.stop();
   });
 
   it("Account sas - set immutability policy and legalhold with account SAS should work", async () => {

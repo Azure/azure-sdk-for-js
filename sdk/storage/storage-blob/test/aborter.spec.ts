@@ -17,10 +17,10 @@ describe("Aborter", () => {
 
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderEnvSetup);
     const blobServiceClient = getBSU(recorder);
     containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);
-    await recorder.start(recorderEnvSetup);
   });
 
   afterEach(async function () {

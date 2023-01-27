@@ -4,6 +4,7 @@
 import { assert } from "chai";
 
 import {
+  configureBlobStorageClient,
   getBSU,
   getConnectionStringFromEnvironment,
   getUniqueName,
@@ -103,6 +104,7 @@ describe("ContainerClient Node.js only", () => {
   it("can be created with a url and a credential", async function () {
     const credential = (containerClient as any).credential as StorageSharedKeyCredential;
     const newClient = new ContainerClient(containerClient.url, credential);
+    configureBlobStorageClient(recorder, newClient);
 
     const result = await newClient.getProperties();
 
@@ -124,6 +126,7 @@ describe("ContainerClient Node.js only", () => {
         maxTries: 5,
       },
     });
+    configureBlobStorageClient(recorder, newClient);
 
     const result = await newClient.getProperties();
 
@@ -154,6 +157,7 @@ describe("ContainerClient Node.js only", () => {
     const credential = (containerClient as any).credential as StorageSharedKeyCredential;
     const pipeline = newPipeline(credential);
     const newClient = new ContainerClient(containerClient.url, pipeline);
+    configureBlobStorageClient(recorder, newClient);
 
     const result = await newClient.getProperties();
 
@@ -170,6 +174,7 @@ describe("ContainerClient Node.js only", () => {
 
   it("can be created with a connection string", async function () {
     const newClient = new ContainerClient(getConnectionStringFromEnvironment(), containerName);
+    configureBlobStorageClient(recorder, newClient);
 
     const result = await newClient.getProperties();
 
@@ -190,6 +195,7 @@ describe("ContainerClient Node.js only", () => {
         maxTries: 5,
       },
     });
+    configureBlobStorageClient(recorder, newClient);
 
     const result = await newClient.getProperties();
 

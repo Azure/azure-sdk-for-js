@@ -61,10 +61,10 @@ describe("BlobBatch", () => {
   });
 
   afterEach(async function (this: Context) {
-    if (!this.currentTest?.isPending()) {
+    if (containerClient) {
       await containerClient.delete();
-      await recorder.stop();
     }
+    await recorder.stop();
   });
 
   it("submitBatch should work for batch delete", async function () {
@@ -727,6 +727,9 @@ describe("BlobBatch Token auth", () => {
   let recorder: Recorder;
 
   beforeEach(async function (this: Context) {
+    if (!isLiveMode()) {
+      this.skip();
+    }
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
 
@@ -755,8 +758,10 @@ describe("BlobBatch Token auth", () => {
   });
 
   afterEach(async function (this: Context) {
-    if (!this.currentTest?.isPending()) {
+    if (containerClient) {
       await containerClient.delete();
+    }
+    if (recorder) {
       await recorder.stop();
     }
   });

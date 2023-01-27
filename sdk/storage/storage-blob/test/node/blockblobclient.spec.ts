@@ -7,6 +7,7 @@ import * as zlib from "zlib";
 import {
   base64encode,
   bodyToString,
+  configureBlobStorageClient,
   generateRandomUint8Array,
   getBSU,
   getConnectionStringFromEnvironment,
@@ -55,10 +56,10 @@ describe("BlockBlobClient Node.js only", () => {
   });
 
   afterEach(async function (this: Context) {
-    if (!this.currentTest?.isPending()) {
+    if (containerClient) {
       await containerClient.delete();
-      await recorder.stop();
     }
+    await recorder.stop();
   });
 
   it("upload with Readable stream body and default parameters", async function () {
@@ -92,6 +93,7 @@ describe("BlockBlobClient Node.js only", () => {
   it("can be created with a url and a credential", async function () {
     const credential = (blockBlobClient as any).credential as StorageSharedKeyCredential;
     const newClient = new BlockBlobClient(blockBlobClient.url, credential);
+    configureBlobStorageClient(recorder, newClient);
 
     const body: string = recorder.variable("randomstring", getUniqueName("randomstring"));
     await newClient.upload(body, body.length);
@@ -106,6 +108,7 @@ describe("BlockBlobClient Node.js only", () => {
         maxTries: 5,
       },
     });
+    configureBlobStorageClient(recorder, newClient);
 
     const body: string = recorder.variable("randomstring", getUniqueName("randomstring"));
     await newClient.upload(body, body.length);
@@ -129,6 +132,7 @@ describe("BlockBlobClient Node.js only", () => {
     const credential = (blockBlobClient as any).credential as StorageSharedKeyCredential;
     const pipeline = newPipeline(credential);
     const newClient = new BlockBlobClient(blockBlobClient.url, pipeline);
+    configureBlobStorageClient(recorder, newClient);
 
     const body: string = recorder.variable("randomstring", getUniqueName("randomstring"));
     await newClient.upload(body, body.length);
@@ -142,6 +146,7 @@ describe("BlockBlobClient Node.js only", () => {
       containerName,
       blobName
     );
+    configureBlobStorageClient(recorder, newClient);
 
     const body: string = recorder.variable("randomstring", getUniqueName("randomstring"));
     await newClient.upload(body, body.length);
@@ -160,6 +165,7 @@ describe("BlockBlobClient Node.js only", () => {
         },
       }
     );
+    configureBlobStorageClient(recorder, newClient);
 
     const body: string = recorder.variable("randomstring", getUniqueName("randomstring"));
     await newClient.upload(body, body.length);
@@ -168,6 +174,10 @@ describe("BlockBlobClient Node.js only", () => {
   });
 
   it("should not decompress during downloading", async function () {
+    // recorder doesn't save binary payload correctly
+    if (!isLiveMode()) {
+      this.skip();
+    }
     const body: string = "hello world body string!";
     const deflated = zlib.deflateSync(body);
 
@@ -208,6 +218,7 @@ describe("syncUploadFromURL", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({removeHeaderSanitizer: {headersForRemoval: ["x-ms-copy-source", "x-ms-copy-source-authorization"]}}, ["playback", "record"]);
     const blobServiceClient = getBSU(recorder);
     const containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);
@@ -239,10 +250,10 @@ describe("syncUploadFromURL", () => {
   });
 
   afterEach(async function (this: Context) {
-    if (!this.currentTest?.isPending()) {
+    if (containerClient) {
       await containerClient.delete();
-      await recorder.stop();
     }
+    await recorder.stop();
   });
 
   it("stageBlockFromURL - source SAS and destination bearer token", async function (this: Context) {

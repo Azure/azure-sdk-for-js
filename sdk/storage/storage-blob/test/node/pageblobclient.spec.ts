@@ -11,6 +11,7 @@ import {
   getTokenBSUWithDefaultCredential,
   getStorageAccessTokenWithDefaultCredential,
   getUniqueName,
+  configureBlobStorageClient,
 } from "../utils";
 import {
   newPipeline,
@@ -43,6 +44,7 @@ describe("PageBlobClient Node.js only", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({removeHeaderSanitizer: {headersForRemoval: ["x-ms-copy-source", "x-ms-copy-source-authorization"]}}, ["playback", "record"]);
     blobServiceClient = getBSU(recorder);
     containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);
@@ -57,7 +59,8 @@ describe("PageBlobClient Node.js only", () => {
     await recorder.stop();
   });
 
-  it("fetch a blob for disk with challenge Bearer token", async function (this: Context): Promise<void> {
+  // needs special setup to record
+  it.skip("fetch a blob for disk with challenge Bearer token", async function (this: Context): Promise<void> {
     if (isLiveMode()) {
       this.skip();
     }
@@ -70,7 +73,8 @@ describe("PageBlobClient Node.js only", () => {
     assert.ok(result.contentLength);
   });
 
-  it("fetch a blob for disk with Bearer token", async function (this: Context): Promise<void> {
+  // needs special setup to record
+  it.skip("fetch a blob for disk with Bearer token", async function (this: Context): Promise<void> {
     if (isLiveMode()) {
       this.skip();
     }
@@ -307,6 +311,7 @@ describe("PageBlobClient Node.js only", () => {
   it("can be created with a url and a credential", async function () {
     const credential = (pageBlobClient as any).credential as StorageSharedKeyCredential;
     const newClient = new PageBlobClient(pageBlobClient.url, credential);
+    configureBlobStorageClient(recorder, newClient);
 
     await newClient.create(512);
     const result = await newClient.download(0);
@@ -320,6 +325,7 @@ describe("PageBlobClient Node.js only", () => {
         maxTries: 5,
       },
     });
+    configureBlobStorageClient(recorder, newClient);
 
     await newClient.create(512);
     const result = await newClient.download(0);
@@ -342,6 +348,7 @@ describe("PageBlobClient Node.js only", () => {
     const credential = (pageBlobClient as any).credential as StorageSharedKeyCredential;
     const pipeline = newPipeline(credential);
     const newClient = new PageBlobClient(pageBlobClient.url, pipeline);
+    configureBlobStorageClient(recorder, newClient);
 
     await newClient.create(512);
     const result = await newClient.download(0);
@@ -354,6 +361,7 @@ describe("PageBlobClient Node.js only", () => {
       containerName,
       blobName
     );
+    configureBlobStorageClient(recorder, newClient);
 
     await newClient.create(512);
     const result = await newClient.download(0);
@@ -371,6 +379,7 @@ describe("PageBlobClient Node.js only", () => {
         },
       }
     );
+    configureBlobStorageClient(recorder, newClient);
 
     await newClient.create(512);
     const result = await newClient.download(0);

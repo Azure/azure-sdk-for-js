@@ -4,11 +4,13 @@
 import { assert } from "chai";
 import {
   bodyToString,
+  configureBlobStorageClient,
   getBSU,
   getGenericBSU,
   getSASConnectionStringFromEnvironment,
   getUniqueName,
   recorderEnvSetup,
+  uriSanitizers,
 } from "./utils";
 import {
   ContainerClient,
@@ -34,6 +36,7 @@ describe("PageBlobClient", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({uriSanitizers}, ["record", "playback"]);
     blobServiceClient = getBSU(recorder);
     containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);
@@ -522,6 +525,7 @@ describe("PageBlobClient", () => {
       containerName,
       blobName
     );
+    configureBlobStorageClient(recorder, newClient);
 
     await newClient.create(512);
     const result = await newClient.download(0);

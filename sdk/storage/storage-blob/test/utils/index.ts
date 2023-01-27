@@ -284,10 +284,11 @@ export async function createRandomLocalFileWithTotalSize(
 }
 
 export function getSASConnectionStringFromEnvironment(recorder: Recorder): string {
-  const now = new Date();
+  const now = new Date(recorder.variable("now", new Date().toISOString()));
   now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
+  
 
-  const tmr = new Date();
+  const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
   tmr.setDate(tmr.getDate() + 1);
   const queueServiceClient = getBSU(recorder);
 

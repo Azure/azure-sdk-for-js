@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import * as fs from "fs";
+import { v4 as generateUuid } from "uuid";
 import { AbortController } from "@azure/abort-controller";
 import { isNode } from "@azure/core-util";
 import { assert } from "@azure/test-utils";
@@ -14,6 +15,8 @@ import {
   getImmutableContainerName,
   isBrowser,
   getUniqueName,
+  configureBlobStorageClient,
+  uriSanitizers,
 } from "./utils";
 import { delay, isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import {
@@ -44,6 +47,7 @@ describe("BlobClient", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({uriSanitizers}, ["record", "playback"]);
     blobServiceClient = getBSU(recorder);
     containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);
@@ -55,10 +59,10 @@ describe("BlobClient", () => {
   });
 
   afterEach(async function (this: Context) {
-    if (!this.currentTest?.isPending()) {
+    if (containerClient) {
       await containerClient.delete();
-      await recorder.stop();
     }
+    await recorder.stop();
   });
 
   it("upload blob with cold tier should work", async function () {
@@ -597,6 +601,7 @@ describe("BlobClient", () => {
       containerName,
       blobName
     );
+    configureBlobStorageClient(recorder, newClient);
     const metadata = {
       a: "a",
       b: "b",
@@ -892,7 +897,8 @@ describe("BlobClient", () => {
   });
 
   it("exists with condition", async function () {
-    const leaseResp = await blobClient.getBlobLeaseClient().acquireLease(30);
+    const proposedLeaseId = recorder.variable('proposedLeaseId', generateUuid());
+    const leaseResp = await blobClient.getBlobLeaseClient(proposedLeaseId).acquireLease(30);
     assert.ok(leaseResp.leaseId);
 
     assert.ok(await blobClient.exists({ conditions: { leaseId: leaseResp.leaseId! } }));
@@ -940,11 +946,9 @@ describe("BlobClient", () => {
     await checkRehydratePriority("Standard");
   });
 
-  it("lastAccessed returned", async function (this: Context) {
-    if (isLiveMode()) {
-      // Skipped for now as it's not working in live tests pipeline.
-      this.skip();
-    }
+  // Skipped for now as it's not working in live tests pipeline.
+  it.skip("lastAccessed returned", async function (this: Context) {
+
     const downloadRes = await blockBlobClient.download();
     assert.ok(downloadRes.lastAccessed);
 
@@ -1498,9 +1502,8 @@ describe("BlobClient - Object Replication", () => {
   ];
 
   before(async function (this: Context) {
-    if (isLiveMode()) {
+      // need special setup to re-record these tests
       this.skip();
-    }
   });
 
   beforeEach(async function (this: Context) {
@@ -1613,23 +1616,25 @@ describe("BlobClient - ImmutabilityPolicy", () => {
   let recorder: Recorder;
 
   beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderEnvSetup);
-    blobServiceClient = getBSU(recorder);
-
+  
     try {
       containerName = getImmutableContainerName();
+      recorder = new Recorder(this.currentTest);
+      await recorder.start(recorderEnvSetup);
+      blobServiceClient = getBSU(recorder);
+
+      containerClient = blobServiceClient.getContainerClient(containerName);
+      blobName = recorder.variable("blob", getUniqueName("blob"));
+      blobClient = containerClient.getBlobClient(blobName);
     } catch {
       this.skip();
     }
 
-    containerClient = blobServiceClient.getContainerClient(containerName);
-    blobName = recorder.variable("blob", getUniqueName("blob"));
-    blobClient = containerClient.getBlobClient(blobName);
+    
   });
 
   afterEach(async function (this: Context) {
-    if (!this.currentTest?.isPending()) {
+    if (containerClient) {
       const listResult = (await containerClient.listBlobsFlat().byPage().next()).value;
 
       for (let i = 0; i < listResult.segment.blobItems!.length; ++i) {
@@ -1642,8 +1647,11 @@ describe("BlobClient - ImmutabilityPolicy", () => {
         await deleteBlobClient.deleteImmutabilityPolicy();
         await deleteBlobClient.delete();
       }
-      await recorder.stop();
+      if (recorder) {
+        await recorder.stop();
+      }
     }
+    
   });
 
   it("Set immutability policy", async function () {

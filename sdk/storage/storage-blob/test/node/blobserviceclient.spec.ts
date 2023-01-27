@@ -4,7 +4,7 @@
 import { assert } from "chai";
 
 import { BlobServiceClient, newPipeline, StorageSharedKeyCredential } from "../../src";
-import { getBSU, getConnectionStringFromEnvironment, recorderEnvSetup } from "../utils";
+import { configureBlobStorageClient, getBSU, getConnectionStringFromEnvironment, recorderEnvSetup } from "../utils";
 import { Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 
@@ -24,6 +24,7 @@ describe("BlobServiceClient Node.js only", () => {
     const serviceClient = getBSU(recorder);
     const credential = (serviceClient as any).credential as StorageSharedKeyCredential;
     const newClient = new BlobServiceClient(serviceClient.url, credential);
+    configureBlobStorageClient(recorder, newClient);
 
     const result = await newClient.getProperties();
 
@@ -41,6 +42,7 @@ describe("BlobServiceClient Node.js only", () => {
         maxTries: 5,
       },
     });
+    configureBlobStorageClient(recorder, newClient);
 
     const result = await newClient.getProperties();
 
@@ -55,6 +57,7 @@ describe("BlobServiceClient Node.js only", () => {
     const credential = (serviceClient as any).credential as StorageSharedKeyCredential;
     const pipeline = newPipeline(credential);
     const newClient = new BlobServiceClient(serviceClient.url, pipeline);
+    configureBlobStorageClient(recorder, newClient);
 
     const result = await newClient.getProperties();
 
@@ -66,6 +69,7 @@ describe("BlobServiceClient Node.js only", () => {
 
   it("can be created from a connection string", async function () {
     const newClient = BlobServiceClient.fromConnectionString(getConnectionStringFromEnvironment());
+    configureBlobStorageClient(recorder, newClient);
 
     const result = await newClient.getProperties();
 
@@ -79,6 +83,7 @@ describe("BlobServiceClient Node.js only", () => {
         maxTries: 5,
       },
     });
+    configureBlobStorageClient(recorder, newClient);
 
     const result = await newClient.getProperties();
 
