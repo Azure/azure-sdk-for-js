@@ -1969,7 +1969,7 @@ packages:
       rollup: 2.79.1
     dev: false
 
-  /@rollup/plugin-typescript/10.0.1_bhcmvni67fkldpaxrtldxbogce:
+  /@rollup/plugin-typescript/10.0.1_6cslydldi7sjtrphlipqm26hmy:
     resolution: {integrity: sha512-wBykxRLlX7EzL8BmUqMqk5zpx2onnmRMSw/l9M1sVfkJvdwfxogZQVNUM9gVMJbjRLDR5H6U0OMOrlDGmIV45A==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
@@ -1986,7 +1986,7 @@ packages:
       resolve: 1.22.1
       rollup: 2.79.1
       tslib: 2.5.0
-      typescript: 4.9.5
+      typescript: 4.8.4
     dev: false
 
   /@rollup/plugin-virtual/2.1.0_rollup@2.79.1:
@@ -3896,7 +3896,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20230209
+      typescript: 5.0.0-dev.20230210
     dev: false
 
   /downlevel-dts/0.7.0:
@@ -8482,37 +8482,6 @@ packages:
     hasBin: true
     dev: false
 
-  /ts-node/10.9.1_7iyetdgfmqiorh7qupktbe7tm4:
-    resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
-    hasBin: true
-    peerDependencies:
-      '@swc/core': '>=1.2.50'
-      '@swc/wasm': '>=1.2.50'
-      '@types/node': '*'
-      typescript: '>=2.7'
-    peerDependenciesMeta:
-      '@swc/core':
-        optional: true
-      '@swc/wasm':
-        optional: true
-    dependencies:
-      '@cspotcode/source-map-support': 0.8.1
-      '@tsconfig/node10': 1.0.9
-      '@tsconfig/node12': 1.0.11
-      '@tsconfig/node14': 1.0.3
-      '@tsconfig/node16': 1.0.3
-      '@types/node': 14.18.36
-      acorn: 8.8.2
-      acorn-walk: 8.2.0
-      arg: 4.1.3
-      create-require: 1.1.1
-      diff: 4.0.2
-      make-error: 1.3.6
-      typescript: 4.9.5
-      v8-compile-cache-lib: 3.0.1
-      yn: 3.1.1
-    dev: false
-
   /ts-node/10.9.1_gjo33tkf7m2dtuw6tmxt3xwf4q:
     resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
     hasBin: true
@@ -8544,38 +8513,7 @@ packages:
       yn: 3.1.1
     dev: false
 
-  /ts-node/10.9.1_hrxs3cimgx563ee773t2eh6j4y:
-    resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
-    hasBin: true
-    peerDependencies:
-      '@swc/core': '>=1.2.50'
-      '@swc/wasm': '>=1.2.50'
-      '@types/node': '*'
-      typescript: '>=2.7'
-    peerDependenciesMeta:
-      '@swc/core':
-        optional: true
-      '@swc/wasm':
-        optional: true
-    dependencies:
-      '@cspotcode/source-map-support': 0.8.1
-      '@tsconfig/node10': 1.0.9
-      '@tsconfig/node12': 1.0.11
-      '@tsconfig/node14': 1.0.3
-      '@tsconfig/node16': 1.0.3
-      '@types/node': 14.18.36
-      acorn: 8.8.2
-      acorn-walk: 8.2.0
-      arg: 4.1.3
-      create-require: 1.1.1
-      diff: 4.0.2
-      make-error: 1.3.6
-      typescript: 4.2.4
-      v8-compile-cache-lib: 3.0.1
-      yn: 3.1.1
-    dev: false
-
-  /ts-node/10.9.1_laqv367ntbladgchwutjrnj4ky:
+  /ts-node/10.9.1_ksn4eycaeggbrckn3ykh37hwf4:
     resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
     hasBin: true
     peerDependencies:
@@ -8601,38 +8539,7 @@ packages:
       create-require: 1.1.1
       diff: 4.0.2
       make-error: 1.3.6
-      typescript: 4.6.4
-      v8-compile-cache-lib: 3.0.1
-      yn: 3.1.1
-    dev: false
-
-  /ts-node/10.9.1_qsp6e3reeqlii3qgbcynqdh4ku:
-    resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
-    hasBin: true
-    peerDependencies:
-      '@swc/core': '>=1.2.50'
-      '@swc/wasm': '>=1.2.50'
-      '@types/node': '*'
-      typescript: '>=2.7'
-    peerDependenciesMeta:
-      '@swc/core':
-        optional: true
-      '@swc/wasm':
-        optional: true
-    dependencies:
-      '@cspotcode/source-map-support': 0.8.1
-      '@tsconfig/node10': 1.0.9
-      '@tsconfig/node12': 1.0.11
-      '@tsconfig/node14': 1.0.3
-      '@tsconfig/node16': 1.0.3
-      '@types/node': 14.18.36
-      acorn: 8.8.2
-      acorn-walk: 8.2.0
-      arg: 4.1.3
-      create-require: 1.1.1
-      diff: 4.0.2
-      make-error: 1.3.6
-      typescript: 4.6.4
+      typescript: 4.8.4
       v8-compile-cache-lib: 3.0.1
       yn: 3.1.1
     dev: false
@@ -8652,7 +8559,7 @@ packages:
       yn: 3.1.1
     dev: false
 
-  /ts-node/9.1.1_typescript@4.6.4:
+  /ts-node/9.1.1_typescript@4.8.4:
     resolution: {integrity: sha512-hPlt7ZACERQGf03M253ytLY3dHbGNGrAq9qIHWUY9XHYl1z7wYngSr3OQ5xmui8o2AaxsONxIzjafLUiWBo1Fg==}
     engines: {node: '>=10.0.0'}
     hasBin: true
@@ -8664,7 +8571,7 @@ packages:
       diff: 4.0.2
       make-error: 1.3.6
       source-map-support: 0.5.21
-      typescript: 4.6.4
+      typescript: 4.8.4
       yn: 3.1.1
     dev: false
 
@@ -8769,12 +8676,6 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.6.4:
-    resolution: {integrity: sha512-9ia/jWHIEbo49HfjrLGfKbZSuWo9iTMwXO+Ca3pRsSpbsMbc7/IU8NKdCZVRRBafVPGnoJeFL76ZOAA84I9fEg==}
-    engines: {node: '>=4.2.0'}
-    hasBin: true
-    dev: false
-
   /typescript/4.8.4:
     resolution: {integrity: sha512-QCh+85mCy+h0IGff8r5XWzOVSbBO+KfeYrMQh7NJ58QujwcE22u+NUSmUxqF+un70P9GXKxa2HCNiTTMJknyjQ==}
     engines: {node: '>=4.2.0'}
@@ -8787,8 +8688,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20230209:
-    resolution: {integrity: sha512-EKEs7zC40JV4BTgxULx8oDWSya4r2FeqSVpwuK7ZRu4OBErBo8n59wBAR6r+NBbkxG8JzxMOE2+fazbu/nLi9A==}
+  /typescript/5.0.0-dev.20230210:
+    resolution: {integrity: sha512-FjXPw8PFeIuT1cxouvP4LRu8J1G+FsWVEGwlJ9GcVywRNDfD3Hh6flQFUympS+3QnAIiG/+CHs9ZS2EQIT733g==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -9413,7 +9314,7 @@ packages:
     dev: false
 
   file:projects/ai-anomaly-detector.tgz:
-    resolution: {integrity: sha512-P7NPtuWiN5Ct9qMPHshqlsSUs5499mf7UTLIJFA3VkDlry1xGopSoJY+J0yo/3Gocug8JnKoTZuOi5wf303Dcw==, tarball: file:projects/ai-anomaly-detector.tgz}
+    resolution: {integrity: sha512-Z5u2xnjcph5pP0s6Tk5y5hMwwTrD4PJgxu9SiNmxyfaQpK0yozBjk2iRc23XgXM+qsjymMeBJusdAbhGuGzbmw==, tarball: file:projects/ai-anomaly-detector.tgz}
     name: '@rush-temp/ai-anomaly-detector'
     version: 0.0.0
     dependencies:
@@ -9448,7 +9349,7 @@ packages:
       rimraf: 3.0.2
       source-map-support: 0.5.21
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -9548,7 +9449,7 @@ packages:
     dev: false
 
   file:projects/ai-language-conversations.tgz:
-    resolution: {integrity: sha512-BC/j++g/PniHxRt71g8JwkBoi/8VY4QtE6jGA9H4DXcQkptS8F425OsM1rxIzEvFkLnlXPn0voeCHsEKgt9teg==, tarball: file:projects/ai-language-conversations.tgz}
+    resolution: {integrity: sha512-LJBnHc4AXSUlZy/nqGIJrJC/6ElGVBIhtCHYuXHOm9Kq8qa3Oz4q7g320pCfZR/P7bPd72k5qqxYrL3X/tAl0w==, tarball: file:projects/ai-language-conversations.tgz}
     name: '@rush-temp/ai-language-conversations'
     version: 0.0.0
     dependencies:
@@ -9590,9 +9491,9 @@ packages:
       rollup-plugin-sourcemaps: 0.6.3_p2gydaekoyjvl5wd3ixslt7iq4
       sinon: 9.2.4
       source-map-support: 0.5.21
-      ts-node: 10.9.1_hrxs3cimgx563ee773t2eh6j4y
+      ts-node: 10.9.1_gjo33tkf7m2dtuw6tmxt3xwf4q
       tslib: 2.5.0
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - '@swc/core'
@@ -9604,7 +9505,7 @@ packages:
     dev: false
 
   file:projects/ai-language-text.tgz:
-    resolution: {integrity: sha512-fudXqgc5Pi9Lsl5m3at+1ine645Mvd/9MSzAZlFokfJq68+4xXMERk6B1YIX+fVKhdKlYcphfInF2RGQbC6OaA==, tarball: file:projects/ai-language-text.tgz}
+    resolution: {integrity: sha512-oIdOXI2RRwbZ56W/0GiYvo7zvFTBZ+2u+ZRAgXbqqtY1THmD3GmIwGO01QidUJ1GLEM8dLlr5R1IRVs6ip/ztQ==, tarball: file:projects/ai-language-text.tgz}
     name: '@rush-temp/ai-language-text'
     version: 0.0.0
     dependencies:
@@ -9639,9 +9540,9 @@ packages:
       rimraf: 3.0.2
       sinon: 9.2.4
       source-map-support: 0.5.21
-      ts-node: 10.9.1_qsp6e3reeqlii3qgbcynqdh4ku
+      ts-node: 10.9.1_gjo33tkf7m2dtuw6tmxt3xwf4q
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -9703,7 +9604,7 @@ packages:
     dev: false
 
   file:projects/ai-personalizer.tgz:
-    resolution: {integrity: sha512-uZMXm5TxwzAYs1/S7AGwIc9p2MPC44oO783X1jICtnJmr0X7O+TJ55iBkd2wzg5fZExpGUxTf1sKmukiebT83A==, tarball: file:projects/ai-personalizer.tgz}
+    resolution: {integrity: sha512-eJZdnTMsace/zbduJeuA0+0ag4MFvuzIWcLwAeFQleFjX1zmpmkhDfaOe46RwFTFuyJQo+CpKT91GnPQHL56MA==, tarball: file:projects/ai-personalizer.tgz}
     name: '@rush-temp/ai-personalizer'
     version: 0.0.0
     dependencies:
@@ -9736,7 +9637,7 @@ packages:
       rimraf: 3.0.2
       source-map-support: 0.5.21
       tslib: 2.5.0
-      typescript: 4.2.4
+      typescript: 4.8.4
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -9793,7 +9694,7 @@ packages:
     dev: false
 
   file:projects/api-management-custom-widgets-scaffolder.tgz:
-    resolution: {integrity: sha512-YSIiDOHpkBasfaIi0XMvTT8+WpyLRS73LniG5IvzaBzwJULjBd+UOp45DbaNzExeAtq5T4n/h4nY0iJB12VCsQ==, tarball: file:projects/api-management-custom-widgets-scaffolder.tgz}
+    resolution: {integrity: sha512-UeGpOC8Hpy5LrOw9+EdYoxUs9aLiFep3zz2wlQTFm+94GBkbYd78wmK4RIjjTBwNRlNdFSnJ6IvvSriCIlmNwQ==, tarball: file:projects/api-management-custom-widgets-scaffolder.tgz}
     name: '@rush-temp/api-management-custom-widgets-scaffolder'
     version: 0.0.0
     dependencies:
@@ -9825,7 +9726,7 @@ packages:
       rollup: 2.75.7
       sinon: 9.2.4
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
       util: 0.12.5
       yargs: 17.6.2
       yargs-parser: 21.1.1
@@ -10238,7 +10139,7 @@ packages:
     dev: false
 
   file:projects/arm-appservice.tgz:
-    resolution: {integrity: sha512-fP65GFIGmlLdNwjFBsLf9Qv/zwR3KrcykNL4uRb1FtRNiC/GFW8ArQx3rTTtMCrDJ+oFBOEDctWnSbivX0agkg==, tarball: file:projects/arm-appservice.tgz}
+    resolution: {integrity: sha512-lVRzk/4vzVT2Lc9Oio+hO00OJQyF3b9qWEbizHOptwYMHpathcIJSNsudpZ56F1rAfYCtEabQGpjsTJni5PnGg==, tarball: file:projects/arm-appservice.tgz}
     name: '@rush-temp/arm-appservice'
     version: 0.0.0
     dependencies:
@@ -10271,7 +10172,7 @@ packages:
       rimraf: 3.0.2
       source-map-support: 0.5.21
       tslib: 2.5.0
-      typescript: 4.2.4
+      typescript: 4.8.4
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -10942,7 +10843,7 @@ packages:
     dev: false
 
   file:projects/arm-compute.tgz:
-    resolution: {integrity: sha512-pbUDFhRl4mIr0nl2Qj2iQxR1qbE0sSaqII4ty+5+P7Z6Jp+pHyUkP6+orcaPAq3hMEcmQ4rPeu4pCzAOsJOqxA==, tarball: file:projects/arm-compute.tgz}
+    resolution: {integrity: sha512-VDJzRR/yBWDkJJinWd+YGeVqgJ2mkbfQJ3WcDhHRQRz0zKutPB7UjI+kCM2YOXEzs6vlm0o4NqU4Hn9NfznK+A==, tarball: file:projects/arm-compute.tgz}
     name: '@rush-temp/arm-compute'
     version: 0.0.0
     dependencies:
@@ -10977,7 +10878,7 @@ packages:
       rimraf: 3.0.2
       source-map-support: 0.5.21
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -11181,7 +11082,7 @@ packages:
     dev: false
 
   file:projects/arm-containerservice.tgz:
-    resolution: {integrity: sha512-oas+Lvfijd4oOCCs6yBBCB5OMceBKLrC98O+O9jfW5AnkFKs6ZQyWImOEn4tP83Rf3ofUVn84iPUzTcKSBXoEQ==, tarball: file:projects/arm-containerservice.tgz}
+    resolution: {integrity: sha512-0zLubP8RlbrAJ6ny/32BCVrQdEymRGyc5mqgktTpREd66aLPsy/nId5V+YUwZjwWETS7VQdNqdPTBWM4KuYmdw==, tarball: file:projects/arm-containerservice.tgz}
     name: '@rush-temp/arm-containerservice'
     version: 0.0.0
     dependencies:
@@ -11215,7 +11116,7 @@ packages:
       rimraf: 3.0.2
       source-map-support: 0.5.21
       tslib: 2.5.0
-      typescript: 4.2.4
+      typescript: 4.8.4
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -11992,7 +11893,7 @@ packages:
     dev: false
 
   file:projects/arm-elastic.tgz:
-    resolution: {integrity: sha512-78kua1x287HSIAjPA+gzgliIhx2eojPeDu8Yk7Z3/Ombe+or+N00bmnHHChpojx2gDjKDcgqV+tIYZT8UWg4Jg==, tarball: file:projects/arm-elastic.tgz}
+    resolution: {integrity: sha512-NO/5+O4TP0sUjD7WeLnQRcbreQLJhanMV8VQEXAx9+r7HxRDP/GrNBghfMGoewNKeF1E/TQbHuFoY5bsWaCyAw==, tarball: file:projects/arm-elastic.tgz}
     name: '@rush-temp/arm-elastic'
     version: 0.0.0
     dependencies:
@@ -12012,7 +11913,7 @@ packages:
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_p2gydaekoyjvl5wd3ixslt7iq4
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - supports-color
@@ -12405,7 +12306,7 @@ packages:
     dev: false
 
   file:projects/arm-hybridcontainerservice.tgz:
-    resolution: {integrity: sha512-iRPolkscFIu6Sqdyd0sxQugS18N1lbYL6TuRUAWJcJwkDHwmKsIhqRvyGHrAeQVqc9KYcuOryX4mScWcU/MsUw==, tarball: file:projects/arm-hybridcontainerservice.tgz}
+    resolution: {integrity: sha512-JEO+iY3lltmcUHXtNpzVakMJNurzJ5wFNZPyTrgYWbICsTgNDGhG3ChQEo9AE9LFGBMtX1IxDwDUkrGhgqI+iw==, tarball: file:projects/arm-hybridcontainerservice.tgz}
     name: '@rush-temp/arm-hybridcontainerservice'
     version: 0.0.0
     dependencies:
@@ -12425,7 +12326,7 @@ packages:
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_p2gydaekoyjvl5wd3ixslt7iq4
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - supports-color
@@ -13456,7 +13357,7 @@ packages:
     dev: false
 
   file:projects/arm-network.tgz:
-    resolution: {integrity: sha512-bfRksRcRAjrouj65boRv7KXbKR3YOO+QVeI0lR/N9Gx/y5KRUwOqxXTT56jaTBr521JU1bf465OS0k+jl+sqiQ==, tarball: file:projects/arm-network.tgz}
+    resolution: {integrity: sha512-MK/XvqfUjwdyGyZ3OaZto4GifvYi2lBdy2lI1ZjGjdjV9OMOxzBdL+Z5K5Hld6NBbnzOEfMXOCXORpXbR+cSsA==, tarball: file:projects/arm-network.tgz}
     name: '@rush-temp/arm-network'
     version: 0.0.0
     dependencies:
@@ -13490,7 +13391,7 @@ packages:
       rimraf: 3.0.2
       source-map-support: 0.5.21
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -14627,7 +14528,7 @@ packages:
     dev: false
 
   file:projects/arm-servicefabric.tgz:
-    resolution: {integrity: sha512-oiCDAh1y21Fosgo0w0n4kxmfHG/b9Q0LCklt0HiV3eI0qd+3KTfV6ZQL6RCGBG5Hfzi9DKBDnehAMmhMWsx8YQ==, tarball: file:projects/arm-servicefabric.tgz}
+    resolution: {integrity: sha512-d4k7gmmAbIIfTAmxUiWl6QRxd9+B67DJoDjwJv021igVlF66Ntgsb9An3cYYXtRTI5Ss+IY18BvBXWJSKzJhzA==, tarball: file:projects/arm-servicefabric.tgz}
     name: '@rush-temp/arm-servicefabric'
     version: 0.0.0
     dependencies:
@@ -14661,7 +14562,7 @@ packages:
       rimraf: 3.0.2
       source-map-support: 0.5.21
       tslib: 2.5.0
-      typescript: 4.2.4
+      typescript: 4.8.4
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -14782,7 +14683,7 @@ packages:
     dev: false
 
   file:projects/arm-signalr.tgz:
-    resolution: {integrity: sha512-4MCCXdLTTgDYxvIk/Wk8TvLTW9b3sQKUlNgxAVVuYVuEIiofJ6nKx3JWmp2sKTt1jcveYldPL4OXm0zKd404eQ==, tarball: file:projects/arm-signalr.tgz}
+    resolution: {integrity: sha512-xVyX4O/LdKfeGjwwm1z/rgVzCaKNeS1gP7WsoWRdCqqHxe3zv+xCWaQfAKTTifqdfM0SrSmlTjmHmIg2ATKXJQ==, tarball: file:projects/arm-signalr.tgz}
     name: '@rush-temp/arm-signalr'
     version: 0.0.0
     dependencies:
@@ -14802,7 +14703,7 @@ packages:
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_p2gydaekoyjvl5wd3ixslt7iq4
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - supports-color
@@ -15359,7 +15260,7 @@ packages:
     dev: false
 
   file:projects/arm-webpubsub.tgz:
-    resolution: {integrity: sha512-6kpMi+7PQQRbvujdmsBUb4k1NmHqmruxA5sHFscrEA5PBJ+wccFRcX8pWZSRrb25BsH7MU9qETMxieX0ELWqHw==, tarball: file:projects/arm-webpubsub.tgz}
+    resolution: {integrity: sha512-RYsbloNF1Hm5tH+6rz0czW/EOKW3maPsZSmEULM4iXLzZ4aRSVhobg5clChnBWoXO9DmA6/SFVsTTv8tFrZj8Q==, tarball: file:projects/arm-webpubsub.tgz}
     name: '@rush-temp/arm-webpubsub'
     version: 0.0.0
     dependencies:
@@ -15379,7 +15280,7 @@ packages:
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_p2gydaekoyjvl5wd3ixslt7iq4
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - supports-color
@@ -15413,7 +15314,7 @@ packages:
     dev: false
 
   file:projects/arm-workloads.tgz:
-    resolution: {integrity: sha512-gx5R65Ar13dORMmyu6GmbywBDHVA0qDxQJeTHwFOj1f1mG1YGVprJgYbD4Uz5wKbolOYlDHS5G/TJtwUeAYiWQ==, tarball: file:projects/arm-workloads.tgz}
+    resolution: {integrity: sha512-9g/2pB2Eaf9gPnXJBoQx6rjYcaHvccSrV3C8aMTdBi2x8bNjR26IhxOchbrsp9hPeaaUostB4/hxE9R+U7xe9g==, tarball: file:projects/arm-workloads.tgz}
     name: '@rush-temp/arm-workloads'
     version: 0.0.0
     dependencies:
@@ -15432,7 +15333,7 @@ packages:
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
       tslib: 2.5.0
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - '@types/node'
@@ -15522,7 +15423,7 @@ packages:
     dev: false
 
   file:projects/communication-alpha-ids.tgz:
-    resolution: {integrity: sha512-eif5k0QD259o2j2UgmVibOaOrMv2RLeQJ920VhIF0ZBFLXABBL2rK4v1gj2bm+X4gnyLKKUMm1QqI+HPYugTvQ==, tarball: file:projects/communication-alpha-ids.tgz}
+    resolution: {integrity: sha512-nxh0nEhrKnwm2P9d14HIJsKNn7ZV9RzyMO9seYod3v9rKkajyRPJnx9N9oHFOAVSM+Ge3SiPN6hrq6LOzj0TtQ==, tarball: file:projects/communication-alpha-ids.tgz}
     name: '@rush-temp/communication-alpha-ids'
     version: 0.0.0
     dependencies:
@@ -15555,7 +15456,7 @@ packages:
       rimraf: 3.0.2
       sinon: 9.2.4
       tslib: 2.5.0
-      typescript: 4.2.4
+      typescript: 4.8.4
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -15747,7 +15648,7 @@ packages:
     dev: false
 
   file:projects/communication-job-router.tgz:
-    resolution: {integrity: sha512-m+2UHWdUjXRc4rk1jdnGEzksFyXbQmhAQSVz+brSLECbPxBnUPguuB3r9Nc/5qAXsCAnWNS6M6+fReRSU9DV8g==, tarball: file:projects/communication-job-router.tgz}
+    resolution: {integrity: sha512-p3x4rrKlolyBP1Qd9DCBaRLTg9zh31sGXB78fSNFsQAgkxEubEuKsOJtTvDH8MXWJBrFESUjk+4d2fFtxiqfOA==, tarball: file:projects/communication-job-router.tgz}
     name: '@rush-temp/communication-job-router'
     version: 0.0.0
     dependencies:
@@ -15783,7 +15684,7 @@ packages:
       rimraf: 3.0.2
       sinon: 9.2.4
       tslib: 2.5.0
-      typescript: 4.2.4
+      typescript: 4.8.4
       util: 0.12.5
       uuid: 8.3.2
     transitivePeerDependencies:
@@ -15794,7 +15695,7 @@ packages:
     dev: false
 
   file:projects/communication-network-traversal.tgz:
-    resolution: {integrity: sha512-j/4HA05kscsrZahh1azdeLjO8ATvGcDxr45jHC30HmwGAkMXjc5ukuNq6yI8TPvwrAPqgKry5uY65kfhISTIUQ==, tarball: file:projects/communication-network-traversal.tgz}
+    resolution: {integrity: sha512-Ze4rpI9vurnlM1c30acI3+l+DU0H98hsLBsHX6HsBX55SZ/47U6tHFrHbu2cs3SDads+FbfumqZsCiAqNmdTow==, tarball: file:projects/communication-network-traversal.tgz}
     name: '@rush-temp/communication-network-traversal'
     version: 0.0.0
     dependencies:
@@ -15838,7 +15739,7 @@ packages:
       rollup-plugin-sourcemaps: 0.6.3_p2gydaekoyjvl5wd3ixslt7iq4
       sinon: 9.2.4
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -15847,7 +15748,7 @@ packages:
     dev: false
 
   file:projects/communication-phone-numbers.tgz:
-    resolution: {integrity: sha512-jbAZry0HT1GG2xPSJACXxPQV0gbxSC+XLPM0eF5cLTGFZoUDYvozGBGtxC3IvQdzbF+kDKTX5eKIOB093mlaQA==, tarball: file:projects/communication-phone-numbers.tgz}
+    resolution: {integrity: sha512-70E1VYhRzUYDwG/9WU+vK8xhXpeR84lcU+GJSau9ICOhgM0W7yykXcSYhcEq0l38kgRq7LUaH9oygvZmrwoccA==, tarball: file:projects/communication-phone-numbers.tgz}
     name: '@rush-temp/communication-phone-numbers'
     version: 0.0.0
     dependencies:
@@ -15882,7 +15783,7 @@ packages:
       rimraf: 3.0.2
       sinon: 9.2.4
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
       uuid: 8.3.2
     transitivePeerDependencies:
       - bufferutil
@@ -15892,7 +15793,7 @@ packages:
     dev: false
 
   file:projects/communication-rooms.tgz:
-    resolution: {integrity: sha512-QavO2oi926tQFNK8c+WEZDZ69kxjNwq/JfvUXouTzPVHcfJ77TTsXFXZb+cL+h8aPu5u0vvfevRA+bqJT1awuw==, tarball: file:projects/communication-rooms.tgz}
+    resolution: {integrity: sha512-Uvh/avOxV0OgBsAr9yinmxJxqH+Kyq79hmjKRqwyMe3ryt4goG1n5rEBALjtUBo5J63kftm0gbsA7IZ1skgu8Q==, tarball: file:projects/communication-rooms.tgz}
     name: '@rush-temp/communication-rooms'
     version: 0.0.0
     dependencies:
@@ -15916,7 +15817,7 @@ packages:
       rollup-plugin-sourcemaps: 0.6.3_rollup@1.32.1
       sinon: 14.0.2
       tslib: 1.14.1
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
       uuid: 8.3.2
     transitivePeerDependencies:
@@ -15928,7 +15829,7 @@ packages:
     dev: false
 
   file:projects/communication-short-codes.tgz:
-    resolution: {integrity: sha512-Hw7VnqV6Cuh7RVuzZOKwX6dV47IjBwAAVTW1qyH7ObXHwC+lhLOUQ6Rd1SCtVP5EudERVGHYFTX/blJq1G8RcA==, tarball: file:projects/communication-short-codes.tgz}
+    resolution: {integrity: sha512-ULqlToVA898ZdTnsQaU10qpENJK5erBhasFGAs3vxB3tPV45HH065mPGVOgLbIHEId8J5bSEAmVEIkvtUf+3Ug==, tarball: file:projects/communication-short-codes.tgz}
     name: '@rush-temp/communication-short-codes'
     version: 0.0.0
     dependencies:
@@ -15963,7 +15864,7 @@ packages:
       rimraf: 3.0.2
       sinon: 9.2.4
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
       uuid: 8.3.2
     transitivePeerDependencies:
       - bufferutil
@@ -16765,7 +16666,7 @@ packages:
     dev: false
 
   file:projects/developer-devcenter.tgz:
-    resolution: {integrity: sha512-gIyK4cMIJAwau0sPGnIPbTXHNMuOe75PSfuU7VXW3KjuuPNaoFiKtFV4ifZ45ujj0jnoyya9pKCzTHBaVmgJow==, tarball: file:projects/developer-devcenter.tgz}
+    resolution: {integrity: sha512-cJGhXQaLe5Dy092Nb/tDRKEQA3P4Ur+5sgbp49o9YeLYYPK6V5ungLrMJk2yQUhMf9/ng34HpGnYdEvQLppHdw==, tarball: file:projects/developer-devcenter.tgz}
     name: '@rush-temp/developer-devcenter'
     version: 0.0.0
     dependencies:
@@ -16799,7 +16700,7 @@ packages:
       rimraf: 3.0.2
       source-map-support: 0.5.21
       tslib: 2.5.0
-      typescript: 4.2.4
+      typescript: 4.8.4
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -17065,7 +16966,7 @@ packages:
     dev: false
 
   file:projects/eventhubs-checkpointstore-table.tgz:
-    resolution: {integrity: sha512-2JiU+/o4lw1RDeYNqEhm3vlt9TJdsar8q/udQVl55cEFVwx9CVApGZHQ4qKbXNpdFzXNK/YhT+6u1lUoMZmc1A==, tarball: file:projects/eventhubs-checkpointstore-table.tgz}
+    resolution: {integrity: sha512-PNwV50QzO0HU5+m7nlT2/6ifdeLp75ozJV02nnhUuJUJJNNOICrIADiFWB7kPudy6ptRi3VbwCphj/gqDcRXtw==, tarball: file:projects/eventhubs-checkpointstore-table.tgz}
     name: '@rush-temp/eventhubs-checkpointstore-table'
     version: 0.0.0
     dependencies:
@@ -17103,9 +17004,9 @@ packages:
       nyc: 15.1.0
       prettier: 2.8.3
       rimraf: 3.0.2
-      ts-node: 10.9.1_qsp6e3reeqlii3qgbcynqdh4ku
+      ts-node: 10.9.1_gjo33tkf7m2dtuw6tmxt3xwf4q
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
       util: 0.12.5
     transitivePeerDependencies:
       - '@swc/core'
@@ -17116,7 +17017,7 @@ packages:
     dev: false
 
   file:projects/functions-authentication-events.tgz:
-    resolution: {integrity: sha512-3H2FbEP60ISX1nKb9keDpKmsW4fg6Ithngz5MUCvVkgiODCTNfxOAaaqRPsVHoGLR0sxHDg8hnKWl2qC0fQc/A==, tarball: file:projects/functions-authentication-events.tgz}
+    resolution: {integrity: sha512-k1QsVQof11fMAj7lWg2zkfsZx1fVuIXoZx/Uv/p2MkylJzaO3KegluZ5CTxWFruEliFShm/VKGdNBaj+H15PEw==, tarball: file:projects/functions-authentication-events.tgz}
     name: '@rush-temp/functions-authentication-events'
     version: 0.0.0
     dependencies:
@@ -17152,7 +17053,7 @@ packages:
       rimraf: 3.0.2
       source-map-support: 0.5.21
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
       util: 0.12.5
     transitivePeerDependencies:
       - bufferutil
@@ -17162,7 +17063,7 @@ packages:
     dev: false
 
   file:projects/identity-cache-persistence.tgz:
-    resolution: {integrity: sha512-Wgf2rKv13Ppp8GCbUXt5AHZywPD3dpp13rRvoAiqh72gbIpE7m2UAD1aS8cpAF4+DdTG8G0Hdypyt/6H1Irb4w==, tarball: file:projects/identity-cache-persistence.tgz}
+    resolution: {integrity: sha512-W9GskgUPJAzyhziDWEnVDCkOoodJROvIWGPBmbREOaAB22P3Fi9dOEebS60mmU6YTlp1hOd+m/f/vJ+UH/KuBg==, tarball: file:projects/identity-cache-persistence.tgz}
     name: '@rush-temp/identity-cache-persistence'
     version: 0.0.0
     dependencies:
@@ -17187,7 +17088,7 @@ packages:
       rimraf: 3.0.2
       sinon: 9.2.4
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
       util: 0.12.5
     transitivePeerDependencies:
       - bufferutil
@@ -17197,7 +17098,7 @@ packages:
     dev: false
 
   file:projects/identity-vscode.tgz:
-    resolution: {integrity: sha512-NBeShs3gQ/GLmGCLRCep4Mz++RSMeFleDF/7ln1z18LEep38jEK5U0JhXhbKz8QwIz5ftlJJT+oO7+MjcknWmA==, tarball: file:projects/identity-vscode.tgz}
+    resolution: {integrity: sha512-tBuQ6h3pylsol5uCKOkuxbv2kCusty3DCd1jXBJvVx5UGEH4Hhh0pdsHInwEDA3l0OlvwZL2JjxvwvaZLYd6EQ==, tarball: file:projects/identity-vscode.tgz}
     name: '@rush-temp/identity-vscode'
     version: 0.0.0
     dependencies:
@@ -17221,7 +17122,7 @@ packages:
       rimraf: 3.0.2
       sinon: 9.2.4
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
       util: 0.12.5
     transitivePeerDependencies:
       - bufferutil
@@ -17288,7 +17189,7 @@ packages:
     dev: false
 
   file:projects/iot-device-update.tgz:
-    resolution: {integrity: sha512-QzMz4L/hm7c2L2We+teqQYZlgK9SwS2+owy4p+CHGubJDcZZkegKrgUALa+zVNea9vd38KZbErfNVUwEzElXfA==, tarball: file:projects/iot-device-update.tgz}
+    resolution: {integrity: sha512-jrgo4kdK923m+TL/Yqp6gGbuIjqCdSAOJbbvjbvId6urfwJtX4lTPNA2szS3TBeDP81H+3nr9EfqjOMkSs+XSA==, tarball: file:projects/iot-device-update.tgz}
     name: '@rush-temp/iot-device-update'
     version: 0.0.0
     dependencies:
@@ -17322,7 +17223,7 @@ packages:
       rimraf: 3.0.2
       source-map-support: 0.5.21
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
       uuid: 8.3.2
     transitivePeerDependencies:
       - bufferutil
@@ -17332,7 +17233,7 @@ packages:
     dev: false
 
   file:projects/iot-modelsrepository.tgz:
-    resolution: {integrity: sha512-u4gkcplzLCOoCVkW+Oov/kS7IzDkxb/36e93HqB97+o4/k1aCDi/J3NrZcgLMWutHVDXRabAOC2P2g6DpQ/Hvg==, tarball: file:projects/iot-modelsrepository.tgz}
+    resolution: {integrity: sha512-cJwmAv2ZQF2LadvKT+HAE+/3OB1o8CI/UqkGDCczGT6H3PfWhWKDbN02GLo33izu7jG78Inu+qWQDiHxd3m6Dw==, tarball: file:projects/iot-modelsrepository.tgz}
     name: '@rush-temp/iot-modelsrepository'
     version: 0.0.0
     dependencies:
@@ -17364,9 +17265,9 @@ packages:
       prettier: 2.8.3
       rimraf: 3.0.2
       sinon: 9.2.4
-      ts-node: 10.9.1_qsp6e3reeqlii3qgbcynqdh4ku
+      ts-node: 10.9.1_gjo33tkf7m2dtuw6tmxt3xwf4q
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
       util: 0.12.5
     transitivePeerDependencies:
       - '@swc/core'
@@ -17455,7 +17356,7 @@ packages:
     dev: false
 
   file:projects/keyvault-common.tgz:
-    resolution: {integrity: sha512-Y3me0FO1S2y3MM5tqnM0192+p9E9TW3vbM8g1obXJpplKE0zuByrm6gZHEDJW5eWp05x2hMoS4/XfkEF+SPRjg==, tarball: file:projects/keyvault-common.tgz}
+    resolution: {integrity: sha512-SWt/2ZV9aIQI2waC+oj/bLQqpKH6bT8bAM0xVxHFzO6D5Qzpe6iG4AuW+1NglSUu7OnX03Gx/U6nvyvvfVKnvA==, tarball: file:projects/keyvault-common.tgz}
     name: '@rush-temp/keyvault-common'
     version: 0.0.0
     dependencies:
@@ -17472,7 +17373,7 @@ packages:
       sinon: 9.2.4
       source-map-support: 0.5.21
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
     transitivePeerDependencies:
       - '@types/node'
       - bufferutil
@@ -17573,7 +17474,7 @@ packages:
     dev: false
 
   file:projects/load-testing.tgz:
-    resolution: {integrity: sha512-W9vkfSJU9XQ0HIf6k71GlwNgqY3TtvJFUo6GMHJf0Y66MOw9beCLlqBlMncxn8YIQbDL83Zic7shxsWmX9KNDA==, tarball: file:projects/load-testing.tgz}
+    resolution: {integrity: sha512-Fy2cWifcAx9/Y9VOxdaFM9lAQnoq9hC8Cvb2jLJzu77uelhwvJmMedM4NqeFPX2p7ptFsy8WuhtP0BJsjlkO/Q==, tarball: file:projects/load-testing.tgz}
     name: '@rush-temp/load-testing'
     version: 0.0.0
     dependencies:
@@ -17608,7 +17509,7 @@ packages:
       rimraf: 3.0.2
       source-map-support: 0.5.21
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
       uuid: 9.0.0
     transitivePeerDependencies:
       - bufferutil
@@ -17679,7 +17580,7 @@ packages:
     dev: false
 
   file:projects/maps-geolocation.tgz:
-    resolution: {integrity: sha512-5ESBqPc2U9JJ2kQ89RtQgQD0ulBYPIOLtPosK5UgzzA/vo3jmGJ/aDvcEiIHPJI+Hsz7xZM3cNkUugkJr1c0dA==, tarball: file:projects/maps-geolocation.tgz}
+    resolution: {integrity: sha512-rYhMPj1kguRSEgb7tHEu2gKekijmD6AzNtRAwCdJM6EXiWe6al5wsnSFRJ4EsBXilHI9riQ0da3/UF2tbf31iw==, tarball: file:projects/maps-geolocation.tgz}
     name: '@rush-temp/maps-geolocation'
     version: 0.0.0
     dependencies:
@@ -17715,7 +17616,7 @@ packages:
       rimraf: 3.0.2
       source-map-support: 0.5.21
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -17724,7 +17625,7 @@ packages:
     dev: false
 
   file:projects/maps-render.tgz:
-    resolution: {integrity: sha512-bB1n1VWsUeRZKhV8PcuFF8vnovK5QN+Shz7wg3Q8b2w/CdKmjTkzpl5soERbuO0VAAlwqhokk4ekKMjr1vK/GA==, tarball: file:projects/maps-render.tgz}
+    resolution: {integrity: sha512-TxN8cf9KgTw6qNWLPvUKd6ba4GWatT27HSqGlqea3pgKnmWk8VUxVqVY/ovLgvrXMrrbXUZtbsLr0keC41k4uA==, tarball: file:projects/maps-render.tgz}
     name: '@rush-temp/maps-render'
     version: 0.0.0
     dependencies:
@@ -17760,7 +17661,7 @@ packages:
       rimraf: 3.0.2
       source-map-support: 0.5.21
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -17769,7 +17670,7 @@ packages:
     dev: false
 
   file:projects/maps-route.tgz:
-    resolution: {integrity: sha512-HO2s9MGBjYPw2RPbIL5EhtTEXZLperxLNhjzzDr6tAOw5rVa8jSWP9IrCJpax6wpf6jcdHn+w4hxxVxOSV72ag==, tarball: file:projects/maps-route.tgz}
+    resolution: {integrity: sha512-I7MJlwJVuOgdX9N9CqpXZdhVw8rdzir24mwzB/OfDcxQniClkFywwnmN+GqQgZMRQuZv1E6IPbY8yJnWiPZN5g==, tarball: file:projects/maps-route.tgz}
     name: '@rush-temp/maps-route'
     version: 0.0.0
     dependencies:
@@ -17805,7 +17706,7 @@ packages:
       rimraf: 3.0.2
       source-map-support: 0.5.21
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -17861,7 +17762,7 @@ packages:
     dev: false
 
   file:projects/maps-search.tgz:
-    resolution: {integrity: sha512-j22tZqvps1AxqebUVUzeVcJ75K+S/vpqVos/Dbcpb++GdknIk9lAfKUl6ontCDhX4NIfnlW+jpAnUpkF7QjhRw==, tarball: file:projects/maps-search.tgz}
+    resolution: {integrity: sha512-DW2xqeNOjfHVEZWMhJta4SyvQT/52unmd01PTcD6/xOvH2cxmS6A/rvdLfRv890s1Juu/3nSTJI76oiidamSOw==, tarball: file:projects/maps-search.tgz}
     name: '@rush-temp/maps-search'
     version: 0.0.0
     dependencies:
@@ -17897,7 +17798,7 @@ packages:
       rimraf: 3.0.2
       source-map-support: 0.5.21
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -17994,7 +17895,7 @@ packages:
     dev: false
 
   file:projects/mock-hub.tgz:
-    resolution: {integrity: sha512-c9dzdbd0aj+PjpJXlj6H5OWUWoV2vcTmXoP9ROM1PY7mPABoGkv3Jqk2hHYjI/kFMBKCNDtdthflYrrulVrNNw==, tarball: file:projects/mock-hub.tgz}
+    resolution: {integrity: sha512-Yp+CfjPyMPxJ1BRZGdSFOJmPw5kGLZS/M2cKJeGW4ZApguLoj5YzPM6Etja7pYuw8IHUxmYpfb6yqG5A84xbjQ==, tarball: file:projects/mock-hub.tgz}
     name: '@rush-temp/mock-hub'
     version: 0.0.0
     dependencies:
@@ -18005,13 +17906,13 @@ packages:
       rhea: 2.0.8
       rimraf: 3.0.2
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
     transitivePeerDependencies:
       - supports-color
     dev: false
 
   file:projects/monitor-ingestion.tgz:
-    resolution: {integrity: sha512-oOn2o+1JC+FZ6Zmnw5h1VSHsXlqag4+bPPqDxud4/uhJ0R/zFEjMf7qHzD+8RfokHb+q8QERFTIvyZoD5S3hgw==, tarball: file:projects/monitor-ingestion.tgz}
+    resolution: {integrity: sha512-kj04drTNfg57im2Ngtppl62IKXZsnVmVzPNiS6f0dPFIi/Vvzh05RLvq+4IgZ/RSIq3Tu+wKe0kDdKJfjBJpVg==, tarball: file:projects/monitor-ingestion.tgz}
     name: '@rush-temp/monitor-ingestion'
     version: 0.0.0
     dependencies:
@@ -18048,7 +17949,7 @@ packages:
       rimraf: 3.0.2
       source-map-support: 0.5.21
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
       util: 0.12.5
     transitivePeerDependencies:
       - bufferutil
@@ -18140,12 +18041,12 @@ packages:
     dev: false
 
   file:projects/notification-hubs.tgz:
-    resolution: {integrity: sha512-jpiFMlNC6w0bvUwk9Z9IkoqwuLW1SqlCngOO0eG23aQ/zg5TemqKTZZ3hngj7demJbsyY6HXWoKIsI5JmC3TVQ==, tarball: file:projects/notification-hubs.tgz}
+    resolution: {integrity: sha512-4NneuT6eyxTjPWuY4SRjtx9Empp20Yv53Yx1QKvQcvBx4vJejttOOVpwOm0WnI4ztCh7T0BO+J+lYb/UGDj4dA==, tarball: file:projects/notification-hubs.tgz}
     name: '@rush-temp/notification-hubs'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.34.3_@types+node@14.18.36
-      '@rollup/plugin-typescript': 10.0.1_bhcmvni67fkldpaxrtldxbogce
+      '@rollup/plugin-typescript': 10.0.1_6cslydldi7sjtrphlipqm26hmy
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
@@ -18177,9 +18078,9 @@ packages:
       rollup: 2.79.1
       rollup-plugin-shim: 1.0.0
       rollup-plugin-sourcemaps: 0.6.3_p2gydaekoyjvl5wd3ixslt7iq4
-      ts-node: 10.9.1_7iyetdgfmqiorh7qupktbe7tm4
+      ts-node: 10.9.1_gjo33tkf7m2dtuw6tmxt3xwf4q
       tslib: 2.5.0
-      typescript: 4.9.5
+      typescript: 4.8.4
       util: 0.12.5
       uuid: 9.0.0
     transitivePeerDependencies:
@@ -18242,7 +18143,7 @@ packages:
     dev: false
 
   file:projects/perf-ai-form-recognizer.tgz:
-    resolution: {integrity: sha512-AuK+X2ouHJubRdu+5GnekiU4AbhPj3Gngrr13spU5HpKHSYvtkfellAGXtXJV2YtTa4uQRWQMuvX65SmmuajGQ==, tarball: file:projects/perf-ai-form-recognizer.tgz}
+    resolution: {integrity: sha512-ceK5MquNCCghXijmWBVEPtNM2LUgOGQmdGPb1/ZQZpc3wLk6NVrClPrOm10vtt6J/zBsGRRPxNsYlaA1fqGbdA==, tarball: file:projects/perf-ai-form-recognizer.tgz}
     name: '@rush-temp/perf-ai-form-recognizer'
     version: 0.0.0
     dependencies:
@@ -18253,9 +18154,9 @@ packages:
       eslint: 8.33.0
       prettier: 2.8.3
       rimraf: 3.0.2
-      ts-node: 10.9.1_qsp6e3reeqlii3qgbcynqdh4ku
+      ts-node: 10.9.1_gjo33tkf7m2dtuw6tmxt3xwf4q
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -18264,7 +18165,7 @@ packages:
     dev: false
 
   file:projects/perf-ai-language-text.tgz:
-    resolution: {integrity: sha512-W23Jtexyb81HbMTefSx7AoXSKdRcAanDy0D8qdaAOrFsBhaWQtUJSjldi52pIN6yrDix1mVeGsxKHT2M5QKZQg==, tarball: file:projects/perf-ai-language-text.tgz}
+    resolution: {integrity: sha512-nlS6c6fVbERUSiWQLaFMqPGWbKdeX264SUjyMVQtb7Cs4oThACUTt6R6fszcFjZlom+djlQrLrHyeYRAqhsLYw==, tarball: file:projects/perf-ai-language-text.tgz}
     name: '@rush-temp/perf-ai-language-text'
     version: 0.0.0
     dependencies:
@@ -18274,9 +18175,9 @@ packages:
       eslint: 8.33.0
       prettier: 2.8.3
       rimraf: 3.0.2
-      ts-node: 10.9.1_qsp6e3reeqlii3qgbcynqdh4ku
+      ts-node: 10.9.1_gjo33tkf7m2dtuw6tmxt3xwf4q
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -18284,7 +18185,7 @@ packages:
     dev: false
 
   file:projects/perf-ai-metrics-advisor.tgz:
-    resolution: {integrity: sha512-TnVh00NMupV7NKTu0TXfyjK0FROH9LyvJ0rc8T4/fi9u+i22WJ5QOc8dIRNU7GwxkKIG0/A/9YoMstbD31umWQ==, tarball: file:projects/perf-ai-metrics-advisor.tgz}
+    resolution: {integrity: sha512-+wQ+ptTHqhlcPjxtdemqli8y++54Zd2yhIoYfjFfUGyZMbsp128C7vFjlgaIOtx56ZrZCl8Bw0wlNcJs9WlLUw==, tarball: file:projects/perf-ai-metrics-advisor.tgz}
     name: '@rush-temp/perf-ai-metrics-advisor'
     version: 0.0.0
     dependencies:
@@ -18294,9 +18195,9 @@ packages:
       eslint: 8.33.0
       prettier: 2.8.3
       rimraf: 3.0.2
-      ts-node: 10.9.1_qsp6e3reeqlii3qgbcynqdh4ku
+      ts-node: 10.9.1_gjo33tkf7m2dtuw6tmxt3xwf4q
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -18305,7 +18206,7 @@ packages:
     dev: false
 
   file:projects/perf-ai-text-analytics.tgz:
-    resolution: {integrity: sha512-klXHB4nEo4AmWvoITkEl3heyB38ilDAYRMehAc5F22VJT8zu34Rx0fNJ2HcsdvHVDS7y2Hk+pLidFEU5rL7PaA==, tarball: file:projects/perf-ai-text-analytics.tgz}
+    resolution: {integrity: sha512-XWIJWIa2hdMSoWMP6vnio9OYEij42uRWyqmUpTZ+SxUfGBmPkW364cF+SnUcToJcfXmRFWI7y4EFFVt8RCUFQw==, tarball: file:projects/perf-ai-text-analytics.tgz}
     name: '@rush-temp/perf-ai-text-analytics'
     version: 0.0.0
     dependencies:
@@ -18315,9 +18216,9 @@ packages:
       eslint: 8.33.0
       prettier: 2.8.3
       rimraf: 3.0.2
-      ts-node: 10.9.1_qsp6e3reeqlii3qgbcynqdh4ku
+      ts-node: 10.9.1_gjo33tkf7m2dtuw6tmxt3xwf4q
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -18325,7 +18226,7 @@ packages:
     dev: false
 
   file:projects/perf-app-configuration.tgz:
-    resolution: {integrity: sha512-jQSwIS/rG3sYWFqyGAkUiLrToVTUGdvZyfBWeYx/Ey0VGylEpjl4HNFxYdhJCr1IKaVa9dSrFrmyoDog0+GmFA==, tarball: file:projects/perf-app-configuration.tgz}
+    resolution: {integrity: sha512-deIQHm7Jz+9tcVH7rVd/XCXIq3bwtLS4wJnZIbaaQt7lC7YpMnDLGLNrB7jk3+FgGkuTRt3bAYBfQmb+0dNtwg==, tarball: file:projects/perf-app-configuration.tgz}
     name: '@rush-temp/perf-app-configuration'
     version: 0.0.0
     dependencies:
@@ -18335,9 +18236,9 @@ packages:
       eslint: 8.33.0
       prettier: 2.8.3
       rimraf: 3.0.2
-      ts-node: 10.9.1_qsp6e3reeqlii3qgbcynqdh4ku
+      ts-node: 10.9.1_gjo33tkf7m2dtuw6tmxt3xwf4q
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
       uuid: 8.3.2
     transitivePeerDependencies:
       - '@swc/core'
@@ -18346,7 +18247,7 @@ packages:
     dev: false
 
   file:projects/perf-container-registry.tgz:
-    resolution: {integrity: sha512-Mx6I+Y+UwzGVW+1MCUljZNKj9/7c6kWGGVzJ6HnkH7agyAVJu8/R3UWh8ER0mq548griu1FotRViJCMFZrRzQg==, tarball: file:projects/perf-container-registry.tgz}
+    resolution: {integrity: sha512-cwgoEioCB2fz40FJM5XMklMBPXgm7bEXpDT5lFWpZGYARnlIRmmnMdomQ6/aV6udwwqzLazIkw5JsW1VXFRJ7g==, tarball: file:projects/perf-container-registry.tgz}
     name: '@rush-temp/perf-container-registry'
     version: 0.0.0
     dependencies:
@@ -18355,15 +18256,15 @@ packages:
       eslint: 8.33.0
       prettier: 2.8.3
       rimraf: 3.0.2
-      ts-node: 9.1.1_typescript@4.6.4
+      ts-node: 9.1.1_typescript@4.8.4
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
     transitivePeerDependencies:
       - supports-color
     dev: false
 
   file:projects/perf-core-rest-pipeline.tgz:
-    resolution: {integrity: sha512-E0MVlGHSI/18iGlxt/K3pwLtJji8ju0k/XTzidiwTm4ZzkBKUJ5qIbYlOskopn5AX+Vm9Ar5N0tO6WjfMfBlGQ==, tarball: file:projects/perf-core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-kDq4Xkn5AoN6R174eCoyNto0dheT8QHuFrAQthU/N/ASFtlaYsWNXoa7IlyoWxw6qYpzA/KO4qajQ8ztH4UIvw==, tarball: file:projects/perf-core-rest-pipeline.tgz}
     name: '@rush-temp/perf-core-rest-pipeline'
     version: 0.0.0
     dependencies:
@@ -18377,9 +18278,9 @@ packages:
       express: 4.18.2
       prettier: 2.8.3
       rimraf: 3.0.2
-      ts-node: 10.9.1_laqv367ntbladgchwutjrnj4ky
+      ts-node: 10.9.1_ksn4eycaeggbrckn3ykh37hwf4
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
       undici: 5.18.0
     transitivePeerDependencies:
       - '@swc/core'
@@ -18388,7 +18289,7 @@ packages:
     dev: false
 
   file:projects/perf-data-tables.tgz:
-    resolution: {integrity: sha512-fzsNUTCC6r6TGu56wD54oI9s+b6jAK57KAOQJFX64WV0ZQyzZXbZvz74zcHd9dXg2fRvuOT+/U7PnW2XO+N8Jg==, tarball: file:projects/perf-data-tables.tgz}
+    resolution: {integrity: sha512-xCrXZZdoIVKYq/1/Req4TXgVOs8HgY5r90loqgEjRpYOIGbAfhnIbUV0B3ApPovWVts81ha5f6T2P5Z8bkspKg==, tarball: file:projects/perf-data-tables.tgz}
     name: '@rush-temp/perf-data-tables'
     version: 0.0.0
     dependencies:
@@ -18398,9 +18299,9 @@ packages:
       eslint: 8.33.0
       prettier: 2.8.3
       rimraf: 3.0.2
-      ts-node: 10.9.1_qsp6e3reeqlii3qgbcynqdh4ku
+      ts-node: 10.9.1_gjo33tkf7m2dtuw6tmxt3xwf4q
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
       uuid: 8.3.2
     transitivePeerDependencies:
       - '@swc/core'
@@ -18409,7 +18310,7 @@ packages:
     dev: false
 
   file:projects/perf-event-hubs.tgz:
-    resolution: {integrity: sha512-7GPbA+dgwSUMZNBQ+M4uqn+bjHl2IMRipva3LZLDlfCyvvNR91/rvyqE2K1QXv41mb/HDCwgfpt22Y5lEALaqQ==, tarball: file:projects/perf-event-hubs.tgz}
+    resolution: {integrity: sha512-sOXxKYBLYtPK78iNv+B6SQc6UEfPyFz5vFi19LPF+zlaZXT6B/C+CWqwAKfFENCiiOfQCFGSjskQ8kizkP/Ftw==, tarball: file:projects/perf-event-hubs.tgz}
     name: '@rush-temp/perf-event-hubs'
     version: 0.0.0
     dependencies:
@@ -18420,9 +18321,9 @@ packages:
       moment: 2.29.4
       prettier: 2.8.3
       rimraf: 3.0.2
-      ts-node: 10.9.1_qsp6e3reeqlii3qgbcynqdh4ku
+      ts-node: 10.9.1_gjo33tkf7m2dtuw6tmxt3xwf4q
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
       uuid: 8.3.2
     transitivePeerDependencies:
       - '@swc/core'
@@ -18431,7 +18332,7 @@ packages:
     dev: false
 
   file:projects/perf-eventgrid.tgz:
-    resolution: {integrity: sha512-ORl9Nlolval2JDSnUOefAzA93Fd2iELuIS5bXwv7jwM+4JCa7y9hicOjTP5MgIHMdWnBzLK3Wsupohh9R3dZNw==, tarball: file:projects/perf-eventgrid.tgz}
+    resolution: {integrity: sha512-YZlB+F8rm4ml+ApXzP+mkTw1RPpWH8pb3Iv9yWRDu6qb/Vl+JiTL3Lz5SUP9Iy9tuRSbAfP3Ia73lbKD8tRbjQ==, tarball: file:projects/perf-eventgrid.tgz}
     name: '@rush-temp/perf-eventgrid'
     version: 0.0.0
     dependencies:
@@ -18440,9 +18341,9 @@ packages:
       eslint: 8.33.0
       prettier: 2.8.3
       rimraf: 3.0.2
-      ts-node: 10.9.1_qsp6e3reeqlii3qgbcynqdh4ku
+      ts-node: 10.9.1_gjo33tkf7m2dtuw6tmxt3xwf4q
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -18450,7 +18351,7 @@ packages:
     dev: false
 
   file:projects/perf-identity.tgz:
-    resolution: {integrity: sha512-3WWR9J6OLSMr3J2J5G5TtpKTBQLFRlXQZrp/jlfOI+pUu9uSoFk6HBRDdskiRaCrvZxrUdD6nck/gWGXZxJ5wQ==, tarball: file:projects/perf-identity.tgz}
+    resolution: {integrity: sha512-yM+pdItTZ8Zq2hq50BR4Pt4bR1WMPIwbJISFbKqr9Et8hc/0dfdwXRvsJ3z2Mm8Ek8/J38bVRNdRYkKTen4UGQ==, tarball: file:projects/perf-identity.tgz}
     name: '@rush-temp/perf-identity'
     version: 0.0.0
     dependencies:
@@ -18461,9 +18362,9 @@ packages:
       eslint: 8.33.0
       prettier: 2.8.3
       rimraf: 3.0.2
-      ts-node: 10.9.1_qsp6e3reeqlii3qgbcynqdh4ku
+      ts-node: 10.9.1_gjo33tkf7m2dtuw6tmxt3xwf4q
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -18471,7 +18372,7 @@ packages:
     dev: false
 
   file:projects/perf-keyvault-certificates.tgz:
-    resolution: {integrity: sha512-CPGIPI9H+qN/I8qq5tvpPul4oJT7//T6bagaDcvty4xqXAz4Jz7381fRUoNgMkD+PIOvrI5Kv7a6FoSiBTHxcw==, tarball: file:projects/perf-keyvault-certificates.tgz}
+    resolution: {integrity: sha512-VRd1Fnp27eLm8oKYYFQCcXvnz2trIEutUMv6Ii6/DAUdPCzQm5yXJZmEO07bxwXKv1vSdMDZknW62M/nDQ+Dag==, tarball: file:projects/perf-keyvault-certificates.tgz}
     name: '@rush-temp/perf-keyvault-certificates'
     version: 0.0.0
     dependencies:
@@ -18483,9 +18384,9 @@ packages:
       eslint: 8.33.0
       prettier: 2.8.3
       rimraf: 3.0.2
-      ts-node: 10.9.1_qsp6e3reeqlii3qgbcynqdh4ku
+      ts-node: 10.9.1_gjo33tkf7m2dtuw6tmxt3xwf4q
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
       uuid: 8.3.2
     transitivePeerDependencies:
       - '@swc/core'
@@ -18494,7 +18395,7 @@ packages:
     dev: false
 
   file:projects/perf-keyvault-keys.tgz:
-    resolution: {integrity: sha512-VuxdCkMnPjPzZJKo+2yLy3qNaCQW4452s6DoIb66BZ/afHsOz+Yzese+2VJMGNOdLFlcfZ+1emk/Nnh34aQayg==, tarball: file:projects/perf-keyvault-keys.tgz}
+    resolution: {integrity: sha512-ueAWRbfdi9lmOGge9FsNKesnXqDFeZVEzpEx0oTDYZK2vhIKaEvJjlysfzxUe3eyNPIsUsi30wa2jHrOk9g5qQ==, tarball: file:projects/perf-keyvault-keys.tgz}
     name: '@rush-temp/perf-keyvault-keys'
     version: 0.0.0
     dependencies:
@@ -18506,9 +18407,9 @@ packages:
       eslint: 8.33.0
       prettier: 2.8.3
       rimraf: 3.0.2
-      ts-node: 10.9.1_qsp6e3reeqlii3qgbcynqdh4ku
+      ts-node: 10.9.1_gjo33tkf7m2dtuw6tmxt3xwf4q
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
       uuid: 8.3.2
     transitivePeerDependencies:
       - '@swc/core'
@@ -18517,7 +18418,7 @@ packages:
     dev: false
 
   file:projects/perf-keyvault-secrets.tgz:
-    resolution: {integrity: sha512-1JXPsIkRNenpv1hsXNMIQuHbYX1gWFPdnY8EkNMMOQ9PxYbATkCILJbD5ReWeJ8qAUy1NsP6gdXqh7S/Xt3QEg==, tarball: file:projects/perf-keyvault-secrets.tgz}
+    resolution: {integrity: sha512-uNewvxAIj7J9/amvOLrSo6/ofWG8sbxRz55gPJjJxPSpuk4iYjM+jETM7sE9XW+qI6Jr4gGDqDs9rBpLwHtfnA==, tarball: file:projects/perf-keyvault-secrets.tgz}
     name: '@rush-temp/perf-keyvault-secrets'
     version: 0.0.0
     dependencies:
@@ -18529,9 +18430,9 @@ packages:
       eslint: 8.33.0
       prettier: 2.8.3
       rimraf: 3.0.2
-      ts-node: 10.9.1_qsp6e3reeqlii3qgbcynqdh4ku
+      ts-node: 10.9.1_gjo33tkf7m2dtuw6tmxt3xwf4q
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
       uuid: 8.3.2
     transitivePeerDependencies:
       - '@swc/core'
@@ -18540,7 +18441,7 @@ packages:
     dev: false
 
   file:projects/perf-monitor-ingestion.tgz:
-    resolution: {integrity: sha512-i025V6507AzM1NTqwqZCWUflXpBIeX1SZaGleQgOh4M/Jrc7H5oGF9+FU+KYc3OwCNGo21YJoBJdyrzkOBf57A==, tarball: file:projects/perf-monitor-ingestion.tgz}
+    resolution: {integrity: sha512-NIG3QwSbeBC47HCB1qWEqxY5gwPsBxEQRuImMFfdepBrxB4uduqSo9+f3Llxd/I4q+uCO+IQTGMLl9eWrygEEA==, tarball: file:projects/perf-monitor-ingestion.tgz}
     name: '@rush-temp/perf-monitor-ingestion'
     version: 0.0.0
     dependencies:
@@ -18551,9 +18452,9 @@ packages:
       eslint: 8.33.0
       prettier: 2.8.3
       rimraf: 3.0.2
-      ts-node: 10.9.1_qsp6e3reeqlii3qgbcynqdh4ku
+      ts-node: 10.9.1_gjo33tkf7m2dtuw6tmxt3xwf4q
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -18561,7 +18462,7 @@ packages:
     dev: false
 
   file:projects/perf-monitor-query.tgz:
-    resolution: {integrity: sha512-Qjup7bmod0yblA7jzjX7B/fp3iOSdZmxiyP8A34nGQ/xYokf0CXc4KTnMeN9rESm/3VCDt9g6mYc1Ee/a/QbMQ==, tarball: file:projects/perf-monitor-query.tgz}
+    resolution: {integrity: sha512-D9GrMj4p0z/eKeaVPJHPw/NWzKhGsnRSDilZSCoas2ERfsBJ16RXvVX4uirXB9BvNRzmlrQCKnvu+I9lAIiBeQ==, tarball: file:projects/perf-monitor-query.tgz}
     name: '@rush-temp/perf-monitor-query'
     version: 0.0.0
     dependencies:
@@ -18571,9 +18472,9 @@ packages:
       eslint: 8.33.0
       prettier: 2.8.3
       rimraf: 3.0.2
-      ts-node: 10.9.1_qsp6e3reeqlii3qgbcynqdh4ku
+      ts-node: 10.9.1_gjo33tkf7m2dtuw6tmxt3xwf4q
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -18581,7 +18482,7 @@ packages:
     dev: false
 
   file:projects/perf-schema-registry-avro.tgz:
-    resolution: {integrity: sha512-zRn3GR6Udgxa7MOTlBKon/w8JuNVjEe7ebH374xwy3d4HjJAXaGJ1zl1q82PdECT4IUaNZml22giKp+rvjYL5w==, tarball: file:projects/perf-schema-registry-avro.tgz}
+    resolution: {integrity: sha512-0fa9nxbQw1lo0Ch4RWF8WkaUzzyixBPhbKBzlYXMRmd1bEEekrW5n0q6tBlZQG2Y6amviMtAMpBKQ1jlhaiICw==, tarball: file:projects/perf-schema-registry-avro.tgz}
     name: '@rush-temp/perf-schema-registry-avro'
     version: 0.0.0
     dependencies:
@@ -18592,9 +18493,9 @@ packages:
       eslint: 8.33.0
       prettier: 2.8.3
       rimraf: 3.0.2
-      ts-node: 10.9.1_qsp6e3reeqlii3qgbcynqdh4ku
+      ts-node: 10.9.1_gjo33tkf7m2dtuw6tmxt3xwf4q
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -18602,7 +18503,7 @@ packages:
     dev: false
 
   file:projects/perf-search-documents.tgz:
-    resolution: {integrity: sha512-+RoT00KtnBLMCF+fF1nmyypaN3hZoeij6zBmRj2XgNflEG6EH3TO5lbH+u8BKfnHoieOTXJ0mjiwa8MsF/q4yQ==, tarball: file:projects/perf-search-documents.tgz}
+    resolution: {integrity: sha512-kzQBmO3V0uSSuVspu7YP7H4QJtdoPufoqNpBzfSL9IujCrRwQYsBV80mJy7bs4CG2N35+3AsFokPgkcEbXduig==, tarball: file:projects/perf-search-documents.tgz}
     name: '@rush-temp/perf-search-documents'
     version: 0.0.0
     dependencies:
@@ -18613,9 +18514,9 @@ packages:
       eslint: 8.33.0
       prettier: 2.8.3
       rimraf: 3.0.2
-      ts-node: 10.9.1_qsp6e3reeqlii3qgbcynqdh4ku
+      ts-node: 10.9.1_gjo33tkf7m2dtuw6tmxt3xwf4q
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -18623,7 +18524,7 @@ packages:
     dev: false
 
   file:projects/perf-service-bus.tgz:
-    resolution: {integrity: sha512-pgKKPyjZPVnnBEeY51OmFrW+Fv0wiWQwwfeZtMnBW95mAZPc+8lTXb62SgIRcdgMKV9TAAAf1oDKK9mY14V4aQ==, tarball: file:projects/perf-service-bus.tgz}
+    resolution: {integrity: sha512-wioVHbwMitD5Oi7RoiJr6nKap7VrDmz+QfijZnl1FWfCgRdtrCyIpYp2oC+VDnmCiPQavSFrLpW+6qmzGR1jrg==, tarball: file:projects/perf-service-bus.tgz}
     name: '@rush-temp/perf-service-bus'
     version: 0.0.0
     dependencies:
@@ -18633,9 +18534,9 @@ packages:
       eslint: 8.33.0
       prettier: 2.8.3
       rimraf: 3.0.2
-      ts-node: 10.9.1_qsp6e3reeqlii3qgbcynqdh4ku
+      ts-node: 10.9.1_gjo33tkf7m2dtuw6tmxt3xwf4q
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
       uuid: 8.3.2
     transitivePeerDependencies:
       - '@swc/core'
@@ -18644,7 +18545,7 @@ packages:
     dev: false
 
   file:projects/perf-storage-blob.tgz:
-    resolution: {integrity: sha512-nc7/Gw4vqguJo5TCcwOWICJ+JWkZrZcJfd1R222FrhN1x1INz0KjrFJKdTMjxzKoQY9mBLn5FuMlmHocuu8M9A==, tarball: file:projects/perf-storage-blob.tgz}
+    resolution: {integrity: sha512-LGIKCrba3h2h+bk4clrPXVTfvcDN/d6LpnvzPMWJ0J5STard3L/eiCtq5FiAE4WV2MWcvq+CwaKCiLpVXyWxag==, tarball: file:projects/perf-storage-blob.tgz}
     name: '@rush-temp/perf-storage-blob'
     version: 0.0.0
     dependencies:
@@ -18656,9 +18557,9 @@ packages:
       node-fetch: 2.6.9
       prettier: 2.8.3
       rimraf: 3.0.2
-      ts-node: 10.9.1_qsp6e3reeqlii3qgbcynqdh4ku
+      ts-node: 10.9.1_gjo33tkf7m2dtuw6tmxt3xwf4q
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
       uuid: 8.3.2
     transitivePeerDependencies:
       - '@swc/core'
@@ -18668,7 +18569,7 @@ packages:
     dev: false
 
   file:projects/perf-storage-file-datalake.tgz:
-    resolution: {integrity: sha512-FTFxpivzb02lNQYni3Inz78KObiEzeRjewQdBz5+tHUJOlUK3nwwjmAi2/TWiE441a80B4/GAGsH4RfKx+2wsw==, tarball: file:projects/perf-storage-file-datalake.tgz}
+    resolution: {integrity: sha512-4A4khnyV02Y4tt/lFkH6jkDQt8NvmLnhYeC1/TRl2C1A3YgAhmxBEM7DgE6LaCtERo5H/efpWV2rZeg4/Qa4kQ==, tarball: file:projects/perf-storage-file-datalake.tgz}
     name: '@rush-temp/perf-storage-file-datalake'
     version: 0.0.0
     dependencies:
@@ -18678,9 +18579,9 @@ packages:
       eslint: 8.33.0
       prettier: 2.8.3
       rimraf: 3.0.2
-      ts-node: 10.9.1_qsp6e3reeqlii3qgbcynqdh4ku
+      ts-node: 10.9.1_gjo33tkf7m2dtuw6tmxt3xwf4q
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
       uuid: 8.3.2
     transitivePeerDependencies:
       - '@swc/core'
@@ -18689,7 +18590,7 @@ packages:
     dev: false
 
   file:projects/perf-storage-file-share.tgz:
-    resolution: {integrity: sha512-i3OwV9qtZxd2FI29DmRpOgw5cVbu/lD3Kyqb1s0P4zEfwQDucDhBWyZBHPiZFIbBONqNszYFKg5nQGa4LB2PyA==, tarball: file:projects/perf-storage-file-share.tgz}
+    resolution: {integrity: sha512-Yw9wrFBA26EY/2VjnMShm+1he9Y2SpCuG5yURS1tSnKsVsSRbIfc1J0byhdpUyJoSSPoSTvTJk8IMWqZbynrZw==, tarball: file:projects/perf-storage-file-share.tgz}
     name: '@rush-temp/perf-storage-file-share'
     version: 0.0.0
     dependencies:
@@ -18699,9 +18600,9 @@ packages:
       eslint: 8.33.0
       prettier: 2.8.3
       rimraf: 3.0.2
-      ts-node: 10.9.1_qsp6e3reeqlii3qgbcynqdh4ku
+      ts-node: 10.9.1_gjo33tkf7m2dtuw6tmxt3xwf4q
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
       uuid: 8.3.2
     transitivePeerDependencies:
       - '@swc/core'
@@ -18710,7 +18611,7 @@ packages:
     dev: false
 
   file:projects/perf-template.tgz:
-    resolution: {integrity: sha512-5a4Gi1PoXa47jD3kAogo9CF+GrS/ZKeEyTuKHgPvwsQaG8xOaW/BAs2RocZJnGhSB2ctclgoqVU5xwcqnzaAeA==, tarball: file:projects/perf-template.tgz}
+    resolution: {integrity: sha512-dWIJnGZlkz0U+h29D6I2XafPWf8qwDLYdVW+3GABsUyvroovjZ8bfpakEWC5srkzbPQ5Lz9dU9WMqzJruZ2NBw==, tarball: file:projects/perf-template.tgz}
     name: '@rush-temp/perf-template'
     version: 0.0.0
     dependencies:
@@ -18721,9 +18622,9 @@ packages:
       eslint: 8.33.0
       prettier: 2.8.3
       rimraf: 3.0.2
-      ts-node: 10.9.1_qsp6e3reeqlii3qgbcynqdh4ku
+      ts-node: 10.9.1_gjo33tkf7m2dtuw6tmxt3xwf4q
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
       uuid: 8.3.2
     transitivePeerDependencies:
       - '@swc/core'
@@ -18859,7 +18760,7 @@ packages:
     dev: false
 
   file:projects/quantum-jobs.tgz:
-    resolution: {integrity: sha512-QYsk9hxEGZ9JHzACcaXv0N8yKCdV+1ib22yS3tEmMBt07lEkkFerQwKEAvIjId0apNO3WyvXECLMktdaaEYG9w==, tarball: file:projects/quantum-jobs.tgz}
+    resolution: {integrity: sha512-qHCa8YzZK+WUR9pDFINWtlsk2eNbwwILiZHppxZFKHVmHOUtsK6y+j13XoGRoXXsBwkRmNYwGoF1KLIsBBkqTg==, tarball: file:projects/quantum-jobs.tgz}
     name: '@rush-temp/quantum-jobs'
     version: 0.0.0
     dependencies:
@@ -18896,7 +18797,7 @@ packages:
       rimraf: 3.0.2
       sinon: 9.2.4
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
       util: 0.12.5
     transitivePeerDependencies:
       - bufferutil
@@ -19122,7 +19023,7 @@ packages:
     dev: false
 
   file:projects/storage-blob-changefeed.tgz:
-    resolution: {integrity: sha512-k7neOXIEDERco/4Ac756pbPxlb0v1c9DlMrTbssvWcVfpYPpkIWMQ8Gsqlw4qChdA5gSyvx7vr3tRDrUIcZYFQ==, tarball: file:projects/storage-blob-changefeed.tgz}
+    resolution: {integrity: sha512-TXNy2Pvp5CIqX4OIpz1VRsPRwAvygZolQrZt3CIw4omVh6NbThB567Ftu8TSOMz+1UiRyXdz80hCGgT5rYDCnQ==, tarball: file:projects/storage-blob-changefeed.tgz}
     name: '@rush-temp/storage-blob-changefeed'
     version: 0.0.0
     dependencies:
@@ -19492,7 +19393,7 @@ packages:
     dev: false
 
   file:projects/synapse-access-control.tgz:
-    resolution: {integrity: sha512-J6r/bfHjeCDh6cwjkFVc0TRRIHF4bcJit6LNrf3yFlbpKFDjX8mT5/Ff/Gi3D6hqP4LEJkvDtTxSIdA91c4EaQ==, tarball: file:projects/synapse-access-control.tgz}
+    resolution: {integrity: sha512-U+rBZ2tn3krQq8blm/9toA/HQXO1UAvP4oXZ+hLfwqppilIELNAtYD8vPzzlKYhLze/nuIZAPZK6UtL3CatPJQ==, tarball: file:projects/synapse-access-control.tgz}
     name: '@rush-temp/synapse-access-control'
     version: 0.0.0
     dependencies:
@@ -19530,9 +19431,9 @@ packages:
       rimraf: 3.0.2
       sinon: 9.2.4
       source-map-support: 0.5.21
-      ts-node: 10.9.1_qsp6e3reeqlii3qgbcynqdh4ku
+      ts-node: 10.9.1_gjo33tkf7m2dtuw6tmxt3xwf4q
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
       uuid: 8.3.2
     transitivePeerDependencies:
@@ -19746,7 +19647,7 @@ packages:
     dev: false
 
   file:projects/test-credential.tgz:
-    resolution: {integrity: sha512-w71fRsg20mCiOkU0aqsZjWe7boFkpbFRp9QoH7p0CKtfgOfxlfSTZlH+I8hAWW3qBHJAkU7Dhqn6SYZeJCcC3A==, tarball: file:projects/test-credential.tgz}
+    resolution: {integrity: sha512-oHpZz7wpGMRsqbp4M3rZPnP1LeDWbqPOnEeYMJC+8zgOjxYTzrxBT9HIkUpTgAravazOKiUjOMljjlZi/xXMiA==, tarball: file:projects/test-credential.tgz}
     name: '@rush-temp/test-credential'
     version: 0.0.0
     dependencies:
@@ -19756,8 +19657,8 @@ packages:
       eslint: 8.33.0
       prettier: 2.8.3
       rimraf: 3.0.2
-      ts-node: 10.9.1_qsp6e3reeqlii3qgbcynqdh4ku
-      typescript: 4.6.4
+      ts-node: 10.9.1_gjo33tkf7m2dtuw6tmxt3xwf4q
+      typescript: 4.8.4
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -19875,7 +19776,7 @@ packages:
     dev: false
 
   file:projects/video-analyzer-edge.tgz:
-    resolution: {integrity: sha512-C4R6U7jpUgKLdBH1Nf1jz3zHGV9sfbVhLecqJwDV32gtQu4Kh8Pa1zrLW/MIiKHPJJT7vuDL82/vN8zl4oNtug==, tarball: file:projects/video-analyzer-edge.tgz}
+    resolution: {integrity: sha512-ghvVDFhBjM8ZAMdoZh3F2bbKm08rx01B5wqYvjnqB6RyZ7ajMYfn2ZCA58iX9KVhJzh3jPq1JkSiCbIHTHIG6A==, tarball: file:projects/video-analyzer-edge.tgz}
     name: '@rush-temp/video-analyzer-edge'
     version: 0.0.0
     dependencies:
@@ -19909,7 +19810,7 @@ packages:
       prettier: 2.8.3
       rimraf: 3.0.2
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
       util: 0.12.5
     transitivePeerDependencies:
       - bufferutil
@@ -19920,7 +19821,7 @@ packages:
     dev: false
 
   file:projects/web-pubsub-client.tgz:
-    resolution: {integrity: sha512-aJpnjvAtxLoIzNa7FJYNjc2bYyYyGLCkyo/PTuS8kzZP5W90dh6QKYPkm8LlrMBYQ2zdsWAZMnKfTeLRivYmcg==, tarball: file:projects/web-pubsub-client.tgz}
+    resolution: {integrity: sha512-XL/ICkotlchhdgEH9/ATF4ReTaw81UWISg9vCrBL2AMDLjnM29YGF/CsS6+yLsz41nONdcCixD9qx4iP0cj/Vg==, tarball: file:projects/web-pubsub-client.tgz}
     name: '@rush-temp/web-pubsub-client'
     version: 0.0.0
     dependencies:
@@ -19964,7 +19865,7 @@ packages:
       sinon: 9.2.4
       source-map-support: 0.5.21
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
       util: 0.12.5
       ws: 7.5.9
     transitivePeerDependencies:
