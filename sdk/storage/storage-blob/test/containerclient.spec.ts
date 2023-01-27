@@ -107,7 +107,7 @@ describe("ContainerClient", () => {
   });
 
   it("create with all parameters configured", async function() {
-    const cClient = blobServiceClient.getContainerClient(recorder.variable(containerName, getUniqueName("${containerName}")));
+    const cClient = blobServiceClient.getContainerClient(recorder.variable(containerName, getUniqueName(containerName)));
     const metadata = { key: "value" };
     const access = "container";
     await cClient.create({ metadata, access });
