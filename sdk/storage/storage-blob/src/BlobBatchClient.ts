@@ -11,8 +11,7 @@ import { ParsedBatchResponse } from "./BatchResponse";
 import { BatchResponseParser } from "./BatchResponseParser";
 import { utf8ByteLength } from "./BatchUtils";
 import { BlobBatch } from "./BlobBatch";
-import { SpanStatusCode } from "@azure/core-tracing";
-import { createSpan } from "./utils/tracing";
+import { tracingClient } from "./utils/tracing";
 import { TokenCredential } from "@azure/core-auth";
 import { Service, Container } from "./generated/src/operationsInterfaces";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
@@ -308,50 +307,45 @@ export class BlobBatchClient {
       throw new RangeError("Batch request should contain one or more sub requests.");
     }
 
-    const { span, updatedOptions } = createSpan("BlobBatchClient-submitBatch", options);
-    try {
-      const batchRequestBody = batchRequest.getHttpRequestBody();
+    return tracingClient.withSpan(
+      "BlobBatchClient-submitBatch",
+      options,
+      async (updatedOptions) => {
+        const batchRequestBody = batchRequest.getHttpRequestBody();
 
-      // ServiceSubmitBatchResponseModel and ContainerSubmitBatchResponse are compatible for now.
-      const rawBatchResponse: ServiceSubmitBatchResponseModel = assertResponse(
-        await this.serviceOrContainerContext.submitBatch(
-          utf8ByteLength(batchRequestBody),
-          batchRequest.getMultiPartContentType(),
-          batchRequestBody,
-          {
-            ...updatedOptions,
-          }
-        )
-      );
+        // ServiceSubmitBatchResponseModel and ContainerSubmitBatchResponse are compatible for now.
+        const rawBatchResponse: ServiceSubmitBatchResponseModel = assertResponse(
+          await this.serviceOrContainerContext.submitBatch(
+            utf8ByteLength(batchRequestBody),
+            batchRequest.getMultiPartContentType(),
+            batchRequestBody,
+            {
+              ...updatedOptions,
+            }
+          )
+        );
 
-      // Parse the sub responses result, if logic reaches here(i.e. the batch request succeeded with status code 202).
-      const batchResponseParser = new BatchResponseParser(
-        rawBatchResponse,
-        batchRequest.getSubRequests()
-      );
-      const responseSummary = await batchResponseParser.parseBatchResponse();
+        // Parse the sub responses result, if logic reaches here(i.e. the batch request succeeded with status code 202).
+        const batchResponseParser = new BatchResponseParser(
+          rawBatchResponse,
+          batchRequest.getSubRequests()
+        );
+        const responseSummary = await batchResponseParser.parseBatchResponse();
 
-      const res: BlobBatchSubmitBatchResponse = {
-        _response: rawBatchResponse._response,
-        contentType: rawBatchResponse.contentType,
-        errorCode: rawBatchResponse.errorCode,
-        requestId: rawBatchResponse.requestId,
-        clientRequestId: rawBatchResponse.clientRequestId,
-        version: rawBatchResponse.version,
-        subResponses: responseSummary.subResponses,
-        subResponsesSucceededCount: responseSummary.subResponsesSucceededCount,
-        subResponsesFailedCount: responseSummary.subResponsesFailedCount,
-      };
+        const res: BlobBatchSubmitBatchResponse = {
+          _response: rawBatchResponse._response,
+          contentType: rawBatchResponse.contentType,
+          errorCode: rawBatchResponse.errorCode,
+          requestId: rawBatchResponse.requestId,
+          clientRequestId: rawBatchResponse.clientRequestId,
+          version: rawBatchResponse.version,
+          subResponses: responseSummary.subResponses,
+          subResponsesSucceededCount: responseSummary.subResponsesSucceededCount,
+          subResponsesFailedCount: responseSummary.subResponsesFailedCount,
+        };
 
-      return res;
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+        return res;
+      }
+    );
   }
 }

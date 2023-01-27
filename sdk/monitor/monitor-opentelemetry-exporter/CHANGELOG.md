@@ -2,6 +2,8 @@
 
 ## 1.0.0-beta.11 (Unreleased)
 
+- Add attach and feature Statsbeat Metrics.
+
 ### Features Added
 
 ### Breaking Changes

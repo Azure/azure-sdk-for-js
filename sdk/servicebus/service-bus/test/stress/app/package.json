@@ -13,7 +13,7 @@
   "dependencies": {
     "applicationinsights": "^1.8.8",
     "@azure/service-bus": "latest",
-    "dotenv": "^8.2.0",
+    "dotenv": "^16.0.0",
     "minimist": "^1.2.5",
     "uuid": "^8.3.0"
   },
