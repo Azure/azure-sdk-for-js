@@ -19,7 +19,7 @@ export function configureBlobStorageClient(
 
   const pipeline: Pipeline = (serviceClient as any).storageClientContext.pipeline;
   for (const { policy } of options.additionalPolicies ?? []) {
-    pipeline.addPolicy(policy, { afterPhase: "Retry", afterPolicies: ["injectorPolicy"] });
+    pipeline.addPolicy(policy, { afterPhase: "Sign", afterPolicies: ["injectorPolicy"] });
   }
 }
 
