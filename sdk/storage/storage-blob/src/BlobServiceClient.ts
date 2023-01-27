@@ -3,7 +3,6 @@
 import { TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { getDefaultProxySettings } from "@azure/core-rest-pipeline";
 import { isNode } from "@azure/core-util";
-import { SpanStatusCode } from "@azure/core-tracing";
 import { AbortSignalLike } from "@azure/abort-controller";
 import {
   ServiceGetUserDelegationKeyHeaders,
@@ -24,6 +23,9 @@ import {
   LeaseAccessConditions,
   FilterBlobSegment,
   FilterBlobItem,
+  ServiceGetPropertiesResponseInternal,
+  ServiceGetStatisticsResponseInternal,
+  ServiceListContainersSegmentResponseInternal,
 } from "./generatedModels";
 import { Service } from "./generated/src/operationsInterfaces";
 import { newPipeline, StoragePipelineOptions, PipelineLike, isPipelineLike } from "./Pipeline";
@@ -41,10 +43,9 @@ import {
 } from "./utils/utils.common";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
-import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { truncatedISO8061Date, assertResponse } from "./utils/utils.common";
-import { createSpan } from "./utils/tracing";
+import { tracingClient } from "./utils/tracing";
 import { BlobBatchClient } from "./BlobBatchClient";
 import { CommonOptions, StorageClient } from "./StorageClient";
 import { AccountSASPermissions } from "./sas/AccountSASPermissions";
@@ -57,7 +58,12 @@ import {
   ContainerRestoreHeaders,
   ListContainersIncludeType,
   ServiceFilterBlobsResponse,
+  ServiceGetAccountInfoHeaders,
+  ServiceGetPropertiesHeaders,
+  ServiceGetStatisticsHeaders,
   ServiceGetUserDelegationKeyResponse as ServiceGetUserDelegationKeyResponseModel,
+  ServiceListContainersSegmentHeaders,
+  ServiceSetPropertiesHeaders,
 } from "./generated/src";
 
 /**
@@ -491,23 +497,18 @@ export class BlobServiceClient extends StorageClient {
     containerClient: ContainerClient;
     containerCreateResponse: ContainerCreateResponse;
   }> {
-    const { span, updatedOptions } = createSpan("BlobServiceClient-createContainer", options);
-    try {
-      const containerClient = this.getContainerClient(containerName);
-      const containerCreateResponse = await containerClient.create(updatedOptions);
-      return {
-        containerClient,
-        containerCreateResponse,
-      };
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "BlobServiceClient-createContainer",
+      options,
+      async (updatedOptions) => {
+        const containerClient = this.getContainerClient(containerName);
+        const containerCreateResponse = await containerClient.create(updatedOptions);
+        return {
+          containerClient,
+          containerCreateResponse,
+        };
+      }
+    );
   }
 
   /**
@@ -521,19 +522,14 @@ export class BlobServiceClient extends StorageClient {
     containerName: string,
     options: ContainerDeleteMethodOptions = {}
   ): Promise<ContainerDeleteResponse> {
-    const { span, updatedOptions } = createSpan("BlobServiceClient-deleteContainer", options);
-    try {
-      const containerClient = this.getContainerClient(containerName);
-      return await containerClient.delete(updatedOptions);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "BlobServiceClient-deleteContainer",
+      options,
+      async (updatedOptions) => {
+        const containerClient = this.getContainerClient(containerName);
+        return containerClient.delete(updatedOptions);
+      }
+    );
   }
 
   /**
@@ -553,33 +549,28 @@ export class BlobServiceClient extends StorageClient {
     containerClient: ContainerClient;
     containerUndeleteResponse: ContainerUndeleteResponse;
   }> {
-    const { span, updatedOptions } = createSpan("BlobServiceClient-undeleteContainer", options);
-    try {
-      const containerClient = this.getContainerClient(
-        options.destinationContainerName || deletedContainerName
-      );
-      // Hack to access a protected member.
-      const containerContext = containerClient["storageClientContext"].container;
-      const containerUndeleteResponse = assertResponse<
-        ContainerRestoreHeaders,
-        ContainerRestoreHeaders
-      >(
-        await containerContext.restore({
-          deletedContainerName,
-          deletedContainerVersion,
-          tracingOptions: updatedOptions.tracingOptions,
-        })
-      );
-      return { containerClient, containerUndeleteResponse };
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "BlobServiceClient-undeleteContainer",
+      options,
+      async (updatedOptions) => {
+        const containerClient = this.getContainerClient(
+          options.destinationContainerName || deletedContainerName
+        );
+        // Hack to access a protected member.
+        const containerContext = containerClient["storageClientContext"].container;
+        const containerUndeleteResponse = assertResponse<
+          ContainerRestoreHeaders,
+          ContainerRestoreHeaders
+        >(
+          await containerContext.restore({
+            deletedContainerName,
+            deletedContainerVersion,
+            tracingOptions: updatedOptions.tracingOptions,
+          })
+        );
+        return { containerClient, containerUndeleteResponse };
+      }
+    );
   }
 
   /**
@@ -599,30 +590,25 @@ export class BlobServiceClient extends StorageClient {
     containerClient: ContainerClient;
     containerRenameResponse: ContainerRenameResponse;
   }> {
-    const { span, updatedOptions } = createSpan("BlobServiceClient-renameContainer", options);
-    try {
-      const containerClient = this.getContainerClient(destinationContainerName);
-      // Hack to access a protected member.
-      const containerContext = containerClient["storageClientContext"].container;
-      const containerRenameResponse = assertResponse<
-        ContainerRenameHeaders,
-        ContainerRenameHeaders
-      >(
-        await containerContext.rename(sourceContainerName, {
-          ...updatedOptions,
-          sourceLeaseId: options.sourceCondition?.leaseId,
-        })
-      );
-      return { containerClient, containerRenameResponse };
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "BlobServiceClient-renameContainer",
+      options,
+      async (updatedOptions) => {
+        const containerClient = this.getContainerClient(destinationContainerName);
+        // Hack to access a protected member.
+        const containerContext = containerClient["storageClientContext"].container;
+        const containerRenameResponse = assertResponse<
+          ContainerRenameHeaders,
+          ContainerRenameHeaders
+        >(
+          await containerContext.rename(sourceContainerName, {
+            ...updatedOptions,
+            sourceLeaseId: options.sourceCondition?.leaseId,
+          })
+        );
+        return { containerClient, containerRenameResponse };
+      }
+    );
   }
 
   /**
@@ -636,23 +622,18 @@ export class BlobServiceClient extends StorageClient {
   public async getProperties(
     options: ServiceGetPropertiesOptions = {}
   ): Promise<ServiceGetPropertiesResponse> {
-    const { span, updatedOptions } = createSpan("BlobServiceClient-getProperties", options);
-    try {
-      return assertResponse(
-        await this.serviceContext.getProperties({
-          abortSignal: options.abortSignal,
-          tracingOptions: updatedOptions.tracingOptions,
-        })
-      );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "BlobServiceClient-getProperties",
+      options,
+      async (updatedOptions) => {
+        return assertResponse<ServiceGetPropertiesResponseInternal, ServiceGetPropertiesHeaders>(
+          await this.serviceContext.getProperties({
+            abortSignal: options.abortSignal,
+            tracingOptions: updatedOptions.tracingOptions,
+          })
+        );
+      }
+    );
   }
 
   /**
@@ -668,23 +649,18 @@ export class BlobServiceClient extends StorageClient {
     properties: BlobServiceProperties,
     options: ServiceSetPropertiesOptions = {}
   ): Promise<ServiceSetPropertiesResponse> {
-    const { span, updatedOptions } = createSpan("BlobServiceClient-setProperties", options);
-    try {
-      return assertResponse(
-        await this.serviceContext.setProperties(properties, {
-          abortSignal: options.abortSignal,
-          tracingOptions: updatedOptions.tracingOptions,
-        })
-      );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "BlobServiceClient-setProperties",
+      options,
+      async (updatedOptions) => {
+        return assertResponse<ServiceSetPropertiesHeaders, ServiceSetPropertiesHeaders>(
+          await this.serviceContext.setProperties(properties, {
+            abortSignal: options.abortSignal,
+            tracingOptions: updatedOptions.tracingOptions,
+          })
+        );
+      }
+    );
   }
 
   /**
@@ -699,23 +675,18 @@ export class BlobServiceClient extends StorageClient {
   public async getStatistics(
     options: ServiceGetStatisticsOptions = {}
   ): Promise<ServiceGetStatisticsResponse> {
-    const { span, updatedOptions } = createSpan("BlobServiceClient-getStatistics", options);
-    try {
-      return assertResponse(
-        await this.serviceContext.getStatistics({
-          abortSignal: options.abortSignal,
-          tracingOptions: updatedOptions.tracingOptions,
-        })
-      );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "BlobServiceClient-getStatistics",
+      options,
+      async (updatedOptions) => {
+        return assertResponse<ServiceGetStatisticsResponseInternal, ServiceGetStatisticsHeaders>(
+          await this.serviceContext.getStatistics({
+            abortSignal: options.abortSignal,
+            tracingOptions: updatedOptions.tracingOptions,
+          })
+        );
+      }
+    );
   }
 
   /**
@@ -731,23 +702,18 @@ export class BlobServiceClient extends StorageClient {
   public async getAccountInfo(
     options: ServiceGetAccountInfoOptions = {}
   ): Promise<ServiceGetAccountInfoResponse> {
-    const { span, updatedOptions } = createSpan("BlobServiceClient-getAccountInfo", options);
-    try {
-      return assertResponse(
-        await this.serviceContext.getAccountInfo({
-          abortSignal: options.abortSignal,
-          tracingOptions: updatedOptions.tracingOptions,
-        })
-      );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "BlobServiceClient-getAccountInfo",
+      options,
+      async (updatedOptions) => {
+        return assertResponse<ServiceGetAccountInfoHeaders, ServiceGetAccountInfoHeaders>(
+          await this.serviceContext.getAccountInfo({
+            abortSignal: options.abortSignal,
+            tracingOptions: updatedOptions.tracingOptions,
+          })
+        );
+      }
+    );
   }
 
   /**
@@ -768,27 +734,24 @@ export class BlobServiceClient extends StorageClient {
     marker?: string,
     options: ServiceListContainersSegmentOptions = {}
   ): Promise<ServiceListContainersSegmentResponse> {
-    const { span, updatedOptions } = createSpan("BlobServiceClient-listContainersSegment", options);
-
-    try {
-      return assertResponse(
-        await this.serviceContext.listContainersSegment({
-          abortSignal: options.abortSignal,
-          marker,
-          ...options,
-          include: typeof options.include === "string" ? [options.include] : options.include,
-          tracingOptions: updatedOptions.tracingOptions,
-        })
-      );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "BlobServiceClient-listContainersSegment",
+      options,
+      async (updatedOptions) => {
+        return assertResponse<
+          ServiceListContainersSegmentResponseInternal,
+          ServiceListContainersSegmentHeaders
+        >(
+          await this.serviceContext.listContainersSegment({
+            abortSignal: options.abortSignal,
+            marker,
+            ...options,
+            include: typeof options.include === "string" ? [options.include] : options.include,
+            tracingOptions: updatedOptions.tracingOptions,
+          })
+        );
+      }
+    );
   }
 
   /**
@@ -814,47 +777,38 @@ export class BlobServiceClient extends StorageClient {
     marker?: string,
     options: ServiceFindBlobsByTagsSegmentOptions = {}
   ): Promise<ServiceFindBlobsByTagsSegmentResponse> {
-    const { span, updatedOptions } = createSpan(
+    return tracingClient.withSpan(
       "BlobServiceClient-findBlobsByTagsSegment",
-      options
+      options,
+      async (updatedOptions) => {
+        const response = assertResponse<
+          ServiceFilterBlobsResponse,
+          ServiceFilterBlobsHeaders,
+          FilterBlobSegmentModel
+        >(
+          await this.serviceContext.filterBlobs({
+            abortSignal: options.abortSignal,
+            where: tagFilterSqlExpression,
+            marker,
+            maxPageSize: options.maxPageSize,
+            tracingOptions: updatedOptions.tracingOptions,
+          })
+        );
+
+        const wrappedResponse: ServiceFindBlobsByTagsSegmentResponse = {
+          ...response,
+          _response: response._response, // _response is made non-enumerable
+          blobs: response.blobs.map((blob) => {
+            let tagValue = "";
+            if (blob.tags?.blobTagSet.length === 1) {
+              tagValue = blob.tags.blobTagSet[0].value;
+            }
+            return { ...blob, tags: toTags(blob.tags), tagValue };
+          }),
+        };
+        return wrappedResponse;
+      }
     );
-
-    try {
-      const response = assertResponse<
-        ServiceFilterBlobsResponse,
-        ServiceFilterBlobsHeaders,
-        FilterBlobSegmentModel
-      >(
-        await this.serviceContext.filterBlobs({
-          abortSignal: options.abortSignal,
-          where: tagFilterSqlExpression,
-          marker,
-          maxPageSize: options.maxPageSize,
-          tracingOptions: updatedOptions.tracingOptions,
-        })
-      );
-
-      const wrappedResponse: ServiceFindBlobsByTagsSegmentResponse = {
-        ...response,
-        _response: response._response, // _response is made non-enumerable
-        blobs: response.blobs.map((blob) => {
-          let tagValue = "";
-          if (blob.tags?.blobTagSet.length === 1) {
-            tagValue = blob.tags.blobTagSet[0].value;
-          }
-          return { ...blob, tags: toTags(blob.tags), tagValue };
-        }),
-      };
-      return wrappedResponse;
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -1208,55 +1162,50 @@ export class BlobServiceClient extends StorageClient {
     expiresOn: Date,
     options: ServiceGetUserDelegationKeyOptions = {}
   ): Promise<ServiceGetUserDelegationKeyResponse> {
-    const { span, updatedOptions } = createSpan("BlobServiceClient-getUserDelegationKey", options);
-    try {
-      const response = assertResponse<
-        ServiceGetUserDelegationKeyResponseModel,
-        ServiceGetUserDelegationKeyHeaders,
-        UserDelegationKeyModel
-      >(
-        await this.serviceContext.getUserDelegationKey(
-          {
-            startsOn: truncatedISO8061Date(startsOn, false),
-            expiresOn: truncatedISO8061Date(expiresOn, false),
-          },
-          {
-            abortSignal: options.abortSignal,
-            tracingOptions: updatedOptions.tracingOptions,
-          }
-        )
-      );
+    return tracingClient.withSpan(
+      "BlobServiceClient-getUserDelegationKey",
+      options,
+      async (updatedOptions) => {
+        const response = assertResponse<
+          ServiceGetUserDelegationKeyResponseModel,
+          ServiceGetUserDelegationKeyHeaders,
+          UserDelegationKeyModel
+        >(
+          await this.serviceContext.getUserDelegationKey(
+            {
+              startsOn: truncatedISO8061Date(startsOn, false),
+              expiresOn: truncatedISO8061Date(expiresOn, false),
+            },
+            {
+              abortSignal: options.abortSignal,
+              tracingOptions: updatedOptions.tracingOptions,
+            }
+          )
+        );
 
-      const userDelegationKey = {
-        signedObjectId: response.signedObjectId,
-        signedTenantId: response.signedTenantId,
-        signedStartsOn: new Date(response.signedStartsOn),
-        signedExpiresOn: new Date(response.signedExpiresOn),
-        signedService: response.signedService,
-        signedVersion: response.signedVersion,
-        value: response.value,
-      };
+        const userDelegationKey = {
+          signedObjectId: response.signedObjectId,
+          signedTenantId: response.signedTenantId,
+          signedStartsOn: new Date(response.signedStartsOn),
+          signedExpiresOn: new Date(response.signedExpiresOn),
+          signedService: response.signedService,
+          signedVersion: response.signedVersion,
+          value: response.value,
+        };
 
-      const res: ServiceGetUserDelegationKeyResponse = {
-        _response: response._response,
-        requestId: response.requestId,
-        clientRequestId: response.clientRequestId,
-        version: response.version,
-        date: response.date,
-        errorCode: response.errorCode,
-        ...userDelegationKey,
-      };
+        const res: ServiceGetUserDelegationKeyResponse = {
+          _response: response._response,
+          requestId: response.requestId,
+          clientRequestId: response.clientRequestId,
+          version: response.version,
+          date: response.date,
+          errorCode: response.errorCode,
+          ...userDelegationKey,
+        };
 
-      return res;
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+        return res;
+      }
+    );
   }
 
   /**

@@ -53,7 +53,7 @@
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@types/node": "^14.0.0",
-    "dotenv": "^8.2.0",
+    "dotenv": "^16.0.0",
     "eslint": "^8.0.0",
     "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
