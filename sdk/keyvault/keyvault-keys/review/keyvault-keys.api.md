@@ -88,10 +88,6 @@ export interface CreateOctKeyOptions extends CreateKeyOptions {
 }
 
 // @public
-export interface CreateOkpKeyOptions extends CreateKeyOptions {
-}
-
-// @public
 export interface CreateRsaKeyOptions extends CreateKeyOptions {
     publicExponent?: number;
 }
@@ -240,7 +236,6 @@ export class KeyClient {
     createEcKey(name: string, options?: CreateEcKeyOptions): Promise<KeyVaultKey>;
     createKey(name: string, keyType: KeyType_2, options?: CreateKeyOptions): Promise<KeyVaultKey>;
     createOctKey(name: string, options?: CreateOctKeyOptions): Promise<KeyVaultKey>;
-    createOkpKey(name: string, options?: CreateOkpKeyOptions): Promise<KeyVaultKey>;
     createRsaKey(name: string, options?: CreateRsaKeyOptions): Promise<KeyVaultKey>;
     getCryptographyClient(keyName: string, options?: GetCryptographyClientOptions): CryptographyClient;
     getDeletedKey(name: string, options?: GetDeletedKeyOptions): Promise<DeletedKey>;

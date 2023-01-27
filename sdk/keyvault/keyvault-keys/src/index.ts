@@ -69,7 +69,6 @@ import {
   RotateKeyOptions,
   UpdateKeyPropertiesOptions,
   UpdateKeyRotationPolicyOptions,
-  CreateOkpKeyOptions,
 } from "./keysModels";
 
 import { CryptographyClient } from "./cryptographyClient";
@@ -125,7 +124,6 @@ export {
   CreateKeyOptions,
   CreateRsaKeyOptions,
   CreateOctKeyOptions,
-  CreateOkpKeyOptions,
   CryptographyClient,
   CryptographyOptions,
   RsaEncryptionAlgorithm,
@@ -302,7 +300,7 @@ export class KeyClient {
    * ```
    * Creates a new key, stores it, then returns key parameters and properties to the client.
    * @param name - The name of the key.
-   * @param keyType - The type of the key. One of the following: 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct', 'OKP', 'OKP-HSM'.
+   * @param keyType - The type of the key. One of the following: 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'.
    * @param options - The optional parameters.
    */
   public createKey(
@@ -332,25 +330,6 @@ export class KeyClient {
         return getKeyFromKeyBundle(response);
       }
     );
-  }
-
-  /**
-   * The createOKPKey method creates a new OKP key in Azure Key Vault. If the named key
-   * already exists, Azure Key Vault creates a new version of the key. It requires the keys/create
-   * permission.
-   *
-   * Example usage:
-   * ```ts
-   * const client = new KeyClient(url, credentials);
-   * let result = await client.createOkpKey("MyKey");
-   * ```
-   * Creates a new key, stores it, then returns key parameters and properties to the client.
-   * @param name - The name of the key.
-   * @param options - The optional parameters.
-   */
-  public createOkpKey(name: string, options?: CreateOkpKeyOptions): Promise<KeyVaultKey> {
-    const keyType = options?.hsm ? KnownKeyTypes.OKPHSM : KnownKeyTypes.OKP;
-    return this.createKey(name, keyType, options);
   }
 
   /**
