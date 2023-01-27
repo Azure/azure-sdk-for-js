@@ -348,7 +348,7 @@ describe("Receiver unit tests", () => {
 
 async function subscribeAndWaitForInitialize(
   receiver: ServiceBusReceiverImpl
-): Promise<ReturnType<(typeof receiver)["subscribe"]>> {
+): Promise<ReturnType<typeof receiver["subscribe"]>> {
   const sub = await new Promise<{
     close(): Promise<void>;
   }>((resolve, reject) => {
