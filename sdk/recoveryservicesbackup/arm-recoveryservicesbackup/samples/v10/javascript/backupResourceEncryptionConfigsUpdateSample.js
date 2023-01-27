@@ -10,17 +10,19 @@
 // Licensed under the MIT License.
 const { RecoveryServicesBackupClient } = require("@azure/arm-recoveryservicesbackup");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Updates Vault encryption config.
  *
  * @summary Updates Vault encryption config.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2022-03-01/examples/BackupResourceEncryptionConfig_Put.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/BackupResourceEncryptionConfig_Put.json
  */
 async function updateVaultEncryptionConfiguration() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const vaultName = "source-rsv";
-  const resourceGroupName = "test-rg";
+  const resourceGroupName = process.env["RECOVERYSERVICESBACKUP_RESOURCE_GROUP"] || "test-rg";
   const parameters = {
     properties: {
       encryptionAtRestType: "CustomerManaged",
@@ -39,4 +41,8 @@ async function updateVaultEncryptionConfiguration() {
   console.log(result);
 }
 
-updateVaultEncryptionConfiguration().catch(console.error);
+async function main() {
+  updateVaultEncryptionConfiguration();
+}
+
+main().catch(console.error);

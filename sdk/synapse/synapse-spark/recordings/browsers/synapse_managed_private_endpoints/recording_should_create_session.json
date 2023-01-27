@@ -1,63 +1,69 @@
 {
- "recordings": [
-  {
-   "method": "POST",
-   "url": "https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token",
-   "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
-   "status": 200,
-   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
-   "responseHeaders": {
-    "cache-control": "no-store, no-cache",
-    "content-length": "1322",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 10 Aug 2021 20:26:28 GMT",
-    "expires": "-1",
-    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
-    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
-    "pragma": "no-cache",
-    "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11935.14 - WUS2 ProdSlices",
-    "x-ms-request-id": "12c15834-6ab7-4523-adbb-b82b49240700"
-   }
-  },
-  {
-   "method": "POST",
-   "url": "https://testaccount.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/testsparkpool/sessions",
-   "query": {},
-   "requestBody": "{\"name\":\"demo_session\",\"driverMemory\":\"28g\",\"driverCores\":4,\"executorMemory\":\"28g\",\"executorCores\":4,\"numExecutors\":2}",
-   "status": 200,
-   "response": "{\"id\":34,\"appId\":null,\"appInfo\":null,\"state\":\"not_started\",\"log\":null}",
-   "responseHeaders": {
-    "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 10 Aug 2021 20:26:33 GMT",
-    "server": "Kestrel Microsoft-HTTPAPI/2.0",
-    "status": "200",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-ms-activity-id": "918a36bf-893e-4dd5-9633-e865b1486611",
-    "x-ms-client-request-id": "f9e6da3c-d1fc-47df-8db8-69422507ec63",
-    "x-ms-job-clusterrequested-on": "1/1/0001 12:00:00 AM +00:00",
-    "x-ms-job-ended-on": "",
-    "x-ms-job-internal-id": "34",
-    "x-ms-job-livysubmission-on": "1/1/0001 12:00:00 AM +00:00",
-    "x-ms-job-queued-on": "1/1/0001 12:00:00 AM +00:00",
-    "x-ms-job-result": "Uncertain",
-    "x-ms-job-scheduled-on": "1/1/0001 12:00:00 AM +00:00",
-    "x-ms-job-scheduler-state": "Queued",
-    "x-ms-job-submitted-by-name": "30511c9d-ba1a-4c7b-b422-5b543da11b3f",
-    "x-ms-job-submitted-on": "8/10/2021 8:26:28 PM +00:00",
-    "x-ms-job-type": "SparkServiceSession",
-    "x-ms-request-id": "42694739-2907-4eb1-b12c-7549c42cd590",
-    "x-ms-response-time-ms": "4775"
-   }
-  }
- ],
- "uniqueTestInfo": {
-  "uniqueName": {},
-  "newDate": {}
- },
- "hash": "d4891a2317e662f176d144aef652b5ab"
+  "Entries": [
+    {
+      "RequestUri": "https://testaccount.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/testsparkpool/sessions",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "118",
+        "Content-Type": "application/json",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/109.0.5412.0 Safari/537.36",
+        "x-ms-client-request-id": "bd635d4e-cf55-4a30-aa3c-283d8a1efb69",
+        "x-ms-useragent": "azsdk-js-synapse-spark/1.0.0-beta.6 core-rest-pipeline/1.10.2 OS/Win32"
+      },
+      "RequestBody": {
+        "name": "demo_session",
+        "driverMemory": "28g",
+        "driverCores": 4,
+        "executorMemory": "28g",
+        "executorCores": 4,
+        "numExecutors": 2
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "94",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 17 Jan 2023 19:33:19 GMT",
+        "Server": [
+          "Kestrel",
+          "Microsoft-HTTPAPI/2.0"
+        ],
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "x-ms-activity-id": "225b91c7-452a-46d5-9116-c374484c5a85",
+        "x-ms-client-request-id": "bd635d4e-cf55-4a30-aa3c-283d8a1efb69",
+        "x-ms-job-clusterrequested-on": "1/1/0001 12:00:00 AM \u002B00:00",
+        "x-ms-job-ended-on": "",
+        "x-ms-job-internal-id": "1",
+        "x-ms-job-livysubmission-on": "1/1/0001 12:00:00 AM \u002B00:00",
+        "x-ms-job-queued-on": "1/1/0001 12:00:00 AM \u002B00:00",
+        "x-ms-job-result": "Uncertain",
+        "x-ms-job-scheduled-on": "1/1/0001 12:00:00 AM \u002B00:00",
+        "x-ms-job-scheduler-state": "Queued",
+        "x-ms-job-submitted-by-name": "99b56ce0-a666-484e-b2b0-cee1dbca1680",
+        "x-ms-job-submitted-on": "1/17/2023 7:33:19 PM \u002B00:00",
+        "x-ms-job-type": "SparkServiceSession",
+        "x-ms-request-id": "51617ca1-7454-439d-b86f-7fd32f976d7a"
+      },
+      "ResponseBody": {
+        "id": 1,
+        "appId": null,
+        "appInfo": null,
+        "state": "not_started",
+        "log": null,
+        "registeredSources": null
+      }
+    }
+  ],
+  "Variables": {}
 }

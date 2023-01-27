@@ -10,17 +10,20 @@
 // Licensed under the MIT License.
 const { RecoveryServicesBackupClient } = require("@azure/arm-recoveryservicesbackup");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Lists the backup copies for the backed up item.
  *
  * @summary Lists the backup copies for the backed up item.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2022-03-01/examples/AzureIaasVm/RecoveryPoints_List.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/AzureIaasVm/RecoveryPoints_List.json
  */
 async function getProtectedAzureVMRecoveryPoints() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const vaultName = "rshvault";
-  const resourceGroupName = "rshhtestmdvmrg";
+  const resourceGroupName =
+    process.env["RECOVERYSERVICESBACKUP_RESOURCE_GROUP"] || "rshhtestmdvmrg";
   const fabricName = "Azure";
   const containerName = "IaasVMContainer;iaasvmcontainerv2;rshhtestmdvmrg;rshmdvmsmall";
   const protectedItemName = "VM;iaasvmcontainerv2;rshhtestmdvmrg;rshmdvmsmall";
@@ -39,4 +42,8 @@ async function getProtectedAzureVMRecoveryPoints() {
   console.log(resArray);
 }
 
-getProtectedAzureVMRecoveryPoints().catch(console.error);
+async function main() {
+  getProtectedAzureVMRecoveryPoints();
+}
+
+main().catch(console.error);
