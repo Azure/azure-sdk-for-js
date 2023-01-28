@@ -1,4 +1,4 @@
-# Azure Load Testing client library for JavaScript
+# Azure LoadTest client library for JavaScript
 
 This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure LoadTest client.
 
@@ -6,7 +6,7 @@ LoadTest client provides access to LoadTest Resource and it's status operations.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/loadtestservice/arm-loadtesting) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-loadtesting) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-loadtesting?view=azure-node-preview) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-loadtesting) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
