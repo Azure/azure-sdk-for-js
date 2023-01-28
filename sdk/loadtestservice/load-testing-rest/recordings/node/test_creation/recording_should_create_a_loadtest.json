@@ -1,72 +1,53 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/loadtests/abc?api-version=2022-06-01-preview",
+      "RequestUri": "https://endpoint/tests/abc?api-version=2022-11-01",
       "RequestMethod": "PATCH",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "106",
+        "Content-Length": "113",
         "Content-Type": "application/merge-patch\u002Bjson",
-        "User-Agent": "azsdk-js-load-testing-rest/1.0.0-beta.1 core-rest-pipeline/1.9.2 Node/v16.18.0 OS/(x64-Windows_NT-10.0.19043)",
-        "x-ms-client-request-id": "53c020f1-1847-4f87-844a-d3d27f309e60"
+        "User-Agent": "azsdk-js-load-testing-rest/1.0.0-beta.2 core-rest-pipeline/1.10.0 Node/v16.18.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "e1e4f0c6-b151-4586-a155-f9cfb0f9aeca"
       },
       "RequestBody": {
         "displayName": "sample_test",
         "description": "",
-        "loadTestConfig": {
+        "loadTestConfiguration": {
           "engineInstances": 1,
           "splitAllCSVs": false
         }
       },
-      "StatusCode": 200,
+      "StatusCode": 201,
       "ResponseHeaders": {
-        "api-supported-versions": "2021-07-01-preview, 2022-06-01-preview",
+        "api-supported-versions": "2021-07-01-preview, 2022-06-01-preview, 2022-11-01",
         "Connection": "keep-alive",
-        "Content-Length": "871",
+        "Content-Length": "289",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 19 Oct 2022 21:57:56 GMT",
-        "mise-correlation-id": "9696c41b-bd86-44e0-8f33-651e0312cdf9",
+        "Date": "Wed, 25 Jan 2023 11:38:58 GMT",
+        "Location": "https://endpoint/tests/abc?api-version=2022-11-01",
+        "mise-correlation-id": "ee1f6c32-6785-4f55-8995-d304c712a33a",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "d1cd023c-0ad3-4b9b-96ff-2a4cf2f18a17"
+        "x-ms-correlation-request-id": "0465d8eb-2e5d-411b-b876-4e323878e3af"
       },
       "ResponseBody": {
+        "loadTestConfiguration": {
+          "engineInstances": 1,
+          "splitAllCSVs": false,
+          "quickStartTest": false
+        },
+        "inputArtifacts": {
+          "additionalFileInfo": []
+        },
         "testId": "abc",
         "description": "",
         "displayName": "sample_test",
-        "resourceId": "/subscriptions/azure_subscription_id/resourcegroups/mrinal/providers/microsoft.loadtestservice/loadtests/mrgautam-auseast",
-        "loadTestConfig": {
-          "engineInstances": 1,
-          "splitAllCSVs": false
-        },
-        "passFailCriteria": null,
-        "createdDateTime": "2022-09-22T10:08:09.784Z",
-        "createdBy": null,
-        "lastModifiedDateTime": "2022-09-22T10:08:09.784Z",
-        "lastModifiedBy": null,
-        "inputArtifacts": {
-          "configUrl": null,
-          "testScriptUrl": {
-            "url": "https://storageurl.com/",
-            "fileId": "xyz12365",
-            "filename": "sample.jmx",
-            "fileType": 0,
-            "expireTime": "2022-10-19T22:07:56.2396891\u002B00:00",
-            "validationStatus": "VALIDATION_INITIATED"
-          },
-          "userPropUrl": null,
-          "inputArtifactsZipFileurl": null,
-          "additionalUrls": []
-        },
-        "secrets": null,
-        "certificate": null,
-        "environmentVariables": null,
-        "subnetId": null,
-        "keyvaultReferenceIdentityType": null,
-        "keyvaultReferenceIdentityId": null
+        "createdDateTime": "2023-01-25T11:38:58.651Z",
+        "lastModifiedDateTime": "2023-01-25T11:38:58.651Z"
       }
     }
   ],

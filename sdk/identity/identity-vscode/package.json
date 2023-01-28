@@ -76,7 +76,7 @@
     "@types/sinon": "^9.0.4",
     "@types/uuid": "^8.0.0",
     "cross-env": "^7.0.2",
-    "dotenv": "^8.2.0",
+    "dotenv": "^16.0.0",
     "eslint": "^8.0.0",
     "inherits": "^2.0.3",
     "mocha": "^7.1.1",

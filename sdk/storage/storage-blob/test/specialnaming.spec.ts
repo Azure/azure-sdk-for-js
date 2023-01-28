@@ -4,7 +4,7 @@
 import { BlockBlobClient, BlobServiceClient } from "../src";
 import { getBSU, recorderEnvSetup } from "./utils/index";
 import { assert } from "chai";
-import { appendToURLPath } from "../src/utils/utils.common";
+import { appendToURLPath, EscapePath } from "../src/utils/utils.common";
 import { record, Recorder } from "@azure-tools/test-recorder";
 import { ContainerClient } from "../src";
 import { Context } from "mocha";
@@ -209,10 +209,7 @@ describe("Special Naming Tests", () => {
       "汉字. special ~!@#$%^&*()_+`1234567890-={}|[]\\:\";'<>?,/'"
     );
     const blockBlobClient = new BlockBlobClient(
-      // There are 2 special cases for a URL string:
-      // Escape "%" when creating XxxClient object with URL strings
-      // Escape "?" otherwise string after "?" will be treated as URL parameters
-      appendToURLPath(containerClient.url, blobName.replace(/%/g, "%25").replace(/\?/g, "%3F")),
+      appendToURLPath(containerClient.url, EscapePath(blobName)),
       (containerClient as any).pipeline
     );
 

@@ -12,6 +12,8 @@
 
 ### Bugs Fixed
 
+- Fix discarded user-defined `onResponse` callback [#24479](https://github.com/Azure/azure-sdk-for-js/pull/24479)
+
 ### Other Changes
 
 ## 11.3.0-beta.8 (2022-09-06)
