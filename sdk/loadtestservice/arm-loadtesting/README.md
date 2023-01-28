@@ -71,11 +71,13 @@ Create a new Azure Load Testing resource.
 loadTestResourceCreatePayload = {
   location: "westus2"
 };
+
 const resource = await client.loadTests.beginCreateOrUpdateAndWait(
   "sample-rg",
   "sample-loadtesting-resource",
   loadTestResourceCreatePayload
 );
+
 console.log(resource);
 ```
 
@@ -98,11 +100,13 @@ loadTestResourceCreatePayload = {
     keyUrl: 'https://sample-kv.vault.azure.net/keys/cmkkey/2d1ccd5c50234ea2a0858fe148b69cde'
   }
 };
+
 const resource = await client.loadTests.beginCreateOrUpdateAndWait(
   "sample-rg",
   "sample-loadtesting-resource",
   loadTestResourceCreatePayload
 );
+
 console.log(resource);
 ```
 
@@ -111,10 +115,12 @@ console.log(resource);
 ```javascript
 let resourceName = 'sample-loadtesting-resource';
 let resourceGroupName = 'sample-rg';
+
 const resource = await client.loadTests.get(
   resourceGroupName,
   resourceName
 );
+
 console.log(resource);
 ```
 
@@ -140,11 +146,13 @@ loadTestResourcePatchPayload = {
     keyUrl: 'https://sample-kv.vault.azure.net/keys/cmkkey/2d1ccd5c50234ea2a0858fe148b69cde'
   }
 };
+
 const resource = await client.loadTests.beginUpdateAndWait(
   "sample-rg",
   "sample-loadtesting-resource",
   loadTestResourcePatchPayload
 );
+
 console.log(resource);
 ```
 
@@ -153,6 +161,7 @@ console.log(resource);
 ```javascript
 let resourceName = 'sample-loadtesting-resource';
 let resourceGroupName = 'sample-rg';
+
 const result = await client.loadTests.beginDeleteAndWait(
   resourceGroupName,
   resourceName
