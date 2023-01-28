@@ -10,23 +10,28 @@
 // Licensed under the MIT License.
 const { LoadTestClient } = require("@azure/arm-loadtesting");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
- * This sample demonstrates how to Lists loadtest resources in a resource group.
+ * This sample demonstrates how to Lists all the available API operations for Load Test Resource.
  *
- * @summary Lists loadtest resources in a resource group.
- * x-ms-original-file: specification/loadtestservice/resource-manager/Microsoft.LoadTestService/stable/2022-12-01/examples/LoadTests_ListByResourceGroup.json
+ * @summary Lists all the available API operations for Load Test Resource.
+ * x-ms-original-file: specification/loadtestservice/resource-manager/Microsoft.LoadTestService/stable/2022-12-01/examples/Operations_List.json
  */
-async function loadTestsListByResourceGroup() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "dummyrg";
+async function operationsList() {
+  const subscriptionId =
+    process.env["LOADTESTSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new LoadTestClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.loadTests.listByResourceGroup(resourceGroupName)) {
+  for await (let item of client.operations.list()) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
-loadTestsListByResourceGroup().catch(console.error);
+async function main() {
+  operationsList();
+}
+
+main().catch(console.error);

@@ -10,23 +10,28 @@
 // Licensed under the MIT License.
 const { LoadTestClient } = require("@azure/arm-loadtesting");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
- * This sample demonstrates how to Lists all the available quota per region per subscription.
+ * This sample demonstrates how to Lists loadtests resources in a subscription.
  *
- * @summary Lists all the available quota per region per subscription.
- * x-ms-original-file: specification/loadtestservice/resource-manager/Microsoft.LoadTestService/stable/2022-12-01/examples/Quotas_List.json
+ * @summary Lists loadtests resources in a subscription.
+ * x-ms-original-file: specification/loadtestservice/resource-manager/Microsoft.LoadTestService/stable/2022-12-01/examples/LoadTests_ListBySubscription.json
  */
-async function quotasList() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const location = "westus";
+async function loadTestsListBySubscription() {
+  const subscriptionId =
+    process.env["LOADTESTSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new LoadTestClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.quotas.list(location)) {
+  for await (let item of client.loadTests.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
-quotasList().catch(console.error);
+async function main() {
+  loadTestsListBySubscription();
+}
+
+main().catch(console.error);
