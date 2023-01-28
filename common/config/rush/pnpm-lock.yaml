@@ -12557,7 +12557,7 @@ packages:
     dev: false
 
   file:projects/arm-loadtesting.tgz:
-    resolution: {integrity: sha512-bsd2DOvhPd33WoYb8Yh6gpGM/uXFSXElF/s9/u9LmU+DM2daUP8wwAI8PzH4BKTVoa3U+9zaxaFNobH1rshqaA==, tarball: file:projects/arm-loadtesting.tgz}
+    resolution: {integrity: sha512-MPS5Ji/IzFXi6qydZZj0F0fOJfpc71zSCkc/sv934t2gU3W35AtHdZf+iFF3Ok/nx4+boStF1glv2X0p54ywqQ==, tarball: file:projects/arm-loadtesting.tgz}
     name: '@rush-temp/arm-loadtesting'
     version: 0.0.0
     dependencies:
@@ -12571,6 +12571,7 @@ packages:
       '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
