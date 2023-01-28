@@ -1,17 +1,15 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://88888888-8888-8888-8888-888888888888-sdk-test-devcenter.devcenter.azure.com/projects/sdk-default-project/users/me/environments/SdkTest-Environment?api-version=2022-03-01-preview",
+      "RequestUri": "https://88888888-8888-8888-8888-888888888888-sdk-dc-na4b3zkj5hmeo.eastus.devcenter.azure.com/////////////////////////projects/sdk-default-project/users/me/environments/SdkTest-Environment?api-version=2022-11-11-preview",
       "RequestMethod": "PUT",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "Content-Length": "112",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-developer-devcenter-rest/1.0.0 core-rest-pipeline/1.9.0 Node/v16.16.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "2bfdc991-0f6e-426d-bdb5-03e823c2ef97"
+        "User-Agent": "azsdk-js-developer-devcenter-rest/1.0.0-beta.3 core-rest-pipeline/1.10.1 Node/v16.18.0 OS/(x64-Windows_NT-10.0.22621)"
       },
       "RequestBody": {
         "catalogItemName": "Empty",
@@ -23,20 +21,19 @@
         "Connection": "keep-alive",
         "Content-Length": "281",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 06 Oct 2022 06:22:19 GMT",
-        "Location": "https://88888888-8888-8888-8888-888888888888-sdk-test-devcenter.devcenter.azure.com/projects/sdk-default-project/operationstatuses/79281898-1d09-40a4-b69f-45cea0170f04?monitor=true",
-        "Operation-Location": "https://88888888-8888-8888-8888-888888888888-sdk-test-devcenter.devcenter.azure.com/projects/sdk-default-project/operationstatuses/79281898-1d09-40a4-b69f-45cea0170f04",
+        "Date": "Sat, 28 Jan 2023 00:03:30 GMT",
+        "Location": "https://88888888-8888-8888-8888-888888888888-sdk-dc-na4b3zkj5hmeo.eastus.devcenter.azure.com/////////////////////////projects/sdk-default-project/operationstatuses/e7b2cb94-6e3c-4dbe-a24f-fb8e37b5b3a0?monitor=true",
+        "Operation-Location": "https://88888888-8888-8888-8888-888888888888-sdk-dc-na4b3zkj5hmeo.eastus.devcenter.azure.com/////////////////////////projects/sdk-default-project/operationstatuses/e7b2cb94-6e3c-4dbe-a24f-fb8e37b5b3a0",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
-        "x-ms-client-request-id": "2bfdc991-0f6e-426d-bdb5-03e823c2ef97",
-        "x-ms-correlation-request-id": "727abf45-5249-48c8-b553-5f8f105dcd34",
+        "x-ms-correlation-request-id": "7fe5e6d1-dd7e-4c3b-803d-37e695e3f021",
         "X-Rate-Limit-Limit": "1m",
         "X-Rate-Limit-Remaining": "299",
-        "X-Rate-Limit-Reset": "2022-10-06T06:23:19.3632131Z"
+        "X-Rate-Limit-Reset": "2023-01-28T00:04:29.4721656Z"
       },
       "ResponseBody": {
         "name": "SdkTest-Environment",
         "environmentType": "sdk-default-environment-type",
-        "owner": "b854345f-849a-473b-be41-fc43e06e02f4",
+        "user": "11111111-1111-1111-1111-111111111111",
         "provisioningState": "Creating",
         "catalogName": "sdk-default-catalog",
         "catalogItemName": "Empty",
@@ -45,50 +42,13 @@
       }
     },
     {
-      "RequestUri": "https://88888888-8888-8888-8888-888888888888-sdk-test-devcenter.devcenter.azure.com/projects/sdk-default-project/operationstatuses/79281898-1d09-40a4-b69f-45cea0170f04?api-version=2022-03-01-preview",
+      "RequestUri": "https://88888888-8888-8888-8888-888888888888-sdk-dc-na4b3zkj5hmeo.eastus.devcenter.azure.com/////////////////////////projects/sdk-default-project/operationstatuses/e7b2cb94-6e3c-4dbe-a24f-fb8e37b5b3a0?api-version=2022-11-11-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-developer-devcenter-rest/1.0.0 core-rest-pipeline/1.9.0 Node/v16.16.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "dc095674-e32d-4520-b9b0-278e876e200b"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "Connection": "keep-alive",
-        "Content-Length": "226",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 06 Oct 2022 06:22:20 GMT",
-        "Location": "https://88888888-8888-8888-8888-888888888888-sdk-test-devcenter.devcenter.azure.com/projects/sdk-default-project/operationstatuses/79281898-1d09-40a4-b69f-45cea0170f04?monitor=true",
-        "Operation-Location": "https://88888888-8888-8888-8888-888888888888-sdk-test-devcenter.devcenter.azure.com/projects/sdk-default-project/operationstatuses/79281898-1d09-40a4-b69f-45cea0170f04",
-        "Retry-After": "30",
-        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
-        "x-ms-client-request-id": "dc095674-e32d-4520-b9b0-278e876e200b",
-        "x-ms-correlation-request-id": "9ada2395-b496-4f8b-a281-8e25e27c6c9c",
-        "X-Rate-Limit-Limit": "1m",
-        "X-Rate-Limit-Remaining": "299",
-        "X-Rate-Limit-Reset": "2022-10-06T06:23:20.0334165Z"
-      },
-      "ResponseBody": {
-        "id": "/projects/sdk-default-project/operationStatuses/79281898-1d09-40a4-b69f-45cea0170f04",
-        "name": "79281898-1d09-40a4-b69f-45cea0170f04",
-        "status": "NotStarted",
-        "startTime": "2022-10-06T06:22:19.8161668\u002B00:00"
-      }
-    },
-    {
-      "RequestUri": "https://88888888-8888-8888-8888-888888888888-sdk-test-devcenter.devcenter.azure.com/projects/sdk-default-project/operationstatuses/79281898-1d09-40a4-b69f-45cea0170f04?api-version=2022-03-01-preview",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-developer-devcenter-rest/1.0.0 core-rest-pipeline/1.9.0 Node/v16.16.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "2d566d11-2cb3-4504-a847-7ace694532d6"
+        "User-Agent": "azsdk-js-developer-devcenter-rest/1.0.0-beta.3 core-rest-pipeline/1.10.1 Node/v16.18.0 OS/(x64-Windows_NT-10.0.22621)"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -96,34 +56,31 @@
         "Connection": "keep-alive",
         "Content-Length": "223",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 06 Oct 2022 06:22:50 GMT",
-        "Location": "https://88888888-8888-8888-8888-888888888888-sdk-test-devcenter.devcenter.azure.com/projects/sdk-default-project/operationstatuses/79281898-1d09-40a4-b69f-45cea0170f04?monitor=true",
-        "Operation-Location": "https://88888888-8888-8888-8888-888888888888-sdk-test-devcenter.devcenter.azure.com/projects/sdk-default-project/operationstatuses/79281898-1d09-40a4-b69f-45cea0170f04",
+        "Date": "Sat, 28 Jan 2023 00:03:30 GMT",
+        "Location": "https://88888888-8888-8888-8888-888888888888-sdk-dc-na4b3zkj5hmeo.eastus.devcenter.azure.com/////////////////////////projects/sdk-default-project/operationstatuses/e7b2cb94-6e3c-4dbe-a24f-fb8e37b5b3a0?monitor=true",
+        "Operation-Location": "https://88888888-8888-8888-8888-888888888888-sdk-dc-na4b3zkj5hmeo.eastus.devcenter.azure.com/////////////////////////projects/sdk-default-project/operationstatuses/e7b2cb94-6e3c-4dbe-a24f-fb8e37b5b3a0",
         "Retry-After": "30",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
-        "x-ms-client-request-id": "2d566d11-2cb3-4504-a847-7ace694532d6",
-        "x-ms-correlation-request-id": "4bd21cac-835e-499f-890c-3f6d7fc1317c",
+        "x-ms-correlation-request-id": "1db0b415-5894-4d03-8ff7-9b79d5f623c6",
         "X-Rate-Limit-Limit": "1m",
-        "X-Rate-Limit-Remaining": "299",
-        "X-Rate-Limit-Reset": "2022-10-06T06:23:50.3777232Z"
+        "X-Rate-Limit-Remaining": "297",
+        "X-Rate-Limit-Reset": "2023-01-28T00:03:58.1732020Z"
       },
       "ResponseBody": {
-        "id": "/projects/sdk-default-project/operationStatuses/79281898-1d09-40a4-b69f-45cea0170f04",
-        "name": "79281898-1d09-40a4-b69f-45cea0170f04",
+        "id": "/projects/sdk-default-project/operationStatuses/e7b2cb94-6e3c-4dbe-a24f-fb8e37b5b3a0",
+        "name": "e7b2cb94-6e3c-4dbe-a24f-fb8e37b5b3a0",
         "status": "Running",
-        "startTime": "2022-10-06T06:22:19.8161668\u002B00:00"
+        "startTime": "2023-01-28T00:03:29.6073475\u002B00:00"
       }
     },
     {
-      "RequestUri": "https://88888888-8888-8888-8888-888888888888-sdk-test-devcenter.devcenter.azure.com/projects/sdk-default-project/operationstatuses/79281898-1d09-40a4-b69f-45cea0170f04?api-version=2022-03-01-preview",
+      "RequestUri": "https://88888888-8888-8888-8888-888888888888-sdk-dc-na4b3zkj5hmeo.eastus.devcenter.azure.com/////////////////////////projects/sdk-default-project/operationstatuses/e7b2cb94-6e3c-4dbe-a24f-fb8e37b5b3a0?api-version=2022-11-11-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-developer-devcenter-rest/1.0.0 core-rest-pipeline/1.9.0 Node/v16.16.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "6d6cb6d4-3954-479a-8395-39b00df8b148"
+        "User-Agent": "azsdk-js-developer-devcenter-rest/1.0.0-beta.3 core-rest-pipeline/1.10.1 Node/v16.18.0 OS/(x64-Windows_NT-10.0.22621)"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -131,34 +88,127 @@
         "Connection": "keep-alive",
         "Content-Length": "223",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 06 Oct 2022 06:23:26 GMT",
-        "Location": "https://88888888-8888-8888-8888-888888888888-sdk-test-devcenter.devcenter.azure.com/projects/sdk-default-project/operationstatuses/79281898-1d09-40a4-b69f-45cea0170f04?monitor=true",
-        "Operation-Location": "https://88888888-8888-8888-8888-888888888888-sdk-test-devcenter.devcenter.azure.com/projects/sdk-default-project/operationstatuses/79281898-1d09-40a4-b69f-45cea0170f04",
+        "Date": "Sat, 28 Jan 2023 00:04:00 GMT",
+        "Location": "https://88888888-8888-8888-8888-888888888888-sdk-dc-na4b3zkj5hmeo.eastus.devcenter.azure.com/////////////////////////projects/sdk-default-project/operationstatuses/e7b2cb94-6e3c-4dbe-a24f-fb8e37b5b3a0?monitor=true",
+        "Operation-Location": "https://88888888-8888-8888-8888-888888888888-sdk-dc-na4b3zkj5hmeo.eastus.devcenter.azure.com/////////////////////////projects/sdk-default-project/operationstatuses/e7b2cb94-6e3c-4dbe-a24f-fb8e37b5b3a0",
         "Retry-After": "30",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
-        "x-ms-client-request-id": "6d6cb6d4-3954-479a-8395-39b00df8b148",
-        "x-ms-correlation-request-id": "76a0b88c-1554-4b78-aa8f-84f2b9d36de3",
+        "x-ms-correlation-request-id": "2c67f7bb-8c88-44eb-9ddb-2c2c56f2d71b",
         "X-Rate-Limit-Limit": "1m",
-        "X-Rate-Limit-Remaining": "299",
-        "X-Rate-Limit-Reset": "2022-10-06T06:24:20.6859317Z"
+        "X-Rate-Limit-Remaining": "297",
+        "X-Rate-Limit-Reset": "2023-01-28T00:04:22.2761712Z"
       },
       "ResponseBody": {
-        "id": "/projects/sdk-default-project/operationStatuses/79281898-1d09-40a4-b69f-45cea0170f04",
-        "name": "79281898-1d09-40a4-b69f-45cea0170f04",
+        "id": "/projects/sdk-default-project/operationStatuses/e7b2cb94-6e3c-4dbe-a24f-fb8e37b5b3a0",
+        "name": "e7b2cb94-6e3c-4dbe-a24f-fb8e37b5b3a0",
         "status": "Running",
-        "startTime": "2022-10-06T06:22:19.8161668\u002B00:00"
+        "startTime": "2023-01-28T00:03:29.6073475\u002B00:00"
       }
     },
     {
-      "RequestUri": "https://88888888-8888-8888-8888-888888888888-sdk-test-devcenter.devcenter.azure.com/projects/sdk-default-project/operationstatuses/79281898-1d09-40a4-b69f-45cea0170f04?api-version=2022-03-01-preview",
+      "RequestUri": "https://88888888-8888-8888-8888-888888888888-sdk-dc-na4b3zkj5hmeo.eastus.devcenter.azure.com/////////////////////////projects/sdk-default-project/operationstatuses/e7b2cb94-6e3c-4dbe-a24f-fb8e37b5b3a0?api-version=2022-11-11-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-developer-devcenter-rest/1.0.0 core-rest-pipeline/1.9.0 Node/v16.16.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "10c5d277-b49f-48a6-90b3-47978e9432a9"
+        "User-Agent": "azsdk-js-developer-devcenter-rest/1.0.0-beta.3 core-rest-pipeline/1.10.1 Node/v16.18.0 OS/(x64-Windows_NT-10.0.22621)"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Connection": "keep-alive",
+        "Content-Length": "223",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Sat, 28 Jan 2023 00:04:31 GMT",
+        "Location": "https://88888888-8888-8888-8888-888888888888-sdk-dc-na4b3zkj5hmeo.eastus.devcenter.azure.com/////////////////////////projects/sdk-default-project/operationstatuses/e7b2cb94-6e3c-4dbe-a24f-fb8e37b5b3a0?monitor=true",
+        "Operation-Location": "https://88888888-8888-8888-8888-888888888888-sdk-dc-na4b3zkj5hmeo.eastus.devcenter.azure.com/////////////////////////projects/sdk-default-project/operationstatuses/e7b2cb94-6e3c-4dbe-a24f-fb8e37b5b3a0",
+        "Retry-After": "30",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
+        "x-ms-correlation-request-id": "763f6fbe-9605-4033-969c-b4e107315d20",
+        "X-Rate-Limit-Limit": "1m",
+        "X-Rate-Limit-Remaining": "299",
+        "X-Rate-Limit-Reset": "2023-01-28T00:05:31.0079444Z"
+      },
+      "ResponseBody": {
+        "id": "/projects/sdk-default-project/operationStatuses/e7b2cb94-6e3c-4dbe-a24f-fb8e37b5b3a0",
+        "name": "e7b2cb94-6e3c-4dbe-a24f-fb8e37b5b3a0",
+        "status": "Running",
+        "startTime": "2023-01-28T00:03:29.6073475\u002B00:00"
+      }
+    },
+    {
+      "RequestUri": "https://88888888-8888-8888-8888-888888888888-sdk-dc-na4b3zkj5hmeo.eastus.devcenter.azure.com/////////////////////////projects/sdk-default-project/operationstatuses/e7b2cb94-6e3c-4dbe-a24f-fb8e37b5b3a0?api-version=2022-11-11-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-developer-devcenter-rest/1.0.0-beta.3 core-rest-pipeline/1.10.1 Node/v16.18.0 OS/(x64-Windows_NT-10.0.22621)"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Connection": "keep-alive",
+        "Content-Length": "223",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Sat, 28 Jan 2023 00:05:01 GMT",
+        "Location": "https://88888888-8888-8888-8888-888888888888-sdk-dc-na4b3zkj5hmeo.eastus.devcenter.azure.com/////////////////////////projects/sdk-default-project/operationstatuses/e7b2cb94-6e3c-4dbe-a24f-fb8e37b5b3a0?monitor=true",
+        "Operation-Location": "https://88888888-8888-8888-8888-888888888888-sdk-dc-na4b3zkj5hmeo.eastus.devcenter.azure.com/////////////////////////projects/sdk-default-project/operationstatuses/e7b2cb94-6e3c-4dbe-a24f-fb8e37b5b3a0",
+        "Retry-After": "30",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
+        "x-ms-correlation-request-id": "4d5d3e24-8a81-43e7-a0ff-f6534c0700ff",
+        "X-Rate-Limit-Limit": "1m",
+        "X-Rate-Limit-Remaining": "298",
+        "X-Rate-Limit-Reset": "2023-01-28T00:05:55.4621109Z"
+      },
+      "ResponseBody": {
+        "id": "/projects/sdk-default-project/operationStatuses/e7b2cb94-6e3c-4dbe-a24f-fb8e37b5b3a0",
+        "name": "e7b2cb94-6e3c-4dbe-a24f-fb8e37b5b3a0",
+        "status": "Running",
+        "startTime": "2023-01-28T00:03:29.6073475\u002B00:00"
+      }
+    },
+    {
+      "RequestUri": "https://88888888-8888-8888-8888-888888888888-sdk-dc-na4b3zkj5hmeo.eastus.devcenter.azure.com/////////////////////////projects/sdk-default-project/operationstatuses/e7b2cb94-6e3c-4dbe-a24f-fb8e37b5b3a0?api-version=2022-11-11-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-developer-devcenter-rest/1.0.0-beta.3 core-rest-pipeline/1.10.1 Node/v16.18.0 OS/(x64-Windows_NT-10.0.22621)"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Connection": "keep-alive",
+        "Content-Length": "223",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Sat, 28 Jan 2023 00:05:31 GMT",
+        "Location": "https://88888888-8888-8888-8888-888888888888-sdk-dc-na4b3zkj5hmeo.eastus.devcenter.azure.com/////////////////////////projects/sdk-default-project/operationstatuses/e7b2cb94-6e3c-4dbe-a24f-fb8e37b5b3a0?monitor=true",
+        "Operation-Location": "https://88888888-8888-8888-8888-888888888888-sdk-dc-na4b3zkj5hmeo.eastus.devcenter.azure.com/////////////////////////projects/sdk-default-project/operationstatuses/e7b2cb94-6e3c-4dbe-a24f-fb8e37b5b3a0",
+        "Retry-After": "30",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
+        "x-ms-correlation-request-id": "1ee3e35b-0849-4773-b91f-5fdf13663bc8",
+        "X-Rate-Limit-Limit": "1m",
+        "X-Rate-Limit-Remaining": "298",
+        "X-Rate-Limit-Reset": "2023-01-28T00:06:22.2789829Z"
+      },
+      "ResponseBody": {
+        "id": "/projects/sdk-default-project/operationStatuses/e7b2cb94-6e3c-4dbe-a24f-fb8e37b5b3a0",
+        "name": "e7b2cb94-6e3c-4dbe-a24f-fb8e37b5b3a0",
+        "status": "Running",
+        "startTime": "2023-01-28T00:03:29.6073475\u002B00:00"
+      }
+    },
+    {
+      "RequestUri": "https://88888888-8888-8888-8888-888888888888-sdk-dc-na4b3zkj5hmeo.eastus.devcenter.azure.com/////////////////////////projects/sdk-default-project/operationstatuses/e7b2cb94-6e3c-4dbe-a24f-fb8e37b5b3a0?api-version=2022-11-11-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-developer-devcenter-rest/1.0.0-beta.3 core-rest-pipeline/1.10.1 Node/v16.18.0 OS/(x64-Windows_NT-10.0.22621)"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -166,36 +216,33 @@
         "Connection": "keep-alive",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 06 Oct 2022 06:23:56 GMT",
-        "Location": "https://88888888-8888-8888-8888-888888888888-sdk-test-devcenter.devcenter.azure.com/projects/sdk-default-project/operationstatuses/79281898-1d09-40a4-b69f-45cea0170f04?monitor=true",
-        "Operation-Location": "https://88888888-8888-8888-8888-888888888888-sdk-test-devcenter.devcenter.azure.com/projects/sdk-default-project/operationstatuses/79281898-1d09-40a4-b69f-45cea0170f04",
+        "Date": "Sat, 28 Jan 2023 00:06:01 GMT",
+        "Location": "https://88888888-8888-8888-8888-888888888888-sdk-dc-na4b3zkj5hmeo.eastus.devcenter.azure.com/////////////////////////projects/sdk-default-project/operationstatuses/e7b2cb94-6e3c-4dbe-a24f-fb8e37b5b3a0?monitor=true",
+        "Operation-Location": "https://88888888-8888-8888-8888-888888888888-sdk-dc-na4b3zkj5hmeo.eastus.devcenter.azure.com/////////////////////////projects/sdk-default-project/operationstatuses/e7b2cb94-6e3c-4dbe-a24f-fb8e37b5b3a0",
         "Retry-After": "30",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "Transfer-Encoding": "chunked",
-        "x-ms-client-request-id": "10c5d277-b49f-48a6-90b3-47978e9432a9",
-        "x-ms-correlation-request-id": "e2bafc63-28a3-40ba-b0e9-8a887e5b335f",
+        "x-ms-correlation-request-id": "b0d9a7f1-1be3-4d1c-83cb-f1a6292f256e",
         "X-Rate-Limit-Limit": "1m",
-        "X-Rate-Limit-Remaining": "299",
-        "X-Rate-Limit-Reset": "2022-10-06T06:24:56.5382621Z"
+        "X-Rate-Limit-Remaining": "298",
+        "X-Rate-Limit-Reset": "2023-01-28T00:06:52.3972795Z"
       },
       "ResponseBody": {
-        "id": "/projects/sdk-default-project/operationStatuses/79281898-1d09-40a4-b69f-45cea0170f04",
-        "name": "79281898-1d09-40a4-b69f-45cea0170f04",
+        "id": "/projects/sdk-default-project/operationStatuses/e7b2cb94-6e3c-4dbe-a24f-fb8e37b5b3a0",
+        "name": "e7b2cb94-6e3c-4dbe-a24f-fb8e37b5b3a0",
         "status": "Succeeded",
-        "startTime": "2022-10-06T06:22:19.8161668\u002B00:00",
-        "endTime": "2022-10-06T06:23:44.6472859\u002B00:00"
+        "startTime": "2023-01-28T00:03:29.6073475\u002B00:00",
+        "endTime": "2023-01-28T00:05:35.9017236\u002B00:00"
       }
     },
     {
-      "RequestUri": "https://88888888-8888-8888-8888-888888888888-sdk-test-devcenter.devcenter.azure.com/projects/sdk-default-project/users/me/environments/SdkTest-Environment?api-version=2022-03-01-preview",
+      "RequestUri": "https://88888888-8888-8888-8888-888888888888-sdk-dc-na4b3zkj5hmeo.eastus.devcenter.azure.com/////////////////////////projects/sdk-default-project/users/me/environments/SdkTest-Environment?api-version=2022-11-11-preview\u0026api-version=2022-11-11-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-developer-devcenter-rest/1.0.0 core-rest-pipeline/1.9.0 Node/v16.16.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "6f80cb6b-392b-4c9c-ad32-ec113a965466"
+        "User-Agent": "azsdk-js-developer-devcenter-rest/1.0.0-beta.3 core-rest-pipeline/1.10.1 Node/v16.18.0 OS/(x64-Windows_NT-10.0.22621)"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -203,21 +250,20 @@
         "Connection": "keep-alive",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 06 Oct 2022 06:24:26 GMT",
+        "Date": "Sat, 28 Jan 2023 00:06:02 GMT",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "Transfer-Encoding": "chunked",
-        "x-ms-client-request-id": "6f80cb6b-392b-4c9c-ad32-ec113a965466",
-        "x-ms-correlation-request-id": "131cdb04-9fc8-4dca-9a68-3726f21ba007",
+        "x-ms-correlation-request-id": "296f5d28-0136-4585-aa93-11e51742dcdf",
         "X-Rate-Limit-Limit": "1m",
         "X-Rate-Limit-Remaining": "299",
-        "X-Rate-Limit-Reset": "2022-10-06T06:25:26.7461990Z"
+        "X-Rate-Limit-Reset": "2023-01-28T00:07:01.9432171Z"
       },
       "ResponseBody": {
         "name": "SdkTest-Environment",
         "environmentType": "sdk-default-environment-type",
-        "owner": "b854345f-849a-473b-be41-fc43e06e02f4",
+        "user": "11111111-1111-1111-1111-111111111111",
         "provisioningState": "Succeeded",
-        "resourceGroupId": "/subscriptions/62e47139-66d0-4b0b-a000-1e8a412890c1/resourceGroups/sdk-default-project-SdkTest-Environment",
+        "resourceGroupId": "/subscriptions/62e47139-66d0-4b0b-a000-1e8a412890c1/resourceGroups/sdk-default-project-sdktest-environment",
         "catalogName": "sdk-default-catalog",
         "catalogItemName": "Empty",
         "scheduledTasks": {},
@@ -225,190 +271,102 @@
       }
     },
     {
-      "RequestUri": "https://88888888-8888-8888-8888-888888888888-sdk-test-devcenter.devcenter.azure.com/projects/sdk-default-project/users/me/environments/SdkTest-Environment/artifacts?api-version=2022-03-01-preview",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-developer-devcenter-rest/1.0.0 core-rest-pipeline/1.9.0 Node/v16.16.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "7a357159-f9a2-463d-8efd-86c12b8ff643"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "Connection": "keep-alive",
-        "Content-Length": "245",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 06 Oct 2022 06:24:32 GMT",
-        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
-        "x-ms-client-request-id": "7a357159-f9a2-463d-8efd-86c12b8ff643",
-        "x-ms-correlation-request-id": "858e1fc8-7c76-4640-bfcc-902024edc7a3",
-        "X-Rate-Limit-Limit": "1m",
-        "X-Rate-Limit-Remaining": "299",
-        "X-Rate-Limit-Reset": "2022-10-06T06:25:26.9893645Z"
-      },
-      "ResponseBody": {
-        "value": [
-          {
-            "id": "id1",
-            "name": "file1.json",
-            "isDirectory": false,
-            "fileSize": 1024.0
-          },
-          {
-            "id": "id2",
-            "name": "file2.json",
-            "isDirectory": false,
-            "fileSize": 1024.0
-          }
-        ]
-      }
-    },
-    {
-      "RequestUri": "https://88888888-8888-8888-8888-888888888888-sdk-test-devcenter.devcenter.azure.com/projects/sdk-default-project/users/me/environments/SdkTest-Environment?api-version=2022-03-01-preview",
+      "RequestUri": "https://88888888-8888-8888-8888-888888888888-sdk-dc-na4b3zkj5hmeo.eastus.devcenter.azure.com/////////////////////////projects/sdk-default-project/users/me/environments/SdkTest-Environment?api-version=2022-11-11-preview",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-developer-devcenter-rest/1.0.0 core-rest-pipeline/1.9.0 Node/v16.16.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "51b50817-c612-499f-afd1-51964e6a512d"
+        "User-Agent": "azsdk-js-developer-devcenter-rest/1.0.0-beta.3 core-rest-pipeline/1.10.1 Node/v16.18.0 OS/(x64-Windows_NT-10.0.22621)"
       },
       "RequestBody": null,
       "StatusCode": 202,
       "ResponseHeaders": {
         "Connection": "keep-alive",
         "Content-Length": "0",
-        "Date": "Thu, 06 Oct 2022 06:24:33 GMT",
-        "Location": "https://88888888-8888-8888-8888-888888888888-sdk-test-devcenter.devcenter.azure.com/projects/sdk-default-project/operationstatuses/70e40696-e6ba-4598-9cf7-3d25b8735b8b?monitor=true",
-        "Operation-Location": "https://88888888-8888-8888-8888-888888888888-sdk-test-devcenter.devcenter.azure.com/projects/sdk-default-project/operationstatuses/70e40696-e6ba-4598-9cf7-3d25b8735b8b",
+        "Date": "Sat, 28 Jan 2023 00:06:02 GMT",
+        "Location": "https://88888888-8888-8888-8888-888888888888-sdk-dc-na4b3zkj5hmeo.eastus.devcenter.azure.com/////////////////////////projects/sdk-default-project/operationstatuses/4a80fe1e-7e5f-4b11-954f-24055e7499f1?monitor=true",
+        "Operation-Location": "https://88888888-8888-8888-8888-888888888888-sdk-dc-na4b3zkj5hmeo.eastus.devcenter.azure.com/////////////////////////projects/sdk-default-project/operationstatuses/4a80fe1e-7e5f-4b11-954f-24055e7499f1",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
-        "x-ms-client-request-id": "51b50817-c612-499f-afd1-51964e6a512d",
-        "x-ms-correlation-request-id": "f630c93f-e876-4303-aff9-b68164e673a9",
+        "x-ms-correlation-request-id": "8695cb67-5da3-4b82-a759-f1455b777d99",
         "X-Rate-Limit-Limit": "1m",
-        "X-Rate-Limit-Remaining": "298",
-        "X-Rate-Limit-Reset": "2022-10-06T06:24:56.5382621Z"
+        "X-Rate-Limit-Remaining": "297",
+        "X-Rate-Limit-Reset": "2023-01-28T00:06:22.2789829Z"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://88888888-8888-8888-8888-888888888888-sdk-test-devcenter.devcenter.azure.com/projects/sdk-default-project/operationstatuses/70e40696-e6ba-4598-9cf7-3d25b8735b8b?api-version=2022-03-01-preview",
+      "RequestUri": "https://88888888-8888-8888-8888-888888888888-sdk-dc-na4b3zkj5hmeo.eastus.devcenter.azure.com/////////////////////////projects/sdk-default-project/operationstatuses/4a80fe1e-7e5f-4b11-954f-24055e7499f1?api-version=2022-11-11-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-developer-devcenter-rest/1.0.0 core-rest-pipeline/1.9.0 Node/v16.16.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "4aff23ab-562b-4bb4-ac76-9034c648da30"
+        "User-Agent": "azsdk-js-developer-devcenter-rest/1.0.0-beta.3 core-rest-pipeline/1.10.1 Node/v16.18.0 OS/(x64-Windows_NT-10.0.22621)"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Connection": "keep-alive",
-        "Content-Length": "226",
+        "Content-Length": "224",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 06 Oct 2022 06:24:33 GMT",
-        "Location": "https://88888888-8888-8888-8888-888888888888-sdk-test-devcenter.devcenter.azure.com/projects/sdk-default-project/operationstatuses/70e40696-e6ba-4598-9cf7-3d25b8735b8b?monitor=true",
-        "Operation-Location": "https://88888888-8888-8888-8888-888888888888-sdk-test-devcenter.devcenter.azure.com/projects/sdk-default-project/operationstatuses/70e40696-e6ba-4598-9cf7-3d25b8735b8b",
+        "Date": "Sat, 28 Jan 2023 00:06:02 GMT",
+        "Location": "https://88888888-8888-8888-8888-888888888888-sdk-dc-na4b3zkj5hmeo.eastus.devcenter.azure.com/////////////////////////projects/sdk-default-project/operationstatuses/4a80fe1e-7e5f-4b11-954f-24055e7499f1?monitor=true",
+        "Operation-Location": "https://88888888-8888-8888-8888-888888888888-sdk-dc-na4b3zkj5hmeo.eastus.devcenter.azure.com/////////////////////////projects/sdk-default-project/operationstatuses/4a80fe1e-7e5f-4b11-954f-24055e7499f1",
         "Retry-After": "30",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
-        "x-ms-client-request-id": "4aff23ab-562b-4bb4-ac76-9034c648da30",
-        "x-ms-correlation-request-id": "afbd6154-a058-4647-b988-d3252b988861",
+        "x-ms-correlation-request-id": "656cf9a2-8841-493c-8fdb-4a9a42e54b8b",
         "X-Rate-Limit-Limit": "1m",
         "X-Rate-Limit-Remaining": "297",
-        "X-Rate-Limit-Reset": "2022-10-06T06:25:26.7461990Z"
+        "X-Rate-Limit-Reset": "2023-01-28T00:06:52.3972795Z"
       },
       "ResponseBody": {
-        "id": "/projects/sdk-default-project/operationStatuses/70e40696-e6ba-4598-9cf7-3d25b8735b8b",
-        "name": "70e40696-e6ba-4598-9cf7-3d25b8735b8b",
+        "id": "/projects/sdk-default-project/operationStatuses/4a80fe1e-7e5f-4b11-954f-24055e7499f1",
+        "name": "4a80fe1e-7e5f-4b11-954f-24055e7499f1",
         "status": "NotStarted",
-        "startTime": "2022-10-06T06:24:33.1768307\u002B00:00"
+        "startTime": "2023-01-28T00:06:02.24019\u002B00:00"
       }
     },
     {
-      "RequestUri": "https://88888888-8888-8888-8888-888888888888-sdk-test-devcenter.devcenter.azure.com/projects/sdk-default-project/operationstatuses/70e40696-e6ba-4598-9cf7-3d25b8735b8b?api-version=2022-03-01-preview",
+      "RequestUri": "https://88888888-8888-8888-8888-888888888888-sdk-dc-na4b3zkj5hmeo.eastus.devcenter.azure.com/////////////////////////projects/sdk-default-project/operationstatuses/4a80fe1e-7e5f-4b11-954f-24055e7499f1?api-version=2022-11-11-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-developer-devcenter-rest/1.0.0 core-rest-pipeline/1.9.0 Node/v16.16.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "c8759197-76d9-457e-b64e-0caa32ae6f68"
+        "User-Agent": "azsdk-js-developer-devcenter-rest/1.0.0-beta.3 core-rest-pipeline/1.10.1 Node/v16.18.0 OS/(x64-Windows_NT-10.0.22621)"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Connection": "keep-alive",
-        "Content-Length": "223",
+        "Content-Length": "221",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 06 Oct 2022 06:25:03 GMT",
-        "Location": "https://88888888-8888-8888-8888-888888888888-sdk-test-devcenter.devcenter.azure.com/projects/sdk-default-project/operationstatuses/70e40696-e6ba-4598-9cf7-3d25b8735b8b?monitor=true",
-        "Operation-Location": "https://88888888-8888-8888-8888-888888888888-sdk-test-devcenter.devcenter.azure.com/projects/sdk-default-project/operationstatuses/70e40696-e6ba-4598-9cf7-3d25b8735b8b",
+        "Date": "Sat, 28 Jan 2023 00:06:32 GMT",
+        "Location": "https://88888888-8888-8888-8888-888888888888-sdk-dc-na4b3zkj5hmeo.eastus.devcenter.azure.com/////////////////////////projects/sdk-default-project/operationstatuses/4a80fe1e-7e5f-4b11-954f-24055e7499f1?monitor=true",
+        "Operation-Location": "https://88888888-8888-8888-8888-888888888888-sdk-dc-na4b3zkj5hmeo.eastus.devcenter.azure.com/////////////////////////projects/sdk-default-project/operationstatuses/4a80fe1e-7e5f-4b11-954f-24055e7499f1",
         "Retry-After": "30",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
-        "x-ms-client-request-id": "c8759197-76d9-457e-b64e-0caa32ae6f68",
-        "x-ms-correlation-request-id": "bccff205-9fe0-4f03-bff1-ef2546c4e380",
+        "x-ms-correlation-request-id": "c392f0c6-9790-4f02-9c5b-b1a640753108",
         "X-Rate-Limit-Limit": "1m",
         "X-Rate-Limit-Remaining": "298",
-        "X-Rate-Limit-Reset": "2022-10-06T06:25:26.9893645Z"
+        "X-Rate-Limit-Reset": "2023-01-28T00:07:01.9432171Z"
       },
       "ResponseBody": {
-        "id": "/projects/sdk-default-project/operationStatuses/70e40696-e6ba-4598-9cf7-3d25b8735b8b",
-        "name": "70e40696-e6ba-4598-9cf7-3d25b8735b8b",
+        "id": "/projects/sdk-default-project/operationStatuses/4a80fe1e-7e5f-4b11-954f-24055e7499f1",
+        "name": "4a80fe1e-7e5f-4b11-954f-24055e7499f1",
         "status": "Running",
-        "startTime": "2022-10-06T06:24:33.1768307\u002B00:00"
+        "startTime": "2023-01-28T00:06:02.24019\u002B00:00"
       }
     },
     {
-      "RequestUri": "https://88888888-8888-8888-8888-888888888888-sdk-test-devcenter.devcenter.azure.com/projects/sdk-default-project/operationstatuses/70e40696-e6ba-4598-9cf7-3d25b8735b8b?api-version=2022-03-01-preview",
+      "RequestUri": "https://88888888-8888-8888-8888-888888888888-sdk-dc-na4b3zkj5hmeo.eastus.devcenter.azure.com/////////////////////////projects/sdk-default-project/operationstatuses/4a80fe1e-7e5f-4b11-954f-24055e7499f1?api-version=2022-11-11-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-developer-devcenter-rest/1.0.0 core-rest-pipeline/1.9.0 Node/v16.16.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "878e47fd-fb9b-4e89-9b32-0128e63ded1e"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "Connection": "keep-alive",
-        "Content-Length": "223",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 06 Oct 2022 06:25:33 GMT",
-        "Location": "https://88888888-8888-8888-8888-888888888888-sdk-test-devcenter.devcenter.azure.com/projects/sdk-default-project/operationstatuses/70e40696-e6ba-4598-9cf7-3d25b8735b8b?monitor=true",
-        "Operation-Location": "https://88888888-8888-8888-8888-888888888888-sdk-test-devcenter.devcenter.azure.com/projects/sdk-default-project/operationstatuses/70e40696-e6ba-4598-9cf7-3d25b8735b8b",
-        "Retry-After": "30",
-        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
-        "x-ms-client-request-id": "878e47fd-fb9b-4e89-9b32-0128e63ded1e",
-        "x-ms-correlation-request-id": "b601b40b-653a-496d-8908-ddd310c204d8",
-        "X-Rate-Limit-Limit": "1m",
-        "X-Rate-Limit-Remaining": "298",
-        "X-Rate-Limit-Reset": "2022-10-06T06:25:57.5039129Z"
-      },
-      "ResponseBody": {
-        "id": "/projects/sdk-default-project/operationStatuses/70e40696-e6ba-4598-9cf7-3d25b8735b8b",
-        "name": "70e40696-e6ba-4598-9cf7-3d25b8735b8b",
-        "status": "Running",
-        "startTime": "2022-10-06T06:24:33.1768307\u002B00:00"
-      }
-    },
-    {
-      "RequestUri": "https://88888888-8888-8888-8888-888888888888-sdk-test-devcenter.devcenter.azure.com/projects/sdk-default-project/operationstatuses/70e40696-e6ba-4598-9cf7-3d25b8735b8b?api-version=2022-03-01-preview",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-developer-devcenter-rest/1.0.0 core-rest-pipeline/1.9.0 Node/v16.16.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "2a84224c-c8df-4670-8e03-e3e93faadc16"
+        "User-Agent": "azsdk-js-developer-devcenter-rest/1.0.0-beta.3 core-rest-pipeline/1.10.1 Node/v16.18.0 OS/(x64-Windows_NT-10.0.22621)"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -416,24 +374,23 @@
         "Connection": "keep-alive",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 06 Oct 2022 06:26:04 GMT",
-        "Location": "https://88888888-8888-8888-8888-888888888888-sdk-test-devcenter.devcenter.azure.com/projects/sdk-default-project/operationstatuses/70e40696-e6ba-4598-9cf7-3d25b8735b8b?monitor=true",
-        "Operation-Location": "https://88888888-8888-8888-8888-888888888888-sdk-test-devcenter.devcenter.azure.com/projects/sdk-default-project/operationstatuses/70e40696-e6ba-4598-9cf7-3d25b8735b8b",
+        "Date": "Sat, 28 Jan 2023 00:07:02 GMT",
+        "Location": "https://88888888-8888-8888-8888-888888888888-sdk-dc-na4b3zkj5hmeo.eastus.devcenter.azure.com/////////////////////////projects/sdk-default-project/operationstatuses/4a80fe1e-7e5f-4b11-954f-24055e7499f1?monitor=true",
+        "Operation-Location": "https://88888888-8888-8888-8888-888888888888-sdk-dc-na4b3zkj5hmeo.eastus.devcenter.azure.com/////////////////////////projects/sdk-default-project/operationstatuses/4a80fe1e-7e5f-4b11-954f-24055e7499f1",
         "Retry-After": "30",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "Transfer-Encoding": "chunked",
-        "x-ms-client-request-id": "2a84224c-c8df-4670-8e03-e3e93faadc16",
-        "x-ms-correlation-request-id": "2976cc20-7e80-4403-b2de-649fff50cddc",
+        "x-ms-correlation-request-id": "b4143335-9c6f-4e56-afca-dbff2c92e1df",
         "X-Rate-Limit-Limit": "1m",
-        "X-Rate-Limit-Remaining": "299",
-        "X-Rate-Limit-Reset": "2022-10-06T06:27:04.0127545Z"
+        "X-Rate-Limit-Remaining": "297",
+        "X-Rate-Limit-Reset": "2023-01-28T00:07:22.2894225Z"
       },
       "ResponseBody": {
-        "id": "/projects/sdk-default-project/operationStatuses/70e40696-e6ba-4598-9cf7-3d25b8735b8b",
-        "name": "70e40696-e6ba-4598-9cf7-3d25b8735b8b",
+        "id": "/projects/sdk-default-project/operationStatuses/4a80fe1e-7e5f-4b11-954f-24055e7499f1",
+        "name": "4a80fe1e-7e5f-4b11-954f-24055e7499f1",
         "status": "Succeeded",
-        "startTime": "2022-10-06T06:24:33.1768307\u002B00:00",
-        "endTime": "2022-10-06T06:25:46.7702484\u002B00:00"
+        "startTime": "2023-01-28T00:06:02.24019\u002B00:00",
+        "endTime": "2023-01-28T00:06:55.930604\u002B00:00"
       }
     }
   ],

@@ -30,14 +30,14 @@ export type AzureDevCenterClient = Client & {
 
 // @public
 export interface CatalogItemActionOutput {
-    readonly description?: string;
-    readonly id?: string;
-    readonly name?: string;
-    readonly parameters?: Array<CatalogItemParameterOutput>;
-    readonly parametersSchema?: string;
-    readonly runner?: string;
-    readonly type?: "Custom" | "Deploy" | "Delete";
-    readonly typeName?: string;
+    description?: string;
+    id?: string;
+    name?: string;
+    parameters?: Array<CatalogItemParameterOutput>;
+    parametersSchema?: string;
+    runner?: string;
+    type?: "Custom" | "Deploy" | "Delete";
+    typeName?: string;
 }
 
 // @public
@@ -48,21 +48,21 @@ export interface CatalogItemListResultOutput {
 
 // @public
 export interface CatalogItemOutput {
-    readonly catalogName?: string;
-    readonly id?: string;
-    readonly name?: string;
+    catalogName?: string;
+    id?: string;
+    name?: string;
 }
 
 // @public
 export interface CatalogItemParameterOutput {
-    readonly allowed?: Array<Record<string, unknown>>;
-    readonly default?: Record<string, unknown>;
-    readonly description?: string;
-    readonly id?: string;
-    readonly name?: string;
-    readonly readOnly?: boolean;
-    readonly required?: boolean;
-    readonly type?: "array" | "boolean" | "integer" | "null" | "number" | "object" | "string";
+    allowed?: Array<Record<string, unknown>>;
+    default?: Record<string, unknown>;
+    description?: string;
+    id?: string;
+    name?: string;
+    readOnly?: boolean;
+    required?: boolean;
+    type?: "array" | "boolean" | "integer" | "null" | "number" | "object" | "string";
 }
 
 // @public
@@ -73,19 +73,19 @@ export interface CatalogItemVersionListResultOutput {
 
 // @public
 export interface CatalogItemVersionOutput {
-    readonly actions?: Array<CatalogItemActionOutput>;
-    readonly catalogItemId?: string;
-    readonly catalogItemName?: string;
-    readonly catalogName?: string;
-    readonly description?: string;
+    actions?: Array<CatalogItemActionOutput>;
+    catalogItemId?: string;
+    catalogItemName?: string;
+    catalogName?: string;
+    description?: string;
     eligibleForLatestVersion?: boolean;
-    readonly parameters?: Array<CatalogItemParameterOutput>;
-    readonly parametersSchema?: string;
-    readonly runner?: string;
+    parameters?: Array<CatalogItemParameterOutput>;
+    parametersSchema?: string;
+    runner?: string;
     status?: "Enabled" | "Disabled";
-    readonly summary?: string;
-    readonly templatePath?: string;
-    readonly version?: string;
+    summary?: string;
+    templatePath?: string;
+    version?: string;
 }
 
 // @public
@@ -107,8 +107,23 @@ export default createClient;
 
 // @public
 export interface DevBox {
+    actionState?: string;
+    createdTime?: Date | string;
+    errorDetails?: ProvisioningError;
+    hardwareProfile?: HardwareProfile;
+    hibernateSupport?: "Disabled" | "Enabled";
+    imageReference?: ImageReference;
     localAdministrator?: "Enabled" | "Disabled";
+    location?: string;
+    name?: string;
+    osType?: "Windows";
     poolName: string;
+    powerState?: "Unknown" | "Deallocated" | "PoweredOff" | "Running" | "Hibernated";
+    projectName?: string;
+    provisioningState?: string;
+    storageProfile?: StorageProfile;
+    uniqueId?: string;
+    user?: string;
 }
 
 // @public
@@ -681,23 +696,23 @@ export interface DevBoxListResultOutput {
 
 // @public
 export interface DevBoxOutput {
-    readonly actionState?: string;
-    readonly createdTime?: string;
-    readonly errorDetails?: ProvisioningErrorOutput;
-    readonly hardwareProfile?: HardwareProfileOutput;
-    readonly hibernateSupport?: "Disabled" | "Enabled";
-    readonly imageReference?: ImageReferenceOutput;
+    actionState?: string;
+    createdTime?: string;
+    errorDetails?: ProvisioningErrorOutput;
+    hardwareProfile?: HardwareProfileOutput;
+    hibernateSupport?: "Disabled" | "Enabled";
+    imageReference?: ImageReferenceOutput;
     localAdministrator?: "Enabled" | "Disabled";
-    readonly location?: string;
-    readonly name?: string;
-    readonly osType?: "Windows";
+    location?: string;
+    name?: string;
+    osType?: "Windows";
     poolName: string;
-    readonly powerState?: "Unknown" | "Deallocated" | "PoweredOff" | "Running" | "Hibernated";
-    readonly projectName?: string;
-    readonly provisioningState?: string;
-    readonly storageProfile?: StorageProfileOutput;
-    readonly uniqueId?: string;
-    readonly user?: string;
+    powerState?: "Unknown" | "Deallocated" | "PoweredOff" | "Running" | "Hibernated";
+    projectName?: string;
+    provisioningState?: string;
+    storageProfile?: StorageProfileOutput;
+    uniqueId?: string;
+    user?: string;
 }
 
 // @public (undocumented)
@@ -849,6 +864,9 @@ export interface DevCenterListProjectsQueryParamProperties {
 // @public
 export interface Environment extends EnvironmentUpdateProperties {
     environmentType: string;
+    name?: string;
+    provisioningState?: string;
+    resourceGroupId?: string;
     user?: string;
 }
 
@@ -861,9 +879,9 @@ export interface EnvironmentListResultOutput {
 // @public
 export interface EnvironmentOutput extends EnvironmentUpdatePropertiesOutput {
     environmentType: string;
-    readonly name?: string;
-    readonly provisioningState?: string;
-    readonly resourceGroupId?: string;
+    name?: string;
+    provisioningState?: string;
+    resourceGroupId?: string;
     user?: string;
 }
 
@@ -1395,7 +1413,7 @@ export interface EnvironmentsUpdateEnvironment200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface EnvironmentsUpdateEnvironmentBodyParam {
-    body: EnvironmentUpdatePropertiesResourceMergeAndPatch;
+    body: EnvironmentUpdateProperties;
 }
 
 // @public (undocumented)
@@ -1429,9 +1447,9 @@ export interface EnvironmentTypeListResultOutput {
 
 // @public
 export interface EnvironmentTypeOutput {
-    readonly deploymentTargetId?: string;
-    readonly name?: string;
-    readonly status?: "Enabled" | "Disabled";
+    deploymentTargetId?: string;
+    name?: string;
+    status?: "Enabled" | "Disabled";
 }
 
 // @public
@@ -1455,9 +1473,6 @@ export interface EnvironmentUpdatePropertiesOutput {
 }
 
 // @public
-export type EnvironmentUpdatePropertiesResourceMergeAndPatch = Partial<EnvironmentUpdateProperties>;
-
-// @public
 export type GetArrayType<T> = T extends Array<infer TData> ? TData : never;
 
 // @public
@@ -1471,26 +1486,34 @@ export type GetPage<TPage> = (pageLink: string, maxPageSize?: number) => Promise
 
 // @public
 export interface HardwareProfile {
+    memoryGB?: number;
+    skuName?: string;
+    vCPUs?: number;
 }
 
 // @public
 export interface HardwareProfileOutput {
-    readonly memoryGB?: number;
-    readonly skuName?: string;
-    readonly vCPUs?: number;
+    memoryGB?: number;
+    skuName?: string;
+    vCPUs?: number;
 }
 
 // @public
 export interface ImageReference {
+    name?: string;
+    operatingSystem?: string;
+    osBuildNumber?: string;
+    publishedDate?: Date | string;
+    version?: string;
 }
 
 // @public
 export interface ImageReferenceOutput {
-    readonly name?: string;
-    readonly operatingSystem?: string;
-    readonly osBuildNumber?: string;
-    readonly publishedDate?: string;
-    readonly version?: string;
+    name?: string;
+    operatingSystem?: string;
+    osBuildNumber?: string;
+    publishedDate?: string;
+    version?: string;
 }
 
 // @public (undocumented)
@@ -1591,11 +1614,12 @@ export function isUnexpected(response: EnvironmentsListEnvironmentTypes200Respon
 
 // @public
 export interface OSDisk {
+    diskSizeGB?: number;
 }
 
 // @public
 export interface OSDiskOutput {
-    readonly diskSizeGB?: number;
+    diskSizeGB?: number;
 }
 
 // @public
@@ -1621,14 +1645,14 @@ export interface PoolListResultOutput {
 
 // @public
 export interface PoolOutput {
-    readonly hardwareProfile?: HardwareProfileOutput;
-    readonly hibernateSupport?: "Disabled" | "Enabled";
-    readonly imageReference?: ImageReferenceOutput;
+    hardwareProfile?: HardwareProfileOutput;
+    hibernateSupport?: "Disabled" | "Enabled";
+    imageReference?: ImageReferenceOutput;
     localAdministrator?: "Enabled" | "Disabled";
-    readonly location?: string;
-    readonly name?: string;
-    readonly osType?: "Windows";
-    readonly storageProfile?: StorageProfileOutput;
+    location?: string;
+    name?: string;
+    osType?: "Windows";
+    storageProfile?: StorageProfileOutput;
 }
 
 // @public
@@ -1639,8 +1663,8 @@ export interface ProjectListResultOutput {
 
 // @public
 export interface ProjectOutput {
-    readonly description?: string;
-    readonly name?: string;
+    description?: string;
+    name?: string;
 }
 
 // @public
@@ -1657,8 +1681,8 @@ export interface ProvisioningErrorOutput {
 
 // @public
 export interface RemoteConnectionOutput {
-    readonly rdpConnectionUrl?: string;
-    readonly webUrl?: string;
+    rdpConnectionUrl?: string;
+    webUrl?: string;
 }
 
 // @public (undocumented)
@@ -1714,11 +1738,11 @@ export interface ScheduleListResultOutput {
 
 // @public
 export interface ScheduleOutput {
-    readonly frequency?: "Daily";
-    readonly name?: string;
-    readonly time?: string;
-    readonly timeZone?: string;
-    readonly type?: "StopDevBox";
+    frequency?: "Daily";
+    name?: string;
+    time?: string;
+    timeZone?: string;
+    type?: "StopDevBox";
 }
 
 // @public
@@ -1733,12 +1757,12 @@ export interface StorageProfileOutput {
 
 // @public
 export interface UpcomingActionOutput {
-    readonly actionType?: "Stop";
-    readonly id?: string;
-    readonly originalScheduledTime?: string;
-    readonly reason?: "Schedule";
-    readonly scheduledTime?: string;
-    readonly sourceId?: string;
+    actionType?: "Stop";
+    id?: string;
+    originalScheduledTime?: string;
+    reason?: "Schedule";
+    scheduledTime?: string;
+    sourceId?: string;
 }
 
 // @public
