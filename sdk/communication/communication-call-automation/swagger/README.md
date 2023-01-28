@@ -21,4 +21,17 @@ azure-arm: false
 add-credentials: false
 use-extension:
   "@autorest/typescript": "latest"
+directive:
+- rename-model:
+    from: AcsCallParticipant
+    to: AcsCallParticipantInternal
+- rename-model:
+    from: AddParticipantsRequest
+    to: AddParticipantsRequestInternal
+- rename-model:
+    from: AddParticipantsResponse
+    to: AddParticipantsResponseInternal
+- rename-model:
+    from: CallConnectionProperties
+    to: CallConnectionPropertiesInternal
 ```

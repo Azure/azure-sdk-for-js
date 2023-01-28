@@ -12,11 +12,14 @@ import {
 } from "@azure/communication-common";
 import { logger } from "./models/logger";
 import { SDK_VERSION } from "./models/constants";
-import { AnswerCallRequest, CallAutomationApiClient, CallSource, CreateCallRequest, RedirectCallRequest, RejectCallRequest } from "./generated/src";
+import { AnswerCallRequest, CallAutomationApiClient, CreateCallRequest, RedirectCallRequest, RejectCallRequest } from "./generated/src";
 import { CallConnectionImpl, CallMediaImpl, CallRecordingImpl } from "./generated/src/operations";
 import { CallConnection } from "./callConnection";
 import { CallRecording } from "./callRecording";
 import { AnswerCallOptions, CreateCallOptions, RedirectCallOptions, RejectCallOptions } from "./models/options";
+import { AnswerCallResult, CreateCallResult } from "./models/responses";
+import { CallConnectionPropertiesDto, CallSourceDto } from "./models/models";
+import { callSourceConverter, callSourceDtoConverter, communicationIdentifierConverter } from "./utli/converters";
 
 /**
 * Client options used to configure CallingServer Client API requests.
@@ -124,20 +127,19 @@ export class CallAutomationClient {
     * @param callbackUrl - The callback url.
     * @param options - Additional request options contains createCallConnection api options.
     */
-    // TODO: missing mediaStreamingConfig and proper return type
     public async createCall(
-        source: CallSource,
+        source: CallSourceDto,
         targets: CommunicationIdentifier[],
         callbackUrl: string,
         options: CreateCallOptions = {}
-    ): Promise<CallConnection> {
+    ): Promise<CreateCallResult> {
         const request: CreateCallRequest = {
-            source: source,
+            source: callSourceConverter(source),
             targets: targets.map((m) => serializeCommunicationIdentifier(m)),
             callbackUri: callbackUrl,
             operationContext: options.operationContext,
             azureCognitiveServicesEndpointUrl: options.azureCognitiveServicesEndpointUrl,
-            mediaStreamingConfiguration: undefined
+            mediaStreamingConfiguration: options.mediaStreamingConfiguration
         };
 
         const result = await this.callAutomationApiClient.createCall(
@@ -145,10 +147,20 @@ export class CallAutomationClient {
             options
         );
 
-        if (result.callConnectionId) {
-            return new CallConnection(result.callConnectionId, this.callConnectionImpl, this.callMediaImpl);
+        if (result?.callConnectionId) {
+            const callConnectionPropertiesDto: CallConnectionPropertiesDto = {
+                ...result,
+                source: result.source? callSourceDtoConverter(result.source) : undefined,
+                targets: result.targets?.map(target => communicationIdentifierConverter(target))
+            }
+            const callConnection = new CallConnection(result.callConnectionId, this.callConnectionImpl, this.callMediaImpl);
+            const createCallResult: CreateCallResult = {
+                callConnectionProperties: callConnectionPropertiesDto,
+                callConnection: callConnection
+            }
+            return createCallResult;
         }
-        throw "callConnectionId is missing in createCall result";
+        throw "callConnectionProperties / callConnectionId is missing in createCall result";
     }
 
     /**
@@ -157,16 +169,15 @@ export class CallAutomationClient {
     * @param callbackUrl - The callback url.
     * @param options - Additional request options contains answerCall api options.
     */
-    //TODO: missing mediaStreamingOptions in options and proper return type.
     public async answerCall(
         incomingCallContext: string,
         callbackUrl: string,
         options: AnswerCallOptions = {}
-    ): Promise<CallConnection> {
+    ): Promise<AnswerCallResult> {
         const request: AnswerCallRequest = {
             incomingCallContext: incomingCallContext,
             callbackUri: callbackUrl,
-            mediaStreamingConfiguration: undefined,
+            mediaStreamingConfiguration: options.mediaStreamingConfiguration,
             azureCognitiveServicesEndpointUrl: options.azureCognitiveServicesEndpointUrl
         };
 
@@ -174,10 +185,21 @@ export class CallAutomationClient {
             request,
             options
         );
-        if (result.callConnectionId) {
-            return new CallConnection(result.callConnectionId, this.callConnectionImpl, this.callMediaImpl);
+
+        if (result?.callConnectionId) {
+            const callConnectionPropertiesDto: CallConnectionPropertiesDto = {
+                ...result,
+                source: result.source ? callSourceDtoConverter(result.source) : undefined,
+                targets: result.targets?.map(target => communicationIdentifierConverter(target))
+            }
+            const callConnection = new CallConnection(result.callConnectionId, this.callConnectionImpl, this.callMediaImpl);
+            const answerCallResult: AnswerCallResult = {
+                callConnectionProperties: callConnectionPropertiesDto,
+                callConnection: callConnection
+            }
+            return answerCallResult;
         }
-        throw "callConnectionId is missing in createCall result";
+        throw "callConnectionProperties / callConnectionId is missing in createCall result";
     }
 
     /**
