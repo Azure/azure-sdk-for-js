@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { QuotaBucketRequest, LoadTestClient } from "@azure/arm-loadtesting";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Check Quota Availability on quota bucket per region per subscription.
@@ -18,7 +21,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/loadtestservice/resource-manager/Microsoft.LoadTestService/stable/2022-12-01/examples/Quotas_CheckAvailability.json
  */
 async function quotasCheckAvailability() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["LOADTESTSERVICE_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const location = "westus";
   const quotaBucketName = "testQuotaBucket";
   const quotaBucketRequest: QuotaBucketRequest = {
@@ -37,4 +42,8 @@ async function quotasCheckAvailability() {
   console.log(result);
 }
 
-quotasCheckAvailability().catch(console.error);
+async function main() {
+  quotasCheckAvailability();
+}
+
+main().catch(console.error);

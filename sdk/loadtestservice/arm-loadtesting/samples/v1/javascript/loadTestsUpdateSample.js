@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { LoadTestClient } = require("@azure/arm-loadtesting");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Update a loadtest resource.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/loadtestservice/resource-manager/Microsoft.LoadTestService/stable/2022-12-01/examples/LoadTests_Update.json
  */
 async function loadTestsUpdate() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "dummyrg";
+  const subscriptionId =
+    process.env["LOADTESTSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["LOADTESTSERVICE_RESOURCE_GROUP"] || "dummyrg";
   const loadTestName = "myLoadTest";
   const loadTestResourcePatchRequestBody = {
     description: "This is new load test resource",
@@ -46,4 +48,8 @@ async function loadTestsUpdate() {
   console.log(result);
 }
 
-loadTestsUpdate().catch(console.error);
+async function main() {
+  loadTestsUpdate();
+}
+
+main().catch(console.error);

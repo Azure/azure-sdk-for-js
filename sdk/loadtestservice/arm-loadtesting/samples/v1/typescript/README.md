@@ -1,4 +1,4 @@
-# client library samples for TypeScript (Beta)
+# client library samples for TypeScript
 
 These sample programs show how to use the TypeScript client libraries for in some common scenarios.
 
@@ -59,24 +59,24 @@ node dist/loadTestsCreateOrUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env  node dist/loadTestsCreateOrUpdateSample.js
+npx cross-env LOADTESTSERVICE_SUBSCRIPTION_ID="<loadtestservice subscription id>" LOADTESTSERVICE_RESOURCE_GROUP="<loadtestservice resource group>" node dist/loadTestsCreateOrUpdateSample.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[loadtestscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtestservice/arm-loadtesting/samples/v1-beta/typescript/src/loadTestsCreateOrUpdateSample.ts
-[loadtestsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtestservice/arm-loadtesting/samples/v1-beta/typescript/src/loadTestsDeleteSample.ts
-[loadtestsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtestservice/arm-loadtesting/samples/v1-beta/typescript/src/loadTestsGetSample.ts
-[loadtestslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtestservice/arm-loadtesting/samples/v1-beta/typescript/src/loadTestsListByResourceGroupSample.ts
-[loadtestslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtestservice/arm-loadtesting/samples/v1-beta/typescript/src/loadTestsListBySubscriptionSample.ts
-[loadtestslistoutboundnetworkdependenciesendpointssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtestservice/arm-loadtesting/samples/v1-beta/typescript/src/loadTestsListOutboundNetworkDependenciesEndpointsSample.ts
-[loadtestsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtestservice/arm-loadtesting/samples/v1-beta/typescript/src/loadTestsUpdateSample.ts
-[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtestservice/arm-loadtesting/samples/v1-beta/typescript/src/operationsListSample.ts
-[quotascheckavailabilitysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtestservice/arm-loadtesting/samples/v1-beta/typescript/src/quotasCheckAvailabilitySample.ts
-[quotasgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtestservice/arm-loadtesting/samples/v1-beta/typescript/src/quotasGetSample.ts
-[quotaslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtestservice/arm-loadtesting/samples/v1-beta/typescript/src/quotasListSample.ts
+[loadtestscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtestservice/arm-loadtesting/samples/v1/typescript/src/loadTestsCreateOrUpdateSample.ts
+[loadtestsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtestservice/arm-loadtesting/samples/v1/typescript/src/loadTestsDeleteSample.ts
+[loadtestsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtestservice/arm-loadtesting/samples/v1/typescript/src/loadTestsGetSample.ts
+[loadtestslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtestservice/arm-loadtesting/samples/v1/typescript/src/loadTestsListByResourceGroupSample.ts
+[loadtestslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtestservice/arm-loadtesting/samples/v1/typescript/src/loadTestsListBySubscriptionSample.ts
+[loadtestslistoutboundnetworkdependenciesendpointssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtestservice/arm-loadtesting/samples/v1/typescript/src/loadTestsListOutboundNetworkDependenciesEndpointsSample.ts
+[loadtestsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtestservice/arm-loadtesting/samples/v1/typescript/src/loadTestsUpdateSample.ts
+[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtestservice/arm-loadtesting/samples/v1/typescript/src/operationsListSample.ts
+[quotascheckavailabilitysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtestservice/arm-loadtesting/samples/v1/typescript/src/quotasCheckAvailabilitySample.ts
+[quotasgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtestservice/arm-loadtesting/samples/v1/typescript/src/quotasGetSample.ts
+[quotaslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtestservice/arm-loadtesting/samples/v1/typescript/src/quotasListSample.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-loadtesting?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/loadtestservice/arm-loadtesting/README.md
