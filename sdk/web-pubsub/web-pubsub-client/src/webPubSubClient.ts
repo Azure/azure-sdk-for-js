@@ -19,7 +19,7 @@ import {
   SendEventOptions,
   SendToGroupOptions,
   WebPubSubClientOptions,
-  OnRestoreGroupFailedArgs as OnRejoinGroupFailedArgs,
+  OnRejoinGroupFailedArgs,
   StartOptions,
   GetClientAccessUrlOptions,
 } from "./models";
@@ -608,25 +608,27 @@ export class WebPubSubClient {
           if (!this._isInitialConnected) {
             this._isInitialConnected = true;
 
-            const groupPromises: Promise<void>[] = [];
-            this._groupMap.forEach((g) => {
-              if (g.isJoined) {
-                groupPromises.push(
-                  (async () => {
-                    try {
-                      await this._joinGroupCore(g.name);
-                    } catch (err) {
-                      this._safeEmitRejoinGroupFailed(g.name, err);
-                    }
-                  })()
-                );
-              }
-            });
-
-            try {
-              await Promise.all(groupPromises);
-            } catch {}
-
+            if (this._options.autoRejoinGroups) {
+              const groupPromises: Promise<void>[] = [];
+              this._groupMap.forEach((g) => {
+                if (g.isJoined) {
+                  groupPromises.push(
+                    (async () => {
+                      try {
+                        await this._joinGroupCore(g.name);
+                      } catch (err) {
+                        this._safeEmitRejoinGroupFailed(g.name, err);
+                      }
+                    })()
+                  );
+                }
+              });
+  
+              try {
+                await Promise.all(groupPromises);
+              } catch {}
+            }
+            
             this._safeEmitConnected(message.connectionId, message.userId);
           }
         };
@@ -918,8 +920,8 @@ export class WebPubSubClient {
       clientOptions.autoReconnect = true;
     }
 
-    if (clientOptions.autoRestoreGroups == null) {
-      clientOptions.autoRestoreGroups = true;
+    if (clientOptions.autoRejoinGroups == null) {
+      clientOptions.autoRejoinGroups = true;
     }
 
     if (clientOptions.protocol == null) {

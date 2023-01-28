@@ -20,7 +20,7 @@ export interface WebPubSubClientOptions {
   /**
    * Whether to enable restoring group after reconnecting
    */
-  autoRestoreGroups?: boolean;
+  autoRejoinGroups?: boolean;
   /**
    * The retry options for operations like joining group and sending messages
    */
@@ -195,9 +195,9 @@ export interface OnGroupDataMessageArgs {
 }
 
 /**
- * Parameter of RestoreGroupFailed callback
+ * Parameter of RejoinGroupFailed callback
  */
-export interface OnRestoreGroupFailedArgs {
+export interface OnRejoinGroupFailedArgs {
   /**
    * The group name
    */
