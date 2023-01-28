@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { RecoveryServicesBackupClient } = require("@azure/arm-recoveryservicesbackup");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Provides a pageable list of protectable objects within your subscription according to the query filter and the
@@ -17,12 +18,13 @@ pagination parameters.
  *
  * @summary Provides a pageable list of protectable objects within your subscription according to the query filter and the
 pagination parameters.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2022-03-01/examples/AzureIaasVm/BackupProtectableItems_List.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/AzureIaasVm/BackupProtectableItems_List.json
  */
 async function listProtectableItemsWithBackupManagementTypeFilterAsAzureIaasVM() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const vaultName = "NetSDKTestRsVault";
-  const resourceGroupName = "SwaggerTestRg";
+  const resourceGroupName = process.env["RECOVERYSERVICESBACKUP_RESOURCE_GROUP"] || "SwaggerTestRg";
   const filter = "backupManagementType eq 'AzureIaasVM'";
   const options = { filter };
   const credential = new DefaultAzureCredential();
@@ -38,4 +40,8 @@ async function listProtectableItemsWithBackupManagementTypeFilterAsAzureIaasVM()
   console.log(resArray);
 }
 
-listProtectableItemsWithBackupManagementTypeFilterAsAzureIaasVM().catch(console.error);
+async function main() {
+  listProtectableItemsWithBackupManagementTypeFilterAsAzureIaasVM();
+}
+
+main().catch(console.error);

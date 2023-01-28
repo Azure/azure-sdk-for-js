@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { padStart } from "../../src/utils/utils.common";
-import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
+import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
 import { isPlaybackMode, env, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
 
 export const testPollerProperties = {
@@ -13,6 +13,7 @@ const mockAccountName = "fakestorageaccount";
 const mockMDAccountName = "md-fakestorageaccount";
 const mockAccountName1 = "fakestorageaccount1";
 const mockAccountKey = "aaaaa";
+const mockSas = "fakeSasToken";
 export const recorderEnvSetup: RecorderEnvironmentSetup = {
   replaceableVariables: {
     // Used in record and playback modes
@@ -20,7 +21,7 @@ export const recorderEnvSetup: RecorderEnvironmentSetup = {
     // 2. If the env variables are present in the recordings as plain strings, they will be replaced with the provided values in record mode
     ACCOUNT_NAME: `${mockAccountName}`,
     ACCOUNT_KEY: `${mockAccountKey}`,
-    ACCOUNT_SAS: `${mockAccountKey}`,
+    ACCOUNT_SAS: `${mockSas}`,
     STORAGE_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${mockAccountName};AccountKey=${mockAccountKey};EndpointSuffix=core.windows.net`,
     // Comment following line to skip user delegation key/SAS related cases in record and play
     // which depends on this environment variable
@@ -30,18 +31,18 @@ export const recorderEnvSetup: RecorderEnvironmentSetup = {
     AZURE_CLIENT_SECRET: `${mockAccountKey}`,
     MD_ACCOUNT_NAME: `${mockMDAccountName}`,
     MD_ACCOUNT_KEY: `${mockAccountKey}`,
-    MD_ACCOUNT_SAS: `${mockAccountKey}`,
+    MD_ACCOUNT_SAS: `${mockSas}`,
     MD_STORAGE_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${mockMDAccountName};AccountKey=${mockAccountKey};EndpointSuffix=core.windows.net`,
     ENCRYPTION_SCOPE_1: "antjoscope1",
     ENCRYPTION_SCOPE_2: "antjoscope2",
     IMMUTABLE_CONTAINER_NAME: "fakecontainername",
     ORS_DEST_ACCOUNT_NAME: `${mockAccountName1}`,
     ORS_DEST_ACCOUNT_KEY: `${mockAccountKey}`,
-    ORS_DEST_ACCOUNT_SAS: `${mockAccountKey}`,
+    ORS_DEST_ACCOUNT_SAS: `${mockSas}`,
     ORS_DEST_STORAGE_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${mockAccountName1};AccountKey=${mockAccountKey};EndpointSuffix=core.windows.net`,
     SOFT_DELETE_ACCOUNT_NAME: `${mockAccountName}`,
     SOFT_DELETE_ACCOUNT_KEY: `${mockAccountKey}`,
-    SOFT_DELETE_ACCOUNT_SAS: `${mockAccountKey}`,
+    SOFT_DELETE_ACCOUNT_SAS: `${mockSas}`,
     SOFT_DELETE_STORAGE_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${mockAccountName};AccountKey=${mockAccountKey};EndpointSuffix=core.windows.net`,
   },
   customizationsOnRecordings: [
