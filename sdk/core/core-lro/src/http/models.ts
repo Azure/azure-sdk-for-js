@@ -110,8 +110,3 @@ export interface CreateHttpPollerOptions<TResult, TState> {
    */
   resolveOnUnsuccessful?: boolean;
 }
-
-export interface LongRunningOperationLocationHeaders {
-  /** The location for monitoring the operation state. */
-  "operation-location": string;
-}
