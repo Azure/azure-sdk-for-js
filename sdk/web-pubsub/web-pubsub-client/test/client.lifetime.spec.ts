@@ -319,10 +319,10 @@ describe("WebPubSubClient", function () {
         reconnectRetryOptions: { retryDelayInMs: 10 } as WebPubSubRetryOptions,
       } as WebPubSubClientOptions);
       const mock = sinon.mock(client);
-        mock
-          .expects("_joinGroupCore")
-          .exactly(4)
-          .callsFake((_) => Promise.resolve());
+      mock
+        .expects("_joinGroupCore")
+        .exactly(4)
+        .callsFake((_) => Promise.resolve());
 
       const testWs = new TestWebSocketClient(client);
       makeStartable(testWs);
@@ -339,7 +339,7 @@ describe("WebPubSubClient", function () {
 
       // join 2 groups first
       await client.joinGroup("a");
-      await client.joinGroup("b");      
+      await client.joinGroup("b");
 
       // drop connection
       testWs.invokeclose(1006);
@@ -357,10 +357,10 @@ describe("WebPubSubClient", function () {
         autoRejoinGroups: false,
       } as WebPubSubClientOptions);
       const mock = sinon.mock(client);
-        mock
-          .expects("_joinGroupCore")
-          .exactly(2)
-          .callsFake((_) => Promise.resolve());
+      mock
+        .expects("_joinGroupCore")
+        .exactly(2)
+        .callsFake((_) => Promise.resolve());
 
       const testWs = new TestWebSocketClient(client);
       makeStartable(testWs);
@@ -377,7 +377,7 @@ describe("WebPubSubClient", function () {
 
       // join 2 groups first
       await client.joinGroup("a");
-      await client.joinGroup("b");      
+      await client.joinGroup("b");
 
       // drop connection
       testWs.invokeclose(1006);

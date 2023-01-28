@@ -623,12 +623,12 @@ export class WebPubSubClient {
                   );
                 }
               });
-  
+
               try {
                 await Promise.all(groupPromises);
               } catch {}
             }
-            
+
             this._safeEmitConnected(message.connectionId, message.userId);
           }
         };
