@@ -11,7 +11,7 @@
     "@azure/event-hubs": "^2.1.4",
     "uuid": "^8.3.0",
     "@azure/test-utils-perf": "file:../../../test-utils/perf/azure-test-utils-perf-1.0.0.tgz",
-    "dotenv": "^8.2.0",
+    "dotenv": "^16.0.0",
     "moment": "^2.24.0"
   },
   "devDependencies": {

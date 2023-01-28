@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { MachineGroups } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -63,11 +64,15 @@ export class MachineGroupsImpl implements MachineGroups {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByWorkspacePagingPage(
           resourceGroupName,
           workspaceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -76,15 +81,22 @@ export class MachineGroupsImpl implements MachineGroups {
   private async *listByWorkspacePagingPage(
     resourceGroupName: string,
     workspaceName: string,
-    options?: MachineGroupsListByWorkspaceOptionalParams
+    options?: MachineGroupsListByWorkspaceOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<MachineGroup[]> {
-    let result = await this._listByWorkspace(
-      resourceGroupName,
-      workspaceName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: MachineGroupsListByWorkspaceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByWorkspace(
+        resourceGroupName,
+        workspaceName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByWorkspaceNext(
         resourceGroupName,
@@ -93,7 +105,9 @@ export class MachineGroupsImpl implements MachineGroups {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -368,11 +382,6 @@ const listByWorkspaceNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.startTime,
-    Parameters.endTime
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

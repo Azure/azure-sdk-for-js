@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ClientGroups } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,11 +17,11 @@ import {
   ClientGroupMember,
   ClientGroupsListMembersNextOptionalParams,
   ClientGroupsListMembersOptionalParams,
+  ClientGroupsListMembersResponse,
   ClientGroupsGetOptionalParams,
   ClientGroupsGetResponse,
   ClientGroupsGetMembersCountOptionalParams,
   ClientGroupsGetMembersCountResponse,
-  ClientGroupsListMembersResponse,
   ClientGroupsListMembersNextResponse
 } from "../models";
 
@@ -63,12 +64,16 @@ export class ClientGroupsImpl implements ClientGroups {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listMembersPagingPage(
           resourceGroupName,
           workspaceName,
           clientGroupName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -78,16 +83,23 @@ export class ClientGroupsImpl implements ClientGroups {
     resourceGroupName: string,
     workspaceName: string,
     clientGroupName: string,
-    options?: ClientGroupsListMembersOptionalParams
+    options?: ClientGroupsListMembersOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ClientGroupMember[]> {
-    let result = await this._listMembers(
-      resourceGroupName,
-      workspaceName,
-      clientGroupName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ClientGroupsListMembersResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listMembers(
+        resourceGroupName,
+        workspaceName,
+        clientGroupName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listMembersNext(
         resourceGroupName,
@@ -97,7 +109,9 @@ export class ClientGroupsImpl implements ClientGroups {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -291,12 +305,6 @@ const listMembersNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.startTime,
-    Parameters.endTime,
-    Parameters.top
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

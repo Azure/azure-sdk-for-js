@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { LoadTestClient } from "@azure/arm-loadtesting";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Lists loadtest resources in a resource group.
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/loadtestservice/resource-manager/Microsoft.LoadTestService/stable/2022-12-01/examples/LoadTests_ListByResourceGroup.json
  */
 async function loadTestsListByResourceGroup() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "dummyrg";
+  const subscriptionId =
+    process.env["LOADTESTSERVICE_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["LOADTESTSERVICE_RESOURCE_GROUP"] || "dummyrg";
   const credential = new DefaultAzureCredential();
   const client = new LoadTestClient(credential, subscriptionId);
   const resArray = new Array();
@@ -31,4 +37,8 @@ async function loadTestsListByResourceGroup() {
   console.log(resArray);
 }
 
-loadTestsListByResourceGroup().catch(console.error);
+async function main() {
+  loadTestsListByResourceGroup();
+}
+
+main().catch(console.error);

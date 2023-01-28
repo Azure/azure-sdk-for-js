@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Create or update an Azure Cosmos DB MongoDB Collection
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBMongoDBCollectionCreateUpdate.json
  */
 async function cosmosDbMongoDbcollectionCreateUpdate() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
   const databaseName = "databaseName";
   const collectionName = "collectionName";
@@ -52,8 +53,6 @@ async function cosmosDbMongoDbcollectionCreateUpdate() {
   console.log(result);
 }
 
-cosmosDbMongoDbcollectionCreateUpdate().catch(console.error);
-
 /**
  * This sample demonstrates how to Create or update an Azure Cosmos DB MongoDB Collection
  *
@@ -61,8 +60,8 @@ cosmosDbMongoDbcollectionCreateUpdate().catch(console.error);
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBMongoDBCollectionRestore.json
  */
 async function cosmosDbMongoDbcollectionRestore() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
   const databaseName = "databaseName";
   const collectionName = "collectionName";
@@ -92,4 +91,9 @@ async function cosmosDbMongoDbcollectionRestore() {
   console.log(result);
 }
 
-cosmosDbMongoDbcollectionRestore().catch(console.error);
+async function main() {
+  cosmosDbMongoDbcollectionCreateUpdate();
+  cosmosDbMongoDbcollectionRestore();
+}
+
+main().catch(console.error);

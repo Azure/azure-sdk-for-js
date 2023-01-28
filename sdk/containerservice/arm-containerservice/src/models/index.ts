@@ -563,6 +563,12 @@ export interface ManagedClusterOidcIssuerProfile {
   enabled?: boolean;
 }
 
+/** Node resource group lockdown profile for a managed cluster. */
+export interface ManagedClusterNodeResourceGroupProfile {
+  /** The restriction level applied to the cluster's node resource group */
+  restrictionLevel?: RestrictionLevel;
+}
+
 /** Profile of network configuration. */
 export interface ContainerServiceNetworkProfile {
   /** Network plugin used for building the Kubernetes network. */
@@ -917,7 +923,7 @@ export interface ManagedClusterIngressProfileWebAppRouting {
   dnsZoneResourceId?: string;
 }
 
-/** Workload Auto-scaler profile for the container service cluster. */
+/** Workload Auto-scaler profile for the managed cluster. */
 export interface ManagedClusterWorkloadAutoScalerProfile {
   /** KEDA (Kubernetes Event-driven Autoscaling) settings for the workload auto-scaler profile. */
   keda?: ManagedClusterWorkloadAutoScalerProfileKeda;
@@ -1926,9 +1932,11 @@ export interface ManagedCluster extends TrackedResource {
   oidcIssuerProfile?: ManagedClusterOidcIssuerProfile;
   /** The name of the resource group containing agent pool nodes. */
   nodeResourceGroup?: string;
+  /** The node resource group configuration profile. */
+  nodeResourceGroupProfile?: ManagedClusterNodeResourceGroupProfile;
   /** Whether to enable Kubernetes Role-Based Access Control. */
   enableRbac?: boolean;
-  /** (DEPRECATING) Whether to enable Kubernetes pod security policy (preview). This feature is set for removal on October 15th, 2020. Learn more at aka.ms/aks/azpodpolicy. */
+  /** (DEPRECATED) Whether to enable Kubernetes pod security policy (preview). PodSecurityPolicy was deprecated in Kubernetes v1.21, and removed from Kubernetes in v1.25. Learn more at https://aka.ms/k8s/psp and https://aka.ms/aks/psp. */
   enablePodSecurityPolicy?: boolean;
   /** The default value is false. It can be enabled/disabled on creation and updation of the managed cluster. See [https://aka.ms/NamespaceARMResource](https://aka.ms/NamespaceARMResource) for more details on Namespace as a ARM Resource. */
   enableNamespaceResources?: boolean;
@@ -1960,7 +1968,7 @@ export interface ManagedCluster extends TrackedResource {
   ingressProfile?: ManagedClusterIngressProfile;
   /** Allow or deny public network access for AKS */
   publicNetworkAccess?: PublicNetworkAccess;
-  /** Workload Auto-scaler profile for the container service cluster. */
+  /** Workload Auto-scaler profile for the managed cluster. */
   workloadAutoScalerProfile?: ManagedClusterWorkloadAutoScalerProfile;
   /** Prometheus addon profile for the container service cluster */
   azureMonitorProfile?: ManagedClusterAzureMonitorProfile;
@@ -2251,7 +2259,9 @@ export enum KnownWorkloadRuntime {
   /** Nodes will use Kubelet to run standard OCI container workloads. */
   OCIContainer = "OCIContainer",
   /** Nodes will use Krustlet to run WASM workloads using the WASI provider (Preview). */
-  WasmWasi = "WasmWasi"
+  WasmWasi = "WasmWasi",
+  /** Nodes can use (Kata + Cloud Hypervisor + Hyper-V) to enable Nested VM-based pods (Preview). Due to the use Hyper-V, AKS node OS itself is a nested VM (the root OS) of Hyper-V. Thus it can only be used with VM series that support Nested Virtualization such as Dv3 series. */
+  KataMshvVmIsolation = "KataMshvVmIsolation"
 }
 
 /**
@@ -2260,7 +2270,8 @@ export enum KnownWorkloadRuntime {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **OCIContainer**: Nodes will use Kubelet to run standard OCI container workloads. \
- * **WasmWasi**: Nodes will use Krustlet to run WASM workloads using the WASI provider (Preview).
+ * **WasmWasi**: Nodes will use Krustlet to run WASM workloads using the WASI provider (Preview). \
+ * **KataMshvVmIsolation**: Nodes can use (Kata + Cloud Hypervisor + Hyper-V) to enable Nested VM-based pods (Preview). Due to the use Hyper-V, AKS node OS itself is a nested VM (the root OS) of Hyper-V. Thus it can only be used with VM series that support Nested Virtualization such as Dv3 series.
  */
 export type WorkloadRuntime = string;
 
@@ -2491,6 +2502,24 @@ export enum KnownManagedClusterPodIdentityProvisioningState {
  * **Updating**
  */
 export type ManagedClusterPodIdentityProvisioningState = string;
+
+/** Known values of {@link RestrictionLevel} that the service accepts. */
+export enum KnownRestrictionLevel {
+  /** All RBAC permissions are allowed on the managed node resource group */
+  Unrestricted = "Unrestricted",
+  /** Only *\/read RBAC permissions allowed on the managed node resource group */
+  ReadOnly = "ReadOnly"
+}
+
+/**
+ * Defines values for RestrictionLevel. \
+ * {@link KnownRestrictionLevel} can be used interchangeably with RestrictionLevel,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unrestricted**: All RBAC permissions are allowed on the managed node resource group \
+ * **ReadOnly**: Only *\\/read RBAC permissions allowed on the managed node resource group
+ */
+export type RestrictionLevel = string;
 
 /** Known values of {@link NetworkPlugin} that the service accepts. */
 export enum KnownNetworkPlugin {
@@ -2896,7 +2925,7 @@ export type CreatedByType = string;
 
 /** Known values of {@link Format} that the service accepts. */
 export enum KnownFormat {
-  /** Return azure auth-provider kubeconfig. This format is deprecated in 1.22 and will be fully removed in 1.25. */
+  /** Return azure auth-provider kubeconfig. This format is deprecated in v1.22 and will be fully removed in v1.26. See: https://aka.ms/k8s/changes-1-26. */
   Azure = "azure",
   /** Return exec format kubeconfig. This format requires kubelogin binary in the path. */
   Exec = "exec"
@@ -2907,7 +2936,7 @@ export enum KnownFormat {
  * {@link KnownFormat} can be used interchangeably with Format,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **azure**: Return azure auth-provider kubeconfig. This format is deprecated in 1.22 and will be fully removed in 1.25. \
+ * **azure**: Return azure auth-provider kubeconfig. This format is deprecated in v1.22 and will be fully removed in v1.26. See: https:\/\/aka.ms\/k8s\/changes-1-26. \
  * **exec**: Return exec format kubeconfig. This format requires kubelogin binary in the path.
  */
 export type Format = string;

@@ -8,7 +8,7 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.3 Node/v16.14.0 OS/(x64-Windows_NT-10.0.22621)",
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
         "x-ms-client-request-id": "sanitized"
       },
       "RequestBody": null,
@@ -16,13 +16,13 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 02 Dec 2022 00:26:14 GMT",
-        "MS-CV": "bofEOfbP0ECcbsiFdopwGg.0",
+        "Date": "Fri, 06 Jan 2023 17:33:07 GMT",
+        "MS-CV": "zGDTmgsTP0GN2Sl1AaMjkg.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0JkaJYwAAAADMgzt2Yh62QZ/mfk2\u002BY7wuUFJHMDFFREdFMDkxOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0U1u4YwAAAAC0wGy91P3OTpCdGtVhKhwCTUVYMzBFREdFMDQyMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "95ms"
+        "X-Processing-Time": "57ms"
       },
       "ResponseBody": {
         "trunks": {},
@@ -39,18 +39,18 @@
         "Connection": "keep-alive",
         "Content-Length": "222",
         "Content-Type": "application/merge-patch\u002Bjson",
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.3 Node/v16.14.0 OS/(x64-Windows_NT-10.0.22621)",
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
         "x-ms-client-request-id": "sanitized"
       },
       "RequestBody": {
         "trunks": {
-          "test.82e7601aa83f46ce83828917fe6e4e01.com": {
+          "test.3661d4f977524c089206e093d93a9698.com": {
             "sipSignalingPort": 1239
           },
-          "test.848865276f324a58af17be44f1d7e39c.com": {
+          "test.ea902f4242da47e98ac3a204943037d2.com": {
             "sipSignalingPort": 2348
           },
-          "test.47e7ef75fe7b49e5bbf72c64f51d72e8.com": {
+          "test.a870bc8e1b9a4d53b977eba3819e7127.com": {
             "sipSignalingPort": 3457
           }
         }
@@ -59,23 +59,23 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 02 Dec 2022 00:26:15 GMT",
-        "MS-CV": "5eGgrEVEh0aeSsD\u002B/2wshA.0",
+        "Date": "Fri, 06 Jan 2023 17:33:07 GMT",
+        "MS-CV": "UxIwG/G4j0KUjMwLIoZOxg.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0JkaJYwAAAAAGkQnnzCgrQKPFDnwKiEthUFJHMDFFREdFMDkxOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0VFu4YwAAAAD1T1Fg8dNMQaCn7zGCWi1HTUVYMzBFREdFMDQyMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "677ms"
+        "X-Processing-Time": "386ms"
       },
       "ResponseBody": {
         "trunks": {
-          "test.82e7601aa83f46ce83828917fe6e4e01.com": {
+          "test.3661d4f977524c089206e093d93a9698.com": {
             "sipSignalingPort": 1239
           },
-          "test.848865276f324a58af17be44f1d7e39c.com": {
+          "test.ea902f4242da47e98ac3a204943037d2.com": {
             "sipSignalingPort": 2348
           },
-          "test.47e7ef75fe7b49e5bbf72c64f51d72e8.com": {
+          "test.a870bc8e1b9a4d53b977eba3819e7127.com": {
             "sipSignalingPort": 3457
           }
         },
@@ -90,7 +90,7 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.3 Node/v16.14.0 OS/(x64-Windows_NT-10.0.22621)",
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
         "x-ms-client-request-id": "sanitized"
       },
       "RequestBody": null,
@@ -98,23 +98,23 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 02 Dec 2022 00:26:15 GMT",
-        "MS-CV": "5JQXI0pm606/t33Soer1vg.0",
+        "Date": "Fri, 06 Jan 2023 17:33:07 GMT",
+        "MS-CV": "br9eMVHoqkWIr9q887NxxA.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0J0aJYwAAAAD7eHHx39d5T7hLkEe6gp9pUFJHMDFFREdFMDkxOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0VFu4YwAAAABUoSXeAO3JRK73Zv217J1RTUVYMzBFREdFMDQyMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "87ms"
+        "X-Processing-Time": "53ms"
       },
       "ResponseBody": {
         "trunks": {
-          "test.82e7601aa83f46ce83828917fe6e4e01.com": {
+          "test.3661d4f977524c089206e093d93a9698.com": {
             "sipSignalingPort": 1239
           },
-          "test.848865276f324a58af17be44f1d7e39c.com": {
+          "test.ea902f4242da47e98ac3a204943037d2.com": {
             "sipSignalingPort": 2348
           },
-          "test.47e7ef75fe7b49e5bbf72c64f51d72e8.com": {
+          "test.a870bc8e1b9a4d53b977eba3819e7127.com": {
             "sipSignalingPort": 3457
           }
         },
@@ -123,9 +123,9 @@
     }
   ],
   "Variables": {
-    "fqdn-1": "test.82e7601aa83f46ce83828917fe6e4e01.com",
-    "fqdn-2": "test.848865276f324a58af17be44f1d7e39c.com",
-    "fqdn-3": "test.47e7ef75fe7b49e5bbf72c64f51d72e8.com",
-    "fqdn-4": "test.72ab0328f50d45a9abff0372b645c903.com"
+    "fqdn-1": "test.3661d4f977524c089206e093d93a9698.com",
+    "fqdn-2": "test.ea902f4242da47e98ac3a204943037d2.com",
+    "fqdn-3": "test.a870bc8e1b9a4d53b977eba3819e7127.com",
+    "fqdn-4": "test.a73a089214d94d068d44f62b1863ddb6.com"
   }
 }

@@ -11,6 +11,44 @@ import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 
 // @public
+export interface AcceleratorAuthSetting {
+    authType: "Public" | "BasicAuth" | "SSH";
+}
+
+// @public (undocumented)
+export type AcceleratorAuthSettingUnion = AcceleratorAuthSetting | AcceleratorPublicSetting | AcceleratorBasicAuthSetting | AcceleratorSshSetting;
+
+// @public
+export interface AcceleratorBasicAuthSetting extends AcceleratorAuthSetting {
+    authType: "BasicAuth";
+    password?: string;
+    username: string;
+}
+
+// @public (undocumented)
+export interface AcceleratorGitRepository {
+    authSetting: AcceleratorAuthSettingUnion;
+    branch?: string;
+    commit?: string;
+    gitTag?: string;
+    intervalInSeconds?: number;
+    url: string;
+}
+
+// @public
+export interface AcceleratorPublicSetting extends AcceleratorAuthSetting {
+    authType: "Public";
+}
+
+// @public
+export interface AcceleratorSshSetting extends AcceleratorAuthSetting {
+    authType: "SSH";
+    hostKey?: string;
+    hostKeyAlgorithm?: string;
+    privateKey?: string;
+}
+
+// @public
 export type ActionType = string;
 
 // @public
@@ -175,9 +213,186 @@ export interface ApiPortalsValidateDomainOptionalParams extends coreClient.Opera
 export type ApiPortalsValidateDomainResponse = CustomDomainValidateResult;
 
 // @public
+export type ApmType = string;
+
+// @public (undocumented)
+export interface ApplicationAcceleratorComponent {
+    readonly instances?: ApplicationAcceleratorInstance[];
+    readonly name?: string;
+    // (undocumented)
+    resourceRequests?: ApplicationAcceleratorResourceRequests;
+}
+
+// @public (undocumented)
+export interface ApplicationAcceleratorInstance {
+    readonly name?: string;
+    readonly status?: string;
+}
+
+// @public
+export interface ApplicationAcceleratorProperties {
+    readonly components?: ApplicationAcceleratorComponent[];
+    readonly provisioningState?: ApplicationAcceleratorProvisioningState;
+}
+
+// @public
+export type ApplicationAcceleratorProvisioningState = string;
+
+// @public
+export interface ApplicationAcceleratorResource extends ProxyResource {
+    properties?: ApplicationAcceleratorProperties;
+    sku?: Sku;
+}
+
+// @public
+export interface ApplicationAcceleratorResourceCollection {
+    nextLink?: string;
+    value?: ApplicationAcceleratorResource[];
+}
+
+// @public (undocumented)
+export interface ApplicationAcceleratorResourceRequests {
+    readonly cpu?: string;
+    readonly instanceCount?: number;
+    readonly memory?: string;
+}
+
+// @public
+export interface ApplicationAccelerators {
+    beginCreateOrUpdate(resourceGroupName: string, serviceName: string, applicationAcceleratorName: string, applicationAcceleratorResource: ApplicationAcceleratorResource, options?: ApplicationAcceleratorsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ApplicationAcceleratorsCreateOrUpdateResponse>, ApplicationAcceleratorsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, serviceName: string, applicationAcceleratorName: string, applicationAcceleratorResource: ApplicationAcceleratorResource, options?: ApplicationAcceleratorsCreateOrUpdateOptionalParams): Promise<ApplicationAcceleratorsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, serviceName: string, applicationAcceleratorName: string, options?: ApplicationAcceleratorsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, serviceName: string, applicationAcceleratorName: string, options?: ApplicationAcceleratorsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, serviceName: string, applicationAcceleratorName: string, options?: ApplicationAcceleratorsGetOptionalParams): Promise<ApplicationAcceleratorsGetResponse>;
+    list(resourceGroupName: string, serviceName: string, options?: ApplicationAcceleratorsListOptionalParams): PagedAsyncIterableIterator<ApplicationAcceleratorResource>;
+}
+
+// @public
+export interface ApplicationAcceleratorsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ApplicationAcceleratorsCreateOrUpdateResponse = ApplicationAcceleratorResource;
+
+// @public
+export interface ApplicationAcceleratorsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ApplicationAcceleratorsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ApplicationAcceleratorsGetResponse = ApplicationAcceleratorResource;
+
+// @public
+export interface ApplicationAcceleratorsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ApplicationAcceleratorsListNextResponse = ApplicationAcceleratorResourceCollection;
+
+// @public
+export interface ApplicationAcceleratorsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ApplicationAcceleratorsListResponse = ApplicationAcceleratorResourceCollection;
+
+// @public
 export interface ApplicationInsightsAgentVersions {
     readonly java?: string;
 }
+
+// @public
+export interface ApplicationLiveViewComponent {
+    readonly instances?: ApplicationLiveViewInstance[];
+    readonly name?: any;
+    readonly resourceRequests?: ApplicationLiveViewResourceRequests;
+}
+
+// @public
+export interface ApplicationLiveViewInstance {
+    readonly name?: string;
+    readonly status?: string;
+}
+
+// @public
+export interface ApplicationLiveViewProperties {
+    readonly components?: ApplicationLiveViewComponent[];
+    readonly provisioningState?: ApplicationLiveViewProvisioningState;
+}
+
+// @public
+export type ApplicationLiveViewProvisioningState = string;
+
+// @public
+export interface ApplicationLiveViewResource extends ProxyResource {
+    properties?: ApplicationLiveViewProperties;
+}
+
+// @public
+export interface ApplicationLiveViewResourceCollection {
+    nextLink?: string;
+    value?: ApplicationLiveViewResource[];
+}
+
+// @public
+export interface ApplicationLiveViewResourceRequests {
+    readonly cpu?: string;
+    readonly instanceCount?: number;
+    readonly memory?: string;
+}
+
+// @public
+export interface ApplicationLiveViews {
+    beginCreateOrUpdate(resourceGroupName: string, serviceName: string, applicationLiveViewName: string, applicationLiveViewResource: ApplicationLiveViewResource, options?: ApplicationLiveViewsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ApplicationLiveViewsCreateOrUpdateResponse>, ApplicationLiveViewsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, serviceName: string, applicationLiveViewName: string, applicationLiveViewResource: ApplicationLiveViewResource, options?: ApplicationLiveViewsCreateOrUpdateOptionalParams): Promise<ApplicationLiveViewsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, serviceName: string, applicationLiveViewName: string, options?: ApplicationLiveViewsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, serviceName: string, applicationLiveViewName: string, options?: ApplicationLiveViewsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, serviceName: string, applicationLiveViewName: string, options?: ApplicationLiveViewsGetOptionalParams): Promise<ApplicationLiveViewsGetResponse>;
+    list(resourceGroupName: string, serviceName: string, options?: ApplicationLiveViewsListOptionalParams): PagedAsyncIterableIterator<ApplicationLiveViewResource>;
+}
+
+// @public
+export interface ApplicationLiveViewsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ApplicationLiveViewsCreateOrUpdateResponse = ApplicationLiveViewResource;
+
+// @public
+export interface ApplicationLiveViewsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ApplicationLiveViewsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ApplicationLiveViewsGetResponse = ApplicationLiveViewResource;
+
+// @public
+export interface ApplicationLiveViewsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ApplicationLiveViewsListNextResponse = ApplicationLiveViewResourceCollection;
+
+// @public
+export interface ApplicationLiveViewsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ApplicationLiveViewsListResponse = ApplicationLiveViewResourceCollection;
 
 // @public (undocumented)
 export class AppPlatformManagementClient extends coreClient.ServiceClient {
@@ -190,6 +405,10 @@ export class AppPlatformManagementClient extends coreClient.ServiceClient {
     apiPortals: ApiPortals;
     // (undocumented)
     apiVersion: string;
+    // (undocumented)
+    applicationAccelerators: ApplicationAccelerators;
+    // (undocumented)
+    applicationLiveViews: ApplicationLiveViews;
     // (undocumented)
     apps: Apps;
     // (undocumented)
@@ -211,7 +430,11 @@ export class AppPlatformManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     customDomains: CustomDomains;
     // (undocumented)
+    customizedAccelerators: CustomizedAccelerators;
+    // (undocumented)
     deployments: Deployments;
+    // (undocumented)
+    devToolPortals: DevToolPortals;
     // (undocumented)
     gatewayCustomDomains: GatewayCustomDomains;
     // (undocumented)
@@ -222,6 +445,8 @@ export class AppPlatformManagementClient extends coreClient.ServiceClient {
     monitoringSettings: MonitoringSettings;
     // (undocumented)
     operations: Operations;
+    // (undocumented)
+    predefinedAccelerators: PredefinedAccelerators;
     // (undocumented)
     runtimeVersions: RuntimeVersions;
     // (undocumented)
@@ -638,6 +863,7 @@ export interface BuildResultLog {
 export interface BuildResultProperties {
     buildPodName?: string;
     readonly buildStages?: BuildStageProperties[];
+    error?: ErrorModel;
     name?: string;
     readonly provisioningState?: BuildResultProvisioningState;
 }
@@ -925,7 +1151,9 @@ export type BuildServiceProvisioningState = string;
 
 // @public
 export interface BuildStageProperties {
+    readonly exitCode?: string;
     readonly name?: string;
+    readonly reason?: string;
     readonly status?: KPackBuildStageProvisioningState;
 }
 
@@ -1373,6 +1601,101 @@ export interface CustomDomainValidateResult {
 }
 
 // @public
+export interface CustomizedAcceleratorProperties {
+    // (undocumented)
+    acceleratorTags?: string[];
+    // (undocumented)
+    description?: string;
+    // (undocumented)
+    displayName?: string;
+    // (undocumented)
+    gitRepository: AcceleratorGitRepository;
+    // (undocumented)
+    iconUrl?: string;
+    readonly provisioningState?: CustomizedAcceleratorProvisioningState;
+}
+
+// @public
+export type CustomizedAcceleratorProvisioningState = string;
+
+// @public
+export interface CustomizedAcceleratorResource extends ProxyResource {
+    properties?: CustomizedAcceleratorProperties;
+    sku?: Sku;
+}
+
+// @public (undocumented)
+export interface CustomizedAcceleratorResourceCollection {
+    // (undocumented)
+    nextLink?: string;
+    // (undocumented)
+    value?: CustomizedAcceleratorResource[];
+}
+
+// @public
+export interface CustomizedAccelerators {
+    beginCreateOrUpdate(resourceGroupName: string, serviceName: string, applicationAcceleratorName: string, customizedAcceleratorName: string, customizedAcceleratorResource: CustomizedAcceleratorResource, options?: CustomizedAcceleratorsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<CustomizedAcceleratorsCreateOrUpdateResponse>, CustomizedAcceleratorsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, serviceName: string, applicationAcceleratorName: string, customizedAcceleratorName: string, customizedAcceleratorResource: CustomizedAcceleratorResource, options?: CustomizedAcceleratorsCreateOrUpdateOptionalParams): Promise<CustomizedAcceleratorsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, serviceName: string, applicationAcceleratorName: string, customizedAcceleratorName: string, options?: CustomizedAcceleratorsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, serviceName: string, applicationAcceleratorName: string, customizedAcceleratorName: string, options?: CustomizedAcceleratorsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, serviceName: string, applicationAcceleratorName: string, customizedAcceleratorName: string, options?: CustomizedAcceleratorsGetOptionalParams): Promise<CustomizedAcceleratorsGetResponse>;
+    list(resourceGroupName: string, serviceName: string, applicationAcceleratorName: string, options?: CustomizedAcceleratorsListOptionalParams): PagedAsyncIterableIterator<CustomizedAcceleratorResource>;
+    validate(resourceGroupName: string, serviceName: string, applicationAcceleratorName: string, customizedAcceleratorName: string, properties: CustomizedAcceleratorProperties, options?: CustomizedAcceleratorsValidateOptionalParams): Promise<CustomizedAcceleratorsValidateResponse>;
+}
+
+// @public
+export interface CustomizedAcceleratorsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type CustomizedAcceleratorsCreateOrUpdateResponse = CustomizedAcceleratorResource;
+
+// @public
+export interface CustomizedAcceleratorsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface CustomizedAcceleratorsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CustomizedAcceleratorsGetResponse = CustomizedAcceleratorResource;
+
+// @public
+export interface CustomizedAcceleratorsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CustomizedAcceleratorsListNextResponse = CustomizedAcceleratorResourceCollection;
+
+// @public
+export interface CustomizedAcceleratorsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CustomizedAcceleratorsListResponse = CustomizedAcceleratorResourceCollection;
+
+// @public
+export interface CustomizedAcceleratorsValidateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CustomizedAcceleratorsValidateResponse = CustomizedAcceleratorValidateResult;
+
+// @public
+export interface CustomizedAcceleratorValidateResult {
+    errorMessage?: string;
+    state?: CustomizedAcceleratorValidateResultState;
+}
+
+// @public
+export type CustomizedAcceleratorValidateResultState = string;
+
+// @public
 export interface CustomPersistentDiskProperties {
     mountOptions?: string[];
     mountPath: string;
@@ -1550,7 +1873,6 @@ export type DeploymentsGetResponse = DeploymentResource;
 
 // @public
 export interface DeploymentsListForClusterNextOptionalParams extends coreClient.OperationOptions {
-    version?: string[];
 }
 
 // @public
@@ -1566,7 +1888,6 @@ export type DeploymentsListForClusterResponse = DeploymentResourceCollection;
 
 // @public
 export interface DeploymentsListNextOptionalParams extends coreClient.OperationOptions {
-    version?: string[];
 }
 
 // @public
@@ -1612,6 +1933,113 @@ export interface DeploymentsUpdateOptionalParams extends coreClient.OperationOpt
 
 // @public
 export type DeploymentsUpdateResponse = DeploymentResource;
+
+// @public
+export interface DevToolPortalFeatureDetail {
+    readonly route?: string;
+    state?: DevToolPortalFeatureState;
+}
+
+// @public
+export interface DevToolPortalFeatureSettings {
+    applicationAccelerator?: DevToolPortalFeatureDetail;
+    applicationLiveView?: DevToolPortalFeatureDetail;
+}
+
+// @public
+export type DevToolPortalFeatureState = string;
+
+// @public
+export interface DevToolPortalInstance {
+    readonly name?: string;
+    readonly status?: string;
+}
+
+// @public
+export interface DevToolPortalProperties {
+    features?: DevToolPortalFeatureSettings;
+    readonly instances?: DevToolPortalInstance[];
+    readonly provisioningState?: DevToolPortalProvisioningState;
+    public?: boolean;
+    readonly resourceRequests?: DevToolPortalResourceRequests;
+    ssoProperties?: DevToolPortalSsoProperties;
+    readonly url?: string;
+}
+
+// @public
+export type DevToolPortalProvisioningState = string;
+
+// @public
+export interface DevToolPortalResource extends ProxyResource {
+    properties?: DevToolPortalProperties;
+}
+
+// @public
+export interface DevToolPortalResourceCollection {
+    nextLink?: string;
+    value?: DevToolPortalResource[];
+}
+
+// @public
+export interface DevToolPortalResourceRequests {
+    readonly cpu?: string;
+    readonly instanceCount?: number;
+    readonly memory?: string;
+}
+
+// @public
+export interface DevToolPortals {
+    beginCreateOrUpdate(resourceGroupName: string, serviceName: string, devToolPortalName: string, devToolPortalResource: DevToolPortalResource, options?: DevToolPortalsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<DevToolPortalsCreateOrUpdateResponse>, DevToolPortalsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, serviceName: string, devToolPortalName: string, devToolPortalResource: DevToolPortalResource, options?: DevToolPortalsCreateOrUpdateOptionalParams): Promise<DevToolPortalsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, serviceName: string, devToolPortalName: string, options?: DevToolPortalsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, serviceName: string, devToolPortalName: string, options?: DevToolPortalsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, serviceName: string, devToolPortalName: string, options?: DevToolPortalsGetOptionalParams): Promise<DevToolPortalsGetResponse>;
+    list(resourceGroupName: string, serviceName: string, options?: DevToolPortalsListOptionalParams): PagedAsyncIterableIterator<DevToolPortalResource>;
+}
+
+// @public
+export interface DevToolPortalsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type DevToolPortalsCreateOrUpdateResponse = DevToolPortalResource;
+
+// @public
+export interface DevToolPortalsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface DevToolPortalsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DevToolPortalsGetResponse = DevToolPortalResource;
+
+// @public
+export interface DevToolPortalsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DevToolPortalsListNextResponse = DevToolPortalResourceCollection;
+
+// @public
+export interface DevToolPortalsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DevToolPortalsListResponse = DevToolPortalResourceCollection;
+
+// @public
+export interface DevToolPortalSsoProperties {
+    clientId?: string;
+    clientSecret?: string;
+    metadataUrl?: string;
+    scopes?: string[];
+}
 
 // @public
 export interface DiagnosticParameters {
@@ -1748,7 +2176,9 @@ export interface GatewayOperatorResourceRequests {
 // @public
 export interface GatewayProperties {
     apiMetadataProperties?: GatewayApiMetadataProperties;
+    apmTypes?: ApmType[];
     corsProperties?: GatewayCorsProperties;
+    environmentVariables?: GatewayPropertiesEnvironmentVariables;
     httpsOnly?: boolean;
     readonly instances?: GatewayInstance[];
     readonly operatorProperties?: GatewayOperatorProperties;
@@ -1757,6 +2187,16 @@ export interface GatewayProperties {
     resourceRequests?: GatewayResourceRequests;
     ssoProperties?: SsoProperties;
     readonly url?: string;
+}
+
+// @public
+export interface GatewayPropertiesEnvironmentVariables {
+    properties?: {
+        [propertyName: string]: string;
+    };
+    secrets?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
@@ -1788,10 +2228,13 @@ export interface GatewayRouteConfigOpenApiProperties {
 // @public
 export interface GatewayRouteConfigProperties {
     appResourceId?: string;
+    filters?: string[];
     openApi?: GatewayRouteConfigOpenApiProperties;
+    predicates?: string[];
     protocol?: GatewayRouteConfigProtocol;
     readonly provisioningState?: GatewayProvisioningState;
     routes?: GatewayApiRoute[];
+    ssoEnabled?: boolean;
 }
 
 // @public
@@ -1862,6 +2305,7 @@ export interface Gateways {
     beginDeleteAndWait(resourceGroupName: string, serviceName: string, gatewayName: string, options?: GatewaysDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, serviceName: string, gatewayName: string, options?: GatewaysGetOptionalParams): Promise<GatewaysGetResponse>;
     list(resourceGroupName: string, serviceName: string, options?: GatewaysListOptionalParams): PagedAsyncIterableIterator<GatewayResource>;
+    listEnvSecrets(resourceGroupName: string, serviceName: string, gatewayName: string, options?: GatewaysListEnvSecretsOptionalParams): Promise<GatewaysListEnvSecretsResponse>;
     validateDomain(resourceGroupName: string, serviceName: string, gatewayName: string, validatePayload: CustomDomainValidatePayload, options?: GatewaysValidateDomainOptionalParams): Promise<GatewaysValidateDomainResponse>;
 }
 
@@ -1886,6 +2330,15 @@ export interface GatewaysGetOptionalParams extends coreClient.OperationOptions {
 
 // @public
 export type GatewaysGetResponse = GatewayResource;
+
+// @public
+export interface GatewaysListEnvSecretsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GatewaysListEnvSecretsResponse = {
+    [propertyName: string]: string;
+};
 
 // @public
 export interface GatewaysListNextOptionalParams extends coreClient.OperationOptions {
@@ -1993,6 +2446,34 @@ export enum KnownApiPortalProvisioningState {
 }
 
 // @public
+export enum KnownApmType {
+    AppDynamics = "AppDynamics",
+    ApplicationInsights = "ApplicationInsights",
+    Dynatrace = "Dynatrace",
+    ElasticAPM = "ElasticAPM",
+    NewRelic = "NewRelic"
+}
+
+// @public
+export enum KnownApplicationAcceleratorProvisioningState {
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownApplicationLiveViewProvisioningState {
+    Canceled = "Canceled",
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
 export enum KnownAppResourceProvisioningState {
     Creating = "Creating",
     Deleting = "Deleting",
@@ -2012,6 +2493,7 @@ export enum KnownBindingType {
     ApacheSkyWalking = "ApacheSkyWalking",
     AppDynamics = "AppDynamics",
     ApplicationInsights = "ApplicationInsights",
+    CACertificates = "CACertificates",
     Dynatrace = "Dynatrace",
     ElasticAPM = "ElasticAPM",
     NewRelic = "NewRelic"
@@ -2107,6 +2589,21 @@ export enum KnownCustomDomainResourceProvisioningState {
 }
 
 // @public
+export enum KnownCustomizedAcceleratorProvisioningState {
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownCustomizedAcceleratorValidateResultState {
+    Invalid = "Invalid",
+    Valid = "Valid"
+}
+
+// @public
 export enum KnownDeploymentResourceProvisioningState {
     Creating = "Creating",
     Failed = "Failed",
@@ -2118,6 +2615,22 @@ export enum KnownDeploymentResourceProvisioningState {
 export enum KnownDeploymentResourceStatus {
     Running = "Running",
     Stopped = "Stopped"
+}
+
+// @public
+export enum KnownDevToolPortalFeatureState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownDevToolPortalProvisioningState {
+    Canceled = "Canceled",
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
 }
 
 // @public
@@ -2177,6 +2690,20 @@ export enum KnownMonitoringSettingState {
 export enum KnownPowerState {
     Running = "Running",
     Stopped = "Stopped"
+}
+
+// @public
+export enum KnownPredefinedAcceleratorProvisioningState {
+    Creating = "Creating",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownPredefinedAcceleratorState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
 }
 
 // @public
@@ -2478,6 +3005,79 @@ export interface PersistentDisk {
 
 // @public
 export type PowerState = string;
+
+// @public
+export interface PredefinedAcceleratorProperties {
+    readonly acceleratorTags?: string[];
+    readonly description?: string;
+    readonly displayName?: string;
+    readonly iconUrl?: string;
+    readonly provisioningState?: PredefinedAcceleratorProvisioningState;
+    state?: PredefinedAcceleratorState;
+}
+
+// @public
+export type PredefinedAcceleratorProvisioningState = string;
+
+// @public
+export interface PredefinedAcceleratorResource extends ProxyResource {
+    properties?: PredefinedAcceleratorProperties;
+    sku?: Sku;
+}
+
+// @public (undocumented)
+export interface PredefinedAcceleratorResourceCollection {
+    // (undocumented)
+    nextLink?: string;
+    // (undocumented)
+    value?: PredefinedAcceleratorResource[];
+}
+
+// @public
+export interface PredefinedAccelerators {
+    beginDisable(resourceGroupName: string, serviceName: string, applicationAcceleratorName: string, predefinedAcceleratorName: string, options?: PredefinedAcceleratorsDisableOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDisableAndWait(resourceGroupName: string, serviceName: string, applicationAcceleratorName: string, predefinedAcceleratorName: string, options?: PredefinedAcceleratorsDisableOptionalParams): Promise<void>;
+    beginEnable(resourceGroupName: string, serviceName: string, applicationAcceleratorName: string, predefinedAcceleratorName: string, options?: PredefinedAcceleratorsEnableOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginEnableAndWait(resourceGroupName: string, serviceName: string, applicationAcceleratorName: string, predefinedAcceleratorName: string, options?: PredefinedAcceleratorsEnableOptionalParams): Promise<void>;
+    get(resourceGroupName: string, serviceName: string, applicationAcceleratorName: string, predefinedAcceleratorName: string, options?: PredefinedAcceleratorsGetOptionalParams): Promise<PredefinedAcceleratorsGetResponse>;
+    list(resourceGroupName: string, serviceName: string, applicationAcceleratorName: string, options?: PredefinedAcceleratorsListOptionalParams): PagedAsyncIterableIterator<PredefinedAcceleratorResource>;
+}
+
+// @public
+export interface PredefinedAcceleratorsDisableOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface PredefinedAcceleratorsEnableOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface PredefinedAcceleratorsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PredefinedAcceleratorsGetResponse = PredefinedAcceleratorResource;
+
+// @public
+export interface PredefinedAcceleratorsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PredefinedAcceleratorsListNextResponse = PredefinedAcceleratorResourceCollection;
+
+// @public
+export interface PredefinedAcceleratorsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PredefinedAcceleratorsListResponse = PredefinedAcceleratorResourceCollection;
+
+// @public
+export type PredefinedAcceleratorState = string;
 
 // @public
 export interface Probe {

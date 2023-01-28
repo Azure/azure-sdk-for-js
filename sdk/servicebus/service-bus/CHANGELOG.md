@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Ensure unique `replyTo` when new link is needed in ManagementClient. (PR #24509)[https://github.com/Azure/azure-sdk-for-js/pull/24509]
+
 ### Other Changes
 
 ## 7.7.3 (2022-11-08)

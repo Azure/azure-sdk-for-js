@@ -31,6 +31,13 @@ import {
   TagsObject,
   PacketCoreControlPlanesUpdateTagsOptionalParams,
   PacketCoreControlPlanesUpdateTagsResponse,
+  PacketCoreControlPlanesRollbackOptionalParams,
+  PacketCoreControlPlanesRollbackResponse,
+  PacketCoreControlPlanesReinstallOptionalParams,
+  PacketCoreControlPlanesReinstallResponse,
+  PacketCoreControlPlaneCollectDiagnosticsPackage,
+  PacketCoreControlPlanesCollectDiagnosticsPackageOptionalParams,
+  PacketCoreControlPlanesCollectDiagnosticsPackageResponse,
   PacketCoreControlPlanesListBySubscriptionNextResponse,
   PacketCoreControlPlanesListByResourceGroupNextResponse
 } from "../models";
@@ -412,6 +419,285 @@ export class PacketCoreControlPlanesImpl implements PacketCoreControlPlanes {
   }
 
   /**
+   * Roll back the specified packet core control plane to the previous version, "rollbackVersion".
+   * Multiple consecutive rollbacks are not possible. This action may cause a service outage.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param packetCoreControlPlaneName The name of the packet core control plane.
+   * @param options The options parameters.
+   */
+  async beginRollback(
+    resourceGroupName: string,
+    packetCoreControlPlaneName: string,
+    options?: PacketCoreControlPlanesRollbackOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<PacketCoreControlPlanesRollbackResponse>,
+      PacketCoreControlPlanesRollbackResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<PacketCoreControlPlanesRollbackResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, packetCoreControlPlaneName, options },
+      rollbackOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Roll back the specified packet core control plane to the previous version, "rollbackVersion".
+   * Multiple consecutive rollbacks are not possible. This action may cause a service outage.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param packetCoreControlPlaneName The name of the packet core control plane.
+   * @param options The options parameters.
+   */
+  async beginRollbackAndWait(
+    resourceGroupName: string,
+    packetCoreControlPlaneName: string,
+    options?: PacketCoreControlPlanesRollbackOptionalParams
+  ): Promise<PacketCoreControlPlanesRollbackResponse> {
+    const poller = await this.beginRollback(
+      resourceGroupName,
+      packetCoreControlPlaneName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Reinstall the specified packet core control plane. This action will remove any transaction state
+   * from the packet core to return it to a known state. This action will cause a service outage.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param packetCoreControlPlaneName The name of the packet core control plane.
+   * @param options The options parameters.
+   */
+  async beginReinstall(
+    resourceGroupName: string,
+    packetCoreControlPlaneName: string,
+    options?: PacketCoreControlPlanesReinstallOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<PacketCoreControlPlanesReinstallResponse>,
+      PacketCoreControlPlanesReinstallResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<PacketCoreControlPlanesReinstallResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, packetCoreControlPlaneName, options },
+      reinstallOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Reinstall the specified packet core control plane. This action will remove any transaction state
+   * from the packet core to return it to a known state. This action will cause a service outage.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param packetCoreControlPlaneName The name of the packet core control plane.
+   * @param options The options parameters.
+   */
+  async beginReinstallAndWait(
+    resourceGroupName: string,
+    packetCoreControlPlaneName: string,
+    options?: PacketCoreControlPlanesReinstallOptionalParams
+  ): Promise<PacketCoreControlPlanesReinstallResponse> {
+    const poller = await this.beginReinstall(
+      resourceGroupName,
+      packetCoreControlPlaneName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Collect a diagnostics package for the specified packet core control plane. This action will upload
+   * the diagnostics to a storage account.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param packetCoreControlPlaneName The name of the packet core control plane.
+   * @param parameters Parameters supplied to the packet core control plane collect diagnostics package
+   *                   operation.
+   * @param options The options parameters.
+   */
+  async beginCollectDiagnosticsPackage(
+    resourceGroupName: string,
+    packetCoreControlPlaneName: string,
+    parameters: PacketCoreControlPlaneCollectDiagnosticsPackage,
+    options?: PacketCoreControlPlanesCollectDiagnosticsPackageOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<
+        PacketCoreControlPlanesCollectDiagnosticsPackageResponse
+      >,
+      PacketCoreControlPlanesCollectDiagnosticsPackageResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<PacketCoreControlPlanesCollectDiagnosticsPackageResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, packetCoreControlPlaneName, parameters, options },
+      collectDiagnosticsPackageOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Collect a diagnostics package for the specified packet core control plane. This action will upload
+   * the diagnostics to a storage account.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param packetCoreControlPlaneName The name of the packet core control plane.
+   * @param parameters Parameters supplied to the packet core control plane collect diagnostics package
+   *                   operation.
+   * @param options The options parameters.
+   */
+  async beginCollectDiagnosticsPackageAndWait(
+    resourceGroupName: string,
+    packetCoreControlPlaneName: string,
+    parameters: PacketCoreControlPlaneCollectDiagnosticsPackage,
+    options?: PacketCoreControlPlanesCollectDiagnosticsPackageOptionalParams
+  ): Promise<PacketCoreControlPlanesCollectDiagnosticsPackageResponse> {
+    const poller = await this.beginCollectDiagnosticsPackage(
+      resourceGroupName,
+      packetCoreControlPlaneName,
+      parameters,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * ListBySubscriptionNext
    * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
    * @param options The options parameters.
@@ -584,6 +870,101 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept],
+  serializer
+};
+const rollbackOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/{packetCoreControlPlaneName}/rollback",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AsyncOperationStatus
+    },
+    201: {
+      bodyMapper: Mappers.AsyncOperationStatus
+    },
+    202: {
+      bodyMapper: Mappers.AsyncOperationStatus
+    },
+    204: {
+      bodyMapper: Mappers.AsyncOperationStatus
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.packetCoreControlPlaneName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const reinstallOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/{packetCoreControlPlaneName}/reinstall",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AsyncOperationStatus
+    },
+    201: {
+      bodyMapper: Mappers.AsyncOperationStatus
+    },
+    202: {
+      bodyMapper: Mappers.AsyncOperationStatus
+    },
+    204: {
+      bodyMapper: Mappers.AsyncOperationStatus
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.packetCoreControlPlaneName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const collectDiagnosticsPackageOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/{packetCoreControlPlaneName}/collectDiagnosticsPackage",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AsyncOperationStatus
+    },
+    201: {
+      bodyMapper: Mappers.AsyncOperationStatus
+    },
+    202: {
+      bodyMapper: Mappers.AsyncOperationStatus
+    },
+    204: {
+      bodyMapper: Mappers.AsyncOperationStatus
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.parameters5,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.packetCoreControlPlaneName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {

@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { AzureArcVMwareManagementServiceAPI } = require("@azure/arm-connectedvmware");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to The operation to get all extensions of a non-Azure machine
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/connectedvmware/resource-manager/Microsoft.ConnectedVMwarevSphere/preview/2022-01-10-preview/examples/LISTExtension.json
  */
 async function getAllMachineExtensions() {
-  const subscriptionId = "{subscriptionId}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId = process.env["CONNECTEDVMWARE_SUBSCRIPTION_ID"] || "{subscriptionId}";
+  const resourceGroupName = process.env["CONNECTEDVMWARE_RESOURCE_GROUP"] || "myResourceGroup";
   const name = "myMachine";
   const credential = new DefaultAzureCredential();
   const client = new AzureArcVMwareManagementServiceAPI(credential, subscriptionId);
@@ -30,4 +31,8 @@ async function getAllMachineExtensions() {
   console.log(resArray);
 }
 
-getAllMachineExtensions().catch(console.error);
+async function main() {
+  getAllMachineExtensions();
+}
+
+main().catch(console.error);

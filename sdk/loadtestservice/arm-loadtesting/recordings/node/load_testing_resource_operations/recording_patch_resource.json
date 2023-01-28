@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/js-sdk-test-rg/providers/Microsoft.LoadTestService/loadTests/loadtestsResource?api-version=2022-12-01",
+      "RequestUri": "https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myjstest/providers/Microsoft.LoadTestService/loadTests/loadtestsResource?api-version=2022-12-01",
       "RequestMethod": "PATCH",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -10,8 +10,8 @@
         "Connection": "keep-alive",
         "Content-Length": "38",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-arm-loadtesting/1.0.0-beta.2 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "e5d4fa64-9d9e-4984-9a3a-b699bf5aa031"
+        "User-Agent": "azsdk-js-arm-loadtesting/1.0.0 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "1dc1e476-cf11-4d3b-b405-deffc0e783fb"
       },
       "RequestBody": {
         "identity": {
@@ -20,28 +20,28 @@
       },
       "StatusCode": 202,
       "ResponseHeaders": {
-        "Azure-AsyncOperation": "https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.LoadTestService/locations/WESTUS2/operationStatuses/299d5e1a-4fe1-498c-b8e9-301207ac33b5*E6AE5B5861C74B1716840067373EA75E85BE88392B4DAF589D441C08A05CE9F7?api-version=2022-12-01",
+        "Azure-AsyncOperation": "https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.LoadTestService/locations/WESTUS2/operationStatuses/5835a97a-a336-4d15-8ee3-2ed60ecef73f*CC5302917A6CC7E79A30069178200988297A65F362ACE4CEA2322B6119687A80?api-version=2022-12-01",
         "Cache-Control": "no-cache",
         "Content-Length": "4",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 19 Dec 2022 06:29:29 GMT",
-        "ETag": "\u0022400554ca-0000-0800-0000-63a004c90000\u0022",
+        "Date": "Sat, 28 Jan 2023 06:10:50 GMT",
+        "ETag": "\u00227b016d2a-0000-0800-0000-63d4bc6a0000\u0022",
         "Expires": "-1",
-        "Location": "https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.LoadTestService/locations/WESTUS2/operationStatuses/299d5e1a-4fe1-498c-b8e9-301207ac33b5*E6AE5B5861C74B1716840067373EA75E85BE88392B4DAF589D441C08A05CE9F7?api-version=2022-12-01",
-        "mise-correlation-id": "2dd4fe94-b2e6-4296-83d7-f148a6905dab",
+        "Location": "https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.LoadTestService/locations/WESTUS2/operationStatuses/5835a97a-a336-4d15-8ee3-2ed60ecef73f*CC5302917A6CC7E79A30069178200988297A65F362ACE4CEA2322B6119687A80?api-version=2022-12-01",
+        "mise-correlation-id": "6fbd9b27-4e74-4ad7-af93-b568eadc15e6",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "046efbec-1809-4db7-87aa-74eab217d8ad",
+        "x-ms-correlation-request-id": "34bcad89-6e13-4e40-a0bd-97020aa12f4a",
         "x-ms-providerhub-traffic": "True",
-        "x-ms-ratelimit-remaining-subscription-writes": "1194",
-        "x-ms-request-id": "299d5e1a-4fe1-498c-b8e9-301207ac33b5",
-        "x-ms-routing-request-id": "JIOINDIACENTRAL:20221219T062930Z:046efbec-1809-4db7-87aa-74eab217d8ad"
+        "x-ms-ratelimit-remaining-subscription-writes": "1198",
+        "x-ms-request-id": "5835a97a-a336-4d15-8ee3-2ed60ecef73f",
+        "x-ms-routing-request-id": "KOREASOUTH:20230128T061050Z:34bcad89-6e13-4e40-a0bd-97020aa12f4a"
       },
       "ResponseBody": "null"
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.LoadTestService/locations/WESTUS2/operationStatuses/299d5e1a-4fe1-498c-b8e9-301207ac33b5*E6AE5B5861C74B1716840067373EA75E85BE88392B4DAF589D441C08A05CE9F7?api-version=2022-12-01",
+      "RequestUri": "https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.LoadTestService/locations/WESTUS2/operationStatuses/5835a97a-a336-4d15-8ee3-2ed60ecef73f*CC5302917A6CC7E79A30069178200988297A65F362ACE4CEA2322B6119687A80?api-version=2022-12-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -49,8 +49,8 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-arm-loadtesting/1.0.0-beta.2 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "da09ca9d-1ecd-4521-b7bd-fb6000ac8a95"
+        "User-Agent": "azsdk-js-arm-loadtesting/1.0.0 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "06ee6dc5-d532-42c4-ab9c-dc68b5512e96"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -58,29 +58,29 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 19 Dec 2022 06:29:29 GMT",
-        "ETag": "\u0022d2022e87-0000-0800-0000-63a004c90000\u0022",
+        "Date": "Sat, 28 Jan 2023 06:10:50 GMT",
+        "ETag": "\u00221d008b67-0000-0800-0000-63d4bc6a0000\u0022",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "aa352148-f53c-401a-9707-fa21dedb2d0c",
-        "x-ms-ratelimit-remaining-subscription-reads": "11971",
-        "x-ms-request-id": "97704a2c-9aa9-41e1-b511-40042114f6db",
-        "x-ms-routing-request-id": "JIOINDIACENTRAL:20221219T062930Z:aa352148-f53c-401a-9707-fa21dedb2d0c"
+        "x-ms-correlation-request-id": "542eda3d-f754-4530-a180-4e3b17ed0346",
+        "x-ms-ratelimit-remaining-subscription-reads": "11996",
+        "x-ms-request-id": "85c40202-a3ee-46be-83eb-6c3e45e5923f",
+        "x-ms-routing-request-id": "KOREASOUTH:20230128T061050Z:542eda3d-f754-4530-a180-4e3b17ed0346"
       },
       "ResponseBody": {
-        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.LoadTestService/locations/WESTUS2/operationStatuses/299d5e1a-4fe1-498c-b8e9-301207ac33b5*E6AE5B5861C74B1716840067373EA75E85BE88392B4DAF589D441C08A05CE9F7",
-        "name": "299d5e1a-4fe1-498c-b8e9-301207ac33b5*E6AE5B5861C74B1716840067373EA75E85BE88392B4DAF589D441C08A05CE9F7",
-        "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/js-sdk-test-rg/providers/Microsoft.LoadTestService/loadTests/loadtestsResource",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.LoadTestService/locations/WESTUS2/operationStatuses/5835a97a-a336-4d15-8ee3-2ed60ecef73f*CC5302917A6CC7E79A30069178200988297A65F362ACE4CEA2322B6119687A80",
+        "name": "5835a97a-a336-4d15-8ee3-2ed60ecef73f*CC5302917A6CC7E79A30069178200988297A65F362ACE4CEA2322B6119687A80",
+        "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myjstest/providers/Microsoft.LoadTestService/loadTests/loadtestsResource",
         "status": "Accepted",
-        "startTime": "2022-12-19T06:29:29.8940041Z"
+        "startTime": "2023-01-28T06:10:50.4798428Z"
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.LoadTestService/locations/WESTUS2/operationStatuses/299d5e1a-4fe1-498c-b8e9-301207ac33b5*E6AE5B5861C74B1716840067373EA75E85BE88392B4DAF589D441C08A05CE9F7?api-version=2022-12-01",
+      "RequestUri": "https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.LoadTestService/locations/WESTUS2/operationStatuses/5835a97a-a336-4d15-8ee3-2ed60ecef73f*CC5302917A6CC7E79A30069178200988297A65F362ACE4CEA2322B6119687A80?api-version=2022-12-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -88,8 +88,8 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-arm-loadtesting/1.0.0-beta.2 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "aa0535a3-ec93-4471-a74c-94d197344db7"
+        "User-Agent": "azsdk-js-arm-loadtesting/1.0.0 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "6195e006-4ec5-436f-8ddf-7078d0f8ae2b"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -97,29 +97,29 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 19 Dec 2022 06:29:29 GMT",
-        "ETag": "\u0022d2022e87-0000-0800-0000-63a004c90000\u0022",
+        "Date": "Sat, 28 Jan 2023 06:10:50 GMT",
+        "ETag": "\u00221d008b67-0000-0800-0000-63d4bc6a0000\u0022",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "bb50f648-fc98-4069-a81e-3569789b11c0",
-        "x-ms-ratelimit-remaining-subscription-reads": "11970",
-        "x-ms-request-id": "4af130f1-e256-41db-89b1-00378ac747b8",
-        "x-ms-routing-request-id": "JIOINDIACENTRAL:20221219T062930Z:bb50f648-fc98-4069-a81e-3569789b11c0"
+        "x-ms-correlation-request-id": "deea9f1e-2357-45a2-a264-8c1aa9122d03",
+        "x-ms-ratelimit-remaining-subscription-reads": "11995",
+        "x-ms-request-id": "3c33de55-c3a4-4a5f-9f43-2020256ce148",
+        "x-ms-routing-request-id": "KOREASOUTH:20230128T061050Z:deea9f1e-2357-45a2-a264-8c1aa9122d03"
       },
       "ResponseBody": {
-        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.LoadTestService/locations/WESTUS2/operationStatuses/299d5e1a-4fe1-498c-b8e9-301207ac33b5*E6AE5B5861C74B1716840067373EA75E85BE88392B4DAF589D441C08A05CE9F7",
-        "name": "299d5e1a-4fe1-498c-b8e9-301207ac33b5*E6AE5B5861C74B1716840067373EA75E85BE88392B4DAF589D441C08A05CE9F7",
-        "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/js-sdk-test-rg/providers/Microsoft.LoadTestService/loadTests/loadtestsResource",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.LoadTestService/locations/WESTUS2/operationStatuses/5835a97a-a336-4d15-8ee3-2ed60ecef73f*CC5302917A6CC7E79A30069178200988297A65F362ACE4CEA2322B6119687A80",
+        "name": "5835a97a-a336-4d15-8ee3-2ed60ecef73f*CC5302917A6CC7E79A30069178200988297A65F362ACE4CEA2322B6119687A80",
+        "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myjstest/providers/Microsoft.LoadTestService/loadTests/loadtestsResource",
         "status": "Accepted",
-        "startTime": "2022-12-19T06:29:29.8940041Z"
+        "startTime": "2023-01-28T06:10:50.4798428Z"
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.LoadTestService/locations/WESTUS2/operationStatuses/299d5e1a-4fe1-498c-b8e9-301207ac33b5*E6AE5B5861C74B1716840067373EA75E85BE88392B4DAF589D441C08A05CE9F7?api-version=2022-12-01",
+      "RequestUri": "https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.LoadTestService/locations/WESTUS2/operationStatuses/5835a97a-a336-4d15-8ee3-2ed60ecef73f*CC5302917A6CC7E79A30069178200988297A65F362ACE4CEA2322B6119687A80?api-version=2022-12-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -127,8 +127,8 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-arm-loadtesting/1.0.0-beta.2 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "788e7e1d-8f21-4517-92a6-3fad03b0b3d6"
+        "User-Agent": "azsdk-js-arm-loadtesting/1.0.0 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "b9cdcab8-b42e-48e8-8693-7064e4593542"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -136,39 +136,39 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 19 Dec 2022 06:29:32 GMT",
-        "ETag": "\u0022d2024787-0000-0800-0000-63a004cb0000\u0022",
+        "Date": "Sat, 28 Jan 2023 06:10:52 GMT",
+        "ETag": "\u00221d008c67-0000-0800-0000-63d4bc6b0000\u0022",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "fe91ac8a-ffb6-45c2-aadd-f5e08de576b1",
-        "x-ms-ratelimit-remaining-subscription-reads": "11969",
-        "x-ms-request-id": "8482fe64-795d-4d2e-b720-fe9d5abfc4c3",
-        "x-ms-routing-request-id": "JIOINDIACENTRAL:20221219T062932Z:fe91ac8a-ffb6-45c2-aadd-f5e08de576b1"
+        "x-ms-correlation-request-id": "e3c23ae6-738d-486f-9b9e-23163e3f24d8",
+        "x-ms-ratelimit-remaining-subscription-reads": "11994",
+        "x-ms-request-id": "7e18fa39-b896-4686-ba72-bca497d98f97",
+        "x-ms-routing-request-id": "KOREASOUTH:20230128T061053Z:e3c23ae6-738d-486f-9b9e-23163e3f24d8"
       },
       "ResponseBody": {
-        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.LoadTestService/locations/WESTUS2/operationStatuses/299d5e1a-4fe1-498c-b8e9-301207ac33b5*E6AE5B5861C74B1716840067373EA75E85BE88392B4DAF589D441C08A05CE9F7",
-        "name": "299d5e1a-4fe1-498c-b8e9-301207ac33b5*E6AE5B5861C74B1716840067373EA75E85BE88392B4DAF589D441C08A05CE9F7",
-        "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/js-sdk-test-rg/providers/Microsoft.LoadTestService/loadTests/loadtestsResource",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.LoadTestService/locations/WESTUS2/operationStatuses/5835a97a-a336-4d15-8ee3-2ed60ecef73f*CC5302917A6CC7E79A30069178200988297A65F362ACE4CEA2322B6119687A80",
+        "name": "5835a97a-a336-4d15-8ee3-2ed60ecef73f*CC5302917A6CC7E79A30069178200988297A65F362ACE4CEA2322B6119687A80",
+        "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myjstest/providers/Microsoft.LoadTestService/loadTests/loadtestsResource",
         "status": "Succeeded",
-        "startTime": "2022-12-19T06:29:29.8940041Z",
-        "endTime": "2022-12-19T06:29:31.0850684Z",
+        "startTime": "2023-01-28T06:10:50.4798428Z",
+        "endTime": "2023-01-28T06:10:51.8270434Z",
         "properties": null
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/js-sdk-test-rg/providers/Microsoft.LoadTestService/loadTests/loadtestsResource?api-version=2022-12-01",
+      "RequestUri": "https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myjstest/providers/Microsoft.LoadTestService/loadTests/loadtestsResource?api-version=2022-12-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-loadtesting/1.0.0-beta.2 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "c0d3f91a-7279-4858-a856-e2d98a624414"
+        "User-Agent": "azsdk-js-arm-loadtesting/1.0.0 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "2e3fd5b7-2b3f-4960-bf4a-9c8384b22de2"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -176,22 +176,22 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 19 Dec 2022 06:29:32 GMT",
-        "ETag": "\u002240055dca-0000-0800-0000-63a004cb0000\u0022",
+        "Date": "Sat, 28 Jan 2023 06:10:53 GMT",
+        "ETag": "\u00227b01832a-0000-0800-0000-63d4bc6b0000\u0022",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "324965da-0de5-44a8-91ce-6b9c57e74ba7",
+        "x-ms-correlation-request-id": "9b432e6a-6845-44d5-9493-e411948145b4",
         "x-ms-providerhub-traffic": "True",
-        "x-ms-ratelimit-remaining-subscription-reads": "11968",
-        "x-ms-request-id": "70d011b9-fe11-4a13-b23e-498e2760d98d",
-        "x-ms-routing-request-id": "JIOINDIACENTRAL:20221219T062933Z:324965da-0de5-44a8-91ce-6b9c57e74ba7"
+        "x-ms-ratelimit-remaining-subscription-reads": "11993",
+        "x-ms-request-id": "9ff6ccb7-89ec-481c-8628-e4cb368b4af5",
+        "x-ms-routing-request-id": "KOREASOUTH:20230128T061053Z:9b432e6a-6845-44d5-9493-e411948145b4"
       },
       "ResponseBody": {
-        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/js-sdk-test-rg/providers/Microsoft.LoadTestService/loadTests/loadtestsResource",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myjstest/providers/Microsoft.LoadTestService/loadTests/loadtestsResource",
         "name": "loadtestsResource",
         "type": "microsoft.loadtestservice/loadtests",
         "location": "westus2",
@@ -201,19 +201,19 @@
         "systemData": {
           "createdBy": "azure_client_id",
           "createdByType": "Application",
-          "createdAt": "2022-12-19T06:29:21.2555437Z",
+          "createdAt": "2023-01-28T06:10:42.2414265Z",
           "lastModifiedBy": "azure_client_id",
           "lastModifiedByType": "Application",
-          "lastModifiedAt": "2022-12-19T06:29:29.7301155Z"
+          "lastModifiedAt": "2023-01-28T06:10:50.3394772Z"
         },
         "identity": {
-          "principalId": "400ef11b-8c90-407f-9d98-3aca3cf99d45",
+          "principalId": "27e10f66-89e8-4aab-8559-73b089add5e8",
           "tenantId": "88888888-8888-8888-8888-888888888888",
           "type": "SystemAssigned"
         },
         "properties": {
           "description": "New Load test resource from SDK.",
-          "dataPlaneURI": "dc285f2e-ff78-4bdd-9200-56aafe14c576.westus2.cnt-prod.loadtesting.azure.com",
+          "dataPlaneURI": "0487fd1f-826a-46a4-87ae-25381cb11e94.westus2.cnt-prod.loadtesting.azure.com",
           "encryption": null,
           "provisioningState": "Succeeded"
         }
