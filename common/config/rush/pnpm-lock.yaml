@@ -12812,7 +12812,7 @@ packages:
     dev: false
 
   file:projects/arm-managementpartner.tgz:
-    resolution: {integrity: sha512-tVJXGpMIpRfdm7aF8r6Q7E5SwxV5TUvsnROIx/Hbtv/Q2zVw70DLHFfXQ+zAALagN3I/xFJgWlcttDi0jzu9nw==, tarball: file:projects/arm-managementpartner.tgz}
+    resolution: {integrity: sha512-d8B+W0ipwv+XDjrfGZqO0ELW4X6/UcgoX1Cz+Mux2ATDjlguXJhWAkViUyQcOX+c2WCfT+obQLx5xA16y4RkFg==, tarball: file:projects/arm-managementpartner.tgz}
     name: '@rush-temp/arm-managementpartner'
     version: 0.0.0
     dependencies:
@@ -12823,18 +12823,19 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
+      '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_p2gydaekoyjvl5wd3ixslt7iq4
       tslib: 2.5.0
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
