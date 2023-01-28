@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { LoadTestClient } from "@azure/arm-loadtesting";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Lists the endpoints that agents may call as part of load testing.
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/loadtestservice/resource-manager/Microsoft.LoadTestService/stable/2022-12-01/examples/LoadTests_ListOutboundNetworkDependenciesEndpoints.json
  */
 async function listOutboundNetworkDependencies() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "default-azureloadtest-japaneast";
+  const subscriptionId =
+    process.env["LOADTESTSERVICE_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["LOADTESTSERVICE_RESOURCE_GROUP"] ||
+    "default-azureloadtest-japaneast";
   const loadTestName = "sampleloadtest";
   const credential = new DefaultAzureCredential();
   const client = new LoadTestClient(credential, subscriptionId);
@@ -33,4 +39,8 @@ async function listOutboundNetworkDependencies() {
   console.log(resArray);
 }
 
-listOutboundNetworkDependencies().catch(console.error);
+async function main() {
+  listOutboundNetworkDependencies();
+}
+
+main().catch(console.error);
