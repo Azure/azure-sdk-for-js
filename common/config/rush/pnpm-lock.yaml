@@ -3705,7 +3705,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20230120
+      typescript: 5.0.0-dev.20230127
     dev: false
 
   /downlevel-dts/0.7.0:
@@ -8318,8 +8318,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20230120:
-    resolution: {integrity: sha512-vgmInMYmRogavAvGVDd+gnrckZJPFbfBp2l7ubTRtZ4CDw9YeUu3121tclQy+0FlmzvhfPUvbJ/ZWEqjQTKGbw==}
+  /typescript/5.0.0-dev.20230127:
+    resolution: {integrity: sha512-mVeF//rAsCF0l67BcluXdtGqTnSQNJwwxQvqcfdwNuRn9P0GN1tGqk0ta956LXBCLHl4wnd8g5BK7ON/+ZMHAw==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -12361,7 +12361,7 @@ packages:
     dev: false
 
   file:projects/arm-machinelearningexperimentation.tgz:
-    resolution: {integrity: sha512-KvmWDRnaAFp1ukipTBmtSHOQWcReOCFr3hlswWuS8yB6ESR140uMDdGTQoD9pRwaB9OwnQHNn/L5JgYEMb4RRA==, tarball: file:projects/arm-machinelearningexperimentation.tgz}
+    resolution: {integrity: sha512-5OcAPZ9Whs9d7t4OBVRBqY6ttQEA9d0zJZKUs31UdNKZslCq8R1tbHiUvOKzGoxTDpquf1w3kM4Rqzp7JWtDmA==, tarball: file:projects/arm-machinelearningexperimentation.tgz}
     name: '@rush-temp/arm-machinelearningexperimentation'
     version: 0.0.0
     dependencies:
@@ -12372,18 +12372,19 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
+      '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_7e8d81808a761355f6c3da2f25cfe887
       tslib: 2.4.1
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
@@ -12689,7 +12690,7 @@ packages:
     dev: false
 
   file:projects/arm-monitor.tgz:
-    resolution: {integrity: sha512-Xzl9xpRvqhph1QQqT5oNbsjL88zkwynwAgcLDETCYTCZtH+HodW2ldddYdr6o/8c4egnlK1dA65ErAjDx1dn1w==, tarball: file:projects/arm-monitor.tgz}
+    resolution: {integrity: sha512-JqAHhcYJwMaGSP5SvF2dZyO6RFZaYueuYmtilPzpg6vje557tOyo94Ud179y+XPTayevkly2risLB+bRd6JM3w==, tarball: file:projects/arm-monitor.tgz}
     name: '@rush-temp/arm-monitor'
     version: 0.0.0
     dependencies:
