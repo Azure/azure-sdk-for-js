@@ -119,7 +119,8 @@ async function sendBatch(
 
   let totalEvents = 0;
   for (const partition in partitionIds) {
-    const { lastEnqueuedSequenceNumber, beginningSequenceNumber } = await producer.getPartitionProperties(partition);
+    const { lastEnqueuedSequenceNumber, beginningSequenceNumber } =
+      await producer.getPartitionProperties(partition);
     totalEvents += lastEnqueuedSequenceNumber - beginningSequenceNumber;
   }
 
@@ -130,10 +131,7 @@ async function sendBatch(
   let numberOfEventsSent = 0;
   // add events to our batch
   while (numberOfEventsSent < eventsToAdd) {
-    while (
-      batch.tryAdd({ body: _payload }) &&
-      numberOfEventsSent + batch.count <= eventsToAdd
-    );
+    while (batch.tryAdd({ body: _payload }) && numberOfEventsSent + batch.count <= eventsToAdd);
     await producer.sendBatch(batch);
     numberOfEventsSent = numberOfEventsSent + batch.count;
   }

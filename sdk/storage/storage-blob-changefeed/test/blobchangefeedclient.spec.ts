@@ -7,7 +7,7 @@ import { recorderEnvSetup, getBlobChangeFeedClient, streamToString } from "./uti
 import { BlobChangeFeedClient, BlobChangeFeedEvent, BlobChangeFeedEventPage } from "../src";
 import { AbortController } from "@azure/abort-controller";
 import { setTracer } from "@azure/test-utils";
-import { Pipeline } from "@azure/storage-blob";
+import { BlobServiceClient } from "@azure/storage-blob";
 import { SDK_VERSION } from "../src/utils/constants";
 import { setSpan, context } from "@azure/core-tracing";
 import * as fs from "fs";
@@ -15,6 +15,7 @@ import * as path from "path";
 
 import { Context } from "mocha";
 import { rawEventToBlobChangeFeedEvent } from "../src/utils/utils.common";
+import { HttpHeaders, RequestPolicy, RestError } from "@azure/core-http";
 
 const timeoutForLargeFileUploadingTest = 20 * 60 * 1000;
 
@@ -132,30 +133,39 @@ describe("BlobChangeFeedClient", async () => {
     }
   });
 
-  function fetchTelemetryString(pipeline: Pipeline): string {
-    for (const factory of pipeline.factories) {
-      if ((factory as any).telemetryString) {
-        return (factory as any).telemetryString;
-      }
+  async function fetchTelemetryString(client: BlobChangeFeedClient): Promise<string> {
+    try {
+      await client.listChanges().next();
+      return "";
+    } catch (e: any) {
+      assert.equal(e.name, "RestError");
+      return (e as RestError).request?.headers.get("User-Agent") ?? "";
     }
-    return "";
   }
 
   it("user agent set correctly", async () => {
-    const blobServiceClient = (changeFeedClient as any).blobServiceClient;
-    const telemetryString = fetchTelemetryString(blobServiceClient.pipeline);
-    assert.ok(telemetryString.startsWith(`changefeed-js/${SDK_VERSION}`));
+    const MockHttpClient: RequestPolicy = {
+      sendRequest(request) {
+        return Promise.resolve({
+          request,
+          headers: new HttpHeaders(),
+          status: 418,
+        });
+      },
+    };
 
+    const client = getBlobChangeFeedClient("", "", {
+      httpClient: MockHttpClient,
+    });
+    const telemetryString = await fetchTelemetryString(client);
+    assert.ok(telemetryString.startsWith(`changefeed-js/${SDK_VERSION}`));
+    const blobServiceClient: BlobServiceClient = (changeFeedClient as any).blobServiceClient;
     const userAgentPrefix = "test/1 a b";
-    const changeFeedClient2 = new BlobChangeFeedClient(
-      blobServiceClient.url,
-      blobServiceClient.credential,
-      {
-        userAgentOptions: { userAgentPrefix },
-      }
-    );
-    const blobServiceClient2 = (changeFeedClient2 as any).blobServiceClient;
-    const telemetryString2 = fetchTelemetryString(blobServiceClient2.pipeline);
+    const client2 = new BlobChangeFeedClient(blobServiceClient.url, blobServiceClient.credential, {
+      httpClient: MockHttpClient,
+      userAgentOptions: { userAgentPrefix },
+    });
+    const telemetryString2 = await fetchTelemetryString(client2);
     assert.ok(telemetryString2.startsWith(`${userAgentPrefix} changefeed-js/${SDK_VERSION}`));
   });
 

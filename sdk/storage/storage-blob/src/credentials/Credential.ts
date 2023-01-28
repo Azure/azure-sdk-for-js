@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RequestPolicy, RequestPolicyFactory, RequestPolicyOptions } from "@azure/core-http";
+import {
+  RequestPolicy,
+  RequestPolicyFactory,
+  RequestPolicyOptionsLike as RequestPolicyOptions,
+} from "@azure/core-http-compat";
 import { CredentialPolicy } from "../policies/CredentialPolicy";
 
 /**

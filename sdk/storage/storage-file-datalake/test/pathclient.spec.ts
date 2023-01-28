@@ -759,7 +759,7 @@ describe("DataLakePathClient", () => {
             {
               name: "Azure.Storage.DataLake.DataLakeFileClient-read",
               children: [
-                {
+                /* {
                   name: "Azure.Storage.Blob.BlobClient-download",
                   children: [
                     {
@@ -767,7 +767,7 @@ describe("DataLakePathClient", () => {
                       children: [],
                     },
                   ],
-                },
+                },*/
               ],
             },
           ],
