@@ -13,6 +13,9 @@ import {
   HDInsightManagementClient
 } from "@azure/arm-hdinsight";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Patch HDInsight cluster with the specified parameters.
@@ -21,8 +24,8 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/stable/2021-06-01/examples/PatchLinuxHadoopCluster.json
  */
 async function patchHdInsightLinuxClusters() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["HDINSIGHT_RESOURCE_GROUP"] || "rg1";
   const clusterName = "cluster1";
   const parameters: ClusterPatchParameters = {
     tags: { key1: "val1", key2: "val2" }
@@ -37,4 +40,8 @@ async function patchHdInsightLinuxClusters() {
   console.log(result);
 }
 
-patchHdInsightLinuxClusters().catch(console.error);
+async function main() {
+  patchHdInsightLinuxClusters();
+}
+
+main().catch(console.error);

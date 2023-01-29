@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Users } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -65,8 +66,16 @@ export class UsersImpl implements Users {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByLabPagingPage(resourceGroupName, labName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByLabPagingPage(
+          resourceGroupName,
+          labName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -74,11 +83,18 @@ export class UsersImpl implements Users {
   private async *listByLabPagingPage(
     resourceGroupName: string,
     labName: string,
-    options?: UsersListByLabOptionalParams
+    options?: UsersListByLabOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<User[]> {
-    let result = await this._listByLab(resourceGroupName, labName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: UsersListByLabResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByLab(resourceGroupName, labName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByLabNext(
         resourceGroupName,
@@ -87,7 +103,9 @@ export class UsersImpl implements Users {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -731,7 +749,6 @@ const listByLabNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

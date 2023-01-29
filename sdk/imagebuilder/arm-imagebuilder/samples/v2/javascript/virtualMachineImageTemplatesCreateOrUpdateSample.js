@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ImageBuilderClient } = require("@azure/arm-imagebuilder");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Create or update a virtual machine image template
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2022-02-14/examples/CreateImageTemplateLinux.json
  */
 async function createAnImageTemplateForLinux() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId = process.env["IMAGEBUILDER_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["IMAGEBUILDER_RESOURCE_GROUP"] || "myResourceGroup";
   const imageTemplateName = "myImageTemplate";
   const parameters = {
     customize: [
@@ -72,8 +73,6 @@ async function createAnImageTemplateForLinux() {
   console.log(result);
 }
 
-createAnImageTemplateForLinux().catch(console.error);
-
 /**
  * This sample demonstrates how to Create or update a virtual machine image template
  *
@@ -81,8 +80,8 @@ createAnImageTemplateForLinux().catch(console.error);
  * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2022-02-14/examples/CreateImageTemplateWindows.json
  */
 async function createAnImageTemplateForWindows() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId = process.env["IMAGEBUILDER_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["IMAGEBUILDER_RESOURCE_GROUP"] || "myResourceGroup";
   const imageTemplateName = "myImageTemplate";
   const parameters = {
     customize: [
@@ -183,4 +182,9 @@ async function createAnImageTemplateForWindows() {
   console.log(result);
 }
 
-createAnImageTemplateForWindows().catch(console.error);
+async function main() {
+  createAnImageTemplateForLinux();
+  createAnImageTemplateForWindows();
+}
+
+main().catch(console.error);
