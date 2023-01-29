@@ -3807,7 +3807,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20230127
+      typescript: 5.0.0-dev.20230128
     dev: false
 
   /downlevel-dts/0.7.0:
@@ -8653,8 +8653,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20230127:
-    resolution: {integrity: sha512-mVeF//rAsCF0l67BcluXdtGqTnSQNJwwxQvqcfdwNuRn9P0GN1tGqk0ta956LXBCLHl4wnd8g5BK7ON/+ZMHAw==}
+  /typescript/5.0.0-dev.20230128:
+    resolution: {integrity: sha512-oos2fAiWy4+bCwSKXn56TsFz0vasZJ0uQR5FxXDUmi9y4+TDxUUZXpIVv3E6RKFz4ee0ndvMOwTjpnb2WE2gpw==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -12649,7 +12649,7 @@ packages:
     dev: false
 
   file:projects/arm-logic.tgz:
-    resolution: {integrity: sha512-iH/flgm//dFDlbUdK5VJM01uGEKzYo0+lkq/eS3hOi4PGfoY9LCRRqEB426r6rSjC0olQvqyomCnvWSCEFPbtQ==, tarball: file:projects/arm-logic.tgz}
+    resolution: {integrity: sha512-vgC0Z3cMBn9Lk1l95n0o2xIYEVovrL5UD01vUbjPlZwJ4CuYFhw8egLntpZeEhycVuVgo5zm6FI0kmh1x5FiFw==, tarball: file:projects/arm-logic.tgz}
     name: '@rush-temp/arm-logic'
     version: 0.0.0
     dependencies:
@@ -12660,18 +12660,19 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
+      '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_p2gydaekoyjvl5wd3ixslt7iq4
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
@@ -12730,7 +12731,7 @@ packages:
     dev: false
 
   file:projects/arm-machinelearningexperimentation.tgz:
-    resolution: {integrity: sha512-KvmWDRnaAFp1ukipTBmtSHOQWcReOCFr3hlswWuS8yB6ESR140uMDdGTQoD9pRwaB9OwnQHNn/L5JgYEMb4RRA==, tarball: file:projects/arm-machinelearningexperimentation.tgz}
+    resolution: {integrity: sha512-5OcAPZ9Whs9d7t4OBVRBqY6ttQEA9d0zJZKUs31UdNKZslCq8R1tbHiUvOKzGoxTDpquf1w3kM4Rqzp7JWtDmA==, tarball: file:projects/arm-machinelearningexperimentation.tgz}
     name: '@rush-temp/arm-machinelearningexperimentation'
     version: 0.0.0
     dependencies:
@@ -12741,18 +12742,19 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
+      '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_p2gydaekoyjvl5wd3ixslt7iq4
       tslib: 2.5.0
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
@@ -12811,7 +12813,7 @@ packages:
     dev: false
 
   file:projects/arm-managementpartner.tgz:
-    resolution: {integrity: sha512-tVJXGpMIpRfdm7aF8r6Q7E5SwxV5TUvsnROIx/Hbtv/Q2zVw70DLHFfXQ+zAALagN3I/xFJgWlcttDi0jzu9nw==, tarball: file:projects/arm-managementpartner.tgz}
+    resolution: {integrity: sha512-d8B+W0ipwv+XDjrfGZqO0ELW4X6/UcgoX1Cz+Mux2ATDjlguXJhWAkViUyQcOX+c2WCfT+obQLx5xA16y4RkFg==, tarball: file:projects/arm-managementpartner.tgz}
     name: '@rush-temp/arm-managementpartner'
     version: 0.0.0
     dependencies:
@@ -12822,18 +12824,19 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
+      '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_p2gydaekoyjvl5wd3ixslt7iq4
       tslib: 2.5.0
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
@@ -12892,7 +12895,7 @@ packages:
     dev: false
 
   file:projects/arm-marketplaceordering.tgz:
-    resolution: {integrity: sha512-+XBkxsU65zviFVH/0il8eG28nkOGHQzXESlYztdu9v1CsOF2GKerV2Z1ZuBKz9G5BfvEIOiauB53v7yGQpt/wg==, tarball: file:projects/arm-marketplaceordering.tgz}
+    resolution: {integrity: sha512-c+7mpesrWiseVd2dshB4rXRP1xPjunnb3FZ76AsxT9pOAg2bEWMbusWOdbb26GPzENkcX7zHEkH8cyCCNnPXrg==, tarball: file:projects/arm-marketplaceordering.tgz}
     name: '@rush-temp/arm-marketplaceordering'
     version: 0.0.0
     dependencies:
@@ -12903,18 +12906,19 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
+      '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_p2gydaekoyjvl5wd3ixslt7iq4
       tslib: 2.5.0
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
