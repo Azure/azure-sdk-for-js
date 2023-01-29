@@ -1,15 +1,13 @@
 # Release History
+    
+## 18.0.0 (2023-01-29)
+    
+**Breaking Changes**
 
-## 17.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Operation NetAppResource.checkNameAvailability has a new signature
+  - Operation NetAppResource.checkQuotaAvailability has a new signature
+    
+    
 ## 17.0.0 (2022-09-21)
     
 **Features**

@@ -25,15 +25,15 @@ export interface NetAppResource {
    * Check if a resource name is available.
    * @param location The location
    * @param name Resource name to verify.
-   * @param resourceGroup Resource group name.
    * @param typeParam Resource type used for verification.
+   * @param resourceGroup Resource group name.
    * @param options The options parameters.
    */
   checkNameAvailability(
     location: string,
     name: string,
-    resourceGroup: string,
     typeParam: CheckNameResourceTypes,
+    resourceGroup: string,
     options?: NetAppResourceCheckNameAvailabilityOptionalParams
   ): Promise<NetAppResourceCheckNameAvailabilityResponse>;
   /**
@@ -54,15 +54,15 @@ export interface NetAppResource {
    * Check if a quota is available.
    * @param location The location
    * @param name Name of the resource to verify.
-   * @param resourceGroup Resource group name.
    * @param typeParam Resource type used for verification.
+   * @param resourceGroup Resource group name.
    * @param options The options parameters.
    */
   checkQuotaAvailability(
     location: string,
     name: string,
-    resourceGroup: string,
     typeParam: CheckQuotaNameResourceTypes,
+    resourceGroup: string,
     options?: NetAppResourceCheckQuotaAvailabilityOptionalParams
   ): Promise<NetAppResourceCheckQuotaAvailabilityResponse>;
   /**

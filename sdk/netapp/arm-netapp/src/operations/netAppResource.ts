@@ -40,19 +40,19 @@ export class NetAppResourceImpl implements NetAppResource {
    * Check if a resource name is available.
    * @param location The location
    * @param name Resource name to verify.
-   * @param resourceGroup Resource group name.
    * @param typeParam Resource type used for verification.
+   * @param resourceGroup Resource group name.
    * @param options The options parameters.
    */
   checkNameAvailability(
     location: string,
     name: string,
-    resourceGroup: string,
     typeParam: CheckNameResourceTypes,
+    resourceGroup: string,
     options?: NetAppResourceCheckNameAvailabilityOptionalParams
   ): Promise<NetAppResourceCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
-      { location, name, resourceGroup, typeParam, options },
+      { location, name, typeParam, resourceGroup, options },
       checkNameAvailabilityOperationSpec
     );
   }
@@ -81,19 +81,19 @@ export class NetAppResourceImpl implements NetAppResource {
    * Check if a quota is available.
    * @param location The location
    * @param name Name of the resource to verify.
-   * @param resourceGroup Resource group name.
    * @param typeParam Resource type used for verification.
+   * @param resourceGroup Resource group name.
    * @param options The options parameters.
    */
   checkQuotaAvailability(
     location: string,
     name: string,
-    resourceGroup: string,
     typeParam: CheckQuotaNameResourceTypes,
+    resourceGroup: string,
     options?: NetAppResourceCheckQuotaAvailabilityOptionalParams
   ): Promise<NetAppResourceCheckQuotaAvailabilityResponse> {
     return this.client.sendOperationRequest(
-      { location, name, resourceGroup, typeParam, options },
+      { location, name, typeParam, resourceGroup, options },
       checkQuotaAvailabilityOperationSpec
     );
   }
