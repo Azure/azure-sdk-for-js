@@ -4,14 +4,14 @@
 
 **Features**
 
-  -  Exposes `getContinuationToken` helper function to extract continuation token 
+  -  Exposes `getContinuationToken` helper function to extract continuation token
 
 **Bugs Fixed**
 
   - A series of small bug fixs relevant to authentication and apiVersion policy
 
 ## 3.1.0 (2022-07-08)
-    
+
 **Features**
 
   - Added Interface AgreementTerms

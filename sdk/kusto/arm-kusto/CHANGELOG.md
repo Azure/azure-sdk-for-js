@@ -11,7 +11,7 @@
   - A series of small bug fixs relevant to authentication and apiVersion policy
 
 ## 7.2.0 (2022-09-15)
-    
+
 **Features**
 
   - Added Interface AttachedDatabaseConfiguration
