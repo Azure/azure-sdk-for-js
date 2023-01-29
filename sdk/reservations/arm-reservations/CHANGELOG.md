@@ -52,10 +52,6 @@
   - Enum KnownDisplayProvisioningState has a new value NoBenefit
   - Enum KnownDisplayProvisioningState has a new value Warning
   - Added function getContinuationToken
-
-**Breaking Changes**
-
-  - Removed operation Return.post
   - Interface QuotaRequestStatusListNextOptionalParams no longer has parameter filter
   - Interface QuotaRequestStatusListNextOptionalParams no longer has parameter skiptoken
   - Interface QuotaRequestStatusListNextOptionalParams no longer has parameter top
@@ -69,6 +65,10 @@
   - Interface ReservationResponse no longer has parameter name
   - Interface ReservationResponse no longer has parameter systemData
   - Interface ReservationResponse no longer has parameter type
+
+**Breaking Changes**
+
+  - Removed operation Return.post
     
     
 ## 7.2.0 (2022-09-19)
