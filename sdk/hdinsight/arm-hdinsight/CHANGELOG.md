@@ -4,7 +4,7 @@
 
 **Features**
 
-  - Exposes `getContinuationToken` helper function to extract continuation token
+  - Exposes `getContinuationToken` helper function to extract continuation token
 
 **Bugs Fixed**
 
