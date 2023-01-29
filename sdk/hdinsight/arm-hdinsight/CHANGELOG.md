@@ -11,7 +11,7 @@
   - A series of small bug fixs relevant to authentication and apiVersion policy
 
 ## 1.2.0 (2022-08-01)
-    
+
 **Features**
 
   - Added Interface Application
