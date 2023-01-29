@@ -1,14 +1,11 @@
 # Release History
     
-## 4.0.0 (2023-01-17)
+## 3.1.0 (2023-01-17)
     
 **Features**
 
   - Added Type Alias ConnectionType
   - Added function getContinuationToken
-
-**Breaking Changes**
-
   - Interface ImagesListByLabPlanNextOptionalParams no longer has parameter filter
   - Interface LabPlansListBySubscriptionNextOptionalParams no longer has parameter filter
   - Interface LabsListBySubscriptionNextOptionalParams no longer has parameter filter
@@ -17,10 +14,6 @@
   - Interface UsagesListByLocationNextOptionalParams no longer has parameter filter
   - Interface UsersListByLabNextOptionalParams no longer has parameter filter
   - Interface VirtualMachinesListByLabNextOptionalParams no longer has parameter filter
-  - Type of parameter clientRdpAccess of interface ConnectionProfile is changed from ConnectionType_2 to ConnectionType
-  - Type of parameter clientSshAccess of interface ConnectionProfile is changed from ConnectionType_2 to ConnectionType
-  - Type of parameter webRdpAccess of interface ConnectionProfile is changed from ConnectionType_2 to ConnectionType
-  - Type of parameter webSshAccess of interface ConnectionProfile is changed from ConnectionType_2 to ConnectionType
     
     
 ## 3.0.0 (2022-08-24)
