@@ -3,12 +3,12 @@
 ## 3.0.1 (2023-01-28)
 
 **Features**
- 
--  Exposes `getContinuationToken` helper function to extract continuation token 
+
+  -  Exposes `getContinuationToken` helper function to extract continuation token 
 
 **Bugs Fixed**
 
-- A series of small bug fixs relevant to authentication and apiVersion policy
+  - A series of small bug fixs relevant to authentication and apiVersion policy
 
 ## 3.0.0 (2022-07-04)
     
