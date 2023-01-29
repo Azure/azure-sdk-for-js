@@ -327,18 +327,7 @@ export type UserAssignedIdentitiesListByResourceGroupNextResponse = UserAssigned
 
 /** Optional parameters. */
 export interface UserAssignedIdentitiesListAssociatedResourcesNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** OData filter expression to apply to the query. */
-  filter?: string;
-  /** OData orderBy expression to apply to the query. */
-  orderby?: string;
-  /** Number of records to return. */
-  top?: number;
-  /** Number of records to skip. */
-  skip?: number;
-  /** A skip token is used to continue retrieving items after an operation returns a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
-  skiptoken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAssociatedResourcesNext operation. */
 export type UserAssignedIdentitiesListAssociatedResourcesNextResponse = AssociatedResourcesListResult;
@@ -375,12 +364,7 @@ export interface FederatedIdentityCredentialsDeleteOptionalParams
 
 /** Optional parameters. */
 export interface FederatedIdentityCredentialsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Number of records to return. */
-  top?: number;
-  /** A skip token is used to continue retrieving items after an operation returns a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
-  skiptoken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type FederatedIdentityCredentialsListNextResponse = FederatedIdentityCredentialsListResult;
