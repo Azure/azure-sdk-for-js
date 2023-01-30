@@ -41,9 +41,7 @@ describe("DevCenter Dev Boxes Operations Test", () => {
     const devBoxName = "SdkTestDevBox";
     const userId = "me";
 
-    console.log(
-      `Running test for ${endpoint} -- ${projectName} -- ${poolName} -- ${devBoxName}`
-    );
+    console.log(`Running test for ${endpoint} -- ${projectName} -- ${poolName} -- ${devBoxName}`);
 
     const devBoxCreateParameters: DevBoxesCreateDevBoxParameters = {
       contentType: "application/json",
