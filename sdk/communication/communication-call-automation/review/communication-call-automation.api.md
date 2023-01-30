@@ -4,8 +4,204 @@
 
 ```ts
 
-// @public (undocumented)
+import { AzureLogger } from '@azure/logger';
+import { CommonClientOptions } from '@azure/core-client';
+import { CommunicationIdentifier } from '@azure/communication-common';
+import * as coreClient from '@azure/core-client';
+import { KeyCredential } from '@azure/core-auth';
+import { OperationOptions } from '@azure/core-client';
+import { PhoneNumberIdentifier } from '@azure/communication-common';
+import { TokenCredential } from '@azure/core-auth';
+
+// @public
+export interface AddParticipantsOptions extends OperationOptions {
+    invitationTimeoutInSeconds?: number;
+    operationContext?: string;
+    sourceCallerId?: PhoneNumberIdentifier;
+    sourceDisplayName?: string;
+    sourceIdentifier?: CommunicationIdentifier;
+}
+
+// @public
+export interface AddParticipantsResult {
+    operationContext?: string;
+    participants?: CallParticipant[];
+}
+
+// @public
+export interface AnswerCallOptions extends OperationOptions {
+    azureCognitiveServicesEndpointUrl?: string;
+    mediaStreamingConfiguration?: MediaStreamingConfiguration;
+}
+
+// Warning: (ae-forgotten-export) The symbol "CallResult" needs to be exported by the entry point index.d.ts
+//
+// @public
+export type AnswerCallResult = CallResult;
+
+// @public
 export class CallAutomationClient {
+    constructor(connectionString: string, options?: CallAutomationClientOptions);
+    constructor(connectionString: string, endpoint: string, options?: CallAutomationClientOptions);
+    constructor(endpoint: string, credential: KeyCredential, options?: CallAutomationClientOptions);
+    constructor(endpoint: string, credential: TokenCredential, options?: CallAutomationClientOptions);
+    answerCall(incomingCallContext: string, callbackUrl: string, options?: AnswerCallOptions): Promise<AnswerCallResult>;
+    createCall(source: CallSourceDto, targets: CommunicationIdentifier[], callbackUrl: string, options?: CreateCallOptions): Promise<CreateCallResult>;
+    getCallConnection(callConnectionId: string): CallConnection;
+    getCallRecording(): CallRecording;
+    redirectCall(incomingCallContext: string, target: CommunicationIdentifier, options?: RedirectCallOptions): Promise<void>;
+    rejectCall(incomingCallContext: string, options?: RejectCallOptions): Promise<void>;
+}
+
+// @public
+export interface CallAutomationClientOptions extends CommonClientOptions {
+}
+
+// @public
+export class CallConnection {
+    // Warning: (ae-forgotten-export) The symbol "CallConnectionImpl" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "CallMediaImpl" needs to be exported by the entry point index.d.ts
+    constructor(callConnectionId: string, callConnectionImpl: CallConnectionImpl, callMediaImpl: CallMediaImpl);
+    addParticipants(participants: CommunicationIdentifier[], options?: AddParticipantsOptions): Promise<AddParticipantsResult>;
+    getCallConnectionProperties(options?: GetCallConnectionPropertiesOptions): Promise<CallConnectionPropertiesDto>;
+    getCallMedia(): CallMedia;
+    getParticipant(participantMri: string, options?: GetParticipantOptions): Promise<CallParticipant>;
+    hangUp(isForEveryOne: boolean, options?: HangUpOptions): Promise<void>;
+    listParticipants(options?: GetParticipantOptions): Promise<ListParticipantsResult>;
+    removeParticipants(participants: CommunicationIdentifier[], options?: RemoveParticipantsOptions): Promise<RemoveParticipantsResult>;
+    transferCallToParticipant(target: CommunicationIdentifier, options?: TransferCallToParticipantOptions): Promise<TransferCallResult>;
+}
+
+// @public
+export interface CallConnectionPropertiesDto {
+    callbackUri?: string;
+    callConnectionId?: string;
+    callConnectionState?: CallConnectionStateModel;
+    mediaSubscriptionId?: string;
+    serverCallId?: string;
+    source?: CallSourceDto;
+    targets?: CommunicationIdentifier[];
+}
+
+// @public
+export type CallConnectionStateModel = string;
+
+// @public
+export class CallMedia {
+    constructor(callConnectionId: string, callMediaImpl: CallMediaImpl);
+    // (undocumented)
+    readonly callConnectionId: string;
+    // (undocumented)
+    readonly callMediaImpl: CallMediaImpl;
+}
+
+// @public
+export interface CallParticipant {
+    identifier?: CommunicationIdentifier;
+    isMuted?: boolean;
+}
+
+// @public
+export class CallRecording {
+    constructor(callRecordingImpl: CallRecordingImpl);
+    // Warning: (ae-forgotten-export) The symbol "CallRecordingImpl" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    readonly callRecordingImpl: CallRecordingImpl;
+}
+
+// @public
+export type CallRejectReason = string;
+
+// @public
+export interface CallSourceDto {
+    callerId?: PhoneNumberIdentifier;
+    displayName?: string;
+    identifier: CommunicationIdentifier;
+}
+
+// @public
+export interface CreateCallOptions extends OperationOptions {
+    azureCognitiveServicesEndpointUrl?: string;
+    mediaStreamingConfiguration?: MediaStreamingConfiguration;
+    operationContext?: string;
+}
+
+// @public
+export type CreateCallResult = CallResult;
+
+// @public
+export type GetCallConnectionPropertiesOptions = OperationOptions;
+
+// @public
+export type GetParticipantOptions = OperationOptions;
+
+// @public
+export type HangUpOptions = OperationOptions;
+
+// @public
+export enum KnownCallRejectReason {
+    Busy = "busy",
+    Forbidden = "forbidden",
+    None = "none"
+}
+
+// @public
+export interface ListParticipantsResult {
+    nextLink?: string;
+    values?: CallParticipant[];
+}
+
+// @public
+export const logger: AzureLogger;
+
+// @public
+export type MediaStreamingAudioChannelType = string;
+
+// @public
+export interface MediaStreamingConfiguration {
+    audioChannelType: MediaStreamingAudioChannelType;
+    contentType: MediaStreamingContentType;
+    transportType: MediaStreamingTransportType;
+    transportUrl: string;
+}
+
+// @public
+export type MediaStreamingContentType = string;
+
+// @public
+export type MediaStreamingTransportType = string;
+
+// @public
+export type RedirectCallOptions = OperationOptions;
+
+// @public
+export interface RejectCallOptions extends OperationOptions {
+    callRejectReason?: CallRejectReason;
+}
+
+// @public
+export interface RemoveParticipantsOptions extends OperationOptions {
+    operationContext?: string;
+}
+
+// @public
+export interface RemoveParticipantsResult {
+    operationContext?: string;
+}
+
+// @public (undocumented)
+export const SDK_VERSION: string;
+
+// @public
+export interface TransferCallResult {
+    operationContext?: string;
+}
+
+// @public
+export interface TransferCallToParticipantOptions extends OperationOptions {
+    operationContext?: string;
+    transfereeCallerId?: PhoneNumberIdentifier;
 }
 
 // (No @packageDocumentation comment for this package)

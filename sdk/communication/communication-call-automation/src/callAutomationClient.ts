@@ -8,7 +8,9 @@ import {
     isKeyCredential,
     createCommunicationAuthPolicy,
     CommunicationIdentifier,
-    serializeCommunicationIdentifier
+    serializeCommunicationIdentifier,
+    parseConnectionString,
+    EndpointCredential
 } from "@azure/communication-common";
 import { logger } from "./models/logger";
 import { SDK_VERSION } from "./models/constants";
@@ -20,6 +22,8 @@ import { AnswerCallOptions, CreateCallOptions, RedirectCallOptions, RejectCallOp
 import { AnswerCallResult, CreateCallResult } from "./models/responses";
 import { CallConnectionPropertiesDto, CallSourceDto } from "./models/models";
 import { callSourceConverter, callSourceDtoConverter, communicationIdentifierConverter } from "./utli/converters";
+import { start } from "repl";
+import { endpoint } from "./generated/src/models/parameters";
 
 /**
 * Client options used to configure CallingServer Client API requests.
@@ -52,7 +56,15 @@ export class CallAutomationClient {
     constructor(connectionString: string, options?: CallAutomationClientOptions);
 
     /**
-    * Initializes a new instance of the SmsClient class using an Azure KeyCredential.
+    * Initializes a new instance of the CallAutomationClient class with custom PMA endpoint.
+    * @param connectionString - Connection string to connect to an Azure Communication Service resource.
+    *                         Example: "endpoint=https://contoso.eastus.communications.azure.net/;accesskey=secret";
+    * @param options - Optional. Options to configure the HTTP pipeline.
+    */
+    constructor(connectionString: string, endpoint: string, options?: CallAutomationClientOptions);
+
+    /**
+    * Initializes a new instance of the CallAutomationClient class using an Azure KeyCredential.
     * @param endpoint - The endpoint of the service (ex: https://contoso.eastus.communications.azure.net).
     * @param credential - An object that is used to authenticate requests to the service. Use the Azure KeyCredential or `@azure/identity` to create a credential.
     * @param options - Optional. Options to configure the HTTP pipeline.
@@ -69,23 +81,22 @@ export class CallAutomationClient {
 
     constructor(
             connectionStringOrUrl: string,
-            credentialOrOptions?: KeyCredential | TokenCredential | CallAutomationClientOptions,
+            credentialOrOptionsOrEndpoint?: string | KeyCredential | TokenCredential | CallAutomationClientOptions,
             maybeOptions: CallAutomationClientOptions = {}
-    ){
-        const { url, credential } = parseClientArguments(connectionStringOrUrl, credentialOrOptions);
-        const options = isCallAutomationClientOptions(credentialOrOptions)
-        ? credentialOrOptions
-        : maybeOptions;
+    ) {
+        const options = isCallAutomationClientOptions(credentialOrOptionsOrEndpoint)
+            ? credentialOrOptionsOrEndpoint
+            : maybeOptions;
         const libInfo = `azsdk-js-communication-call-automation/${SDK_VERSION}`;
 
         if (!options?.userAgentOptions) {
-        options.userAgentOptions = {};
+            options.userAgentOptions = {};
         }
 
         if (options?.userAgentOptions?.userAgentPrefix) {
-        options.userAgentOptions.userAgentPrefix = `${options.userAgentOptions.userAgentPrefix} ${libInfo}`;
+            options.userAgentOptions.userAgentPrefix = `${options.userAgentOptions.userAgentPrefix} ${libInfo}`;
         } else {
-        options.userAgentOptions.userAgentPrefix = libInfo;
+            options.userAgentOptions.userAgentPrefix = libInfo;
         }
 
         const internalPipelineOptions: InternalPipelineOptions = {
@@ -97,9 +108,23 @@ export class CallAutomationClient {
             }
         };
 
-        const authPolicy = createCommunicationAuthPolicy(credential);
-        this.callAutomationApiClient = new CallAutomationApiClient(url, internalPipelineOptions);
-        this.callAutomationApiClient.pipeline.addPolicy(authPolicy);
+        if (typeof (credentialOrOptionsOrEndpoint) == 'string') {
+            const result = parseConnectionString(connectionStringOrUrl);
+            const endPointWithCred: EndpointCredential = {
+                ...result,
+                endpoint: credentialOrOptionsOrEndpoint
+            }
+            const authPolicy = createCommunicationAuthPolicy(endPointWithCred.credential);
+            this.callAutomationApiClient = new CallAutomationApiClient(endPointWithCred.endpoint, internalPipelineOptions);
+            this.callAutomationApiClient.pipeline.addPolicy(authPolicy);
+        }
+        else {
+            const { url, credential } = parseClientArguments(connectionStringOrUrl, credentialOrOptionsOrEndpoint);
+            const authPolicy = createCommunicationAuthPolicy(credential);
+            this.callAutomationApiClient = new CallAutomationApiClient(url, internalPipelineOptions);
+            this.callAutomationApiClient.pipeline.addPolicy(authPolicy);
+        }
+
         this.callConnectionImpl = new CallConnectionImpl(this.callAutomationApiClient);
         this.callMediaImpl = new CallMediaImpl(this.callAutomationApiClient);
         this.callRecordingImpl = new CallRecordingImpl(this.callAutomationApiClient);
