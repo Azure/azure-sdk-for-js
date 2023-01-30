@@ -86,15 +86,15 @@ export interface SerializedMicrosoftTeamsUserIdentifier {
  */
 export interface SerializedMicrosoftTeamsBotIdentifier {
   /**
-   * Id of the Microsoft Teams bot. If the bot isn't anonymous, the id is the AAD object id of the user.
+   * Id of the Microsoft Teams bot. If the bot isn't anonymous, the id is the AAD object id of the bot.
    */
   botId: string;
   /**
    * True if the bot is global and false (or missing) if the bot is tenantized.
    */
-  isGlobal?: boolean;
+  isGlobal?: boolean;s
   /**
-   * The cloud that the Microsoft Teams user belongs to. By default 'public' if missing.
+   * The cloud that the Microsoft Teams bot belongs to. By default 'public' if missing.
    */
   cloud?: SerializedCommunicationCloudEnvironment;
 }
