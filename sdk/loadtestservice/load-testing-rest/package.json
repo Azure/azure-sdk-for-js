@@ -2,7 +2,7 @@
   "name": "@azure-rest/load-testing",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.3",
   "description": "This package contains Microsoft Azure LoadTestingClient client library.",
   "keywords": [
     "node",
@@ -94,7 +94,7 @@
     "autorest": "latest",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
-    "dotenv": "^8.2.0",
+    "dotenv": "^16.0.0",
     "eslint": "^8.0.0",
     "karma": "^6.2.0",
     "karma-chrome-launcher": "^3.0.0",
