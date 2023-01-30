@@ -124,11 +124,10 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fmaps%2Fmaps-geolocation-rest%2FREADME.png)
 
-<!-- [source_code]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-geolocation-rest -->
-<!-- [npm_package]: https://www.npmjs.com/package/@azure-rest/maps-geolocation -->
-<!-- [api_ref]: https://docs.microsoft.com/javascript/api/@azure-rest/maps-geolocation?view=azure-node-preview -->
-<!-- [samples]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-geolocation-rest/samples -->
-
+[source_code]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-geolocation-rest
+[npm_package]: https://www.npmjs.com/package/@azure-rest/maps-geolocation
+[api_ref]: https://docs.microsoft.com/javascript/api/@azure-rest/maps-geolocation?view=azure-node-preview
+[samples]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-geolocation-rest/samples
 [product_info]: https://learn.microsoft.com/rest/api/maps/geolocation
 [az_subscription]: https://azure.microsoft.com/free/
 [az_maps_account_management]: https://docs.microsoft.com/azure/azure-maps/how-to-manage-account-keys
