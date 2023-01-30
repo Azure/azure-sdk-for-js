@@ -71,7 +71,7 @@ specifiers:
   '@rush-temp/arm-datafactory': file:./projects/arm-datafactory.tgz
   '@rush-temp/arm-datalake-analytics': file:./projects/arm-datalake-analytics.tgz
   '@rush-temp/arm-datamigration': file:./projects/arm-datamigration.tgz
-  '@rush-temp/arm-dataprotectionplatform': file:./projects/arm-dataprotectionplatform.tgz
+  '@rush-temp/arm-dataprotection': file:./projects/arm-dataprotection.tgz
   '@rush-temp/arm-deploymentmanager': file:./projects/arm-deploymentmanager.tgz
   '@rush-temp/arm-desktopvirtualization': file:./projects/arm-desktopvirtualization.tgz
   '@rush-temp/arm-devcenter': file:./projects/arm-devcenter.tgz
@@ -397,7 +397,7 @@ dependencies:
   '@rush-temp/arm-datafactory': file:projects/arm-datafactory.tgz
   '@rush-temp/arm-datalake-analytics': file:projects/arm-datalake-analytics.tgz
   '@rush-temp/arm-datamigration': file:projects/arm-datamigration.tgz
-  '@rush-temp/arm-dataprotectionplatform': file:projects/arm-dataprotectionplatform.tgz
+  '@rush-temp/arm-dataprotection': file:projects/arm-dataprotection.tgz
   '@rush-temp/arm-deploymentmanager': file:projects/arm-deploymentmanager.tgz
   '@rush-temp/arm-desktopvirtualization': file:projects/arm-desktopvirtualization.tgz
   '@rush-temp/arm-devcenter': file:projects/arm-devcenter.tgz
@@ -3682,7 +3682,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20230111
+      typescript: 5.0.0-dev.20230130
     dev: false
 
   /downlevel-dts/0.7.0:
@@ -8279,8 +8279,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20230111:
-    resolution: {integrity: sha512-bsALKGRiteaVcio2QQo/8MBxaHAEirJ3tQiYym29Uh6/z/fi4LlBawrvnyGKI4WqI2Q+lchIgr2p2jKeF846bg==}
+  /typescript/5.0.0-dev.20230130:
+    resolution: {integrity: sha512-4zmbh58Vt3HDAD0AvHr1ccmAkKKODriYMNajcSzUylVgXCXrNGTJOReMp54GBs67KfQFaLOpVZlLrlD2FKn9Kg==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -11007,9 +11007,9 @@ packages:
       - supports-color
     dev: false
 
-  file:projects/arm-dataprotectionplatform.tgz:
-    resolution: {integrity: sha512-34q1P5p+JIijslFPfu3ACK+SfN7A4jjDAQsO3IV6g0BnkEKQ1Qu/kC9fX8IoTit1JLD662YbW/WsTo31loaC+g==, tarball: file:projects/arm-dataprotectionplatform.tgz}
-    name: '@rush-temp/arm-dataprotectionplatform'
+  file:projects/arm-dataprotection.tgz:
+    resolution: {integrity: sha512-mPqdYOFLOU2WIazS2uFxADHIPKAe7aVDE2ST912EX/nv/Ul06yfJhZuo+ZnblQHMM5C82mFVbxJ+MjBhLtO5Wg==, tarball: file:projects/arm-dataprotection.tgz}
+    name: '@rush-temp/arm-dataprotection'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
