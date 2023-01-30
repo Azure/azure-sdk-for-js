@@ -74,6 +74,7 @@ export class LogsIngestionClient {
       try {
         await this._dataClient.upload(ruleId, streamName, eachChunk, {
           contentEncoding: "gzip",
+          abortSignal: options?.abortSignal
         });
       } catch (e: any) {
         if (options?.errorCallback) {
@@ -84,7 +85,7 @@ export class LogsIngestionClient {
           failedLogs: eachChunk,
         });
       }
-    });
+    }, options?.abortSignal);
     if (uploadResultErrors.length > 0) throw new AggregateUploadLogsErrror(uploadResultErrors);
   }
 }

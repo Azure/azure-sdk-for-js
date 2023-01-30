@@ -17912,10 +17912,11 @@ packages:
     dev: false
 
   file:projects/monitor-ingestion.tgz:
-    resolution: {integrity: sha512-kj04drTNfg57im2Ngtppl62IKXZsnVmVzPNiS6f0dPFIi/Vvzh05RLvq+4IgZ/RSIq3Tu+wKe0kDdKJfjBJpVg==, tarball: file:projects/monitor-ingestion.tgz}
+    resolution: {integrity: sha512-bOmu62/tn8IVauJuxTfs2KJqUoyQ3aBhck5DUWAhHES99jxNXhOwuVzkBciCsaSLoAcwc7RDhtgEcE2UqBwPVQ==, tarball: file:projects/monitor-ingestion.tgz}
     name: '@rush-temp/monitor-ingestion'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.34.3_@types+node@14.18.36
       '@types/chai': 4.3.4

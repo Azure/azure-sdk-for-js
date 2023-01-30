@@ -1,10 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { OperationOptions } from "@azure/core-client";
+
 /**
  * Options for send logs operation
  */
-export interface UploadLogsOptions {
+export interface UploadLogsOptions extends OperationOptions {
   /**
    * Concurrency of parallel requests. Must be greater than or equal to 1.
    * The default value is 1.
