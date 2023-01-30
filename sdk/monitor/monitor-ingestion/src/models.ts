@@ -42,7 +42,7 @@ export const AggregateUploadLogsErrorName = "AggregateUploadLogsError";
 /**
  * Aggregate Error type for upload function
  */
-export class AggregateUploadLogsErrror extends Error {
+export class AggregateUploadLogsError extends Error {
   /**
    * List of {@link UploadLogsError} returned from
    * individual upload requests to service
@@ -51,7 +51,7 @@ export class AggregateUploadLogsErrror extends Error {
 
   /**
    *
-   * @param errors - list of {@link UploadLogsError} 
+   * @param errors - list of {@link UploadLogsError}
    * @param errorMessage - error message
    */
   constructor(errors: UploadLogsError[], errorMessage?: string) {

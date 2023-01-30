@@ -6,7 +6,7 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import { AggregateUploadLogsErrror, LogsIngestionClient } from "@azure/monitor-ingestion";
+import { AggregateUploadLogsError, LogsIngestionClient } from "@azure/monitor-ingestion";
 
 require("dotenv").config();
 
@@ -29,19 +29,21 @@ async function main() {
 
   // The logs will be split into multiple batches and uploaded concurrently. By default,
   // the maximum number of concurrent uploads is 5.
-  try{
+  try {
     await client.upload(ruleId, streamName, logs);
-  }
-  catch(e){
-    let aggregateErrors = (e as AggregateUploadLogsErrror).errors;
+  } catch (e) {
+    let aggregateErrors = (e as AggregateUploadLogsError).errors;
     if (aggregateErrors.length > 0) {
-      console.log("Some logs have failed to complete ingestion. Number of error batches=", aggregateErrors.length);
+      console.log(
+        "Some logs have failed to complete ingestion. Number of error batches=",
+        aggregateErrors.length
+      );
       for (const errors of aggregateErrors) {
         console.log(`Error - ${JSON.stringify(errors.cause)}`);
         console.log(`Log - ${JSON.stringify(errors.failedLogs)}`);
       }
     }
-  } 
+  }
 }
 main().catch((err) => {
   console.error("The sample encountered an error:", err);

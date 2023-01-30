@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortSignalLike } from "@azure/abort-controller"
+import { AbortSignalLike } from "@azure/abort-controller";
 
 export async function concurrentRun<T>(
   maxConcurrency: number,
@@ -17,7 +17,7 @@ export async function concurrentRun<T>(
   }
   while (dataQueue.length) {
     while (dataQueue.length && promises.length < maxConcurrency) {
-      if(abortSignal?.aborted){
+      if (abortSignal?.aborted) {
         await Promise.all(promises);
         return;
       }

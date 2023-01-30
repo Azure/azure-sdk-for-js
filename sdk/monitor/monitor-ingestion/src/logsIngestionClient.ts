@@ -4,7 +4,7 @@
 import { TokenCredential } from "@azure/core-auth";
 import { CommonClientOptions } from "@azure/core-client";
 import { GeneratedMonitorIngestionClient } from "./generated";
-import { AggregateUploadLogsErrror, UploadLogsError, UploadLogsOptions } from "./models";
+import { AggregateUploadLogsError, UploadLogsError, UploadLogsOptions } from "./models";
 import { GZippingPolicy } from "./gZippingPolicy";
 import { concurrentRun } from "./utils/concurrentPoolHelper";
 import { splitDataToChunks } from "./utils/splitDataToChunksHelper";
@@ -44,7 +44,7 @@ export class LogsIngestionClient {
       ...options,
       credentialScopes: defaultIngestionScope,
     });
-    // adding gziping policy because this is a single method client which needs gzipping
+    // adding gzipping policy because this is a single method client which needs gzipping
     this._dataClient.pipeline.addPolicy(GZippingPolicy);
   }
 
@@ -70,22 +70,27 @@ export class LogsIngestionClient {
     const concurrency = Math.max(options?.maxConcurrency ?? DEFAULT_MAX_CONCURRENCY, 1);
 
     const uploadResultErrors: Array<UploadLogsError> = [];
-    await concurrentRun(concurrency, chunkArray, async (eachChunk): Promise<void> => {
-      try {
-        await this._dataClient.upload(ruleId, streamName, eachChunk, {
-          contentEncoding: "gzip",
-          abortSignal: options?.abortSignal
-        });
-      } catch (e: any) {
-        if (options?.errorCallback) {
-          options.errorCallback({ failedLogs: eachChunk, cause: isError(e) ? e : new Error(e) });
+    await concurrentRun(
+      concurrency,
+      chunkArray,
+      async (eachChunk): Promise<void> => {
+        try {
+          await this._dataClient.upload(ruleId, streamName, eachChunk, {
+            contentEncoding: "gzip",
+            abortSignal: options?.abortSignal,
+          });
+        } catch (e: any) {
+          if (options?.errorCallback) {
+            options.errorCallback({ failedLogs: eachChunk, cause: isError(e) ? e : new Error(e) });
+          }
+          uploadResultErrors.push({
+            cause: e,
+            failedLogs: eachChunk,
+          });
         }
-        uploadResultErrors.push({
-          cause: e,
-          failedLogs: eachChunk,
-        });
-      }
-    }, options?.abortSignal);
-    if (uploadResultErrors.length > 0) throw new AggregateUploadLogsErrror(uploadResultErrors);
+      },
+      options?.abortSignal
+    );
+    if (uploadResultErrors.length > 0) throw new AggregateUploadLogsError(uploadResultErrors);
   }
 }

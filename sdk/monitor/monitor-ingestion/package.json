@@ -44,7 +44,7 @@
     "build": "npm run clean && tsc -p . && npm run build:nodebrowser && api-extractor run --local && npm run build:types",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* temp types *.tgz *.log",
-    "execute:samples": "echo Obselete",
+    "execute:samples": "echo Obsolete",
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "generate:client": "autorest --typescript ./swagger/README.md",
