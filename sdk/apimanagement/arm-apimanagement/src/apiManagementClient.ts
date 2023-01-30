@@ -79,6 +79,7 @@ import {
   QuotaByPeriodKeysImpl,
   RegionImpl,
   ReportsImpl,
+  GlobalSchemaImpl,
   TenantSettingsImpl,
   ApiManagementSkusImpl,
   SubscriptionImpl,
@@ -155,6 +156,7 @@ import {
   QuotaByPeriodKeys,
   Region,
   Reports,
+  GlobalSchema,
   TenantSettings,
   ApiManagementSkus,
   Subscription,
@@ -210,7 +212,7 @@ export class ApiManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-apimanagement/8.1.3`;
+    const packageDetails = `azsdk-js-arm-apimanagement/9.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -334,6 +336,7 @@ export class ApiManagementClient extends coreClient.ServiceClient {
     this.quotaByPeriodKeys = new QuotaByPeriodKeysImpl(this);
     this.region = new RegionImpl(this);
     this.reports = new ReportsImpl(this);
+    this.globalSchema = new GlobalSchemaImpl(this);
     this.tenantSettings = new TenantSettingsImpl(this);
     this.apiManagementSkus = new ApiManagementSkusImpl(this);
     this.subscription = new SubscriptionImpl(this);
@@ -539,6 +542,7 @@ export class ApiManagementClient extends coreClient.ServiceClient {
   quotaByPeriodKeys: QuotaByPeriodKeys;
   region: Region;
   reports: Reports;
+  globalSchema: GlobalSchema;
   tenantSettings: TenantSettings;
   apiManagementSkus: ApiManagementSkus;
   subscription: Subscription;

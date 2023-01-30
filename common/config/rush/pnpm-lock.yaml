@@ -3807,7 +3807,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20230128
+      typescript: 5.0.0-dev.20230129
     dev: false
 
   /downlevel-dts/0.7.0:
@@ -8653,8 +8653,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20230128:
-    resolution: {integrity: sha512-oos2fAiWy4+bCwSKXn56TsFz0vasZJ0uQR5FxXDUmi9y4+TDxUUZXpIVv3E6RKFz4ee0ndvMOwTjpnb2WE2gpw==}
+  /typescript/5.0.0-dev.20230129:
+    resolution: {integrity: sha512-RXkuG13JCg/g2OYnaLg7HiYfwpUzE7auAPSV2OcaW5VhJn1rESec8GbojVaxNoaQra4eANBVyMXx4SbJYYC2Yg==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -9901,7 +9901,7 @@ packages:
     dev: false
 
   file:projects/arm-apimanagement.tgz:
-    resolution: {integrity: sha512-eMqmTPZuBwtaVz0/H8udzYfBOhJ2t+kYnT3b9N9rSUhxA5Lg6j15iXVuuk/oZ8Kz01CGLorevdXnuli5IqoOvQ==, tarball: file:projects/arm-apimanagement.tgz}
+    resolution: {integrity: sha512-Ji2+MiU4NtG1GfnJUaETmFksG6RVS5vB5+7th/+YU0OjFvFwVe2CcDn8rLJt7bGyLhgNf8HtO5XS7rWtsR141Q==, tarball: file:projects/arm-apimanagement.tgz}
     name: '@rush-temp/arm-apimanagement'
     version: 0.0.0
     dependencies:
@@ -9915,6 +9915,7 @@ packages:
       '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
