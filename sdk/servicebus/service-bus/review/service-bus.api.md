@@ -501,9 +501,9 @@ export interface ServiceBusReceiver {
 // @public
 export interface ServiceBusReceiverOptions {
     identifier?: string;
-    keepDateType?: boolean;
     maxAutoLockRenewalDurationInMs?: number;
     receiveMode?: "peekLock" | "receiveAndDelete";
+    skipConvertingDate?: boolean;
     skipParsingBodyAsJson?: boolean;
     subQueueType?: "deadLetter" | "transferDeadLetter";
 }
@@ -548,9 +548,9 @@ export interface ServiceBusSessionReceiver extends ServiceBusReceiver {
 // @public
 export interface ServiceBusSessionReceiverOptions extends OperationOptionsBase {
     identifier?: string;
-    keepDateType?: boolean;
     maxAutoLockRenewalDurationInMs?: number;
     receiveMode?: "peekLock" | "receiveAndDelete";
+    skipConvertingDate?: boolean;
     skipParsingBodyAsJson?: boolean;
 }
 
