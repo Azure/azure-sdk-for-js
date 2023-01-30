@@ -9,13 +9,13 @@ import { OperationOptions } from '@azure/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export const AggregateUploadLogsErrorName = "AggregateUploadLogsError";
-
-// @public
-export class AggregateUploadLogsErrror extends Error {
+export class AggregateUploadLogsError extends Error {
     constructor(errors: UploadLogsError[], errorMessage?: string);
     errors: UploadLogsError[];
 }
+
+// @public
+export const AggregateUploadLogsErrorName = "AggregateUploadLogsError";
 
 // @public
 export class LogsIngestionClient {

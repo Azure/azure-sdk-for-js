@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AggregateUploadLogsErrror, LogsIngestionClient } from "../../src";
+import { AggregateUploadLogsError, LogsIngestionClient } from "../../src";
 import { Context } from "mocha";
 import { assert } from "chai";
 import { AdditionalPolicyConfig } from "@azure/core-client";
@@ -110,7 +110,7 @@ describe("LogsIngestionClient live tests", function () {
         maxConcurrency: 3,
       });
     } catch (e: any) {
-      const result = (e as AggregateUploadLogsErrror).errors;
+      const result = (e as AggregateUploadLogsError).errors;
       if (result.length > 0) {
         result.forEach((err) => {
           assert.equal(
@@ -139,7 +139,7 @@ describe("LogsIngestionClient live tests", function () {
         maxConcurrency: 3,
       });
     } catch (e: any) {
-      const result = (e as AggregateUploadLogsErrror).errors;
+      const result = (e as AggregateUploadLogsError).errors;
       if (result.length > 0) {
         result.forEach((err) => {
           assert.equal(
