@@ -953,15 +953,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   it("GenerateUserDelegationSAS should work for container with all configurations", async function (this: Context) {
     // Try to get BlobServiceClient object with DefaultCredential
     // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variables are set
-    let blobServiceClientWithToken: BlobServiceClient | undefined;
-    /* eslint no-empty: ["error", { "allowEmptyCatch": true }] */
+    let blobServiceClientWithToken: BlobServiceClient;
     try {
       blobServiceClientWithToken = getTokenBSUWithDefaultCredential(recorder);
-    } catch {}
-
-    // Requires bearer token for this case which cannot be generated in the runtime
-    // Make sure this case passed in sanity test
-    if (blobServiceClientWithToken === undefined) {
+    } catch {
+      // Requires bearer token for this case which cannot be generated in the runtime
+      // Make sure this case passed in sanity test
       this.skip();
     }
 
@@ -1009,15 +1006,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   it("GenerateUserDelegationSAS should work for container with minimum parameters", async function (this: Context) {
     // Try to get BlobServiceClient object with DefaultCredential
     // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variables are set
-    let blobServiceClientWithToken: BlobServiceClient | undefined;
-    /* eslint no-empty: ["error", { "allowEmptyCatch": true }] */
+    let blobServiceClientWithToken: BlobServiceClient;
     try {
       blobServiceClientWithToken = getTokenBSUWithDefaultCredential(recorder);
-    } catch {}
-
-    // Requires bearer token for this case which cannot be generated in the runtime
-    // Make sure this case passed in sanity test
-    if (blobServiceClientWithToken === undefined) {
+    } catch {
+      // Requires bearer token for this case which cannot be generated in the runtime
+      // Make sure this case passed in sanity test
       this.skip();
     }
 
@@ -1061,15 +1055,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   it("GenerateUserDelegationSAS should work for blob", async function (this: Context) {
     // Try to get blobServiceClient object with DefaultCredential
     // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variables are set
-    let blobServiceClientWithToken: BlobServiceClient | undefined;
-    /* eslint no-empty: ["error", { "allowEmptyCatch": true }] */
+    let blobServiceClientWithToken: BlobServiceClient;
     try {
       blobServiceClientWithToken = getTokenBSUWithDefaultCredential(recorder);
-    } catch {}
-
-    // Requires bearer token for this case which cannot be generated in the runtime
-    // Make sure this case passed in sanity test
-    if (blobServiceClientWithToken === undefined) {
+    } catch {
+      // Requires bearer token for this case which cannot be generated in the runtime
+      // Make sure this case passed in sanity test
       this.skip();
     }
 
@@ -1131,15 +1122,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   it("GenerateUserDelegationSAS should work for blob with permanentDelete permssion", async function (this: Context) {
     // Try to get blobServiceClient object with DefaultCredential
     // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variables are set
-    let blobServiceClientWithToken: BlobServiceClient | undefined;
-    /* eslint no-empty: ["error", { "allowEmptyCatch": true }] */
+    let blobServiceClientWithToken: BlobServiceClient;
     try {
       blobServiceClientWithToken = getTokenBSUWithDefaultCredential(recorder);
-    } catch {}
-
-    // Requires bearer token for this case which cannot be generated in the runtime
-    // Make sure this case passed in sanity test
-    if (blobServiceClientWithToken === undefined) {
+    } catch {
+      // Requires bearer token for this case which cannot be generated in the runtime
+      // Make sure this case passed in sanity test
       this.skip();
     }
 
@@ -1195,15 +1183,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   it("GenerateUserDelegationSAS should work with encryption scope for blob", async function (this: Context) {
     // Try to get blobServiceClient object with DefaultCredential
     // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variables are set
-    let blobServiceClientWithToken: BlobServiceClient | undefined;
-    /* eslint no-empty: ["error", { "allowEmptyCatch": true }] */
+    let blobServiceClientWithToken: BlobServiceClient;
     try {
       blobServiceClientWithToken = getTokenBSUWithDefaultCredential(recorder);
-    } catch {}
-
-    // Requires bearer token for this case which cannot be generated in the runtime
-    // Make sure this case passed in sanity test
-    if (blobServiceClientWithToken === undefined) {
+    } catch {
+      // Requires bearer token for this case which cannot be generated in the runtime
+      // Make sure this case passed in sanity test
       this.skip();
     }
 
@@ -1265,15 +1250,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   it("GenerateUserDelegationSAS should work for blob snapshot", async function (this: Context) {
     // Try to get blobServiceClient object with DefaultCredential
     // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variables are set
-    let blobServiceClientWithToken: BlobServiceClient | undefined;
-    /* eslint no-empty: ["error", { "allowEmptyCatch": true }] */
+    let blobServiceClientWithToken: BlobServiceClient;
     try {
       blobServiceClientWithToken = getTokenBSUWithDefaultCredential(recorder);
-    } catch {}
-
-    // Requires bearer token for this case which cannot be generated in the runtime
-    // Make sure this case passed in sanity test
-    if (blobServiceClientWithToken === undefined) {
+    } catch {
+      // Requires bearer token for this case which cannot be generated in the runtime
+      // Make sure this case passed in sanity test
       this.skip();
     }
 
@@ -1338,16 +1320,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   it("GenerateUserDelegationSAS should work with permanentDelete permission for blob snapshot", async function (this: Context) {
     // Try to get blobServiceClient object with DefaultCredential
     // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variables are set
-    let blobServiceClientWithToken: BlobServiceClient | undefined;
+    let blobServiceClientWithToken: BlobServiceClient;
     try {
       blobServiceClientWithToken = getTokenBSUWithDefaultCredential(recorder);
     } catch {
-      this.skip();
-    }
-
-    // Requires bearer token for this case which cannot be generated in the runtime
-    // Make sure this case passed in sanity test
-    if (blobServiceClientWithToken === undefined) {
+      // Requires bearer token for this case which cannot be generated in the runtime
+      // Make sure this case passed in sanity test
       this.skip();
     }
 
@@ -1573,15 +1551,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   it("GenerateUserDelegationSAS should work for blob version delete", async function (this: Context) {
     // Try to get blobServiceClient object with DefaultCredential
     // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variables are set
-    let blobServiceClientWithToken: BlobServiceClient | undefined;
-    /* eslint no-empty: ["error", { "allowEmptyCatch": true }] */
+    let blobServiceClientWithToken: BlobServiceClient;
     try {
       blobServiceClientWithToken = getTokenBSUWithDefaultCredential(recorder);
-    } catch {}
-
-    // Requires bearer token for this case which cannot be generated in the runtime
-    // Make sure this case passed in sanity test
-    if (blobServiceClientWithToken === undefined) {
+    } catch {
+      // Requires bearer token for this case which cannot be generated in the runtime
+      // Make sure this case passed in sanity test
       this.skip();
     }
 
@@ -1635,16 +1610,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   it("GenerateUserDelegationSAS should work with permanentDelete permission for blob version delete", async function (this: Context) {
     // Try to get blobServiceClient object with DefaultCredential
     // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variables are set
-    let blobServiceClientWithToken: BlobServiceClient | undefined;
+    let blobServiceClientWithToken: BlobServiceClient;
     try {
       blobServiceClientWithToken = getTokenBSUWithDefaultCredential(recorder);
     } catch {
-      this.skip();
-    }
-
-    // Requires bearer token for this case which cannot be generated in the runtime
-    // Make sure this case passed in sanity test
-    if (blobServiceClientWithToken === undefined) {
+      // Requires bearer token for this case which cannot be generated in the runtime
+      // Make sure this case passed in sanity test
       this.skip();
     }
 
@@ -2559,15 +2530,15 @@ describe("Generation for user delegation SAS Node.js only", () => {
   let blobClient: BlobClient;
 
   beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderEnvSetup);
-    try {
-      blobServiceClient = getTokenBSUWithDefaultCredential(recorder);
-    } catch (err: any) {
-      console.log(err);
+    accountName = env["ACCOUNT_NAME"] ?? "";
+
+    if (!accountName) {
       this.skip();
     }
-    accountName = env["ACCOUNT_NAME"] || "";
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({uriSanitizers}, ["record", "playback"]);
+    blobServiceClient = getTokenBSUWithDefaultCredential(recorder);
 
     now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setHours(now.getHours() - 1);
@@ -2589,9 +2560,11 @@ describe("Generation for user delegation SAS Node.js only", () => {
     if (containerClient) {
       await containerClient.delete();
     }
-    await recorder.stop();
+    if (recorder) {
+      await recorder.stop();
+    }
   });
-  it("SAS permission m, e for blob should work", async function () {
+  it("user delegation SAS permission m, e for blob should work", async function () {
     const blobSAS = generateBlobSASQueryParameters(
       {
         blobName: blobClient.name,
@@ -2660,14 +2633,15 @@ describe("Shared Access Signature (SAS) generation Node.js Only - ImmutabilityPo
   let recorder: Recorder;
 
   beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderEnvSetup);
-    blobServiceClient = getBSU(recorder);
     try {
       containerName = getImmutableContainerName();
     } catch {
       this.skip();
     }
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({uriSanitizers}, ["record", "playback"]);
+    blobServiceClient = getBSU(recorder);
     containerClient = blobServiceClient.getContainerClient(containerName);
     blobName = recorder.variable("blob", getUniqueName("blob"));
     blobClient = containerClient.getBlobClient(blobName);
@@ -2692,8 +2666,11 @@ describe("Shared Access Signature (SAS) generation Node.js Only - ImmutabilityPo
         await deleteBlobClient.deleteImmutabilityPolicy();
         await deleteBlobClient.delete();
       }
+      if (recorder) {
+        await recorder.stop();
+      }
     }
-    await recorder.stop();
+    
   });
 
   it("Account sas - set immutability policy and legalhold with account SAS should work", async () => {

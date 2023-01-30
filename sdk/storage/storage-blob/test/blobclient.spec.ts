@@ -887,6 +887,7 @@ describe("BlobClient", () => {
     } else {
       anonymousBlobClient = new BlobClient(blobClient.url);
     }
+    configureBlobStorageClient(recorder, anonymousBlobClient);
 
     try {
       await anonymousBlobClient.exists();
