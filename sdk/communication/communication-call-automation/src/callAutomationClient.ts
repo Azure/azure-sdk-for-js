@@ -71,11 +71,11 @@ export class CallAutomationClient {
 
     constructor(
             connectionStringOrUrl: string,
-            credentialOrOptionsOrEndpoint?: KeyCredential | TokenCredential | CallAutomationClientOptions,
+            credentialOrOptions?: KeyCredential | TokenCredential | CallAutomationClientOptions,
             maybeOptions: CallAutomationClientOptions = {}
     ) {
-        const options = isCallAutomationClientOptions(credentialOrOptionsOrEndpoint)
-            ? credentialOrOptionsOrEndpoint
+        const options = isCallAutomationClientOptions(credentialOrOptions)
+            ? credentialOrOptions
             : maybeOptions;
         const libInfo = `azsdk-js-communication-call-automation/${SDK_VERSION}`;
 
@@ -98,7 +98,7 @@ export class CallAutomationClient {
             }
         };
 
-        const { url, credential } = parseClientArguments(connectionStringOrUrl, credentialOrOptionsOrEndpoint);
+        const { url, credential } = parseClientArguments(connectionStringOrUrl, credentialOrOptions);
         const authPolicy = createCommunicationAuthPolicy(credential);
 
         this.callAutomationApiClient = new CallAutomationApiClient(url, internalPipelineOptions);
