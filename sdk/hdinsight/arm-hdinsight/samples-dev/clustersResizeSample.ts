@@ -13,6 +13,9 @@ import {
   HDInsightManagementClient
 } from "@azure/arm-hdinsight";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Resizes the specified HDInsight cluster to the specified size.
@@ -21,8 +24,8 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/stable/2021-06-01/examples/ResizeLinuxHadoopCluster.json
  */
 async function resizeTheWorkerNodesForAHadoopOnLinuxCluster() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["HDINSIGHT_RESOURCE_GROUP"] || "rg1";
   const clusterName = "cluster1";
   const roleName = "workernode";
   const parameters: ClusterResizeParameters = { targetInstanceCount: 10 };
@@ -37,4 +40,8 @@ async function resizeTheWorkerNodesForAHadoopOnLinuxCluster() {
   console.log(result);
 }
 
-resizeTheWorkerNodesForAHadoopOnLinuxCluster().catch(console.error);
+async function main() {
+  resizeTheWorkerNodesForAHadoopOnLinuxCluster();
+}
+
+main().catch(console.error);

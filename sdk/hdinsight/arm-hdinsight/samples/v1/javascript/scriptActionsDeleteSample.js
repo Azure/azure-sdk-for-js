@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { HDInsightManagementClient } = require("@azure/arm-hdinsight");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Deletes a specified persisted script action of the cluster.
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/stable/2021-06-01/examples/DeleteScriptAction.json
  */
 async function deleteAScriptActionOnHdInsightCluster() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["HDINSIGHT_RESOURCE_GROUP"] || "rg1";
   const clusterName = "cluster1";
   const scriptName = "scriptName";
   const credential = new DefaultAzureCredential();
@@ -28,4 +29,8 @@ async function deleteAScriptActionOnHdInsightCluster() {
   console.log(result);
 }
 
-deleteAScriptActionOnHdInsightCluster().catch(console.error);
+async function main() {
+  deleteAScriptActionOnHdInsightCluster();
+}
+
+main().catch(console.error);
