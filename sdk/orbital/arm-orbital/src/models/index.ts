@@ -1178,20 +1178,14 @@ export type SpacecraftsListAvailableContactsResponse = AvailableContactsListResu
 
 /** Optional parameters. */
 export interface SpacecraftsListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** An opaque string that the resource provider uses to skip over previously-returned results. This is used when a previous list operation call returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. */
-  skiptoken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type SpacecraftsListBySubscriptionNextResponse = SpacecraftListResult;
 
 /** Optional parameters. */
 export interface SpacecraftsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** An opaque string that the resource provider uses to skip over previously-returned results. This is used when a previous list operation call returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. */
-  skiptoken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type SpacecraftsListNextResponse = SpacecraftListResult;
@@ -1243,10 +1237,7 @@ export interface ContactsDeleteOptionalParams
 
 /** Optional parameters. */
 export interface ContactsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** An opaque string that the resource provider uses to skip over previously-returned results. This is used when a previous list operation call returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. */
-  skiptoken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ContactsListNextResponse = ContactListResult;
@@ -1329,20 +1320,14 @@ export type ContactProfilesListResponse = ContactProfileListResult;
 
 /** Optional parameters. */
 export interface ContactProfilesListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** An opaque string that the resource provider uses to skip over previously-returned results. This is used when a previous list operation call returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. */
-  skiptoken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type ContactProfilesListBySubscriptionNextResponse = ContactProfileListResult;
 
 /** Optional parameters. */
 export interface ContactProfilesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** An opaque string that the resource provider uses to skip over previously-returned results. This is used when a previous list operation call returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. */
-  skiptoken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ContactProfilesListNextResponse = ContactProfileListResult;

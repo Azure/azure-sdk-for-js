@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Spacecrafts } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,14 +19,15 @@ import {
   Spacecraft,
   SpacecraftsListBySubscriptionNextOptionalParams,
   SpacecraftsListBySubscriptionOptionalParams,
+  SpacecraftsListBySubscriptionResponse,
   SpacecraftsListNextOptionalParams,
   SpacecraftsListOptionalParams,
+  SpacecraftsListResponse,
   AvailableContacts,
   ContactParametersContactProfile,
   SpacecraftsListAvailableContactsNextOptionalParams,
   SpacecraftsListAvailableContactsOptionalParams,
-  SpacecraftsListBySubscriptionResponse,
-  SpacecraftsListResponse,
+  SpacecraftsListAvailableContactsResponse,
   SpacecraftsGetOptionalParams,
   SpacecraftsGetResponse,
   SpacecraftsCreateOrUpdateOptionalParams,
@@ -34,7 +36,6 @@ import {
   TagsObject,
   SpacecraftsUpdateTagsOptionalParams,
   SpacecraftsUpdateTagsResponse,
-  SpacecraftsListAvailableContactsResponse,
   SpacecraftsListBySubscriptionNextResponse,
   SpacecraftsListNextResponse,
   SpacecraftsListAvailableContactsNextResponse
@@ -68,22 +69,34 @@ export class SpacecraftsImpl implements Spacecrafts {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listBySubscriptionPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBySubscriptionPagingPage(options, settings);
       }
     };
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: SpacecraftsListBySubscriptionOptionalParams
+    options?: SpacecraftsListBySubscriptionOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Spacecraft[]> {
-    let result = await this._listBySubscription(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: SpacecraftsListBySubscriptionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBySubscription(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listBySubscriptionNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -112,19 +125,29 @@ export class SpacecraftsImpl implements Spacecrafts {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(resourceGroupName, options, settings);
       }
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
-    options?: SpacecraftsListOptionalParams
+    options?: SpacecraftsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Spacecraft[]> {
-    let result = await this._list(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: SpacecraftsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -132,7 +155,9 @@ export class SpacecraftsImpl implements Spacecrafts {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -180,7 +205,10 @@ export class SpacecraftsImpl implements Spacecrafts {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listAvailableContactsPagingPage(
           resourceGroupName,
           spacecraftName,
@@ -188,7 +216,8 @@ export class SpacecraftsImpl implements Spacecrafts {
           groundStationName,
           startTime,
           endTime,
-          options
+          options,
+          settings
         );
       }
     };
@@ -201,20 +230,27 @@ export class SpacecraftsImpl implements Spacecrafts {
     groundStationName: string,
     startTime: Date,
     endTime: Date,
-    options?: SpacecraftsListAvailableContactsOptionalParams
+    options?: SpacecraftsListAvailableContactsOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<AvailableContacts[]> {
-    const poller = await this._listAvailableContacts(
-      resourceGroupName,
-      spacecraftName,
-      contactProfile,
-      groundStationName,
-      startTime,
-      endTime,
-      options
-    );
-    let result: any = await poller.pollUntilDone();
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: SpacecraftsListAvailableContactsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      const poller = await this._listAvailableContacts(
+        resourceGroupName,
+        spacecraftName,
+        contactProfile,
+        groundStationName,
+        startTime,
+        endTime,
+        options
+      );
+      result = await poller.pollUntilDone();
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listAvailableContactsNext(
         resourceGroupName,
@@ -227,7 +263,9 @@ export class SpacecraftsImpl implements Spacecrafts {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -936,7 +974,6 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.skiptoken],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -956,7 +993,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.skiptoken],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -980,7 +1016,6 @@ const listAvailableContactsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
