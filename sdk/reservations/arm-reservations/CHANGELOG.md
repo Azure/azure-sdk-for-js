@@ -69,6 +69,8 @@
 **Breaking Changes**
 
   - Removed operation Return.post
+  - Operation Reservation.listRevisions has a new signature
+  - Operation Reservation.get has a new signature
     
     
 ## 7.2.0 (2022-09-19)
