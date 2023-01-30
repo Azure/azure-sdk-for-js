@@ -8,7 +8,9 @@ import {
     isKeyCredential,
     createCommunicationAuthPolicy,
     CommunicationIdentifier,
-    serializeCommunicationIdentifier
+    serializeCommunicationIdentifier,
+    parseConnectionString,
+    EndpointCredential
 } from "@azure/communication-common";
 import { logger } from "./models/logger";
 import { SDK_VERSION } from "./models/constants";
@@ -52,7 +54,7 @@ export class CallAutomationClient {
     constructor(connectionString: string, options?: CallAutomationClientOptions);
 
     /**
-    * Initializes a new instance of the SmsClient class using an Azure KeyCredential.
+    * Initializes a new instance of the CallAutomationClient class using an Azure KeyCredential.
     * @param endpoint - The endpoint of the service (ex: https://contoso.eastus.communications.azure.net).
     * @param credential - An object that is used to authenticate requests to the service. Use the Azure KeyCredential or `@azure/identity` to create a credential.
     * @param options - Optional. Options to configure the HTTP pipeline.
@@ -71,21 +73,20 @@ export class CallAutomationClient {
             connectionStringOrUrl: string,
             credentialOrOptions?: KeyCredential | TokenCredential | CallAutomationClientOptions,
             maybeOptions: CallAutomationClientOptions = {}
-    ){
-        const { url, credential } = parseClientArguments(connectionStringOrUrl, credentialOrOptions);
+    ) {
         const options = isCallAutomationClientOptions(credentialOrOptions)
-        ? credentialOrOptions
-        : maybeOptions;
+            ? credentialOrOptions
+            : maybeOptions;
         const libInfo = `azsdk-js-communication-call-automation/${SDK_VERSION}`;
 
         if (!options?.userAgentOptions) {
-        options.userAgentOptions = {};
+            options.userAgentOptions = {};
         }
 
         if (options?.userAgentOptions?.userAgentPrefix) {
-        options.userAgentOptions.userAgentPrefix = `${options.userAgentOptions.userAgentPrefix} ${libInfo}`;
+            options.userAgentOptions.userAgentPrefix = `${options.userAgentOptions.userAgentPrefix} ${libInfo}`;
         } else {
-        options.userAgentOptions.userAgentPrefix = libInfo;
+            options.userAgentOptions.userAgentPrefix = libInfo;
         }
 
         const internalPipelineOptions: InternalPipelineOptions = {
@@ -97,7 +98,9 @@ export class CallAutomationClient {
             }
         };
 
+        const { url, credential } = parseClientArguments(connectionStringOrUrl, credentialOrOptions);
         const authPolicy = createCommunicationAuthPolicy(credential);
+
         this.callAutomationApiClient = new CallAutomationApiClient(url, internalPipelineOptions);
         this.callAutomationApiClient.pipeline.addPolicy(authPolicy);
         this.callConnectionImpl = new CallConnectionImpl(this.callAutomationApiClient);
