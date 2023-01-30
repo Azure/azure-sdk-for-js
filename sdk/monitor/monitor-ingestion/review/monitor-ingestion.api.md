@@ -5,6 +5,7 @@
 ```ts
 
 import { CommonClientOptions } from '@azure/core-client';
+import { OperationOptions } from '@azure/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public (undocumented)
@@ -34,7 +35,7 @@ export interface UploadLogsError {
 }
 
 // @public
-export interface UploadLogsOptions {
+export interface UploadLogsOptions extends OperationOptions {
     errorCallback?: (uploadLogsError: UploadLogsError) => void;
     maxConcurrency?: number;
 }
