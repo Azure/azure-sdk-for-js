@@ -92,7 +92,7 @@ export interface SerializedMicrosoftTeamsBotIdentifier {
   /**
    * True if the bot is global and false (or missing) if the bot is tenantized.
    */
-  isGlobal?: boolean;s
+  isGlobal?: boolean;
   /**
    * The cloud that the Microsoft Teams bot belongs to. By default 'public' if missing.
    */
