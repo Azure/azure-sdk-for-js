@@ -942,14 +942,14 @@ describe("BlobClient Node.js Only - ImmutabilityPolicy", () => {
   let recorder: Recorder;
 
   beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderEnvSetup);
-    blobServiceClient = getBSU(recorder);
     try {
       containerName = getImmutableContainerName();
     } catch {
       this.skip();
     }
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderEnvSetup);
+    blobServiceClient = getBSU(recorder);
     containerClient = blobServiceClient.getContainerClient(containerName);
     blobName = recorder.variable("blob", getUniqueName("blob"));
     blobClient = containerClient.getBlobClient(blobName);
@@ -975,7 +975,9 @@ describe("BlobClient Node.js Only - ImmutabilityPolicy", () => {
         await deleteBlobClient.delete();
       }
     }
-    await recorder.stop();
+    if (recorder) {
+      await recorder.stop();
+    }
   });
 
   it("Blob syncCopyFromURL with immutability policy", async function () {

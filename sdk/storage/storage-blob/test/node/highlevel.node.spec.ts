@@ -66,8 +66,6 @@ describe("Highlevel", () => {
   });
 
   before(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderEnvSetup);
     if (!fs.existsSync(tempFolderPath)) {
       fs.mkdirSync(tempFolderPath);
     }
@@ -84,15 +82,11 @@ describe("Highlevel", () => {
       tempFileSmallLength,
       MB
     );
-    await recorder.stop();
   });
 
   after(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderEnvSetup);
     fs.unlinkSync(tempFileLarge);
     fs.unlinkSync(tempFileSmall);
-    await recorder.stop();
   });
 
   it("put blob with maximum size", async function () {
