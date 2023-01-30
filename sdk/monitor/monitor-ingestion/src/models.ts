@@ -34,6 +34,9 @@ export interface UploadLogsError {
   cause: Error;
 }
 
+/**
+ * Aggregate Upload Logs Error Name
+ */
 export const AggregateUploadLogsErrorName = "AggregateUploadLogsError";
 
 /**
