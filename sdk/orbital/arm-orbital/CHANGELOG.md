@@ -1,8 +1,8 @@
 # Release History
     
-## 2.0.0 (2023-01-30)
+## 1.2.0 (2023-01-30)
     
-**Breaking Changes**
+**Features**
 
   - Interface ContactProfilesListBySubscriptionNextOptionalParams no longer has parameter skiptoken
   - Interface ContactProfilesListNextOptionalParams no longer has parameter skiptoken
