@@ -25,12 +25,14 @@ import {
   BlobImmutabilityPolicyMode,
 } from "../../src";
 import {
+  configureBlobStorageClient,
   getBSU,
   getEncryptionScope_1,
   getImmutableContainerName,
   getTokenBSUWithDefaultCredential,
   getUniqueName,
   recorderEnvSetup,
+  uriSanitizers,
 } from "../utils";
 import { delay, isLiveMode, Recorder, env } from "@azure-tools/test-recorder";
 import { SERVICE_VERSION } from "../../src/utils/constants";
@@ -43,6 +45,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({uriSanitizers}, ["playback", "record"]);
     blobServiceClient = getBSU(recorder);
   });
 
@@ -57,7 +60,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
-    const sharedKeyCredential = (blobServiceClient as any).credential;
+    const sharedKeyCredential = blobServiceClient.credential as StorageSharedKeyCredential;
 
     const sas = generateAccountSASQueryParameters(
       {
@@ -70,11 +73,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         startsOn: now,
         version: "2016-05-31",
       },
-      sharedKeyCredential as StorageSharedKeyCredential
+      sharedKeyCredential
     ).toString();
 
     const sasClient = `${blobServiceClient.url}?${sas}`;
     const serviceClientWithSAS = new BlobServiceClient(sasClient, newPipeline());
+    configureBlobStorageClient(recorder, serviceClientWithSAS);
     await serviceClientWithSAS.getAccountInfo();
   });
 
@@ -85,7 +89,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
-    const sharedKeyCredential = (blobServiceClient as any).credential;
+    const sharedKeyCredential = blobServiceClient.credential as StorageSharedKeyCredential;
 
     const sas = generateAccountSASQueryParameters(
       {
@@ -97,11 +101,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         services: AccountSASServices.parse("btqf").toString(),
         startsOn: now,
       },
-      sharedKeyCredential as StorageSharedKeyCredential
+      sharedKeyCredential
     ).toString();
 
     const sasClient = `${blobServiceClient.url}?${sas}`;
     const serviceClientWithSAS = new BlobServiceClient(sasClient, newPipeline());
+    configureBlobStorageClient(recorder, serviceClientWithSAS);
     const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = serviceClientWithSAS.getContainerClient(containerName);
     await containerClient.create();
@@ -115,7 +120,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
-    const sharedKeyCredential = (blobServiceClient as any).credential;
+    const sharedKeyCredential = blobServiceClient.credential as StorageSharedKeyCredential;
 
     const sas = generateAccountSASQueryParameters(
       {
@@ -124,7 +129,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
         services: AccountSASServices.parse("btqf").toString(),
       },
-      sharedKeyCredential as StorageSharedKeyCredential
+      sharedKeyCredential
     ).toString();
 
     const sasClient = `${blobServiceClient.url}?${sas}`;
@@ -132,6 +137,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       sasClient,
       newPipeline(new AnonymousCredential())
     );
+    configureBlobStorageClient(recorder, serviceClientWithSAS);
 
     let error;
     try {
@@ -147,7 +153,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
-    const sharedKeyCredential = (blobServiceClient as any).credential;
+    const sharedKeyCredential = blobServiceClient.credential as StorageSharedKeyCredential;
 
     const sas = generateAccountSASQueryParameters(
       {
@@ -156,7 +162,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
         services: AccountSASServices.parse("tqf").toString(),
       },
-      sharedKeyCredential as StorageSharedKeyCredential
+      sharedKeyCredential
     ).toString();
 
     const sasClient = `${blobServiceClient.url}?${sas}`;
@@ -164,6 +170,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       sasClient,
       newPipeline(new AnonymousCredential())
     );
+    configureBlobStorageClient(recorder, serviceClientWithSAS);
 
     let error;
     try {
@@ -179,7 +186,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
-    const sharedKeyCredential = (blobServiceClient as any).credential;
+    const sharedKeyCredential = blobServiceClient.credential as StorageSharedKeyCredential;
 
     const sas = generateAccountSASQueryParameters(
       {
@@ -191,7 +198,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         services: AccountSASServices.parse("btqf").toString(),
         version: "2016-05-31",
       },
-      sharedKeyCredential as StorageSharedKeyCredential
+      sharedKeyCredential
     ).toString();
 
     const sasClient = `${blobServiceClient.url}?${sas}`;
@@ -199,6 +206,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       sasClient,
       newPipeline(new AnonymousCredential())
     );
+    configureBlobStorageClient(recorder, serviceClientWithSAS);
 
     let error;
     try {
@@ -224,7 +232,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
-    const sharedKeyCredential = (blobServiceClient as any).credential;
+    const sharedKeyCredential = blobServiceClient.credential as StorageSharedKeyCredential;
 
     const sas = generateAccountSASQueryParameters(
       {
@@ -237,11 +245,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         startsOn: now,
         encryptionScope: encryptionScopeName,
       },
-      sharedKeyCredential as StorageSharedKeyCredential
+      sharedKeyCredential
     ).toString();
 
     const sasClient = `${blobServiceClient.url}?${sas}`;
     const serviceClientWithSAS = new BlobServiceClient(sasClient, newPipeline());
+    configureBlobStorageClient(recorder, serviceClientWithSAS);
 
     const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
@@ -265,7 +274,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
-    const sharedKeyCredential = (blobServiceClient as any).credential;
+    const sharedKeyCredential = blobServiceClient.credential as StorageSharedKeyCredential;
 
     const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
@@ -281,7 +290,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         startsOn: now,
         version: "2016-05-31",
       },
-      sharedKeyCredential as StorageSharedKeyCredential
+      sharedKeyCredential
     );
 
     const sasClient = `${containerClient.url}?${containerSAS}`;
@@ -289,6 +298,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       sasClient,
       newPipeline(new AnonymousCredential())
     );
+    configureBlobStorageClient(recorder, containerClientWithSAS);
 
     const result = (await containerClientWithSAS.listBlobsFlat().byPage().next()).value;
     assert.ok(result.serviceEndpoint.length > 0);
@@ -310,7 +320,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
-    const sharedKeyCredential = (blobServiceClient as any).credential;
+    const sharedKeyCredential = blobServiceClient.credential as StorageSharedKeyCredential;
 
     const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
@@ -327,7 +337,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         version: "2020-12-06",
         encryptionScope: encryptionScopeName,
       },
-      sharedKeyCredential as StorageSharedKeyCredential
+      sharedKeyCredential
     );
 
     const sasClient = `${containerClient.url}?${containerSAS}`;
@@ -335,6 +345,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       sasClient,
       newPipeline(new AnonymousCredential())
     );
+    configureBlobStorageClient(recorder, containerClientWithSAS);
 
     const appendBlobName = recorder.variable("appendblob", getUniqueName("appendblob"));
     const appendBlobClient = containerClientWithSAS.getAppendBlobClient(appendBlobName);
@@ -351,7 +362,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
-    const sharedKeyCredential = (blobServiceClient as any).credential;
+    const sharedKeyCredential = blobServiceClient.credential as StorageSharedKeyCredential;
 
     const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
@@ -380,11 +391,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         startsOn: now,
         version: "2016-05-31",
       },
-      sharedKeyCredential as StorageSharedKeyCredential
+      sharedKeyCredential
     );
 
     const sasClient = `${blobClient.url}?${blobSAS}`;
     const blobClientWithSAS = new PageBlobClient(sasClient, newPipeline(new AnonymousCredential()));
+    configureBlobStorageClient(recorder, blobClientWithSAS);
 
     const properties = await blobClientWithSAS.getProperties();
     assert.equal(properties.cacheControl, "cache-control-override");
@@ -403,7 +415,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
-    const sharedKeyCredential = (blobServiceClient as any).credential;
+    const sharedKeyCredential = blobServiceClient.credential as StorageSharedKeyCredential;
 
     const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
@@ -432,11 +444,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         protocol: SASProtocol.HttpsAndHttp,
         startsOn: now,
       },
-      sharedKeyCredential as StorageSharedKeyCredential
+      sharedKeyCredential
     );
 
     const sasURL = `${blobClient.url}?${blobSAS}`;
     const blobClientWithSAS = new PageBlobClient(sasURL, newPipeline(new AnonymousCredential()));
+    configureBlobStorageClient(recorder, blobClientWithSAS);
 
     const properties = await blobClientWithSAS.getProperties();
     assert.equal(properties.cacheControl, "cache-control-override");
@@ -455,7 +468,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
-    const sharedKeyCredential = (blobServiceClient as any).credential;
+    const sharedKeyCredential = blobServiceClient.credential as StorageSharedKeyCredential;
 
     const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
@@ -475,11 +488,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         protocol: SASProtocol.HttpsAndHttp,
         startsOn: now,
       },
-      sharedKeyCredential as StorageSharedKeyCredential
+      sharedKeyCredential
     );
 
     const sasURL = `${blobClient.url}?${blobSAS}`;
     const blobClientWithSAS = new PageBlobClient(sasURL, newPipeline(new AnonymousCredential()));
+    configureBlobStorageClient(recorder, blobClientWithSAS);
     await blobClientWithSAS.delete();
 
     await containerClient.delete();
@@ -499,7 +513,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
-    const sharedKeyCredential = (blobServiceClient as any).credential;
+    const sharedKeyCredential = blobServiceClient.credential as StorageSharedKeyCredential;
 
     const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
@@ -523,11 +537,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         protocol: SASProtocol.HttpsAndHttp,
         startsOn: now,
       },
-      sharedKeyCredential as StorageSharedKeyCredential
+      sharedKeyCredential
     );
 
     const sasURL = `${blobClient.url}?${blobSAS}`;
     const blobClientWithSAS = new PageBlobClient(sasURL, newPipeline(new AnonymousCredential()));
+    configureBlobStorageClient(recorder, blobClientWithSAS);
     await blobClientWithSAS.create(1024, {
       blobHTTPHeaders: {
         blobContentType: "content-type-original",
@@ -552,7 +567,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
-    const sharedKeyCredential = (blobServiceClient as any).credential;
+    const sharedKeyCredential = blobServiceClient.credential as StorageSharedKeyCredential;
 
     const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
@@ -581,11 +596,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         protocol: SASProtocol.HttpsAndHttp,
         startsOn: now,
       },
-      sharedKeyCredential as StorageSharedKeyCredential
+      sharedKeyCredential
     );
 
     const sasURL = `${blobClient.url}?${blobSAS}`;
     const blobClientWithSAS = new PageBlobClient(sasURL, newPipeline(new AnonymousCredential()));
+    configureBlobStorageClient(recorder, blobClientWithSAS);
 
     const tags = {
       tag1: "val1",
@@ -610,7 +626,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
-    const sharedKeyCredential = (blobServiceClient as any).credential;
+    const sharedKeyCredential = blobServiceClient.credential as StorageSharedKeyCredential;
 
     const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
@@ -638,11 +654,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         protocol: SASProtocol.HttpsAndHttp,
         startsOn: now,
       },
-      sharedKeyCredential as StorageSharedKeyCredential
+      sharedKeyCredential
     );
 
     const sasURL = `${blobClient.url}?${blobSAS}`;
     const blobClientWithSAS = new PageBlobClient(sasURL, newPipeline(new AnonymousCredential()));
+    configureBlobStorageClient(recorder, blobClientWithSAS);
 
     const tags = {
       tag1: "val1",
@@ -667,7 +684,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
-    const sharedKeyCredential = (blobServiceClient as any).credential;
+    const sharedKeyCredential = blobServiceClient.credential as StorageSharedKeyCredential;
 
     const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
@@ -699,11 +716,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         startsOn: now,
         snapshotTime: response.snapshot,
       },
-      sharedKeyCredential as StorageSharedKeyCredential
+      sharedKeyCredential
     );
 
     const sasURL = `${blobClient.withSnapshot(response.snapshot!).url}&${blobSAS}`;
     const blobClientWithSAS = new PageBlobClient(sasURL, newPipeline(new AnonymousCredential()));
+    configureBlobStorageClient(recorder, blobClientWithSAS);
 
     const properties = await blobClientWithSAS.getProperties();
     assert.equal(properties.cacheControl, "cache-control-override");
@@ -722,7 +740,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
-    const sharedKeyCredential = (blobServiceClient as any).credential;
+    const sharedKeyCredential = blobServiceClient.credential as StorageSharedKeyCredential;
 
     const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
@@ -750,11 +768,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         startsOn: now,
         snapshotTime: response.snapshot,
       },
-      sharedKeyCredential as StorageSharedKeyCredential
+      sharedKeyCredential
     );
 
     const sasURL = `${blobClient.withSnapshot(response.snapshot!).url}&${blobSAS}`;
     const blobClientWithSAS = new PageBlobClient(sasURL, newPipeline(new AnonymousCredential()));
+    configureBlobStorageClient(recorder, blobClientWithSAS);
 
     await blobClientWithSAS.delete();
     await containerClient.delete();
@@ -767,7 +786,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
-    const sharedKeyCredential = (blobServiceClient as any).credential;
+    const sharedKeyCredential = blobServiceClient.credential as StorageSharedKeyCredential;
 
     const containerName = recorder.variable(
       "container-with-dash",
@@ -805,11 +824,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         startsOn: now,
         version: "2016-05-31",
       },
-      sharedKeyCredential as StorageSharedKeyCredential
+      sharedKeyCredential
     );
 
     const sasClient = `${blobClient.url}?${blobSAS}`;
     const blobClientWithSAS = new PageBlobClient(sasClient, newPipeline(new AnonymousCredential()));
+    configureBlobStorageClient(recorder, blobClientWithSAS);
 
     const properties = await blobClientWithSAS.getProperties();
     assert.equal(properties.cacheControl, "cache-control-override");
@@ -828,7 +848,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
-    const sharedKeyCredential = (blobServiceClient as any).credential;
+    const sharedKeyCredential = blobServiceClient.credential as StorageSharedKeyCredential;
 
     const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
@@ -864,11 +884,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         permissions: ContainerSASPermissions.parse("racwdl"),
         identifier: id,
       },
-      sharedKeyCredential as StorageSharedKeyCredential
+      sharedKeyCredential
     );
 
     const sasClient = `${blobClient.url}?${blobSAS}`;
     const blobClientWithSAS = new PageBlobClient(sasClient, newPipeline(new AnonymousCredential()));
+    configureBlobStorageClient(recorder, blobClientWithSAS);
 
     await blobClientWithSAS.getProperties();
     await containerClient.delete();
@@ -881,7 +902,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
-    const sharedKeyCredential = (blobServiceClient as any).credential;
+    const sharedKeyCredential = blobServiceClient.credential as StorageSharedKeyCredential;
 
     const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
@@ -918,11 +939,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         containerName: containerName,
         identifier: id,
       },
-      sharedKeyCredential as StorageSharedKeyCredential
+      sharedKeyCredential
     );
 
     const sasClient = `${blobClient.url}?${blobSAS}`;
     const blobClientWithSAS = new PageBlobClient(sasClient, newPipeline(new AnonymousCredential()));
+    configureBlobStorageClient(recorder, blobClientWithSAS);
 
     await blobClientWithSAS.getProperties();
     await containerClient.delete();
@@ -949,7 +971,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     tmr.setDate(tmr.getDate() + 1);
     const userDelegationKey = await blobServiceClientWithToken!.getUserDelegationKey(now, tmr);
 
-    const sharedKeyCredential = (blobServiceClient as any).credential;
+    const sharedKeyCredential = blobServiceClient.credential as StorageSharedKeyCredential;
 
     const accountName = sharedKeyCredential.accountName;
 
@@ -976,6 +998,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       sasClient,
       newPipeline(new AnonymousCredential())
     );
+    configureBlobStorageClient(recorder, containerClientWithSAS);
 
     const result = (await containerClientWithSAS.listBlobsFlat().byPage().next()).value;
     assert.ok(result.serviceEndpoint.length > 0);
@@ -1004,7 +1027,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     tmr.setDate(tmr.getDate() + 1);
     const userDelegationKey = await blobServiceClientWithToken!.getUserDelegationKey(now, tmr);
 
-    const sharedKeyCredential = (blobServiceClient as any).credential;
+    const sharedKeyCredential = blobServiceClient.credential as StorageSharedKeyCredential;
 
     const accountName = sharedKeyCredential.accountName;
 
@@ -1027,6 +1050,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       sasClient,
       newPipeline(new AnonymousCredential())
     );
+    configureBlobStorageClient(recorder, containerClientWithSAS);
 
     const result = (await containerClientWithSAS.listBlobsFlat().byPage().next()).value;
     assert.ok(result.serviceEndpoint.length > 0);
@@ -1055,7 +1079,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     tmr.setDate(tmr.getDate() + 1);
     const userDelegationKey = await blobServiceClientWithToken!.getUserDelegationKey(now, tmr);
 
-    const sharedKeyCredential = (blobServiceClient as any).credential;
+    const sharedKeyCredential = blobServiceClient.credential as StorageSharedKeyCredential;
 
     const accountName = sharedKeyCredential.accountName;
 
@@ -1092,6 +1116,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const sasClient = `${blobClient.url}?${blobSAS}`;
     const blobClientWithSAS = new PageBlobClient(sasClient, newPipeline(new AnonymousCredential()));
+    configureBlobStorageClient(recorder, blobClientWithSAS);
 
     const properties = await blobClientWithSAS.getProperties();
     assert.equal(properties.cacheControl, "cache-control-override");
@@ -1124,7 +1149,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     tmr.setDate(tmr.getDate() + 1);
     const userDelegationKey = await blobServiceClientWithToken!.getUserDelegationKey(now, tmr);
 
-    const sharedKeyCredential = (blobServiceClient as any).credential;
+    const sharedKeyCredential = blobServiceClient.credential as StorageSharedKeyCredential;
 
     const accountName = sharedKeyCredential.accountName;
 
@@ -1161,6 +1186,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const sasClient = `${blobClient.url}?${blobSAS}`;
     const blobClientWithSAS = new PageBlobClient(sasClient, newPipeline(new AnonymousCredential()));
+    configureBlobStorageClient(recorder, blobClientWithSAS);
 
     await blobClientWithSAS.delete();
     await containerClient.delete();
@@ -1194,7 +1220,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     tmr.setDate(tmr.getDate() + 1);
     const userDelegationKey = await blobServiceClientWithToken!.getUserDelegationKey(now, tmr);
 
-    const sharedKeyCredential = (blobServiceClient as any).credential;
+    const sharedKeyCredential = blobServiceClient.credential as StorageSharedKeyCredential;
 
     const accountName = sharedKeyCredential.accountName;
 
@@ -1227,6 +1253,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const sasClient = `${blobClient.url}?${blobSAS}`;
     const blobClientWithSAS = new PageBlobClient(sasClient, newPipeline(new AnonymousCredential()));
+    configureBlobStorageClient(recorder, blobClientWithSAS);
     await blobClientWithSAS.create(1024, {
       encryptionScope: encryptionScopeName,
     });
@@ -1256,7 +1283,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     tmr.setDate(tmr.getDate() + 1);
     const userDelegationKey = await blobServiceClientWithToken!.getUserDelegationKey(now, tmr);
 
-    const sharedKeyCredential = (blobServiceClient as any).credential;
+    const sharedKeyCredential = blobServiceClient.credential as StorageSharedKeyCredential;
 
     const accountName = sharedKeyCredential.accountName;
 
@@ -1296,6 +1323,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const sasURL = `${blobClient.withSnapshot(response.snapshot!).url}&${blobSAS}`;
     const blobClientWithSAS = new PageBlobClient(sasURL, newPipeline(new AnonymousCredential()));
+    configureBlobStorageClient(recorder, blobClientWithSAS);
 
     const properties = await blobClientWithSAS.getProperties();
     assert.equal(properties.cacheControl, "cache-control-override");
@@ -1329,7 +1357,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     tmr.setDate(tmr.getDate() + 1);
     const userDelegationKey = await blobServiceClientWithToken!.getUserDelegationKey(now, tmr);
 
-    const sharedKeyCredential = (blobServiceClient as any).credential;
+    const sharedKeyCredential = blobServiceClient.credential as StorageSharedKeyCredential;
 
     const accountName = sharedKeyCredential.accountName;
 
@@ -1364,6 +1392,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const sasURL = `${blobClient.withSnapshot(response.snapshot!).url}&${blobSAS}`;
     const blobClientWithSAS = new PageBlobClient(sasURL, newPipeline(new AnonymousCredential()));
+    configureBlobStorageClient(recorder, blobClientWithSAS);
 
     await blobClientWithSAS.delete();
     await containerClient.delete();
@@ -1406,9 +1435,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       sasClient,
       newPipeline(new AnonymousCredential())
     );
-    const containerClientwithSAS = serviceClientWithSAS.getContainerClient(containerName);
-    await containerClientwithSAS.deleteBlob(blobName, { versionId: uploadRes.versionId });
-    await containerClientwithSAS.delete();
+    configureBlobStorageClient(recorder, serviceClientWithSAS);
+    const containerClientWithSAS = serviceClientWithSAS.getContainerClient(containerName);
+    await containerClientWithSAS.deleteBlob(blobName, { versionId: uploadRes.versionId });
+    await containerClientWithSAS.delete();
   });
 
   it("generateAccountSASQueryParameters should work for blob version delete with permanentDelete permission", async function (this: Context) {
@@ -1448,9 +1478,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       sasClient,
       newPipeline(new AnonymousCredential())
     );
-    const containerClientwithSAS = serviceClientWithSAS.getContainerClient(containerName);
-    await containerClientwithSAS.deleteBlob(blobName, { versionId: uploadRes.versionId });
-    await containerClientwithSAS.delete();
+    configureBlobStorageClient(recorder, serviceClientWithSAS);
+    const containerClientWithSAS = serviceClientWithSAS.getContainerClient(containerName);
+    await containerClientWithSAS.deleteBlob(blobName, { versionId: uploadRes.versionId });
+    await containerClientWithSAS.delete();
   });
 
   it("generateBlobSASQueryParameters should work for blob version delete", async function () {
@@ -1471,7 +1502,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
-    const sharedKeyCredential = (blobServiceClient as any).credential;
+    const sharedKeyCredential = blobServiceClient.credential as StorageSharedKeyCredential;
 
     const blobSAS = generateBlobSASQueryParameters(
       {
@@ -1484,11 +1515,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         protocol: SASProtocol.HttpsAndHttp,
         versionId: uploadRes.versionId,
       },
-      sharedKeyCredential as StorageSharedKeyCredential
+      sharedKeyCredential
     );
 
     const sasURL = `${blobClient.withVersion(uploadRes.versionId!).url}&${blobSAS}`;
     const blobClientWithSAS = new BlobClient(sasURL, newPipeline(new AnonymousCredential()));
+    configureBlobStorageClient(recorder, blobClientWithSAS);
     await blobClientWithSAS.delete();
     assert.ok(!(await blobClientWithSAS.exists()));
 
@@ -1513,7 +1545,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
-    const sharedKeyCredential = (blobServiceClient as any).credential;
+    const sharedKeyCredential = blobServiceClient.credential as StorageSharedKeyCredential;
 
     const blobSAS = generateBlobSASQueryParameters(
       {
@@ -1526,11 +1558,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         protocol: SASProtocol.HttpsAndHttp,
         versionId: uploadRes.versionId,
       },
-      sharedKeyCredential as StorageSharedKeyCredential
+      sharedKeyCredential
     );
 
     const sasURL = `${blobClient.withVersion(uploadRes.versionId!).url}&${blobSAS}`;
     const blobClientWithSAS = new BlobClient(sasURL, newPipeline(new AnonymousCredential()));
+    configureBlobStorageClient(recorder, blobClientWithSAS);
     await blobClientWithSAS.delete();
     assert.ok(!(await blobClientWithSAS.exists()));
 
@@ -1569,7 +1602,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
-    const sharedKeyCredential = (blobServiceClient as any).credential;
+    const sharedKeyCredential = blobServiceClient.credential as StorageSharedKeyCredential;
 
     const accountName = sharedKeyCredential.accountName;
     const userDelegationKey = await blobServiceClientWithToken!.getUserDelegationKey(now, tmr);
@@ -1592,6 +1625,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const sasURL = `${blobClient.withVersion(uploadRes.versionId!).url}&${blobSAS}`;
     const blobClientWithSAS = new BlobClient(sasURL, newPipeline(new AnonymousCredential()));
+    configureBlobStorageClient(recorder, blobClientWithSAS);
     await blobClientWithSAS.delete();
     assert.ok(!(await blobClientWithSAS.exists()));
 
@@ -1631,7 +1665,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
-    const sharedKeyCredential = (blobServiceClient as any).credential;
+    const sharedKeyCredential = blobServiceClient.credential as StorageSharedKeyCredential;
 
     const accountName = sharedKeyCredential.accountName;
     const userDelegationKey = await blobServiceClientWithToken!.getUserDelegationKey(now, tmr);
@@ -1653,6 +1687,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const sasURL = `${blobClient.withVersion(uploadRes.versionId!).url}&${blobSAS}`;
     const blobClientWithSAS = new BlobClient(sasURL, newPipeline(new AnonymousCredential()));
+    configureBlobStorageClient(recorder, blobClientWithSAS);
     await blobClientWithSAS.delete();
     assert.ok(!(await blobClientWithSAS.exists()));
 
@@ -1677,7 +1712,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
-    const sharedKeyCredential = (blobServiceClient as any).credential;
+    const sharedKeyCredential = blobServiceClient.credential as StorageSharedKeyCredential;
 
     const blobSAS = generateBlobSASQueryParameters(
       {
@@ -1690,11 +1725,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         protocol: SASProtocol.HttpsAndHttp,
         versionId: uploadRes.versionId,
       },
-      sharedKeyCredential as StorageSharedKeyCredential
+      sharedKeyCredential
     );
 
     const sasURL = `${blobClient.withVersion(uploadRes.versionId!).url}&${blobSAS}`;
     const blobClientWithSAS = new BlobClient(sasURL, newPipeline(new AnonymousCredential()));
+    configureBlobStorageClient(recorder, blobClientWithSAS);
 
     const tags = {
       tag1: "val1",
@@ -1714,7 +1750,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
-    const sharedKeyCredential = (blobServiceClient as any).credential;
+    const sharedKeyCredential = blobServiceClient.credential as StorageSharedKeyCredential;
 
     const sas = generateAccountSASQueryParameters(
       {
@@ -1727,7 +1763,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         startsOn: now,
         version: "2019-12-12",
       },
-      sharedKeyCredential as StorageSharedKeyCredential
+      sharedKeyCredential
     ).toString();
 
     const sasClient = `${blobServiceClient.url}?${sas}`;
@@ -1735,6 +1771,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       sasClient,
       newPipeline(new AnonymousCredential())
     );
+    configureBlobStorageClient(recorder, serviceClientWithSAS);
 
     // prepare
     const containerName = recorder.variable("container1", getUniqueName("container1"));
@@ -1777,7 +1814,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
-    const sharedKeyCredential = (blobServiceClient as any).credential;
+    const sharedKeyCredential = blobServiceClient.credential as StorageSharedKeyCredential;
 
     const sas = generateAccountSASQueryParameters(
       {
@@ -1790,7 +1827,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         startsOn: now,
         version: "2019-12-12",
       },
-      sharedKeyCredential as StorageSharedKeyCredential
+      sharedKeyCredential
     ).toString();
 
     const sasClient = `${blobServiceClient.url}?${sas}`;
@@ -1798,6 +1835,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       sasClient,
       newPipeline(new AnonymousCredential())
     );
+    configureBlobStorageClient(recorder, serviceClientWithSAS);
 
     // create version
     const containerName = recorder.variable("container", getUniqueName("container"));
@@ -1824,7 +1862,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
-    const sharedKeyCredential = (blobServiceClient as any).credential;
+    const sharedKeyCredential = blobServiceClient.credential as StorageSharedKeyCredential;
 
     const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
@@ -1841,10 +1879,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         permissions: BlobSASPermissions.parse("racwdxtme"),
         version: "2020-02-10",
       },
-      sharedKeyCredential as StorageSharedKeyCredential
+      sharedKeyCredential
     );
 
     const blobClientWithSAS = new BlobClient(`${blobClient.url}?${sas}`);
+    configureBlobStorageClient(recorder, blobClientWithSAS);
     await blobClientWithSAS.getProperties();
   });
 
@@ -1855,7 +1894,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
-    const sharedKeyCredential = (blobServiceClient as any).credential;
+    const sharedKeyCredential = blobServiceClient.credential as StorageSharedKeyCredential;
 
     const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
@@ -1868,10 +1907,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         permissions: ContainerSASPermissions.parse("racwdltxme"),
         version: "2020-02-10",
       },
-      sharedKeyCredential as StorageSharedKeyCredential
+      sharedKeyCredential
     );
 
     const containerClientWithSAS = new ContainerClient(`${containerClient.url}?${sas}`);
+    configureBlobStorageClient(recorder, containerClientWithSAS);
     await containerClientWithSAS.listBlobsFlat().byPage().next();
   });
 
@@ -1893,10 +1933,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       }
     );
     const serviceClientWithSAS = new BlobServiceClient(sasURL);
+    configureBlobStorageClient(recorder, serviceClientWithSAS);
     await serviceClientWithSAS.getAccountInfo();
 
     const defaultSasURL = blobServiceClient.generateAccountSasUrl();
     const serviceClientWithDefaultSAS = new BlobServiceClient(defaultSasURL);
+    configureBlobStorageClient(recorder, serviceClientWithDefaultSAS);
     await serviceClientWithDefaultSAS.getProperties();
   });
 
@@ -1930,6 +1972,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     );
 
     const serviceClientWithSAS = new BlobServiceClient(sasURL);
+    configureBlobStorageClient(recorder, serviceClientWithSAS);
     const blobName = recorder.variable("appendblob", getUniqueName("appendblob"));
     const blobClientWithSAS = serviceClientWithSAS
       .getContainerClient(containerName)
@@ -1963,6 +2006,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     );
 
     const serviceClientWithSAS = new BlobServiceClient(sasURL);
+    configureBlobStorageClient(recorder, serviceClientWithSAS);
     const blobName = recorder.variable("appendblob", getUniqueName("appendblob"));
     const blobClientWithSAS = serviceClientWithSAS
       .getContainerClient(containerName)
@@ -1993,6 +2037,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     });
 
     const containerClientWithSAS = new ContainerClient(sasURL);
+    configureBlobStorageClient(recorder, containerClientWithSAS);
     const result = (await containerClientWithSAS.listBlobsFlat().byPage().next()).value;
     assert.ok(result.serviceEndpoint.length > 0);
     assert.deepStrictEqual(result.continuationToken, "");
@@ -2034,6 +2079,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     });
 
     const containerClientWithSAS = new ContainerClient(sasURL);
+    configureBlobStorageClient(recorder, containerClientWithSAS);
 
     const appendBlobName = recorder.variable("appendblob", getUniqueName("appendblob"));
     const appendBlobClient = containerClientWithSAS.getAppendBlobClient(appendBlobName);
@@ -2072,6 +2118,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     });
 
     const containerClientWithSAS = new ContainerClient(sasURL);
+    configureBlobStorageClient(recorder, containerClientWithSAS);
 
     const expectedTags1: Tags = {
       tag1: "val1",
@@ -2118,6 +2165,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       startsOn: now,
     });
     const blobClientWithSAS = new PageBlobClient(sasURL, newPipeline(new AnonymousCredential()));
+    configureBlobStorageClient(recorder, blobClientWithSAS);
 
     const properties = await blobClientWithSAS.getProperties();
     assert.equal(properties.cacheControl, "cache-control-override");
@@ -2158,6 +2206,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       encryptionScope: encryptionScopeName,
     });
     const blobClientWithSAS = new PageBlobClient(sasURL, newPipeline(new AnonymousCredential()));
+    configureBlobStorageClient(recorder, blobClientWithSAS);
 
     await blobClientWithSAS.create(1024, {
       encryptionScope: encryptionScopeName,
@@ -2188,6 +2237,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       startsOn: now,
     });
     const blobClientWithSAS = new PageBlobClient(sasURL, newPipeline(new AnonymousCredential()));
+    configureBlobStorageClient(recorder, blobClientWithSAS);
 
     await blobClientWithSAS.create(1024);
     await blobClientWithSAS.delete();
@@ -2237,6 +2287,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       sasURL,
       newPipeline(new AnonymousCredential())
     );
+    configureBlobStorageClient(recorder, blobClientWithSnapshotAndSAS);
 
     const properties = await blobClientWithSnapshotAndSAS.getProperties();
     assert.equal(properties.cacheControl, "cache-control-override");
@@ -2272,6 +2323,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       sasURL,
       newPipeline(new AnonymousCredential())
     );
+    configureBlobStorageClient(recorder, blobClientWithVersionIdAndSAS);
 
     const properties = await blobClientWithVersionIdAndSAS.getProperties();
     assert.deepStrictEqual(properties.versionId, uploadRes.versionId);
@@ -2325,6 +2377,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       sasURL,
       newPipeline(new AnonymousCredential())
     );
+    configureBlobStorageClient(recorder, blobClientWithSnapshotAndSAS);
 
     await blobClientWithSnapshotAndSAS.delete();
     await containerClient.delete();
@@ -2353,6 +2406,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       sasURL,
       newPipeline(new AnonymousCredential())
     );
+    configureBlobStorageClient(recorder, blobClientWithVersionIdAndSAS);
 
     const properties = await blobClientWithVersionIdAndSAS.getProperties();
     assert.deepStrictEqual(properties.versionId, uploadRes.versionId);
@@ -2390,6 +2444,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       permissions: BlobSASPermissions.parse("racwd"),
     });
     const blobClientWithSAS = new PageBlobClient(sasURL, newPipeline(new AnonymousCredential()));
+    configureBlobStorageClient(recorder, blobClientWithSAS);
     await blobClientWithSAS.getProperties();
 
     await containerClient.delete();
@@ -2423,13 +2478,13 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       this.skip();
     }
 
-    // generate conatianer sas
+    // generate container sas
     const now = new Date(recorder.variable("now", new Date().toISOString()));
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
     const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
     tmr.setDate(tmr.getDate() + 1);
 
-    const sharedKeyCredential = blobServiceClient.credential;
+    const sharedKeyCredential = blobServiceClient.credential as StorageSharedKeyCredential;
 
     const containerName = recorder.variable("container", getUniqueName("container"));
     const containerClient = blobServiceClient.getContainerClient(containerName);
@@ -2441,11 +2496,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         expiresOn: tmr,
         permissions: ContainerSASPermissions.parse("racwdl"),
       },
-      sharedKeyCredential as StorageSharedKeyCredential
+      sharedKeyCredential
     );
 
     const sasClient = `${containerClient.url}?${containerSAS}`;
     const containerClientWithSAS = new ContainerClient(sasClient);
+    configureBlobStorageClient(recorder, containerClientWithSAS);
 
     // upload blobs
     const blockBlobCount = 3;
@@ -2549,6 +2605,7 @@ describe("Generation for user delegation SAS Node.js only", () => {
     );
 
     const blobClientWithSAS = new BlobClient(`${blobClient.url}?${blobSAS}`);
+    configureBlobStorageClient(recorder, blobClientWithSAS);
     await blobClientWithSAS.getProperties();
   });
 
@@ -2565,6 +2622,7 @@ describe("Generation for user delegation SAS Node.js only", () => {
     );
 
     const containerClientWithSAS = new ContainerClient(`${containerClient.url}?${sas}`);
+    configureBlobStorageClient(recorder, containerClientWithSAS);
     await containerClientWithSAS.listBlobsFlat().byPage().next();
   });
 
@@ -2586,6 +2644,7 @@ describe("Generation for user delegation SAS Node.js only", () => {
     );
 
     const blobClientWithSAS = new BlobClient(`${blobClient.url}?${blobSAS}`);
+    configureBlobStorageClient(recorder, blobClientWithSAS);
     await blobClientWithSAS.getProperties();
   });
 });
@@ -2659,6 +2718,7 @@ describe("Shared Access Signature (SAS) generation Node.js Only - ImmutabilityPo
 
     const sasClient = `${blobServiceClient.url}?${sas}`;
     const accountSASServiceClient = new BlobServiceClient(sasClient, newPipeline());
+    configureBlobStorageClient(recorder, accountSASServiceClient);
 
     const sasBlobClient = accountSASServiceClient
       .getContainerClient(containerName)
@@ -2755,6 +2815,7 @@ describe("Shared Access Signature (SAS) generation Node.js Only - ImmutabilityPo
       blobServiceClient.credential as StorageSharedKeyCredential
     );
     const sasBlobClient = new BlobClient(`${blobClient.url}?${blobSAS}`);
+    configureBlobStorageClient(recorder, sasBlobClient);
 
     const minutesLater = new Date(recorder.variable("minutesLater", new Date().toISOString()));
     minutesLater.setMinutes(minutesLater.getMinutes() + 5);
