@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { NginxManagementClient } = require("@azure/arm-nginx");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to List all operations provided by Nginx.NginxPlus for the 2022-08-01 api version.
@@ -18,7 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/stable/2022-08-01/examples/Operations_List.json
  */
 async function operationsList() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["NGINX_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new NginxManagementClient(credential, subscriptionId);
   const resArray = new Array();
@@ -28,4 +30,8 @@ async function operationsList() {
   console.log(resArray);
 }
 
-operationsList().catch(console.error);
+async function main() {
+  operationsList();
+}
+
+main().catch(console.error);
