@@ -22,8 +22,6 @@ import { AnswerCallOptions, CreateCallOptions, RedirectCallOptions, RejectCallOp
 import { AnswerCallResult, CreateCallResult } from "./models/responses";
 import { CallConnectionPropertiesDto, CallSourceDto } from "./models/models";
 import { callSourceConverter, callSourceDtoConverter, communicationIdentifierConverter } from "./utli/converters";
-import { start } from "repl";
-import { endpoint } from "./generated/src/models/parameters";
 
 /**
 * Client options used to configure CallingServer Client API requests.
