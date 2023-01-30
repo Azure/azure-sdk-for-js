@@ -95,7 +95,7 @@ export class EventGridManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-eventgrid/14.1.0`;
+    const packageDetails = `azsdk-js-arm-eventgrid/14.1.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

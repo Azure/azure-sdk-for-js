@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ImageBuilderClient } = require("@azure/arm-imagebuilder");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets information about the VM image templates associated with the subscription.
@@ -18,7 +19,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2022-02-14/examples/ListImageTemplates.json
  */
 async function listImagesBySubscription() {
-  const subscriptionId = "{subscription-id}";
+  const subscriptionId = process.env["IMAGEBUILDER_SUBSCRIPTION_ID"] || "{subscription-id}";
   const credential = new DefaultAzureCredential();
   const client = new ImageBuilderClient(credential, subscriptionId);
   const resArray = new Array();
@@ -28,4 +29,8 @@ async function listImagesBySubscription() {
   console.log(resArray);
 }
 
-listImagesBySubscription().catch(console.error);
+async function main() {
+  listImagesBySubscription();
+}
+
+main().catch(console.error);

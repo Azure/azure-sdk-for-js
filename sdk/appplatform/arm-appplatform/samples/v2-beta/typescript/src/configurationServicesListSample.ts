@@ -10,16 +10,22 @@
 // Licensed under the MIT License.
 import { AppPlatformManagementClient } from "@azure/arm-appplatform";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Handles requests to list all resources in a Service.
  *
  * @summary Handles requests to list all resources in a Service.
- * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-09-01-preview/examples/ConfigurationServices_List.json
+ * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-11-01-preview/examples/ConfigurationServices_List.json
  */
 async function configurationServicesList() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["APPPLATFORM_RESOURCE_GROUP"] || "myResourceGroup";
   const serviceName = "myservice";
   const credential = new DefaultAzureCredential();
   const client = new AppPlatformManagementClient(credential, subscriptionId);
@@ -33,4 +39,8 @@ async function configurationServicesList() {
   console.log(resArray);
 }
 
-configurationServicesList().catch(console.error);
+async function main() {
+  configurationServicesList();
+}
+
+main().catch(console.error);

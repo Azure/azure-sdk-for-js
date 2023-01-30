@@ -10,16 +10,18 @@
 // Licensed under the MIT License.
 const { AzureMediaServices } = require("@azure/arm-mediaservices");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets a Job.
  *
  * @summary Gets a Job.
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2021-11-01/examples/jobs-get-by-name.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Encoding/stable/2022-07-01/examples/jobs-get-by-name.json
  */
 async function getAJobByName() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "contosoresources";
+  const subscriptionId =
+    process.env["MEDIASERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contosoresources";
   const accountName = "contosomedia";
   const transformName = "exampleTransform";
   const jobName = "job1";
@@ -29,4 +31,8 @@ async function getAJobByName() {
   console.log(result);
 }
 
-getAJobByName().catch(console.error);
+async function main() {
+  getAJobByName();
+}
+
+main().catch(console.error);

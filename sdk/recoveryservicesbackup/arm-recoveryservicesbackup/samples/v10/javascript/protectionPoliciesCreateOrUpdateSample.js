@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { RecoveryServicesBackupClient } = require("@azure/arm-recoveryservicesbackup");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Creates or modifies a backup policy. This is an asynchronous operation. Status of the operation can be fetched
@@ -17,12 +18,13 @@ using GetPolicyOperationResult API.
  *
  * @summary Creates or modifies a backup policy. This is an asynchronous operation. Status of the operation can be fetched
 using GetPolicyOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2022-03-01/examples/AzureStorage/ProtectionPolicies_CreateOrUpdate_Daily.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/AzureStorage/ProtectionPolicies_CreateOrUpdate_Daily.json
  */
 async function createOrUpdateDailyAzureStorageProtectionPolicy() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const vaultName = "swaggertestvault";
-  const resourceGroupName = "SwaggerTestRg";
+  const resourceGroupName = process.env["RECOVERYSERVICESBACKUP_RESOURCE_GROUP"] || "SwaggerTestRg";
   const policyName = "dailyPolicy2";
   const parameters = {
     properties: {
@@ -80,20 +82,19 @@ async function createOrUpdateDailyAzureStorageProtectionPolicy() {
   console.log(result);
 }
 
-createOrUpdateDailyAzureStorageProtectionPolicy().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates or modifies a backup policy. This is an asynchronous operation. Status of the operation can be fetched
 using GetPolicyOperationResult API.
  *
  * @summary Creates or modifies a backup policy. This is an asynchronous operation. Status of the operation can be fetched
 using GetPolicyOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2022-03-01/examples/AzureIaasVm/V2Policy/IaaS_v2_hourly.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/AzureIaasVm/V2Policy/IaaS_v2_hourly.json
  */
 async function createOrUpdateEnhancedAzureVMProtectionPolicyWithHourlyBackup() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const vaultName = "NetSDKTestRsVault";
-  const resourceGroupName = "SwaggerTestRg";
+  const resourceGroupName = process.env["RECOVERYSERVICESBACKUP_RESOURCE_GROUP"] || "SwaggerTestRg";
   const policyName = "v2-daily-sample";
   const parameters = {
     properties: {
@@ -156,20 +157,19 @@ async function createOrUpdateEnhancedAzureVMProtectionPolicyWithHourlyBackup() {
   console.log(result);
 }
 
-createOrUpdateEnhancedAzureVMProtectionPolicyWithHourlyBackup().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates or modifies a backup policy. This is an asynchronous operation. Status of the operation can be fetched
 using GetPolicyOperationResult API.
  *
  * @summary Creates or modifies a backup policy. This is an asynchronous operation. Status of the operation can be fetched
 using GetPolicyOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2022-03-01/examples/AzureIaasVm/V2Policy/IaaS_v2_daily.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/AzureIaasVm/V2Policy/IaaS_v2_daily.json
  */
 async function createOrUpdateEnhancedAzureVMProtectionPolicyWithDailyBackup() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const vaultName = "NetSDKTestRsVault";
-  const resourceGroupName = "SwaggerTestRg";
+  const resourceGroupName = process.env["RECOVERYSERVICESBACKUP_RESOURCE_GROUP"] || "SwaggerTestRg";
   const policyName = "v2-daily-sample";
   const parameters = {
     properties: {
@@ -228,20 +228,19 @@ async function createOrUpdateEnhancedAzureVMProtectionPolicyWithDailyBackup() {
   console.log(result);
 }
 
-createOrUpdateEnhancedAzureVMProtectionPolicyWithDailyBackup().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates or modifies a backup policy. This is an asynchronous operation. Status of the operation can be fetched
 using GetPolicyOperationResult API.
  *
  * @summary Creates or modifies a backup policy. This is an asynchronous operation. Status of the operation can be fetched
 using GetPolicyOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2022-03-01/examples/AzureIaasVm/ProtectionPolicies_CreateOrUpdate_Complex.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/AzureIaasVm/ProtectionPolicies_CreateOrUpdate_Complex.json
  */
 async function createOrUpdateFullAzureVMProtectionPolicy() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const vaultName = "NetSDKTestRsVault";
-  const resourceGroupName = "SwaggerTestRg";
+  const resourceGroupName = process.env["RECOVERYSERVICESBACKUP_RESOURCE_GROUP"] || "SwaggerTestRg";
   const policyName = "testPolicy1";
   const parameters = {
     properties: {
@@ -293,20 +292,19 @@ async function createOrUpdateFullAzureVMProtectionPolicy() {
   console.log(result);
 }
 
-createOrUpdateFullAzureVMProtectionPolicy().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates or modifies a backup policy. This is an asynchronous operation. Status of the operation can be fetched
 using GetPolicyOperationResult API.
  *
  * @summary Creates or modifies a backup policy. This is an asynchronous operation. Status of the operation can be fetched
 using GetPolicyOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2022-03-01/examples/AzureWorkload/ProtectionPolicies_CreateOrUpdate_Complex.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/AzureWorkload/ProtectionPolicies_CreateOrUpdate_Complex.json
  */
 async function createOrUpdateFullAzureWorkloadProtectionPolicy() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const vaultName = "NetSDKTestRsVault";
-  const resourceGroupName = "SwaggerTestRg";
+  const resourceGroupName = process.env["RECOVERYSERVICESBACKUP_RESOURCE_GROUP"] || "SwaggerTestRg";
   const policyName = "testPolicy1";
   const parameters = {
     properties: {
@@ -388,20 +386,19 @@ async function createOrUpdateFullAzureWorkloadProtectionPolicy() {
   console.log(result);
 }
 
-createOrUpdateFullAzureWorkloadProtectionPolicy().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates or modifies a backup policy. This is an asynchronous operation. Status of the operation can be fetched
 using GetPolicyOperationResult API.
  *
  * @summary Creates or modifies a backup policy. This is an asynchronous operation. Status of the operation can be fetched
 using GetPolicyOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2022-03-01/examples/AzureStorage/ProtectionPolicies_CreateOrUpdate_Hourly.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/AzureStorage/ProtectionPolicies_CreateOrUpdate_Hourly.json
  */
 async function createOrUpdateHourlyAzureStorageProtectionPolicy() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const vaultName = "swaggertestvault";
-  const resourceGroupName = "SwaggerTestRg";
+  const resourceGroupName = process.env["RECOVERYSERVICESBACKUP_RESOURCE_GROUP"] || "SwaggerTestRg";
   const policyName = "newPolicy2";
   const parameters = {
     properties: {
@@ -463,20 +460,19 @@ async function createOrUpdateHourlyAzureStorageProtectionPolicy() {
   console.log(result);
 }
 
-createOrUpdateHourlyAzureStorageProtectionPolicy().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates or modifies a backup policy. This is an asynchronous operation. Status of the operation can be fetched
 using GetPolicyOperationResult API.
  *
  * @summary Creates or modifies a backup policy. This is an asynchronous operation. Status of the operation can be fetched
 using GetPolicyOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2022-03-01/examples/AzureIaasVm/ProtectionPolicies_CreateOrUpdate_Simple.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/AzureIaasVm/ProtectionPolicies_CreateOrUpdate_Simple.json
  */
 async function createOrUpdateSimpleAzureVMProtectionPolicy() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const vaultName = "NetSDKTestRsVault";
-  const resourceGroupName = "SwaggerTestRg";
+  const resourceGroupName = process.env["RECOVERYSERVICESBACKUP_RESOURCE_GROUP"] || "SwaggerTestRg";
   const policyName = "testPolicy1";
   const parameters = {
     properties: {
@@ -507,4 +503,14 @@ async function createOrUpdateSimpleAzureVMProtectionPolicy() {
   console.log(result);
 }
 
-createOrUpdateSimpleAzureVMProtectionPolicy().catch(console.error);
+async function main() {
+  createOrUpdateDailyAzureStorageProtectionPolicy();
+  createOrUpdateEnhancedAzureVMProtectionPolicyWithHourlyBackup();
+  createOrUpdateEnhancedAzureVMProtectionPolicyWithDailyBackup();
+  createOrUpdateFullAzureVMProtectionPolicy();
+  createOrUpdateFullAzureWorkloadProtectionPolicy();
+  createOrUpdateHourlyAzureStorageProtectionPolicy();
+  createOrUpdateSimpleAzureVMProtectionPolicy();
+}
+
+main().catch(console.error);

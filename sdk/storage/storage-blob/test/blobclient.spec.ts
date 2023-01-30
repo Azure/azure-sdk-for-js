@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
 import * as fs from "fs";
 import { AbortController } from "@azure/abort-controller";
-import { isNode, URLBuilder, URLQuery } from "@azure/core-http";
-import { SpanGraph, setTracer } from "@azure/test-utils";
+import { isNode } from "@azure/core-util";
+import { assert } from "@azure/test-utils";
 import {
   bodyToString,
   getBSU,
@@ -28,7 +27,6 @@ import {
 } from "../src";
 import { Test_CPK_INFO } from "./utils/fakeTestSecrets";
 import { base64encode } from "../src/utils/utils.common";
-import { context, setSpan } from "@azure/core-tracing";
 import { Context } from "mocha";
 
 describe("BlobClient", () => {
@@ -732,15 +730,11 @@ describe("BlobClient", () => {
     // so we remove it before comparing urls.
     assert.ok(properties2.copySource, "Expecting valid 'properties2.copySource");
 
-    const sanitizedActualUrl = URLBuilder.parse(properties2.copySource!);
-    const sanitizedQuery = URLQuery.parse(sanitizedActualUrl.getQuery()!);
-    sanitizedQuery.set("sig", undefined);
-    sanitizedActualUrl.setQuery(sanitizedQuery.toString());
+    const sanitizedActualUrl = new URL(properties2.copySource!);
+    sanitizedActualUrl.searchParams.delete("sig");
 
-    const sanitizedExpectedUrl = URLBuilder.parse(blobClient.url);
-    const sanitizedQuery2 = URLQuery.parse(sanitizedActualUrl.getQuery()!);
-    sanitizedQuery2.set("sig", undefined);
-    sanitizedExpectedUrl.setQuery(sanitizedQuery.toString());
+    const sanitizedExpectedUrl = new URL(blobClient.url);
+    sanitizedExpectedUrl.searchParams.delete("sig");
 
     assert.strictEqual(
       sanitizedActualUrl.toString(),
@@ -780,45 +774,11 @@ describe("BlobClient", () => {
     }
   });
 
-  it("download with default parameters and tracing", async () => {
-    const tracer = setTracer();
-
-    const rootSpan = tracer.startSpan("root");
-
-    const result = await blobClient.download(undefined, undefined, {
-      tracingOptions: {
-        tracingContext: setSpan(context.active(), rootSpan),
-      },
-    });
-    assert.deepStrictEqual(await bodyToString(result, content.length), content);
-
-    rootSpan.end();
-
-    const rootSpans = tracer.getRootSpans();
-    assert.strictEqual(rootSpans.length, 1, "Should only have one root span.");
-    assert.strictEqual(rootSpan, rootSpans[0], "The root span should match what was passed in.");
-
-    const expectedGraph: SpanGraph = {
-      roots: [
-        {
-          name: rootSpan.name,
-          children: [
-            {
-              name: "Azure.Storage.Blob.BlobClient-download",
-              children: [
-                {
-                  name: "HTTP GET",
-                  children: [],
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    };
-
-    assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.spanContext().traceId), expectedGraph);
-    assert.strictEqual(tracer.getActiveSpans().length, 0, "All spans should have had end called");
+  it("download with default parameters and tracing", async function (this: Context) {
+    await assert.supportsTracing(
+      (options) => blobClient.download(undefined, undefined, options),
+      ["BlobClient-download"]
+    );
   });
 
   it("exists returns true on an existing blob", async () => {

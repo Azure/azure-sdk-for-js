@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { RecoveryServicesBackupClient } = require("@azure/arm-recoveryservicesbackup");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Restores the specified backed up data. This is an asynchronous operation. To know the status of this API call, use
@@ -17,12 +18,13 @@ GetProtectedItemOperationResult API.
  *
  * @summary Restores the specified backed up data. This is an asynchronous operation. To know the status of this API call, use
 GetProtectedItemOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2022-03-01/examples/AzureIaasVm/TriggerRestore_RestoreDisks_IaasVMRestoreRequest.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/AzureIaasVm/TriggerRestore_RestoreDisks_IaasVMRestoreRequest.json
  */
 async function restoreDisksWithIaasVMRestoreRequest() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const vaultName = "testVault";
-  const resourceGroupName = "netsdktestrg";
+  const resourceGroupName = process.env["RECOVERYSERVICESBACKUP_RESOURCE_GROUP"] || "netsdktestrg";
   const fabricName = "Azure";
   const containerName = "IaasVMContainer;iaasvmcontainerv2;netsdktestrg;netvmtestv2vm1";
   const protectedItemName = "VM;iaasvmcontainerv2;netsdktestrg;netvmtestv2vm1";
@@ -61,20 +63,19 @@ async function restoreDisksWithIaasVMRestoreRequest() {
   console.log(result);
 }
 
-restoreDisksWithIaasVMRestoreRequest().catch(console.error);
-
 /**
  * This sample demonstrates how to Restores the specified backed up data. This is an asynchronous operation. To know the status of this API call, use
 GetProtectedItemOperationResult API.
  *
  * @summary Restores the specified backed up data. This is an asynchronous operation. To know the status of this API call, use
 GetProtectedItemOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2022-03-01/examples/AzureIaasVm/TriggerRestore_RestoreDisks_IaasVMRestoreRequest_IdentityBasedRestoreDetails.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/AzureIaasVm/TriggerRestore_RestoreDisks_IaasVMRestoreRequest_IdentityBasedRestoreDetails.json
  */
 async function restoreDisksWithIaasVMRestoreRequestWithIdentityBasedRestoreDetails() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const vaultName = "testVault";
-  const resourceGroupName = "netsdktestrg";
+  const resourceGroupName = process.env["RECOVERYSERVICESBACKUP_RESOURCE_GROUP"] || "netsdktestrg";
   const fabricName = "Azure";
   const containerName = "IaasVMContainer;iaasvmcontainerv2;netsdktestrg;netvmtestv2vm1";
   const protectedItemName = "VM;iaasvmcontainerv2;netsdktestrg;netvmtestv2vm1";
@@ -115,20 +116,19 @@ async function restoreDisksWithIaasVMRestoreRequestWithIdentityBasedRestoreDetai
   console.log(result);
 }
 
-restoreDisksWithIaasVMRestoreRequestWithIdentityBasedRestoreDetails().catch(console.error);
-
 /**
  * This sample demonstrates how to Restores the specified backed up data. This is an asynchronous operation. To know the status of this API call, use
 GetProtectedItemOperationResult API.
  *
  * @summary Restores the specified backed up data. This is an asynchronous operation. To know the status of this API call, use
 GetProtectedItemOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2022-03-01/examples/AzureIaasVm/TriggerRestore_RestoreDisks_IaasVMRestoreWithRehydrationRequest.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/AzureIaasVm/TriggerRestore_RestoreDisks_IaasVMRestoreWithRehydrationRequest.json
  */
 async function restoreDisksWithIaasVMRestoreWithRehydrationRequest() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const vaultName = "testVault";
-  const resourceGroupName = "netsdktestrg";
+  const resourceGroupName = process.env["RECOVERYSERVICESBACKUP_RESOURCE_GROUP"] || "netsdktestrg";
   const fabricName = "Azure";
   const containerName = "IaasVMContainer;iaasvmcontainerv2;netsdktestrg;netvmtestv2vm1";
   const protectedItemName = "VM;iaasvmcontainerv2;netsdktestrg;netvmtestv2vm1";
@@ -166,20 +166,19 @@ async function restoreDisksWithIaasVMRestoreWithRehydrationRequest() {
   console.log(result);
 }
 
-restoreDisksWithIaasVMRestoreWithRehydrationRequest().catch(console.error);
-
 /**
  * This sample demonstrates how to Restores the specified backed up data. This is an asynchronous operation. To know the status of this API call, use
 GetProtectedItemOperationResult API.
  *
  * @summary Restores the specified backed up data. This is an asynchronous operation. To know the status of this API call, use
 GetProtectedItemOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2022-03-01/examples/AzureIaasVm/TriggerRestore_ALR_IaasVMRestoreRequest.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/AzureIaasVm/TriggerRestore_ALR_IaasVMRestoreRequest.json
  */
 async function restoreToNewAzureIaasVMWithIaasVMRestoreRequest() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const vaultName = "testVault";
-  const resourceGroupName = "netsdktestrg";
+  const resourceGroupName = process.env["RECOVERYSERVICESBACKUP_RESOURCE_GROUP"] || "netsdktestrg";
   const fabricName = "Azure";
   const containerName = "IaasVMContainer;iaasvmcontainerv2;netsdktestrg;netvmtestv2vm1";
   const protectedItemName = "VM;iaasvmcontainerv2;netsdktestrg;netvmtestv2vm1";
@@ -222,20 +221,19 @@ async function restoreToNewAzureIaasVMWithIaasVMRestoreRequest() {
   console.log(result);
 }
 
-restoreToNewAzureIaasVMWithIaasVMRestoreRequest().catch(console.error);
-
 /**
  * This sample demonstrates how to Restores the specified backed up data. This is an asynchronous operation. To know the status of this API call, use
 GetProtectedItemOperationResult API.
  *
  * @summary Restores the specified backed up data. This is an asynchronous operation. To know the status of this API call, use
 GetProtectedItemOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2022-03-01/examples/AzureIaasVm/TriggerRestore_ALR_IaasVMRestoreRequest_IdentityBasedRestoreDetails.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/AzureIaasVm/TriggerRestore_ALR_IaasVMRestoreRequest_IdentityBasedRestoreDetails.json
  */
 async function restoreToNewAzureIaasVMWithIaasVMRestoreRequestWithIdentityBasedRestoreDetails() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const vaultName = "testVault";
-  const resourceGroupName = "netsdktestrg";
+  const resourceGroupName = process.env["RECOVERYSERVICESBACKUP_RESOURCE_GROUP"] || "netsdktestrg";
   const fabricName = "Azure";
   const containerName = "IaasVMContainer;iaasvmcontainerv2;netsdktestrg;netvmtestv2vm1";
   const protectedItemName = "VM;iaasvmcontainerv2;netsdktestrg;netvmtestv2vm1";
@@ -280,22 +278,19 @@ async function restoreToNewAzureIaasVMWithIaasVMRestoreRequestWithIdentityBasedR
   console.log(result);
 }
 
-restoreToNewAzureIaasVMWithIaasVMRestoreRequestWithIdentityBasedRestoreDetails().catch(
-  console.error
-);
-
 /**
  * This sample demonstrates how to Restores the specified backed up data. This is an asynchronous operation. To know the status of this API call, use
 GetProtectedItemOperationResult API.
  *
  * @summary Restores the specified backed up data. This is an asynchronous operation. To know the status of this API call, use
 GetProtectedItemOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2022-03-01/examples/AzureIaasVm/TriggerRestore_ALR_IaasVMRestoreWithRehydrationRequest.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/AzureIaasVm/TriggerRestore_ALR_IaasVMRestoreWithRehydrationRequest.json
  */
 async function restoreToNewAzureIaasVMWithIaasVMRestoreWithRehydrationRequest() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const vaultName = "testVault";
-  const resourceGroupName = "netsdktestrg";
+  const resourceGroupName = process.env["RECOVERYSERVICESBACKUP_RESOURCE_GROUP"] || "netsdktestrg";
   const fabricName = "Azure";
   const containerName = "IaasVMContainer;iaasvmcontainerv2;netsdktestrg;netvmtestv2vm1";
   const protectedItemName = "VM;iaasvmcontainerv2;netsdktestrg;netvmtestv2vm1";
@@ -341,4 +336,13 @@ async function restoreToNewAzureIaasVMWithIaasVMRestoreWithRehydrationRequest() 
   console.log(result);
 }
 
-restoreToNewAzureIaasVMWithIaasVMRestoreWithRehydrationRequest().catch(console.error);
+async function main() {
+  restoreDisksWithIaasVMRestoreRequest();
+  restoreDisksWithIaasVMRestoreRequestWithIdentityBasedRestoreDetails();
+  restoreDisksWithIaasVMRestoreWithRehydrationRequest();
+  restoreToNewAzureIaasVMWithIaasVMRestoreRequest();
+  restoreToNewAzureIaasVMWithIaasVMRestoreRequestWithIdentityBasedRestoreDetails();
+  restoreToNewAzureIaasVMWithIaasVMRestoreWithRehydrationRequest();
+}
+
+main().catch(console.error);

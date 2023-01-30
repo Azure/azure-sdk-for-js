@@ -10,16 +10,22 @@
 // Licensed under the MIT License.
 import { AppPlatformManagementClient } from "@azure/arm-appplatform";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Operation to delete a Buildpack Binding
  *
  * @summary Operation to delete a Buildpack Binding
- * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-09-01-preview/examples/BuildpackBinding_Delete.json
+ * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-11-01-preview/examples/BuildpackBinding_Delete.json
  */
 async function buildpackBindingDelete() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["APPPLATFORM_RESOURCE_GROUP"] || "myResourceGroup";
   const serviceName = "myservice";
   const buildServiceName = "default";
   const builderName = "default";
@@ -36,4 +42,8 @@ async function buildpackBindingDelete() {
   console.log(result);
 }
 
-buildpackBindingDelete().catch(console.error);
+async function main() {
+  buildpackBindingDelete();
+}
+
+main().catch(console.error);

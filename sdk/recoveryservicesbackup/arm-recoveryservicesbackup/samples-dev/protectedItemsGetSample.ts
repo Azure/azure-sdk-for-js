@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { RecoveryServicesBackupClient } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Provides the details of the backed up item. This is an asynchronous operation. To know the status of the operation,
@@ -17,12 +20,16 @@ call the GetItemOperationResult API.
  *
  * @summary Provides the details of the backed up item. This is an asynchronous operation. To know the status of the operation,
 call the GetItemOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2022-03-01/examples/AzureIaasVm/ClassicCompute_ProtectedItem_Get.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/AzureIaasVm/ClassicCompute_ProtectedItem_Get.json
  */
 async function getProtectedClassicVirtualMachineDetails() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const vaultName = "PySDKBackupTestRsVault";
-  const resourceGroupName = "PythonSDKBackupTestRg";
+  const resourceGroupName =
+    process.env["RECOVERYSERVICESBACKUP_RESOURCE_GROUP"] ||
+    "PythonSDKBackupTestRg";
   const fabricName = "Azure";
   const containerName = "iaasvmcontainer;iaasvmcontainer;iaasvm-rg;iaasvm-1";
   const protectedItemName = "vm;iaasvmcontainer;iaasvm-rg;iaasvm-1";
@@ -38,20 +45,22 @@ async function getProtectedClassicVirtualMachineDetails() {
   console.log(result);
 }
 
-getProtectedClassicVirtualMachineDetails().catch(console.error);
-
 /**
  * This sample demonstrates how to Provides the details of the backed up item. This is an asynchronous operation. To know the status of the operation,
 call the GetItemOperationResult API.
  *
  * @summary Provides the details of the backed up item. This is an asynchronous operation. To know the status of the operation,
 call the GetItemOperationResult API.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2022-03-01/examples/AzureIaasVm/Compute_ProtectedItem_Get.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/AzureIaasVm/Compute_ProtectedItem_Get.json
  */
 async function getProtectedVirtualMachineDetails() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const vaultName = "PySDKBackupTestRsVault";
-  const resourceGroupName = "PythonSDKBackupTestRg";
+  const resourceGroupName =
+    process.env["RECOVERYSERVICESBACKUP_RESOURCE_GROUP"] ||
+    "PythonSDKBackupTestRg";
   const fabricName = "Azure";
   const containerName = "iaasvmcontainer;iaasvmcontainerv2;iaasvm-rg;iaasvm-1";
   const protectedItemName = "vm;iaasvmcontainerv2;iaasvm-rg;iaasvm-1";
@@ -67,4 +76,9 @@ async function getProtectedVirtualMachineDetails() {
   console.log(result);
 }
 
-getProtectedVirtualMachineDetails().catch(console.error);
+async function main() {
+  getProtectedClassicVirtualMachineDetails();
+  getProtectedVirtualMachineDetails();
+}
+
+main().catch(console.error);
