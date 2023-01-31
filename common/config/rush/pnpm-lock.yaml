@@ -113,6 +113,7 @@ specifiers:
   '@rush-temp/arm-kubernetesconfiguration': file:./projects/arm-kubernetesconfiguration.tgz
   '@rush-temp/arm-kusto': file:./projects/arm-kusto.tgz
   '@rush-temp/arm-labservices': file:./projects/arm-labservices.tgz
+  '@rush-temp/arm-liftrqumulo': file:./projects/arm-liftrqumulo.tgz
   '@rush-temp/arm-links': file:./projects/arm-links.tgz
   '@rush-temp/arm-loadtesting': file:./projects/arm-loadtesting.tgz
   '@rush-temp/arm-locks': file:./projects/arm-locks.tgz
@@ -440,6 +441,7 @@ dependencies:
   '@rush-temp/arm-kubernetesconfiguration': file:projects/arm-kubernetesconfiguration.tgz
   '@rush-temp/arm-kusto': file:projects/arm-kusto.tgz
   '@rush-temp/arm-labservices': file:projects/arm-labservices.tgz
+  '@rush-temp/arm-liftrqumulo': file:projects/arm-liftrqumulo.tgz
   '@rush-temp/arm-links': file:projects/arm-links.tgz
   '@rush-temp/arm-loadtesting': file:projects/arm-loadtesting.tgz
   '@rush-temp/arm-locks': file:projects/arm-locks.tgz
@@ -3123,8 +3125,8 @@ packages:
     hasBin: true
     dev: false
 
-  /autorest/3.6.2:
-    resolution: {integrity: sha512-JRMmAsSG4wplYUkjVOWELidF+P/OG9BjF542aQcbt4Qj85bJ+7EzRCTV09vbf8f4ScOB+I68+9IcskjNTU9UkQ==}
+  /autorest/3.6.3:
+    resolution: {integrity: sha512-j/Axwk9bniifTNtBLYVxfQZGQIGPKljFaCQCBWOiybVar2j3tkHP1btiC4a/t9pAJXY6IaFgWctoPM3G/Puhyg==}
     engines: {node: '>=12.0.0'}
     hasBin: true
     requiresBuild: true
@@ -4019,7 +4021,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20221208
+      typescript: 5.0.0-dev.20230130
     dev: false
 
   /downlevel-dts/0.8.0:
@@ -9080,8 +9082,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20221208:
-    resolution: {integrity: sha512-X9uK69qwF9KNf5i+SDMKAtS66MmUL+tbwbrtpyEplnWWdfErtw6ZRegxdgaTOAC7pFMALQuR/PCvkL6O78VbKg==}
+  /typescript/5.0.0-dev.20230130:
+    resolution: {integrity: sha512-4zmbh58Vt3HDAD0AvHr1ccmAkKKODriYMNajcSzUylVgXCXrNGTJOReMp54GBs67KfQFaLOpVZlLrlD2FKn9Kg==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -9810,7 +9812,7 @@ packages:
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.33
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.7
       cross-env: 7.0.3
       csv-parse: 5.3.3
@@ -10098,7 +10100,7 @@ packages:
       '@microsoft/api-extractor': 7.33.6
       '@types/chai': 4.3.4
       '@types/node': 14.18.33
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -10656,7 +10658,7 @@ packages:
       '@microsoft/api-extractor': 7.33.6
       '@types/chai': 4.3.4
       '@types/node': 14.18.33
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -11316,7 +11318,7 @@ packages:
       '@microsoft/api-extractor': 7.33.6
       '@types/chai': 4.3.4
       '@types/node': 14.18.33
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -11548,7 +11550,7 @@ packages:
       '@microsoft/api-extractor': 7.33.6
       '@types/chai': 4.3.4
       '@types/node': 14.18.33
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -13031,6 +13033,34 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-liftrqumulo.tgz:
+    resolution: {integrity: sha512-1xtVBBuv5dA5w90/A25AXT6WUbgyEKZPvA/jD0d9QFGl27HzREfEn3giOTETP+Loi66Qsvp1k1jjZ/wayCyVQA==, tarball: file:projects/arm-liftrqumulo.tgz}
+    name: '@rush-temp/arm-liftrqumulo'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.33.6
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.4
+      '@types/node': 14.18.33
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 8.6.0
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_1225c068d0546e507df7db46196a6444
+      tslib: 2.4.1
+      typescript: 4.8.4
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   file:projects/arm-links.tgz:
     resolution: {integrity: sha512-JV+thrIXDv0aY2koGSPbjA+V6SsS44i+n2wG1Id7aPi5Y89HSYBrAcmuNy8PSpjzyz6BfIPU/B+I7rMquHP5eQ==, tarball: file:projects/arm-links.tgz}
     name: '@rush-temp/arm-links'
@@ -13752,7 +13782,7 @@ packages:
       '@microsoft/api-extractor': 7.33.6
       '@types/chai': 4.3.4
       '@types/node': 14.18.33
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -14911,7 +14941,7 @@ packages:
       '@microsoft/api-extractor': 7.33.6
       '@types/chai': 4.3.4
       '@types/node': 14.18.33
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -16266,7 +16296,7 @@ packages:
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.33
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -16993,7 +17023,7 @@ packages:
       '@microsoft/api-extractor': 7.33.6
       '@types/chai': 4.3.4
       '@types/node': 14.18.33
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -17808,7 +17838,7 @@ packages:
       '@types/chai': 4.3.4
       '@types/node': 12.20.55
       '@types/uuid': 8.3.4
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -17914,7 +17944,7 @@ packages:
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.33
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -17958,7 +17988,7 @@ packages:
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.33
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -18002,7 +18032,7 @@ packages:
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 12.20.55
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.7
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -18094,7 +18124,7 @@ packages:
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
       '@types/node': 14.18.33
-      autorest: 3.6.2
+      autorest: 3.6.3
       chai: 4.3.7
       chai-as-promised: 7.1.1_chai@4.3.7
       cross-env: 7.0.3
