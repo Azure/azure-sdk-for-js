@@ -34,9 +34,9 @@ export interface SerializedCommunicationIdentifier {
    */
   microsoftTeamsUser?: SerializedMicrosoftTeamsUserIdentifier;
   /**
-   * The Microsoft Teams bot.
+   * The Microsoft bot.
    */
-  microsoftTeamsBot?: SerializedMicrosoftTeamsBotIdentifier;
+  microsoftBot?: SerializedMicrosoftBotIdentifier;
 }
 
 /**
@@ -82,11 +82,11 @@ export interface SerializedMicrosoftTeamsUserIdentifier {
 
 /**
  * @hidden
- * A Microsoft Teams bot.
+ * A Microsoft bot.
  */
-export interface SerializedMicrosoftTeamsBotIdentifier {
+export interface SerializedMicrosoftBotIdentifier {
   /**
-   * Id of the Microsoft Teams bot. If the bot isn't anonymous, the id is the AAD object id of the bot.
+   * Id of the Microsoft bot.
    */
   botId: string;
   /**
@@ -94,7 +94,7 @@ export interface SerializedMicrosoftTeamsBotIdentifier {
    */
   isGlobal?: boolean;
   /**
-   * The cloud that the Microsoft Teams bot belongs to. By default 'public' if missing.
+   * The cloud that the Microsoft bot belongs to. By default 'public' if missing.
    */
   cloud?: SerializedCommunicationCloudEnvironment;
 }
@@ -129,7 +129,7 @@ const assertMaximumOneNestedModel = (identifier: SerializedCommunicationIdentifi
   if (identifier.microsoftTeamsUser !== undefined) {
     presentProperties.push("microsoftTeamsUser");
   }
-  if (identifier.microsoftTeamsBot !== undefined) {
+  if (identifier.microsoftBot !== undefined) {
     presentProperties.push("microsoftTeamsBot");
   }
   if (identifier.phoneNumber !== undefined) {
@@ -173,11 +173,11 @@ export const serializeCommunicationIdentifier = (
           cloud: identifierKind.cloud ?? "public",
         },
       };
-    case "microsoftTeamsBot":
+    case "microsoftBot":
       return {
         rawId: identifierKind.rawId ?? getIdentifierRawId(identifierKind),
-        microsoftTeamsBot: {
-          botId: identifierKind.microsoftTeamsBotId,
+        microsoftBot: {
+          botId: identifierKind.microsoftBotId,
           isGlobal: identifierKind.isGlobal ?? false,
           cloud: identifierKind.cloud ?? "public",
         },
@@ -202,7 +202,7 @@ const getKind = (serializedIdentifier: SerializedCommunicationIdentifier): strin
     return "microsoftTeamsUser";
   }
 
-  if (serializedIdentifier.microsoftTeamsBot) {
+  if (serializedIdentifier.microsoftBot) {
     return "microsoftTeamsBot";
   }
 
@@ -219,7 +219,7 @@ export const deserializeCommunicationIdentifier = (
 ): CommunicationIdentifierKind => {
   assertMaximumOneNestedModel(serializedIdentifier);
 
-  const { communicationUser, microsoftTeamsUser, microsoftTeamsBot, phoneNumber } =
+  const { communicationUser, microsoftTeamsUser, microsoftBot, phoneNumber } =
     serializedIdentifier;
   const kind = serializedIdentifier.kind ?? getKind(serializedIdentifier);
 
@@ -245,13 +245,13 @@ export const deserializeCommunicationIdentifier = (
       rawId: assertNotNullOrUndefined({ microsoftTeamsUser: serializedIdentifier }, "rawId"),
     };
   }
-  if (kind === "microsoftTeamsBot" && microsoftTeamsBot) {
+  if (kind === "microsoftBot" && microsoftBot) {
     return {
-      kind: "microsoftTeamsBot",
-      microsoftTeamsBotId: assertNotNullOrUndefined({ microsoftTeamsBot }, "botId"),
-      isGlobal: assertNotNullOrUndefined({ microsoftTeamsBot }, "isGlobal"),
-      cloud: assertNotNullOrUndefined({ microsoftTeamsBot }, "cloud"),
-      rawId: assertNotNullOrUndefined({ microsoftTeamsBot: serializedIdentifier }, "rawId"),
+      kind: "microsoftBot",
+      microsoftBotId: assertNotNullOrUndefined({ microsoftBot }, "botId"),
+      isGlobal: assertNotNullOrUndefined({ microsoftBot }, "isGlobal"),
+      cloud: assertNotNullOrUndefined({ microsoftBot }, "cloud"),
+      rawId: assertNotNullOrUndefined({ microsoftBot: serializedIdentifier }, "rawId"),
     };
   }
   return {
