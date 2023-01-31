@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { LabServicesClient } from "@azure/arm-labservices";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Returns a list of Azure Lab Services resource SKUs.
@@ -18,7 +21,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/labservices/resource-manager/Microsoft.LabServices/stable/2022-08-01/examples/Skus/listSkus.json
  */
 async function listSkus() {
-  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const subscriptionId =
+    process.env["LABSERVICES_SUBSCRIPTION_ID"] ||
+    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const credential = new DefaultAzureCredential();
   const client = new LabServicesClient(credential, subscriptionId);
   const resArray = new Array();
@@ -28,4 +33,8 @@ async function listSkus() {
   console.log(resArray);
 }
 
-listSkus().catch(console.error);
+async function main() {
+  listSkus();
+}
+
+main().catch(console.error);

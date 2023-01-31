@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { Scripts } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -69,12 +69,16 @@ export class ScriptsImpl implements Scripts {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByDatabasePagingPage(
           resourceGroupName,
           clusterName,
           databaseName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -84,9 +88,11 @@ export class ScriptsImpl implements Scripts {
     resourceGroupName: string,
     clusterName: string,
     databaseName: string,
-    options?: ScriptsListByDatabaseOptionalParams
+    options?: ScriptsListByDatabaseOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<Script[]> {
-    let result = await this._listByDatabase(
+    let result: ScriptsListByDatabaseResponse;
+    result = await this._listByDatabase(
       resourceGroupName,
       clusterName,
       databaseName,

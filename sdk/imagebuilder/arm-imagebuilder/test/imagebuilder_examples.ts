@@ -111,6 +111,7 @@ describe("ImageBuilder test", () => {
     if (isPlaybackMode()) {
       this.skip();
     }
+    const vmidentity = "/subscriptions/" + subscriptionId + "/resourcegroups/myjstest/providers/Microsoft.ManagedIdentity/userAssignedIdentities/mymsiaaa";
     //before create ,we need add msi owner authority for images in portal
     const res = await client.virtualMachineImageTemplates.beginCreateOrUpdateAndWait(resourceGroup, imageTemplateName,
       {
@@ -122,7 +123,7 @@ describe("ImageBuilder test", () => {
         identity: {
           type: "UserAssigned",
           userAssignedIdentities: {
-            "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourcegroups/myjstest/providers/Microsoft.ManagedIdentity/userAssignedIdentities/mymsiaaa": {}
+            [vmidentity]: {}
           }
         },
         source: {
