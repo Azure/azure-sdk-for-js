@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { MLTeamAccountManagementClient } from "@azure/arm-machinelearningexperimentation";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Deletes a project.
@@ -18,8 +21,12 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/machinelearningexperimentation/resource-manager/Microsoft.MachineLearningExperimentation/preview/2017-05-01-preview/examples/DeleteProject.json
  */
 async function projectDelete() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["MACHINELEARNINGEXPERIMENTATION_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["MACHINELEARNINGEXPERIMENTATION_RESOURCE_GROUP"] ||
+    "myResourceGroup";
   const accountName = "myAccount";
   const workspaceName = "testworkspace";
   const projectName = "testProject";
@@ -34,4 +41,8 @@ async function projectDelete() {
   console.log(result);
 }
 
-projectDelete().catch(console.error);
+async function main() {
+  projectDelete();
+}
+
+main().catch(console.error);

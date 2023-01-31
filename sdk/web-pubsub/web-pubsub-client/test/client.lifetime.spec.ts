@@ -312,6 +312,81 @@ describe("WebPubSubClient", function () {
       testWs.invokemessage(JSON.stringify(getConnectedPayload("conn2")));
       await spinCheck(() => assert.equal("conn2", conn));
     });
+
+    it("rejoin group after reconnection", async () => {
+      const client = new WebPubSubClient("wss://service.com", {
+        protocol: WebPubSubJsonProtocol(),
+        reconnectRetryOptions: { retryDelayInMs: 10 } as WebPubSubRetryOptions,
+      } as WebPubSubClientOptions);
+      const mock = sinon.mock(client);
+      mock
+        .expects("_joinGroupCore")
+        .exactly(4)
+        .callsFake((_) => Promise.resolve());
+
+      const testWs = new TestWebSocketClient(client);
+      makeStartable(testWs);
+
+      let conn: string;
+      client.on("connected", (connected) => {
+        conn = connected.connectionId;
+      });
+
+      await client.start();
+      testWs.invokemessage(JSON.stringify(getConnectedPayload("conn")));
+
+      await spinCheck(() => assert.equal("conn", conn));
+
+      // join 2 groups first
+      await client.joinGroup("a");
+      await client.joinGroup("b");
+
+      // drop connection
+      testWs.invokeclose(1006);
+      await spinCheck(() => testWs.openTime === 2);
+      testWs.invokemessage(JSON.stringify(getConnectedPayload("conn2")));
+      await spinCheck(() => assert.equal("conn2", conn));
+
+      mock.verify();
+    });
+
+    it("rejoin group after reconnection can be disabled", async () => {
+      const client = new WebPubSubClient("wss://service.com", {
+        protocol: WebPubSubJsonProtocol(),
+        reconnectRetryOptions: { retryDelayInMs: 10 } as WebPubSubRetryOptions,
+        autoRejoinGroups: false,
+      } as WebPubSubClientOptions);
+      const mock = sinon.mock(client);
+      mock
+        .expects("_joinGroupCore")
+        .exactly(2)
+        .callsFake((_) => Promise.resolve());
+
+      const testWs = new TestWebSocketClient(client);
+      makeStartable(testWs);
+
+      let conn: string;
+      client.on("connected", (connected) => {
+        conn = connected.connectionId;
+      });
+
+      await client.start();
+      testWs.invokemessage(JSON.stringify(getConnectedPayload("conn")));
+
+      await spinCheck(() => assert.equal("conn", conn));
+
+      // join 2 groups first
+      await client.joinGroup("a");
+      await client.joinGroup("b");
+
+      // drop connection
+      testWs.invokeclose(1006);
+      await spinCheck(() => testWs.openTime === 2);
+      testWs.invokemessage(JSON.stringify(getConnectedPayload("conn2")));
+      await spinCheck(() => assert.equal("conn2", conn));
+
+      mock.verify();
+    });
   });
 
   function makeStartable(ws: TestWebSocketClient): sinon.SinonStub<[fn: () => void], void> {

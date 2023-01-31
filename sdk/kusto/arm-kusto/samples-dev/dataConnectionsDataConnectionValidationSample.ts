@@ -13,6 +13,9 @@ import {
   KustoManagementClient
 } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Checks that the data connection parameters are valid.
@@ -21,8 +24,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoDataConnectionEventGridValidationAsync.json
  */
 async function kustoDataConnectionEventGridValidation() {
-  const subscriptionId = "12345678-1234-1234-1234-123456789098";
-  const resourceGroupName = "kustorptest";
+  const subscriptionId =
+    process.env["KUSTO_SUBSCRIPTION_ID"] ||
+    "12345678-1234-1234-1234-123456789098";
+  const resourceGroupName =
+    process.env["KUSTO_RESOURCE_GROUP"] || "kustorptest";
   const clusterName = "kustoCluster";
   const databaseName = "KustoDatabase8";
   const parameters: DataConnectionValidation = {
@@ -57,8 +63,6 @@ async function kustoDataConnectionEventGridValidation() {
   console.log(result);
 }
 
-kustoDataConnectionEventGridValidation().catch(console.error);
-
 /**
  * This sample demonstrates how to Checks that the data connection parameters are valid.
  *
@@ -66,8 +70,11 @@ kustoDataConnectionEventGridValidation().catch(console.error);
  * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoDataConnectionValidationAsync.json
  */
 async function kustoDataConnectionValidation() {
-  const subscriptionId = "12345678-1234-1234-1234-123456789098";
-  const resourceGroupName = "kustorptest";
+  const subscriptionId =
+    process.env["KUSTO_SUBSCRIPTION_ID"] ||
+    "12345678-1234-1234-1234-123456789098";
+  const resourceGroupName =
+    process.env["KUSTO_RESOURCE_GROUP"] || "kustorptest";
   const clusterName = "kustoCluster";
   const databaseName = "KustoDatabase8";
   const parameters: DataConnectionValidation = {
@@ -96,4 +103,9 @@ async function kustoDataConnectionValidation() {
   console.log(result);
 }
 
-kustoDataConnectionValidation().catch(console.error);
+async function main() {
+  kustoDataConnectionEventGridValidation();
+  kustoDataConnectionValidation();
+}
+
+main().catch(console.error);

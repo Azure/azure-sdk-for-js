@@ -37,6 +37,9 @@ export interface ErrorResponseError {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
