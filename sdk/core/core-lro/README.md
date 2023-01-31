@@ -7,6 +7,7 @@
 `@azure/core-lro` is made following our [Long Running Operations guidelines](https://azure.github.io/azure-sdk/typescript_design.html#ts-lro)
 
 Key links:
+
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-lro)
 - [Package (npm)](https://www.npmjs.com/package/@azure/core-lro) 
 - [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/core-lro) 
@@ -18,7 +19,7 @@ Key links:
 
 To install this library for a project under the `azure-sdk-for-js`, make sure you are at the root of that project, then use [Rush](https://rushjs.io/) as follows:
 
-```
+```bash
 rush add -p @azure/core-lro
 ```
 
