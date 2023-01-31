@@ -88,7 +88,6 @@ export class AzureDeveloperCliCredential implements TokenCredential {
    *
    * @param options - Options, to optionally allow multi-tenant requests.
    */
-  // @ts-ignore
   constructor(options?: AzureDeveloperCliCredentialOptions) {
     this.tenantId = options?.tenantId;
     this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
@@ -114,7 +113,7 @@ export class AzureDeveloperCliCredential implements TokenCredential {
       this.additionallyAllowedTenantIds
     );
 
-    var scopeList: string[]
+    let scopeList: string[]
     if (typeof(scopes) === "string") {
       scopeList = [scopes];
     } else {
