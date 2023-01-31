@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- [[#24180]](https://github.com/Azure/azure-sdk-for-js/pull/24180) Added Azure Developer CLI Credential.
+
 ### Breaking Changes
 
 ### Bugs Fixed
