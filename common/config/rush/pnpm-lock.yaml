@@ -19492,7 +19492,7 @@ packages:
     dev: false
 
   file:projects/test-credential.tgz:
-    resolution: {integrity: sha512-7EClkzujG/HH+XO9ZcDaFkqbG0uoVkhG6/C91jwHNCmD4vRV+OuFFLJTSDiQr+9PUE9S1MrOi2pJ7zy87eG/Lg==, tarball: file:projects/test-credential.tgz}
+    resolution: {integrity: sha512-vOvGpyjv7bMAzeeOboAa5Dxc05NeC5wGVvJ7GyZsoOquLglIpgNtLYkBQZitoYxAry73I2diXm8feoiZo7NdyA==, tarball: file:projects/test-credential.tgz}
     name: '@rush-temp/test-credential'
     version: 0.0.0
     dependencies:
@@ -19503,8 +19503,11 @@ packages:
       eslint: 8.33.0
       prettier: 2.8.3
       rimraf: 3.0.2
+      ts-node: 10.9.1_qsp6e3reeqlii3qgbcynqdh4ku
       typescript: 4.6.4
     transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
       - encoding
       - supports-color
     dev: false
