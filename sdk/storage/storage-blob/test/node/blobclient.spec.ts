@@ -683,10 +683,12 @@ describe("BlobClient Node.js only", () => {
     assert.deepStrictEqual(typeof response.requestId, "string");
     assert.deepStrictEqual(typeof response.version, "string");
     assert.deepStrictEqual(typeof response.date, "object");
+    // don't want this to hang
+    response.readableStreamBody?.resume();
   });
 
   it("query should work with large file", async function () {
-    if (isNode && !isLiveMode()) {
+    if (!isLiveMode()) {
       this.skip();
     }
     const csvContentUnit = "100,200,300,400\n150,250,350,450\n";
@@ -715,7 +717,7 @@ describe("BlobClient Node.js only", () => {
   });
 
   it("query should work with aborter", async function () {
-    if (isNode && !isLiveMode()) {
+    if (!isLiveMode()) {
       this.skip();
     }
     const csvContentUnit = "100,200,300,400\n150,250,350,450\n";
@@ -891,7 +893,7 @@ describe("BlobClient Node.js only", () => {
     const csvContent = "100,200,300,400\n150,250,350,450\n";
     await blockBlobClient.upload(csvContent, csvContent.length);
 
-    await blockBlobClient.query("select * from BlobStorage", {
+    const response = await blockBlobClient.query("select * from BlobStorage", {
       outputTextConfiguration: {
         kind: "arrow",
         schema: [
@@ -901,6 +903,8 @@ describe("BlobClient Node.js only", () => {
         ],
       },
     });
+    // don't want this to hang node
+    response.readableStreamBody?.resume();
   });
 
   it("query should work with Parquet input configuration", async function (this: Context) {
