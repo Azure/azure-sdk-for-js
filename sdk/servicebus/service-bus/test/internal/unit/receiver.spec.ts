@@ -34,6 +34,7 @@ describe("Receiver unit tests", () => {
         lockRenewer: undefined,
         receiveMode: "peekLock",
         skipParsingBodyAsJson: false,
+        skipConvertingDate: false,
       }
     );
     const options = batchingReceiver["_createReceiverOptions"](false, {});
@@ -53,6 +54,7 @@ describe("Receiver unit tests", () => {
           lockRenewer: undefined,
           receiveMode: "peekLock",
           skipParsingBodyAsJson: false,
+          skipConvertingDate: false,
         }
       );
 
@@ -82,6 +84,7 @@ describe("Receiver unit tests", () => {
           lockRenewer: undefined,
           receiveMode: "peekLock",
           skipParsingBodyAsJson: false,
+          skipConvertingDate: false,
         }
       );
 
@@ -267,6 +270,7 @@ describe("Receiver unit tests", () => {
         {
           retryOptions: undefined,
           skipParsingBodyAsJson: false,
+          skipConvertingDate: false,
         }
       );
 

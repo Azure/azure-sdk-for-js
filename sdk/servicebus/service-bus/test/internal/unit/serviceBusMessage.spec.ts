@@ -43,6 +43,7 @@ describe("ServiceBusMessageImpl unit tests", () => {
         { tag: fakeDeliveryTag } as Delivery,
         false,
         "peekLock",
+        false,
         false
       );
 
@@ -55,6 +56,7 @@ describe("ServiceBusMessageImpl unit tests", () => {
         { tag: fakeDeliveryTag } as Delivery,
         false,
         "receiveAndDelete",
+        false,
         false
       );
 
@@ -112,6 +114,7 @@ describe("ServiceBusMessageImpl unit tests", () => {
       fakeDelivery,
       false,
       "peekLock",
+      false,
       false
     );
 
