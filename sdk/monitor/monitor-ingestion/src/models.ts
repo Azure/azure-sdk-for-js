@@ -14,7 +14,7 @@ export interface UploadLogsOptions extends OperationOptions {
   maxConcurrency?: number;
   /**
    * Callback function for error handling when logs fail to upload
-   * @param uploadLogsError This is the {@link UploadLogsError} object
+   * @param uploadLogsError - This is the {@link UploadLogsError} object
    * @returns void
    */
   errorCallback?: (uploadLogsError: UploadLogsError) => void;
