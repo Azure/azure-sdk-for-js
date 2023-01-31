@@ -3807,7 +3807,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20230129
+      typescript: 5.0.0-dev.20230130
     dev: false
 
   /downlevel-dts/0.7.0:
@@ -8653,7 +8653,7 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20230129:
+  /typescript/5.0.0-dev.20230130:
     resolution: {integrity: sha512-RXkuG13JCg/g2OYnaLg7HiYfwpUzE7auAPSV2OcaW5VhJn1rESec8GbojVaxNoaQra4eANBVyMXx4SbJYYC2Yg==}
     engines: {node: '>=4.2.0'}
     hasBin: true
