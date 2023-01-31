@@ -13,16 +13,22 @@ import {
   AppPlatformManagementClient
 } from "@azure/arm-appplatform";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create a new App or update an exiting App.
  *
  * @summary Create a new App or update an exiting App.
- * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-09-01-preview/examples/Apps_CreateOrUpdate.json
+ * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-11-01-preview/examples/Apps_CreateOrUpdate.json
  */
 async function appsCreateOrUpdate() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["APPPLATFORM_RESOURCE_GROUP"] || "myResourceGroup";
   const serviceName = "myservice";
   const appName = "myapp";
   const appResource: AppResource = {
@@ -96,17 +102,18 @@ async function appsCreateOrUpdate() {
   console.log(result);
 }
 
-appsCreateOrUpdate().catch(console.error);
-
 /**
  * This sample demonstrates how to Create a new App or update an exiting App.
  *
  * @summary Create a new App or update an exiting App.
- * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-09-01-preview/examples/Apps_CreateOrUpdate_VNetInjection.json
+ * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-11-01-preview/examples/Apps_CreateOrUpdate_VNetInjection.json
  */
 async function appsCreateOrUpdateVNetInjection() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["APPPLATFORM_RESOURCE_GROUP"] || "myResourceGroup";
   const serviceName = "myservice";
   const appName = "myapp";
   const appResource: AppResource = {
@@ -181,4 +188,9 @@ async function appsCreateOrUpdateVNetInjection() {
   console.log(result);
 }
 
-appsCreateOrUpdateVNetInjection().catch(console.error);
+async function main() {
+  appsCreateOrUpdate();
+  appsCreateOrUpdateVNetInjection();
+}
+
+main().catch(console.error);

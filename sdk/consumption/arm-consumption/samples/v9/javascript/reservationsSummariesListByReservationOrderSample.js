@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ConsumptionManagementClient } = require("@azure/arm-consumption");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Lists the reservations summaries for daily or monthly grain.
@@ -18,7 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationSummariesDaily.json
  */
 async function reservationSummariesDaily() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const reservationOrderId = "00000000-0000-0000-0000-000000000000";
   const grain = "daily";
   const filter = "properties/usageDate ge 2017-10-01 AND properties/usageDate le 2017-11-20";
@@ -38,8 +40,6 @@ async function reservationSummariesDaily() {
   console.log(resArray);
 }
 
-reservationSummariesDaily().catch(console.error);
-
 /**
  * This sample demonstrates how to Lists the reservations summaries for daily or monthly grain.
  *
@@ -47,7 +47,8 @@ reservationSummariesDaily().catch(console.error);
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationSummariesMonthly.json
  */
 async function reservationSummariesMonthly() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const reservationOrderId = "00000000-0000-0000-0000-000000000000";
   const grain = "monthly";
   const credential = new DefaultAzureCredential();
@@ -62,4 +63,9 @@ async function reservationSummariesMonthly() {
   console.log(resArray);
 }
 
-reservationSummariesMonthly().catch(console.error);
+async function main() {
+  reservationSummariesDaily();
+  reservationSummariesMonthly();
+}
+
+main().catch(console.error);

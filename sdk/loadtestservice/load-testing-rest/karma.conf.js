@@ -16,6 +16,8 @@ module.exports = function (config) {
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
     frameworks: ["source-map-support", "mocha"],
 
+    failOnEmptyTestSuite: false,
+
     plugins: [
       "karma-mocha",
       "karma-mocha-reporter",

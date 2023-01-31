@@ -1,5 +1,15 @@
 # Release History
-    
+
+## 1.1.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 1.1.0 (2022-12-05)
     
 **Features**
@@ -17,7 +27,7 @@
   - Enum KnownType has a new value None
   - Enum KnownType has a new value UserAssigned
     
-### 1.0.1 (2022-04-28)
+## 1.0.1 (2022-04-28)
 
 **Features**
 

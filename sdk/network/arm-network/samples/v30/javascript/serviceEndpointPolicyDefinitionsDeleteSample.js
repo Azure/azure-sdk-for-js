@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Deletes the specified ServiceEndpoint policy definitions.
  *
  * @summary Deletes the specified ServiceEndpoint policy definitions.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ServiceEndpointPolicyDefinitionDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/ServiceEndpointPolicyDefinitionDelete.json
  */
 async function deleteServiceEndpointPolicyDefinitionsFromServiceEndpointPolicy() {
   const subscriptionId = "subid";

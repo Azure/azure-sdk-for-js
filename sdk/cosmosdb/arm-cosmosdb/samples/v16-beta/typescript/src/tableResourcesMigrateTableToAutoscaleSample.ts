@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Migrate an Azure Cosmos DB Table from manual throughput to autoscale
@@ -18,8 +21,8 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBTableMigrateToAutoscale.json
  */
 async function cosmosDbTableMigrateToAutoscale() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
   const tableName = "tableName";
   const credential = new DefaultAzureCredential();
@@ -32,4 +35,8 @@ async function cosmosDbTableMigrateToAutoscale() {
   console.log(result);
 }
 
-cosmosDbTableMigrateToAutoscale().catch(console.error);
+async function main() {
+  cosmosDbTableMigrateToAutoscale();
+}
+
+main().catch(console.error);

@@ -288,6 +288,7 @@ export function addTestStreamingReceiver(): (
         receiveMode: <ReceiveMode>"peekLock",
         maxConcurrentCalls: 101,
         skipParsingBodyAsJson: false,
+        skipConvertingDate: false,
       };
     }
 

@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Lists all private endpoint connections on an application gateway.
  *
  * @summary Lists all private endpoint connections on an application gateway.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ApplicationGatewayPrivateEndpointConnectionList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/ApplicationGatewayPrivateEndpointConnectionList.json
  */
 async function listsAllPrivateEndpointConnectionsOnApplicationGateway() {
   const subscriptionId = "subid";

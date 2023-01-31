@@ -78,8 +78,7 @@ async function createExpressRouteCircuitOnExpressRoutePort() {
         authorizationKey: "b0be57f5-1fba-463b-adec-ffe767354cdd",
         bandwidthInGbps: 10,
         expressRoutePort: {
-          id:
-            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/expressRoutePorts/portName",
+          id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/expressRoutePorts/portName",
         },
       },
       sku: {

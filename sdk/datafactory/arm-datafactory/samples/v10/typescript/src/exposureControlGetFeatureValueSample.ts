@@ -13,6 +13,9 @@ import {
   DataFactoryManagementClient
 } from "@azure/arm-datafactory";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Get exposure control feature for specific location.
@@ -21,7 +24,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/ExposureControl_GetFeatureValue.json
  */
 async function exposureControlGetFeatureValue() {
-  const subscriptionId = "12345678-1234-1234-1234-12345678abc";
+  const subscriptionId =
+    process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
+    "12345678-1234-1234-1234-12345678abc";
   const locationId = "WestEurope";
   const exposureControlRequest: ExposureControlRequest = {
     featureName: "ADFIntegrationRuntimeSharingRbac",
@@ -36,4 +41,8 @@ async function exposureControlGetFeatureValue() {
   console.log(result);
 }
 
-exposureControlGetFeatureValue().catch(console.error);
+async function main() {
+  exposureControlGetFeatureValue();
+}
+
+main().catch(console.error);

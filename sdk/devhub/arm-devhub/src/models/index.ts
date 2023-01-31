@@ -498,10 +498,7 @@ export type WorkflowListNextResponse = WorkflowListResult;
 
 /** Optional parameters. */
 export interface WorkflowListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The ManagedCluster resource associated with the workflows. */
-  managedClusterResource?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type WorkflowListByResourceGroupNextResponse = WorkflowListResult;

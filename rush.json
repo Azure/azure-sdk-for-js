@@ -14,7 +14,7 @@
    * path segment in the "$schema" field for all your Rush config files.  This will ensure
    * correct error-underlining and tab-completion for editors such as VS Code.
    */
-  "rushVersion": "5.83.4",
+  "rushVersion": "5.89.0",
   /**
    * The next field selects which package manager should be installed and determines its version.
    * Rush installs its own local copy of the package manager to ensure that your build process
@@ -23,7 +23,7 @@
    * Specify one of: "pnpmVersion", "npmVersion", or "yarnVersion".  See the Rush documentation
    * for details about these alternatives.
    */
-  "pnpmVersion": "6.32.3",
+  "pnpmVersion": "7.26.0",
   // "npmVersion": "4.5.0",
   // "yarnVersion": "1.9.4",
   /**
@@ -359,11 +359,6 @@
     {
       "packageName": "@azure-rest/confidential-ledger",
       "projectFolder": "sdk/confidentialledger/confidential-ledger-rest",
-      "versionPolicyName": "client"
-    },
-    {
-      "packageName": "@azure/ai-anomaly-detector",
-      "projectFolder": "sdk/anomalydetector/ai-anomaly-detector",
       "versionPolicyName": "client"
     },
     {
@@ -755,11 +750,6 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure-tools/testing-recorder-new",
-      "projectFolder": "sdk/test-utils/testing-recorder-new",
-      "versionPolicyName": "test"
-    },
-    {
       "packageName": "@azure/eslint-plugin-azure-sdk",
       "projectFolder": "common/tools/eslint-plugin-azure-sdk",
       "versionPolicyName": "utility"
@@ -1122,11 +1112,6 @@
     {
       "packageName": "@azure/arm-databricks",
       "projectFolder": "sdk/databricks/arm-databricks",
-      "versionPolicyName": "management"
-    },
-    {
-      "packageName": "@azure/arm-videoanalyzer",
-      "projectFolder": "sdk/videoanalyzer/arm-videoanalyzer",
       "versionPolicyName": "management"
     },
     {
@@ -1938,6 +1923,16 @@
       "packageName": "@azure/web-pubsub-client",
       "projectFolder": "sdk/web-pubsub/web-pubsub-client",
       "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/arm-billingbenefits",
+      "projectFolder": "sdk/billingbenefits/arm-billingbenefits",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-servicenetworking",
+      "projectFolder": "sdk/servicenetworking/arm-servicenetworking",
+      "versionPolicyName": "management"
     },
     {
       "packageName": "@azure/arm-liftrqumulo",

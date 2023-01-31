@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Create or updates a route table in a specified resource group.
  *
  * @summary Create or updates a route table in a specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/RouteTableCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/RouteTableCreate.json
  */
 async function createRouteTable() {
   const subscriptionId = "subid";
@@ -38,7 +38,7 @@ createRouteTable().catch(console.error);
  * This sample demonstrates how to Create or updates a route table in a specified resource group.
  *
  * @summary Create or updates a route table in a specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/RouteTableCreateWithRoute.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/RouteTableCreateWithRoute.json
  */
 async function createRouteTableWithRoute() {
   const subscriptionId = "subid";

@@ -13,6 +13,9 @@ import {
   ConsumptionManagementClient
 } from "@azure/arm-consumption";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Lists the charges based for the defined scope.
@@ -21,7 +24,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ChargesForBillingPeriodByDepartment.json
  */
 async function changesForBillingPeriodByDepartmentLegacy() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const scope =
     "providers/Microsoft.Billing/BillingAccounts/1234/departments/42425";
   const credential = new DefaultAzureCredential();
@@ -30,8 +35,6 @@ async function changesForBillingPeriodByDepartmentLegacy() {
   console.log(result);
 }
 
-changesForBillingPeriodByDepartmentLegacy().catch(console.error);
-
 /**
  * This sample demonstrates how to Lists the charges based for the defined scope.
  *
@@ -39,7 +42,9 @@ changesForBillingPeriodByDepartmentLegacy().catch(console.error);
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ChargesForBillingPeriodByEnrollmentAccount.json
  */
 async function changesForBillingPeriodByEnrollmentAccountLegacy() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const scope =
     "providers/Microsoft.Billing/BillingAccounts/1234/enrollmentAccounts/42425";
   const credential = new DefaultAzureCredential();
@@ -48,8 +53,6 @@ async function changesForBillingPeriodByEnrollmentAccountLegacy() {
   console.log(result);
 }
 
-changesForBillingPeriodByEnrollmentAccountLegacy().catch(console.error);
-
 /**
  * This sample demonstrates how to Lists the charges based for the defined scope.
  *
@@ -57,7 +60,9 @@ changesForBillingPeriodByEnrollmentAccountLegacy().catch(console.error);
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ChargesListByModernBillingAccount.json
  */
 async function chargesListByBillingAccountModern() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const scope = "providers/Microsoft.Billing/billingAccounts/1234:56789";
   const startDate = "2019-09-01";
   const endDate = "2019-10-31";
@@ -68,8 +73,6 @@ async function chargesListByBillingAccountModern() {
   console.log(result);
 }
 
-chargesListByBillingAccountModern().catch(console.error);
-
 /**
  * This sample demonstrates how to Lists the charges based for the defined scope.
  *
@@ -77,7 +80,9 @@ chargesListByBillingAccountModern().catch(console.error);
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ChargesListByModernBillingAccountGroupByBillingProfileId.json
  */
 async function chargesListByBillingAccountGroupByBillingProfileIdModern() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const scope = "providers/Microsoft.Billing/billingAccounts/1234:56789";
   const startDate = "2019-09-01";
   const endDate = "2019-09-30";
@@ -89,8 +94,6 @@ async function chargesListByBillingAccountGroupByBillingProfileIdModern() {
   console.log(result);
 }
 
-chargesListByBillingAccountGroupByBillingProfileIdModern().catch(console.error);
-
 /**
  * This sample demonstrates how to Lists the charges based for the defined scope.
  *
@@ -98,7 +101,9 @@ chargesListByBillingAccountGroupByBillingProfileIdModern().catch(console.error);
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ChargesListByModernBillingAccountGroupByCustomerId.json
  */
 async function chargesListByBillingAccountGroupByCustomerIdModern() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const scope = "providers/Microsoft.Billing/billingAccounts/1234:56789";
   const startDate = "2019-09-01";
   const endDate = "2019-09-30";
@@ -110,8 +115,6 @@ async function chargesListByBillingAccountGroupByCustomerIdModern() {
   console.log(result);
 }
 
-chargesListByBillingAccountGroupByCustomerIdModern().catch(console.error);
-
 /**
  * This sample demonstrates how to Lists the charges based for the defined scope.
  *
@@ -119,7 +122,9 @@ chargesListByBillingAccountGroupByCustomerIdModern().catch(console.error);
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ChargesListByModernBillingAccountGroupByInvoiceSectionId.json
  */
 async function chargesListByBillingAccountGroupByInvoiceSectionIdModern() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const scope =
     "providers/Microsoft.Billing/billingAccounts/1234:56789/billingProfiles/42425";
   const startDate = "2019-09-01";
@@ -131,8 +136,6 @@ async function chargesListByBillingAccountGroupByInvoiceSectionIdModern() {
   const result = await client.charges.list(scope, options);
   console.log(result);
 }
-
-chargesListByBillingAccountGroupByInvoiceSectionIdModern().catch(console.error);
 
 /**
  * This sample demonstrates how to Lists the charges based for the defined scope.
@@ -141,7 +144,9 @@ chargesListByBillingAccountGroupByInvoiceSectionIdModern().catch(console.error);
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ChargesListByModernBillingProfile.json
  */
 async function chargesListByBillingProfileModern() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const scope =
     "providers/Microsoft.Billing/BillingAccounts/1234:56789/billingProfiles/2460";
   const credential = new DefaultAzureCredential();
@@ -150,8 +155,6 @@ async function chargesListByBillingProfileModern() {
   console.log(result);
 }
 
-chargesListByBillingProfileModern().catch(console.error);
-
 /**
  * This sample demonstrates how to Lists the charges based for the defined scope.
  *
@@ -159,7 +162,9 @@ chargesListByBillingProfileModern().catch(console.error);
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ChargesListByModernBillingProfileGroupByInvoiceSectionId.json
  */
 async function chargesListByBillingProfileGroupByInvoiceSectionIdModern() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const scope =
     "providers/Microsoft.Billing/billingAccounts/1234:56789/billingProfiles/42425";
   const startDate = "2019-09-01";
@@ -172,8 +177,6 @@ async function chargesListByBillingProfileGroupByInvoiceSectionIdModern() {
   console.log(result);
 }
 
-chargesListByBillingProfileGroupByInvoiceSectionIdModern().catch(console.error);
-
 /**
  * This sample demonstrates how to Lists the charges based for the defined scope.
  *
@@ -181,7 +184,9 @@ chargesListByBillingProfileGroupByInvoiceSectionIdModern().catch(console.error);
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ChargesListByModernBillingProfileInvoiceSection.json
  */
 async function chargesListByBillingProfileInvoiceSectionModern() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const scope =
     "providers/Microsoft.Billing/billingAccounts/1234:56789/billingProfiles/42425/invoiceSections/67890";
   const startDate = "2019-09-01";
@@ -193,8 +198,6 @@ async function chargesListByBillingProfileInvoiceSectionModern() {
   console.log(result);
 }
 
-chargesListByBillingProfileInvoiceSectionModern().catch(console.error);
-
 /**
  * This sample demonstrates how to Lists the charges based for the defined scope.
  *
@@ -202,7 +205,9 @@ chargesListByBillingProfileInvoiceSectionModern().catch(console.error);
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ChargesListByModernCustomer.json
  */
 async function chargesListByCustomerModern() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const scope =
     "providers/Microsoft.Billing/BillingAccounts/1234:56789/customers/67890";
   const credential = new DefaultAzureCredential();
@@ -211,8 +216,6 @@ async function chargesListByCustomerModern() {
   console.log(result);
 }
 
-chargesListByCustomerModern().catch(console.error);
-
 /**
  * This sample demonstrates how to Lists the charges based for the defined scope.
  *
@@ -220,7 +223,9 @@ chargesListByCustomerModern().catch(console.error);
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ChargesListForDepartmentFilterByStartEndDate.json
  */
 async function chargesListByDepartmentLegacy() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const scope =
     "providers/Microsoft.Billing/BillingAccounts/1234/departments/42425";
   const filter = "usageStart eq '2018-04-01' AND usageEnd eq '2018-05-30'";
@@ -231,8 +236,6 @@ async function chargesListByDepartmentLegacy() {
   console.log(result);
 }
 
-chargesListByDepartmentLegacy().catch(console.error);
-
 /**
  * This sample demonstrates how to Lists the charges based for the defined scope.
  *
@@ -240,7 +243,9 @@ chargesListByDepartmentLegacy().catch(console.error);
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ChargesListByModernInvoiceSectionId.json
  */
 async function chargesListByInvoiceSectionIdModern() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const scope =
     "providers/Microsoft.Billing/BillingAccounts/1234:56789/invoiceSections/97531";
   const credential = new DefaultAzureCredential();
@@ -249,8 +254,6 @@ async function chargesListByInvoiceSectionIdModern() {
   console.log(result);
 }
 
-chargesListByInvoiceSectionIdModern().catch(console.error);
-
 /**
  * This sample demonstrates how to Lists the charges based for the defined scope.
  *
@@ -258,7 +261,9 @@ chargesListByInvoiceSectionIdModern().catch(console.error);
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ChargesListForEnrollmentAccountFilterByStartEndDate.json
  */
 async function chargesListForEnrollmentAccountLegacy() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const scope =
     "providers/Microsoft.Billing/BillingAccounts/1234/enrollmentAccounts/42425";
   const credential = new DefaultAzureCredential();
@@ -267,4 +272,20 @@ async function chargesListForEnrollmentAccountLegacy() {
   console.log(result);
 }
 
-chargesListForEnrollmentAccountLegacy().catch(console.error);
+async function main() {
+  changesForBillingPeriodByDepartmentLegacy();
+  changesForBillingPeriodByEnrollmentAccountLegacy();
+  chargesListByBillingAccountModern();
+  chargesListByBillingAccountGroupByBillingProfileIdModern();
+  chargesListByBillingAccountGroupByCustomerIdModern();
+  chargesListByBillingAccountGroupByInvoiceSectionIdModern();
+  chargesListByBillingProfileModern();
+  chargesListByBillingProfileGroupByInvoiceSectionIdModern();
+  chargesListByBillingProfileInvoiceSectionModern();
+  chargesListByCustomerModern();
+  chargesListByDepartmentLegacy();
+  chargesListByInvoiceSectionIdModern();
+  chargesListForEnrollmentAccountLegacy();
+}
+
+main().catch(console.error);

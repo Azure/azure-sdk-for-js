@@ -25,7 +25,7 @@ export class BatchSendTest extends ServiceBusTest<SendTestOptions> {
       required: true,
       description: "Number of messages per send",
       shortName: "num",
-      longName: "numberOfMessages",
+      longName: "batch-size",
       defaultValue: 10,
     },
   };

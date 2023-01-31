@@ -10,16 +10,18 @@
 // Licensed under the MIT License.
 const { AzureMediaServices } = require("@azure/arm-mediaservices");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Synchronizes storage account keys for a storage account associated with the Media Service account.
  *
  * @summary Synchronizes storage account keys for a storage account associated with the Media Service account.
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2021-11-01/examples/accounts-sync-storage-keys.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Accounts/stable/2021-11-01/examples/accounts-sync-storage-keys.json
  */
 async function synchronizesStorageAccountKeys() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "contoso";
+  const subscriptionId =
+    process.env["MEDIASERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
   const accountName = "contososports";
   const parameters = { id: "contososportsstore" };
   const credential = new DefaultAzureCredential();
@@ -32,4 +34,8 @@ async function synchronizesStorageAccountKeys() {
   console.log(result);
 }
 
-synchronizesStorageAccountKeys().catch(console.error);
+async function main() {
+  synchronizesStorageAccountKeys();
+}
+
+main().catch(console.error);

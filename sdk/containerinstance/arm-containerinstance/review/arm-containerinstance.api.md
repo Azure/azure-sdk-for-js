@@ -67,6 +67,11 @@ export interface CloudErrorBody {
 }
 
 // @public
+export interface ConfidentialComputeProperties {
+    ccePolicy?: string;
+}
+
+// @public
 export interface Container {
     command?: string[];
     environmentVariables?: EnvironmentVariable[];
@@ -141,17 +146,23 @@ export interface ContainerGroupListResult {
 export type ContainerGroupNetworkProtocol = string;
 
 // @public
+export type ContainerGroupPriority = string;
+
+// @public
 export interface ContainerGroupProperties {
+    confidentialComputeProperties?: ConfidentialComputeProperties;
     containers: Container[];
     diagnostics?: ContainerGroupDiagnostics;
     dnsConfig?: DnsConfiguration;
     encryptionProperties?: EncryptionProperties;
+    extensions?: DeploymentExtensionSpec[];
     identity?: ContainerGroupIdentity;
     imageRegistryCredentials?: ImageRegistryCredential[];
     initContainers?: InitContainerDefinition[];
     readonly instanceView?: ContainerGroupPropertiesInstanceView;
     ipAddress?: IpAddress;
     osType: OperatingSystemTypes;
+    priority?: ContainerGroupPriority;
     readonly provisioningState?: string;
     restartPolicy?: ContainerGroupRestartPolicy;
     sku?: ContainerGroupSku;
@@ -387,6 +398,15 @@ export interface ContainerState {
 }
 
 // @public
+export interface DeploymentExtensionSpec {
+    extensionType?: string;
+    name: string;
+    protectedSettings?: Record<string, unknown>;
+    settings?: Record<string, unknown>;
+    version?: string;
+}
+
+// @public
 export interface DnsConfiguration {
     nameServers: string[];
     options?: string;
@@ -398,6 +418,7 @@ export type DnsNameLabelReusePolicy = string;
 
 // @public
 export interface EncryptionProperties {
+    identity?: string;
     keyName: string;
     keyVersion: string;
     vaultBaseUrl: string;
@@ -420,6 +441,9 @@ interface Event_2 {
     readonly type?: string;
 }
 export { Event_2 as Event }
+
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export interface GitRepoVolume {
@@ -493,6 +517,12 @@ export enum KnownContainerGroupNetworkProtocol {
 }
 
 // @public
+export enum KnownContainerGroupPriority {
+    Regular = "Regular",
+    Spot = "Spot"
+}
+
+// @public
 export enum KnownContainerGroupRestartPolicy {
     Always = "Always",
     Never = "Never",
@@ -501,6 +531,7 @@ export enum KnownContainerGroupRestartPolicy {
 
 // @public
 export enum KnownContainerGroupSku {
+    Confidential = "Confidential",
     Dedicated = "Dedicated",
     Standard = "Standard"
 }

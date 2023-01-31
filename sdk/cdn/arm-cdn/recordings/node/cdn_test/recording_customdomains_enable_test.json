@@ -1,0 +1,97 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Cdn/profiles/myprofilexxx?api-version=2021-06-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-cdn/8.0.0 core-rest-pipeline/1.10.1 Node/v18.12.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "34ee5c69-b909-49a8-9be5-d2747ece2497"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 20 Dec 2022 02:17:47 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "34ee5c69-b909-49a8-9be5-d2747ece2497",
+        "x-ms-correlation-request-id": "985691a8-eeb5-49e9-9236-af003c8aeb5c",
+        "x-ms-ratelimit-remaining-subscription-resource-requests": "49",
+        "x-ms-request-id": "2a56c4c6-6fcb-4fcb-a43e-5001ff6b0ddf",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221220T021748Z:985691a8-eeb5-49e9-9236-af003c8aeb5c"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/Microsoft.Cdn/profiles/myprofilexxx",
+        "type": "Microsoft.Cdn/profiles",
+        "name": "myprofilexxx",
+        "location": "EastUs",
+        "kind": "cdn",
+        "tags": {},
+        "sku": {
+          "name": "Standard_Verizon"
+        },
+        "properties": {
+          "resourceState": "Active",
+          "provisioningState": "Succeeded"
+        }
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Cdn/profiles/myprofilexxx/endpoints/myendpointxxx/customDomains/www-qiaozha-xyz/enableCustomHttps?api-version=2021-06-01",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "155",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-cdn/8.0.0 core-rest-pipeline/1.10.1 Node/v18.12.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "33b92f06-846c-4955-8b23-d8e9fb4a47a3"
+      },
+      "RequestBody": {
+        "certificateSource": "Cdn",
+        "protocolType": "IPBased",
+        "certificateSourceParameters": {
+          "typeName": "CdnCertificateSourceParameters",
+          "certificateType": "Shared"
+        }
+      },
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "91",
+        "Content-Type": "application/json",
+        "Date": "Tue, 20 Dec 2022 02:17:48 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "33b92f06-846c-4955-8b23-d8e9fb4a47a3",
+        "x-ms-correlation-request-id": "378a5c94-74a4-452d-8ed0-dd035c196a1a",
+        "x-ms-ratelimit-remaining-subscription-writes": "1199",
+        "x-ms-request-id": "29f2641e-7dc7-4f37-a248-4588ebc63818",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221220T021749Z:378a5c94-74a4-452d-8ed0-dd035c196a1a"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "NotFound",
+          "message": "The resource cannot be found."
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

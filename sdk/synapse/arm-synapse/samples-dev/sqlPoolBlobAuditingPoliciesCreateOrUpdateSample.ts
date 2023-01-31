@@ -13,6 +13,9 @@ import {
   SynapseManagementClient
 } from "@azure/arm-synapse";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates or updates a SQL pool's blob auditing policy.
@@ -21,8 +24,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/CreateOrUpdateSqlPoolBlobAuditingWithAllParameters.json
  */
 async function createOrUpdateADatabaseBlobAuditingPolicyWithAllParameters() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "blobauditingtest-4799";
+  const subscriptionId =
+    process.env["SYNAPSE_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SYNAPSE_RESOURCE_GROUP"] || "blobauditingtest-4799";
   const workspaceName = "blobauditingtest-6440";
   const sqlPoolName = "testdb";
   const parameters: SqlPoolBlobAuditingPolicy = {
@@ -51,10 +57,6 @@ async function createOrUpdateADatabaseBlobAuditingPolicyWithAllParameters() {
   console.log(result);
 }
 
-createOrUpdateADatabaseBlobAuditingPolicyWithAllParameters().catch(
-  console.error
-);
-
 /**
  * This sample demonstrates how to Creates or updates a SQL pool's blob auditing policy.
  *
@@ -62,8 +64,11 @@ createOrUpdateADatabaseBlobAuditingPolicyWithAllParameters().catch(
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/CreateOrUpdateSqlPoolBlobAuditingWithMinParameters.json
  */
 async function createOrUpdateADatabaseBlobAuditingPolicyWithMinimalParameters() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "blobauditingtest-4799";
+  const subscriptionId =
+    process.env["SYNAPSE_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SYNAPSE_RESOURCE_GROUP"] || "blobauditingtest-4799";
   const workspaceName = "blobauditingtest-6440";
   const sqlPoolName = "testdb";
   const parameters: SqlPoolBlobAuditingPolicy = {
@@ -83,6 +88,9 @@ async function createOrUpdateADatabaseBlobAuditingPolicyWithMinimalParameters() 
   console.log(result);
 }
 
-createOrUpdateADatabaseBlobAuditingPolicyWithMinimalParameters().catch(
-  console.error
-);
+async function main() {
+  createOrUpdateADatabaseBlobAuditingPolicyWithAllParameters();
+  createOrUpdateADatabaseBlobAuditingPolicyWithMinimalParameters();
+}
+
+main().catch(console.error);

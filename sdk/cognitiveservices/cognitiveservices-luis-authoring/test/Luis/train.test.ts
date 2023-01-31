@@ -21,9 +21,9 @@ function checkStatus(statusArr: TrainGetStatusResponse) {
 }
 
 
-describe("Train Module Functionality", () => {
+describe("Train Module Functionality", function () {
 
-  it('should get status', async () => {
+  it('should get status', async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       let versionId = "0.1";
       await client.train.trainVersion(BaseTest.GlobalAppId, versionId);
@@ -50,7 +50,7 @@ describe("Train Module Functionality", () => {
     });
   });
 
-  it('should train version', async () => {
+  it('should train version', async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       let versionId = "0.1";
       await client.train.trainVersion(BaseTest.GlobalAppId, versionId);

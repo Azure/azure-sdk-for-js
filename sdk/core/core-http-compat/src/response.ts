@@ -6,7 +6,7 @@ import { PipelineResponse, createHttpHeaders } from "@azure/core-rest-pipeline";
 import {
   HttpHeadersLike,
   WebResourceLike,
-  toHttpHeaderLike,
+  toHttpHeadersLike,
   toPipelineRequest,
   toWebResourceLike,
 } from "./util";
@@ -37,7 +37,7 @@ export function toCompatResponse(
   options?: { createProxy?: boolean }
 ): CompatResponse {
   let request = toWebResourceLike(response.request);
-  let headers = toHttpHeaderLike(response.headers);
+  let headers = toHttpHeadersLike(response.headers);
   if (options?.createProxy) {
     return new Proxy(response, {
       get(target, prop, receiver) {
@@ -45,6 +45,8 @@ export function toCompatResponse(
           return headers;
         } else if (prop === "request") {
           return request;
+        } else if (prop === originalResponse) {
+          return response;
         }
         return Reflect.get(target, prop, receiver);
       },

@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
 import * as fs from "fs";
 import { AbortController } from "@azure/abort-controller";
-import { isNode, URLBuilder, URLQuery } from "@azure/core-http";
-import { SpanGraph, setTracer } from "@azure/test-utils";
+import { isNode } from "@azure/core-util";
+import { assert } from "@azure/test-utils";
 import {
   bodyToString,
   getBSU,
@@ -28,7 +27,6 @@ import {
 } from "../src";
 import { Test_CPK_INFO } from "./utils/fakeTestSecrets";
 import { base64encode } from "../src/utils/utils.common";
-import { context, setSpan } from "@azure/core-tracing";
 import { Context } from "mocha";
 
 describe("BlobClient", () => {
@@ -59,6 +57,23 @@ describe("BlobClient", () => {
       await containerClient.delete();
       await recorder.stop();
     }
+  });
+
+  it("upload blob with cold tier should work", async function () {
+    const newBlobClient = containerClient.getBlockBlobClient(
+      recorder.getUniqueName("coldtierblob")
+    );
+
+    await newBlobClient.upload(content, content.length, {
+      tier: "Cold",
+    });
+
+    const result = await newBlobClient.download(0);
+    assert.deepStrictEqual(await bodyToString(result, content.length), content);
+
+    const properties = await newBlobClient.getProperties();
+    assert.ok(properties.accessTier);
+    assert.equal(properties.accessTier!, "Cold");
   });
 
   it("Set and get blob tags should work with lease condition", async function () {
@@ -495,6 +510,18 @@ describe("BlobClient", () => {
     }
   });
 
+  it("sync copy with cold tier", async () => {
+    const newBlobClient = containerClient.getBlockBlobClient(recorder.getUniqueName("copiedblob"));
+
+    await newBlobClient.syncCopyFromURL("https://azure.github.io/azure-sdk-for-js/index.html", {
+      tier: "Cold",
+    });
+
+    const properties = await newBlobClient.getProperties();
+    assert.ok(properties.accessTier);
+    assert.equal(properties.accessTier!, "Cold");
+  });
+
   it("setAccessTier set default to cool", async () => {
     await blockBlobClient.setAccessTier("Cool");
     const properties = await blockBlobClient.getProperties();
@@ -513,6 +540,28 @@ describe("BlobClient", () => {
     if (properties.archiveStatus) {
       assert.equal(properties.archiveStatus.toLowerCase(), "rehydrate-pending-to-hot");
     }
+  });
+
+  it("setAccessTier set to/from cold", async () => {
+    await blockBlobClient.setAccessTier("Cold");
+    const properties = await blockBlobClient.getProperties();
+    assert.ok(properties.accessTier);
+    assert.equal(properties.accessTier!, "Cold");
+
+    await blockBlobClient.setAccessTier("Hot");
+    const properties1 = await blockBlobClient.getProperties();
+    assert.ok(properties1.accessTier);
+    assert.equal(properties1.accessTier!, "Hot");
+
+    await blockBlobClient.setAccessTier("Cold");
+    const properties2 = await blockBlobClient.getProperties();
+    assert.ok(properties2.accessTier);
+    assert.equal(properties2.accessTier!, "Cold");
+
+    await blockBlobClient.setAccessTier("Cool");
+    const properties3 = await blockBlobClient.getProperties();
+    assert.ok(properties3.accessTier);
+    assert.equal(properties3.accessTier!, "Cool");
   });
 
   it("setAccessTier with snapshot", async () => {
@@ -681,15 +730,11 @@ describe("BlobClient", () => {
     // so we remove it before comparing urls.
     assert.ok(properties2.copySource, "Expecting valid 'properties2.copySource");
 
-    const sanitizedActualUrl = URLBuilder.parse(properties2.copySource!);
-    const sanitizedQuery = URLQuery.parse(sanitizedActualUrl.getQuery()!);
-    sanitizedQuery.set("sig", undefined);
-    sanitizedActualUrl.setQuery(sanitizedQuery.toString());
+    const sanitizedActualUrl = new URL(properties2.copySource!);
+    sanitizedActualUrl.searchParams.delete("sig");
 
-    const sanitizedExpectedUrl = URLBuilder.parse(blobClient.url);
-    const sanitizedQuery2 = URLQuery.parse(sanitizedActualUrl.getQuery()!);
-    sanitizedQuery2.set("sig", undefined);
-    sanitizedExpectedUrl.setQuery(sanitizedQuery.toString());
+    const sanitizedExpectedUrl = new URL(blobClient.url);
+    sanitizedExpectedUrl.searchParams.delete("sig");
 
     assert.strictEqual(
       sanitizedActualUrl.toString(),
@@ -702,6 +747,24 @@ describe("BlobClient", () => {
     assert.equal(properties3.archiveStatus!.toLowerCase(), "rehydrate-pending-to-hot");
   });
 
+  it("beginCopyFromURL with cold tier", async () => {
+    const newBlobURL = containerClient.getBlobClient(recorder.getUniqueName("copiedblob"));
+    const newTier = BlockBlobTier.Cold;
+    const result = await (
+      await newBlobURL.beginCopyFromURL(blobClient.url, {
+        tier: newTier,
+      })
+    ).pollUntilDone();
+    assert.ok(result.copyId);
+    delay(1 * 1000);
+
+    const properties1 = await blobClient.getProperties();
+    const properties2 = await newBlobURL.getProperties();
+    assert.deepStrictEqual(properties1.contentMD5, properties2.contentMD5);
+    assert.deepStrictEqual(properties2.copyId, result.copyId);
+    assert.equal(properties2.accessTier, newTier);
+  });
+
   it("setAccessTier with rehydrate priority", async () => {
     await blockBlobClient.setAccessTier("Archive", { rehydratePriority: "High" });
     await blockBlobClient.setAccessTier("Cool");
@@ -711,45 +774,11 @@ describe("BlobClient", () => {
     }
   });
 
-  it("download with default parameters and tracing", async () => {
-    const tracer = setTracer();
-
-    const rootSpan = tracer.startSpan("root");
-
-    const result = await blobClient.download(undefined, undefined, {
-      tracingOptions: {
-        tracingContext: setSpan(context.active(), rootSpan),
-      },
-    });
-    assert.deepStrictEqual(await bodyToString(result, content.length), content);
-
-    rootSpan.end();
-
-    const rootSpans = tracer.getRootSpans();
-    assert.strictEqual(rootSpans.length, 1, "Should only have one root span.");
-    assert.strictEqual(rootSpan, rootSpans[0], "The root span should match what was passed in.");
-
-    const expectedGraph: SpanGraph = {
-      roots: [
-        {
-          name: rootSpan.name,
-          children: [
-            {
-              name: "Azure.Storage.Blob.BlobClient-download",
-              children: [
-                {
-                  name: "HTTP GET",
-                  children: [],
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    };
-
-    assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.spanContext().traceId), expectedGraph);
-    assert.strictEqual(tracer.getActiveSpans().length, 0, "All spans should have had end called");
+  it("download with default parameters and tracing", async function (this: Context) {
+    await assert.supportsTracing(
+      (options) => blobClient.download(undefined, undefined, options),
+      ["BlobClient-download"]
+    );
   });
 
   it("exists returns true on an existing blob", async () => {

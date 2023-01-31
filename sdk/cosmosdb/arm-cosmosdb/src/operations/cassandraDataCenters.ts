@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { CassandraDataCenters } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -59,8 +59,16 @@ export class CassandraDataCentersImpl implements CassandraDataCenters {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, clusterName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          clusterName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -68,9 +76,11 @@ export class CassandraDataCentersImpl implements CassandraDataCenters {
   private async *listPagingPage(
     resourceGroupName: string,
     clusterName: string,
-    options?: CassandraDataCentersListOptionalParams
+    options?: CassandraDataCentersListOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<DataCenterResource[]> {
-    let result = await this._list(resourceGroupName, clusterName, options);
+    let result: CassandraDataCentersListResponse;
+    result = await this._list(resourceGroupName, clusterName, options);
     yield result.value || [];
   }
 

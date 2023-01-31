@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Deletes an existing Azure Cosmos DB Mongo Role Definition.
@@ -18,9 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBMongoDBRoleDefinitionDelete.json
  */
 async function cosmosDbMongoDbroleDefinitionDelete() {
-  const subscriptionId = "mySubscriptionId";
+  const subscriptionId =
+    process.env["COSMOSDB_SUBSCRIPTION_ID"] || "mySubscriptionId";
   const mongoRoleDefinitionId = "myMongoRoleDefinitionId";
-  const resourceGroupName = "myResourceGroupName";
+  const resourceGroupName =
+    process.env["COSMOSDB_RESOURCE_GROUP"] || "myResourceGroupName";
   const accountName = "myAccountName";
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
@@ -32,4 +37,8 @@ async function cosmosDbMongoDbroleDefinitionDelete() {
   console.log(result);
 }
 
-cosmosDbMongoDbroleDefinitionDelete().catch(console.error);
+async function main() {
+  cosmosDbMongoDbroleDefinitionDelete();
+}
+
+main().catch(console.error);

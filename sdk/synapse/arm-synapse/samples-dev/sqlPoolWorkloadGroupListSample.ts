@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { SynapseManagementClient } from "@azure/arm-synapse";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Get list of  Sql pool's workload groups.
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/GetSqlPoolWorkloadGroupList.json
  */
 async function getTheListOfWorkloadGroupsOfASqlAnalyticsPool() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "sqlcrudtest-6852";
+  const subscriptionId =
+    process.env["SYNAPSE_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SYNAPSE_RESOURCE_GROUP"] || "sqlcrudtest-6852";
   const workspaceName = "sqlcrudtest-2080";
   const sqlPoolName = "sqlcrudtest-9187";
   const credential = new DefaultAzureCredential();
@@ -35,4 +41,8 @@ async function getTheListOfWorkloadGroupsOfASqlAnalyticsPool() {
   console.log(resArray);
 }
 
-getTheListOfWorkloadGroupsOfASqlAnalyticsPool().catch(console.error);
+async function main() {
+  getTheListOfWorkloadGroupsOfASqlAnalyticsPool();
+}
+
+main().catch(console.error);

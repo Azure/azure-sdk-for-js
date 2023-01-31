@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { VolumeContainers } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,18 +17,18 @@ import { LroImpl } from "../lroImpl";
 import {
   VolumeContainer,
   VolumeContainersListByDeviceOptionalParams,
+  VolumeContainersListByDeviceResponse,
   Metrics,
   VolumeContainersListMetricsOptionalParams,
+  VolumeContainersListMetricsResponse,
   MetricDefinition,
   VolumeContainersListMetricDefinitionOptionalParams,
-  VolumeContainersListByDeviceResponse,
+  VolumeContainersListMetricDefinitionResponse,
   VolumeContainersGetOptionalParams,
   VolumeContainersGetResponse,
   VolumeContainersCreateOrUpdateOptionalParams,
   VolumeContainersCreateOrUpdateResponse,
-  VolumeContainersDeleteOptionalParams,
-  VolumeContainersListMetricsResponse,
-  VolumeContainersListMetricDefinitionResponse
+  VolumeContainersDeleteOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -70,12 +70,16 @@ export class VolumeContainersImpl implements VolumeContainers {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByDevicePagingPage(
           deviceName,
           resourceGroupName,
           managerName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -85,9 +89,11 @@ export class VolumeContainersImpl implements VolumeContainers {
     deviceName: string,
     resourceGroupName: string,
     managerName: string,
-    options?: VolumeContainersListByDeviceOptionalParams
+    options?: VolumeContainersListByDeviceOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<VolumeContainer[]> {
-    let result = await this._listByDevice(
+    let result: VolumeContainersListByDeviceResponse;
+    result = await this._listByDevice(
       deviceName,
       resourceGroupName,
       managerName,
@@ -144,14 +150,18 @@ export class VolumeContainersImpl implements VolumeContainers {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listMetricsPagingPage(
           deviceName,
           volumeContainerName,
           resourceGroupName,
           managerName,
           filter,
-          options
+          options,
+          settings
         );
       }
     };
@@ -163,9 +173,11 @@ export class VolumeContainersImpl implements VolumeContainers {
     resourceGroupName: string,
     managerName: string,
     filter: string,
-    options?: VolumeContainersListMetricsOptionalParams
+    options?: VolumeContainersListMetricsOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<Metrics[]> {
-    let result = await this._listMetrics(
+    let result: VolumeContainersListMetricsResponse;
+    result = await this._listMetrics(
       deviceName,
       volumeContainerName,
       resourceGroupName,
@@ -225,13 +237,17 @@ export class VolumeContainersImpl implements VolumeContainers {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listMetricDefinitionPagingPage(
           deviceName,
           volumeContainerName,
           resourceGroupName,
           managerName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -242,9 +258,11 @@ export class VolumeContainersImpl implements VolumeContainers {
     volumeContainerName: string,
     resourceGroupName: string,
     managerName: string,
-    options?: VolumeContainersListMetricDefinitionOptionalParams
+    options?: VolumeContainersListMetricDefinitionOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<MetricDefinition[]> {
-    let result = await this._listMetricDefinition(
+    let result: VolumeContainersListMetricDefinitionResponse;
+    result = await this._listMetricDefinition(
       deviceName,
       volumeContainerName,
       resourceGroupName,

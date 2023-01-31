@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { PrivateLinkHubs } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,9 +19,10 @@ import {
   PrivateLinkHub,
   PrivateLinkHubsListByResourceGroupNextOptionalParams,
   PrivateLinkHubsListByResourceGroupOptionalParams,
+  PrivateLinkHubsListByResourceGroupResponse,
   PrivateLinkHubsListNextOptionalParams,
   PrivateLinkHubsListOptionalParams,
-  PrivateLinkHubsListByResourceGroupResponse,
+  PrivateLinkHubsListResponse,
   PrivateLinkHubsGetOptionalParams,
   PrivateLinkHubsGetResponse,
   PrivateLinkHubPatchInfo,
@@ -29,7 +31,6 @@ import {
   PrivateLinkHubsCreateOrUpdateOptionalParams,
   PrivateLinkHubsCreateOrUpdateResponse,
   PrivateLinkHubsDeleteOptionalParams,
-  PrivateLinkHubsListResponse,
   PrivateLinkHubsListByResourceGroupNextResponse,
   PrivateLinkHubsListNextResponse
 } from "../models";
@@ -64,19 +65,33 @@ export class PrivateLinkHubsImpl implements PrivateLinkHubs {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: PrivateLinkHubsListByResourceGroupOptionalParams
+    options?: PrivateLinkHubsListByResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PrivateLinkHub[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: PrivateLinkHubsListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -84,7 +99,9 @@ export class PrivateLinkHubsImpl implements PrivateLinkHubs {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -115,22 +132,34 @@ export class PrivateLinkHubsImpl implements PrivateLinkHubs {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: PrivateLinkHubsListOptionalParams
+    options?: PrivateLinkHubsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PrivateLinkHub[]> {
-    let result = await this._list(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: PrivateLinkHubsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -492,7 +521,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -513,7 +541,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
