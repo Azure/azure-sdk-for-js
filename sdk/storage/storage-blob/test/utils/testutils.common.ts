@@ -31,8 +31,8 @@ function getUriSanitizerForQueryParam(paramName: string) {
 }
 
 const mockAccountName = "fakestorageaccount";
-//const mockMDAccountName = "md-fakestorageaccount";
-//const mockAccountName1 = "fakestorageaccount1";
+// const mockMDAccountName = "md-fakestorageaccount";
+// const mockAccountName1 = "fakestorageaccount1";
 const mockAccountKey = "aaaaa";
 const mockSas = "fakeSasToken";
 
@@ -53,17 +53,17 @@ export const recorderEnvSetup: RecorderStartOptions = {
     AZURE_CLIENT_ID: `${mockAccountKey}`,
     AZURE_TENANT_ID: `${mockAccountKey}`,
     AZURE_CLIENT_SECRET: `${mockAccountKey}`,
-    //MD_ACCOUNT_NAME: `${mockMDAccountName}`,
-    //MD_ACCOUNT_KEY: `${mockAccountKey}`,
-    //MD_ACCOUNT_SAS: `${mockSas}`,
-    //MD_STORAGE_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${mockMDAccountName};AccountKey=${mockAccountKey};EndpointSuffix=core.windows.net`,
-    //ENCRYPTION_SCOPE_1: "antjoscope1",
-    //ENCRYPTION_SCOPE_2: "antjoscope2",
-    //IMMUTABLE_CONTAINER_NAME: "fakecontainername",
-    //ORS_DEST_ACCOUNT_NAME: `${mockAccountName1}`,
-    //ORS_DEST_ACCOUNT_KEY: `${mockAccountKey}`,
-    //ORS_DEST_ACCOUNT_SAS: `${mockSas}`,
-    //ORS_DEST_STORAGE_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${mockAccountName1};AccountKey=${mockAccountKey};EndpointSuffix=core.windows.net`,
+    // MD_ACCOUNT_NAME: `${mockMDAccountName}`,
+    // MD_ACCOUNT_KEY: `${mockAccountKey}`,
+    // MD_ACCOUNT_SAS: `${mockSas}`,
+    // MD_STORAGE_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${mockMDAccountName};AccountKey=${mockAccountKey};EndpointSuffix=core.windows.net`,
+    // ENCRYPTION_SCOPE_1: "antjoscope1",
+    // ENCRYPTION_SCOPE_2: "antjoscope2",
+    // IMMUTABLE_CONTAINER_NAME: "fakecontainername",
+    // ORS_DEST_ACCOUNT_NAME: `${mockAccountName1}`,
+    // ORS_DEST_ACCOUNT_KEY: `${mockAccountKey}`,
+    // ORS_DEST_ACCOUNT_SAS: `${mockSas}`,
+    // ORS_DEST_STORAGE_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${mockAccountName1};AccountKey=${mockAccountKey};EndpointSuffix=core.windows.net`,
     SOFT_DELETE_ACCOUNT_NAME: `${mockAccountName}`,
     SOFT_DELETE_ACCOUNT_KEY: `${mockAccountKey}`,
     SOFT_DELETE_ACCOUNT_SAS: `${mockSas}`,
