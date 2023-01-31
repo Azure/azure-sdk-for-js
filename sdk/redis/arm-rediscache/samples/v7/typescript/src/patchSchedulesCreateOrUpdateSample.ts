@@ -13,6 +13,9 @@ import {
   RedisManagementClient
 } from "@azure/arm-rediscache";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create or replace the patching schedule for Redis cache.
@@ -21,8 +24,8 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2022-06-01/examples/RedisCachePatchSchedulesCreateOrUpdate.json
  */
 async function redisCachePatchSchedulesCreateOrUpdate() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["REDIS_RESOURCE_GROUP"] || "rg1";
   const name = "cache1";
   const defaultParam = "default";
   const parameters: RedisPatchSchedule = {
@@ -42,4 +45,8 @@ async function redisCachePatchSchedulesCreateOrUpdate() {
   console.log(result);
 }
 
-redisCachePatchSchedulesCreateOrUpdate().catch(console.error);
+async function main() {
+  redisCachePatchSchedulesCreateOrUpdate();
+}
+
+main().catch(console.error);
