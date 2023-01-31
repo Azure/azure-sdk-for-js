@@ -23,7 +23,9 @@ export const developerCliCredentialInternals = {
   getSafeWorkingDir(): string {
     if (process.platform === "win32") {
       if (!process.env.SystemRoot) {
-        throw new Error("Azure Developer CLI credential expects a 'SystemRoot' environment variable");
+        throw new Error(
+          "Azure Developer CLI credential expects a 'SystemRoot' environment variable"
+        );
       }
       return process.env.SystemRoot;
     } else {
@@ -46,25 +48,28 @@ export const developerCliCredentialInternals = {
     }
     return new Promise((resolve, reject) => {
       try {
-          child_process.execFile(
-              "azd",
-              [
-                  "auth",
-                  "token",
-                  "--output",
-                  "json",
-                  ...scopes.reduce<string[]>((previous, current) => previous.concat("--scope", current), []),
-                  ...tenantSection,
-              ],
-              { cwd: developerCliCredentialInternals.getSafeWorkingDir(), shell: true },
-              (error, stdout, stderr) => {
-                  resolve({ stdout, stderr, error });
-              }
-          );
+        child_process.execFile(
+          "azd",
+          [
+            "auth",
+            "token",
+            "--output",
+            "json",
+            ...scopes.reduce<string[]>(
+              (previous, current) => previous.concat("--scope", current),
+              []
+            ),
+            ...tenantSection,
+          ],
+          { cwd: developerCliCredentialInternals.getSafeWorkingDir(), shell: true },
+          (error, stdout, stderr) => {
+            resolve({ stdout, stderr, error });
+          }
+        );
       } catch (err: any) {
-          reject(err);
+        reject(err);
       }
-  });
+    });
   },
 };
 
@@ -113,20 +118,21 @@ export class AzureDeveloperCliCredential implements TokenCredential {
       this.additionallyAllowedTenantIds
     );
 
-    let scopeList: string[]
-    if (typeof(scopes) === "string") {
+    let scopeList: string[];
+    if (typeof scopes === "string") {
       scopeList = [scopes];
     } else {
-      scopeList = scopes
+      scopeList = scopes;
     }
     logger.getToken.info(`Using the scopes ${scopes}`);
-    
+
     return tracingClient.withSpan(`${this.constructor.name}.getToken`, options, async () => {
       try {
         const obj = await developerCliCredentialInternals.getAzdAccessToken(scopeList, tenantId);
         const isNotLoggedInError = obj.stderr?.match("not logged in, run `azd login` to login");
         const isNotInstallError =
-        obj.stderr?.match("azd:(.*)not found") || obj.stderr?.startsWith("'azd' is not recognized");
+          obj.stderr?.match("azd:(.*)not found") ||
+          obj.stderr?.startsWith("'azd' is not recognized");
 
         if (isNotInstallError || (obj.error && (obj.error as any).code === "ENOENT")) {
           const error = new CredentialUnavailableError(
@@ -145,24 +151,24 @@ export class AzureDeveloperCliCredential implements TokenCredential {
         }
 
         try {
-          const resp: { token: string, expiresOn: string} = JSON.parse(obj.stdout);
+          const resp: { token: string; expiresOn: string } = JSON.parse(obj.stdout);
           logger.getToken.info(formatSuccess(scopes));
           return {
-              token: resp.token,
-              expiresOnTimestamp: new Date(resp.expiresOn).getTime()
+            token: resp.token,
+            expiresOnTimestamp: new Date(resp.expiresOn).getTime(),
           };
         } catch (e: any) {
           if (obj.stderr) {
-              throw new CredentialUnavailableError(obj.stderr);
+            throw new CredentialUnavailableError(obj.stderr);
           }
           throw e;
         }
       } catch (err: any) {
         const error =
           err.name === "CredentialUnavailableError"
-              ? err
-              : new CredentialUnavailableError(
-                  (err as Error).message || "Unknown error while trying to retrieve the access token"
+            ? err
+            : new CredentialUnavailableError(
+                (err as Error).message || "Unknown error while trying to retrieve the access token"
               );
         logger.getToken.info(formatError(scopes, error));
         throw error;

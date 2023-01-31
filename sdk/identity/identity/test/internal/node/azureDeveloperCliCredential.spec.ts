@@ -169,5 +169,4 @@ describe("AzureDeveloperCliCredential (internal)", function () {
       assert.equal(error.message, "mock other access token error");
     }
   });
-
 });
