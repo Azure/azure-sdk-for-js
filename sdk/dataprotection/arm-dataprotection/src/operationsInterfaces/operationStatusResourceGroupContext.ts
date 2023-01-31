@@ -15,7 +15,7 @@ import {
 export interface OperationStatusResourceGroupContext {
   /**
    * Gets the operation status for an operation over a ResourceGroup's context.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceGroupName The name of the resource group where the backup vault is present.
    * @param operationId
    * @param options The options parameters.
    */
