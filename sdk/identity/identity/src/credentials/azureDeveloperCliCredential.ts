@@ -126,17 +126,23 @@ export class AzureDeveloperCliCredential implements TokenCredential {
       try {
         const obj = await developerCliCredentialInternals.getAzdAccessToken(scopeList, tenantId);
         const isNotLoggedInError = obj.stderr?.match("not logged in, run `azd login` to login");
+        const isNotInstallError =
+        obj.stderr?.match("azd:(.*)not found") || obj.stderr?.startsWith("'azd' is not recognized");
 
-        if (isNotLoggedInError) {
-          throw new CredentialUnavailableError(
-              "Please run 'azd login' from a command prompt to authenticate before using this credential."
+        if (isNotInstallError || (obj.error && (obj.error as any).code === "ENOENT")) {
+          const error = new CredentialUnavailableError(
+            "Azure Developer CLI could not be found. Please visit https://aka.ms/azure-dev for installation instructions and then, once installed, authenticate to your Azure account using 'azd login'."
           );
+          logger.getToken.info(formatError(scopes, error));
+          throw error;
         }
 
-        if (obj.error && (obj.error as any).code === "ENOENT") {
-          throw new CredentialUnavailableError(
-              "Azure Developer CLI could not be found. Please visit https://aka.ms/azure-dev for installation instructions and then, once installed, authenticate to your Azure account using 'azd login'."
+        if (isNotLoggedInError) {
+          const error = new CredentialUnavailableError(
+            "Please run 'azd login' from a command prompt to authenticate before using this credential."
           );
+          logger.getToken.info(formatError(scopes, error));
+          throw error;
         }
 
         try {
