@@ -8654,7 +8654,7 @@ packages:
     dev: false
 
   /typescript/5.0.0-dev.20230130:
-    resolution: {integrity: sha512-RXkuG13JCg/g2OYnaLg7HiYfwpUzE7auAPSV2OcaW5VhJn1rESec8GbojVaxNoaQra4eANBVyMXx4SbJYYC2Yg==}
+    resolution: {integrity: sha512-4zmbh58Vt3HDAD0AvHr1ccmAkKKODriYMNajcSzUylVgXCXrNGTJOReMp54GBs67KfQFaLOpVZlLrlD2FKn9Kg==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
