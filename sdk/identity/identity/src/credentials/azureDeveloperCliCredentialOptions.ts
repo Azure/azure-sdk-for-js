@@ -7,4 +7,8 @@ import { MultiTenantTokenCredentialOptions } from "./multiTenantTokenCredentialO
  * Options for the {@link AzureDeveloperCliCredential}
  */
 export interface AzureDeveloperCliCredentialOptions extends MultiTenantTokenCredentialOptions {
+    /**
+   * Allows specifying a tenant ID
+   */
+  tenantId?: string;
 }

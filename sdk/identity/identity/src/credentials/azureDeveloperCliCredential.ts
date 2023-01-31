@@ -1,11 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AccessToken, TokenCredential } from "@azure/core-auth";
-import { credentialLogger, } from "../util/logging";
+import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import { credentialLogger, formatError, formatSuccess } from "../util/logging";
 import { AzureDeveloperCliCredentialOptions } from "./azureDeveloperCliCredentialOptions";
 import { CredentialUnavailableError } from "../errors";
 import child_process from "child_process";
+import {
+  processMultiTenantRequest,
+  resolveAddionallyAllowedTenantIds,
+} from "../util/tenantIdUtils";
+import { tracingClient } from "../util/tracing";
 
 /**
  * Mockable reference to the Developer CLI credential cliCredentialFunctions
@@ -27,13 +32,18 @@ export const developerCliCredentialInternals = {
   },
 
   /**
-   * Gets the access token from Azure CLI
+   * Gets the access token from Azure Developer CLI
    * @param scopes - The scopes to use when getting the token
    * @internal
    */
   async getAzdAccessToken(
-    scopes: string[]
+    scopes: string[],
+    tenantId?: string
   ): Promise<{ stdout: string; stderr: string; error: Error | null }> {
+    let tenantSection: string[] = [];
+    if (tenantId) {
+      tenantSection = ["--tenant-id", tenantId];
+    }
     return new Promise((resolve, reject) => {
       try {
           child_process.execFile(
@@ -44,8 +54,9 @@ export const developerCliCredentialInternals = {
                   "--output",
                   "json",
                   ...scopes.reduce<string[]>((previous, current) => previous.concat("--scope", current), []),
+                  ...tenantSection,
               ],
-              { cwd: developerCliCredentialInternals.getSafeWorkingDir() },
+              { cwd: developerCliCredentialInternals.getSafeWorkingDir(), shell: true },
               (error, stdout, stderr) => {
                   resolve({ stdout, stderr, error });
               }
@@ -66,6 +77,9 @@ const logger = credentialLogger("AzureDeveloperCliCredential");
  * with Azure Developer CLI command "azd auth token".
  */
 export class AzureDeveloperCliCredential implements TokenCredential {
+  private tenantId?: string;
+  private additionallyAllowedTenantIds: string[];
+
   /**
    * Creates an instance of the {@link AzureDeveloperCliCredential}.
    *
@@ -76,6 +90,10 @@ export class AzureDeveloperCliCredential implements TokenCredential {
    */
   // @ts-ignore
   constructor(options?: AzureDeveloperCliCredentialOptions) {
+    this.tenantId = options?.tenantId;
+    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
+      options?.additionallyAllowedTenants
+    );
   }
 
   /**
@@ -88,40 +106,50 @@ export class AzureDeveloperCliCredential implements TokenCredential {
    */
   public async getToken(
     scopes: string | string[],
+    options: GetTokenOptions = {}
   ): Promise<AccessToken> {
+    const tenantId = processMultiTenantRequest(
+      this.tenantId,
+      options,
+      this.additionallyAllowedTenantIds
+    );
+
+    var scopeList: string[]
     if (typeof(scopes) === "string") {
-      scopes = [scopes];
-  }
-  logger.getToken.info(`Using the scopes ${scopes}`);
+      scopeList = [scopes];
+    } else {
+      scopeList = scopes
+    }
+    logger.getToken.info(`Using the scopes ${scopes}`);
+    
+    return tracingClient.withSpan(`${this.constructor.name}.getToken`, options, async () => {
+      try {
+        const obj = await developerCliCredentialInternals.getAzdAccessToken(scopeList, tenantId);
+        const isNotLoggedInError = obj.stderr?.match("not logged in, run `azd login` to login");
 
-  try {
-      const obj = await developerCliCredentialInternals.getAzdAccessToken(scopes);
-      const isNotLoggedInError = obj.stderr?.match("not logged in, run `azd login` to login");
-
-      if (isNotLoggedInError) {
+        if (isNotLoggedInError) {
           throw new CredentialUnavailableError(
               "Please run 'azd login' from a command prompt to authenticate before using this credential."
           );
-      }
+        }
 
-      if (obj.error && (obj.error as any).code === "ENOENT") {
+        if (obj.error && (obj.error as any).code === "ENOENT") {
           throw new CredentialUnavailableError(
               "Azure Developer CLI could not be found. Please visit https://aka.ms/azure-dev for installation instructions and then, once installed, authenticate to your Azure account using 'azd login'."
           );
-      }
+        }
 
-      try {
+        try {
           const resp: { token: string, expiresOn: string} = JSON.parse(obj.stdout);
-
+          logger.getToken.info(formatSuccess(scopes));
           return {
               token: resp.token,
               expiresOnTimestamp: new Date(resp.expiresOn).getTime()
           };
-      } catch (e: any) {
+        } catch (e: any) {
           if (obj.stderr) {
               throw new CredentialUnavailableError(obj.stderr);
           }
-
           throw e;
         }
       } catch (err: any) {
@@ -131,8 +159,9 @@ export class AzureDeveloperCliCredential implements TokenCredential {
               : new CredentialUnavailableError(
                   (err as Error).message || "Unknown error while trying to retrieve the access token"
               );
-
+        logger.getToken.info(formatError(scopes, error));
         throw error;
       }
+    });
   }
 }
