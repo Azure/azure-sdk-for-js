@@ -14,6 +14,9 @@ import {
   KustoManagementClient
 } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Updates a data connection.
@@ -22,8 +25,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoDataConnectionsEventGridUpdate.json
  */
 async function kustoDataConnectionsEventGridUpdate() {
-  const subscriptionId = "12345678-1234-1234-1234-123456789098";
-  const resourceGroupName = "kustorptest";
+  const subscriptionId =
+    process.env["KUSTO_SUBSCRIPTION_ID"] ||
+    "12345678-1234-1234-1234-123456789098";
+  const resourceGroupName =
+    process.env["KUSTO_RESOURCE_GROUP"] || "kustorptest";
   const clusterName = "kustoCluster";
   const databaseName = "KustoDatabase8";
   const dataConnectionName = "dataConnectionTest";
@@ -58,8 +64,6 @@ async function kustoDataConnectionsEventGridUpdate() {
   console.log(result);
 }
 
-kustoDataConnectionsEventGridUpdate().catch(console.error);
-
 /**
  * This sample demonstrates how to Updates a data connection.
  *
@@ -67,8 +71,11 @@ kustoDataConnectionsEventGridUpdate().catch(console.error);
  * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoDataConnectionsUpdate.json
  */
 async function kustoDataConnectionsUpdate() {
-  const subscriptionId = "12345678-1234-1234-1234-123456789098";
-  const resourceGroupName = "kustorptest";
+  const subscriptionId =
+    process.env["KUSTO_SUBSCRIPTION_ID"] ||
+    "12345678-1234-1234-1234-123456789098";
+  const resourceGroupName =
+    process.env["KUSTO_RESOURCE_GROUP"] || "kustorptest";
   const clusterName = "kustoCluster";
   const databaseName = "KustoDatabase8";
   const dataConnectionName = "dataConnectionTest";
@@ -93,4 +100,9 @@ async function kustoDataConnectionsUpdate() {
   console.log(result);
 }
 
-kustoDataConnectionsUpdate().catch(console.error);
+async function main() {
+  kustoDataConnectionsEventGridUpdate();
+  kustoDataConnectionsUpdate();
+}
+
+main().catch(console.error);

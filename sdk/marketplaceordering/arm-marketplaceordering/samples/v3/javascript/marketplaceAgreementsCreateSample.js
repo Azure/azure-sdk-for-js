@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { MarketplaceOrderingAgreements } = require("@azure/arm-marketplaceordering");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Save marketplace terms.
@@ -18,7 +19,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/marketplaceordering/resource-manager/Microsoft.MarketplaceOrdering/stable/2021-01-01/examples/SetMarketplaceTerms.json
  */
 async function setMarketplaceTerms() {
-  const subscriptionId = "subid";
+  const subscriptionId = process.env["MARKETPLACEORDERING_SUBSCRIPTION_ID"] || "subid";
   const offerType = "virtualmachine";
   const publisherId = "pubid";
   const offerId = "offid";
@@ -46,4 +47,8 @@ async function setMarketplaceTerms() {
   console.log(result);
 }
 
-setMarketplaceTerms().catch(console.error);
+async function main() {
+  setMarketplaceTerms();
+}
+
+main().catch(console.error);
