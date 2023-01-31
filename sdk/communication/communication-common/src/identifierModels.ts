@@ -70,7 +70,7 @@ export interface MicrosoftTeamsBotIdentifier {
   rawId?: string;
 
   /**
-   * Id of the Microsoft Teams bot. If the bot isn't anonymous, the id is the AAD object id of the bot.
+   * Id of the Microsoft Teams bot.
    */
   microsoftTeamsBotId: string;
 
