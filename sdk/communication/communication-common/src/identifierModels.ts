@@ -70,7 +70,7 @@ export interface MicrosoftBotIdentifier {
   rawId?: string;
 
   /**
-   * The unique Microsoft app ID for the bot as registered with the Bot Framework. 
+   * The unique Microsoft app ID for the bot as registered with the Bot Framework.
    */
   microsoftBotId: string;
 
