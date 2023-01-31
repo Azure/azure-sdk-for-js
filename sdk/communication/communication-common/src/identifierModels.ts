@@ -70,11 +70,7 @@ export interface MicrosoftBotIdentifier {
   rawId?: string;
 
   /**
-<<<<<<< HEAD
    * The unique Microsoft app ID for the bot as registered with the Bot Framework. 
-=======
-   * Id of the Microsoft Teams bot.
->>>>>>> dd5132df63fb74f8ff042348b27c87ef3f8370d3
    */
   microsoftBotId: string;
 
