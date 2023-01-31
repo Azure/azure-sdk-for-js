@@ -4,7 +4,12 @@
 import { assert } from "chai";
 
 import { BlobServiceClient, newPipeline, StorageSharedKeyCredential } from "../../src";
-import { configureBlobStorageClient, getBSU, getConnectionStringFromEnvironment, recorderEnvSetup } from "../utils";
+import {
+  configureBlobStorageClient,
+  getBSU,
+  getConnectionStringFromEnvironment,
+  recorderEnvSetup,
+} from "../utils";
 import { Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 

@@ -47,7 +47,7 @@ describe("BlobClient", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({uriSanitizers}, ["record", "playback"]);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
     blobServiceClient = getBSU(recorder);
     containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);
@@ -898,7 +898,7 @@ describe("BlobClient", () => {
   });
 
   it("exists with condition", async function () {
-    const proposedLeaseId = recorder.variable('proposedLeaseId', generateUuid());
+    const proposedLeaseId = recorder.variable("proposedLeaseId", generateUuid());
     const leaseResp = await blobClient.getBlobLeaseClient(proposedLeaseId).acquireLease(30);
     assert.ok(leaseResp.leaseId);
 
@@ -949,7 +949,6 @@ describe("BlobClient", () => {
 
   // Skipped for now as it's not working in live tests pipeline.
   it.skip("lastAccessed returned", async function (this: Context) {
-
     const downloadRes = await blockBlobClient.download();
     assert.ok(downloadRes.lastAccessed);
 
@@ -1503,8 +1502,8 @@ describe("BlobClient - Object Replication", () => {
   ];
 
   before(async function (this: Context) {
-      // need special setup to re-record these tests
-      this.skip();
+    // need special setup to re-record these tests
+    this.skip();
   });
 
   beforeEach(async function (this: Context) {
@@ -1617,7 +1616,6 @@ describe("BlobClient - ImmutabilityPolicy", () => {
   let recorder: Recorder;
 
   beforeEach(async function (this: Context) {
-  
     try {
       containerName = getImmutableContainerName();
       recorder = new Recorder(this.currentTest);
@@ -1630,8 +1628,6 @@ describe("BlobClient - ImmutabilityPolicy", () => {
     } catch {
       this.skip();
     }
-
-    
   });
 
   afterEach(async function (this: Context) {
@@ -1652,7 +1648,6 @@ describe("BlobClient - ImmutabilityPolicy", () => {
         await recorder.stop();
       }
     }
-    
   });
 
   it("Set immutability policy", async function () {

@@ -26,7 +26,7 @@ describe("BlobServiceClient", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({uriSanitizers}, ["record", "playback"]);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
   });
 
   afterEach(async function () {

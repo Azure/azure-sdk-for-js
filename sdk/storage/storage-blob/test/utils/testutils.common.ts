@@ -12,10 +12,7 @@ export const testPollerProperties = {
   intervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-export function configureBlobStorageClient(
-  recorder: Recorder,
-  serviceClient: StorageClient
-): void {
+export function configureBlobStorageClient(recorder: Recorder, serviceClient: StorageClient): void {
   const options = recorder.configureClientOptions({});
 
   const pipeline: Pipeline = (serviceClient as any).storageClientContext.pipeline;
@@ -46,7 +43,7 @@ export const recorderEnvSetup: RecorderStartOptions = {
     // Used in record and playback modes
     // 1. The key-value pairs will be used as the environment variables in playback mode
     // 2. If the env variables are present in the recordings as plain strings, they will be replaced with the provided values in record mode
-   
+
     ACCOUNT_KEY: `${mockAccountKey}`,
     ACCOUNT_SAS: `${mockSas}`,
     STORAGE_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${mockAccountName};AccountKey=${mockAccountKey};EndpointSuffix=core.windows.net`,
@@ -74,7 +71,9 @@ export const recorderEnvSetup: RecorderStartOptions = {
     ACCOUNT_NAME: `${mockAccountName}`,
   },
   sanitizerOptions: {
-    removeHeaderSanitizer: { headersForRemoval: ["x-ms-copy-source-authorization", "x-ms-copy-source"] },
+    removeHeaderSanitizer: {
+      headersForRemoval: ["x-ms-copy-source-authorization", "x-ms-copy-source"],
+    },
     bodySanitizers: [
       {
         regex: true,
@@ -90,7 +89,7 @@ export const recorderEnvSetup: RecorderStartOptions = {
       },
     ],
     // SAS token may contain sensitive information
-    uriSanitizers
+    uriSanitizers,
   },
 };
 

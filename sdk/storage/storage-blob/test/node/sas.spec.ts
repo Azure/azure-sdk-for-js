@@ -45,7 +45,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({uriSanitizers}, ["playback", "record"]);
+    await recorder.addSanitizers({ uriSanitizers }, ["playback", "record"]);
     blobServiceClient = getBSU(recorder);
   });
 
@@ -2537,7 +2537,7 @@ describe("Generation for user delegation SAS Node.js only", () => {
     }
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({uriSanitizers}, ["record", "playback"]);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
     blobServiceClient = getTokenBSUWithDefaultCredential(recorder);
 
     now = new Date(recorder.variable("now", new Date().toISOString()));
@@ -2640,7 +2640,7 @@ describe("Shared Access Signature (SAS) generation Node.js Only - ImmutabilityPo
     }
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({uriSanitizers}, ["record", "playback"]);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
     blobServiceClient = getBSU(recorder);
     containerClient = blobServiceClient.getContainerClient(containerName);
     blobName = recorder.variable("blob", getUniqueName("blob"));
@@ -2670,7 +2670,6 @@ describe("Shared Access Signature (SAS) generation Node.js Only - ImmutabilityPo
         await recorder.stop();
       }
     }
-    
   });
 
   it("Account sas - set immutability policy and legalhold with account SAS should work", async () => {

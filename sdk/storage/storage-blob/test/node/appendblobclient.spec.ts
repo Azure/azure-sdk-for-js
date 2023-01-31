@@ -40,7 +40,14 @@ describe("AppendBlobClient Node.js only", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({removeHeaderSanitizer: {headersForRemoval: ["x-ms-copy-source", "x-ms-copy-source-authorization"]}}, ["playback", "record"]);
+    await recorder.addSanitizers(
+      {
+        removeHeaderSanitizer: {
+          headersForRemoval: ["x-ms-copy-source", "x-ms-copy-source-authorization"],
+        },
+      },
+      ["playback", "record"]
+    );
     blobServiceClient = getBSU(recorder);
     containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);

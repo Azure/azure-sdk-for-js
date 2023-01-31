@@ -218,7 +218,14 @@ describe("syncUploadFromURL", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({removeHeaderSanitizer: {headersForRemoval: ["x-ms-copy-source", "x-ms-copy-source-authorization"]}}, ["playback", "record"]);
+    await recorder.addSanitizers(
+      {
+        removeHeaderSanitizer: {
+          headersForRemoval: ["x-ms-copy-source", "x-ms-copy-source-authorization"],
+        },
+      },
+      ["playback", "record"]
+    );
     const blobServiceClient = getBSU(recorder);
     const containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);
