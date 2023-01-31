@@ -19492,12 +19492,13 @@ packages:
     dev: false
 
   file:projects/test-credential.tgz:
-    resolution: {integrity: sha512-Cf8mcP8kznIwc21kGxedpFqPTwwNVG0V91wDd8XgL8tekw8cBJRrxf5VCwtUTxTftiwEVLXTOcfhZ2Zd5RUd6A==, tarball: file:projects/test-credential.tgz}
+    resolution: {integrity: sha512-7EClkzujG/HH+XO9ZcDaFkqbG0uoVkhG6/C91jwHNCmD4vRV+OuFFLJTSDiQr+9PUE9S1MrOi2pJ7zy87eG/Lg==, tarball: file:projects/test-credential.tgz}
     name: '@rush-temp/test-credential'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.34.0
       '@types/node': 14.18.36
       eslint: 8.33.0
       prettier: 2.8.3
