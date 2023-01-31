@@ -255,7 +255,8 @@ export class StreamingReceiver extends MessageReceiver {
         context.delivery!,
         true,
         this.receiveMode,
-        options.skipParsingBodyAsJson ?? false
+        options.skipParsingBodyAsJson ?? false,
+        options.skipConvertingDate ?? false
       );
 
       this._lockRenewer?.start(this, bMessage, (err) => {

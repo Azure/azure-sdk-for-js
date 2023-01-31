@@ -121,7 +121,7 @@ export interface OnGroupDataMessageArgs {
 }
 
 // @public
-export interface OnRestoreGroupFailedArgs {
+export interface OnRejoinGroupFailedArgs {
     error: Error;
     group: string;
 }
@@ -239,13 +239,13 @@ export class WebPubSubClient {
     off(event: "stopped", listener: (e: OnStoppedArgs) => void): void;
     off(event: "server-message", listener: (e: OnServerDataMessageArgs) => void): void;
     off(event: "group-message", listener: (e: OnGroupDataMessageArgs) => void): void;
-    off(event: "rejoin-group-failed", listener: (e: OnRestoreGroupFailedArgs) => void): void;
+    off(event: "rejoin-group-failed", listener: (e: OnRejoinGroupFailedArgs) => void): void;
     on(event: "connected", listener: (e: OnConnectedArgs) => void): void;
     on(event: "disconnected", listener: (e: OnDisconnectedArgs) => void): void;
     on(event: "stopped", listener: (e: OnStoppedArgs) => void): void;
     on(event: "server-message", listener: (e: OnServerDataMessageArgs) => void): void;
     on(event: "group-message", listener: (e: OnGroupDataMessageArgs) => void): void;
-    on(event: "rejoin-group-failed", listener: (e: OnRestoreGroupFailedArgs) => void): void;
+    on(event: "rejoin-group-failed", listener: (e: OnRejoinGroupFailedArgs) => void): void;
     sendEvent(eventName: string, content: JSONTypes | ArrayBuffer, dataType: WebPubSubDataType, options?: SendEventOptions): Promise<WebPubSubResult>;
     sendToGroup(groupName: string, content: JSONTypes | ArrayBuffer, dataType: WebPubSubDataType, options?: SendToGroupOptions): Promise<void | WebPubSubResult>;
     start(options?: StartOptions): Promise<void>;
@@ -260,7 +260,7 @@ export interface WebPubSubClientCredential {
 // @public
 export interface WebPubSubClientOptions {
     autoReconnect?: boolean;
-    autoRestoreGroups?: boolean;
+    autoRejoinGroups?: boolean;
     messageRetryOptions?: WebPubSubRetryOptions;
     protocol?: WebPubSubClientProtocol;
     reconnectRetryOptions?: WebPubSubRetryOptions;
