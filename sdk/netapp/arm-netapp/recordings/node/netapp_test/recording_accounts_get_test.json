@@ -8,8 +8,8 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-netapp/18.0.0 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
-        "x-ms-client-request-id": "b69b4cad-f2f9-4a48-bdf9-1b4bb4038339"
+        "User-Agent": "azsdk-js-arm-netapp/17.0.1 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "447aac83-a3f9-4ee7-9d2f-e7179eaed64f"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,8 +17,8 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Sun, 29 Jan 2023 09:13:35 GMT",
-        "ETag": "W/\u0022datetime\u00272023-01-29T09%3A13%3A32.9152964Z\u0027\u0022",
+        "Date": "Wed, 01 Feb 2023 09:47:23 GMT",
+        "ETag": "W/\u0022datetime\u00272023-02-01T09%3A47%3A20.282695Z\u0027\u0022",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "Microsoft-IIS/10.0",
@@ -26,17 +26,17 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "16fdce31-9e97-49f0-8494-735cb002e0cc",
+        "x-ms-correlation-request-id": "8aefa514-a85e-46ca-96c1-63f679d7cbbf",
         "x-ms-ratelimit-remaining-subscription-reads": "11997",
-        "x-ms-request-id": "e0e40eda-47ab-482f-a73f-61cbbbed10f6",
-        "x-ms-routing-request-id": "KOREASOUTH:20230129T091336Z:16fdce31-9e97-49f0-8494-735cb002e0cc",
+        "x-ms-request-id": "fd54e910-0e0a-4664-8889-dc4fefd07174",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230201T094724Z:8aefa514-a85e-46ca-96c1-63f679d7cbbf",
         "X-Powered-By": "ASP.NET"
       },
       "ResponseBody": {
         "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.NetApp/netAppAccounts/accounttest",
         "name": "accounttest",
         "type": "Microsoft.NetApp/netAppAccounts",
-        "etag": "W/\u0022datetime\u00272023-01-29T09%3A13%3A32.9152964Z\u0027\u0022",
+        "etag": "W/\u0022datetime\u00272023-02-01T09%3A47%3A20.282695Z\u0027\u0022",
         "location": "eastus",
         "properties": {
           "encryption": {
@@ -47,10 +47,10 @@
         "systemData": {
           "createdBy": "azure_client_id",
           "createdByType": "Application",
-          "createdAt": "2023-01-29T09:13:31.7644034Z",
+          "createdAt": "2023-02-01T09:47:18.7932385Z",
           "lastModifiedBy": "azure_client_id",
           "lastModifiedByType": "Application",
-          "lastModifiedAt": "2023-01-29T09:13:31.7644034Z"
+          "lastModifiedAt": "2023-02-01T09:47:18.7932385Z"
         }
       }
     }

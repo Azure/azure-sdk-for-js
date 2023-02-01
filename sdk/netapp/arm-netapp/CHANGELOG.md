@@ -1,12 +1,13 @@
 # Release History
     
-## 18.0.0 (2023-02-01)
+## 17.0.1 (2023-02-01)
     
-**Breaking Changes**
+**Features**
+  - Exposes `getContinuationToken` helper function to extract continuation token
 
-  - Operation NetAppResource.checkNameAvailability has a new signature
-  - Operation NetAppResource.checkQuotaAvailability has a new signature
-    
+**Bugs Fixed**
+
+  - A series of small bug fixs relevant to authentication and apiVersion policy
     
 ## 17.0.0 (2022-09-21)
     
