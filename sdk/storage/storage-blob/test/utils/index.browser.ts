@@ -10,9 +10,7 @@ import { env, Recorder } from "@azure-tools/test-recorder";
 
 export * from "./testutils.common";
 
-export function getGenericCredential(accountType: string): AnonymousCredential {
-  const anewAccountType = accountType; // bypass compiling error
-  accountType = anewAccountType;
+export function getGenericCredential(): AnonymousCredential {
   return new AnonymousCredential();
 }
 export function getGenericBSU(
@@ -25,10 +23,9 @@ export function getGenericBSU(
   const accountSASEnvVar = `${accountType}ACCOUNT_SAS`;
 
   const accountName = env[accountNameEnvVar];
-  let accountSAS: string | undefined;
-  accountSAS = env[accountSASEnvVar];
+  let accountSAS = env[accountSASEnvVar];
 
-  if (!accountName || !accountSAS || accountName === "" || accountSAS === "") {
+  if (!accountName || !accountSAS) {
     throw new Error(
       `${accountNameEnvVar} and/or ${accountSASEnvVar} environment variables not specified.`
     );
@@ -37,12 +34,8 @@ export function getGenericBSU(
   if (accountSAS) {
     accountSAS = accountSAS.startsWith("?") ? accountSAS : `?${accountSAS}`;
   }
-  // don't add the test account SAS value.
-  if (accountSAS === "?fakeSasToken") {
-    accountSAS = "";
-  }
 
-  const credentials = getGenericCredential(accountType);
+  const credentials = getGenericCredential();
   const pipeline = newPipeline(credentials, pipelineOptions);
   const blobPrimaryURL = `https://${accountName}${accountNameSuffix}.blob.core.windows.net${accountSAS}`;
   const client = new BlobServiceClient(blobPrimaryURL, pipeline);
@@ -55,7 +48,7 @@ export function getTokenCredential(): TokenCredential {
 
   const accountToken = env[accountTokenEnvVar];
 
-  if (!accountToken || accountToken === "") {
+  if (!accountToken) {
     throw new Error(`${accountTokenEnvVar} environment variables not specified.`);
   }
 
@@ -89,7 +82,7 @@ export function getTokenBSU(recorder: Recorder): BlobServiceClient {
 
   const accountName = env[accountNameEnvVar];
 
-  if (!accountName || accountName === "") {
+  if (!accountName) {
     throw new Error(`${accountNameEnvVar} environment variables not specified.`);
   }
 

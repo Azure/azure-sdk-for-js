@@ -3,7 +3,7 @@
 
 import { assert } from "chai";
 
-import { getBSU, getUniqueName, recorderEnvSetup } from "./utils";
+import { getBSU, getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils";
 import { delay, Recorder } from "@azure-tools/test-recorder";
 import { ContainerClient, BlobClient, BlockBlobClient, BlobServiceClient } from "../src";
 import { Context } from "mocha";
@@ -19,7 +19,10 @@ describe("LeaseClient from Container", () => {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers(
-      { removeHeaderSanitizer: { headersForRemoval: ["x-ms-proposed-lease-id", "x-ms-lease-id"] } },
+      {
+        uriSanitizers,
+        removeHeaderSanitizer: { headersForRemoval: ["x-ms-proposed-lease-id", "x-ms-lease-id"] },
+      },
       ["record", "playback"]
     );
     blobServiceClient = getBSU(recorder);
@@ -157,6 +160,7 @@ describe("LeaseClient from Blob", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["playback", "record"]);
     const blobServiceClient = getBSU(recorder);
     containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);

@@ -5,7 +5,12 @@ import { assert } from "chai";
 
 import { getBSU } from "./utils";
 import { Recorder, isRecordMode, isPlaybackMode, isLiveMode } from "@azure-tools/test-recorder";
-import { getUniqueName, recorderEnvSetup, testPollerProperties } from "./utils/testutils.common";
+import {
+  getUniqueName,
+  recorderEnvSetup,
+  testPollerProperties,
+  uriSanitizers,
+} from "./utils/testutils.common";
 import { BlobClient, BlockBlobClient, ContainerClient, BlobBeginCopyFromURLResponse } from "../src";
 import { Context } from "mocha";
 import { isNode } from "@azure/test-utils";
@@ -25,6 +30,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["playback", "record"]);
     const blobServiceClient = getBSU(recorder);
     containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);

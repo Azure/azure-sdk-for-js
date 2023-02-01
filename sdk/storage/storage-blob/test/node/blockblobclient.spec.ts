@@ -15,6 +15,7 @@ import {
   getTokenBSUWithDefaultCredential,
   getUniqueName,
   recorderEnvSetup,
+  uriSanitizers,
 } from "../utils";
 import {
   BlockBlobClient,
@@ -220,6 +221,7 @@ describe("syncUploadFromURL", () => {
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers(
       {
+        uriSanitizers,
         removeHeaderSanitizer: {
           headersForRemoval: ["x-ms-copy-source", "x-ms-copy-source-authorization"],
         },

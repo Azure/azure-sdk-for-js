@@ -7,10 +7,12 @@ import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import {
   base64encode,
   bodyToString,
+  configureBlobStorageClient,
   getBSU,
   getSASConnectionStringFromEnvironment,
   getUniqueName,
   recorderEnvSetup,
+  uriSanitizers,
 } from "./utils";
 import { ContainerClient, BlobClient, BlockBlobClient } from "../src";
 import { Test_CPK_INFO } from "./utils/fakeTestSecrets";
@@ -30,6 +32,10 @@ describe("BlockBlobClient", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers(
+      { uriSanitizers, removeHeaderSanitizer: { headersForRemoval: ["x-ms-copy-source"] } },
+      ["playback", "record"]
+    );
     const blobServiceClient = getBSU(recorder);
     containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);
@@ -276,6 +282,7 @@ describe("BlockBlobClient", () => {
       containerName,
       blobName
     );
+    configureBlobStorageClient(recorder, newClient);
 
     const body: string = recorder.variable("randomstring", getUniqueName("randomstring"));
     await newClient.upload(body, body.length);

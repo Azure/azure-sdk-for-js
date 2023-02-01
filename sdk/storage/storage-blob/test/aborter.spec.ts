@@ -5,7 +5,7 @@ import { assert } from "chai";
 
 import { AbortController, AbortSignal } from "@azure/abort-controller";
 import { ContainerClient } from "../src";
-import { getBSU, getUniqueName, recorderEnvSetup } from "./utils";
+import { getBSU, getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils";
 import { Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 
@@ -18,6 +18,7 @@ describe("Aborter", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["playback", "record"]);
     const blobServiceClient = getBSU(recorder);
     containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);

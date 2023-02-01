@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { BlockBlobClient, BlobServiceClient } from "../src";
-import { getBSU, getRecorderUniqueVariable, recorderEnvSetup } from "./utils/index";
+import { getBSU, getRecorderUniqueVariable, recorderEnvSetup, uriSanitizers } from "./utils/index";
 import { assert } from "chai";
 import { appendToURLPath, EscapePath } from "../src/utils/utils.common";
 import { Recorder } from "@azure-tools/test-recorder";
@@ -19,6 +19,7 @@ describe("Special Naming Tests", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["playback", "record"]);
     blobServiceClient = getBSU(recorder);
     containerName = getRecorderUniqueVariable(recorder, "1container-with-dash");
     containerClient = blobServiceClient.getContainerClient(containerName);

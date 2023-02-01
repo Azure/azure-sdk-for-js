@@ -13,6 +13,7 @@ import {
   getBSU,
   getUniqueName,
   recorderEnvSetup,
+  uriSanitizers,
 } from "../utils/index.browser";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { ContainerClient, BlobClient, BlockBlobClient, BlobServiceClient } from "../../src";
@@ -35,6 +36,7 @@ describe("Highlevel", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["playback", "record"]);
     blobServiceClient = getBSU(recorder);
     containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);
@@ -53,19 +55,9 @@ describe("Highlevel", () => {
 
   before(async function (this: Context) {
     if (isLiveMode()) {
-      tempFile1 = getBrowserFile(
-        recorder.variable("browserfile", getUniqueName("browserfile")),
-        tempFile1Length
-      );
-      tempFile2 = getBrowserFile(
-        recorder.variable("browserfile2", getUniqueName("browserfile2")),
-        tempFile2Length
-      );
+      tempFile1 = getBrowserFile(getUniqueName("browserfile"), tempFile1Length);
+      tempFile2 = getBrowserFile(getUniqueName("browserfile2"), tempFile2Length);
     }
-  });
-
-  after(async function () {
-    /* empty */
   });
 
   it("uploadBrowserDataToBlockBlob should abort when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async function () {

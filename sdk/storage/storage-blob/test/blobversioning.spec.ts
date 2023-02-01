@@ -10,6 +10,7 @@ import {
   bodyToString,
   getGenericCredential,
   getUniqueName,
+  uriSanitizers,
 } from "./utils";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import {
@@ -39,6 +40,10 @@ describe("Blob versioning", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers(
+      { uriSanitizers, removeHeaderSanitizer: { headersForRemoval: ["x-ms-copy-source"] } },
+      ["playback", "record"]
+    );
     blobServiceClient = getBSU(recorder);
     containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);

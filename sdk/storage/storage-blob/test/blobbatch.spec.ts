@@ -10,6 +10,7 @@ import {
   recorderEnvSetup,
   getTokenBSU,
   getUniqueName,
+  uriSanitizers,
 } from "./utils";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { BlobBatch } from "../src";
@@ -39,6 +40,7 @@ describe("BlobBatch", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["playback", "record"]);
 
     blobServiceClient = getGenericBSU(recorder, "");
     blobBatchClient = blobServiceClient.getBlobBatchClient();
