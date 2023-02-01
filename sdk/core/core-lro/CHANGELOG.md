@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- The operation will be considered failed when an HTTP response error is received and not when any arbitrary error is raised.
+
 ### Other Changes
 
 ## 2.5.0 (2023-01-10)
