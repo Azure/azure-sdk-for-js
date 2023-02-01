@@ -10,16 +10,18 @@
 // Licensed under the MIT License.
 const { AppPlatformManagementClient } = require("@azure/arm-appplatform");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Update the Monitoring Setting.
  *
  * @summary Update the Monitoring Setting.
- * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-09-01-preview/examples/MonitoringSettings_UpdatePatch.json
+ * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-11-01-preview/examples/MonitoringSettings_UpdatePatch.json
  */
 async function monitoringSettingsUpdatePatch() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["APPPLATFORM_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["APPPLATFORM_RESOURCE_GROUP"] || "myResourceGroup";
   const serviceName = "myservice";
   const monitoringSettingResource = {
     properties: {
@@ -38,4 +40,8 @@ async function monitoringSettingsUpdatePatch() {
   console.log(result);
 }
 
-monitoringSettingsUpdatePatch().catch(console.error);
+async function main() {
+  monitoringSettingsUpdatePatch();
+}
+
+main().catch(console.error);

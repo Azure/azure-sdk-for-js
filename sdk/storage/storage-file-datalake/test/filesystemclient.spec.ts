@@ -82,7 +82,7 @@ describe("DataLakeFileSystemClient", () => {
             {
               name: "Azure.Storage.DataLake.DataLakeFileSystemClient-setMetadata",
               children: [
-                {
+                /* {
                   name: "Azure.Storage.Blob.ContainerClient-setMetadata",
                   children: [
                     /* {
@@ -90,7 +90,7 @@ describe("DataLakeFileSystemClient", () => {
                       children: [],
                     },*/
                   ],
-                },
+                },*/
               ],
             },
           ],

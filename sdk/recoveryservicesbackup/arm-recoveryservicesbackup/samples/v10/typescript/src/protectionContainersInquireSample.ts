@@ -10,17 +10,23 @@
 // Licensed under the MIT License.
 import { RecoveryServicesBackupClient } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to This is an async operation and the results should be tracked using location header or Azure-async-url.
  *
  * @summary This is an async operation and the results should be tracked using location header or Azure-async-url.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2022-03-01/examples/AzureStorage/ProtectionContainers_Inquire.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/AzureStorage/ProtectionContainers_Inquire.json
  */
 async function inquireAzureStorageProtectionContainers() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const vaultName = "testvault";
-  const resourceGroupName = "test-rg";
+  const resourceGroupName =
+    process.env["RECOVERYSERVICESBACKUP_RESOURCE_GROUP"] || "test-rg";
   const fabricName = "Azure";
   const containerName = "storagecontainer;Storage;test-rg;teststorage";
   const credential = new DefaultAzureCredential();
@@ -34,4 +40,8 @@ async function inquireAzureStorageProtectionContainers() {
   console.log(result);
 }
 
-inquireAzureStorageProtectionContainers().catch(console.error);
+async function main() {
+  inquireAzureStorageProtectionContainers();
+}
+
+main().catch(console.error);

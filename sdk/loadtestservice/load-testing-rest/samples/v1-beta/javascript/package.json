@@ -28,6 +28,7 @@
   "dependencies": {
     "@azure-rest/load-testing": "next",
     "dotenv": "latest",
+    "@azure/abort-controller": "^1.1.1",
     "@azure/identity": "^2.0.1",
     "uuid": "^9.0.0"
   }

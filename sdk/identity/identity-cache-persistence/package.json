@@ -77,7 +77,7 @@
     "@types/node": "^14.0.0",
     "@types/qs": "^6.5.3",
     "cross-env": "^7.0.2",
-    "dotenv": "^8.2.0",
+    "dotenv": "^16.0.0",
     "eslint": "^8.0.0",
     "inherits": "^2.0.3",
     "mocha": "^7.1.1",
