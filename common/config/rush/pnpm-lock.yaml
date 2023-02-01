@@ -1608,16 +1608,6 @@ packages:
       - '@types/node'
     dev: false
 
-  /@microsoft/api-extractor-model/7.26.2_@types+node@12.20.55:
-    resolution: {integrity: sha512-V9tTHbYTNelTrNDXBzeDlszq29nQcjJdP6s27QJiATbqSRjEbKTeztlSVsCRHL2Wkkv5IN5jT4xkYjnFFPbK0A==}
-    dependencies:
-      '@microsoft/tsdoc': 0.14.2
-      '@microsoft/tsdoc-config': 0.16.2
-      '@rushstack/node-core-library': 3.55.0_@types+node@12.20.55
-    transitivePeerDependencies:
-      - '@types/node'
-    dev: false
-
   /@microsoft/api-extractor-model/7.26.2_@types+node@14.18.36:
     resolution: {integrity: sha512-V9tTHbYTNelTrNDXBzeDlszq29nQcjJdP6s27QJiATbqSRjEbKTeztlSVsCRHL2Wkkv5IN5jT4xkYjnFFPbK0A==}
     dependencies:
@@ -1664,26 +1654,6 @@ packages:
       '@microsoft/tsdoc': 0.14.2
       '@microsoft/tsdoc-config': 0.16.2
       '@rushstack/node-core-library': 3.55.0
-      '@rushstack/rig-package': 0.3.17
-      '@rushstack/ts-command-line': 4.13.1
-      colors: 1.2.5
-      lodash: 4.17.21
-      resolve: 1.22.1
-      semver: 7.3.8
-      source-map: 0.6.1
-      typescript: 4.8.4
-    transitivePeerDependencies:
-      - '@types/node'
-    dev: false
-
-  /@microsoft/api-extractor/7.34.2_@types+node@12.20.55:
-    resolution: {integrity: sha512-oREyUU7p3JgjrqapJxEHe83gA1SXOWgaA4XCiY9PvsiLkgGHtn2ibTRgw9GCI/4kZzcb+OQv5waUDxsnQSKfwQ==}
-    hasBin: true
-    dependencies:
-      '@microsoft/api-extractor-model': 7.26.2_@types+node@12.20.55
-      '@microsoft/tsdoc': 0.14.2
-      '@microsoft/tsdoc-config': 0.16.2
-      '@rushstack/node-core-library': 3.55.0_@types+node@12.20.55
       '@rushstack/rig-package': 0.3.17
       '@rushstack/ts-command-line': 4.13.1
       colors: 1.2.5
@@ -2163,24 +2133,6 @@ packages:
       '@types/node':
         optional: true
     dependencies:
-      colors: 1.2.5
-      fs-extra: 7.0.1
-      import-lazy: 4.0.0
-      jju: 1.4.0
-      resolve: 1.22.1
-      semver: 7.3.8
-      z-schema: 5.0.5
-    dev: false
-
-  /@rushstack/node-core-library/3.55.0_@types+node@12.20.55:
-    resolution: {integrity: sha512-6lSel8w3DeGaD/JCKw64wfezEBijlCQlMwBoYg9Ci5VPy+dZ+FpBkIBrY8mi3Ge4xNzr4gyTbQ5XEt0QP1Kv/w==}
-    peerDependencies:
-      '@types/node': '*'
-    peerDependenciesMeta:
-      '@types/node':
-        optional: true
-    dependencies:
-      '@types/node': 12.20.55
       colors: 1.2.5
       fs-extra: 7.0.1
       import-lazy: 4.0.0
@@ -17641,7 +17593,7 @@ packages:
       '@azure-rest/core-client': 1.0.0-beta.10
       '@azure/identity': 2.1.0
       '@azure/maps-common': 1.0.0-beta.2
-      '@microsoft/api-extractor': 7.34.2_@types+node@12.20.55
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
@@ -19614,17 +19566,21 @@ packages:
     dev: false
 
   file:projects/test-credential.tgz:
-    resolution: {integrity: sha512-MJSVSXVlAoq3Zs6RT7SceKLV/+Ni8BwAovo6JPVBsGUpnDzIGI0q4hmvmIBkk3RRDq9opdDiA6CE3aAMk5fnQQ==, tarball: file:projects/test-credential.tgz}
+    resolution: {integrity: sha512-w71fRsg20mCiOkU0aqsZjWe7boFkpbFRp9QoH7p0CKtfgOfxlfSTZlH+I8hAWW3qBHJAkU7Dhqn6SYZeJCcC3A==, tarball: file:projects/test-credential.tgz}
     name: '@rush-temp/test-credential'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/node': 14.18.36
       eslint: 8.33.0
       prettier: 2.8.3
       rimraf: 3.0.2
+      ts-node: 10.9.1_qsp6e3reeqlii3qgbcynqdh4ku
       typescript: 4.6.4
     transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
       - supports-color
     dev: false
 
@@ -19788,7 +19744,7 @@ packages:
     name: '@rush-temp/web-pubsub-client'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.34.2_@types+node@12.20.55
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/chai-as-promised': 7.1.5
       '@types/express': 4.17.16
