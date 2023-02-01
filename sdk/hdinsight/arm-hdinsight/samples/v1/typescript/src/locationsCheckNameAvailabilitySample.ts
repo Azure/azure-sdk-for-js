@@ -13,6 +13,9 @@ import {
   HDInsightManagementClient
 } from "@azure/arm-hdinsight";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Check the cluster name is available or not.
@@ -21,7 +24,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/stable/2021-06-01/examples/HDI_Locations_CheckClusterNameAvailability.json
  */
 async function getTheSubscriptionUsagesForSpecificLocation() {
-  const subscriptionId = "subid";
+  const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
   const location = "westus";
   const parameters: NameAvailabilityCheckRequestParameters = {
     name: "test123",
@@ -36,4 +39,8 @@ async function getTheSubscriptionUsagesForSpecificLocation() {
   console.log(result);
 }
 
-getTheSubscriptionUsagesForSpecificLocation().catch(console.error);
+async function main() {
+  getTheSubscriptionUsagesForSpecificLocation();
+}
+
+main().catch(console.error);

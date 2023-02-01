@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Clusters } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,18 +18,25 @@ import { LroImpl } from "../lroImpl";
 import {
   FollowerDatabaseDefinition,
   ClustersListFollowerDatabasesOptionalParams,
+  ClustersListFollowerDatabasesResponse,
   Cluster,
   ClustersListByResourceGroupOptionalParams,
+  ClustersListByResourceGroupResponse,
   ClustersListOptionalParams,
+  ClustersListResponse,
   SkuDescription,
   ClustersListSkusOptionalParams,
+  ClustersListSkusResponse,
   AzureResourceSku,
   ClustersListSkusByResourceOptionalParams,
+  ClustersListSkusByResourceResponse,
   OutboundNetworkDependenciesEndpoint,
   ClustersListOutboundNetworkDependenciesEndpointsNextOptionalParams,
   ClustersListOutboundNetworkDependenciesEndpointsOptionalParams,
+  ClustersListOutboundNetworkDependenciesEndpointsResponse,
   LanguageExtension,
   ClustersListLanguageExtensionsOptionalParams,
+  ClustersListLanguageExtensionsResponse,
   ClustersGetOptionalParams,
   ClustersGetResponse,
   ClustersCreateOrUpdateOptionalParams,
@@ -39,19 +47,12 @@ import {
   ClustersDeleteOptionalParams,
   ClustersStopOptionalParams,
   ClustersStartOptionalParams,
-  ClustersListFollowerDatabasesResponse,
   ClustersDetachFollowerDatabasesOptionalParams,
   ClustersDiagnoseVirtualNetworkOptionalParams,
   ClustersDiagnoseVirtualNetworkResponse,
-  ClustersListByResourceGroupResponse,
-  ClustersListResponse,
-  ClustersListSkusResponse,
   ClusterCheckNameRequest,
   ClustersCheckNameAvailabilityOptionalParams,
   ClustersCheckNameAvailabilityResponse,
-  ClustersListSkusByResourceResponse,
-  ClustersListOutboundNetworkDependenciesEndpointsResponse,
-  ClustersListLanguageExtensionsResponse,
   LanguageExtensionsList,
   ClustersAddLanguageExtensionsOptionalParams,
   ClustersRemoveLanguageExtensionsOptionalParams,
@@ -94,11 +95,15 @@ export class ClustersImpl implements Clusters {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listFollowerDatabasesPagingPage(
           resourceGroupName,
           clusterName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -107,9 +112,11 @@ export class ClustersImpl implements Clusters {
   private async *listFollowerDatabasesPagingPage(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersListFollowerDatabasesOptionalParams
+    options?: ClustersListFollowerDatabasesOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<FollowerDatabaseDefinition[]> {
-    let result = await this._listFollowerDatabases(
+    let result: ClustersListFollowerDatabasesResponse;
+    result = await this._listFollowerDatabases(
       resourceGroupName,
       clusterName,
       options
@@ -148,17 +155,26 @@ export class ClustersImpl implements Clusters {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: ClustersListByResourceGroupOptionalParams
+    options?: ClustersListByResourceGroupOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<Cluster[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
+    let result: ClustersListByResourceGroupResponse;
+    result = await this._listByResourceGroup(resourceGroupName, options);
     yield result.value || [];
   }
 
@@ -189,16 +205,21 @@ export class ClustersImpl implements Clusters {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: ClustersListOptionalParams
+    options?: ClustersListOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<Cluster[]> {
-    let result = await this._list(options);
+    let result: ClustersListResponse;
+    result = await this._list(options);
     yield result.value || [];
   }
 
@@ -225,16 +246,21 @@ export class ClustersImpl implements Clusters {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listSkusPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listSkusPagingPage(options, settings);
       }
     };
   }
 
   private async *listSkusPagingPage(
-    options?: ClustersListSkusOptionalParams
+    options?: ClustersListSkusOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<SkuDescription[]> {
-    let result = await this._listSkus(options);
+    let result: ClustersListSkusResponse;
+    result = await this._listSkus(options);
     yield result.value || [];
   }
 
@@ -269,11 +295,15 @@ export class ClustersImpl implements Clusters {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listSkusByResourcePagingPage(
           resourceGroupName,
           clusterName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -282,9 +312,11 @@ export class ClustersImpl implements Clusters {
   private async *listSkusByResourcePagingPage(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersListSkusByResourceOptionalParams
+    options?: ClustersListSkusByResourceOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<AzureResourceSku[]> {
-    let result = await this._listSkusByResource(
+    let result: ClustersListSkusByResourceResponse;
+    result = await this._listSkusByResource(
       resourceGroupName,
       clusterName,
       options
@@ -329,11 +361,15 @@ export class ClustersImpl implements Clusters {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listOutboundNetworkDependenciesEndpointsPagingPage(
           resourceGroupName,
           clusterName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -342,15 +378,22 @@ export class ClustersImpl implements Clusters {
   private async *listOutboundNetworkDependenciesEndpointsPagingPage(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersListOutboundNetworkDependenciesEndpointsOptionalParams
+    options?: ClustersListOutboundNetworkDependenciesEndpointsOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<OutboundNetworkDependenciesEndpoint[]> {
-    let result = await this._listOutboundNetworkDependenciesEndpoints(
-      resourceGroupName,
-      clusterName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ClustersListOutboundNetworkDependenciesEndpointsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listOutboundNetworkDependenciesEndpoints(
+        resourceGroupName,
+        clusterName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listOutboundNetworkDependenciesEndpointsNext(
         resourceGroupName,
@@ -359,7 +402,9 @@ export class ClustersImpl implements Clusters {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -400,11 +445,15 @@ export class ClustersImpl implements Clusters {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listLanguageExtensionsPagingPage(
           resourceGroupName,
           clusterName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -413,9 +462,11 @@ export class ClustersImpl implements Clusters {
   private async *listLanguageExtensionsPagingPage(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersListLanguageExtensionsOptionalParams
+    options?: ClustersListLanguageExtensionsOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<LanguageExtension[]> {
-    let result = await this._listLanguageExtensions(
+    let result: ClustersListLanguageExtensionsResponse;
+    result = await this._listLanguageExtensions(
       resourceGroupName,
       clusterName,
       options
@@ -1823,7 +1874,6 @@ const listOutboundNetworkDependenciesEndpointsNextOperationSpec: coreClient.Oper
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

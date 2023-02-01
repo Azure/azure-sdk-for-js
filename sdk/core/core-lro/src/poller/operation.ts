@@ -21,11 +21,14 @@ export function deserializeState<TState>(
 function setStateError<TState, TResult>(inputs: {
   state: TState;
   stateProxy: StateProxy<TState, TResult>;
+  isOperationError: (error: Error) => boolean;
 }): (error: Error) => never {
-  const { state, stateProxy } = inputs;
+  const { state, stateProxy, isOperationError } = inputs;
   return (error: Error) => {
-    stateProxy.setError(state, error);
-    stateProxy.setFailed(state);
+    if (isOperationError(error)) {
+      stateProxy.setError(state, error);
+      stateProxy.setFailed(state);
+    }
     throw error;
   };
 }
@@ -130,6 +133,7 @@ async function pollOperationHelper<TResponse, TState, TResult, TOptions>(inputs:
     response: TResponse,
     state: RestorableOperationState<TState>
   ) => string | undefined;
+  isOperationError: (error: Error) => boolean;
   options?: TOptions;
 }): Promise<{
   status: OperationStatus;
@@ -142,12 +146,14 @@ async function pollOperationHelper<TResponse, TState, TResult, TOptions>(inputs:
     operationLocation,
     getOperationStatus,
     getResourceLocation,
+    isOperationError,
     options,
   } = inputs;
   const response = await poll(operationLocation, options).catch(
     setStateError({
       state,
       stateProxy,
+      isOperationError,
     })
   );
   const status = getOperationStatus(response, state);
@@ -162,7 +168,9 @@ async function pollOperationHelper<TResponse, TState, TResult, TOptions>(inputs:
     const resourceLocation = getResourceLocation(response, state);
     if (resourceLocation !== undefined) {
       return {
-        response: await poll(resourceLocation).catch(setStateError({ state, stateProxy })),
+        response: await poll(resourceLocation).catch(
+          setStateError({ state, stateProxy, isOperationError })
+        ),
         status,
       };
     }
@@ -183,6 +191,7 @@ export async function pollOperation<TResponse, TState, TResult, TOptions>(inputs
     response: TResponse,
     state: RestorableOperationState<TState>
   ) => string | undefined;
+  isOperationError: (error: Error) => boolean;
   getPollingInterval?: (response: TResponse) => number | undefined;
   setDelay: (intervalInMs: number) => void;
   getOperationLocation?: (
@@ -204,6 +213,7 @@ export async function pollOperation<TResponse, TState, TResult, TOptions>(inputs
     getOperationStatus,
     getResourceLocation,
     getOperationLocation,
+    isOperationError,
     withOperationLocation,
     getPollingInterval,
     processResult,
@@ -221,6 +231,7 @@ export async function pollOperation<TResponse, TState, TResult, TOptions>(inputs
       stateProxy,
       operationLocation,
       getResourceLocation,
+      isOperationError,
       options,
     });
     processOperationStatus({
