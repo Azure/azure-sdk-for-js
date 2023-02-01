@@ -6544,7 +6544,7 @@ export const ExecuteDataFlowActivityTypeProperties: coreClient.CompositeMapper =
     className: "ExecuteDataFlowActivityTypeProperties",
     modelProperties: {
       dataFlow: {
-        serializedName: "dataFlow",
+        serializedName: "dataflow",
         type: {
           name: "Composite",
           className: "DataFlowReference"
@@ -17351,7 +17351,7 @@ export const ExecuteWranglingDataflowActivity: coreClient.CompositeMapper = {
         }
       },
       dataFlow: {
-        serializedName: "typeProperties.dataFlow",
+        serializedName: "typeProperties.dataflow",
         type: {
           name: "Composite",
           className: "DataFlowReference"
@@ -24548,7 +24548,7 @@ export const ExecuteDataFlowActivity: coreClient.CompositeMapper = {
     modelProperties: {
       ...ExecutionActivity.type.modelProperties,
       dataFlow: {
-        serializedName: "typeProperties.dataFlow",
+        serializedName: "typeProperties.dataflow",
         type: {
           name: "Composite",
           className: "DataFlowReference"
