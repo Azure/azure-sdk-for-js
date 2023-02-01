@@ -101,7 +101,9 @@
   "globalPeerDependencyRules": {
     // "ignoreMissing": ["@eslint/*"],
     // "allowedVersions": { "react": "17" },
-    // "allowAny": ["@babel/*"]
+    "allowAny": [
+      "@types/node"
+    ]
   },
   /**
    * The `globalPackageExtension` setting provides a way to patch arbitrary package.json fields
