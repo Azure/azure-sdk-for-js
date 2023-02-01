@@ -137,9 +137,7 @@ export interface DeleteManifestOptions extends OperationOptions {}
 /**
  * Options for configuring the upload blob operation.
  */
-export interface UploadBlobOptions extends OperationOptions {
-  chunkSize?: number;
-}
+export interface UploadBlobOptions extends OperationOptions {}
 
 /**
  * Options for confguring the download blob operation.

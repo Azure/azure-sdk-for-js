@@ -322,8 +322,6 @@ export interface UpdateTagPropertiesOptions extends OperationOptions {
 
 // @public
 export interface UploadBlobOptions extends OperationOptions {
-    // (undocumented)
-    chunkSize?: number;
 }
 
 // @public

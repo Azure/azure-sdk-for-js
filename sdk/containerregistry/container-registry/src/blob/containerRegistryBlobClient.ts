@@ -34,7 +34,7 @@ import crypto from "crypto";
 
 const LATEST_API_VERSION = "2021-07-01";
 
-const DEFAULT_CHUNK_SIZE = 4 * 1024 * 1024; // 4 MB
+const CHUNK_SIZE = 4 * 1024 * 1024; // 4 MB
 
 enum KnownManifestMediaType {
   OciManifestMediaType = "application/vnd.oci.image.manifest.v1+json",
@@ -311,7 +311,7 @@ export class ContainerRegistryBlobClient {
         assertHasProperty(startUploadResult, "location");
         let location = startUploadResult.location.substring(1);
 
-        const chunks = readChunksFromStream(blobStream, options.chunkSize ?? DEFAULT_CHUNK_SIZE);
+        const chunks = readChunksFromStream(blobStream, CHUNK_SIZE);
         const hash = crypto.createHash("sha256");
 
         for await (const chunk of chunks) {

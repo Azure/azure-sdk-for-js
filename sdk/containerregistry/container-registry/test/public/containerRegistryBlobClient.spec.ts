@@ -166,16 +166,33 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
       assert.equal(digest, downloadResult.digest);
     });
 
-    it("can upload a big blob", async function (this: Mocha.Context) {
+    it("can upload a big blob with size not a multiple of 4MB", async function (this: Mocha.Context) {
       // Skip in record and playback due to large recording size
       if (!isLiveMode()) {
         this.skip();
       }
 
-      // 64 MiB plus random offset to have a buffer of different length at the end
-      const bigBlob = Buffer.alloc(64 * 1024 * 1024 + 321, 0xce);
+      // 64 MiB plus extra offset to have a smaller chunk at the end
+      const bigBlob = Buffer.alloc(64 * 1024 * 1024 + 321, 0x00);
       const { digest } = await client.uploadBlob(Readable.from(bigBlob));
       await client.deleteBlob(digest);
     });
+
+    it("can upload a big blob with size a multiple of 4MB", async function(this: Mocha.Context) {
+      // Skip in record and playback due to large recording size
+      if (!isLiveMode()) {
+        this.skip();
+      }
+
+      // Skip in record and playback due to large recording size
+      if (!isLiveMode()) {
+        this.skip();
+      }
+
+      // 64 MiB exactly
+      const bigBlob = Buffer.alloc(64 * 1024 * 1024, 0x00);
+      const { digest } = await client.uploadBlob(Readable.from(bigBlob));
+      await client.deleteBlob(digest);
+    })
   });
 });
