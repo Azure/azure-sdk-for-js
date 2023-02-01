@@ -516,16 +516,24 @@ export interface ServiceBusReceivedMessage extends ServiceBusMessage {
  */
 export function fromRheaMessage(
   rheaMessage: RheaMessage,
-  skipParsingBodyAsJson: boolean,
-  delivery?: Delivery,
-  shouldReorderLockToken?: boolean
+  options: {
+    skipParsingBodyAsJson: boolean;
+    skipConvertingDate?: boolean;
+    delivery?: Delivery;
+    shouldReorderLockToken?: boolean;
+  }
 ): ServiceBusReceivedMessage {
   if (!rheaMessage) {
     rheaMessage = {
       body: undefined,
     };
   }
-
+  const {
+    skipParsingBodyAsJson,
+    delivery,
+    shouldReorderLockToken,
+    skipConvertingDate = false,
+  } = options;
   const { body, bodyType } = defaultDataTransformer.decodeWithType(
     rheaMessage.body,
     skipParsingBodyAsJson
@@ -536,7 +544,9 @@ export function fromRheaMessage(
   };
 
   if (rheaMessage.application_properties != null) {
-    sbmsg.applicationProperties = convertDatesToNumbers(rheaMessage.application_properties);
+    sbmsg.applicationProperties = skipConvertingDate
+      ? rheaMessage.application_properties
+      : convertDatesToNumbers(rheaMessage.application_properties);
   }
   if (rheaMessage.content_type != null) {
     sbmsg.contentType = rheaMessage.content_type;
@@ -635,13 +645,19 @@ export function fromRheaMessage(
   rawMessage.bodyType = bodyType;
 
   if (rawMessage.applicationProperties) {
-    rawMessage.applicationProperties = convertDatesToNumbers(rawMessage.applicationProperties);
+    rawMessage.applicationProperties = skipConvertingDate
+      ? rawMessage.applicationProperties
+      : convertDatesToNumbers(rawMessage.applicationProperties);
   }
   if (rawMessage.deliveryAnnotations) {
-    rawMessage.deliveryAnnotations = convertDatesToNumbers(rawMessage.deliveryAnnotations);
+    rawMessage.deliveryAnnotations = skipConvertingDate
+      ? rawMessage.deliveryAnnotations
+      : convertDatesToNumbers(rawMessage.deliveryAnnotations);
   }
   if (rawMessage.messageAnnotations) {
-    rawMessage.messageAnnotations = convertDatesToNumbers(rawMessage.messageAnnotations);
+    rawMessage.messageAnnotations = skipConvertingDate
+      ? rawMessage.messageAnnotations
+      : convertDatesToNumbers(rawMessage.messageAnnotations);
   }
 
   const rcvdsbmsg: ServiceBusReceivedMessage = {
@@ -899,13 +915,13 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
     delivery: Delivery,
     shouldReorderLockToken: boolean,
     receiveMode: ReceiveMode,
-    skipParsingBodyAsJson: boolean
+    skipParsingBodyAsJson: boolean,
+    skipConvertingDate: boolean
   ) {
     const { _rawAmqpMessage, ...restOfMessageProps } = fromRheaMessage(
       msg,
-      skipParsingBodyAsJson,
-      delivery,
-      shouldReorderLockToken
+
+      { skipParsingBodyAsJson, delivery, shouldReorderLockToken, skipConvertingDate }
     );
     this._rawAmqpMessage = _rawAmqpMessage; // need to initialize _rawAmqpMessage property to make compiler happy
     Object.assign(this, restOfMessageProps);
@@ -970,7 +986,11 @@ function convertDatesToNumbers<T = unknown>(thing: T): T {
     [0, 'foo', new Date(), { nested: new Date()}]
   */
   if (Array.isArray(thing)) {
-    return thing.map(convertDatesToNumbers) as unknown as T;
+    const result = [];
+    for (const element of thing) {
+      result.push(convertDatesToNumbers(element));
+    }
+    return result as unknown as T;
   }
 
   /*
