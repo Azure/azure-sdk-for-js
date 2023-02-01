@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { KustoManagementClient } = require("@azure/arm-kusto");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Checks that the attached database configuration resource name is valid and is not already in use.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoAttachedDatabaseConfigurationCheckNameAvailability.json
  */
 async function kustoAttachedDatabaseConfigurationCheckNameAvailability() {
-  const subscriptionId = "12345678-1234-1234-1234-123456789098";
-  const resourceGroupName = "kustorptest";
+  const subscriptionId =
+    process.env["KUSTO_SUBSCRIPTION_ID"] || "12345678-1234-1234-1234-123456789098";
+  const resourceGroupName = process.env["KUSTO_RESOURCE_GROUP"] || "kustorptest";
   const clusterName = "kustoCluster";
   const resourceName = {
     name: "adc1",
@@ -35,4 +37,8 @@ async function kustoAttachedDatabaseConfigurationCheckNameAvailability() {
   console.log(result);
 }
 
-kustoAttachedDatabaseConfigurationCheckNameAvailability().catch(console.error);
+async function main() {
+  kustoAttachedDatabaseConfigurationCheckNameAvailability();
+}
+
+main().catch(console.error);

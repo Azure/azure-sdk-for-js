@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { LabServicesClient } = require("@azure/arm-labservices");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Returns list of usage per SKU family for the specified subscription in the specified region.
@@ -18,7 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/labservices/resource-manager/Microsoft.LabServices/stable/2022-08-01/examples/Usages/getUsages.json
  */
 async function listUsages() {
-  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const subscriptionId =
+    process.env["LABSERVICES_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const location = "eastus2";
   const credential = new DefaultAzureCredential();
   const client = new LabServicesClient(credential, subscriptionId);
@@ -29,4 +31,8 @@ async function listUsages() {
   console.log(resArray);
 }
 
-listUsages().catch(console.error);
+async function main() {
+  listUsages();
+}
+
+main().catch(console.error);

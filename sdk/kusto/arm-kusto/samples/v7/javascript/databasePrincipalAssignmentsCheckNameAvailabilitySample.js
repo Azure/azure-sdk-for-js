@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { KustoManagementClient } = require("@azure/arm-kusto");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Checks that the database principal assignment is valid and is not already in use.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoDatabasePrincipalAssignmentsCheckNameAvailability.json
  */
 async function kustoDatabaseCheckNameAvailability() {
-  const subscriptionId = "12345678-1234-1234-1234-123456789098";
-  const resourceGroupName = "kustorptest";
+  const subscriptionId =
+    process.env["KUSTO_SUBSCRIPTION_ID"] || "12345678-1234-1234-1234-123456789098";
+  const resourceGroupName = process.env["KUSTO_RESOURCE_GROUP"] || "kustorptest";
   const clusterName = "kustoCluster";
   const databaseName = "Kustodatabase8";
   const principalAssignmentName = {
@@ -37,4 +39,8 @@ async function kustoDatabaseCheckNameAvailability() {
   console.log(result);
 }
 
-kustoDatabaseCheckNameAvailability().catch(console.error);
+async function main() {
+  kustoDatabaseCheckNameAvailability();
+}
+
+main().catch(console.error);

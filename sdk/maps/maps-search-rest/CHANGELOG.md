@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Correct the path of the type declaration file.
+
 ### Other Changes
 
 ## 1.0.0-beta.1 (2023-01-10)

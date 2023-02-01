@@ -4,11 +4,7 @@
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- Add basic types from cadl azure core.
 
 ## 1.0.1 (2023-01-05)
 

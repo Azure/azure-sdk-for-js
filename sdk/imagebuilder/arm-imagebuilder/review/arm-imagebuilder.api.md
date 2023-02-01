@@ -32,6 +32,9 @@ export interface ComponentsVrq145SchemasImagetemplateidentityPropertiesUserassig
 // @public
 export type CreatedByType = string;
 
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
+
 // @public (undocumented)
 export class ImageBuilderClient extends coreClient.ServiceClient {
     // (undocumented)
@@ -55,20 +58,20 @@ export interface ImageBuilderClientOptionalParams extends coreClient.ServiceClie
 }
 
 // @public
-export type ImageTemplate = TrackedResource & {
-    identity: ImageTemplateIdentity;
-    source?: ImageTemplateSourceUnion;
-    customize?: ImageTemplateCustomizerUnion[];
-    validate?: ImageTemplatePropertiesValidate;
-    distribute?: ImageTemplateDistributorUnion[];
-    readonly provisioningState?: ProvisioningState;
-    readonly provisioningError?: ProvisioningError;
-    readonly lastRunStatus?: ImageTemplateLastRunStatus;
+export interface ImageTemplate extends TrackedResource {
     buildTimeoutInMinutes?: number;
-    vmProfile?: ImageTemplateVmProfile;
-    stagingResourceGroup?: string;
+    customize?: ImageTemplateCustomizerUnion[];
+    distribute?: ImageTemplateDistributorUnion[];
     readonly exactStagingResourceGroup?: string;
-};
+    identity: ImageTemplateIdentity;
+    readonly lastRunStatus?: ImageTemplateLastRunStatus;
+    readonly provisioningError?: ProvisioningError;
+    readonly provisioningState?: ProvisioningState;
+    source?: ImageTemplateSourceUnion;
+    stagingResourceGroup?: string;
+    validate?: ImageTemplatePropertiesValidate;
+    vmProfile?: ImageTemplateVmProfile;
+}
 
 // @public
 export interface ImageTemplateCustomizer {
@@ -92,12 +95,12 @@ export interface ImageTemplateDistributor {
 export type ImageTemplateDistributorUnion = ImageTemplateDistributor | ImageTemplateManagedImageDistributor | ImageTemplateSharedImageDistributor | ImageTemplateVhdDistributor;
 
 // @public
-export type ImageTemplateFileCustomizer = ImageTemplateCustomizer & {
-    type: "File";
-    sourceUri?: string;
-    sha256Checksum?: string;
+export interface ImageTemplateFileCustomizer extends ImageTemplateCustomizer {
     destination?: string;
-};
+    sha256Checksum?: string;
+    sourceUri?: string;
+    type: "File";
+}
 
 // @public
 export interface ImageTemplateIdentity {
@@ -132,50 +135,50 @@ export interface ImageTemplateListResult {
 }
 
 // @public
-export type ImageTemplateManagedImageDistributor = ImageTemplateDistributor & {
-    type: "ManagedImage";
+export interface ImageTemplateManagedImageDistributor extends ImageTemplateDistributor {
     imageId: string;
     location: string;
-};
-
-// @public
-export type ImageTemplateManagedImageSource = ImageTemplateSource & {
     type: "ManagedImage";
+}
+
+// @public
+export interface ImageTemplateManagedImageSource extends ImageTemplateSource {
     imageId: string;
-};
+    type: "ManagedImage";
+}
 
 // @public
-export type ImageTemplatePlatformImageSource = ImageTemplateSource & {
-    type: "PlatformImage";
-    publisher?: string;
-    offer?: string;
-    sku?: string;
-    version?: string;
+export interface ImageTemplatePlatformImageSource extends ImageTemplateSource {
     readonly exactVersion?: string;
+    offer?: string;
     planInfo?: PlatformImagePurchasePlan;
-};
+    publisher?: string;
+    sku?: string;
+    type: "PlatformImage";
+    version?: string;
+}
 
 // @public
-export type ImageTemplatePowerShellCustomizer = ImageTemplateCustomizer & {
-    type: "PowerShell";
+export interface ImageTemplatePowerShellCustomizer extends ImageTemplateCustomizer {
+    inline?: string[];
+    runAsSystem?: boolean;
+    runElevated?: boolean;
     scriptUri?: string;
     sha256Checksum?: string;
-    inline?: string[];
-    runElevated?: boolean;
-    runAsSystem?: boolean;
+    type: "PowerShell";
     validExitCodes?: number[];
-};
+}
 
 // @public
-export type ImageTemplatePowerShellValidator = ImageTemplateInVMValidator & {
-    type: "PowerShell";
+export interface ImageTemplatePowerShellValidator extends ImageTemplateInVMValidator {
+    inline?: string[];
+    runAsSystem?: boolean;
+    runElevated?: boolean;
     scriptUri?: string;
     sha256Checksum?: string;
-    inline?: string[];
-    runElevated?: boolean;
-    runAsSystem?: boolean;
+    type: "PowerShell";
     validExitCodes?: number[];
-};
+}
 
 // @public
 export interface ImageTemplatePropertiesValidate {
@@ -185,43 +188,43 @@ export interface ImageTemplatePropertiesValidate {
 }
 
 // @public
-export type ImageTemplateRestartCustomizer = ImageTemplateCustomizer & {
-    type: "WindowsRestart";
-    restartCommand?: string;
+export interface ImageTemplateRestartCustomizer extends ImageTemplateCustomizer {
     restartCheckCommand?: string;
+    restartCommand?: string;
     restartTimeout?: string;
-};
+    type: "WindowsRestart";
+}
 
 // @public
-export type ImageTemplateSharedImageDistributor = ImageTemplateDistributor & {
-    type: "SharedImage";
+export interface ImageTemplateSharedImageDistributor extends ImageTemplateDistributor {
+    excludeFromLatest?: boolean;
     galleryImageId: string;
     replicationRegions: string[];
-    excludeFromLatest?: boolean;
     storageAccountType?: SharedImageStorageAccountType;
-};
+    type: "SharedImage";
+}
 
 // @public
-export type ImageTemplateSharedImageVersionSource = ImageTemplateSource & {
-    type: "SharedImageVersion";
+export interface ImageTemplateSharedImageVersionSource extends ImageTemplateSource {
     imageVersionId: string;
-};
+    type: "SharedImageVersion";
+}
 
 // @public
-export type ImageTemplateShellCustomizer = ImageTemplateCustomizer & {
-    type: "Shell";
+export interface ImageTemplateShellCustomizer extends ImageTemplateCustomizer {
+    inline?: string[];
     scriptUri?: string;
     sha256Checksum?: string;
-    inline?: string[];
-};
+    type: "Shell";
+}
 
 // @public
-export type ImageTemplateShellValidator = ImageTemplateInVMValidator & {
-    type: "Shell";
+export interface ImageTemplateShellValidator extends ImageTemplateInVMValidator {
+    inline?: string[];
     scriptUri?: string;
     sha256Checksum?: string;
-    inline?: string[];
-};
+    type: "Shell";
+}
 
 // @public
 export interface ImageTemplateSource {
@@ -240,9 +243,9 @@ export interface ImageTemplateUpdateParameters {
 }
 
 // @public
-export type ImageTemplateVhdDistributor = ImageTemplateDistributor & {
+export interface ImageTemplateVhdDistributor extends ImageTemplateDistributor {
     type: "VHD";
-};
+}
 
 // @public
 export interface ImageTemplateVmProfile {
@@ -253,64 +256,43 @@ export interface ImageTemplateVmProfile {
 }
 
 // @public
-export type ImageTemplateWindowsUpdateCustomizer = ImageTemplateCustomizer & {
-    type: "WindowsUpdate";
-    searchCriteria?: string;
+export interface ImageTemplateWindowsUpdateCustomizer extends ImageTemplateCustomizer {
     filters?: string[];
+    searchCriteria?: string;
+    type: "WindowsUpdate";
     updateLimit?: number;
-};
+}
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownProvisioningErrorCode {
-    // (undocumented)
     BadCustomizerType = "BadCustomizerType",
-    // (undocumented)
     BadDistributeType = "BadDistributeType",
-    // (undocumented)
     BadManagedImageSource = "BadManagedImageSource",
-    // (undocumented)
     BadPIRSource = "BadPIRSource",
-    // (undocumented)
     BadSharedImageDistribute = "BadSharedImageDistribute",
-    // (undocumented)
     BadSharedImageVersionSource = "BadSharedImageVersionSource",
-    // (undocumented)
     BadSourceType = "BadSourceType",
-    // (undocumented)
     BadStagingResourceGroup = "BadStagingResourceGroup",
-    // (undocumented)
     BadValidatorType = "BadValidatorType",
-    // (undocumented)
     NoCustomizerScript = "NoCustomizerScript",
-    // (undocumented)
     NoValidatorScript = "NoValidatorScript",
-    // (undocumented)
     Other = "Other",
-    // (undocumented)
     ServerError = "ServerError",
-    // (undocumented)
     UnsupportedCustomizerType = "UnsupportedCustomizerType",
-    // (undocumented)
     UnsupportedValidatorType = "UnsupportedValidatorType"
 }
 
 // @public
 export enum KnownSharedImageStorageAccountType {
-    // (undocumented)
     StandardLRS = "Standard_LRS",
-    // (undocumented)
     StandardZRS = "Standard_ZRS"
 }
 
@@ -376,7 +358,8 @@ export type ProvisioningErrorCode = string;
 export type ProvisioningState = "Creating" | "Updating" | "Succeeded" | "Failed" | "Deleting";
 
 // @public
-export type ProxyResource = Resource;
+export interface ProxyResource extends Resource {
+}
 
 // @public
 export interface Resource {
@@ -390,11 +373,11 @@ export interface Resource {
 export type ResourceIdentityType = "UserAssigned" | "None";
 
 // @public
-export type RunOutput = ProxyResource & {
+export interface RunOutput extends ProxyResource {
     artifactId?: string;
     artifactUri?: string;
     readonly provisioningState?: ProvisioningState;
-};
+}
 
 // @public
 export interface RunOutputCollection {
@@ -422,12 +405,12 @@ export interface SystemData {
 }
 
 // @public
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
+    location: string;
     tags?: {
         [propertyName: string]: string;
     };
-    location: string;
-};
+}
 
 // @public
 export interface VirtualMachineImageTemplates {
