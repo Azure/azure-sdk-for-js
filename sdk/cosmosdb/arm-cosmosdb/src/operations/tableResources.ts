@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { TableResources } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -74,11 +74,15 @@ export class TableResourcesImpl implements TableResources {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listTablesPagingPage(
           resourceGroupName,
           accountName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -87,13 +91,11 @@ export class TableResourcesImpl implements TableResources {
   private async *listTablesPagingPage(
     resourceGroupName: string,
     accountName: string,
-    options?: TableResourcesListTablesOptionalParams
+    options?: TableResourcesListTablesOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<TableGetResults[]> {
-    let result = await this._listTables(
-      resourceGroupName,
-      accountName,
-      options
-    );
+    let result: TableResourcesListTablesResponse;
+    result = await this._listTables(resourceGroupName, accountName, options);
     yield result.value || [];
   }
 
@@ -217,10 +219,12 @@ export class TableResourcesImpl implements TableResources {
       },
       createUpdateTableOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -305,10 +309,12 @@ export class TableResourcesImpl implements TableResources {
       { resourceGroupName, accountName, tableName, options },
       deleteTableOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -424,10 +430,12 @@ export class TableResourcesImpl implements TableResources {
       },
       updateTableThroughputOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -518,10 +526,12 @@ export class TableResourcesImpl implements TableResources {
       { resourceGroupName, accountName, tableName, options },
       migrateTableToAutoscaleOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -608,10 +618,12 @@ export class TableResourcesImpl implements TableResources {
       { resourceGroupName, accountName, tableName, options },
       migrateTableToManualThroughputOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -702,11 +714,13 @@ export class TableResourcesImpl implements TableResources {
       { resourceGroupName, accountName, tableName, location, options },
       retrieveContinuousBackupInformationOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

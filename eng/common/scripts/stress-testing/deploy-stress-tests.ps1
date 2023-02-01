@@ -18,7 +18,24 @@ param(
     [string]$Subscription,
 
     # Default to true in Azure Pipelines environments
-    [switch] $CI = ($null -ne $env:SYSTEM_TEAMPROJECTID)
+    [switch] $CI = ($null -ne $env:SYSTEM_TEAMPROJECTID),
+
+    # Optional namespace override, otherwise the shell user or chart annotation will be used
+    [string]$Namespace,
+
+    # Override remote stress-test-addons with local on-disk addons for development
+    [System.IO.FileInfo]$LocalAddonsPath,
+
+    # Renders chart templates locally without deployment
+    [Parameter(Mandatory=$False)][switch]$Template,
+
+    # Matrix generation parameters
+    [Parameter(Mandatory=$False)][string]$MatrixFileName,
+    [Parameter(Mandatory=$False)][string]$MatrixSelection,
+    [Parameter(Mandatory=$False)][string]$MatrixDisplayNameFilter,
+    [Parameter(Mandatory=$False)][array]$MatrixFilters,
+    [Parameter(Mandatory=$False)][array]$MatrixReplace,
+    [Parameter(Mandatory=$False)][array]$MatrixNonSparseParameters
 )
 
 . $PSScriptRoot/stress-test-deployment-lib.ps1

@@ -6,7 +6,7 @@ import {
   DisableResponseDecompressionPolicy,
   disableResponseDecompressionPolicy,
 } from "../../src/policies/disableResponseDecompressionPolicy";
-import { HttpClient, Serializer, ServiceClient } from "../../src/coreHttp";
+import { HttpClient, Serializer, ServiceClient } from "../../src";
 import { HttpHeaders } from "../../src/httpHeaders";
 import { RequestPolicyOptions } from "../../src/policies/requestPolicy";
 import { WebResource } from "../../src/webResource";
@@ -73,7 +73,7 @@ describe("DisableResponseDecompressionPolicy (browser)", function () {
           }
         );
         throw new Error("Error should have been thrown already.");
-      } catch (err) {
+      } catch (err: any) {
         err.should.be.an("Error");
         (err as Error).message.should.equal(
           "DisableResponseDecompressionPolicy is not supported in browser environment"

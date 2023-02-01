@@ -1,10 +1,10 @@
 {
-  "name": "azure-monitor-opentelemetry-exporter-samples-ts",
+  "name": "@azure-samples/monitor-opentelemetry-exporter-ts",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Monitor Trace Exporter client library samples for TypeScript",
   "engines": {
-    "node": ">=12.0.0"
+    "node": ">=14.0.0"
   },
   "scripts": {
     "build": "tsc",
@@ -34,16 +34,16 @@
   "dependencies": {
     "@azure/monitor-opentelemetry-exporter": "next",
     "dotenv": "latest",
-    "@opentelemetry/api": "^1.0.1",
-    "@opentelemetry/resources": "^0.22.0",
-    "@opentelemetry/semantic-conventions": "^0.24.0",
-    "@opentelemetry/tracing": "^0.22.0",
-    "@opentelemetry/instrumentation": "0.22.0",
-    "@opentelemetry/node": "0.22.0",
-    "@opentelemetry/instrumentation-http": "0.22.0"
+    "@opentelemetry/api": "^1.4.0",
+    "@opentelemetry/resources": "^1.9.0",
+    "@opentelemetry/semantic-conventions": "^1.9.0",
+    "@opentelemetry/instrumentation": "^0.35.0",
+    "@opentelemetry/sdk-trace-base": "^1.9.0",
+    "@opentelemetry/sdk-trace-node": "^1.9.0",
+    "@opentelemetry/instrumentation-http": "^0.35.0"
   },
   "devDependencies": {
-    "typescript": "~4.4.0",
+    "typescript": "~4.8.0",
     "rimraf": "latest"
   }
 }

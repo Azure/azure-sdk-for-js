@@ -612,7 +612,7 @@ export interface MetricNameFilter {
 }
 
 /** The StorSimple Manager */
-export type Manager = Resource & {
+export interface Manager extends Resource {
   /** ETag of the Manager */
   etag?: string;
   /** Specifies if the Manager is Garda or Helsinki */
@@ -624,16 +624,16 @@ export type Manager = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: string;
-};
+}
 
 /** The access control record */
-export type AccessControlRecord = BaseModel & {
+export interface AccessControlRecord extends BaseModel {
   /** The Iscsi initiator name (IQN) */
   initiatorName: string;
-};
+}
 
 /** Alert class */
-export type Alert = BaseModel & {
+export interface Alert extends BaseModel {
   /** Title of the alert */
   title: string;
   /** Device or Resource alert */
@@ -662,20 +662,20 @@ export type Alert = BaseModel & {
   errorDetails?: AlertErrorDetails;
   /** Other information about the alert */
   detailedInformation?: { [propertyName: string]: string };
-};
+}
 
 /** Class represents BackupElement */
-export type BackupElement = BaseModel & {
+export interface BackupElement extends BaseModel {
   /** The size in bytes. */
   sizeInBytes: number;
   /** The name of the endpoint. */
   endpointName: string;
   /** The data policy of backed up endpoint. */
   dataPolicy: DataPolicy;
-};
+}
 
 /** The backup. */
-export type Backup = BaseModel & {
+export interface Backup extends BaseModel {
   /** The path id of the target FileServer or IscsiServer for which the backup was taken. */
   targetId?: string;
   /** Type of target, FileServer or IscsiServer */
@@ -692,10 +692,10 @@ export type Backup = BaseModel & {
   deviceId: string;
   /** The backup elements. */
   elements: BackupElement[];
-};
+}
 
 /** Upload Certificate Response from IDM */
-export type UploadCertificateResponse = BaseModel & {
+export interface UploadCertificateResponse extends BaseModel {
   /** Specify the Authentication type */
   authType?: AuthType;
   /** Gets or sets the base64 encoded certificate raw data string */
@@ -724,10 +724,10 @@ export type UploadCertificateResponse = BaseModel & {
   friendlyName: string;
   /** Certificate issuer */
   issuer: string;
-};
+}
 
 /** Represents a StorSimple device object along with its properties */
-export type Device = BaseModel & {
+export interface Device extends BaseModel {
   /** The UTC time at which the device was activated */
   activationTime?: Date;
   /** Operations that are allowed on the device based on its current state */
@@ -754,10 +754,10 @@ export type Device = BaseModel & {
   typePropertiesType?: DeviceType;
   /** subclass containing more storage-related information about the device. This field will be populated only if the get call is made with $expand = details. */
   details?: DeviceDetails;
-};
+}
 
 /** AlertSettings on the device which represents how alerts will be processed */
-export type AlertSettings = BaseModel & {
+export interface AlertSettings extends BaseModel {
   /** Value indicating whether user/admins will receive emails when an alert condition occurs on the system */
   emailNotification: AlertEmailNotificationStatus;
   /** Value indicating whether service owners will receive emails when an alert condition occurs on the system. Applicable only if emailNotification flag is Enabled. */
@@ -766,10 +766,10 @@ export type AlertSettings = BaseModel & {
   alertNotificationCulture: string;
   /** List of email addresses (apart from admin/co-admin of subscription) to whom the alert emails need to be sent */
   additionalRecipientEmailList?: string[];
-};
+}
 
 /** The File Share. */
-export type FileShare = BaseModel & {
+export interface FileShare extends BaseModel {
   /** Description for file share */
   description?: string;
   /** The Share Status */
@@ -792,10 +792,10 @@ export type FileShare = BaseModel & {
   readonly localUsedCapacityInBytes?: number;
   /** The monitoring status */
   monitoringStatus: MonitoringStatus;
-};
+}
 
 /** The iSCSI disk. */
-export type IscsiDisk = BaseModel & {
+export interface IscsiDisk extends BaseModel {
   /** The description. */
   description?: string;
   /** The disk status. */
@@ -818,22 +818,22 @@ export type IscsiDisk = BaseModel & {
   readonly localUsedCapacityInBytes?: number;
   /** The monitoring. */
   monitoringStatus: MonitoringStatus;
-};
+}
 
 /** The Backup Schedule Group */
-export type BackupScheduleGroup = BaseModel & {
+export interface BackupScheduleGroup extends BaseModel {
   /** The start time. When this field is specified we will generate Default GrandFather Father Son Backup Schedules. */
   startTime: Time;
-};
+}
 
 /** Challenge-Handshake Authentication Protocol (CHAP) setting */
-export type ChapSettings = BaseModel & {
+export interface ChapSettings extends BaseModel {
   /** The chap password. */
   password: AsymmetricEncryptedSecret;
-};
+}
 
 /** The file server. */
-export type FileServer = BaseModel & {
+export interface FileServer extends BaseModel {
   /** Domain of the file server */
   domainName: string;
   /** The storage domain id. */
@@ -842,10 +842,10 @@ export type FileServer = BaseModel & {
   backupScheduleGroupId: string;
   /** The description of the file server */
   description?: string;
-};
+}
 
 /** The iSCSI server. */
-export type IscsiServer = BaseModel & {
+export interface IscsiServer extends BaseModel {
   /** The storage domain id. */
   storageDomainId: string;
   /** The backup policy id. */
@@ -856,10 +856,10 @@ export type IscsiServer = BaseModel & {
   chapId?: string;
   /** The reverse chap id. */
   reverseChapId?: string;
-};
+}
 
 /** The Job. */
-export type Job = BaseModel & {
+export interface Job extends BaseModel {
   /** Current status of the job */
   status: JobStatus;
   /** The UTC time at which the job was started */
@@ -896,36 +896,36 @@ export type Job = BaseModel & {
   downloadProgress?: UpdateDownloadProgress;
   /** The install progress. */
   installProgress?: UpdateInstallProgress;
-};
+}
 
 /** The NetworkSettings of a device */
-export type NetworkSettings = BaseModel & {
+export interface NetworkSettings extends BaseModel {
   /** The Primary DNS server for the device */
   primaryDnsServer: string;
   /** The secondary DNS server for the device */
   secondaryDnsServer?: string;
   /** The NetworkAdapters under each node of the device. */
   nodeNetworks: NodeNetwork[];
-};
+}
 
 /** The SecuritySettings of a device */
-export type SecuritySettings = BaseModel & {
+export interface SecuritySettings extends BaseModel {
   /** Device administrator password as an encrypted string (encrypted using RSA PKCS #1) is used to log into the  local web UI of the device. Actual password could have at least 8 characters that are a combination of  uppercase, lowercase, numeric, and special characters */
   deviceAdminPassword: AsymmetricEncryptedSecret;
-};
+}
 
 /** The TimeSettings of a device */
-export type TimeSettings = BaseModel & {
+export interface TimeSettings extends BaseModel {
   /** The timezone of device, like '(UTC -06:00) Central America' */
   timeZone: string;
   /** The primary Network Time Protocol (NTP) server name, like 'time.windows.com'. */
   primaryTimeServer: string;
   /** The secondary Network Time Protocol (NTP) server name, like 'time.contoso.com'. It's optional. */
   secondaryTimeServer?: string;
-};
+}
 
 /** The updates profile */
-export type Updates = BaseModel & {
+export interface Updates extends BaseModel {
   /** The current Device version. */
   deviceVersion?: string;
   /** The last time when the device did an update scan. */
@@ -956,18 +956,18 @@ export type Updates = BaseModel & {
   inProgressDownloadJobStartedTime?: Date;
   /** The time when the currently running install (if any) started */
   inProgressInstallJobStartedTime?: Date;
-};
+}
 
 /** The EncryptionSettings */
-export type EncryptionSettings = BaseModel & {
+export interface EncryptionSettings extends BaseModel {
   /** The encryption status which indicates if encryption is enabled or not. */
   encryptionStatus: EncryptionStatus;
   /** The key rollover status which indicates if key rollover is required or not. If secrets encryption has been upgraded, then it requires key rollover. */
   keyRolloverStatus: KeyRolloverStatus;
-};
+}
 
 /** The extended info of the manager. */
-export type ManagerExtendedInfo = BaseModel & {
+export interface ManagerExtendedInfo extends BaseModel {
   /** ETag of the Resource */
   etag?: string;
   /** Represents the version of the ExtendedInfo object being persisted */
@@ -982,10 +982,10 @@ export type ManagerExtendedInfo = BaseModel & {
   portalCertificateThumbprint?: string;
   /** Represents the encryption algorithm used to encrypt the other keys. None - if EncryptionKey is saved in plain text format. AlgorithmName - if encryption is used */
   algorithm: string;
-};
+}
 
 /** The storage account credential */
-export type StorageAccountCredential = BaseModel & {
+export interface StorageAccountCredential extends BaseModel {
   /** The cloud service provider */
   cloudType: CloudType;
   /** The storage endpoint */
@@ -998,17 +998,18 @@ export type StorageAccountCredential = BaseModel & {
   enableSSL: SslStatus;
   /** The details of the storage account password */
   accessKey?: AsymmetricEncryptedSecret;
-};
+}
 
 /** The storage domain. */
-export type StorageDomain = BaseModel & {
+export interface StorageDomain extends BaseModel {
   /** The storage account credentials. */
   storageAccountCredentialIds: string[];
   /** The encryption key used to encrypt the data. This is a user secret. */
   encryptionKey?: AsymmetricEncryptedSecret;
   /** The encryption status "Enabled | Disabled". */
   encryptionStatus: EncryptionStatus;
-};
+}
+
 /** Defines values for ManagerType. */
 export type ManagerType = "GardaV1" | "HelsinkiV1";
 /** Defines values for AlertScope. */
@@ -1337,10 +1338,7 @@ export interface AlertsSendTestEmailOptionalParams
 
 /** Optional parameters. */
 export interface AlertsListByManagerNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** OData Filter options */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByManagerNext operation. */
 export type AlertsListByManagerNextResponse = AlertList;
@@ -1387,22 +1385,14 @@ export interface BackupsCloneOptionalParams
 
 /** Optional parameters. */
 export interface BackupsListByManagerNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** OData Filter options */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByManagerNext operation. */
 export type BackupsListByManagerNextResponse = BackupList;
 
 /** Optional parameters. */
 export interface BackupsListByDeviceNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** OData Filter options */
-  filter?: string;
-  /** Set to true if you need backups which can be used for failover. */
-  forFailover?: boolean;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByDeviceNext operation. */
 export type BackupsListByDeviceNextResponse = BackupList;
@@ -1920,20 +1910,14 @@ export type JobsListByManagerResponse = JobList;
 
 /** Optional parameters. */
 export interface JobsListByDeviceNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** OData Filter options */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByDeviceNext operation. */
 export type JobsListByDeviceNextResponse = JobList;
 
 /** Optional parameters. */
 export interface JobsListByManagerNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** OData Filter options */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByManagerNext operation. */
 export type JobsListByManagerNextResponse = JobList;

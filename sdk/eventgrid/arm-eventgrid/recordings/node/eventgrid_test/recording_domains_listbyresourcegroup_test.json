@@ -1,0 +1,59 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventGrid/domains?api-version=2022-06-15",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-eventgrid/14.1.0 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "597736b9-a606-4a12-af4f-612c7c05a841"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 10 Jan 2023 06:00:03 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "87bac173-934a-46b5-abe1-1ad027952717",
+        "x-ms-ratelimit-remaining-subscription-reads": "11984",
+        "x-ms-request-id": "65e88c38-d3b0-4bd4-9c3a-c2a2f0345748",
+        "x-ms-routing-request-id": "KOREASOUTH:20230110T060003Z:87bac173-934a-46b5-abe1-1ad027952717"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "properties": {
+              "provisioningState": "Succeeded",
+              "endpoint": "https://mydomainxxx.eastus2-1.eventgrid.azure.net/api/events",
+              "inputSchema": "EventGridSchema",
+              "metricResourceId": "fdacd24d-2e43-404c-9bab-6abeb4b91a56",
+              "publicNetworkAccess": "Enabled",
+              "dataResidencyBoundary": "WithinGeopair"
+            },
+            "systemData": null,
+            "location": "eastus2",
+            "tags": {
+              "tag1": "value1",
+              "tag2": "value2"
+            },
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventGrid/domains/mydomainxxx",
+            "name": "mydomainxxx",
+            "type": "Microsoft.EventGrid/domains"
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

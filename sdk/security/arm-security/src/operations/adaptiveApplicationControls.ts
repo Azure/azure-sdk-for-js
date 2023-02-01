@@ -47,47 +47,56 @@ export class AdaptiveApplicationControlsImpl
 
   /**
    * Gets an application control VM/server group.
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param groupName Name of an application control machine group
    * @param options The options parameters.
    */
   get(
+    ascLocation: string,
     groupName: string,
     options?: AdaptiveApplicationControlsGetOptionalParams
   ): Promise<AdaptiveApplicationControlsGetResponse> {
     return this.client.sendOperationRequest(
-      { groupName, options },
+      { ascLocation, groupName, options },
       getOperationSpec
     );
   }
 
   /**
    * Update an application control machine group
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param groupName Name of an application control machine group
    * @param body
    * @param options The options parameters.
    */
   put(
+    ascLocation: string,
     groupName: string,
     body: AdaptiveApplicationControlGroup,
     options?: AdaptiveApplicationControlsPutOptionalParams
   ): Promise<AdaptiveApplicationControlsPutResponse> {
     return this.client.sendOperationRequest(
-      { groupName, body, options },
+      { ascLocation, groupName, body, options },
       putOperationSpec
     );
   }
 
   /**
    * Delete an application control machine group
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param groupName Name of an application control machine group
    * @param options The options parameters.
    */
   delete(
+    ascLocation: string,
     groupName: string,
     options?: AdaptiveApplicationControlsDeleteOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { groupName, options },
+      { ascLocation, groupName, options },
       deleteOperationSpec
     );
   }
@@ -108,7 +117,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [
-    Parameters.apiVersion9,
+    Parameters.apiVersion10,
     Parameters.includePathRecommendations,
     Parameters.summary
   ],
@@ -128,7 +137,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion9],
+  queryParameters: [Parameters.apiVersion10],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -151,7 +160,7 @@ const putOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.body,
-  queryParameters: [Parameters.apiVersion9],
+  queryParameters: [Parameters.apiVersion10],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -174,7 +183,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion9],
+  queryParameters: [Parameters.apiVersion10],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

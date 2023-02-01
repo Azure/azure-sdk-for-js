@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { createSpan } from "../tracing";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { tracingClient } from "../tracing";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Library } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import * as coreTracing from "@azure/core-tracing";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ArtifactsClientContext } from "../artifactsClientContext";
+import { ArtifactsClient } from "../artifactsClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -36,13 +36,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Library operations. */
 export class LibraryImpl implements Library {
-  private readonly client: ArtifactsClientContext;
+  private readonly client: ArtifactsClient;
 
   /**
    * Initialize a new instance of the class Library class.
    * @param client Reference to the service client
    */
-  constructor(client: ArtifactsClientContext) {
+  constructor(client: ArtifactsClient) {
     this.client = client;
   }
 
@@ -61,22 +61,34 @@ export class LibraryImpl implements Library {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: LibraryListOptionalParams
+    options?: LibraryListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<LibraryResource[]> {
-    let result = await this._list(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: LibraryListOperationResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -95,22 +107,16 @@ export class LibraryImpl implements Library {
   private async _list(
     options?: LibraryListOptionalParams
   ): Promise<LibraryListOperationResponse> {
-    const { span } = createSpan("ArtifactsClient-_list", options || {});
-    try {
-      const result = await this.client.sendOperationRequest(
-        { options },
-        listOperationSpec
-      );
-      return result as LibraryListOperationResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "ArtifactsClient._list",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { options },
+          listOperationSpec
+        ) as Promise<LibraryListOperationResponse>;
+      }
+    );
   }
 
   /**
@@ -123,23 +129,17 @@ export class LibraryImpl implements Library {
     libraryName: string,
     options?: LibraryFlushOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const { span } = createSpan("ArtifactsClient-beginFlush", options || {});
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
-      try {
-        const result = await this.client.sendOperationRequest(args, spec);
-        return result as void;
-      } catch (error) {
-        span.setStatus({
-          code: coreTracing.SpanStatusCode.UNSET,
-          message: error.message
-        });
-        throw error;
-      } finally {
-        span.end();
-      }
+      return tracingClient.withSpan(
+        "ArtifactsClient.beginFlush",
+        options ?? {},
+        async () => {
+          return this.client.sendOperationRequest(args, spec) as Promise<void>;
+        }
+      );
     };
     const sendOperation = async (
       args: coreClient.OperationArguments,
@@ -179,10 +179,12 @@ export class LibraryImpl implements Library {
       { libraryName, options },
       flushOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -208,25 +210,16 @@ export class LibraryImpl implements Library {
     operationId: string,
     options?: LibraryGetOperationResultOptionalParams
   ): Promise<LibraryGetOperationResultResponse> {
-    const { span } = createSpan(
-      "ArtifactsClient-getOperationResult",
-      options || {}
+    return tracingClient.withSpan(
+      "ArtifactsClient.getOperationResult",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { operationId, options },
+          getOperationResultOperationSpec
+        ) as Promise<LibraryGetOperationResultResponse>;
+      }
     );
-    try {
-      const result = await this.client.sendOperationRequest(
-        { operationId, options },
-        getOperationResultOperationSpec
-      );
-      return result as LibraryGetOperationResultResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -239,23 +232,17 @@ export class LibraryImpl implements Library {
     libraryName: string,
     options?: LibraryDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const { span } = createSpan("ArtifactsClient-beginDelete", options || {});
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
-      try {
-        const result = await this.client.sendOperationRequest(args, spec);
-        return result as void;
-      } catch (error) {
-        span.setStatus({
-          code: coreTracing.SpanStatusCode.UNSET,
-          message: error.message
-        });
-        throw error;
-      } finally {
-        span.end();
-      }
+      return tracingClient.withSpan(
+        "ArtifactsClient.beginDelete",
+        options ?? {},
+        async () => {
+          return this.client.sendOperationRequest(args, spec) as Promise<void>;
+        }
+      );
     };
     const sendOperation = async (
       args: coreClient.OperationArguments,
@@ -295,10 +282,12 @@ export class LibraryImpl implements Library {
       { libraryName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -325,22 +314,16 @@ export class LibraryImpl implements Library {
     libraryName: string,
     options?: LibraryGetOptionalParams
   ): Promise<LibraryGetResponse> {
-    const { span } = createSpan("ArtifactsClient-get", options || {});
-    try {
-      const result = await this.client.sendOperationRequest(
-        { libraryName, options },
-        getOperationSpec
-      );
-      return result as LibraryGetResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "ArtifactsClient.get",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { libraryName, options },
+          getOperationSpec
+        ) as Promise<LibraryGetResponse>;
+      }
+    );
   }
 
   /**
@@ -353,23 +336,17 @@ export class LibraryImpl implements Library {
     libraryName: string,
     options?: LibraryCreateOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const { span } = createSpan("ArtifactsClient-beginCreate", options || {});
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
-      try {
-        const result = await this.client.sendOperationRequest(args, spec);
-        return result as void;
-      } catch (error) {
-        span.setStatus({
-          code: coreTracing.SpanStatusCode.UNSET,
-          message: error.message
-        });
-        throw error;
-      } finally {
-        span.end();
-      }
+      return tracingClient.withSpan(
+        "ArtifactsClient.beginCreate",
+        options ?? {},
+        async () => {
+          return this.client.sendOperationRequest(args, spec) as Promise<void>;
+        }
+      );
     };
     const sendOperation = async (
       args: coreClient.OperationArguments,
@@ -409,10 +386,12 @@ export class LibraryImpl implements Library {
       { libraryName, options },
       createOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -442,22 +421,16 @@ export class LibraryImpl implements Library {
     content: coreRestPipeline.RequestBodyType,
     options?: LibraryAppendOptionalParams
   ): Promise<void> {
-    const { span } = createSpan("ArtifactsClient-append", options || {});
-    try {
-      const result = await this.client.sendOperationRequest(
-        { libraryName, content, options },
-        appendOperationSpec
-      );
-      return result as void;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "ArtifactsClient.append",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { libraryName, content, options },
+          appendOperationSpec
+        ) as Promise<void>;
+      }
+    );
   }
 
   /**
@@ -469,22 +442,16 @@ export class LibraryImpl implements Library {
     nextLink: string,
     options?: LibraryListNextOptionalParams
   ): Promise<LibraryListNextResponse> {
-    const { span } = createSpan("ArtifactsClient-_listNext", options || {});
-    try {
-      const result = await this.client.sendOperationRequest(
-        { nextLink, options },
-        listNextOperationSpec
-      );
-      return result as LibraryListNextResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "ArtifactsClient._listNext",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { nextLink, options },
+          listNextOperationSpec
+        ) as Promise<LibraryListNextResponse>;
+      }
+    );
   }
 }
 // Operation Specifications
@@ -498,10 +465,10 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.LibraryListResponse
     },
     default: {
-      bodyMapper: Mappers.CloudErrorAutoGenerated
+      bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
   serializer
@@ -515,10 +482,10 @@ const flushOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudErrorAutoGenerated
+      bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.endpoint, Parameters.libraryName],
   headerParameters: [Parameters.accept],
   serializer
@@ -534,10 +501,10 @@ const getOperationResultOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.OperationResult
     },
     default: {
-      bodyMapper: Mappers.CloudErrorAutoGenerated
+      bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.endpoint, Parameters.operationId],
   headerParameters: [Parameters.accept],
   serializer
@@ -551,10 +518,10 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudErrorAutoGenerated
+      bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.endpoint, Parameters.libraryName],
   headerParameters: [Parameters.accept],
   serializer
@@ -568,10 +535,10 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     304: {},
     default: {
-      bodyMapper: Mappers.CloudErrorAutoGenerated
+      bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.endpoint, Parameters.libraryName],
   headerParameters: [Parameters.accept],
   serializer
@@ -585,10 +552,10 @@ const createOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudErrorAutoGenerated
+      bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.endpoint, Parameters.libraryName],
   headerParameters: [Parameters.accept],
   serializer
@@ -599,11 +566,11 @@ const appendOperationSpec: coreClient.OperationSpec = {
   responses: {
     201: {},
     default: {
-      bodyMapper: Mappers.CloudErrorAutoGenerated
+      bodyMapper: Mappers.CloudError
     }
   },
   requestBody: Parameters.content,
-  queryParameters: [Parameters.apiVersion3, Parameters.comp],
+  queryParameters: [Parameters.apiVersion4, Parameters.comp],
   urlParameters: [Parameters.endpoint, Parameters.libraryName],
   headerParameters: [
     Parameters.contentType1,
@@ -621,10 +588,9 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.LibraryListResponse
     },
     default: {
-      bodyMapper: Mappers.CloudErrorAutoGenerated
+      bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion3],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer

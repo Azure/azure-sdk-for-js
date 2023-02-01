@@ -282,8 +282,11 @@ export interface SendTypingNotificationRequest {
 
 /** Known values of {@link CommunicationCloudEnvironmentModel} that the service accepts. */
 export enum KnownCommunicationCloudEnvironmentModel {
+  /** Public */
   Public = "public",
+  /** Dod */
   Dod = "dod",
+  /** Gcch */
   Gcch = "gcch"
 }
 

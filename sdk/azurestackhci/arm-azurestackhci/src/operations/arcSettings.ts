@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ArcSettings } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -23,7 +24,14 @@ import {
   ArcSettingsGetResponse,
   ArcSettingsCreateOptionalParams,
   ArcSettingsCreateResponse,
+  ArcSettingsPatch,
+  ArcSettingsUpdateOptionalParams,
+  ArcSettingsUpdateResponse,
   ArcSettingsDeleteOptionalParams,
+  ArcSettingsGeneratePasswordOptionalParams,
+  ArcSettingsGeneratePasswordResponse,
+  ArcSettingsCreateIdentityOptionalParams,
+  ArcSettingsCreateIdentityResponse,
   ArcSettingsListByClusterNextResponse
 } from "../models";
 
@@ -63,11 +71,15 @@ export class ArcSettingsImpl implements ArcSettings {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByClusterPagingPage(
           resourceGroupName,
           clusterName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -76,15 +88,22 @@ export class ArcSettingsImpl implements ArcSettings {
   private async *listByClusterPagingPage(
     resourceGroupName: string,
     clusterName: string,
-    options?: ArcSettingsListByClusterOptionalParams
+    options?: ArcSettingsListByClusterOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ArcSetting[]> {
-    let result = await this._listByCluster(
-      resourceGroupName,
-      clusterName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ArcSettingsListByClusterResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByCluster(
+        resourceGroupName,
+        clusterName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByClusterNext(
         resourceGroupName,
@@ -93,7 +112,9 @@ export class ArcSettingsImpl implements ArcSettings {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -169,6 +190,27 @@ export class ArcSettingsImpl implements ArcSettings {
   }
 
   /**
+   * Update ArcSettings for HCI cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster.
+   * @param arcSettingName The name of the proxy resource holding details of HCI ArcSetting information.
+   * @param arcSetting ArcSettings parameters that needs to be updated
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    clusterName: string,
+    arcSettingName: string,
+    arcSetting: ArcSettingsPatch,
+    options?: ArcSettingsUpdateOptionalParams
+  ): Promise<ArcSettingsUpdateResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, clusterName, arcSettingName, arcSetting, options },
+      updateOperationSpec
+    );
+  }
+
+  /**
    * Delete ArcSetting resource details of HCI Cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster.
@@ -225,11 +267,13 @@ export class ArcSettingsImpl implements ArcSettings {
       { resourceGroupName, clusterName, arcSettingName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -246,6 +290,118 @@ export class ArcSettingsImpl implements ArcSettings {
     options?: ArcSettingsDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
+      resourceGroupName,
+      clusterName,
+      arcSettingName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Generate password for arc settings.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster.
+   * @param arcSettingName The name of the proxy resource holding details of HCI ArcSetting information.
+   * @param options The options parameters.
+   */
+  generatePassword(
+    resourceGroupName: string,
+    clusterName: string,
+    arcSettingName: string,
+    options?: ArcSettingsGeneratePasswordOptionalParams
+  ): Promise<ArcSettingsGeneratePasswordResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, clusterName, arcSettingName, options },
+      generatePasswordOperationSpec
+    );
+  }
+
+  /**
+   * Create Aad identity for arc settings.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster.
+   * @param arcSettingName The name of the proxy resource holding details of HCI ArcSetting information.
+   * @param options The options parameters.
+   */
+  async beginCreateIdentity(
+    resourceGroupName: string,
+    clusterName: string,
+    arcSettingName: string,
+    options?: ArcSettingsCreateIdentityOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<ArcSettingsCreateIdentityResponse>,
+      ArcSettingsCreateIdentityResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<ArcSettingsCreateIdentityResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, clusterName, arcSettingName, options },
+      createIdentityOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "azure-async-operation"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Create Aad identity for arc settings.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster.
+   * @param arcSettingName The name of the proxy resource holding details of HCI ArcSetting information.
+   * @param options The options parameters.
+   */
+  async beginCreateIdentityAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    arcSettingName: string,
+    options?: ArcSettingsCreateIdentityOptionalParams
+  ): Promise<ArcSettingsCreateIdentityResponse> {
+    const poller = await this.beginCreateIdentity(
       resourceGroupName,
       clusterName,
       arcSettingName,
@@ -346,6 +502,31 @@ const createOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
+const updateOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/arcSettings/{arcSettingName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ArcSetting
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.arcSetting1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.arcSettingName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/arcSettings/{arcSettingName}",
@@ -355,6 +536,61 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     201: {},
     202: {},
     204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.arcSettingName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const generatePasswordOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/arcSettings/{arcSettingName}/generatePassword",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PasswordCredential
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.arcSettingName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const createIdentityOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/arcSettings/{arcSettingName}/createArcIdentity",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ArcIdentityResponse
+    },
+    201: {
+      bodyMapper: Mappers.ArcIdentityResponse
+    },
+    202: {
+      bodyMapper: Mappers.ArcIdentityResponse
+    },
+    204: {
+      bodyMapper: Mappers.ArcIdentityResponse
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }

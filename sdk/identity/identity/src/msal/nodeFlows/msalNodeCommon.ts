@@ -1,30 +1,35 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as msalNode from "@azure/msal-node";
 import * as msalCommon from "@azure/msal-common";
+import * as msalNode from "@azure/msal-node";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
-import { AbortSignalLike } from "@azure/abort-controller";
-
-import { IdentityClient } from "../../client/identityClient";
-import { TokenCredentialOptions } from "../../tokenCredentialOptions";
-import { DeveloperSignOnClientId } from "../../constants";
-import { resolveTenantId } from "../../util/resolveTenantId";
-import { AuthenticationRequiredError } from "../../errors";
-import { CredentialFlowGetTokenOptions } from "../credentials";
-import { MsalFlow, MsalFlowOptions } from "../flows";
-import { AuthenticationRecord } from "../types";
+import { getLogLevel } from "@azure/logger";
 import {
+  MsalBaseUtilities,
   defaultLoggerCallback,
   getAuthority,
   getKnownAuthorities,
-  MsalBaseUtilities,
   msalToPublic,
   publicToMsal,
+  getMSALLogLevel,
 } from "../utils";
-import { TokenCachePersistenceOptions } from "./tokenCachePersistenceOptions";
-import { processMultiTenantRequest } from "../../util/validateMultiTenant";
+import { MsalFlow, MsalFlowOptions } from "../flows";
+import {
+  processMultiTenantRequest,
+  resolveAddionallyAllowedTenantIds,
+  resolveTenantId,
+} from "../../util/tenantIdUtils";
+import { AbortSignalLike } from "@azure/abort-controller";
+import { AuthenticationRecord } from "../types";
+import { AuthenticationRequiredError } from "../../errors";
+import { CredentialFlowGetTokenOptions } from "../credentials";
+import { DeveloperSignOnClientId } from "../../constants";
+import { IdentityClient } from "../../client/identityClient";
+import { LogPolicyOptions } from "@azure/core-rest-pipeline";
+import { MultiTenantTokenCredentialOptions } from "../../credentials/multiTenantTokenCredentialOptions";
 import { RegionalAuthority } from "../../regionalAuthority";
+import { TokenCachePersistenceOptions } from "./tokenCachePersistenceOptions";
 
 /**
  * Union of the constructor parameters that all MSAL flow types for Node.
@@ -32,13 +37,19 @@ import { RegionalAuthority } from "../../regionalAuthority";
  */
 export interface MsalNodeOptions extends MsalFlowOptions {
   tokenCachePersistenceOptions?: TokenCachePersistenceOptions;
-  tokenCredentialOptions: TokenCredentialOptions;
+  tokenCredentialOptions: MultiTenantTokenCredentialOptions;
   /**
    * Specifies a regional authority. Please refer to the {@link RegionalAuthority} type for the accepted values.
    * If {@link RegionalAuthority.AutoDiscoverRegion} is specified, we will try to discover the regional authority endpoint.
    * If the property is not specified, uses a non-regional authority endpoint.
    */
   regionalAuthority?: string;
+  /**
+   * Allows logging account information once the authentication flow succeeds.
+   */
+  loggingOptions?: LogPolicyOptions & {
+    allowLoggingAccountIdentifiers?: boolean;
+  };
 }
 
 /**
@@ -74,17 +85,32 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
   protected msalConfig: msalNode.Configuration;
   protected clientId: string;
   protected tenantId: string;
+  protected additionallyAllowedTenantIds: string[];
   protected authorityHost?: string;
   protected identityClient?: IdentityClient;
   protected requiresConfidential: boolean = false;
   protected azureRegion?: string;
   protected createCachePlugin: (() => Promise<msalCommon.ICachePlugin>) | undefined;
 
+  /**
+   * MSAL currently caches the tokens depending on the claims used to retrieve them.
+   * In cases like CAE, in which we use claims to update the tokens, trying to retrieve the token without the claims will yield the original token.
+   * To ensure we always get the latest token, we have to keep track of the claims.
+   */
+  private cachedClaims: string | undefined;
+
+  protected getAssertion: (() => Promise<string>) | undefined;
   constructor(options: MsalNodeOptions) {
     super(options);
     this.msalConfig = this.defaultNodeMsalConfig(options);
     this.tenantId = resolveTenantId(options.logger, options.tenantId, options.clientId);
+    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
+      options?.tokenCredentialOptions?.additionallyAllowedTenants
+    );
     this.clientId = this.msalConfig.auth.clientId;
+    if (options?.getAssertion) {
+      this.getAssertion = options.getAssertion;
+    }
 
     // If persistence has been configured
     if (persistenceProvider !== undefined && options.tokenCachePersistenceOptions?.enabled) {
@@ -119,6 +145,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
     this.identityClient = new IdentityClient({
       ...options.tokenCredentialOptions,
       authorityHost: authority,
+      loggingOptions: options.loggingOptions,
     });
 
     let clientCapabilities: string[] = ["cp1"];
@@ -138,6 +165,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
         networkClient: this.identityClient,
         loggerOptions: {
           loggerCallback: defaultLoggerCallback(options.logger),
+          logLevel: getMSALLogLevel(getLogLevel()),
         },
       },
     };
@@ -166,6 +194,9 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
     }
 
     this.publicApp = new msalNode.PublicClientApplication(this.msalConfig);
+    if (this.getAssertion) {
+      this.msalConfig.auth.clientAssertion = await this.getAssertion();
+    }
     // The confidential client requires either a secret, assertion or certificate.
     if (
       this.msalConfig.auth.clientSecret ||
@@ -265,7 +296,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
         (await this.confidentialApp?.acquireTokenSilent(silentRequest)) ??
         (await this.publicApp!.acquireTokenSilent(silentRequest));
       return this.handleResult(scopes, this.clientId, response || undefined);
-    } catch (err) {
+    } catch (err: any) {
       throw this.handleError(scopes, err, options);
     }
   }
@@ -283,7 +314,9 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     scopes: string[],
     options: CredentialFlowGetTokenOptions = {}
   ): Promise<AccessToken> {
-    const tenantId = processMultiTenantRequest(this.tenantId, options) || this.tenantId;
+    const tenantId =
+      processMultiTenantRequest(this.tenantId, options, this.additionallyAllowedTenantIds) ||
+      this.tenantId;
 
     options.authority = getAuthority(tenantId, this.authorityHost);
 
@@ -291,8 +324,19 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     await this.init(options);
 
     try {
+      // MSAL now caches tokens based on their claims,
+      // so now one has to keep track fo claims in order to retrieve the newer tokens from acquireTokenSilent
+      // This update happened on PR: https://github.com/AzureAD/microsoft-authentication-library-for-js/pull/4533
+      const optionsClaims = (options as any).claims;
+      if (optionsClaims) {
+        this.cachedClaims = optionsClaims;
+      }
+      if (this.cachedClaims && !optionsClaims) {
+        (options as any).claims = this.cachedClaims;
+      }
+      // We don't return the promise since we want to catch errors right here.
       return await this.getTokenSilent(scopes, options);
-    } catch (err) {
+    } catch (err: any) {
       if (err.name !== "AuthenticationRequiredError") {
         throw err;
       }

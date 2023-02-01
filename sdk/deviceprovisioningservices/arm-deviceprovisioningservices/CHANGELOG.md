@@ -1,6 +1,6 @@
 # Release History
-    
-## 4.1.1 (Unreleased)
+
+## 5.1.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,37 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 5.1.0 (2023-01-05)
+    
+**Features**
+
+  - Added Interface ProvisioningServiceDescription
+  - Added function getContinuationToken
+    
+## 5.0.1 (2022-04-27)
+    
+**Features**
+
+  -  Bug fix
+    
+## 5.0.0 (2022-04-25)
+    
+**Features**
+
+  - Added Interface ErrorMessage
+  - Added Interface IotDpsResourceDeletePrivateEndpointConnectionHeaders
+
+**Breaking Changes**
+
+  - Operation DpsCertificate.createOrUpdate has a new signature
+    
+    
+## 4.1.1 (2022-04-18)
+
+**features**
+
+  - bug fix
 
 ## 4.1.0 (2022-01-24)
     

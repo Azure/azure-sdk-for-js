@@ -10,7 +10,7 @@ import { DataSources } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { SearchServiceClientContext } from "../searchServiceClientContext";
+import { SearchServiceClient } from "../searchServiceClient";
 import {
   SearchIndexerDataSource,
   DataSourcesCreateOrUpdateOptionalParams,
@@ -26,13 +26,13 @@ import {
 
 /** Class containing DataSources operations. */
 export class DataSourcesImpl implements DataSources {
-  private readonly client: SearchServiceClientContext;
+  private readonly client: SearchServiceClient;
 
   /**
    * Initialize a new instance of the class DataSources class.
    * @param client Reference to the service client
    */
-  constructor(client: SearchServiceClientContext) {
+  constructor(client: SearchServiceClient) {
     this.client = client;
   }
 
@@ -134,7 +134,6 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   headerParameters: [
     Parameters.contentType,
     Parameters.accept,
-    Parameters.xMsClientRequestId,
     Parameters.ifMatch,
     Parameters.ifNoneMatch,
     Parameters.prefer
@@ -156,7 +155,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.endpoint, Parameters.dataSourceName],
   headerParameters: [
     Parameters.accept,
-    Parameters.xMsClientRequestId,
     Parameters.ifMatch,
     Parameters.ifNoneMatch
   ],
@@ -175,7 +173,7 @@ const getOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.dataSourceName],
-  headerParameters: [Parameters.accept, Parameters.xMsClientRequestId],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const listOperationSpec: coreClient.OperationSpec = {
@@ -191,7 +189,7 @@ const listOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion, Parameters.select],
   urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.accept, Parameters.xMsClientRequestId],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const createOperationSpec: coreClient.OperationSpec = {
@@ -208,11 +206,7 @@ const createOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.dataSource,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
-  headerParameters: [
-    Parameters.contentType,
-    Parameters.accept,
-    Parameters.xMsClientRequestId
-  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };

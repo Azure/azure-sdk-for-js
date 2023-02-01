@@ -14,86 +14,91 @@ import { PollOperationState } from '@azure/core-lro';
 export type ActionType = string;
 
 // @public
+export interface ActivatedResourceReference {
+    id?: string;
+    readonly isActive?: boolean;
+}
+
+// @public
 export type AfdCertificateType = string;
 
 // @public
-export interface AFDCustomDomains {
-    beginCreate(resourceGroupName: string, profileName: string, customDomainName: string, customDomain: AFDDomain, options?: AFDCustomDomainsCreateOptionalParams): Promise<PollerLike<PollOperationState<AFDCustomDomainsCreateResponse>, AFDCustomDomainsCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, profileName: string, customDomainName: string, customDomain: AFDDomain, options?: AFDCustomDomainsCreateOptionalParams): Promise<AFDCustomDomainsCreateResponse>;
-    beginDelete(resourceGroupName: string, profileName: string, customDomainName: string, options?: AFDCustomDomainsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, profileName: string, customDomainName: string, options?: AFDCustomDomainsDeleteOptionalParams): Promise<void>;
-    beginRefreshValidationToken(resourceGroupName: string, profileName: string, customDomainName: string, options?: AFDCustomDomainsRefreshValidationTokenOptionalParams): Promise<PollerLike<PollOperationState<AFDCustomDomainsRefreshValidationTokenResponse>, AFDCustomDomainsRefreshValidationTokenResponse>>;
-    beginRefreshValidationTokenAndWait(resourceGroupName: string, profileName: string, customDomainName: string, options?: AFDCustomDomainsRefreshValidationTokenOptionalParams): Promise<AFDCustomDomainsRefreshValidationTokenResponse>;
-    beginUpdate(resourceGroupName: string, profileName: string, customDomainName: string, customDomainUpdateProperties: AFDDomainUpdateParameters, options?: AFDCustomDomainsUpdateOptionalParams): Promise<PollerLike<PollOperationState<AFDCustomDomainsUpdateResponse>, AFDCustomDomainsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, profileName: string, customDomainName: string, customDomainUpdateProperties: AFDDomainUpdateParameters, options?: AFDCustomDomainsUpdateOptionalParams): Promise<AFDCustomDomainsUpdateResponse>;
-    get(resourceGroupName: string, profileName: string, customDomainName: string, options?: AFDCustomDomainsGetOptionalParams): Promise<AFDCustomDomainsGetResponse>;
-    listByProfile(resourceGroupName: string, profileName: string, options?: AFDCustomDomainsListByProfileOptionalParams): PagedAsyncIterableIterator<AFDDomain>;
+export interface AfdCustomDomains {
+    beginCreate(resourceGroupName: string, profileName: string, customDomainName: string, customDomain: AFDDomain, options?: AfdCustomDomainsCreateOptionalParams): Promise<PollerLike<PollOperationState<AfdCustomDomainsCreateResponse>, AfdCustomDomainsCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, profileName: string, customDomainName: string, customDomain: AFDDomain, options?: AfdCustomDomainsCreateOptionalParams): Promise<AfdCustomDomainsCreateResponse>;
+    beginDelete(resourceGroupName: string, profileName: string, customDomainName: string, options?: AfdCustomDomainsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, profileName: string, customDomainName: string, options?: AfdCustomDomainsDeleteOptionalParams): Promise<void>;
+    beginRefreshValidationToken(resourceGroupName: string, profileName: string, customDomainName: string, options?: AfdCustomDomainsRefreshValidationTokenOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginRefreshValidationTokenAndWait(resourceGroupName: string, profileName: string, customDomainName: string, options?: AfdCustomDomainsRefreshValidationTokenOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, profileName: string, customDomainName: string, customDomainUpdateProperties: AFDDomainUpdateParameters, options?: AfdCustomDomainsUpdateOptionalParams): Promise<PollerLike<PollOperationState<AfdCustomDomainsUpdateResponse>, AfdCustomDomainsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, profileName: string, customDomainName: string, customDomainUpdateProperties: AFDDomainUpdateParameters, options?: AfdCustomDomainsUpdateOptionalParams): Promise<AfdCustomDomainsUpdateResponse>;
+    get(resourceGroupName: string, profileName: string, customDomainName: string, options?: AfdCustomDomainsGetOptionalParams): Promise<AfdCustomDomainsGetResponse>;
+    listByProfile(resourceGroupName: string, profileName: string, options?: AfdCustomDomainsListByProfileOptionalParams): PagedAsyncIterableIterator<AFDDomain>;
 }
 
 // @public
-export interface AFDCustomDomainsCreateOptionalParams extends coreClient.OperationOptions {
+export interface AfdCustomDomainsCreateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AFDCustomDomainsCreateResponse = AFDDomain;
+export type AfdCustomDomainsCreateResponse = AFDDomain;
 
 // @public
-export interface AFDCustomDomainsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface AfdCustomDomainsDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface AFDCustomDomainsGetOptionalParams extends coreClient.OperationOptions {
+export interface AfdCustomDomainsGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type AFDCustomDomainsGetResponse = AFDDomain;
+export type AfdCustomDomainsGetResponse = AFDDomain;
 
 // @public
-export interface AFDCustomDomainsListByProfileNextOptionalParams extends coreClient.OperationOptions {
+export interface AfdCustomDomainsListByProfileNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type AFDCustomDomainsListByProfileNextResponse = AFDDomainListResult;
+export type AfdCustomDomainsListByProfileNextResponse = AFDDomainListResult;
 
 // @public
-export interface AFDCustomDomainsListByProfileOptionalParams extends coreClient.OperationOptions {
+export interface AfdCustomDomainsListByProfileOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type AFDCustomDomainsListByProfileResponse = AFDDomainListResult;
+export type AfdCustomDomainsListByProfileResponse = AFDDomainListResult;
 
 // @public
-export interface AFDCustomDomainsRefreshValidationTokenOptionalParams extends coreClient.OperationOptions {
+export interface AfdCustomDomainsRefreshValidationTokenOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AFDCustomDomainsRefreshValidationTokenResponse = ValidationToken;
-
-// @public
-export interface AFDCustomDomainsUpdateOptionalParams extends coreClient.OperationOptions {
+export interface AfdCustomDomainsUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AFDCustomDomainsUpdateResponse = AFDDomain;
+export type AfdCustomDomainsUpdateResponse = AFDDomain;
 
 // @public
-export type AFDDomain = ProxyResource & {
-    tlsSettings?: AFDDomainHttpsParameters;
+export interface AFDDomain extends ProxyResource {
     azureDnsZone?: ResourceReference;
-    readonly provisioningState?: AfdProvisioningState;
     readonly deploymentStatus?: DeploymentStatus;
     readonly domainValidationState?: DomainValidationState;
     hostName?: string;
+    preValidatedCustomDomainResourceId?: ResourceReference;
+    readonly profileName?: string;
+    readonly provisioningState?: AfdProvisioningState;
+    tlsSettings?: AFDDomainHttpsParameters;
     readonly validationProperties?: DomainValidationProperties;
-};
+}
 
 // @public
 export interface AFDDomainHttpsParameters {
@@ -109,32 +114,37 @@ export interface AFDDomainListResult {
 }
 
 // @public
-export type AFDDomainProperties = AFDDomainUpdatePropertiesParameters & AFDStateProperties & {
+export interface AFDDomainProperties extends AFDDomainUpdatePropertiesParameters, AFDStateProperties {
     readonly domainValidationState?: DomainValidationState;
     hostName: string;
     readonly validationProperties?: DomainValidationProperties;
-};
+}
 
 // @public
 export interface AFDDomainUpdateParameters {
     azureDnsZone?: ResourceReference;
+    preValidatedCustomDomainResourceId?: ResourceReference;
+    readonly profileName?: string;
     tlsSettings?: AFDDomainHttpsParameters;
 }
 
 // @public
 export interface AFDDomainUpdatePropertiesParameters {
     azureDnsZone?: ResourceReference;
+    preValidatedCustomDomainResourceId?: ResourceReference;
+    readonly profileName?: string;
     tlsSettings?: AFDDomainHttpsParameters;
 }
 
 // @public
-export type AFDEndpoint = TrackedResource & {
-    originResponseTimeoutSeconds?: number;
-    enabledState?: EnabledState;
-    readonly provisioningState?: AfdProvisioningState;
+export interface AFDEndpoint extends TrackedResource {
+    autoGeneratedDomainNameLabelScope?: AutoGeneratedDomainNameLabelScope;
     readonly deploymentStatus?: DeploymentStatus;
+    enabledState?: EnabledState;
     readonly hostName?: string;
-};
+    readonly profileName?: string;
+    readonly provisioningState?: AfdProvisioningState;
+}
 
 // @public
 export interface AFDEndpointListResult {
@@ -143,111 +153,112 @@ export interface AFDEndpointListResult {
 }
 
 // @public
-export type AFDEndpointProperties = AFDEndpointPropertiesUpdateParameters & AFDStateProperties & {
+export interface AFDEndpointProperties extends AFDEndpointPropertiesUpdateParameters, AFDStateProperties {
+    autoGeneratedDomainNameLabelScope?: AutoGeneratedDomainNameLabelScope;
     readonly hostName?: string;
-};
+}
 
 // @public
 export interface AFDEndpointPropertiesUpdateParameters {
     enabledState?: EnabledState;
-    originResponseTimeoutSeconds?: number;
+    readonly profileName?: string;
 }
 
 // @public
 export type AFDEndpointProtocols = string;
 
 // @public
-export interface AFDEndpoints {
-    beginCreate(resourceGroupName: string, profileName: string, endpointName: string, endpoint: AFDEndpoint, options?: AFDEndpointsCreateOptionalParams): Promise<PollerLike<PollOperationState<AFDEndpointsCreateResponse>, AFDEndpointsCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, profileName: string, endpointName: string, endpoint: AFDEndpoint, options?: AFDEndpointsCreateOptionalParams): Promise<AFDEndpointsCreateResponse>;
-    beginDelete(resourceGroupName: string, profileName: string, endpointName: string, options?: AFDEndpointsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, profileName: string, endpointName: string, options?: AFDEndpointsDeleteOptionalParams): Promise<void>;
-    beginPurgeContent(resourceGroupName: string, profileName: string, endpointName: string, contents: AfdPurgeParameters, options?: AFDEndpointsPurgeContentOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginPurgeContentAndWait(resourceGroupName: string, profileName: string, endpointName: string, contents: AfdPurgeParameters, options?: AFDEndpointsPurgeContentOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, profileName: string, endpointName: string, endpointUpdateProperties: AFDEndpointUpdateParameters, options?: AFDEndpointsUpdateOptionalParams): Promise<PollerLike<PollOperationState<AFDEndpointsUpdateResponse>, AFDEndpointsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, profileName: string, endpointName: string, endpointUpdateProperties: AFDEndpointUpdateParameters, options?: AFDEndpointsUpdateOptionalParams): Promise<AFDEndpointsUpdateResponse>;
-    get(resourceGroupName: string, profileName: string, endpointName: string, options?: AFDEndpointsGetOptionalParams): Promise<AFDEndpointsGetResponse>;
-    listByProfile(resourceGroupName: string, profileName: string, options?: AFDEndpointsListByProfileOptionalParams): PagedAsyncIterableIterator<AFDEndpoint>;
-    listResourceUsage(resourceGroupName: string, profileName: string, endpointName: string, options?: AFDEndpointsListResourceUsageOptionalParams): PagedAsyncIterableIterator<Usage>;
-    validateCustomDomain(resourceGroupName: string, profileName: string, endpointName: string, customDomainProperties: ValidateCustomDomainInput, options?: AFDEndpointsValidateCustomDomainOptionalParams): Promise<AFDEndpointsValidateCustomDomainResponse>;
+export interface AfdEndpoints {
+    beginCreate(resourceGroupName: string, profileName: string, endpointName: string, endpoint: AFDEndpoint, options?: AfdEndpointsCreateOptionalParams): Promise<PollerLike<PollOperationState<AfdEndpointsCreateResponse>, AfdEndpointsCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, profileName: string, endpointName: string, endpoint: AFDEndpoint, options?: AfdEndpointsCreateOptionalParams): Promise<AfdEndpointsCreateResponse>;
+    beginDelete(resourceGroupName: string, profileName: string, endpointName: string, options?: AfdEndpointsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, profileName: string, endpointName: string, options?: AfdEndpointsDeleteOptionalParams): Promise<void>;
+    beginPurgeContent(resourceGroupName: string, profileName: string, endpointName: string, contents: AfdPurgeParameters, options?: AfdEndpointsPurgeContentOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginPurgeContentAndWait(resourceGroupName: string, profileName: string, endpointName: string, contents: AfdPurgeParameters, options?: AfdEndpointsPurgeContentOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, profileName: string, endpointName: string, endpointUpdateProperties: AFDEndpointUpdateParameters, options?: AfdEndpointsUpdateOptionalParams): Promise<PollerLike<PollOperationState<AfdEndpointsUpdateResponse>, AfdEndpointsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, profileName: string, endpointName: string, endpointUpdateProperties: AFDEndpointUpdateParameters, options?: AfdEndpointsUpdateOptionalParams): Promise<AfdEndpointsUpdateResponse>;
+    get(resourceGroupName: string, profileName: string, endpointName: string, options?: AfdEndpointsGetOptionalParams): Promise<AfdEndpointsGetResponse>;
+    listByProfile(resourceGroupName: string, profileName: string, options?: AfdEndpointsListByProfileOptionalParams): PagedAsyncIterableIterator<AFDEndpoint>;
+    listResourceUsage(resourceGroupName: string, profileName: string, endpointName: string, options?: AfdEndpointsListResourceUsageOptionalParams): PagedAsyncIterableIterator<Usage>;
+    validateCustomDomain(resourceGroupName: string, profileName: string, endpointName: string, customDomainProperties: ValidateCustomDomainInput, options?: AfdEndpointsValidateCustomDomainOptionalParams): Promise<AfdEndpointsValidateCustomDomainResponse>;
 }
 
 // @public
-export interface AFDEndpointsCreateOptionalParams extends coreClient.OperationOptions {
+export interface AfdEndpointsCreateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AFDEndpointsCreateResponse = AFDEndpoint;
+export type AfdEndpointsCreateResponse = AFDEndpoint;
 
 // @public
-export interface AFDEndpointsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface AfdEndpointsDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface AFDEndpointsGetOptionalParams extends coreClient.OperationOptions {
+export interface AfdEndpointsGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type AFDEndpointsGetResponse = AFDEndpoint;
+export type AfdEndpointsGetResponse = AFDEndpoint;
 
 // @public
-export interface AFDEndpointsListByProfileNextOptionalParams extends coreClient.OperationOptions {
+export interface AfdEndpointsListByProfileNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type AFDEndpointsListByProfileNextResponse = AFDEndpointListResult;
+export type AfdEndpointsListByProfileNextResponse = AFDEndpointListResult;
 
 // @public
-export interface AFDEndpointsListByProfileOptionalParams extends coreClient.OperationOptions {
+export interface AfdEndpointsListByProfileOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type AFDEndpointsListByProfileResponse = AFDEndpointListResult;
+export type AfdEndpointsListByProfileResponse = AFDEndpointListResult;
 
 // @public
-export interface AFDEndpointsListResourceUsageNextOptionalParams extends coreClient.OperationOptions {
+export interface AfdEndpointsListResourceUsageNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type AFDEndpointsListResourceUsageNextResponse = UsagesListResult;
+export type AfdEndpointsListResourceUsageNextResponse = UsagesListResult;
 
 // @public
-export interface AFDEndpointsListResourceUsageOptionalParams extends coreClient.OperationOptions {
+export interface AfdEndpointsListResourceUsageOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type AFDEndpointsListResourceUsageResponse = UsagesListResult;
+export type AfdEndpointsListResourceUsageResponse = UsagesListResult;
 
 // @public
-export interface AFDEndpointsPurgeContentOptionalParams extends coreClient.OperationOptions {
+export interface AfdEndpointsPurgeContentOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface AFDEndpointsUpdateOptionalParams extends coreClient.OperationOptions {
+export interface AfdEndpointsUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AFDEndpointsUpdateResponse = AFDEndpoint;
+export type AfdEndpointsUpdateResponse = AFDEndpoint;
 
 // @public
-export interface AFDEndpointsValidateCustomDomainOptionalParams extends coreClient.OperationOptions {
+export interface AfdEndpointsValidateCustomDomainOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type AFDEndpointsValidateCustomDomainResponse = ValidateCustomDomainOutput;
+export type AfdEndpointsValidateCustomDomainResponse = ValidateCustomDomainOutput;
 
 // @public
 export interface AFDEndpointUpdateParameters {
     enabledState?: EnabledState;
-    originResponseTimeoutSeconds?: number;
+    readonly profileName?: string;
     tags?: {
         [propertyName: string]: string;
     };
@@ -255,37 +266,39 @@ export interface AFDEndpointUpdateParameters {
 
 // @public
 export interface AfdErrorResponse {
-    error?: ErrorResponse;
+    error?: ErrorDetail;
 }
 
 // @public
 export type AfdMinimumTlsVersion = "TLS10" | "TLS12";
 
 // @public
-export type AFDOrigin = ProxyResource & {
+export interface AFDOrigin extends ProxyResource {
     azureOrigin?: ResourceReference;
+    readonly deploymentStatus?: DeploymentStatus;
+    enabledState?: EnabledState;
+    enforceCertificateNameCheck?: boolean;
     hostName?: string;
     httpPort?: number;
     httpsPort?: number;
+    readonly originGroupName?: string;
     originHostHeader?: string;
     priority?: number;
-    weight?: number;
-    sharedPrivateLinkResource?: Record<string, unknown>;
-    enabledState?: EnabledState;
     readonly provisioningState?: AfdProvisioningState;
-    readonly deploymentStatus?: DeploymentStatus;
-};
+    sharedPrivateLinkResource?: SharedPrivateLinkResourceProperties;
+    weight?: number;
+}
 
 // @public
-export type AFDOriginGroup = ProxyResource & {
-    loadBalancingSettings?: LoadBalancingSettingsParameters;
-    healthProbeSettings?: HealthProbeParameters;
-    trafficRestorationTimeToHealedOrNewEndpointsInMinutes?: number;
-    responseBasedAfdOriginErrorDetectionSettings?: ResponseBasedOriginErrorDetectionParameters;
-    sessionAffinityState?: EnabledState;
-    readonly provisioningState?: AfdProvisioningState;
+export interface AFDOriginGroup extends ProxyResource {
     readonly deploymentStatus?: DeploymentStatus;
-};
+    healthProbeSettings?: HealthProbeParameters;
+    loadBalancingSettings?: LoadBalancingSettingsParameters;
+    readonly profileName?: string;
+    readonly provisioningState?: AfdProvisioningState;
+    sessionAffinityState?: EnabledState;
+    trafficRestorationTimeToHealedOrNewEndpointsInMinutes?: number;
+}
 
 // @public
 export interface AFDOriginGroupListResult {
@@ -294,85 +307,86 @@ export interface AFDOriginGroupListResult {
 }
 
 // @public
-export type AFDOriginGroupProperties = AFDOriginGroupUpdatePropertiesParameters & AFDStateProperties & {};
-
-// @public
-export interface AFDOriginGroups {
-    beginCreate(resourceGroupName: string, profileName: string, originGroupName: string, originGroup: AFDOriginGroup, options?: AFDOriginGroupsCreateOptionalParams): Promise<PollerLike<PollOperationState<AFDOriginGroupsCreateResponse>, AFDOriginGroupsCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, profileName: string, originGroupName: string, originGroup: AFDOriginGroup, options?: AFDOriginGroupsCreateOptionalParams): Promise<AFDOriginGroupsCreateResponse>;
-    beginDelete(resourceGroupName: string, profileName: string, originGroupName: string, options?: AFDOriginGroupsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, profileName: string, originGroupName: string, options?: AFDOriginGroupsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, profileName: string, originGroupName: string, originGroupUpdateProperties: AFDOriginGroupUpdateParameters, options?: AFDOriginGroupsUpdateOptionalParams): Promise<PollerLike<PollOperationState<AFDOriginGroupsUpdateResponse>, AFDOriginGroupsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, profileName: string, originGroupName: string, originGroupUpdateProperties: AFDOriginGroupUpdateParameters, options?: AFDOriginGroupsUpdateOptionalParams): Promise<AFDOriginGroupsUpdateResponse>;
-    get(resourceGroupName: string, profileName: string, originGroupName: string, options?: AFDOriginGroupsGetOptionalParams): Promise<AFDOriginGroupsGetResponse>;
-    listByProfile(resourceGroupName: string, profileName: string, options?: AFDOriginGroupsListByProfileOptionalParams): PagedAsyncIterableIterator<AFDOriginGroup>;
-    listResourceUsage(resourceGroupName: string, profileName: string, originGroupName: string, options?: AFDOriginGroupsListResourceUsageOptionalParams): PagedAsyncIterableIterator<Usage>;
+export interface AFDOriginGroupProperties extends AFDOriginGroupUpdatePropertiesParameters, AFDStateProperties {
 }
 
 // @public
-export interface AFDOriginGroupsCreateOptionalParams extends coreClient.OperationOptions {
+export interface AfdOriginGroups {
+    beginCreate(resourceGroupName: string, profileName: string, originGroupName: string, originGroup: AFDOriginGroup, options?: AfdOriginGroupsCreateOptionalParams): Promise<PollerLike<PollOperationState<AfdOriginGroupsCreateResponse>, AfdOriginGroupsCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, profileName: string, originGroupName: string, originGroup: AFDOriginGroup, options?: AfdOriginGroupsCreateOptionalParams): Promise<AfdOriginGroupsCreateResponse>;
+    beginDelete(resourceGroupName: string, profileName: string, originGroupName: string, options?: AfdOriginGroupsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, profileName: string, originGroupName: string, options?: AfdOriginGroupsDeleteOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, profileName: string, originGroupName: string, originGroupUpdateProperties: AFDOriginGroupUpdateParameters, options?: AfdOriginGroupsUpdateOptionalParams): Promise<PollerLike<PollOperationState<AfdOriginGroupsUpdateResponse>, AfdOriginGroupsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, profileName: string, originGroupName: string, originGroupUpdateProperties: AFDOriginGroupUpdateParameters, options?: AfdOriginGroupsUpdateOptionalParams): Promise<AfdOriginGroupsUpdateResponse>;
+    get(resourceGroupName: string, profileName: string, originGroupName: string, options?: AfdOriginGroupsGetOptionalParams): Promise<AfdOriginGroupsGetResponse>;
+    listByProfile(resourceGroupName: string, profileName: string, options?: AfdOriginGroupsListByProfileOptionalParams): PagedAsyncIterableIterator<AFDOriginGroup>;
+    listResourceUsage(resourceGroupName: string, profileName: string, originGroupName: string, options?: AfdOriginGroupsListResourceUsageOptionalParams): PagedAsyncIterableIterator<Usage>;
+}
+
+// @public
+export interface AfdOriginGroupsCreateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AFDOriginGroupsCreateResponse = AFDOriginGroup;
+export type AfdOriginGroupsCreateResponse = AFDOriginGroup;
 
 // @public
-export interface AFDOriginGroupsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface AfdOriginGroupsDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface AFDOriginGroupsGetOptionalParams extends coreClient.OperationOptions {
+export interface AfdOriginGroupsGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type AFDOriginGroupsGetResponse = AFDOriginGroup;
+export type AfdOriginGroupsGetResponse = AFDOriginGroup;
 
 // @public
-export interface AFDOriginGroupsListByProfileNextOptionalParams extends coreClient.OperationOptions {
+export interface AfdOriginGroupsListByProfileNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type AFDOriginGroupsListByProfileNextResponse = AFDOriginGroupListResult;
+export type AfdOriginGroupsListByProfileNextResponse = AFDOriginGroupListResult;
 
 // @public
-export interface AFDOriginGroupsListByProfileOptionalParams extends coreClient.OperationOptions {
+export interface AfdOriginGroupsListByProfileOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type AFDOriginGroupsListByProfileResponse = AFDOriginGroupListResult;
+export type AfdOriginGroupsListByProfileResponse = AFDOriginGroupListResult;
 
 // @public
-export interface AFDOriginGroupsListResourceUsageNextOptionalParams extends coreClient.OperationOptions {
+export interface AfdOriginGroupsListResourceUsageNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type AFDOriginGroupsListResourceUsageNextResponse = UsagesListResult;
+export type AfdOriginGroupsListResourceUsageNextResponse = UsagesListResult;
 
 // @public
-export interface AFDOriginGroupsListResourceUsageOptionalParams extends coreClient.OperationOptions {
+export interface AfdOriginGroupsListResourceUsageOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type AFDOriginGroupsListResourceUsageResponse = UsagesListResult;
+export type AfdOriginGroupsListResourceUsageResponse = UsagesListResult;
 
 // @public
-export interface AFDOriginGroupsUpdateOptionalParams extends coreClient.OperationOptions {
+export interface AfdOriginGroupsUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AFDOriginGroupsUpdateResponse = AFDOriginGroup;
+export type AfdOriginGroupsUpdateResponse = AFDOriginGroup;
 
 // @public
 export interface AFDOriginGroupUpdateParameters {
     healthProbeSettings?: HealthProbeParameters;
     loadBalancingSettings?: LoadBalancingSettingsParameters;
-    responseBasedAfdOriginErrorDetectionSettings?: ResponseBasedOriginErrorDetectionParameters;
+    readonly profileName?: string;
     sessionAffinityState?: EnabledState;
     trafficRestorationTimeToHealedOrNewEndpointsInMinutes?: number;
 }
@@ -381,7 +395,7 @@ export interface AFDOriginGroupUpdateParameters {
 export interface AFDOriginGroupUpdatePropertiesParameters {
     healthProbeSettings?: HealthProbeParameters;
     loadBalancingSettings?: LoadBalancingSettingsParameters;
-    responseBasedAfdOriginErrorDetectionSettings?: ResponseBasedOriginErrorDetectionParameters;
+    readonly profileName?: string;
     sessionAffinityState?: EnabledState;
     trafficRestorationTimeToHealedOrNewEndpointsInMinutes?: number;
 }
@@ -393,75 +407,78 @@ export interface AFDOriginListResult {
 }
 
 // @public
-export type AFDOriginProperties = AFDOriginUpdatePropertiesParameters & AFDStateProperties & {};
-
-// @public
-export interface AFDOrigins {
-    beginCreate(resourceGroupName: string, profileName: string, originGroupName: string, originName: string, origin: AFDOrigin, options?: AFDOriginsCreateOptionalParams): Promise<PollerLike<PollOperationState<AFDOriginsCreateResponse>, AFDOriginsCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, profileName: string, originGroupName: string, originName: string, origin: AFDOrigin, options?: AFDOriginsCreateOptionalParams): Promise<AFDOriginsCreateResponse>;
-    beginDelete(resourceGroupName: string, profileName: string, originGroupName: string, originName: string, options?: AFDOriginsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, profileName: string, originGroupName: string, originName: string, options?: AFDOriginsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, profileName: string, originGroupName: string, originName: string, originUpdateProperties: AFDOriginUpdateParameters, options?: AFDOriginsUpdateOptionalParams): Promise<PollerLike<PollOperationState<AFDOriginsUpdateResponse>, AFDOriginsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, profileName: string, originGroupName: string, originName: string, originUpdateProperties: AFDOriginUpdateParameters, options?: AFDOriginsUpdateOptionalParams): Promise<AFDOriginsUpdateResponse>;
-    get(resourceGroupName: string, profileName: string, originGroupName: string, originName: string, options?: AFDOriginsGetOptionalParams): Promise<AFDOriginsGetResponse>;
-    listByOriginGroup(resourceGroupName: string, profileName: string, originGroupName: string, options?: AFDOriginsListByOriginGroupOptionalParams): PagedAsyncIterableIterator<AFDOrigin>;
+export interface AFDOriginProperties extends AFDOriginUpdatePropertiesParameters, AFDStateProperties {
 }
 
 // @public
-export interface AFDOriginsCreateOptionalParams extends coreClient.OperationOptions {
+export interface AfdOrigins {
+    beginCreate(resourceGroupName: string, profileName: string, originGroupName: string, originName: string, origin: AFDOrigin, options?: AfdOriginsCreateOptionalParams): Promise<PollerLike<PollOperationState<AfdOriginsCreateResponse>, AfdOriginsCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, profileName: string, originGroupName: string, originName: string, origin: AFDOrigin, options?: AfdOriginsCreateOptionalParams): Promise<AfdOriginsCreateResponse>;
+    beginDelete(resourceGroupName: string, profileName: string, originGroupName: string, originName: string, options?: AfdOriginsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, profileName: string, originGroupName: string, originName: string, options?: AfdOriginsDeleteOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, profileName: string, originGroupName: string, originName: string, originUpdateProperties: AFDOriginUpdateParameters, options?: AfdOriginsUpdateOptionalParams): Promise<PollerLike<PollOperationState<AfdOriginsUpdateResponse>, AfdOriginsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, profileName: string, originGroupName: string, originName: string, originUpdateProperties: AFDOriginUpdateParameters, options?: AfdOriginsUpdateOptionalParams): Promise<AfdOriginsUpdateResponse>;
+    get(resourceGroupName: string, profileName: string, originGroupName: string, originName: string, options?: AfdOriginsGetOptionalParams): Promise<AfdOriginsGetResponse>;
+    listByOriginGroup(resourceGroupName: string, profileName: string, originGroupName: string, options?: AfdOriginsListByOriginGroupOptionalParams): PagedAsyncIterableIterator<AFDOrigin>;
+}
+
+// @public
+export interface AfdOriginsCreateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AFDOriginsCreateResponse = AFDOrigin;
+export type AfdOriginsCreateResponse = AFDOrigin;
 
 // @public
-export interface AFDOriginsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface AfdOriginsDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface AFDOriginsGetOptionalParams extends coreClient.OperationOptions {
+export interface AfdOriginsGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type AFDOriginsGetResponse = AFDOrigin;
+export type AfdOriginsGetResponse = AFDOrigin;
 
 // @public
-export interface AFDOriginsListByOriginGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface AfdOriginsListByOriginGroupNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type AFDOriginsListByOriginGroupNextResponse = AFDOriginListResult;
+export type AfdOriginsListByOriginGroupNextResponse = AFDOriginListResult;
 
 // @public
-export interface AFDOriginsListByOriginGroupOptionalParams extends coreClient.OperationOptions {
+export interface AfdOriginsListByOriginGroupOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type AFDOriginsListByOriginGroupResponse = AFDOriginListResult;
+export type AfdOriginsListByOriginGroupResponse = AFDOriginListResult;
 
 // @public
-export interface AFDOriginsUpdateOptionalParams extends coreClient.OperationOptions {
+export interface AfdOriginsUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AFDOriginsUpdateResponse = AFDOrigin;
+export type AfdOriginsUpdateResponse = AFDOrigin;
 
 // @public
 export interface AFDOriginUpdateParameters {
     azureOrigin?: ResourceReference;
     enabledState?: EnabledState;
+    enforceCertificateNameCheck?: boolean;
     hostName?: string;
     httpPort?: number;
     httpsPort?: number;
+    readonly originGroupName?: string;
     originHostHeader?: string;
     priority?: number;
-    sharedPrivateLinkResource?: Record<string, unknown>;
+    sharedPrivateLinkResource?: SharedPrivateLinkResourceProperties;
     weight?: number;
 }
 
@@ -469,41 +486,43 @@ export interface AFDOriginUpdateParameters {
 export interface AFDOriginUpdatePropertiesParameters {
     azureOrigin?: ResourceReference;
     enabledState?: EnabledState;
+    enforceCertificateNameCheck?: boolean;
     hostName?: string;
     httpPort?: number;
     httpsPort?: number;
+    readonly originGroupName?: string;
     originHostHeader?: string;
     priority?: number;
-    sharedPrivateLinkResource?: Record<string, unknown>;
+    sharedPrivateLinkResource?: SharedPrivateLinkResourceProperties;
     weight?: number;
 }
 
 // @public
-export interface AFDProfiles {
-    checkHostNameAvailability(resourceGroupName: string, profileName: string, checkHostNameAvailabilityInput: ValidateCustomDomainInput, options?: AFDProfilesCheckHostNameAvailabilityOptionalParams): Promise<AFDProfilesCheckHostNameAvailabilityResponse>;
-    listResourceUsage(resourceGroupName: string, profileName: string, options?: AFDProfilesListResourceUsageOptionalParams): PagedAsyncIterableIterator<Usage>;
+export interface AfdProfiles {
+    checkHostNameAvailability(resourceGroupName: string, profileName: string, checkHostNameAvailabilityInput: CheckHostNameAvailabilityInput, options?: AfdProfilesCheckHostNameAvailabilityOptionalParams): Promise<AfdProfilesCheckHostNameAvailabilityResponse>;
+    listResourceUsage(resourceGroupName: string, profileName: string, options?: AfdProfilesListResourceUsageOptionalParams): PagedAsyncIterableIterator<Usage>;
 }
 
 // @public
-export interface AFDProfilesCheckHostNameAvailabilityOptionalParams extends coreClient.OperationOptions {
+export interface AfdProfilesCheckHostNameAvailabilityOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type AFDProfilesCheckHostNameAvailabilityResponse = ValidateCustomDomainOutput;
+export type AfdProfilesCheckHostNameAvailabilityResponse = CheckNameAvailabilityOutput;
 
 // @public
-export interface AFDProfilesListResourceUsageNextOptionalParams extends coreClient.OperationOptions {
+export interface AfdProfilesListResourceUsageNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type AFDProfilesListResourceUsageNextResponse = UsagesListResult;
+export type AfdProfilesListResourceUsageNextResponse = UsagesListResult;
 
 // @public
-export interface AFDProfilesListResourceUsageOptionalParams extends coreClient.OperationOptions {
+export interface AfdProfilesListResourceUsageOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type AFDProfilesListResourceUsageResponse = UsagesListResult;
+export type AfdProfilesListResourceUsageResponse = UsagesListResult;
 
 // @public
 export type AfdProvisioningState = string;
@@ -515,7 +534,14 @@ export interface AfdPurgeParameters {
 }
 
 // @public
-export type AfdQueryStringCachingBehavior = "IgnoreQueryString" | "UseQueryString" | "NotSet";
+export type AfdQueryStringCachingBehavior = string;
+
+// @public
+export interface AfdRouteCacheConfiguration {
+    compressionSettings?: CompressionSettings;
+    queryParameters?: string;
+    queryStringCachingBehavior?: AfdQueryStringCachingBehavior;
+}
 
 // @public
 export interface AFDStateProperties {
@@ -528,7 +554,28 @@ type Algorithm_2 = string;
 export { Algorithm_2 as Algorithm }
 
 // @public
+export type AutoGeneratedDomainNameLabelScope = string;
+
+// @public
+export interface AzureFirstPartyManagedCertificate extends Certificate {
+}
+
+// @public
+export interface AzureFirstPartyManagedCertificateParameters extends SecretParameters {
+    type: "AzureFirstPartyManagedCertificate";
+}
+
+// @public
 export type CacheBehavior = string;
+
+// @public
+export interface CacheConfiguration {
+    cacheBehavior?: RuleCacheBehavior;
+    cacheDuration?: string;
+    isCompressionEnabled?: RuleIsCompressionEnabled;
+    queryParameters?: string;
+    queryStringCachingBehavior?: RuleQueryStringCachingBehavior;
+}
 
 // @public
 export interface CacheExpirationActionParameters {
@@ -536,15 +583,15 @@ export interface CacheExpirationActionParameters {
     cacheDuration?: string;
     cacheType: CacheType;
     // (undocumented)
-    odataType: "#Microsoft.Azure.Cdn.Models.DeliveryRuleCacheExpirationActionParameters";
+    typeName: "DeliveryRuleCacheExpirationActionParameters";
 }
 
 // @public
 export interface CacheKeyQueryStringActionParameters {
-    // (undocumented)
-    odataType: "#Microsoft.Azure.Cdn.Models.DeliveryRuleCacheKeyQueryStringBehaviorActionParameters";
     queryParameters?: string;
     queryStringBehavior: QueryStringBehavior;
+    // (undocumented)
+    typeName: "DeliveryRuleCacheKeyQueryStringBehaviorActionParameters";
 }
 
 // @public
@@ -554,7 +601,7 @@ export type CacheType = string;
 export interface CdnCertificateSourceParameters {
     certificateType: CertificateType;
     // (undocumented)
-    odataType: "#Microsoft.Azure.Cdn.Models.CdnCertificateSourceParameters";
+    typeName: "CdnCertificateSourceParameters";
 }
 
 // @public
@@ -563,10 +610,10 @@ export interface CdnEndpoint {
 }
 
 // @public
-export type CdnManagedHttpsParameters = CustomDomainHttpsParameters & {
+export interface CdnManagedHttpsParameters extends CustomDomainHttpsParameters {
     certificateSource: "Cdn";
     certificateSourceParameters: CdnCertificateSourceParameters;
-};
+}
 
 // @public (undocumented)
 export class CdnManagementClient extends coreClient.ServiceClient {
@@ -574,17 +621,18 @@ export class CdnManagementClient extends coreClient.ServiceClient {
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: CdnManagementClientOptionalParams);
     // (undocumented)
-    aFDCustomDomains: AFDCustomDomains;
+    afdCustomDomains: AfdCustomDomains;
     // (undocumented)
-    aFDEndpoints: AFDEndpoints;
+    afdEndpoints: AfdEndpoints;
     // (undocumented)
-    aFDOriginGroups: AFDOriginGroups;
+    afdOriginGroups: AfdOriginGroups;
     // (undocumented)
-    aFDOrigins: AFDOrigins;
+    afdOrigins: AfdOrigins;
     // (undocumented)
-    aFDProfiles: AFDProfiles;
+    afdProfiles: AfdProfiles;
     // (undocumented)
     apiVersion: string;
+    checkEndpointNameAvailability(resourceGroupName: string, checkEndpointNameAvailabilityInput: CheckEndpointNameAvailabilityInput, options?: CheckEndpointNameAvailabilityOptionalParams): Promise<CheckEndpointNameAvailabilityResponse>;
     checkNameAvailability(checkNameAvailabilityInput: CheckNameAvailabilityInput, options?: CheckNameAvailabilityOptionalParams): Promise<CheckNameAvailabilityResponse>;
     checkNameAvailabilityWithSubscription(checkNameAvailabilityInput: CheckNameAvailabilityInput, options?: CheckNameAvailabilityWithSubscriptionOptionalParams): Promise<CheckNameAvailabilityWithSubscriptionResponse>;
     // (undocumented)
@@ -634,17 +682,17 @@ export interface CdnManagementClientOptionalParams extends coreClient.ServiceCli
 }
 
 // @public
-export type CdnWebApplicationFirewallPolicy = TrackedResource & {
-    etag?: string;
-    sku: Sku;
-    policySettings?: PolicySettings;
-    rateLimitRules?: RateLimitRuleList;
+export interface CdnWebApplicationFirewallPolicy extends TrackedResource {
     customRules?: CustomRuleList;
-    managedRules?: ManagedRuleSetList;
     readonly endpointLinks?: CdnEndpoint[];
+    etag?: string;
+    managedRules?: ManagedRuleSetList;
+    policySettings?: PolicySettings;
     readonly provisioningState?: ProvisioningState;
+    rateLimitRules?: RateLimitRuleList;
     readonly resourceState?: PolicyResourceState;
-};
+    sku: Sku;
+}
 
 // @public
 export interface CdnWebApplicationFirewallPolicyList {
@@ -661,9 +709,9 @@ export interface CdnWebApplicationFirewallPolicyPatchParameters {
 
 // @public
 export interface Certificate {
-    expirationDate?: string;
-    subject?: string;
-    thumbprint?: string;
+    readonly expirationDate?: string;
+    readonly subject?: string;
+    type?: SecretType;
 }
 
 // @public
@@ -673,9 +721,36 @@ export type CertificateSource = string;
 export type CertificateType = string;
 
 // @public
+export interface CheckEndpointNameAvailabilityInput {
+    autoGeneratedDomainNameLabelScope?: AutoGeneratedDomainNameLabelScope;
+    name: string;
+    type: ResourceType;
+}
+
+// @public
+export interface CheckEndpointNameAvailabilityOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface CheckEndpointNameAvailabilityOutput {
+    readonly availableHostname?: string;
+    readonly message?: string;
+    readonly nameAvailable?: boolean;
+    readonly reason?: string;
+}
+
+// @public
+export type CheckEndpointNameAvailabilityResponse = CheckEndpointNameAvailabilityOutput;
+
+// @public
+export interface CheckHostNameAvailabilityInput {
+    hostName: string;
+}
+
+// @public
 export interface CheckNameAvailabilityInput {
     name: string;
-    type: "Microsoft.Cdn/Profiles/Endpoints";
+    type: ResourceType;
 }
 
 // @public
@@ -704,6 +779,19 @@ export interface CidrIpAddress {
     baseIpAddress?: string;
     prefixLength?: number;
 }
+
+// @public
+export interface ClientPortMatchConditionParameters {
+    matchValues?: string[];
+    negateCondition?: boolean;
+    operator: ClientPortOperator;
+    transforms?: Transform[];
+    // (undocumented)
+    typeName: "DeliveryRuleClientPortConditionParameters";
+}
+
+// @public
+export type ClientPortOperator = string;
 
 // @public (undocumented)
 export interface Components18OrqelSchemasWafmetricsresponsePropertiesSeriesItemsPropertiesDataItems {
@@ -763,26 +851,26 @@ export interface ContinentsResponseCountryOrRegionsItem {
 export interface CookiesMatchConditionParameters {
     matchValues?: string[];
     negateCondition?: boolean;
-    // (undocumented)
-    odataType: "#Microsoft.Azure.Cdn.Models.DeliveryRuleCookiesConditionParameters";
     operator: CookiesOperator;
     selector?: string;
     transforms?: Transform[];
+    // (undocumented)
+    typeName: "DeliveryRuleCookiesConditionParameters";
 }
 
 // @public
 export type CookiesOperator = string;
 
 // @public
-export type CustomDomain = ProxyResource & {
-    hostName?: string;
-    readonly resourceState?: CustomDomainResourceState;
+export interface CustomDomain extends ProxyResource {
+    customHttpsParameters?: CustomDomainHttpsParametersUnion;
     readonly customHttpsProvisioningState?: CustomHttpsProvisioningState;
     readonly customHttpsProvisioningSubstate?: CustomHttpsProvisioningSubstate;
-    customHttpsParameters?: CustomDomainHttpsParametersUnion;
+    hostName?: string;
+    readonly provisioningState?: CustomHttpsProvisioningState;
+    readonly resourceState?: CustomDomainResourceState;
     validationData?: string;
-    readonly provisioningState?: string;
-};
+}
 
 // @public
 export interface CustomDomainHttpsParameters {
@@ -814,10 +902,10 @@ export interface CustomDomains {
     beginCreateAndWait(resourceGroupName: string, profileName: string, endpointName: string, customDomainName: string, customDomainProperties: CustomDomainParameters, options?: CustomDomainsCreateOptionalParams): Promise<CustomDomainsCreateResponse>;
     beginDelete(resourceGroupName: string, profileName: string, endpointName: string, customDomainName: string, options?: CustomDomainsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, profileName: string, endpointName: string, customDomainName: string, options?: CustomDomainsDeleteOptionalParams): Promise<void>;
-    beginDisableCustomHttps(resourceGroupName: string, profileName: string, endpointName: string, customDomainName: string, options?: CustomDomainsDisableCustomHttpsOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginDisableCustomHttpsAndWait(resourceGroupName: string, profileName: string, endpointName: string, customDomainName: string, options?: CustomDomainsDisableCustomHttpsOptionalParams): Promise<void>;
-    beginEnableCustomHttps(resourceGroupName: string, profileName: string, endpointName: string, customDomainName: string, options?: CustomDomainsEnableCustomHttpsOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginEnableCustomHttpsAndWait(resourceGroupName: string, profileName: string, endpointName: string, customDomainName: string, options?: CustomDomainsEnableCustomHttpsOptionalParams): Promise<void>;
+    beginDisableCustomHttps(resourceGroupName: string, profileName: string, endpointName: string, customDomainName: string, options?: CustomDomainsDisableCustomHttpsOptionalParams): Promise<PollerLike<PollOperationState<CustomDomainsDisableCustomHttpsResponse>, CustomDomainsDisableCustomHttpsResponse>>;
+    beginDisableCustomHttpsAndWait(resourceGroupName: string, profileName: string, endpointName: string, customDomainName: string, options?: CustomDomainsDisableCustomHttpsOptionalParams): Promise<CustomDomainsDisableCustomHttpsResponse>;
+    beginEnableCustomHttps(resourceGroupName: string, profileName: string, endpointName: string, customDomainName: string, options?: CustomDomainsEnableCustomHttpsOptionalParams): Promise<PollerLike<PollOperationState<CustomDomainsEnableCustomHttpsResponse>, CustomDomainsEnableCustomHttpsResponse>>;
+    beginEnableCustomHttpsAndWait(resourceGroupName: string, profileName: string, endpointName: string, customDomainName: string, options?: CustomDomainsEnableCustomHttpsOptionalParams): Promise<CustomDomainsEnableCustomHttpsResponse>;
     get(resourceGroupName: string, profileName: string, endpointName: string, customDomainName: string, options?: CustomDomainsGetOptionalParams): Promise<CustomDomainsGetResponse>;
     listByEndpoint(resourceGroupName: string, profileName: string, endpointName: string, options?: CustomDomainsListByEndpointOptionalParams): PagedAsyncIterableIterator<CustomDomain>;
 }
@@ -844,11 +932,17 @@ export interface CustomDomainsDisableCustomHttpsOptionalParams extends coreClien
 }
 
 // @public
+export type CustomDomainsDisableCustomHttpsResponse = CustomDomain;
+
+// @public
 export interface CustomDomainsEnableCustomHttpsOptionalParams extends coreClient.OperationOptions {
     customDomainHttpsParameters?: CustomDomainHttpsParametersUnion;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type CustomDomainsEnableCustomHttpsResponse = CustomDomain;
 
 // @public
 export interface CustomDomainsGetOptionalParams extends coreClient.OperationOptions {
@@ -872,23 +966,27 @@ export interface CustomDomainsListByEndpointOptionalParams extends coreClient.Op
 export type CustomDomainsListByEndpointResponse = CustomDomainListResult;
 
 // @public
-export type CustomerCertificate = Certificate & {
-    version?: string;
-    certificateAuthority?: string;
-    certificateUrl: string;
-    useLatestVersion?: boolean;
+export interface CustomerCertificate extends Certificate {
+    readonly certificateAuthority?: string;
+    secretSource?: ResourceReference;
+    secretVersion?: string;
     subjectAlternativeNames?: string[];
-};
+    readonly thumbprint?: string;
+    useLatestVersion?: boolean;
+}
 
 // @public
-export type CustomerCertificateParameters = SecretParameters & {
-    type: "CustomerCertificate";
+export interface CustomerCertificateParameters extends SecretParameters {
+    readonly certificateAuthority?: string;
+    readonly expirationDate?: string;
     secretSource: ResourceReference;
     secretVersion?: string;
-    certificateAuthority?: string;
-    useLatestVersion?: boolean;
+    readonly subject?: string;
     subjectAlternativeNames?: string[];
-};
+    readonly thumbprint?: string;
+    type: "CustomerCertificate";
+    useLatestVersion?: boolean;
+}
 
 // @public
 export type CustomHttpsProvisioningState = string;
@@ -914,6 +1012,13 @@ export interface CustomRuleList {
 }
 
 // @public
+export interface DeepCreatedCustomDomain {
+    hostName?: string;
+    name: string;
+    validationData?: string;
+}
+
+// @public
 export interface DeepCreatedOrigin {
     enabled?: boolean;
     hostName?: string;
@@ -922,6 +1027,7 @@ export interface DeepCreatedOrigin {
     name: string;
     originHostHeader?: string;
     priority?: number;
+    readonly privateEndpointStatus?: PrivateEndpointStatus;
     privateLinkAlias?: string;
     privateLinkApprovalMessage?: string;
     privateLinkLocation?: string;
@@ -954,133 +1060,176 @@ export type DeliveryRuleAction = string;
 
 // @public
 export interface DeliveryRuleActionAutoGenerated {
-    name: "UrlRedirect" | "UrlSigning" | "OriginGroupOverride" | "UrlRewrite" | "ModifyRequestHeader" | "ModifyResponseHeader" | "CacheExpiration" | "CacheKeyQueryString";
+    name: "UrlRedirect" | "UrlSigning" | "OriginGroupOverride" | "UrlRewrite" | "ModifyRequestHeader" | "ModifyResponseHeader" | "CacheExpiration" | "CacheKeyQueryString" | "RouteConfigurationOverride";
 }
 
 // @public (undocumented)
-export type DeliveryRuleActionAutoGeneratedUnion = DeliveryRuleActionAutoGenerated | UrlRedirectAction | UrlSigningAction | OriginGroupOverrideAction | UrlRewriteAction | DeliveryRuleRequestHeaderAction | DeliveryRuleResponseHeaderAction | DeliveryRuleCacheExpirationAction | DeliveryRuleCacheKeyQueryStringAction;
+export type DeliveryRuleActionAutoGeneratedUnion = DeliveryRuleActionAutoGenerated | UrlRedirectAction | UrlSigningAction | OriginGroupOverrideAction | UrlRewriteAction | DeliveryRuleRequestHeaderAction | DeliveryRuleResponseHeaderAction | DeliveryRuleCacheExpirationAction | DeliveryRuleCacheKeyQueryStringAction | DeliveryRuleRouteConfigurationOverrideAction;
 
 // @public
-export type DeliveryRuleCacheExpirationAction = DeliveryRuleActionAutoGenerated & {
+export interface DeliveryRuleCacheExpirationAction extends DeliveryRuleActionAutoGenerated {
     name: "CacheExpiration";
     parameters: CacheExpirationActionParameters;
-};
+}
 
 // @public
-export type DeliveryRuleCacheKeyQueryStringAction = DeliveryRuleActionAutoGenerated & {
+export interface DeliveryRuleCacheKeyQueryStringAction extends DeliveryRuleActionAutoGenerated {
     name: "CacheKeyQueryString";
     parameters: CacheKeyQueryStringActionParameters;
-};
+}
+
+// @public
+export interface DeliveryRuleClientPortCondition extends DeliveryRuleCondition {
+    name: "ClientPort";
+    parameters: ClientPortMatchConditionParameters;
+}
 
 // @public
 export interface DeliveryRuleCondition {
-    name: "RemoteAddress" | "RequestMethod" | "QueryString" | "PostArgs" | "RequestUri" | "RequestHeader" | "RequestBody" | "RequestScheme" | "UrlPath" | "UrlFileExtension" | "UrlFileName" | "HttpVersion" | "Cookies" | "IsDevice";
+    name: "RemoteAddress" | "RequestMethod" | "QueryString" | "PostArgs" | "RequestUri" | "RequestHeader" | "RequestBody" | "RequestScheme" | "UrlPath" | "UrlFileExtension" | "UrlFileName" | "HttpVersion" | "Cookies" | "IsDevice" | "SocketAddr" | "ClientPort" | "ServerPort" | "HostName" | "SslProtocol";
 }
 
 // @public (undocumented)
-export type DeliveryRuleConditionUnion = DeliveryRuleCondition | DeliveryRuleRemoteAddressCondition | DeliveryRuleRequestMethodCondition | DeliveryRuleQueryStringCondition | DeliveryRulePostArgsCondition | DeliveryRuleRequestUriCondition | DeliveryRuleRequestHeaderCondition | DeliveryRuleRequestBodyCondition | DeliveryRuleRequestSchemeCondition | DeliveryRuleUrlPathCondition | DeliveryRuleUrlFileExtensionCondition | DeliveryRuleUrlFileNameCondition | DeliveryRuleHttpVersionCondition | DeliveryRuleCookiesCondition | DeliveryRuleIsDeviceCondition;
+export type DeliveryRuleConditionUnion = DeliveryRuleCondition | DeliveryRuleRemoteAddressCondition | DeliveryRuleRequestMethodCondition | DeliveryRuleQueryStringCondition | DeliveryRulePostArgsCondition | DeliveryRuleRequestUriCondition | DeliveryRuleRequestHeaderCondition | DeliveryRuleRequestBodyCondition | DeliveryRuleRequestSchemeCondition | DeliveryRuleUrlPathCondition | DeliveryRuleUrlFileExtensionCondition | DeliveryRuleUrlFileNameCondition | DeliveryRuleHttpVersionCondition | DeliveryRuleCookiesCondition | DeliveryRuleIsDeviceCondition | DeliveryRuleSocketAddrCondition | DeliveryRuleClientPortCondition | DeliveryRuleServerPortCondition | DeliveryRuleHostNameCondition | DeliveryRuleSslProtocolCondition;
 
 // @public
-export type DeliveryRuleCookiesCondition = DeliveryRuleCondition & {
+export interface DeliveryRuleCookiesCondition extends DeliveryRuleCondition {
     name: "Cookies";
     parameters: CookiesMatchConditionParameters;
-};
+}
 
 // @public
-export type DeliveryRuleHttpVersionCondition = DeliveryRuleCondition & {
+export interface DeliveryRuleHostNameCondition extends DeliveryRuleCondition {
+    name: "HostName";
+    parameters: HostNameMatchConditionParameters;
+}
+
+// @public
+export interface DeliveryRuleHttpVersionCondition extends DeliveryRuleCondition {
     name: "HttpVersion";
     parameters: HttpVersionMatchConditionParameters;
-};
+}
 
 // @public
-export type DeliveryRuleIsDeviceCondition = DeliveryRuleCondition & {
+export interface DeliveryRuleIsDeviceCondition extends DeliveryRuleCondition {
     name: "IsDevice";
     parameters: IsDeviceMatchConditionParameters;
-};
+}
 
 // @public
-export type DeliveryRulePostArgsCondition = DeliveryRuleCondition & {
+export interface DeliveryRulePostArgsCondition extends DeliveryRuleCondition {
     name: "PostArgs";
     parameters: PostArgsMatchConditionParameters;
-};
+}
 
 // @public
-export type DeliveryRuleQueryStringCondition = DeliveryRuleCondition & {
+export interface DeliveryRuleQueryStringCondition extends DeliveryRuleCondition {
     name: "QueryString";
     parameters: QueryStringMatchConditionParameters;
-};
+}
 
 // @public
-export type DeliveryRuleRemoteAddressCondition = DeliveryRuleCondition & {
+export interface DeliveryRuleRemoteAddressCondition extends DeliveryRuleCondition {
     name: "RemoteAddress";
     parameters: RemoteAddressMatchConditionParameters;
-};
+}
 
 // @public
-export type DeliveryRuleRequestBodyCondition = DeliveryRuleCondition & {
+export interface DeliveryRuleRequestBodyCondition extends DeliveryRuleCondition {
     name: "RequestBody";
     parameters: RequestBodyMatchConditionParameters;
-};
+}
 
 // @public
-export type DeliveryRuleRequestHeaderAction = DeliveryRuleActionAutoGenerated & {
+export interface DeliveryRuleRequestHeaderAction extends DeliveryRuleActionAutoGenerated {
     name: "ModifyRequestHeader";
     parameters: HeaderActionParameters;
-};
+}
 
 // @public
-export type DeliveryRuleRequestHeaderCondition = DeliveryRuleCondition & {
+export interface DeliveryRuleRequestHeaderCondition extends DeliveryRuleCondition {
     name: "RequestHeader";
     parameters: RequestHeaderMatchConditionParameters;
-};
+}
 
 // @public
-export type DeliveryRuleRequestMethodCondition = DeliveryRuleCondition & {
+export interface DeliveryRuleRequestMethodCondition extends DeliveryRuleCondition {
     name: "RequestMethod";
     parameters: RequestMethodMatchConditionParameters;
-};
+}
 
 // @public
-export type DeliveryRuleRequestSchemeCondition = DeliveryRuleCondition & {
+export interface DeliveryRuleRequestSchemeCondition extends DeliveryRuleCondition {
     name: "RequestScheme";
     parameters: RequestSchemeMatchConditionParameters;
-};
+}
 
 // @public
-export type DeliveryRuleRequestUriCondition = DeliveryRuleCondition & {
+export interface DeliveryRuleRequestUriCondition extends DeliveryRuleCondition {
     name: "RequestUri";
     parameters: RequestUriMatchConditionParameters;
-};
+}
 
 // @public
-export type DeliveryRuleResponseHeaderAction = DeliveryRuleActionAutoGenerated & {
+export interface DeliveryRuleResponseHeaderAction extends DeliveryRuleActionAutoGenerated {
     name: "ModifyResponseHeader";
     parameters: HeaderActionParameters;
-};
+}
 
 // @public
-export type DeliveryRuleUrlFileExtensionCondition = DeliveryRuleCondition & {
+export interface DeliveryRuleRouteConfigurationOverrideAction extends DeliveryRuleActionAutoGenerated {
+    name: "RouteConfigurationOverride";
+    parameters: RouteConfigurationOverrideActionParameters;
+}
+
+// @public
+export interface DeliveryRuleServerPortCondition extends DeliveryRuleCondition {
+    name: "ServerPort";
+    parameters: ServerPortMatchConditionParameters;
+}
+
+// @public
+export interface DeliveryRuleSocketAddrCondition extends DeliveryRuleCondition {
+    name: "SocketAddr";
+    parameters: SocketAddrMatchConditionParameters;
+}
+
+// @public
+export interface DeliveryRuleSslProtocolCondition extends DeliveryRuleCondition {
+    name: "SslProtocol";
+    parameters: SslProtocolMatchConditionParameters;
+}
+
+// @public
+export interface DeliveryRuleUrlFileExtensionCondition extends DeliveryRuleCondition {
     name: "UrlFileExtension";
     parameters: UrlFileExtensionMatchConditionParameters;
-};
+}
 
 // @public
-export type DeliveryRuleUrlFileNameCondition = DeliveryRuleCondition & {
+export interface DeliveryRuleUrlFileNameCondition extends DeliveryRuleCondition {
     name: "UrlFileName";
     parameters: UrlFileNameMatchConditionParameters;
-};
+}
 
 // @public
-export type DeliveryRuleUrlPathCondition = DeliveryRuleCondition & {
+export interface DeliveryRuleUrlPathCondition extends DeliveryRuleCondition {
     name: "UrlPath";
     parameters: UrlPathMatchConditionParameters;
-};
+}
 
 // @public
 export type DeploymentStatus = string;
 
 // @public
 export type DestinationProtocol = string;
+
+// @public
+export interface DimensionProperties {
+    displayName?: string;
+    internalName?: string;
+    name?: string;
+}
 
 // @public
 export interface DomainValidationProperties {
@@ -1092,9 +1241,9 @@ export interface DomainValidationProperties {
 export type DomainValidationState = string;
 
 // @public
-export type EdgeNode = ProxyResource & {
+export interface EdgeNode extends ProxyResource {
     ipAddressGroups?: IpAddressGroup[];
-};
+}
 
 // @public
 export interface EdgenodeResult {
@@ -1125,27 +1274,28 @@ export type EdgeNodesListResponse = EdgenodeResult;
 export type EnabledState = string;
 
 // @public
-export type Endpoint = TrackedResource & {
-    originPath?: string;
+export interface Endpoint extends TrackedResource {
     contentTypesToCompress?: string[];
-    originHostHeader?: string;
+    readonly customDomains?: DeepCreatedCustomDomain[];
+    defaultOriginGroup?: ResourceReference;
+    deliveryPolicy?: EndpointPropertiesUpdateParametersDeliveryPolicy;
+    geoFilters?: GeoFilter[];
+    readonly hostName?: string;
     isCompressionEnabled?: boolean;
     isHttpAllowed?: boolean;
     isHttpsAllowed?: boolean;
-    queryStringCachingBehavior?: QueryStringCachingBehavior;
     optimizationType?: OptimizationType;
-    probePath?: string;
-    geoFilters?: GeoFilter[];
-    defaultOriginGroup?: ResourceReference;
-    urlSigningKeys?: UrlSigningKey[];
-    deliveryPolicy?: EndpointPropertiesUpdateParametersDeliveryPolicy;
-    webApplicationFirewallPolicyLink?: EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink;
-    readonly hostName?: string;
-    origins?: DeepCreatedOrigin[];
     originGroups?: DeepCreatedOriginGroup[];
+    originHostHeader?: string;
+    originPath?: string;
+    origins?: DeepCreatedOrigin[];
+    probePath?: string;
+    readonly provisioningState?: EndpointProvisioningState;
+    queryStringCachingBehavior?: QueryStringCachingBehavior;
     readonly resourceState?: EndpointResourceState;
-    readonly provisioningState?: string;
-};
+    urlSigningKeys?: UrlSigningKey[];
+    webApplicationFirewallPolicyLink?: EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink;
+}
 
 // @public
 export interface EndpointListResult {
@@ -1154,13 +1304,14 @@ export interface EndpointListResult {
 }
 
 // @public
-export type EndpointProperties = EndpointPropertiesUpdateParameters & {
+export interface EndpointProperties extends EndpointPropertiesUpdateParameters {
+    readonly customDomains?: DeepCreatedCustomDomain[];
     readonly hostName?: string;
-    origins: DeepCreatedOrigin[];
     originGroups?: DeepCreatedOriginGroup[];
+    origins: DeepCreatedOrigin[];
+    readonly provisioningState?: EndpointProvisioningState;
     readonly resourceState?: EndpointResourceState;
-    readonly provisioningState?: string;
-};
+}
 
 // @public
 export interface EndpointPropertiesUpdateParameters {
@@ -1190,6 +1341,9 @@ export interface EndpointPropertiesUpdateParametersDeliveryPolicy {
 export interface EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink {
     id?: string;
 }
+
+// @public
+export type EndpointProvisioningState = string;
 
 // @public
 export type EndpointResourceState = string;
@@ -1334,12 +1488,23 @@ export interface EndpointUpdateParameters {
 }
 
 // @public
-export type Enum46 = number;
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
 
 // @public
 export interface ErrorResponse {
-    readonly code?: string;
-    readonly message?: string;
+    error?: ErrorDetail;
 }
 
 // @public
@@ -1356,6 +1521,9 @@ export interface GeoFilter {
 export type GeoFilterActions = "Block" | "Allow";
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export type HeaderAction = string;
 
 // @public
@@ -1363,7 +1531,7 @@ export interface HeaderActionParameters {
     headerAction: HeaderAction;
     headerName: string;
     // (undocumented)
-    odataType: "#Microsoft.Azure.Cdn.Models.DeliveryRuleHeaderActionParameters";
+    typeName: "DeliveryRuleHeaderActionParameters";
     value?: string;
 }
 
@@ -1379,6 +1547,19 @@ export interface HealthProbeParameters {
 export type HealthProbeRequestType = "NotSet" | "GET" | "HEAD";
 
 // @public
+export interface HostNameMatchConditionParameters {
+    matchValues?: string[];
+    negateCondition?: boolean;
+    operator: HostNameOperator;
+    transforms?: Transform[];
+    // (undocumented)
+    typeName: "DeliveryRuleHostNameConditionParameters";
+}
+
+// @public
+export type HostNameOperator = string;
+
+// @public
 export interface HttpErrorRangeParameters {
     begin?: number;
     end?: number;
@@ -1391,9 +1572,10 @@ export type HttpsRedirect = string;
 export interface HttpVersionMatchConditionParameters {
     matchValues?: string[];
     negateCondition?: boolean;
-    // (undocumented)
-    odataType: "#Microsoft.Azure.Cdn.Models.DeliveryRuleHttpVersionConditionParameters";
     operator: HttpVersionOperator;
+    transforms?: Transform[];
+    // (undocumented)
+    typeName: "DeliveryRuleHttpVersionConditionParameters";
 }
 
 // @public
@@ -1413,10 +1595,10 @@ export interface IpAddressGroup {
 export interface IsDeviceMatchConditionParameters {
     matchValues?: IsDeviceMatchConditionParametersMatchValuesItem[];
     negateCondition?: boolean;
-    // (undocumented)
-    odataType: "#Microsoft.Azure.Cdn.Models.DeliveryRuleIsDeviceConditionParameters";
     operator: IsDeviceOperator;
     transforms?: Transform[];
+    // (undocumented)
+    typeName: "DeliveryRuleIsDeviceConditionParameters";
 }
 
 // @public
@@ -1428,1086 +1610,882 @@ export type IsDeviceOperator = string;
 // @public
 export interface KeyVaultCertificateSourceParameters {
     deleteRule: DeleteRule;
-    // (undocumented)
-    odataType: "#Microsoft.Azure.Cdn.Models.KeyVaultCertificateSourceParameters";
     resourceGroupName: string;
     secretName: string;
     secretVersion?: string;
     subscriptionId: string;
+    // (undocumented)
+    typeName: "KeyVaultCertificateSourceParameters";
     updateRule: UpdateRule;
     vaultName: string;
 }
 
 // @public
 export interface KeyVaultSigningKeyParameters {
-    // (undocumented)
-    odataType: "#Microsoft.Azure.Cdn.Models.KeyVaultSigningKeyParameters";
     resourceGroupName: string;
     secretName: string;
     secretVersion: string;
     subscriptionId: string;
+    // (undocumented)
+    typeName: "KeyVaultSigningKeyParameters";
     vaultName: string;
 }
 
 // @public
 export enum KnownActionType {
-    // (undocumented)
     Allow = "Allow",
-    // (undocumented)
     Block = "Block",
-    // (undocumented)
     Log = "Log",
-    // (undocumented)
     Redirect = "Redirect"
 }
 
 // @public
 export enum KnownAfdCertificateType {
-    // (undocumented)
+    AzureFirstPartyManagedCertificate = "AzureFirstPartyManagedCertificate",
     CustomerCertificate = "CustomerCertificate",
-    // (undocumented)
     ManagedCertificate = "ManagedCertificate"
 }
 
 // @public
 export enum KnownAFDEndpointProtocols {
-    // (undocumented)
     Http = "Http",
-    // (undocumented)
     Https = "Https"
 }
 
 // @public
 export enum KnownAfdProvisioningState {
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
+export enum KnownAfdQueryStringCachingBehavior {
+    IgnoreQueryString = "IgnoreQueryString",
+    IgnoreSpecifiedQueryStrings = "IgnoreSpecifiedQueryStrings",
+    IncludeSpecifiedQueryStrings = "IncludeSpecifiedQueryStrings",
+    UseQueryString = "UseQueryString"
+}
+
+// @public
 export enum KnownAlgorithm {
-    // (undocumented)
     SHA256 = "SHA256"
 }
 
 // @public
+export enum KnownAutoGeneratedDomainNameLabelScope {
+    NoReuse = "NoReuse",
+    ResourceGroupReuse = "ResourceGroupReuse",
+    SubscriptionReuse = "SubscriptionReuse",
+    TenantReuse = "TenantReuse"
+}
+
+// @public
 export enum KnownCacheBehavior {
-    // (undocumented)
     BypassCache = "BypassCache",
-    // (undocumented)
     Override = "Override",
-    // (undocumented)
     SetIfMissing = "SetIfMissing"
 }
 
 // @public
 export enum KnownCacheType {
-    // (undocumented)
     All = "All"
 }
 
 // @public
 export enum KnownCertificateSource {
-    // (undocumented)
     AzureKeyVault = "AzureKeyVault",
-    // (undocumented)
     Cdn = "Cdn"
 }
 
 // @public
 export enum KnownCertificateType {
-    // (undocumented)
     Dedicated = "Dedicated",
-    // (undocumented)
     Shared = "Shared"
 }
 
 // @public
-export enum KnownCookiesOperator {
-    // (undocumented)
+export enum KnownClientPortOperator {
     Any = "Any",
-    // (undocumented)
     BeginsWith = "BeginsWith",
-    // (undocumented)
     Contains = "Contains",
-    // (undocumented)
     EndsWith = "EndsWith",
-    // (undocumented)
     Equal = "Equal",
-    // (undocumented)
     GreaterThan = "GreaterThan",
-    // (undocumented)
     GreaterThanOrEqual = "GreaterThanOrEqual",
-    // (undocumented)
     LessThan = "LessThan",
-    // (undocumented)
     LessThanOrEqual = "LessThanOrEqual",
-    // (undocumented)
+    RegEx = "RegEx"
+}
+
+// @public
+export enum KnownCookiesOperator {
+    Any = "Any",
+    BeginsWith = "BeginsWith",
+    Contains = "Contains",
+    EndsWith = "EndsWith",
+    Equal = "Equal",
+    GreaterThan = "GreaterThan",
+    GreaterThanOrEqual = "GreaterThanOrEqual",
+    LessThan = "LessThan",
+    LessThanOrEqual = "LessThanOrEqual",
     RegEx = "RegEx"
 }
 
 // @public
 export enum KnownCustomDomainResourceState {
-    // (undocumented)
     Active = "Active",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting"
 }
 
 // @public
 export enum KnownCustomHttpsProvisioningState {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Disabling = "Disabling",
-    // (undocumented)
     Enabled = "Enabled",
-    // (undocumented)
     Enabling = "Enabling",
-    // (undocumented)
     Failed = "Failed"
 }
 
 // @public
 export enum KnownCustomHttpsProvisioningSubstate {
-    // (undocumented)
     CertificateDeleted = "CertificateDeleted",
-    // (undocumented)
     CertificateDeployed = "CertificateDeployed",
-    // (undocumented)
     DeletingCertificate = "DeletingCertificate",
-    // (undocumented)
     DeployingCertificate = "DeployingCertificate",
-    // (undocumented)
     DomainControlValidationRequestApproved = "DomainControlValidationRequestApproved",
-    // (undocumented)
     DomainControlValidationRequestRejected = "DomainControlValidationRequestRejected",
-    // (undocumented)
     DomainControlValidationRequestTimedOut = "DomainControlValidationRequestTimedOut",
-    // (undocumented)
     IssuingCertificate = "IssuingCertificate",
-    // (undocumented)
     PendingDomainControlValidationREquestApproval = "PendingDomainControlValidationREquestApproval",
-    // (undocumented)
     SubmittingDomainControlValidationRequest = "SubmittingDomainControlValidationRequest"
 }
 
 // @public
 export enum KnownCustomRuleEnabledState {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownDeleteRule {
-    // (undocumented)
     NoAction = "NoAction"
 }
 
 // @public
 export enum KnownDeliveryRuleAction {
-    // (undocumented)
     CacheExpiration = "CacheExpiration",
-    // (undocumented)
     CacheKeyQueryString = "CacheKeyQueryString",
-    // (undocumented)
     ModifyRequestHeader = "ModifyRequestHeader",
-    // (undocumented)
     ModifyResponseHeader = "ModifyResponseHeader",
-    // (undocumented)
     OriginGroupOverride = "OriginGroupOverride",
-    // (undocumented)
+    RouteConfigurationOverride = "RouteConfigurationOverride",
     UrlRedirect = "UrlRedirect",
-    // (undocumented)
     UrlRewrite = "UrlRewrite",
-    // (undocumented)
     UrlSigning = "UrlSigning"
 }
 
 // @public
 export enum KnownDeploymentStatus {
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     InProgress = "InProgress",
-    // (undocumented)
     NotStarted = "NotStarted",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownDestinationProtocol {
-    // (undocumented)
     Http = "Http",
-    // (undocumented)
     Https = "Https",
-    // (undocumented)
     MatchRequest = "MatchRequest"
 }
 
 // @public
 export enum KnownDomainValidationState {
-    // (undocumented)
     Approved = "Approved",
-    // (undocumented)
+    InternalError = "InternalError",
     Pending = "Pending",
-    // (undocumented)
     PendingRevalidation = "PendingRevalidation",
-    // (undocumented)
+    RefreshingValidationToken = "RefreshingValidationToken",
+    Rejected = "Rejected",
     Submitting = "Submitting",
-    // (undocumented)
     TimedOut = "TimedOut",
-    // (undocumented)
     Unknown = "Unknown"
 }
 
 // @public
 export enum KnownEnabledState {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
-export enum KnownEndpointResourceState {
-    // (undocumented)
+export enum KnownEndpointProvisioningState {
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownEndpointResourceState {
+    Creating = "Creating",
+    Deleting = "Deleting",
     Running = "Running",
-    // (undocumented)
     Starting = "Starting",
-    // (undocumented)
     Stopped = "Stopped",
-    // (undocumented)
     Stopping = "Stopping"
 }
 
 // @public
-export enum KnownEnum46 {
-    // (undocumented)
-    FourHundredFive = 405,
-    // (undocumented)
-    FourHundredSix = 406,
-    // (undocumented)
-    FourHundredThree = 403,
-    // (undocumented)
-    FourHundredTwentyNine = 429,
-    // (undocumented)
-    TwoHundred = 200
-}
-
-// @public
 export enum KnownForwardingProtocol {
-    // (undocumented)
     HttpOnly = "HttpOnly",
-    // (undocumented)
     HttpsOnly = "HttpsOnly",
-    // (undocumented)
     MatchRequest = "MatchRequest"
 }
 
 // @public
 export enum KnownHeaderAction {
-    // (undocumented)
     Append = "Append",
-    // (undocumented)
     Delete = "Delete",
-    // (undocumented)
     Overwrite = "Overwrite"
 }
 
 // @public
+export enum KnownHostNameOperator {
+    Any = "Any",
+    BeginsWith = "BeginsWith",
+    Contains = "Contains",
+    EndsWith = "EndsWith",
+    Equal = "Equal",
+    GreaterThan = "GreaterThan",
+    GreaterThanOrEqual = "GreaterThanOrEqual",
+    LessThan = "LessThan",
+    LessThanOrEqual = "LessThanOrEqual",
+    RegEx = "RegEx"
+}
+
+// @public
 export enum KnownHttpsRedirect {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownHttpVersionOperator {
-    // (undocumented)
     Equal = "Equal"
 }
 
 // @public
 export enum KnownIdentityType {
-    // (undocumented)
     Application = "application",
-    // (undocumented)
     Key = "key",
-    // (undocumented)
     ManagedIdentity = "managedIdentity",
-    // (undocumented)
     User = "user"
 }
 
 // @public
 export enum KnownIsDeviceMatchConditionParametersMatchValuesItem {
-    // (undocumented)
     Desktop = "Desktop",
-    // (undocumented)
     Mobile = "Mobile"
 }
 
 // @public
 export enum KnownIsDeviceOperator {
-    // (undocumented)
     Equal = "Equal"
 }
 
 // @public
 export enum KnownLinkToDefaultDomain {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownLogMetric {
-    // (undocumented)
     ClientRequestBandwidth = "clientRequestBandwidth",
-    // (undocumented)
     ClientRequestCount = "clientRequestCount",
-    // (undocumented)
     ClientRequestTraffic = "clientRequestTraffic",
-    // (undocumented)
     OriginRequestBandwidth = "originRequestBandwidth",
-    // (undocumented)
     OriginRequestTraffic = "originRequestTraffic",
-    // (undocumented)
     TotalLatency = "totalLatency"
 }
 
 // @public
 export enum KnownLogMetricsGranularity {
-    // (undocumented)
     P1D = "P1D",
-    // (undocumented)
     PT1H = "PT1H",
-    // (undocumented)
     PT5M = "PT5M"
 }
 
 // @public
 export enum KnownLogMetricsGroupBy {
-    // (undocumented)
     CacheStatus = "cacheStatus",
-    // (undocumented)
-    Country = "country",
-    // (undocumented)
+    CountryOrRegion = "countryOrRegion",
     CustomDomain = "customDomain",
-    // (undocumented)
     HttpStatusCode = "httpStatusCode",
-    // (undocumented)
     Protocol = "protocol"
 }
 
 // @public
 export enum KnownLogRanking {
-    // (undocumented)
     Browser = "browser",
-    // (undocumented)
     CountryOrRegion = "countryOrRegion",
-    // (undocumented)
     Referrer = "referrer",
-    // (undocumented)
     Url = "url",
-    // (undocumented)
     UserAgent = "userAgent"
 }
 
 // @public
 export enum KnownLogRankingMetric {
-    // (undocumented)
     ClientRequestCount = "clientRequestCount",
-    // (undocumented)
     ClientRequestTraffic = "clientRequestTraffic",
-    // (undocumented)
     ErrorCount = "errorCount",
-    // (undocumented)
     HitCount = "hitCount",
-    // (undocumented)
     MissCount = "missCount",
-    // (undocumented)
     UserErrorCount = "userErrorCount"
 }
 
 // @public
 export enum KnownManagedRuleEnabledState {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownMatchProcessingBehavior {
-    // (undocumented)
     Continue = "Continue",
-    // (undocumented)
     Stop = "Stop"
 }
 
 // @public
 export enum KnownMatchVariable {
-    // (undocumented)
+    ClientPort = "ClientPort",
     Cookies = "Cookies",
-    // (undocumented)
+    HostName = "HostName",
     HttpVersion = "HttpVersion",
-    // (undocumented)
     IsDevice = "IsDevice",
-    // (undocumented)
     PostArgs = "PostArgs",
-    // (undocumented)
     QueryString = "QueryString",
-    // (undocumented)
-    RemoteAddr = "RemoteAddr",
-    // (undocumented)
     RemoteAddress = "RemoteAddress",
-    // (undocumented)
     RequestBody = "RequestBody",
-    // (undocumented)
     RequestHeader = "RequestHeader",
-    // (undocumented)
     RequestMethod = "RequestMethod",
-    // (undocumented)
     RequestScheme = "RequestScheme",
-    // (undocumented)
     RequestUri = "RequestUri",
-    // (undocumented)
+    ServerPort = "ServerPort",
     SocketAddr = "SocketAddr",
-    // (undocumented)
+    SslProtocol = "SslProtocol",
     UrlFileExtension = "UrlFileExtension",
-    // (undocumented)
     UrlFileName = "UrlFileName",
-    // (undocumented)
     UrlPath = "UrlPath"
 }
 
 // @public
 export enum KnownMetricsResponseGranularity {
-    // (undocumented)
     P1D = "P1D",
-    // (undocumented)
     PT1H = "PT1H",
-    // (undocumented)
     PT5M = "PT5M"
 }
 
 // @public
 export enum KnownMetricsResponseSeriesItemUnit {
-    // (undocumented)
     BitsPerSecond = "bitsPerSecond",
-    // (undocumented)
     Bytes = "bytes",
-    // (undocumented)
-    Count = "count"
+    Count = "count",
+    MilliSeconds = "milliSeconds"
 }
 
 // @public
 export enum KnownOperator {
-    // (undocumented)
     Any = "Any",
-    // (undocumented)
     BeginsWith = "BeginsWith",
-    // (undocumented)
     Contains = "Contains",
-    // (undocumented)
     EndsWith = "EndsWith",
-    // (undocumented)
     Equal = "Equal",
-    // (undocumented)
     GeoMatch = "GeoMatch",
-    // (undocumented)
     GreaterThan = "GreaterThan",
-    // (undocumented)
     GreaterThanOrEqual = "GreaterThanOrEqual",
-    // (undocumented)
     IPMatch = "IPMatch",
-    // (undocumented)
     LessThan = "LessThan",
-    // (undocumented)
     LessThanOrEqual = "LessThanOrEqual",
-    // (undocumented)
     RegEx = "RegEx"
 }
 
 // @public
 export enum KnownOptimizationType {
-    // (undocumented)
     DynamicSiteAcceleration = "DynamicSiteAcceleration",
-    // (undocumented)
     GeneralMediaStreaming = "GeneralMediaStreaming",
-    // (undocumented)
     GeneralWebDelivery = "GeneralWebDelivery",
-    // (undocumented)
     LargeFileDownload = "LargeFileDownload",
-    // (undocumented)
     VideoOnDemandMediaStreaming = "VideoOnDemandMediaStreaming"
 }
 
 // @public
-export enum KnownOriginGroupResourceState {
-    // (undocumented)
-    Active = "Active",
-    // (undocumented)
+export enum KnownOriginGroupProvisioningState {
     Creating = "Creating",
-    // (undocumented)
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownOriginGroupResourceState {
+    Active = "Active",
+    Creating = "Creating",
     Deleting = "Deleting"
 }
 
 // @public
-export enum KnownOriginResourceState {
-    // (undocumented)
-    Active = "Active",
-    // (undocumented)
+export enum KnownOriginProvisioningState {
     Creating = "Creating",
-    // (undocumented)
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownOriginResourceState {
+    Active = "Active",
+    Creating = "Creating",
     Deleting = "Deleting"
 }
 
 // @public
 export enum KnownParamIndicator {
-    // (undocumented)
     Expires = "Expires",
-    // (undocumented)
     KeyId = "KeyId",
-    // (undocumented)
     Signature = "Signature"
 }
 
 // @public
 export enum KnownPolicyEnabledState {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownPolicyMode {
-    // (undocumented)
     Detection = "Detection",
-    // (undocumented)
     Prevention = "Prevention"
 }
 
 // @public
 export enum KnownPolicyResourceState {
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Disabling = "Disabling",
-    // (undocumented)
     Enabled = "Enabled",
-    // (undocumented)
     Enabling = "Enabling"
 }
 
 // @public
+export enum KnownPolicySettingsDefaultCustomBlockResponseStatusCode {
+    FourHundredFive = 405,
+    FourHundredSix = 406,
+    FourHundredThree = 403,
+    FourHundredTwentyNine = 429,
+    TwoHundred = 200
+}
+
+// @public
 export enum KnownPostArgsOperator {
-    // (undocumented)
     Any = "Any",
-    // (undocumented)
     BeginsWith = "BeginsWith",
-    // (undocumented)
     Contains = "Contains",
-    // (undocumented)
     EndsWith = "EndsWith",
-    // (undocumented)
     Equal = "Equal",
-    // (undocumented)
     GreaterThan = "GreaterThan",
-    // (undocumented)
     GreaterThanOrEqual = "GreaterThanOrEqual",
-    // (undocumented)
     LessThan = "LessThan",
-    // (undocumented)
     LessThanOrEqual = "LessThanOrEqual",
-    // (undocumented)
     RegEx = "RegEx"
 }
 
 // @public
 export enum KnownPrivateEndpointStatus {
-    // (undocumented)
     Approved = "Approved",
-    // (undocumented)
     Disconnected = "Disconnected",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Rejected = "Rejected",
-    // (undocumented)
     Timeout = "Timeout"
 }
 
 // @public
-export enum KnownProfileResourceState {
-    // (undocumented)
-    Active = "Active",
-    // (undocumented)
+export enum KnownProfileProvisioningState {
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownProfileResourceState {
+    Active = "Active",
+    Creating = "Creating",
+    Deleting = "Deleting",
     Disabled = "Disabled"
 }
 
 // @public
 export enum KnownProtocolType {
-    // (undocumented)
     IPBased = "IPBased",
-    // (undocumented)
     ServerNameIndication = "ServerNameIndication"
 }
 
 // @public
 export enum KnownProvisioningState {
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownQueryStringBehavior {
-    // (undocumented)
     Exclude = "Exclude",
-    // (undocumented)
     ExcludeAll = "ExcludeAll",
-    // (undocumented)
     Include = "Include",
-    // (undocumented)
     IncludeAll = "IncludeAll"
 }
 
 // @public
 export enum KnownQueryStringOperator {
-    // (undocumented)
     Any = "Any",
-    // (undocumented)
     BeginsWith = "BeginsWith",
-    // (undocumented)
     Contains = "Contains",
-    // (undocumented)
     EndsWith = "EndsWith",
-    // (undocumented)
     Equal = "Equal",
-    // (undocumented)
     GreaterThan = "GreaterThan",
-    // (undocumented)
     GreaterThanOrEqual = "GreaterThanOrEqual",
-    // (undocumented)
     LessThan = "LessThan",
-    // (undocumented)
     LessThanOrEqual = "LessThanOrEqual",
-    // (undocumented)
     RegEx = "RegEx"
 }
 
 // @public
 export enum KnownRedirectType {
-    // (undocumented)
     Found = "Found",
-    // (undocumented)
     Moved = "Moved",
-    // (undocumented)
     PermanentRedirect = "PermanentRedirect",
-    // (undocumented)
     TemporaryRedirect = "TemporaryRedirect"
 }
 
 // @public
 export enum KnownRemoteAddressOperator {
-    // (undocumented)
     Any = "Any",
-    // (undocumented)
     GeoMatch = "GeoMatch",
-    // (undocumented)
     IPMatch = "IPMatch"
 }
 
 // @public
 export enum KnownRequestBodyOperator {
-    // (undocumented)
     Any = "Any",
-    // (undocumented)
     BeginsWith = "BeginsWith",
-    // (undocumented)
     Contains = "Contains",
-    // (undocumented)
     EndsWith = "EndsWith",
-    // (undocumented)
     Equal = "Equal",
-    // (undocumented)
     GreaterThan = "GreaterThan",
-    // (undocumented)
     GreaterThanOrEqual = "GreaterThanOrEqual",
-    // (undocumented)
     LessThan = "LessThan",
-    // (undocumented)
     LessThanOrEqual = "LessThanOrEqual",
-    // (undocumented)
     RegEx = "RegEx"
 }
 
 // @public
 export enum KnownRequestHeaderOperator {
-    // (undocumented)
     Any = "Any",
-    // (undocumented)
     BeginsWith = "BeginsWith",
-    // (undocumented)
     Contains = "Contains",
-    // (undocumented)
     EndsWith = "EndsWith",
-    // (undocumented)
     Equal = "Equal",
-    // (undocumented)
     GreaterThan = "GreaterThan",
-    // (undocumented)
     GreaterThanOrEqual = "GreaterThanOrEqual",
-    // (undocumented)
     LessThan = "LessThan",
-    // (undocumented)
     LessThanOrEqual = "LessThanOrEqual",
-    // (undocumented)
     RegEx = "RegEx"
 }
 
 // @public
 export enum KnownRequestMethodMatchConditionParametersMatchValuesItem {
-    // (undocumented)
     Delete = "DELETE",
-    // (undocumented)
     GET = "GET",
-    // (undocumented)
     Head = "HEAD",
-    // (undocumented)
     Options = "OPTIONS",
-    // (undocumented)
     Post = "POST",
-    // (undocumented)
     PUT = "PUT",
-    // (undocumented)
     Trace = "TRACE"
 }
 
 // @public
 export enum KnownRequestMethodOperator {
-    // (undocumented)
     Equal = "Equal"
 }
 
 // @public
 export enum KnownRequestSchemeMatchConditionParametersMatchValuesItem {
-    // (undocumented)
     Http = "HTTP",
-    // (undocumented)
     Https = "HTTPS"
 }
 
 // @public
 export enum KnownRequestUriOperator {
-    // (undocumented)
     Any = "Any",
-    // (undocumented)
     BeginsWith = "BeginsWith",
-    // (undocumented)
     Contains = "Contains",
-    // (undocumented)
     EndsWith = "EndsWith",
-    // (undocumented)
     Equal = "Equal",
-    // (undocumented)
     GreaterThan = "GreaterThan",
-    // (undocumented)
     GreaterThanOrEqual = "GreaterThanOrEqual",
-    // (undocumented)
     LessThan = "LessThan",
-    // (undocumented)
     LessThanOrEqual = "LessThanOrEqual",
-    // (undocumented)
     RegEx = "RegEx"
 }
 
 // @public
+export enum KnownResourceType {
+    MicrosoftCdnProfilesAfdEndpoints = "Microsoft.Cdn/Profiles/AfdEndpoints",
+    MicrosoftCdnProfilesEndpoints = "Microsoft.Cdn/Profiles/Endpoints"
+}
+
+// @public
+export enum KnownResourceUsageUnit {
+    Count = "count"
+}
+
+// @public
+export enum KnownRuleCacheBehavior {
+    HonorOrigin = "HonorOrigin",
+    OverrideAlways = "OverrideAlways",
+    OverrideIfOriginMissing = "OverrideIfOriginMissing"
+}
+
+// @public
+export enum KnownRuleIsCompressionEnabled {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownRuleQueryStringCachingBehavior {
+    IgnoreQueryString = "IgnoreQueryString",
+    IgnoreSpecifiedQueryStrings = "IgnoreSpecifiedQueryStrings",
+    IncludeSpecifiedQueryStrings = "IncludeSpecifiedQueryStrings",
+    UseQueryString = "UseQueryString"
+}
+
+// @public
 export enum KnownSecretType {
-    // (undocumented)
+    AzureFirstPartyManagedCertificate = "AzureFirstPartyManagedCertificate",
     CustomerCertificate = "CustomerCertificate",
-    // (undocumented)
     ManagedCertificate = "ManagedCertificate",
-    // (undocumented)
     UrlSigningKey = "UrlSigningKey"
 }
 
 // @public
 export enum KnownSecurityPolicyType {
-    // (undocumented)
     WebApplicationFirewall = "WebApplicationFirewall"
 }
 
 // @public
+export enum KnownServerPortOperator {
+    Any = "Any",
+    BeginsWith = "BeginsWith",
+    Contains = "Contains",
+    EndsWith = "EndsWith",
+    Equal = "Equal",
+    GreaterThan = "GreaterThan",
+    GreaterThanOrEqual = "GreaterThanOrEqual",
+    LessThan = "LessThan",
+    LessThanOrEqual = "LessThanOrEqual",
+    RegEx = "RegEx"
+}
+
+// @public
 export enum KnownSkuName {
-    // (undocumented)
     CustomVerizon = "Custom_Verizon",
-    // (undocumented)
     PremiumAzureFrontDoor = "Premium_AzureFrontDoor",
-    // (undocumented)
-    PremiumChinaCdn = "Premium_ChinaCdn",
-    // (undocumented)
     PremiumVerizon = "Premium_Verizon",
-    // (undocumented)
     Standard955BandWidthChinaCdn = "Standard_955BandWidth_ChinaCdn",
-    // (undocumented)
     StandardAkamai = "Standard_Akamai",
-    // (undocumented)
     StandardAvgBandWidthChinaCdn = "Standard_AvgBandWidth_ChinaCdn",
-    // (undocumented)
     StandardAzureFrontDoor = "Standard_AzureFrontDoor",
-    // (undocumented)
     StandardChinaCdn = "Standard_ChinaCdn",
-    // (undocumented)
     StandardMicrosoft = "Standard_Microsoft",
-    // (undocumented)
     StandardPlus955BandWidthChinaCdn = "StandardPlus_955BandWidth_ChinaCdn",
-    // (undocumented)
     StandardPlusAvgBandWidthChinaCdn = "StandardPlus_AvgBandWidth_ChinaCdn",
-    // (undocumented)
     StandardPlusChinaCdn = "StandardPlus_ChinaCdn",
-    // (undocumented)
     StandardVerizon = "Standard_Verizon"
 }
 
 // @public
+export enum KnownSocketAddrOperator {
+    Any = "Any",
+    IPMatch = "IPMatch"
+}
+
+// @public
+export enum KnownSslProtocol {
+    TLSv1 = "TLSv1",
+    TLSv11 = "TLSv1.1",
+    TLSv12 = "TLSv1.2"
+}
+
+// @public
+export enum KnownSslProtocolOperator {
+    Equal = "Equal"
+}
+
+// @public
 export enum KnownStatus {
-    // (undocumented)
     AccessDenied = "AccessDenied",
-    // (undocumented)
     CertificateExpired = "CertificateExpired",
-    // (undocumented)
     Invalid = "Invalid",
-    // (undocumented)
     Valid = "Valid"
 }
 
 // @public
 export enum KnownTransform {
-    // (undocumented)
     Lowercase = "Lowercase",
-    // (undocumented)
-    Uppercase = "Uppercase"
+    RemoveNulls = "RemoveNulls",
+    Trim = "Trim",
+    Uppercase = "Uppercase",
+    UrlDecode = "UrlDecode",
+    UrlEncode = "UrlEncode"
 }
 
 // @public
 export enum KnownTransformType {
-    // (undocumented)
     Lowercase = "Lowercase",
-    // (undocumented)
     RemoveNulls = "RemoveNulls",
-    // (undocumented)
     Trim = "Trim",
-    // (undocumented)
     Uppercase = "Uppercase",
-    // (undocumented)
     UrlDecode = "UrlDecode",
-    // (undocumented)
     UrlEncode = "UrlEncode"
 }
 
 // @public
 export enum KnownUpdateRule {
-    // (undocumented)
     NoAction = "NoAction"
 }
 
 // @public
 export enum KnownUrlFileExtensionOperator {
-    // (undocumented)
     Any = "Any",
-    // (undocumented)
     BeginsWith = "BeginsWith",
-    // (undocumented)
     Contains = "Contains",
-    // (undocumented)
     EndsWith = "EndsWith",
-    // (undocumented)
     Equal = "Equal",
-    // (undocumented)
     GreaterThan = "GreaterThan",
-    // (undocumented)
     GreaterThanOrEqual = "GreaterThanOrEqual",
-    // (undocumented)
     LessThan = "LessThan",
-    // (undocumented)
     LessThanOrEqual = "LessThanOrEqual",
-    // (undocumented)
     RegEx = "RegEx"
 }
 
 // @public
 export enum KnownUrlFileNameOperator {
-    // (undocumented)
     Any = "Any",
-    // (undocumented)
     BeginsWith = "BeginsWith",
-    // (undocumented)
     Contains = "Contains",
-    // (undocumented)
     EndsWith = "EndsWith",
-    // (undocumented)
     Equal = "Equal",
-    // (undocumented)
     GreaterThan = "GreaterThan",
-    // (undocumented)
     GreaterThanOrEqual = "GreaterThanOrEqual",
-    // (undocumented)
     LessThan = "LessThan",
-    // (undocumented)
     LessThanOrEqual = "LessThanOrEqual",
-    // (undocumented)
     RegEx = "RegEx"
 }
 
 // @public
 export enum KnownUrlPathOperator {
-    // (undocumented)
     Any = "Any",
-    // (undocumented)
     BeginsWith = "BeginsWith",
-    // (undocumented)
     Contains = "Contains",
-    // (undocumented)
     EndsWith = "EndsWith",
-    // (undocumented)
     Equal = "Equal",
-    // (undocumented)
     GreaterThan = "GreaterThan",
-    // (undocumented)
     GreaterThanOrEqual = "GreaterThanOrEqual",
-    // (undocumented)
     LessThan = "LessThan",
-    // (undocumented)
     LessThanOrEqual = "LessThanOrEqual",
-    // (undocumented)
     RegEx = "RegEx",
-    // (undocumented)
     Wildcard = "Wildcard"
 }
 
 // @public
 export enum KnownUsageUnit {
-    // (undocumented)
     Count = "Count"
 }
 
 // @public
-export enum KnownValidateSecretType {
-    // (undocumented)
-    CustomerCertificate = "CustomerCertificate",
-    // (undocumented)
-    ManagedCertificate = "ManagedCertificate",
-    // (undocumented)
-    UrlSigningKey = "UrlSigningKey"
-}
-
-// @public
 export enum KnownWafAction {
-    // (undocumented)
     Allow = "allow",
-    // (undocumented)
     Block = "block",
-    // (undocumented)
     Log = "log",
-    // (undocumented)
     Redirect = "redirect"
 }
 
 // @public
 export enum KnownWafGranularity {
-    // (undocumented)
     P1D = "P1D",
-    // (undocumented)
     PT1H = "PT1H",
-    // (undocumented)
     PT5M = "PT5M"
 }
 
 // @public
+export enum KnownWafMatchVariable {
+    Cookies = "Cookies",
+    PostArgs = "PostArgs",
+    QueryString = "QueryString",
+    RemoteAddr = "RemoteAddr",
+    RequestBody = "RequestBody",
+    RequestHeader = "RequestHeader",
+    RequestMethod = "RequestMethod",
+    RequestUri = "RequestUri",
+    SocketAddr = "SocketAddr"
+}
+
+// @public
 export enum KnownWafMetric {
-    // (undocumented)
     ClientRequestCount = "clientRequestCount"
 }
 
 // @public
 export enum KnownWafMetricsResponseGranularity {
-    // (undocumented)
     P1D = "P1D",
-    // (undocumented)
     PT1H = "PT1H",
-    // (undocumented)
     PT5M = "PT5M"
 }
 
 // @public
 export enum KnownWafRankingGroupBy {
-    // (undocumented)
     CustomDomain = "customDomain",
-    // (undocumented)
     HttpStatusCode = "httpStatusCode"
 }
 
 // @public
 export enum KnownWafRankingType {
-    // (undocumented)
     Action = "action",
-    // (undocumented)
     ClientIp = "clientIp",
-    // (undocumented)
-    Country = "country",
-    // (undocumented)
+    CountryOrRegion = "countryOrRegion",
     RuleGroup = "ruleGroup",
-    // (undocumented)
     RuleId = "ruleId",
-    // (undocumented)
     RuleType = "ruleType",
-    // (undocumented)
     Url = "url",
-    // (undocumented)
     UserAgent = "userAgent"
 }
 
 // @public
 export enum KnownWafRuleType {
-    // (undocumented)
     Bot = "bot",
-    // (undocumented)
     Custom = "custom",
-    // (undocumented)
     Managed = "managed"
 }
 
@@ -2603,12 +2581,23 @@ export type LogRanking = string;
 export type LogRankingMetric = string;
 
 // @public
-export type ManagedCertificate = Certificate & {};
+export interface LogSpecification {
+    blobDuration?: string;
+    displayName?: string;
+    logFilterPattern?: string;
+    name?: string;
+}
 
 // @public
-export type ManagedCertificateParameters = SecretParameters & {
+export interface ManagedCertificate extends Certificate {
+}
+
+// @public
+export interface ManagedCertificateParameters extends SecretParameters {
+    readonly expirationDate?: string;
+    readonly subject?: string;
     type: "ManagedCertificate";
-};
+}
 
 // @public
 export interface ManagedRuleDefinition {
@@ -2648,13 +2637,13 @@ export interface ManagedRuleSet {
 }
 
 // @public
-export type ManagedRuleSetDefinition = Resource & {
-    sku?: Sku;
+export interface ManagedRuleSetDefinition extends Resource {
     readonly provisioningState?: string;
+    readonly ruleGroups?: ManagedRuleGroupDefinition[];
     readonly ruleSetType?: string;
     readonly ruleSetVersion?: string;
-    readonly ruleGroups?: ManagedRuleGroupDefinition[];
-};
+    sku?: Sku;
+}
 
 // @public
 export interface ManagedRuleSetDefinitionList {
@@ -2689,7 +2678,7 @@ export type ManagedRuleSetsListResponse = ManagedRuleSetDefinitionList;
 // @public
 export interface MatchCondition {
     matchValue: string[];
-    matchVariable: MatchVariable;
+    matchVariable: WafMatchVariable;
     negateCondition?: boolean;
     operator: Operator;
     selector?: string;
@@ -2701,6 +2690,29 @@ export type MatchProcessingBehavior = string;
 
 // @public
 export type MatchVariable = string;
+
+// @public
+export interface MetricAvailability {
+    // (undocumented)
+    blobDuration?: string;
+    // (undocumented)
+    timeGrain?: string;
+}
+
+// @public
+export interface MetricSpecification {
+    aggregationType?: string;
+    availabilities?: MetricAvailability[];
+    dimensions?: DimensionProperties[];
+    displayDescription?: string;
+    displayName?: string;
+    fillGapWithZero?: boolean;
+    isInternal?: boolean;
+    metricFilterPattern?: string;
+    name?: string;
+    supportedTimeGrainTypes?: string[];
+    unit?: string;
+}
 
 // @public
 export interface MetricsResponse {
@@ -2746,11 +2758,15 @@ export type MinimumTlsVersion = "None" | "TLS10" | "TLS12";
 // @public
 export interface Operation {
     display?: OperationDisplay;
+    isDataAction?: boolean;
     readonly name?: string;
+    readonly origin?: string;
+    serviceSpecification?: ServiceSpecification;
 }
 
 // @public
 export interface OperationDisplay {
+    readonly description?: string;
     readonly operation?: string;
     readonly provider?: string;
     readonly resource?: string;
@@ -2778,7 +2794,7 @@ export type OperationsListResponse = OperationsListResult;
 // @public
 export interface OperationsListResult {
     nextLink?: string;
-    readonly value?: Operation[];
+    value?: Operation[];
 }
 
 // @public
@@ -2788,32 +2804,32 @@ export type Operator = string;
 export type OptimizationType = string;
 
 // @public
-export type Origin = ProxyResource & {
+export interface Origin extends ProxyResource {
+    enabled?: boolean;
     hostName?: string;
     httpPort?: number;
     httpsPort?: number;
     originHostHeader?: string;
     priority?: number;
-    weight?: number;
-    enabled?: boolean;
-    privateLinkAlias?: string;
-    privateLinkResourceId?: string;
-    privateLinkLocation?: string;
-    privateLinkApprovalMessage?: string;
-    readonly resourceState?: OriginResourceState;
-    readonly provisioningState?: string;
     readonly privateEndpointStatus?: PrivateEndpointStatus;
-};
+    privateLinkAlias?: string;
+    privateLinkApprovalMessage?: string;
+    privateLinkLocation?: string;
+    privateLinkResourceId?: string;
+    readonly provisioningState?: OriginProvisioningState;
+    readonly resourceState?: OriginResourceState;
+    weight?: number;
+}
 
 // @public
-export type OriginGroup = ProxyResource & {
+export interface OriginGroup extends ProxyResource {
     healthProbeSettings?: HealthProbeParameters;
     origins?: ResourceReference[];
-    trafficRestorationTimeToHealedOrNewEndpointsInMinutes?: number;
-    responseBasedOriginErrorDetectionSettings?: ResponseBasedOriginErrorDetectionParameters;
+    readonly provisioningState?: OriginGroupProvisioningState;
     readonly resourceState?: OriginGroupResourceState;
-    readonly provisioningState?: string;
-};
+    responseBasedOriginErrorDetectionSettings?: ResponseBasedOriginErrorDetectionParameters;
+    trafficRestorationTimeToHealedOrNewEndpointsInMinutes?: number;
+}
 
 // @public
 export interface OriginGroupListResult {
@@ -2822,23 +2838,32 @@ export interface OriginGroupListResult {
 }
 
 // @public
-export type OriginGroupOverrideAction = DeliveryRuleActionAutoGenerated & {
-    name: "OriginGroupOverride";
-    parameters: OriginGroupOverrideActionParameters;
-};
-
-// @public
-export interface OriginGroupOverrideActionParameters {
-    // (undocumented)
-    odataType: "#Microsoft.Azure.Cdn.Models.DeliveryRuleOriginGroupOverrideActionParameters";
-    originGroup: ResourceReference;
+export interface OriginGroupOverride {
+    forwardingProtocol?: ForwardingProtocol;
+    originGroup?: ResourceReference;
 }
 
 // @public
-export type OriginGroupProperties = OriginGroupUpdatePropertiesParameters & {
+export interface OriginGroupOverrideAction extends DeliveryRuleActionAutoGenerated {
+    name: "OriginGroupOverride";
+    parameters: OriginGroupOverrideActionParameters;
+}
+
+// @public
+export interface OriginGroupOverrideActionParameters {
+    originGroup: ResourceReference;
+    // (undocumented)
+    typeName: "DeliveryRuleOriginGroupOverrideActionParameters";
+}
+
+// @public
+export interface OriginGroupProperties extends OriginGroupUpdatePropertiesParameters {
+    readonly provisioningState?: OriginGroupProvisioningState;
     readonly resourceState?: OriginGroupResourceState;
-    readonly provisioningState?: string;
-};
+}
+
+// @public
+export type OriginGroupProvisioningState = string;
 
 // @public
 export type OriginGroupResourceState = string;
@@ -2923,11 +2948,14 @@ export interface OriginListResult {
 }
 
 // @public
-export type OriginProperties = OriginUpdatePropertiesParameters & {
-    readonly resourceState?: OriginResourceState;
-    readonly provisioningState?: string;
+export interface OriginProperties extends OriginUpdatePropertiesParameters {
     readonly privateEndpointStatus?: PrivateEndpointStatus;
-};
+    readonly provisioningState?: OriginProvisioningState;
+    readonly resourceState?: OriginResourceState;
+}
+
+// @public
+export type OriginProvisioningState = string;
 
 // @public
 export type OriginResourceState = string;
@@ -3088,21 +3116,24 @@ export type PolicyResourceState = string;
 // @public
 export interface PolicySettings {
     defaultCustomBlockResponseBody?: string;
-    defaultCustomBlockResponseStatusCode?: Enum46;
+    defaultCustomBlockResponseStatusCode?: PolicySettingsDefaultCustomBlockResponseStatusCode;
     defaultRedirectUrl?: string;
     enabledState?: PolicyEnabledState;
     mode?: PolicyMode;
 }
 
 // @public
+export type PolicySettingsDefaultCustomBlockResponseStatusCode = number;
+
+// @public
 export interface PostArgsMatchConditionParameters {
     matchValues?: string[];
     negateCondition?: boolean;
-    // (undocumented)
-    odataType: "#Microsoft.Azure.Cdn.Models.DeliveryRulePostArgsConditionParameters";
     operator: PostArgsOperator;
     selector?: string;
     transforms?: Transform[];
+    // (undocumented)
+    typeName: "DeliveryRulePostArgsConditionParameters";
 }
 
 // @public
@@ -3115,18 +3146,23 @@ export type PrivateEndpointStatus = string;
 export type ProbeProtocol = "NotSet" | "Http" | "Https";
 
 // @public
-export type Profile = TrackedResource & {
-    sku: Sku;
+export interface Profile extends TrackedResource {
+    readonly frontDoorId?: string;
+    readonly kind?: string;
+    originResponseTimeoutSeconds?: number;
+    readonly provisioningState?: ProfileProvisioningState;
     readonly resourceState?: ProfileResourceState;
-    readonly provisioningState?: string;
-    readonly frontdoorId?: string;
-};
+    sku: Sku;
+}
 
 // @public
 export interface ProfileListResult {
     nextLink?: string;
     readonly value?: Profile[];
 }
+
+// @public
+export type ProfileProvisioningState = string;
 
 // @public
 export type ProfileResourceState = string;
@@ -3236,6 +3272,7 @@ export type ProfilesUpdateResponse = Profile;
 
 // @public
 export interface ProfileUpdateParameters {
+    originResponseTimeoutSeconds?: number;
     tags?: {
         [propertyName: string]: string;
     };
@@ -3248,7 +3285,8 @@ export type ProtocolType = string;
 export type ProvisioningState = string;
 
 // @public
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {
+}
 
 // @public
 export interface PurgeParameters {
@@ -3265,10 +3303,10 @@ export type QueryStringCachingBehavior = "IgnoreQueryString" | "BypassCaching" |
 export interface QueryStringMatchConditionParameters {
     matchValues?: string[];
     negateCondition?: boolean;
-    // (undocumented)
-    odataType: "#Microsoft.Azure.Cdn.Models.DeliveryRuleQueryStringConditionParameters";
     operator: QueryStringOperator;
     transforms?: Transform[];
+    // (undocumented)
+    typeName: "DeliveryRuleQueryStringConditionParameters";
 }
 
 // @public
@@ -3311,10 +3349,10 @@ export interface RankingsResponseTablesPropertiesItemsMetricsItem {
 }
 
 // @public
-export type RateLimitRule = CustomRule & {
-    rateLimitThreshold: number;
+export interface RateLimitRule extends CustomRule {
     rateLimitDurationInMinutes: number;
-};
+    rateLimitThreshold: number;
+}
 
 // @public
 export interface RateLimitRuleList {
@@ -3328,10 +3366,10 @@ export type RedirectType = string;
 export interface RemoteAddressMatchConditionParameters {
     matchValues?: string[];
     negateCondition?: boolean;
-    // (undocumented)
-    odataType: "#Microsoft.Azure.Cdn.Models.DeliveryRuleRemoteAddressConditionParameters";
     operator: RemoteAddressOperator;
     transforms?: Transform[];
+    // (undocumented)
+    typeName: "DeliveryRuleRemoteAddressConditionParameters";
 }
 
 // @public
@@ -3341,10 +3379,10 @@ export type RemoteAddressOperator = string;
 export interface RequestBodyMatchConditionParameters {
     matchValues?: string[];
     negateCondition?: boolean;
-    // (undocumented)
-    odataType: "#Microsoft.Azure.Cdn.Models.DeliveryRuleRequestBodyConditionParameters";
     operator: RequestBodyOperator;
     transforms?: Transform[];
+    // (undocumented)
+    typeName: "DeliveryRuleRequestBodyConditionParameters";
 }
 
 // @public
@@ -3354,11 +3392,11 @@ export type RequestBodyOperator = string;
 export interface RequestHeaderMatchConditionParameters {
     matchValues?: string[];
     negateCondition?: boolean;
-    // (undocumented)
-    odataType: "#Microsoft.Azure.Cdn.Models.DeliveryRuleRequestHeaderConditionParameters";
     operator: RequestHeaderOperator;
     selector?: string;
     transforms?: Transform[];
+    // (undocumented)
+    typeName: "DeliveryRuleRequestHeaderConditionParameters";
 }
 
 // @public
@@ -3368,9 +3406,10 @@ export type RequestHeaderOperator = string;
 export interface RequestMethodMatchConditionParameters {
     matchValues?: RequestMethodMatchConditionParametersMatchValuesItem[];
     negateCondition?: boolean;
-    // (undocumented)
-    odataType: "#Microsoft.Azure.Cdn.Models.DeliveryRuleRequestMethodConditionParameters";
     operator: RequestMethodOperator;
+    transforms?: Transform[];
+    // (undocumented)
+    typeName: "DeliveryRuleRequestMethodConditionParameters";
 }
 
 // @public
@@ -3383,9 +3422,10 @@ export type RequestMethodOperator = string;
 export interface RequestSchemeMatchConditionParameters {
     matchValues?: RequestSchemeMatchConditionParametersMatchValuesItem[];
     negateCondition?: boolean;
-    // (undocumented)
-    odataType: "#Microsoft.Azure.Cdn.Models.DeliveryRuleRequestSchemeConditionParameters";
     operator: "Equal";
+    transforms?: Transform[];
+    // (undocumented)
+    typeName: "DeliveryRuleRequestSchemeConditionParameters";
 }
 
 // @public
@@ -3395,10 +3435,10 @@ export type RequestSchemeMatchConditionParametersMatchValuesItem = string;
 export interface RequestUriMatchConditionParameters {
     matchValues?: string[];
     negateCondition?: boolean;
-    // (undocumented)
-    odataType: "#Microsoft.Azure.Cdn.Models.DeliveryRuleRequestUriConditionParameters";
     operator: RequestUriOperator;
     transforms?: Transform[];
+    // (undocumented)
+    typeName: "DeliveryRuleRequestUriConditionParameters";
 }
 
 // @public
@@ -3462,11 +3502,14 @@ export interface ResourcesResponseEndpointsPropertiesItemsItem {
 }
 
 // @public
+export type ResourceType = string;
+
+// @public
 export interface ResourceUsage {
     readonly currentValue?: number;
     readonly limit?: number;
     readonly resourceType?: string;
-    readonly unit?: string;
+    readonly unit?: ResourceUsageUnit;
 }
 
 // @public
@@ -3495,6 +3538,9 @@ export interface ResourceUsageOperations {
 }
 
 // @public
+export type ResourceUsageUnit = string;
+
+// @public
 export type ResponseBasedDetectedErrorTypes = "None" | "TcpErrorsOnly" | "TcpAndHttpErrors";
 
 // @public
@@ -3505,22 +3551,30 @@ export interface ResponseBasedOriginErrorDetectionParameters {
 }
 
 // @public
-export type Route = ProxyResource & {
-    customDomains?: ResourceReference[];
+export interface Route extends ProxyResource {
+    cacheConfiguration?: AfdRouteCacheConfiguration;
+    customDomains?: ActivatedResourceReference[];
+    readonly deploymentStatus?: DeploymentStatus;
+    enabledState?: EnabledState;
+    readonly endpointName?: string;
+    forwardingProtocol?: ForwardingProtocol;
+    httpsRedirect?: HttpsRedirect;
+    linkToDefaultDomain?: LinkToDefaultDomain;
     originGroup?: ResourceReference;
     originPath?: string;
+    patternsToMatch?: string[];
+    readonly provisioningState?: AfdProvisioningState;
     ruleSets?: ResourceReference[];
     supportedProtocols?: AFDEndpointProtocols[];
-    patternsToMatch?: string[];
-    compressionSettings?: Record<string, unknown>;
-    queryStringCachingBehavior?: AfdQueryStringCachingBehavior;
-    forwardingProtocol?: ForwardingProtocol;
-    linkToDefaultDomain?: LinkToDefaultDomain;
-    httpsRedirect?: HttpsRedirect;
-    enabledState?: EnabledState;
-    readonly provisioningState?: AfdProvisioningState;
-    readonly deploymentStatus?: DeploymentStatus;
-};
+}
+
+// @public
+export interface RouteConfigurationOverrideActionParameters {
+    cacheConfiguration?: CacheConfiguration;
+    originGroupOverride?: OriginGroupOverride;
+    // (undocumented)
+    typeName: "DeliveryRuleRouteConfigurationOverrideActionParameters";
+}
 
 // @public
 export interface RouteListResult {
@@ -3529,7 +3583,8 @@ export interface RouteListResult {
 }
 
 // @public
-export type RouteProperties = RouteUpdatePropertiesParameters & AFDStateProperties & {};
+export interface RouteProperties extends RouteUpdatePropertiesParameters, AFDStateProperties {
+}
 
 // @public
 export interface Routes {
@@ -3590,45 +3645,52 @@ export type RoutesUpdateResponse = Route;
 
 // @public
 export interface RouteUpdateParameters {
-    compressionSettings?: Record<string, unknown>;
-    customDomains?: ResourceReference[];
+    cacheConfiguration?: AfdRouteCacheConfiguration;
+    customDomains?: ActivatedResourceReference[];
     enabledState?: EnabledState;
+    readonly endpointName?: string;
     forwardingProtocol?: ForwardingProtocol;
     httpsRedirect?: HttpsRedirect;
     linkToDefaultDomain?: LinkToDefaultDomain;
     originGroup?: ResourceReference;
     originPath?: string;
     patternsToMatch?: string[];
-    queryStringCachingBehavior?: AfdQueryStringCachingBehavior;
     ruleSets?: ResourceReference[];
     supportedProtocols?: AFDEndpointProtocols[];
 }
 
 // @public
 export interface RouteUpdatePropertiesParameters {
-    compressionSettings?: Record<string, unknown>;
-    customDomains?: ResourceReference[];
+    cacheConfiguration?: AfdRouteCacheConfiguration;
+    customDomains?: ActivatedResourceReference[];
     enabledState?: EnabledState;
+    readonly endpointName?: string;
     forwardingProtocol?: ForwardingProtocol;
     httpsRedirect?: HttpsRedirect;
     linkToDefaultDomain?: LinkToDefaultDomain;
     originGroup?: ResourceReference;
     originPath?: string;
     patternsToMatch?: string[];
-    queryStringCachingBehavior?: AfdQueryStringCachingBehavior;
     ruleSets?: ResourceReference[];
     supportedProtocols?: AFDEndpointProtocols[];
 }
 
 // @public
-export type Rule = ProxyResource & {
-    order?: number;
-    conditions?: DeliveryRuleConditionUnion[];
+export interface Rule extends ProxyResource {
     actions?: DeliveryRuleActionAutoGeneratedUnion[];
-    matchProcessingBehavior?: MatchProcessingBehavior;
-    readonly provisioningState?: AfdProvisioningState;
+    conditions?: DeliveryRuleConditionUnion[];
     readonly deploymentStatus?: DeploymentStatus;
-};
+    matchProcessingBehavior?: MatchProcessingBehavior;
+    order?: number;
+    readonly provisioningState?: AfdProvisioningState;
+    readonly ruleSetName?: string;
+}
+
+// @public
+export type RuleCacheBehavior = string;
+
+// @public
+export type RuleIsCompressionEnabled = string;
 
 // @public
 export interface RuleListResult {
@@ -3637,7 +3699,11 @@ export interface RuleListResult {
 }
 
 // @public
-export type RuleProperties = RuleUpdatePropertiesParameters & AFDStateProperties & {};
+export interface RuleProperties extends RuleUpdatePropertiesParameters, AFDStateProperties {
+}
+
+// @public
+export type RuleQueryStringCachingBehavior = string;
 
 // @public
 export interface Rules {
@@ -3667,10 +3733,11 @@ export interface RulesDeleteOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type RuleSet = ProxyResource & {
-    readonly provisioningState?: AfdProvisioningState;
+export interface RuleSet extends ProxyResource {
     readonly deploymentStatus?: DeploymentStatus;
-};
+    readonly profileName?: string;
+    readonly provisioningState?: AfdProvisioningState;
+}
 
 // @public
 export interface RuleSetListResult {
@@ -3679,14 +3746,15 @@ export interface RuleSetListResult {
 }
 
 // @public
-export type RuleSetProperties = AFDStateProperties & {};
+export interface RuleSetProperties extends AFDStateProperties {
+    readonly profileName?: string;
+}
 
 // @public
 export interface RuleSets {
-    beginCreate(resourceGroupName: string, profileName: string, ruleSetName: string, options?: RuleSetsCreateOptionalParams): Promise<PollerLike<PollOperationState<RuleSetsCreateResponse>, RuleSetsCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, profileName: string, ruleSetName: string, options?: RuleSetsCreateOptionalParams): Promise<RuleSetsCreateResponse>;
     beginDelete(resourceGroupName: string, profileName: string, ruleSetName: string, options?: RuleSetsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, profileName: string, ruleSetName: string, options?: RuleSetsDeleteOptionalParams): Promise<void>;
+    create(resourceGroupName: string, profileName: string, ruleSetName: string, options?: RuleSetsCreateOptionalParams): Promise<RuleSetsCreateResponse>;
     get(resourceGroupName: string, profileName: string, ruleSetName: string, options?: RuleSetsGetOptionalParams): Promise<RuleSetsGetResponse>;
     listByProfile(resourceGroupName: string, profileName: string, options?: RuleSetsListByProfileOptionalParams): PagedAsyncIterableIterator<RuleSet>;
     listResourceUsage(resourceGroupName: string, profileName: string, ruleSetName: string, options?: RuleSetsListResourceUsageOptionalParams): PagedAsyncIterableIterator<Usage>;
@@ -3694,8 +3762,6 @@ export interface RuleSets {
 
 // @public
 export interface RuleSetsCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
 }
 
 // @public
@@ -3778,6 +3844,7 @@ export interface RuleUpdateParameters {
     conditions?: DeliveryRuleConditionUnion[];
     matchProcessingBehavior?: MatchProcessingBehavior;
     order?: number;
+    readonly ruleSetName?: string;
 }
 
 // @public
@@ -3786,14 +3853,16 @@ export interface RuleUpdatePropertiesParameters {
     conditions?: DeliveryRuleConditionUnion[];
     matchProcessingBehavior?: MatchProcessingBehavior;
     order?: number;
+    readonly ruleSetName?: string;
 }
 
 // @public
-export type Secret = ProxyResource & {
-    readonly provisioningState?: AfdProvisioningState;
+export interface Secret extends ProxyResource {
     readonly deploymentStatus?: DeploymentStatus;
     parameters?: SecretParametersUnion;
-};
+    readonly profileName?: string;
+    readonly provisioningState?: AfdProvisioningState;
+}
 
 // @public
 export interface SecretListResult {
@@ -3803,16 +3872,17 @@ export interface SecretListResult {
 
 // @public
 export interface SecretParameters {
-    type: "UrlSigningKey" | "ManagedCertificate" | "CustomerCertificate";
+    type: "UrlSigningKey" | "ManagedCertificate" | "CustomerCertificate" | "AzureFirstPartyManagedCertificate";
 }
 
 // @public (undocumented)
-export type SecretParametersUnion = SecretParameters | UrlSigningKeyParameters | ManagedCertificateParameters | CustomerCertificateParameters;
+export type SecretParametersUnion = SecretParameters | UrlSigningKeyParameters | ManagedCertificateParameters | CustomerCertificateParameters | AzureFirstPartyManagedCertificateParameters;
 
 // @public
-export type SecretProperties = AFDStateProperties & {
+export interface SecretProperties extends AFDStateProperties {
     parameters?: SecretParametersUnion;
-};
+    readonly profileName?: string;
+}
 
 // @public
 export interface Secrets {
@@ -3820,8 +3890,6 @@ export interface Secrets {
     beginCreateAndWait(resourceGroupName: string, profileName: string, secretName: string, secret: Secret, options?: SecretsCreateOptionalParams): Promise<SecretsCreateResponse>;
     beginDelete(resourceGroupName: string, profileName: string, secretName: string, options?: SecretsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, profileName: string, secretName: string, options?: SecretsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, profileName: string, secretName: string, secretProperties: SecretProperties, options?: SecretsUpdateOptionalParams): Promise<PollerLike<PollOperationState<SecretsUpdateResponse>, SecretsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, profileName: string, secretName: string, secretProperties: SecretProperties, options?: SecretsUpdateOptionalParams): Promise<SecretsUpdateResponse>;
     get(resourceGroupName: string, profileName: string, secretName: string, options?: SecretsGetOptionalParams): Promise<SecretsGetResponse>;
     listByProfile(resourceGroupName: string, profileName: string, options?: SecretsListByProfileOptionalParams): PagedAsyncIterableIterator<Secret>;
 }
@@ -3863,15 +3931,6 @@ export interface SecretsListByProfileOptionalParams extends coreClient.Operation
 export type SecretsListByProfileResponse = SecretListResult;
 
 // @public
-export interface SecretsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type SecretsUpdateResponse = Secret;
-
-// @public
 export type SecretType = string;
 
 // @public
@@ -3880,8 +3939,8 @@ export interface SecurityPolicies {
     beginCreateAndWait(resourceGroupName: string, profileName: string, securityPolicyName: string, securityPolicy: SecurityPolicy, options?: SecurityPoliciesCreateOptionalParams): Promise<SecurityPoliciesCreateResponse>;
     beginDelete(resourceGroupName: string, profileName: string, securityPolicyName: string, options?: SecurityPoliciesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, profileName: string, securityPolicyName: string, options?: SecurityPoliciesDeleteOptionalParams): Promise<void>;
-    beginPatch(resourceGroupName: string, profileName: string, securityPolicyName: string, securityPolicyProperties: SecurityPolicyProperties, options?: SecurityPoliciesPatchOptionalParams): Promise<PollerLike<PollOperationState<SecurityPoliciesPatchResponse>, SecurityPoliciesPatchResponse>>;
-    beginPatchAndWait(resourceGroupName: string, profileName: string, securityPolicyName: string, securityPolicyProperties: SecurityPolicyProperties, options?: SecurityPoliciesPatchOptionalParams): Promise<SecurityPoliciesPatchResponse>;
+    beginPatch(resourceGroupName: string, profileName: string, securityPolicyName: string, securityPolicyUpdateProperties: SecurityPolicyUpdateParameters, options?: SecurityPoliciesPatchOptionalParams): Promise<PollerLike<PollOperationState<SecurityPoliciesPatchResponse>, SecurityPoliciesPatchResponse>>;
+    beginPatchAndWait(resourceGroupName: string, profileName: string, securityPolicyName: string, securityPolicyUpdateProperties: SecurityPolicyUpdateParameters, options?: SecurityPoliciesPatchOptionalParams): Promise<SecurityPoliciesPatchResponse>;
     get(resourceGroupName: string, profileName: string, securityPolicyName: string, options?: SecurityPoliciesGetOptionalParams): Promise<SecurityPoliciesGetResponse>;
     listByProfile(resourceGroupName: string, profileName: string, options?: SecurityPoliciesListByProfileOptionalParams): PagedAsyncIterableIterator<SecurityPolicy>;
 }
@@ -3932,11 +3991,12 @@ export interface SecurityPoliciesPatchOptionalParams extends coreClient.Operatio
 export type SecurityPoliciesPatchResponse = SecurityPolicy;
 
 // @public
-export type SecurityPolicy = ProxyResource & {
-    readonly provisioningState?: AfdProvisioningState;
+export interface SecurityPolicy extends ProxyResource {
     readonly deploymentStatus?: DeploymentStatus;
-    parameters?: SecurityPolicyParametersUnion;
-};
+    parameters?: SecurityPolicyPropertiesParametersUnion;
+    readonly profileName?: string;
+    readonly provisioningState?: AfdProvisioningState;
+}
 
 // @public
 export interface SecurityPolicyListResult {
@@ -3945,33 +4005,58 @@ export interface SecurityPolicyListResult {
 }
 
 // @public
-export interface SecurityPolicyParameters {
+export interface SecurityPolicyProperties extends AFDStateProperties {
+    parameters?: SecurityPolicyPropertiesParametersUnion;
+    readonly profileName?: string;
+}
+
+// @public
+export interface SecurityPolicyPropertiesParameters {
     type: "WebApplicationFirewall";
 }
 
 // @public (undocumented)
-export type SecurityPolicyParametersUnion = SecurityPolicyParameters | SecurityPolicyWebApplicationFirewallParameters;
-
-// @public
-export type SecurityPolicyProperties = AFDStateProperties & {
-    parameters?: SecurityPolicyParametersUnion;
-};
+export type SecurityPolicyPropertiesParametersUnion = SecurityPolicyPropertiesParameters | SecurityPolicyWebApplicationFirewallParameters;
 
 // @public
 export type SecurityPolicyType = string;
 
 // @public
+export interface SecurityPolicyUpdateParameters {
+    parameters?: SecurityPolicyPropertiesParametersUnion;
+}
+
+// @public
 export interface SecurityPolicyWebApplicationFirewallAssociation {
-    domains?: ResourceReference[];
+    domains?: ActivatedResourceReference[];
     patternsToMatch?: string[];
 }
 
 // @public
-export type SecurityPolicyWebApplicationFirewallParameters = SecurityPolicyParameters & {
+export interface SecurityPolicyWebApplicationFirewallParameters extends SecurityPolicyPropertiesParameters {
+    associations?: SecurityPolicyWebApplicationFirewallAssociation[];
     type: "WebApplicationFirewall";
     wafPolicy?: ResourceReference;
-    associations?: SecurityPolicyWebApplicationFirewallAssociation[];
-};
+}
+
+// @public
+export interface ServerPortMatchConditionParameters {
+    matchValues?: string[];
+    negateCondition?: boolean;
+    operator: ServerPortOperator;
+    transforms?: Transform[];
+    // (undocumented)
+    typeName: "DeliveryRuleServerPortConditionParameters";
+}
+
+// @public
+export type ServerPortOperator = string;
+
+// @public
+export interface ServiceSpecification {
+    logSpecifications?: LogSpecification[];
+    metricSpecifications?: MetricSpecification[];
+}
 
 // @public
 export interface SharedPrivateLinkResourceProperties {
@@ -3992,6 +4077,35 @@ export interface Sku {
 
 // @public
 export type SkuName = string;
+
+// @public
+export interface SocketAddrMatchConditionParameters {
+    matchValues?: string[];
+    negateCondition?: boolean;
+    operator: SocketAddrOperator;
+    transforms?: Transform[];
+    // (undocumented)
+    typeName: "DeliveryRuleSocketAddrConditionParameters";
+}
+
+// @public
+export type SocketAddrOperator = string;
+
+// @public
+export type SslProtocol = string;
+
+// @public
+export interface SslProtocolMatchConditionParameters {
+    matchValues?: SslProtocol[];
+    negateCondition?: boolean;
+    operator: SslProtocolOperator;
+    transforms?: Transform[];
+    // (undocumented)
+    typeName: "DeliveryRuleSslProtocolConditionParameters";
+}
+
+// @public
+export type SslProtocolOperator = string;
 
 // @public
 export interface SsoUri {
@@ -4017,12 +4131,12 @@ export interface SystemData {
 }
 
 // @public
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
     location: string;
     tags?: {
         [propertyName: string]: string;
     };
-};
+}
 
 // @public
 export type Transform = string;
@@ -4037,10 +4151,10 @@ export type UpdateRule = string;
 export interface UrlFileExtensionMatchConditionParameters {
     matchValues?: string[];
     negateCondition?: boolean;
-    // (undocumented)
-    odataType: "#Microsoft.Azure.Cdn.Models.DeliveryRuleUrlFileExtensionMatchConditionParameters";
     operator: UrlFileExtensionOperator;
     transforms?: Transform[];
+    // (undocumented)
+    typeName: "DeliveryRuleUrlFileExtensionMatchConditionParameters";
 }
 
 // @public
@@ -4050,10 +4164,10 @@ export type UrlFileExtensionOperator = string;
 export interface UrlFileNameMatchConditionParameters {
     matchValues?: string[];
     negateCondition?: boolean;
-    // (undocumented)
-    odataType: "#Microsoft.Azure.Cdn.Models.DeliveryRuleUrlFilenameConditionParameters";
     operator: UrlFileNameOperator;
     transforms?: Transform[];
+    // (undocumented)
+    typeName: "DeliveryRuleUrlFilenameConditionParameters";
 }
 
 // @public
@@ -4063,20 +4177,20 @@ export type UrlFileNameOperator = string;
 export interface UrlPathMatchConditionParameters {
     matchValues?: string[];
     negateCondition?: boolean;
-    // (undocumented)
-    odataType: "#Microsoft.Azure.Cdn.Models.DeliveryRuleUrlPathMatchConditionParameters";
     operator: UrlPathOperator;
     transforms?: Transform[];
+    // (undocumented)
+    typeName: "DeliveryRuleUrlPathMatchConditionParameters";
 }
 
 // @public
 export type UrlPathOperator = string;
 
 // @public
-export type UrlRedirectAction = DeliveryRuleActionAutoGenerated & {
+export interface UrlRedirectAction extends DeliveryRuleActionAutoGenerated {
     name: "UrlRedirect";
     parameters: UrlRedirectActionParameters;
-};
+}
 
 // @public
 export interface UrlRedirectActionParameters {
@@ -4085,38 +4199,38 @@ export interface UrlRedirectActionParameters {
     customPath?: string;
     customQueryString?: string;
     destinationProtocol?: DestinationProtocol;
-    // (undocumented)
-    odataType: "#Microsoft.Azure.Cdn.Models.DeliveryRuleUrlRedirectActionParameters";
     redirectType: RedirectType;
+    // (undocumented)
+    typeName: "DeliveryRuleUrlRedirectActionParameters";
 }
 
 // @public
-export type UrlRewriteAction = DeliveryRuleActionAutoGenerated & {
+export interface UrlRewriteAction extends DeliveryRuleActionAutoGenerated {
     name: "UrlRewrite";
     parameters: UrlRewriteActionParameters;
-};
+}
 
 // @public
 export interface UrlRewriteActionParameters {
     destination: string;
-    // (undocumented)
-    odataType: "#Microsoft.Azure.Cdn.Models.DeliveryRuleUrlRewriteActionParameters";
     preserveUnmatchedPath?: boolean;
     sourcePattern: string;
+    // (undocumented)
+    typeName: "DeliveryRuleUrlRewriteActionParameters";
 }
 
 // @public
-export type UrlSigningAction = DeliveryRuleActionAutoGenerated & {
+export interface UrlSigningAction extends DeliveryRuleActionAutoGenerated {
     name: "UrlSigning";
     parameters: UrlSigningActionParameters;
-};
+}
 
 // @public
 export interface UrlSigningActionParameters {
     algorithm?: Algorithm_2;
-    // (undocumented)
-    odataType: "#Microsoft.Azure.Cdn.Models.DeliveryRuleUrlSigningActionParameters";
     parameterNameOverride?: UrlSigningParamIdentifier[];
+    // (undocumented)
+    typeName: "DeliveryRuleUrlSigningActionParameters";
 }
 
 // @public
@@ -4126,12 +4240,12 @@ export interface UrlSigningKey {
 }
 
 // @public
-export type UrlSigningKeyParameters = SecretParameters & {
-    type: "UrlSigningKey";
+export interface UrlSigningKeyParameters extends SecretParameters {
     keyId: string;
     secretSource: ResourceReference;
     secretVersion?: string;
-};
+    type: "UrlSigningKey";
+}
 
 // @public
 export interface UrlSigningParamIdentifier {
@@ -4164,10 +4278,10 @@ export interface UsagesListResult {
 export type UsageUnit = string;
 
 // @public
-export type UserManagedHttpsParameters = CustomDomainHttpsParameters & {
+export interface UserManagedHttpsParameters extends CustomDomainHttpsParameters {
     certificateSource: "AzureKeyVault";
     certificateSourceParameters: KeyVaultCertificateSourceParameters;
-};
+}
 
 // @public
 export interface Validate {
@@ -4208,7 +4322,8 @@ export type ValidateProbeResponse = ValidateProbeOutput;
 // @public
 export interface ValidateSecretInput {
     secretSource: ResourceReference;
-    secretType: ValidateSecretType;
+    secretType: SecretType;
+    secretVersion?: string;
 }
 
 // @public
@@ -4225,9 +4340,6 @@ export interface ValidateSecretOutput {
 export type ValidateSecretResponse = ValidateSecretOutput;
 
 // @public
-export type ValidateSecretType = string;
-
-// @public
 export interface ValidationToken {
     readonly token?: string;
 }
@@ -4237,6 +4349,9 @@ export type WafAction = string;
 
 // @public
 export type WafGranularity = string;
+
+// @public
+export type WafMatchVariable = string;
 
 // @public
 export type WafMetric = string;

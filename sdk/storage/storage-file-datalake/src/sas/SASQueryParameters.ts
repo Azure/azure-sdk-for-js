@@ -62,6 +62,10 @@ export interface SASQueryParametersOptions {
    */
   identifier?: string;
   /**
+   * Optional. Encryption scope to use when sending requests authorized with this SAS URI.
+   */
+  encryptionScope?: string;
+  /**
    * Optional. Specifies which resources are accessible via the SAS (only for {@link BlobSASSignatureValues}).
    * @see https://docs.microsoft.com/rest/api/storageservices/create-service-sas#specifying-the-signed-resource-blob-service-only
    */
@@ -279,6 +283,11 @@ export class SASQueryParameters {
   public readonly correlationId?: string;
 
   /**
+   * Optional. Encryption scope to use when sending requests authorized with this SAS URI.
+   */
+  public readonly encryptionScope?: string;
+
+  /**
    * Optional. IP range allowed for this SAS.
    *
    * @readonly
@@ -338,7 +347,8 @@ export class SASQueryParameters {
     directoryDepth?: number,
     preauthorizedAgentObjectId?: string,
     agentObjectId?: string,
-    correlationId?: string
+    correlationId?: string,
+    encryptionScope?: string
   );
 
   /**
@@ -371,7 +381,8 @@ export class SASQueryParameters {
     directoryDepth?: number,
     preauthorizedAgentObjectId?: string,
     agentObjectId?: string,
-    correlationId?: string
+    correlationId?: string,
+    encryptionScope?: string
   ) {
     this.version = version;
     this.signature = signature;
@@ -397,6 +408,7 @@ export class SASQueryParameters {
       this.preauthorizedAgentObjectId = options.preauthorizedAgentObjectId;
       this.agentObjectId = options.agentObjectId;
       this.correlationId = options.correlationId;
+      this.encryptionScope = options.encryptionScope;
 
       if (options.userDelegationKey) {
         this.signedOid = options.userDelegationKey.signedObjectId;
@@ -425,6 +437,7 @@ export class SASQueryParameters {
       this.preauthorizedAgentObjectId = preauthorizedAgentObjectId;
       this.agentObjectId = agentObjectId;
       this.correlationId = correlationId;
+      this.encryptionScope = encryptionScope;
 
       if (userDelegationKey) {
         this.signedOid = userDelegationKey.signedObjectId;
@@ -451,6 +464,7 @@ export class SASQueryParameters {
       "se",
       "sip",
       "si",
+      "ses",
       "skoid", // Signed object ID
       "sktid", // Signed tenant ID
       "skt", // Signed key start time
@@ -509,6 +523,9 @@ export class SASQueryParameters {
           break;
         case "si":
           this.tryAppendQueryParameter(queries, param, this.identifier);
+          break;
+        case "ses":
+          this.tryAppendQueryParameter(queries, param, this.encryptionScope);
           break;
         case "skoid": // Signed object ID
           this.tryAppendQueryParameter(queries, param, this.signedOid);

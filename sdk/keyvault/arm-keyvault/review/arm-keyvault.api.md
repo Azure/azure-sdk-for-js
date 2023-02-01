@@ -21,6 +21,11 @@ export interface AccessPolicyEntry {
 // @public
 export type AccessPolicyUpdateKind = "add" | "replace" | "remove";
 
+// @public (undocumented)
+export interface Action {
+    type?: KeyRotationPolicyActionType;
+}
+
 // @public
 export type ActionsRequired = string;
 
@@ -127,6 +132,9 @@ export interface ErrorModel {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export type IdentityType = string;
 
 // @public
@@ -144,15 +152,18 @@ export type JsonWebKeyOperation = string;
 export type JsonWebKeyType = string;
 
 // @public
-export type Key = Resource & {
+export interface Key extends Resource {
     attributes?: KeyAttributes;
-    kty?: JsonWebKeyType;
+    curveName?: JsonWebKeyCurveName;
+    // (undocumented)
     keyOps?: JsonWebKeyOperation[];
     keySize?: number;
-    curveName?: JsonWebKeyCurveName;
     readonly keyUri?: string;
     readonly keyUriWithVersion?: string;
-};
+    kty?: JsonWebKeyType;
+    releasePolicy?: KeyReleasePolicy;
+    rotationPolicy?: RotationPolicy;
+}
 
 // @public
 export interface KeyAttributes {
@@ -192,6 +203,24 @@ export interface KeyProperties {
     readonly keyUri?: string;
     readonly keyUriWithVersion?: string;
     kty?: JsonWebKeyType;
+    releasePolicy?: KeyReleasePolicy;
+    rotationPolicy?: RotationPolicy;
+}
+
+// @public (undocumented)
+export interface KeyReleasePolicy {
+    contentType?: string;
+    data?: Uint8Array;
+}
+
+// @public
+export type KeyRotationPolicyActionType = "rotate" | "notify";
+
+// @public (undocumented)
+export interface KeyRotationPolicyAttributes {
+    readonly created?: number;
+    expiryTime?: string;
+    readonly updated?: number;
 }
 
 // @public
@@ -290,149 +319,96 @@ export interface KeyVaultManagementClientOptionalParams extends coreClient.Servi
 
 // @public
 export enum KnownActionsRequired {
-    // (undocumented)
     None = "None"
 }
 
 // @public
 export enum KnownCertificatePermissions {
-    // (undocumented)
     All = "all",
-    // (undocumented)
     Backup = "backup",
-    // (undocumented)
     Create = "create",
-    // (undocumented)
     Delete = "delete",
-    // (undocumented)
     Deleteissuers = "deleteissuers",
-    // (undocumented)
     Get = "get",
-    // (undocumented)
     Getissuers = "getissuers",
-    // (undocumented)
     Import = "import",
-    // (undocumented)
     List = "list",
-    // (undocumented)
     Listissuers = "listissuers",
-    // (undocumented)
     Managecontacts = "managecontacts",
-    // (undocumented)
     Manageissuers = "manageissuers",
-    // (undocumented)
     Purge = "purge",
-    // (undocumented)
     Recover = "recover",
-    // (undocumented)
     Restore = "restore",
-    // (undocumented)
     Setissuers = "setissuers",
-    // (undocumented)
     Update = "update"
 }
 
 // @public
 export enum KnownDeletionRecoveryLevel {
-    // (undocumented)
     Purgeable = "Purgeable",
-    // (undocumented)
     Recoverable = "Recoverable",
-    // (undocumented)
     RecoverableProtectedSubscription = "Recoverable+ProtectedSubscription",
-    // (undocumented)
     RecoverablePurgeable = "Recoverable+Purgeable"
 }
 
 // @public
 export enum KnownIdentityType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownJsonWebKeyCurveName {
-    // (undocumented)
     P256 = "P-256",
-    // (undocumented)
     P256K = "P-256K",
-    // (undocumented)
     P384 = "P-384",
-    // (undocumented)
     P521 = "P-521"
 }
 
 // @public
 export enum KnownJsonWebKeyOperation {
-    // (undocumented)
     Decrypt = "decrypt",
-    // (undocumented)
     Encrypt = "encrypt",
-    // (undocumented)
     Import = "import",
-    // (undocumented)
+    Release = "release",
     Sign = "sign",
-    // (undocumented)
     UnwrapKey = "unwrapKey",
-    // (undocumented)
     Verify = "verify",
-    // (undocumented)
     WrapKey = "wrapKey"
 }
 
 // @public
 export enum KnownJsonWebKeyType {
-    // (undocumented)
     EC = "EC",
-    // (undocumented)
     ECHSM = "EC-HSM",
-    // (undocumented)
     RSA = "RSA",
-    // (undocumented)
     RSAHSM = "RSA-HSM"
 }
 
 // @public
 export enum KnownKeyPermissions {
-    // (undocumented)
     All = "all",
-    // (undocumented)
     Backup = "backup",
-    // (undocumented)
     Create = "create",
-    // (undocumented)
     Decrypt = "decrypt",
-    // (undocumented)
     Delete = "delete",
-    // (undocumented)
     Encrypt = "encrypt",
-    // (undocumented)
     Get = "get",
-    // (undocumented)
+    Getrotationpolicy = "getrotationpolicy",
     Import = "import",
-    // (undocumented)
     List = "list",
-    // (undocumented)
     Purge = "purge",
-    // (undocumented)
     Recover = "recover",
-    // (undocumented)
+    Release = "release",
     Restore = "restore",
-    // (undocumented)
+    Rotate = "rotate",
+    Setrotationpolicy = "setrotationpolicy",
     Sign = "sign",
-    // (undocumented)
     UnwrapKey = "unwrapKey",
-    // (undocumented)
     Update = "update",
-    // (undocumented)
     Verify = "verify",
-    // (undocumented)
     WrapKey = "wrapKey"
 }
 
@@ -444,45 +420,31 @@ export enum KnownManagedHsmSkuFamily {
 
 // @public
 export enum KnownNetworkRuleAction {
-    // (undocumented)
     Allow = "Allow",
-    // (undocumented)
     Deny = "Deny"
 }
 
 // @public
 export enum KnownNetworkRuleBypassOptions {
-    // (undocumented)
     AzureServices = "AzureServices",
-    // (undocumented)
     None = "None"
 }
 
 // @public
 export enum KnownPrivateEndpointConnectionProvisioningState {
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Disconnected = "Disconnected",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownPrivateEndpointServiceConnectionStatus {
-    // (undocumented)
     Approved = "Approved",
-    // (undocumented)
     Disconnected = "Disconnected",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Rejected = "Rejected"
 }
 
@@ -500,31 +462,20 @@ export enum KnownProvisioningState {
 
 // @public
 export enum KnownPublicNetworkAccess {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownSecretPermissions {
-    // (undocumented)
     All = "all",
-    // (undocumented)
     Backup = "backup",
-    // (undocumented)
     Delete = "delete",
-    // (undocumented)
     Get = "get",
-    // (undocumented)
     List = "list",
-    // (undocumented)
     Purge = "purge",
-    // (undocumented)
     Recover = "recover",
-    // (undocumented)
     Restore = "restore",
-    // (undocumented)
     Set = "set"
 }
 
@@ -536,44 +487,33 @@ export enum KnownSkuFamily {
 
 // @public
 export enum KnownStoragePermissions {
-    // (undocumented)
     All = "all",
-    // (undocumented)
     Backup = "backup",
-    // (undocumented)
     Delete = "delete",
-    // (undocumented)
     Deletesas = "deletesas",
-    // (undocumented)
     Get = "get",
-    // (undocumented)
     Getsas = "getsas",
-    // (undocumented)
     List = "list",
-    // (undocumented)
     Listsas = "listsas",
-    // (undocumented)
     Purge = "purge",
-    // (undocumented)
     Recover = "recover",
-    // (undocumented)
     Regeneratekey = "regeneratekey",
-    // (undocumented)
     Restore = "restore",
-    // (undocumented)
     Set = "set",
-    // (undocumented)
     Setsas = "setsas",
-    // (undocumented)
     Update = "update"
 }
 
 // @public
 export enum KnownVaultProvisioningState {
-    // (undocumented)
     RegisteringDns = "RegisteringDns",
-    // (undocumented)
     Succeeded = "Succeeded"
+}
+
+// @public (undocumented)
+export interface LifetimeAction {
+    action?: Action;
+    trigger?: Trigger;
 }
 
 // @public
@@ -584,9 +524,9 @@ export interface LogSpecification {
 }
 
 // @public
-export type ManagedHsm = ManagedHsmResource & {
+export interface ManagedHsm extends ManagedHsmResource {
     properties?: ManagedHsmProperties;
-};
+}
 
 // @public
 export interface ManagedHsmError {
@@ -740,6 +680,11 @@ export interface ManagedHsmsPurgeDeletedOptionalParams extends coreClient.Operat
 }
 
 // @public
+export interface ManagedHsmsUpdateHeaders {
+    location?: string;
+}
+
+// @public
 export interface ManagedHsmsUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -782,15 +727,17 @@ export interface MhsmPrivateEndpoint {
 }
 
 // @public
-export type MhsmPrivateEndpointConnection = ManagedHsmResource & {
+export interface MhsmPrivateEndpointConnection extends ManagedHsmResource {
     etag?: string;
     privateEndpoint?: MhsmPrivateEndpoint;
     privateLinkServiceConnectionState?: MhsmPrivateLinkServiceConnectionState;
     provisioningState?: PrivateEndpointConnectionProvisioningState;
-};
+}
 
 // @public
 export interface MhsmPrivateEndpointConnectionItem {
+    etag?: string;
+    id?: string;
     privateEndpoint?: MhsmPrivateEndpoint;
     privateLinkServiceConnectionState?: MhsmPrivateLinkServiceConnectionState;
     provisioningState?: PrivateEndpointConnectionProvisioningState;
@@ -861,11 +808,11 @@ export interface MhsmPrivateEndpointConnectionsPutOptionalParams extends coreCli
 export type MhsmPrivateEndpointConnectionsPutResponse = MhsmPrivateEndpointConnectionsPutHeaders & MhsmPrivateEndpointConnection;
 
 // @public
-export type MhsmPrivateLinkResource = ManagedHsmResource & {
+export interface MhsmPrivateLinkResource extends ManagedHsmResource {
     readonly groupId?: string;
     readonly requiredMembers?: string[];
     requiredZoneNames?: string[];
-};
+}
 
 // @public
 export interface MhsmPrivateLinkResourceListResult {
@@ -967,12 +914,12 @@ export interface PrivateEndpoint {
 }
 
 // @public
-export type PrivateEndpointConnection = Resource & {
+export interface PrivateEndpointConnection extends Resource {
     etag?: string;
     privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
     provisioningState?: PrivateEndpointConnectionProvisioningState;
-};
+}
 
 // @public
 export interface PrivateEndpointConnectionItem {
@@ -1054,11 +1001,11 @@ export type PrivateEndpointConnectionsPutResponse = PrivateEndpointConnectionsPu
 export type PrivateEndpointServiceConnectionStatus = string;
 
 // @public
-export type PrivateLinkResource = Resource & {
+export interface PrivateLinkResource extends Resource {
     readonly groupId?: string;
     readonly requiredMembers?: string[];
     requiredZoneNames?: string[];
-};
+}
 
 // @public
 export interface PrivateLinkResourceListResult {
@@ -1110,13 +1057,20 @@ export interface ResourceListResult {
     value?: Resource[];
 }
 
-// @public
-export type Secret = Resource & {
-    properties: SecretProperties;
-};
+// @public (undocumented)
+export interface RotationPolicy {
+    attributes?: KeyRotationPolicyAttributes;
+    lifetimeActions?: LifetimeAction[];
+}
 
 // @public
-export type SecretAttributes = Attributes & {};
+export interface Secret extends Resource {
+    properties: SecretProperties;
+}
+
+// @public
+export interface SecretAttributes extends Attributes {
+}
 
 // @public
 export interface SecretCreateOrUpdateParameters {
@@ -1233,6 +1187,12 @@ export interface SystemData {
     lastModifiedAt?: Date;
     lastModifiedBy?: string;
     lastModifiedByType?: IdentityType;
+}
+
+// @public (undocumented)
+export interface Trigger {
+    timeAfterCreate?: string;
+    timeBeforeExpiry?: string;
 }
 
 // @public

@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { RedisEnterprise } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,8 +19,10 @@ import {
   Cluster,
   RedisEnterpriseListByResourceGroupNextOptionalParams,
   RedisEnterpriseListByResourceGroupOptionalParams,
+  RedisEnterpriseListByResourceGroupResponse,
   RedisEnterpriseListNextOptionalParams,
   RedisEnterpriseListOptionalParams,
+  RedisEnterpriseListResponse,
   RedisEnterpriseCreateOptionalParams,
   RedisEnterpriseCreateResponse,
   ClusterUpdate,
@@ -28,8 +31,6 @@ import {
   RedisEnterpriseDeleteOptionalParams,
   RedisEnterpriseGetOptionalParams,
   RedisEnterpriseGetResponse,
-  RedisEnterpriseListByResourceGroupResponse,
-  RedisEnterpriseListResponse,
   RedisEnterpriseListByResourceGroupNextResponse,
   RedisEnterpriseListNextResponse
 } from "../models";
@@ -64,19 +65,33 @@ export class RedisEnterpriseImpl implements RedisEnterprise {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: RedisEnterpriseListByResourceGroupOptionalParams
+    options?: RedisEnterpriseListByResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Cluster[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: RedisEnterpriseListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -84,7 +99,9 @@ export class RedisEnterpriseImpl implements RedisEnterprise {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -115,22 +132,34 @@ export class RedisEnterpriseImpl implements RedisEnterprise {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: RedisEnterpriseListOptionalParams
+    options?: RedisEnterpriseListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Cluster[]> {
-    let result = await this._list(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: RedisEnterpriseListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -204,11 +233,13 @@ export class RedisEnterpriseImpl implements RedisEnterprise {
       { resourceGroupName, clusterName, parameters, options },
       createOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "original-uri"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -295,11 +326,13 @@ export class RedisEnterpriseImpl implements RedisEnterprise {
       { resourceGroupName, clusterName, parameters, options },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -379,11 +412,13 @@ export class RedisEnterpriseImpl implements RedisEnterprise {
       { resourceGroupName, clusterName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -642,7 +677,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -663,7 +697,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,

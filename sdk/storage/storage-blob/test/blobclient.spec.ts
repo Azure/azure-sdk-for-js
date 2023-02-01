@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
 import * as fs from "fs";
 import { AbortController } from "@azure/abort-controller";
-import { isNode, URLBuilder, URLQuery } from "@azure/core-http";
-import { SpanGraph, setTracer } from "@azure/test-utils";
+import { isNode } from "@azure/core-util";
+import { assert } from "@azure/test-utils";
 import {
   bodyToString,
   getBSU,
@@ -28,7 +27,6 @@ import {
 } from "../src";
 import { Test_CPK_INFO } from "./utils/fakeTestSecrets";
 import { base64encode } from "../src/utils/utils.common";
-import { context, setSpan } from "@azure/core-tracing";
 import { Context } from "mocha";
 
 describe("BlobClient", () => {
@@ -61,6 +59,23 @@ describe("BlobClient", () => {
     }
   });
 
+  it("upload blob with cold tier should work", async function () {
+    const newBlobClient = containerClient.getBlockBlobClient(
+      recorder.getUniqueName("coldtierblob")
+    );
+
+    await newBlobClient.upload(content, content.length, {
+      tier: "Cold",
+    });
+
+    const result = await newBlobClient.download(0);
+    assert.deepStrictEqual(await bodyToString(result, content.length), content);
+
+    const properties = await newBlobClient.getProperties();
+    assert.ok(properties.accessTier);
+    assert.equal(properties.accessTier!, "Cold");
+  });
+
   it("Set and get blob tags should work with lease condition", async function () {
     const guid = "ca761232ed4211cebacd00aa0057b223";
     const leaseClient = blockBlobClient.getBlobLeaseClient(guid);
@@ -84,7 +99,7 @@ describe("BlobClient", () => {
       assert.fail(
         "Should have failed when setting tags without the right lease condition of a leased blob"
       );
-    } catch (err) {
+    } catch (err: any) {
       assert.deepStrictEqual(err.code, "LeaseIdMissing", err.msg);
     }
 
@@ -94,7 +109,7 @@ describe("BlobClient", () => {
       assert.fail(
         "Should have failed when setting tags without the right lease condition of a leased blob"
       );
-    } catch (err) {
+    } catch (err: any) {
       assert.deepStrictEqual(err.code, "LeaseIdMismatchWithBlobOperation");
     }
 
@@ -232,7 +247,7 @@ describe("BlobClient", () => {
         rangeGetContentMD5: true,
         rangeGetContentCrc64: true,
       });
-    } catch (err) {
+    } catch (err: any) {
       exceptionCaught = true;
     }
     assert.ok(exceptionCaught);
@@ -490,9 +505,21 @@ describe("BlobClient", () => {
       assert.fail(
         "AbortCopyFromClient should be failed and throw exception for an completed copy operation."
       );
-    } catch (err) {
+    } catch (err: any) {
       assert.ok((err.details.errorCode = "NoPendingCopyOperation"));
     }
+  });
+
+  it("sync copy with cold tier", async () => {
+    const newBlobClient = containerClient.getBlockBlobClient(recorder.getUniqueName("copiedblob"));
+
+    await newBlobClient.syncCopyFromURL("https://azure.github.io/azure-sdk-for-js/index.html", {
+      tier: "Cold",
+    });
+
+    const properties = await newBlobClient.getProperties();
+    assert.ok(properties.accessTier);
+    assert.equal(properties.accessTier!, "Cold");
   });
 
   it("setAccessTier set default to cool", async () => {
@@ -513,6 +540,28 @@ describe("BlobClient", () => {
     if (properties.archiveStatus) {
       assert.equal(properties.archiveStatus.toLowerCase(), "rehydrate-pending-to-hot");
     }
+  });
+
+  it("setAccessTier set to/from cold", async () => {
+    await blockBlobClient.setAccessTier("Cold");
+    const properties = await blockBlobClient.getProperties();
+    assert.ok(properties.accessTier);
+    assert.equal(properties.accessTier!, "Cold");
+
+    await blockBlobClient.setAccessTier("Hot");
+    const properties1 = await blockBlobClient.getProperties();
+    assert.ok(properties1.accessTier);
+    assert.equal(properties1.accessTier!, "Hot");
+
+    await blockBlobClient.setAccessTier("Cold");
+    const properties2 = await blockBlobClient.getProperties();
+    assert.ok(properties2.accessTier);
+    assert.equal(properties2.accessTier!, "Cold");
+
+    await blockBlobClient.setAccessTier("Cool");
+    const properties3 = await blockBlobClient.getProperties();
+    assert.ok(properties3.accessTier);
+    assert.equal(properties3.accessTier!, "Cool");
   });
 
   it("setAccessTier with snapshot", async () => {
@@ -557,7 +606,7 @@ describe("BlobClient", () => {
       // tslint:disable-next-line: no-unused-expression
       new BlobClient(getSASConnectionStringFromEnvironment(), "", "blobName");
       assert.fail("Expecting an thrown error but didn't get one.");
-    } catch (error) {
+    } catch (error: any) {
       assert.equal(
         "Expecting non-empty strings for containerName and blobName parameters",
         error.message,
@@ -571,7 +620,7 @@ describe("BlobClient", () => {
       // tslint:disable-next-line: no-unused-expression
       new BlobClient(getSASConnectionStringFromEnvironment(), "containerName", "");
       assert.fail("Expecting an thrown error but didn't get one.");
-    } catch (error) {
+    } catch (error: any) {
       assert.equal(
         "Expecting non-empty strings for containerName and blobName parameters",
         error.message,
@@ -584,7 +633,7 @@ describe("BlobClient", () => {
     let exceptionCaught = false;
     try {
       await blobClient.setMetadata({ a: "a" }, { customerProvidedKey: Test_CPK_INFO });
-    } catch (err) {
+    } catch (err: any) {
       exceptionCaught = true;
     }
     assert.ok(exceptionCaught);
@@ -611,7 +660,7 @@ describe("BlobClient", () => {
     let exceptionCaught = false;
     try {
       await blobClient.getProperties();
-    } catch (err) {
+    } catch (err: any) {
       exceptionCaught = true;
     }
     assert.ok(exceptionCaught);
@@ -652,7 +701,7 @@ describe("BlobClient", () => {
     exceptionCaught = false;
     try {
       await blobSnapshotURL.getProperties();
-    } catch (err) {
+    } catch (err: any) {
       exceptionCaught = true;
     }
     assert.ok(exceptionCaught);
@@ -681,15 +730,11 @@ describe("BlobClient", () => {
     // so we remove it before comparing urls.
     assert.ok(properties2.copySource, "Expecting valid 'properties2.copySource");
 
-    const sanitizedActualUrl = URLBuilder.parse(properties2.copySource!);
-    const sanitizedQuery = URLQuery.parse(sanitizedActualUrl.getQuery()!);
-    sanitizedQuery.set("sig", undefined);
-    sanitizedActualUrl.setQuery(sanitizedQuery.toString());
+    const sanitizedActualUrl = new URL(properties2.copySource!);
+    sanitizedActualUrl.searchParams.delete("sig");
 
-    const sanitizedExpectedUrl = URLBuilder.parse(blobClient.url);
-    const sanitizedQuery2 = URLQuery.parse(sanitizedActualUrl.getQuery()!);
-    sanitizedQuery2.set("sig", undefined);
-    sanitizedExpectedUrl.setQuery(sanitizedQuery.toString());
+    const sanitizedExpectedUrl = new URL(blobClient.url);
+    sanitizedExpectedUrl.searchParams.delete("sig");
 
     assert.strictEqual(
       sanitizedActualUrl.toString(),
@@ -702,6 +747,24 @@ describe("BlobClient", () => {
     assert.equal(properties3.archiveStatus!.toLowerCase(), "rehydrate-pending-to-hot");
   });
 
+  it("beginCopyFromURL with cold tier", async () => {
+    const newBlobURL = containerClient.getBlobClient(recorder.getUniqueName("copiedblob"));
+    const newTier = BlockBlobTier.Cold;
+    const result = await (
+      await newBlobURL.beginCopyFromURL(blobClient.url, {
+        tier: newTier,
+      })
+    ).pollUntilDone();
+    assert.ok(result.copyId);
+    delay(1 * 1000);
+
+    const properties1 = await blobClient.getProperties();
+    const properties2 = await newBlobURL.getProperties();
+    assert.deepStrictEqual(properties1.contentMD5, properties2.contentMD5);
+    assert.deepStrictEqual(properties2.copyId, result.copyId);
+    assert.equal(properties2.accessTier, newTier);
+  });
+
   it("setAccessTier with rehydrate priority", async () => {
     await blockBlobClient.setAccessTier("Archive", { rehydratePriority: "High" });
     await blockBlobClient.setAccessTier("Cool");
@@ -711,45 +774,11 @@ describe("BlobClient", () => {
     }
   });
 
-  it("download with default parameters and tracing", async () => {
-    const tracer = setTracer();
-
-    const rootSpan = tracer.startSpan("root");
-
-    const result = await blobClient.download(undefined, undefined, {
-      tracingOptions: {
-        tracingContext: setSpan(context.active(), rootSpan),
-      },
-    });
-    assert.deepStrictEqual(await bodyToString(result, content.length), content);
-
-    rootSpan.end();
-
-    const rootSpans = tracer.getRootSpans();
-    assert.strictEqual(rootSpans.length, 1, "Should only have one root span.");
-    assert.strictEqual(rootSpan, rootSpans[0], "The root span should match what was passed in.");
-
-    const expectedGraph: SpanGraph = {
-      roots: [
-        {
-          name: rootSpan.name,
-          children: [
-            {
-              name: "Azure.Storage.Blob.BlobClient-download",
-              children: [
-                {
-                  name: "HTTP GET",
-                  children: [],
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    };
-
-    assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.spanContext().traceId), expectedGraph);
-    assert.strictEqual(tracer.getActiveSpans().length, 0, "All spans should have had end called");
+  it("download with default parameters and tracing", async function (this: Context) {
+    await assert.supportsTracing(
+      (options) => blobClient.download(undefined, undefined, options),
+      ["BlobClient-download"]
+    );
   });
 
   it("exists returns true on an existing blob", async () => {
@@ -780,6 +809,18 @@ describe("BlobClient", () => {
     const result = await blobClient.exists({
       customerProvidedKey: Test_CPK_INFO,
     });
+    assert.ok(result, "exists() should return true");
+  });
+
+  it("exists works without customer provided key on a blob with CPK", async () => {
+    blobName = recorder.getUniqueName("blobCPK");
+    blobClient = containerClient.getBlobClient(blobName);
+    blockBlobClient = blobClient.getBlockBlobClient();
+    await blockBlobClient.upload(content, content.length, {
+      customerProvidedKey: Test_CPK_INFO,
+    });
+
+    const result = await blobClient.exists();
     assert.ok(result, "exists() should return true");
   });
 
@@ -831,7 +872,7 @@ describe("BlobClient", () => {
 
     try {
       await anonymousBlobClient.exists();
-    } catch (err) {
+    } catch (err: any) {
       exceptionCaught = true;
     }
     assert.ok(exceptionCaught);
@@ -851,7 +892,7 @@ describe("BlobClient", () => {
       }
 
       await blobClient.exists({ conditions: { leaseId: guid } });
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.details.errorCode, "LeaseIdMismatchWithBlobOperation");
       exceptionCaught = true;
     }
@@ -922,7 +963,7 @@ describe("BlobClient", () => {
       let expectedExceptionCaught = false;
       try {
         await promise;
-      } catch (e) {
+      } catch (e: any) {
         assert.equal(e.details?.errorCode, errorCode);
         expectedExceptionCaught = true;
       }
@@ -981,7 +1022,7 @@ describe("BlobClient", () => {
       let exceptionCaught = false;
       try {
         await leaseClient.acquireLease(duration, { conditions: tagConditionMet });
-      } catch (err) {
+      } catch (err: any) {
         assert.ok(err instanceof RangeError);
         exceptionCaught = true;
       }
@@ -1227,6 +1268,54 @@ describe("BlobClient", () => {
         )
       );
       await newBlobClient.clearPages(0, 512, { conditions: tagConditionMet });
+    });
+
+    it("PageBlobClient.listPageRanges", async () => {
+      const newBlobClient = containerClient.getPageBlobClient(recorder.getUniqueName("pageBlob"));
+      await newBlobClient.create(512, { tags });
+      assert.ok(
+        await throwExpectedError(
+          newBlobClient
+            .listPageRanges(0, 512, {
+              conditions: tagConditionUnmet,
+            })
+            .byPage()
+            .next(),
+          "ConditionNotMet"
+        )
+      );
+      await newBlobClient
+        .listPageRanges(0, 512, {
+          conditions: tagConditionMet,
+        })
+        .byPage()
+        .next();
+    });
+
+    it("PageBlobClient.listPageRangesDiff", async () => {
+      const newBlobClient = containerClient.getPageBlobClient(recorder.getUniqueName("pageBlob"));
+      await newBlobClient.create(512, { tags });
+      const snapshotResult = await newBlobClient.createSnapshot();
+      assert.ok(snapshotResult.snapshot);
+      await newBlobClient.uploadPages("a".repeat(512), 0, 512);
+
+      assert.ok(
+        await throwExpectedError(
+          newBlobClient
+            .listPageRangesDiff(0, 512, snapshotResult.snapshot!, {
+              conditions: tagConditionUnmet,
+            })
+            .byPage()
+            .next(),
+          "ConditionNotMet"
+        )
+      );
+      await newBlobClient
+        .listPageRangesDiff(0, 512, snapshotResult.snapshot!, {
+          conditions: tagConditionMet,
+        })
+        .byPage()
+        .next();
     });
 
     it("PageBlobClient.getPageRanges", async () => {
@@ -1676,7 +1765,7 @@ describe("BlobClient - ImmutabilityPolicy", () => {
         policyMode: "Unlocked",
       });
       assert.fail("setImmutabilityPolicy against a non-exist blob should not succeed");
-    } catch (error) {
+    } catch (error: any) {
       caughtException = true;
     }
     assert.ok(
@@ -1699,7 +1788,7 @@ describe("BlobClient - ImmutabilityPolicy", () => {
         policyMode: "Mutable",
       });
       assert.fail("Setting ImmutabilityPolicy mode to Mutable should not succeed");
-    } catch (error) {
+    } catch (error: any) {
       caughtException = true;
     }
     assert.ok(
@@ -1713,7 +1802,7 @@ describe("BlobClient - ImmutabilityPolicy", () => {
     try {
       await blobClient.setLegalHold(true);
       assert.fail("setLegalHold against a non-exist blob should not succeed");
-    } catch (error) {
+    } catch (error: any) {
       caughtException = true;
     }
     assert.ok(caughtException, "Should catch exception when setLegalHold against a non-exist blob");
@@ -1725,7 +1814,7 @@ describe("BlobClient - ImmutabilityPolicy", () => {
     try {
       await blobClient.deleteImmutabilityPolicy();
       assert.fail("Delete immutability policy against a non-exist blob should not succeed");
-    } catch (error) {
+    } catch (error: any) {
       caughtException = true;
     }
     assert.ok(

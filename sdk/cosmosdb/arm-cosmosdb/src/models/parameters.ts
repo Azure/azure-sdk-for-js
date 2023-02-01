@@ -22,6 +22,9 @@ import {
   ThroughputSettingsUpdateParameters as ThroughputSettingsUpdateParametersMapper,
   ClientEncryptionKeyCreateUpdateParameters as ClientEncryptionKeyCreateUpdateParametersMapper,
   SqlContainerCreateUpdateParameters as SqlContainerCreateUpdateParametersMapper,
+  MergeParameters as MergeParametersMapper,
+  RetrieveThroughputParameters as RetrieveThroughputParametersMapper,
+  RedistributeThroughputParameters as RedistributeThroughputParametersMapper,
   SqlStoredProcedureCreateUpdateParameters as SqlStoredProcedureCreateUpdateParametersMapper,
   SqlUserDefinedFunctionCreateUpdateParameters as SqlUserDefinedFunctionCreateUpdateParametersMapper,
   SqlTriggerCreateUpdateParameters as SqlTriggerCreateUpdateParametersMapper,
@@ -119,7 +122,7 @@ export const accountName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-11-15-preview",
+    defaultValue: "2022-08-15-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -336,6 +339,21 @@ export const containerName: OperationURLParameter = {
 export const createUpdateSqlContainerParameters: OperationParameter = {
   parameterPath: "createUpdateSqlContainerParameters",
   mapper: SqlContainerCreateUpdateParametersMapper
+};
+
+export const mergeParameters: OperationParameter = {
+  parameterPath: "mergeParameters",
+  mapper: MergeParametersMapper
+};
+
+export const retrieveThroughputParameters: OperationParameter = {
+  parameterPath: "retrieveThroughputParameters",
+  mapper: RetrieveThroughputParametersMapper
+};
+
+export const redistributeThroughputParameters: OperationParameter = {
+  parameterPath: "redistributeThroughputParameters",
+  mapper: RedistributeThroughputParametersMapper
 };
 
 export const storedProcedureName: OperationURLParameter = {

@@ -1,13 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
-import { TokenCredentialOptions } from "../tokenCredentialOptions";
-import { credentialLogger } from "../util/logging";
-import { checkTenantId } from "../util/checkTenantId";
+import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import {
+  processMultiTenantRequest,
+  resolveAddionallyAllowedTenantIds,
+} from "../util/tenantIdUtils";
+import { AuthorizationCodeCredentialOptions } from "./authorizationCodeCredentialOptions";
 import { MsalAuthorizationCode } from "../msal/nodeFlows/msalAuthorizationCode";
 import { MsalFlow } from "../msal/flows";
-import { trace } from "../util/tracing";
+import { checkTenantId } from "../util/tenantIdUtils";
+import { credentialLogger } from "../util/logging";
+import { ensureScopes } from "../util/scopeUtils";
+import { tracingClient } from "../util/tracing";
 
 const logger = credentialLogger("AuthorizationCodeCredential");
 
@@ -23,9 +28,11 @@ export class AuthorizationCodeCredential implements TokenCredential {
   private disableAutomaticAuthentication?: boolean;
   private authorizationCode: string;
   private redirectUri: string;
+  private tenantId?: string;
+  private additionallyAllowedTenantIds: string[];
 
   /**
-   * Creates an instance of CodeFlowCredential with the details needed
+   * Creates an instance of AuthorizationCodeCredential with the details needed
    * to request an access token using an authentication that was obtained
    * from Azure Active Directory.
    *
@@ -52,10 +59,10 @@ export class AuthorizationCodeCredential implements TokenCredential {
     clientSecret: string,
     authorizationCode: string,
     redirectUri: string,
-    options?: TokenCredentialOptions
+    options?: AuthorizationCodeCredentialOptions
   );
   /**
-   * Creates an instance of CodeFlowCredential with the details needed
+   * Creates an instance of AuthorizationCodeCredential with the details needed
    * to request an access token using an authentication that was obtained
    * from Azure Active Directory.
    *
@@ -80,7 +87,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
     clientId: string,
     authorizationCode: string,
     redirectUri: string,
-    options?: TokenCredentialOptions
+    options?: AuthorizationCodeCredentialOptions
   );
   /**
    * @hidden
@@ -91,8 +98,8 @@ export class AuthorizationCodeCredential implements TokenCredential {
     clientId: string,
     clientSecretOrAuthorizationCode: string,
     authorizationCodeOrRedirectUri: string,
-    redirectUriOrOptions: string | TokenCredentialOptions | undefined,
-    options?: TokenCredentialOptions
+    redirectUriOrOptions: string | AuthorizationCodeCredentialOptions | undefined,
+    options?: AuthorizationCodeCredentialOptions
   ) {
     checkTenantId(logger, tenantId);
     let clientSecret: string | undefined = clientSecretOrAuthorizationCode;
@@ -107,13 +114,20 @@ export class AuthorizationCodeCredential implements TokenCredential {
       this.authorizationCode = clientSecretOrAuthorizationCode;
       this.redirectUri = authorizationCodeOrRedirectUri as string;
       clientSecret = undefined;
-      options = redirectUriOrOptions as TokenCredentialOptions;
+      options = redirectUriOrOptions as AuthorizationCodeCredentialOptions;
     }
+
+    // TODO: Validate tenant if provided
+    this.tenantId = tenantId;
+    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
+      options?.additionallyAllowedTenants
+    );
 
     this.msalFlow = new MsalAuthorizationCode({
       ...options,
       clientSecret,
       clientId,
+      tenantId,
       tokenCredentialOptions: options || {},
       logger,
       redirectUri: this.redirectUri,
@@ -130,12 +144,23 @@ export class AuthorizationCodeCredential implements TokenCredential {
    *                TokenCredential implementation might make.
    */
   async getToken(scopes: string | string[], options: GetTokenOptions = {}): Promise<AccessToken> {
-    return trace(`${this.constructor.name}.getToken`, options, async (newOptions) => {
-      const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
-      return this.msalFlow.getToken(arrayScopes, {
-        ...newOptions,
-        disableAutomaticAuthentication: this.disableAutomaticAuthentication,
-      });
-    });
+    return tracingClient.withSpan(
+      `${this.constructor.name}.getToken`,
+      options,
+      async (newOptions) => {
+        const tenantId = processMultiTenantRequest(
+          this.tenantId,
+          newOptions,
+          this.additionallyAllowedTenantIds
+        );
+        newOptions.tenantId = tenantId;
+
+        const arrayScopes = ensureScopes(scopes);
+        return this.msalFlow.getToken(arrayScopes, {
+          ...newOptions,
+          disableAutomaticAuthentication: this.disableAutomaticAuthentication,
+        });
+      }
+    );
   }
 }

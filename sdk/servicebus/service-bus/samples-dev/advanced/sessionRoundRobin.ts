@@ -89,7 +89,7 @@ async function receiveFromNextSession(serviceBusClient: ServiceBusClient): Promi
     sessionReceiver = await serviceBusClient.acceptNextSession(queueName, {
       maxAutoLockRenewalDurationInMs: sessionIdleTimeoutMs,
     });
-  } catch (err) {
+  } catch (err: any) {
     if (
       isServiceBusError(err) &&
       (err.code === "SessionCannotBeLocked" || err.code === "ServiceTimeout")
@@ -128,7 +128,7 @@ async function receiveFromNextSession(serviceBusClient: ServiceBusClient): Promi
   try {
     await sessionFullyRead;
     await sessionClosed("idle_timeout", sessionReceiver.sessionId);
-  } catch (err) {
+  } catch (err: any) {
     await processError(err, sessionReceiver.sessionId);
     await sessionClosed("error", sessionReceiver.sessionId);
   } finally {

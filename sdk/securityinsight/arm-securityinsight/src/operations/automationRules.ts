@@ -16,12 +16,13 @@ import {
   AutomationRule,
   AutomationRulesListNextOptionalParams,
   AutomationRulesListOptionalParams,
-  AutomationRulesListResponse,
   AutomationRulesGetOptionalParams,
   AutomationRulesGetResponse,
   AutomationRulesCreateOrUpdateOptionalParams,
   AutomationRulesCreateOrUpdateResponse,
   AutomationRulesDeleteOptionalParams,
+  AutomationRulesDeleteResponse,
+  AutomationRulesListResponse,
   AutomationRulesListNextResponse
 } from "../models";
 
@@ -98,23 +99,6 @@ export class AutomationRulesImpl implements AutomationRules {
   }
 
   /**
-   * Gets all automation rules.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
-   * @param options The options parameters.
-   */
-  private _list(
-    resourceGroupName: string,
-    workspaceName: string,
-    options?: AutomationRulesListOptionalParams
-  ): Promise<AutomationRulesListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, options },
-      listOperationSpec
-    );
-  }
-
-  /**
    * Gets the automation rule.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
@@ -138,24 +122,16 @@ export class AutomationRulesImpl implements AutomationRules {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param automationRuleId Automation rule ID
-   * @param automationRule The automation rule
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     workspaceName: string,
     automationRuleId: string,
-    automationRule: AutomationRule,
     options?: AutomationRulesCreateOrUpdateOptionalParams
   ): Promise<AutomationRulesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        workspaceName,
-        automationRuleId,
-        automationRule,
-        options
-      },
+      { resourceGroupName, workspaceName, automationRuleId, options },
       createOrUpdateOperationSpec
     );
   }
@@ -172,10 +148,27 @@ export class AutomationRulesImpl implements AutomationRules {
     workspaceName: string,
     automationRuleId: string,
     options?: AutomationRulesDeleteOptionalParams
-  ): Promise<void> {
+  ): Promise<AutomationRulesDeleteResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, automationRuleId, options },
       deleteOperationSpec
+    );
+  }
+
+  /**
+   * Gets all automation rules.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
+   * @param options The options parameters.
+   */
+  private _list(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: AutomationRulesListOptionalParams
+  ): Promise<AutomationRulesListResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, workspaceName, options },
+      listOperationSpec
     );
   }
 
@@ -201,28 +194,6 @@ export class AutomationRulesImpl implements AutomationRules {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/automationRules",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AutomationRulesList
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const getOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/automationRules/{automationRuleId}",
@@ -261,7 +232,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.automationRule,
+  requestBody: Parameters.automationRuleToUpsert,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -279,8 +250,16 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/automationRules/{automationRuleId}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    204: {},
+    200: {
+      bodyMapper: {
+        type: { name: "Dictionary", value: { type: { name: "any" } } }
+      }
+    },
+    204: {
+      bodyMapper: {
+        type: { name: "Dictionary", value: { type: { name: "any" } } }
+      }
+    },
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -292,6 +271,28 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.workspaceName,
     Parameters.automationRuleId
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/automationRules",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AutomationRulesList
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName
   ],
   headerParameters: [Parameters.accept],
   serializer

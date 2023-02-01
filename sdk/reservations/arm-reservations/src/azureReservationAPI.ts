@@ -7,11 +7,14 @@
  */
 
 import * as coreClient from "@azure/core-client";
+import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
   ReservationImpl,
   ReservationOrderImpl,
   OperationImpl,
+  CalculateRefundImpl,
+  ReturnImpl,
   CalculateExchangeImpl,
   ExchangeImpl,
   QuotaImpl,
@@ -21,6 +24,8 @@ import {
   Reservation,
   ReservationOrder,
   Operation,
+  CalculateRefund,
+  Return,
   CalculateExchange,
   Exchange,
   Quota,
@@ -61,7 +66,7 @@ export class AzureReservationAPI extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-reservations/7.0.0`;
+    const packageDetails = `azsdk-js-arm-reservations/7.2.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -76,15 +81,48 @@ export class AzureReservationAPI extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri: options.endpoint || "https://management.azure.com"
+      baseUri:
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
     };
     super(optionsWithDefaults);
+
+    let bearerTokenAuthenticationPolicyFound: boolean = false;
+    if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
+        (pipelinePolicy) =>
+          pipelinePolicy.name ===
+          coreRestPipeline.bearerTokenAuthenticationPolicyName
+      );
+    }
+    if (
+      !options ||
+      !options.pipeline ||
+      options.pipeline.getOrderedPolicies().length == 0 ||
+      !bearerTokenAuthenticationPolicyFound
+    ) {
+      this.pipeline.removePolicy({
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+      });
+      this.pipeline.addPolicy(
+        coreRestPipeline.bearerTokenAuthenticationPolicy({
+          credential: credentials,
+          scopes: `${optionsWithDefaults.credentialScopes}`,
+          challengeCallbacks: {
+            authorizeRequestOnChallenge:
+              coreClient.authorizeRequestOnClaimChallenge
+          }
+        })
+      );
+    }
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
     this.reservation = new ReservationImpl(this);
     this.reservationOrder = new ReservationOrderImpl(this);
     this.operation = new OperationImpl(this);
+    this.calculateRefund = new CalculateRefundImpl(this);
+    this.return = new ReturnImpl(this);
     this.calculateExchange = new CalculateExchangeImpl(this);
     this.exchange = new ExchangeImpl(this);
     this.quota = new QuotaImpl(this);
@@ -125,6 +163,8 @@ export class AzureReservationAPI extends coreClient.ServiceClient {
   reservation: Reservation;
   reservationOrder: ReservationOrder;
   operation: Operation;
+  calculateRefund: CalculateRefund;
+  return: Return;
   calculateExchange: CalculateExchange;
   exchange: Exchange;
   quota: Quota;
@@ -152,7 +192,10 @@ const getCatalogOperationSpec: coreClient.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion,
     Parameters.reservedResourceType,
-    Parameters.location
+    Parameters.location,
+    Parameters.publisherId,
+    Parameters.offerId,
+    Parameters.planId
   ],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],

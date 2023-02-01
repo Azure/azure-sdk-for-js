@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { NotebookWorkspaces } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -67,11 +67,15 @@ export class NotebookWorkspacesImpl implements NotebookWorkspaces {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByDatabaseAccountPagingPage(
           resourceGroupName,
           accountName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -80,9 +84,11 @@ export class NotebookWorkspacesImpl implements NotebookWorkspaces {
   private async *listByDatabaseAccountPagingPage(
     resourceGroupName: string,
     accountName: string,
-    options?: NotebookWorkspacesListByDatabaseAccountOptionalParams
+    options?: NotebookWorkspacesListByDatabaseAccountOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<NotebookWorkspace[]> {
-    let result = await this._listByDatabaseAccount(
+    let result: NotebookWorkspacesListByDatabaseAccountResponse;
+    result = await this._listByDatabaseAccount(
       resourceGroupName,
       accountName,
       options
@@ -211,10 +217,12 @@ export class NotebookWorkspacesImpl implements NotebookWorkspaces {
       },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -300,10 +308,12 @@ export class NotebookWorkspacesImpl implements NotebookWorkspaces {
       { resourceGroupName, accountName, notebookWorkspaceName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -404,10 +414,12 @@ export class NotebookWorkspacesImpl implements NotebookWorkspaces {
       { resourceGroupName, accountName, notebookWorkspaceName, options },
       regenerateAuthTokenOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -489,10 +501,12 @@ export class NotebookWorkspacesImpl implements NotebookWorkspaces {
       { resourceGroupName, accountName, notebookWorkspaceName, options },
       startOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

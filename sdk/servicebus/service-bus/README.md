@@ -16,6 +16,7 @@ Key links:
 - [API Reference Documentation][apiref]
 - [Product documentation](https://azure.microsoft.com/services/service-bus/)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicebus/service-bus/samples)
+- [Troubleshooting Guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/TROUBLESHOOTING.md)
 
 **NOTE**: If you are using version 1.1.10 or lower and want to migrate to the latest version
 of this package please look at our [migration guide to move from Service Bus V1 to Service Bus V7][migrationguide]
@@ -30,7 +31,7 @@ Install the latest version for the Azure Service Bus client library using npm.
 
 ### Currently supported environments
 
-- [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
 
 ### Prerequisites
 
@@ -50,6 +51,91 @@ You also need to enable `compilerOptions.allowSyntheticDefaultImports` in your t
 ### JavaScript Bundle
 
 To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
+
+In addition to what is described there, this library also needs additional polyfills for the following NodeJS core built-in modules in order to work properly in the browsers:
+
+- `buffer`
+- `os`
+- `path`
+- `process`
+
+#### Bundling with Webpack
+
+If you are using Webpack v5, you can install the following dev dependencies
+
+- `npm install --save-dev buffer os-browserify path-browserify process`
+
+then add the following into your webpack.config.js
+
+```diff
+ const path = require("path");
++const webpack = require("webpack");
+
+ module.exports = {
+   entry: "./src/index.ts",
+@@ -12,8 +13,21 @@ module.exports = {
+       },
+     ],
+   },
++  plugins: [
++    new webpack.ProvidePlugin({
++      process: "process/browser",
++    }),
++    new webpack.ProvidePlugin({
++      Buffer: ["buffer", "Buffer"],
++    }),
++  ],
+   resolve: {
+     extensions: [".ts", ".js"],
++    fallback: {
++      buffer: require.resolve("buffer/"),
++      os: require.resolve("os-browserify"),
++      path: require.resolve("path-browserify"),
++    },
+   },
+```
+
+#### Bundling with Rollup
+
+If you are using Rollup bundler, install the following dev dependencies
+
+- `npm install --save-dev buffer process @rollup/plugin-commonjs @rollup/plugin-inject @rollup/plugin-node-resolve`
+
+Then include the following in your rollup.config.js
+
+```diff
++import nodeResolve from "@rollup/plugin-node-resolve";
++import cjs from "@rollup/plugin-commonjs";
++import shim from "rollup-plugin-shim";
++import inject from "@rollup/plugin-inject";
+
+export default {
+  // other configs
+  plugins: [
++    shim({
++      fs: `export default {}`,
++      net: `export default {}`,
++      tls: `export default {}`,
++      path: `export default {}`,
++      dns: `export function resolve() { }`,
++    }),
++    nodeResolve({
++      mainFields: ["module", "browser"],
++      preferBuiltins: false,
++    }),
++    cjs(),
++    inject({
++      modules: {
++        Buffer: ["buffer", "Buffer"],
++        process: "process",
++      },
++      exclude: ["./**/package.json"],
++    }),
+  ]
+};
+```
+
+Please consult the documentation of your favorite bundler for more information on using polyfills.
 
 ### Authenticate the client
 
@@ -366,7 +452,9 @@ await serviceBusAdministrationClient.deleteQueue(queueName);
 
 ## Troubleshooting
 
-## AMQP Dependencies
+Here's some initial steps to start diagnosing issues. For more information please refer to the [Service Bus Troubleshooting Guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/TROUBLESHOOTING.md).
+
+### AMQP Dependencies
 
 The Service Bus library depends on the [rhea-promise](https://github.com/amqp/rhea-promise) library for managing connections, sending and receiving messages over the [AMQP](https://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-complete-v1.0-os.pdf) protocol.
 

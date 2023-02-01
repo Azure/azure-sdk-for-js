@@ -41,11 +41,12 @@ export const confirmDirExists = async (directory: string): Promise<void> => {
     if (!stats.isDirectory()) {
       throw new Error("Path existed but was not a directory");
     }
-  } catch (err) {
+  } catch (err: any) {
     if (err && err.code === "ENOENT") {
       try {
-        await mkdirAsync(directory);
-      } catch (mkdirErr) {
+        const options: fs.MakeDirectoryOptions = { recursive: true };
+        await mkdirAsync(directory, options);
+      } catch (mkdirErr: any) {
         if (mkdirErr && mkdirErr.code !== "EEXIST") {
           // Handle race condition by ignoring EEXIST
           throw mkdirErr;

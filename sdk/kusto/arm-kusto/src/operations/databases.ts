@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { Databases } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,12 +17,13 @@ import { LroImpl } from "../lroImpl";
 import {
   DatabaseUnion,
   DatabasesListByClusterOptionalParams,
+  DatabasesListByClusterResponse,
   DatabasePrincipal,
   DatabasesListPrincipalsOptionalParams,
+  DatabasesListPrincipalsResponse,
   CheckNameRequest,
   DatabasesCheckNameAvailabilityOptionalParams,
   DatabasesCheckNameAvailabilityResponse,
-  DatabasesListByClusterResponse,
   DatabasesGetOptionalParams,
   DatabasesGetResponse,
   DatabasesCreateOrUpdateOptionalParams,
@@ -30,7 +31,6 @@ import {
   DatabasesUpdateOptionalParams,
   DatabasesUpdateResponse,
   DatabasesDeleteOptionalParams,
-  DatabasesListPrincipalsResponse,
   DatabasePrincipalListRequest,
   DatabasesAddPrincipalsOptionalParams,
   DatabasesAddPrincipalsResponse,
@@ -74,11 +74,15 @@ export class DatabasesImpl implements Databases {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByClusterPagingPage(
           resourceGroupName,
           clusterName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -87,13 +91,11 @@ export class DatabasesImpl implements Databases {
   private async *listByClusterPagingPage(
     resourceGroupName: string,
     clusterName: string,
-    options?: DatabasesListByClusterOptionalParams
+    options?: DatabasesListByClusterOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<DatabaseUnion[]> {
-    let result = await this._listByCluster(
-      resourceGroupName,
-      clusterName,
-      options
-    );
+    let result: DatabasesListByClusterResponse;
+    result = await this._listByCluster(resourceGroupName, clusterName, options);
     yield result.value || [];
   }
 
@@ -137,12 +139,16 @@ export class DatabasesImpl implements Databases {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listPrincipalsPagingPage(
           resourceGroupName,
           clusterName,
           databaseName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -152,9 +158,11 @@ export class DatabasesImpl implements Databases {
     resourceGroupName: string,
     clusterName: string,
     databaseName: string,
-    options?: DatabasesListPrincipalsOptionalParams
+    options?: DatabasesListPrincipalsOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<DatabasePrincipal[]> {
-    let result = await this._listPrincipals(
+    let result: DatabasesListPrincipalsResponse;
+    result = await this._listPrincipals(
       resourceGroupName,
       clusterName,
       databaseName,
@@ -298,10 +306,12 @@ export class DatabasesImpl implements Databases {
       { resourceGroupName, clusterName, databaseName, parameters, options },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -393,10 +403,12 @@ export class DatabasesImpl implements Databases {
       { resourceGroupName, clusterName, databaseName, parameters, options },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -481,10 +493,12 @@ export class DatabasesImpl implements Databases {
       { resourceGroupName, clusterName, databaseName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -676,7 +690,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.parameters3,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.callerRole],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -710,7 +724,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.parameters3,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.callerRole],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

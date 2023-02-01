@@ -8,8 +8,7 @@
 const { CommunicationIdentityClient } = require("@azure/communication-identity");
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
-dotenv.config();
+require("dotenv").config();
 
 // You will need to set this environment variables or edit the following values
 const connectionString =
@@ -53,3 +52,5 @@ main().catch((error) => {
   console.error("\nResponse: \n", error.response);
   console.error(error);
 });
+
+module.exports = { main };

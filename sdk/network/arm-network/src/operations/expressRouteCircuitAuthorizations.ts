@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ExpressRouteCircuitAuthorizations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,12 +19,12 @@ import {
   ExpressRouteCircuitAuthorization,
   ExpressRouteCircuitAuthorizationsListNextOptionalParams,
   ExpressRouteCircuitAuthorizationsListOptionalParams,
+  ExpressRouteCircuitAuthorizationsListResponse,
   ExpressRouteCircuitAuthorizationsDeleteOptionalParams,
   ExpressRouteCircuitAuthorizationsGetOptionalParams,
   ExpressRouteCircuitAuthorizationsGetResponse,
   ExpressRouteCircuitAuthorizationsCreateOrUpdateOptionalParams,
   ExpressRouteCircuitAuthorizationsCreateOrUpdateResponse,
-  ExpressRouteCircuitAuthorizationsListResponse,
   ExpressRouteCircuitAuthorizationsListNextResponse
 } from "../models";
 
@@ -60,8 +61,16 @@ export class ExpressRouteCircuitAuthorizationsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, circuitName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          circuitName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -69,11 +78,18 @@ export class ExpressRouteCircuitAuthorizationsImpl
   private async *listPagingPage(
     resourceGroupName: string,
     circuitName: string,
-    options?: ExpressRouteCircuitAuthorizationsListOptionalParams
+    options?: ExpressRouteCircuitAuthorizationsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ExpressRouteCircuitAuthorization[]> {
-    let result = await this._list(resourceGroupName, circuitName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ExpressRouteCircuitAuthorizationsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, circuitName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -82,7 +98,9 @@ export class ExpressRouteCircuitAuthorizationsImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -157,11 +175,13 @@ export class ExpressRouteCircuitAuthorizationsImpl
       { resourceGroupName, circuitName, authorizationName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -278,11 +298,13 @@ export class ExpressRouteCircuitAuthorizationsImpl
       },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredentialOptions } from "../tokenCredentialOptions";
 import { CredentialPersistenceOptions } from "./credentialPersistenceOptions";
+import { MultiTenantTokenCredentialOptions } from "./multiTenantTokenCredentialOptions";
 
 /**
  * Optional parameters for the {@link ClientCertificateCredential} class.
  */
 export interface ClientCertificateCredentialOptions
-  extends TokenCredentialOptions,
+  extends MultiTenantTokenCredentialOptions,
     CredentialPersistenceOptions {
   /**
    * Option to include x5c header for SubjectName and Issuer name authorization.

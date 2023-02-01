@@ -5,24 +5,29 @@
 ## Configuration
 
 ```yaml
-package-name: azure-communication-phone-numbers
+package-name: "@azure/communication-phone-numbers"
 description: Phone number configuration client
-package-version: 1.2.0-beta.1
-generate-metadata: false
+package-version: 1.2.0-beta.4
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-tag: package-phonenumber-2022-01-11-preview2
-require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/02fce64677f78021ba70d69bb8bd0d916d653927/specification/communication/data-plane/PhoneNumbers/readme.md
+tag: package-phonenumber-2022-12-01
+require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/edf1d7365a436f0b124c0cecbefd63499e049af0/specification/communication/data-plane/PhoneNumbers/readme.md
 model-date-time-as-string: false
 optional-response-headers: true
 payload-flattening-threshold: 10
-use-extension:
-  "@autorest/typescript": "6.0.0-dev.20210223.1"
 add-credentials: false
-azure-arm: false
 skip-enum-validation: true
 title: Phone Numbers Client
 v3: true
+use-extension:
+  "@autorest/typescript": "latest"
+tracing-info:
+  namespace: "Microsoft.Communication"
+  packagePrefix: "Azure.Communication"
+
+typescript:
+  generate-metadata: false
+  azure-arm: false
 ```
 
 ## Customizations
@@ -37,4 +42,23 @@ directive:
       if ($.modelAsString) {
         $.modelAsString = false
       }
+```
+
+### Change naming of update capabilities to ommit the OC specification
+
+``` yaml
+directive:
+  from: swagger-document
+  where: $.paths.*[?(@.operationId == "PhoneNumbers_UpdateCapabilitiesOC")]
+  transform: >
+    $.operationId = "PhoneNumbers_UpdateCapabilities"
+```
+
+### Change naming of AreaCodeResult to AreaCodeItem
+``` yaml
+directive:
+  from: swagger-document
+  where: "$.definitions.AreaCodeResult"
+  transform: >
+    $["x-ms-client-name"] = "AreaCodeItem";
 ```

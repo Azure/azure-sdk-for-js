@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
-
-import { CredentialUnavailableError } from "../errors";
-import { credentialLogger, formatSuccess, formatError } from "../util/logging";
-import { trace } from "../util/tracing";
+import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import { credentialLogger, formatError, formatSuccess } from "../util/logging";
 import { ensureValidScope, getScopeResource } from "../util/scopeUtils";
-import { processUtils } from "../util/processUtils";
 import { AzurePowerShellCredentialOptions } from "./azurePowerShellCredentialOptions";
-import { processMultiTenantRequest } from "../util/validateMultiTenant";
-import { checkTenantId } from "../util/checkTenantId";
+import { CredentialUnavailableError } from "../errors";
+import {
+  processMultiTenantRequest,
+  resolveAddionallyAllowedTenantIds,
+} from "../util/tenantIdUtils";
+import { processUtils } from "../util/processUtils";
+import { tracingClient } from "../util/tracing";
 
 const logger = credentialLogger("AzurePowerShellCredential");
 
@@ -68,10 +69,12 @@ export const powerShellPublicErrorMessages = {
 };
 
 // PowerShell Azure User not logged in error check.
-const isLoginError = (err: Error) => err.message.match(`(.*)${powerShellErrors.login}(.*)`);
+const isLoginError: (err: Error) => RegExpMatchArray | null = (err: Error) =>
+  err.message.match(`(.*)${powerShellErrors.login}(.*)`);
 
 // Az Module not Installed in Azure PowerShell check.
-const isNotInstalledError = (err: Error) => err.message.match(powerShellErrors.installed);
+const isNotInstalledError: (err: Error) => RegExpMatchArray | null = (err: Error) =>
+  err.message.match(powerShellErrors.installed);
 
 /**
  * The PowerShell commands to be tried, in order.
@@ -91,6 +94,7 @@ if (isWindows) {
  */
 export class AzurePowerShellCredential implements TokenCredential {
   private tenantId?: string;
+  private additionallyAllowedTenantIds: string[];
 
   /**
    * Creates an instance of the {@link AzurePowerShellCredential}.
@@ -105,6 +109,9 @@ export class AzurePowerShellCredential implements TokenCredential {
    */
   constructor(options?: AzurePowerShellCredentialOptions) {
     this.tenantId = options?.tenantId;
+    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
+      options?.additionallyAllowedTenants
+    );
   }
 
   /**
@@ -119,7 +126,7 @@ export class AzurePowerShellCredential implements TokenCredential {
     for (const powerShellCommand of [...commandStack]) {
       try {
         await runCommands([[powerShellCommand, "/?"]]);
-      } catch (e) {
+      } catch (e: any) {
         // Remove this credential from the original stack so that we don't try it again.
         commandStack.shift();
         continue;
@@ -146,7 +153,7 @@ export class AzurePowerShellCredential implements TokenCredential {
       const result = results[1];
       try {
         return JSON.parse(result);
-      } catch (e) {
+      } catch (e: any) {
         throw new Error(`Unable to parse the output of PowerShell. Received output: ${result}`);
       }
     }
@@ -165,12 +172,12 @@ export class AzurePowerShellCredential implements TokenCredential {
     scopes: string | string[],
     options: GetTokenOptions = {}
   ): Promise<AccessToken> {
-    return trace(`${this.constructor.name}.getToken`, options, async () => {
-      const tenantId = processMultiTenantRequest(this.tenantId, options);
-      if (tenantId) {
-        checkTenantId(logger, tenantId);
-      }
-
+    return tracingClient.withSpan(`${this.constructor.name}.getToken`, options, async () => {
+      const tenantId = processMultiTenantRequest(
+        this.tenantId,
+        options,
+        this.additionallyAllowedTenantIds
+      );
       const scope = typeof scopes === "string" ? scopes : scopes[0];
       ensureValidScope(scope, logger);
       logger.getToken.info(`Using the scope ${scope}`);
@@ -183,7 +190,7 @@ export class AzurePowerShellCredential implements TokenCredential {
           token: response.Token,
           expiresOnTimestamp: new Date(response.ExpiresOn).getTime(),
         };
-      } catch (err) {
+      } catch (err: any) {
         if (isNotInstalledError(err)) {
           const error = new CredentialUnavailableError(powerShellPublicErrorMessages.installed);
           logger.getToken.info(formatError(scope, error));

@@ -27,6 +27,8 @@ import {
   ClustersUpdateOptionalParams,
   ClustersUpdateResponse,
   ClustersDeleteOptionalParams,
+  ClustersListZonesOptionalParams,
+  ClustersListZonesResponse,
   ClustersListNextResponse
 } from "../models";
 
@@ -210,10 +212,12 @@ export class ClustersImpl implements Clusters {
       { resourceGroupName, privateCloudName, clusterName, cluster, options },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -311,10 +315,12 @@ export class ClustersImpl implements Clusters {
       },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -399,10 +405,12 @@ export class ClustersImpl implements Clusters {
       { resourceGroupName, privateCloudName, clusterName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -425,6 +433,25 @@ export class ClustersImpl implements Clusters {
       options
     );
     return poller.pollUntilDone();
+  }
+
+  /**
+   * List hosts by zone in a cluster
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param clusterName Name of the cluster in the private cloud
+   * @param options The options parameters.
+   */
+  listZones(
+    resourceGroupName: string,
+    privateCloudName: string,
+    clusterName: string,
+    options?: ClustersListZonesOptionalParams
+  ): Promise<ClustersListZonesResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, privateCloudName, clusterName, options },
+      listZonesOperationSpec
+    );
   }
 
   /**
@@ -571,6 +598,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     201: {},
     202: {},
     204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.privateCloudName,
+    Parameters.clusterName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listZonesOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}/listZones",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ClusterZoneList
+    },
     default: {
       bodyMapper: Mappers.CloudError
     }

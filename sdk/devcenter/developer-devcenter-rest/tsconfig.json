@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.package",
+  "compilerOptions": {
+    "outDir": "./dist-esm",
+    "declarationDir": "./types",
+    "moduleResolution": "node",
+    "paths": { "@azure-rest/developer-devcenter": ["./src/index"] }
+  },
+  "include": ["src/**/*.ts", "./test/**/*.ts", "./samples-dev/**/*.ts"]
+}

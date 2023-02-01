@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Labs } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,9 +19,9 @@ import {
   Lab,
   LabsListBySubscriptionNextOptionalParams,
   LabsListBySubscriptionOptionalParams,
+  LabsListBySubscriptionResponse,
   LabsListByResourceGroupNextOptionalParams,
   LabsListByResourceGroupOptionalParams,
-  LabsListBySubscriptionResponse,
   LabsListByResourceGroupResponse,
   LabsGetOptionalParams,
   LabsGetResponse,
@@ -64,22 +65,34 @@ export class LabsImpl implements Labs {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listBySubscriptionPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBySubscriptionPagingPage(options, settings);
       }
     };
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: LabsListBySubscriptionOptionalParams
+    options?: LabsListBySubscriptionOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Lab[]> {
-    let result = await this._listBySubscription(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: LabsListBySubscriptionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBySubscription(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listBySubscriptionNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -108,19 +121,33 @@ export class LabsImpl implements Labs {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: LabsListByResourceGroupOptionalParams
+    options?: LabsListByResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Lab[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: LabsListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -128,7 +155,9 @@ export class LabsImpl implements Labs {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -175,8 +204,8 @@ export class LabsImpl implements Labs {
   /**
    * Returns the properties of a lab resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param options The options parameters.
    */
   get(
@@ -193,8 +222,8 @@ export class LabsImpl implements Labs {
   /**
    * Operation to create or update a lab resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param body The request body.
    * @param options The options parameters.
    */
@@ -253,18 +282,20 @@ export class LabsImpl implements Labs {
       { resourceGroupName, labName, body, options },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "original-uri"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
    * Operation to create or update a lab resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param body The request body.
    * @param options The options parameters.
    */
@@ -286,8 +317,8 @@ export class LabsImpl implements Labs {
   /**
    * Operation to update a lab resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param body The request body.
    * @param options The options parameters.
    */
@@ -343,18 +374,20 @@ export class LabsImpl implements Labs {
       { resourceGroupName, labName, body, options },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
    * Operation to update a lab resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param body The request body.
    * @param options The options parameters.
    */
@@ -376,8 +409,8 @@ export class LabsImpl implements Labs {
   /**
    * Operation to delete a lab resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param options The options parameters.
    */
   async beginDelete(
@@ -429,18 +462,20 @@ export class LabsImpl implements Labs {
       { resourceGroupName, labName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
    * Operation to delete a lab resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
@@ -455,8 +490,8 @@ export class LabsImpl implements Labs {
   /**
    * Publish or re-publish a lab. This will create or update all lab resources, such as virtual machines.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param options The options parameters.
    */
   async beginPublish(
@@ -508,18 +543,20 @@ export class LabsImpl implements Labs {
       { resourceGroupName, labName, options },
       publishOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
    * Publish or re-publish a lab. This will create or update all lab resources, such as virtual machines.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param options The options parameters.
    */
   async beginPublishAndWait(
@@ -534,8 +571,8 @@ export class LabsImpl implements Labs {
   /**
    * Action used to manually kick off an AAD group sync job.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param options The options parameters.
    */
   async beginSyncGroup(
@@ -587,18 +624,20 @@ export class LabsImpl implements Labs {
       { resourceGroupName, labName, options },
       syncGroupOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
    * Action used to manually kick off an AAD group sync job.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param options The options parameters.
    */
   async beginSyncGroupAndWait(
@@ -854,7 +893,6 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -874,7 +912,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

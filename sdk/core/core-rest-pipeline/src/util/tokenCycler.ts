@@ -110,6 +110,7 @@ export function createTokenCycler(
 ): AccessTokenGetter {
   let refreshWorker: Promise<AccessToken> | null = null;
   let token: AccessToken | null = null;
+  let tenantId: string | undefined;
 
   const options = {
     ...DEFAULT_CYCLER_OPTIONS,
@@ -172,6 +173,7 @@ export function createTokenCycler(
         .then((_token) => {
           refreshWorker = null;
           token = _token;
+          tenantId = getTokenOptions.tenantId;
           return token;
         })
         .catch((reason) => {
@@ -180,6 +182,7 @@ export function createTokenCycler(
           // new retry chain.
           refreshWorker = null;
           token = null;
+          tenantId = undefined;
           throw reason;
         });
     }
@@ -198,7 +201,13 @@ export function createTokenCycler(
     //   step 1.
     //
 
-    if (cycler.mustRefresh) return refresh(scopes, tokenOptions);
+    // If the tenantId passed in token options is different to the one we have
+    // Or if we are in claim challenge and the token was rejected and a new access token need to be issued, we need to
+    // refresh the token with the new tenantId or token.
+    const mustRefresh =
+      tenantId !== tokenOptions.tenantId || Boolean(tokenOptions.claims) || cycler.mustRefresh;
+
+    if (mustRefresh) return refresh(scopes, tokenOptions);
 
     if (cycler.shouldRefresh) {
       refresh(scopes, tokenOptions);

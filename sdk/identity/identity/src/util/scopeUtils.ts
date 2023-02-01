@@ -4,6 +4,14 @@
 import { CredentialLogger, formatError } from "./logging";
 
 /**
+ * Ensures the scopes value is an array.
+ * @internal
+ */
+export function ensureScopes(scopes: string | string[]): string[] {
+  return Array.isArray(scopes) ? scopes : [scopes];
+}
+
+/**
  * Throws if the received scope is not valid.
  * @internal
  */

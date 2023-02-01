@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { MaintenanceConfigurations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -41,7 +42,7 @@ export class MaintenanceConfigurationsImpl
 
   /**
    * Gets a list of maintenance configurations in the specified managed cluster.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param options The options parameters.
    */
@@ -62,11 +63,15 @@ export class MaintenanceConfigurationsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByManagedClusterPagingPage(
           resourceGroupName,
           resourceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -75,15 +80,22 @@ export class MaintenanceConfigurationsImpl
   private async *listByManagedClusterPagingPage(
     resourceGroupName: string,
     resourceName: string,
-    options?: MaintenanceConfigurationsListByManagedClusterOptionalParams
+    options?: MaintenanceConfigurationsListByManagedClusterOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<MaintenanceConfiguration[]> {
-    let result = await this._listByManagedCluster(
-      resourceGroupName,
-      resourceName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: MaintenanceConfigurationsListByManagedClusterResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByManagedCluster(
+        resourceGroupName,
+        resourceName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByManagedClusterNext(
         resourceGroupName,
@@ -92,7 +104,9 @@ export class MaintenanceConfigurationsImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -112,7 +126,7 @@ export class MaintenanceConfigurationsImpl
 
   /**
    * Gets a list of maintenance configurations in the specified managed cluster.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param options The options parameters.
    */
@@ -129,7 +143,7 @@ export class MaintenanceConfigurationsImpl
 
   /**
    * Gets the specified maintenance configuration of a managed cluster.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param configName The name of the maintenance configuration.
    * @param options The options parameters.
@@ -148,7 +162,7 @@ export class MaintenanceConfigurationsImpl
 
   /**
    * Creates or updates a maintenance configuration in the specified managed cluster.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param configName The name of the maintenance configuration.
    * @param parameters The maintenance configuration to create or update.
@@ -169,7 +183,7 @@ export class MaintenanceConfigurationsImpl
 
   /**
    * Deletes a maintenance configuration.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param configName The name of the maintenance configuration.
    * @param options The options parameters.
@@ -188,7 +202,7 @@ export class MaintenanceConfigurationsImpl
 
   /**
    * ListByManagedClusterNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param nextLink The nextLink from the previous successful call to the ListByManagedCluster method.
    * @param options The options parameters.
@@ -311,7 +325,6 @@ const listByManagedClusterNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

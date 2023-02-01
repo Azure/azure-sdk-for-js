@@ -1,11 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { IdentityTestContextInterface, createResponse } from "../../httpRequestsCommon";
+import { IdentityTestContext } from "../../httpRequests";
+import { UsernamePasswordCredential } from "../../../src";
 import { assert } from "chai";
 import { assertClientCredentials } from "../../authTestUtils";
-import { UsernamePasswordCredential } from "../../../src";
-import { createResponse, IdentityTestContextInterface } from "../../httpRequestsCommon";
-import { IdentityTestContext } from "../../httpRequests";
+import { fakeTestPasswordPlaceholder } from "@azure/test-utils";
 
 describe("UsernamePasswordCredential", function () {
   let testContext: IdentityTestContextInterface;
@@ -18,7 +19,7 @@ describe("UsernamePasswordCredential", function () {
   });
 
   it("sends an authorization request with the given username and password", async () => {
-    const password = "p@55wOrd";
+    const password = fakeTestPasswordPlaceholder;
 
     const authDetails = await testContext.sendCredentialRequests({
       scopes: ["scope"],

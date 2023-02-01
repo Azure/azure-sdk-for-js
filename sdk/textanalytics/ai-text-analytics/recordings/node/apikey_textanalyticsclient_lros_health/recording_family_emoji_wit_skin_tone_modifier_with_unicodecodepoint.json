@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/entities/health/jobs?stringIndexType=UnicodeCodePoint",
+      "RequestUri": "https://endpoint/text/analytics/v3.1/entities/health/jobs?stringIndexType=UnicodeCodePoint",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json, text/json",
@@ -10,9 +10,8 @@
         "Content-Length": "103",
         "Content-Type": "application/json",
         "Ocp-Apim-Subscription-Key": "api_key",
-        "traceparent": "00-00000000000000000000000000000333-0000000000000666-00",
-        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "8fdce9a5-fbaf-48b7-a31b-db121c8236ce"
+        "User-Agent": "azsdk-js-ai-textanalytics/5.1.1 azsdk-js-ai-text-analytics/5.1.1 core-rest-pipeline/1.9.1 Node/v18.6.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "4151416f-b70f-47b4-bb05-429a7280b643"
       },
       "RequestBody": {
         "documents": [
@@ -25,108 +24,74 @@
       },
       "StatusCode": 202,
       "ResponseHeaders": {
-        "apim-request-id": "635785dc-c834-4932-b596-7cb76078d3d0",
-        "Date": "Fri, 18 Feb 2022 19:03:38 GMT",
-        "operation-location": "https://endpoint/text/analytics/v3.2-preview.2/entities/health/jobs/383264f6-b783-4b0f-a402-973a96271136",
+        "apim-request-id": "460ae930-946d-4447-94cb-c0b2d6bad10a",
+        "Date": "Fri, 22 Jul 2022 02:40:02 GMT",
+        "operation-location": "https://endpoint/text/analytics/v3.1/entities/health/jobs/5f215c63-9f4b-49f3-8aab-c36f605700e3",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "86"
+        "x-envoy-upstream-service-time": "154"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/entities/health/jobs/383264f6-b783-4b0f-a402-973a96271136?$top=20\u0026$skip=0",
+      "RequestUri": "https://endpoint/text/analytics/v3.1/entities/health/jobs/5f215c63-9f4b-49f3-8aab-c36f605700e3?$top=20\u0026$skip=0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json, text/json",
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
         "Ocp-Apim-Subscription-Key": "api_key",
-        "traceparent": "00-00000000000000000000000000000334-0000000000000668-00",
-        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "475281b3-8561-435f-a83e-797eb42e06ca"
+        "User-Agent": "azsdk-js-ai-textanalytics/5.1.1 azsdk-js-ai-text-analytics/5.1.1 core-rest-pipeline/1.9.1 Node/v18.6.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "425e8566-7a5e-47c8-ba9a-492496af2eb5"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "098cc7d5-ef1c-4e50-85ec-417e817011b1",
+        "apim-request-id": "7c02d1a3-f38b-4bff-b715-94467e7d92cd",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 18 Feb 2022 19:03:38 GMT",
+        "Date": "Fri, 22 Jul 2022 02:40:02 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
         "x-envoy-upstream-service-time": "9"
       },
       "ResponseBody": {
-        "jobId": "383264f6-b783-4b0f-a402-973a96271136",
-        "lastUpdateDateTime": "2022-02-18T19:03:38Z",
-        "createdDateTime": "2022-02-18T19:03:38Z",
-        "expirationDateTime": "2022-02-19T19:03:38Z",
-        "status": "notStarted",
-        "errors": []
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/entities/health/jobs/383264f6-b783-4b0f-a402-973a96271136?$top=20\u0026$skip=0",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json, text/json",
-        "Accept-Encoding": "gzip,deflate",
-        "Connection": "keep-alive",
-        "Ocp-Apim-Subscription-Key": "api_key",
-        "traceparent": "00-00000000000000000000000000000335-0000000000000670-00",
-        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "270a8d54-f724-4f23-afe5-4a00924cdba4"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "apim-request-id": "918c32c9-63cf-4f3c-be70-f4241220d996",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 18 Feb 2022 19:03:38 GMT",
-        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
-        "Transfer-Encoding": "chunked",
-        "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "10"
-      },
-      "ResponseBody": {
-        "jobId": "383264f6-b783-4b0f-a402-973a96271136",
-        "lastUpdateDateTime": "2022-02-18T19:03:39Z",
-        "createdDateTime": "2022-02-18T19:03:38Z",
-        "expirationDateTime": "2022-02-19T19:03:38Z",
+        "jobId": "5f215c63-9f4b-49f3-8aab-c36f605700e3",
+        "lastUpdateDateTime": "2022-07-22T02:40:03Z",
+        "createdDateTime": "2022-07-22T02:40:02Z",
+        "expirationDateTime": "2022-07-23T02:40:02Z",
         "status": "running",
         "errors": []
       }
     },
     {
-      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/entities/health/jobs/383264f6-b783-4b0f-a402-973a96271136?$top=20\u0026$skip=0",
+      "RequestUri": "https://endpoint/text/analytics/v3.1/entities/health/jobs/5f215c63-9f4b-49f3-8aab-c36f605700e3?$top=20\u0026$skip=0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json, text/json",
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
         "Ocp-Apim-Subscription-Key": "api_key",
-        "traceparent": "00-00000000000000000000000000000336-0000000000000672-00",
-        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "d45d3035-8832-406f-8821-3a1d5138b15c"
+        "User-Agent": "azsdk-js-ai-textanalytics/5.1.1 azsdk-js-ai-text-analytics/5.1.1 core-rest-pipeline/1.9.1 Node/v18.6.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "cc4d67d9-e477-435f-9edf-3d9b3899d2c3"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "d28eed73-b807-4093-abf4-a0bf26caf394",
+        "apim-request-id": "163b43a6-2653-477a-9f0d-2477198eb062",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 18 Feb 2022 19:03:40 GMT",
+        "Date": "Fri, 22 Jul 2022 02:40:02 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "220"
+        "x-envoy-upstream-service-time": "24"
       },
       "ResponseBody": {
-        "jobId": "383264f6-b783-4b0f-a402-973a96271136",
-        "lastUpdateDateTime": "2022-02-18T19:03:39Z",
-        "createdDateTime": "2022-02-18T19:03:38Z",
-        "expirationDateTime": "2022-02-19T19:03:38Z",
+        "jobId": "5f215c63-9f4b-49f3-8aab-c36f605700e3",
+        "lastUpdateDateTime": "2022-07-22T02:40:03Z",
+        "createdDateTime": "2022-07-22T02:40:02Z",
+        "expirationDateTime": "2022-07-23T02:40:02Z",
         "status": "succeeded",
         "errors": [],
         "results": {
@@ -139,7 +104,7 @@
                   "length": 9,
                   "text": "ibuprofen",
                   "category": "MedicationName",
-                  "confidenceScore": 0.99,
+                  "confidenceScore": 0.95,
                   "name": "ibuprofen",
                   "links": [
                     {
@@ -270,38 +235,37 @@
             }
           ],
           "errors": [],
-          "modelVersion": "2021-05-15"
+          "modelVersion": "2022-03-01"
         }
       }
     },
     {
-      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/entities/health/jobs/383264f6-b783-4b0f-a402-973a96271136?$top=20\u0026$skip=0",
+      "RequestUri": "https://endpoint/text/analytics/v3.1/entities/health/jobs/5f215c63-9f4b-49f3-8aab-c36f605700e3?$top=20\u0026$skip=0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json, text/json",
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
         "Ocp-Apim-Subscription-Key": "api_key",
-        "traceparent": "00-00000000000000000000000000000337-0000000000000674-00",
-        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "9c446f63-e247-43ba-9f52-c2b3c16866c2"
+        "User-Agent": "azsdk-js-ai-textanalytics/5.1.1 azsdk-js-ai-text-analytics/5.1.1 core-rest-pipeline/1.9.1 Node/v18.6.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "b0a8f7df-0deb-4f2c-b980-f9d7ddadecdb"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "22f1f6ef-9308-4b68-b087-e420ec2cff70",
+        "apim-request-id": "295df7ac-2a8d-4e13-bf1d-a86558482a75",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 18 Feb 2022 19:03:41 GMT",
+        "Date": "Fri, 22 Jul 2022 02:40:03 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "30"
+        "x-envoy-upstream-service-time": "23"
       },
       "ResponseBody": {
-        "jobId": "383264f6-b783-4b0f-a402-973a96271136",
-        "lastUpdateDateTime": "2022-02-18T19:03:39Z",
-        "createdDateTime": "2022-02-18T19:03:38Z",
-        "expirationDateTime": "2022-02-19T19:03:38Z",
+        "jobId": "5f215c63-9f4b-49f3-8aab-c36f605700e3",
+        "lastUpdateDateTime": "2022-07-22T02:40:03Z",
+        "createdDateTime": "2022-07-22T02:40:02Z",
+        "expirationDateTime": "2022-07-23T02:40:02Z",
         "status": "succeeded",
         "errors": [],
         "results": {
@@ -314,7 +278,7 @@
                   "length": 9,
                   "text": "ibuprofen",
                   "category": "MedicationName",
-                  "confidenceScore": 0.99,
+                  "confidenceScore": 0.95,
                   "name": "ibuprofen",
                   "links": [
                     {
@@ -445,7 +409,7 @@
             }
           ],
           "errors": [],
-          "modelVersion": "2021-05-15"
+          "modelVersion": "2022-03-01"
         }
       }
     }

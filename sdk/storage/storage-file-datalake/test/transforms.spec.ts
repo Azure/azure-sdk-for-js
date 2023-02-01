@@ -102,46 +102,25 @@ describe("transforms", () => {
     assert.deepStrictEqual(toRolePermissions("R-X"), { read: true, write: false, execute: true });
     assert.deepStrictEqual(toRolePermissions("-W-"), { read: false, write: true, execute: false });
 
-    assert.deepStrictEqual(toRolePermissions("rwx", true), {
+    assert.deepStrictEqual(toRolePermissions("rwx"), {
       read: true,
       write: true,
       execute: true,
     });
-    assert.deepStrictEqual(toRolePermissions("---", true), {
+    assert.deepStrictEqual(toRolePermissions("---"), {
       read: false,
       write: false,
       execute: false,
     });
-    assert.deepStrictEqual(toRolePermissions("r-x", true), {
+    assert.deepStrictEqual(toRolePermissions("r-x"), {
       read: true,
       write: false,
       execute: true,
     });
-    assert.deepStrictEqual(toRolePermissions("-w-", true), {
+    assert.deepStrictEqual(toRolePermissions("-w-"), {
       read: false,
       write: true,
       execute: false,
-    });
-
-    assert.deepStrictEqual(toRolePermissions("rwt", true), {
-      read: true,
-      write: true,
-      execute: true,
-    });
-    assert.deepStrictEqual(toRolePermissions("--t", true), {
-      read: false,
-      write: false,
-      execute: true,
-    });
-    assert.deepStrictEqual(toRolePermissions("r-t", true), {
-      read: true,
-      write: false,
-      execute: true,
-    });
-    assert.deepStrictEqual(toRolePermissions("-wt", true), {
-      read: false,
-      write: true,
-      execute: true,
     });
   });
 
@@ -191,7 +170,7 @@ describe("transforms", () => {
     assert.deepStrictEqual(toPermissions("---R-x--T"), {
       owner: { read: false, write: false, execute: false },
       group: { read: true, write: false, execute: true },
-      other: { read: false, write: false, execute: true },
+      other: { read: false, write: false, execute: false },
       stickyBit: true,
       extendedAcls: false,
     });
@@ -364,7 +343,7 @@ describe("transforms", () => {
     );
     assert.deepStrictEqual(
       toRolePermissionsString({ read: false, write: true, execute: false }, true),
-      "-wt"
+      "-wT"
     );
   });
 

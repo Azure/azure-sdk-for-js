@@ -57,6 +57,35 @@ describe("DirectoryClient", () => {
     await recorder.stop();
   });
 
+  it("Get directory client under another directory", async () => {
+    const directoryName1 = recorder.getUniqueName("dir1");
+    const directoryName2 = recorder.getUniqueName("dir2");
+    const dir1Client = dirClient.getDirectoryClient(directoryName1);
+    await dir1Client.create();
+
+    const dir2Client = dir1Client.getDirectoryClient(directoryName2);
+    await dir2Client.create();
+
+    const subDirClient = dirClient.getDirectoryClient(`${directoryName1}/${directoryName2}`);
+    assert.equal(subDirClient.name, dir2Client.name);
+    await subDirClient.getProperties();
+  });
+
+  it("Get file client under another directory", async () => {
+    const subDirName = recorder.getUniqueName("subdir");
+    const fileName = recorder.getUniqueName("file");
+    const subDirClient = dirClient.getDirectoryClient(subDirName);
+    await subDirClient.create();
+
+    const fileUnderSubDirClient = subDirClient.getFileClient(fileName);
+    await fileUnderSubDirClient.create(1024);
+    await fileUnderSubDirClient.getProperties();
+
+    const fileUnderSubDirClient_another = dirClient.getFileClient(`${subDirName}/${fileName}`);
+    assert.equal(fileUnderSubDirClient_another.path, fileUnderSubDirClient.path);
+    await fileUnderSubDirClient_another.getProperties();
+  });
+
   it("setMetadata", async () => {
     const metadata = {
       key0: "val0",
@@ -68,7 +97,7 @@ describe("DirectoryClient", () => {
 
       const result = await dirClient.getProperties();
       assert.deepEqual(result.metadata, metadata);
-    } catch (err) {
+    } catch (err: any) {
       console.log(err);
     }
   });
@@ -96,6 +125,7 @@ describe("DirectoryClient", () => {
       metadata: metadata,
       creationTime: now,
       lastWriteTime: now,
+      changeTime: now,
       filePermissionKey: defaultDirCreateResp.filePermissionKey,
       fileAttributes: fullDirAttributes,
     });
@@ -114,11 +144,13 @@ describe("DirectoryClient", () => {
     assert.ok(respFileAttributes.noScrubData);
     assert.equal(truncatedISO8061Date(result.fileCreatedOn!), truncatedISO8061Date(now));
     assert.equal(truncatedISO8061Date(result.fileLastWriteOn!), truncatedISO8061Date(now));
+    assert.equal(truncatedISO8061Date(result.fileChangeOn!), truncatedISO8061Date(now));
     assert.equal(result.filePermissionKey!, defaultDirCreateResp.filePermissionKey!);
     assert.ok(result.fileChangeOn!);
     assert.ok(result.fileId!);
     assert.ok(result.fileParentId!);
   });
+
   it("create with all parameters configured setting filePermission", async () => {
     const getPermissionResp = await shareClient.getPermission(
       defaultDirCreateResp.filePermissionKey!
@@ -223,6 +255,7 @@ describe("DirectoryClient", () => {
     await dirClient.setProperties({
       creationTime: now,
       lastWriteTime: now,
+      changeTime: now,
       filePermission: getPermissionResp.permission,
       fileAttributes: fullDirAttributes,
     });
@@ -240,6 +273,7 @@ describe("DirectoryClient", () => {
     assert.ok(respFileAttributes.noScrubData);
     assert.equal(truncatedISO8061Date(result.fileCreatedOn!), truncatedISO8061Date(now));
     assert.equal(truncatedISO8061Date(result.fileLastWriteOn!), truncatedISO8061Date(now));
+    assert.equal(truncatedISO8061Date(result.fileChangeOn!), truncatedISO8061Date(now));
     assert.ok(result.filePermissionKey!);
     assert.ok(result.fileChangeOn!);
     assert.ok(result.fileId!);
@@ -671,7 +705,7 @@ describe("DirectoryClient", () => {
       assert.fail(
         "Expecting an error in getting properties from a deleted block blob but didn't get one."
       );
-    } catch (error) {
+    } catch (error: any) {
       assert.ok((error.statusCode as number) === 404);
     }
   });
@@ -691,7 +725,7 @@ describe("DirectoryClient", () => {
       assert.fail(
         "Expecting an error in getting properties from a deleted block blob but didn't get one."
       );
-    } catch (error) {
+    } catch (error: any) {
       assert.ok((error.statusCode as number) === 404);
     }
     await subDirClient.delete();
@@ -724,7 +758,7 @@ describe("DirectoryClient", () => {
       assert.fail(
         "Expecting an error in getting properties from a deleted block blob but didn't get one."
       );
-    } catch (error) {
+    } catch (error: any) {
       assert.ok((error.statusCode as number) === 404);
       assert.equal(
         error.details.errorCode,
@@ -903,7 +937,7 @@ describe("DirectoryClient", () => {
     try {
       await dirClient.getProperties();
       assert.fail("Source directory should not exist anymore");
-    } catch (err) {
+    } catch (err: any) {
       assert.ok((err.statusCode as number) === 404, "Source directory should not exist anymore");
     }
   });
@@ -930,7 +964,7 @@ describe("DirectoryClient", () => {
     try {
       await dirClient.getProperties();
       assert.fail("Source directory should not exist anymore");
-    } catch (err) {
+    } catch (err: any) {
       assert.ok((err.statusCode as number) === 404, "Source directory should not exist anymore");
     }
   });
@@ -963,7 +997,7 @@ describe("DirectoryClient", () => {
     try {
       await sourceDir.getProperties();
       assert.fail("Source directory should not exist anymore");
-    } catch (err) {
+    } catch (err: any) {
       assert.ok((err.statusCode as number) === 404, "Source directory should not exist anymore");
     }
   });
@@ -986,7 +1020,7 @@ describe("DirectoryClient", () => {
     try {
       await dirClient.getProperties();
       assert.fail("Source directory should not exist anymore");
-    } catch (err) {
+    } catch (err: any) {
       assert.ok((err.statusCode as number) === 404, "Source directory should not exist anymore");
     }
   });
@@ -998,7 +1032,7 @@ describe("DirectoryClient", () => {
     try {
       await dirClient.rename(destDirName);
       assert.fail("Should got conflict error when trying to overwrite an exiting file");
-    } catch (err) {
+    } catch (err: any) {
       assert.ok(
         (err.statusCode as number) === 409,
         "Should got conflict error when trying to overwrite an exiting file"
@@ -1028,7 +1062,7 @@ describe("DirectoryClient", () => {
     try {
       await dirClient.getProperties();
       assert.fail("Source directory should not exist anymore");
-    } catch (err) {
+    } catch (err: any) {
       assert.ok((err.statusCode as number) === 404, "Source directory should not exist anymore");
     }
   });
@@ -1046,7 +1080,7 @@ describe("DirectoryClient", () => {
         replaceIfExists: true,
       });
       assert.fail("Should got conflict error when trying to overwrite an exiting file");
-    } catch (err) {
+    } catch (err: any) {
       assert.ok(
         (err.statusCode as number) === 409,
         "Should got conflict error when trying to overwrite an exiting file"
@@ -1080,7 +1114,7 @@ describe("DirectoryClient", () => {
     try {
       await dirClient.getProperties();
       assert.fail("Source directory should not exist anymore");
-    } catch (err) {
+    } catch (err: any) {
       assert.ok((err.statusCode as number) === 404, "Source directory should not exist anymore");
     }
   });
@@ -1099,7 +1133,7 @@ describe("DirectoryClient", () => {
         replaceIfExists: true,
       });
       assert.fail("Should got conflict error when trying to overwrite a leased file");
-    } catch (err) {
+    } catch (err: any) {
       assert.ok("Should got conflict error when trying to overwrite a leased file");
     }
 
@@ -1126,7 +1160,7 @@ describe("DirectoryClient", () => {
     try {
       await sourceDirClient.getProperties();
       assert.fail("Source directory should not exist anymore");
-    } catch (err) {
+    } catch (err: any) {
       assert.ok((err.statusCode as number) === 404, "Source directory should not exist anymore");
     }
   });
@@ -1155,7 +1189,7 @@ describe("DirectoryClient", () => {
     try {
       await sourceDirClient.getProperties();
       assert.fail("Source directory should not exist anymore");
-    } catch (err) {
+    } catch (err: any) {
       assert.ok((err.statusCode as number) === 404, "Source directory should not exist anymore");
     }
   });
@@ -1172,11 +1206,13 @@ describe("DirectoryClient", () => {
 
     const creationDate = new Date("05 October 2019 14:48 UTC");
     const lastwriteTime = new Date("15 October 2019 14:48 UTC");
+    const changedTime = new Date("25 October 2019 14:48 UTC");
 
     const copyFileSMBInfo = {
       fileAttributes: fileAttributesInstance.toString(),
       fileCreationTime: truncatedISO8061Date(creationDate),
       fileLastWriteTime: truncatedISO8061Date(lastwriteTime),
+      fileChangeTime: truncatedISO8061Date(changedTime),
     };
 
     const sourceDirName = recorder.getUniqueName("sourcedir");
@@ -1203,6 +1239,10 @@ describe("DirectoryClient", () => {
       truncatedISO8061Date(properties.fileLastWriteOn!) === truncatedISO8061Date(lastwriteTime),
       "Last write time should be expected"
     );
+    assert.ok(
+      truncatedISO8061Date(properties.fileChangeOn!) === truncatedISO8061Date(changedTime),
+      "Changed time should be expected"
+    );
     const fileSystemAttributes = FileSystemAttributes.parse(properties.fileAttributes!);
     assert.ok(
       fileSystemAttributes.readonly && fileSystemAttributes.directory,
@@ -1212,7 +1252,7 @@ describe("DirectoryClient", () => {
     try {
       await sourceDirClient.getProperties();
       assert.fail("Source directory should not exist anymore");
-    } catch (err) {
+    } catch (err: any) {
       assert.ok((err.statusCode as number) === 404, "Source directory should not exist anymore");
     }
   });

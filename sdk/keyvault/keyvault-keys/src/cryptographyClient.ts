@@ -1,45 +1,44 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { OperationOptions, TokenCredential } from "@azure/core-http";
+import { OperationOptions } from "@azure/core-client";
+import { TokenCredential } from "@azure/core-auth";
 import {
-  JsonWebKey,
-  KeyVaultKey,
   CryptographyClientOptions,
   GetKeyOptions,
+  JsonWebKey,
   KeyOperation,
+  KeyVaultKey,
   KnownKeyOperations,
 } from "./keysModels";
 import {
-  EncryptionAlgorithm,
-  KeyWrapAlgorithm,
-  WrapResult,
-  UnwrapResult,
-  DecryptResult,
-  SignatureAlgorithm,
-  SignResult,
-  VerifyResult,
-  EncryptResult,
-  EncryptOptions,
-  DecryptOptions,
-  WrapKeyOptions,
-  UnwrapKeyOptions,
-  EncryptParameters,
-  SignOptions,
-  VerifyOptions,
-  DecryptParameters,
-  CryptographyClientKey,
   AesCbcEncryptParameters,
   AesCbcEncryptionAlgorithm,
+  CryptographyClientKey,
+  DecryptOptions,
+  DecryptParameters,
+  DecryptResult,
+  EncryptOptions,
+  EncryptParameters,
+  EncryptResult,
+  EncryptionAlgorithm,
+  KeyWrapAlgorithm,
+  SignOptions,
+  SignResult,
+  SignatureAlgorithm,
+  UnwrapKeyOptions,
+  UnwrapResult,
+  VerifyOptions,
+  VerifyResult,
+  WrapKeyOptions,
+  WrapResult,
 } from "./cryptographyClientModels";
 import { RemoteCryptographyProvider } from "./cryptography/remoteCryptographyProvider";
 import { randomBytes } from "./cryptography/crypto";
 import { CryptographyProvider, CryptographyProviderOperation } from "./cryptography/models";
 import { RsaCryptographyProvider } from "./cryptography/rsaCryptographyProvider";
 import { AesCryptographyProvider } from "./cryptography/aesCryptographyProvider";
-import { createTraceFunction } from "../../keyvault-common/src";
-
-const withTrace = createTraceFunction("Azure.KeyVault.Keys.CryptographyClient");
+import { tracingClient } from "./tracing";
 
 /**
  * A client used to perform cryptographic operations on an Azure Key vault key
@@ -193,13 +192,13 @@ export class CryptographyClient {
       | [EncryptionAlgorithm, Uint8Array, EncryptOptions?]
   ): Promise<EncryptResult> {
     const [parameters, options] = this.disambiguateEncryptArguments(args);
-    return withTrace("encrypt", options, async (updatedOptions) => {
+    return tracingClient.withSpan("CryptographyClient.encrypt", options, async (updatedOptions) => {
       this.ensureValid(await this.fetchKey(updatedOptions), KnownKeyOperations.Encrypt);
       this.initializeIV(parameters);
       const provider = await this.getProvider("encrypt", parameters.algorithm, updatedOptions);
       try {
         return provider.encrypt(parameters, updatedOptions);
-      } catch (error) {
+      } catch (error: any) {
         if (this.remoteProvider) {
           return this.remoteProvider.encrypt(parameters, updatedOptions);
         }
@@ -225,7 +224,7 @@ export class CryptographyClient {
         if (!cbcParams.iv) {
           cbcParams.iv = randomBytes(16);
         }
-      } catch (e) {
+      } catch (e: any) {
         throw new Error(
           `Unable to initialize IV for algorithm ${parameters.algorithm}. You may pass a valid IV to avoid this error. Error: ${e.message}`
         );
@@ -259,6 +258,8 @@ export class CryptographyClient {
    * Decrypts the given ciphertext with the specified decryption parameters.
    * Depending on the algorithm used in the decryption parameters, the set of possible decryption parameters will change.
    *
+   * Microsoft recommends you not use CBC without first ensuring the integrity of the ciphertext using, for example, an HMAC. See https://docs.microsoft.com/dotnet/standard/security/vulnerabilities-cbc-mode for more information.
+   *
    * Example usage:
    * ```ts
    * let client = new CryptographyClient(keyVaultKey, credentials);
@@ -280,6 +281,9 @@ export class CryptographyClient {
    * let client = new CryptographyClient(keyVaultKey, credentials);
    * let result = await client.decrypt("RSA1_5", encryptedBuffer);
    * ```
+   *
+   * Microsoft recommends you not use CBC without first ensuring the integrity of the ciphertext using, for example, an HMAC. See https://docs.microsoft.com/dotnet/standard/security/vulnerabilities-cbc-mode for more information.
+   *
    * @param algorithm - The algorithm to use.
    * @param ciphertext - The text to decrypt.
    * @param options - Additional options.
@@ -297,12 +301,12 @@ export class CryptographyClient {
   ): Promise<DecryptResult> {
     const [parameters, options] = this.disambiguateDecryptArguments(args);
 
-    return withTrace("decrypt", options, async (updatedOptions) => {
+    return tracingClient.withSpan("CryptographyClient.decrypt", options, async (updatedOptions) => {
       this.ensureValid(await this.fetchKey(updatedOptions), KnownKeyOperations.Decrypt);
       const provider = await this.getProvider("decrypt", parameters.algorithm, updatedOptions);
       try {
         return provider.decrypt(parameters, updatedOptions);
-      } catch (error) {
+      } catch (error: any) {
         if (this.remoteProvider) {
           return this.remoteProvider.decrypt(parameters, updatedOptions);
         }
@@ -350,12 +354,12 @@ export class CryptographyClient {
     key: Uint8Array,
     options: WrapKeyOptions = {}
   ): Promise<WrapResult> {
-    return withTrace("wrapKey", options, async (updatedOptions) => {
+    return tracingClient.withSpan("CryptographyClient.wrapKey", options, async (updatedOptions) => {
       this.ensureValid(await this.fetchKey(updatedOptions), KnownKeyOperations.WrapKey);
       const provider = await this.getProvider("wrapKey", algorithm, updatedOptions);
       try {
         return provider.wrapKey(algorithm, key, updatedOptions);
-      } catch (err) {
+      } catch (err: any) {
         if (this.remoteProvider) {
           return this.remoteProvider.wrapKey(algorithm, key, options);
         }
@@ -381,18 +385,22 @@ export class CryptographyClient {
     encryptedKey: Uint8Array,
     options: UnwrapKeyOptions = {}
   ): Promise<UnwrapResult> {
-    return withTrace("unwrapKey", options, async (updatedOptions) => {
-      this.ensureValid(await this.fetchKey(updatedOptions), KnownKeyOperations.UnwrapKey);
-      const provider = await this.getProvider("unwrapKey", algorithm, updatedOptions);
-      try {
-        return provider.unwrapKey(algorithm, encryptedKey, updatedOptions);
-      } catch (err) {
-        if (this.remoteProvider) {
-          return this.remoteProvider.unwrapKey(algorithm, encryptedKey, options);
+    return tracingClient.withSpan(
+      "CryptographyClient.unwrapKey",
+      options,
+      async (updatedOptions) => {
+        this.ensureValid(await this.fetchKey(updatedOptions), KnownKeyOperations.UnwrapKey);
+        const provider = await this.getProvider("unwrapKey", algorithm, updatedOptions);
+        try {
+          return provider.unwrapKey(algorithm, encryptedKey, updatedOptions);
+        } catch (err: any) {
+          if (this.remoteProvider) {
+            return this.remoteProvider.unwrapKey(algorithm, encryptedKey, options);
+          }
+          throw err;
         }
-        throw err;
       }
-    });
+    );
   }
 
   /**
@@ -412,12 +420,12 @@ export class CryptographyClient {
     digest: Uint8Array,
     options: SignOptions = {}
   ): Promise<SignResult> {
-    return withTrace("sign", options, async (updatedOptions) => {
+    return tracingClient.withSpan("CryptographyClient.sign", options, async (updatedOptions) => {
       this.ensureValid(await this.fetchKey(updatedOptions), KnownKeyOperations.Sign);
       const provider = await this.getProvider("sign", algorithm, updatedOptions);
       try {
         return provider.sign(algorithm, digest, updatedOptions);
-      } catch (err) {
+      } catch (err: any) {
         if (this.remoteProvider) {
           return this.remoteProvider.sign(algorithm, digest, updatedOptions);
         }
@@ -445,12 +453,12 @@ export class CryptographyClient {
     signature: Uint8Array,
     options: VerifyOptions = {}
   ): Promise<VerifyResult> {
-    return withTrace("verify", options, async (updatedOptions) => {
+    return tracingClient.withSpan("CryptographyClient.verify", options, async (updatedOptions) => {
       this.ensureValid(await this.fetchKey(updatedOptions), KnownKeyOperations.Verify);
       const provider = await this.getProvider("verify", algorithm, updatedOptions);
       try {
         return provider.verify(algorithm, digest, signature, updatedOptions);
-      } catch (err) {
+      } catch (err: any) {
         if (this.remoteProvider) {
           return this.remoteProvider.verify(algorithm, digest, signature, updatedOptions);
         }
@@ -476,18 +484,22 @@ export class CryptographyClient {
     data: Uint8Array,
     options: SignOptions = {}
   ): Promise<SignResult> {
-    return withTrace("signData", options, async (updatedOptions) => {
-      this.ensureValid(await this.fetchKey(updatedOptions), KnownKeyOperations.Sign);
-      const provider = await this.getProvider("signData", algorithm, updatedOptions);
-      try {
-        return provider.signData(algorithm, data, updatedOptions);
-      } catch (err) {
-        if (this.remoteProvider) {
-          return this.remoteProvider.signData(algorithm, data, options);
+    return tracingClient.withSpan(
+      "CryptographyClient.signData",
+      options,
+      async (updatedOptions) => {
+        this.ensureValid(await this.fetchKey(updatedOptions), KnownKeyOperations.Sign);
+        const provider = await this.getProvider("signData", algorithm, updatedOptions);
+        try {
+          return provider.signData(algorithm, data, updatedOptions);
+        } catch (err: any) {
+          if (this.remoteProvider) {
+            return this.remoteProvider.signData(algorithm, data, options);
+          }
+          throw err;
         }
-        throw err;
       }
-    });
+    );
   }
 
   /**
@@ -509,18 +521,22 @@ export class CryptographyClient {
     signature: Uint8Array,
     options: VerifyOptions = {}
   ): Promise<VerifyResult> {
-    return withTrace("verifyData", options, async (updatedOptions) => {
-      this.ensureValid(await this.fetchKey(updatedOptions), KnownKeyOperations.Verify);
-      const provider = await this.getProvider("verifyData", algorithm, updatedOptions);
-      try {
-        return provider.verifyData(algorithm, data, signature, updatedOptions);
-      } catch (err) {
-        if (this.remoteProvider) {
-          return this.remoteProvider.verifyData(algorithm, data, signature, updatedOptions);
+    return tracingClient.withSpan(
+      "CryptographyClient.verifyData",
+      options,
+      async (updatedOptions) => {
+        this.ensureValid(await this.fetchKey(updatedOptions), KnownKeyOperations.Verify);
+        const provider = await this.getProvider("verifyData", algorithm, updatedOptions);
+        try {
+          return provider.verifyData(algorithm, data, signature, updatedOptions);
+        } catch (err: any) {
+          if (this.remoteProvider) {
+            return this.remoteProvider.verifyData(algorithm, data, signature, updatedOptions);
+          }
+          throw err;
         }
-        throw err;
       }
-    });
+    );
   }
 
   /**

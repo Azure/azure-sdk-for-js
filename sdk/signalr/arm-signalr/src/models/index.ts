@@ -219,7 +219,7 @@ export interface ResourceSku {
   /**
    * The name of the SKU. Required.
    *
-   * Allowed values: Standard_S1, Free_F1
+   * Allowed values: Standard_S1, Free_F1, Premium_P1
    */
   name: string;
   /**
@@ -242,8 +242,9 @@ export interface ResourceSku {
    * Optional, integer. The unit count of the resource. 1 by default.
    *
    * If present, following values are allowed:
-   *     Free: 1
-   *     Standard: 1,2,5,10,20,50,100
+   *     Free: 1;
+   *     Standard: 1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100;
+   *     Premium:  1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100;
    */
   capacity?: number;
 }
@@ -321,6 +322,36 @@ export interface SignalRFeature {
   properties?: { [propertyName: string]: string };
 }
 
+/** Live trace configuration of a Microsoft.SignalRService resource. */
+export interface LiveTraceConfiguration {
+  /**
+   * Indicates whether or not enable live trace.
+   * When it's set to true, live trace client can connect to the service.
+   * Otherwise, live trace client can't connect to the service, so that you are unable to receive any log, no matter what you configure in "categories".
+   * Available values: true, false.
+   * Case insensitive.
+   */
+  enabled?: string;
+  /** Gets or sets the list of category configurations. */
+  categories?: LiveTraceCategory[];
+}
+
+/** Live trace category configuration of a Microsoft.SignalRService resource. */
+export interface LiveTraceCategory {
+  /**
+   * Gets or sets the live trace category's name.
+   * Available values: ConnectivityLogs, MessagingLogs.
+   * Case insensitive.
+   */
+  name?: string;
+  /**
+   * Indicates whether or the live trace category is enabled.
+   * Available values: true, false.
+   * Case insensitive.
+   */
+  enabled?: string;
+}
+
 /** Resource log configuration of a Microsoft.SignalRService resource. */
 export interface ResourceLogConfiguration {
   /** Gets or sets the list of category configurations. */
@@ -349,6 +380,21 @@ export interface SignalRCorsSettings {
   allowedOrigins?: string[];
 }
 
+/** Serverless settings. */
+export interface ServerlessSettings {
+  /**
+   * Gets or sets Client Connection Timeout. Optional to be set.
+   * Value in seconds.
+   * Default value is 30 seconds.
+   * Customer should set the timeout to a shorter period if messages are expected to be sent in shorter intervals,
+   * and want the client to disconnect more quickly after the last message is sent.
+   * You can set the timeout to a longer period if messages are expected to be sent in longer intervals,
+   * and they want to keep the same client connection alive during this session.
+   * The service considers the client disconnected if it hasn't received a message (including keep-alive) in this interval.
+   */
+  connectionTimeoutInSeconds?: number;
+}
+
 /** The settings for the Upstream when the service is in server-less mode. */
 export interface ServerlessUpstreamSettings {
   /** Gets or sets the list of Upstream URL templates. Order matters, and the first matching template takes effects. */
@@ -363,25 +409,25 @@ export interface UpstreamTemplate {
   /**
    * Gets or sets the matching pattern for hub names. If not set, it matches any hub.
    * There are 3 kind of patterns supported:
-   *     1. "*", it to matches any hub name
-   *     2. Combine multiple hubs with ",", for example "hub1,hub2", it matches "hub1" and "hub2"
-   *     3. The single hub name, for example, "hub1", it matches "hub1"
+   *     1. "*", it to matches any hub name.
+   *     2. Combine multiple hubs with ",", for example "hub1,hub2", it matches "hub1" and "hub2".
+   *     3. The single hub name, for example, "hub1", it matches "hub1".
    */
   hubPattern?: string;
   /**
    * Gets or sets the matching pattern for event names. If not set, it matches any event.
    * There are 3 kind of patterns supported:
-   *     1. "*", it to matches any event name
-   *     2. Combine multiple events with ",", for example "connect,disconnect", it matches event "connect" and "disconnect"
-   *     3. The single event name, for example, "connect", it matches "connect"
+   *     1. "*", it to matches any event name.
+   *     2. Combine multiple events with ",", for example "connect,disconnect", it matches event "connect" and "disconnect".
+   *     3. The single event name, for example, "connect", it matches "connect".
    */
   eventPattern?: string;
   /**
    * Gets or sets the matching pattern for category names. If not set, it matches any category.
    * There are 3 kind of patterns supported:
-   *     1. "*", it to matches any category name
-   *     2. Combine multiple categories with ",", for example "connections,messages", it matches category "connections" and "messages"
-   *     3. The single category name, for example, "connections", it matches the category "connections"
+   *     1. "*", it to matches any category name.
+   *     2. Combine multiple categories with ",", for example "connections,messages", it matches category "connections" and "messages".
+   *     3. The single category name, for example, "connections", it matches the category "connections".
    */
   categoryPattern?: string;
   /**
@@ -462,6 +508,34 @@ export interface UserAssignedIdentityProperty {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly clientId?: string;
+}
+
+/** Custom certificates list. */
+export interface CustomCertificateList {
+  /** List of custom certificates of this resource. */
+  value?: CustomCertificate[];
+  /**
+   * The URL the client should use to fetch the next page (per server side paging).
+   * It's null for now, added for future use.
+   */
+  nextLink?: string;
+}
+
+/** Custom domains list */
+export interface CustomDomainList {
+  /** List of custom domains that bind to this resource. */
+  value?: CustomDomain[];
+  /**
+   * The URL the client should use to fetch the next page (per server side paging).
+   * It's null for now, added for future use.
+   */
+  nextLink?: string;
+}
+
+/** Reference to a resource. */
+export interface ResourceReference {
+  /** Resource ID. */
+  id?: string;
 }
 
 /** A class represents the access keys of the resource. */
@@ -591,24 +665,24 @@ export interface SkuCapacity {
 }
 
 /** The resource model definition for a ARM proxy resource. It will have everything other than required location and tags */
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {}
 
 /** The resource model definition for a ARM tracked top level resource. */
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
   /** The GEO location of the resource. e.g. West US | East US | North Central US | South Central US. */
   location?: string;
   /** Tags of the service which is a list of key value pairs that describe the resource. */
   tags?: { [propertyName: string]: string };
-};
+}
 
 /** ACL for a private endpoint */
-export type PrivateEndpointACL = NetworkACL & {
+export interface PrivateEndpointACL extends NetworkACL {
   /** Name of the private endpoint connection */
   name: string;
-};
+}
 
 /** A private endpoint connection to an azure resource */
-export type PrivateEndpointConnection = ProxyResource & {
+export interface PrivateEndpointConnection extends ProxyResource {
   /**
    * Metadata pertaining to creation and last modification of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -628,10 +702,10 @@ export type PrivateEndpointConnection = ProxyResource & {
   readonly groupIds?: string[];
   /** Connection state of the private endpoint connection */
   privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
-};
+}
 
 /** Describes a Shared Private Link Resource */
-export type SharedPrivateLinkResource = ProxyResource & {
+export interface SharedPrivateLinkResource extends ProxyResource {
   /**
    * Metadata pertaining to creation and last modification of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -653,10 +727,48 @@ export type SharedPrivateLinkResource = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly status?: SharedPrivateLinkResourceStatus;
-};
+}
+
+/** A custom certificate. */
+export interface CustomCertificate extends ProxyResource {
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /**
+   * Provisioning state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** Base uri of the KeyVault that stores certificate. */
+  keyVaultBaseUri: string;
+  /** Certificate secret name. */
+  keyVaultSecretName: string;
+  /** Certificate secret version. */
+  keyVaultSecretVersion?: string;
+}
+
+/** A custom domain */
+export interface CustomDomain extends ProxyResource {
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /**
+   * Provisioning state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** The custom domain name. */
+  domainName: string;
+  /** Reference to a resource. */
+  customCertificate: ResourceReference;
+}
 
 /** Private link resource */
-export type PrivateLinkResource = ProxyResource & {
+export interface PrivateLinkResource extends ProxyResource {
   /** Group Id of the private link resource */
   groupId?: string;
   /** Required members of the private link resource */
@@ -665,10 +777,10 @@ export type PrivateLinkResource = ProxyResource & {
   requiredZoneNames?: string[];
   /** The list of resources that are onboarded to private link service */
   shareablePrivateLinkResourceTypes?: ShareablePrivateLinkResourceType[];
-};
+}
 
 /** A class represent a resource. */
-export type SignalRResource = TrackedResource & {
+export interface SignalRResource extends TrackedResource {
   /** The billing information of the resource. */
   sku?: ResourceSku;
   /** The kind of the service, it can be SignalR or RawWebSockets */
@@ -736,10 +848,14 @@ export type SignalRResource = TrackedResource & {
    * But keep in mind, the default value doesn't mean "false". It varies in terms of different FeatureFlags.
    */
   features?: SignalRFeature[];
+  /** Live trace configuration of a Microsoft.SignalRService resource. */
+  liveTraceConfiguration?: LiveTraceConfiguration;
   /** Resource log configuration of a Microsoft.SignalRService resource. */
   resourceLogConfiguration?: ResourceLogConfiguration;
   /** Cross-Origin Resource Sharing (CORS) settings. */
   cors?: SignalRCorsSettings;
+  /** Serverless settings. */
+  serverless?: ServerlessSettings;
   /** The settings for the Upstream when the service is in server-less mode. */
   upstream?: ServerlessUpstreamSettings;
   /** Network ACLs for the resource */
@@ -762,13 +878,17 @@ export type SignalRResource = TrackedResource & {
    * When set as true, connection with AuthType=aad won't work.
    */
   disableAadAuth?: boolean;
-};
+}
 
 /** Known values of {@link SignalRSkuTier} that the service accepts. */
 export enum KnownSignalRSkuTier {
+  /** Free */
   Free = "Free",
+  /** Basic */
   Basic = "Basic",
+  /** Standard */
   Standard = "Standard",
+  /** Premium */
   Premium = "Premium"
 }
 
@@ -786,14 +906,23 @@ export type SignalRSkuTier = string;
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
+  /** Unknown */
   Unknown = "Unknown",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Running */
   Running = "Running",
+  /** Creating */
   Creating = "Creating",
+  /** Updating */
   Updating = "Updating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Moving */
   Moving = "Moving"
 }
 
@@ -816,9 +945,13 @@ export type ProvisioningState = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -836,9 +969,13 @@ export type CreatedByType = string;
 
 /** Known values of {@link PrivateLinkServiceConnectionStatus} that the service accepts. */
 export enum KnownPrivateLinkServiceConnectionStatus {
+  /** Pending */
   Pending = "Pending",
+  /** Approved */
   Approved = "Approved",
+  /** Rejected */
   Rejected = "Rejected",
+  /** Disconnected */
   Disconnected = "Disconnected"
 }
 
@@ -856,10 +993,15 @@ export type PrivateLinkServiceConnectionStatus = string;
 
 /** Known values of {@link SharedPrivateLinkResourceStatus} that the service accepts. */
 export enum KnownSharedPrivateLinkResourceStatus {
+  /** Pending */
   Pending = "Pending",
+  /** Approved */
   Approved = "Approved",
+  /** Rejected */
   Rejected = "Rejected",
+  /** Disconnected */
   Disconnected = "Disconnected",
+  /** Timeout */
   Timeout = "Timeout"
 }
 
@@ -878,9 +1020,13 @@ export type SharedPrivateLinkResourceStatus = string;
 
 /** Known values of {@link FeatureFlags} that the service accepts. */
 export enum KnownFeatureFlags {
+  /** ServiceMode */
   ServiceMode = "ServiceMode",
+  /** EnableConnectivityLogs */
   EnableConnectivityLogs = "EnableConnectivityLogs",
+  /** EnableMessagingLogs */
   EnableMessagingLogs = "EnableMessagingLogs",
+  /** EnableLiveTrace */
   EnableLiveTrace = "EnableLiveTrace"
 }
 
@@ -898,7 +1044,9 @@ export type FeatureFlags = string;
 
 /** Known values of {@link UpstreamAuthType} that the service accepts. */
 export enum KnownUpstreamAuthType {
+  /** None */
   None = "None",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity"
 }
 
@@ -914,7 +1062,9 @@ export type UpstreamAuthType = string;
 
 /** Known values of {@link ACLAction} that the service accepts. */
 export enum KnownACLAction {
+  /** Allow */
   Allow = "Allow",
+  /** Deny */
   Deny = "Deny"
 }
 
@@ -930,9 +1080,13 @@ export type ACLAction = string;
 
 /** Known values of {@link SignalRRequestType} that the service accepts. */
 export enum KnownSignalRRequestType {
+  /** ClientConnection */
   ClientConnection = "ClientConnection",
+  /** ServerConnection */
   ServerConnection = "ServerConnection",
+  /** Restapi */
   Restapi = "RESTAPI",
+  /** Trace */
   Trace = "Trace"
 }
 
@@ -950,7 +1104,9 @@ export type SignalRRequestType = string;
 
 /** Known values of {@link ServiceKind} that the service accepts. */
 export enum KnownServiceKind {
+  /** SignalR */
   SignalR = "SignalR",
+  /** RawWebSockets */
   RawWebSockets = "RawWebSockets"
 }
 
@@ -966,8 +1122,11 @@ export type ServiceKind = string;
 
 /** Known values of {@link ManagedIdentityType} that the service accepts. */
 export enum KnownManagedIdentityType {
+  /** None */
   None = "None",
+  /** SystemAssigned */
   SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
   UserAssigned = "UserAssigned"
 }
 
@@ -984,8 +1143,11 @@ export type ManagedIdentityType = string;
 
 /** Known values of {@link KeyType} that the service accepts. */
 export enum KnownKeyType {
+  /** Primary */
   Primary = "Primary",
+  /** Secondary */
   Secondary = "Secondary",
+  /** Salt */
   Salt = "Salt"
 }
 
@@ -1002,8 +1164,11 @@ export type KeyType = string;
 
 /** Known values of {@link ScaleType} that the service accepts. */
 export enum KnownScaleType {
+  /** None */
   None = "None",
+  /** Manual */
   Manual = "Manual",
+  /** Automatic */
   Automatic = "Automatic"
 }
 
@@ -1153,6 +1318,85 @@ export interface UsagesListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type UsagesListNextResponse = SignalRUsageList;
+
+/** Optional parameters. */
+export interface SignalRCustomCertificatesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type SignalRCustomCertificatesListResponse = CustomCertificateList;
+
+/** Optional parameters. */
+export interface SignalRCustomCertificatesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SignalRCustomCertificatesGetResponse = CustomCertificate;
+
+/** Optional parameters. */
+export interface SignalRCustomCertificatesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type SignalRCustomCertificatesCreateOrUpdateResponse = CustomCertificate;
+
+/** Optional parameters. */
+export interface SignalRCustomCertificatesDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface SignalRCustomCertificatesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type SignalRCustomCertificatesListNextResponse = CustomCertificateList;
+
+/** Optional parameters. */
+export interface SignalRCustomDomainsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type SignalRCustomDomainsListResponse = CustomDomainList;
+
+/** Optional parameters. */
+export interface SignalRCustomDomainsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SignalRCustomDomainsGetResponse = CustomDomain;
+
+/** Optional parameters. */
+export interface SignalRCustomDomainsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type SignalRCustomDomainsCreateOrUpdateResponse = CustomDomain;
+
+/** Optional parameters. */
+export interface SignalRCustomDomainsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface SignalRCustomDomainsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type SignalRCustomDomainsListNextResponse = CustomDomainList;
 
 /** Optional parameters. */
 export interface SignalRPrivateEndpointConnectionsListOptionalParams

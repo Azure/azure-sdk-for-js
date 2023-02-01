@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/analyze",
+      "RequestUri": "https://endpoint/text/analytics/v3.1/analyze",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json, text/json",
@@ -10,9 +10,8 @@
         "Content-Length": "190",
         "Content-Type": "application/json",
         "Ocp-Apim-Subscription-Key": "api_key",
-        "traceparent": "00-00000000000000000000000000000226-0000000000000452-00",
-        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "33d67cc1-6de0-43c3-acf3-051b33c36d32"
+        "User-Agent": "azsdk-js-ai-textanalytics/5.1.1 azsdk-js-ai-text-analytics/5.1.1 core-rest-pipeline/1.9.1 Node/v18.6.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "6474c73d-df27-4d30-96ac-ffd34b7256c0"
       },
       "RequestBody": {
         "analysisInput": {
@@ -36,21 +35,22 @@
       },
       "StatusCode": 400,
       "ResponseHeaders": {
-        "apim-request-id": "94967135-60c9-430d-915e-8319c67b1694",
+        "apim-request-id": "d6a3fe10-c298-4812-9af4-d2a2caac3b67",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 18 Feb 2022 19:02:23 GMT",
+        "Date": "Fri, 22 Jul 2022 02:38:55 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "6"
+        "x-envoy-upstream-service-time": "5"
       },
       "ResponseBody": {
         "error": {
           "code": "InvalidRequest",
-          "message": "Invalid parameter in request",
+          "details": [],
+          "message": "Invalid Request.",
           "innererror": {
             "code": "InvalidParameterValue",
-            "message": "Job task parameter value bad is not supported for model-version parameter for job task type PersonallyIdentifiableInformation. Supported values latest,2020-07-01,2021-01-15."
+            "message": "Job task: \u0027PersonallyIdentifiableInformation\u0027 failed with validation errors: [\u0027Invalid parameter in request\u0027]"
           }
         }
       }

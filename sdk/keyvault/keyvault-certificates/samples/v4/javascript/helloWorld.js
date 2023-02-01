@@ -5,19 +5,20 @@
  * @summary Uses a CertificateClient in various ways to read a certificate as well as update a certificate's tags.
  */
 
-const { CertificateClient, DefaultCertificatePolicy } = require("@azure/keyvault-certificates");
-const { DefaultAzureCredential } = require("@azure/identity");
-
 // Load the .env file if it exists
 const dotenv = require("dotenv");
+
+const { CertificateClient, DefaultCertificatePolicy } = require("@azure/keyvault-certificates");
+
+const { DefaultAzureCredential } = require("@azure/identity");
+
 dotenv.config();
 
 async function main() {
+  // This sample uses DefaultAzureCredential, which supports a number of authentication mechanisms.
+  // See https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
+  // about DefaultAzureCredential and the other credentials that are available for use.
   // If you're using MSI, DefaultAzureCredential should "just work".
-  // Otherwise, DefaultAzureCredential expects the following three environment variables:
-  // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
-  // - AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
-  // - AZURE_CLIENT_SECRET: The client secret for the registered application
   const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
   const credential = new DefaultAzureCredential();
 
@@ -25,7 +26,7 @@ async function main() {
 
   // Create unique certificate name
   const uniqueString = new Date().getTime();
-  const certificateName = `cert${uniqueString}`;
+  const certificateName = `hello-world-${uniqueString}`;
 
   // Creating a self-signed certificate
   const createPoller = await client.beginCreateCertificate(
@@ -55,9 +56,9 @@ async function main() {
   const properties = {
     tags: {
       projectName: "certificate-sample",
-      projectOwner: "REPLACE-WITH-YOUR-NAME"
+      projectOwner: "REPLACE-WITH-YOUR-NAME",
     },
-    enabled: true
+    enabled: true,
   };
   const updatedCertificate = await client.updateCertificateProperties(
     certificateName,
@@ -71,7 +72,7 @@ async function main() {
     issuerName: "Self",
     subject: "cn=MyOtherCert",
     exportable: true,
-    enabled: true
+    enabled: true,
   };
   await client.updateCertificatePolicy(certificateName, policy);
 
@@ -91,3 +92,5 @@ main().catch((error) => {
   console.error("An error occurred:", error);
   process.exit(1);
 });
+
+module.exports = { main };

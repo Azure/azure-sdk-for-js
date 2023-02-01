@@ -47,6 +47,7 @@ describe("AMQP message encoding", () => {
       {} as Delivery,
       false,
       "receiveAndDelete",
+      false,
       false
     );
 
@@ -173,6 +174,21 @@ describe("AMQP message encoding", () => {
       }
 
       assert.equal(rheaMessage.body.typecode, valueSectionTypeCode);
+    });
+
+    it("sets absolute_expiry_time when timeToLive is passed", () => {
+      const ttl = 2 * 60 * 1000;
+      const sbMessage: ServiceBusMessage = {
+        body: "hello",
+        timeToLive: ttl,
+      };
+
+      const rheaMessage = toRheaMessage(sbMessage, defaultDataTransformer);
+      assert.equal(rheaMessage.ttl, ttl);
+      assert.ok(
+        rheaMessage.absolute_expiry_time instanceof Date &&
+          !isNaN(rheaMessage.absolute_expiry_time.getTime())
+      );
     });
   });
 });

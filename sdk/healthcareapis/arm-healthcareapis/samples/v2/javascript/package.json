@@ -1,10 +1,10 @@
 {
-  "name": "azure-arm-healthcareapis-samples-js",
+  "name": "@azure-samples/arm-healthcareapis-js",
   "private": true,
   "version": "1.0.0",
   "description": " client library samples for JavaScript",
   "engines": {
-    "node": ">=12.0.0"
+    "node": ">=14.0.0"
   },
   "repository": {
     "type": "git",

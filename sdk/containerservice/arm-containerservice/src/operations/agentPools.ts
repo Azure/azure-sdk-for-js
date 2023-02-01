@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { AgentPools } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -19,11 +20,14 @@ import {
   AgentPoolsListNextOptionalParams,
   AgentPoolsListOptionalParams,
   AgentPoolsListResponse,
+  AgentPoolsAbortLatestOperationOptionalParams,
+  AgentPoolsAbortLatestOperationResponse,
   AgentPoolsGetOptionalParams,
   AgentPoolsGetResponse,
   AgentPoolsCreateOrUpdateOptionalParams,
   AgentPoolsCreateOrUpdateResponse,
   AgentPoolsDeleteOptionalParams,
+  AgentPoolsDeleteResponse,
   AgentPoolsGetUpgradeProfileOptionalParams,
   AgentPoolsGetUpgradeProfileResponse,
   AgentPoolsGetAvailableAgentPoolVersionsOptionalParams,
@@ -47,7 +51,7 @@ export class AgentPoolsImpl implements AgentPools {
 
   /**
    * Gets a list of agent pools in the specified managed cluster.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param options The options parameters.
    */
@@ -64,8 +68,16 @@ export class AgentPoolsImpl implements AgentPools {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, resourceName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          resourceName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -73,11 +85,18 @@ export class AgentPoolsImpl implements AgentPools {
   private async *listPagingPage(
     resourceGroupName: string,
     resourceName: string,
-    options?: AgentPoolsListOptionalParams
+    options?: AgentPoolsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<AgentPool[]> {
-    let result = await this._list(resourceGroupName, resourceName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AgentPoolsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, resourceName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -86,7 +105,9 @@ export class AgentPoolsImpl implements AgentPools {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -105,8 +126,105 @@ export class AgentPoolsImpl implements AgentPools {
   }
 
   /**
+   * Aborts the currently running operation on the agent pool. The Agent Pool will be moved to a
+   * Canceling state and eventually to a Canceled state when cancellation finishes. If the operation
+   * completes before cancellation can take place, an error is returned.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param agentPoolName The name of the agent pool.
+   * @param options The options parameters.
+   */
+  async beginAbortLatestOperation(
+    resourceGroupName: string,
+    resourceName: string,
+    agentPoolName: string,
+    options?: AgentPoolsAbortLatestOperationOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<AgentPoolsAbortLatestOperationResponse>,
+      AgentPoolsAbortLatestOperationResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<AgentPoolsAbortLatestOperationResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, resourceName, agentPoolName, options },
+      abortLatestOperationOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Aborts the currently running operation on the agent pool. The Agent Pool will be moved to a
+   * Canceling state and eventually to a Canceled state when cancellation finishes. If the operation
+   * completes before cancellation can take place, an error is returned.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param agentPoolName The name of the agent pool.
+   * @param options The options parameters.
+   */
+  async beginAbortLatestOperationAndWait(
+    resourceGroupName: string,
+    resourceName: string,
+    agentPoolName: string,
+    options?: AgentPoolsAbortLatestOperationOptionalParams
+  ): Promise<AgentPoolsAbortLatestOperationResponse> {
+    const poller = await this.beginAbortLatestOperation(
+      resourceGroupName,
+      resourceName,
+      agentPoolName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * Gets a list of agent pools in the specified managed cluster.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param options The options parameters.
    */
@@ -123,7 +241,7 @@ export class AgentPoolsImpl implements AgentPools {
 
   /**
    * Gets the specified managed cluster agent pool.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param agentPoolName The name of the agent pool.
    * @param options The options parameters.
@@ -142,7 +260,7 @@ export class AgentPoolsImpl implements AgentPools {
 
   /**
    * Creates or updates an agent pool in the specified managed cluster.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param agentPoolName The name of the agent pool.
    * @param parameters The agent pool to create or update.
@@ -204,15 +322,17 @@ export class AgentPoolsImpl implements AgentPools {
       { resourceGroupName, resourceName, agentPoolName, parameters, options },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
    * Creates or updates an agent pool in the specified managed cluster.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param agentPoolName The name of the agent pool.
    * @param parameters The agent pool to create or update.
@@ -237,7 +357,7 @@ export class AgentPoolsImpl implements AgentPools {
 
   /**
    * Deletes an agent pool in the specified managed cluster.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param agentPoolName The name of the agent pool.
    * @param options The options parameters.
@@ -247,11 +367,16 @@ export class AgentPoolsImpl implements AgentPools {
     resourceName: string,
     agentPoolName: string,
     options?: AgentPoolsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<
+    PollerLike<
+      PollOperationState<AgentPoolsDeleteResponse>,
+      AgentPoolsDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<AgentPoolsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -292,15 +417,17 @@ export class AgentPoolsImpl implements AgentPools {
       { resourceGroupName, resourceName, agentPoolName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
    * Deletes an agent pool in the specified managed cluster.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param agentPoolName The name of the agent pool.
    * @param options The options parameters.
@@ -310,7 +437,7 @@ export class AgentPoolsImpl implements AgentPools {
     resourceName: string,
     agentPoolName: string,
     options?: AgentPoolsDeleteOptionalParams
-  ): Promise<void> {
+  ): Promise<AgentPoolsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       resourceName,
@@ -322,7 +449,7 @@ export class AgentPoolsImpl implements AgentPools {
 
   /**
    * Gets the upgrade profile for an agent pool.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param agentPoolName The name of the agent pool.
    * @param options The options parameters.
@@ -343,7 +470,7 @@ export class AgentPoolsImpl implements AgentPools {
    * See [supported Kubernetes
    * versions](https://docs.microsoft.com/azure/aks/supported-kubernetes-versions) for more details about
    * the version lifecycle.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param options The options parameters.
    */
@@ -362,7 +489,7 @@ export class AgentPoolsImpl implements AgentPools {
    * Upgrading the node image version of an agent pool applies the newest OS and runtime updates to the
    * nodes. AKS provides one new image per week with the latest updates. For more details on node image
    * versions, see: https://docs.microsoft.com/azure/aks/node-image-upgrade
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param agentPoolName The name of the agent pool.
    * @param options The options parameters.
@@ -417,17 +544,20 @@ export class AgentPoolsImpl implements AgentPools {
       { resourceGroupName, resourceName, agentPoolName, options },
       upgradeNodeImageVersionOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
    * Upgrading the node image version of an agent pool applies the newest OS and runtime updates to the
    * nodes. AKS provides one new image per week with the latest updates. For more details on node image
    * versions, see: https://docs.microsoft.com/azure/aks/node-image-upgrade
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param agentPoolName The name of the agent pool.
    * @param options The options parameters.
@@ -449,7 +579,7 @@ export class AgentPoolsImpl implements AgentPools {
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -469,6 +599,38 @@ export class AgentPoolsImpl implements AgentPools {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const abortLatestOperationOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedclusters/{resourceName}/agentPools/{agentPoolName}/abort",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper: Mappers.AgentPoolsAbortLatestOperationHeaders
+    },
+    201: {
+      headersMapper: Mappers.AgentPoolsAbortLatestOperationHeaders
+    },
+    202: {
+      headersMapper: Mappers.AgentPoolsAbortLatestOperationHeaders
+    },
+    204: {
+      headersMapper: Mappers.AgentPoolsAbortLatestOperationHeaders
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
+    Parameters.agentPoolName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const listOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools",
@@ -542,7 +704,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.agentPoolName
+    Parameters.agentPoolName1
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -553,21 +715,32 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.AgentPoolsDeleteHeaders
+    },
+    201: {
+      headersMapper: Mappers.AgentPoolsDeleteHeaders
+    },
+    202: {
+      headersMapper: Mappers.AgentPoolsDeleteHeaders
+    },
+    204: {
+      headersMapper: Mappers.AgentPoolsDeleteHeaders
+    },
     default: {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.ignorePodDisruptionBudget
+  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.agentPoolName
+    Parameters.agentPoolName1
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -602,6 +775,9 @@ const getAvailableAgentPoolVersionsOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.AgentPoolAvailableVersions
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -649,7 +825,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

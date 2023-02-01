@@ -11,7 +11,19 @@ import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 
 // @public
+export type AlertsState = string;
+
+// @public
 export type AuthType = string;
+
+// @public
+export interface AzureMonitorAlertSettings {
+    // (undocumented)
+    alertsForAllJobFailures?: AlertsState;
+}
+
+// @public
+export type BackupStorageVersion = string;
 
 // @public
 export interface CertificateRequest {
@@ -32,6 +44,12 @@ export interface CheckNameAvailabilityResult {
     nameAvailable?: boolean;
     // (undocumented)
     reason?: string;
+}
+
+// @public
+export interface ClassicAlertSettings {
+    // (undocumented)
+    alertsForCriticalOperations?: AlertsState;
 }
 
 // @public
@@ -93,6 +111,9 @@ export interface CmkKeyVaultProperties {
 export type CreatedByType = string;
 
 // @public
+export type CrossRegionRestore = string;
+
+// @public
 export interface ErrorAdditionalInfo {
     readonly info?: Record<string, unknown>;
     readonly type?: string;
@@ -142,149 +163,132 @@ export interface JobsSummary {
 }
 
 // @public
+export enum KnownAlertsState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownAuthType {
-    // (undocumented)
     AAD = "AAD",
-    // (undocumented)
     AccessControlService = "AccessControlService",
-    // (undocumented)
     ACS = "ACS",
-    // (undocumented)
     AzureActiveDirectory = "AzureActiveDirectory",
-    // (undocumented)
     Invalid = "Invalid"
 }
 
 // @public
+export enum KnownBackupStorageVersion {
+    Unassigned = "Unassigned",
+    V1 = "V1",
+    V2 = "V2"
+}
+
+// @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
-export enum KnownInfrastructureEncryptionState {
-    // (undocumented)
+export enum KnownCrossRegionRestore {
     Disabled = "Disabled",
-    // (undocumented)
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownInfrastructureEncryptionState {
+    Disabled = "Disabled",
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownPrivateEndpointConnectionStatus {
-    // (undocumented)
     Approved = "Approved",
-    // (undocumented)
     Disconnected = "Disconnected",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Rejected = "Rejected"
 }
 
 // @public
 export enum KnownProvisioningState {
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownResourceIdentityType {
-    // (undocumented)
     None = "None",
-    // (undocumented)
     SystemAssigned = "SystemAssigned",
-    // (undocumented)
     SystemAssignedUserAssigned = "SystemAssigned, UserAssigned",
-    // (undocumented)
     UserAssigned = "UserAssigned"
 }
 
 // @public
 export enum KnownResourceMoveState {
-    // (undocumented)
     CommitFailed = "CommitFailed",
-    // (undocumented)
     CommitTimedout = "CommitTimedout",
-    // (undocumented)
     CriticalFailure = "CriticalFailure",
-    // (undocumented)
     Failure = "Failure",
-    // (undocumented)
     InProgress = "InProgress",
-    // (undocumented)
     MoveSucceeded = "MoveSucceeded",
-    // (undocumented)
     PartialSuccess = "PartialSuccess",
-    // (undocumented)
     PrepareFailed = "PrepareFailed",
-    // (undocumented)
     PrepareTimedout = "PrepareTimedout",
-    // (undocumented)
     Unknown = "Unknown"
 }
 
 // @public
 export enum KnownSkuName {
-    // (undocumented)
     RS0 = "RS0",
-    // (undocumented)
     Standard = "Standard"
 }
 
 // @public
+export enum KnownStandardTierStorageRedundancy {
+    GeoRedundant = "GeoRedundant",
+    LocallyRedundant = "LocallyRedundant",
+    ZoneRedundant = "ZoneRedundant"
+}
+
+// @public
 export enum KnownTriggerType {
-    // (undocumented)
     ForcedUpgrade = "ForcedUpgrade",
-    // (undocumented)
     UserTriggered = "UserTriggered"
 }
 
 // @public
 export enum KnownUsagesUnit {
-    // (undocumented)
     Bytes = "Bytes",
-    // (undocumented)
     BytesPerSecond = "BytesPerSecond",
-    // (undocumented)
     Count = "Count",
-    // (undocumented)
     CountPerSecond = "CountPerSecond",
-    // (undocumented)
     Percent = "Percent",
-    // (undocumented)
     Seconds = "Seconds"
 }
 
 // @public
 export enum KnownVaultPrivateEndpointState {
-    // (undocumented)
     Enabled = "Enabled",
-    // (undocumented)
     None = "None"
 }
 
 // @public
 export enum KnownVaultUpgradeState {
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     InProgress = "InProgress",
-    // (undocumented)
     Unknown = "Unknown",
-    // (undocumented)
     Upgraded = "Upgraded"
+}
+
+// @public
+export interface MonitoringSettings {
+    azureMonitorAlertSettings?: AzureMonitorAlertSettings;
+    classicAlertSettings?: ClassicAlertSettings;
 }
 
 // @public
@@ -333,19 +337,19 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 export type OperationsListResponse = ClientDiscoveryResponse;
 
 // @public
-export type PatchTrackedResource = Resource & {
+export interface PatchTrackedResource extends Resource {
     location?: string;
     tags?: {
         [propertyName: string]: string;
     };
-};
+}
 
 // @public
-export type PatchVault = PatchTrackedResource & {
+export interface PatchVault extends PatchTrackedResource {
+    identity?: IdentityData;
     properties?: VaultProperties;
     sku?: Sku;
-    identity?: IdentityData;
-};
+}
 
 // @public
 export interface PrivateEndpoint {
@@ -525,23 +529,24 @@ export interface Resource {
 }
 
 // @public
-export type ResourceCertificateAndAadDetails = ResourceCertificateDetails & {
-    authType: "AzureActiveDirectory";
+export interface ResourceCertificateAndAadDetails extends ResourceCertificateDetails {
+    aadAudience?: string;
     aadAuthority: string;
     aadTenantId: string;
+    authType: "AzureActiveDirectory";
+    azureManagementEndpointAudience: string;
     servicePrincipalClientId: string;
     servicePrincipalObjectId: string;
-    azureManagementEndpointAudience: string;
     serviceResourceId?: string;
-};
+}
 
 // @public
-export type ResourceCertificateAndAcsDetails = ResourceCertificateDetails & {
+export interface ResourceCertificateAndAcsDetails extends ResourceCertificateDetails {
     authType: "AccessControlService";
-    globalAcsNamespace: string;
     globalAcsHostName: string;
+    globalAcsNamespace: string;
     globalAcsRPRealm: string;
-};
+}
 
 // @public
 export interface ResourceCertificateDetails {
@@ -578,6 +583,9 @@ export interface Sku {
 export type SkuName = string;
 
 // @public
+export type StandardTierStorageRedundancy = string;
+
+// @public
 export interface SystemData {
     createdAt?: Date;
     createdBy?: string;
@@ -588,12 +596,12 @@ export interface SystemData {
 }
 
 // @public
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
     location: string;
     tags?: {
         [propertyName: string]: string;
     };
-};
+}
 
 // @public
 export type TriggerType = string;
@@ -633,12 +641,12 @@ export interface UserIdentity {
 }
 
 // @public
-export type Vault = TrackedResource & {
+export interface Vault extends TrackedResource {
     identity?: IdentityData;
     properties?: VaultProperties;
     sku?: Sku;
     readonly systemData?: SystemData;
-};
+}
 
 // @public
 export interface VaultCertificateResponse {
@@ -682,12 +690,12 @@ export interface VaultExtendedInfoGetOptionalParams extends coreClient.Operation
 export type VaultExtendedInfoGetResponse = VaultExtendedInfoResource;
 
 // @public
-export type VaultExtendedInfoResource = Resource & {
-    integrityKey?: string;
+export interface VaultExtendedInfoResource extends Resource {
+    algorithm?: string;
     encryptionKey?: string;
     encryptionKeyThumbprint?: string;
-    algorithm?: string;
-};
+    integrityKey?: string;
+}
 
 // @public
 export interface VaultExtendedInfoUpdateOptionalParams extends coreClient.OperationOptions {
@@ -708,13 +716,16 @@ export type VaultPrivateEndpointState = string;
 
 // @public
 export interface VaultProperties {
+    readonly backupStorageVersion?: BackupStorageVersion;
     encryption?: VaultPropertiesEncryption;
+    monitoringSettings?: MonitoringSettings;
     moveDetails?: VaultPropertiesMoveDetails;
     readonly moveState?: ResourceMoveState;
     readonly privateEndpointConnections?: PrivateEndpointConnectionVaultProperties[];
     readonly privateEndpointStateForBackup?: VaultPrivateEndpointState;
     readonly privateEndpointStateForSiteRecovery?: VaultPrivateEndpointState;
     readonly provisioningState?: string;
+    redundancySettings?: VaultPropertiesRedundancySettings;
     upgradeDetails?: UpgradeDetails;
 }
 
@@ -732,6 +743,12 @@ export interface VaultPropertiesMoveDetails {
     readonly sourceResourceId?: string;
     readonly startTimeUtc?: Date;
     readonly targetResourceId?: string;
+}
+
+// @public
+export interface VaultPropertiesRedundancySettings {
+    readonly crossRegionRestore?: CrossRegionRestore;
+    readonly standardTierStorageRedundancy?: StandardTierStorageRedundancy;
 }
 
 // @public

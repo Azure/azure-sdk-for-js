@@ -236,9 +236,16 @@ export interface StorageAccounts {
     options?: StorageAccountsListServiceSASOptionalParams
   ): Promise<StorageAccountsListServiceSASResponse>;
   /**
-   * Failover request can be triggered for a storage account in case of availability issues. The failover
-   * occurs from the storage account's primary cluster to secondary cluster for RA-GRS accounts. The
-   * secondary cluster will become primary after failover.
+   * A failover request can be triggered for a storage account in the event a primary endpoint becomes
+   * unavailable for any reason. The failover occurs from the storage account's primary cluster to the
+   * secondary cluster for RA-GRS accounts. The secondary cluster will become primary after failover and
+   * the account is converted to LRS. In the case of a Planned Failover, the primary and secondary
+   * clusters are swapped after failover and the account remains geo-replicated. Failover should continue
+   * to be used in the event of availability issues as Planned failover is only available while the
+   * primary and secondary endpoints are available. The primary use case of a Planned Failover is
+   * disaster recovery testing drills. This type of failover is invoked by setting FailoverType parameter
+   * to 'Planned'. Learn more about the failover options here-
+   * https://learn.microsoft.com/azure/storage/common/storage-disaster-recovery-guidanceS
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage
@@ -252,9 +259,16 @@ export interface StorageAccounts {
     options?: StorageAccountsFailoverOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
-   * Failover request can be triggered for a storage account in case of availability issues. The failover
-   * occurs from the storage account's primary cluster to secondary cluster for RA-GRS accounts. The
-   * secondary cluster will become primary after failover.
+   * A failover request can be triggered for a storage account in the event a primary endpoint becomes
+   * unavailable for any reason. The failover occurs from the storage account's primary cluster to the
+   * secondary cluster for RA-GRS accounts. The secondary cluster will become primary after failover and
+   * the account is converted to LRS. In the case of a Planned Failover, the primary and secondary
+   * clusters are swapped after failover and the account remains geo-replicated. Failover should continue
+   * to be used in the event of availability issues as Planned failover is only available while the
+   * primary and secondary endpoints are available. The primary use case of a Planned Failover is
+   * disaster recovery testing drills. This type of failover is invoked by setting FailoverType parameter
+   * to 'Planned'. Learn more about the failover options here-
+   * https://learn.microsoft.com/azure/storage/common/storage-disaster-recovery-guidance
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
    * @param accountName The name of the storage account within the specified resource group. Storage

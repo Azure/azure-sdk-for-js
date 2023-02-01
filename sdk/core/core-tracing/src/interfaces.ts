@@ -62,7 +62,10 @@ export interface TracingClient {
     name: string,
     operationOptions?: Options,
     spanOptions?: TracingSpanOptions
-  ): { span: TracingSpan; updatedOptions: Options };
+  ): {
+    span: TracingSpan;
+    updatedOptions: OptionsWithTracingContext<Options>;
+  };
   /**
    * Wraps a callback with an active context and calls the callback.
    * Depending on the implementation, this may set the globally available active context.
@@ -278,3 +281,15 @@ export interface OperationTracingOptions {
   /** The context to use for created Tracing Spans. */
   tracingContext?: TracingContext;
 }
+
+/**
+ * A utility type for when we know a TracingContext has been set
+ * as part of an operation's options.
+ */
+export type OptionsWithTracingContext<
+  Options extends { tracingOptions?: OperationTracingOptions }
+> = Options & {
+  tracingOptions: {
+    tracingContext: TracingContext;
+  };
+};

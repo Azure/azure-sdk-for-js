@@ -1,10 +1,10 @@
 {
-  "name": "azure-video-analyzer-edge-samples-ts",
+  "name": "@azure-samples/video-analyzer-edge-ts",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Video Analyzer client library samples for TypeScript",
   "engines": {
-    "node": ">=12.0.0"
+    "node": ">=14.0.0"
   },
   "scripts": {
     "build": "tsc",

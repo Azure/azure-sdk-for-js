@@ -36,6 +36,9 @@ import {
   RegenerateCredentialParameters,
   RegistriesRegenerateCredentialOptionalParams,
   RegistriesRegenerateCredentialResponse,
+  GenerateCredentialsParameters,
+  RegistriesGenerateCredentialsOptionalParams,
+  RegistriesGenerateCredentialsResponse,
   RunRequestUnion,
   RegistriesScheduleRunOptionalParams,
   RegistriesScheduleRunResponse,
@@ -253,6 +256,37 @@ export interface Registries {
     regenerateCredentialParameters: RegenerateCredentialParameters,
     options?: RegistriesRegenerateCredentialOptionalParams
   ): Promise<RegistriesRegenerateCredentialResponse>;
+  /**
+   * Generate keys for a token of a specified container registry.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param registryName The name of the container registry.
+   * @param generateCredentialsParameters The parameters for generating credentials.
+   * @param options The options parameters.
+   */
+  beginGenerateCredentials(
+    resourceGroupName: string,
+    registryName: string,
+    generateCredentialsParameters: GenerateCredentialsParameters,
+    options?: RegistriesGenerateCredentialsOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<RegistriesGenerateCredentialsResponse>,
+      RegistriesGenerateCredentialsResponse
+    >
+  >;
+  /**
+   * Generate keys for a token of a specified container registry.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param registryName The name of the container registry.
+   * @param generateCredentialsParameters The parameters for generating credentials.
+   * @param options The options parameters.
+   */
+  beginGenerateCredentialsAndWait(
+    resourceGroupName: string,
+    registryName: string,
+    generateCredentialsParameters: GenerateCredentialsParameters,
+    options?: RegistriesGenerateCredentialsOptionalParams
+  ): Promise<RegistriesGenerateCredentialsResponse>;
   /**
    * Schedules a new run based on the request parameters and add it to the run queue.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.

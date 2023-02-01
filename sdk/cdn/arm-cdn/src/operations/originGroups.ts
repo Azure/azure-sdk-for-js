@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { OriginGroups } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -69,12 +70,16 @@ export class OriginGroupsImpl implements OriginGroups {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByEndpointPagingPage(
           resourceGroupName,
           profileName,
           endpointName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -84,16 +89,23 @@ export class OriginGroupsImpl implements OriginGroups {
     resourceGroupName: string,
     profileName: string,
     endpointName: string,
-    options?: OriginGroupsListByEndpointOptionalParams
+    options?: OriginGroupsListByEndpointOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<OriginGroup[]> {
-    let result = await this._listByEndpoint(
-      resourceGroupName,
-      profileName,
-      endpointName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: OriginGroupsListByEndpointResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByEndpoint(
+        resourceGroupName,
+        profileName,
+        endpointName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByEndpointNext(
         resourceGroupName,
@@ -103,7 +115,9 @@ export class OriginGroupsImpl implements OriginGroups {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -242,10 +256,12 @@ export class OriginGroupsImpl implements OriginGroups {
       },
       createOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -349,10 +365,12 @@ export class OriginGroupsImpl implements OriginGroups {
       },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -448,10 +466,12 @@ export class OriginGroupsImpl implements OriginGroups {
       },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -571,7 +591,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.originGroup,
+  requestBody: Parameters.originGroup1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -581,7 +601,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.endpointName,
     Parameters.originGroupName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -606,7 +626,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.originGroupUpdateProperties,
+  requestBody: Parameters.originGroupUpdateProperties1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -616,7 +636,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.endpointName,
     Parameters.originGroupName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };

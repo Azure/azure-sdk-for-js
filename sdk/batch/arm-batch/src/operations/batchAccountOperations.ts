@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { BatchAccountOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,11 +19,18 @@ import {
   BatchAccount,
   BatchAccountListNextOptionalParams,
   BatchAccountListOptionalParams,
+  BatchAccountListResponse,
   BatchAccountListByResourceGroupNextOptionalParams,
   BatchAccountListByResourceGroupOptionalParams,
+  BatchAccountListByResourceGroupResponse,
+  DetectorResponse,
+  BatchAccountListDetectorsNextOptionalParams,
+  BatchAccountListDetectorsOptionalParams,
+  BatchAccountListDetectorsResponse,
   OutboundEnvironmentEndpoint,
   BatchAccountListOutboundNetworkDependenciesEndpointsNextOptionalParams,
   BatchAccountListOutboundNetworkDependenciesEndpointsOptionalParams,
+  BatchAccountListOutboundNetworkDependenciesEndpointsResponse,
   BatchAccountCreateParameters,
   BatchAccountCreateOptionalParams,
   BatchAccountCreateResponse,
@@ -32,17 +40,17 @@ import {
   BatchAccountDeleteOptionalParams,
   BatchAccountGetOptionalParams,
   BatchAccountGetResponse,
-  BatchAccountListResponse,
-  BatchAccountListByResourceGroupResponse,
   BatchAccountSynchronizeAutoStorageKeysOptionalParams,
   BatchAccountRegenerateKeyParameters,
   BatchAccountRegenerateKeyOptionalParams,
   BatchAccountRegenerateKeyResponse,
   BatchAccountGetKeysOptionalParams,
   BatchAccountGetKeysResponse,
-  BatchAccountListOutboundNetworkDependenciesEndpointsResponse,
+  BatchAccountGetDetectorOptionalParams,
+  BatchAccountGetDetectorResponse,
   BatchAccountListNextResponse,
   BatchAccountListByResourceGroupNextResponse,
+  BatchAccountListDetectorsNextResponse,
   BatchAccountListOutboundNetworkDependenciesEndpointsNextResponse
 } from "../models";
 
@@ -74,22 +82,34 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: BatchAccountListOptionalParams
+    options?: BatchAccountListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<BatchAccount[]> {
-    let result = await this._list(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: BatchAccountListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -118,19 +138,33 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: BatchAccountListByResourceGroupOptionalParams
+    options?: BatchAccountListByResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<BatchAccount[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: BatchAccountListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -138,7 +172,9 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -148,6 +184,90 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
   ): AsyncIterableIterator<BatchAccount> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
+      options
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Gets information about the detectors available for a given Batch account.
+   * @param resourceGroupName The name of the resource group that contains the Batch account.
+   * @param accountName The name of the Batch account.
+   * @param options The options parameters.
+   */
+  public listDetectors(
+    resourceGroupName: string,
+    accountName: string,
+    options?: BatchAccountListDetectorsOptionalParams
+  ): PagedAsyncIterableIterator<DetectorResponse> {
+    const iter = this.listDetectorsPagingAll(
+      resourceGroupName,
+      accountName,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listDetectorsPagingPage(
+          resourceGroupName,
+          accountName,
+          options,
+          settings
+        );
+      }
+    };
+  }
+
+  private async *listDetectorsPagingPage(
+    resourceGroupName: string,
+    accountName: string,
+    options?: BatchAccountListDetectorsOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<DetectorResponse[]> {
+    let result: BatchAccountListDetectorsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listDetectors(
+        resourceGroupName,
+        accountName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listDetectorsNext(
+        resourceGroupName,
+        accountName,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listDetectorsPagingAll(
+    resourceGroupName: string,
+    accountName: string,
+    options?: BatchAccountListDetectorsOptionalParams
+  ): AsyncIterableIterator<DetectorResponse> {
+    for await (const page of this.listDetectorsPagingPage(
+      resourceGroupName,
+      accountName,
       options
     )) {
       yield* page;
@@ -182,11 +302,15 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listOutboundNetworkDependenciesEndpointsPagingPage(
           resourceGroupName,
           accountName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -195,15 +319,22 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
   private async *listOutboundNetworkDependenciesEndpointsPagingPage(
     resourceGroupName: string,
     accountName: string,
-    options?: BatchAccountListOutboundNetworkDependenciesEndpointsOptionalParams
+    options?: BatchAccountListOutboundNetworkDependenciesEndpointsOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<OutboundEnvironmentEndpoint[]> {
-    let result = await this._listOutboundNetworkDependenciesEndpoints(
-      resourceGroupName,
-      accountName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: BatchAccountListOutboundNetworkDependenciesEndpointsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listOutboundNetworkDependenciesEndpoints(
+        resourceGroupName,
+        accountName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listOutboundNetworkDependenciesEndpointsNext(
         resourceGroupName,
@@ -212,7 +343,9 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -296,11 +429,13 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
       { resourceGroupName, accountName, parameters, options },
       createOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -403,11 +538,13 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
       { resourceGroupName, accountName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -532,6 +669,42 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
   }
 
   /**
+   * Gets information about the detectors available for a given Batch account.
+   * @param resourceGroupName The name of the resource group that contains the Batch account.
+   * @param accountName The name of the Batch account.
+   * @param options The options parameters.
+   */
+  private _listDetectors(
+    resourceGroupName: string,
+    accountName: string,
+    options?: BatchAccountListDetectorsOptionalParams
+  ): Promise<BatchAccountListDetectorsResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, options },
+      listDetectorsOperationSpec
+    );
+  }
+
+  /**
+   * Gets information about the given detector for a given Batch account.
+   * @param resourceGroupName The name of the resource group that contains the Batch account.
+   * @param accountName The name of the Batch account.
+   * @param detectorId The name of the detector.
+   * @param options The options parameters.
+   */
+  getDetector(
+    resourceGroupName: string,
+    accountName: string,
+    detectorId: string,
+    options?: BatchAccountGetDetectorOptionalParams
+  ): Promise<BatchAccountGetDetectorResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, detectorId, options },
+      getDetectorOperationSpec
+    );
+  }
+
+  /**
    * Lists the endpoints that a Batch Compute Node under this Batch Account may call as part of Batch
    * service administration. If you are deploying a Pool inside of a virtual network that you specify,
    * you must make sure your network allows outbound access to these endpoints. Failure to allow access
@@ -582,6 +755,25 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
       listByResourceGroupNextOperationSpec
+    );
+  }
+
+  /**
+   * ListDetectorsNext
+   * @param resourceGroupName The name of the resource group that contains the Batch account.
+   * @param accountName The name of the Batch account.
+   * @param nextLink The nextLink from the previous successful call to the ListDetectors method.
+   * @param options The options parameters.
+   */
+  private _listDetectorsNext(
+    resourceGroupName: string,
+    accountName: string,
+    nextLink: string,
+    options?: BatchAccountListDetectorsNextOptionalParams
+  ): Promise<BatchAccountListDetectorsNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, nextLink, options },
+      listDetectorsNextOperationSpec
     );
   }
 
@@ -814,6 +1006,51 @@ const getKeysOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
+const listDetectorsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/detectors",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DetectorListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.accountName1
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getDetectorOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/detectors/{detectorId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DetectorResponse
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.accountName1,
+    Parameters.detectorId
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const listOutboundNetworkDependenciesEndpointsOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/outboundNetworkDependenciesEndpoints",
@@ -872,6 +1109,28 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.nextLink
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listDetectorsNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DetectorListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.accountName1,
     Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],

@@ -22,7 +22,6 @@ import { readStreamToLocalFileWithLogs } from "../utils/testutils.node";
 import { BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES } from "../../src/utils/constants";
 import { Test_CPK_INFO } from "../utils/fakeTestSecrets";
 import { streamToBuffer2 } from "../../src/utils/utils.node";
-import { delay } from "../../src/utils/utils.common";
 import { Context } from "mocha";
 
 describe("Highlevel", () => {
@@ -102,7 +101,7 @@ describe("Highlevel", () => {
       await blockBlobClient.upload(() => inputStream, maxPutBlobSizeLimitInMB * MB, {
         abortSignal: AbortController.timeout(20 * 1000), // takes too long to upload the file
       });
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.name, "AbortError");
     }
 
@@ -190,7 +189,7 @@ describe("Highlevel", () => {
         concurrency: 20,
       });
       assert.fail();
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.name, "AbortError");
     }
   });
@@ -205,7 +204,7 @@ describe("Highlevel", () => {
         concurrency: 20,
       });
       assert.fail();
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.name, "AbortError");
     }
   });
@@ -230,7 +229,7 @@ describe("Highlevel", () => {
           aborter.abort();
         },
       });
-    } catch (err) {}
+    } catch (err: any) {}
     assert.ok(eventTriggered);
   });
 
@@ -254,7 +253,7 @@ describe("Highlevel", () => {
           aborter.abort();
         },
       });
-    } catch (err) {}
+    } catch (err: any) {}
     assert.ok(eventTriggered);
   });
 
@@ -270,7 +269,7 @@ describe("Highlevel", () => {
         blockSize: BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES,
         abortSignal: AbortController.timeout(20 * 1000), // takes too long to upload the file
       });
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.name, "AbortError");
     }
 
@@ -339,7 +338,7 @@ describe("Highlevel", () => {
         abortSignal: aborter,
       });
       assert.fail();
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.name, "AbortError");
     }
   });
@@ -386,7 +385,7 @@ describe("Highlevel", () => {
         await blockBlobClient.uploadStream(rs, BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES, undefined, {
           abortSignal: AbortController.timeout(timeoutForLargeFileUploadingTest / 10),
         });
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.name, "AbortError");
       }
 
@@ -415,7 +414,7 @@ describe("Highlevel", () => {
       // casting to "any" is required since @types/node@8 doesn't have `constants` though it is present on the `buffer`,
       // "as any" can be removed once we move from @types/node v8 to v10
       await blockBlobClient.downloadToBuffer(undefined, (buffer as any).constants.MAX_LENGTH + 1);
-    } catch (err) {
+    } catch (err: any) {
       error = err;
     }
     assert.ok(
@@ -487,7 +486,7 @@ describe("Highlevel", () => {
         concurrency: 20,
       });
       assert.fail();
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.name, "AbortError");
     }
   }).timeout(timeoutForLargeFileUploadingTest);
@@ -512,7 +511,7 @@ describe("Highlevel", () => {
           aborter.abort();
         },
       });
-    } catch (err) {}
+    } catch (err: any) {}
     assert.ok(eventTriggered);
   });
 
@@ -533,7 +532,7 @@ describe("Highlevel", () => {
     let exceptionCaught = false;
     try {
       await CPKblobClient.downloadToBuffer();
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.details.errorCode, "BlobUsesCustomerSpecifiedEncryption");
       exceptionCaught = true;
     }
@@ -673,7 +672,7 @@ describe("Highlevel", () => {
       });
       retirableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
       await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
-    } catch (error) {
+    } catch (error: any) {
       expectedError = true;
     }
 
@@ -692,7 +691,7 @@ describe("Highlevel", () => {
 
     let retirableReadableStreamOptions: RetriableReadableStreamOptions;
     let injectedErrors = 0;
-    let expectedError = false;
+    let caughtError: Error | undefined = undefined;
 
     try {
       const aborter = new AbortController();
@@ -714,12 +713,11 @@ describe("Highlevel", () => {
       });
       retirableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
       await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
-    } catch (error) {
-      expectedError = true;
+    } catch (error: any) {
+      caughtError = error;
     }
-
-    assert.ok(expectedError);
     fs.unlinkSync(downloadedFile);
+    assert.equal(caughtError?.name, "AbortError");
   });
 
   it("download abort should work when still fetching body", async () => {
@@ -732,15 +730,18 @@ describe("Highlevel", () => {
     const aborter = new AbortController();
     const res = await blobClient.download(0, undefined, { abortSignal: aborter.signal });
 
-    let exceptionCaught = false;
-    res.readableStreamBody!.on("error", (err) => {
-      assert.equal(err.name, "AbortError");
-      exceptionCaught = true;
+    const bodyEnded = new Promise<void>((resolve, reject) => {
+      res.readableStreamBody!.on("error", (err) => {
+        if (err.name === "AbortError") {
+          resolve();
+        } else {
+          reject(new Error("Expected readableStreamBody to emit AbortError"));
+        }
+      });
     });
 
     aborter.abort();
-    await delay(10);
-    assert.ok(exceptionCaught);
+    await bodyEnded;
   });
 
   it("downloadToFile should success", async () => {
@@ -776,7 +777,7 @@ describe("Highlevel", () => {
     try {
       await blobClient.downloadToFile(__dirname);
       throw new Error("Test failure.");
-    } catch (err) {
+    } catch (err: any) {
       assert.notEqual(err.message, "Test failure.");
     }
   });

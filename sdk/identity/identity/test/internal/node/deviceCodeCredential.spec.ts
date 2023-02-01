@@ -3,24 +3,26 @@
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
+import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
+import { Recorder, env, isLiveMode } from "@azure-tools/test-recorder";
+import { Context } from "mocha";
+import { DeviceCodeCredential } from "../../../src";
+import { GetTokenOptions } from "@azure/core-auth";
+import { MsalNode } from "../../../src/msal/nodeFlows/msalNodeCommon";
+import { PublicClientApplication } from "@azure/msal-node";
 import Sinon from "sinon";
 import { assert } from "chai";
-import { GetTokenOptions } from "@azure/core-auth";
-import { PublicClientApplication } from "@azure/msal-node";
-import { env, isLiveMode } from "@azure-tools/test-recorder";
-import { DeviceCodeCredential } from "../../../src";
-import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
-import { MsalNode } from "../../../src/msal/nodeFlows/msalNodeCommon";
-import { Context } from "mocha";
 
 describe("DeviceCodeCredential (internal)", function () {
   let cleanup: MsalTestCleanup;
   let getTokenSilentSpy: Sinon.SinonSpy;
   let doGetTokenSpy: Sinon.SinonSpy;
+  let recorder: Recorder;
 
-  beforeEach(function (this: Context) {
-    const setup = msalNodeTestSetup(this);
+  beforeEach(async function (this: Context) {
+    const setup = await msalNodeTestSetup(this.currentTest);
     cleanup = setup.cleanup;
+    recorder = setup.recorder;
 
     getTokenSilentSpy = setup.sandbox.spy(MsalNode.prototype, "getTokenSilent");
 
@@ -41,10 +43,12 @@ describe("DeviceCodeCredential (internal)", function () {
     if (isLiveMode()) {
       this.skip();
     }
-    const credential = new DeviceCodeCredential({
-      tenantId: env.AZURE_TENANT_ID,
-      clientId: env.AZURE_CLIENT_ID,
-    });
+    const credential = new DeviceCodeCredential(
+      recorder.configureClientOptions({
+        tenantId: env.AZURE_TENANT_ID,
+        clientId: env.AZURE_CLIENT_ID,
+      })
+    );
 
     await credential.getToken(scope);
     assert.equal(getTokenSilentSpy.callCount, 1, "getTokenSilentSpy.callCount should have been 1");
@@ -68,10 +72,12 @@ describe("DeviceCodeCredential (internal)", function () {
     if (isLiveMode()) {
       this.skip();
     }
-    const credential = new DeviceCodeCredential({
-      tenantId: env.AZURE_TENANT_ID,
-      clientId: env.AZURE_CLIENT_ID,
-    });
+    const credential = new DeviceCodeCredential(
+      recorder.configureClientOptions({
+        tenantId: env.AZURE_TENANT_ID,
+        clientId: env.AZURE_CLIENT_ID,
+      })
+    );
 
     await credential.getToken(scope, { tenantId: env.AZURE_TENANT_ID } as GetTokenOptions);
     assert.equal(getTokenSilentSpy.callCount, 1, "getTokenSilentSpy.callCount should have been 1");

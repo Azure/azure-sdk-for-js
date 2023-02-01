@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Routes } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -46,7 +47,8 @@ export class RoutesImpl implements Routes {
   /**
    * Lists all of the existing origins within a profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param options The options parameters.
    */
@@ -69,12 +71,16 @@ export class RoutesImpl implements Routes {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByEndpointPagingPage(
           resourceGroupName,
           profileName,
           endpointName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -84,16 +90,23 @@ export class RoutesImpl implements Routes {
     resourceGroupName: string,
     profileName: string,
     endpointName: string,
-    options?: RoutesListByEndpointOptionalParams
+    options?: RoutesListByEndpointOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Route[]> {
-    let result = await this._listByEndpoint(
-      resourceGroupName,
-      profileName,
-      endpointName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: RoutesListByEndpointResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByEndpoint(
+        resourceGroupName,
+        profileName,
+        endpointName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByEndpointNext(
         resourceGroupName,
@@ -103,7 +116,9 @@ export class RoutesImpl implements Routes {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -126,7 +141,8 @@ export class RoutesImpl implements Routes {
   /**
    * Lists all of the existing origins within a profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param options The options parameters.
    */
@@ -146,7 +162,8 @@ export class RoutesImpl implements Routes {
    * Gets an existing route with the specified route name under the specified subscription, resource
    * group, profile, and AzureFrontDoor endpoint.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param routeName Name of the routing rule.
    * @param options The options parameters.
@@ -168,7 +185,8 @@ export class RoutesImpl implements Routes {
    * Creates a new route with the specified route name under the specified subscription, resource group,
    * profile, and AzureFrontDoor endpoint.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param routeName Name of the routing rule.
    * @param route Route properties
@@ -235,18 +253,21 @@ export class RoutesImpl implements Routes {
       },
       createOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
    * Creates a new route with the specified route name under the specified subscription, resource group,
    * profile, and AzureFrontDoor endpoint.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param routeName Name of the routing rule.
    * @param route Route properties
@@ -275,7 +296,8 @@ export class RoutesImpl implements Routes {
    * Updates an existing route with the specified route name under the specified subscription, resource
    * group, profile, and AzureFrontDoor endpoint.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param routeName Name of the routing rule.
    * @param routeUpdateProperties Route update properties
@@ -342,18 +364,21 @@ export class RoutesImpl implements Routes {
       },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
    * Updates an existing route with the specified route name under the specified subscription, resource
    * group, profile, and AzureFrontDoor endpoint.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param routeName Name of the routing rule.
    * @param routeUpdateProperties Route update properties
@@ -382,7 +407,8 @@ export class RoutesImpl implements Routes {
    * Deletes an existing route with the specified route name under the specified subscription, resource
    * group, profile, and AzureFrontDoor endpoint.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param routeName Name of the routing rule.
    * @param options The options parameters.
@@ -438,18 +464,21 @@ export class RoutesImpl implements Routes {
       { resourceGroupName, profileName, endpointName, routeName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
    * Deletes an existing route with the specified route name under the specified subscription, resource
    * group, profile, and AzureFrontDoor endpoint.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param routeName Name of the routing rule.
    * @param options The options parameters.
@@ -474,7 +503,8 @@ export class RoutesImpl implements Routes {
   /**
    * ListByEndpointNext
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param nextLink The nextLink from the previous successful call to the ListByEndpoint method.
    * @param options The options parameters.
@@ -573,7 +603,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.endpointName,
     Parameters.routeName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -608,7 +638,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.endpointName,
     Parameters.routeName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };

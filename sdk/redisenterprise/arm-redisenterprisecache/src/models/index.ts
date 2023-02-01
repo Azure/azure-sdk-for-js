@@ -256,13 +256,32 @@ export interface Persistence {
 export interface Module {
   /** The name of the module, e.g. 'RedisBloom', 'RediSearch', 'RedisTimeSeries' */
   name: string;
-  /** Configuration options for the module, e.g. 'ERROR_RATE 0.00 INITIAL_SIZE 400'. */
+  /** Configuration options for the module, e.g. 'ERROR_RATE 0.01 INITIAL_SIZE 400'. */
   args?: string;
   /**
    * The version of the module, e.g. '1.0'.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly version?: string;
+}
+
+/** Optional set of properties to configure geo replication for this database. */
+export interface DatabasePropertiesGeoReplication {
+  /** Name for the group of linked database resources */
+  groupNickname?: string;
+  /** List of database resources to link with this database */
+  linkedDatabases?: LinkedDatabase[];
+}
+
+/** Specifies details of a linked database resource. */
+export interface LinkedDatabase {
+  /** Resource ID of a database resource to link with this database. */
+  id?: string;
+  /**
+   * State of the link between the database resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly state?: LinkState;
 }
 
 /** A partial update to the RedisEnterprise database */
@@ -289,6 +308,8 @@ export interface DatabaseUpdate {
   persistence?: Persistence;
   /** Optional set of redis modules to enable in this database - modules can only be added at creation time. */
   modules?: Module[];
+  /** Optional set of properties to configure geo replication for this database. */
+  geoReplication?: DatabasePropertiesGeoReplication;
 }
 
 /** The secret access keys used for authenticating connections to redis */
@@ -335,8 +356,14 @@ export interface PrivateLinkResourceListResult {
   value?: PrivateLinkResource[];
 }
 
+/** Parameters for a Redis Enterprise Active Geo Replication Force Unlink operation. */
+export interface ForceUnlinkParameters {
+  /** The resource IDs of the database resources to be unlinked. */
+  ids: string[];
+}
+
 /** The Private Endpoint Connection resource. */
-export type PrivateEndpointConnection = Resource & {
+export interface PrivateEndpointConnection extends Resource {
   /** The resource of private end point. */
   privateEndpoint?: PrivateEndpoint;
   /** A collection of information about the state of the connection between service consumer and provider. */
@@ -346,21 +373,21 @@ export type PrivateEndpointConnection = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
-};
+}
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The geo-location where the resource lives */
   location: string;
-};
+}
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {}
 
 /** A private link resource */
-export type PrivateLinkResource = Resource & {
+export interface PrivateLinkResource extends Resource {
   /**
    * The private link resource group id.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -373,10 +400,10 @@ export type PrivateLinkResource = Resource & {
   readonly requiredMembers?: string[];
   /** The private link resource Private link DNS zone name. */
   requiredZoneNames?: string[];
-};
+}
 
 /** Describes the RedisEnterprise cluster */
-export type Cluster = TrackedResource & {
+export interface Cluster extends TrackedResource {
   /** The SKU to create, which affects price, performance, and features. */
   sku: Sku;
   /** The Availability Zones where this cluster will be deployed. */
@@ -408,10 +435,10 @@ export type Cluster = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
-};
+}
 
 /** Describes a database on the RedisEnterprise cluster */
-export type Database = ProxyResource & {
+export interface Database extends ProxyResource {
   /** Specifies whether redis clients can connect using TLS-encrypted or plaintext redis protocols. Default is TLS-encrypted. */
   clientProtocol?: Protocol;
   /** TCP port of the database endpoint. Specified at create time. Defaults to an available port. */
@@ -434,12 +461,17 @@ export type Database = ProxyResource & {
   persistence?: Persistence;
   /** Optional set of redis modules to enable in this database - modules can only be added at creation time. */
   modules?: Module[];
-};
+  /** Optional set of properties to configure geo replication for this database. */
+  geoReplication?: DatabasePropertiesGeoReplication;
+}
 
 /** Known values of {@link Origin} that the service accepts. */
 export enum KnownOrigin {
+  /** User */
   User = "user",
+  /** System */
   System = "system",
+  /** UserSystem */
   UserSystem = "user,system"
 }
 
@@ -456,6 +488,7 @@ export type Origin = string;
 
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
+  /** Internal */
   Internal = "Internal"
 }
 
@@ -470,12 +503,19 @@ export type ActionType = string;
 
 /** Known values of {@link SkuName} that the service accepts. */
 export enum KnownSkuName {
+  /** EnterpriseE10 */
   EnterpriseE10 = "Enterprise_E10",
+  /** EnterpriseE20 */
   EnterpriseE20 = "Enterprise_E20",
+  /** EnterpriseE50 */
   EnterpriseE50 = "Enterprise_E50",
+  /** EnterpriseE100 */
   EnterpriseE100 = "Enterprise_E100",
+  /** EnterpriseFlashF300 */
   EnterpriseFlashF300 = "EnterpriseFlash_F300",
+  /** EnterpriseFlashF700 */
   EnterpriseFlashF700 = "EnterpriseFlash_F700",
+  /** EnterpriseFlashF1500 */
   EnterpriseFlashF1500 = "EnterpriseFlash_F1500"
 }
 
@@ -496,8 +536,11 @@ export type SkuName = string;
 
 /** Known values of {@link TlsVersion} that the service accepts. */
 export enum KnownTlsVersion {
+  /** One0 */
   One0 = "1.0",
+  /** One1 */
   One1 = "1.1",
+  /** One2 */
   One2 = "1.2"
 }
 
@@ -514,11 +557,17 @@ export type TlsVersion = string;
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Creating */
   Creating = "Creating",
+  /** Updating */
   Updating = "Updating",
+  /** Deleting */
   Deleting = "Deleting"
 }
 
@@ -538,17 +587,29 @@ export type ProvisioningState = string;
 
 /** Known values of {@link ResourceState} that the service accepts. */
 export enum KnownResourceState {
+  /** Running */
   Running = "Running",
+  /** Creating */
   Creating = "Creating",
+  /** CreateFailed */
   CreateFailed = "CreateFailed",
+  /** Updating */
   Updating = "Updating",
+  /** UpdateFailed */
   UpdateFailed = "UpdateFailed",
+  /** Deleting */
   Deleting = "Deleting",
+  /** DeleteFailed */
   DeleteFailed = "DeleteFailed",
+  /** Enabling */
   Enabling = "Enabling",
+  /** EnableFailed */
   EnableFailed = "EnableFailed",
+  /** Disabling */
   Disabling = "Disabling",
+  /** DisableFailed */
   DisableFailed = "DisableFailed",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -574,8 +635,11 @@ export type ResourceState = string;
 
 /** Known values of {@link PrivateEndpointServiceConnectionStatus} that the service accepts. */
 export enum KnownPrivateEndpointServiceConnectionStatus {
+  /** Pending */
   Pending = "Pending",
+  /** Approved */
   Approved = "Approved",
+  /** Rejected */
   Rejected = "Rejected"
 }
 
@@ -592,9 +656,13 @@ export type PrivateEndpointServiceConnectionStatus = string;
 
 /** Known values of {@link PrivateEndpointConnectionProvisioningState} that the service accepts. */
 export enum KnownPrivateEndpointConnectionProvisioningState {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Creating */
   Creating = "Creating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Failed */
   Failed = "Failed"
 }
 
@@ -612,7 +680,9 @@ export type PrivateEndpointConnectionProvisioningState = string;
 
 /** Known values of {@link Protocol} that the service accepts. */
 export enum KnownProtocol {
+  /** Encrypted */
   Encrypted = "Encrypted",
+  /** Plaintext */
   Plaintext = "Plaintext"
 }
 
@@ -628,7 +698,9 @@ export type Protocol = string;
 
 /** Known values of {@link ClusteringPolicy} that the service accepts. */
 export enum KnownClusteringPolicy {
+  /** EnterpriseCluster */
   EnterpriseCluster = "EnterpriseCluster",
+  /** OSSCluster */
   OSSCluster = "OSSCluster"
 }
 
@@ -644,13 +716,21 @@ export type ClusteringPolicy = string;
 
 /** Known values of {@link EvictionPolicy} that the service accepts. */
 export enum KnownEvictionPolicy {
+  /** AllKeysLFU */
   AllKeysLFU = "AllKeysLFU",
+  /** AllKeysLRU */
   AllKeysLRU = "AllKeysLRU",
+  /** AllKeysRandom */
   AllKeysRandom = "AllKeysRandom",
+  /** VolatileLRU */
   VolatileLRU = "VolatileLRU",
+  /** VolatileLFU */
   VolatileLFU = "VolatileLFU",
+  /** VolatileTTL */
   VolatileTTL = "VolatileTTL",
+  /** VolatileRandom */
   VolatileRandom = "VolatileRandom",
+  /** NoEviction */
   NoEviction = "NoEviction"
 }
 
@@ -672,7 +752,9 @@ export type EvictionPolicy = string;
 
 /** Known values of {@link AofFrequency} that the service accepts. */
 export enum KnownAofFrequency {
+  /** OneS */
   OneS = "1s",
+  /** Always */
   Always = "always"
 }
 
@@ -688,8 +770,11 @@ export type AofFrequency = string;
 
 /** Known values of {@link RdbFrequency} that the service accepts. */
 export enum KnownRdbFrequency {
+  /** OneH */
   OneH = "1h",
+  /** SixH */
   SixH = "6h",
+  /** TwelveH */
   TwelveH = "12h"
 }
 
@@ -703,6 +788,33 @@ export enum KnownRdbFrequency {
  * **12h**
  */
 export type RdbFrequency = string;
+
+/** Known values of {@link LinkState} that the service accepts. */
+export enum KnownLinkState {
+  /** Linked */
+  Linked = "Linked",
+  /** Linking */
+  Linking = "Linking",
+  /** Unlinking */
+  Unlinking = "Unlinking",
+  /** LinkFailed */
+  LinkFailed = "LinkFailed",
+  /** UnlinkFailed */
+  UnlinkFailed = "UnlinkFailed"
+}
+
+/**
+ * Defines values for LinkState. \
+ * {@link KnownLinkState} can be used interchangeably with LinkState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Linked** \
+ * **Linking** \
+ * **Unlinking** \
+ * **LinkFailed** \
+ * **UnlinkFailed**
+ */
+export type LinkState = string;
 /** Defines values for AccessKeyType. */
 export type AccessKeyType = "Primary" | "Secondary";
 
@@ -872,6 +984,15 @@ export interface DatabasesImportOptionalParams
 
 /** Optional parameters. */
 export interface DatabasesExportOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface DatabasesForceUnlinkOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;

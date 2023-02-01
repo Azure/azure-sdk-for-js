@@ -6,10 +6,10 @@ import * as os from "os";
 import * as path from "path";
 import { diag } from "@opentelemetry/api";
 import { PersistentStorage } from "../../../types";
-import { DEFAULT_EXPORTER_CONFIG, AzureExporterInternalConfig } from "../../../config";
 import { FileAccessControl } from "./fileAccessControl";
 import { confirmDirExists, getShallowDirectorySize } from "./fileSystemHelpers";
 import { promisify } from "util";
+import { AzureMonitorExporterOptions } from "../../../config";
 
 const statAsync = promisify(fs.stat);
 const readdirAsync = promisify(fs.readdir);
@@ -23,21 +23,23 @@ const writeFileAsync = promisify(fs.writeFile);
  */
 export class FileSystemPersist implements PersistentStorage {
   static TEMPDIR_PREFIX = "ot-azure-exporter-";
-
   static FILENAME_SUFFIX = ".ai.json";
 
-  fileRetemptionPeriod = 7 * 24 * 60 * 60 * 1000; // 7 days
+  fileRetemptionPeriod = 2 * 24 * 60 * 60 * 1000; // 2 days
   cleanupTimeOut = 60 * 60 * 1000; // 1 hour
   maxBytesOnDisk: number = 50_000_000; // ~50MB
 
   private _enabled: boolean;
   private _tempDirectory: string = "";
   private _fileCleanupTimer: NodeJS.Timer | null = null;
+  private _instrumentationKey: string;
 
-  private readonly _options: AzureExporterInternalConfig;
-
-  constructor(options: Partial<AzureExporterInternalConfig> = {}) {
-    this._options = { ...DEFAULT_EXPORTER_CONFIG, ...options };
+  constructor(instrumentationKey: string, private _options?: AzureMonitorExporterOptions) {
+    this._instrumentationKey = instrumentationKey;
+    if (this._options?.disableOfflineStorage) {
+      this._enabled = false;
+      return;
+    }
     this._enabled = true;
     FileAccessControl.checkFileProtection();
 
@@ -48,7 +50,7 @@ export class FileSystemPersist implements PersistentStorage {
       );
     }
 
-    if (!this._options.instrumentationKey) {
+    if (!this._instrumentationKey) {
       this._enabled = false;
       diag.error(
         `No instrumentation key was provided to FileSystemPersister. Files will not be persisted`
@@ -56,9 +58,12 @@ export class FileSystemPersist implements PersistentStorage {
     }
     if (this._enabled) {
       this._tempDirectory = path.join(
-        os.tmpdir(),
-        FileSystemPersist.TEMPDIR_PREFIX + this._options.instrumentationKey
+        this._options?.storageDirectory || os.tmpdir(),
+        "Microsoft",
+        "AzureMonitor",
+        FileSystemPersist.TEMPDIR_PREFIX + this._instrumentationKey
       );
+
       // Starts file cleanup task
       if (!this._fileCleanupTimer) {
         this._fileCleanupTimer = setTimeout(() => {
@@ -87,7 +92,7 @@ export class FileSystemPersist implements PersistentStorage {
         if (buffer) {
           return JSON.parse(buffer.toString("utf8"));
         }
-      } catch (e) {
+      } catch (e: any) {
         diag.debug("Failed to read persisted file", e);
       }
       return null;
@@ -121,7 +126,7 @@ export class FileSystemPersist implements PersistentStorage {
         }
       }
       return null;
-    } catch (e) {
+    } catch (e: any) {
       if (e.code === "ENOENT") {
         // File does not exist -- return null instead of throwing
         return null;
@@ -134,7 +139,7 @@ export class FileSystemPersist implements PersistentStorage {
   private async _storeToDisk(payload: string): Promise<boolean> {
     try {
       await confirmDirExists(this._tempDirectory);
-    } catch (error) {
+    } catch (error: any) {
       diag.warn(`Error while checking/creating directory: `, error && error.message);
       return false;
     }
@@ -147,7 +152,7 @@ export class FileSystemPersist implements PersistentStorage {
         );
         return false;
       }
-    } catch (error) {
+    } catch (error: any) {
       diag.warn(`Error while checking size of persistence directory: `, error && error.message);
       return false;
     }
@@ -159,7 +164,7 @@ export class FileSystemPersist implements PersistentStorage {
     diag.info(`saving data to disk at: ${fileFullPath}`);
     try {
       await writeFileAsync(fileFullPath, payload, { mode: 0o600 });
-    } catch (writeError) {
+    } catch (writeError: any) {
       diag.warn(`Error writing file to persistent file storage`, writeError);
       return false;
     }
@@ -192,7 +197,7 @@ export class FileSystemPersist implements PersistentStorage {
         }
       }
       return false;
-    } catch (error) {
+    } catch (error: any) {
       diag.info(`Failed cleanup of persistent file storage expired files`, error);
       return false;
     }

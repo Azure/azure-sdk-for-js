@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { GraphResources } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -62,11 +62,15 @@ export class GraphResourcesImpl implements GraphResources {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listGraphsPagingPage(
           resourceGroupName,
           accountName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -75,13 +79,11 @@ export class GraphResourcesImpl implements GraphResources {
   private async *listGraphsPagingPage(
     resourceGroupName: string,
     accountName: string,
-    options?: GraphResourcesListGraphsOptionalParams
+    options?: GraphResourcesListGraphsOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<GraphResourceGetResults[]> {
-    let result = await this._listGraphs(
-      resourceGroupName,
-      accountName,
-      options
-    );
+    let result: GraphResourcesListGraphsResponse;
+    result = await this._listGraphs(resourceGroupName, accountName, options);
     yield result.value || [];
   }
 
@@ -205,10 +207,12 @@ export class GraphResourcesImpl implements GraphResources {
       },
       createUpdateGraphOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -293,10 +297,12 @@ export class GraphResourcesImpl implements GraphResources {
       { resourceGroupName, accountName, graphName, options },
       deleteGraphResourceOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

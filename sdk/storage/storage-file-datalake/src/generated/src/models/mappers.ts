@@ -197,6 +197,27 @@ export const Path: coreHttp.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      encryptionScope: {
+        serializedName: "EncryptionScope",
+        xmlName: "EncryptionScope",
+        type: {
+          name: "String"
+        }
+      },
+      creationTime: {
+        serializedName: "creationTime",
+        xmlName: "creationTime",
+        type: {
+          name: "String"
+        }
+      },
+      expiryTime: {
+        serializedName: "expiryTime",
+        xmlName: "expiryTime",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -1240,6 +1261,20 @@ export const PathCreateHeaders: coreHttp.CompositeMapper = {
           name: "Number"
         }
       },
+      isServerEncrypted: {
+        serializedName: "x-ms-request-server-encrypted",
+        xmlName: "x-ms-request-server-encrypted",
+        type: {
+          name: "Boolean"
+        }
+      },
+      encryptionKeySha256: {
+        serializedName: "x-ms-encryption-key-sha256",
+        xmlName: "x-ms-encryption-key-sha256",
+        type: {
+          name: "String"
+        }
+      },
       errorCode: {
         serializedName: "x-ms-error-code",
         xmlName: "x-ms-error-code",
@@ -1638,6 +1673,20 @@ export const PathReadHeaders: coreHttp.CompositeMapper = {
       leaseStatus: {
         serializedName: "x-ms-lease-status",
         xmlName: "x-ms-lease-status",
+        type: {
+          name: "String"
+        }
+      },
+      isServerEncrypted: {
+        serializedName: "x-ms-request-server-encrypted",
+        xmlName: "x-ms-request-server-encrypted",
+        type: {
+          name: "Boolean"
+        }
+      },
+      encryptionKeySha256: {
+        serializedName: "x-ms-encryption-key-sha256",
+        xmlName: "x-ms-encryption-key-sha256",
         type: {
           name: "String"
         }
@@ -2155,6 +2204,27 @@ export const PathFlushDataHeaders: coreHttp.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      isServerEncrypted: {
+        serializedName: "x-ms-request-server-encrypted",
+        xmlName: "x-ms-request-server-encrypted",
+        type: {
+          name: "Boolean"
+        }
+      },
+      encryptionKeySha256: {
+        serializedName: "x-ms-encryption-key-sha256",
+        xmlName: "x-ms-encryption-key-sha256",
+        type: {
+          name: "String"
+        }
+      },
+      leaseRenewed: {
+        serializedName: "x-ms-lease-renewed",
+        xmlName: "x-ms-lease-renewed",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -2249,6 +2319,20 @@ export const PathAppendDataHeaders: coreHttp.CompositeMapper = {
       isServerEncrypted: {
         serializedName: "x-ms-request-server-encrypted",
         xmlName: "x-ms-request-server-encrypted",
+        type: {
+          name: "Boolean"
+        }
+      },
+      encryptionKeySha256: {
+        serializedName: "x-ms-encryption-key-sha256",
+        xmlName: "x-ms-encryption-key-sha256",
+        type: {
+          name: "String"
+        }
+      },
+      leaseRenewed: {
+        serializedName: "x-ms-lease-renewed",
+        xmlName: "x-ms-lease-renewed",
         type: {
           name: "Boolean"
         }

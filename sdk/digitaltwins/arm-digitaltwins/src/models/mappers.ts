@@ -41,7 +41,14 @@ export const PrivateEndpointConnection: coreClient.CompositeMapper = {
         serializedName: "properties",
         type: {
           name: "Composite",
-          className: "PrivateEndpointConnectionProperties"
+          className: "ConnectionProperties"
+        }
+      },
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
         }
       }
     }
@@ -65,7 +72,7 @@ export const ConnectionProperties: coreClient.CompositeMapper = {
         serializedName: "privateEndpoint",
         type: {
           name: "Composite",
-          className: "ConnectionPropertiesPrivateEndpoint"
+          className: "PrivateEndpoint"
         }
       },
       groupIds: {
@@ -135,6 +142,57 @@ export const ConnectionState: coreClient.CompositeMapper = {
   }
 };
 
+export const SystemData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SystemData",
+    modelProperties: {
+      createdBy: {
+        serializedName: "createdBy",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdByType: {
+        serializedName: "createdByType",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdAt: {
+        serializedName: "createdAt",
+        nullable: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastModifiedBy: {
+        serializedName: "lastModifiedBy",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      lastModifiedByType: {
+        serializedName: "lastModifiedByType",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      lastModifiedAt: {
+        serializedName: "lastModifiedAt",
+        nullable: true,
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
 export const DigitalTwinsResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -185,6 +243,13 @@ export const DigitalTwinsResource: coreClient.CompositeMapper = {
           name: "Composite",
           className: "DigitalTwinsIdentity"
         }
+      },
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
       }
     }
   }
@@ -213,6 +278,39 @@ export const DigitalTwinsIdentity: coreClient.CompositeMapper = {
         serializedName: "tenantId",
         readOnly: true,
         nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      userAssignedIdentities: {
+        serializedName: "userAssignedIdentities",
+        nullable: true,
+        type: {
+          name: "Dictionary",
+          value: {
+            type: { name: "Composite", className: "UserAssignedIdentity" }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const UserAssignedIdentity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UserAssignedIdentity",
+    modelProperties: {
+      clientId: {
+        serializedName: "clientId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      principalId: {
+        serializedName: "principalId",
+        readOnly: true,
         type: {
           name: "String"
         }
@@ -312,6 +410,7 @@ export const DigitalTwinsPatchProperties: coreClient.CompositeMapper = {
     modelProperties: {
       publicNetworkAccess: {
         serializedName: "publicNetworkAccess",
+        nullable: true,
         type: {
           name: "String"
         }
@@ -400,6 +499,35 @@ export const DigitalTwinsEndpointResourceProperties: coreClient.CompositeMapper 
         type: {
           name: "String"
         }
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "ManagedIdentityReference"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedIdentityReference: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedIdentityReference",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      userAssignedIdentity: {
+        serializedName: "userAssignedIdentity",
+        nullable: true,
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -432,6 +560,13 @@ export const ExternalResource: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String"
+        }
+      },
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
         }
       }
     }
@@ -527,6 +662,17 @@ export const Operation: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "Boolean"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        readOnly: true,
+        nullable: true,
+        type: {
+          name: "Dictionary",
+          value: {
+            type: { name: "Dictionary", value: { type: { name: "any" } } }
+          }
         }
       }
     }
@@ -683,10 +829,10 @@ export const GroupIdInformation: coreClient.CompositeMapper = {
   }
 };
 
-export const GroupIdInformationPropertiesAutoGenerated: coreClient.CompositeMapper = {
+export const GroupIdInformationProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "GroupIdInformationPropertiesAutoGenerated",
+    className: "GroupIdInformationProperties",
     modelProperties: {
       groupId: {
         serializedName: "groupId",
@@ -741,22 +887,65 @@ export const PrivateEndpointConnectionsResponse: coreClient.CompositeMapper = {
   }
 };
 
-export const PrivateEndpointConnectionProperties: coreClient.CompositeMapper = {
+export const TimeSeriesDatabaseConnectionListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "PrivateEndpointConnectionProperties",
+    className: "TimeSeriesDatabaseConnectionListResult",
     modelProperties: {
-      ...ConnectionProperties.type.modelProperties
+      nextLink: {
+        serializedName: "nextLink",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "TimeSeriesDatabaseConnection"
+            }
+          }
+        }
+      }
     }
   }
 };
 
-export const ConnectionPropertiesPrivateEndpoint: coreClient.CompositeMapper = {
+export const TimeSeriesDatabaseConnectionProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ConnectionPropertiesPrivateEndpoint",
+    className: "TimeSeriesDatabaseConnectionProperties",
+    uberParent: "TimeSeriesDatabaseConnectionProperties",
+    polymorphicDiscriminator: {
+      serializedName: "connectionType",
+      clientName: "connectionType"
+    },
     modelProperties: {
-      ...PrivateEndpoint.type.modelProperties
+      connectionType: {
+        serializedName: "connectionType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "ManagedIdentityReference"
+        }
+      }
     }
   }
 };
@@ -808,6 +997,7 @@ export const DigitalTwinsDescription: coreClient.CompositeMapper = {
       },
       privateEndpointConnections: {
         serializedName: "properties.privateEndpointConnections",
+        nullable: true,
         type: {
           name: "Sequence",
           element: {
@@ -820,6 +1010,7 @@ export const DigitalTwinsDescription: coreClient.CompositeMapper = {
       },
       publicNetworkAccess: {
         serializedName: "properties.publicNetworkAccess",
+        nullable: true,
         type: {
           name: "String"
         }
@@ -965,19 +1156,100 @@ export const DigitalTwinsEndpointResource: coreClient.CompositeMapper = {
   }
 };
 
-export const GroupIdInformationProperties: coreClient.CompositeMapper = {
+export const TimeSeriesDatabaseConnection: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "GroupIdInformationProperties",
+    className: "TimeSeriesDatabaseConnection",
     modelProperties: {
-      ...GroupIdInformationPropertiesAutoGenerated.type.modelProperties
+      ...ExternalResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "TimeSeriesDatabaseConnectionProperties"
+        }
+      }
+    }
+  }
+};
+
+export const AzureDataExplorerConnectionProperties: coreClient.CompositeMapper = {
+  serializedName: "AzureDataExplorer",
+  type: {
+    name: "Composite",
+    className: "AzureDataExplorerConnectionProperties",
+    uberParent: "TimeSeriesDatabaseConnectionProperties",
+    polymorphicDiscriminator:
+      TimeSeriesDatabaseConnectionProperties.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...TimeSeriesDatabaseConnectionProperties.type.modelProperties,
+      adxResourceId: {
+        serializedName: "adxResourceId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      adxEndpointUri: {
+        serializedName: "adxEndpointUri",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      adxDatabaseName: {
+        serializedName: "adxDatabaseName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      adxTableName: {
+        defaultValue: "AdtPropertyEvents",
+        serializedName: "adxTableName",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      eventHubEndpointUri: {
+        serializedName: "eventHubEndpointUri",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      eventHubEntityPath: {
+        serializedName: "eventHubEntityPath",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      eventHubNamespaceResourceId: {
+        serializedName: "eventHubNamespaceResourceId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      eventHubConsumerGroup: {
+        defaultValue: "$Default",
+        serializedName: "eventHubConsumerGroup",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      }
     }
   }
 };
 
 export let discriminators = {
   DigitalTwinsEndpointResourceProperties: DigitalTwinsEndpointResourceProperties,
+  TimeSeriesDatabaseConnectionProperties: TimeSeriesDatabaseConnectionProperties,
   "DigitalTwinsEndpointResourceProperties.ServiceBus": ServiceBus,
   "DigitalTwinsEndpointResourceProperties.EventHub": EventHub,
-  "DigitalTwinsEndpointResourceProperties.EventGrid": EventGrid
+  "DigitalTwinsEndpointResourceProperties.EventGrid": EventGrid,
+  "TimeSeriesDatabaseConnectionProperties.AzureDataExplorer": AzureDataExplorerConnectionProperties
 };

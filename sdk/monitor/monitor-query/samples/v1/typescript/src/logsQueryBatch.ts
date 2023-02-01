@@ -25,25 +25,25 @@ export async function main() {
     {
       workspaceId: monitorWorkspaceId,
       query: kqlQuery,
-      timespan: { duration: "P1D" }
+      timespan: { duration: "P1D" },
     },
     {
       workspaceId: monitorWorkspaceId,
       query: "AzureActivity | summarize count()",
-      timespan: { duration: "PT1H" }
+      timespan: { duration: "PT1H" },
     },
     {
       workspaceId: monitorWorkspaceId,
       query:
         "AppRequests | take 10 | summarize avgRequestDuration=avg(DurationMs) by bin(TimeGenerated, 10m), _ResourceId",
-      timespan: { duration: "PT1H" }
+      timespan: { duration: "PT1H" },
     },
     {
       workspaceId: monitorWorkspaceId,
       query: "AppRequests | take 2",
       timespan: { duration: "PT1H" },
-      includeQueryStatistics: true
-    }
+      includeQueryStatistics: true,
+    },
   ];
 
   const result = await logsQueryClient.queryBatch(queriesBatch);

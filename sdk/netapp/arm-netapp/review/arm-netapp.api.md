@@ -40,7 +40,9 @@ export type AccountBackupsListResponse = BackupsList;
 
 // @public
 export interface AccountEncryption {
-    keySource?: string;
+    identity?: EncryptionIdentity;
+    keySource?: KeySource;
+    keyVaultProperties?: KeyVaultProperties;
 }
 
 // @public
@@ -49,6 +51,8 @@ export interface Accounts {
     beginCreateOrUpdateAndWait(resourceGroupName: string, accountName: string, body: NetAppAccount, options?: AccountsCreateOrUpdateOptionalParams): Promise<AccountsCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, accountName: string, options?: AccountsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, accountName: string, options?: AccountsDeleteOptionalParams): Promise<void>;
+    beginRenewCredentials(resourceGroupName: string, accountName: string, options?: AccountsRenewCredentialsOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginRenewCredentialsAndWait(resourceGroupName: string, accountName: string, options?: AccountsRenewCredentialsOptionalParams): Promise<void>;
     beginUpdate(resourceGroupName: string, accountName: string, body: NetAppAccountPatch, options?: AccountsUpdateOptionalParams): Promise<PollerLike<PollOperationState<AccountsUpdateResponse>, AccountsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, accountName: string, body: NetAppAccountPatch, options?: AccountsUpdateOptionalParams): Promise<AccountsUpdateResponse>;
     get(resourceGroupName: string, accountName: string, options?: AccountsGetOptionalParams): Promise<AccountsGetResponse>;
@@ -105,6 +109,12 @@ export interface AccountsListOptionalParams extends coreClient.OperationOptions 
 
 // @public
 export type AccountsListResponse = NetAppAccountList;
+
+// @public
+export interface AccountsRenewCredentialsOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
 
 // @public
 export interface AccountsUpdateOptionalParams extends coreClient.OperationOptions {
@@ -244,21 +254,13 @@ export interface BackupPoliciesUpdateOptionalParams extends coreClient.Operation
 export type BackupPoliciesUpdateResponse = BackupPolicy;
 
 // @public
-export interface BackupPolicy {
+export interface BackupPolicy extends TrackedResource {
     readonly backupPolicyId?: string;
     dailyBackupsToKeep?: number;
     enabled?: boolean;
     readonly etag?: string;
-    readonly id?: string;
-    location: string;
     monthlyBackupsToKeep?: number;
-    readonly name?: string;
     readonly provisioningState?: string;
-    readonly systemData?: SystemData;
-    tags?: {
-        [propertyName: string]: string;
-    };
-    readonly type?: string;
     readonly volumeBackups?: VolumeBackups[];
     readonly volumesAssigned?: number;
     weeklyBackupsToKeep?: number;
@@ -395,24 +397,16 @@ export interface BreakReplicationRequest {
 }
 
 // @public
-export interface CapacityPool {
+export interface CapacityPool extends TrackedResource {
     coolAccess?: boolean;
     encryptionType?: EncryptionType;
     readonly etag?: string;
-    readonly id?: string;
-    location: string;
-    readonly name?: string;
     readonly poolId?: string;
     readonly provisioningState?: string;
     qosType?: QosType;
     serviceLevel: ServiceLevel;
     size: number;
-    readonly systemData?: SystemData;
-    tags?: {
-        [propertyName: string]: string;
-    };
     readonly totalThroughputMibps?: number;
-    readonly type?: string;
     readonly utilizedThroughputMibps?: number;
 }
 
@@ -424,6 +418,7 @@ export interface CapacityPoolList {
 
 // @public
 export interface CapacityPoolPatch {
+    coolAccess?: boolean;
     readonly id?: string;
     location?: string;
     readonly name?: string;
@@ -483,6 +478,15 @@ export interface Dimension {
 export type EnableSubvolumes = string;
 
 // @public
+export interface EncryptionIdentity {
+    readonly principalId?: string;
+    userAssignedIdentity?: string;
+}
+
+// @public
+export type EncryptionKeySource = string;
+
+// @public
 export type EncryptionType = string;
 
 // @public
@@ -521,7 +525,35 @@ export interface HourlySchedule {
 }
 
 // @public
+export interface Identity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type: IdentityType;
+    userAssignedIdentities?: {
+        [propertyName: string]: UserAssignedIdentity;
+    };
+}
+
+// @public
+export type IdentityType = string;
+
+// @public
 export type InAvailabilityReasonType = string;
+
+// @public
+export type KeySource = string;
+
+// @public
+export interface KeyVaultProperties {
+    keyName: string;
+    readonly keyVaultId?: string;
+    keyVaultResourceId: string;
+    keyVaultUri: string;
+    readonly status?: KeyVaultStatus;
+}
+
+// @public
+export type KeyVaultStatus = string;
 
 // @public
 export enum KnownActiveDirectoryStatus {
@@ -534,7 +566,6 @@ export enum KnownActiveDirectoryStatus {
 
 // @public
 export enum KnownApplicationType {
-    // (undocumented)
     SAPHana = "SAP-HANA"
 }
 
@@ -552,45 +583,31 @@ export enum KnownBackupType {
 
 // @public
 export enum KnownCheckNameResourceTypes {
-    // (undocumented)
     MicrosoftNetAppNetAppAccounts = "Microsoft.NetApp/netAppAccounts",
-    // (undocumented)
     MicrosoftNetAppNetAppAccountsCapacityPools = "Microsoft.NetApp/netAppAccounts/capacityPools",
-    // (undocumented)
     MicrosoftNetAppNetAppAccountsCapacityPoolsVolumes = "Microsoft.NetApp/netAppAccounts/capacityPools/volumes",
-    // (undocumented)
     MicrosoftNetAppNetAppAccountsCapacityPoolsVolumesSnapshots = "Microsoft.NetApp/netAppAccounts/capacityPools/volumes/snapshots"
 }
 
 // @public
 export enum KnownCheckQuotaNameResourceTypes {
-    // (undocumented)
     MicrosoftNetAppNetAppAccounts = "Microsoft.NetApp/netAppAccounts",
-    // (undocumented)
     MicrosoftNetAppNetAppAccountsCapacityPools = "Microsoft.NetApp/netAppAccounts/capacityPools",
-    // (undocumented)
     MicrosoftNetAppNetAppAccountsCapacityPoolsVolumes = "Microsoft.NetApp/netAppAccounts/capacityPools/volumes",
-    // (undocumented)
     MicrosoftNetAppNetAppAccountsCapacityPoolsVolumesSnapshots = "Microsoft.NetApp/netAppAccounts/capacityPools/volumes/snapshots"
 }
 
 // @public
 export enum KnownChownMode {
-    // (undocumented)
     Restricted = "Restricted",
-    // (undocumented)
     Unrestricted = "Unrestricted"
 }
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
@@ -601,6 +618,12 @@ export enum KnownEnableSubvolumes {
 }
 
 // @public
+export enum KnownEncryptionKeySource {
+    MicrosoftKeyVault = "Microsoft.KeyVault",
+    MicrosoftNetApp = "Microsoft.NetApp"
+}
+
+// @public
 export enum KnownEncryptionType {
     Double = "Double",
     Single = "Single"
@@ -608,33 +631,48 @@ export enum KnownEncryptionType {
 
 // @public
 export enum KnownEndpointType {
-    // (undocumented)
     Dst = "dst",
-    // (undocumented)
     Src = "src"
 }
 
 // @public
+export enum KnownIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+    UserAssigned = "UserAssigned"
+}
+
+// @public
 export enum KnownInAvailabilityReasonType {
-    // (undocumented)
     AlreadyExists = "AlreadyExists",
-    // (undocumented)
     Invalid = "Invalid"
 }
 
 // @public
+export enum KnownKeySource {
+    MicrosoftKeyVault = "Microsoft.KeyVault",
+    MicrosoftNetApp = "Microsoft.NetApp"
+}
+
+// @public
+export enum KnownKeyVaultStatus {
+    Created = "Created",
+    Deleted = "Deleted",
+    Error = "Error",
+    InUse = "InUse",
+    Updating = "Updating"
+}
+
+// @public
 export enum KnownMetricAggregationType {
-    // (undocumented)
     Average = "Average"
 }
 
 // @public
 export enum KnownMirrorState {
-    // (undocumented)
     Broken = "Broken",
-    // (undocumented)
     Mirrored = "Mirrored",
-    // (undocumented)
     Uninitialized = "Uninitialized"
 }
 
@@ -651,28 +689,29 @@ export enum KnownQosType {
 }
 
 // @public
+export enum KnownRegionStorageToNetworkProximity {
+    Default = "Default",
+    T1 = "T1",
+    T1AndT2 = "T1AndT2",
+    T2 = "T2"
+}
+
+// @public
 export enum KnownRelationshipStatus {
-    // (undocumented)
     Idle = "Idle",
-    // (undocumented)
     Transferring = "Transferring"
 }
 
 // @public
 export enum KnownReplicationSchedule {
-    // (undocumented)
     "10Minutely" = "_10minutely",
-    // (undocumented)
     Daily = "daily",
-    // (undocumented)
     Hourly = "hourly"
 }
 
 // @public
 export enum KnownSecurityStyle {
-    // (undocumented)
     Ntfs = "ntfs",
-    // (undocumented)
     Unix = "unix"
 }
 
@@ -682,6 +721,26 @@ export enum KnownServiceLevel {
     Standard = "Standard",
     StandardZRS = "StandardZRS",
     Ultra = "Ultra"
+}
+
+// @public
+export enum KnownSmbAccessBasedEnumeration {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownSmbNonBrowsable {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownType {
+    DefaultGroupQuota = "DefaultGroupQuota",
+    DefaultUserQuota = "DefaultUserQuota",
+    IndividualGroupQuota = "IndividualGroupQuota",
+    IndividualUserQuota = "IndividualUserQuota"
 }
 
 // @public
@@ -696,6 +755,11 @@ export interface LdapSearchScopeOpt {
     groupDN?: string;
     groupMembershipFilter?: string;
     userDN?: string;
+}
+
+// @public
+export interface ListReplications {
+    value?: Replication[];
 }
 
 // @public
@@ -763,19 +827,13 @@ export interface MountTargetProperties {
 }
 
 // @public
-export interface NetAppAccount {
+export interface NetAppAccount extends TrackedResource {
     activeDirectories?: ActiveDirectory[];
+    readonly disableShowmount?: boolean;
     encryption?: AccountEncryption;
     readonly etag?: string;
-    readonly id?: string;
-    location: string;
-    readonly name?: string;
+    identity?: Identity;
     readonly provisioningState?: string;
-    readonly systemData?: SystemData;
-    tags?: {
-        [propertyName: string]: string;
-    };
-    readonly type?: string;
 }
 
 // @public
@@ -787,6 +845,7 @@ export interface NetAppAccountList {
 // @public
 export interface NetAppAccountPatch {
     activeDirectories?: ActiveDirectory[];
+    readonly disableShowmount?: boolean;
     encryption?: AccountEncryption;
     readonly id?: string;
     location?: string;
@@ -834,6 +893,8 @@ export class NetAppManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     volumeGroups: VolumeGroups;
     // (undocumented)
+    volumeQuotaRules: VolumeQuotaRules;
+    // (undocumented)
     volumes: Volumes;
 }
 
@@ -849,6 +910,7 @@ export interface NetAppResource {
     checkFilePathAvailability(location: string, name: string, subnetId: string, options?: NetAppResourceCheckFilePathAvailabilityOptionalParams): Promise<NetAppResourceCheckFilePathAvailabilityResponse>;
     checkNameAvailability(location: string, name: string, resourceGroup: string, typeParam: CheckNameResourceTypes, options?: NetAppResourceCheckNameAvailabilityOptionalParams): Promise<NetAppResourceCheckNameAvailabilityResponse>;
     checkQuotaAvailability(location: string, name: string, resourceGroup: string, typeParam: CheckQuotaNameResourceTypes, options?: NetAppResourceCheckQuotaAvailabilityOptionalParams): Promise<NetAppResourceCheckQuotaAvailabilityResponse>;
+    queryRegionInfo(location: string, options?: NetAppResourceQueryRegionInfoOptionalParams): Promise<NetAppResourceQueryRegionInfoResponse>;
 }
 
 // @public
@@ -871,6 +933,13 @@ export interface NetAppResourceCheckQuotaAvailabilityOptionalParams extends core
 
 // @public
 export type NetAppResourceCheckQuotaAvailabilityResponse = CheckAvailabilityResponse;
+
+// @public
+export interface NetAppResourceQueryRegionInfoOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetAppResourceQueryRegionInfoResponse = RegionInfo;
 
 // @public
 export interface NetAppResourceQuotaLimits {
@@ -997,7 +1066,11 @@ export interface PoolsUpdateOptionalParams extends coreClient.OperationOptions {
 export type PoolsUpdateResponse = CapacityPool;
 
 // @public
-export type ProxyResource = Resource & {};
+export type ProvisioningState = "Accepted" | "Creating" | "Patching" | "Deleting" | "Moving" | "Failed" | "Succeeded";
+
+// @public
+export interface ProxyResource extends Resource {
+}
 
 // @public
 export type QosType = string;
@@ -1010,7 +1083,40 @@ export interface QuotaAvailabilityRequest {
 }
 
 // @public
+export interface ReestablishReplicationRequest {
+    sourceVolumeId?: string;
+}
+
+// @public
+export interface RegionInfo {
+    availabilityZoneMappings?: RegionInfoAvailabilityZoneMappingsItem[];
+    storageToNetworkProximity?: RegionStorageToNetworkProximity;
+}
+
+// @public (undocumented)
+export interface RegionInfoAvailabilityZoneMappingsItem {
+    availabilityZone?: string;
+    isAvailable?: boolean;
+}
+
+// @public
+export type RegionStorageToNetworkProximity = string;
+
+// @public
 export type RelationshipStatus = string;
+
+// @public
+export interface RelocateVolumeRequest {
+    creationToken?: string;
+}
+
+// @public
+export interface Replication {
+    endpointType?: EndpointType;
+    remoteVolumeRegion?: string;
+    remoteVolumeResourceId: string;
+    replicationSchedule?: ReplicationSchedule;
+}
 
 // @public
 export interface ReplicationObject {
@@ -1037,6 +1143,7 @@ export interface ReplicationStatus {
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
@@ -1075,6 +1182,12 @@ export interface ServiceSpecification {
     logSpecifications?: LogSpecification[];
     metricSpecifications?: MetricSpecification[];
 }
+
+// @public
+export type SmbAccessBasedEnumeration = string;
+
+// @public
+export type SmbNonBrowsable = string;
 
 // @public
 export interface Snapshot {
@@ -1148,21 +1261,13 @@ export interface SnapshotPoliciesUpdateOptionalParams extends coreClient.Operati
 export type SnapshotPoliciesUpdateResponse = SnapshotPolicy;
 
 // @public
-export interface SnapshotPolicy {
+export interface SnapshotPolicy extends TrackedResource {
     dailySchedule?: DailySchedule;
     enabled?: boolean;
     readonly etag?: string;
     hourlySchedule?: HourlySchedule;
-    readonly id?: string;
-    location: string;
     monthlySchedule?: MonthlySchedule;
-    readonly name?: string;
     readonly provisioningState?: string;
-    readonly systemData?: SystemData;
-    tags?: {
-        [propertyName: string]: string;
-    };
-    readonly type?: string;
     weeklySchedule?: WeeklySchedule;
 }
 
@@ -1275,11 +1380,10 @@ export interface SnapshotsUpdateOptionalParams extends coreClient.OperationOptio
 export type SnapshotsUpdateResponse = Snapshot;
 
 // @public
-export type SubscriptionQuotaItem = ProxyResource & {
-    readonly systemData?: SystemData;
+export interface SubscriptionQuotaItem extends ProxyResource {
     readonly current?: number;
     readonly default?: number;
-};
+}
 
 // @public
 export interface SubscriptionQuotaItemList {
@@ -1287,13 +1391,12 @@ export interface SubscriptionQuotaItemList {
 }
 
 // @public
-export type SubvolumeInfo = ProxyResource & {
-    readonly systemData?: SystemData;
-    path?: string;
-    size?: number;
+export interface SubvolumeInfo extends ProxyResource {
     parentPath?: string;
+    path?: string;
     readonly provisioningState?: string;
-};
+    size?: number;
+}
 
 // @public
 export interface SubvolumeModel {
@@ -1403,9 +1506,25 @@ export interface SystemData {
 }
 
 // @public
+export interface TrackedResource extends Resource {
+    location: string;
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export type Type = string;
+
+// @public
+export interface UserAssignedIdentity {
+    readonly clientId?: string;
+    readonly principalId?: string;
+}
+
+// @public
 export interface Vault {
     readonly id?: string;
-    location: string;
     readonly name?: string;
     readonly type?: string;
     vaultName?: string;
@@ -1429,7 +1548,7 @@ export interface VaultsListOptionalParams extends coreClient.OperationOptions {
 export type VaultsListResponse = VaultList;
 
 // @public
-export interface Volume {
+export interface Volume extends TrackedResource {
     avsDataStore?: AvsDataStore;
     backupId?: string;
     readonly baremetalTenantId?: string;
@@ -1441,20 +1560,20 @@ export interface Volume {
     dataProtection?: VolumePropertiesDataProtection;
     defaultGroupQuotaInKiBs?: number;
     defaultUserQuotaInKiBs?: number;
+    deleteBaseSnapshot?: boolean;
     enableSubvolumes?: EnableSubvolumes;
-    encryptionKeySource?: string;
+    readonly encrypted?: boolean;
+    encryptionKeySource?: EncryptionKeySource;
     readonly etag?: string;
     exportPolicy?: VolumePropertiesExportPolicy;
     readonly fileSystemId?: string;
-    readonly id?: string;
     isDefaultQuotaEnabled?: boolean;
     isRestoring?: boolean;
     kerberosEnabled?: boolean;
+    keyVaultPrivateEndpointResourceId?: string;
     ldapEnabled?: boolean;
-    location: string;
     readonly maximumNumberOfFiles?: number;
     readonly mountTargets?: MountTargetProperties[];
-    readonly name?: string;
     networkFeatures?: NetworkFeatures;
     readonly networkSiblingSetId?: string;
     placementRules?: PlacementKeyValuePairs[];
@@ -1463,24 +1582,22 @@ export interface Volume {
     proximityPlacementGroup?: string;
     securityStyle?: SecurityStyle;
     serviceLevel?: ServiceLevel;
+    smbAccessBasedEnumeration?: SmbAccessBasedEnumeration;
     smbContinuouslyAvailable?: boolean;
     smbEncryption?: boolean;
+    smbNonBrowsable?: SmbNonBrowsable;
     snapshotDirectoryVisible?: boolean;
     snapshotId?: string;
     readonly storageToNetworkProximity?: VolumeStorageToNetworkProximity;
     subnetId: string;
-    readonly systemData?: SystemData;
     readonly t2Network?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
     throughputMibps?: number;
-    readonly type?: string;
     unixPermissions?: string;
     usageThreshold: number;
     readonly volumeGroupName?: string;
     volumeSpecName?: string;
     volumeType?: string;
+    zones?: string[];
 }
 
 // @public
@@ -1505,9 +1622,6 @@ export interface VolumeGroup {
     location?: string;
     readonly name?: string;
     readonly provisioningState?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
     readonly type?: string;
 }
 
@@ -1518,9 +1632,6 @@ export interface VolumeGroupDetails {
     location?: string;
     readonly name?: string;
     readonly provisioningState?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
     readonly type?: string;
     volumes?: VolumeGroupVolumeProperties[];
 }
@@ -1592,14 +1703,17 @@ export interface VolumeGroupVolumeProperties {
     dataProtection?: VolumePropertiesDataProtection;
     defaultGroupQuotaInKiBs?: number;
     defaultUserQuotaInKiBs?: number;
+    deleteBaseSnapshot?: boolean;
     enableSubvolumes?: EnableSubvolumes;
-    encryptionKeySource?: string;
+    readonly encrypted?: boolean;
+    encryptionKeySource?: EncryptionKeySource;
     exportPolicy?: VolumePropertiesExportPolicy;
     readonly fileSystemId?: string;
     readonly id?: string;
     isDefaultQuotaEnabled?: boolean;
     isRestoring?: boolean;
     kerberosEnabled?: boolean;
+    keyVaultPrivateEndpointResourceId?: string;
     ldapEnabled?: boolean;
     readonly maximumNumberOfFiles?: number;
     readonly mountTargets?: MountTargetProperties[];
@@ -1612,8 +1726,10 @@ export interface VolumeGroupVolumeProperties {
     proximityPlacementGroup?: string;
     securityStyle?: SecurityStyle;
     serviceLevel?: ServiceLevel;
+    smbAccessBasedEnumeration?: SmbAccessBasedEnumeration;
     smbContinuouslyAvailable?: boolean;
     smbEncryption?: boolean;
+    smbNonBrowsable?: SmbNonBrowsable;
     snapshotDirectoryVisible?: boolean;
     snapshotId?: string;
     readonly storageToNetworkProximity?: VolumeStorageToNetworkProximity;
@@ -1639,6 +1755,8 @@ export interface VolumeList {
 
 // @public
 export interface VolumePatch {
+    coolAccess?: boolean;
+    coolnessPeriod?: number;
     dataProtection?: VolumePatchPropertiesDataProtection;
     defaultGroupQuotaInKiBs?: number;
     defaultUserQuotaInKiBs?: number;
@@ -1681,6 +1799,84 @@ export interface VolumePropertiesExportPolicy {
 }
 
 // @public
+export interface VolumeQuotaRule extends TrackedResource {
+    readonly provisioningState?: ProvisioningState;
+    quotaSizeInKiBs?: number;
+    quotaTarget?: string;
+    quotaType?: Type;
+}
+
+// @public
+export interface VolumeQuotaRulePatch {
+    readonly provisioningState?: ProvisioningState;
+    quotaSizeInKiBs?: number;
+    quotaTarget?: string;
+    quotaType?: Type;
+}
+
+// @public
+export interface VolumeQuotaRules {
+    beginCreate(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, volumeQuotaRuleName: string, body: VolumeQuotaRule, options?: VolumeQuotaRulesCreateOptionalParams): Promise<PollerLike<PollOperationState<VolumeQuotaRulesCreateResponse>, VolumeQuotaRulesCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, volumeQuotaRuleName: string, body: VolumeQuotaRule, options?: VolumeQuotaRulesCreateOptionalParams): Promise<VolumeQuotaRulesCreateResponse>;
+    beginDelete(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, volumeQuotaRuleName: string, options?: VolumeQuotaRulesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, volumeQuotaRuleName: string, options?: VolumeQuotaRulesDeleteOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, volumeQuotaRuleName: string, body: VolumeQuotaRulePatch, options?: VolumeQuotaRulesUpdateOptionalParams): Promise<PollerLike<PollOperationState<VolumeQuotaRulesUpdateResponse>, VolumeQuotaRulesUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, volumeQuotaRuleName: string, body: VolumeQuotaRulePatch, options?: VolumeQuotaRulesUpdateOptionalParams): Promise<VolumeQuotaRulesUpdateResponse>;
+    get(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, volumeQuotaRuleName: string, options?: VolumeQuotaRulesGetOptionalParams): Promise<VolumeQuotaRulesGetResponse>;
+    listByVolume(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumeQuotaRulesListByVolumeOptionalParams): PagedAsyncIterableIterator<VolumeQuotaRule>;
+}
+
+// @public
+export interface VolumeQuotaRulesCreateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type VolumeQuotaRulesCreateResponse = VolumeQuotaRule;
+
+// @public
+export interface VolumeQuotaRulesDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface VolumeQuotaRulesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type VolumeQuotaRulesGetResponse = VolumeQuotaRule;
+
+// @public
+export interface VolumeQuotaRulesList {
+    value?: VolumeQuotaRule[];
+}
+
+// @public
+export interface VolumeQuotaRulesListByVolumeOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type VolumeQuotaRulesListByVolumeResponse = VolumeQuotaRulesList;
+
+// @public
+export interface VolumeQuotaRulesUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type VolumeQuotaRulesUpdateResponse = VolumeQuotaRule;
+
+// @public
+export interface VolumeRelocationProperties {
+    oldBareMetalTenantId?: string;
+    oldVolumeId?: string;
+    relocationRequested?: boolean;
+}
+
+// @public
 export interface VolumeRevert {
     snapshotId?: string;
 }
@@ -1697,18 +1893,29 @@ export interface Volumes {
     beginDeleteAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesDeleteOptionalParams): Promise<void>;
     beginDeleteReplication(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesDeleteReplicationOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteReplicationAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesDeleteReplicationOptionalParams): Promise<void>;
+    beginFinalizeRelocation(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesFinalizeRelocationOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginFinalizeRelocationAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesFinalizeRelocationOptionalParams): Promise<void>;
     beginPoolChange(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, body: PoolChangeRequest, options?: VolumesPoolChangeOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginPoolChangeAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, body: PoolChangeRequest, options?: VolumesPoolChangeOptionalParams): Promise<void>;
+    beginReestablishReplication(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, body: ReestablishReplicationRequest, options?: VolumesReestablishReplicationOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginReestablishReplicationAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, body: ReestablishReplicationRequest, options?: VolumesReestablishReplicationOptionalParams): Promise<void>;
     beginReInitializeReplication(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesReInitializeReplicationOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginReInitializeReplicationAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesReInitializeReplicationOptionalParams): Promise<void>;
+    beginRelocate(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesRelocateOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginRelocateAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesRelocateOptionalParams): Promise<void>;
+    beginResetCifsPassword(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesResetCifsPasswordOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginResetCifsPasswordAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesResetCifsPasswordOptionalParams): Promise<void>;
     beginResyncReplication(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesResyncReplicationOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginResyncReplicationAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesResyncReplicationOptionalParams): Promise<void>;
     beginRevert(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, body: VolumeRevert, options?: VolumesRevertOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginRevertAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, body: VolumeRevert, options?: VolumesRevertOptionalParams): Promise<void>;
+    beginRevertRelocation(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesRevertRelocationOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginRevertRelocationAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesRevertRelocationOptionalParams): Promise<void>;
     beginUpdate(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, body: VolumePatch, options?: VolumesUpdateOptionalParams): Promise<PollerLike<PollOperationState<VolumesUpdateResponse>, VolumesUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, body: VolumePatch, options?: VolumesUpdateOptionalParams): Promise<VolumesUpdateResponse>;
     get(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesGetOptionalParams): Promise<VolumesGetResponse>;
     list(resourceGroupName: string, accountName: string, poolName: string, options?: VolumesListOptionalParams): PagedAsyncIterableIterator<Volume>;
+    listReplications(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesListReplicationsOptionalParams): PagedAsyncIterableIterator<Replication>;
     replicationStatus(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: VolumesReplicationStatusOptionalParams): Promise<VolumesReplicationStatusResponse>;
 }
 
@@ -1748,6 +1955,12 @@ export interface VolumesDeleteReplicationOptionalParams extends coreClient.Opera
 }
 
 // @public
+export interface VolumesFinalizeRelocationOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface VolumesGetOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -1766,6 +1979,13 @@ export interface VolumesListOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
+export interface VolumesListReplicationsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type VolumesListReplicationsResponse = ListReplications;
+
+// @public
 export type VolumesListResponse = VolumeList;
 
 // @public
@@ -1780,7 +2000,20 @@ export interface VolumesPoolChangeOptionalParams extends coreClient.OperationOpt
 }
 
 // @public
+export interface VolumesReestablishReplicationOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface VolumesReInitializeReplicationOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface VolumesRelocateOptionalParams extends coreClient.OperationOptions {
+    body?: RelocateVolumeRequest;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -1793,6 +2026,12 @@ export interface VolumesReplicationStatusOptionalParams extends coreClient.Opera
 export type VolumesReplicationStatusResponse = ReplicationStatus;
 
 // @public
+export interface VolumesResetCifsPasswordOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface VolumesResyncReplicationOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -1800,6 +2039,12 @@ export interface VolumesResyncReplicationOptionalParams extends coreClient.Opera
 
 // @public
 export interface VolumesRevertOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface VolumesRevertRelocationOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }

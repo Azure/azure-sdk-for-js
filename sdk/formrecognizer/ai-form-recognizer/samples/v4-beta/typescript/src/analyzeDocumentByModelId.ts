@@ -20,15 +20,13 @@ async function main() {
 
   const modelId = process.env.FORM_RECOGNIZER_CUSTOM_MODEL_ID || "<custom model ID>";
 
-  const poller = await client.beginAnalyzeDocument(
+  const poller = await client.beginAnalyzeDocumentFromUrl(
     modelId,
     "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/formrecognizer/ai-form-recognizer/assets/receipt/contoso-receipt.png"
   );
 
-  const {
-    documents: [document],
-  } = await poller.pollUntilDone();
-
+  const { documents } = await poller.pollUntilDone();
+  const document = documents && documents[0];
   if (!document) {
     throw new Error("Expected at least one document in the result.");
   }

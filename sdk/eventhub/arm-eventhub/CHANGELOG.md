@@ -1,6 +1,6 @@
 # Release History
 
-## 5.0.1 (Unreleased)
+## 5.1.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,27 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 5.1.0 (2022-11-22)
+    
+**Features**
+
+  - Added Interface ArmDisasterRecovery
+  - Added Interface AuthorizationRule
+  - Added Interface Cluster
+  - Added Interface ConsumerGroup
+  - Added Interface EHNamespace
+  - Added Interface Eventhub
+  - Added Interface NetworkRuleSet
+  - Added Interface PrivateEndpointConnection
+  - Added Interface SchemaGroup
+  - Added Interface TrackedResource
+    
+## 5.0.1 (2022-04-18)
+
+**features**
+
+  - Bug fix
 
 ## 5.0.0 (2021-12-09)
 

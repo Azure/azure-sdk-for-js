@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { SmsSendRequest, SmsSendOptions } from "../../../src";
+import { SmsSendOptions, SmsSendRequest } from "../../../src";
 import { env } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 import { assertIsFailureResult, assertIsSuccessResult } from "../utils/assertHelpers";
@@ -100,7 +100,7 @@ export default function testCases(): void {
         }
       );
       assert.fail("Should have thrown an error");
-    } catch (e) {
+    } catch (e: any) {
       assert.equal(e.statusCode, 401);
     }
   });
@@ -121,7 +121,7 @@ export default function testCases(): void {
         }
       );
       assert.fail("Should have thrown an error");
-    } catch (e) {
+    } catch (e: any) {
       assert.equal(e.statusCode, 400);
     }
   });

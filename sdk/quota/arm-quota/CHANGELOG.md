@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.4 (Unreleased)
+## 1.0.0-beta.6 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,18 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.0.0-beta.5 (2022-12-05)
+    
+**Features**
+
+  - Added Interface LimitObject
+    
+## 1.0.0-beta.4 (2022-04-28)
+
+**Features**
+
+  - Bug fix
 
 ## 1.0.0-beta.3 (2021-12-22)
     

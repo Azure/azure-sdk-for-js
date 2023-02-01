@@ -3,9 +3,9 @@
 
 import fs from "fs";
 import {
+  PipelineRequestOptions,
   createHttpHeaders,
   createPipelineRequest,
-  PipelineRequestOptions,
 } from "@azure/core-rest-pipeline";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { promisify } from "util";
@@ -104,7 +104,7 @@ export function tokenExchangeMsi(): MSI {
 
       try {
         assertion = await readAssertion();
-      } catch (err) {
+      } catch (err: any) {
         throw new Error(
           `${msiName}: Failed to read ${azureFederatedTokenFilePath}, indicated by the environment variable AZURE_FEDERATED_TOKEN_FILE`
         );

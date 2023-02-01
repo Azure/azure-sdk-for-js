@@ -7,6 +7,7 @@
  */
 
 /// <reference lib="esnext.asynciterable" />
+export { getContinuationToken } from "./pagingHelper";
 export * from "./models";
 export { AppPlatformManagementClient } from "./appPlatformManagementClient";
 export * from "./operationsInterfaces";

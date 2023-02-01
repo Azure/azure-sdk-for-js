@@ -6,56 +6,119 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
+import * as coreHttpCompat from "@azure/core-http-compat";
+import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
-import { KeyVaultClientContext } from "./keyVaultClientContext";
 import {
+  ApiVersion74Preview1,
   KeyVaultClientOptionalParams,
-  ApiVersion73Preview,
-  KeyVaultClientSetSecretOptionalParams,
-  KeyVaultClientSetSecretResponse,
-  KeyVaultClientDeleteSecretResponse,
-  KeyVaultClientUpdateSecretOptionalParams,
-  KeyVaultClientUpdateSecretResponse,
-  KeyVaultClientGetSecretResponse,
-  KeyVaultClientGetSecretsOptionalParams,
-  KeyVaultClientGetSecretsResponse,
-  KeyVaultClientGetSecretVersionsOptionalParams,
-  KeyVaultClientGetSecretVersionsResponse,
-  KeyVaultClientGetDeletedSecretsOptionalParams,
-  KeyVaultClientGetDeletedSecretsResponse,
-  KeyVaultClientGetDeletedSecretResponse,
-  KeyVaultClientRecoverDeletedSecretResponse,
-  KeyVaultClientBackupSecretResponse,
-  KeyVaultClientRestoreSecretResponse,
-  KeyVaultClientGetSecretsNextOptionalParams,
-  KeyVaultClientGetSecretsNextResponse,
-  KeyVaultClientGetSecretVersionsNextOptionalParams,
-  KeyVaultClientGetSecretVersionsNextResponse,
-  KeyVaultClientGetDeletedSecretsNextOptionalParams,
-  KeyVaultClientGetDeletedSecretsNextResponse
+  SetSecretOptionalParams,
+  SetSecretResponse,
+  DeleteSecretOptionalParams,
+  DeleteSecretResponse,
+  UpdateSecretOptionalParams,
+  UpdateSecretResponse,
+  GetSecretOptionalParams,
+  GetSecretResponse,
+  GetSecretsOptionalParams,
+  GetSecretsResponse,
+  GetSecretVersionsOptionalParams,
+  GetSecretVersionsResponse,
+  GetDeletedSecretsOptionalParams,
+  GetDeletedSecretsResponse,
+  GetDeletedSecretOptionalParams,
+  GetDeletedSecretResponse,
+  PurgeDeletedSecretOptionalParams,
+  RecoverDeletedSecretOptionalParams,
+  RecoverDeletedSecretResponse,
+  BackupSecretOptionalParams,
+  BackupSecretResponse,
+  RestoreSecretOptionalParams,
+  RestoreSecretResponse,
+  GetSecretsNextOptionalParams,
+  GetSecretsNextResponse,
+  GetSecretVersionsNextOptionalParams,
+  GetSecretVersionsNextResponse,
+  GetDeletedSecretsNextOptionalParams,
+  GetDeletedSecretsNextResponse
 } from "./models";
 
-/** @hidden */
-export class KeyVaultClient extends KeyVaultClientContext {
+/** @internal */
+export class KeyVaultClient extends coreHttpCompat.ExtendedServiceClient {
+  apiVersion: ApiVersion74Preview1;
+
   /**
    * Initializes a new instance of the KeyVaultClient class.
    * @param apiVersion Api Version
    * @param options The parameter options
    */
   constructor(
-    apiVersion: ApiVersion73Preview,
+    apiVersion: ApiVersion74Preview1,
     options?: KeyVaultClientOptionalParams
   ) {
-    super(apiVersion, options);
+    if (apiVersion === undefined) {
+      throw new Error("'apiVersion' cannot be null");
+    }
+
+    // Initializing default values for options
+    if (!options) {
+      options = {};
+    }
+    const defaults: KeyVaultClientOptionalParams = {
+      requestContentType: "application/json; charset=utf-8"
+    };
+
+    const packageDetails = `azsdk-js-keyvault-secrets/4.7.0-beta.1`;
+    const userAgentPrefix =
+      options.userAgentOptions && options.userAgentOptions.userAgentPrefix
+        ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
+        : `${packageDetails}`;
+
+    const optionsWithDefaults = {
+      ...defaults,
+      ...options,
+      userAgentOptions: {
+        userAgentPrefix
+      },
+      baseUri: options.endpoint ?? options.baseUri ?? "{vaultBaseUrl}"
+    };
+    super(optionsWithDefaults);
+
+    if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
+        (pipelinePolicy) =>
+          pipelinePolicy.name ===
+          coreRestPipeline.bearerTokenAuthenticationPolicyName
+      );
+      if (!bearerTokenAuthenticationPolicyFound) {
+        this.pipeline.removePolicy({
+          name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        });
+        this.pipeline.addPolicy(
+          coreRestPipeline.bearerTokenAuthenticationPolicy({
+            scopes: `${optionsWithDefaults.baseUri}/.default`,
+            challengeCallbacks: {
+              authorizeRequestOnChallenge:
+                coreClient.authorizeRequestOnClaimChallenge
+            }
+          })
+        );
+      }
+    }
+    // Parameter assignments
+    this.apiVersion = apiVersion;
   }
 
   /**
    *  The SET operation adds a secret to the Azure Key Vault. If the named secret already exists, Azure
    * Key Vault creates a new version of that secret. This operation requires the secrets/set permission.
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
-   * @param secretName The name of the secret.
+   * @param secretName The name of the secret. The value you provide may be copied globally for the
+   *                   purpose of running the service. The value provided should not include personally identifiable or
+   *                   sensitive information.
    * @param value The value of the secret.
    * @param options The options parameters.
    */
@@ -63,18 +126,12 @@ export class KeyVaultClient extends KeyVaultClientContext {
     vaultBaseUrl: string,
     secretName: string,
     value: string,
-    options?: KeyVaultClientSetSecretOptionalParams
-  ): Promise<KeyVaultClientSetSecretResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      vaultBaseUrl,
-      secretName,
-      value,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+    options?: SetSecretOptionalParams
+  ): Promise<SetSecretResponse> {
     return this.sendOperationRequest(
-      operationArguments,
+      { vaultBaseUrl, secretName, value, options },
       setSecretOperationSpec
-    ) as Promise<KeyVaultClientSetSecretResponse>;
+    );
   }
 
   /**
@@ -87,17 +144,12 @@ export class KeyVaultClient extends KeyVaultClientContext {
   deleteSecret(
     vaultBaseUrl: string,
     secretName: string,
-    options?: coreHttp.OperationOptions
-  ): Promise<KeyVaultClientDeleteSecretResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      vaultBaseUrl,
-      secretName,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+    options?: DeleteSecretOptionalParams
+  ): Promise<DeleteSecretResponse> {
     return this.sendOperationRequest(
-      operationArguments,
+      { vaultBaseUrl, secretName, options },
       deleteSecretOperationSpec
-    ) as Promise<KeyVaultClientDeleteSecretResponse>;
+    );
   }
 
   /**
@@ -113,18 +165,12 @@ export class KeyVaultClient extends KeyVaultClientContext {
     vaultBaseUrl: string,
     secretName: string,
     secretVersion: string,
-    options?: KeyVaultClientUpdateSecretOptionalParams
-  ): Promise<KeyVaultClientUpdateSecretResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      vaultBaseUrl,
-      secretName,
-      secretVersion,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+    options?: UpdateSecretOptionalParams
+  ): Promise<UpdateSecretResponse> {
     return this.sendOperationRequest(
-      operationArguments,
+      { vaultBaseUrl, secretName, secretVersion, options },
       updateSecretOperationSpec
-    ) as Promise<KeyVaultClientUpdateSecretResponse>;
+    );
   }
 
   /**
@@ -140,18 +186,12 @@ export class KeyVaultClient extends KeyVaultClientContext {
     vaultBaseUrl: string,
     secretName: string,
     secretVersion: string,
-    options?: coreHttp.OperationOptions
-  ): Promise<KeyVaultClientGetSecretResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      vaultBaseUrl,
-      secretName,
-      secretVersion,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+    options?: GetSecretOptionalParams
+  ): Promise<GetSecretResponse> {
     return this.sendOperationRequest(
-      operationArguments,
+      { vaultBaseUrl, secretName, secretVersion, options },
       getSecretOperationSpec
-    ) as Promise<KeyVaultClientGetSecretResponse>;
+    );
   }
 
   /**
@@ -163,16 +203,12 @@ export class KeyVaultClient extends KeyVaultClientContext {
    */
   getSecrets(
     vaultBaseUrl: string,
-    options?: KeyVaultClientGetSecretsOptionalParams
-  ): Promise<KeyVaultClientGetSecretsResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      vaultBaseUrl,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+    options?: GetSecretsOptionalParams
+  ): Promise<GetSecretsResponse> {
     return this.sendOperationRequest(
-      operationArguments,
+      { vaultBaseUrl, options },
       getSecretsOperationSpec
-    ) as Promise<KeyVaultClientGetSecretsResponse>;
+    );
   }
 
   /**
@@ -185,17 +221,12 @@ export class KeyVaultClient extends KeyVaultClientContext {
   getSecretVersions(
     vaultBaseUrl: string,
     secretName: string,
-    options?: KeyVaultClientGetSecretVersionsOptionalParams
-  ): Promise<KeyVaultClientGetSecretVersionsResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      vaultBaseUrl,
-      secretName,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+    options?: GetSecretVersionsOptionalParams
+  ): Promise<GetSecretVersionsResponse> {
     return this.sendOperationRequest(
-      operationArguments,
+      { vaultBaseUrl, secretName, options },
       getSecretVersionsOperationSpec
-    ) as Promise<KeyVaultClientGetSecretVersionsResponse>;
+    );
   }
 
   /**
@@ -206,16 +237,12 @@ export class KeyVaultClient extends KeyVaultClientContext {
    */
   getDeletedSecrets(
     vaultBaseUrl: string,
-    options?: KeyVaultClientGetDeletedSecretsOptionalParams
-  ): Promise<KeyVaultClientGetDeletedSecretsResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      vaultBaseUrl,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+    options?: GetDeletedSecretsOptionalParams
+  ): Promise<GetDeletedSecretsResponse> {
     return this.sendOperationRequest(
-      operationArguments,
+      { vaultBaseUrl, options },
       getDeletedSecretsOperationSpec
-    ) as Promise<KeyVaultClientGetDeletedSecretsResponse>;
+    );
   }
 
   /**
@@ -228,17 +255,12 @@ export class KeyVaultClient extends KeyVaultClientContext {
   getDeletedSecret(
     vaultBaseUrl: string,
     secretName: string,
-    options?: coreHttp.OperationOptions
-  ): Promise<KeyVaultClientGetDeletedSecretResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      vaultBaseUrl,
-      secretName,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+    options?: GetDeletedSecretOptionalParams
+  ): Promise<GetDeletedSecretResponse> {
     return this.sendOperationRequest(
-      operationArguments,
+      { vaultBaseUrl, secretName, options },
       getDeletedSecretOperationSpec
-    ) as Promise<KeyVaultClientGetDeletedSecretResponse>;
+    );
   }
 
   /**
@@ -252,17 +274,12 @@ export class KeyVaultClient extends KeyVaultClientContext {
   purgeDeletedSecret(
     vaultBaseUrl: string,
     secretName: string,
-    options?: coreHttp.OperationOptions
-  ): Promise<coreHttp.RestResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      vaultBaseUrl,
-      secretName,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+    options?: PurgeDeletedSecretOptionalParams
+  ): Promise<void> {
     return this.sendOperationRequest(
-      operationArguments,
+      { vaultBaseUrl, secretName, options },
       purgeDeletedSecretOperationSpec
-    ) as Promise<coreHttp.RestResponse>;
+    );
   }
 
   /**
@@ -275,17 +292,12 @@ export class KeyVaultClient extends KeyVaultClientContext {
   recoverDeletedSecret(
     vaultBaseUrl: string,
     secretName: string,
-    options?: coreHttp.OperationOptions
-  ): Promise<KeyVaultClientRecoverDeletedSecretResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      vaultBaseUrl,
-      secretName,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+    options?: RecoverDeletedSecretOptionalParams
+  ): Promise<RecoverDeletedSecretResponse> {
     return this.sendOperationRequest(
-      operationArguments,
+      { vaultBaseUrl, secretName, options },
       recoverDeletedSecretOperationSpec
-    ) as Promise<KeyVaultClientRecoverDeletedSecretResponse>;
+    );
   }
 
   /**
@@ -298,17 +310,12 @@ export class KeyVaultClient extends KeyVaultClientContext {
   backupSecret(
     vaultBaseUrl: string,
     secretName: string,
-    options?: coreHttp.OperationOptions
-  ): Promise<KeyVaultClientBackupSecretResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      vaultBaseUrl,
-      secretName,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+    options?: BackupSecretOptionalParams
+  ): Promise<BackupSecretResponse> {
     return this.sendOperationRequest(
-      operationArguments,
+      { vaultBaseUrl, secretName, options },
       backupSecretOperationSpec
-    ) as Promise<KeyVaultClientBackupSecretResponse>;
+    );
   }
 
   /**
@@ -321,17 +328,12 @@ export class KeyVaultClient extends KeyVaultClientContext {
   restoreSecret(
     vaultBaseUrl: string,
     secretBundleBackup: Uint8Array,
-    options?: coreHttp.OperationOptions
-  ): Promise<KeyVaultClientRestoreSecretResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      vaultBaseUrl,
-      secretBundleBackup,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+    options?: RestoreSecretOptionalParams
+  ): Promise<RestoreSecretResponse> {
     return this.sendOperationRequest(
-      operationArguments,
+      { vaultBaseUrl, secretBundleBackup, options },
       restoreSecretOperationSpec
-    ) as Promise<KeyVaultClientRestoreSecretResponse>;
+    );
   }
 
   /**
@@ -343,17 +345,12 @@ export class KeyVaultClient extends KeyVaultClientContext {
   getSecretsNext(
     vaultBaseUrl: string,
     nextLink: string,
-    options?: KeyVaultClientGetSecretsNextOptionalParams
-  ): Promise<KeyVaultClientGetSecretsNextResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      vaultBaseUrl,
-      nextLink,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+    options?: GetSecretsNextOptionalParams
+  ): Promise<GetSecretsNextResponse> {
     return this.sendOperationRequest(
-      operationArguments,
+      { vaultBaseUrl, nextLink, options },
       getSecretsNextOperationSpec
-    ) as Promise<KeyVaultClientGetSecretsNextResponse>;
+    );
   }
 
   /**
@@ -367,18 +364,12 @@ export class KeyVaultClient extends KeyVaultClientContext {
     vaultBaseUrl: string,
     secretName: string,
     nextLink: string,
-    options?: KeyVaultClientGetSecretVersionsNextOptionalParams
-  ): Promise<KeyVaultClientGetSecretVersionsNextResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      vaultBaseUrl,
-      secretName,
-      nextLink,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+    options?: GetSecretVersionsNextOptionalParams
+  ): Promise<GetSecretVersionsNextResponse> {
     return this.sendOperationRequest(
-      operationArguments,
+      { vaultBaseUrl, secretName, nextLink, options },
       getSecretVersionsNextOperationSpec
-    ) as Promise<KeyVaultClientGetSecretVersionsNextResponse>;
+    );
   }
 
   /**
@@ -390,23 +381,18 @@ export class KeyVaultClient extends KeyVaultClientContext {
   getDeletedSecretsNext(
     vaultBaseUrl: string,
     nextLink: string,
-    options?: KeyVaultClientGetDeletedSecretsNextOptionalParams
-  ): Promise<KeyVaultClientGetDeletedSecretsNextResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      vaultBaseUrl,
-      nextLink,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+    options?: GetDeletedSecretsNextOptionalParams
+  ): Promise<GetDeletedSecretsNextResponse> {
     return this.sendOperationRequest(
-      operationArguments,
+      { vaultBaseUrl, nextLink, options },
       getDeletedSecretsNextOperationSpec
-    ) as Promise<KeyVaultClientGetDeletedSecretsNextResponse>;
+    );
   }
 }
 // Operation Specifications
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const setSecretOperationSpec: coreHttp.OperationSpec = {
+const setSecretOperationSpec: coreClient.OperationSpec = {
   path: "/secrets/{secret-name}",
   httpMethod: "PUT",
   responses: {
@@ -424,7 +410,7 @@ const setSecretOperationSpec: coreHttp.OperationSpec = {
       contentType: ["options", "contentType"],
       secretAttributes: ["options", "secretAttributes"]
     },
-    mapper: Mappers.SecretSetParameters
+    mapper: { ...Mappers.SecretSetParameters, required: true }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.vaultBaseUrl, Parameters.secretName],
@@ -432,7 +418,7 @@ const setSecretOperationSpec: coreHttp.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const deleteSecretOperationSpec: coreHttp.OperationSpec = {
+const deleteSecretOperationSpec: coreClient.OperationSpec = {
   path: "/secrets/{secret-name}",
   httpMethod: "DELETE",
   responses: {
@@ -448,7 +434,7 @@ const deleteSecretOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const updateSecretOperationSpec: coreHttp.OperationSpec = {
+const updateSecretOperationSpec: coreClient.OperationSpec = {
   path: "/secrets/{secret-name}/{secret-version}",
   httpMethod: "PATCH",
   responses: {
@@ -465,7 +451,7 @@ const updateSecretOperationSpec: coreHttp.OperationSpec = {
       secretAttributes: ["options", "secretAttributes"],
       tags: ["options", "tags"]
     },
-    mapper: Mappers.SecretUpdateParameters
+    mapper: { ...Mappers.SecretUpdateParameters, required: true }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -477,7 +463,7 @@ const updateSecretOperationSpec: coreHttp.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const getSecretOperationSpec: coreHttp.OperationSpec = {
+const getSecretOperationSpec: coreClient.OperationSpec = {
   path: "/secrets/{secret-name}/{secret-version}",
   httpMethod: "GET",
   responses: {
@@ -497,7 +483,7 @@ const getSecretOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const getSecretsOperationSpec: coreHttp.OperationSpec = {
+const getSecretsOperationSpec: coreClient.OperationSpec = {
   path: "/secrets",
   httpMethod: "GET",
   responses: {
@@ -513,7 +499,7 @@ const getSecretsOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const getSecretVersionsOperationSpec: coreHttp.OperationSpec = {
+const getSecretVersionsOperationSpec: coreClient.OperationSpec = {
   path: "/secrets/{secret-name}/versions",
   httpMethod: "GET",
   responses: {
@@ -529,7 +515,7 @@ const getSecretVersionsOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const getDeletedSecretsOperationSpec: coreHttp.OperationSpec = {
+const getDeletedSecretsOperationSpec: coreClient.OperationSpec = {
   path: "/deletedsecrets",
   httpMethod: "GET",
   responses: {
@@ -545,7 +531,7 @@ const getDeletedSecretsOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const getDeletedSecretOperationSpec: coreHttp.OperationSpec = {
+const getDeletedSecretOperationSpec: coreClient.OperationSpec = {
   path: "/deletedsecrets/{secret-name}",
   httpMethod: "GET",
   responses: {
@@ -561,7 +547,7 @@ const getDeletedSecretOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const purgeDeletedSecretOperationSpec: coreHttp.OperationSpec = {
+const purgeDeletedSecretOperationSpec: coreClient.OperationSpec = {
   path: "/deletedsecrets/{secret-name}",
   httpMethod: "DELETE",
   responses: {
@@ -575,7 +561,7 @@ const purgeDeletedSecretOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const recoverDeletedSecretOperationSpec: coreHttp.OperationSpec = {
+const recoverDeletedSecretOperationSpec: coreClient.OperationSpec = {
   path: "/deletedsecrets/{secret-name}/recover",
   httpMethod: "POST",
   responses: {
@@ -591,7 +577,7 @@ const recoverDeletedSecretOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const backupSecretOperationSpec: coreHttp.OperationSpec = {
+const backupSecretOperationSpec: coreClient.OperationSpec = {
   path: "/secrets/{secret-name}/backup",
   httpMethod: "POST",
   responses: {
@@ -607,7 +593,7 @@ const backupSecretOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const restoreSecretOperationSpec: coreHttp.OperationSpec = {
+const restoreSecretOperationSpec: coreClient.OperationSpec = {
   path: "/secrets/restore",
   httpMethod: "POST",
   responses: {
@@ -620,7 +606,7 @@ const restoreSecretOperationSpec: coreHttp.OperationSpec = {
   },
   requestBody: {
     parameterPath: { secretBundleBackup: ["secretBundleBackup"] },
-    mapper: Mappers.SecretRestoreParameters
+    mapper: { ...Mappers.SecretRestoreParameters, required: true }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.vaultBaseUrl],
@@ -628,7 +614,7 @@ const restoreSecretOperationSpec: coreHttp.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const getSecretsNextOperationSpec: coreHttp.OperationSpec = {
+const getSecretsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
@@ -644,7 +630,7 @@ const getSecretsNextOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const getSecretVersionsNextOperationSpec: coreHttp.OperationSpec = {
+const getSecretVersionsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
@@ -664,7 +650,7 @@ const getSecretVersionsNextOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const getDeletedSecretsNextOperationSpec: coreHttp.OperationSpec = {
+const getDeletedSecretsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {

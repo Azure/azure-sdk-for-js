@@ -1,6 +1,6 @@
 # Release History
 
-## 2.0.1 (Unreleased)
+## 2.1.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,14 @@
 
 ### Other Changes
 
+## 2.1.0 (2022-11-25)
+    
+**Features**
+
+  - Added Interface HealthBot
+  - Added Interface TrackedResource
+    
+    
 ## 2.0.0 (2022-01-13)
 
 The package of @azure/arm-healthbot is using our next generation design principles since version 2.0.0, which contains breaking changes.

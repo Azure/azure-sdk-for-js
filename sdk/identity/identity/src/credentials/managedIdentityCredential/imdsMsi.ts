@@ -1,46 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { delay } from "@azure/core-util";
+import { delay, isError } from "@azure/core-util";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import {
+  PipelineRequestOptions,
   createHttpHeaders,
   createPipelineRequest,
-  PipelineRequestOptions,
-  RestError,
 } from "@azure/core-rest-pipeline";
-import { SpanStatusCode } from "@azure/core-tracing";
-import { TokenResponseParsedBody } from "../../client/identityClient";
 import { credentialLogger } from "../../util/logging";
 import { AuthenticationError } from "../../errors";
-import { createSpan } from "../../util/tracing";
+import { tracingClient } from "../../util/tracing";
 import { imdsApiVersion, imdsEndpointPath, imdsHost } from "./constants";
 import { MSI, MSIConfiguration } from "./models";
 import { mapScopesToResource } from "./utils";
 
 const msiName = "ManagedIdentityCredential - IMDS";
 const logger = credentialLogger(msiName);
-
-/**
- * Formats the expiration date of the received token into the number of milliseconds between that date and midnight, January 1, 1970.
- */
-function expiresOnParser(requestBody: TokenResponseParsedBody): number {
-  if (requestBody.expires_on) {
-    // Use the expires_on timestamp if it's available
-    const expires = +requestBody.expires_on * 1000;
-    logger.info(
-      `${msiName}: Using expires_on: ${expires} (original value: ${requestBody.expires_on})`
-    );
-    return expires;
-  } else {
-    // If these aren't possible, use expires_in and calculate a timestamp
-    const expires = Date.now() + requestBody.expires_in * 1000;
-    logger.info(
-      `${msiName}: IMDS using expires_in: ${expires} (original value: ${requestBody.expires_in})`
-    );
-    return expires;
-  }
-}
 
 /**
  * Generates the options used on the request for an access token.
@@ -115,17 +91,13 @@ export const imdsMsi: MSI = {
     identityClient,
     clientId,
     resourceId,
-    getTokenOptions,
+    getTokenOptions = {},
   }): Promise<boolean> {
     const resource = mapScopesToResource(scopes);
     if (!resource) {
       logger.info(`${msiName}: Unavailable. Multiple scopes are not supported.`);
       return false;
     }
-    const { span, updatedOptions: options } = createSpan(
-      "ManagedIdentityCredential-pingImdsEndpoint",
-      getTokenOptions
-    );
 
     // if the PodIdentityEndpoint environment variable was set no need to probe the endpoint, it can be assumed to exist
     if (process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST) {
@@ -140,58 +112,43 @@ export const imdsMsi: MSI = {
       skipMetadataHeader: true,
       skipQuery: true,
     });
-    requestOptions.tracingOptions = options.tracingOptions;
 
-    try {
-      // Create a request with a timeout since we expect that
-      // not having a "Metadata" header should cause an error to be
-      // returned quickly from the endpoint, proving its availability.
-      const request = createPipelineRequest(requestOptions);
+    return tracingClient.withSpan(
+      "ManagedIdentityCredential-pingImdsEndpoint",
+      getTokenOptions,
+      async (options) => {
+        requestOptions.tracingOptions = options.tracingOptions;
 
-      request.timeout = options.requestOptions?.timeout ?? 300;
+        // Create a request with a timeout since we expect that
+        // not having a "Metadata" header should cause an error to be
+        // returned quickly from the endpoint, proving its availability.
+        const request = createPipelineRequest(requestOptions);
 
-      // This MSI uses the imdsEndpoint to get the token, which only uses http://
-      request.allowInsecureConnection = true;
+        // Default to 300 if the default of 0 is used.
+        // Negative values can still be used to disable the timeout.
+        request.timeout = options.requestOptions?.timeout || 300;
 
-      try {
-        logger.info(`${msiName}: Pinging the Azure IMDS endpoint`);
-        await identityClient.sendRequest(request);
-      } catch (err) {
-        if (
-          (err.name === "RestError" && err.code === RestError.REQUEST_SEND_ERROR) ||
-          err.name === "AbortError" ||
-          err.code === "ENETUNREACH" || // Network unreachable
-          err.code === "ECONNREFUSED" || // connection refused
-          err.code === "EHOSTDOWN" // host is down
-        ) {
+        // This MSI uses the imdsEndpoint to get the token, which only uses http://
+        request.allowInsecureConnection = true;
+
+        try {
+          logger.info(`${msiName}: Pinging the Azure IMDS endpoint`);
+          await identityClient.sendRequest(request);
+        } catch (err: unknown) {
           // If the request failed, or Node.js was unable to establish a connection,
           // or the host was down, we'll assume the IMDS endpoint isn't available.
+          if (isError(err)) {
+            logger.verbose(`${msiName}: Caught error ${err.name}: ${err.message}`);
+          }
           logger.info(`${msiName}: The Azure IMDS endpoint is unavailable`);
-          span.setStatus({
-            code: SpanStatusCode.ERROR,
-            message: err.message,
-          });
           return false;
         }
-      }
 
-      // If we received any response, the endpoint is available
-      logger.info(`${msiName}: The Azure IMDS endpoint is available`);
-      return true;
-    } catch (err) {
-      // createWebResource failed.
-      // This error should bubble up to the user.
-      logger.info(
-        `${msiName}: Error when creating the WebResource for the Azure IMDS endpoint: ${err.message}`
-      );
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: err.message,
-      });
-      throw err;
-    } finally {
-      span.end();
-    }
+        // If we received any response, the endpoint is available
+        logger.info(`${msiName}: The Azure IMDS endpoint is available`);
+        return true;
+      }
+    );
   },
   async getToken(
     configuration: MSIConfiguration,
@@ -199,9 +156,13 @@ export const imdsMsi: MSI = {
   ): Promise<AccessToken | null> {
     const { identityClient, scopes, clientId, resourceId } = configuration;
 
-    logger.info(
-      `${msiName}: Using the Azure IMDS endpoint coming from the environment variable MSI_ENDPOINT=${process.env.MSI_ENDPOINT}, and using the cloud shell to proceed with the authentication.`
-    );
+    if (process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST) {
+      logger.info(
+        `${msiName}: Using the Azure IMDS endpoint coming from the environment variable AZURE_POD_IDENTITY_AUTHORITY_HOST=${process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST}.`
+      );
+    } else {
+      logger.info(`${msiName}: Using the default Azure IMDS endpoint ${imdsHost}.`);
+    }
 
     let nextDelayInMs = imdsMsiRetryConfig.startDelayInMs;
     for (let retries = 0; retries < imdsMsiRetryConfig.maxRetries; retries++) {
@@ -211,9 +172,9 @@ export const imdsMsi: MSI = {
           ...prepareRequestOptions(scopes, clientId, resourceId),
           allowInsecureConnection: true,
         });
-        const tokenResponse = await identityClient.sendTokenRequest(request, expiresOnParser);
+        const tokenResponse = await identityClient.sendTokenRequest(request);
         return (tokenResponse && tokenResponse.accessToken) || null;
-      } catch (error) {
+      } catch (error: any) {
         if (error.statusCode === 404) {
           await delay(nextDelayInMs);
           nextDelayInMs *= imdsMsiRetryConfig.intervalIncrement;

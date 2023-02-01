@@ -1,25 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { GeneratedSchemaRegistryClient } from "./generated/generatedSchemaRegistryClient";
-import { TokenCredential } from "@azure/core-auth";
-import {
-  bearerTokenAuthenticationPolicy,
-  InternalPipelineOptions,
-} from "@azure/core-rest-pipeline";
-import { convertSchemaIdResponse, convertSchemaResponse } from "./conversions";
-
+import { DEFAULT_SCOPE, SDK_VERSION } from "./constants";
 import {
   GetSchemaOptions,
   GetSchemaPropertiesOptions,
-  SchemaDescription,
-  SchemaRegistryClientOptions,
-  SchemaRegistry,
   RegisterSchemaOptions,
-  SchemaProperties,
   Schema,
+  SchemaDescription,
+  SchemaProperties,
+  SchemaRegistry,
+  SchemaRegistryClientOptions,
 } from "./models";
-import { DEFAULT_SCOPE } from "./constants";
+import {
+  InternalPipelineOptions,
+  bearerTokenAuthenticationPolicy,
+} from "@azure/core-rest-pipeline";
+import { TracingClient, createTracingClient } from "@azure/core-tracing";
+import { buildContentType, convertSchemaIdResponse, convertSchemaResponse } from "./conversions";
+import { GeneratedSchemaRegistryClient } from "./generated/generatedSchemaRegistryClient";
+import { TokenCredential } from "@azure/core-auth";
 import { logger } from "./logger";
 
 /**
@@ -30,7 +30,10 @@ export class SchemaRegistryClient implements SchemaRegistry {
   readonly fullyQualifiedNamespace: string;
 
   /** Underlying autorest generated client. */
-  private readonly client: GeneratedSchemaRegistryClient;
+  private readonly _client: GeneratedSchemaRegistryClient;
+
+  /** The tracing client */
+  private readonly _tracing: TracingClient;
 
   /**
    * Creates a new client for Azure Schema Registry service.
@@ -56,14 +59,20 @@ export class SchemaRegistryClient implements SchemaRegistry {
       },
     };
 
-    this.client = new GeneratedSchemaRegistryClient(this.fullyQualifiedNamespace, {
+    this._client = new GeneratedSchemaRegistryClient(this.fullyQualifiedNamespace, {
       endpoint: this.fullyQualifiedNamespace,
       apiVersion: options.apiVersion,
       ...internalPipelineOptions,
     });
 
+    this._tracing = createTracingClient({
+      namespace: "Microsoft.EventHub",
+      packageName: "@azure/schema-registry",
+      packageVersion: SDK_VERSION,
+    });
+
     const authPolicy = bearerTokenAuthenticationPolicy({ credential, scopes: DEFAULT_SCOPE });
-    this.client.pipeline.addPolicy(authPolicy);
+    this._client.pipeline.addPolicy(authPolicy);
   }
 
   /**
@@ -76,20 +85,19 @@ export class SchemaRegistryClient implements SchemaRegistry {
    * @param schema - Schema to register.
    * @returns Registered schema's ID.
    */
-  async registerSchema(
+  registerSchema(
     schema: SchemaDescription,
-    options?: RegisterSchemaOptions
+    options: RegisterSchemaOptions = {}
   ): Promise<SchemaProperties> {
     const { groupName, name: schemaName, definition: schemaContent, format } = schema;
-    return this.client.schema
-      .register(
-        groupName,
-        schemaName,
-        `application/json; serialization=${format}`,
-        schemaContent,
-        options
-      )
-      .then(convertSchemaIdResponse(format));
+    return this._tracing.withSpan(
+      "SchemaRegistryClient.registerSchema",
+      options,
+      (updatedOptions) =>
+        this._client.schema
+          .register(groupName, schemaName, buildContentType(format), schemaContent, updatedOptions)
+          .then(convertSchemaIdResponse(format))
+    );
   }
 
   /**
@@ -99,20 +107,25 @@ export class SchemaRegistryClient implements SchemaRegistry {
    * @param schema - Schema to match.
    * @returns Matched schema's ID.
    */
-  async getSchemaProperties(
+  getSchemaProperties(
     schema: SchemaDescription,
-    options?: GetSchemaPropertiesOptions
+    options: GetSchemaPropertiesOptions = {}
   ): Promise<SchemaProperties> {
     const { groupName, name: schemaName, definition: schemaContent, format } = schema;
-    return this.client.schema
-      .queryIdByContent(
-        groupName,
-        schemaName,
-        `application/json; serialization=${format}`,
-        schemaContent,
-        options
-      )
-      .then(convertSchemaIdResponse(format));
+    return this._tracing.withSpan(
+      "SchemaRegistryClient.getSchemaProperties",
+      options,
+      (updatedOptions) =>
+        this._client.schema
+          .queryIdByContent(
+            groupName,
+            schemaName,
+            buildContentType(format),
+            schemaContent,
+            updatedOptions
+          )
+          .then(convertSchemaIdResponse(format))
+    );
   }
 
   /**
@@ -132,7 +145,58 @@ export class SchemaRegistryClient implements SchemaRegistry {
    * @param schemaId - Unique schema ID.
    * @returns Schema with given ID.
    */
-  async getSchema(schemaId: string, options?: GetSchemaOptions): Promise<Schema> {
-    return this.client.schema.getById(schemaId, options).then(convertSchemaResponse);
+  getSchema(schemaId: string, options?: GetSchemaOptions): Promise<Schema>;
+
+  /**
+   * Gets an existing schema by version. If the schema was not found, a RestError with
+   * status code 404 will be thrown, which could be caught as follows:
+   * 
+   * ```js
+   * ...
+   * } catch (e) {
+    if (typeof e === "object" && e.statusCode === 404) {
+      ...;
+    }
+    throw e;
+  }
+   * ```
+   *
+   * @param schemaDescription - schema version.
+   * @returns Schema with given ID.
+   */
+  getSchema(
+    name: string,
+    groupName: string,
+    version: number,
+    options?: GetSchemaOptions
+  ): Promise<Schema>;
+  // implementation
+  getSchema(
+    nameOrId: string,
+    groupNameOrOptions?: string | GetSchemaOptions,
+    version?: number,
+    options: GetSchemaOptions = {}
+  ): Promise<Schema> {
+    if (typeof groupNameOrOptions !== "string" && version === undefined) {
+      return this._tracing.withSpan(
+        "SchemaRegistryClient.getSchema",
+        groupNameOrOptions ?? {},
+        (updatedOptions) =>
+          this._client.schema.getById(nameOrId, updatedOptions).then(convertSchemaResponse)
+      );
+    }
+    return this._tracing.withSpan(
+      "SchemaRegistryClient.getSchemaByVersion",
+      options,
+      (updatedOptions) =>
+        this._client.schema
+          .getSchemaVersion(
+            groupNameOrOptions as string,
+            nameOrId,
+            version as number,
+            updatedOptions
+          )
+          .then(convertSchemaResponse)
+    );
   }
 }

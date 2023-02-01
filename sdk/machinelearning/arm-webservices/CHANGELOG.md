@@ -1,4 +1,28 @@
 # Release History
+
+## 1.1.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.1.0 (2022-11-28)
+    
+**Features**
+
+  - Added Interface PatchedWebService
+  - Added Interface WebService
+  - Added Interface WebServicePropertiesForGraph
+    
+## 1.0.1 (2022-04-24)
+
+**Features**
+
+  - Bug fix
     
 ## 1.0.0 (2022-01-19)
 

@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { KustoPoolDatabases } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -66,12 +66,16 @@ export class KustoPoolDatabasesImpl implements KustoPoolDatabases {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByKustoPoolPagingPage(
           resourceGroupName,
           workspaceName,
           kustoPoolName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -81,9 +85,11 @@ export class KustoPoolDatabasesImpl implements KustoPoolDatabases {
     resourceGroupName: string,
     workspaceName: string,
     kustoPoolName: string,
-    options?: KustoPoolDatabasesListByKustoPoolOptionalParams
+    options?: KustoPoolDatabasesListByKustoPoolOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<DatabaseUnion[]> {
-    let result = await this._listByKustoPool(
+    let result: KustoPoolDatabasesListByKustoPoolResponse;
+    result = await this._listByKustoPool(
       resourceGroupName,
       workspaceName,
       kustoPoolName,
@@ -227,10 +233,12 @@ export class KustoPoolDatabasesImpl implements KustoPoolDatabases {
       },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -334,10 +342,12 @@ export class KustoPoolDatabasesImpl implements KustoPoolDatabases {
       },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -433,10 +443,12 @@ export class KustoPoolDatabasesImpl implements KustoPoolDatabases {
       },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -535,7 +547,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters25,
+  requestBody: Parameters.parameters26,
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
@@ -570,7 +582,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters25,
+  requestBody: Parameters.parameters26,
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,

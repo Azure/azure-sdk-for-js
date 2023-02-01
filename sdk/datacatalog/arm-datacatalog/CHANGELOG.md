@@ -1,4 +1,34 @@
 # Release History
+
+## 4.1.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 4.1.0 (2022-11-21)
+    
+**Features**
+
+  - Added Interface ADCCatalog
+    
+    
+## 4.0.0 (2022-04-19)
+    
+**Breaking Changes**
+
+  - Operation ADCCatalogs.beginDelete has a new signature
+  - Operation ADCCatalogs.beginDeleteAndWait has a new signature
+  - Operation ADCCatalogs.createOrUpdate has a new signature
+  - Operation ADCCatalogs.get has a new signature
+  - Operation ADCCatalogs.update has a new signature
+  - Class DataCatalogRestClient has a new signature
+  - Class DataCatalogRestClient no longer has parameter catalogName
+    
     
 ## 3.0.0 (2022-01-21)
 

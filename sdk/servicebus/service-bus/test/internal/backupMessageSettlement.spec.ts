@@ -93,7 +93,7 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
     let errorWasThrown = false;
     try {
       await receiver.completeMessage(msg);
-    } catch (err) {
+    } catch (err: any) {
       should.equal(
         err.message,
         `Failed to ${DispositionType.complete} the message as the AMQP link with which the message was received is no longer alive.`,
@@ -144,7 +144,7 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
     let errorWasThrown = false;
     try {
       await receiver.abandonMessage(msg);
-    } catch (err) {
+    } catch (err: any) {
       should.equal(
         err.message,
         `Failed to ${DispositionType.abandon} the message as the AMQP link with which the message was received is no longer alive.`,
@@ -209,7 +209,7 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
     let errorWasThrown = false;
     try {
       await receiver.deferMessage(msg);
-    } catch (err) {
+    } catch (err: any) {
       should.equal(
         err.message,
         `Failed to ${DispositionType.defer} the message as the AMQP link with which the message was received is no longer alive.`,
@@ -287,7 +287,7 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
       await receiver.deadLetterMessage(msg);
 
       testLogger.info(`Message has been dead lettered`);
-    } catch (err) {
+    } catch (err: any) {
       testLogger.error(`Exception thrown`, err);
 
       should.equal(
@@ -387,7 +387,7 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
         "MessageLock did not get renewed!"
       );
       await receiver.completeMessage(msg);
-    } catch (err) {
+    } catch (err: any) {
       if (!entityNames.usesSessions) {
         throw err;
       } else {

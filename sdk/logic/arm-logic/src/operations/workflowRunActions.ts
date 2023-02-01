@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { WorkflowRunActions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,12 +17,12 @@ import {
   WorkflowRunAction,
   WorkflowRunActionsListNextOptionalParams,
   WorkflowRunActionsListOptionalParams,
+  WorkflowRunActionsListResponse,
   ExpressionRoot,
   WorkflowRunActionsListExpressionTracesOptionalParams,
-  WorkflowRunActionsListResponse,
+  WorkflowRunActionsListExpressionTracesResponse,
   WorkflowRunActionsGetOptionalParams,
   WorkflowRunActionsGetResponse,
-  WorkflowRunActionsListExpressionTracesResponse,
   WorkflowRunActionsListNextResponse
 } from "../models";
 
@@ -64,12 +65,16 @@ export class WorkflowRunActionsImpl implements WorkflowRunActions {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listPagingPage(
           resourceGroupName,
           workflowName,
           runName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -79,16 +84,23 @@ export class WorkflowRunActionsImpl implements WorkflowRunActions {
     resourceGroupName: string,
     workflowName: string,
     runName: string,
-    options?: WorkflowRunActionsListOptionalParams
+    options?: WorkflowRunActionsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<WorkflowRunAction[]> {
-    let result = await this._list(
-      resourceGroupName,
-      workflowName,
-      runName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: WorkflowRunActionsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(
+        resourceGroupName,
+        workflowName,
+        runName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -98,7 +110,9 @@ export class WorkflowRunActionsImpl implements WorkflowRunActions {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -147,13 +161,17 @@ export class WorkflowRunActionsImpl implements WorkflowRunActions {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listExpressionTracesPagingPage(
           resourceGroupName,
           workflowName,
           runName,
           actionName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -164,9 +182,11 @@ export class WorkflowRunActionsImpl implements WorkflowRunActions {
     workflowName: string,
     runName: string,
     actionName: string,
-    options?: WorkflowRunActionsListExpressionTracesOptionalParams
+    options?: WorkflowRunActionsListExpressionTracesOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<ExpressionRoot[]> {
-    let result = await this._listExpressionTraces(
+    let result: WorkflowRunActionsListExpressionTracesResponse;
+    result = await this._listExpressionTraces(
       resourceGroupName,
       workflowName,
       runName,
@@ -361,7 +381,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.top, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

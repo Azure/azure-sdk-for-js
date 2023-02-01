@@ -7,9 +7,9 @@
 
 import {
   CommunicationAccessToken,
-  CommunicationIdentityClient
+  CommunicationIdentityClient,
 } from "@azure/communication-identity";
-import { UsernamePasswordCredential } from "@azure/identity";
+import { PublicClientApplication } from "@azure/msal-node";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -21,7 +21,8 @@ const connectionString =
 const aadTenant =
   process.env["COMMUNICATION_M365_AAD_TENANT"] || "<azure active directory tenant id>";
 const aadAppId = process.env["COMMUNICATION_M365_APP_ID"] || "<azure active directory app id>";
-const aadScope = process.env["COMMUNICATION_M365_SCOPE"] || "<azure active directory scope>";
+const aadAuthority =
+  process.env["COMMUNICATION_M365_AAD_AUTHORITY"] || "<azure active directory authority>";
 const msalUsername = process.env["COMMUNICATION_MSAL_USERNAME"] || "<msal username>";
 const msalPassword = process.env["COMMUNICATION_MSAL_PASSWORD"] || "<msal password>";
 
@@ -34,28 +35,47 @@ export async function main() {
 
   const client = new CommunicationIdentityClient(connectionString);
 
-  // Get an AAD token of a Teams user
-  console.log("Getting an AAD token of a Teams user");
+  // Get an AAD token and object ID of a Teams user
+  console.log("Getting an AAD token and an object ID of a Teams user");
 
-  // Create an AAD credential
-  const credential = new UsernamePasswordCredential(
-    aadTenant,
-    aadAppId,
-    msalUsername,
-    msalPassword
-  );
+  // Use MSAL to get the AAD token and object ID of a Teams user
+  // Create configuration object for PublicClientApplication
+  const msalConfig = {
+    auth: {
+      clientId: aadAppId,
+      authority: aadAuthority + "/" + aadTenant,
+    },
+  };
 
-  // Use MSAL to to get the AAD token
-  const response = await credential.getToken([aadScope]);
+  // Create an instance of PublicClientApplication
+  const msalInstance = new PublicClientApplication(msalConfig);
+  const scopes = [
+    "https://auth.msft.communication.azure.com/Teams.ManageCalls",
+    "https://auth.msft.communication.azure.com/Teams.ManageChats",
+  ];
+  // Create request parameters object for acquiring the AAD token and object ID of a Teams user
+  const usernamePasswordRequest = {
+    scopes: scopes,
+    username: msalUsername,
+    password: msalPassword,
+  };
 
-  console.log(`Retrieved a token with the expiration: ${response.expiresOnTimestamp}`);
+  // Retrieve the AAD token and object ID of a Teams user
+  const response = await msalInstance.acquireTokenByUsernamePassword(usernamePasswordRequest);
+  let teamsToken = response!.accessToken;
+  console.log(`Retrieved a token with the expiration: ${response!.extExpiresOn}`);
+
+  // Retrieve the user object ID
+  let userObjectId = response!.uniqueId;
 
   console.log("Exchanging the AAD access token for a Communication access token");
 
   // Exchange the AAD access token of a Teams user for a new Communication Identity access token
-  const communicationAccessToken: CommunicationAccessToken = await client.getTokenForTeamsUser(
-    response!.token
-  );
+  const communicationAccessToken: CommunicationAccessToken = await client.getTokenForTeamsUser({
+    teamsUserAadToken: teamsToken,
+    clientId: aadAppId,
+    userObjectId: userObjectId,
+  });
 
   console.log(`Exchanged Communication access token: ${communicationAccessToken.token}`);
 }

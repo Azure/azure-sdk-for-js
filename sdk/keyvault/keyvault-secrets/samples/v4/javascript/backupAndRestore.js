@@ -11,8 +11,7 @@ const { SecretClient } = require("@azure/keyvault-secrets");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
-dotenv.config();
+require("dotenv").config();
 
 function writeFile(filename, text) {
   return new Promise((resolve, reject) => {
@@ -37,10 +36,9 @@ function delay(t, value) {
 }
 
 async function main() {
-  // DefaultAzureCredential expects the following three environment variables:
-  // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
-  // - AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
-  // - AZURE_CLIENT_SECRET: The client secret for the registered application
+  // This sample uses DefaultAzureCredential, which supports a number of authentication mechanisms.
+  // See https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
+  // about DefaultAzureCredential and the other credentials that are available for use.
   const credential = new DefaultAzureCredential();
 
   const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
@@ -84,3 +82,5 @@ main().catch((error) => {
   console.error("An error occurred:", error);
   process.exit(1);
 });
+
+module.exports = { main };

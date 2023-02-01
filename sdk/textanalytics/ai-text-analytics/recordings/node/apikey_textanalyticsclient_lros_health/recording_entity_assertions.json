@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/entities/health/jobs?stringIndexType=Utf16CodeUnit",
+      "RequestUri": "https://endpoint/text/analytics/v3.1/entities/health/jobs?stringIndexType=Utf16CodeUnit",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json, text/json",
@@ -10,9 +10,8 @@
         "Content-Length": "157",
         "Content-Type": "application/json",
         "Ocp-Apim-Subscription-Key": "api_key",
-        "traceparent": "00-00000000000000000000000000000241-0000000000000482-00",
-        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "4cd03c85-81ae-4c95-96ad-acbfeaedb46e"
+        "User-Agent": "azsdk-js-ai-textanalytics/5.1.1 azsdk-js-ai-text-analytics/5.1.1 core-rest-pipeline/1.9.1 Node/v18.6.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "c4ba7343-ba57-4dac-8a7c-6538af2c158e"
       },
       "RequestBody": {
         "documents": [
@@ -25,108 +24,105 @@
       },
       "StatusCode": 202,
       "ResponseHeaders": {
-        "apim-request-id": "d42056e2-862c-4640-9feb-8a7601c1f661",
-        "Date": "Fri, 18 Feb 2022 19:02:39 GMT",
-        "operation-location": "https://endpoint/text/analytics/v3.2-preview.2/entities/health/jobs/46973edd-f3a4-4b5b-b563-131712789e8a",
+        "apim-request-id": "04afd747-b416-4118-b95c-3b1669f1b862",
+        "Date": "Fri, 22 Jul 2022 02:39:01 GMT",
+        "operation-location": "https://endpoint/text/analytics/v3.1/entities/health/jobs/03d92adb-a2b1-406c-b9b6-d618221b0df8",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "146"
+        "x-envoy-upstream-service-time": "153"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/entities/health/jobs/46973edd-f3a4-4b5b-b563-131712789e8a?$top=20\u0026$skip=0",
+      "RequestUri": "https://endpoint/text/analytics/v3.1/entities/health/jobs/03d92adb-a2b1-406c-b9b6-d618221b0df8?$top=20\u0026$skip=0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json, text/json",
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
         "Ocp-Apim-Subscription-Key": "api_key",
-        "traceparent": "00-00000000000000000000000000000242-0000000000000484-00",
-        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "bf913b95-6a09-419b-b410-8a31a235ac0c"
+        "User-Agent": "azsdk-js-ai-textanalytics/5.1.1 azsdk-js-ai-text-analytics/5.1.1 core-rest-pipeline/1.9.1 Node/v18.6.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "4807db69-9848-4a34-ae67-03a7a15ebe23"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "cb7f8c46-d712-405b-aeaa-f50438c615c6",
+        "apim-request-id": "02b297f7-568f-4b9b-99fe-514d7a48dbb3",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 18 Feb 2022 19:02:39 GMT",
+        "Date": "Fri, 22 Jul 2022 02:39:01 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "15"
+        "x-envoy-upstream-service-time": "7"
       },
       "ResponseBody": {
-        "jobId": "46973edd-f3a4-4b5b-b563-131712789e8a",
-        "lastUpdateDateTime": "2022-02-18T19:02:39Z",
-        "createdDateTime": "2022-02-18T19:02:39Z",
-        "expirationDateTime": "2022-02-19T19:02:39Z",
+        "jobId": "03d92adb-a2b1-406c-b9b6-d618221b0df8",
+        "lastUpdateDateTime": "2022-07-22T02:39:01Z",
+        "createdDateTime": "2022-07-22T02:39:01Z",
+        "expirationDateTime": "2022-07-23T02:39:01Z",
         "status": "notStarted",
         "errors": []
       }
     },
     {
-      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/entities/health/jobs/46973edd-f3a4-4b5b-b563-131712789e8a?$top=20\u0026$skip=0",
+      "RequestUri": "https://endpoint/text/analytics/v3.1/entities/health/jobs/03d92adb-a2b1-406c-b9b6-d618221b0df8?$top=20\u0026$skip=0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json, text/json",
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
         "Ocp-Apim-Subscription-Key": "api_key",
-        "traceparent": "00-00000000000000000000000000000243-0000000000000486-00",
-        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "ef7cf573-2703-4e57-8af9-0b7a2d63789d"
+        "User-Agent": "azsdk-js-ai-textanalytics/5.1.1 azsdk-js-ai-text-analytics/5.1.1 core-rest-pipeline/1.9.1 Node/v18.6.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "a455ddc1-b7b7-4f9c-b77f-91cd97e4d2e6"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "c4ef298f-bef3-468c-a10f-5dddc73d4583",
+        "apim-request-id": "012f92f5-014c-4d43-a759-8d64a7e25088",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 18 Feb 2022 19:02:39 GMT",
+        "Date": "Fri, 22 Jul 2022 02:39:01 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "10"
+        "x-envoy-upstream-service-time": "6"
       },
       "ResponseBody": {
-        "jobId": "46973edd-f3a4-4b5b-b563-131712789e8a",
-        "lastUpdateDateTime": "2022-02-18T19:02:39Z",
-        "createdDateTime": "2022-02-18T19:02:39Z",
-        "expirationDateTime": "2022-02-19T19:02:39Z",
+        "jobId": "03d92adb-a2b1-406c-b9b6-d618221b0df8",
+        "lastUpdateDateTime": "2022-07-22T02:39:01Z",
+        "createdDateTime": "2022-07-22T02:39:01Z",
+        "expirationDateTime": "2022-07-23T02:39:01Z",
         "status": "notStarted",
         "errors": []
       }
     },
     {
-      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/entities/health/jobs/46973edd-f3a4-4b5b-b563-131712789e8a?$top=20\u0026$skip=0",
+      "RequestUri": "https://endpoint/text/analytics/v3.1/entities/health/jobs/03d92adb-a2b1-406c-b9b6-d618221b0df8?$top=20\u0026$skip=0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json, text/json",
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
         "Ocp-Apim-Subscription-Key": "api_key",
-        "traceparent": "00-00000000000000000000000000000244-0000000000000488-00",
-        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "6f49815b-e689-4755-9f4f-44b1330fc02e"
+        "User-Agent": "azsdk-js-ai-textanalytics/5.1.1 azsdk-js-ai-text-analytics/5.1.1 core-rest-pipeline/1.9.1 Node/v18.6.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "6d5f663a-0de0-4f43-aae7-77efd61ffd40"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "4e7ac2a6-966c-415f-b07d-75071f2cd1a2",
+        "apim-request-id": "fd789745-c830-4ee2-8f17-75e58dd7cb2d",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 18 Feb 2022 19:02:41 GMT",
+        "Date": "Fri, 22 Jul 2022 02:39:03 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "34"
+        "x-envoy-upstream-service-time": "47"
       },
       "ResponseBody": {
-        "jobId": "46973edd-f3a4-4b5b-b563-131712789e8a",
-        "lastUpdateDateTime": "2022-02-18T19:02:40Z",
-        "createdDateTime": "2022-02-18T19:02:39Z",
-        "expirationDateTime": "2022-02-19T19:02:39Z",
+        "jobId": "03d92adb-a2b1-406c-b9b6-d618221b0df8",
+        "lastUpdateDateTime": "2022-07-22T02:39:01Z",
+        "createdDateTime": "2022-07-22T02:39:01Z",
+        "expirationDateTime": "2022-07-23T02:39:01Z",
         "status": "succeeded",
         "errors": [],
         "results": {
@@ -229,6 +225,10 @@
                     },
                     {
                       "dataSource": "CCSR_10",
+                      "id": "NVS001"
+                    },
+                    {
+                      "dataSource": "CCSR_ICD10CM",
                       "id": "NVS001"
                     },
                     {
@@ -336,6 +336,10 @@
                       "id": "C26828"
                     },
                     {
+                      "dataSource": "NCI_caDSR",
+                      "id": "C26828"
+                    },
+                    {
                       "dataSource": "OMIM",
                       "id": "MTHU005994"
                     },
@@ -370,7 +374,7 @@
                   "length": 5,
                   "text": "fever",
                   "category": "SymptomOrSign",
-                  "confidenceScore": 1.0,
+                  "confidenceScore": 0.98,
                   "name": "Fever",
                   "links": [
                     {
@@ -399,6 +403,10 @@
                     },
                     {
                       "dataSource": "CCSR_10",
+                      "id": "SYM002"
+                    },
+                    {
+                      "dataSource": "CCSR_ICD10CM",
                       "id": "SYM002"
                     },
                     {
@@ -518,11 +526,19 @@
                       "id": "1858"
                     },
                     {
+                      "dataSource": "NCI_GDC",
+                      "id": "C3038"
+                    },
+                    {
                       "dataSource": "NCI_NCI-GLOSS",
                       "id": "CDR0000450108"
                     },
                     {
                       "dataSource": "NCI_NICHD",
+                      "id": "C3038"
+                    },
+                    {
+                      "dataSource": "NCI_caDSR",
                       "id": "C3038"
                     },
                     {
@@ -636,6 +652,10 @@
                       "id": "C25189"
                     },
                     {
+                      "dataSource": "NCI_caDSR",
+                      "id": "C25189"
+                    },
+                    {
                       "dataSource": "PSY",
                       "id": "32140"
                     },
@@ -658,7 +678,7 @@
                   "length": 10,
                   "text": "Penicillin",
                   "category": "MedicationName",
-                  "confidenceScore": 0.9,
+                  "confidenceScore": 0.84,
                   "assertion": {
                     "certainty": "neutralPossible"
                   },
@@ -830,38 +850,37 @@
             }
           ],
           "errors": [],
-          "modelVersion": "2021-05-15"
+          "modelVersion": "2022-03-01"
         }
       }
     },
     {
-      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/entities/health/jobs/46973edd-f3a4-4b5b-b563-131712789e8a?$top=20\u0026$skip=0",
+      "RequestUri": "https://endpoint/text/analytics/v3.1/entities/health/jobs/03d92adb-a2b1-406c-b9b6-d618221b0df8?$top=20\u0026$skip=0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json, text/json",
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
         "Ocp-Apim-Subscription-Key": "api_key",
-        "traceparent": "00-00000000000000000000000000000245-0000000000000490-00",
-        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "31930a0d-6df4-4b82-86ee-8205cf0e06cd"
+        "User-Agent": "azsdk-js-ai-textanalytics/5.1.1 azsdk-js-ai-text-analytics/5.1.1 core-rest-pipeline/1.9.1 Node/v18.6.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "2599ec00-8b2d-4abb-bd6f-00b900fe4955"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "0b17a1ab-abd9-43d6-831f-1e18e543cb27",
+        "apim-request-id": "97b88230-2958-4535-bee4-4630116dc4c3",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 18 Feb 2022 19:02:41 GMT",
+        "Date": "Fri, 22 Jul 2022 02:39:04 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "49"
+        "x-envoy-upstream-service-time": "31"
       },
       "ResponseBody": {
-        "jobId": "46973edd-f3a4-4b5b-b563-131712789e8a",
-        "lastUpdateDateTime": "2022-02-18T19:02:40Z",
-        "createdDateTime": "2022-02-18T19:02:39Z",
-        "expirationDateTime": "2022-02-19T19:02:39Z",
+        "jobId": "03d92adb-a2b1-406c-b9b6-d618221b0df8",
+        "lastUpdateDateTime": "2022-07-22T02:39:01Z",
+        "createdDateTime": "2022-07-22T02:39:01Z",
+        "expirationDateTime": "2022-07-23T02:39:01Z",
         "status": "succeeded",
         "errors": [],
         "results": {
@@ -964,6 +983,10 @@
                     },
                     {
                       "dataSource": "CCSR_10",
+                      "id": "NVS001"
+                    },
+                    {
+                      "dataSource": "CCSR_ICD10CM",
                       "id": "NVS001"
                     },
                     {
@@ -1071,6 +1094,10 @@
                       "id": "C26828"
                     },
                     {
+                      "dataSource": "NCI_caDSR",
+                      "id": "C26828"
+                    },
+                    {
                       "dataSource": "OMIM",
                       "id": "MTHU005994"
                     },
@@ -1105,7 +1132,7 @@
                   "length": 5,
                   "text": "fever",
                   "category": "SymptomOrSign",
-                  "confidenceScore": 1.0,
+                  "confidenceScore": 0.98,
                   "name": "Fever",
                   "links": [
                     {
@@ -1134,6 +1161,10 @@
                     },
                     {
                       "dataSource": "CCSR_10",
+                      "id": "SYM002"
+                    },
+                    {
+                      "dataSource": "CCSR_ICD10CM",
                       "id": "SYM002"
                     },
                     {
@@ -1253,11 +1284,19 @@
                       "id": "1858"
                     },
                     {
+                      "dataSource": "NCI_GDC",
+                      "id": "C3038"
+                    },
+                    {
                       "dataSource": "NCI_NCI-GLOSS",
                       "id": "CDR0000450108"
                     },
                     {
                       "dataSource": "NCI_NICHD",
+                      "id": "C3038"
+                    },
+                    {
+                      "dataSource": "NCI_caDSR",
                       "id": "C3038"
                     },
                     {
@@ -1371,6 +1410,10 @@
                       "id": "C25189"
                     },
                     {
+                      "dataSource": "NCI_caDSR",
+                      "id": "C25189"
+                    },
+                    {
                       "dataSource": "PSY",
                       "id": "32140"
                     },
@@ -1393,7 +1436,7 @@
                   "length": 10,
                   "text": "Penicillin",
                   "category": "MedicationName",
-                  "confidenceScore": 0.9,
+                  "confidenceScore": 0.84,
                   "assertion": {
                     "certainty": "neutralPossible"
                   },
@@ -1565,7 +1608,7 @@
             }
           ],
           "errors": [],
-          "modelVersion": "2021-05-15"
+          "modelVersion": "2022-03-01"
         }
       }
     }

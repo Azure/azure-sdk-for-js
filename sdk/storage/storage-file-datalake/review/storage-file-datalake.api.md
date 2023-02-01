@@ -118,6 +118,7 @@ export class AccountSASServices {
 
 // @public
 export interface AccountSASSignatureValues {
+    encryptionScope?: string;
     expiresOn: Date;
     ipRange?: SasIPRange;
     permissions: AccountSASPermissions;
@@ -238,6 +239,7 @@ export interface CommonGenerateSasUrlOptions {
     contentEncoding?: string;
     contentLanguage?: string;
     contentType?: string;
+    encryptionScope?: string;
     expiresOn?: Date;
     identifier?: string;
     ipRange?: SasIPRange;
@@ -253,6 +255,13 @@ export interface CommonOptions {
 
 // @public (undocumented)
 export type CopyStatusType = "pending" | "success" | "aborted" | "failed";
+
+// @public
+export interface CpkInfo {
+    encryptionAlgorithm?: EncryptionAlgorithmType;
+    encryptionKey?: string;
+    encryptionKeySha256?: string;
+}
 
 // @public
 abstract class Credential_2 implements RequestPolicyFactory {
@@ -409,6 +418,7 @@ export interface DataLakeSASSignatureValues {
     contentType?: string;
     correlationId?: string;
     directoryDepth?: number;
+    encryptionScope?: string;
     expiresOn?: Date;
     fileSystemName: string;
     identifier?: string;
@@ -501,14 +511,23 @@ export class DirectorySASPermissions {
     write: boolean;
 }
 
+// @public
+export type EncryptionAlgorithmType = string;
+
 // @public (undocumented)
 export interface FileAppendOptions extends CommonOptions {
     // (undocumented)
     abortSignal?: AbortSignalLike;
     // (undocumented)
     conditions?: LeaseAccessConditions;
+    customerProvidedKey?: CpkInfo;
+    flush?: boolean;
+    // Warning: (ae-forgotten-export) The symbol "LeaseAction" needs to be exported by the entry point index.d.ts
+    leaseAction?: LeaseAction;
+    leaseDuration?: number;
     // (undocumented)
     onProgress?: (progress: TransferProgressEvent) => void;
+    proposedLeaseId?: string;
     // (undocumented)
     transactionalContentMD5?: Uint8Array;
 }
@@ -547,8 +566,12 @@ export interface FileFlushOptions extends CommonOptions {
     close?: boolean;
     // (undocumented)
     conditions?: DataLakeRequestConditions;
+    customerProvidedKey?: CpkInfo;
+    leaseAction?: LeaseAction;
+    leaseDuration?: number;
     // (undocumented)
     pathHttpHeaders?: PathHttpHeaders;
+    proposedLeaseId?: string;
     // (undocumented)
     retainUncommittedData?: boolean;
 }
@@ -564,6 +587,7 @@ export interface FileParallelUploadOptions extends CommonOptions {
     chunkSize?: number;
     close?: boolean;
     conditions?: DataLakeRequestConditions;
+    customerProvidedKey?: CpkInfo;
     maxConcurrency?: number;
     metadata?: Metadata;
     onProgress?: (progress: TransferProgressEvent) => void;
@@ -604,6 +628,7 @@ export interface FileQueryJsonTextConfiguration {
 export interface FileQueryOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     conditions?: DataLakeRequestConditions;
+    customerProvidedKey?: CpkInfo;
     inputTextConfiguration?: FileQueryJsonTextConfiguration | FileQueryCsvTextConfiguration | FileQueryParquetConfiguration;
     onError?: (error: FileQueryError) => void;
     onProgress?: (progress: TransferProgressEvent) => void;
@@ -683,6 +708,7 @@ export interface FileReadOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     // (undocumented)
     conditions?: DataLakeRequestConditions;
+    customerProvidedKey?: CpkInfo;
     // (undocumented)
     maxRetryRequests?: number;
     // (undocumented)
@@ -708,6 +734,7 @@ export interface FileReadToBufferOptions extends CommonOptions {
     chunkSize?: number;
     concurrency?: number;
     conditions?: DataLakeRequestConditions;
+    customerProvidedKey?: CpkInfo;
     maxRetryRequestsPerChunk?: number;
     onProgress?: (progress: TransferProgressEvent) => void;
 }
@@ -764,6 +791,7 @@ export interface FileSystemCreateOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     // (undocumented)
     access?: PublicAccessType;
+    fileSystemEncryptionScope?: FileSystemEncryptionScope;
     // (undocumented)
     metadata?: Metadata;
 }
@@ -806,6 +834,12 @@ export type FileSystemDeleteResponse = FileSystemDeleteHeaders & {
         parsedHeaders: FileSystemDeleteHeaders;
     };
 };
+
+// @public
+export interface FileSystemEncryptionScope {
+    defaultEncryptionScope?: string;
+    preventEncryptionScopeOverride?: boolean;
+}
 
 // @public
 export interface FileSystemExistsOptions extends CommonOptions {
@@ -860,6 +894,7 @@ export interface FileSystemGetPropertiesHeaders {
     clientRequestId?: string;
     // (undocumented)
     date?: Date;
+    defaultEncryptionScope?: string;
     // (undocumented)
     etag?: string;
     // (undocumented)
@@ -955,6 +990,8 @@ export type FileSystemListPathsResponse = PathList & FileSystemListPathsHeaders 
 
 // @public (undocumented)
 export interface FileSystemProperties {
+    // (undocumented)
+    defaultEncryptionScope?: string;
     // (undocumented)
     deletedOn?: Date;
     // (undocumented)
@@ -1204,8 +1241,11 @@ export function newPipeline(credential?: StorageSharedKeyCredential | AnonymousC
 export interface Path {
     // (undocumented)
     contentLength?: number;
+    createdOn?: Date;
+    encryptionScope?: string;
     // (undocumented)
     etag?: string;
+    expiresOn?: Date;
     // (undocumented)
     group?: string;
     // (undocumented)
@@ -1245,8 +1285,10 @@ export interface PathAppendDataHeaders {
     clientRequestId?: string;
     contentMD5?: Uint8Array;
     date?: Date;
+    encryptionKeySha256?: string;
     etag?: string;
     isServerEncrypted?: boolean;
+    leaseRenewed?: boolean;
     requestId?: string;
     version?: string;
     xMsContentCrc64?: Uint8Array;
@@ -1273,8 +1315,10 @@ export interface PathCreateHeaders {
     contentLength?: number;
     continuation?: string;
     date?: Date;
+    encryptionKeySha256?: string;
     errorCode?: string;
     etag?: string;
+    isServerEncrypted?: boolean;
     lastModified?: Date;
     requestId?: string;
     version?: string;
@@ -1298,12 +1342,19 @@ export interface PathCreateHttpHeaders {
 export interface PathCreateIfNotExistsOptions extends CommonOptions {
     // (undocumented)
     abortSignal?: AbortSignalLike;
+    acl?: PathAccessControlItem[];
+    customerProvidedKey?: CpkInfo;
+    expiresOn?: number | Date;
+    group?: string;
+    leaseDuration?: number;
     // (undocumented)
     metadata?: Metadata;
+    owner?: string;
     // (undocumented)
     pathHttpHeaders?: PathCreateHttpHeaders;
     // (undocumented)
     permissions?: string;
+    proposedLeaseId?: string;
     // (undocumented)
     umask?: string;
 }
@@ -1317,14 +1368,21 @@ export interface PathCreateIfNotExistsResponse extends PathCreateResponse {
 export interface PathCreateOptions extends CommonOptions {
     // (undocumented)
     abortSignal?: AbortSignalLike;
+    acl?: PathAccessControlItem[];
     // (undocumented)
     conditions?: DataLakeRequestConditions;
+    customerProvidedKey?: CpkInfo;
+    expiresOn?: number | Date;
+    group?: string;
+    leaseDuration?: number;
     // (undocumented)
     metadata?: Metadata;
+    owner?: string;
     // (undocumented)
     pathHttpHeaders?: PathCreateHttpHeaders;
     // (undocumented)
     permissions?: string;
+    proposedLeaseId?: string;
     // (undocumented)
     umask?: string;
 }
@@ -1369,6 +1427,7 @@ export type PathDeleteResponse = PathDeleteHeaders & {
 // @public
 export interface PathExistsOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    customerProvidedKey?: CpkInfo;
 }
 
 // @public
@@ -1376,8 +1435,11 @@ export interface PathFlushDataHeaders {
     clientRequestId?: string;
     contentLength?: number;
     date?: Date;
+    encryptionKeySha256?: string;
     etag?: string;
+    isServerEncrypted?: boolean;
     lastModified?: Date;
+    leaseRenewed?: boolean;
     requestId?: string;
     version?: string;
 }
@@ -1485,6 +1547,7 @@ export interface PathGetPropertiesHeaders {
     destinationSnapshot?: string;
     // (undocumented)
     encryptionKeySha256?: string;
+    encryptionScope?: string;
     // (undocumented)
     etag?: string;
     expiresOn?: Date;
@@ -1542,6 +1605,7 @@ export interface PathGetPropertiesOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     // (undocumented)
     conditions?: DataLakeRequestConditions;
+    customerProvidedKey?: CpkInfo;
 }
 
 // @public (undocumented)
@@ -1584,7 +1648,12 @@ export interface PathModel {
     // (undocumented)
     contentLength?: number;
     // (undocumented)
+    creationTime?: string;
+    encryptionScope?: string;
+    // (undocumented)
     etag?: string;
+    // (undocumented)
+    expiryTime?: string;
     // (undocumented)
     group?: string;
     // (undocumented)
@@ -1756,6 +1825,7 @@ export interface PathSetMetadataOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     // (undocumented)
     conditions?: DataLakeRequestConditions;
+    customerProvidedKey?: CpkInfo;
 }
 
 // @public (undocumented)
@@ -1872,7 +1942,7 @@ export enum SASProtocol {
 
 // @public
 export class SASQueryParameters {
-    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string, userDelegationKey?: UserDelegationKey, directoryDepth?: number, preauthorizedAgentObjectId?: string, agentObjectId?: string, correlationId?: string);
+    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string, userDelegationKey?: UserDelegationKey, directoryDepth?: number, preauthorizedAgentObjectId?: string, agentObjectId?: string, correlationId?: string, encryptionScope?: string);
     constructor(version: string, signature: string, options?: SASQueryParametersOptions);
     readonly agentObjectId?: string;
     readonly cacheControl?: string;
@@ -1882,6 +1952,7 @@ export class SASQueryParameters {
     readonly contentType?: string;
     readonly correlationId?: string;
     readonly directoryDepth?: number;
+    readonly encryptionScope?: string;
     readonly expiresOn?: Date;
     readonly identifier?: string;
     get ipRange(): SasIPRange | undefined;
@@ -1907,6 +1978,7 @@ export interface SASQueryParametersOptions {
     contentType?: string;
     correlationId?: string;
     directoryDepth?: number;
+    encryptionScope?: string;
     expiresOn?: Date;
     identifier?: string;
     ipRange?: SasIPRange;
@@ -1922,6 +1994,7 @@ export interface SASQueryParametersOptions {
 
 // @public
 export interface ServiceGenerateAccountSasUrlOptions {
+    encryptionScope?: string;
     ipRange?: SasIPRange;
     protocol?: SASProtocol;
     startsOn?: Date;

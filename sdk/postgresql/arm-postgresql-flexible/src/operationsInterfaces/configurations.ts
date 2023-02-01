@@ -13,6 +13,7 @@ import {
   ConfigurationsListByServerOptionalParams,
   ConfigurationsGetOptionalParams,
   ConfigurationsGetResponse,
+  ConfigurationForUpdate,
   ConfigurationsUpdateOptionalParams,
   ConfigurationsUpdateResponse,
   ConfigurationsPutOptionalParams,
@@ -58,7 +59,7 @@ export interface Configurations {
     resourceGroupName: string,
     serverName: string,
     configurationName: string,
-    parameters: Configuration,
+    parameters: ConfigurationForUpdate,
     options?: ConfigurationsUpdateOptionalParams
   ): Promise<
     PollerLike<
@@ -78,7 +79,7 @@ export interface Configurations {
     resourceGroupName: string,
     serverName: string,
     configurationName: string,
-    parameters: Configuration,
+    parameters: ConfigurationForUpdate,
     options?: ConfigurationsUpdateOptionalParams
   ): Promise<ConfigurationsUpdateResponse>;
   /**

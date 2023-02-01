@@ -1,0 +1,45 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Batch/batchAccounts/myaccountxxx/regenerateKeys?api-version=2022-10-01",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "21",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-batch/8.0.0 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "cf4b64b8-a6fb-4314-a4fb-3b01cd95f7b4"
+      },
+      "RequestBody": {
+        "keyName": "Primary"
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 10 Nov 2022 09:07:04 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "71d3f5e0-83d8-41de-9920-69607d0c2e98",
+        "x-ms-ratelimit-remaining-subscription-writes": "1198",
+        "x-ms-request-id": "18b5d31c-e838-49b9-881d-6fc2a6098837",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221110T090705Z:71d3f5e0-83d8-41de-9920-69607d0c2e98"
+      },
+      "ResponseBody": {
+        "accountName": "myaccountxxx",
+        "primary": "KCrxsGf/R0dGuKPfU32T4yvLSV26M\u002BI//CbNDFAbVY5Z7R5XnfGg1C5UTnFSHv3qBq8CrqUPiQmR\u002BABaJOnxYQ==",
+        "secondary": "Ykkz8gRw\u002B2Q6k8f3I20hDA/9T21JYjoG3Kj\u002B9fgB3cfQdj8cYKVYmVuDYaSe/VAdepq1Uk3g9IeI\u002BABaKsLS0A=="
+      }
+    }
+  ],
+  "Variables": {}
+}

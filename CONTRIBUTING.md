@@ -76,7 +76,7 @@ With GitHub's Codespaces, the container already has all prerequisites installed.
 If you prefer to setup your own environment instead, make sure you have these prerequisites installed and available on your `$PATH`:
 
 - Git
-- Any of the [LTS versions of Node.js](https://nodejs.org/about/releases/)
+- Any of the [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
 - A C++ compiler toolchain and Python (for compiling machine-code modules):
   - Windows: Install the [Visual Studio Build Tools][buildtools] from Microsoft and [Python 3.9][python39windows] from the Microsoft Store.
   - macOS: Install Xcode or the "Command Line Tools for XCode" (much smaller) from [Apple's developer downloads page](https://developer.apple.com/download/all/).
@@ -155,6 +155,8 @@ Currently, version `2.x.y` is maintained in the repository which is built as par
 Eventually, all the tests will be migrated to depend on the `2.x.y` version of the recorder that depends on the language-agnostic [test proxy server].
 
 To record and playback the tests that depend on version `2.x.y` of `@azure-tools/test-recorder`, [docker] is required, as the [test proxy server] is run in a container during testing. When running the tests, ensure the Docker daemon is running and you have permission to use it. For WSL 2, running `sudo service docker start` and `sudo usermod -aG docker $USER` should be sufficient.
+
+Refer to the [Migration Guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/MIGRATION.md) for more information on migrating the tests from recorder v1 to v2.
 
 #### Live tests
 

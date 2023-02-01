@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Location } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,12 +17,12 @@ import {
   SupportedSku,
   LocationListSupportedVirtualMachineSkusNextOptionalParams,
   LocationListSupportedVirtualMachineSkusOptionalParams,
+  LocationListSupportedVirtualMachineSkusResponse,
   LocationListSupportedCloudServiceSkusNextOptionalParams,
   LocationListSupportedCloudServiceSkusOptionalParams,
+  LocationListSupportedCloudServiceSkusResponse,
   LocationGetQuotasOptionalParams,
   LocationGetQuotasResponse,
-  LocationListSupportedVirtualMachineSkusResponse,
-  LocationListSupportedCloudServiceSkusResponse,
   CheckNameAvailabilityParameters,
   LocationCheckNameAvailabilityOptionalParams,
   LocationCheckNameAvailabilityResponse,
@@ -62,10 +63,14 @@ export class LocationImpl implements Location {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listSupportedVirtualMachineSkusPagingPage(
           locationName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -73,14 +78,21 @@ export class LocationImpl implements Location {
 
   private async *listSupportedVirtualMachineSkusPagingPage(
     locationName: string,
-    options?: LocationListSupportedVirtualMachineSkusOptionalParams
+    options?: LocationListSupportedVirtualMachineSkusOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<SupportedSku[]> {
-    let result = await this._listSupportedVirtualMachineSkus(
-      locationName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: LocationListSupportedVirtualMachineSkusResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listSupportedVirtualMachineSkus(
+        locationName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listSupportedVirtualMachineSkusNext(
         locationName,
@@ -88,7 +100,9 @@ export class LocationImpl implements Location {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -124,10 +138,14 @@ export class LocationImpl implements Location {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listSupportedCloudServiceSkusPagingPage(
           locationName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -135,14 +153,18 @@ export class LocationImpl implements Location {
 
   private async *listSupportedCloudServiceSkusPagingPage(
     locationName: string,
-    options?: LocationListSupportedCloudServiceSkusOptionalParams
+    options?: LocationListSupportedCloudServiceSkusOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<SupportedSku[]> {
-    let result = await this._listSupportedCloudServiceSkus(
-      locationName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: LocationListSupportedCloudServiceSkusResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listSupportedCloudServiceSkus(locationName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listSupportedCloudServiceSkusNext(
         locationName,
@@ -150,7 +172,9 @@ export class LocationImpl implements Location {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 

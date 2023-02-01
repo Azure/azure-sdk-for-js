@@ -1,17 +1,90 @@
 # Release History
 
-## 12.8.0-beta.2 (Unreleased)
+## 12.12.0 (Unreleased)
 
 ### Features Added
+
+- Added support for service version 2021-12-02.
+- Add support for acquiring, renewing and releasing lease in methods DataLakeFileClient.append() and flush().
 
 ### Breaking Changes
 
 ### Bugs Fixed
 
+### Other Changes
+
+- Update dependency `@azure/core-http` version to `^3.0.0`.
+
+## 12.11.0 (2022-10-14)
+
+### Features Added
+
+- Includes all features released in 12.11.0-beta.1.
+
+### Bugs Fixed
+
+- Fixed an issue of escaping slashes in file or directory path unnecessarily.
+
+## 12.11.0-beta.1 (2022-08-26)
+
+### Features Added
+
+- Added support for service version 2021-10-04.
+- Added support for flush parameter to DataLakeFileClient.append().
+- Added support for encryption scopes.
+- Added support for encryption scope SAS.
+
+### Bugs Fixed
+
+- Correted permission string parsing in DataLakePathClient.setPermissions() and DataLakePathClient.getAccessControl().
+- Refined URL parsing method to let it be able to correctly parse URLs with account name in path.
+
+## 12.10.0 (2022-07-08)
+
+### Features Added
+
+- Includes all features released in 12.10.0-beta.1.
+
+## 12.10.0-beta.1 (2022-06-17)
+
+### Features Added
+
+- Added support for service version 2021-08-06.
+- Added ability to set permission, umask, owner, group, ACL, lease, and expiry time on DataLakeFileClient.create() and .createIfNotExists(), DataLakeDirectoryClient.create() and .createIfNotExists(), and DataLakePathClient.create() and .createIfNotExists().
+
+## 12.9.0 (2022-05-12)
+
+### Features Added
+
+- Includes all features released in 12.9.0-beta.1.
+
+### Bugs Fixed
+
+- Refined user-agent value to avoid failure when os information is not available on some platforms.
+
+## 12.9.0-beta.1 (2022-04-19)
+
+### Features Added
+
+- Added support for service version 2021-06-08.
+- Added support for Customer Provided Key server-side encryption of files.
+- Added ability to retrieve path createdOn and expiresOn times with DataLakeFileSystemClient.listPaths().
+
+### Bugs Fixed
+
+- Add missing browser mapping for `./dist-esm/storage-common/src/BufferScheduler.js`
+- Add `react-native` mapping to ESM entry point
+
+## 12.8.0 (2022-03-11)
+
+### Features Added
+
+- Includes all features released in 12.8.0-beta.1.
+
+### Bugs Fixed
+
 - Fixed a bug where customized `ProxyOptions` is overwrited by a default one when initializing `DataLakeServiceClient` with connection string.
 - Set correct content length in requests for uploading operations to avoid unexpected failure if customized content length is incorrect.
-
-### Other Changes
 
 ## 12.8.0-beta.1 (2021-11-09)
 

@@ -15,7 +15,7 @@ import { ContainerClient, BlobClient, BlockBlobClient } from "../src";
 import { Test_CPK_INFO } from "./utils/fakeTestSecrets";
 import { BlockBlobTier } from "../src";
 import { Context } from "mocha";
-import { isNode } from "@azure/core-http";
+import { isNode } from "@azure/core-util";
 
 describe("BlockBlobClient", () => {
   let containerName: string;
@@ -250,6 +250,21 @@ describe("BlockBlobClient", () => {
     assert.equal(listResponse.committedBlocks![0].size, body.length);
   });
 
+  it("commitBlockList with cold tier", async () => {
+    const body = "HelloWorld";
+    await blockBlobClient.stageBlock(base64encode("1"), body, body.length);
+    await blockBlobClient.stageBlock(base64encode("2"), body, body.length);
+    await blockBlobClient.commitBlockList([base64encode("1"), base64encode("2")], {
+      tier: "Cold",
+    });
+
+    const properties = await blockBlobClient.getProperties();
+    assert.equal(properties.accessTier, "Cold");
+
+    const result = await blockBlobClient.download(0);
+    assert.deepStrictEqual(await bodyToString(result, body.length * 2), "HelloWorldHelloWorld");
+  });
+
   it("can be created with a sas connection string", async () => {
     recorder.skip("node", "SAS token is not handled in playback");
     const newClient = new BlockBlobClient(
@@ -268,7 +283,7 @@ describe("BlockBlobClient", () => {
     try {
       new BlockBlobClient(getSASConnectionStringFromEnvironment(), "", "blobName");
       assert.fail("Expecting an thrown error but didn't get one.");
-    } catch (error) {
+    } catch (error: any) {
       assert.equal(
         "Expecting non-empty strings for containerName and blobName parameters",
         error.message,
@@ -282,7 +297,7 @@ describe("BlockBlobClient", () => {
       // tslint:disable-next-line: no-unused-expression
       new BlockBlobClient(getSASConnectionStringFromEnvironment(), "containerName", "");
       assert.fail("Expecting an thrown error but didn't get one.");
-    } catch (error) {
+    } catch (error: any) {
       assert.equal(
         "Expecting non-empty strings for containerName and blobName parameters",
         error.message,
@@ -383,7 +398,7 @@ describe("BlockBlobClient", () => {
     let exceptionCaught = false;
     try {
       await blobClient.download(0);
-    } catch (error) {
+    } catch (error: any) {
       // HTTP/1.1 409 The blob is encrypted with customer specified encryption, but it was not provided in the request.
       exceptionCaught = true;
     }
@@ -398,7 +413,7 @@ describe("BlockBlobClient", () => {
       await blockBlobClient.stageBlock(base64encode("1"), content, content.length, {
         transactionalContentCrc64: new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8]),
       });
-    } catch (err) {
+    } catch (err: any) {
       if (
         err instanceof Error &&
         err.message.startsWith(
@@ -439,8 +454,18 @@ describe("BlockBlobClient", () => {
         }
       );
       assert.fail();
-    } catch (err) {
+    } catch (err: any) {
       assert.deepStrictEqual(err.code, "BlobAlreadyExists");
     }
+  });
+
+  it("syncUploadFromURL with cold tier should work", async () => {
+    await blockBlobClient.syncUploadFromURL("https://azure.github.io/azure-sdk-for-js/index.html", {
+      tier: "Cold",
+    });
+
+    const properties = await blockBlobClient.getProperties();
+    assert.ok(properties.accessTier);
+    assert.equal(properties.accessTier!, "Cold");
   });
 });

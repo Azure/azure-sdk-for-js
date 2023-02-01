@@ -202,6 +202,120 @@ export const UserAssignedIdentitiesListResult: coreClient.CompositeMapper = {
   }
 };
 
+export const AssociatedResourcesListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AssociatedResourcesListResult",
+    modelProperties: {
+      totalCount: {
+        serializedName: "totalCount",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      },
+      value: {
+        serializedName: "value",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AzureResource"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AzureResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AzureResource",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      resourceGroup: {
+        serializedName: "resourceGroup",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      subscriptionId: {
+        serializedName: "subscriptionId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      subscriptionDisplayName: {
+        serializedName: "subscriptionDisplayName",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const FederatedIdentityCredentialsListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FederatedIdentityCredentialsListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "FederatedIdentityCredential"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ProxyResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -326,6 +440,39 @@ export const SystemAssignedIdentity: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const FederatedIdentityCredential: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FederatedIdentityCredential",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      issuer: {
+        serializedName: "properties.issuer",
+        type: {
+          name: "String"
+        }
+      },
+      subject: {
+        serializedName: "properties.subject",
+        type: {
+          name: "String"
+        }
+      },
+      audiences: {
+        serializedName: "properties.audiences",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }

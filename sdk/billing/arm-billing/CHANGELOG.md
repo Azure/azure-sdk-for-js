@@ -1,6 +1,6 @@
 # Release History
 
-## 4.0.1 (Unreleased)
+## 4.1.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,35 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 4.1.0 (2022-11-16)
+    
+**Features**
+
+  - Added Interface Agreement
+  - Added Interface AvailableBalance
+  - Added Interface BillingAccount
+  - Added Interface BillingPeriod
+  - Added Interface BillingProfile
+  - Added Interface BillingProperty
+  - Added Interface BillingRoleAssignment
+  - Added Interface BillingRoleDefinition
+  - Added Interface BillingSubscription
+  - Added Interface Customer
+  - Added Interface CustomerPolicy
+  - Added Interface Department
+  - Added Interface EnrollmentAccount
+  - Added Interface EnrollmentAccountSummary
+  - Added Interface Instruction
+  - Added Interface Invoice
+  - Added Interface InvoiceSection
+  - Added Interface Policy
+  - Added Interface Product
+  - Added Interface Transaction
+    
+## 4.0.1 (2022-04-11)
+
+  - Bug fix
 
 ## 4.0.0 (2021-12-31)
 

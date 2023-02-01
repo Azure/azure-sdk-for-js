@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { GalleryApplicationVersions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,6 +19,7 @@ import {
   GalleryApplicationVersion,
   GalleryApplicationVersionsListByGalleryApplicationNextOptionalParams,
   GalleryApplicationVersionsListByGalleryApplicationOptionalParams,
+  GalleryApplicationVersionsListByGalleryApplicationResponse,
   GalleryApplicationVersionsCreateOrUpdateOptionalParams,
   GalleryApplicationVersionsCreateOrUpdateResponse,
   GalleryApplicationVersionUpdate,
@@ -26,7 +28,6 @@ import {
   GalleryApplicationVersionsGetOptionalParams,
   GalleryApplicationVersionsGetResponse,
   GalleryApplicationVersionsDeleteOptionalParams,
-  GalleryApplicationVersionsListByGalleryApplicationResponse,
   GalleryApplicationVersionsListByGalleryApplicationNextResponse
 } from "../models";
 
@@ -72,12 +73,16 @@ export class GalleryApplicationVersionsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByGalleryApplicationPagingPage(
           resourceGroupName,
           galleryName,
           galleryApplicationName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -87,16 +92,23 @@ export class GalleryApplicationVersionsImpl
     resourceGroupName: string,
     galleryName: string,
     galleryApplicationName: string,
-    options?: GalleryApplicationVersionsListByGalleryApplicationOptionalParams
+    options?: GalleryApplicationVersionsListByGalleryApplicationOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<GalleryApplicationVersion[]> {
-    let result = await this._listByGalleryApplication(
-      resourceGroupName,
-      galleryName,
-      galleryApplicationName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: GalleryApplicationVersionsListByGalleryApplicationResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByGalleryApplication(
+        resourceGroupName,
+        galleryName,
+        galleryApplicationName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByGalleryApplicationNext(
         resourceGroupName,
@@ -106,7 +118,9 @@ export class GalleryApplicationVersionsImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -204,10 +218,12 @@ export class GalleryApplicationVersionsImpl
       },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -321,10 +337,12 @@ export class GalleryApplicationVersionsImpl
       },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -456,10 +474,12 @@ export class GalleryApplicationVersionsImpl
       },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -568,8 +588,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.galleryName,
     Parameters.galleryApplicationName,
     Parameters.galleryApplicationVersionName
@@ -603,8 +623,8 @@ const updateOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.galleryName,
     Parameters.galleryApplicationName,
     Parameters.galleryApplicationVersionName
@@ -628,8 +648,8 @@ const getOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion3, Parameters.expand9],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.galleryName,
     Parameters.galleryApplicationName,
     Parameters.galleryApplicationVersionName
@@ -653,8 +673,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.galleryName,
     Parameters.galleryApplicationName,
     Parameters.galleryApplicationVersionName
@@ -677,8 +697,8 @@ const listByGalleryApplicationOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.galleryName,
     Parameters.galleryApplicationName
   ],
@@ -696,12 +716,11 @@ const listByGalleryApplicationNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.resourceGroupName,
     Parameters.galleryName,
     Parameters.galleryApplicationName
   ],

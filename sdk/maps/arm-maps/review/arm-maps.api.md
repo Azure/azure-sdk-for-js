@@ -16,8 +16,19 @@ export interface Accounts {
     listByResourceGroup(resourceGroupName: string, options?: AccountsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<MapsAccount>;
     listBySubscription(options?: AccountsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<MapsAccount>;
     listKeys(resourceGroupName: string, accountName: string, options?: AccountsListKeysOptionalParams): Promise<AccountsListKeysResponse>;
+    listSas(resourceGroupName: string, accountName: string, mapsAccountSasParameters: AccountSasParameters, options?: AccountsListSasOptionalParams): Promise<AccountsListSasResponse>;
     regenerateKeys(resourceGroupName: string, accountName: string, keySpecification: MapsKeySpecification, options?: AccountsRegenerateKeysOptionalParams): Promise<AccountsRegenerateKeysResponse>;
     update(resourceGroupName: string, accountName: string, mapsAccountUpdateParameters: MapsAccountUpdateParameters, options?: AccountsUpdateOptionalParams): Promise<AccountsUpdateResponse>;
+}
+
+// @public
+export interface AccountSasParameters {
+    expiry: string;
+    maxRatePerSecond: number;
+    principalId: string;
+    regions?: string[];
+    signingKey: SigningKey;
+    start: string;
 }
 
 // @public
@@ -74,6 +85,13 @@ export interface AccountsListKeysOptionalParams extends coreClient.OperationOpti
 export type AccountsListKeysResponse = MapsAccountKeys;
 
 // @public
+export interface AccountsListSasOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccountsListSasResponse = MapsAccountSasToken;
+
+// @public
 export interface AccountsRegenerateKeysOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -111,13 +129,30 @@ export interface AzureMapsManagementClientOptionalParams extends coreClient.Serv
     endpoint?: string;
 }
 
+// @public (undocumented)
+export interface Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties {
+    readonly clientId?: string;
+    readonly principalId?: string;
+}
+
+// @public
+export interface CorsRule {
+    allowedOrigins: string[];
+}
+
+// @public
+export interface CorsRules {
+    corsRules?: CorsRule[];
+}
+
 // @public
 export type CreatedByType = string;
 
 // @public
-export type Creator = TrackedResource & {
+export interface Creator extends TrackedResource {
     properties: CreatorProperties;
-};
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface CreatorList {
@@ -219,6 +254,9 @@ export interface ErrorResponse {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 type KeyType_2 = string;
 export { KeyType_2 as KeyType }
 
@@ -227,40 +265,51 @@ export type Kind = string;
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownKeyType {
-    // (undocumented)
     Primary = "primary",
-    // (undocumented)
     Secondary = "secondary"
 }
 
 // @public
 export enum KnownKind {
-    // (undocumented)
     Gen1 = "Gen1",
-    // (undocumented)
     Gen2 = "Gen2"
 }
 
 // @public
 export enum KnownName {
-    // (undocumented)
     G2 = "G2",
-    // (undocumented)
     S0 = "S0",
-    // (undocumented)
     S1 = "S1"
+}
+
+// @public
+export enum KnownSigningKey {
+    PrimaryKey = "primaryKey",
+    SecondaryKey = "secondaryKey"
+}
+
+// @public
+export interface LinkedResource {
+    id: string;
+    uniqueName: string;
+}
+
+// @public
+export interface ManagedServiceIdentity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type?: ResourceIdentityType;
+    userAssignedIdentities?: {
+        [propertyName: string]: Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties;
+    };
 }
 
 // @public
@@ -270,12 +319,13 @@ export interface Maps {
 }
 
 // @public
-export type MapsAccount = TrackedResource & {
-    sku: Sku;
+export interface MapsAccount extends TrackedResource {
+    identity?: ManagedServiceIdentity;
     kind?: Kind;
-    readonly systemData?: SystemData;
     properties?: MapsAccountProperties;
-};
+    sku: Sku;
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface MapsAccountKeys {
@@ -287,7 +337,9 @@ export interface MapsAccountKeys {
 
 // @public
 export interface MapsAccountProperties {
+    cors?: CorsRules;
     disableLocalAuth?: boolean;
+    linkedResources?: LinkedResource[];
     readonly provisioningState?: string;
     readonly uniqueId?: string;
 }
@@ -299,9 +351,17 @@ export interface MapsAccounts {
 }
 
 // @public
+export interface MapsAccountSasToken {
+    readonly accountSasToken?: string;
+}
+
+// @public
 export interface MapsAccountUpdateParameters {
+    cors?: CorsRules;
     disableLocalAuth?: boolean;
+    identity?: ManagedServiceIdentity;
     kind?: Kind;
+    linkedResources?: LinkedResource[];
     readonly provisioningState?: string;
     sku?: Sku;
     tags?: {
@@ -357,8 +417,10 @@ export interface MetricSpecification {
     displayDescription?: string;
     displayName?: string;
     fillGapWithZero?: boolean;
+    internalMetricName?: string;
     name?: string;
     resourceIdDimensionNameOverride?: string;
+    sourceMdmAccount?: string;
     unit?: string;
 }
 
@@ -390,9 +452,15 @@ export interface Resource {
 }
 
 // @public
+export type ResourceIdentityType = "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned" | "None";
+
+// @public
 export interface ServiceSpecification {
     metricSpecifications?: MetricSpecification[];
 }
+
+// @public
+export type SigningKey = string;
 
 // @public
 export interface Sku {
@@ -411,12 +479,12 @@ export interface SystemData {
 }
 
 // @public
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
+    location: string;
     tags?: {
         [propertyName: string]: string;
     };
-    location: string;
-};
+}
 
 // (No @packageDocumentation comment for this package)
 

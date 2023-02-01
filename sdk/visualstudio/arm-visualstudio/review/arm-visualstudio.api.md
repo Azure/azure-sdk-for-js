@@ -10,11 +10,11 @@ import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 
 // @public
-export type AccountResource = Resource & {
+export interface AccountResource extends Resource {
     properties?: {
         [propertyName: string]: string;
     };
-};
+}
 
 // @public
 export interface AccountResourceListResult {
@@ -106,12 +106,12 @@ export interface CheckNameAvailabilityResult {
 }
 
 // @public
-export type ExtensionResource = Resource & {
+export interface ExtensionResource extends Resource {
     plan?: ExtensionResourcePlan;
     properties?: {
         [propertyName: string]: string;
     };
-};
+}
 
 // @public
 export interface ExtensionResourceListResult {
@@ -212,11 +212,11 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 export type OperationsListResponse = OperationListResult;
 
 // @public
-export type ProjectResource = Resource & {
+export interface ProjectResource extends Resource {
     properties?: {
         [propertyName: string]: string;
     };
-};
+}
 
 // @public
 export interface ProjectResourceListResult {

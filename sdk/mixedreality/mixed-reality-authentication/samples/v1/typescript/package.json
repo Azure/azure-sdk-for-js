@@ -1,10 +1,10 @@
 {
-  "name": "azure-mixed-reality-authentication-samples-ts",
+  "name": "@azure-samples/mixed-reality-authentication-ts",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Mixed Reality Authentication client library samples for TypeScript",
   "engine": {
-    "node": ">=12.0.0"
+    "node": ">=14.0.0"
   },
   "scripts": {
     "build": "tsc",
@@ -33,7 +33,7 @@
     "@azure/core-auth": "^1.3.0"
   },
   "devDependencies": {
-    "typescript": "~4.2.0",
+    "typescript": "~4.8.0",
     "rimraf": "latest"
   }
 }

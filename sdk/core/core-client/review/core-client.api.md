@@ -28,6 +28,9 @@ export interface AdditionalPolicyConfig {
 export function authorizeRequestOnClaimChallenge(onChallengeOptions: AuthorizeRequestOnChallengeOptions): Promise<boolean>;
 
 // @public
+export const authorizeRequestOnTenantChallenge: (challengeOptions: AuthorizeRequestOnChallengeOptions) => Promise<boolean>;
+
+// @public
 export interface BaseMapper {
     constraints?: MapperConstraints;
     defaultValue?: any;
@@ -39,6 +42,7 @@ export interface BaseMapper {
     type: MapperType;
     xmlElementName?: string;
     xmlIsAttribute?: boolean;
+    xmlIsMsText?: boolean;
     xmlIsWrapped?: boolean;
     xmlName?: string;
     xmlNamespace?: string;
@@ -309,11 +313,13 @@ export interface Serializer {
         [key: string]: any;
     };
     serialize(mapper: Mapper, object: any, objectName?: string, options?: SerializerOptions): any;
+    // @deprecated
     validateConstraints(mapper: Mapper, value: any, objectName: string): void;
 }
 
 // @public
 export interface SerializerOptions {
+    ignoreUnknownProperties?: boolean;
     xml: XmlOptions;
 }
 
@@ -327,9 +333,11 @@ export class ServiceClient {
 
 // @public
 export interface ServiceClientOptions extends CommonClientOptions {
+    // @deprecated
     baseUri?: string;
     credential?: TokenCredential;
     credentialScopes?: string | string[];
+    endpoint?: string;
     pipeline?: Pipeline;
     requestContentType?: string;
 }

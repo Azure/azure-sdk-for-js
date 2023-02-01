@@ -6,14 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { RestorableSqlResources } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { CosmosDBManagementClient } from "../cosmosDBManagementClient";
 import {
-  DatabaseRestoreResource,
+  RestorableSqlResourcesGetResult,
   RestorableSqlResourcesListOptionalParams,
   RestorableSqlResourcesListResponse
 } from "../models";
@@ -43,7 +43,7 @@ export class RestorableSqlResourcesImpl implements RestorableSqlResources {
     location: string,
     instanceId: string,
     options?: RestorableSqlResourcesListOptionalParams
-  ): PagedAsyncIterableIterator<DatabaseRestoreResource> {
+  ): PagedAsyncIterableIterator<RestorableSqlResourcesGetResult> {
     const iter = this.listPagingAll(location, instanceId, options);
     return {
       next() {
@@ -52,8 +52,11 @@ export class RestorableSqlResourcesImpl implements RestorableSqlResources {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(location, instanceId, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(location, instanceId, options, settings);
       }
     };
   }
@@ -61,9 +64,11 @@ export class RestorableSqlResourcesImpl implements RestorableSqlResources {
   private async *listPagingPage(
     location: string,
     instanceId: string,
-    options?: RestorableSqlResourcesListOptionalParams
-  ): AsyncIterableIterator<DatabaseRestoreResource[]> {
-    let result = await this._list(location, instanceId, options);
+    options?: RestorableSqlResourcesListOptionalParams,
+    _settings?: PageSettings
+  ): AsyncIterableIterator<RestorableSqlResourcesGetResult[]> {
+    let result: RestorableSqlResourcesListResponse;
+    result = await this._list(location, instanceId, options);
     yield result.value || [];
   }
 
@@ -71,7 +76,7 @@ export class RestorableSqlResourcesImpl implements RestorableSqlResources {
     location: string,
     instanceId: string,
     options?: RestorableSqlResourcesListOptionalParams
-  ): AsyncIterableIterator<DatabaseRestoreResource> {
+  ): AsyncIterableIterator<RestorableSqlResourcesGetResult> {
     for await (const page of this.listPagingPage(
       location,
       instanceId,

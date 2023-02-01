@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import { TestTracer, SpanGraph, setTracer } from "@azure/test-utils";
 import {
+  base64encode,
   bodyToString,
   getBSU,
   getSASConnectionStringFromEnvironment,
@@ -12,15 +11,16 @@ import {
   sleep,
 } from "./utils";
 import { record, Recorder } from "@azure-tools/test-recorder";
-import { getYieldedValue } from "@azure/test-utils";
+import { getYieldedValue, assert } from "@azure/test-utils";
 import {
   ContainerClient,
   BlockBlobTier,
   ContainerListBlobHierarchySegmentResponse,
   BlobServiceClient,
+  BlockBlobClient,
+  BlobHTTPHeaders,
 } from "../src";
 import { Test_CPK_INFO } from "./utils/fakeTestSecrets";
-import { context, setSpan } from "@azure/core-tracing";
 import { Context } from "mocha";
 import { Tags } from "../src/models";
 
@@ -139,17 +139,50 @@ describe("ContainerClient", () => {
     }
   });
 
+  it("listBlobsFlat to list uncommitted blobs", async () => {
+    const blobClients = [];
+    for (let i = 0; i < 3; i++) {
+      const blobClient = containerClient.getBlobClient(recorder.getUniqueName(`blockblob/${i}`));
+      const blockBlobClient = blobClient.getBlockBlobClient();
+      await blockBlobClient.stageBlock(base64encode("1"), "Hello", 5);
+      blobClients.push(blobClient);
+    }
+
+    const result = (
+      await containerClient
+        .listBlobsFlat({
+          includeUncommitedBlobs: true,
+        })
+        .byPage()
+        .next()
+    ).value;
+    assert.ok(result.serviceEndpoint.length > 0);
+    assert.ok(containerClient.url.indexOf(result.containerName));
+    assert.deepStrictEqual(result.continuationToken, "");
+    assert.deepStrictEqual(result.segment.blobItems!.length, blobClients.length);
+    assert.ok(blobClients[0].url.indexOf(result.segment.blobItems![0].name));
+    assert.ok(result.segment.blobItems![0].properties.contentMD5 === undefined);
+
+    for (const blob of blobClients) {
+      await blob.delete();
+    }
+  });
+
   it("listBlobsFlat with special chars", async () => {
     const blobName = "dir1/dir2/file\uFFFF.blob";
     const blockBlobClient = containerClient.getBlockBlobClient(blobName);
     await blockBlobClient.upload("", 0);
 
-    const result = (await containerClient.listBlobsFlat().byPage().next()).value;
-    assert.ok(result.serviceEndpoint.length > 0);
-    assert.ok(containerClient.url.indexOf(result.containerName));
-    assert.deepStrictEqual(result.continuationToken, "");
-    assert.deepStrictEqual(result.segment.blobItems!.length, 1);
-    assert.ok(blobName === result.segment.blobItems![0].name);
+    const iteratorResult = await containerClient.listBlobsFlat().byPage().next();
+    assert.ok(!iteratorResult.done);
+    if (!iteratorResult.done) {
+      const result = iteratorResult.value;
+      assert.ok(result.serviceEndpoint.length > 0);
+      assert.ok(containerClient.url.indexOf(result.containerName));
+      assert.deepStrictEqual(result.continuationToken, "");
+      assert.deepStrictEqual(result.segment.blobItems.length, 1);
+      assert.equal(blobName, result.segment.blobItems[0].name);
+    }
   });
 
   it("listBlobsFlat with default parameters - null prefix shouldn't throw error", async () => {
@@ -499,6 +532,37 @@ describe("ContainerClient", () => {
     }
   });
 
+  it("listBlobsByHierarchy to list uncommitted blobs", async () => {
+    const blobClients = [];
+    for (let i = 0; i < 3; i++) {
+      const blobClient = containerClient.getBlobClient(recorder.getUniqueName(`blockblob${i}`));
+      const blockBlobClient = blobClient.getBlockBlobClient();
+      await blockBlobClient.stageBlock(base64encode("1"), "Hello", 5);
+      blobClients.push(blobClient);
+    }
+
+    const delimiter = "/";
+    const result = (
+      await containerClient
+        .listBlobsByHierarchy(delimiter, {
+          includeUncommitedBlobs: true,
+        })
+        .byPage()
+        .next()
+    ).value;
+
+    assert.ok(result.serviceEndpoint.length > 0);
+    assert.ok(containerClient.url.indexOf(result.containerName));
+    assert.deepStrictEqual(result.continuationToken, "");
+    assert.deepStrictEqual(result.delimiter, delimiter);
+    assert.deepStrictEqual(result.segment.blobItems!.length, blobClients.length);
+    assert.ok(result.segment.blobItems![0].properties.contentMD5 === undefined);
+
+    for (const blob of blobClients) {
+      await blob.delete();
+    }
+  });
+
   it("listBlobsByHierarchy with special chars", async () => {
     const dirNames = ["first_dir\uFFFF/", "second_dir\uFFFF/", "normal_dir/"];
 
@@ -596,6 +660,7 @@ describe("ContainerClient", () => {
           includeDeleted: true,
           includeMetadata: true,
           includeUncommitedBlobs: true,
+          includeVersions: true,
           prefix,
         })
         .byPage({ maxPageSize: 1 })
@@ -615,6 +680,7 @@ describe("ContainerClient", () => {
           includeDeleted: true,
           includeMetadata: true,
           includeUncommitedBlobs: true,
+          includeVersions: true,
           prefix,
         })
         .byPage({ continuationToken: result.continuationToken, maxPageSize: 2 })
@@ -634,6 +700,7 @@ describe("ContainerClient", () => {
           includeDeleted: true,
           includeMetadata: true,
           includeUncommitedBlobs: true,
+          includeVersions: true,
           prefix: `${prefix}0${delimiter}`,
         })
         .byPage({ maxPageSize: 2 })
@@ -646,6 +713,7 @@ describe("ContainerClient", () => {
     assert.deepStrictEqual(result3.delimiter, delimiter);
     assert.deepStrictEqual(result3.segment.blobItems!.length, 1);
     assert.ok(isSuperSet(result3.segment.blobItems![0].metadata, metadata));
+    assert.ok(result3.segment.blobItems![0].versionId);
     assert.ok(blobClients[0].url.indexOf(result3.segment.blobItems![0].name));
 
     for (const blob of blobClients) {
@@ -692,7 +760,7 @@ describe("ContainerClient", () => {
     try {
       await containerClient.listBlobsByHierarchy("", { prefix: "" }).byPage().next();
       assert.fail("Expecting an error when listBlobsByHierarchy with empty delimiter.");
-    } catch (error) {
+    } catch (error: any) {
       assert.equal(
         "delimiter should contain one or more characters",
         error.message,
@@ -729,76 +797,47 @@ describe("ContainerClient", () => {
       assert.fail(
         "Expecting an error in getting properties from a deleted block blob but didn't get one."
       );
-    } catch (error) {
+    } catch (error: any) {
       assert.ok((error.statusCode as number) === 404);
     }
   });
 
-  it("uploadBlockBlob and deleteBlob with tracing", async () => {
-    const tracer = new TestTracer();
-    setTracer(tracer);
-    const rootSpan = tracer.startSpan("root");
+  it("uploadBlockBlob and deleteBlob with tracing", async function (this: Context) {
     const body: string = recorder.getUniqueName("randomstring");
-    const options = {
+    const blobHeaders: BlobHTTPHeaders = {
       blobCacheControl: "blobCacheControl",
       blobContentDisposition: "blobContentDisposition",
       blobContentEncoding: "blobContentEncoding",
       blobContentLanguage: "blobContentLanguage",
       blobContentType: "blobContentType",
-      metadata: {
-        keya: "vala",
-        keyb: "valb",
-      },
     };
     const blobName: string = recorder.getUniqueName("blob");
-    const { blockBlobClient } = await containerClient.uploadBlockBlob(blobName, body, body.length, {
-      blobHTTPHeaders: options,
-      metadata: options.metadata,
-      tracingOptions: {
-        tracingContext: setSpan(context.active(), rootSpan),
+    let blockBlobClient: BlockBlobClient | undefined;
+    await assert.supportsTracing(
+      async function (options) {
+        const result = await containerClient.uploadBlockBlob(blobName, body, body.length, {
+          blobHTTPHeaders: blobHeaders,
+          metadata: {
+            keya: "vala",
+            keyb: "valb",
+          },
+          tracingOptions: options.tracingOptions,
+        });
+        blockBlobClient = result.blockBlobClient;
       },
-    });
-
-    rootSpan.end();
-
-    const rootSpans = tracer.getRootSpans();
-    assert.strictEqual(rootSpans.length, 1, "Should only have one root span.");
-    assert.strictEqual(rootSpan, rootSpans[0], "The root span should match what was passed in.");
-
-    const expectedGraph: SpanGraph = {
-      roots: [
-        {
-          name: rootSpan.name,
-          children: [
-            {
-              name: "Azure.Storage.Blob.ContainerClient-uploadBlockBlob",
-              children: [
-                {
-                  name: "Azure.Storage.Blob.BlockBlobClient-upload",
-                  children: [
-                    {
-                      name: "HTTP PUT",
-                      children: [],
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    };
-
-    assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.spanContext().traceId), expectedGraph);
-    assert.strictEqual(tracer.getActiveSpans().length, 0, "All spans should have had end called");
+      ["ContainerClient-uploadBlockBlob"]
+    );
 
     await containerClient.deleteBlob(blobName);
     try {
+      if (!blockBlobClient) {
+        assert.fail("Expected to receive a block blob client for created blob");
+      }
       await blockBlobClient.getProperties();
       assert.fail(
         "Expecting an error in getting properties from a deleted block blob but didn't get one."
       );
-    } catch (error) {
+    } catch (error: any) {
       assert.ok((error.statusCode as number) === 404);
     }
   });
@@ -844,7 +883,7 @@ describe("ContainerClient", () => {
       // tslint:disable-next-line: no-unused-expression
       new ContainerClient(getSASConnectionStringFromEnvironment(), "");
       assert.fail("Expecting an thrown error but didn't get one.");
-    } catch (error) {
+    } catch (error: any) {
       assert.equal(
         "Expecting non-empty strings for containerName parameter",
         error.message,
@@ -974,8 +1013,8 @@ describe("ContainerClient", () => {
 });
 
 describe("ContainerClient - Verify Name Properties", () => {
-  const containerName = "containerName";
-  const accountName = "myAccount";
+  const containerName = "containername";
+  const accountName = "myaccount";
 
   function verifyNameProperties(url: string): void {
     const newClient = new ContainerClient(url);

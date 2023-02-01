@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { NetworkWatchers } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,7 +17,9 @@ import { LroImpl } from "../lroImpl";
 import {
   NetworkWatcher,
   NetworkWatchersListOptionalParams,
+  NetworkWatchersListResponse,
   NetworkWatchersListAllOptionalParams,
+  NetworkWatchersListAllResponse,
   NetworkWatchersCreateOrUpdateOptionalParams,
   NetworkWatchersCreateOrUpdateResponse,
   NetworkWatchersGetOptionalParams,
@@ -26,8 +28,6 @@ import {
   TagsObject,
   NetworkWatchersUpdateTagsOptionalParams,
   NetworkWatchersUpdateTagsResponse,
-  NetworkWatchersListResponse,
-  NetworkWatchersListAllResponse,
   TopologyParameters,
   NetworkWatchersGetTopologyOptionalParams,
   NetworkWatchersGetTopologyResponse,
@@ -96,17 +96,22 @@ export class NetworkWatchersImpl implements NetworkWatchers {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(resourceGroupName, options, settings);
       }
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
-    options?: NetworkWatchersListOptionalParams
+    options?: NetworkWatchersListOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<NetworkWatcher[]> {
-    let result = await this._list(resourceGroupName, options);
+    let result: NetworkWatchersListResponse;
+    result = await this._list(resourceGroupName, options);
     yield result.value || [];
   }
 
@@ -134,16 +139,21 @@ export class NetworkWatchersImpl implements NetworkWatchers {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listAllPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listAllPagingPage(options, settings);
       }
     };
   }
 
   private async *listAllPagingPage(
-    options?: NetworkWatchersListAllOptionalParams
+    options?: NetworkWatchersListAllOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<NetworkWatcher[]> {
-    let result = await this._listAll(options);
+    let result: NetworkWatchersListAllResponse;
+    result = await this._listAll(options);
     yield result.value || [];
   }
 
@@ -246,11 +256,13 @@ export class NetworkWatchersImpl implements NetworkWatchers {
       { resourceGroupName, networkWatcherName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -397,11 +409,13 @@ export class NetworkWatchersImpl implements NetworkWatchers {
       { resourceGroupName, networkWatcherName, parameters, options },
       verifyIPFlowOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -488,11 +502,13 @@ export class NetworkWatchersImpl implements NetworkWatchers {
       { resourceGroupName, networkWatcherName, parameters, options },
       getNextHopOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -579,11 +595,13 @@ export class NetworkWatchersImpl implements NetworkWatchers {
       { resourceGroupName, networkWatcherName, parameters, options },
       getVMSecurityRulesOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -670,11 +688,13 @@ export class NetworkWatchersImpl implements NetworkWatchers {
       { resourceGroupName, networkWatcherName, parameters, options },
       getTroubleshootingOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -761,11 +781,13 @@ export class NetworkWatchersImpl implements NetworkWatchers {
       { resourceGroupName, networkWatcherName, parameters, options },
       getTroubleshootingResultOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -852,11 +874,13 @@ export class NetworkWatchersImpl implements NetworkWatchers {
       { resourceGroupName, networkWatcherName, parameters, options },
       setFlowLogConfigurationOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -944,11 +968,13 @@ export class NetworkWatchersImpl implements NetworkWatchers {
       { resourceGroupName, networkWatcherName, parameters, options },
       getFlowLogStatusOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1037,11 +1063,13 @@ export class NetworkWatchersImpl implements NetworkWatchers {
       { resourceGroupName, networkWatcherName, parameters, options },
       checkConnectivityOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1130,11 +1158,13 @@ export class NetworkWatchersImpl implements NetworkWatchers {
       { resourceGroupName, networkWatcherName, parameters, options },
       getAzureReachabilityReportOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1223,11 +1253,13 @@ export class NetworkWatchersImpl implements NetworkWatchers {
       { resourceGroupName, networkWatcherName, parameters, options },
       listAvailableProvidersOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1321,11 +1353,13 @@ export class NetworkWatchersImpl implements NetworkWatchers {
       { resourceGroupName, networkWatcherName, parameters, options },
       getNetworkConfigurationDiagnosticOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1372,7 +1406,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters32,
+  requestBody: Parameters.parameters43,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1503,7 +1537,7 @@ const getTopologyOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters33,
+  requestBody: Parameters.parameters44,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1536,7 +1570,7 @@ const verifyIPFlowOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters34,
+  requestBody: Parameters.parameters45,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1569,7 +1603,7 @@ const getNextHopOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters35,
+  requestBody: Parameters.parameters46,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1602,7 +1636,7 @@ const getVMSecurityRulesOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters36,
+  requestBody: Parameters.parameters47,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1635,7 +1669,7 @@ const getTroubleshootingOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters37,
+  requestBody: Parameters.parameters48,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1668,7 +1702,7 @@ const getTroubleshootingResultOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters38,
+  requestBody: Parameters.parameters49,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1701,7 +1735,7 @@ const setFlowLogConfigurationOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters39,
+  requestBody: Parameters.parameters50,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1734,7 +1768,7 @@ const getFlowLogStatusOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters40,
+  requestBody: Parameters.parameters51,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1767,7 +1801,7 @@ const checkConnectivityOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters41,
+  requestBody: Parameters.parameters52,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1800,7 +1834,7 @@ const getAzureReachabilityReportOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters42,
+  requestBody: Parameters.parameters53,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1833,7 +1867,7 @@ const listAvailableProvidersOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters43,
+  requestBody: Parameters.parameters54,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1866,7 +1900,7 @@ const getNetworkConfigurationDiagnosticOperationSpec: coreClient.OperationSpec =
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters44,
+  requestBody: Parameters.parameters55,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

@@ -1,6 +1,6 @@
 # Release History
 
-## 5.0.0-beta.2 (Unreleased)
+## 5.1.1 (Unreleased)
 
 ### Features Added
 
@@ -10,9 +10,19 @@
 
 ### Other Changes
 
-## 5.0.0-beta.1 (2022-01-17)
+## 5.1.0 (2022-11-28)
+    
+**Features**
 
-The package of @azure/arm-kubernetesconfiguration is using our next generation design principles since version 5.0.0-beta.1, which contains breaking changes.
+  - Added Interface Extension
+  - Added Interface FluxConfiguration
+  - Added Interface ProxyResource
+  - Added Interface SourceControlConfiguration
+    
+    
+## 5.0.0 (2022-04-06)
+
+The package of @azure/arm-kubernetesconfiguration is using our next generation design principles since version 5.0.0, which contains breaking changes.
 
 To understand the detail of the change, please refer to [Changelog](https://aka.ms/js-track2-changelog).
 

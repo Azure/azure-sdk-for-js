@@ -12,15 +12,16 @@ enable-xml: true
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/564d0137d08defea63d9de2413ef5336fbfe2e6d/specification/storage/data-plane/Microsoft.BlobStorage/preview/2021-04-10/blob.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/080b332b7572514a2e100dd2fa1fb86cb8edcb08/specification/storage/data-plane/Microsoft.BlobStorage/preview/2021-12-02/blob.json
 model-date-time-as-string: true
 optional-response-headers: true
 v3: true
 disable-async-iterators: true
 add-credentials: false
+core-http-compat-mode: true
 use-extension:
-  "@autorest/typescript": "6.0.0-dev.20210218.1"
-package-version: 12.9.0-beta.4
+  "@autorest/typescript": "latest"
+package-version: 12.13.0
 ```
 
 ## Customizations for Track 2 Generator
@@ -1030,6 +1031,26 @@ directive:
       $["x-ms-error-code"]["description"] = "Error Code";
 ```
 
+### Hide x-ms-pageable in PageBlob_GetPageRanges
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}/{blob}?comp=pagelist"]["get"]
+    transform: >
+      delete $["x-ms-pageable"];
+```
+
+### Hide x-ms-pageable in PageBlob_GetPageRangesDiff
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}/{blob}?comp=pagelist&diff"]["get"]
+    transform: >
+      delete $["x-ms-pageable"];
+```
+
 ### Add error code to response header - PageBlob_CopyIncremental
 
 ```yaml
@@ -1330,6 +1351,117 @@ directive:
     where: $["definitions"]["BlobItemInternal"]["properties"]
     transform: >
       $["HasVersionsOnly"]["description"] = "Inactive root blobs which have any versions would have such tag with value true.";
+```
+
+### Use string union instead of string for EncryptionAlgorithm
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters.EncryptionAlgorithm
+    transform: >
+      $["x-ms-enum"]["modelAsString"] = true;
+```
+
+### Hide Premium in AccessTier until it's supported in service.
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.AccessTier
+    transform: >
+      $["enum"] = [
+        "P4",
+        "P6",
+        "P10",
+        "P15",
+        "P20",
+        "P30",
+        "P40",
+        "P50",
+        "P60",
+        "P70",
+        "P80",
+        "Hot",
+        "Cool",
+        "Archive",
+        "Cold"
+      ];
+```
+
+### Hide version releated properties in FilterBlobItem until it's supported in service.
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.FilterBlobItem
+    transform: >
+      delete $["properties"]["VersionId"];
+      delete $["properties"]["IsCurrentVersion"];
+```
+
+### Hide FilterBlobsInclude until it's supported in service.
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters
+    transform: >
+      delete $["FilterBlobsInclude"];
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/?comp=blobs"]["get"]
+    transform: >
+      $["parameters"] = [
+          {
+            "$ref": "#/parameters/Timeout"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/ClientRequestId"
+          },
+          {
+            "$ref": "#/parameters/FilterBlobsWhere"
+          },
+          {
+            "$ref": "#/parameters/Marker"
+          },
+          {
+            "$ref": "#/parameters/MaxResults"
+          }
+        ];
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}?restype=container&comp=blobs"]["get"]
+    transform: >
+      $["parameters"] = [
+          {
+            "$ref": "#/parameters/Timeout"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          },
+          {
+            "$ref": "#/parameters/ClientRequestId"
+          },
+          {
+            "$ref": "#/parameters/FilterBlobsWhere"
+          },
+          {
+            "$ref": "#/parameters/Marker"
+          },
+          {
+            "$ref": "#/parameters/MaxResults"
+          }
+        ];
 ```
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fstorage%2Fstorage-blob%2Fswagger%2FREADME.png)

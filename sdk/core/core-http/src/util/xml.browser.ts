@@ -8,9 +8,44 @@ if (!self.document || !self.DOMParser || !self.Node || !self.XMLSerializer) {
     `This library depends on the following DOM objects: ["document", "DOMParser", "Node", "XMLSerializer"] to parse XML, but some of these are undefined. You may provide a polyfill to make these globally available in order to support your environment. For more information, please refer to https://aka.ms/azsdk/js/web-workers. `
   );
 }
-const doc = document.implementation.createDocument(null, null, null);
 
-const parser = new DOMParser();
+let cachedDoc: Document | undefined;
+function getDoc(): Document {
+  if (!cachedDoc) {
+    cachedDoc = document.implementation.createDocument(null, null, null);
+  }
+  return cachedDoc;
+}
+
+let cachedParser: DOMParser | undefined;
+function getParser(): DOMParser {
+  if (!cachedParser) {
+    cachedParser = new DOMParser();
+  }
+  return cachedParser;
+}
+
+let cachedSerializer: XMLSerializer | undefined;
+function getSerializer(): XMLSerializer {
+  if (!cachedSerializer) {
+    cachedSerializer = new XMLSerializer();
+  }
+  return cachedSerializer;
+}
+
+// Policy to make our code Trusted Types compliant.
+//   https://github.com/w3c/webappsec-trusted-types
+// We are calling DOMParser.parseFromString() to parse XML payload from Azure services.
+// The parsed DOM object is not exposed to outside. Scripts are disabled when parsing
+// according to the spec.  There are no HTML/XSS security concerns on the usage of
+// parseFromString() here.
+let ttPolicy: Pick<TrustedTypePolicy, "createHTML"> | undefined;
+if (typeof self.trustedTypes !== "undefined") {
+  ttPolicy = self.trustedTypes.createPolicy("@azure/core-http#xml.browser", {
+    createHTML: (s) => s,
+  });
+}
+
 export function parseXML(str: string, opts: SerializerOptions = {}): Promise<any> {
   try {
     const updatedOptions: Required<SerializerOptions> = {
@@ -18,7 +53,10 @@ export function parseXML(str: string, opts: SerializerOptions = {}): Promise<any
       includeRoot: opts.includeRoot ?? false,
       xmlCharKey: opts.xmlCharKey ?? XML_CHARKEY,
     };
-    const dom = parser.parseFromString(str, "application/xml");
+    const dom = getParser().parseFromString(
+      (ttPolicy?.createHTML(str) ?? str) as string,
+      "application/xml"
+    );
     throwIfError(dom);
 
     let obj;
@@ -29,7 +67,7 @@ export function parseXML(str: string, opts: SerializerOptions = {}): Promise<any
     }
 
     return Promise.resolve(obj);
-  } catch (err) {
+  } catch (err: any) {
     return Promise.reject(err);
   }
 }
@@ -39,10 +77,11 @@ let errorNS: string | undefined;
 function getErrorNamespace(): string {
   if (errorNS === undefined) {
     try {
+      const invalidXML = (ttPolicy?.createHTML("INVALID") ?? "INVALID") as string;
       errorNS =
-        parser.parseFromString("INVALID", "text/xml").getElementsByTagName("parsererror")[0]
+        getParser().parseFromString(invalidXML, "text/xml").getElementsByTagName("parsererror")[0]
           .namespaceURI! ?? "";
-    } catch (ignored) {
+    } catch (ignored: any) {
       // Most browsers will return a document containing <parsererror>, but IE will throw.
       errorNS = "";
     }
@@ -124,8 +163,6 @@ function domToObject(node: Node, options: Required<SerializerOptions>): any {
   return result;
 }
 
-const serializer = new XMLSerializer();
-
 export function stringifyXML(content: unknown, opts: SerializerOptions = {}): string {
   const updatedOptions: Required<SerializerOptions> = {
     rootName: opts.rootName ?? "root",
@@ -134,14 +171,15 @@ export function stringifyXML(content: unknown, opts: SerializerOptions = {}): st
   };
   const dom = buildNode(content, updatedOptions.rootName, updatedOptions)[0];
   return (
-    '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' + serializer.serializeToString(dom)
+    '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' +
+    getSerializer().serializeToString(dom)
   );
 }
 
 function buildAttributes(attrs: { [key: string]: { toString(): string } }): Attr[] {
   const result = [];
   for (const key of Object.keys(attrs)) {
-    const attr = doc.createAttribute(key);
+    const attr = getDoc().createAttribute(key);
     attr.value = attrs[key].toString();
     result.push(attr);
   }
@@ -156,7 +194,7 @@ function buildNode(obj: any, elementName: string, options: Required<SerializerOp
     typeof obj === "number" ||
     typeof obj === "boolean"
   ) {
-    const elem = doc.createElement(elementName);
+    const elem = getDoc().createElement(elementName);
     elem.textContent = obj === undefined || obj === null ? "" : obj.toString();
     return [elem];
   } else if (Array.isArray(obj)) {
@@ -168,7 +206,7 @@ function buildNode(obj: any, elementName: string, options: Required<SerializerOp
     }
     return result;
   } else if (typeof obj === "object") {
-    const elem = doc.createElement(elementName);
+    const elem = getDoc().createElement(elementName);
     for (const key of Object.keys(obj)) {
       if (key === XML_ATTRKEY) {
         for (const attr of buildAttributes(obj[key])) {

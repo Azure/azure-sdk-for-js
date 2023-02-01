@@ -1,12 +1,12 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/sentiment?stringIndexType=Utf16CodeUnit\u0026opinionMining=true",
+      "RequestUri": "https://endpoint/text/analytics/v3.1/sentiment?stringIndexType=Utf16CodeUnit\u0026opinionMining=true",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json, text/json",
         "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-GB",
+        "Accept-Language": "en-US",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "Content-Length": "622",
@@ -18,10 +18,9 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "traceparent": "00-00000000000000000000000000000336-0000000000000680-00",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
-        "x-ms-client-request-id": "58351ea2-3fd2-475e-adc8-ba7f18d4c0ce",
-        "x-ms-useragent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 OS/Win32"
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "f68705de-e823-4d67-b9c3-81ff707e9761",
+        "x-ms-useragent": "azsdk-js-ai-textanalytics/5.1.1 azsdk-js-ai-text-analytics/5.1.1 core-rest-pipeline/1.9.1 OS/Linuxx86_64"
       },
       "RequestBody": {
         "documents": [
@@ -64,14 +63,14 @@
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "b126827c-1168-41b3-b31b-3d8ec2f4db33",
+        "apim-request-id": "85c3626a-8781-4f8c-a7d3-e64ef615374a",
         "Content-Type": "application/json; charset=utf-8",
         "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=7,CognitiveServices.TextAnalytics.TextRecords=7",
-        "Date": "Fri, 18 Feb 2022 19:14:55 GMT",
+        "Date": "Fri, 22 Jul 2022 02:40:44 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "158"
+        "x-envoy-upstream-service-time": "27"
       },
       "ResponseBody": {
         "documents": [
@@ -81,7 +80,7 @@
             "confidenceScores": {
               "positive": 0.0,
               "neutral": 0.0,
-              "negative": 1.0
+              "negative": 0.99
             },
             "sentences": [
               {
@@ -89,7 +88,7 @@
                 "confidenceScores": {
                   "positive": 0.0,
                   "neutral": 0.0,
-                  "negative": 1.0
+                  "negative": 0.99
                 },
                 "offset": 0,
                 "length": 25,
@@ -133,7 +132,7 @@
             "id": "1",
             "sentiment": "positive",
             "confidenceScores": {
-              "positive": 1.0,
+              "positive": 0.99,
               "neutral": 0.0,
               "negative": 0.0
             },
@@ -141,13 +140,13 @@
               {
                 "sentiment": "positive",
                 "confidenceScores": {
-                  "positive": 1.0,
+                  "positive": 0.99,
                   "neutral": 0.0,
                   "negative": 0.0
                 },
                 "offset": 0,
-                "length": 25,
-                "text": "The rooms were beautiful.",
+                "length": 26,
+                "text": "The rooms were beautiful. ",
                 "targets": [
                   {
                     "sentiment": "positive",
@@ -183,7 +182,7 @@
               {
                 "sentiment": "positive",
                 "confidenceScores": {
-                  "positive": 1.0,
+                  "positive": 0.99,
                   "neutral": 0.0,
                   "negative": 0.0
                 },
@@ -244,17 +243,17 @@
             "id": "2",
             "sentiment": "negative",
             "confidenceScores": {
-              "positive": 0.01,
+              "positive": 0.03,
               "neutral": 0.0,
-              "negative": 0.99
+              "negative": 0.97
             },
             "sentences": [
               {
                 "sentiment": "negative",
                 "confidenceScores": {
-                  "positive": 0.01,
+                  "positive": 0.03,
                   "neutral": 0.0,
-                  "negative": 0.99
+                  "negative": 0.97
                 },
                 "offset": 0,
                 "length": 50,
@@ -386,6 +385,10 @@
                       {
                         "relationType": "assessment",
                         "ref": "#/documents/3/sentences/0/assessments/2"
+                      },
+                      {
+                        "relationType": "assessment",
+                        "ref": "#/documents/3/sentences/0/assessments/3"
                       }
                     ]
                   },
@@ -401,24 +404,23 @@
                     "relations": [
                       {
                         "relationType": "assessment",
-                        "ref": "#/documents/3/sentences/0/assessments/0"
-                      },
-                      {
-                        "relationType": "assessment",
-                        "ref": "#/documents/3/sentences/0/assessments/1"
-                      },
-                      {
-                        "relationType": "assessment",
                         "ref": "#/documents/3/sentences/0/assessments/3"
-                      },
-                      {
-                        "relationType": "assessment",
-                        "ref": "#/documents/3/sentences/0/assessments/2"
                       }
                     ]
                   }
                 ],
                 "assessments": [
+                  {
+                    "sentiment": "positive",
+                    "confidenceScores": {
+                      "positive": 1.0,
+                      "negative": 0.0
+                    },
+                    "offset": 0,
+                    "length": 5,
+                    "text": "Loved",
+                    "isNegated": false
+                  },
                   {
                     "sentiment": "positive",
                     "confidenceScores": {
@@ -439,17 +441,6 @@
                     "offset": 36,
                     "length": 4,
                     "text": "nice",
-                    "isNegated": false
-                  },
-                  {
-                    "sentiment": "positive",
-                    "confidenceScores": {
-                      "positive": 1.0,
-                      "negative": 0.0
-                    },
-                    "offset": 0,
-                    "length": 5,
-                    "text": "loved",
                     "isNegated": false
                   },
                   {
@@ -491,8 +482,8 @@
                   {
                     "sentiment": "positive",
                     "confidenceScores": {
-                      "positive": 0.97,
-                      "negative": 0.03
+                      "positive": 1.0,
+                      "negative": 0.0
                     },
                     "offset": 27,
                     "length": 4,
@@ -524,8 +515,8 @@
                   {
                     "sentiment": "positive",
                     "confidenceScores": {
-                      "positive": 0.93,
-                      "negative": 0.07
+                      "positive": 0.99,
+                      "negative": 0.01
                     },
                     "offset": 14,
                     "length": 12,
@@ -541,17 +532,17 @@
             "id": "5",
             "sentiment": "negative",
             "confidenceScores": {
-              "positive": 0.0,
+              "positive": 0.09,
               "neutral": 0.0,
-              "negative": 1.0
+              "negative": 0.91
             },
             "sentences": [
               {
                 "sentiment": "negative",
                 "confidenceScores": {
-                  "positive": 0.0,
+                  "positive": 0.09,
                   "neutral": 0.0,
-                  "negative": 1.0
+                  "negative": 0.91
                 },
                 "offset": 0,
                 "length": 75,
@@ -615,7 +606,7 @@
                     },
                     "offset": 0,
                     "length": 4,
-                    "text": "nice",
+                    "text": "Nice",
                     "isNegated": false
                   },
                   {
@@ -647,19 +638,19 @@
           },
           {
             "id": "6",
-            "sentiment": "neutral",
+            "sentiment": "negative",
             "confidenceScores": {
-              "positive": 0.03,
-              "neutral": 0.63,
-              "negative": 0.34
+              "positive": 0.02,
+              "neutral": 0.09,
+              "negative": 0.88
             },
             "sentences": [
               {
-                "sentiment": "neutral",
+                "sentiment": "negative",
                 "confidenceScores": {
-                  "positive": 0.03,
-                  "neutral": 0.63,
-                  "negative": 0.34
+                  "positive": 0.02,
+                  "neutral": 0.09,
+                  "negative": 0.88
                 },
                 "offset": 0,
                 "length": 19,
@@ -668,8 +659,8 @@
                   {
                     "sentiment": "negative",
                     "confidenceScores": {
-                      "positive": 0.01,
-                      "negative": 0.99
+                      "positive": 0.0,
+                      "negative": 1.0
                     },
                     "offset": 4,
                     "length": 6,
@@ -686,8 +677,8 @@
                   {
                     "sentiment": "negative",
                     "confidenceScores": {
-                      "positive": 0.01,
-                      "negative": 0.99
+                      "positive": 0.0,
+                      "negative": 1.0
                     },
                     "offset": 11,
                     "length": 7,
@@ -701,7 +692,7 @@
           }
         ],
         "errors": [],
-        "modelVersion": "2020-04-01"
+        "modelVersion": "2022-06-01"
       }
     }
   ],

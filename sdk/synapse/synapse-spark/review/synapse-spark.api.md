@@ -9,127 +9,82 @@ import * as coreClient from '@azure/core-client';
 
 // @public
 export enum KnownLivyStatementStates {
-    // (undocumented)
     Available = "available",
-    // (undocumented)
     Cancelled = "cancelled",
-    // (undocumented)
     Cancelling = "cancelling",
-    // (undocumented)
     Error = "error",
-    // (undocumented)
     Running = "running",
-    // (undocumented)
     Waiting = "waiting"
 }
 
 // @public
 export enum KnownLivyStates {
-    // (undocumented)
     Busy = "busy",
-    // (undocumented)
     Dead = "dead",
-    // (undocumented)
     Error = "error",
-    // (undocumented)
     Idle = "idle",
-    // (undocumented)
     Killed = "killed",
-    // (undocumented)
     NotStarted = "not_started",
-    // (undocumented)
     Recovering = "recovering",
-    // (undocumented)
     Running = "running",
-    // (undocumented)
     ShuttingDown = "shutting_down",
-    // (undocumented)
     Starting = "starting",
-    // (undocumented)
     Success = "success"
 }
 
 // @public
 export enum KnownPluginCurrentState {
-    // (undocumented)
     Cleanup = "Cleanup",
-    // (undocumented)
     Ended = "Ended",
-    // (undocumented)
     Monitoring = "Monitoring",
-    // (undocumented)
     Preparation = "Preparation",
-    // (undocumented)
     Queued = "Queued",
-    // (undocumented)
     ResourceAcquisition = "ResourceAcquisition",
-    // (undocumented)
     Submission = "Submission"
 }
 
 // @public
 export enum KnownSchedulerCurrentState {
-    // (undocumented)
     Ended = "Ended",
-    // (undocumented)
     Queued = "Queued",
-    // (undocumented)
     Scheduled = "Scheduled"
 }
 
 // @public
 export enum KnownSparkBatchJobResultType {
-    // (undocumented)
     Cancelled = "Cancelled",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Uncertain = "Uncertain"
 }
 
 // @public
 export enum KnownSparkErrorSource {
-    // (undocumented)
     Dependency = "Dependency",
-    // (undocumented)
     System = "System",
-    // (undocumented)
     Unknown = "Unknown",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownSparkJobType {
-    // (undocumented)
     SparkBatch = "SparkBatch",
-    // (undocumented)
     SparkSession = "SparkSession"
 }
 
 // @public
 export enum KnownSparkSessionResultType {
-    // (undocumented)
     Cancelled = "Cancelled",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Uncertain = "Uncertain"
 }
 
 // @public
 export enum KnownSparkStatementLanguageType {
-    // (undocumented)
     DotNetSpark = "dotnetspark",
-    // (undocumented)
     PySpark = "pyspark",
-    // (undocumented)
     Spark = "spark",
-    // (undocumented)
     Sql = "sql"
 }
 
@@ -272,24 +227,19 @@ export interface SparkBatchJobState {
     terminatedAt?: Date;
 }
 
-// @public (undocumented)
-export class SparkClient extends SparkClientContext {
-    constructor(credentials: coreAuth.TokenCredential, endpoint: string, sparkPoolName: string, options?: SparkClientOptionalParams);
-    // (undocumented)
-    sparkBatch: SparkBatch;
-    // (undocumented)
-    sparkSessionOperations: SparkSessionOperations;
-}
-
-// @public (undocumented)
-export class SparkClientContext extends coreClient.ServiceClient {
+// @public
+export class SparkClient extends coreClient.ServiceClient {
     constructor(credentials: coreAuth.TokenCredential, endpoint: string, sparkPoolName: string, options?: SparkClientOptionalParams);
     // (undocumented)
     endpoint: string;
     // (undocumented)
     livyApiVersion: string;
     // (undocumented)
+    sparkBatch: SparkBatch;
+    // (undocumented)
     sparkPoolName: string;
+    // (undocumented)
+    sparkSessionOperations: SparkSessionOperations;
 }
 
 // @public
@@ -619,7 +569,6 @@ export interface SparkStatementOutput {
     // (undocumented)
     traceback?: string[];
 }
-
 
 // (No @packageDocumentation comment for this package)
 

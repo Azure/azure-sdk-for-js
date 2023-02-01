@@ -20,12 +20,14 @@ import {
   generateBlobSASQueryParameters,
   BlobSASPermissions,
   BlobServiceClient,
+  StorageBlobAudience,
 } from "../../src";
-import { TokenCredential } from "@azure/core-http";
+import { TokenCredential } from "@azure/core-auth";
 import { assertClientUsesTokenCredential } from "../utils/assert";
-import { record, delay, Recorder } from "@azure-tools/test-recorder";
+import { record, delay, Recorder, isLiveMode } from "@azure-tools/test-recorder";
 import { Test_CPK_INFO } from "../utils/fakeTestSecrets";
 import { Context } from "mocha";
+import { DefaultAzureCredential } from "@azure/identity";
 
 describe("PageBlobClient Node.js only", () => {
   let containerName: string;
@@ -51,6 +53,35 @@ describe("PageBlobClient Node.js only", () => {
   afterEach(async function () {
     await containerClient.delete();
     await recorder.stop();
+  });
+
+  it("fetch a blob for disk with challenge Bearer token", async function (this: Context): Promise<void> {
+    if (isLiveMode()) {
+      this.skip();
+    }
+    const diskBlobClient = new PageBlobClient(
+      "https://md-hdd-jxsm54fzq3jc.z8.blob.storage.azure.net/wmkmgnjxxnjt/abcd?sv=2018-03-28&sr=b&si=9a01f5e5-ae40-4251-917d-66ac35cda429&sig=***",
+      new DefaultAzureCredential()
+    );
+
+    const result = await diskBlobClient.getProperties();
+    assert.ok(result.contentLength);
+  });
+
+  it("fetch a blob for disk with Bearer token", async function (this: Context): Promise<void> {
+    if (isLiveMode()) {
+      this.skip();
+    }
+    const diskBlobClient = new PageBlobClient(
+      "https://md-hdd-jxsm54fzq3jc.z8.blob.storage.azure.net/wmkmgnjxxnjt/abcd?sv=2018-03-28&sr=b&si=9a01f5e5-ae40-4251-917d-66ac35cda429&sig=***",
+      new DefaultAzureCredential(),
+      {
+        audience: StorageBlobAudience.DiskComputeOAuthScopes,
+      }
+    );
+
+    const result = await diskBlobClient.getProperties();
+    assert.ok(result.contentLength);
   });
 
   it("startCopyIncremental", async () => {
@@ -144,9 +175,7 @@ describe("PageBlobClient Node.js only", () => {
     const blockBlobClient = containerClient.getBlockBlobClient(blockBlobName);
     await blockBlobClient.upload(content, content.length);
 
-    // By default, credential is always the last element of pipeline factories
-    const factories = (blobClient as any).pipeline.factories;
-    const sharedKeyCredential = factories[factories.length - 1];
+    const sharedKeyCredential = (blobClient as any).credential as StorageSharedKeyCredential;
     // Get a SAS for blobURL
     const expiryTime = recorder.newDate("expiry");
     expiryTime.setDate(expiryTime.getDate() + 1);
@@ -181,9 +210,7 @@ describe("PageBlobClient Node.js only", () => {
     const blockBlobClient = containerClient.getBlockBlobClient(blockBlobName);
     await blockBlobClient.upload(content, content.length);
 
-    // By default, credential is always the last element of pipeline factories
-    const factories = (blobClient as any).pipeline.factories;
-    const sharedKeyCredential = factories[factories.length - 1];
+    const sharedKeyCredential = (blobClient as any).credential as StorageSharedKeyCredential;
     // Get a SAS for blobURL
     const expiryTime = recorder.newDate("expiry");
     expiryTime.setDate(expiryTime.getDate() + 1);
@@ -274,8 +301,7 @@ describe("PageBlobClient Node.js only", () => {
   });
 
   it("can be created with a url and a credential", async () => {
-    const factories = (pageBlobClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const credential = (pageBlobClient as any).credential as StorageSharedKeyCredential;
     const newClient = new PageBlobClient(pageBlobClient.url, credential);
 
     await newClient.create(512);
@@ -284,8 +310,7 @@ describe("PageBlobClient Node.js only", () => {
   });
 
   it("can be created with a url and a credential and an option bag", async () => {
-    const factories = (pageBlobClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const credential = (pageBlobClient as any).credential as StorageSharedKeyCredential;
     const newClient = new PageBlobClient(pageBlobClient.url, credential, {
       retryOptions: {
         maxTries: 5,
@@ -310,8 +335,7 @@ describe("PageBlobClient Node.js only", () => {
   });
 
   it("can be created with a url and a pipeline", async () => {
-    const factories = (pageBlobClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const credential = (pageBlobClient as any).credential as StorageSharedKeyCredential;
     const pipeline = newPipeline(credential);
     const newClient = new PageBlobClient(pageBlobClient.url, pipeline);
 
@@ -359,7 +383,7 @@ describe("PageBlobClient Node.js only", () => {
     let exceptionCaught = false;
     try {
       await blobClient.download(0);
-    } catch (err) {
+    } catch (err: any) {
       exceptionCaught = true;
     }
     assert.ok(exceptionCaught);
@@ -370,8 +394,7 @@ describe("PageBlobClient Node.js only", () => {
     await blockBlobClient.upload(content, content.length);
 
     // Get a SAS for blobURL
-    const factories = (blobClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const credential = (blobClient as any).credential as StorageSharedKeyCredential;
     const expiryTime = recorder.newDate("expiry");
     expiryTime.setDate(expiryTime.getDate() + 1);
     const sas = generateBlobSASQueryParameters(
@@ -413,7 +436,7 @@ describe("PageBlobClient Node.js only", () => {
     exceptionCaught = false;
     try {
       await pageBlobClient.clearPages(0, 512);
-    } catch (err) {
+    } catch (err: any) {
       exceptionCaught = true;
     }
     assert.ok(exceptionCaught);
@@ -456,7 +479,7 @@ describe("PageBlobClient Node.js only", () => {
       let expectedExceptionCaught = false;
       try {
         await promise;
-      } catch (e) {
+      } catch (e: any) {
         assert.equal(e.details?.errorCode, errorCode);
         expectedExceptionCaught = true;
       }
@@ -482,7 +505,7 @@ describe("PageBlobClient Node.js only", () => {
         /* eslint no-empty: ["error", { "allowEmptyCatch": true }] */
         try {
           await destPageBlobClient.abortCopyFromURL(copyResponse.copyId!);
-        } catch (err) {}
+        } catch (err: any) {}
       }
 
       await destPageBlobClient.setTags(tags);
@@ -509,9 +532,7 @@ describe("PageBlobClient Node.js only", () => {
       const blockBlobClient = containerClient.getBlockBlobClient(blockBlobName);
       await blockBlobClient.upload(content, content.length);
 
-      // By default, credential is always the last element of pipeline factories
-      const factories = (blobClient as any).pipeline.factories;
-      const sharedKeyCredential = factories[factories.length - 1];
+      const sharedKeyCredential = (blobClient as any).credential as StorageSharedKeyCredential;
       // Get a SAS for blobURL
       const expiryTime = recorder.newDate("expiry");
       expiryTime.setDate(expiryTime.getDate() + 1);

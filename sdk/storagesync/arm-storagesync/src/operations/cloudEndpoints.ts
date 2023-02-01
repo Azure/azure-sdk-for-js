@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { CloudEndpoints } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,6 +17,7 @@ import { LroImpl } from "../lroImpl";
 import {
   CloudEndpoint,
   CloudEndpointsListBySyncGroupOptionalParams,
+  CloudEndpointsListBySyncGroupResponse,
   CloudEndpointCreateParameters,
   CloudEndpointsCreateOptionalParams,
   CloudEndpointsCreateResponse,
@@ -24,7 +25,6 @@ import {
   CloudEndpointsGetResponse,
   CloudEndpointsDeleteOptionalParams,
   CloudEndpointsDeleteResponse,
-  CloudEndpointsListBySyncGroupResponse,
   BackupRequest,
   CloudEndpointsPreBackupOptionalParams,
   CloudEndpointsPreBackupResponse,
@@ -79,12 +79,16 @@ export class CloudEndpointsImpl implements CloudEndpoints {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listBySyncGroupPagingPage(
           resourceGroupName,
           storageSyncServiceName,
           syncGroupName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -94,9 +98,11 @@ export class CloudEndpointsImpl implements CloudEndpoints {
     resourceGroupName: string,
     storageSyncServiceName: string,
     syncGroupName: string,
-    options?: CloudEndpointsListBySyncGroupOptionalParams
+    options?: CloudEndpointsListBySyncGroupOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<CloudEndpoint[]> {
-    let result = await this._listBySyncGroup(
+    let result: CloudEndpointsListBySyncGroupResponse;
+    result = await this._listBySyncGroup(
       resourceGroupName,
       storageSyncServiceName,
       syncGroupName,
@@ -194,10 +200,12 @@ export class CloudEndpointsImpl implements CloudEndpoints {
       },
       createOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -325,10 +333,12 @@ export class CloudEndpointsImpl implements CloudEndpoints {
       },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -448,10 +458,12 @@ export class CloudEndpointsImpl implements CloudEndpoints {
       },
       preBackupOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -555,10 +567,12 @@ export class CloudEndpointsImpl implements CloudEndpoints {
       },
       postBackupOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -657,10 +671,12 @@ export class CloudEndpointsImpl implements CloudEndpoints {
       },
       preRestoreOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -786,10 +802,12 @@ export class CloudEndpointsImpl implements CloudEndpoints {
       },
       postRestoreOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -889,10 +907,12 @@ export class CloudEndpointsImpl implements CloudEndpoints {
       },
       triggerChangeDetectionOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

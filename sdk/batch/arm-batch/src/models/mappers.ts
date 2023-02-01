@@ -63,6 +63,13 @@ export const BatchAccountCreateParameters: coreClient.CompositeMapper = {
           allowedValues: ["Enabled", "Disabled"]
         }
       },
+      networkProfile: {
+        serializedName: "properties.networkProfile",
+        type: {
+          name: "Composite",
+          className: "NetworkProfile"
+        }
+      },
       encryption: {
         serializedName: "properties.encryption",
         type: {
@@ -147,6 +154,82 @@ export const KeyVaultReference: coreClient.CompositeMapper = {
       },
       url: {
         serializedName: "url",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const NetworkProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NetworkProfile",
+    modelProperties: {
+      accountAccess: {
+        serializedName: "accountAccess",
+        type: {
+          name: "Composite",
+          className: "EndpointAccessProfile"
+        }
+      },
+      nodeManagementAccess: {
+        serializedName: "nodeManagementAccess",
+        type: {
+          name: "Composite",
+          className: "EndpointAccessProfile"
+        }
+      }
+    }
+  }
+};
+
+export const EndpointAccessProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EndpointAccessProfile",
+    modelProperties: {
+      defaultAction: {
+        serializedName: "defaultAction",
+        required: true,
+        type: {
+          name: "Enum",
+          allowedValues: ["Allow", "Deny"]
+        }
+      },
+      ipRules: {
+        serializedName: "ipRules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "IPRule"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const IPRule: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "IPRule",
+    modelProperties: {
+      action: {
+        defaultValue: "Allow",
+        isConstant: true,
+        serializedName: "action",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
         required: true,
         type: {
           name: "String"
@@ -292,8 +375,8 @@ export const PrivateLinkServiceConnectionState: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      actionRequired: {
-        serializedName: "actionRequired",
+      actionsRequired: {
+        serializedName: "actionsRequired",
         readOnly: true,
         type: {
           name: "String"
@@ -507,6 +590,21 @@ export const BatchAccountUpdateParameters: coreClient.CompositeMapper = {
               allowedValues: ["SharedKey", "AAD", "TaskAuthenticationToken"]
             }
           }
+        }
+      },
+      publicNetworkAccess: {
+        defaultValue: "Enabled",
+        serializedName: "properties.publicNetworkAccess",
+        type: {
+          name: "Enum",
+          allowedValues: ["Enabled", "Disabled"]
+        }
+      },
+      networkProfile: {
+        serializedName: "properties.networkProfile",
+        type: {
+          name: "Composite",
+          className: "NetworkProfile"
         }
       }
     }
@@ -1007,6 +1105,33 @@ export const CertificateBaseProperties: coreClient.CompositeMapper = {
         type: {
           name: "Enum",
           allowedValues: ["Pfx", "Cer"]
+        }
+      }
+    }
+  }
+};
+
+export const DetectorListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DetectorListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DetectorResponse"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
         }
       }
     }
@@ -1686,6 +1811,13 @@ export const NetworkConfiguration: coreClient.CompositeMapper = {
         serializedName: "subnetId",
         type: {
           name: "String"
+        }
+      },
+      dynamicVnetAssignmentScope: {
+        serializedName: "dynamicVnetAssignmentScope",
+        type: {
+          name: "Enum",
+          allowedValues: ["none", "job"]
         }
       },
       endpointConfiguration: {
@@ -2482,8 +2614,8 @@ export const CifsMountConfiguration: coreClient.CompositeMapper = {
     name: "Composite",
     className: "CifsMountConfiguration",
     modelProperties: {
-      username: {
-        serializedName: "username",
+      userName: {
+        serializedName: "userName",
         required: true,
         type: {
           name: "String"
@@ -2726,7 +2858,14 @@ export const PrivateEndpointConnection: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "Enum",
-          allowedValues: ["Succeeded", "Updating", "Failed"]
+          allowedValues: [
+            "Creating",
+            "Updating",
+            "Deleting",
+            "Succeeded",
+            "Failed",
+            "Cancelled"
+          ]
         }
       },
       privateEndpoint: {
@@ -2734,6 +2873,18 @@ export const PrivateEndpointConnection: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "PrivateEndpoint"
+        }
+      },
+      groupIds: {
+        serializedName: "properties.groupIds",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       privateLinkServiceConnectionState: {
@@ -2927,6 +3078,22 @@ export const CertificateCreateOrUpdateParameters: coreClient.CompositeMapper = {
       },
       password: {
         serializedName: "properties.password",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DetectorResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DetectorResponse",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      value: {
+        serializedName: "properties.value",
         type: {
           name: "String"
         }
@@ -3191,6 +3358,22 @@ export const Pool: coreClient.CompositeMapper = {
             }
           }
         }
+      },
+      targetNodeCommunicationMode: {
+        serializedName: "properties.targetNodeCommunicationMode",
+        type: {
+          name: "Enum",
+          allowedValues: ["Default", "Classic", "Simplified"]
+        }
+      },
+      currentNodeCommunicationMode: {
+        serializedName: "properties.currentNodeCommunicationMode",
+        readOnly: true,
+        nullable: true,
+        type: {
+          name: "Enum",
+          allowedValues: ["Default", "Classic", "Simplified"]
+        }
       }
     }
   }
@@ -3211,6 +3394,13 @@ export const BatchAccount: coreClient.CompositeMapper = {
       },
       accountEndpoint: {
         serializedName: "properties.accountEndpoint",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      nodeManagementEndpoint: {
+        serializedName: "properties.nodeManagementEndpoint",
         readOnly: true,
         type: {
           name: "String"
@@ -3249,11 +3439,17 @@ export const BatchAccount: coreClient.CompositeMapper = {
       publicNetworkAccess: {
         defaultValue: "Enabled",
         serializedName: "properties.publicNetworkAccess",
-        readOnly: true,
         nullable: true,
         type: {
           name: "Enum",
           allowedValues: ["Enabled", "Disabled"]
+        }
+      },
+      networkProfile: {
+        serializedName: "properties.networkProfile",
+        type: {
+          name: "Composite",
+          className: "NetworkProfile"
         }
       },
       privateEndpointConnections: {
@@ -3338,6 +3534,7 @@ export const BatchAccount: coreClient.CompositeMapper = {
       allowedAuthenticationModes: {
         serializedName: "properties.allowedAuthenticationModes",
         readOnly: true,
+        nullable: true,
         type: {
           name: "Sequence",
           element: {
@@ -3556,6 +3753,27 @@ export const PrivateEndpointConnectionUpdateHeaders: coreClient.CompositeMapper 
   type: {
     name: "Composite",
     className: "PrivateEndpointConnectionUpdateHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const PrivateEndpointConnectionDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PrivateEndpointConnectionDeleteHeaders",
     modelProperties: {
       location: {
         serializedName: "location",

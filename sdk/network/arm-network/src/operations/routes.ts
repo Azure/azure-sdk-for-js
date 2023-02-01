@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Routes } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,12 +19,12 @@ import {
   Route,
   RoutesListNextOptionalParams,
   RoutesListOptionalParams,
+  RoutesListResponse,
   RoutesDeleteOptionalParams,
   RoutesGetOptionalParams,
   RoutesGetResponse,
   RoutesCreateOrUpdateOptionalParams,
   RoutesCreateOrUpdateResponse,
-  RoutesListResponse,
   RoutesListNextResponse
 } from "../models";
 
@@ -59,8 +60,16 @@ export class RoutesImpl implements Routes {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, routeTableName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          routeTableName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -68,11 +77,18 @@ export class RoutesImpl implements Routes {
   private async *listPagingPage(
     resourceGroupName: string,
     routeTableName: string,
-    options?: RoutesListOptionalParams
+    options?: RoutesListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Route[]> {
-    let result = await this._list(resourceGroupName, routeTableName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: RoutesListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, routeTableName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -81,7 +97,9 @@ export class RoutesImpl implements Routes {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -156,11 +174,13 @@ export class RoutesImpl implements Routes {
       { resourceGroupName, routeTableName, routeName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -274,11 +294,13 @@ export class RoutesImpl implements Routes {
       },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

@@ -27,7 +27,7 @@ const log = createPrinter("generator");
 export function createPackageJson(info: SampleGenerationInfo, outputKind: OutputKind): unknown {
   const fullOutputKind = outputKind === OutputKind.TypeScript ? "TypeScript" : "JavaScript";
   return {
-    name: `azure-${info.baseName}-samples-${outputKind}${info.isBeta ? "-beta" : ""}`,
+    name: `@azure-samples/${info.baseName}-${outputKind}${info.isBeta ? "-beta" : ""}`,
     private: true,
     version: "1.0.0",
     description: `${info.productName} client library samples for ${fullOutputKind}${
@@ -169,7 +169,7 @@ export async function makeSampleGenerationInfo(
 
         try {
           contents = fs.readFileSync(path.resolve(projectInfo.path, file));
-        } catch (ex) {
+        } catch (ex: any) {
           fail(`Failed to read custom snippet file '${file}'`, ex);
         }
         return {

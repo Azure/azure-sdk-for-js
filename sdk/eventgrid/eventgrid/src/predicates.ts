@@ -42,6 +42,11 @@ import {
   ContainerRegistryImagePushedEventData,
   ContainerServiceNewKubernetesVersionAvailableEventData,
   EventHubCaptureFileCreatedEventData,
+  HealthcareDicomImageCreatedEventData,
+  HealthcareDicomImageDeletedEventData,
+  HealthcareFhirResourceCreatedEventData,
+  HealthcareFhirResourceDeletedEventData,
+  HealthcareFhirResourceUpdatedEventData,
   IotHubDeviceConnectedEventData,
   IotHubDeviceCreatedEventData,
   IotHubDeviceDeletedEventData,
@@ -237,6 +242,16 @@ export interface SystemEventNameToEventData {
   "Microsoft.EventGrid.SubscriptionDeletedEvent": SubscriptionDeletedEventData;
   /** An interface for the event data of a "Microsoft.EventHub.CaptureFileCreated" event. */
   "Microsoft.EventHub.CaptureFileCreated": EventHubCaptureFileCreatedEventData;
+  /** An interface for the event data of a "Microsoft.HealthcareApis.DicomImageCreated" event. */
+  "Microsoft.HealthcareApis.DicomImageCreated": HealthcareDicomImageCreatedEventData;
+  /** An interface for the event data of a "Microsoft.HealthcareApis.DicomImageDeleted" event. */
+  "Microsoft.HealthcareApis.DicomImageDeleted": HealthcareDicomImageDeletedEventData;
+  /** An interface for the event data of a "Microsoft.HealthcareApis.FhirResourceCreated" event. */
+  "Microsoft.HealthcareApis.FhirResourceCreated": HealthcareFhirResourceCreatedEventData;
+  /** An interface for the event data of a "Microsoft.HealthcareApis.FhirUpdatedCreated" event. */
+  "Microsoft.HealthcareApis.FhirUpdatedCreated": HealthcareFhirResourceUpdatedEventData;
+  /** An interface for the event data of a "Microsoft.HealthcareApis.FhirDeletedCreated" event. */
+  "Microsoft.HealthcareApis.FhirDeletedCreated": HealthcareFhirResourceDeletedEventData;
   /** An interface for the event data of a "Microsoft.KeyVault.CertificateNewVersionCreated" event. */
   "Microsoft.KeyVault.CertificateNewVersionCreated": KeyVaultCertificateNewVersionCreatedEventData;
   /** An interface for the event data of a "Microsoft.KeyVault.CertificateNearExpiry" event. */

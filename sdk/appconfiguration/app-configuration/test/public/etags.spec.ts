@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AppConfigurationClient } from "../../src";
+import { Recorder } from "@azure-tools/test-recorder";
 import {
-  startRecorder,
+  assertThrowsRestError,
   createAppConfigurationClientForTests,
   deleteKeyCompletely,
-  assertThrowsRestError,
+  startRecorder,
 } from "./utils/testHelpers";
-import { assert } from "chai";
-import { Recorder } from "@azure-tools/test-recorder";
+import { AppConfigurationClient } from "../../src";
 import { Context } from "mocha";
+import { assert } from "chai";
 
 describe("etags", () => {
   let client: AppConfigurationClient;
@@ -18,9 +18,9 @@ describe("etags", () => {
   let key: string;
 
   beforeEach(async function (this: Context) {
-    recorder = startRecorder(this);
-    key = recorder.getUniqueName("etags");
-    client = createAppConfigurationClientForTests() || this.skip();
+    recorder = await startRecorder(this);
+    key = recorder.variable("etags", `etags${Math.floor(Math.random() * 1000)}`);
+    client = createAppConfigurationClientForTests(recorder.configureClientOptions({}));
     await client.addConfigurationSetting({
       key: key,
       value: "some value",
@@ -104,7 +104,6 @@ describe("etags", () => {
 
     // to keep 'key' a required field we fill this out (but set all the other properties to undefined)
     assert.equal(response.key, key);
-    assert.equal(response._response.status, 304);
     assert.equal(response.statusCode, 304);
 
     assert.ok(!response.contentType);

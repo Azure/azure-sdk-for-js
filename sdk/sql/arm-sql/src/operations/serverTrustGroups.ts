@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ServerTrustGroups } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,15 +19,15 @@ import {
   ServerTrustGroup,
   ServerTrustGroupsListByLocationNextOptionalParams,
   ServerTrustGroupsListByLocationOptionalParams,
+  ServerTrustGroupsListByLocationResponse,
   ServerTrustGroupsListByInstanceNextOptionalParams,
   ServerTrustGroupsListByInstanceOptionalParams,
+  ServerTrustGroupsListByInstanceResponse,
   ServerTrustGroupsGetOptionalParams,
   ServerTrustGroupsGetResponse,
   ServerTrustGroupsCreateOrUpdateOptionalParams,
   ServerTrustGroupsCreateOrUpdateResponse,
   ServerTrustGroupsDeleteOptionalParams,
-  ServerTrustGroupsListByLocationResponse,
-  ServerTrustGroupsListByInstanceResponse,
   ServerTrustGroupsListByLocationNextResponse,
   ServerTrustGroupsListByInstanceNextResponse
 } from "../models";
@@ -68,11 +69,15 @@ export class ServerTrustGroupsImpl implements ServerTrustGroups {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByLocationPagingPage(
           resourceGroupName,
           locationName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -81,15 +86,22 @@ export class ServerTrustGroupsImpl implements ServerTrustGroups {
   private async *listByLocationPagingPage(
     resourceGroupName: string,
     locationName: string,
-    options?: ServerTrustGroupsListByLocationOptionalParams
+    options?: ServerTrustGroupsListByLocationOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ServerTrustGroup[]> {
-    let result = await this._listByLocation(
-      resourceGroupName,
-      locationName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ServerTrustGroupsListByLocationResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByLocation(
+        resourceGroupName,
+        locationName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByLocationNext(
         resourceGroupName,
@@ -98,7 +110,9 @@ export class ServerTrustGroupsImpl implements ServerTrustGroups {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -140,11 +154,15 @@ export class ServerTrustGroupsImpl implements ServerTrustGroups {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByInstancePagingPage(
           resourceGroupName,
           managedInstanceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -153,15 +171,22 @@ export class ServerTrustGroupsImpl implements ServerTrustGroups {
   private async *listByInstancePagingPage(
     resourceGroupName: string,
     managedInstanceName: string,
-    options?: ServerTrustGroupsListByInstanceOptionalParams
+    options?: ServerTrustGroupsListByInstanceOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ServerTrustGroup[]> {
-    let result = await this._listByInstance(
-      resourceGroupName,
-      managedInstanceName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ServerTrustGroupsListByInstanceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByInstance(
+        resourceGroupName,
+        managedInstanceName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByInstanceNext(
         resourceGroupName,
@@ -170,7 +195,9 @@ export class ServerTrustGroupsImpl implements ServerTrustGroups {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -279,10 +306,12 @@ export class ServerTrustGroupsImpl implements ServerTrustGroups {
       },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -369,10 +398,12 @@ export class ServerTrustGroupsImpl implements ServerTrustGroups {
       { resourceGroupName, locationName, serverTrustGroupName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -594,7 +625,6 @@ const listByLocationNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -614,7 +644,6 @@ const listByInstanceNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

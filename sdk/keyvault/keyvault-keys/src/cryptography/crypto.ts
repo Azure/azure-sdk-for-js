@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import {
+  Verify,
   createHash as cryptoCreateHash,
   createVerify as cryptoCreateVerify,
-  Verify,
   randomBytes as cryptoRandomBytes,
 } from "crypto";
 
@@ -23,6 +23,7 @@ const algorithmToHashAlgorithm: { [s: string]: string } = {
   ES512: "SHA512",
   PS512: "SHA512",
   RS512: "SHA512",
+  EdDSA: "SHA256",
 };
 
 /**

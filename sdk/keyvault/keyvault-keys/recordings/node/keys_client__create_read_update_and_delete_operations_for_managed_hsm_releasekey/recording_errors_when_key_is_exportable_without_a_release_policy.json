@@ -1,0 +1,74 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://azure_managedhsm.managedhsm.azure.net/keys/exportablenopolicy-56877/create?api-version=7.4-preview.1",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "0",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-keyvault-keys/4.6.1 azsdk-js-keyvault-keys/4.6.1 core-rest-pipeline/1.10.0 Node/v16.15.1 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "7889b298-8aed-44f2-b37a-97fa8519ebfe"
+      },
+      "RequestBody": null,
+      "StatusCode": 401,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "0",
+        "Content-Security-Policy": "default-src \u0027self\u0027",
+        "Content-Type": "application/json; charset=utf-8",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "WWW-Authenticate": "Bearer authorization=\u0022https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012\u0022, resource=\u0022https://managedhsm.azure.net\u0022",
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "SAMEORIGIN",
+        "x-ms-request-id": "d80e9da2-6052-11ed-9307-000d3a610397",
+        "x-ms-server-latency": "0"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://azure_managedhsm.managedhsm.azure.net/keys/exportablenopolicy-56877/create?api-version=7.4-preview.1",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "46",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-keyvault-keys/4.6.1 azsdk-js-keyvault-keys/4.6.1 core-rest-pipeline/1.10.0 Node/v16.15.1 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "7889b298-8aed-44f2-b37a-97fa8519ebfe"
+      },
+      "RequestBody": {
+        "kty": "RSA",
+        "attributes": {
+          "exportable": true
+        }
+      },
+      "StatusCode": 400,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "138",
+        "Content-Security-Policy": "default-src \u0027self\u0027",
+        "Content-Type": "application/json; charset=utf-8",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "SAMEORIGIN",
+        "x-ms-request-id": "d8302918-6052-11ed-9307-000d3a610397",
+        "x-ms-server-latency": "14"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "BadParameter",
+          "message": "Exportable keys must have release policy (Activity ID: d8302918-6052-11ed-9307-000d3a610397)"
+        }
+      }
+    }
+  ],
+  "Variables": {
+    "attestation": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik5WYWRfSmdZekJhVFJpTTZxNTFCTkYwUzhJOGhjaVNOMFNGX21IRU1yQ00iLCJqa3UiOiJodHRwczovL3RpbW92a2V5dmF1bHRzaXRlLmF6dXJld2Vic2l0ZXMubmV0L2tleXMifQ.eyJpc3MiOiJodHRwczovL3RpbW92a2V5dmF1bHRzaXRlLmF6dXJld2Vic2l0ZXMubmV0LyIsInNkay10ZXN0Ijp0cnVlLCJ4LW1zLWluaXR0aW1lIjp7fSwieC1tcy1ydW50aW1lIjp7ImtleXMiOlt7Imt0eSI6IlJTQSIsImtpZCI6ImZha2UtcmVsZWFzZS1rZXkiLCJ1c2UiOiJlbmMiLCJlIjoiQVFBQiIsIm4iOiJ3b3pwQ2g0OHFqU0pLN1cxN3FLR2ZFZUg1UkVwcE1sQkpYdUd0ZU9laWdocEtfczBVdFdQa1JVNHdtM3EwTGJqOXo0QmJuMVNjM0FlakU3Yk1UejZ6N3BTM2ZpaUdUbV9xZ2lxSjBYWi10bF9ub2wyaXJMNXIwaDA3WmZ1cnpmX3lCbEZfbl9vZGxlODNrTGtHR3RxcHhjZlcza1hOT3hiR0tvVHBITWVfclJlSFdsVVhQbUJQa2ctMGtKYnNmVkhDdDc1OEE3bHFkMkF6a21xampkMjFRU2Etajc0SVlEZDRIaHpFbVpjazR3WFBWU3JsTElOWXVDeDNnNW9HYkR1Mkx3MzBISGpfcTBXQzBHY0tlQjE5RjB2WnZOWklhZG5yNEpneHo4SW5TX05oeFJodlVpX1JZM3NpNkdKX0tYUXA2Um95YWV5eS1iM0Q1THdYSGZUQ1EifV19LCJpYXQiOjE2NjgwMTQ0NDQsImV4cCI6MTY2ODYxOTI0NH0.f70IflXS_69YpR6PueETEQZcr9NLFLuMMJpF5NJfrTc0X6_4khLVC4i5njDD-xm02yYHssOvzEp2sF_Wo5fNjlKf2teDrHo27WFN08jPRGrcoOo43gg5bOtyb7nqQbr24_8-sjqJnwoGO15Uymz1aMSRf5KXNM9tpbLLRb_BLe-ieCVX0tqH_dCyc_l0qEzrqhB1pFDaWyOaRasZNj_MsK5LZ8yitiFtDdxZfzW6iPwmFWZ7BrVlIxNm8ohSFYx8wBkDL7zBkS0VyWleZKtRfAfb7DpRemkvBtk3FN1b54miuLMqfm7e0wbfYNsIhQTzrA1V18Vn3wGXF2cxXCanwg",
+    "exportablenopolicy": "exportablenopolicy-56877"
+  }
+}

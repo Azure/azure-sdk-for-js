@@ -1,65 +1,79 @@
-Getting Started - Generate the RLC rest-level client libraries
-================================================================
+Getting Started - Generate the RLC rest-level client libraries with Cadl
+========================================================================
 
-# Prerequisites
+# Before you start
 
-You may refer to this [link](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md#prerequisites) for the environment set up prerequisites in azure-sdk-for-js repository.
+Please refer to this [link](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md#prerequisites) for the environment set up prerequisites in azure-sdk-for-js repository. We highly recommand to read [this blog](https://devblogs.microsoft.com/azure-sdk/azure-rest-libraries-for-javascript/) to get familiar with REST libraries for JavaScript. 
 
-# Project folder and name convention
+:warning: Note: if you’re still generating from Swagger with RLC, please read [this doc](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/RLC-Swagger-quickstart.md) for Swagger specific details.
 
-Before we start, we probably should get to know the project folder and name convention for RLC libraries.
 
-1. Project Folder structure.  
-   normally, the folder structure would be something like `sdk/{servicename}/{servicename}-{modulename}-rest`. For example, we have `sdk/agrifood/agrifood-farming-rest` folder for Farmbeats account modules. That folder will be your **${PROJECT_ROOT} folder**.  
+# Project folder structure and name convention
+
+If you are the first time to prepare the SDK, please follow the Azure SDK guidance and discuss with architects to decide the project folder and name convention for RLC libraries.
+
+1. SDK Repo Root.
+   The generated libraries should be in the [azure-sdk-for-js](https://github.com/Azure/azure-sdk-for-js) repo, so fork and clone it in your local then the absolute path is called **${SDK_REPO_ROOT} folder**.
+
+1. Project Folder Structure.  
+   Normally, the folder structure would be something like `sdk/{servicename}/{servicename}-{modulename}-rest`. For example, we have `sdk/agrifood/agrifood-farming-rest` folder for Farmbeats account modules under {SDK_REPO_ROOT}. That folder will be your **${PROJECT_ROOT} folder**.  
 1. Package Name Convention.  
    The package name for RLC is something like `@azure-rest/{servicename}-{modulename}`. For example, the package name for Farmbeats module is `@azure-rest/agrifood-farming`.
+
 
 # How to generate RLC
 
 We are working on to automatically generate everything right now, but currently we still need some manual work to get a releasable package. Here're the steps of how to get the package.
 
-1. **Create a swagger/README.md file.under ${PROJECT_ROOT} folder**  
-    We are using autorest to generate the code, but there's a lot of command options and in order to make the regenerate process easier in the cases of refresh the rest api input or change the code generator version, you need to document the generate command parameters.  
-    Here's an example of the swagger/README.md
+1. **Add TypeScript emitter dependency in package.json**  
+   
+   In Cadl project, modify `package.json` to add dependency for TypeScript emitter, then run `npm install` again to install `@azure-tools/cadl-typescript`.
 
-    ~~~
-    
-    # Azure  Farmbeats TypeScript Protocol Layer
-    
-    > see https://aka.ms/autorest
-    ## Configuration
+   ```json
+   "dependencies": {
+     ...
+     "@azure-tools/cadl-typescript": "1.0.0-beta.7"
+   },
+   ```
+
+   ---
+   **NOTE**
+
+    It's always recommended to replace the version of emitter cadl-typescript with the latest version you can find in [npmjs.com](https://www.npmjs.com/package/@azure-tools/cadl-typescript) in latest tag.
+
+   ---
+
+1. **Configure TypeScript emitter in cadl-project.yaml**
+
+    In Cadl project, modify (or create) `cadl-project.yaml` and configure the SDK generated, using the emitter options on `@azure-tools/cadl-typescript`
     
     ```yaml
-    package-name: "@azure-rest/agrifood-farming"
-    title: Farmbeats
-    description: Farmbeats Client
-    generate-metadata: true
-    license-header: MICROSOFT_MIT_NO_VERSION
-    output-folder: ../
-    source-code-folder-path: ./src
-    input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/683e3f4849ee1d84629d0d0fa17789e80a9cee08/specification/agfood/data-plane/Microsoft.AgFoodPlatform/preview/2021-03-31-preview/agfood.json
-    package-version: 1.0.0-beta.2
-    rest-level-client: true
-    add-credentials: true
-    credential-scopes: https://farmbeats.azure.net/.default
-    use-extension:
-      "@autorest/typescript": "6.0.0-beta.14"
+    emit:
+      - "@azure-tools/cadl-typescript"
+    options:
+      "@azure-tools/cadl-typescript":
+        title: Farmbeats
+        generateMetadata: true
+        generateTest: true
+        "emitter-output-dir": "{output-dir}"
+        packageDetails:
+          name: "@azure-rest/agrifood-farming"
+          description: "Farmbeats Client"
+          version: "1.0.0-beta.1"
+
     ```
-    ~~~
 
-    Here, we need to replace the value in `package-name`, `title`, `description`, `input-file`, `package-version`, `credential-scopes` into **your own service's** `package-name`, `title`, `description` etc.
-
-    ---
-    **NOTE**
-
-    It's always recommended to replace the version of code generator @autorest/typescript with the latest version you can find in [npmjs.com](https://www.npmjs.com/package/@autorest/typescript) in latest tag.  
-
-    **After the first generation, you need to switch `generate-metadata: false`  as we have some manual changes in this file and don't want them get overwrite by generated ones.**
+    Here, we need to replace the value in `name`,`description`, `version` in `packageDetails` to **your own service's** package details. Also we have some other options, you could refer to [the link](https://github.com/Azure/autorest.typescript/tree/main/packages/cadl-typescript#emitter-options) for more details.
 
     ---  
-  
-1. **edit rush.json**  
-    As the libraries in this azure-sdk-for-js repository are managed by rush, you need to add an entry in rush.json under projects section for the first time to make sure it works. For example:
+    **NOTE**
+
+    After the first generation, you need to switch `generateMetadata: false` as we have some manual changes in this file and don't want them get overwrite by generated ones.
+
+    --- 
+
+1. **Edit rush.json**  
+    As the libraries in azure-sdk-for-js repository are managed by rush, you need to add an entry in rush.json under projects section for the first time to make sure it works. For example:
 
     ```
         {
@@ -76,24 +90,19 @@ We are working on to automatically generate everything right now, but currently 
 
     About the `versionPolicyName`, if the library you are working on is for data-plane, then it should be `client`, if the library you are working on is for control plane, then it should be `mgmt`.  
 
-    ---  
+    --- 
 
-1. **run autorest to generate the SDK**  
+1. **Run command to generate the SDK**  
 
-    Now you can run this command in swagger folder you just created.
+    We need to configure `--output-dir` to put generated code. The output dir contains two parts: the {SDK_REPO_ROOT} and {PROJECT_ROOT}.
+    
+    Assume **{SDK_REPO_ROOT}** is `D:/azure-sdk-for-js` and **{PROJECT_ROOT}** is `sdk/agrifood/agrifood-farming-rest` then we could run this command in **your local Cadl project** to generate the SDK: 
 
     ```shell
-    autorest --typescript ./README.md
+    cadl compile . --emit=@azure-tools/cadl-typescript --output-dir=D:/azure-sdk-for-js/sdk/agrifood/agrifood-farming-rest
     ```
 
-    After this finishes, you will see the generated code in `${PROJECT_ROOT}/src` folder .
-1. **add a rollup.config.js file under `${PROJECT_ROOT}` folder**  
-   You need to add a rollup.config.js file and put the following content into it.  
-    ```javascript
-    import { makeConfig } from "@azure/dev-tool/shared-config/rollup";
-
-    export default makeConfig(require("./package.json"));
-    ```
+    After this finishes, you will see the generated code in `src` folder in your **{PROJECT_ROOT}**.  
     After that, you can get a workable package, and run the following commands to get a artifact if you like.
 
     ```shell
@@ -103,374 +112,58 @@ We are working on to automatically generate everything right now, but currently 
     rushx pack
     ```
 
-    But we still need to add some tests for it.
+    The generated code is not good enough to release yet and you need to update it for better usage experience.
+
+# Improve README.md document
+
+A minimal README.md is generated by TypeScript emitter and you could improve README.md file per your service. To learn more about README, see an [example README.md here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-route-rest/README.md).
 
 # How to write test for RLC
 
-In order to release it, we need to add some tests for it to make sure we are delivering high quality packages. but before we add the test, we need to manual change a few things to make the test framework works.
+In order to release it, we need to add some tests for it to make sure we are delivering high quality packages. But before we add the test, we need to enable the option `generateTest: true` to generate the necessary change in `package.json` and `tsconfig.json` so that test framework can work. Once the generation finished, you will see a `sampleTest.spec.ts` file in your `{PROJECT_ROOT}/test/public` folder, which has an empty test and you could add/update test cases against your own services.
 
-1. **update package.json file**  
-    Currently the generated will skip the actual test step. you should change it to make sure it works.
-    First, change the `scripts` section from
+See the [Javascript Codegen Quick Start for Test](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Quickstart-on-how-to-write-tests.md) for information on how to write and run tests for the Javascript SDK.
 
-    ~~~
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "test:node": "echo skipped",
-        "test:browser": "echo skipped",
-        "build:node": "echo skipped",
-        "build:browser": "echo skipped",
-        "build:test": "echo skipped",
-        "unit-test": "echo skipped",
-        "unit-test:node": "echo skipped",
-        "unit-test:browser": "echo skipped",
-        "integration-test:browser": "echo skipped",
-        "integration-test:node": "echo skipped",
-        "integration-test": "echo skipped",
-    ~~~
+1. **Prerequisites**  
 
-    into
+    To record and playback the tests, [Docker](https://www.docker.com/) is required when we run the test, as the [test proxy server](https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy) is ran in a container during testing. When running the tests, ensure the Docker daemon is running and you have permission to use it.
 
-    ~~~
-        "test": "npm run clean && npm run build:test && npm run unit-test",
-        "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
-        "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser",
-        "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1", 
-        "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1", 
-        "build:test": "tsc -p . && rollup -c 2>&1",
-        "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-        "unit-test:node": "mocha -r esm --require ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace \"test/{,!(browser)/**/}*.spec.ts\"",
-        "unit-test:browser": "karma start --single-run",
-        "integration-test:browser": "karma start --single-run",
-        "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 5000000 --full-trace \"dist-esm/test/{,!(browser)/**/}*.spec.js\"",
-        "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    ~~~
+2. **Write the test**
+    
+    You could follow the [basic RLC test interaction and recording example](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Quickstart-on-how-to-write-tests.md#example-1-basic-rlc-test-interaction-and-recording-for-azure-data-plane-service) to write your test step by step. Also you could refer [the test of MapsRouteClient](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-route-rest/test/public) for more cases.
 
-    Then add the following test dependencies into the `devDependencies` section.
-
-    ~~~
-        "@azure/dev-tool": "^1.0.0",
-        "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-        "@azure/identity": "^2.0.1",
-        "@azure-tools/test-recorder": "^1.0.0",
-        "@microsoft/api-extractor": "^7.18.11",
-        "@types/chai": "^4.1.6",
-        "@types/mocha": "^7.0.2",
-        "@types/node": "^12.0.0",
-        "chai": "^4.2.0",
-        "cross-env": "^7.0.2",
-        "dotenv": "^8.2.0",
-        "eslint": "^7.15.0",
-        "karma-chrome-launcher": "^3.0.0",
-        "karma-coverage": "^2.0.0",
-        "karma-edge-launcher": "^0.4.2",
-        "karma-env-preprocessor": "^0.1.1",
-        "karma-firefox-launcher": "^1.1.0",
-        "karma-ie-launcher": "^1.0.0",
-        "karma-json-preprocessor": "^0.3.3",
-        "karma-json-to-file-reporter": "^1.0.1",
-        "karma-junit-reporter": "^2.0.1",
-        "karma-mocha-reporter": "^2.2.5",
-        "karma-mocha": "^2.0.1",
-        "karma-source-map-support": "~1.4.0",
-        "karma-sourcemap-loader": "^0.3.8",
-        "karma": "^6.2.0",
-        "mkdirp": "^1.0.4",
-        "mocha-junit-reporter": "^1.18.0",
-        "mocha": "^7.1.1",
-        "nyc": "^14.0.0",
-        "prettier": "2.2.1",
-        "rimraf": "^3.0.0",
-        "rollup": "^1.16.3",
-        "source-map-support": "^0.5.9",
-        "typedoc": "0.15.2",
-        "typescript": "~4.2.0"
-    ~~~
-   
-    Then add a browser test entry section.  
-    
-    ~~~
-      "browser": {
-        "./dist-esm/test/public/utils/env.js": "./dist-esm/test/public/utils/env.browser.js"
-      },
-    ~~~
-    
-    ---
-    **NOTE**
-    We need to make sure those dependencies versions are align with other package.json files. You can double check it in [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/agrifood/agrifood-farming-rest/package.json)
-
-    ---
-
-    Finally, add this line into the package.json as well.
-
-    ```
-      "module": "./dist-esm/src/index.js"
-    ```  
-
-1. **Update tsconfig.json file.**  
-    remove the `exclude` section and add an `include` section like this.
-
-    ```
-      "include": ["src/**/*.ts", "./test/**/*.ts"]
-    ```
-
-1. **Update the api-extractor.json file.**  
-    change the `mainEntryPointFilePath` into `"./dist-esm/src/index.d.ts"`.  
-1. **Add a karma.conf.js file for web browser tests.under ${PROJECT_ROOT} folder**  
-    File content is like this
-
-    ```javascript
-    // Copyright (c) Microsoft Corporation.
-    // Licensed under the MIT license.
-    
-    // https://github.com/karma-runner/karma-chrome-launcher
-    process.env.CHROME_BIN = require("puppeteer").executablePath();
-    require("dotenv").config();
-    const {
-      jsonRecordingFilterFunction,
-      isPlaybackMode,
-      isSoftRecordMode,
-      isRecordMode
-    } = require("@azure-tools/test-recorder");
-    
-    module.exports = function(config) {
-      config.set({
-        // base path that will be used to resolve all patterns (eg. files, exclude)
-        basePath: "./",
-    
-        // frameworks to use
-        // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-        frameworks: ["source-map-support", "mocha"],
-    
-        plugins: [
-          "karma-mocha",
-          "karma-mocha-reporter",
-          "karma-chrome-launcher",
-          "karma-edge-launcher",
-          "karma-firefox-launcher",
-          "karma-ie-launcher",
-          "karma-env-preprocessor",
-          "karma-coverage",
-          "karma-sourcemap-loader",
-          "karma-junit-reporter",
-          "karma-json-to-file-reporter",
-          "karma-source-map-support",
-          "karma-json-preprocessor"
-        ],
-    
-        // list of files / patterns to load in the browser
-        files: [
-          "dist-test/index.browser.js",
-          {
-            pattern: "dist-test/index.browser.js.map",
-            type: "html",
-            included: false,
-            served: true
-          }
-        ].concat(
-          isPlaybackMode() || isSoftRecordMode()
-            ? ["recordings/browsers/**/*.json"]
-            : []
-        ),
-    
-        // list of files / patterns to exclude
-        exclude: [],
-    
-        // preprocess matching files before serving them to the browser
-        // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
-        preprocessors: {
-          "**/*.js": ["sourcemap", "env"],
-          "recordings/browsers/**/*.json": ["json"]
-          // IMPORTANT: COMMENT following line if you want to debug in your browsers!!
-          // Preprocess source file to calculate code coverage, however this will make source file unreadable
-          // "dist-test/index.js": ["coverage"]
-        },
-    
-        envPreprocessor: [
-          "TEST_MODE",
-          "ENDPOINT",
-          "AZURE_CLIENT_SECRET",
-          "AZURE_CLIENT_ID",
-          "AZURE_TENANT_ID",
-          "SUBSCRIPTION_ID"
-        ],
-    
-        // test results reporter to use
-        // possible values: 'dots', 'progress'
-        // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-        reporters: ["mocha", "coverage", "junit", "json-to-file"],
-    
-        coverageReporter: {
-          // specify a common output directory
-          dir: "coverage-browser/",
-          reporters: [
-            { type: "json", subdir: ".", file: "coverage.json" },
-            { type: "lcovonly", subdir: ".", file: "lcov.info" },
-            { type: "html", subdir: "html" },
-            { type: "cobertura", subdir: ".", file: "cobertura-coverage.xml" }
-          ]
-        },
-    
-        junitReporter: {
-          outputDir: "", // results will be saved as $outputDir/$browserName.xml
-          outputFile: "test-results.browser.xml", // if included, results will be saved as $outputDir/$browserName/$outputFile
-          suite: "", // suite will become the package name attribute in xml testsuite element
-          useBrowserName: false, // add browser name to report and classes names
-          nameFormatter: undefined, // function (browser, result) to customize the name attribute in xml testcase element
-          classNameFormatter: undefined, // function (browser, result) to customize the classname attribute in xml testcase element
-          properties: {} // key value pair of properties to add to the <properties> section of the report
-        },
-    
-        jsonToFileReporter: {
-          filter: jsonRecordingFilterFunction,
-          outputPath: "."
-        },
-    
-        // web server port
-        port: 9876,
-    
-        // enable / disable colors in the output (reporters and logs)
-        colors: true,
-    
-        // level of logging
-        // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
-        logLevel: config.LOG_INFO,
-    
-        // enable / disable watching file and executing tests whenever any file changes
-        autoWatch: false,
-    
-        // --no-sandbox allows our tests to run in Linux without having to change the system.
-        // --disable-web-security allows us to authenticate from the browser without having to write tests using interactive auth, which would be far more complex.
-        browsers: ["ChromeHeadlessNoSandbox"],
-        customLaunchers: {
-          ChromeHeadlessNoSandbox: {
-            base: "ChromeHeadless",
-            flags: ["--no-sandbox", "--disable-web-security"]
-          }
-        },
-    
-        // Continuous Integration mode
-        // if true, Karma captures browsers, runs the tests and exits
-        singleRun: false,
-    
-        // Concurrency level
-        // how many browser should be started simultaneous
-        concurrency: 1,
-    
-        browserNoActivityTimeout: 60000000,
-        browserDisconnectTimeout: 10000,
-        browserDisconnectTolerance: 3,
-        browserConsoleLogOptions: {
-          terminal: !isRecordMode()
-        },
-    
-        client: {
-          mocha: {
-            // change Karma's debug.html to the mocha web reporter
-            reporter: "html",
-            timeout: "600000"
-          }
-        }
-      });
-    };
-    ```
-1. **add sample.env under ${PROJECT_ROOT} folder**  
-    create a sample.env and put the following content into this file.
-    ``` 
-     # Purview Scanning resource endpoint
-    ENDPOINT=
-    
-    # App registration secret for AAD authentication
-    AZURE_CLIENT_SECRET=
-    AZURE_CLIENT_ID=
-    AZURE_TENANT_ID= 
-    ```
-1. **add test utils.**  
-
-    create a `${PROJECT_ROOT}/test/public` folder and then copy the content [here](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/agrifood/agrifood-farming-rest/test/public/utils) into public folder
-
-    there are some manual changes in the copied recordedClient.ts that need to be done. 
-    ```typescript
-    import Farmbeats, { FarmbeatsRestClient } from "../../../src";
-    ```
-    Needs to change to the value that was used in the swagger/readme.md in title. For example if title is "Foo"
-    ```typescript
-    import Foo, { FooRestClient } from "../../../src";
-    ```
-    and
-    ```typescript
-    export function createClient(options?: ClientOptions): PurviewAccountRestClient {
-      const credential = new ClientSecretCredential(
-        env.AZURE_TENANT_ID,
-        env.AZURE_CLIENT_ID,
-        env.AZURE_CLIENT_SECRET
-      );
-      return Farmbeats(env.ENDPOINT, credential, options);
-    }
-    ``` 
-    Needs to change to
-    ```typescript
-    export function createClient(options?: ClientOptions): FooRestClient {
-      const credential = new ClientSecretCredential(
-        env.AZURE_TENANT_ID,
-        env.AZURE_CLIENT_ID,
-        env.AZURE_CLIENT_SECRET
-      );
-      return Foo(env.ENDPOINT, credential, options);
-    }
-    ```
-    Now, you can add some sample tests with the filename in the format of `sampleTest.spec.ts` like
-
-    ```typescript
-    /*
-     * Copyright (c) Microsoft Corporation.
-     * Licensed under the MIT License.
-     *
-     * Code generated by Microsoft (R) AutoRest Code Generator.
-     * Changes may cause incorrect behavior and will be lost if the code is regenerated.
-     */
-    
-    import { Recorder } from "@azure-tools/test-recorder";
-    import { assert } from "chai";
-    import { createRecorder } from "./utils/recordedClient";
-    
-    describe("My test", () => {
-      let recorder: Recorder;
-    
-      beforeEach(async function() {
-        recorder = createRecorder(this);
-      });
-    
-      afterEach(async function() {
-        await recorder.stop();
-      });
-    
-      it("sample test", async function() {
-        // Use assert to test your assumptions
-        assert.equal(1,1)
-      });
-    });
-    ```
-
-    You may change the sample test into real tests to test against your libraries.
-1. **run the test**  
-    Now, you can run the test like this.
-    ```shell  
+3. **Run the test**  
+    Now, you can run the test like this. If you are the first time to run test, you need to set the environment variable `TEST_MODE` to `record`. This will generate recordings for your test they could be used in `playback` mode.
+    On Linux, you could use `export` to set env variable:
+    ```shell
     rush build -t ${PACKAGE_NAME}
-    export TEST_MODE=record && rushx test # this will run live test and generate a recordings folder, you will need to submit it in the PR. 
+    export TEST_MODE=record && rushx test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
     ```
-    You can also run the playback mode test if your apis don't have breaking changes and you already done the recording before.  
-    ```shell 
+    On Windows, you could use `SET`:
+    ```shell
     rush build -t ${PACKAGE_NAME}
-    rushx test 
+    SET TEST_MODE=record&& rushx test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
     ```
+    You can also run the `playback` mode test if your apis don't have breaking changes and you've already done the recording before.
+    On Linux, you could use below commands:
+    ```shell
+    rush build -t ${PACKAGE_NAME}
+    export TEST_MODE=playback && rushx test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
+    ```
+    On Windows, you can use:
+    ```shell
+    rush build -t ${PACKAGE_NAME}
+    SET TEST_MODE=playback&& rushx test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
+    ```
+
 # How to write samples
 
-We author TypeScript samples under the `samples-dev` folder. You can use sample-dev template for reference [samples-dev folder](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/template/template/samples-dev)  folder and update the relevant information for your service such as package-name, sample code, description, etc.  
+We highly encourage you to write some valid samples for your customer to get start your service with RLC. You may author TypeScript samples under the `samples-dev` folder. For quick start you can use [sample-dev template](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/template/template/samples-dev) as reference and update the relevant information for your service such as package-name, sample code, description, etc. To learn more you could refer [the samples of MapsRouteClient here](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-route-rest/samples-dev).
 After the samples-dev folder change is finished, you will need to change the tsconfig.json to make sure the dev samples can be compiled and build correctly.  
 
 You will need to add this part to the "compilerOptions" of your tsconfig.json file so that the Samples engine could resolve the sample-dev package against the source code of the SDK.  
 ``` json
-    "paths": { "@msinternal/sql-resource-manager": ["./src/index"] } 
+    "paths": { "@azure-rest/agrifood-farming": ["./src/index"] } 
 ```
 And change the *"include"* part into 
 ```json
@@ -493,13 +186,35 @@ Now, you can generate both JavaScript and TypeScript workable samples with the f
 ```shell
 npm install -g common/tools/dev-tool # make sure you are in the azure-sdk-for-js repo root directory
 cd ${PROJECT_ROOT}
-dev-tool samples publish -f 
+npx dev-tool samples publish -f 
 ```
 You will see the workable samples in the `${PROJECT_ROOT}/samples` folder.  
 
+# Format both the generated code and manual code
+After you have finished the generation and added your own tests or samples, You can use the following command to format the code.  
+```shell
+cd ${PROJECT_ROOT} && rushx format
+```
+ 
+Also we'll recommand you to run `lint` command to analyze your code and quickly find any problems.
+
+```shell
+cd ${PROJECT_ROOT} && rushx lint
+```
+
+And we could use `lint:fix` if there are any errors.
+
+```shell
+cd ${PROJECT_ROOT} && rushx lint:fix
+```
+
+# How to do customizations
+
+You may want to do your customizations based on generated code. We collect some common customization cases and you can read [Customization on the RLC rest-level client libraries](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/RLC-customization.md) for more details.
+
 # How to create package
 
-Now we can use the exact same steps to build an releasable artifact.
+Now we can use the exact same steps to build a releasable artifact.
 
 ```shell
 rush update
@@ -550,3 +265,31 @@ extends:
 Please change the paths.include value as your own project path, and change the Artifacts name and safeName into yours.  
 
 If there's already a ci.yml file in your project path. then the only thing you need to do is to add the Artifacts name and safeName of yours into that ci.yml.  
+
+Please notice the Artifacts name should align with your package name. Here the package name is `@azure-rest/agrifood-farming` so the relevant Artifacts name is `azure-rest-agrifood-farming`.
+
+
+# Prepare PR
+
+Cadl emitter can only help you generate SDK code, there is something you need to update manually:
+
+## CHANGELOG.md
+
+CHANGELOG can help customers know the change of new version quickly, so you need to update the it according to the change of this new version. It is also necessary to update release date like `1.0.0-beta.1 (2022-11-11)`(rough time is fine and no need to be very accurate).
+
+## Version Number
+
+You shall update the version number according to [semantic versioning rule](https://semver.org/).
+
+## Test recordings
+
+Please ensure that your test recordings are committed together with your code.
+
+## Fix CI for PR
+You may meet the CI failures after submitting the PR, so please refer to [Troubleshoot CI Failure](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Troubleshoot-ci-failure.md) to fix it.
+
+# Create API View
+When submitting a PR our pipeline would automatically prepare the API view in [API View Website](https://apiview.dev/). You could see an [example link](https://github.com/Azure/azure-sdk-for-js/pull/23866#issuecomment-1316259448) here. Then you could click the API view link in that comment to know more details.
+# Release
+
+After the PR is merged, it is time to release package. Here is the [Release Checklist](https://dev.azure.com/azure-sdk/internal/_wiki/wikis/internal.wiki/8/Release-Checklist?anchor=prepare-release-script) you should know before release.

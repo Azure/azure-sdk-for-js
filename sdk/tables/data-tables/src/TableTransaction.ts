@@ -76,13 +76,42 @@ export class TableTransaction {
   /**
    * Adds an update action to the transaction
    * @param entity - entity to update
-   * @param updateMode - update mode
+   * @param updateOptions - options for the update operation
    */
   updateEntity<T extends object = Record<string, unknown>>(
     entity: TableEntity<T>,
-    updateMode: UpdateMode = "Merge"
+    updateOptions?: UpdateTableEntityOptions
+  ): void;
+
+  /**
+   * Adds an update action to the transaction
+   * @param entity - entity to update
+   * @param updateMode - update mode
+   * @param updateOptions - options for the update operation
+   */
+  updateEntity<T extends object = Record<string, unknown>>(
+    entity: TableEntity<T>,
+    updateMode: UpdateMode,
+    updateOptions?: UpdateTableEntityOptions
+  ): void;
+
+  /**
+   * Adds an update action to the transaction
+   * @param entity - entity to update
+   * @param updateModeOrOptions - update mode or update options
+   * @param updateOptions - options for the update operation
+   */
+  updateEntity<T extends object = Record<string, unknown>>(
+    entity: TableEntity<T>,
+    updateModeOrOptions: UpdateMode | UpdateTableEntityOptions | undefined,
+    updateOptions?: UpdateTableEntityOptions
   ): void {
-    this.actions.push(["update", entity, updateMode]);
+    // UpdateMode is a string union
+    const realUpdateMode: UpdateMode | undefined =
+      typeof updateModeOrOptions === "string" ? updateModeOrOptions : undefined;
+    const realUpdateOptions: UpdateTableEntityOptions | undefined =
+      typeof updateModeOrOptions === "object" ? updateModeOrOptions : updateOptions;
+    this.actions.push(["update", entity, realUpdateMode ?? "Merge", realUpdateOptions ?? {}]);
   }
 
   /**
@@ -107,12 +136,9 @@ export class InternalTableTransaction {
    */
   public url: string;
   /**
-   * This part of the state can be reset by
-   * calling the reset function. Other parts of the state
-   * such as the credentials remain the same throughout the life
-   * of the instance.
+   * State that holds the information about a particular transation
    */
-  private resetableState: {
+  private state: {
     transactionId: string;
     changesetId: string;
     pendingOperations: Promise<any>[];
@@ -143,8 +169,8 @@ export class InternalTableTransaction {
     this.interceptClient = interceptClient;
     this.allowInsecureConnection = allowInsecureConnection;
 
-    // Initialize Reset-able properties
-    this.resetableState = this.initializeSharedState(transactionId, changesetId, partitionKey);
+    // Initialize the state
+    this.state = this.initializeState(transactionId, changesetId, partitionKey);
 
     // Depending on the auth method used we need to build the url
     if (!credential) {
@@ -159,14 +185,7 @@ export class InternalTableTransaction {
     }
   }
 
-  /**
-   * Resets the state of the Transaction.
-   */
-  reset(transactionId: string, changesetId: string, partitionKey: string): void {
-    this.resetableState = this.initializeSharedState(transactionId, changesetId, partitionKey);
-  }
-
-  private initializeSharedState(transactionId: string, changesetId: string, partitionKey: string) {
+  private initializeState(transactionId: string, changesetId: string, partitionKey: string) {
     const pendingOperations: Promise<any>[] = [];
     const bodyParts = getInitialTransactionBody(transactionId, changesetId);
     const isCosmos = isCosmosEndpoint(this.url);
@@ -187,7 +206,7 @@ export class InternalTableTransaction {
    */
   public createEntity<T extends object>(entity: TableEntity<T>): void {
     this.checkPartitionKey(entity.partitionKey);
-    this.resetableState.pendingOperations.push(this.interceptClient.createEntity(entity));
+    this.state.pendingOperations.push(this.interceptClient.createEntity(entity));
   }
 
   /**
@@ -197,7 +216,7 @@ export class InternalTableTransaction {
   public createEntities<T extends object>(entities: TableEntity<T>[]): void {
     for (const entity of entities) {
       this.checkPartitionKey(entity.partitionKey);
-      this.resetableState.pendingOperations.push(this.interceptClient.createEntity(entity));
+      this.state.pendingOperations.push(this.interceptClient.createEntity(entity));
     }
   }
 
@@ -213,7 +232,7 @@ export class InternalTableTransaction {
     options?: DeleteTableEntityOptions
   ): void {
     this.checkPartitionKey(partitionKey);
-    this.resetableState.pendingOperations.push(
+    this.state.pendingOperations.push(
       this.interceptClient.deleteEntity(partitionKey, rowKey, options)
     );
   }
@@ -230,9 +249,7 @@ export class InternalTableTransaction {
     options?: UpdateTableEntityOptions
   ): void {
     this.checkPartitionKey(entity.partitionKey);
-    this.resetableState.pendingOperations.push(
-      this.interceptClient.updateEntity(entity, mode, options)
-    );
+    this.state.pendingOperations.push(this.interceptClient.updateEntity(entity, mode, options));
   }
 
   /**
@@ -249,23 +266,21 @@ export class InternalTableTransaction {
     options?: OperationOptions
   ): void {
     this.checkPartitionKey(entity.partitionKey);
-    this.resetableState.pendingOperations.push(
-      this.interceptClient.upsertEntity(entity, mode, options)
-    );
+    this.state.pendingOperations.push(this.interceptClient.upsertEntity(entity, mode, options));
   }
 
   /**
    * Submits the operations in the transaction
    */
   public async submitTransaction(): Promise<TableTransactionResponse> {
-    await Promise.all(this.resetableState.pendingOperations);
+    await Promise.all(this.state.pendingOperations);
     const body = getTransactionHttpRequestBody(
-      this.resetableState.bodyParts,
-      this.resetableState.transactionId,
-      this.resetableState.changesetId
+      this.state.bodyParts,
+      this.state.transactionId,
+      this.state.changesetId
     );
 
-    const headers = getTransactionHeaders(this.resetableState.transactionId);
+    const headers = getTransactionHeaders(this.state.transactionId);
 
     return tracingClient.withSpan(
       "TableTransaction.submitTransaction",
@@ -287,7 +302,7 @@ export class InternalTableTransaction {
   }
 
   private checkPartitionKey(partitionKey: string): void {
-    if (this.resetableState.partitionKey !== partitionKey) {
+    if (this.state.partitionKey !== partitionKey) {
       throw new Error("All operations in a transaction must target the same partitionKey");
     }
   }

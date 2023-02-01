@@ -12,8 +12,19 @@ import {
   createHttpHeaders,
 } from "@azure/core-rest-pipeline";
 
-function isReadableStream(body: any): body is NodeJS.ReadableStream {
+function isNodeReadableStream(body: any): body is NodeJS.ReadableStream {
   return body && typeof body.pipe === "function";
+}
+
+/**
+ * Checks if the body is a ReadableStream supported by browsers
+ */
+function isReadableStream(body: unknown): body is ReadableStream {
+  return Boolean(
+    body &&
+      typeof (body as ReadableStream).getReader === "function" &&
+      typeof (body as ReadableStream).tee === "function"
+  );
 }
 
 /**
@@ -68,11 +79,12 @@ class XhrHttpClient implements HttpClient {
 
     xhr.responseType = request.streamResponseStatusCodes?.size ? "blob" : "text";
 
-    if (isReadableStream(request.body)) {
-      throw new Error("Node streams are not supported in browser environment.");
+    const body = typeof request.body === "function" ? request.body() : request.body;
+    if (isNodeReadableStream(body) || isReadableStream(body)) {
+      throw new Error("Streams are not supported by xhrHttpClient.");
     }
 
-    xhr.send(request.body === undefined ? null : request.body);
+    xhr.send(body === undefined ? null : body);
 
     if (xhr.responseType === "blob") {
       return new Promise((resolve, reject) => {

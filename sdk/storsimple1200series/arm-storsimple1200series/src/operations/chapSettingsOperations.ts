@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { ChapSettingsOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -64,12 +64,16 @@ export class ChapSettingsOperationsImpl implements ChapSettingsOperations {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByDevicePagingPage(
           deviceName,
           resourceGroupName,
           managerName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -79,9 +83,11 @@ export class ChapSettingsOperationsImpl implements ChapSettingsOperations {
     deviceName: string,
     resourceGroupName: string,
     managerName: string,
-    options?: ChapSettingsListByDeviceOptionalParams
+    options?: ChapSettingsListByDeviceOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<ChapSettings[]> {
-    let result = await this._listByDevice(
+    let result: ChapSettingsListByDeviceResponse;
+    result = await this._listByDevice(
       deviceName,
       resourceGroupName,
       managerName,
@@ -219,10 +225,12 @@ export class ChapSettingsOperationsImpl implements ChapSettingsOperations {
       },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -312,10 +320,12 @@ export class ChapSettingsOperationsImpl implements ChapSettingsOperations {
       { deviceName, chapUserName, resourceGroupName, managerName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

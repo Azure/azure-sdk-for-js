@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { PortalRevision } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -66,11 +67,15 @@ export class PortalRevisionImpl implements PortalRevision {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByServicePagingPage(
           resourceGroupName,
           serviceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -79,15 +84,22 @@ export class PortalRevisionImpl implements PortalRevision {
   private async *listByServicePagingPage(
     resourceGroupName: string,
     serviceName: string,
-    options?: PortalRevisionListByServiceOptionalParams
+    options?: PortalRevisionListByServiceOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PortalRevisionContract[]> {
-    let result = await this._listByService(
-      resourceGroupName,
-      serviceName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: PortalRevisionListByServiceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByService(
+        resourceGroupName,
+        serviceName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByServiceNext(
         resourceGroupName,
@@ -96,7 +108,9 @@ export class PortalRevisionImpl implements PortalRevision {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -237,11 +251,13 @@ export class PortalRevisionImpl implements PortalRevision {
       { resourceGroupName, serviceName, portalRevisionId, parameters, options },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -346,11 +362,13 @@ export class PortalRevisionImpl implements PortalRevision {
       },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

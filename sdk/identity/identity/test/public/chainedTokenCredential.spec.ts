@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
 import {
-  ChainedTokenCredential,
-  TokenCredential,
   AccessToken,
   AggregateAuthenticationError,
-  CredentialUnavailableError,
   AuthenticationRequiredError,
+  ChainedTokenCredential,
+  CredentialUnavailableError,
+  TokenCredential,
 } from "../../src";
+import { assert } from "chai";
 import { getError } from "../authTestUtils";
 
 function mockCredential(returnPromise: Promise<AccessToken | null>): TokenCredential {

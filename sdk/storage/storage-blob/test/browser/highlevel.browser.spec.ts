@@ -69,7 +69,7 @@ describe("Highlevel", () => {
         abortSignal: aborter,
       });
       assert.fail();
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.name, "AbortError");
     }
   });
@@ -85,7 +85,7 @@ describe("Highlevel", () => {
         concurrency: 2,
       });
       assert.fail();
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.name, "AbortError");
     }
   });
@@ -107,7 +107,7 @@ describe("Highlevel", () => {
           aborter.abort();
         },
       });
-    } catch (err) {}
+    } catch (err: any) {}
     assert.ok(eventTriggered);
   });
 
@@ -128,8 +128,8 @@ describe("Highlevel", () => {
           aborter.abort();
         },
       });
-    } catch (err) {}
-    assert.ok(eventTriggered);
+    } catch (err: any) {}
+    assert.isTrue(eventTriggered);
   });
 
   it("uploadBrowserDataToBlockBlob should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
@@ -209,6 +209,20 @@ describe("Highlevel", () => {
   });
 
   it("uploadData should work with Blob, ArrayBuffer and ArrayBufferView", async () => {
+    async function assertSameBlob(actualBlob: Blob | undefined, expectedBlob: Blob) {
+      if (!actualBlob) {
+        throw new Error("actualBlob is undefined");
+      }
+      assert.equal(actualBlob.size, expectedBlob.size);
+      const actualData = new Uint8Array(await actualBlob.arrayBuffer());
+      const expectedData = new Uint8Array(await expectedBlob.arrayBuffer());
+
+      const actualValues = Array.from(actualData.values());
+      const expectedValues = Array.from(expectedData.values());
+
+      assert.deepStrictEqual(actualValues, expectedValues);
+    }
+
     const byteLength = 10;
     const arrayBuf = new ArrayBuffer(byteLength);
     const uint8Array = new Uint8Array(arrayBuf);
@@ -219,16 +233,16 @@ describe("Highlevel", () => {
     const blob = new Blob([arrayBuf], { type: "application/octet-stream" });
     await blockBlobClient.uploadData(blob);
     const downloadedBlob = await (await blockBlobClient.download()).blobBody;
-    assert.deepStrictEqual(downloadedBlob, blob);
+    await assertSameBlob(downloadedBlob, blob);
 
     await blockBlobClient.uploadData(arrayBuf);
     const downloadedBlob1 = await (await blockBlobClient.download()).blobBody;
-    assert.deepStrictEqual(downloadedBlob1, blob);
+    await assertSameBlob(downloadedBlob1, blob);
 
     const uint8ArrayPartial = new Uint8Array(arrayBuf, 1, 3);
     await blockBlobClient.uploadData(uint8ArrayPartial);
     const downloadedBlob2 = await (await blockBlobClient.download()).blobBody!;
-    assert.deepStrictEqual(
+    await assertSameBlob(
       downloadedBlob2,
       new Blob([uint8ArrayPartial], { type: "application/octet-stream" })
     );
@@ -236,7 +250,7 @@ describe("Highlevel", () => {
     const uint16Array = new Uint16Array(arrayBuf, 4, 2);
     await blockBlobClient.uploadData(uint16Array);
     const downloadedBlob3 = await (await blockBlobClient.download()).blobBody!;
-    assert.deepStrictEqual(
+    await assertSameBlob(
       downloadedBlob3,
       new Blob([uint16Array], { type: "application/octet-stream" })
     );

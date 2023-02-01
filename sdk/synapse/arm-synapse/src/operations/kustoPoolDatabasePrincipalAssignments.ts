@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { KustoPoolDatabasePrincipalAssignments } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,10 +17,10 @@ import { LroImpl } from "../lroImpl";
 import {
   DatabasePrincipalAssignment,
   KustoPoolDatabasePrincipalAssignmentsListOptionalParams,
+  KustoPoolDatabasePrincipalAssignmentsListResponse,
   DatabasePrincipalAssignmentCheckNameRequest,
   KustoPoolDatabasePrincipalAssignmentsCheckNameAvailabilityOptionalParams,
   KustoPoolDatabasePrincipalAssignmentsCheckNameAvailabilityResponse,
-  KustoPoolDatabasePrincipalAssignmentsListResponse,
   KustoPoolDatabasePrincipalAssignmentsGetOptionalParams,
   KustoPoolDatabasePrincipalAssignmentsGetResponse,
   KustoPoolDatabasePrincipalAssignmentsCreateOrUpdateOptionalParams,
@@ -71,13 +71,17 @@ export class KustoPoolDatabasePrincipalAssignmentsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listPagingPage(
           workspaceName,
           kustoPoolName,
           databaseName,
           resourceGroupName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -88,9 +92,11 @@ export class KustoPoolDatabasePrincipalAssignmentsImpl
     kustoPoolName: string,
     databaseName: string,
     resourceGroupName: string,
-    options?: KustoPoolDatabasePrincipalAssignmentsListOptionalParams
+    options?: KustoPoolDatabasePrincipalAssignmentsListOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<DatabasePrincipalAssignment[]> {
-    let result = await this._list(
+    let result: KustoPoolDatabasePrincipalAssignmentsListResponse;
+    result = await this._list(
       workspaceName,
       kustoPoolName,
       databaseName,
@@ -285,10 +291,12 @@ export class KustoPoolDatabasePrincipalAssignmentsImpl
       },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -390,10 +398,12 @@ export class KustoPoolDatabasePrincipalAssignmentsImpl
       },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -523,7 +533,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters29,
+  requestBody: Parameters.parameters30,
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,

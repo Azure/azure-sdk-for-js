@@ -323,9 +323,14 @@ describe("shared receiver code", () => {
             if (numRetryCalls > 1) {
               // not the first attempt
               const currentTime = Date.now();
-              if (currentTime - previousAttemptTime < retryDelayInMs) {
+              const elapsed = currentTime - previousAttemptTime;
+              console.log(
+                `###  ${elapsed} ms passed (from ${previousAttemptTime} to ${currentTime})`
+              );
+              const expectedDelay = retryDelayInMs - 5; // with error tolerance to account for time accuracy issue
+              if (elapsed < expectedDelay) {
                 errorMessages.push(
-                  `Unexpected, Should've waited at least ${retryDelayInMs} between attempts`
+                  `Elapsed time ${elapsed} ms (from ${previousAttemptTime} to ${currentTime}) is shorter than expected. The wait between attempts should have been about ${retryDelayInMs} ms.`
                 );
               }
               previousAttemptTime = currentTime;
@@ -373,6 +378,7 @@ it("error handler wrapper", () => {
             entityPath: args.entityPath,
             errorSource: args.errorSource,
             code: sbe.code,
+            identifier: args.identifier,
           },
           {
             name: "ServiceBusError",
@@ -381,6 +387,7 @@ it("error handler wrapper", () => {
             entityPath: "entity path",
             errorSource: "renewLock",
             code: "ServiceCommunicationProblem",
+            identifier: "identifier",
           }
         );
 
@@ -406,6 +413,7 @@ it("error handler wrapper", () => {
     entityPath: "entity path",
     errorSource: "renewLock",
     fullyQualifiedNamespace: "fully qualified namespace",
+    identifier: "identifier",
   });
 
   assert.isTrue(logErrorCalled, "log error should have been called");
@@ -444,7 +452,7 @@ it("getMessageIterator doesn't yield empty responses", async () => {
       allReceivedMessages.push(m);
     }
     assert.fail("Should throw");
-  } catch (err) {
+  } catch (err: any) {
     assert.equal("We're okay to end it now", err.message);
     assert.deepEqual(
       [

@@ -9,7 +9,7 @@ import {
   KeyVaultAccessControlClient,
   KeyVaultPermission,
   KnownKeyVaultDataAction,
-  KnownKeyVaultRoleScope
+  KnownKeyVaultRoleScope,
 } from "@azure/keyvault-admin";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as uuid from "uuid";
@@ -19,10 +19,9 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 export async function main(): Promise<void> {
-  // DefaultAzureCredential expects the following three environment variables:
-  // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
-  // - AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
-  // - AZURE_CLIENT_SECRET: The client secret for the registered application
+  // This sample uses DefaultAzureCredential, which supports a number of authentication mechanisms.
+  // See https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
+  // about DefaultAzureCredential and the other credentials that are available for use.
   const credential = new DefaultAzureCredential();
   const url = process.env["AZURE_MANAGEDHSM_URI"];
   if (!url) {
@@ -38,14 +37,17 @@ export async function main(): Promise<void> {
   const roleDefinitionName = uuid.v4();
   const permissions: KeyVaultPermission[] = [
     {
-      dataActions: [KnownKeyVaultDataAction.StartHsmBackup, KnownKeyVaultDataAction.StartHsmRestore]
-    }
+      dataActions: [
+        KnownKeyVaultDataAction.StartHsmBackup,
+        KnownKeyVaultDataAction.StartHsmRestore,
+      ],
+    },
   ];
   let roleDefinition = await client.setRoleDefinition(globalScope, {
     roleDefinitionName,
     roleName: "Backup Manager",
     permissions,
-    description: "Allow backup actions"
+    description: "Allow backup actions",
   });
   console.log(roleDefinition);
 

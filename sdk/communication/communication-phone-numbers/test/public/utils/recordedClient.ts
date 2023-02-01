@@ -1,27 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Context } from "mocha";
+import { Context, Test } from "mocha";
 import * as dotenv from "dotenv";
 
 import {
   Recorder,
-  RecorderEnvironmentSetup,
+  RecorderStartOptions,
   env,
   isPlaybackMode,
-  record,
+  SanitizerOptions,
 } from "@azure-tools/test-recorder";
-import {
-  DefaultHttpClient,
-  HttpClient,
-  HttpOperationResponse,
-  TokenCredential,
-  WebResourceLike,
-  isNode,
-} from "@azure/core-http";
-import { PhoneNumbersClient, PhoneNumbersClientOptions } from "../../../src";
+import { PhoneNumbersClient } from "../../../src";
 import { parseConnectionString } from "@azure/communication-common";
-import { ClientSecretCredential, DefaultAzureCredential } from "@azure/identity";
+import { TokenCredential } from "@azure/identity";
+import { isNode } from "@azure/test-utils";
+import { createTestCredential } from "@azure-tools/test-credential";
 
 if (isNode) {
   dotenv.config();
@@ -32,7 +26,7 @@ export interface RecordedClient<T> {
   recorder: Recorder;
 }
 
-const replaceableVariables: { [k: string]: string } = {
+const envSetupForPlayback: { [k: string]: string } = {
   COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
   INCLUDE_PHONENUMBER_LIVE_TESTS: "false",
   SKIP_UPDATE_CAPABILITIES_LIVE_TESTS: "false",
@@ -42,29 +36,65 @@ const replaceableVariables: { [k: string]: string } = {
   AZURE_TENANT_ID: "SomeTenantId",
   AZURE_PHONE_NUMBER: "+14155550100",
   COMMUNICATION_SKIP_INT_PHONENUMBERS_TESTS: "false",
+  AZURE_USERAGENT_OVERRIDE: "fake-useragent",
 };
 
-export const environmentSetup: RecorderEnvironmentSetup = {
-  replaceableVariables,
-  customizationsOnRecordings: [
-    (recording: string): string => recording.replace(/(https:\/\/)([^/'",}]*)/, "$1endpoint"),
-    (recording: string): string => recording.replace(/\d{1}\d{3}\d{3}\d{4}/g, "14155550100"),
-    (recording: string): string =>
-      recording.replace(/[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}/gi, "sanitized"),
+const sanitizerOptions: SanitizerOptions = {
+  connectionStringSanitizers: [
+    {
+      actualConnString: env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING,
+      fakeConnString: envSetupForPlayback["COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING"],
+    },
   ],
-  queryParametersToSkip: [],
+  generalSanitizers: [
+    { regex: true, target: `"access_token"\\s?:\\s?"[^"]*"`, value: `"access_token":"sanitized"` },
+    {
+      regex: true,
+      target: `(https://)([^/'",}]*)`,
+      value: `$1endpoint`,
+    },
+    {
+      regex: true,
+      target: `\\d{1}\\d{3}\\d{3}\\d{4}`,
+      value: `14155550100`,
+    },
+    {
+      regex: true,
+      target: `[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}`,
+      value: `sanitized`,
+    },
+  ],
 };
 
-export function createRecordedClient(context: Context): RecordedClient<PhoneNumbersClient> {
-  const recorder = record(context, environmentSetup);
+const recorderOptions: RecorderStartOptions = {
+  envSetupForPlayback,
+  sanitizerOptions: sanitizerOptions,
+};
+
+export async function createRecorder(context: Test | undefined): Promise<Recorder> {
+  const recorder = new Recorder(context);
+  await recorder.start(recorderOptions);
+  await recorder.setMatcher("CustomDefaultMatcher", {
+    excludedHeaders: [
+      "Accept-Language", // This is env-dependent
+      "x-ms-content-sha256", // This is dependent on the current datetime
+    ],
+  });
+  return recorder;
+}
+
+export async function createRecordedClient(
+  context: Context
+): Promise<RecordedClient<PhoneNumbersClient>> {
+  const recorder = await createRecorder(context.currentTest);
+
+  const client = new PhoneNumbersClient(
+    env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ?? "",
+    recorder.configureClientOptions({})
+  );
 
   // casting is a workaround to enable min-max testing
-  return {
-    client: new PhoneNumbersClient(env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING, {
-      httpClient: createTestHttpClient(),
-    } as PhoneNumbersClientOptions),
-    recorder,
-  };
+  return { client, recorder };
 }
 
 export function createMockToken(): TokenCredential {
@@ -75,66 +105,28 @@ export function createMockToken(): TokenCredential {
   };
 }
 
-export function createRecordedClientWithToken(
+export async function createRecordedClientWithToken(
   context: Context
-): RecordedClient<PhoneNumbersClient> | undefined {
-  const recorder = record(context, environmentSetup);
+): Promise<RecordedClient<PhoneNumbersClient>> {
+  const recorder = await createRecorder(context.currentTest);
+
   let credential: TokenCredential;
   const endpoint = parseConnectionString(
-    env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING
+    env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ?? ""
   ).endpoint;
+
   if (isPlaybackMode()) {
     credential = createMockToken();
-
-    // casting is a workaround to enable min-max testing
-    return {
-      client: new PhoneNumbersClient(endpoint, credential, {
-        httpClient: createTestHttpClient(),
-      } as PhoneNumbersClientOptions),
-      recorder,
-    };
-  }
-
-  if (isNode) {
-    credential = new DefaultAzureCredential();
   } else {
-    credential = new ClientSecretCredential(
-      env.AZURE_TENANT_ID,
-      env.AZURE_CLIENT_ID,
-      env.AZURE_CLIENT_SECRET
-    );
+    credential = createTestCredential();
   }
+
+  const client = new PhoneNumbersClient(endpoint, credential, recorder.configureClientOptions({}));
 
   // casting is a workaround to enable min-max testing
-  return {
-    client: new PhoneNumbersClient(endpoint, credential, {
-      httpClient: createTestHttpClient(),
-    } as PhoneNumbersClientOptions),
-    recorder,
-  };
+  return { client, recorder };
 }
 
 export const testPollerOptions = {
   pollInterval: isPlaybackMode() ? 0 : undefined,
 };
-
-function createTestHttpClient(): HttpClient {
-  const customHttpClient = new DefaultHttpClient();
-
-  const originalSendRequest = customHttpClient.sendRequest;
-  customHttpClient.sendRequest = async function (
-    httpRequest: WebResourceLike
-  ): Promise<HttpOperationResponse> {
-    const requestResponse = await originalSendRequest.apply(this, [httpRequest]);
-
-    console.log(
-      `MS-CV header for request: ${httpRequest.url} (${
-        requestResponse.status
-      } - ${requestResponse.headers.get("ms-cv")})`
-    );
-
-    return requestResponse;
-  };
-
-  return customHttpClient;
-}

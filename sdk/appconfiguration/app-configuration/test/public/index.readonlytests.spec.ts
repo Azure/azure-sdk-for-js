@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import {
-  createAppConfigurationClientForTests,
-  assertThrowsRestError,
-  deleteKeyCompletely,
   assertThrowsAbortError,
+  assertThrowsRestError,
+  createAppConfigurationClientForTests,
+  deleteKeyCompletely,
   startRecorder,
 } from "./utils/testHelpers";
 import { AppConfigurationClient } from "../../src";
-import { assert } from "chai";
-import { Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
+import { assert } from "chai";
 
 describe("AppConfigurationClient (set|clear)ReadOnly", () => {
   let client: AppConfigurationClient;
@@ -23,9 +23,12 @@ describe("AppConfigurationClient (set|clear)ReadOnly", () => {
   };
 
   beforeEach(async function (this: Context) {
-    recorder = startRecorder(this);
-    testConfigSetting.key = recorder.getUniqueName("readOnlyTests");
-    client = createAppConfigurationClientForTests() || this.skip();
+    recorder = await startRecorder(this);
+    testConfigSetting.key = recorder.variable(
+      "readOnlyTests",
+      `readOnlyTests${Math.floor(Math.random() * 1000)}`
+    );
+    client = createAppConfigurationClientForTests(recorder.configureClientOptions({}));
     // before it's set to read only we can set it all we want
     await client.setConfigurationSetting(testConfigSetting);
   });
@@ -68,6 +71,9 @@ describe("AppConfigurationClient (set|clear)ReadOnly", () => {
   });
 
   it("accepts operation options", async function () {
+    // Recorder checks for the recording and complains before core-rest-pipeline could throw the AbortError (Recorder v2 should help here)
+    // eslint-disable-next-line @typescript-eslint/no-invalid-this
+    if (isPlaybackMode()) this.skip();
     await client.getConfigurationSetting({
       key: testConfigSetting.key,
       label: testConfigSetting.label,

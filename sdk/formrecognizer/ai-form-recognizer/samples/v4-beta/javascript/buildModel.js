@@ -16,11 +16,10 @@
 const {
   AzureKeyCredential,
   DocumentModelAdministrationClient,
+  DocumentModelBuildMode,
 } = require("@azure/ai-form-recognizer");
 
-const dotenv = require("dotenv");
-const { DocumentModelBuildMode } = require("../src/options/BuildModelOptions");
-dotenv.config();
+require("dotenv").config();
 
 async function main() {
   const endpoint = process.env.FORM_RECOGNIZER_ENDPOINT || "<endpoint>";

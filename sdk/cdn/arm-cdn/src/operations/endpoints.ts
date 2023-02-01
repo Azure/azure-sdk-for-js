@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Endpoints } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,10 +19,11 @@ import {
   Endpoint,
   EndpointsListByProfileNextOptionalParams,
   EndpointsListByProfileOptionalParams,
+  EndpointsListByProfileResponse,
   ResourceUsage,
   EndpointsListResourceUsageNextOptionalParams,
   EndpointsListResourceUsageOptionalParams,
-  EndpointsListByProfileResponse,
+  EndpointsListResourceUsageResponse,
   EndpointsGetOptionalParams,
   EndpointsGetResponse,
   EndpointsCreateOptionalParams,
@@ -41,7 +43,6 @@ import {
   ValidateCustomDomainInput,
   EndpointsValidateCustomDomainOptionalParams,
   EndpointsValidateCustomDomainResponse,
-  EndpointsListResourceUsageResponse,
   EndpointsListByProfileNextResponse,
   EndpointsListResourceUsageNextResponse
 } from "../models";
@@ -82,11 +83,15 @@ export class EndpointsImpl implements Endpoints {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByProfilePagingPage(
           resourceGroupName,
           profileName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -95,15 +100,22 @@ export class EndpointsImpl implements Endpoints {
   private async *listByProfilePagingPage(
     resourceGroupName: string,
     profileName: string,
-    options?: EndpointsListByProfileOptionalParams
+    options?: EndpointsListByProfileOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Endpoint[]> {
-    let result = await this._listByProfile(
-      resourceGroupName,
-      profileName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: EndpointsListByProfileResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByProfile(
+        resourceGroupName,
+        profileName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByProfileNext(
         resourceGroupName,
@@ -112,7 +124,9 @@ export class EndpointsImpl implements Endpoints {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -156,12 +170,16 @@ export class EndpointsImpl implements Endpoints {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listResourceUsagePagingPage(
           resourceGroupName,
           profileName,
           endpointName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -171,16 +189,23 @@ export class EndpointsImpl implements Endpoints {
     resourceGroupName: string,
     profileName: string,
     endpointName: string,
-    options?: EndpointsListResourceUsageOptionalParams
+    options?: EndpointsListResourceUsageOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ResourceUsage[]> {
-    let result = await this._listResourceUsage(
-      resourceGroupName,
-      profileName,
-      endpointName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: EndpointsListResourceUsageResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listResourceUsage(
+        resourceGroupName,
+        profileName,
+        endpointName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listResourceUsageNext(
         resourceGroupName,
@@ -190,7 +215,9 @@ export class EndpointsImpl implements Endpoints {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -312,10 +339,12 @@ export class EndpointsImpl implements Endpoints {
       { resourceGroupName, profileName, endpointName, endpoint, options },
       createOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -417,10 +446,12 @@ export class EndpointsImpl implements Endpoints {
       },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -509,10 +540,12 @@ export class EndpointsImpl implements Endpoints {
       { resourceGroupName, profileName, endpointName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -600,10 +633,12 @@ export class EndpointsImpl implements Endpoints {
       { resourceGroupName, profileName, endpointName, options },
       startOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -687,10 +722,12 @@ export class EndpointsImpl implements Endpoints {
       { resourceGroupName, profileName, endpointName, options },
       stopOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -782,10 +819,12 @@ export class EndpointsImpl implements Endpoints {
       },
       purgeContentOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -881,10 +920,12 @@ export class EndpointsImpl implements Endpoints {
       },
       loadContentOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1068,7 +1109,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.endpoint,
+  requestBody: Parameters.endpoint1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1077,7 +1118,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.profileName,
     Parameters.endpointName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -1102,7 +1143,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.endpointUpdateProperties,
+  requestBody: Parameters.endpointUpdateProperties1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1111,7 +1152,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.profileName,
     Parameters.endpointName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -1225,7 +1266,7 @@ const purgeContentOperationSpec: coreClient.OperationSpec = {
     Parameters.profileName,
     Parameters.endpointName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -1251,7 +1292,7 @@ const loadContentOperationSpec: coreClient.OperationSpec = {
     Parameters.profileName,
     Parameters.endpointName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -1276,7 +1317,7 @@ const validateCustomDomainOperationSpec: coreClient.OperationSpec = {
     Parameters.profileName,
     Parameters.endpointName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };

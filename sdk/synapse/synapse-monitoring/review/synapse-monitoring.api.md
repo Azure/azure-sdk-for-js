@@ -4,45 +4,42 @@
 
 ```ts
 
-import * as coreHttp from '@azure/core-http';
+import * as coreAuth from '@azure/core-auth';
+import * as coreClient from '@azure/core-client';
 
-// @public (undocumented)
-export class MonitoringClient extends MonitoringClientContext {
-    constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, endpoint: string, options?: MonitoringClientOptionalParams);
-    // (undocumented)
-    monitoring: MonitoringOperation;
+// @public
+export interface Monitoring {
+    getSparkJobList(options?: MonitoringGetSparkJobListOptionalParams): Promise<MonitoringGetSparkJobListResponse>;
+    getSqlJobQueryString(options?: MonitoringGetSqlJobQueryStringOptionalParams): Promise<MonitoringGetSqlJobQueryStringResponse>;
 }
 
 // @public (undocumented)
-export class MonitoringClientContext extends coreHttp.ServiceClient {
-    constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, endpoint: string, options?: MonitoringClientOptionalParams);
+export class MonitoringClient extends coreClient.ServiceClient {
+    constructor(credentials: coreAuth.TokenCredential, endpoint: string, options?: MonitoringClientOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
     endpoint: string;
+    // (undocumented)
+    monitoring: Monitoring;
 }
 
 // @public
-export interface MonitoringClientOptionalParams extends coreHttp.ServiceClientOptions {
+export interface MonitoringClientOptionalParams extends coreClient.ServiceClientOptions {
     apiVersion?: string;
     endpoint?: string;
 }
 
 // @public
-export interface MonitoringGetSparkJobListOptionalParams extends coreHttp.OperationOptions {
+export interface MonitoringGetSparkJobListOptionalParams extends coreClient.OperationOptions {
     xMsClientRequestId?: string;
 }
 
 // @public
-export type MonitoringGetSparkJobListResponse = SparkJobListViewResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: SparkJobListViewResponse;
-    };
-};
+export type MonitoringGetSparkJobListResponse = SparkJobListViewResponse;
 
 // @public
-export interface MonitoringGetSqlJobQueryStringOptionalParams extends coreHttp.OperationOptions {
+export interface MonitoringGetSqlJobQueryStringOptionalParams extends coreClient.OperationOptions {
     // (undocumented)
     filter?: string;
     // (undocumented)
@@ -53,26 +50,14 @@ export interface MonitoringGetSqlJobQueryStringOptionalParams extends coreHttp.O
 }
 
 // @public
-export type MonitoringGetSqlJobQueryStringResponse = SqlQueryStringDataModel & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: SqlQueryStringDataModel;
-    };
-};
-
-// @public
-export class MonitoringOperation {
-    constructor(client: MonitoringClient);
-    getSparkJobList(options?: MonitoringGetSparkJobListOptionalParams): Promise<MonitoringGetSparkJobListResponse>;
-    getSqlJobQueryString(options?: MonitoringGetSqlJobQueryStringOptionalParams): Promise<MonitoringGetSqlJobQueryStringResponse>;
-}
+export type MonitoringGetSqlJobQueryStringResponse = SqlQueryStringDataModel;
 
 // @public (undocumented)
 export interface SparkJob {
     // (undocumented)
     compute?: string;
     // (undocumented)
-    endTime?: Date | null;
+    endTime?: Date;
     // (undocumented)
     jobType?: string;
     // (undocumented)
@@ -80,7 +65,7 @@ export interface SparkJob {
     // (undocumented)
     name?: string;
     // (undocumented)
-    pipeline?: SparkJob[] | null;
+    pipeline?: SparkJob[];
     // (undocumented)
     queuedDuration?: string;
     // (undocumented)
@@ -88,13 +73,13 @@ export interface SparkJob {
     // (undocumented)
     sparkApplicationId?: string;
     // (undocumented)
-    sparkJobDefinition?: string | null;
+    sparkJobDefinition?: string;
     // (undocumented)
     state?: string;
     // (undocumented)
     submitter?: string;
     // (undocumented)
-    submitTime?: Date | null;
+    submitTime?: Date;
     // (undocumented)
     timing?: string[];
     // (undocumented)
@@ -106,7 +91,7 @@ export interface SparkJobListViewResponse {
     // (undocumented)
     nJobs?: number;
     // (undocumented)
-    sparkJobs?: SparkJob[] | null;
+    sparkJobs?: SparkJob[];
 }
 
 // @public (undocumented)
@@ -114,7 +99,6 @@ export interface SqlQueryStringDataModel {
     // (undocumented)
     query?: string;
 }
-
 
 // (No @packageDocumentation comment for this package)
 

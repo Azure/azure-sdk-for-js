@@ -312,7 +312,7 @@ export class BufferScheduler {
 
     try {
       await this.outgoingHandler(buffer, this.offset - bufferLength);
-    } catch (err) {
+    } catch (err: any) {
       this.emitter.emit("error", err);
       return;
     }

@@ -6,11 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { tracingClient } from "../tracing";
 import { RemoteRendering } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { RemoteRenderingRestClientContext } from "../remoteRenderingRestClientContext";
+import { RemoteRenderingRestClient } from "../remoteRenderingRestClient";
 import {
   CreateConversionSettings,
   RemoteRenderingCreateConversionOptionalParams,
@@ -37,15 +38,15 @@ import {
   RemoteRenderingListSessionsNextResponse
 } from "../models";
 
-/** Class representing a RemoteRendering. */
+/** Class containing RemoteRendering operations. */
 export class RemoteRenderingImpl implements RemoteRendering {
-  private readonly client: RemoteRenderingRestClientContext;
+  private readonly client: RemoteRenderingRestClient;
 
   /**
    * Initialize a new instance of the class RemoteRendering class.
    * @param client Reference to the service client
    */
-  constructor(client: RemoteRenderingRestClientContext) {
+  constructor(client: RemoteRenderingRestClient) {
     this.client = client;
   }
 
@@ -58,15 +59,21 @@ export class RemoteRenderingImpl implements RemoteRendering {
    * @param body Request body configuring the settings for an asset conversion.
    * @param options The options parameters.
    */
-  createConversion(
+  async createConversion(
     accountId: string,
     conversionId: string,
     body: CreateConversionSettings,
     options?: RemoteRenderingCreateConversionOptionalParams
   ): Promise<RemoteRenderingCreateConversionResponse> {
-    return this.client.sendOperationRequest(
-      { accountId, conversionId, body, options },
-      createConversionOperationSpec
+    return tracingClient.withSpan(
+      "RemoteRenderingRestClient.createConversion",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { accountId, conversionId, body, options },
+          createConversionOperationSpec
+        ) as Promise<RemoteRenderingCreateConversionResponse>;
+      }
     );
   }
 
@@ -78,14 +85,20 @@ export class RemoteRenderingImpl implements RemoteRendering {
    *                     and cannot contain more than 256 characters.
    * @param options The options parameters.
    */
-  getConversion(
+  async getConversion(
     accountId: string,
     conversionId: string,
     options?: RemoteRenderingGetConversionOptionalParams
   ): Promise<RemoteRenderingGetConversionResponse> {
-    return this.client.sendOperationRequest(
-      { accountId, conversionId, options },
-      getConversionOperationSpec
+    return tracingClient.withSpan(
+      "RemoteRenderingRestClient.getConversion",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { accountId, conversionId, options },
+          getConversionOperationSpec
+        ) as Promise<RemoteRenderingGetConversionResponse>;
+      }
     );
   }
 
@@ -94,13 +107,19 @@ export class RemoteRenderingImpl implements RemoteRendering {
    * @param accountId The Azure Remote Rendering account ID.
    * @param options The options parameters.
    */
-  listConversions(
+  async listConversions(
     accountId: string,
     options?: RemoteRenderingListConversionsOptionalParams
   ): Promise<RemoteRenderingListConversionsResponse> {
-    return this.client.sendOperationRequest(
-      { accountId, options },
-      listConversionsOperationSpec
+    return tracingClient.withSpan(
+      "RemoteRenderingRestClient.listConversions",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { accountId, options },
+          listConversionsOperationSpec
+        ) as Promise<RemoteRenderingListConversionsResponse>;
+      }
     );
   }
 
@@ -113,15 +132,21 @@ export class RemoteRenderingImpl implements RemoteRendering {
    * @param body Settings of the session to be created.
    * @param options The options parameters.
    */
-  createSession(
+  async createSession(
     accountId: string,
     sessionId: string,
     body: RenderingSessionSettings,
     options?: RemoteRenderingCreateSessionOptionalParams
   ): Promise<RemoteRenderingCreateSessionResponse> {
-    return this.client.sendOperationRequest(
-      { accountId, sessionId, body, options },
-      createSessionOperationSpec
+    return tracingClient.withSpan(
+      "RemoteRenderingRestClient.createSession",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { accountId, sessionId, body, options },
+          createSessionOperationSpec
+        ) as Promise<RemoteRenderingCreateSessionResponse>;
+      }
     );
   }
 
@@ -133,14 +158,20 @@ export class RemoteRenderingImpl implements RemoteRendering {
    *                  underscores, and cannot contain more than 256 characters.
    * @param options The options parameters.
    */
-  getSession(
+  async getSession(
     accountId: string,
     sessionId: string,
     options?: RemoteRenderingGetSessionOptionalParams
   ): Promise<RemoteRenderingGetSessionResponse> {
-    return this.client.sendOperationRequest(
-      { accountId, sessionId, options },
-      getSessionOperationSpec
+    return tracingClient.withSpan(
+      "RemoteRenderingRestClient.getSession",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { accountId, sessionId, options },
+          getSessionOperationSpec
+        ) as Promise<RemoteRenderingGetSessionResponse>;
+      }
     );
   }
 
@@ -153,15 +184,21 @@ export class RemoteRenderingImpl implements RemoteRendering {
    * @param body Settings used to update the session.
    * @param options The options parameters.
    */
-  updateSession(
+  async updateSession(
     accountId: string,
     sessionId: string,
     body: UpdateSessionSettings,
     options?: RemoteRenderingUpdateSessionOptionalParams
   ): Promise<RemoteRenderingUpdateSessionResponse> {
-    return this.client.sendOperationRequest(
-      { accountId, sessionId, body, options },
-      updateSessionOperationSpec
+    return tracingClient.withSpan(
+      "RemoteRenderingRestClient.updateSession",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { accountId, sessionId, body, options },
+          updateSessionOperationSpec
+        ) as Promise<RemoteRenderingUpdateSessionResponse>;
+      }
     );
   }
 
@@ -173,14 +210,20 @@ export class RemoteRenderingImpl implements RemoteRendering {
    *                  underscores, and cannot contain more than 256 characters.
    * @param options The options parameters.
    */
-  stopSession(
+  async stopSession(
     accountId: string,
     sessionId: string,
     options?: RemoteRenderingStopSessionOptionalParams
   ): Promise<RemoteRenderingStopSessionResponse> {
-    return this.client.sendOperationRequest(
-      { accountId, sessionId, options },
-      stopSessionOperationSpec
+    return tracingClient.withSpan(
+      "RemoteRenderingRestClient.stopSession",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { accountId, sessionId, options },
+          stopSessionOperationSpec
+        ) as Promise<RemoteRenderingStopSessionResponse>;
+      }
     );
   }
 
@@ -189,13 +232,19 @@ export class RemoteRenderingImpl implements RemoteRendering {
    * @param accountId The Azure Remote Rendering account ID.
    * @param options The options parameters.
    */
-  listSessions(
+  async listSessions(
     accountId: string,
     options?: RemoteRenderingListSessionsOptionalParams
   ): Promise<RemoteRenderingListSessionsResponse> {
-    return this.client.sendOperationRequest(
-      { accountId, options },
-      listSessionsOperationSpec
+    return tracingClient.withSpan(
+      "RemoteRenderingRestClient.listSessions",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { accountId, options },
+          listSessionsOperationSpec
+        ) as Promise<RemoteRenderingListSessionsResponse>;
+      }
     );
   }
 
@@ -205,14 +254,20 @@ export class RemoteRenderingImpl implements RemoteRendering {
    * @param nextLink The nextLink from the previous successful call to the ListConversions method.
    * @param options The options parameters.
    */
-  listConversionsNext(
+  async listConversionsNext(
     accountId: string,
     nextLink: string,
     options?: RemoteRenderingListConversionsNextOptionalParams
   ): Promise<RemoteRenderingListConversionsNextResponse> {
-    return this.client.sendOperationRequest(
-      { accountId, nextLink, options },
-      listConversionsNextOperationSpec
+    return tracingClient.withSpan(
+      "RemoteRenderingRestClient.listConversionsNext",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { accountId, nextLink, options },
+          listConversionsNextOperationSpec
+        ) as Promise<RemoteRenderingListConversionsNextResponse>;
+      }
     );
   }
 
@@ -222,14 +277,20 @@ export class RemoteRenderingImpl implements RemoteRendering {
    * @param nextLink The nextLink from the previous successful call to the ListSessions method.
    * @param options The options parameters.
    */
-  listSessionsNext(
+  async listSessionsNext(
     accountId: string,
     nextLink: string,
     options?: RemoteRenderingListSessionsNextOptionalParams
   ): Promise<RemoteRenderingListSessionsNextResponse> {
-    return this.client.sendOperationRequest(
-      { accountId, nextLink, options },
-      listSessionsNextOperationSpec
+    return tracingClient.withSpan(
+      "RemoteRenderingRestClient.listSessionsNext",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { accountId, nextLink, options },
+          listSessionsNextOperationSpec
+        ) as Promise<RemoteRenderingListSessionsNextResponse>;
+      }
     );
   }
 }

@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ExtendedServerBlobAuditingPolicies } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,11 +19,11 @@ import {
   ExtendedServerBlobAuditingPolicy,
   ExtendedServerBlobAuditingPoliciesListByServerNextOptionalParams,
   ExtendedServerBlobAuditingPoliciesListByServerOptionalParams,
+  ExtendedServerBlobAuditingPoliciesListByServerResponse,
   ExtendedServerBlobAuditingPoliciesGetOptionalParams,
   ExtendedServerBlobAuditingPoliciesGetResponse,
   ExtendedServerBlobAuditingPoliciesCreateOrUpdateOptionalParams,
   ExtendedServerBlobAuditingPoliciesCreateOrUpdateResponse,
-  ExtendedServerBlobAuditingPoliciesListByServerResponse,
   ExtendedServerBlobAuditingPoliciesListByServerNextResponse
 } from "../models";
 
@@ -64,11 +65,15 @@ export class ExtendedServerBlobAuditingPoliciesImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByServerPagingPage(
           resourceGroupName,
           serverName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -77,15 +82,18 @@ export class ExtendedServerBlobAuditingPoliciesImpl
   private async *listByServerPagingPage(
     resourceGroupName: string,
     serverName: string,
-    options?: ExtendedServerBlobAuditingPoliciesListByServerOptionalParams
+    options?: ExtendedServerBlobAuditingPoliciesListByServerOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ExtendedServerBlobAuditingPolicy[]> {
-    let result = await this._listByServer(
-      resourceGroupName,
-      serverName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ExtendedServerBlobAuditingPoliciesListByServerResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByServer(resourceGroupName, serverName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByServerNext(
         resourceGroupName,
@@ -94,7 +102,9 @@ export class ExtendedServerBlobAuditingPoliciesImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -195,10 +205,12 @@ export class ExtendedServerBlobAuditingPoliciesImpl
       { resourceGroupName, serverName, parameters, options },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -347,7 +359,6 @@ const listByServerNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

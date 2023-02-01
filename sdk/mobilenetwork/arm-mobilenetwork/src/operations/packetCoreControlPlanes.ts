@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { PacketCoreControlPlanes } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,8 +19,10 @@ import {
   PacketCoreControlPlane,
   PacketCoreControlPlanesListBySubscriptionNextOptionalParams,
   PacketCoreControlPlanesListBySubscriptionOptionalParams,
+  PacketCoreControlPlanesListBySubscriptionResponse,
   PacketCoreControlPlanesListByResourceGroupNextOptionalParams,
   PacketCoreControlPlanesListByResourceGroupOptionalParams,
+  PacketCoreControlPlanesListByResourceGroupResponse,
   PacketCoreControlPlanesDeleteOptionalParams,
   PacketCoreControlPlanesGetOptionalParams,
   PacketCoreControlPlanesGetResponse,
@@ -28,8 +31,13 @@ import {
   TagsObject,
   PacketCoreControlPlanesUpdateTagsOptionalParams,
   PacketCoreControlPlanesUpdateTagsResponse,
-  PacketCoreControlPlanesListBySubscriptionResponse,
-  PacketCoreControlPlanesListByResourceGroupResponse,
+  PacketCoreControlPlanesRollbackOptionalParams,
+  PacketCoreControlPlanesRollbackResponse,
+  PacketCoreControlPlanesReinstallOptionalParams,
+  PacketCoreControlPlanesReinstallResponse,
+  PacketCoreControlPlaneCollectDiagnosticsPackage,
+  PacketCoreControlPlanesCollectDiagnosticsPackageOptionalParams,
+  PacketCoreControlPlanesCollectDiagnosticsPackageResponse,
   PacketCoreControlPlanesListBySubscriptionNextResponse,
   PacketCoreControlPlanesListByResourceGroupNextResponse
 } from "../models";
@@ -48,7 +56,7 @@ export class PacketCoreControlPlanesImpl implements PacketCoreControlPlanes {
   }
 
   /**
-   * Lists all the packetCoreControlPlanes in a subscription.
+   * Lists all the packet core control planes in a subscription.
    * @param options The options parameters.
    */
   public listBySubscription(
@@ -62,22 +70,34 @@ export class PacketCoreControlPlanesImpl implements PacketCoreControlPlanes {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listBySubscriptionPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBySubscriptionPagingPage(options, settings);
       }
     };
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: PacketCoreControlPlanesListBySubscriptionOptionalParams
+    options?: PacketCoreControlPlanesListBySubscriptionOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PacketCoreControlPlane[]> {
-    let result = await this._listBySubscription(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: PacketCoreControlPlanesListBySubscriptionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBySubscription(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listBySubscriptionNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -90,7 +110,7 @@ export class PacketCoreControlPlanesImpl implements PacketCoreControlPlanes {
   }
 
   /**
-   * Lists all the packetCoreControlPlanes in a resource group.
+   * Lists all the packet core control planes in a resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
@@ -106,19 +126,33 @@ export class PacketCoreControlPlanesImpl implements PacketCoreControlPlanes {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: PacketCoreControlPlanesListByResourceGroupOptionalParams
+    options?: PacketCoreControlPlanesListByResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PacketCoreControlPlane[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: PacketCoreControlPlanesListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -126,7 +160,9 @@ export class PacketCoreControlPlanesImpl implements PacketCoreControlPlanes {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -197,11 +233,13 @@ export class PacketCoreControlPlanesImpl implements PacketCoreControlPlanes {
       { resourceGroupName, packetCoreControlPlaneName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -241,7 +279,7 @@ export class PacketCoreControlPlanesImpl implements PacketCoreControlPlanes {
   }
 
   /**
-   * Creates or updates a PacketCoreControlPlane.
+   * Creates or updates a packet core control plane.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param packetCoreControlPlaneName The name of the packet core control plane.
    * @param parameters Parameters supplied to the create or update packet core control plane operation.
@@ -302,15 +340,17 @@ export class PacketCoreControlPlanesImpl implements PacketCoreControlPlanes {
       { resourceGroupName, packetCoreControlPlaneName, parameters, options },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
-   * Creates or updates a PacketCoreControlPlane.
+   * Creates or updates a packet core control plane.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param packetCoreControlPlaneName The name of the packet core control plane.
    * @param parameters Parameters supplied to the create or update packet core control plane operation.
@@ -332,10 +372,10 @@ export class PacketCoreControlPlanesImpl implements PacketCoreControlPlanes {
   }
 
   /**
-   * Updates a PacketCoreControlPlane update tags.
+   * Updates packet core control planes tags.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param packetCoreControlPlaneName The name of the packet core control plane.
-   * @param parameters Parameters supplied to update PacketCoreControlPlane tags.
+   * @param parameters Parameters supplied to update packet core control plane tags.
    * @param options The options parameters.
    */
   updateTags(
@@ -351,7 +391,7 @@ export class PacketCoreControlPlanesImpl implements PacketCoreControlPlanes {
   }
 
   /**
-   * Lists all the packetCoreControlPlanes in a subscription.
+   * Lists all the packet core control planes in a subscription.
    * @param options The options parameters.
    */
   private _listBySubscription(
@@ -364,7 +404,7 @@ export class PacketCoreControlPlanesImpl implements PacketCoreControlPlanes {
   }
 
   /**
-   * Lists all the packetCoreControlPlanes in a resource group.
+   * Lists all the packet core control planes in a resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
@@ -376,6 +416,285 @@ export class PacketCoreControlPlanesImpl implements PacketCoreControlPlanes {
       { resourceGroupName, options },
       listByResourceGroupOperationSpec
     );
+  }
+
+  /**
+   * Roll back the specified packet core control plane to the previous version, "rollbackVersion".
+   * Multiple consecutive rollbacks are not possible. This action may cause a service outage.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param packetCoreControlPlaneName The name of the packet core control plane.
+   * @param options The options parameters.
+   */
+  async beginRollback(
+    resourceGroupName: string,
+    packetCoreControlPlaneName: string,
+    options?: PacketCoreControlPlanesRollbackOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<PacketCoreControlPlanesRollbackResponse>,
+      PacketCoreControlPlanesRollbackResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<PacketCoreControlPlanesRollbackResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, packetCoreControlPlaneName, options },
+      rollbackOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Roll back the specified packet core control plane to the previous version, "rollbackVersion".
+   * Multiple consecutive rollbacks are not possible. This action may cause a service outage.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param packetCoreControlPlaneName The name of the packet core control plane.
+   * @param options The options parameters.
+   */
+  async beginRollbackAndWait(
+    resourceGroupName: string,
+    packetCoreControlPlaneName: string,
+    options?: PacketCoreControlPlanesRollbackOptionalParams
+  ): Promise<PacketCoreControlPlanesRollbackResponse> {
+    const poller = await this.beginRollback(
+      resourceGroupName,
+      packetCoreControlPlaneName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Reinstall the specified packet core control plane. This action will remove any transaction state
+   * from the packet core to return it to a known state. This action will cause a service outage.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param packetCoreControlPlaneName The name of the packet core control plane.
+   * @param options The options parameters.
+   */
+  async beginReinstall(
+    resourceGroupName: string,
+    packetCoreControlPlaneName: string,
+    options?: PacketCoreControlPlanesReinstallOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<PacketCoreControlPlanesReinstallResponse>,
+      PacketCoreControlPlanesReinstallResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<PacketCoreControlPlanesReinstallResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, packetCoreControlPlaneName, options },
+      reinstallOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Reinstall the specified packet core control plane. This action will remove any transaction state
+   * from the packet core to return it to a known state. This action will cause a service outage.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param packetCoreControlPlaneName The name of the packet core control plane.
+   * @param options The options parameters.
+   */
+  async beginReinstallAndWait(
+    resourceGroupName: string,
+    packetCoreControlPlaneName: string,
+    options?: PacketCoreControlPlanesReinstallOptionalParams
+  ): Promise<PacketCoreControlPlanesReinstallResponse> {
+    const poller = await this.beginReinstall(
+      resourceGroupName,
+      packetCoreControlPlaneName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Collect a diagnostics package for the specified packet core control plane. This action will upload
+   * the diagnostics to a storage account.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param packetCoreControlPlaneName The name of the packet core control plane.
+   * @param parameters Parameters supplied to the packet core control plane collect diagnostics package
+   *                   operation.
+   * @param options The options parameters.
+   */
+  async beginCollectDiagnosticsPackage(
+    resourceGroupName: string,
+    packetCoreControlPlaneName: string,
+    parameters: PacketCoreControlPlaneCollectDiagnosticsPackage,
+    options?: PacketCoreControlPlanesCollectDiagnosticsPackageOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<
+        PacketCoreControlPlanesCollectDiagnosticsPackageResponse
+      >,
+      PacketCoreControlPlanesCollectDiagnosticsPackageResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<PacketCoreControlPlanesCollectDiagnosticsPackageResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, packetCoreControlPlaneName, parameters, options },
+      collectDiagnosticsPackageOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Collect a diagnostics package for the specified packet core control plane. This action will upload
+   * the diagnostics to a storage account.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param packetCoreControlPlaneName The name of the packet core control plane.
+   * @param parameters Parameters supplied to the packet core control plane collect diagnostics package
+   *                   operation.
+   * @param options The options parameters.
+   */
+  async beginCollectDiagnosticsPackageAndWait(
+    resourceGroupName: string,
+    packetCoreControlPlaneName: string,
+    parameters: PacketCoreControlPlaneCollectDiagnosticsPackage,
+    options?: PacketCoreControlPlanesCollectDiagnosticsPackageOptionalParams
+  ): Promise<PacketCoreControlPlanesCollectDiagnosticsPackageResponse> {
+    const poller = await this.beginCollectDiagnosticsPackage(
+      resourceGroupName,
+      packetCoreControlPlaneName,
+      parameters,
+      options
+    );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -429,9 +748,9 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.packetCoreControlPlaneName,
-    Parameters.subscriptionId
+    Parameters.packetCoreControlPlaneName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -451,9 +770,9 @@ const getOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.packetCoreControlPlaneName,
-    Parameters.subscriptionId
+    Parameters.packetCoreControlPlaneName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -479,13 +798,13 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters6,
+  requestBody: Parameters.parameters4,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.packetCoreControlPlaneName,
-    Parameters.subscriptionId
+    Parameters.packetCoreControlPlaneName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -507,9 +826,9 @@ const updateTagsOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.packetCoreControlPlaneName,
-    Parameters.subscriptionId
+    Parameters.packetCoreControlPlaneName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -547,10 +866,105 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept],
+  serializer
+};
+const rollbackOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/{packetCoreControlPlaneName}/rollback",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AsyncOperationStatus
+    },
+    201: {
+      bodyMapper: Mappers.AsyncOperationStatus
+    },
+    202: {
+      bodyMapper: Mappers.AsyncOperationStatus
+    },
+    204: {
+      bodyMapper: Mappers.AsyncOperationStatus
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.packetCoreControlPlaneName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const reinstallOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/{packetCoreControlPlaneName}/reinstall",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AsyncOperationStatus
+    },
+    201: {
+      bodyMapper: Mappers.AsyncOperationStatus
+    },
+    202: {
+      bodyMapper: Mappers.AsyncOperationStatus
+    },
+    204: {
+      bodyMapper: Mappers.AsyncOperationStatus
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.packetCoreControlPlaneName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const collectDiagnosticsPackageOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MobileNetwork/packetCoreControlPlanes/{packetCoreControlPlaneName}/collectDiagnosticsPackage",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AsyncOperationStatus
+    },
+    201: {
+      bodyMapper: Mappers.AsyncOperationStatus
+    },
+    202: {
+      bodyMapper: Mappers.AsyncOperationStatus
+    },
+    204: {
+      bodyMapper: Mappers.AsyncOperationStatus
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.parameters5,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.packetCoreControlPlaneName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
@@ -564,7 +978,6 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -584,11 +997,10 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],

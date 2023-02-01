@@ -18,6 +18,8 @@ import {
   Patch as PatchMapper,
   PurchaseRequest as PurchaseRequestMapper,
   ChangeDirectoryRequest as ChangeDirectoryRequestMapper,
+  CalculateRefundRequest as CalculateRefundRequestMapper,
+  RefundRequest as RefundRequestMapper,
   CalculateExchangeRequest as CalculateExchangeRequestMapper,
   ExchangeRequest as ExchangeRequestMapper,
   CurrentQuotaLimitBase as CurrentQuotaLimitBaseMapper
@@ -89,7 +91,7 @@ export const reservationId: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-07-01",
+    defaultValue: "2022-03-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -226,6 +228,36 @@ export const location: OperationQueryParameter = {
   }
 };
 
+export const publisherId: OperationQueryParameter = {
+  parameterPath: ["options", "publisherId"],
+  mapper: {
+    serializedName: "publisherId",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const offerId: OperationQueryParameter = {
+  parameterPath: ["options", "offerId"],
+  mapper: {
+    serializedName: "offerId",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const planId: OperationQueryParameter = {
+  parameterPath: ["options", "planId"],
+  mapper: {
+    serializedName: "planId",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const body3: OperationParameter = {
   parameterPath: "body",
   mapper: PurchaseRequestMapper
@@ -248,10 +280,20 @@ export const body4: OperationParameter = {
 
 export const body5: OperationParameter = {
   parameterPath: "body",
-  mapper: CalculateExchangeRequestMapper
+  mapper: CalculateRefundRequestMapper
 };
 
 export const body6: OperationParameter = {
+  parameterPath: "body",
+  mapper: RefundRequestMapper
+};
+
+export const body7: OperationParameter = {
+  parameterPath: "body",
+  mapper: CalculateExchangeRequestMapper
+};
+
+export const body8: OperationParameter = {
   parameterPath: "body",
   mapper: ExchangeRequestMapper
 };

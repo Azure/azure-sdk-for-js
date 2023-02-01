@@ -24,28 +24,34 @@ describe("DigitalTwins EventRoutes - create, read, list and delete operations", 
   });
 
   it("create event route no endpoint", async function () {
-    const eventRouteId = recorder.getUniqueName("eventRoute", "create-event-route");
+    const eventRouteId = recorder.variable(
+      "eventRoute",
+      `eventRoute${Math.floor(Math.random() * 1000)}`
+    );
     const eventFilter =
       "$eventType = 'DigitalTwinTelemetryMessages' or $eventType = 'DigitalTwinLifecycleNotification'";
-    const endpointId = recorder.getUniqueName("endpoint", "list-event-routes-enpoint");
+    const endpointId = recorder.variable("endpoint", `endpoint${Math.floor(Math.random() * 1000)}`);
 
     let errorWasThrown = false;
     try {
       await client.upsertEventRoute(eventRouteId, endpointId, eventFilter);
-    } catch (error) {
+    } catch (error: any) {
       errorWasThrown = true;
       assert.include(error.message, `The endpoint provided does not exist or is not active`);
     }
     should.equal(errorWasThrown, true, "Error was not thrown");
   });
 
-  it("get event route not exisiting", async function () {
-    const eventRouteId = recorder.getUniqueName("eventRoute", "get-event-route-not-existing");
+  it("get event route not existing", async function () {
+    const eventRouteId = recorder.variable(
+      "eventRoute",
+      `eventRoute${Math.floor(Math.random() * 1000)}`
+    );
 
     let errorWasThrown = false;
     try {
       await client.getEventRoute(eventRouteId);
-    } catch (error) {
+    } catch (error: any) {
       errorWasThrown = true;
       assert.include(error.message, `There is no route available that matches the provided input`);
     }
@@ -59,13 +65,16 @@ describe("DigitalTwins EventRoutes - create, read, list and delete operations", 
     }
   });
 
-  it("delete event route not exisiting", async function () {
-    const eventRouteId = recorder.getUniqueName("eventRoute", "delete-event-routes-not-existing");
+  it("delete event route not existing", async function () {
+    const eventRouteId = recorder.variable(
+      "eventRoute",
+      `eventRoute${Math.floor(Math.random() * 1000)}`
+    );
 
     let errorWasThrown = false;
     try {
       await client.deleteEventRoute(eventRouteId);
-    } catch (error) {
+    } catch (error: any) {
       errorWasThrown = true;
       assert.include(error.message, `There is no route available that matches the provided input`);
     }

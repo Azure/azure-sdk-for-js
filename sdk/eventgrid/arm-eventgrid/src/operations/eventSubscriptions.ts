@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { EventSubscriptions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,24 +19,34 @@ import {
   EventSubscription,
   EventSubscriptionsListGlobalBySubscriptionNextOptionalParams,
   EventSubscriptionsListGlobalBySubscriptionOptionalParams,
+  EventSubscriptionsListGlobalBySubscriptionResponse,
   EventSubscriptionsListGlobalBySubscriptionForTopicTypeNextOptionalParams,
   EventSubscriptionsListGlobalBySubscriptionForTopicTypeOptionalParams,
+  EventSubscriptionsListGlobalBySubscriptionForTopicTypeResponse,
   EventSubscriptionsListGlobalByResourceGroupNextOptionalParams,
   EventSubscriptionsListGlobalByResourceGroupOptionalParams,
+  EventSubscriptionsListGlobalByResourceGroupResponse,
   EventSubscriptionsListGlobalByResourceGroupForTopicTypeNextOptionalParams,
   EventSubscriptionsListGlobalByResourceGroupForTopicTypeOptionalParams,
+  EventSubscriptionsListGlobalByResourceGroupForTopicTypeResponse,
   EventSubscriptionsListRegionalBySubscriptionNextOptionalParams,
   EventSubscriptionsListRegionalBySubscriptionOptionalParams,
+  EventSubscriptionsListRegionalBySubscriptionResponse,
   EventSubscriptionsListRegionalByResourceGroupNextOptionalParams,
   EventSubscriptionsListRegionalByResourceGroupOptionalParams,
+  EventSubscriptionsListRegionalByResourceGroupResponse,
   EventSubscriptionsListRegionalBySubscriptionForTopicTypeNextOptionalParams,
   EventSubscriptionsListRegionalBySubscriptionForTopicTypeOptionalParams,
+  EventSubscriptionsListRegionalBySubscriptionForTopicTypeResponse,
   EventSubscriptionsListRegionalByResourceGroupForTopicTypeNextOptionalParams,
   EventSubscriptionsListRegionalByResourceGroupForTopicTypeOptionalParams,
+  EventSubscriptionsListRegionalByResourceGroupForTopicTypeResponse,
   EventSubscriptionsListByResourceNextOptionalParams,
   EventSubscriptionsListByResourceOptionalParams,
+  EventSubscriptionsListByResourceResponse,
   EventSubscriptionsListByDomainTopicNextOptionalParams,
   EventSubscriptionsListByDomainTopicOptionalParams,
+  EventSubscriptionsListByDomainTopicResponse,
   EventSubscriptionsGetOptionalParams,
   EventSubscriptionsGetResponse,
   EventSubscriptionsCreateOrUpdateOptionalParams,
@@ -46,16 +57,6 @@ import {
   EventSubscriptionsUpdateResponse,
   EventSubscriptionsGetFullUrlOptionalParams,
   EventSubscriptionsGetFullUrlResponse,
-  EventSubscriptionsListGlobalBySubscriptionResponse,
-  EventSubscriptionsListGlobalBySubscriptionForTopicTypeResponse,
-  EventSubscriptionsListGlobalByResourceGroupResponse,
-  EventSubscriptionsListGlobalByResourceGroupForTopicTypeResponse,
-  EventSubscriptionsListRegionalBySubscriptionResponse,
-  EventSubscriptionsListRegionalByResourceGroupResponse,
-  EventSubscriptionsListRegionalBySubscriptionForTopicTypeResponse,
-  EventSubscriptionsListRegionalByResourceGroupForTopicTypeResponse,
-  EventSubscriptionsListByResourceResponse,
-  EventSubscriptionsListByDomainTopicResponse,
   EventSubscriptionsGetDeliveryAttributesOptionalParams,
   EventSubscriptionsGetDeliveryAttributesResponse,
   EventSubscriptionsListGlobalBySubscriptionNextResponse,
@@ -98,25 +99,37 @@ export class EventSubscriptionsImpl implements EventSubscriptions {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listGlobalBySubscriptionPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listGlobalBySubscriptionPagingPage(options, settings);
       }
     };
   }
 
   private async *listGlobalBySubscriptionPagingPage(
-    options?: EventSubscriptionsListGlobalBySubscriptionOptionalParams
+    options?: EventSubscriptionsListGlobalBySubscriptionOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<EventSubscription[]> {
-    let result = await this._listGlobalBySubscription(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: EventSubscriptionsListGlobalBySubscriptionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listGlobalBySubscription(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listGlobalBySubscriptionNext(
         continuationToken,
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -148,10 +161,14 @@ export class EventSubscriptionsImpl implements EventSubscriptions {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listGlobalBySubscriptionForTopicTypePagingPage(
           topicTypeName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -159,14 +176,21 @@ export class EventSubscriptionsImpl implements EventSubscriptions {
 
   private async *listGlobalBySubscriptionForTopicTypePagingPage(
     topicTypeName: string,
-    options?: EventSubscriptionsListGlobalBySubscriptionForTopicTypeOptionalParams
+    options?: EventSubscriptionsListGlobalBySubscriptionForTopicTypeOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<EventSubscription[]> {
-    let result = await this._listGlobalBySubscriptionForTopicType(
-      topicTypeName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: EventSubscriptionsListGlobalBySubscriptionForTopicTypeResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listGlobalBySubscriptionForTopicType(
+        topicTypeName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listGlobalBySubscriptionForTopicTypeNext(
         topicTypeName,
@@ -174,7 +198,9 @@ export class EventSubscriptionsImpl implements EventSubscriptions {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -210,10 +236,14 @@ export class EventSubscriptionsImpl implements EventSubscriptions {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listGlobalByResourceGroupPagingPage(
           resourceGroupName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -221,14 +251,21 @@ export class EventSubscriptionsImpl implements EventSubscriptions {
 
   private async *listGlobalByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: EventSubscriptionsListGlobalByResourceGroupOptionalParams
+    options?: EventSubscriptionsListGlobalByResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<EventSubscription[]> {
-    let result = await this._listGlobalByResourceGroup(
-      resourceGroupName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: EventSubscriptionsListGlobalByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listGlobalByResourceGroup(
+        resourceGroupName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listGlobalByResourceGroupNext(
         resourceGroupName,
@@ -236,7 +273,9 @@ export class EventSubscriptionsImpl implements EventSubscriptions {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -275,11 +314,15 @@ export class EventSubscriptionsImpl implements EventSubscriptions {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listGlobalByResourceGroupForTopicTypePagingPage(
           resourceGroupName,
           topicTypeName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -288,15 +331,22 @@ export class EventSubscriptionsImpl implements EventSubscriptions {
   private async *listGlobalByResourceGroupForTopicTypePagingPage(
     resourceGroupName: string,
     topicTypeName: string,
-    options?: EventSubscriptionsListGlobalByResourceGroupForTopicTypeOptionalParams
+    options?: EventSubscriptionsListGlobalByResourceGroupForTopicTypeOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<EventSubscription[]> {
-    let result = await this._listGlobalByResourceGroupForTopicType(
-      resourceGroupName,
-      topicTypeName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: EventSubscriptionsListGlobalByResourceGroupForTopicTypeResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listGlobalByResourceGroupForTopicType(
+        resourceGroupName,
+        topicTypeName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listGlobalByResourceGroupForTopicTypeNext(
         resourceGroupName,
@@ -305,7 +355,9 @@ export class EventSubscriptionsImpl implements EventSubscriptions {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -340,19 +392,33 @@ export class EventSubscriptionsImpl implements EventSubscriptions {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listRegionalBySubscriptionPagingPage(location, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listRegionalBySubscriptionPagingPage(
+          location,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listRegionalBySubscriptionPagingPage(
     location: string,
-    options?: EventSubscriptionsListRegionalBySubscriptionOptionalParams
+    options?: EventSubscriptionsListRegionalBySubscriptionOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<EventSubscription[]> {
-    let result = await this._listRegionalBySubscription(location, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: EventSubscriptionsListRegionalBySubscriptionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listRegionalBySubscription(location, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listRegionalBySubscriptionNext(
         location,
@@ -360,7 +426,9 @@ export class EventSubscriptionsImpl implements EventSubscriptions {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -400,11 +468,15 @@ export class EventSubscriptionsImpl implements EventSubscriptions {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listRegionalByResourceGroupPagingPage(
           resourceGroupName,
           location,
-          options
+          options,
+          settings
         );
       }
     };
@@ -413,15 +485,22 @@ export class EventSubscriptionsImpl implements EventSubscriptions {
   private async *listRegionalByResourceGroupPagingPage(
     resourceGroupName: string,
     location: string,
-    options?: EventSubscriptionsListRegionalByResourceGroupOptionalParams
+    options?: EventSubscriptionsListRegionalByResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<EventSubscription[]> {
-    let result = await this._listRegionalByResourceGroup(
-      resourceGroupName,
-      location,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: EventSubscriptionsListRegionalByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listRegionalByResourceGroup(
+        resourceGroupName,
+        location,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listRegionalByResourceGroupNext(
         resourceGroupName,
@@ -430,7 +509,9 @@ export class EventSubscriptionsImpl implements EventSubscriptions {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -472,11 +553,15 @@ export class EventSubscriptionsImpl implements EventSubscriptions {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listRegionalBySubscriptionForTopicTypePagingPage(
           location,
           topicTypeName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -485,15 +570,22 @@ export class EventSubscriptionsImpl implements EventSubscriptions {
   private async *listRegionalBySubscriptionForTopicTypePagingPage(
     location: string,
     topicTypeName: string,
-    options?: EventSubscriptionsListRegionalBySubscriptionForTopicTypeOptionalParams
+    options?: EventSubscriptionsListRegionalBySubscriptionForTopicTypeOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<EventSubscription[]> {
-    let result = await this._listRegionalBySubscriptionForTopicType(
-      location,
-      topicTypeName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: EventSubscriptionsListRegionalBySubscriptionForTopicTypeResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listRegionalBySubscriptionForTopicType(
+        location,
+        topicTypeName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listRegionalBySubscriptionForTopicTypeNext(
         location,
@@ -502,7 +594,9 @@ export class EventSubscriptionsImpl implements EventSubscriptions {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -547,12 +641,16 @@ export class EventSubscriptionsImpl implements EventSubscriptions {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listRegionalByResourceGroupForTopicTypePagingPage(
           resourceGroupName,
           location,
           topicTypeName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -562,16 +660,23 @@ export class EventSubscriptionsImpl implements EventSubscriptions {
     resourceGroupName: string,
     location: string,
     topicTypeName: string,
-    options?: EventSubscriptionsListRegionalByResourceGroupForTopicTypeOptionalParams
+    options?: EventSubscriptionsListRegionalByResourceGroupForTopicTypeOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<EventSubscription[]> {
-    let result = await this._listRegionalByResourceGroupForTopicType(
-      resourceGroupName,
-      location,
-      topicTypeName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: EventSubscriptionsListRegionalByResourceGroupForTopicTypeResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listRegionalByResourceGroupForTopicType(
+        resourceGroupName,
+        location,
+        topicTypeName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listRegionalByResourceGroupForTopicTypeNext(
         resourceGroupName,
@@ -581,7 +686,9 @@ export class EventSubscriptionsImpl implements EventSubscriptions {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -602,7 +709,7 @@ export class EventSubscriptionsImpl implements EventSubscriptions {
   }
 
   /**
-   * List all event subscriptions that have been created for a specific topic.
+   * List all event subscriptions that have been created for a specific resource.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param providerNamespace Namespace of the provider of the topic.
    * @param resourceTypeName Name of the resource type.
@@ -630,13 +737,17 @@ export class EventSubscriptionsImpl implements EventSubscriptions {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByResourcePagingPage(
           resourceGroupName,
           providerNamespace,
           resourceTypeName,
           resourceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -647,17 +758,24 @@ export class EventSubscriptionsImpl implements EventSubscriptions {
     providerNamespace: string,
     resourceTypeName: string,
     resourceName: string,
-    options?: EventSubscriptionsListByResourceOptionalParams
+    options?: EventSubscriptionsListByResourceOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<EventSubscription[]> {
-    let result = await this._listByResource(
-      resourceGroupName,
-      providerNamespace,
-      resourceTypeName,
-      resourceName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: EventSubscriptionsListByResourceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResource(
+        resourceGroupName,
+        providerNamespace,
+        resourceTypeName,
+        resourceName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceNext(
         resourceGroupName,
@@ -668,7 +786,9 @@ export class EventSubscriptionsImpl implements EventSubscriptions {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -716,12 +836,16 @@ export class EventSubscriptionsImpl implements EventSubscriptions {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByDomainTopicPagingPage(
           resourceGroupName,
           domainName,
           topicName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -731,16 +855,23 @@ export class EventSubscriptionsImpl implements EventSubscriptions {
     resourceGroupName: string,
     domainName: string,
     topicName: string,
-    options?: EventSubscriptionsListByDomainTopicOptionalParams
+    options?: EventSubscriptionsListByDomainTopicOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<EventSubscription[]> {
-    let result = await this._listByDomainTopic(
-      resourceGroupName,
-      domainName,
-      topicName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: EventSubscriptionsListByDomainTopicResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByDomainTopic(
+        resourceGroupName,
+        domainName,
+        topicName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByDomainTopicNext(
         resourceGroupName,
@@ -750,7 +881,9 @@ export class EventSubscriptionsImpl implements EventSubscriptions {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -867,10 +1000,12 @@ export class EventSubscriptionsImpl implements EventSubscriptions {
       { scope, eventSubscriptionName, eventSubscriptionInfo, options },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -968,10 +1103,12 @@ export class EventSubscriptionsImpl implements EventSubscriptions {
       { scope, eventSubscriptionName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1074,10 +1211,12 @@ export class EventSubscriptionsImpl implements EventSubscriptions {
       },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1267,7 +1406,7 @@ export class EventSubscriptionsImpl implements EventSubscriptions {
   }
 
   /**
-   * List all event subscriptions that have been created for a specific topic.
+   * List all event subscriptions that have been created for a specific resource.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param providerNamespace Namespace of the provider of the topic.
    * @param resourceTypeName Name of the resource type.
@@ -1563,8 +1702,8 @@ const getOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.scope,
-    Parameters.eventSubscriptionName
+    Parameters.eventSubscriptionName,
+    Parameters.scope
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -1592,8 +1731,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.scope,
-    Parameters.eventSubscriptionName
+    Parameters.eventSubscriptionName,
+    Parameters.scope
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -1607,8 +1746,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.scope,
-    Parameters.eventSubscriptionName
+    Parameters.eventSubscriptionName,
+    Parameters.scope
   ],
   serializer
 };
@@ -1635,8 +1774,8 @@ const updateOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.scope,
-    Parameters.eventSubscriptionName
+    Parameters.eventSubscriptionName,
+    Parameters.scope
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -1655,8 +1794,8 @@ const getFullUrlOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.scope,
-    Parameters.eventSubscriptionName
+    Parameters.eventSubscriptionName,
+    Parameters.scope
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -1870,8 +2009,8 @@ const getDeliveryAttributesOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.scope,
-    Parameters.eventSubscriptionName
+    Parameters.eventSubscriptionName,
+    Parameters.scope
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -1885,7 +2024,6 @@ const listGlobalBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1903,7 +2041,6 @@ const listGlobalBySubscriptionForTopicTypeNextOperationSpec: coreClient.Operatio
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1922,7 +2059,6 @@ const listGlobalByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1941,7 +2077,6 @@ const listGlobalByResourceGroupForTopicTypeNextOperationSpec: coreClient.Operati
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1961,7 +2096,6 @@ const listRegionalBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1980,7 +2114,6 @@ const listRegionalByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -2000,7 +2133,6 @@ const listRegionalBySubscriptionForTopicTypeNextOperationSpec: coreClient.Operat
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -2020,7 +2152,6 @@ const listRegionalByResourceGroupForTopicTypeNextOperationSpec: coreClient.Opera
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -2041,7 +2172,6 @@ const listByResourceNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -2063,13 +2193,12 @@ const listByDomainTopicNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.domainName,
     Parameters.nextLink,
+    Parameters.domainName,
     Parameters.topicName
   ],
   headerParameters: [Parameters.accept],

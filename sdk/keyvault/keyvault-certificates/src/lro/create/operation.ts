@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike, AbortSignal } from "@azure/abort-controller";
-import { OperationOptions } from "@azure/core-http";
+import { OperationOptions } from "@azure/core-client";
 import {
   KeyVaultCertificateWithPolicy,
   CreateCertificateOptions,
@@ -23,12 +23,7 @@ import {
   toCoreAttributes,
   toCorePolicy,
 } from "../../transformations";
-import { createTraceFunction } from "../../../../keyvault-common/src";
-
-/**
- * @internal
- */
-const withTrace = createTraceFunction("Azure.KeyVault.Certificates.CreateCertificatePoller");
+import { tracingClient } from "../../tracing";
 
 /**
  * The public representation of the CreateCertificatePoller operation state.
@@ -79,18 +74,22 @@ export class CreateCertificatePollOperation extends KeyVaultCertificatePollOpera
     certificatePolicy: CertificatePolicy,
     options: CreateCertificateOptions = {}
   ): Promise<KeyVaultCertificateWithPolicy> {
-    return withTrace("createCertificate", options, async (updatedOptions) => {
-      const id = options.id;
-      const certificateAttributes = toCoreAttributes(options);
-      const corePolicy = toCorePolicy(id, certificatePolicy, certificateAttributes);
-      const result = await this.client.createCertificate(this.vaultUrl, certificateName, {
-        ...updatedOptions,
-        certificatePolicy: corePolicy,
-        certificateAttributes,
-      });
+    return tracingClient.withSpan(
+      "CreateCertificatePoller.createCertificate",
+      options,
+      async (updatedOptions) => {
+        const id = options.id;
+        const certificateAttributes = toCoreAttributes(options);
+        const corePolicy = toCorePolicy(id, certificatePolicy, certificateAttributes);
+        const result = await this.client.createCertificate(this.vaultUrl, certificateName, {
+          ...updatedOptions,
+          certificatePolicy: corePolicy,
+          certificateAttributes,
+        });
 
-      return getCertificateWithPolicyFromCertificateBundle(result);
-    });
+        return getCertificateWithPolicyFromCertificateBundle(result);
+      }
+    );
   }
 
   /**
@@ -100,16 +99,20 @@ export class CreateCertificatePollOperation extends KeyVaultCertificatePollOpera
     certificateName: string,
     options: GetCertificateOptions = {}
   ): Promise<KeyVaultCertificateWithPolicy> {
-    return withTrace("getCertificate", options, async (updatedOptions) => {
-      const result = await this.client.getCertificate(
-        this.vaultUrl,
-        certificateName,
-        "",
-        updatedOptions
-      );
+    return tracingClient.withSpan(
+      "CreateCertificatePoller.getCertificate",
+      options,
+      async (updatedOptions) => {
+        const result = await this.client.getCertificate(
+          this.vaultUrl,
+          certificateName,
+          "",
+          updatedOptions
+        );
 
-      return getCertificateWithPolicyFromCertificateBundle(result);
-    });
+        return getCertificateWithPolicyFromCertificateBundle(result);
+      }
+    );
   }
 
   /**
@@ -119,18 +122,20 @@ export class CreateCertificatePollOperation extends KeyVaultCertificatePollOpera
     certificateName: string,
     options: GetPlainCertificateOperationOptions = {}
   ): Promise<CertificateOperation> {
-    return withTrace("getPlainCertificateOperation", options, async (updatedOptions) => {
-      const result = await this.client.getCertificateOperation(
-        this.vaultUrl,
-        certificateName,
-        updatedOptions
-      );
-      return getCertificateOperationFromCoreOperation(
-        certificateName,
-        this.vaultUrl,
-        result._response.parsedBody
-      );
-    });
+    return tracingClient.withSpan(
+      "CreateCertificatePoller.getPlainCertificateOperation",
+      options,
+      async (updatedOptions) => {
+        let parsedBody: any;
+        await this.client.getCertificateOperation(this.vaultUrl, certificateName, {
+          ...updatedOptions,
+          onResponse: (response) => {
+            parsedBody = response.parsedBody;
+          },
+        });
+        return getCertificateOperationFromCoreOperation(certificateName, this.vaultUrl, parsedBody);
+      }
+    );
   }
 
   /**
@@ -140,19 +145,20 @@ export class CreateCertificatePollOperation extends KeyVaultCertificatePollOpera
     certificateName: string,
     options: CancelCertificateOperationOptions = {}
   ): Promise<CertificateOperation> {
-    return withTrace("cancelCertificateOperation", options, async (updatedOptions) => {
-      const result = await this.client.updateCertificateOperation(
-        this.vaultUrl,
-        certificateName,
-        true,
-        updatedOptions
-      );
-      return getCertificateOperationFromCoreOperation(
-        certificateName,
-        this.vaultUrl,
-        result._response.parsedBody
-      );
-    });
+    return tracingClient.withSpan(
+      "CreateCertificatePoller.cancelCertificateOperation",
+      options,
+      async (updatedOptions) => {
+        let parsedBody: any;
+        await this.client.updateCertificateOperation(this.vaultUrl, certificateName, true, {
+          ...updatedOptions,
+          onResponse: (response) => {
+            parsedBody = response.parsedBody;
+          },
+        });
+        return getCertificateOperationFromCoreOperation(certificateName, this.vaultUrl, parsedBody);
+      }
+    );
   }
 
   /**

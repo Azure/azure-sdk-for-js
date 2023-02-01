@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { JobExecutions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,13 +19,13 @@ import {
   JobExecution,
   JobExecutionsListByAgentNextOptionalParams,
   JobExecutionsListByAgentOptionalParams,
+  JobExecutionsListByAgentResponse,
   JobExecutionsListByJobNextOptionalParams,
   JobExecutionsListByJobOptionalParams,
-  JobExecutionsListByAgentResponse,
+  JobExecutionsListByJobResponse,
   JobExecutionsCancelOptionalParams,
   JobExecutionsCreateOptionalParams,
   JobExecutionsCreateResponse,
-  JobExecutionsListByJobResponse,
   JobExecutionsGetOptionalParams,
   JobExecutionsGetResponse,
   JobExecutionsCreateOrUpdateOptionalParams,
@@ -73,12 +74,16 @@ export class JobExecutionsImpl implements JobExecutions {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByAgentPagingPage(
           resourceGroupName,
           serverName,
           jobAgentName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -88,16 +93,23 @@ export class JobExecutionsImpl implements JobExecutions {
     resourceGroupName: string,
     serverName: string,
     jobAgentName: string,
-    options?: JobExecutionsListByAgentOptionalParams
+    options?: JobExecutionsListByAgentOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<JobExecution[]> {
-    let result = await this._listByAgent(
-      resourceGroupName,
-      serverName,
-      jobAgentName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: JobExecutionsListByAgentResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByAgent(
+        resourceGroupName,
+        serverName,
+        jobAgentName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByAgentNext(
         resourceGroupName,
@@ -107,7 +119,9 @@ export class JobExecutionsImpl implements JobExecutions {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -157,13 +171,17 @@ export class JobExecutionsImpl implements JobExecutions {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByJobPagingPage(
           resourceGroupName,
           serverName,
           jobAgentName,
           jobName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -174,17 +192,24 @@ export class JobExecutionsImpl implements JobExecutions {
     serverName: string,
     jobAgentName: string,
     jobName: string,
-    options?: JobExecutionsListByJobOptionalParams
+    options?: JobExecutionsListByJobOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<JobExecution[]> {
-    let result = await this._listByJob(
-      resourceGroupName,
-      serverName,
-      jobAgentName,
-      jobName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: JobExecutionsListByJobResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByJob(
+        resourceGroupName,
+        serverName,
+        jobAgentName,
+        jobName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByJobNext(
         resourceGroupName,
@@ -195,7 +220,9 @@ export class JobExecutionsImpl implements JobExecutions {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -333,10 +360,12 @@ export class JobExecutionsImpl implements JobExecutions {
       { resourceGroupName, serverName, jobAgentName, jobName, options },
       createOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -492,10 +521,12 @@ export class JobExecutionsImpl implements JobExecutions {
       },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -756,16 +787,6 @@ const listByAgentNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [
-    Parameters.skip,
-    Parameters.apiVersion2,
-    Parameters.createTimeMin,
-    Parameters.createTimeMax,
-    Parameters.endTimeMin,
-    Parameters.endTimeMax,
-    Parameters.isActive,
-    Parameters.top
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -786,16 +807,6 @@ const listByJobNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [
-    Parameters.skip,
-    Parameters.apiVersion2,
-    Parameters.createTimeMin,
-    Parameters.createTimeMax,
-    Parameters.endTimeMin,
-    Parameters.endTimeMax,
-    Parameters.isActive,
-    Parameters.top
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

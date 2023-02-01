@@ -7,9 +7,13 @@
 /// <reference lib="dom" />
 /// <reference lib="esnext.asynciterable" />
 
+import { AbortError } from '@azure/abort-controller';
 import { AbortSignal as AbortSignal_2 } from 'node-abort-controller';
 import { Pipeline } from '@azure/core-rest-pipeline';
+import { RestError } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
+
+export { AbortError }
 
 // @public (undocumented)
 export interface Agent {
@@ -395,6 +399,7 @@ export const Constants: {
         IsBatchRequest: string;
         IsBatchAtomic: string;
         BatchContinueOnError: string;
+        DedicatedGatewayPerRequestCacheStaleness: string;
         ForceRefresh: string;
     };
     WritableLocations: string;
@@ -404,6 +409,8 @@ export const Constants: {
     ThrottleRetryCount: string;
     ThrottleRetryWaitTimeInMs: string;
     CurrentVersion: string;
+    AzureNamespace: string;
+    AzurePackageName: string;
     SDKName: string;
     SDKVersion: string;
     Quota: {
@@ -540,7 +547,7 @@ export interface CosmosClientOptions {
     agent?: Agent;
     connectionPolicy?: ConnectionPolicy;
     consistencyLevel?: keyof typeof ConsistencyLevel;
-    // Warning: (ae-forgotten-export) The symbol "CosmosHeaders" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "CosmosHeaders_2" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
     defaultHeaders?: CosmosHeaders_2;
@@ -701,7 +708,7 @@ export interface ErrorBody {
 }
 
 // @public (undocumented)
-export interface ErrorResponse extends Error {
+export class ErrorResponse extends Error {
     // (undocumented)
     [key: string]: any;
     // (undocumented)
@@ -893,7 +900,7 @@ export class ItemResponse<T extends ItemDefinition> extends ResourceResponse<T &
 // @public
 export class Items {
     constructor(container: Container, clientContext: ClientContext);
-    batch(operations: OperationInput[], partitionKey?: string, options?: RequestOptions): Promise<Response_2<any>>;
+    batch(operations: OperationInput[], partitionKey?: string, options?: RequestOptions): Promise<Response_2<OperationResponse[]>>;
     bulk(operations: OperationInput[], bulkOptions?: BulkOptions, options?: RequestOptions): Promise<OperationResponse[]>;
     changeFeed(partitionKey: string | number | boolean, changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
     changeFeed(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
@@ -1549,6 +1556,8 @@ interface Response_2<T> {
 }
 export { Response_2 as Response }
 
+export { RestError }
+
 // @public
 export interface RetryOptions {
     fixedRetryIntervalInMilliseconds: number;
@@ -1717,6 +1726,7 @@ export function setAuthorizationTokenHeaderUsingMasterKey(verb: HTTPMethod, reso
 export interface SharedOptions {
     abortSignal?: AbortSignal_2;
     initialHeaders?: CosmosHeaders;
+    maxIntegratedCacheStalenessInMs?: number;
     sessionToken?: string;
 }
 
@@ -1853,6 +1863,13 @@ export class StoredProcedures {
 
 // @public (undocumented)
 export type SubStatusCode = number;
+
+// @public (undocumented)
+export class TimeoutError extends Error {
+    constructor(message?: string);
+    // (undocumented)
+    readonly code: string;
+}
 
 // @public
 export class TimeSpan {

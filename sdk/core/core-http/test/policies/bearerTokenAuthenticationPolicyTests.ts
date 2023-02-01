@@ -11,7 +11,7 @@ import { HttpOperationResponse } from "../../src/httpOperationResponse";
 import { OperationSpec } from "../../src/operationSpec";
 import { WebResource } from "../../src/webResource";
 import { assert } from "chai";
-import { bearerTokenAuthenticationPolicy } from "../../src/coreHttp";
+import { bearerTokenAuthenticationPolicy } from "../../src";
 
 const { refreshWindowInMs: defaultRefreshWindow } = DEFAULT_CYCLER_OPTIONS;
 
@@ -138,7 +138,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
     let error: Error | undefined;
     try {
       await policy.sendRequest(request);
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
     assert.equal(error?.message, "Failed to retrieve the token");
@@ -192,7 +192,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
     let error: Error | undefined;
     try {
       await policy.sendRequest(request);
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
 

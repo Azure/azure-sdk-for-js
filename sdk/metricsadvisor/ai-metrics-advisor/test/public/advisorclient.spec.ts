@@ -13,7 +13,7 @@ import {
 } from "../../src";
 import { createRecordedAdvisorClient, makeCredential, testEnv } from "./util/recordedClients";
 import { Recorder } from "@azure-tools/test-recorder";
-import { matrix, getYieldedValue } from "@azure/test-utils";
+import { getYieldedValue, matrix } from "@azure/test-utils";
 
 matrix([[true, false]] as const, async (useAad) => {
   describe(`[${useAad ? "AAD" : "API Key"}]`, () => {
@@ -78,7 +78,7 @@ matrix([[true, false]] as const, async (useAad) => {
           );
           await iterator.next();
           assert.fail("Error should have been thrown for invalid date strings");
-        } catch (err) {
+        } catch (err: any) {
           assert.equal(
             err.message,
             'Error "Invalid time value" occurred in serializing the payload - undefined.'
@@ -133,7 +133,7 @@ matrix([[true, false]] as const, async (useAad) => {
           );
           await iterator.next();
           assert.fail("Error should have been thrown for invalid date strings");
-        } catch (err) {
+        } catch (err: any) {
           assert.ok(err.message, "Invalid time value");
         }
       });

@@ -4,6 +4,7 @@
 /*
  * NOTE: When moving this file, please update "react-native" section in package.json.
  */
+const { Platform } = require("react-native"); // eslint-disable-line import/no-extraneous-dependencies, @typescript-eslint/no-require-imports
 
 /**
  * @internal
@@ -16,8 +17,7 @@ export function getHeaderName(): string {
  * @internal
  */
 export function setPlatformSpecificData(map: Map<string, string>): void {
-  // TODO: Investigate using `import { Platform } from "react-native"` to get "OS" and "Version".
-  // This may bring in a lot of overhead if we have to use this package directly, perhaps we can shim
-  // types.
-  map.set("OS", `react-native`);
+  const { major, minor, patch } = Platform.constants.reactNativeVersion;
+  map.set("react-native", `${major}.${minor}.${patch}`);
+  map.set("OS", `${Platform.OS}-${Platform.Version}`);
 }

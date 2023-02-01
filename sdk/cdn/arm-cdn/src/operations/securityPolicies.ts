@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { SecurityPolicies } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -23,7 +24,7 @@ import {
   SecurityPoliciesGetResponse,
   SecurityPoliciesCreateOptionalParams,
   SecurityPoliciesCreateResponse,
-  SecurityPolicyProperties,
+  SecurityPolicyUpdateParameters,
   SecurityPoliciesPatchOptionalParams,
   SecurityPoliciesPatchResponse,
   SecurityPoliciesDeleteOptionalParams,
@@ -46,7 +47,8 @@ export class SecurityPoliciesImpl implements SecurityPolicies {
   /**
    * Lists security policies associated with the profile
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param options The options parameters.
    */
   public listByProfile(
@@ -66,11 +68,15 @@ export class SecurityPoliciesImpl implements SecurityPolicies {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByProfilePagingPage(
           resourceGroupName,
           profileName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -79,15 +85,22 @@ export class SecurityPoliciesImpl implements SecurityPolicies {
   private async *listByProfilePagingPage(
     resourceGroupName: string,
     profileName: string,
-    options?: SecurityPoliciesListByProfileOptionalParams
+    options?: SecurityPoliciesListByProfileOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<SecurityPolicy[]> {
-    let result = await this._listByProfile(
-      resourceGroupName,
-      profileName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: SecurityPoliciesListByProfileResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByProfile(
+        resourceGroupName,
+        profileName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByProfileNext(
         resourceGroupName,
@@ -96,7 +109,9 @@ export class SecurityPoliciesImpl implements SecurityPolicies {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -117,7 +132,8 @@ export class SecurityPoliciesImpl implements SecurityPolicies {
   /**
    * Lists security policies associated with the profile
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param options The options parameters.
    */
   private _listByProfile(
@@ -134,7 +150,8 @@ export class SecurityPoliciesImpl implements SecurityPolicies {
   /**
    * Gets an existing security policy within a profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param securityPolicyName Name of the security policy under the profile.
    * @param options The options parameters.
    */
@@ -153,7 +170,8 @@ export class SecurityPoliciesImpl implements SecurityPolicies {
   /**
    * Creates a new security policy within the specified profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param securityPolicyName Name of the security policy under the profile.
    * @param securityPolicy The security policy properties.
    * @param options The options parameters.
@@ -220,17 +238,20 @@ export class SecurityPoliciesImpl implements SecurityPolicies {
       },
       createOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
    * Creates a new security policy within the specified profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param securityPolicyName Name of the security policy under the profile.
    * @param securityPolicy The security policy properties.
    * @param options The options parameters.
@@ -253,18 +274,19 @@ export class SecurityPoliciesImpl implements SecurityPolicies {
   }
 
   /**
-   * Updates an existing Secret within a profile.
+   * Updates an existing security policy within a profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param securityPolicyName Name of the security policy under the profile.
-   * @param securityPolicyProperties Security policy update properties
+   * @param securityPolicyUpdateProperties Security policy update properties
    * @param options The options parameters.
    */
   async beginPatch(
     resourceGroupName: string,
     profileName: string,
     securityPolicyName: string,
-    securityPolicyProperties: SecurityPolicyProperties,
+    securityPolicyUpdateProperties: SecurityPolicyUpdateParameters,
     options?: SecurityPoliciesPatchOptionalParams
   ): Promise<
     PollerLike<
@@ -317,38 +339,41 @@ export class SecurityPoliciesImpl implements SecurityPolicies {
         resourceGroupName,
         profileName,
         securityPolicyName,
-        securityPolicyProperties,
+        securityPolicyUpdateProperties,
         options
       },
       patchOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
-   * Updates an existing Secret within a profile.
+   * Updates an existing security policy within a profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param securityPolicyName Name of the security policy under the profile.
-   * @param securityPolicyProperties Security policy update properties
+   * @param securityPolicyUpdateProperties Security policy update properties
    * @param options The options parameters.
    */
   async beginPatchAndWait(
     resourceGroupName: string,
     profileName: string,
     securityPolicyName: string,
-    securityPolicyProperties: SecurityPolicyProperties,
+    securityPolicyUpdateProperties: SecurityPolicyUpdateParameters,
     options?: SecurityPoliciesPatchOptionalParams
   ): Promise<SecurityPoliciesPatchResponse> {
     const poller = await this.beginPatch(
       resourceGroupName,
       profileName,
       securityPolicyName,
-      securityPolicyProperties,
+      securityPolicyUpdateProperties,
       options
     );
     return poller.pollUntilDone();
@@ -357,8 +382,9 @@ export class SecurityPoliciesImpl implements SecurityPolicies {
   /**
    * Deletes an existing security policy within profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
-   * @param securityPolicyName Name of the Secret under the profile.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
+   * @param securityPolicyName Name of the security policy under the profile.
    * @param options The options parameters.
    */
   async beginDelete(
@@ -411,18 +437,21 @@ export class SecurityPoliciesImpl implements SecurityPolicies {
       { resourceGroupName, profileName, securityPolicyName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
    * Deletes an existing security policy within profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
-   * @param securityPolicyName Name of the Secret under the profile.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
+   * @param securityPolicyName Name of the security policy under the profile.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
@@ -443,7 +472,8 @@ export class SecurityPoliciesImpl implements SecurityPolicies {
   /**
    * ListByProfileNext
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param nextLink The nextLink from the previous successful call to the ListByProfile method.
    * @param options The options parameters.
    */
@@ -537,7 +567,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.profileName,
     Parameters.securityPolicyName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -562,7 +592,7 @@ const patchOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AfdErrorResponse
     }
   },
-  requestBody: Parameters.securityPolicyProperties,
+  requestBody: Parameters.securityPolicyUpdateProperties,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -571,7 +601,7 @@ const patchOperationSpec: coreClient.OperationSpec = {
     Parameters.profileName,
     Parameters.securityPolicyName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };

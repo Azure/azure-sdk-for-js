@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredentialOptions } from "../tokenCredentialOptions";
 import { CredentialPersistenceOptions } from "./credentialPersistenceOptions";
+import { MultiTenantTokenCredentialOptions } from "./multiTenantTokenCredentialOptions";
 
 /**
  * Defines the parameters to authenticate the {@link OnBehalfOfCredential} with a secret.
@@ -24,14 +24,6 @@ export interface OnBehalfOfCredentialSecretOptions {
    * The user assertion for the On-Behalf-Of flow.
    */
   userAssertionToken: string;
-  /**
-   * The path to a PEM-encoded certificate should not be provided when the secret options are provided.
-   */
-  certificatePath?: never;
-  /**
-   * Option to include x5c header should not be provided when the secret options are provided.
-   */
-  sendCertificateChain?: never;
 }
 
 /**
@@ -51,18 +43,14 @@ export interface OnBehalfOfCredentialCertificateOptions {
    */
   certificatePath: string;
   /**
-   * Option to include x5c header for SubjectName and Issuer name authorization.
-   * Set this option to send base64 encoded public certificate in the client assertion header as an x5c claim
-   */
-  sendCertificateChain?: boolean;
-  /**
    * The user assertion for the On-Behalf-Of flow.
    */
   userAssertionToken: string;
   /**
-   * Client secret should not be provided when certificate options are provided.
+   * Option to include x5c header for SubjectName and Issuer name authorization.
+   * Set this option to send base64 encoded public certificate in the client assertion header as an x5c claim
    */
-  clientSecret?: never;
+  sendCertificateChain?: boolean;
 }
 
 /**
@@ -72,5 +60,5 @@ export type OnBehalfOfCredentialOptions = (
   | OnBehalfOfCredentialSecretOptions
   | OnBehalfOfCredentialCertificateOptions
 ) &
-  TokenCredentialOptions &
+  MultiTenantTokenCredentialOptions &
   CredentialPersistenceOptions;

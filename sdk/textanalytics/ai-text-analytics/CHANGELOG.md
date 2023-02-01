@@ -1,6 +1,6 @@
 # Release History
 
-## 5.2.0-beta.3 (Unreleased)
+## 5.1.1 (Unreleased)
 
 ### Features Added
 
@@ -10,31 +10,8 @@
 
 ### Other Changes
 
-## 5.2.0-beta.2 (2021-11-02)
-
-### Features Added
-
-- We are now targeting the service's v3.2-preview.2 API as the default instead of v3.2-preview.1.
-- Adding support for a three new actions in `beginAnalyzeActions`: `recognizeCustomEntities`, `singleCategoryClassify`, and `multiCategoryClassify`. The new actions allow you to use custom models to perform entity recognition and classification actions.
-
-### Other Changes
-
-- `beginAnalyzeActions` supports actions to be named and the name is now accessible in each action result.
-- `beginAnalyzeActions` supports multiple actions of the same type so you can pass a list of any particular action type, e.g.
-
-    ```typescript
-    await client.beginAnalyzeActions(docs, { recognizePiiEntitiesActions: [
-      { modelVersion: "latest", actionName: "action1" },
-      { modelVersion: "2021-01-15", actionName: "action2" }] 
-    });
-    ```
-
-## 5.2.0-beta.1 (2021-08-09)
-
-### Features Added
-
-- We are now targeting the service's v3.2-preview.1 API as the default instead of v3.1.
-- `beginAnalyzeActions` now supports extract summary actions.
+- Depends on the latest stable version of the @azure/core-tracing library.
+- Duplicate action are no longer eagerly checked by the client before sending a batch request.
 
 ## 5.1.0 (2021-07-07)
 
@@ -43,8 +20,6 @@
 - We are now targeting the service's v3.1 API as the default instead of v3.1-preview.5.
 - `beginAnalyzeHealthcareEntities` now works with Azure Active Directory credentials.
 - `categoriesFilter` support was added to `RecognizePiiEntitiesAction`.
-- Updated our internal core package dependencies to their latest versions in order to add support for Opentelemetry 1.0.0 which is compatible with the latest versions of our other client libraries.
-- Changed TS compilation target to ES2017 in order to produce smaller bundles and use more native platform features
 
 ### Breaking Changes
 

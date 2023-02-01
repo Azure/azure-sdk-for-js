@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Alerts } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,15 +19,15 @@ import {
   Alert,
   AlertsListNextOptionalParams,
   AlertsListOptionalParams,
+  AlertsListResponse,
   AlertsListByResourceGroupNextOptionalParams,
   AlertsListByResourceGroupOptionalParams,
+  AlertsListByResourceGroupResponse,
   AlertsListSubscriptionLevelByRegionNextOptionalParams,
   AlertsListSubscriptionLevelByRegionOptionalParams,
+  AlertsListSubscriptionLevelByRegionResponse,
   AlertsListResourceGroupLevelByRegionNextOptionalParams,
   AlertsListResourceGroupLevelByRegionOptionalParams,
-  AlertsListResponse,
-  AlertsListByResourceGroupResponse,
-  AlertsListSubscriptionLevelByRegionResponse,
   AlertsListResourceGroupLevelByRegionResponse,
   AlertsGetSubscriptionLevelOptionalParams,
   AlertsGetSubscriptionLevelResponse,
@@ -35,9 +36,11 @@ import {
   AlertsUpdateSubscriptionLevelStateToDismissOptionalParams,
   AlertsUpdateSubscriptionLevelStateToResolveOptionalParams,
   AlertsUpdateSubscriptionLevelStateToActivateOptionalParams,
+  AlertsUpdateSubscriptionLevelStateToInProgressOptionalParams,
   AlertsUpdateResourceGroupLevelStateToResolveOptionalParams,
   AlertsUpdateResourceGroupLevelStateToDismissOptionalParams,
   AlertsUpdateResourceGroupLevelStateToActivateOptionalParams,
+  AlertsUpdateResourceGroupLevelStateToInProgressOptionalParams,
   AlertSimulatorRequestBody,
   AlertsSimulateOptionalParams,
   AlertsListNextResponse,
@@ -74,22 +77,34 @@ export class AlertsImpl implements Alerts {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: AlertsListOptionalParams
+    options?: AlertsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Alert[]> {
-    let result = await this._list(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AlertsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -119,19 +134,33 @@ export class AlertsImpl implements Alerts {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: AlertsListByResourceGroupOptionalParams
+    options?: AlertsListByResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Alert[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AlertsListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -139,7 +168,9 @@ export class AlertsImpl implements Alerts {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -157,12 +188,18 @@ export class AlertsImpl implements Alerts {
 
   /**
    * List all the alerts that are associated with the subscription that are stored in a specific location
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param options The options parameters.
    */
   public listSubscriptionLevelByRegion(
+    ascLocation: string,
     options?: AlertsListSubscriptionLevelByRegionOptionalParams
   ): PagedAsyncIterableIterator<Alert> {
-    const iter = this.listSubscriptionLevelByRegionPagingAll(options);
+    const iter = this.listSubscriptionLevelByRegionPagingAll(
+      ascLocation,
+      options
+    );
     return {
       next() {
         return iter.next();
@@ -170,32 +207,52 @@ export class AlertsImpl implements Alerts {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listSubscriptionLevelByRegionPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listSubscriptionLevelByRegionPagingPage(
+          ascLocation,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listSubscriptionLevelByRegionPagingPage(
-    options?: AlertsListSubscriptionLevelByRegionOptionalParams
+    ascLocation: string,
+    options?: AlertsListSubscriptionLevelByRegionOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Alert[]> {
-    let result = await this._listSubscriptionLevelByRegion(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AlertsListSubscriptionLevelByRegionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listSubscriptionLevelByRegion(ascLocation, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listSubscriptionLevelByRegionNext(
+        ascLocation,
         continuationToken,
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
   private async *listSubscriptionLevelByRegionPagingAll(
+    ascLocation: string,
     options?: AlertsListSubscriptionLevelByRegionOptionalParams
   ): AsyncIterableIterator<Alert> {
     for await (const page of this.listSubscriptionLevelByRegionPagingPage(
+      ascLocation,
       options
     )) {
       yield* page;
@@ -205,15 +262,19 @@ export class AlertsImpl implements Alerts {
   /**
    * List all the alerts that are associated with the resource group that are stored in a specific
    * location
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
    * @param options The options parameters.
    */
   public listResourceGroupLevelByRegion(
+    ascLocation: string,
     resourceGroupName: string,
     options?: AlertsListResourceGroupLevelByRegionOptionalParams
   ): PagedAsyncIterableIterator<Alert> {
     const iter = this.listResourceGroupLevelByRegionPagingAll(
+      ascLocation,
       resourceGroupName,
       options
     );
@@ -224,41 +285,60 @@ export class AlertsImpl implements Alerts {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listResourceGroupLevelByRegionPagingPage(
+          ascLocation,
           resourceGroupName,
-          options
+          options,
+          settings
         );
       }
     };
   }
 
   private async *listResourceGroupLevelByRegionPagingPage(
+    ascLocation: string,
     resourceGroupName: string,
-    options?: AlertsListResourceGroupLevelByRegionOptionalParams
+    options?: AlertsListResourceGroupLevelByRegionOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Alert[]> {
-    let result = await this._listResourceGroupLevelByRegion(
-      resourceGroupName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AlertsListResourceGroupLevelByRegionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listResourceGroupLevelByRegion(
+        ascLocation,
+        resourceGroupName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listResourceGroupLevelByRegionNext(
+        ascLocation,
         resourceGroupName,
         continuationToken,
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
   private async *listResourceGroupLevelByRegionPagingAll(
+    ascLocation: string,
     resourceGroupName: string,
     options?: AlertsListResourceGroupLevelByRegionOptionalParams
   ): AsyncIterableIterator<Alert> {
     for await (const page of this.listResourceGroupLevelByRegionPagingPage(
+      ascLocation,
       resourceGroupName,
       options
     )) {
@@ -294,13 +374,16 @@ export class AlertsImpl implements Alerts {
 
   /**
    * List all the alerts that are associated with the subscription that are stored in a specific location
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param options The options parameters.
    */
   private _listSubscriptionLevelByRegion(
+    ascLocation: string,
     options?: AlertsListSubscriptionLevelByRegionOptionalParams
   ): Promise<AlertsListSubscriptionLevelByRegionResponse> {
     return this.client.sendOperationRequest(
-      { options },
+      { ascLocation, options },
       listSubscriptionLevelByRegionOperationSpec
     );
   }
@@ -308,158 +391,227 @@ export class AlertsImpl implements Alerts {
   /**
    * List all the alerts that are associated with the resource group that are stored in a specific
    * location
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
    * @param options The options parameters.
    */
   private _listResourceGroupLevelByRegion(
+    ascLocation: string,
     resourceGroupName: string,
     options?: AlertsListResourceGroupLevelByRegionOptionalParams
   ): Promise<AlertsListResourceGroupLevelByRegionResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, options },
+      { ascLocation, resourceGroupName, options },
       listResourceGroupLevelByRegionOperationSpec
     );
   }
 
   /**
    * Get an alert that is associated with a subscription
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param alertName Name of the alert object
    * @param options The options parameters.
    */
   getSubscriptionLevel(
+    ascLocation: string,
     alertName: string,
     options?: AlertsGetSubscriptionLevelOptionalParams
   ): Promise<AlertsGetSubscriptionLevelResponse> {
     return this.client.sendOperationRequest(
-      { alertName, options },
+      { ascLocation, alertName, options },
       getSubscriptionLevelOperationSpec
     );
   }
 
   /**
    * Get an alert that is associated a resource group or a resource in a resource group
-   * @param alertName Name of the alert object
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
+   * @param alertName Name of the alert object
    * @param options The options parameters.
    */
   getResourceGroupLevel(
-    alertName: string,
     resourceGroupName: string,
+    ascLocation: string,
+    alertName: string,
     options?: AlertsGetResourceGroupLevelOptionalParams
   ): Promise<AlertsGetResourceGroupLevelResponse> {
     return this.client.sendOperationRequest(
-      { alertName, resourceGroupName, options },
+      { resourceGroupName, ascLocation, alertName, options },
       getResourceGroupLevelOperationSpec
     );
   }
 
   /**
    * Update the alert's state
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param alertName Name of the alert object
    * @param options The options parameters.
    */
   updateSubscriptionLevelStateToDismiss(
+    ascLocation: string,
     alertName: string,
     options?: AlertsUpdateSubscriptionLevelStateToDismissOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { alertName, options },
+      { ascLocation, alertName, options },
       updateSubscriptionLevelStateToDismissOperationSpec
     );
   }
 
   /**
    * Update the alert's state
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param alertName Name of the alert object
    * @param options The options parameters.
    */
   updateSubscriptionLevelStateToResolve(
+    ascLocation: string,
     alertName: string,
     options?: AlertsUpdateSubscriptionLevelStateToResolveOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { alertName, options },
+      { ascLocation, alertName, options },
       updateSubscriptionLevelStateToResolveOperationSpec
     );
   }
 
   /**
    * Update the alert's state
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param alertName Name of the alert object
    * @param options The options parameters.
    */
   updateSubscriptionLevelStateToActivate(
+    ascLocation: string,
     alertName: string,
     options?: AlertsUpdateSubscriptionLevelStateToActivateOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { alertName, options },
+      { ascLocation, alertName, options },
       updateSubscriptionLevelStateToActivateOperationSpec
     );
   }
 
   /**
    * Update the alert's state
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param alertName Name of the alert object
+   * @param options The options parameters.
+   */
+  updateSubscriptionLevelStateToInProgress(
+    ascLocation: string,
+    alertName: string,
+    options?: AlertsUpdateSubscriptionLevelStateToInProgressOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { ascLocation, alertName, options },
+      updateSubscriptionLevelStateToInProgressOperationSpec
+    );
+  }
+
+  /**
+   * Update the alert's state
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
+   * @param alertName Name of the alert object
    * @param options The options parameters.
    */
   updateResourceGroupLevelStateToResolve(
-    alertName: string,
     resourceGroupName: string,
+    ascLocation: string,
+    alertName: string,
     options?: AlertsUpdateResourceGroupLevelStateToResolveOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { alertName, resourceGroupName, options },
+      { resourceGroupName, ascLocation, alertName, options },
       updateResourceGroupLevelStateToResolveOperationSpec
     );
   }
 
   /**
    * Update the alert's state
-   * @param alertName Name of the alert object
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
+   * @param alertName Name of the alert object
    * @param options The options parameters.
    */
   updateResourceGroupLevelStateToDismiss(
-    alertName: string,
     resourceGroupName: string,
+    ascLocation: string,
+    alertName: string,
     options?: AlertsUpdateResourceGroupLevelStateToDismissOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { alertName, resourceGroupName, options },
+      { resourceGroupName, ascLocation, alertName, options },
       updateResourceGroupLevelStateToDismissOperationSpec
     );
   }
 
   /**
    * Update the alert's state
-   * @param alertName Name of the alert object
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
+   * @param alertName Name of the alert object
    * @param options The options parameters.
    */
   updateResourceGroupLevelStateToActivate(
-    alertName: string,
     resourceGroupName: string,
+    ascLocation: string,
+    alertName: string,
     options?: AlertsUpdateResourceGroupLevelStateToActivateOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { alertName, resourceGroupName, options },
+      { resourceGroupName, ascLocation, alertName, options },
       updateResourceGroupLevelStateToActivateOperationSpec
     );
   }
 
   /**
+   * Update the alert's state
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
+   *                          case insensitive.
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
+   * @param alertName Name of the alert object
+   * @param options The options parameters.
+   */
+  updateResourceGroupLevelStateToInProgress(
+    resourceGroupName: string,
+    ascLocation: string,
+    alertName: string,
+    options?: AlertsUpdateResourceGroupLevelStateToInProgressOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, ascLocation, alertName, options },
+      updateResourceGroupLevelStateToInProgressOperationSpec
+    );
+  }
+
+  /**
    * Simulate security alerts
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param alertSimulatorRequestBody Alert Simulator Request Properties
    * @param options The options parameters.
    */
   async beginSimulate(
+    ascLocation: string,
     alertSimulatorRequestBody: AlertSimulatorRequestBody,
     options?: AlertsSimulateOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
@@ -504,26 +656,35 @@ export class AlertsImpl implements Alerts {
 
     const lro = new LroImpl(
       sendOperation,
-      { alertSimulatorRequestBody, options },
+      { ascLocation, alertSimulatorRequestBody, options },
       simulateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "original-uri"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
    * Simulate security alerts
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param alertSimulatorRequestBody Alert Simulator Request Properties
    * @param options The options parameters.
    */
   async beginSimulateAndWait(
+    ascLocation: string,
     alertSimulatorRequestBody: AlertSimulatorRequestBody,
     options?: AlertsSimulateOptionalParams
   ): Promise<void> {
-    const poller = await this.beginSimulate(alertSimulatorRequestBody, options);
+    const poller = await this.beginSimulate(
+      ascLocation,
+      alertSimulatorRequestBody,
+      options
+    );
     return poller.pollUntilDone();
   }
 
@@ -562,22 +723,27 @@ export class AlertsImpl implements Alerts {
 
   /**
    * ListSubscriptionLevelByRegionNext
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param nextLink The nextLink from the previous successful call to the ListSubscriptionLevelByRegion
    *                 method.
    * @param options The options parameters.
    */
   private _listSubscriptionLevelByRegionNext(
+    ascLocation: string,
     nextLink: string,
     options?: AlertsListSubscriptionLevelByRegionNextOptionalParams
   ): Promise<AlertsListSubscriptionLevelByRegionNextResponse> {
     return this.client.sendOperationRequest(
-      { nextLink, options },
+      { ascLocation, nextLink, options },
       listSubscriptionLevelByRegionNextOperationSpec
     );
   }
 
   /**
    * ListResourceGroupLevelByRegionNext
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
    * @param nextLink The nextLink from the previous successful call to the ListResourceGroupLevelByRegion
@@ -585,12 +751,13 @@ export class AlertsImpl implements Alerts {
    * @param options The options parameters.
    */
   private _listResourceGroupLevelByRegionNext(
+    ascLocation: string,
     resourceGroupName: string,
     nextLink: string,
     options?: AlertsListResourceGroupLevelByRegionNextOptionalParams
   ): Promise<AlertsListResourceGroupLevelByRegionNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, nextLink, options },
+      { ascLocation, resourceGroupName, nextLink, options },
       listResourceGroupLevelByRegionNextOperationSpec
     );
   }
@@ -783,6 +950,26 @@ const updateSubscriptionLevelStateToActivateOperationSpec: coreClient.OperationS
   headerParameters: [Parameters.accept],
   serializer
 };
+const updateSubscriptionLevelStateToInProgressOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/alerts/{alertName}/inProgress",
+  httpMethod: "POST",
+  responses: {
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion13],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.ascLocation,
+    Parameters.alertName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const updateResourceGroupLevelStateToResolveOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/locations/{ascLocation}/alerts/{alertName}/resolve",
@@ -828,6 +1015,27 @@ const updateResourceGroupLevelStateToDismissOperationSpec: coreClient.OperationS
 const updateResourceGroupLevelStateToActivateOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/locations/{ascLocation}/alerts/{alertName}/activate",
+  httpMethod: "POST",
+  responses: {
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion13],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.ascLocation,
+    Parameters.alertName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const updateResourceGroupLevelStateToInProgressOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/locations/{ascLocation}/alerts/{alertName}/inProgress",
   httpMethod: "POST",
   responses: {
     204: {},

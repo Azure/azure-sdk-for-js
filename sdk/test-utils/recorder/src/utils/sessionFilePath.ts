@@ -1,16 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isNode } from "@azure/test-utils";
-import { env } from "./env";
+import { isNode } from "@azure/core-util";
 import { generateTestRecordingFilePath } from "./filePathGenerator";
 import { relativeRecordingsPath } from "./relativePathCalculator";
 import { RecorderError } from "./utils";
 
 export function sessionFilePath(testContext: Mocha.Test): string {
-  const recordingsFolder = !isNode ? env.RECORDINGS_RELATIVE_PATH : relativeRecordingsPath(); // sdk/service/project/recordings
-  return `${recordingsFolder}/${recordingFilePath(testContext)}`;
   // sdk/service/project/recordings/{node|browsers}/<describe-block-title>/recording_<test-title>.json
+  return `${relativeRecordingsPath()}/${recordingFilePath(testContext)}`;
 }
 
 /**

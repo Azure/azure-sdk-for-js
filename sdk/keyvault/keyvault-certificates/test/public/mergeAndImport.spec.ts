@@ -4,8 +4,8 @@
 import fs from "fs";
 import { Context } from "mocha";
 import childProcess from "child_process";
-import { isNode } from "@azure/core-http";
-import { env, Recorder } from "@azure-tools/test-recorder";
+import { isNode } from "@azure/core-util";
+import { env, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { SecretClient } from "@azure/keyvault-secrets";
 import { ClientSecretCredential } from "@azure/identity";
 
@@ -34,7 +34,11 @@ describe("Certificates client - merge and import certificates", () => {
     recorder = authentication.recorder;
     keyVaultUrl = authentication.keyVaultUrl;
     credential = authentication.credential;
-    secretClient = new SecretClient(keyVaultUrl, credential);
+    secretClient = new SecretClient(
+      keyVaultUrl,
+      credential,
+      recorder.configureClientOptions({ disableChallengeResourceVerification: true })
+    );
   });
 
   afterEach(async function () {
@@ -90,14 +94,10 @@ describe("Certificates client - merge and import certificates", () => {
   // The signed certificate will never be the same, so we can't play it back.
   // This test is only designed to work on NodeJS, since we use child_process to interact with openssl.
   it("can merge a self signed certificate", async function (this: Context): Promise<void> {
-    recorder.skip(
-      undefined,
-      "The signed certificate will never be the same, so we can't play it back."
-    );
-    if (!isNode) {
-      // recorder.skip is not meant for TEST_MODE=live
-      return this.skip();
+    if (!isNode || isPlaybackMode()) {
+      this.skip();
     }
+
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
 
     await client.beginCreateCertificate(

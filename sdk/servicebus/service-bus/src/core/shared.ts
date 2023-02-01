@@ -5,6 +5,7 @@ import { Delivery, ReceiverOptions, Source } from "rhea-promise";
 import { translateServiceBusError } from "../serviceBusError";
 import { receiverLogger } from "../log";
 import { ReceiveMode } from "../models";
+import { Constants } from "@azure/core-amqp";
 
 /**
  * @internal
@@ -76,6 +77,8 @@ export function onMessageSettled(
   }
 }
 
+// Placed in Service Bus for now and can be promoted to core-amqp if also useful for Event Hubs in the future.
+const timeoutName = `${Constants.vendorString}:timeout`;
 /**
  * Creates the options that need to be specified while creating an AMQP receiver link.
  *
@@ -85,8 +88,14 @@ export function createReceiverOptions(
   name: string,
   receiveMode: ReceiveMode,
   source: Source,
-  handlers: ReceiverHandlers
+  clientId: string,
+  handlers: ReceiverHandlers,
+  timeoutInMs?: number
 ): ReceiverOptions {
+  const properties =
+    timeoutInMs !== undefined
+      ? { [Constants.receiverIdentifierName]: clientId, [timeoutName]: timeoutInMs }
+      : { [Constants.receiverIdentifierName]: clientId };
   const rcvrOptions: ReceiverOptions = {
     name,
     // "autoaccept" being true in the "receiveAndDelete" mode sets the "settled" flag to true on the deliveries
@@ -97,7 +106,9 @@ export function createReceiverOptions(
     // receiveAndDelete -> settled (1), peekLock -> unsettled (0)
     snd_settle_mode: receiveMode === "receiveAndDelete" ? 1 : 0,
     source,
+    target: clientId,
     credit_window: 0,
+    properties,
     ...handlers,
   };
 

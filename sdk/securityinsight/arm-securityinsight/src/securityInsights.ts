@@ -7,74 +7,84 @@
  */
 
 import * as coreClient from "@azure/core-client";
+import * as coreRestPipeline from "@azure/core-rest-pipeline";
+import {
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest
+} from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
   AlertRulesImpl,
   ActionsImpl,
   AlertRuleTemplatesImpl,
   AutomationRulesImpl,
+  IncidentsImpl,
   BookmarksImpl,
   BookmarkRelationsImpl,
   BookmarkOperationsImpl,
   IPGeodataImpl,
   DomainWhoisImpl,
-  EntityQueriesImpl,
   EntitiesImpl,
   EntitiesGetTimelineImpl,
   EntitiesRelationsImpl,
   EntityRelationsImpl,
-  IncidentsImpl,
+  EntityQueriesImpl,
+  EntityQueryTemplatesImpl,
+  FileImportsImpl,
   IncidentCommentsImpl,
   IncidentRelationsImpl,
   MetadataImpl,
+  OfficeConsentsImpl,
   SentinelOnboardingStatesImpl,
+  SecurityMLAnalyticsSettingsImpl,
   ProductSettingsImpl,
   SourceControlOperationsImpl,
   SourceControlsImpl,
+  ThreatIntelligenceIndicatorImpl,
+  ThreatIntelligenceIndicatorsImpl,
+  ThreatIntelligenceIndicatorMetricsImpl,
   WatchlistsImpl,
   WatchlistItemsImpl,
   DataConnectorsImpl,
   DataConnectorsCheckRequirementsOperationsImpl,
-  ThreatIntelligenceIndicatorImpl,
-  ThreatIntelligenceIndicatorsImpl,
-  ThreatIntelligenceIndicatorMetricsImpl,
-  OperationsImpl,
-  OfficeConsentsImpl,
-  EntityQueryTemplatesImpl
+  OperationsImpl
 } from "./operations";
 import {
   AlertRules,
   Actions,
   AlertRuleTemplates,
   AutomationRules,
+  Incidents,
   Bookmarks,
   BookmarkRelations,
   BookmarkOperations,
   IPGeodata,
   DomainWhois,
-  EntityQueries,
   Entities,
   EntitiesGetTimeline,
   EntitiesRelations,
   EntityRelations,
-  Incidents,
+  EntityQueries,
+  EntityQueryTemplates,
+  FileImports,
   IncidentComments,
   IncidentRelations,
   Metadata,
+  OfficeConsents,
   SentinelOnboardingStates,
+  SecurityMLAnalyticsSettings,
   ProductSettings,
   SourceControlOperations,
   SourceControls,
+  ThreatIntelligenceIndicator,
+  ThreatIntelligenceIndicators,
+  ThreatIntelligenceIndicatorMetrics,
   Watchlists,
   WatchlistItems,
   DataConnectors,
   DataConnectorsCheckRequirementsOperations,
-  ThreatIntelligenceIndicator,
-  ThreatIntelligenceIndicators,
-  ThreatIntelligenceIndicatorMetrics,
-  Operations,
-  OfficeConsents,
-  EntityQueryTemplates
+  Operations
 } from "./operationsInterfaces";
 import { SecurityInsightsOptionalParams } from "./models";
 
@@ -110,7 +120,7 @@ export class SecurityInsights extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-securityinsight/1.0.0-beta.1`;
+    const packageDetails = `azsdk-js-arm-securityinsight/1.0.0-beta.6`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -125,43 +135,74 @@ export class SecurityInsights extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri: options.endpoint || "https://management.azure.com"
+      baseUri:
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
     };
     super(optionsWithDefaults);
+
+    let bearerTokenAuthenticationPolicyFound: boolean = false;
+    if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
+        (pipelinePolicy) =>
+          pipelinePolicy.name ===
+          coreRestPipeline.bearerTokenAuthenticationPolicyName
+      );
+    }
+    if (
+      !options ||
+      !options.pipeline ||
+      options.pipeline.getOrderedPolicies().length == 0 ||
+      !bearerTokenAuthenticationPolicyFound
+    ) {
+      this.pipeline.removePolicy({
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+      });
+      this.pipeline.addPolicy(
+        coreRestPipeline.bearerTokenAuthenticationPolicy({
+          credential: credentials,
+          scopes: `${optionsWithDefaults.credentialScopes}`,
+          challengeCallbacks: {
+            authorizeRequestOnChallenge:
+              coreClient.authorizeRequestOnClaimChallenge
+          }
+        })
+      );
+    }
     // Parameter assignments
     this.subscriptionId = subscriptionId;
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-09-01-preview";
+    this.apiVersion = options.apiVersion || "2022-09-01-preview";
     this.alertRules = new AlertRulesImpl(this);
     this.actions = new ActionsImpl(this);
     this.alertRuleTemplates = new AlertRuleTemplatesImpl(this);
     this.automationRules = new AutomationRulesImpl(this);
+    this.incidents = new IncidentsImpl(this);
     this.bookmarks = new BookmarksImpl(this);
     this.bookmarkRelations = new BookmarkRelationsImpl(this);
     this.bookmarkOperations = new BookmarkOperationsImpl(this);
     this.iPGeodata = new IPGeodataImpl(this);
     this.domainWhois = new DomainWhoisImpl(this);
-    this.entityQueries = new EntityQueriesImpl(this);
     this.entities = new EntitiesImpl(this);
     this.entitiesGetTimeline = new EntitiesGetTimelineImpl(this);
     this.entitiesRelations = new EntitiesRelationsImpl(this);
     this.entityRelations = new EntityRelationsImpl(this);
-    this.incidents = new IncidentsImpl(this);
+    this.entityQueries = new EntityQueriesImpl(this);
+    this.entityQueryTemplates = new EntityQueryTemplatesImpl(this);
+    this.fileImports = new FileImportsImpl(this);
     this.incidentComments = new IncidentCommentsImpl(this);
     this.incidentRelations = new IncidentRelationsImpl(this);
     this.metadata = new MetadataImpl(this);
+    this.officeConsents = new OfficeConsentsImpl(this);
     this.sentinelOnboardingStates = new SentinelOnboardingStatesImpl(this);
+    this.securityMLAnalyticsSettings = new SecurityMLAnalyticsSettingsImpl(
+      this
+    );
     this.productSettings = new ProductSettingsImpl(this);
     this.sourceControlOperations = new SourceControlOperationsImpl(this);
     this.sourceControls = new SourceControlsImpl(this);
-    this.watchlists = new WatchlistsImpl(this);
-    this.watchlistItems = new WatchlistItemsImpl(this);
-    this.dataConnectors = new DataConnectorsImpl(this);
-    this.dataConnectorsCheckRequirementsOperations = new DataConnectorsCheckRequirementsOperationsImpl(
-      this
-    );
     this.threatIntelligenceIndicator = new ThreatIntelligenceIndicatorImpl(
       this
     );
@@ -171,41 +212,76 @@ export class SecurityInsights extends coreClient.ServiceClient {
     this.threatIntelligenceIndicatorMetrics = new ThreatIntelligenceIndicatorMetricsImpl(
       this
     );
+    this.watchlists = new WatchlistsImpl(this);
+    this.watchlistItems = new WatchlistItemsImpl(this);
+    this.dataConnectors = new DataConnectorsImpl(this);
+    this.dataConnectorsCheckRequirementsOperations = new DataConnectorsCheckRequirementsOperationsImpl(
+      this
+    );
     this.operations = new OperationsImpl(this);
-    this.officeConsents = new OfficeConsentsImpl(this);
-    this.entityQueryTemplates = new EntityQueryTemplatesImpl(this);
+    this.addCustomApiVersionPolicy(options.apiVersion);
+  }
+
+  /** A function that adds a policy that sets the api-version (or equivalent) to reflect the library version. */
+  private addCustomApiVersionPolicy(apiVersion?: string) {
+    if (!apiVersion) {
+      return;
+    }
+    const apiVersionPolicy = {
+      name: "CustomApiVersionPolicy",
+      async sendRequest(
+        request: PipelineRequest,
+        next: SendRequest
+      ): Promise<PipelineResponse> {
+        const param = request.url.split("?");
+        if (param.length > 1) {
+          const newParams = param[1].split("&").map((item) => {
+            if (item.indexOf("api-version") > -1) {
+              return "api-version=" + apiVersion;
+            } else {
+              return item;
+            }
+          });
+          request.url = param[0] + "?" + newParams.join("&");
+        }
+        return next(request);
+      }
+    };
+    this.pipeline.addPolicy(apiVersionPolicy);
   }
 
   alertRules: AlertRules;
   actions: Actions;
   alertRuleTemplates: AlertRuleTemplates;
   automationRules: AutomationRules;
+  incidents: Incidents;
   bookmarks: Bookmarks;
   bookmarkRelations: BookmarkRelations;
   bookmarkOperations: BookmarkOperations;
   iPGeodata: IPGeodata;
   domainWhois: DomainWhois;
-  entityQueries: EntityQueries;
   entities: Entities;
   entitiesGetTimeline: EntitiesGetTimeline;
   entitiesRelations: EntitiesRelations;
   entityRelations: EntityRelations;
-  incidents: Incidents;
+  entityQueries: EntityQueries;
+  entityQueryTemplates: EntityQueryTemplates;
+  fileImports: FileImports;
   incidentComments: IncidentComments;
   incidentRelations: IncidentRelations;
   metadata: Metadata;
+  officeConsents: OfficeConsents;
   sentinelOnboardingStates: SentinelOnboardingStates;
+  securityMLAnalyticsSettings: SecurityMLAnalyticsSettings;
   productSettings: ProductSettings;
   sourceControlOperations: SourceControlOperations;
   sourceControls: SourceControls;
+  threatIntelligenceIndicator: ThreatIntelligenceIndicator;
+  threatIntelligenceIndicators: ThreatIntelligenceIndicators;
+  threatIntelligenceIndicatorMetrics: ThreatIntelligenceIndicatorMetrics;
   watchlists: Watchlists;
   watchlistItems: WatchlistItems;
   dataConnectors: DataConnectors;
   dataConnectorsCheckRequirementsOperations: DataConnectorsCheckRequirementsOperations;
-  threatIntelligenceIndicator: ThreatIntelligenceIndicator;
-  threatIntelligenceIndicators: ThreatIntelligenceIndicators;
-  threatIntelligenceIndicatorMetrics: ThreatIntelligenceIndicatorMetrics;
   operations: Operations;
-  officeConsents: OfficeConsents;
-  entityQueryTemplates: EntityQueryTemplates;
 }

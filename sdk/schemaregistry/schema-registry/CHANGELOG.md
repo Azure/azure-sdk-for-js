@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.2 (Unreleased)
+## 1.3.0-beta.2 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,31 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.3.0-beta.1 (2023-01-12)
+
+### Features Added
+
+- Adds support for custom schema format. A schema of the custom format can be in a format that is not currently supported.
+- Adds support for JSON schemas. At the time of this release, only Draft 3 of JSON schemas is currently supported by the service.
+- Adds `KnownSchemaFormats` enum that has `Avro`, `Json`, and `Custom` values.
+
+## 1.2.0 (2022-10-11)
+
+### Features Added
+
+- An overload of `getSchema` is added that queries schemas by their version.
+- `version` property is added to `SchemaProperties`.
+
+## 1.1.0 (2022-05-10)
+
+### Features Added
+
+- Added support for distributed tracing using OpenTelemetry - please refer to the [@azure/opentelemetry-instrumentation-azure-sdk](https://www.npmjs.com/package/@azure/opentelemetry-instrumentation-azure-sdk) package for instructions.
+
+### Other Changes
+
+- `SchemaProperties` now includes `name` and `groupName` for the schema name and its group respectively.
 
 ## 1.0.1 (2021-11-17)
 

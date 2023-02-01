@@ -3,89 +3,90 @@
 
 import { OperationOptions } from "@azure/core-client";
 import {
-  LuceneStandardAnalyzer,
-  StopAnalyzer,
-  CorsOptions,
-  Suggester as SearchSuggester,
-  ClassicTokenizer,
-  EdgeNGramTokenizer,
-  MicrosoftLanguageTokenizer,
-  MicrosoftLanguageStemmingTokenizer,
-  NGramTokenizer,
-  PathHierarchyTokenizerV2 as PathHierarchyTokenizer,
-  UaxUrlEmailTokenizer,
   AsciiFoldingTokenFilter,
-  CjkBigramTokenFilter,
-  CommonGramTokenFilter,
-  DictionaryDecompounderTokenFilter,
-  LengthTokenFilter,
-  ElisionTokenFilter,
-  KeepTokenFilter,
-  KeywordMarkerTokenFilter,
-  LimitTokenFilter,
-  PatternCaptureTokenFilter,
-  PatternReplaceTokenFilter,
-  PhoneticTokenFilter,
-  ShingleTokenFilter,
-  SnowballTokenFilter,
-  StemmerTokenFilter,
-  StemmerOverrideTokenFilter,
-  StopwordsTokenFilter,
-  SynonymTokenFilter,
-  TruncateTokenFilter,
-  UniqueTokenFilter,
-  WordDelimiterTokenFilter,
-  MappingCharFilter,
-  PatternReplaceCharFilter,
-  DistanceScoringFunction,
-  FreshnessScoringFunction,
-  MagnitudeScoringFunction,
-  TagScoringFunction,
-  TextWeights,
-  ScoringFunctionAggregation,
-  RegexFlags,
-  ConditionalSkill,
-  KeyPhraseExtractionSkill,
-  OcrSkill,
-  ImageAnalysisSkill,
-  LanguageDetectionSkill,
-  ShaperSkill,
-  MergeSkill,
-  EntityRecognitionSkill,
-  SentimentSkill,
-  SplitSkill,
-  PIIDetectionSkill,
-  EntityRecognitionSkillV3,
-  EntityLinkingSkill,
-  SentimentSkillV3,
-  CustomEntityLookupSkill,
-  DocumentExtractionSkill,
-  TextTranslationSkill,
-  WebApiSkill,
   AzureMachineLearningSkill,
-  DefaultCognitiveServicesAccount,
-  CognitiveServicesAccountKey,
-  HighWaterMarkChangeDetectionPolicy,
-  SqlIntegratedChangeTrackingPolicy,
-  SearchIndexerDataUserAssignedIdentity,
-  SearchIndexerDataNoneIdentity,
-  SoftDeleteColumnDeletionDetectionPolicy,
-  SearchIndexerDataSourceType,
-  SearchIndexerDataContainer,
-  LexicalAnalyzerName,
-  ClassicSimilarity,
   BM25Similarity,
+  CjkBigramTokenFilter,
+  ClassicSimilarity,
+  ClassicTokenizer,
+  CognitiveServicesAccountKey,
+  CommonGramTokenFilter,
+  ConditionalSkill,
+  CorsOptions,
+  CustomEntityLookupSkill,
+  CustomNormalizer,
+  DefaultCognitiveServicesAccount,
+  DictionaryDecompounderTokenFilter,
+  DistanceScoringFunction,
+  DocumentExtractionSkill,
   EdgeNGramTokenFilterSide,
-  ServiceCounters,
-  ServiceLimits,
+  EdgeNGramTokenizer,
+  ElisionTokenFilter,
+  EntityLinkingSkill,
+  EntityRecognitionSkill,
+  EntityRecognitionSkillV3,
   FieldMapping,
+  FreshnessScoringFunction,
+  HighWaterMarkChangeDetectionPolicy,
+  ImageAnalysisSkill,
   IndexingParameters,
   IndexingSchedule,
+  KeepTokenFilter,
+  KeyPhraseExtractionSkill,
+  KeywordMarkerTokenFilter,
+  LanguageDetectionSkill,
+  LengthTokenFilter,
+  LexicalAnalyzerName,
   LexicalNormalizerName,
-  CustomNormalizer,
-  SearchIndexerKnowledgeStore,
+  LimitTokenFilter,
+  LuceneStandardAnalyzer,
+  MagnitudeScoringFunction,
+  MappingCharFilter,
+  MergeSkill,
+  MicrosoftLanguageStemmingTokenizer,
+  MicrosoftLanguageTokenizer,
+  NGramTokenizer,
+  OcrSkill,
+  PIIDetectionSkill,
+  PathHierarchyTokenizerV2 as PathHierarchyTokenizer,
+  PatternCaptureTokenFilter,
+  PatternReplaceCharFilter,
+  PatternReplaceTokenFilter,
+  PhoneticTokenFilter,
+  RegexFlags,
+  ScoringFunctionAggregation,
+  SearchAlias,
   SearchIndexerCache,
+  SearchIndexerDataContainer,
+  SearchIndexerDataNoneIdentity,
+  SearchIndexerDataSourceType,
+  SearchIndexerDataUserAssignedIdentity,
+  SearchIndexerKnowledgeStore,
+  Suggester as SearchSuggester,
   SemanticSettings,
+  SentimentSkill,
+  SentimentSkillV3,
+  ServiceCounters,
+  ServiceLimits,
+  ShaperSkill,
+  ShingleTokenFilter,
+  SnowballTokenFilter,
+  SoftDeleteColumnDeletionDetectionPolicy,
+  SplitSkill,
+  SqlIntegratedChangeTrackingPolicy,
+  StemmerOverrideTokenFilter,
+  StemmerTokenFilter,
+  StopAnalyzer,
+  StopwordsTokenFilter,
+  SynonymTokenFilter,
+  TagScoringFunction,
+  TextTranslationSkill,
+  TextWeights,
+  TruncateTokenFilter,
+  UaxUrlEmailTokenizer,
+  UniqueTokenFilter,
+  WebApiSkill,
+  WordDelimiterTokenFilter,
 } from "./generated/service/models";
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -208,6 +209,46 @@ export type CreateIndexOptions = OperationOptions;
 export type CreateSkillsetOptions = OperationOptions;
 
 /**
+ * Options for create alias operation.
+ */
+export type CreateAliasOptions = OperationOptions;
+
+/**
+ * Options for create or update alias operation.
+ */
+export interface CreateOrUpdateAliasOptions extends OperationOptions {
+  /**
+   * If set to true, Resource will be deleted only if the etag matches.
+   */
+  onlyIfUnchanged?: boolean;
+}
+
+/**
+ * Options for delete alias operation.
+ */
+export interface DeleteAliasOptions extends OperationOptions {
+  /**
+   * If set to true, Resource will be deleted only if the etag matches.
+   */
+  onlyIfUnchanged?: boolean;
+}
+
+/**
+ * Options for get alias operation.
+ */
+export type GetAliasOptions = OperationOptions;
+
+/**
+ * Options for list aliases operation.
+ */
+export type ListAliasesOptions = OperationOptions;
+
+/**
+ * Search Alias object.
+ */
+export type SearchIndexAlias = SearchAlias;
+
+/**
  * Options for create synonymmap operation.
  */
 export type CreateSynonymMapOptions = OperationOptions;
@@ -264,7 +305,7 @@ export interface ResetSkillsOptions extends OperationOptions {
  */
 export interface CreateOrUpdateSkillsetOptions extends OperationOptions {
   /**
-   * If set to true, Resource will be deleted only if the etag matches.
+   * If set to true, Resource will be updated only if the etag matches.
    */
   onlyIfUnchanged?: boolean;
   /**
@@ -282,7 +323,7 @@ export interface CreateOrUpdateSkillsetOptions extends OperationOptions {
  */
 export interface CreateOrUpdateSynonymMapOptions extends OperationOptions {
   /**
-   * If set to true, Resource will be deleted only if the etag matches.
+   * If set to true, Resource will be updated only if the etag matches.
    */
   onlyIfUnchanged?: boolean;
 }
@@ -292,7 +333,7 @@ export interface CreateOrUpdateSynonymMapOptions extends OperationOptions {
  */
 export interface CreateorUpdateIndexerOptions extends OperationOptions {
   /**
-   * If set to true, Resource will be deleted only if the etag matches.
+   * If set to true, Resource will be updated only if the etag matches.
    */
   onlyIfUnchanged?: boolean;
   /** Ignores cache reset requirements. */
@@ -306,7 +347,7 @@ export interface CreateorUpdateIndexerOptions extends OperationOptions {
  */
 export interface CreateorUpdateDataSourceConnectionOptions extends OperationOptions {
   /**
-   * If set to true, Resource will be deleted only if the etag matches.
+   * If set to true, Resource will be updated only if the etag matches.
    */
   onlyIfUnchanged?: boolean;
   /**
@@ -934,6 +975,14 @@ export interface SynonymMap {
  */
 // eslint-disable-next-line @typescript-eslint/ban-types
 export type IndexIterator = PagedAsyncIterableIterator<SearchIndex, SearchIndex[], {}>;
+
+/**
+ * An iterator for listing the aliases that exist in the Search service. Will make requests
+ * as needed during iteration. Use .byPage() to make one request to the server
+ * per iteration.
+ */
+// eslint-disable-next-line @typescript-eslint/ban-types
+export type AliasIterator = PagedAsyncIterableIterator<SearchIndexAlias, SearchIndexAlias[], {}>;
 
 /**
  * An iterator for listing the indexes that exist in the Search service. Will make requests

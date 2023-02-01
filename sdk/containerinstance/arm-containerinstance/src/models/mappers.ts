@@ -35,6 +35,223 @@ export const ContainerGroupListResult: coreClient.CompositeMapper = {
   }
 };
 
+export const Resource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Resource",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      zones: {
+        serializedName: "zones",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ContainerGroupProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContainerGroupProperties",
+    modelProperties: {
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "ContainerGroupIdentity"
+        }
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      containers: {
+        serializedName: "properties.containers",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Container"
+            }
+          }
+        }
+      },
+      imageRegistryCredentials: {
+        serializedName: "properties.imageRegistryCredentials",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ImageRegistryCredential"
+            }
+          }
+        }
+      },
+      restartPolicy: {
+        serializedName: "properties.restartPolicy",
+        type: {
+          name: "String"
+        }
+      },
+      ipAddress: {
+        serializedName: "properties.ipAddress",
+        type: {
+          name: "Composite",
+          className: "IpAddress"
+        }
+      },
+      osType: {
+        serializedName: "properties.osType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      volumes: {
+        serializedName: "properties.volumes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Volume"
+            }
+          }
+        }
+      },
+      instanceView: {
+        serializedName: "properties.instanceView",
+        type: {
+          name: "Composite",
+          className: "ContainerGroupPropertiesInstanceView"
+        }
+      },
+      diagnostics: {
+        serializedName: "properties.diagnostics",
+        type: {
+          name: "Composite",
+          className: "ContainerGroupDiagnostics"
+        }
+      },
+      subnetIds: {
+        serializedName: "properties.subnetIds",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ContainerGroupSubnetId"
+            }
+          }
+        }
+      },
+      dnsConfig: {
+        serializedName: "properties.dnsConfig",
+        type: {
+          name: "Composite",
+          className: "DnsConfiguration"
+        }
+      },
+      sku: {
+        serializedName: "properties.sku",
+        type: {
+          name: "String"
+        }
+      },
+      encryptionProperties: {
+        serializedName: "properties.encryptionProperties",
+        type: {
+          name: "Composite",
+          className: "EncryptionProperties"
+        }
+      },
+      initContainers: {
+        serializedName: "properties.initContainers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "InitContainerDefinition"
+            }
+          }
+        }
+      },
+      extensions: {
+        serializedName: "properties.extensions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DeploymentExtensionSpec"
+            }
+          }
+        }
+      },
+      confidentialComputeProperties: {
+        serializedName: "properties.confidentialComputeProperties",
+        type: {
+          name: "Composite",
+          className: "ConfidentialComputeProperties"
+        }
+      },
+      priority: {
+        serializedName: "properties.priority",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ContainerGroupIdentity: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -71,11 +288,7 @@ export const ContainerGroupIdentity: coreClient.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: {
-            type: {
-              name: "Composite",
-              className:
-                "Components10Wh5UdSchemasContainergroupidentityPropertiesUserassignedidentitiesAdditionalproperties"
-            }
+            type: { name: "Composite", className: "UserAssignedIdentities" }
           }
         }
       }
@@ -83,11 +296,10 @@ export const ContainerGroupIdentity: coreClient.CompositeMapper = {
   }
 };
 
-export const Components10Wh5UdSchemasContainergroupidentityPropertiesUserassignedidentitiesAdditionalproperties: coreClient.CompositeMapper = {
+export const UserAssignedIdentities: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className:
-      "Components10Wh5UdSchemasContainergroupidentityPropertiesUserassignedidentitiesAdditionalproperties",
+    className: "UserAssignedIdentities",
     modelProperties: {
       principalId: {
         serializedName: "principalId",
@@ -674,7 +886,6 @@ export const ImageRegistryCredential: coreClient.CompositeMapper = {
       },
       username: {
         serializedName: "username",
-        required: true,
         type: {
           name: "String"
         }
@@ -734,6 +945,13 @@ export const IpAddress: coreClient.CompositeMapper = {
       },
       dnsNameLabel: {
         serializedName: "dnsNameLabel",
+        type: {
+          name: "String"
+        }
+      },
+      autoGeneratedDomainNameLabelScope: {
+        defaultValue: "Unsecure",
+        serializedName: "autoGeneratedDomainNameLabelScope",
         type: {
           name: "String"
         }
@@ -1045,6 +1263,12 @@ export const EncryptionProperties: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -1157,54 +1381,57 @@ export const InitContainerPropertiesDefinitionInstanceView: coreClient.Composite
   }
 };
 
-export const Resource: coreClient.CompositeMapper = {
+export const DeploymentExtensionSpec: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "Resource",
+    className: "DeploymentExtensionSpec",
     modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
       name: {
         serializedName: "name",
-        readOnly: true,
+        required: true,
         type: {
           name: "String"
         }
       },
-      type: {
-        serializedName: "type",
-        readOnly: true,
+      extensionType: {
+        serializedName: "properties.extensionType",
         type: {
           name: "String"
         }
       },
-      location: {
-        serializedName: "location",
+      version: {
+        serializedName: "properties.version",
         type: {
           name: "String"
         }
       },
-      tags: {
-        serializedName: "tags",
+      settings: {
+        serializedName: "properties.settings",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
+          value: { type: { name: "any" } }
         }
       },
-      zones: {
-        serializedName: "zones",
+      protectedSettings: {
+        serializedName: "properties.protectedSettings",
         type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
+export const ConfidentialComputeProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ConfidentialComputeProperties",
+    modelProperties: {
+      ccePolicy: {
+        serializedName: "ccePolicy",
+        type: {
+          name: "String"
         }
       }
     }
@@ -1389,6 +1616,13 @@ export const Usage: coreClient.CompositeMapper = {
     name: "Composite",
     className: "Usage",
     modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
       unit: {
         serializedName: "unit",
         readOnly: true,
@@ -1708,135 +1942,7 @@ export const ContainerGroup: coreClient.CompositeMapper = {
     className: "ContainerGroup",
     modelProperties: {
       ...Resource.type.modelProperties,
-      identity: {
-        serializedName: "identity",
-        type: {
-          name: "Composite",
-          className: "ContainerGroupIdentity"
-        }
-      },
-      provisioningState: {
-        serializedName: "properties.provisioningState",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      containers: {
-        serializedName: "properties.containers",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "Container"
-            }
-          }
-        }
-      },
-      imageRegistryCredentials: {
-        serializedName: "properties.imageRegistryCredentials",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ImageRegistryCredential"
-            }
-          }
-        }
-      },
-      restartPolicy: {
-        serializedName: "properties.restartPolicy",
-        type: {
-          name: "String"
-        }
-      },
-      ipAddress: {
-        serializedName: "properties.ipAddress",
-        type: {
-          name: "Composite",
-          className: "IpAddress"
-        }
-      },
-      osType: {
-        serializedName: "properties.osType",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      volumes: {
-        serializedName: "properties.volumes",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "Volume"
-            }
-          }
-        }
-      },
-      instanceView: {
-        serializedName: "properties.instanceView",
-        type: {
-          name: "Composite",
-          className: "ContainerGroupPropertiesInstanceView"
-        }
-      },
-      diagnostics: {
-        serializedName: "properties.diagnostics",
-        type: {
-          name: "Composite",
-          className: "ContainerGroupDiagnostics"
-        }
-      },
-      subnetIds: {
-        serializedName: "properties.subnetIds",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ContainerGroupSubnetId"
-            }
-          }
-        }
-      },
-      dnsConfig: {
-        serializedName: "properties.dnsConfig",
-        type: {
-          name: "Composite",
-          className: "DnsConfiguration"
-        }
-      },
-      sku: {
-        serializedName: "properties.sku",
-        type: {
-          name: "String"
-        }
-      },
-      encryptionProperties: {
-        serializedName: "properties.encryptionProperties",
-        type: {
-          name: "Composite",
-          className: "EncryptionProperties"
-        }
-      },
-      initContainers: {
-        serializedName: "properties.initContainers",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "InitContainerDefinition"
-            }
-          }
-        }
-      }
+      ...ContainerGroupProperties.type.modelProperties
     }
   }
 };

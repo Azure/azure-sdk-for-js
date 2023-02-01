@@ -1,0 +1,181 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/language/:analyze-text?api-version=2022-10-01-preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "555",
+        "Content-Type": "application/json",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
+        "x-ms-client-request-id": "8a0805f0-f291-4ed9-b6c3-641bb992759a",
+        "x-ms-useragent": "azsdk-js-ai-language-text/1.1.0-beta.1 core-rest-pipeline/1.10.0 OS/Linuxx86_64"
+      },
+      "RequestBody": {
+        "kind": "SentimentAnalysis",
+        "analysisInput": {
+          "documents": [
+            {
+              "id": "0",
+              "text": "I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!",
+              "language": "en"
+            },
+            {
+              "id": "1",
+              "text": "Unfortunately, it rained during my entire trip to Seattle. I didn\u0027t even get to visit the Space Needle",
+              "language": "en"
+            },
+            {
+              "id": "2",
+              "text": "I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.",
+              "language": "en"
+            },
+            {
+              "id": "3",
+              "text": "I didn\u0027t like the last book I read at all.",
+              "language": "en"
+            }
+          ]
+        },
+        "parameters": {}
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "46c3261c-af53-4040-9a03-5a11ce450de7",
+        "Content-Length": "1572",
+        "Content-Type": "application/json; charset=utf-8",
+        "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=4,CognitiveServices.TextAnalytics.TextRecords=4",
+        "Date": "Tue, 01 Nov 2022 22:59:13 GMT",
+        "Set-Cookie": ".AspNetCore.Mvc.CookieTempDataProvider=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; samesite=lax; httponly",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "28",
+        "x-ms-region": "East US"
+      },
+      "ResponseBody": {
+        "kind": "SentimentAnalysisResults",
+        "results": {
+          "documents": [
+            {
+              "id": "0",
+              "sentiment": "positive",
+              "confidenceScores": {
+                "positive": 1.0,
+                "neutral": 0.0,
+                "negative": 0.0
+              },
+              "sentences": [
+                {
+                  "sentiment": "positive",
+                  "confidenceScores": {
+                    "positive": 1.0,
+                    "neutral": 0.0,
+                    "negative": 0.0
+                  },
+                  "offset": 0,
+                  "length": 86,
+                  "text": "I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!"
+                }
+              ],
+              "warnings": []
+            },
+            {
+              "id": "1",
+              "sentiment": "negative",
+              "confidenceScores": {
+                "positive": 0.0,
+                "neutral": 0.01,
+                "negative": 0.99
+              },
+              "sentences": [
+                {
+                  "sentiment": "negative",
+                  "confidenceScores": {
+                    "positive": 0.0,
+                    "neutral": 0.01,
+                    "negative": 0.99
+                  },
+                  "offset": 0,
+                  "length": 59,
+                  "text": "Unfortunately, it rained during my entire trip to Seattle. "
+                },
+                {
+                  "sentiment": "neutral",
+                  "confidenceScores": {
+                    "positive": 0.0,
+                    "neutral": 0.92,
+                    "negative": 0.08
+                  },
+                  "offset": 59,
+                  "length": 43,
+                  "text": "I didn\u0027t even get to visit the Space Needle"
+                }
+              ],
+              "warnings": []
+            },
+            {
+              "id": "2",
+              "sentiment": "negative",
+              "confidenceScores": {
+                "positive": 0.19,
+                "neutral": 0.28,
+                "negative": 0.53
+              },
+              "sentences": [
+                {
+                  "sentiment": "negative",
+                  "confidenceScores": {
+                    "positive": 0.19,
+                    "neutral": 0.28,
+                    "negative": 0.53
+                  },
+                  "offset": 0,
+                  "length": 101,
+                  "text": "I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected."
+                }
+              ],
+              "warnings": []
+            },
+            {
+              "id": "3",
+              "sentiment": "negative",
+              "confidenceScores": {
+                "positive": 0.0,
+                "neutral": 0.01,
+                "negative": 0.99
+              },
+              "sentences": [
+                {
+                  "sentiment": "negative",
+                  "confidenceScores": {
+                    "positive": 0.0,
+                    "neutral": 0.01,
+                    "negative": 0.99
+                  },
+                  "offset": 0,
+                  "length": 42,
+                  "text": "I didn\u0027t like the last book I read at all."
+                }
+              ],
+              "warnings": []
+            }
+          ],
+          "errors": [],
+          "modelVersion": "2022-10-01"
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

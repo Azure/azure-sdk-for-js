@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { InstanceFailoverGroups } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,12 +19,12 @@ import {
   InstanceFailoverGroup,
   InstanceFailoverGroupsListByLocationNextOptionalParams,
   InstanceFailoverGroupsListByLocationOptionalParams,
+  InstanceFailoverGroupsListByLocationResponse,
   InstanceFailoverGroupsGetOptionalParams,
   InstanceFailoverGroupsGetResponse,
   InstanceFailoverGroupsCreateOrUpdateOptionalParams,
   InstanceFailoverGroupsCreateOrUpdateResponse,
   InstanceFailoverGroupsDeleteOptionalParams,
-  InstanceFailoverGroupsListByLocationResponse,
   InstanceFailoverGroupsFailoverOptionalParams,
   InstanceFailoverGroupsFailoverResponse,
   InstanceFailoverGroupsForceFailoverAllowDataLossOptionalParams,
@@ -68,11 +69,15 @@ export class InstanceFailoverGroupsImpl implements InstanceFailoverGroups {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByLocationPagingPage(
           resourceGroupName,
           locationName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -81,15 +86,22 @@ export class InstanceFailoverGroupsImpl implements InstanceFailoverGroups {
   private async *listByLocationPagingPage(
     resourceGroupName: string,
     locationName: string,
-    options?: InstanceFailoverGroupsListByLocationOptionalParams
+    options?: InstanceFailoverGroupsListByLocationOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<InstanceFailoverGroup[]> {
-    let result = await this._listByLocation(
-      resourceGroupName,
-      locationName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: InstanceFailoverGroupsListByLocationResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByLocation(
+        resourceGroupName,
+        locationName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByLocationNext(
         resourceGroupName,
@@ -98,7 +110,9 @@ export class InstanceFailoverGroupsImpl implements InstanceFailoverGroups {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -207,10 +221,12 @@ export class InstanceFailoverGroupsImpl implements InstanceFailoverGroups {
       },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -297,10 +313,12 @@ export class InstanceFailoverGroupsImpl implements InstanceFailoverGroups {
       { resourceGroupName, locationName, failoverGroupName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -407,10 +425,12 @@ export class InstanceFailoverGroupsImpl implements InstanceFailoverGroups {
       { resourceGroupName, locationName, failoverGroupName, options },
       failoverOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -502,10 +522,12 @@ export class InstanceFailoverGroupsImpl implements InstanceFailoverGroups {
       { resourceGroupName, locationName, failoverGroupName, options },
       forceFailoverAllowDataLossOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -712,7 +734,6 @@ const listByLocationNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

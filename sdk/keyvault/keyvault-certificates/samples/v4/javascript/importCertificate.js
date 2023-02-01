@@ -5,11 +5,13 @@
  * @summary Imports a PFX and PEM certificate and then deletes them.
  */
 
-const { CertificateClient, WellKnownIssuer } = require("@azure/keyvault-certificates");
-const { DefaultAzureCredential } = require("@azure/identity");
-
 // Load the .env file if it exists
 const dotenv = require("dotenv");
+
+const { CertificateClient, WellKnownIssuer } = require("@azure/keyvault-certificates");
+
+const { DefaultAzureCredential } = require("@azure/identity");
+
 dotenv.config();
 
 // For convenience in this sample we'll use some self-signed test certificates
@@ -124,11 +126,10 @@ const samplePem =
 // This sample demonstrates how to import both PKCS#12 (PFX) and PEM-formatted certificates
 // into Azure Key Vault.
 async function main() {
+  // This sample uses DefaultAzureCredential, which supports a number of authentication mechanisms.
+  // See https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
+  // about DefaultAzureCredential and the other credentials that are available for use.
   // If you're using MSI, DefaultAzureCredential should "just work".
-  // Otherwise, DefaultAzureCredential expects the following three environment variables:
-  // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
-  // - AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
-  // - AZURE_CLIENT_SECRET: The client secret for the registered application
   const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
   const credential = new DefaultAzureCredential();
 
@@ -137,14 +138,14 @@ async function main() {
   // When importing a PFX containing your key pair, the policy is needed if you want the
   // private key to be exportable or to configure actions when a certificate is close to expiration.
   let importedCertificate = await client.importCertificate(
-    `cert${Date.now()}`,
+    `import-${Date.now()}`,
     Buffer.from(samplePfxBase64, "base64"),
     {
       policy: {
         contentType: "application/x-pkcs12",
         issuerName: WellKnownIssuer.Self,
-        subject: "CN=contoso.com"
-      }
+        subject: "CN=contoso.com",
+      },
     }
   );
 
@@ -166,8 +167,8 @@ async function main() {
       policy: {
         contentType: "application/x-pem-file",
         issuerName: WellKnownIssuer.Self,
-        subject: "CN=contoso.com"
-      }
+        subject: "CN=contoso.com",
+      },
     }
   );
 
@@ -184,3 +185,5 @@ main().catch((error) => {
   console.error("An error occurred:", error);
   process.exit(1);
 });
+
+module.exports = { main };

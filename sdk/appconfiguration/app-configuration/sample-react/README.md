@@ -4,7 +4,7 @@ This sample application shows how to use the Feature Flags.
 
 ## Prerequisites
 
-The samples are compatible with [LTS versions of Node.js](https://nodejs.org/about/releases/).
+The samples are compatible with [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule).
 
 You need [an Azure subscription][freesub] and the following resources created to run this sample:
 

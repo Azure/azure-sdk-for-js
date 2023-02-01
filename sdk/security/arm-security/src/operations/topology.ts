@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Topology } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,9 +17,9 @@ import {
   TopologyResource,
   TopologyListNextOptionalParams,
   TopologyListOptionalParams,
+  TopologyListResponse,
   TopologyListByHomeRegionNextOptionalParams,
   TopologyListByHomeRegionOptionalParams,
-  TopologyListResponse,
   TopologyListByHomeRegionResponse,
   TopologyGetOptionalParams,
   TopologyGetResponse,
@@ -54,22 +55,34 @@ export class TopologyImpl implements Topology {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: TopologyListOptionalParams
+    options?: TopologyListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<TopologyResource[]> {
-    let result = await this._list(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: TopologyListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -83,12 +96,15 @@ export class TopologyImpl implements Topology {
 
   /**
    * Gets a list that allows to build a topology view of a subscription and location.
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param options The options parameters.
    */
   public listByHomeRegion(
+    ascLocation: string,
     options?: TopologyListByHomeRegionOptionalParams
   ): PagedAsyncIterableIterator<TopologyResource> {
-    const iter = this.listByHomeRegionPagingAll(options);
+    const iter = this.listByHomeRegionPagingAll(ascLocation, options);
     return {
       next() {
         return iter.next();
@@ -96,29 +112,50 @@ export class TopologyImpl implements Topology {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByHomeRegionPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByHomeRegionPagingPage(ascLocation, options, settings);
       }
     };
   }
 
   private async *listByHomeRegionPagingPage(
-    options?: TopologyListByHomeRegionOptionalParams
+    ascLocation: string,
+    options?: TopologyListByHomeRegionOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<TopologyResource[]> {
-    let result = await this._listByHomeRegion(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listByHomeRegionNext(continuationToken, options);
+    let result: TopologyListByHomeRegionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByHomeRegion(ascLocation, options);
+      let page = result.value || [];
       continuationToken = result.nextLink;
-      yield result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByHomeRegionNext(
+        ascLocation,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
   private async *listByHomeRegionPagingAll(
+    ascLocation: string,
     options?: TopologyListByHomeRegionOptionalParams
   ): AsyncIterableIterator<TopologyResource> {
-    for await (const page of this.listByHomeRegionPagingPage(options)) {
+    for await (const page of this.listByHomeRegionPagingPage(
+      ascLocation,
+      options
+    )) {
       yield* page;
     }
   }
@@ -135,13 +172,16 @@ export class TopologyImpl implements Topology {
 
   /**
    * Gets a list that allows to build a topology view of a subscription and location.
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param options The options parameters.
    */
   private _listByHomeRegion(
+    ascLocation: string,
     options?: TopologyListByHomeRegionOptionalParams
   ): Promise<TopologyListByHomeRegionResponse> {
     return this.client.sendOperationRequest(
-      { options },
+      { ascLocation, options },
       listByHomeRegionOperationSpec
     );
   }
@@ -150,16 +190,19 @@ export class TopologyImpl implements Topology {
    * Gets a specific topology component.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param topologyResourceName Name of a topology resources collection.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
+    ascLocation: string,
     topologyResourceName: string,
     options?: TopologyGetOptionalParams
   ): Promise<TopologyGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, topologyResourceName, options },
+      { resourceGroupName, ascLocation, topologyResourceName, options },
       getOperationSpec
     );
   }
@@ -181,15 +224,18 @@ export class TopologyImpl implements Topology {
 
   /**
    * ListByHomeRegionNext
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param nextLink The nextLink from the previous successful call to the ListByHomeRegion method.
    * @param options The options parameters.
    */
   private _listByHomeRegionNext(
+    ascLocation: string,
     nextLink: string,
     options?: TopologyListByHomeRegionNextOptionalParams
   ): Promise<TopologyListByHomeRegionNextResponse> {
     return this.client.sendOperationRequest(
-      { nextLink, options },
+      { ascLocation, nextLink, options },
       listByHomeRegionNextOperationSpec
     );
   }
@@ -209,7 +255,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion9],
+  queryParameters: [Parameters.apiVersion10],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
@@ -226,7 +272,7 @@ const listByHomeRegionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion9],
+  queryParameters: [Parameters.apiVersion10],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -247,7 +293,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion9],
+  queryParameters: [Parameters.apiVersion10],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -269,7 +315,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion9],
+  queryParameters: [Parameters.apiVersion10],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -289,7 +335,7 @@ const listByHomeRegionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion9],
+  queryParameters: [Parameters.apiVersion10],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

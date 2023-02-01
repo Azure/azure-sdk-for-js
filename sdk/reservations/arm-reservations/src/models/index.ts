@@ -282,6 +282,8 @@ export interface ReservationOrderResponse {
   createdDateTime?: Date;
   /** This is the date when the Reservation will expire. */
   expiryDate?: Date;
+  /** This is the DateTime when the reservation benefit started. */
+  benefitStartTime?: Date;
   /** Total Quantity of the SKUs purchased in the Reservation. */
   originalQuantity?: number;
   /** Represent the term of Reservation. */
@@ -361,6 +363,8 @@ export interface ReservationsProperties {
   provisioningState?: ProvisioningState;
   /** DateTime of the Reservation starting when this version is effective from. */
   effectiveDateTime?: Date;
+  /** This is the DateTime when the reservation benefit started. */
+  benefitStartTime?: Date;
   /**
    * DateTime of the last time the Reservation was updated.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -565,6 +569,100 @@ export interface OperationDisplay {
   description?: string;
 }
 
+export interface CalculateRefundRequest {
+  /** Fully qualified identifier of the reservation order being returned */
+  id?: string;
+  properties?: CalculateRefundRequestProperties;
+}
+
+export interface CalculateRefundRequestProperties {
+  /** The scope of the refund, e.g. Reservation */
+  scope?: string;
+  /** Reservation to return */
+  reservationToReturn?: ReservationToReturn;
+}
+
+/** Reservation to return */
+export interface ReservationToReturn {
+  /** Fully qualified identifier of the Reservation being returned */
+  reservationId?: string;
+  /** Quantity to be returned. Must be greater than zero. */
+  quantity?: number;
+}
+
+export interface CalculateRefundResponse {
+  /** Fully qualified identifier of the reservation being returned */
+  id?: string;
+  properties?: RefundResponseProperties;
+}
+
+export interface RefundResponseProperties {
+  /** Refund session identifier */
+  sessionId?: string;
+  /** Quantity to be returned */
+  quantity?: number;
+  billingRefundAmount?: Price;
+  pricingRefundAmount?: Price;
+  /** Refund policy result */
+  policyResult?: RefundPolicyResult;
+  /** billing information */
+  billingInformation?: RefundBillingInformation;
+}
+
+/** Refund policy result */
+export interface RefundPolicyResult {
+  /** Refund policy result property */
+  properties?: RefundPolicyResultProperty;
+}
+
+/** Refund policy result property */
+export interface RefundPolicyResultProperty {
+  consumedRefundsTotal?: Price;
+  maxRefundLimit?: Price;
+  /** Refund Policy errors */
+  policyErrors?: RefundPolicyError[];
+}
+
+/** error details */
+export interface RefundPolicyError {
+  code?: ErrorResponseCode;
+  message?: string;
+}
+
+/** billing information */
+export interface RefundBillingInformation {
+  /** Represent the billing plans. */
+  billingPlan?: ReservationBillingPlan;
+  /** The number of completed transactions in this reservation's payment */
+  completedTransactions?: number;
+  /** The number of total transactions in this reservation's payment */
+  totalTransactions?: number;
+  billingCurrencyTotalPaidAmount?: Price;
+  billingCurrencyProratedAmount?: Price;
+  billingCurrencyRemainingCommitmentAmount?: Price;
+}
+
+export interface RefundRequest {
+  properties?: RefundRequestProperties;
+}
+
+export interface RefundRequestProperties {
+  /** SessionId that was returned by CalculateRefund API. */
+  sessionId?: string;
+  /** The scope of the refund, e.g. Reservation */
+  scope?: string;
+  /** Reservation to return */
+  reservationToReturn?: ReservationToReturn;
+  /** The reason of returning the reservation */
+  returnReason?: string;
+}
+
+export interface RefundResponse {
+  /** Fully qualified identifier of the reservation being returned */
+  id?: string;
+  properties?: RefundResponseProperties;
+}
+
 /** Calculate exchange request */
 export interface CalculateExchangeRequest {
   /** Calculate exchange request properties */
@@ -577,14 +675,6 @@ export interface CalculateExchangeRequestProperties {
   reservationsToPurchase?: PurchaseRequest[];
   /** List of reservations that are being returned in this exchange. */
   reservationsToExchange?: ReservationToReturn[];
-}
-
-/** Reservation to return */
-export interface ReservationToReturn {
-  /** Fully qualified identifier of the Reservation being returned */
-  reservationId?: string;
-  /** Quantity to be returned. Must be greater than zero. */
-  quantity?: number;
 }
 
 /** CalculateExchange operation result */
@@ -774,6 +864,11 @@ export interface ReservationSummary {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly cancelledCount?: number;
+  /**
+   * The number of reservation in Processing state
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly processingCount?: number;
 }
 
 /** Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message. */
@@ -827,6 +922,21 @@ export interface ChangeDirectoryResult {
 
 /** Quota properties. */
 export interface CurrentQuotaLimitBase {
+  /**
+   * The quota request ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the quota request.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Type of resource. "Microsoft.Capacity/ServiceLimits"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
   /** Quota properties for the resource. */
   properties?: QuotaProperties;
 }
@@ -897,42 +1007,6 @@ export interface ServiceErrorDetail {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly message?: string;
-}
-
-/** Response for the quota submission request. */
-export interface QuotaRequestOneResourceSubmitResponse {
-  /**
-   * The quota request ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The name of the quota request.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Type of resource. "Microsoft.Capacity/ServiceLimits"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * The quota request status.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: QuotaRequestState;
-  /**
-   * User friendly status message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-  /**
-   * The time when the quota request was submitted using format: yyyy-MM-ddTHH:mm:ssZ as specified by the ISO 8601 standard.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly requestSubmitTime?: Date;
-  /** Quota properties for the resource. */
-  properties?: QuotaProperties;
 }
 
 /** Response with request ID that the quota request was accepted. */
@@ -1073,6 +1147,21 @@ export interface CurrentQuotaLimit {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly message?: string;
+  /**
+   * The quota request ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the quota request.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Type of resource. "Microsoft.Capacity/ServiceLimits"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
   /** Quota properties for the resource. */
   properties?: QuotaProperties;
 }
@@ -1089,6 +1178,57 @@ export interface QuotaLimitsResponse {
 export interface CreateGenericQuotaRequestParameters {
   /** Quota change requests. */
   value?: CurrentQuotaLimitBase[];
+}
+
+/** Response for the quota submission request. */
+export interface QuotaRequestOneResourceSubmitResponse {
+  /**
+   * The quota request ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the quota request.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Type of resource. "Microsoft.Capacity/ServiceLimits"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The quota request status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: QuotaRequestState;
+  /**
+   * User friendly status message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The time when the quota request was submitted using format: yyyy-MM-ddTHH:mm:ssZ as specified by the ISO 8601 standard.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly requestSubmitTime?: Date;
+  /**
+   * The quota request ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly idPropertiesId?: string;
+  /**
+   * The name of the quota request.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly namePropertiesName?: string;
+  /**
+   * Type of resource. "Microsoft.Capacity/ServiceLimits"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly typePropertiesType?: string;
+  /** Quota properties for the resource. */
+  properties?: QuotaProperties;
 }
 
 /** Response for the quota submission request. */
@@ -1110,6 +1250,11 @@ export interface QuotaRequestSubmitResponse {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
+}
+
+/** Defines headers for Return_post operation. */
+export interface ReturnPostHeaders {
+  location?: string;
 }
 
 /** Defines headers for CalculateExchange_post operation. */
@@ -1152,62 +1297,122 @@ export interface QuotaListNextHeaders {
 
 /** Known values of {@link ErrorResponseCode} that the service accepts. */
 export enum KnownErrorResponseCode {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** InternalServerError */
   InternalServerError = "InternalServerError",
+  /** ServerTimeout */
   ServerTimeout = "ServerTimeout",
+  /** AuthorizationFailed */
   AuthorizationFailed = "AuthorizationFailed",
+  /** BadRequest */
   BadRequest = "BadRequest",
+  /** ClientCertificateThumbprintNotSet */
   ClientCertificateThumbprintNotSet = "ClientCertificateThumbprintNotSet",
+  /** InvalidRequestContent */
   InvalidRequestContent = "InvalidRequestContent",
+  /** OperationFailed */
   OperationFailed = "OperationFailed",
+  /** HttpMethodNotSupported */
   HttpMethodNotSupported = "HttpMethodNotSupported",
+  /** InvalidRequestUri */
   InvalidRequestUri = "InvalidRequestUri",
+  /** MissingTenantId */
   MissingTenantId = "MissingTenantId",
+  /** InvalidTenantId */
   InvalidTenantId = "InvalidTenantId",
+  /** InvalidReservationOrderId */
   InvalidReservationOrderId = "InvalidReservationOrderId",
+  /** InvalidReservationId */
   InvalidReservationId = "InvalidReservationId",
+  /** ReservationIdNotInReservationOrder */
   ReservationIdNotInReservationOrder = "ReservationIdNotInReservationOrder",
+  /** ReservationOrderNotFound */
   ReservationOrderNotFound = "ReservationOrderNotFound",
+  /** InvalidSubscriptionId */
   InvalidSubscriptionId = "InvalidSubscriptionId",
+  /** InvalidAccessToken */
   InvalidAccessToken = "InvalidAccessToken",
+  /** InvalidLocationId */
   InvalidLocationId = "InvalidLocationId",
+  /** UnauthenticatedRequestsThrottled */
   UnauthenticatedRequestsThrottled = "UnauthenticatedRequestsThrottled",
+  /** InvalidHealthCheckType */
   InvalidHealthCheckType = "InvalidHealthCheckType",
+  /** Forbidden */
   Forbidden = "Forbidden",
+  /** BillingScopeIdCannotBeChanged */
   BillingScopeIdCannotBeChanged = "BillingScopeIdCannotBeChanged",
+  /** AppliedScopesNotAssociatedWithCommerceAccount */
   AppliedScopesNotAssociatedWithCommerceAccount = "AppliedScopesNotAssociatedWithCommerceAccount",
+  /** PatchValuesSameAsExisting */
   PatchValuesSameAsExisting = "PatchValuesSameAsExisting",
+  /** RoleAssignmentCreationFailed */
   RoleAssignmentCreationFailed = "RoleAssignmentCreationFailed",
+  /** ReservationOrderCreationFailed */
   ReservationOrderCreationFailed = "ReservationOrderCreationFailed",
+  /** ReservationOrderNotEnabled */
   ReservationOrderNotEnabled = "ReservationOrderNotEnabled",
+  /** CapacityUpdateScopesFailed */
   CapacityUpdateScopesFailed = "CapacityUpdateScopesFailed",
+  /** UnsupportedReservationTerm */
   UnsupportedReservationTerm = "UnsupportedReservationTerm",
+  /** ReservationOrderIdAlreadyExists */
   ReservationOrderIdAlreadyExists = "ReservationOrderIdAlreadyExists",
+  /** RiskCheckFailed */
   RiskCheckFailed = "RiskCheckFailed",
+  /** CreateQuoteFailed */
   CreateQuoteFailed = "CreateQuoteFailed",
+  /** ActivateQuoteFailed */
   ActivateQuoteFailed = "ActivateQuoteFailed",
+  /** NonsupportedAccountId */
   NonsupportedAccountId = "NonsupportedAccountId",
+  /** PaymentInstrumentNotFound */
   PaymentInstrumentNotFound = "PaymentInstrumentNotFound",
+  /** MissingAppliedScopesForSingle */
   MissingAppliedScopesForSingle = "MissingAppliedScopesForSingle",
+  /** NoValidReservationsToReRate */
   NoValidReservationsToReRate = "NoValidReservationsToReRate",
+  /** ReRateOnlyAllowedForEA */
   ReRateOnlyAllowedForEA = "ReRateOnlyAllowedForEA",
+  /** OperationCannotBePerformedInCurrentState */
   OperationCannotBePerformedInCurrentState = "OperationCannotBePerformedInCurrentState",
+  /** InvalidSingleAppliedScopesCount */
   InvalidSingleAppliedScopesCount = "InvalidSingleAppliedScopesCount",
+  /** InvalidFulfillmentRequestParameters */
   InvalidFulfillmentRequestParameters = "InvalidFulfillmentRequestParameters",
+  /** NotSupportedCountry */
   NotSupportedCountry = "NotSupportedCountry",
+  /** InvalidRefundQuantity */
   InvalidRefundQuantity = "InvalidRefundQuantity",
+  /** PurchaseError */
   PurchaseError = "PurchaseError",
+  /** BillingCustomerInputError */
   BillingCustomerInputError = "BillingCustomerInputError",
+  /** BillingPaymentInstrumentSoftError */
   BillingPaymentInstrumentSoftError = "BillingPaymentInstrumentSoftError",
+  /** BillingPaymentInstrumentHardError */
   BillingPaymentInstrumentHardError = "BillingPaymentInstrumentHardError",
+  /** BillingTransientError */
   BillingTransientError = "BillingTransientError",
+  /** BillingError */
   BillingError = "BillingError",
+  /** FulfillmentConfigurationError */
   FulfillmentConfigurationError = "FulfillmentConfigurationError",
+  /** FulfillmentOutOfStockError */
   FulfillmentOutOfStockError = "FulfillmentOutOfStockError",
+  /** FulfillmentTransientError */
   FulfillmentTransientError = "FulfillmentTransientError",
+  /** FulfillmentError */
   FulfillmentError = "FulfillmentError",
+  /** CalculatePriceFailed */
   CalculatePriceFailed = "CalculatePriceFailed",
-  AppliedScopesSameAsExisting = "AppliedScopesSameAsExisting"
+  /** AppliedScopesSameAsExisting */
+  AppliedScopesSameAsExisting = "AppliedScopesSameAsExisting",
+  /** SelfServiceRefundNotSupported */
+  SelfServiceRefundNotSupported = "SelfServiceRefundNotSupported",
+  /** RefundLimitExceeded */
+  RefundLimitExceeded = "RefundLimitExceeded"
 }
 
 /**
@@ -1270,13 +1475,17 @@ export enum KnownErrorResponseCode {
  * **FulfillmentTransientError** \
  * **FulfillmentError** \
  * **CalculatePriceFailed** \
- * **AppliedScopesSameAsExisting**
+ * **AppliedScopesSameAsExisting** \
+ * **SelfServiceRefundNotSupported** \
+ * **RefundLimitExceeded**
  */
 export type ErrorResponseCode = string;
 
 /** Known values of {@link ReservationBillingPlan} that the service accepts. */
 export enum KnownReservationBillingPlan {
+  /** Upfront */
   Upfront = "Upfront",
+  /** Monthly */
   Monthly = "Monthly"
 }
 
@@ -1292,8 +1501,11 @@ export type ReservationBillingPlan = string;
 
 /** Known values of {@link ReservationTerm} that the service accepts. */
 export enum KnownReservationTerm {
+  /** P1Y */
   P1Y = "P1Y",
+  /** P3Y */
   P3Y = "P3Y",
+  /** P5Y */
   P5Y = "P5Y"
 }
 
@@ -1310,31 +1522,58 @@ export type ReservationTerm = string;
 
 /** Known values of {@link ReservedResourceType} that the service accepts. */
 export enum KnownReservedResourceType {
+  /** VirtualMachines */
   VirtualMachines = "VirtualMachines",
+  /** SqlDatabases */
   SqlDatabases = "SqlDatabases",
+  /** SuseLinux */
   SuseLinux = "SuseLinux",
+  /** CosmosDb */
   CosmosDb = "CosmosDb",
+  /** RedHat */
   RedHat = "RedHat",
+  /** SqlDataWarehouse */
   SqlDataWarehouse = "SqlDataWarehouse",
+  /** VMwareCloudSimple */
   VMwareCloudSimple = "VMwareCloudSimple",
+  /** RedHatOsa */
   RedHatOsa = "RedHatOsa",
+  /** Databricks */
   Databricks = "Databricks",
+  /** AppService */
   AppService = "AppService",
+  /** ManagedDisk */
   ManagedDisk = "ManagedDisk",
+  /** BlockBlob */
   BlockBlob = "BlockBlob",
+  /** RedisCache */
   RedisCache = "RedisCache",
+  /** AzureDataExplorer */
   AzureDataExplorer = "AzureDataExplorer",
+  /** MySql */
   MySql = "MySql",
+  /** MariaDb */
   MariaDb = "MariaDb",
+  /** PostgreSql */
   PostgreSql = "PostgreSql",
+  /** DedicatedHost */
   DedicatedHost = "DedicatedHost",
+  /** SapHana */
   SapHana = "SapHana",
+  /** SqlAzureHybridBenefit */
   SqlAzureHybridBenefit = "SqlAzureHybridBenefit",
+  /** AVS */
   AVS = "AVS",
+  /** DataFactory */
   DataFactory = "DataFactory",
+  /** NetAppStorage */
   NetAppStorage = "NetAppStorage",
+  /** AzureFiles */
   AzureFiles = "AzureFiles",
-  SqlEdge = "SqlEdge"
+  /** SqlEdge */
+  SqlEdge = "SqlEdge",
+  /** VirtualMachineSoftware */
+  VirtualMachineSoftware = "VirtualMachineSoftware"
 }
 
 /**
@@ -1366,13 +1605,16 @@ export enum KnownReservedResourceType {
  * **DataFactory** \
  * **NetAppStorage** \
  * **AzureFiles** \
- * **SqlEdge**
+ * **SqlEdge** \
+ * **VirtualMachineSoftware**
  */
 export type ReservedResourceType = string;
 
 /** Known values of {@link AppliedScopeType} that the service accepts. */
 export enum KnownAppliedScopeType {
+  /** Single */
   Single = "Single",
+  /** Shared */
   Shared = "Shared"
 }
 
@@ -1388,7 +1630,9 @@ export type AppliedScopeType = string;
 
 /** Known values of {@link InstanceFlexibility} that the service accepts. */
 export enum KnownInstanceFlexibility {
+  /** On */
   On = "On",
+  /** Off */
   Off = "Off"
 }
 
@@ -1404,9 +1648,13 @@ export type InstanceFlexibility = string;
 
 /** Known values of {@link PaymentStatus} that the service accepts. */
 export enum KnownPaymentStatus {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Scheduled */
   Scheduled = "Scheduled",
+  /** Cancelled */
   Cancelled = "Cancelled"
 }
 
@@ -1424,14 +1672,25 @@ export type PaymentStatus = string;
 
 /** Known values of {@link ReservationStatusCode} that the service accepts. */
 export enum KnownReservationStatusCode {
+  /** None */
   None = "None",
+  /** Pending */
   Pending = "Pending",
+  /** Processing */
+  Processing = "Processing",
+  /** Active */
   Active = "Active",
+  /** PurchaseError */
   PurchaseError = "PurchaseError",
+  /** PaymentInstrumentError */
   PaymentInstrumentError = "PaymentInstrumentError",
+  /** Split */
   Split = "Split",
+  /** Merged */
   Merged = "Merged",
+  /** Expired */
   Expired = "Expired",
+  /** Succeeded */
   Succeeded = "Succeeded"
 }
 
@@ -1442,6 +1701,7 @@ export enum KnownReservationStatusCode {
  * ### Known values supported by the service
  * **None** \
  * **Pending** \
+ * **Processing** \
  * **Active** \
  * **PurchaseError** \
  * **PaymentInstrumentError** \
@@ -1454,18 +1714,31 @@ export type ReservationStatusCode = string;
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
+  /** Creating */
   Creating = "Creating",
+  /** PendingResourceHold */
   PendingResourceHold = "PendingResourceHold",
+  /** ConfirmedResourceHold */
   ConfirmedResourceHold = "ConfirmedResourceHold",
+  /** PendingBilling */
   PendingBilling = "PendingBilling",
+  /** ConfirmedBilling */
   ConfirmedBilling = "ConfirmedBilling",
+  /** Created */
   Created = "Created",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Cancelled */
   Cancelled = "Cancelled",
+  /** Expired */
   Expired = "Expired",
+  /** BillingFailed */
   BillingFailed = "BillingFailed",
+  /** Failed */
   Failed = "Failed",
+  /** Split */
   Split = "Split",
+  /** Merged */
   Merged = "Merged"
 }
 
@@ -1492,9 +1765,13 @@ export type ProvisioningState = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -1512,9 +1789,13 @@ export type CreatedByType = string;
 
 /** Known values of {@link CalculateExchangeOperationResultStatus} that the service accepts. */
 export enum KnownCalculateExchangeOperationResultStatus {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Cancelled */
   Cancelled = "Cancelled",
+  /** Pending */
   Pending = "Pending"
 }
 
@@ -1532,10 +1813,15 @@ export type CalculateExchangeOperationResultStatus = string;
 
 /** Known values of {@link ExchangeOperationResultStatus} that the service accepts. */
 export enum KnownExchangeOperationResultStatus {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Cancelled */
   Cancelled = "Cancelled",
+  /** PendingRefunds */
   PendingRefunds = "PendingRefunds",
+  /** PendingPurchases */
   PendingPurchases = "PendingPurchases"
 }
 
@@ -1554,9 +1840,13 @@ export type ExchangeOperationResultStatus = string;
 
 /** Known values of {@link OperationStatus} that the service accepts. */
 export enum KnownOperationStatus {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Cancelled */
   Cancelled = "Cancelled",
+  /** Pending */
   Pending = "Pending"
 }
 
@@ -1574,10 +1864,15 @@ export type OperationStatus = string;
 
 /** Known values of {@link ResourceType} that the service accepts. */
 export enum KnownResourceType {
+  /** Standard */
   Standard = "standard",
+  /** Dedicated */
   Dedicated = "dedicated",
+  /** LowPriority */
   LowPriority = "lowPriority",
+  /** Shared */
   Shared = "shared",
+  /** ServiceSpecific */
   ServiceSpecific = "serviceSpecific"
 }
 
@@ -1596,10 +1891,15 @@ export type ResourceType = string;
 
 /** Known values of {@link QuotaRequestState} that the service accepts. */
 export enum KnownQuotaRequestState {
+  /** Accepted */
   Accepted = "Accepted",
+  /** Invalid */
   Invalid = "Invalid",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** InProgress */
   InProgress = "InProgress"
 }
 
@@ -1618,29 +1918,53 @@ export type QuotaRequestState = string;
 
 /** Known values of {@link Location} that the service accepts. */
 export enum KnownLocation {
+  /** Westus */
   Westus = "westus",
+  /** Eastus */
   Eastus = "eastus",
+  /** Eastus2 */
   Eastus2 = "eastus2",
+  /** Northcentralus */
   Northcentralus = "northcentralus",
+  /** Westus2 */
   Westus2 = "westus2",
+  /** Southcentralus */
   Southcentralus = "southcentralus",
+  /** Centralus */
   Centralus = "centralus",
+  /** Westeurope */
   Westeurope = "westeurope",
+  /** Northeurope */
   Northeurope = "northeurope",
+  /** Eastasia */
   Eastasia = "eastasia",
+  /** Southeastasia */
   Southeastasia = "southeastasia",
+  /** Japaneast */
   Japaneast = "japaneast",
+  /** Japanwest */
   Japanwest = "japanwest",
+  /** Brazilsouth */
   Brazilsouth = "brazilsouth",
+  /** Australiaeast */
   Australiaeast = "australiaeast",
+  /** Australiasoutheast */
   Australiasoutheast = "australiasoutheast",
+  /** Southindia */
   Southindia = "southindia",
+  /** Westindia */
   Westindia = "westindia",
+  /** Centralindia */
   Centralindia = "centralindia",
+  /** Canadacentral */
   Canadacentral = "canadacentral",
+  /** Canadaeast */
   Canadaeast = "canadaeast",
+  /** Uksouth */
   Uksouth = "uksouth",
+  /** Westcentralus */
   Westcentralus = "westcentralus",
+  /** Ukwest */
   Ukwest = "ukwest"
 }
 
@@ -1678,11 +2002,19 @@ export type Location = string;
 
 /** Known values of {@link DisplayProvisioningState} that the service accepts. */
 export enum KnownDisplayProvisioningState {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Expiring */
   Expiring = "Expiring",
+  /** Expired */
   Expired = "Expired",
+  /** Pending */
   Pending = "Pending",
+  /** Processing */
+  Processing = "Processing",
+  /** Cancelled */
   Cancelled = "Cancelled",
+  /** Failed */
   Failed = "Failed"
 }
 
@@ -1695,6 +2027,7 @@ export enum KnownDisplayProvisioningState {
  * **Expiring** \
  * **Expired** \
  * **Pending** \
+ * **Processing** \
  * **Cancelled** \
  * **Failed**
  */
@@ -1702,10 +2035,15 @@ export type DisplayProvisioningState = string;
 
 /** Known values of {@link UserFriendlyAppliedScopeType} that the service accepts. */
 export enum KnownUserFriendlyAppliedScopeType {
+  /** None */
   None = "None",
+  /** Shared */
   Shared = "Shared",
+  /** Single */
   Single = "Single",
+  /** ResourceGroup */
   ResourceGroup = "ResourceGroup",
+  /** ManagementGroup */
   ManagementGroup = "ManagementGroup"
 }
 
@@ -1724,10 +2062,15 @@ export type UserFriendlyAppliedScopeType = string;
 
 /** Known values of {@link UserFriendlyRenewState} that the service accepts. */
 export enum KnownUserFriendlyRenewState {
+  /** On */
   On = "On",
+  /** Off */
   Off = "Off",
+  /** Renewed */
   Renewed = "Renewed",
+  /** NotRenewed */
   NotRenewed = "NotRenewed",
+  /** NotApplicable */
   NotApplicable = "NotApplicable"
 }
 
@@ -1810,6 +2153,14 @@ export interface ReservationUpdateOptionalParams
 export type ReservationUpdateResponse = ReservationResponse;
 
 /** Optional parameters. */
+export interface ReservationArchiveOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface ReservationUnarchiveOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
 export interface ReservationListRevisionsOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -1876,6 +2227,12 @@ export interface GetCatalogOptionalParams extends coreClient.OperationOptions {
   reservedResourceType?: string;
   /** Filters the skus based on the location specified in this parameter. This can be an azure region or global */
   location?: string;
+  /** Publisher id used to get the third party products */
+  publisherId?: string;
+  /** Offer id used to get the third party products */
+  offerId?: string;
+  /** Plan id used to get the third party products */
+  planId?: string;
 }
 
 /** Contains response data for the getCatalog operation. */
@@ -1953,6 +2310,19 @@ export interface OperationListNextOptionalParams
 export type OperationListNextResponse = OperationList;
 
 /** Optional parameters. */
+export interface CalculateRefundPostOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the post operation. */
+export type CalculateRefundPostResponse = CalculateRefundResponse;
+
+/** Optional parameters. */
+export interface ReturnPostOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the post operation. */
+export type ReturnPostResponse = ReturnPostHeaders & RefundResponse;
+
+/** Optional parameters. */
 export interface CalculateExchangePostOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -1992,7 +2362,7 @@ export interface QuotaCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type QuotaCreateOrUpdateResponse = QuotaRequestOneResourceSubmitResponse;
+export type QuotaCreateOrUpdateResponse = CurrentQuotaLimitBase;
 
 /** Optional parameters. */
 export interface QuotaUpdateOptionalParams extends coreClient.OperationOptions {
@@ -2003,7 +2373,7 @@ export interface QuotaUpdateOptionalParams extends coreClient.OperationOptions {
 }
 
 /** Contains response data for the update operation. */
-export type QuotaUpdateResponse = QuotaRequestOneResourceSubmitResponse;
+export type QuotaUpdateResponse = CurrentQuotaLimitBase;
 
 /** Optional parameters. */
 export interface QuotaListOptionalParams extends coreClient.OperationOptions {}
@@ -2029,11 +2399,9 @@ export type QuotaRequestStatusGetResponse = QuotaRequestDetails;
 export interface QuotaRequestStatusListOptionalParams
   extends coreClient.OperationOptions {
   /**
-   * | Field                    | Supported operators
-   * |---------------------|------------------------
-   *
-   * |requestSubmitTime | ge, le, eq, gt, lt
-   *
+   * | Field | Supported operators |
+   * |---------------------|------------------------|
+   * |requestSubmitTime | ge, le, eq, gt, lt |
    */
   filter?: string;
   /** Number of records to return. */
@@ -2049,11 +2417,9 @@ export type QuotaRequestStatusListResponse = QuotaRequestDetailsList;
 export interface QuotaRequestStatusListNextOptionalParams
   extends coreClient.OperationOptions {
   /**
-   * | Field                    | Supported operators
-   * |---------------------|------------------------
-   *
-   * |requestSubmitTime | ge, le, eq, gt, lt
-   *
+   * | Field | Supported operators |
+   * |---------------------|------------------------|
+   * |requestSubmitTime | ge, le, eq, gt, lt |
    */
   filter?: string;
   /** Number of records to return. */

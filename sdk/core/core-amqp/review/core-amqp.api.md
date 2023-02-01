@@ -8,7 +8,6 @@
 
 import { AbortSignalLike } from '@azure/abort-controller';
 import { AccessToken } from '@azure/core-auth';
-import { AmqpError } from 'rhea-promise';
 import { AzureLogger } from '@azure/logger';
 import { Connection } from 'rhea-promise';
 import { Message } from 'rhea-promise';
@@ -197,8 +196,8 @@ export interface ConnectionConfig {
 
 // @public
 export const ConnectionConfig: {
-    create(connectionString: string, path?: string | undefined): ConnectionConfig;
-    validate(config: ConnectionConfig, options?: ConnectionConfigOptions | undefined): void;
+    create(connectionString: string, path?: string): ConnectionConfig;
+    validate(config: ConnectionConfig, options?: ConnectionConfigOptions): void;
 };
 
 // @public
@@ -597,7 +596,7 @@ export enum TokenType {
 }
 
 // @public
-export function translate(err: AmqpError | Error): MessagingError | Error;
+export function translate(err: unknown): MessagingError | Error;
 
 // @public
 export interface WebSocketOptions {

@@ -4,16 +4,20 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-
-import { credentialLogger } from "../util/logging";
-import { trace } from "../util/tracing";
-import { AuthenticationRecord } from "../msal/types";
-import { MsalOpenBrowser } from "../msal/nodeFlows/msalOpenBrowser";
-import { MsalFlow } from "../msal/flows";
 import {
   InteractiveBrowserCredentialInBrowserOptions,
   InteractiveBrowserCredentialNodeOptions,
 } from "./interactiveBrowserCredentialOptions";
+import {
+  processMultiTenantRequest,
+  resolveAddionallyAllowedTenantIds,
+} from "../util/tenantIdUtils";
+import { AuthenticationRecord } from "../msal/types";
+import { MsalFlow } from "../msal/flows";
+import { MsalOpenBrowser } from "../msal/nodeFlows/msalOpenBrowser";
+import { credentialLogger } from "../util/logging";
+import { ensureScopes } from "../util/scopeUtils";
+import { tracingClient } from "../util/tracing";
 
 const logger = credentialLogger("InteractiveBrowserCredential");
 
@@ -22,6 +26,8 @@ const logger = credentialLogger("InteractiveBrowserCredential");
  * using the interactive login flow.
  */
 export class InteractiveBrowserCredential implements TokenCredential {
+  private tenantId?: string;
+  private additionallyAllowedTenantIds: string[];
   private msalFlow: MsalFlow;
   private disableAutomaticAuthentication?: boolean;
 
@@ -47,6 +53,11 @@ export class InteractiveBrowserCredential implements TokenCredential {
         ? options.redirectUri()
         : options.redirectUri || "http://localhost";
 
+    this.tenantId = options?.tenantId;
+    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
+      options?.additionallyAllowedTenants
+    );
+
     this.msalFlow = new MsalOpenBrowser({
       ...options,
       tokenCredentialOptions: options,
@@ -69,13 +80,23 @@ export class InteractiveBrowserCredential implements TokenCredential {
    *                TokenCredential implementation might make.
    */
   async getToken(scopes: string | string[], options: GetTokenOptions = {}): Promise<AccessToken> {
-    return trace(`${this.constructor.name}.getToken`, options, async (newOptions) => {
-      const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
-      return this.msalFlow.getToken(arrayScopes, {
-        ...newOptions,
-        disableAutomaticAuthentication: this.disableAutomaticAuthentication,
-      });
-    });
+    return tracingClient.withSpan(
+      `${this.constructor.name}.getToken`,
+      options,
+      async (newOptions) => {
+        newOptions.tenantId = processMultiTenantRequest(
+          this.tenantId,
+          newOptions,
+          this.additionallyAllowedTenantIds
+        );
+
+        const arrayScopes = ensureScopes(scopes);
+        return this.msalFlow.getToken(arrayScopes, {
+          ...newOptions,
+          disableAutomaticAuthentication: this.disableAutomaticAuthentication,
+        });
+      }
+    );
   }
 
   /**
@@ -95,10 +116,14 @@ export class InteractiveBrowserCredential implements TokenCredential {
     scopes: string | string[],
     options: GetTokenOptions = {}
   ): Promise<AuthenticationRecord | undefined> {
-    return trace(`${this.constructor.name}.authenticate`, options, async (newOptions) => {
-      const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
-      await this.msalFlow.getToken(arrayScopes, newOptions);
-      return this.msalFlow.getActiveAccount();
-    });
+    return tracingClient.withSpan(
+      `${this.constructor.name}.authenticate`,
+      options,
+      async (newOptions) => {
+        const arrayScopes = ensureScopes(scopes);
+        await this.msalFlow.getToken(arrayScopes, newOptions);
+        return this.msalFlow.getActiveAccount();
+      }
+    );
   }
 }

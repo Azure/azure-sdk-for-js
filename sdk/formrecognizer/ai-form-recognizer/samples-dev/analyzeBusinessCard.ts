@@ -11,13 +11,12 @@
  * https://aka.ms/azsdk/formrecognizer/businesscardfieldschema
  *
  * @summary extract data from a business card document
+ * @azsdk-skip-javascript
  */
 
-import {
-  AzureKeyCredential,
-  DocumentAnalysisClient,
-  PrebuiltModels,
-} from "@azure/ai-form-recognizer";
+import { AzureKeyCredential, DocumentAnalysisClient } from "@azure/ai-form-recognizer";
+
+import { PrebuiltBusinessCardModel } from "./prebuilt/prebuilt-businessCard";
 
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -28,19 +27,17 @@ async function main() {
 
   const client = new DocumentAnalysisClient(endpoint, credential);
 
-  const poller = await client.beginAnalyzeDocument(
-    PrebuiltModels.BusinessCard,
+  const poller = await client.beginAnalyzeDocumentFromUrl(
+    PrebuiltBusinessCardModel,
     // The form recognizer service will access the following URL to a business card image and extract data from it
     "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/formrecognizer/ai-form-recognizer/assets/businessCard/business-card-english.jpg"
   );
 
-  const {
-    documents: [result],
-  } = await poller.pollUntilDone();
+  const { documents } = await poller.pollUntilDone();
 
   // Use of PrebuiltModels.Receipt above (rather than the raw model ID), adds strong typing of the model's output
-  if (result) {
-    const businessCard = result.fields;
+  if (documents) {
+    const businessCard = documents[0].fields;
     console.log("=== Business Card Information ===");
 
     // There are more fields than just these few, and the model allows for multiple contact & company names as well as

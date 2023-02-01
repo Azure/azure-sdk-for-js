@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ManagementLocks } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,12 +17,16 @@ import {
   ManagementLockObject,
   ManagementLocksListAtResourceGroupLevelNextOptionalParams,
   ManagementLocksListAtResourceGroupLevelOptionalParams,
+  ManagementLocksListAtResourceGroupLevelResponse,
   ManagementLocksListAtResourceLevelNextOptionalParams,
   ManagementLocksListAtResourceLevelOptionalParams,
+  ManagementLocksListAtResourceLevelResponse,
   ManagementLocksListAtSubscriptionLevelNextOptionalParams,
   ManagementLocksListAtSubscriptionLevelOptionalParams,
+  ManagementLocksListAtSubscriptionLevelResponse,
   ManagementLocksListByScopeNextOptionalParams,
   ManagementLocksListByScopeOptionalParams,
+  ManagementLocksListByScopeResponse,
   ManagementLocksCreateOrUpdateAtResourceGroupLevelOptionalParams,
   ManagementLocksCreateOrUpdateAtResourceGroupLevelResponse,
   ManagementLocksDeleteAtResourceGroupLevelOptionalParams,
@@ -42,10 +47,6 @@ import {
   ManagementLocksDeleteAtSubscriptionLevelOptionalParams,
   ManagementLocksGetAtSubscriptionLevelOptionalParams,
   ManagementLocksGetAtSubscriptionLevelResponse,
-  ManagementLocksListAtResourceGroupLevelResponse,
-  ManagementLocksListAtResourceLevelResponse,
-  ManagementLocksListAtSubscriptionLevelResponse,
-  ManagementLocksListByScopeResponse,
   ManagementLocksListAtResourceGroupLevelNextResponse,
   ManagementLocksListAtResourceLevelNextResponse,
   ManagementLocksListAtSubscriptionLevelNextResponse,
@@ -85,10 +86,14 @@ export class ManagementLocksImpl implements ManagementLocks {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listAtResourceGroupLevelPagingPage(
           resourceGroupName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -96,14 +101,18 @@ export class ManagementLocksImpl implements ManagementLocks {
 
   private async *listAtResourceGroupLevelPagingPage(
     resourceGroupName: string,
-    options?: ManagementLocksListAtResourceGroupLevelOptionalParams
+    options?: ManagementLocksListAtResourceGroupLevelOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ManagementLockObject[]> {
-    let result = await this._listAtResourceGroupLevel(
-      resourceGroupName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ManagementLocksListAtResourceGroupLevelResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listAtResourceGroupLevel(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listAtResourceGroupLevelNext(
         resourceGroupName,
@@ -111,7 +120,9 @@ export class ManagementLocksImpl implements ManagementLocks {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -160,14 +171,18 @@ export class ManagementLocksImpl implements ManagementLocks {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listAtResourceLevelPagingPage(
           resourceGroupName,
           resourceProviderNamespace,
           parentResourcePath,
           resourceType,
           resourceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -179,18 +194,25 @@ export class ManagementLocksImpl implements ManagementLocks {
     parentResourcePath: string,
     resourceType: string,
     resourceName: string,
-    options?: ManagementLocksListAtResourceLevelOptionalParams
+    options?: ManagementLocksListAtResourceLevelOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ManagementLockObject[]> {
-    let result = await this._listAtResourceLevel(
-      resourceGroupName,
-      resourceProviderNamespace,
-      parentResourcePath,
-      resourceType,
-      resourceName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ManagementLocksListAtResourceLevelResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listAtResourceLevel(
+        resourceGroupName,
+        resourceProviderNamespace,
+        parentResourcePath,
+        resourceType,
+        resourceName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listAtResourceLevelNext(
         resourceGroupName,
@@ -202,7 +224,9 @@ export class ManagementLocksImpl implements ManagementLocks {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -241,25 +265,37 @@ export class ManagementLocksImpl implements ManagementLocks {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listAtSubscriptionLevelPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listAtSubscriptionLevelPagingPage(options, settings);
       }
     };
   }
 
   private async *listAtSubscriptionLevelPagingPage(
-    options?: ManagementLocksListAtSubscriptionLevelOptionalParams
+    options?: ManagementLocksListAtSubscriptionLevelOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ManagementLockObject[]> {
-    let result = await this._listAtSubscriptionLevel(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ManagementLocksListAtSubscriptionLevelResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listAtSubscriptionLevel(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listAtSubscriptionLevelNext(
         continuationToken,
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -292,23 +328,35 @@ export class ManagementLocksImpl implements ManagementLocks {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByScopePagingPage(scope, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByScopePagingPage(scope, options, settings);
       }
     };
   }
 
   private async *listByScopePagingPage(
     scope: string,
-    options?: ManagementLocksListByScopeOptionalParams
+    options?: ManagementLocksListByScopeOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ManagementLockObject[]> {
-    let result = await this._listByScope(scope, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ManagementLocksListByScopeResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByScope(scope, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByScopeNext(scope, continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -780,6 +828,9 @@ const createOrUpdateAtResourceGroupLevelOperationSpec: coreClient.OperationSpec 
     },
     201: {
       bodyMapper: Mappers.ManagementLockObject
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.parameters,
@@ -798,7 +849,13 @@ const deleteAtResourceGroupLevelOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Authorization/locks/{lockName}",
   httpMethod: "DELETE",
-  responses: { 200: {}, 204: {} },
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -806,6 +863,7 @@ const deleteAtResourceGroupLevelOperationSpec: coreClient.OperationSpec = {
     Parameters.lockName,
     Parameters.subscriptionId
   ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const getAtResourceGroupLevelOperationSpec: coreClient.OperationSpec = {
@@ -815,6 +873,9 @@ const getAtResourceGroupLevelOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ManagementLockObject
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -836,6 +897,9 @@ const createOrUpdateByScopeOperationSpec: coreClient.OperationSpec = {
     },
     201: {
       bodyMapper: Mappers.ManagementLockObject
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.parameters,
@@ -848,9 +912,16 @@ const createOrUpdateByScopeOperationSpec: coreClient.OperationSpec = {
 const deleteByScopeOperationSpec: coreClient.OperationSpec = {
   path: "/{scope}/providers/Microsoft.Authorization/locks/{lockName}",
   httpMethod: "DELETE",
-  responses: { 200: {}, 204: {} },
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.lockName, Parameters.scope],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const getByScopeOperationSpec: coreClient.OperationSpec = {
@@ -859,6 +930,9 @@ const getByScopeOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ManagementLockObject
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -876,6 +950,9 @@ const createOrUpdateAtResourceLevelOperationSpec: coreClient.OperationSpec = {
     },
     201: {
       bodyMapper: Mappers.ManagementLockObject
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.parameters,
@@ -898,7 +975,13 @@ const deleteAtResourceLevelOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}/providers/Microsoft.Authorization/locks/{lockName}",
   httpMethod: "DELETE",
-  responses: { 200: {}, 204: {} },
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -910,6 +993,7 @@ const deleteAtResourceLevelOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceType,
     Parameters.resourceName
   ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const getAtResourceLevelOperationSpec: coreClient.OperationSpec = {
@@ -919,6 +1003,9 @@ const getAtResourceLevelOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ManagementLockObject
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -945,6 +1032,9 @@ const createOrUpdateAtSubscriptionLevelOperationSpec: coreClient.OperationSpec =
     },
     201: {
       bodyMapper: Mappers.ManagementLockObject
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.parameters,
@@ -962,13 +1052,20 @@ const deleteAtSubscriptionLevelOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/locks/{lockName}",
   httpMethod: "DELETE",
-  responses: { 200: {}, 204: {} },
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.lockName,
     Parameters.subscriptionId
   ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const getAtSubscriptionLevelOperationSpec: coreClient.OperationSpec = {
@@ -978,6 +1075,9 @@ const getAtSubscriptionLevelOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ManagementLockObject
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -996,6 +1096,9 @@ const listAtResourceGroupLevelOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ManagementLockListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter],
@@ -1014,6 +1117,9 @@ const listAtResourceLevelOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ManagementLockListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter],
@@ -1036,6 +1142,9 @@ const listAtSubscriptionLevelOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ManagementLockListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter],
@@ -1049,6 +1158,9 @@ const listByScopeOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ManagementLockListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter],
@@ -1062,6 +1174,9 @@ const listAtResourceGroupLevelNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ManagementLockListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter],
@@ -1080,6 +1195,9 @@ const listAtResourceLevelNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ManagementLockListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter],
@@ -1102,6 +1220,9 @@ const listAtSubscriptionLevelNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ManagementLockListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter],
@@ -1119,6 +1240,9 @@ const listByScopeNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ManagementLockListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter],

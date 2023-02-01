@@ -18,6 +18,7 @@ import { RequestResponseLink } from "./requestResponseLink";
 import { StandardAbortMessage } from "./util/constants";
 import { TokenType } from "./auth/token";
 import { defaultCancellableLock } from "./util/utils";
+import { isError } from "@azure/core-util";
 import { translate } from "./errors";
 
 /**
@@ -238,7 +239,7 @@ export class CbsClient {
       logger.warning(
         "[%s] An error occurred while negotiating the cbs claim: %s",
         this.connection.id,
-        `${err?.name}: ${err?.message}`
+        isError(err) ? `${err.name}: ${err.message}` : String(err)
       );
       logErrorStackTrace(err);
       throw err;
@@ -260,7 +261,7 @@ export class CbsClient {
       }
     } catch (err) {
       const msg = `An error occurred while closing the cbs link: ${
-        err.stack || JSON.stringify(err)
+        isError(err) && err.stack ? err.stack : JSON.stringify(err)
       }.`;
       logger.verbose("[%s] %s", this.connection.id, msg);
       throw new Error(msg);
@@ -281,7 +282,7 @@ export class CbsClient {
       }
     } catch (err) {
       const msg = `An error occurred while removing the cbs link: ${
-        err.stack || JSON.stringify(err)
+        isError(err) && err.stack ? err.stack : JSON.stringify(err)
       }.`;
       logger.verbose("[%s] %s", this.connection.id, msg);
       throw new Error(msg);

@@ -1,6 +1,6 @@
 # Release History
 
-## 4.0.1 (Unreleased)
+## 4.1.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,19 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 4.1.0 (2022-11-22)
+    
+**Features**
+
+  - Added Interface DomainService
+  - Added Interface OuContainer
+    
+## 4.0.1 (2022-04-18)
+
+**features**
+
+  - Bug fix
 
 ## 4.0.0 (2022-01-13)
 

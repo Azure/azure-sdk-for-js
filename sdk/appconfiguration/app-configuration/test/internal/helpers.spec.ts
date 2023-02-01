@@ -2,29 +2,29 @@
 // Licensed under the MIT license.
 
 import {
-  checkAndFormatIfAndIfNoneMatch,
-  formatFiltersAndSelect,
-  extractAfterTokenFromNextLink,
-  quoteETag,
-  makeConfigurationSettingEmpty,
-  transformKeyValue,
-  transformKeyValueResponseWithStatusCode,
-  transformKeyValueResponse,
-  formatFieldsForSelect,
-  serializeAsConfigurationSettingParam,
-} from "../../src/internal/helpers";
-import { assert } from "chai";
-import {
   ConfigurationSetting,
   ConfigurationSettingParam,
-  featureFlagContentType,
   HttpResponseField,
   HttpResponseFields,
+  featureFlagContentType,
   secretReferenceContentType,
 } from "../../src";
-import { HttpHeaders } from "@azure/core-http";
+import {
+  checkAndFormatIfAndIfNoneMatch,
+  extractAfterTokenFromNextLink,
+  formatFieldsForSelect,
+  formatFiltersAndSelect,
+  makeConfigurationSettingEmpty,
+  quoteETag,
+  serializeAsConfigurationSettingParam,
+  transformKeyValue,
+  transformKeyValueResponse,
+  transformKeyValueResponseWithStatusCode,
+} from "../../src/internal/helpers";
 import { FeatureFlagValue } from "../../src/featureFlag";
+import { HttpHeadersLike } from "@azure/core-http-compat";
 import { SecretReferenceValue } from "../../src/secretReference";
+import { assert } from "chai";
 
 describe("helper methods", () => {
   it("checkAndFormatIfAndIfNoneMatch", () => {
@@ -191,20 +191,12 @@ describe("helper methods", () => {
         },
         method: "GET",
         withCredentials: false,
-        headers: new HttpHeaders(),
+        headers: {} as HttpHeadersLike,
         timeout: 0,
         requestId: "",
-        clone: function () {
-          return this;
-        },
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
-        validateRequestProperties: () => {},
-        prepare: function () {
-          return this;
-        },
       },
       status: 204,
-      headers: new HttpHeaders(),
+      headers: {} as HttpHeadersLike,
       bodyAsText: "",
       parsedHeaders: {},
     },
@@ -246,15 +238,18 @@ describe("helper methods", () => {
       isReadOnly: true,
       key: "hello",
       value: undefined,
-    });
+    } as unknown);
   });
 
   it("transformKeyValueResponseWithStatusCode", () => {
-    const configurationSetting = transformKeyValueResponseWithStatusCode({
-      key: "hello",
-      locked: true,
-      ...fakeHttp204Response,
-    });
+    const configurationSetting = transformKeyValueResponseWithStatusCode(
+      {
+        key: "hello",
+        locked: true,
+        ...fakeHttp204Response,
+      },
+      204
+    );
 
     const actualKeys = Object.keys(configurationSetting).sort();
 
@@ -272,7 +267,7 @@ describe("helper methods", () => {
       value: undefined,
       statusCode: 204,
       _response: fakeHttp204Response._response,
-    });
+    } as unknown);
   });
 
   it("transformKeyValueResponse", () => {
@@ -297,7 +292,7 @@ describe("helper methods", () => {
       key: "hello",
       value: undefined,
       _response: fakeHttp204Response._response,
-    });
+    } as unknown);
   });
 
   it("normalizeFilterFields", () => {

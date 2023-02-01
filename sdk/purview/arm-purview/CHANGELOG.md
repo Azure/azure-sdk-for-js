@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.1 (Unreleased)
+## 1.1.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,29 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.1.0 (2022-12-05)
+    
+**Features**
+
+  - Added Interface Account
+  - Added Interface AccountPropertiesEndpoints
+  - Added Interface AccountPropertiesManagedResources
+  - Added Interface AccountSku
+  - Added Interface ErrorResponseModelError
+  - Added Interface PrivateEndpointConnection
+  - Added Interface TrackedResourceSystemData
+  - Added Interface UserAssignedIdentity
+  - Interface AccountUpdateParameters has a new optional parameter identity
+  - Interface Identity has a new optional parameter userAssignedIdentities
+  - Enum KnownType has a new value None
+  - Enum KnownType has a new value UserAssigned
+    
+## 1.0.1 (2022-04-28)
+
+**Features**
+
+  - Bug fix
 
 ## 1.0.0 (2021-12-13)
 

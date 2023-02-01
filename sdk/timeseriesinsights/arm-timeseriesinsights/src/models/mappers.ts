@@ -739,6 +739,91 @@ export const AccessPolicyListResponse: coreClient.CompositeMapper = {
   }
 };
 
+export const PrivateEndpoint: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PrivateEndpoint",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PrivateLinkServiceConnectionState: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PrivateLinkServiceConnectionState",
+    modelProperties: {
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      actionsRequired: {
+        serializedName: "actionsRequired",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PrivateEndpointConnectionListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PrivateEndpointConnectionListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PrivateEndpointConnection"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const PrivateLinkResourceListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PrivateLinkResourceListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PrivateLinkResource"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const WarmStoreConfigurationProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1127,6 +1212,88 @@ export const AccessPolicyResource: coreClient.CompositeMapper = {
   }
 };
 
+export const PrivateEndpointConnection: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PrivateEndpointConnection",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      privateEndpoint: {
+        serializedName: "properties.privateEndpoint",
+        type: {
+          name: "Composite",
+          className: "PrivateEndpoint"
+        }
+      },
+      groupIds: {
+        serializedName: "properties.groupIds",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      privateLinkServiceConnectionState: {
+        serializedName: "properties.privateLinkServiceConnectionState",
+        type: {
+          name: "Composite",
+          className: "PrivateLinkServiceConnectionState"
+        }
+      }
+    }
+  }
+};
+
+export const PrivateLinkResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PrivateLinkResource",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      groupId: {
+        serializedName: "properties.groupId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      requiredMembers: {
+        serializedName: "properties.requiredMembers",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      requiredZoneNames: {
+        serializedName: "properties.requiredZoneNames",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const Gen1EnvironmentUpdateParameters: coreClient.CompositeMapper = {
   serializedName: "Gen1",
   type: {
@@ -1365,9 +1532,9 @@ export const Gen1EnvironmentCreateOrUpdateParameters: coreClient.CompositeMapper
   type: {
     name: "Composite",
     className: "Gen1EnvironmentCreateOrUpdateParameters",
-    uberParent: "CreateOrUpdateTrackedResourceProperties",
+    uberParent: "EnvironmentCreateOrUpdateParameters",
     polymorphicDiscriminator:
-      CreateOrUpdateTrackedResourceProperties.type.polymorphicDiscriminator,
+      EnvironmentCreateOrUpdateParameters.type.polymorphicDiscriminator,
     modelProperties: {
       ...EnvironmentCreateOrUpdateParameters.type.modelProperties,
       dataRetentionTime: {
@@ -1404,9 +1571,9 @@ export const Gen2EnvironmentCreateOrUpdateParameters: coreClient.CompositeMapper
   type: {
     name: "Composite",
     className: "Gen2EnvironmentCreateOrUpdateParameters",
-    uberParent: "CreateOrUpdateTrackedResourceProperties",
+    uberParent: "EnvironmentCreateOrUpdateParameters",
     polymorphicDiscriminator:
-      CreateOrUpdateTrackedResourceProperties.type.polymorphicDiscriminator,
+      EnvironmentCreateOrUpdateParameters.type.polymorphicDiscriminator,
     modelProperties: {
       ...EnvironmentCreateOrUpdateParameters.type.modelProperties,
       timeSeriesIdProperties: {
@@ -1435,6 +1602,25 @@ export const Gen2EnvironmentCreateOrUpdateParameters: coreClient.CompositeMapper
           name: "Composite",
           className: "WarmStoreConfigurationProperties"
         }
+      },
+      publicNetworkAccess: {
+        serializedName: "properties.publicNetworkAccess",
+        type: {
+          name: "String"
+        }
+      },
+      privateEndpointConnections: {
+        serializedName: "properties.privateEndpointConnections",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PrivateEndpointConnection"
+            }
+          }
+        }
       }
     }
   }
@@ -1445,9 +1631,9 @@ export const EventHubEventSourceCreateOrUpdateParameters: coreClient.CompositeMa
   type: {
     name: "Composite",
     className: "EventHubEventSourceCreateOrUpdateParameters",
-    uberParent: "CreateOrUpdateTrackedResourceProperties",
+    uberParent: "EventSourceCreateOrUpdateParameters",
     polymorphicDiscriminator:
-      CreateOrUpdateTrackedResourceProperties.type.polymorphicDiscriminator,
+      EventSourceCreateOrUpdateParameters.type.polymorphicDiscriminator,
     modelProperties: {
       ...EventSourceCreateOrUpdateParameters.type.modelProperties,
       provisioningState: {
@@ -1540,9 +1726,9 @@ export const IoTHubEventSourceCreateOrUpdateParameters: coreClient.CompositeMapp
   type: {
     name: "Composite",
     className: "IoTHubEventSourceCreateOrUpdateParameters",
-    uberParent: "CreateOrUpdateTrackedResourceProperties",
+    uberParent: "EventSourceCreateOrUpdateParameters",
     polymorphicDiscriminator:
-      CreateOrUpdateTrackedResourceProperties.type.polymorphicDiscriminator,
+      EventSourceCreateOrUpdateParameters.type.polymorphicDiscriminator,
     modelProperties: {
       ...EventSourceCreateOrUpdateParameters.type.modelProperties,
       provisioningState: {
@@ -1628,7 +1814,7 @@ export const EnvironmentResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "EnvironmentResource",
-    uberParent: "Resource",
+    uberParent: "TrackedResource",
     polymorphicDiscriminator: {
       serializedName: "kind",
       clientName: "kind"
@@ -1658,7 +1844,7 @@ export const EventSourceResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "EventSourceResource",
-    uberParent: "Resource",
+    uberParent: "TrackedResource",
     polymorphicDiscriminator: {
       serializedName: "kind",
       clientName: "kind"
@@ -1750,6 +1936,25 @@ export const Gen2EnvironmentResourceProperties: coreClient.CompositeMapper = {
           name: "Composite",
           className: "WarmStoreConfigurationProperties"
         }
+      },
+      publicNetworkAccess: {
+        serializedName: "publicNetworkAccess",
+        type: {
+          name: "String"
+        }
+      },
+      privateEndpointConnections: {
+        serializedName: "privateEndpointConnections",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PrivateEndpointConnection"
+            }
+          }
+        }
       }
     }
   }
@@ -1777,8 +1982,8 @@ export const Gen1EnvironmentResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "Gen1EnvironmentResource",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "EnvironmentResource",
+    polymorphicDiscriminator: EnvironmentResource.type.polymorphicDiscriminator,
     modelProperties: {
       ...EnvironmentResource.type.modelProperties,
       dataRetentionTime: {
@@ -1850,8 +2055,8 @@ export const Gen2EnvironmentResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "Gen2EnvironmentResource",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "EnvironmentResource",
+    polymorphicDiscriminator: EnvironmentResource.type.polymorphicDiscriminator,
     modelProperties: {
       ...EnvironmentResource.type.modelProperties,
       provisioningState: {
@@ -1915,6 +2120,25 @@ export const Gen2EnvironmentResource: coreClient.CompositeMapper = {
           name: "Composite",
           className: "WarmStoreConfigurationProperties"
         }
+      },
+      publicNetworkAccess: {
+        serializedName: "properties.publicNetworkAccess",
+        type: {
+          name: "String"
+        }
+      },
+      privateEndpointConnections: {
+        serializedName: "properties.privateEndpointConnections",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PrivateEndpointConnection"
+            }
+          }
+        }
       }
     }
   }
@@ -1925,8 +2149,8 @@ export const EventHubEventSourceResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "EventHubEventSourceResource",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "EventSourceResource",
+    polymorphicDiscriminator: EventSourceResource.type.polymorphicDiscriminator,
     modelProperties: {
       ...EventSourceResource.type.modelProperties,
       provisioningState: {
@@ -2012,8 +2236,8 @@ export const IoTHubEventSourceResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "IoTHubEventSourceResource",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "EventSourceResource",
+    polymorphicDiscriminator: EventSourceResource.type.polymorphicDiscriminator,
     modelProperties: {
       ...EventSourceResource.type.modelProperties,
       provisioningState: {
@@ -2219,14 +2443,14 @@ export let discriminators = {
   "EnvironmentUpdateParameters.Gen2": Gen2EnvironmentUpdateParameters,
   "EventSourceUpdateParameters.Microsoft.EventHub": EventHubEventSourceUpdateParameters,
   "EventSourceUpdateParameters.Microsoft.IoTHub": IoTHubEventSourceUpdateParameters,
-  "CreateOrUpdateTrackedResourceProperties.Gen1": Gen1EnvironmentCreateOrUpdateParameters,
-  "CreateOrUpdateTrackedResourceProperties.Gen2": Gen2EnvironmentCreateOrUpdateParameters,
-  "CreateOrUpdateTrackedResourceProperties.Microsoft.EventHub": EventHubEventSourceCreateOrUpdateParameters,
-  "CreateOrUpdateTrackedResourceProperties.Microsoft.IoTHub": IoTHubEventSourceCreateOrUpdateParameters,
-  "Resource.EnvironmentResource": EnvironmentResource,
-  "Resource.EventSourceResource": EventSourceResource,
-  "Resource.Gen1": Gen1EnvironmentResource,
-  "Resource.Gen2": Gen2EnvironmentResource,
-  "Resource.Microsoft.EventHub": EventHubEventSourceResource,
-  "Resource.Microsoft.IoTHub": IoTHubEventSourceResource
+  "EnvironmentCreateOrUpdateParameters.Gen1": Gen1EnvironmentCreateOrUpdateParameters,
+  "EnvironmentCreateOrUpdateParameters.Gen2": Gen2EnvironmentCreateOrUpdateParameters,
+  "EventSourceCreateOrUpdateParameters.Microsoft.EventHub": EventHubEventSourceCreateOrUpdateParameters,
+  "EventSourceCreateOrUpdateParameters.Microsoft.IoTHub": IoTHubEventSourceCreateOrUpdateParameters,
+  "TrackedResource.EnvironmentResource": EnvironmentResource,
+  "TrackedResource.EventSourceResource": EventSourceResource,
+  "EnvironmentResource.Gen1": Gen1EnvironmentResource,
+  "EnvironmentResource.Gen2": Gen2EnvironmentResource,
+  "EventSourceResource.Microsoft.EventHub": EventHubEventSourceResource,
+  "EventSourceResource.Microsoft.IoTHub": IoTHubEventSourceResource
 };

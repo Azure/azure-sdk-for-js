@@ -227,6 +227,30 @@ export interface SelectiveKeyRestoreOperation {
   endTime?: Date;
 }
 
+/** The update settings request object. */
+export interface UpdateSettingRequest {
+  /** The value of the pool setting. */
+  value: string;
+}
+
+export interface Setting {
+  /** The account setting to be updated */
+  name: string;
+  /** The value of the pool setting. */
+  value: string;
+  /** The type specifier of the value. */
+  type?: SettingTypeEnum;
+}
+
+/** The settings list result. */
+export interface SettingsListResult {
+  /**
+   * A response message containing a list of account settings with their associated value.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly settings?: Setting[];
+}
+
 /** Role Assignments filter */
 export interface RoleAssignmentFilter {
   /** Returns role assignment of the specific principal. */
@@ -263,20 +287,20 @@ export interface KeyVaultClientSelectiveKeyRestoreOperationHeaders {
   azureAsyncOperation?: string;
 }
 
-/** Known values of {@link ApiVersion73Preview} that the service accepts. */
-export enum KnownApiVersion73Preview {
-  /** Api Version '7.3-preview' */
-  Seven3Preview = "7.3-preview"
+/** Known values of {@link ApiVersion74Preview1} that the service accepts. */
+export enum KnownApiVersion74Preview1 {
+  /** Api Version '7.4-preview.1' */
+  Seven4Preview1 = "7.4-preview.1"
 }
 
 /**
- * Defines values for ApiVersion73Preview. \
- * {@link KnownApiVersion73Preview} can be used interchangeably with ApiVersion73Preview,
+ * Defines values for ApiVersion74Preview1. \
+ * {@link KnownApiVersion74Preview1} can be used interchangeably with ApiVersion74Preview1,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **7.3-preview**: Api Version '7.3-preview'
+ * **7.4-preview.1**: Api Version '7.4-preview.1'
  */
-export type ApiVersion73Preview = string;
+export type ApiVersion74Preview1 = string;
 
 /** Known values of {@link RoleType} that the service accepts. */
 export enum KnownRoleType {
@@ -442,6 +466,20 @@ export enum KnownRoleDefinitionType {
  */
 export type RoleDefinitionType = string;
 
+/** Known values of {@link SettingTypeEnum} that the service accepts. */
+export enum KnownSettingTypeEnum {
+  Boolean = "boolean"
+}
+
+/**
+ * Defines values for SettingTypeEnum. \
+ * {@link KnownSettingTypeEnum} can be used interchangeably with SettingTypeEnum,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **boolean**
+ */
+export type SettingTypeEnum = string;
+
 /** Optional parameters. */
 export interface RoleDefinitionsDeleteOptionalParams
   extends coreClient.OperationOptions {}
@@ -519,51 +557,70 @@ export interface RoleAssignmentsListForScopeNextOptionalParams
 export type RoleAssignmentsListForScopeNextResponse = RoleAssignmentListResult;
 
 /** Optional parameters. */
-export interface KeyVaultClientFullBackupOptionalParams
-  extends coreClient.OperationOptions {
+export interface FullBackupOptionalParams extends coreClient.OperationOptions {
   /** Azure blob shared access signature token pointing to a valid Azure blob container where full backup needs to be stored. This token needs to be valid for at least next 24 hours from the time of making this call */
   azureStorageBlobContainerUri?: SASTokenParameter;
 }
 
 /** Contains response data for the fullBackup operation. */
-export type KeyVaultClientFullBackupResponse = KeyVaultClientFullBackupHeaders &
+export type FullBackupResponse = KeyVaultClientFullBackupHeaders &
   FullBackupOperation;
 
 /** Optional parameters. */
-export interface KeyVaultClientFullBackupStatusOptionalParams
+export interface FullBackupStatusOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the fullBackupStatus operation. */
-export type KeyVaultClientFullBackupStatusResponse = FullBackupOperation;
+export type FullBackupStatusResponse = FullBackupOperation;
 
 /** Optional parameters. */
-export interface KeyVaultClientFullRestoreOperationOptionalParams
+export interface FullRestoreOperationOptionalParams
   extends coreClient.OperationOptions {
   /** The Azure blob SAS token pointing to a folder where the previous successful full backup was stored */
   restoreBlobDetails?: RestoreOperationParameters;
 }
 
 /** Contains response data for the fullRestoreOperation operation. */
-export type KeyVaultClientFullRestoreOperationResponse = KeyVaultClientFullRestoreOperationHeaders &
+export type FullRestoreOperationResponse = KeyVaultClientFullRestoreOperationHeaders &
   RestoreOperation;
 
 /** Optional parameters. */
-export interface KeyVaultClientRestoreStatusOptionalParams
+export interface RestoreStatusOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the restoreStatus operation. */
-export type KeyVaultClientRestoreStatusResponse = RestoreOperation;
+export type RestoreStatusResponse = RestoreOperation;
 
 /** Optional parameters. */
-export interface KeyVaultClientSelectiveKeyRestoreOperationOptionalParams
+export interface SelectiveKeyRestoreOperationOptionalParams
   extends coreClient.OperationOptions {
   /** The Azure blob SAS token pointing to a folder where the previous successful full backup was stored */
   restoreBlobDetails?: SelectiveKeyRestoreOperationParameters;
 }
 
 /** Contains response data for the selectiveKeyRestoreOperation operation. */
-export type KeyVaultClientSelectiveKeyRestoreOperationResponse = KeyVaultClientSelectiveKeyRestoreOperationHeaders &
+export type SelectiveKeyRestoreOperationResponse = KeyVaultClientSelectiveKeyRestoreOperationHeaders &
   SelectiveKeyRestoreOperation;
+
+/** Optional parameters. */
+export interface UpdateSettingOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the updateSetting operation. */
+export type UpdateSettingResponse = Setting;
+
+/** Optional parameters. */
+export interface GetSettingOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the getSetting operation. */
+export type GetSettingResponse = Setting;
+
+/** Optional parameters. */
+export interface GetSettingsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getSettings operation. */
+export type GetSettingsResponse = SettingsListResult;
 
 /** Optional parameters. */
 export interface KeyVaultClientOptionalParams

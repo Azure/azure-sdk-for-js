@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { CustomDomains } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -26,8 +27,12 @@ import {
   CustomDomainsCreateResponse,
   CustomDomainsDeleteOptionalParams,
   CustomDomainsDisableCustomHttpsOptionalParams,
+  CustomDomainsDisableCustomHttpsResponse,
   CustomDomainsEnableCustomHttpsOptionalParams,
-  CustomDomainsListByEndpointNextResponse
+  CustomDomainsEnableCustomHttpsResponse,
+  CustomDomainsListByEndpointNextResponse,
+  Profile,
+  CdnManagedHttpsParameters
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -69,12 +74,16 @@ export class CustomDomainsImpl implements CustomDomains {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByEndpointPagingPage(
           resourceGroupName,
           profileName,
           endpointName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -84,16 +93,23 @@ export class CustomDomainsImpl implements CustomDomains {
     resourceGroupName: string,
     profileName: string,
     endpointName: string,
-    options?: CustomDomainsListByEndpointOptionalParams
+    options?: CustomDomainsListByEndpointOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<CustomDomain[]> {
-    let result = await this._listByEndpoint(
-      resourceGroupName,
-      profileName,
-      endpointName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: CustomDomainsListByEndpointResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByEndpoint(
+        resourceGroupName,
+        profileName,
+        endpointName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByEndpointNext(
         resourceGroupName,
@@ -103,7 +119,9 @@ export class CustomDomainsImpl implements CustomDomains {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -242,10 +260,12 @@ export class CustomDomainsImpl implements CustomDomains {
       },
       createOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -341,10 +361,12 @@ export class CustomDomainsImpl implements CustomDomains {
       },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -386,11 +408,16 @@ export class CustomDomainsImpl implements CustomDomains {
     endpointName: string,
     customDomainName: string,
     options?: CustomDomainsDisableCustomHttpsOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<
+    PollerLike<
+      PollOperationState<CustomDomainsDisableCustomHttpsResponse>,
+      CustomDomainsDisableCustomHttpsResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<CustomDomainsDisableCustomHttpsResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -437,10 +464,12 @@ export class CustomDomainsImpl implements CustomDomains {
       },
       disableCustomHttpsOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -457,7 +486,7 @@ export class CustomDomainsImpl implements CustomDomains {
     endpointName: string,
     customDomainName: string,
     options?: CustomDomainsDisableCustomHttpsOptionalParams
-  ): Promise<void> {
+  ): Promise<CustomDomainsDisableCustomHttpsResponse> {
     const poller = await this.beginDisableCustomHttps(
       resourceGroupName,
       profileName,
@@ -482,11 +511,16 @@ export class CustomDomainsImpl implements CustomDomains {
     endpointName: string,
     customDomainName: string,
     options?: CustomDomainsEnableCustomHttpsOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<
+    PollerLike<
+      PollOperationState<CustomDomainsEnableCustomHttpsResponse>,
+      CustomDomainsEnableCustomHttpsResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<CustomDomainsEnableCustomHttpsResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -522,6 +556,15 @@ export class CustomDomainsImpl implements CustomDomains {
       };
     };
 
+    // #region Added default values to add backwards compatibility
+    let newOptions: CustomDomainsEnableCustomHttpsOptionalParams = options ? options : {};
+    if (!newOptions.customDomainHttpsParameters) {
+      const profile = await this.client.profiles.get(resourceGroupName, profileName);
+      newOptions.customDomainHttpsParameters = getDefaultCustomDomainHttpsParameters(profile);
+    }
+    options = newOptions;
+    // #endregion
+
     const lro = new LroImpl(
       sendOperation,
       {
@@ -533,10 +576,12 @@ export class CustomDomainsImpl implements CustomDomains {
       },
       enableCustomHttpsOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -553,7 +598,7 @@ export class CustomDomainsImpl implements CustomDomains {
     endpointName: string,
     customDomainName: string,
     options?: CustomDomainsEnableCustomHttpsOptionalParams
-  ): Promise<void> {
+  ): Promise<CustomDomainsEnableCustomHttpsResponse> {
     const poller = await this.beginEnableCustomHttps(
       resourceGroupName,
       profileName,
@@ -629,8 +674,8 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName,
-    Parameters.endpointName,
-    Parameters.customDomainName
+    Parameters.customDomainName,
+    Parameters.endpointName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -663,10 +708,10 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName,
-    Parameters.endpointName,
-    Parameters.customDomainName
+    Parameters.customDomainName,
+    Parameters.endpointName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -689,8 +734,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName,
-    Parameters.endpointName,
-    Parameters.customDomainName
+    Parameters.customDomainName,
+    Parameters.endpointName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -700,10 +745,18 @@ const disableCustomHttpsOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/customDomains/{customDomainName}/disableCustomHttps",
   httpMethod: "POST",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      bodyMapper: Mappers.CustomDomain
+    },
+    201: {
+      bodyMapper: Mappers.CustomDomain
+    },
+    202: {
+      bodyMapper: Mappers.CustomDomain
+    },
+    204: {
+      bodyMapper: Mappers.CustomDomain
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
@@ -714,8 +767,8 @@ const disableCustomHttpsOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName,
-    Parameters.endpointName,
-    Parameters.customDomainName
+    Parameters.customDomainName,
+    Parameters.endpointName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -725,10 +778,18 @@ const enableCustomHttpsOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/customDomains/{customDomainName}/enableCustomHttps",
   httpMethod: "POST",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      bodyMapper: Mappers.CustomDomain
+    },
+    201: {
+      bodyMapper: Mappers.CustomDomain
+    },
+    202: {
+      bodyMapper: Mappers.CustomDomain
+    },
+    204: {
+      bodyMapper: Mappers.CustomDomain
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
@@ -740,10 +801,10 @@ const enableCustomHttpsOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.profileName,
-    Parameters.endpointName,
-    Parameters.customDomainName
+    Parameters.customDomainName,
+    Parameters.endpointName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -770,3 +831,46 @@ const listByEndpointNextOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
+
+// #region Added default values to add backwards compatibility
+class SkuNames {
+  public static get standard_microsoft() { return "Standard_Microsoft"; }
+  public static get standard_verizon() { return "Standard_Verizon"; }
+  public static get standard_akamai() { return "Standard_Akamai"; }
+}
+
+function getDefaultCustomDomainHttpsParameters(profile: Profile): CdnManagedHttpsParameters | undefined {
+  switch (profile.sku.name) {
+    case SkuNames.standard_microsoft:
+      return {
+        certificateSource: "Cdn",
+        certificateSourceParameters: {
+          certificateType: "Dedicated",
+          typeName: "CdnCertificateSourceParameters"
+        },
+        protocolType: "ServerNameIndication"
+      }
+    case SkuNames.standard_akamai:
+      return {
+        certificateSource: "Cdn",
+        certificateSourceParameters: {
+          certificateType: "Shared",
+          typeName: "CdnCertificateSourceParameters"
+        },
+        protocolType: "ServerNameIndication"
+      }
+    case SkuNames.standard_verizon:
+      return {
+        certificateSource: "Cdn",
+        certificateSourceParameters: {
+          certificateType: "Shared",
+          typeName: "CdnCertificateSourceParameters"
+        },
+        protocolType: "IPBased"
+      }
+    default:
+      return undefined;
+  }
+}
+
+// #endregion

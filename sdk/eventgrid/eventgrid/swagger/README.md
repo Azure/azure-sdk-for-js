@@ -5,9 +5,9 @@
 ## Configuration
 
 ```yaml
-require: "https://github.com/Azure/azure-rest-api-specs/blob/03da592cccfa0e52ccd6ecc53d232afda8a38c95/specification/eventgrid/data-plane/readme.md"
+require: "https://github.com/Azure/azure-rest-api-specs/blob/8c9845c7190792cb95c0deda1cb787512c4c7ca1/specification/eventgrid/data-plane/readme.md"
 package-name: "@azure/eventgrid"
-package-version: "4.7.1"
+package-version: "4.11.1"
 title: GeneratedClient
 description: EventGrid Client
 generate-metadata: false
@@ -138,4 +138,33 @@ directive:
     where: $.definitions.EventHubCaptureFileCreatedEventData
     transform: >
       delete $.properties.fileUrl["x-ms-client-name"]
+```
+
+### Don't use x-ms-client-name for Fhir Events.
+
+For JavaScript, we want to generate types that match the format of the wire events, so remove `x-ms-client-name`.
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.HealthcareFhirResourceCreatedEventData
+    transform: >
+      delete $.properties.resourceType["x-ms-client-name"];
+      delete $.properties.resourceFhirAccount["x-ms-client-name"];
+      delete $.properties.resourceFhirId["x-ms-client-name"];
+      delete $.properties.resourceVersionId["x-ms-client-name"];
+  - from: swagger-document
+    where: $.definitions.HealthcareFhirResourceUpdatedEventData
+    transform: >
+      delete $.properties.resourceType["x-ms-client-name"];
+      delete $.properties.resourceFhirAccount["x-ms-client-name"];
+      delete $.properties.resourceFhirId["x-ms-client-name"];
+      delete $.properties.resourceVersionId["x-ms-client-name"];
+  - from: swagger-document
+    where: $.definitions.HealthcareFhirResourceDeletedEventData
+    transform: >
+      delete $.properties.resourceType["x-ms-client-name"];
+      delete $.properties.resourceFhirAccount["x-ms-client-name"];
+      delete $.properties.resourceFhirId["x-ms-client-name"];
+      delete $.properties.resourceVersionId["x-ms-client-name"];
 ```

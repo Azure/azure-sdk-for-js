@@ -18,8 +18,17 @@ import { masterKey } from "../common/_fakeTestSecrets";
 import { DatabaseRequest } from "../../../src";
 import { ContainerRequest } from "../../../src";
 
-const defaultClient = new CosmosClient({
+const defaultRoutingGatewayPort: string = ":8081";
+const defaultComputeGatewayPort: string = ":8903";
+
+export const defaultClient = new CosmosClient({
   endpoint,
+  key: masterKey,
+  connectionPolicy: { enableBackgroundEndpointRefreshing: false },
+});
+
+export const defaultComputeGatewayClient = new CosmosClient({
+  endpoint: endpoint.replace(defaultRoutingGatewayPort, defaultComputeGatewayPort),
   key: masterKey,
   connectionPolicy: { enableBackgroundEndpointRefreshing: false },
 });
@@ -46,7 +55,7 @@ export async function removeAllDatabases(client: CosmosClient = defaultClient): 
         client.database(database.id).delete()
       )
     );
-  } catch (err) {
+  } catch (err: any) {
     console.log("An error occured", err);
     assert.fail(err);
     throw err;
@@ -269,7 +278,7 @@ export function generateDocuments(docSize: number): {
 export async function assertThrowsAsync(test: () => Promise<any>, error?: any): Promise<string> {
   try {
     await test();
-  } catch (e) {
+  } catch (e: any) {
     if (!error || e instanceof error) return "everything is fine";
   }
   throw new assert.AssertionError({

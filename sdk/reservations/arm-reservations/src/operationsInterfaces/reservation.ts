@@ -26,7 +26,9 @@ import {
   ReservationGetResponse,
   Patch,
   ReservationUpdateOptionalParams,
-  ReservationUpdateResponse
+  ReservationUpdateResponse,
+  ReservationArchiveOptionalParams,
+  ReservationUnarchiveOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -191,4 +193,27 @@ export interface Reservation {
     parameters: Patch,
     options?: ReservationUpdateOptionalParams
   ): Promise<ReservationUpdateResponse>;
+  /**
+   * Archiving a `Reservation` moves it to `Archived` state.
+   * @param reservationOrderId Order Id of the reservation
+   * @param reservationId Id of the Reservation Item
+   * @param options The options parameters.
+   */
+  archive(
+    reservationOrderId: string,
+    reservationId: string,
+    options?: ReservationArchiveOptionalParams
+  ): Promise<void>;
+  /**
+   * Unarchiving a `Reservation` moves it to the state it was before archiving.
+   *
+   * @param reservationOrderId Order Id of the reservation
+   * @param reservationId Id of the Reservation Item
+   * @param options The options parameters.
+   */
+  unarchive(
+    reservationOrderId: string,
+    reservationId: string,
+    options?: ReservationUnarchiveOptionalParams
+  ): Promise<void>;
 }

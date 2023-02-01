@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpOperationResponse } from "@azure/core-http";
+import { FullOperationResponse } from "@azure/core-client";
 import { CorrelationRuleFilter } from "../core/managementClient";
 import {
   AtomXmlSerializer,
@@ -9,7 +9,7 @@ import {
   serializeToAtomXmlRequest,
 } from "../util/atomXmlHelper";
 import * as Constants from "../util/constants";
-import { isDefined, isObjectWithProperties } from "../util/typeGuards";
+import { isDefined, isObjectWithProperties } from "@azure/core-util";
 import { getString, getStringOrUndefined } from "../util/utils";
 
 /**
@@ -137,7 +137,9 @@ export type SqlRuleAction = {
  */
 export interface SqlRuleFilter {
   /**
-   * SQL expression to use in the rule filter.
+   * SQL expression to use in the rule filter. It is evaluated against the messages'
+   * user-defined properties and system properties. All system properties will be prefixed with
+   * `sys.` in the condition expression.
    * Defaults to creating a true filter if none specified
    */
   sqlExpression: string;
@@ -243,7 +245,7 @@ export class RuleResourceSerializer implements AtomXmlSerializer {
     return serializeToAtomXmlRequest("RuleDescription", buildInternalRuleResource(rule));
   }
 
-  async deserialize(response: HttpOperationResponse): Promise<HttpOperationResponse> {
+  async deserialize(response: FullOperationResponse): Promise<FullOperationResponse> {
     return deserializeAtomXmlResponse(["TopicName", "SubscriptionName", "RuleName"], response);
   }
 }

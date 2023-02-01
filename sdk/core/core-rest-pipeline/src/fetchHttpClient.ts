@@ -31,6 +31,14 @@ function isReadableStream(body: unknown): body is ReadableStream {
 }
 
 /**
+ * Checks if the body is a Blob or Blob-like
+ */
+function isBlob(body: unknown): body is Blob {
+  // File objects count as a type of Blob, so we want to use instanceof explicitly
+  return (typeof Blob === "function" || typeof Blob === "object") && body instanceof Blob;
+}
+
+/**
  * A HttpClient implementation that uses window.fetch to send HTTP requests.
  * @internal
  */
@@ -53,7 +61,7 @@ class FetchHttpClient implements HttpClient {
 
     try {
       return await makeRequest(request);
-    } catch (e) {
+    } catch (e: any) {
       throw getError(e, request);
     }
   }
@@ -69,15 +77,24 @@ async function makeRequest(request: PipelineRequest): Promise<PipelineResponse> 
     const headers = buildFetchHeaders(request.headers);
     const requestBody = buildRequestBody(request);
 
+    /**
+     * Developers of the future:
+     * Do not set redirect: "manual" as part
+     * of request options.
+     * It will not work as you expect.
+     */
     const response = await fetch(request.url, {
       body: requestBody,
       method: request.method,
       headers: headers,
       signal: abortController.signal,
       credentials: request.withCredentials ? "include" : "same-origin",
-      redirect: "manual",
       cache: "no-store",
     });
+    // If we're uploading a blob, we need to fire the progress event manually
+    if (isBlob(request.body) && request.onUploadProgress) {
+      request.onUploadProgress({ loadedBytes: request.body.size });
+    }
     return buildPipelineResponse(response, request);
   } finally {
     if (abortControllerCleanup) {
@@ -198,13 +215,12 @@ function buildPipelineHeaders(httpResponse: Response): PipelineHeaders {
 }
 
 function buildRequestBody(request: PipelineRequest) {
-  if (isNodeReadableStream(request.body)) {
+  const body = typeof request.body === "function" ? request.body() : request.body;
+  if (isNodeReadableStream(body)) {
     throw new Error("Node streams are not supported in browser environment.");
   }
 
-  return isReadableStream(request.body)
-    ? buildBodyStream(request.body, request.onUploadProgress)
-    : request.body;
+  return isReadableStream(body) ? buildBodyStream(body, request.onUploadProgress) : body;
 }
 
 /**

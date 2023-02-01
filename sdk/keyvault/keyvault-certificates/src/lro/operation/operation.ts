@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike, AbortSignal } from "@azure/abort-controller";
-import { OperationOptions } from "@azure/core-http";
+import { OperationOptions } from "@azure/core-client";
 import {
   CancelCertificateOperationOptions,
   CertificateOperation,
@@ -20,12 +20,7 @@ import {
   getCertificateOperationFromCoreOperation,
   getCertificateWithPolicyFromCertificateBundle,
 } from "../../transformations";
-import { createTraceFunction } from "../../../../keyvault-common/src";
-
-/**
- * @internal
- */
-const withTrace = createTraceFunction("Azure.KeyVault.Certificates.CertificateOperationPoller");
+import { tracingClient } from "../../tracing";
 
 /**
  * An interface representing the publicly available properties of the state of the CertificateOperationPoller.
@@ -62,19 +57,20 @@ export class CertificateOperationPollOperation extends KeyVaultCertificatePollOp
     certificateName: string,
     options: CancelCertificateOperationOptions = {}
   ): Promise<CertificateOperation> {
-    return withTrace("cancelCertificateOperation", options, async (updatedOptions) => {
-      const result = await this.client.updateCertificateOperation(
-        this.vaultUrl,
-        certificateName,
-        true,
-        updatedOptions
-      );
-      return getCertificateOperationFromCoreOperation(
-        certificateName,
-        this.vaultUrl,
-        result._response.parsedBody
-      );
-    });
+    return tracingClient.withSpan(
+      "CertificateOperationPoller.cancelCertificateOperation",
+      options,
+      async (updatedOptions) => {
+        let parsedBody: any;
+        await this.client.updateCertificateOperation(this.vaultUrl, certificateName, true, {
+          ...updatedOptions,
+          onResponse: (response) => {
+            parsedBody = response.parsedBody;
+          },
+        });
+        return getCertificateOperationFromCoreOperation(certificateName, this.vaultUrl, parsedBody);
+      }
+    );
   }
 
   /**
@@ -84,15 +80,19 @@ export class CertificateOperationPollOperation extends KeyVaultCertificatePollOp
     certificateName: string,
     options: GetCertificateOptions = {}
   ): Promise<KeyVaultCertificateWithPolicy> {
-    return withTrace("getCertificate", options, async (updatedOptions) => {
-      const result = await this.client.getCertificate(
-        this.vaultUrl,
-        certificateName,
-        "",
-        updatedOptions
-      );
-      return getCertificateWithPolicyFromCertificateBundle(result);
-    });
+    return tracingClient.withSpan(
+      "CertificateOperationPoller.getCertificate",
+      options,
+      async (updatedOptions) => {
+        const result = await this.client.getCertificate(
+          this.vaultUrl,
+          certificateName,
+          "",
+          updatedOptions
+        );
+        return getCertificateWithPolicyFromCertificateBundle(result);
+      }
+    );
   }
 
   /**
@@ -102,18 +102,20 @@ export class CertificateOperationPollOperation extends KeyVaultCertificatePollOp
     certificateName: string,
     options: GetPlainCertificateOperationOptions = {}
   ): Promise<CertificateOperation> {
-    return withTrace("getPlainCertificateOperation", options, async (updatedOptions) => {
-      const result = await this.client.getCertificateOperation(
-        this.vaultUrl,
-        certificateName,
-        updatedOptions
-      );
-      return getCertificateOperationFromCoreOperation(
-        certificateName,
-        this.vaultUrl,
-        result._response.parsedBody
-      );
-    });
+    return tracingClient.withSpan(
+      "CertificateOperationPoller.getPlainCertificateOperation",
+      options,
+      async (updatedOptions) => {
+        let parsedBody: any;
+        await this.client.getCertificateOperation(this.vaultUrl, certificateName, {
+          ...updatedOptions,
+          onResponse: (response) => {
+            parsedBody = response.parsedBody;
+          },
+        });
+        return getCertificateOperationFromCoreOperation(certificateName, this.vaultUrl, parsedBody);
+      }
+    );
   }
 
   /**

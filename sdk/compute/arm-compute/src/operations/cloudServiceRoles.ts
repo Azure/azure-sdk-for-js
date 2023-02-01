@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { CloudServiceRoles } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,9 +17,9 @@ import {
   CloudServiceRole,
   CloudServiceRolesListNextOptionalParams,
   CloudServiceRolesListOptionalParams,
+  CloudServiceRolesListResponse,
   CloudServiceRolesGetOptionalParams,
   CloudServiceRolesGetResponse,
-  CloudServiceRolesListResponse,
   CloudServiceRolesListNextResponse
 } from "../models";
 
@@ -38,8 +39,8 @@ export class CloudServiceRolesImpl implements CloudServiceRoles {
   /**
    * Gets a list of all roles in a cloud service. Use nextLink property in the response to get the next
    * page of roles. Do this till nextLink is null to fetch all the roles.
-   * @param resourceGroupName
-   * @param cloudServiceName
+   * @param resourceGroupName Name of the resource group.
+   * @param cloudServiceName Name of the cloud service.
    * @param options The options parameters.
    */
   public list(
@@ -59,11 +60,15 @@ export class CloudServiceRolesImpl implements CloudServiceRoles {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listPagingPage(
           resourceGroupName,
           cloudServiceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -72,11 +77,18 @@ export class CloudServiceRolesImpl implements CloudServiceRoles {
   private async *listPagingPage(
     resourceGroupName: string,
     cloudServiceName: string,
-    options?: CloudServiceRolesListOptionalParams
+    options?: CloudServiceRolesListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<CloudServiceRole[]> {
-    let result = await this._list(resourceGroupName, cloudServiceName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: CloudServiceRolesListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, cloudServiceName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -85,7 +97,9 @@ export class CloudServiceRolesImpl implements CloudServiceRoles {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -106,8 +120,8 @@ export class CloudServiceRolesImpl implements CloudServiceRoles {
   /**
    * Gets a role from a cloud service.
    * @param roleName Name of the role.
-   * @param resourceGroupName
-   * @param cloudServiceName
+   * @param resourceGroupName Name of the resource group.
+   * @param cloudServiceName Name of the cloud service.
    * @param options The options parameters.
    */
   get(
@@ -125,8 +139,8 @@ export class CloudServiceRolesImpl implements CloudServiceRoles {
   /**
    * Gets a list of all roles in a cloud service. Use nextLink property in the response to get the next
    * page of roles. Do this till nextLink is null to fetch all the roles.
-   * @param resourceGroupName
-   * @param cloudServiceName
+   * @param resourceGroupName Name of the resource group.
+   * @param cloudServiceName Name of the cloud service.
    * @param options The options parameters.
    */
   private _list(
@@ -142,8 +156,8 @@ export class CloudServiceRolesImpl implements CloudServiceRoles {
 
   /**
    * ListNext
-   * @param resourceGroupName
-   * @param cloudServiceName
+   * @param resourceGroupName Name of the resource group.
+   * @param cloudServiceName Name of the cloud service.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
@@ -177,8 +191,8 @@ const getOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.cloudServiceName,
     Parameters.roleName
   ],
@@ -200,8 +214,8 @@ const listOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.cloudServiceName
   ],
   headerParameters: [Parameters.accept],
@@ -218,12 +232,11 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.resourceGroupName,
     Parameters.cloudServiceName
   ],
   headerParameters: [Parameters.accept],

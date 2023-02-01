@@ -464,7 +464,7 @@ describe("deserializationPolicy", function () {
           status: 500,
         });
         assert.fail();
-      } catch (e) {
+      } catch (e: any) {
         assert.exists(e);
         assert.strictEqual(e.response.parsedHeaders.errorCode, "InvalidResourceNameHeader");
         assert.strictEqual(e.response.parsedBody.message, "InvalidResourceNameBody");
@@ -525,7 +525,7 @@ describe("deserializationPolicy", function () {
           status: 500,
         });
         assert.fail();
-      } catch (e) {
+      } catch (e: any) {
         assert.exists(e);
         assert.strictEqual(e.response.parsedHeaders.errorCode, "InvalidResourceNameHeader");
         assert.strictEqual(e.response.parsedBody.message, "InvalidResourceNameBody");
@@ -550,7 +550,7 @@ describe("deserializationPolicy", function () {
           status: 400,
         });
         assert.fail();
-      } catch (e) {
+      } catch (e: any) {
         assert(e);
         assert.strictEqual(e.statusCode, 400);
         assert.include(e.message, "InternalServerError");
@@ -622,7 +622,7 @@ describe("deserializationPolicy", function () {
           status: 503,
         });
         assert.fail();
-      } catch (e) {
+      } catch (e: any) {
         assert.exists(e);
         assert.strictEqual(e.response.parsedHeaders.errorCode, "InvalidResourceNameHeader");
         assert.strictEqual(e.response.parsedBody.message1, "InvalidResourceNameBody1");
@@ -677,7 +677,7 @@ describe("deserializationPolicy", function () {
           status: 500,
         });
         assert.fail();
-      } catch (e) {
+      } catch (e: any) {
         assert.exists(e);
         assert.strictEqual(e.code, "ContainerAlreadyExists");
         assert.strictEqual(e.message, "The specified container already exists.");
@@ -687,6 +687,65 @@ describe("deserializationPolicy", function () {
           "The specified container already exists."
         );
       }
+    });
+
+    it(`json response with headers`, async function () {
+      const BodyMapper: CompositeMapper = {
+        serializedName: "getproperties-body",
+        type: {
+          name: "Composite",
+          className: "PropertiesBody",
+          modelProperties: {
+            message: {
+              serializedName: "message",
+              type: {
+                name: "String",
+              },
+            },
+          },
+        },
+      };
+
+      const HeadersMapper: CompositeMapper = {
+        serializedName: "getproperties-headers",
+        type: {
+          name: "Composite",
+          className: "PropertiesHeaders",
+          modelProperties: {
+            foo: {
+              serializedName: "x-ms-foo",
+              type: {
+                name: "String",
+              },
+            },
+          },
+        },
+      };
+
+      const serializer = createSerializer({ HeadersMapper, BodyMapper }, false);
+
+      const operationSpec: OperationSpec = {
+        httpMethod: "GET",
+        responses: {
+          200: {
+            headersMapper: HeadersMapper,
+            bodyMapper: BodyMapper,
+          },
+        },
+        serializer,
+      };
+
+      const result = await getDeserializedResponse({
+        operationSpec,
+        headers: { "x-ms-foo": "SomeHeaderValue", "x-ms-bar": "SomeOtherHeaderValue" },
+        bodyAsText: '{"message": "Some kind of message", "extraProp": "An extra property value"}',
+        status: 200,
+      });
+      assert.exists(result);
+      assert.strictEqual(result.parsedHeaders?.foo, "SomeHeaderValue");
+      assert.strictEqual(result.parsedBody.message, "Some kind of message");
+      assert.notExists(result.parsedHeaders?.["x-ms-bar"]);
+      assert.strictEqual(result.parsedBody.extraProp, "An extra property value");
     });
   });
 });

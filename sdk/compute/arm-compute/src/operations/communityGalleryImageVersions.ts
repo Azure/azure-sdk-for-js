@@ -6,16 +6,24 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { CommunityGalleryImageVersions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ComputeManagementClient } from "../computeManagementClient";
 import {
+  CommunityGalleryImageVersion,
+  CommunityGalleryImageVersionsListNextOptionalParams,
+  CommunityGalleryImageVersionsListOptionalParams,
+  CommunityGalleryImageVersionsListResponse,
   CommunityGalleryImageVersionsGetOptionalParams,
-  CommunityGalleryImageVersionsGetResponse
+  CommunityGalleryImageVersionsGetResponse,
+  CommunityGalleryImageVersionsListNextResponse
 } from "../models";
 
+/// <reference lib="esnext.asynciterable" />
 /** Class containing CommunityGalleryImageVersions operations. */
 export class CommunityGalleryImageVersionsImpl
   implements CommunityGalleryImageVersions {
@@ -27,6 +35,99 @@ export class CommunityGalleryImageVersionsImpl
    */
   constructor(client: ComputeManagementClient) {
     this.client = client;
+  }
+
+  /**
+   * List community gallery image versions inside an image.
+   * @param location Resource location.
+   * @param publicGalleryName The public name of the community gallery.
+   * @param galleryImageName The name of the community gallery image definition.
+   * @param options The options parameters.
+   */
+  public list(
+    location: string,
+    publicGalleryName: string,
+    galleryImageName: string,
+    options?: CommunityGalleryImageVersionsListOptionalParams
+  ): PagedAsyncIterableIterator<CommunityGalleryImageVersion> {
+    const iter = this.listPagingAll(
+      location,
+      publicGalleryName,
+      galleryImageName,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          location,
+          publicGalleryName,
+          galleryImageName,
+          options,
+          settings
+        );
+      }
+    };
+  }
+
+  private async *listPagingPage(
+    location: string,
+    publicGalleryName: string,
+    galleryImageName: string,
+    options?: CommunityGalleryImageVersionsListOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<CommunityGalleryImageVersion[]> {
+    let result: CommunityGalleryImageVersionsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(
+        location,
+        publicGalleryName,
+        galleryImageName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listNext(
+        location,
+        publicGalleryName,
+        galleryImageName,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listPagingAll(
+    location: string,
+    publicGalleryName: string,
+    galleryImageName: string,
+    options?: CommunityGalleryImageVersionsListOptionalParams
+  ): AsyncIterableIterator<CommunityGalleryImageVersion> {
+    for await (const page of this.listPagingPage(
+      location,
+      publicGalleryName,
+      galleryImageName,
+      options
+    )) {
+      yield* page;
+    }
   }
 
   /**
@@ -57,6 +158,46 @@ export class CommunityGalleryImageVersionsImpl
       getOperationSpec
     );
   }
+
+  /**
+   * List community gallery image versions inside an image.
+   * @param location Resource location.
+   * @param publicGalleryName The public name of the community gallery.
+   * @param galleryImageName The name of the community gallery image definition.
+   * @param options The options parameters.
+   */
+  private _list(
+    location: string,
+    publicGalleryName: string,
+    galleryImageName: string,
+    options?: CommunityGalleryImageVersionsListOptionalParams
+  ): Promise<CommunityGalleryImageVersionsListResponse> {
+    return this.client.sendOperationRequest(
+      { location, publicGalleryName, galleryImageName, options },
+      listOperationSpec
+    );
+  }
+
+  /**
+   * ListNext
+   * @param location Resource location.
+   * @param publicGalleryName The public name of the community gallery.
+   * @param galleryImageName The name of the community gallery image definition.
+   * @param nextLink The nextLink from the previous successful call to the List method.
+   * @param options The options parameters.
+   */
+  private _listNext(
+    location: string,
+    publicGalleryName: string,
+    galleryImageName: string,
+    nextLink: string,
+    options?: CommunityGalleryImageVersionsListNextOptionalParams
+  ): Promise<CommunityGalleryImageVersionsListNextResponse> {
+    return this.client.sendOperationRequest(
+      { location, publicGalleryName, galleryImageName, nextLink, options },
+      listNextOperationSpec
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -73,13 +214,58 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location,
+    Parameters.location1,
     Parameters.galleryImageName,
     Parameters.galleryImageVersionName,
+    Parameters.publicGalleryName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/communityGalleries/{publicGalleryName}/images/{galleryImageName}/versions",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CommunityGalleryImageVersionList
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion3],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.location1,
+    Parameters.galleryImageName,
+    Parameters.publicGalleryName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CommunityGalleryImageVersionList
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+    Parameters.location1,
+    Parameters.galleryImageName,
     Parameters.publicGalleryName
   ],
   headerParameters: [Parameters.accept],

@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { DeletedServers } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,12 +19,12 @@ import {
   DeletedServer,
   DeletedServersListNextOptionalParams,
   DeletedServersListOptionalParams,
+  DeletedServersListResponse,
   DeletedServersListByLocationNextOptionalParams,
   DeletedServersListByLocationOptionalParams,
-  DeletedServersListResponse,
+  DeletedServersListByLocationResponse,
   DeletedServersGetOptionalParams,
   DeletedServersGetResponse,
-  DeletedServersListByLocationResponse,
   DeletedServersRecoverOptionalParams,
   DeletedServersRecoverResponse,
   DeletedServersListNextResponse,
@@ -58,22 +59,34 @@ export class DeletedServersImpl implements DeletedServers {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: DeletedServersListOptionalParams
+    options?: DeletedServersListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<DeletedServer[]> {
-    let result = await this._list(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: DeletedServersListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -102,19 +115,29 @@ export class DeletedServersImpl implements DeletedServers {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByLocationPagingPage(locationName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByLocationPagingPage(locationName, options, settings);
       }
     };
   }
 
   private async *listByLocationPagingPage(
     locationName: string,
-    options?: DeletedServersListByLocationOptionalParams
+    options?: DeletedServersListByLocationOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<DeletedServer[]> {
-    let result = await this._listByLocation(locationName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: DeletedServersListByLocationResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByLocation(locationName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByLocationNext(
         locationName,
@@ -122,7 +145,9 @@ export class DeletedServersImpl implements DeletedServers {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -240,10 +265,12 @@ export class DeletedServersImpl implements DeletedServers {
       { locationName, deletedServerName, options },
       recoverOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -392,7 +419,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -410,7 +436,6 @@ const listByLocationNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

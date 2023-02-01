@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { SystemTopicEventSubscriptions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,6 +19,7 @@ import {
   EventSubscription,
   SystemTopicEventSubscriptionsListBySystemTopicNextOptionalParams,
   SystemTopicEventSubscriptionsListBySystemTopicOptionalParams,
+  SystemTopicEventSubscriptionsListBySystemTopicResponse,
   SystemTopicEventSubscriptionsGetOptionalParams,
   SystemTopicEventSubscriptionsGetResponse,
   SystemTopicEventSubscriptionsCreateOrUpdateOptionalParams,
@@ -28,7 +30,6 @@ import {
   SystemTopicEventSubscriptionsUpdateResponse,
   SystemTopicEventSubscriptionsGetFullUrlOptionalParams,
   SystemTopicEventSubscriptionsGetFullUrlResponse,
-  SystemTopicEventSubscriptionsListBySystemTopicResponse,
   SystemTopicEventSubscriptionsGetDeliveryAttributesOptionalParams,
   SystemTopicEventSubscriptionsGetDeliveryAttributesResponse,
   SystemTopicEventSubscriptionsListBySystemTopicNextResponse
@@ -71,11 +72,15 @@ export class SystemTopicEventSubscriptionsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listBySystemTopicPagingPage(
           resourceGroupName,
           systemTopicName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -84,15 +89,22 @@ export class SystemTopicEventSubscriptionsImpl
   private async *listBySystemTopicPagingPage(
     resourceGroupName: string,
     systemTopicName: string,
-    options?: SystemTopicEventSubscriptionsListBySystemTopicOptionalParams
+    options?: SystemTopicEventSubscriptionsListBySystemTopicOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<EventSubscription[]> {
-    let result = await this._listBySystemTopic(
-      resourceGroupName,
-      systemTopicName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: SystemTopicEventSubscriptionsListBySystemTopicResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBySystemTopic(
+        resourceGroupName,
+        systemTopicName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listBySystemTopicNext(
         resourceGroupName,
@@ -101,7 +113,9 @@ export class SystemTopicEventSubscriptionsImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -212,10 +226,12 @@ export class SystemTopicEventSubscriptionsImpl
       },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -247,7 +263,7 @@ export class SystemTopicEventSubscriptionsImpl
   }
 
   /**
-   * Delete an event subscription of a system topic.
+   * Delete an existing event subscription of a system topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param systemTopicName Name of the system topic.
    * @param eventSubscriptionName Name of the event subscription to be created. Event subscription names
@@ -304,14 +320,16 @@ export class SystemTopicEventSubscriptionsImpl
       { resourceGroupName, systemTopicName, eventSubscriptionName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
-   * Delete an event subscription of a system topic.
+   * Delete an existing event subscription of a system topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param systemTopicName Name of the system topic.
    * @param eventSubscriptionName Name of the event subscription to be created. Event subscription names
@@ -334,7 +352,7 @@ export class SystemTopicEventSubscriptionsImpl
   }
 
   /**
-   * Update event subscription of a system topic.
+   * Update an existing event subscription of a system topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param systemTopicName Name of the system topic.
    * @param eventSubscriptionName Name of the event subscription to be created. Event subscription names
@@ -404,14 +422,16 @@ export class SystemTopicEventSubscriptionsImpl
       },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
-   * Update event subscription of a system topic.
+   * Update an existing event subscription of a system topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param systemTopicName Name of the system topic.
    * @param eventSubscriptionName Name of the event subscription to be created. Event subscription names
@@ -686,7 +706,6 @@ const listBySystemTopicNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

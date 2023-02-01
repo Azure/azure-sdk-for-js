@@ -288,10 +288,16 @@ export function addTestStreamingReceiver(): (
         receiveMode: <ReceiveMode>"peekLock",
         maxConcurrentCalls: 101,
         skipParsingBodyAsJson: false,
+        skipConvertingDate: false,
       };
     }
 
-    const streamingReceiver = new StreamingReceiver(connectionContext, entityPath, options);
+    const streamingReceiver = new StreamingReceiver(
+      "serviceBusClientId",
+      connectionContext,
+      entityPath,
+      options
+    );
     closeables.push(streamingReceiver);
     return streamingReceiver;
   }
@@ -312,7 +318,7 @@ export function addCloseablesCleanup(): { close(): Promise<void> }[] {
     for (const closeable of closeables) {
       try {
         await closeable.close();
-      } catch (err) {
+      } catch (err: any) {
         console.log(`Error while closing test object ${err.message}`);
       }
     }

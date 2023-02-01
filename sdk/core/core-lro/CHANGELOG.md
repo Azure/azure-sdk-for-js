@@ -1,6 +1,6 @@
 # Release History
 
-## 2.2.4 (Unreleased)
+## 2.5.1 (Unreleased)
 
 ### Features Added
 
@@ -8,7 +8,67 @@
 
 ### Bugs Fixed
 
+- The operation will be considered failed when an HTTP response error is received and not when any arbitrary error is raised.
+
 ### Other Changes
+
+## 2.5.0 (2023-01-10)
+
+### Other Changes
+
+- poll() is optimized to no longer send a polling request if the operation is already in a terminal state.
+
+## 2.4.0 (2022-09-29)
+
+### Features Added
+
+- Add `resolveOnUnsuccessful` to `CreateHttpPollerOptions` and `LroEngineOptions` to control whether to throw an error if the operation failed or was canceled.
+
+### Bugs Fixed
+
+- Precisely detect when an operation failed without relying on exceptions raised by the underlying core library.
+- Handle bad status fields.
+
+## 2.3.1 (2022-09-09)
+
+### Bugs Fixed
+
+- Add missing support for fetching resources linked to in the body of the final polling response.
+
+## 2.3.0 (2022-09-01)
+
+### Features Added
+
+- Provides `createHttpPoller` which creates a simple poller that can work out of the box for most Azure long-running operations.
+- Deprecates `cancelOperation` in `PollerLike` because not every operation supports cancellation.
+
+## 2.2.5 (2022-08-08)
+
+### Bugs Fixed
+
+- `LroEngine` no longer throws an error when it receives a 204 polling response.
+
+### Other Changes
+
+- Support LROs with GET as the initial request method.
+- Better logging support for the operation and the poller.
+- Removed the unused dependency `@azure/core-tracing`.
+
+## 2.3.0-beta.1 (2022-05-18)
+
+### Features Added
+
+- `lroEngine` now supports cancellation of the long-running operation.
+
+### Other Changes
+
+- Removed the unused dependency `@azure/core-tracing`.
+
+## 2.2.4 (2022-03-07)
+
+### Bugs Fixed
+
+- Fix polling so that resources created in a different URL will be retrieved once polling is done. [PR #20656](https://github.com/Azure/azure-sdk-for-js/pull/20656)
 
 ## 2.2.3 (2022-01-06)
 

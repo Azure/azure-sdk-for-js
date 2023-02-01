@@ -9,8 +9,10 @@
 
 import { AzureKeyCredential, DocumentAnalysisClient } from "@azure/ai-form-recognizer";
 
-import * as dotenv from "dotenv";
+import { PrebuiltReadModel } from "./prebuilt/prebuilt-read";
 import { getTextOfSpans } from "./utils";
+
+import * as dotenv from "dotenv";
 dotenv.config();
 
 async function main() {
@@ -19,7 +21,8 @@ async function main() {
 
   const client = new DocumentAnalysisClient(endpoint, credential);
 
-  const poller = await client.beginReadDocument(
+  const poller = await client.beginAnalyzeDocumentFromUrl(
+    PrebuiltReadModel,
     // The form recognizer service will access the following URL to a receipt image and extract data from it
     "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/formrecognizer/ai-form-recognizer/assets/forms/Invoice_1.pdf"
   );
@@ -28,16 +31,18 @@ async function main() {
   // document, such as page text elements and information about the language of the text.
   const { content, pages, languages, styles } = await poller.pollUntilDone();
 
-  if (pages.length <= 0) {
+  if (!pages || pages.length <= 0) {
     console.log("No pages were extracted from the document.");
   } else {
     console.log("Pages:");
     for (const page of pages) {
       console.log("- Page", page.pageNumber, `(unit: ${page.unit})`);
       console.log(`  ${page.width}x${page.height}, angle: ${page.angle}`);
-      console.log(`  ${page.lines.length} lines, ${page.words.length} words`);
+      console.log(
+        `  ${page.lines && page.lines.length} lines, ${page.words && page.words.length} words`
+      );
 
-      if (page.lines.length > 0) {
+      if (page.lines && page.lines.length > 0) {
         console.log("  Lines:");
 
         for (const line of page.lines) {
@@ -53,13 +58,13 @@ async function main() {
     }
   }
 
-  if (languages.length <= 0) {
+  if (!languages || languages.length <= 0) {
     console.log("No language spans were extracted from the document.");
   } else {
     console.log("Languages:");
     for (const languageEntry of languages) {
       console.log(
-        `- Found language: ${languageEntry.languageCode} (confidence: ${languageEntry.confidence})`
+        `- Found language: ${languageEntry.locale} (confidence: ${languageEntry.confidence})`
       );
       for (const text of getTextOfSpans(content, languageEntry.spans)) {
         const escapedText = text.replace(/\r?\n/g, "\\n").replace(/"/g, '\\"');
@@ -68,7 +73,7 @@ async function main() {
     }
   }
 
-  if (styles.length <= 0) {
+  if (!styles || styles.length <= 0) {
     console.log("No text styles were extracted from the document.");
   } else {
     console.log("Styles:");

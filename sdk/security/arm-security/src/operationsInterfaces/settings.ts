@@ -10,7 +10,7 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   SettingUnion,
   SettingsListOptionalParams,
-  Enum73,
+  SettingName,
   SettingsGetOptionalParams,
   SettingsGetResponse,
   SettingsUpdateOptionalParams,
@@ -21,29 +21,29 @@ import {
 /** Interface representing a Settings. */
 export interface Settings {
   /**
-   * Settings about different configurations in security center
+   * Settings about different configurations in Microsoft Defender for Cloud
    * @param options The options parameters.
    */
   list(
     options?: SettingsListOptionalParams
   ): PagedAsyncIterableIterator<SettingUnion>;
   /**
-   * Settings of different configurations in security center
+   * Settings of different configurations in Microsoft Defender for Cloud
    * @param settingName The name of the setting
    * @param options The options parameters.
    */
   get(
-    settingName: Enum73,
+    settingName: SettingName,
     options?: SettingsGetOptionalParams
   ): Promise<SettingsGetResponse>;
   /**
-   * updating settings about different configurations in security center
+   * updating settings about different configurations in Microsoft Defender for Cloud
    * @param settingName The name of the setting
    * @param setting Setting object
    * @param options The options parameters.
    */
   update(
-    settingName: Enum73,
+    settingName: SettingName,
     setting: SettingUnion,
     options?: SettingsUpdateOptionalParams
   ): Promise<SettingsUpdateResponse>;

@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { CloudServiceRoleInstances } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,12 +19,12 @@ import {
   RoleInstance,
   CloudServiceRoleInstancesListNextOptionalParams,
   CloudServiceRoleInstancesListOptionalParams,
+  CloudServiceRoleInstancesListResponse,
   CloudServiceRoleInstancesDeleteOptionalParams,
   CloudServiceRoleInstancesGetOptionalParams,
   CloudServiceRoleInstancesGetResponse,
   CloudServiceRoleInstancesGetInstanceViewOptionalParams,
   CloudServiceRoleInstancesGetInstanceViewResponse,
-  CloudServiceRoleInstancesListResponse,
   CloudServiceRoleInstancesRestartOptionalParams,
   CloudServiceRoleInstancesReimageOptionalParams,
   CloudServiceRoleInstancesRebuildOptionalParams,
@@ -49,8 +50,8 @@ export class CloudServiceRoleInstancesImpl
   /**
    * Gets the list of all role instances in a cloud service. Use nextLink property in the response to get
    * the next page of role instances. Do this till nextLink is null to fetch all the role instances.
-   * @param resourceGroupName
-   * @param cloudServiceName
+   * @param resourceGroupName Name of the resource group.
+   * @param cloudServiceName Name of the cloud service.
    * @param options The options parameters.
    */
   public list(
@@ -70,11 +71,15 @@ export class CloudServiceRoleInstancesImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listPagingPage(
           resourceGroupName,
           cloudServiceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -83,11 +88,18 @@ export class CloudServiceRoleInstancesImpl
   private async *listPagingPage(
     resourceGroupName: string,
     cloudServiceName: string,
-    options?: CloudServiceRoleInstancesListOptionalParams
+    options?: CloudServiceRoleInstancesListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<RoleInstance[]> {
-    let result = await this._list(resourceGroupName, cloudServiceName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: CloudServiceRoleInstancesListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, cloudServiceName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -96,7 +108,9 @@ export class CloudServiceRoleInstancesImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -117,8 +131,8 @@ export class CloudServiceRoleInstancesImpl
   /**
    * Deletes a role instance from a cloud service.
    * @param roleInstanceName Name of the role instance.
-   * @param resourceGroupName
-   * @param cloudServiceName
+   * @param resourceGroupName Name of the resource group.
+   * @param cloudServiceName Name of the cloud service.
    * @param options The options parameters.
    */
   async beginDelete(
@@ -171,17 +185,19 @@ export class CloudServiceRoleInstancesImpl
       { roleInstanceName, resourceGroupName, cloudServiceName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
    * Deletes a role instance from a cloud service.
    * @param roleInstanceName Name of the role instance.
-   * @param resourceGroupName
-   * @param cloudServiceName
+   * @param resourceGroupName Name of the resource group.
+   * @param cloudServiceName Name of the cloud service.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
@@ -202,8 +218,8 @@ export class CloudServiceRoleInstancesImpl
   /**
    * Gets a role instance from a cloud service.
    * @param roleInstanceName Name of the role instance.
-   * @param resourceGroupName
-   * @param cloudServiceName
+   * @param resourceGroupName Name of the resource group.
+   * @param cloudServiceName Name of the cloud service.
    * @param options The options parameters.
    */
   get(
@@ -221,8 +237,8 @@ export class CloudServiceRoleInstancesImpl
   /**
    * Retrieves information about the run-time state of a role instance in a cloud service.
    * @param roleInstanceName Name of the role instance.
-   * @param resourceGroupName
-   * @param cloudServiceName
+   * @param resourceGroupName Name of the resource group.
+   * @param cloudServiceName Name of the cloud service.
    * @param options The options parameters.
    */
   getInstanceView(
@@ -240,8 +256,8 @@ export class CloudServiceRoleInstancesImpl
   /**
    * Gets the list of all role instances in a cloud service. Use nextLink property in the response to get
    * the next page of role instances. Do this till nextLink is null to fetch all the role instances.
-   * @param resourceGroupName
-   * @param cloudServiceName
+   * @param resourceGroupName Name of the resource group.
+   * @param cloudServiceName Name of the cloud service.
    * @param options The options parameters.
    */
   private _list(
@@ -259,8 +275,8 @@ export class CloudServiceRoleInstancesImpl
    * The Reboot Role Instance asynchronous operation requests a reboot of a role instance in the cloud
    * service.
    * @param roleInstanceName Name of the role instance.
-   * @param resourceGroupName
-   * @param cloudServiceName
+   * @param resourceGroupName Name of the resource group.
+   * @param cloudServiceName Name of the cloud service.
    * @param options The options parameters.
    */
   async beginRestart(
@@ -313,18 +329,20 @@ export class CloudServiceRoleInstancesImpl
       { roleInstanceName, resourceGroupName, cloudServiceName, options },
       restartOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
    * The Reboot Role Instance asynchronous operation requests a reboot of a role instance in the cloud
    * service.
    * @param roleInstanceName Name of the role instance.
-   * @param resourceGroupName
-   * @param cloudServiceName
+   * @param resourceGroupName Name of the resource group.
+   * @param cloudServiceName Name of the cloud service.
    * @param options The options parameters.
    */
   async beginRestartAndWait(
@@ -346,8 +364,8 @@ export class CloudServiceRoleInstancesImpl
    * The Reimage Role Instance asynchronous operation reinstalls the operating system on instances of web
    * roles or worker roles.
    * @param roleInstanceName Name of the role instance.
-   * @param resourceGroupName
-   * @param cloudServiceName
+   * @param resourceGroupName Name of the resource group.
+   * @param cloudServiceName Name of the cloud service.
    * @param options The options parameters.
    */
   async beginReimage(
@@ -400,18 +418,20 @@ export class CloudServiceRoleInstancesImpl
       { roleInstanceName, resourceGroupName, cloudServiceName, options },
       reimageOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
    * The Reimage Role Instance asynchronous operation reinstalls the operating system on instances of web
    * roles or worker roles.
    * @param roleInstanceName Name of the role instance.
-   * @param resourceGroupName
-   * @param cloudServiceName
+   * @param resourceGroupName Name of the resource group.
+   * @param cloudServiceName Name of the cloud service.
    * @param options The options parameters.
    */
   async beginReimageAndWait(
@@ -434,8 +454,8 @@ export class CloudServiceRoleInstancesImpl
    * roles or worker roles and initializes the storage resources that are used by them. If you do not
    * want to initialize storage resources, you can use Reimage Role Instance.
    * @param roleInstanceName Name of the role instance.
-   * @param resourceGroupName
-   * @param cloudServiceName
+   * @param resourceGroupName Name of the resource group.
+   * @param cloudServiceName Name of the cloud service.
    * @param options The options parameters.
    */
   async beginRebuild(
@@ -488,10 +508,12 @@ export class CloudServiceRoleInstancesImpl
       { roleInstanceName, resourceGroupName, cloudServiceName, options },
       rebuildOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -499,8 +521,8 @@ export class CloudServiceRoleInstancesImpl
    * roles or worker roles and initializes the storage resources that are used by them. If you do not
    * want to initialize storage resources, you can use Reimage Role Instance.
    * @param roleInstanceName Name of the role instance.
-   * @param resourceGroupName
-   * @param cloudServiceName
+   * @param resourceGroupName Name of the resource group.
+   * @param cloudServiceName Name of the cloud service.
    * @param options The options parameters.
    */
   async beginRebuildAndWait(
@@ -521,8 +543,8 @@ export class CloudServiceRoleInstancesImpl
   /**
    * Gets a remote desktop file for a role instance in a cloud service.
    * @param roleInstanceName Name of the role instance.
-   * @param resourceGroupName
-   * @param cloudServiceName
+   * @param resourceGroupName Name of the resource group.
+   * @param cloudServiceName Name of the cloud service.
    * @param options The options parameters.
    */
   getRemoteDesktopFile(
@@ -539,8 +561,8 @@ export class CloudServiceRoleInstancesImpl
 
   /**
    * ListNext
-   * @param resourceGroupName
-   * @param cloudServiceName
+   * @param resourceGroupName Name of the resource group.
+   * @param cloudServiceName Name of the cloud service.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
@@ -575,8 +597,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.roleInstanceName,
     Parameters.cloudServiceName
   ],
@@ -595,11 +617,11 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.expand1, Parameters.apiVersion4],
+  queryParameters: [Parameters.expand2, Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.roleInstanceName,
     Parameters.cloudServiceName
   ],
@@ -621,8 +643,8 @@ const getInstanceViewOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.roleInstanceName,
     Parameters.cloudServiceName
   ],
@@ -641,11 +663,11 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.expand1, Parameters.apiVersion4],
+  queryParameters: [Parameters.expand2, Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.cloudServiceName
   ],
   headerParameters: [Parameters.accept],
@@ -667,8 +689,8 @@ const restartOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.roleInstanceName,
     Parameters.cloudServiceName
   ],
@@ -691,8 +713,8 @@ const reimageOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.roleInstanceName,
     Parameters.cloudServiceName
   ],
@@ -715,8 +737,8 @@ const rebuildOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.roleInstanceName,
     Parameters.cloudServiceName
   ],
@@ -736,8 +758,8 @@ const getRemoteDesktopFileOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.roleInstanceName,
     Parameters.cloudServiceName
   ],
@@ -755,12 +777,11 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.expand1, Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.resourceGroupName,
     Parameters.cloudServiceName
   ],
   headerParameters: [Parameters.accept],

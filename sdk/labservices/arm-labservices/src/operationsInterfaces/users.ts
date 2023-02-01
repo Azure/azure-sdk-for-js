@@ -29,8 +29,8 @@ export interface Users {
   /**
    * Returns a list of all users for a lab.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param options The options parameters.
    */
   listByLab(
@@ -41,8 +41,8 @@ export interface Users {
   /**
    * Returns the properties of a lab user.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param userName The name of the user that uniquely identifies it within containing lab. Used in
    *                 resource URIs.
    * @param options The options parameters.
@@ -56,8 +56,8 @@ export interface Users {
   /**
    * Operation to create or update a lab user.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param userName The name of the user that uniquely identifies it within containing lab. Used in
    *                 resource URIs.
    * @param body The request body.
@@ -78,8 +78,8 @@ export interface Users {
   /**
    * Operation to create or update a lab user.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param userName The name of the user that uniquely identifies it within containing lab. Used in
    *                 resource URIs.
    * @param body The request body.
@@ -95,8 +95,8 @@ export interface Users {
   /**
    * Operation to update a lab user.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param userName The name of the user that uniquely identifies it within containing lab. Used in
    *                 resource URIs.
    * @param body The request body.
@@ -114,8 +114,8 @@ export interface Users {
   /**
    * Operation to update a lab user.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param userName The name of the user that uniquely identifies it within containing lab. Used in
    *                 resource URIs.
    * @param body The request body.
@@ -131,8 +131,8 @@ export interface Users {
   /**
    * Operation to delete a user resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param userName The name of the user that uniquely identifies it within containing lab. Used in
    *                 resource URIs.
    * @param options The options parameters.
@@ -146,8 +146,8 @@ export interface Users {
   /**
    * Operation to delete a user resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param userName The name of the user that uniquely identifies it within containing lab. Used in
    *                 resource URIs.
    * @param options The options parameters.
@@ -161,8 +161,8 @@ export interface Users {
   /**
    * Operation to invite a user to a lab.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param userName The name of the user that uniquely identifies it within containing lab. Used in
    *                 resource URIs.
    * @param body The request body.
@@ -178,8 +178,8 @@ export interface Users {
   /**
    * Operation to invite a user to a lab.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param labName The name of the lab that uniquely identifies it within containing lab account. Used
-   *                in resource URIs.
+   * @param labName The name of the lab that uniquely identifies it within containing lab plan. Used in
+   *                resource URIs.
    * @param userName The name of the user that uniquely identifies it within containing lab. Used in
    *                 resource URIs.
    * @param body The request body.

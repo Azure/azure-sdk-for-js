@@ -30,6 +30,7 @@ import {
   NetAppAccountPatch,
   AccountsUpdateOptionalParams,
   AccountsUpdateResponse,
+  AccountsRenewCredentialsOptionalParams,
   AccountsListBySubscriptionNextResponse,
   AccountsListNextResponse
 } from "../models";
@@ -246,11 +247,13 @@ export class AccountsImpl implements Accounts {
       { resourceGroupName, accountName, body, options },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -330,11 +333,13 @@ export class AccountsImpl implements Accounts {
       { resourceGroupName, accountName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -418,11 +423,13 @@ export class AccountsImpl implements Accounts {
       { resourceGroupName, accountName, body, options },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -442,6 +449,93 @@ export class AccountsImpl implements Accounts {
       resourceGroupName,
       accountName,
       body,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Renew identity credentials that are used to authenticate to key vault, for customer-managed key
+   * encryption. If encryption.identity.principalId does not match identity.principalId, running this
+   * operation will fix it.
+   * @param resourceGroupName The name of the resource group.
+   * @param accountName The name of the NetApp account
+   * @param options The options parameters.
+   */
+  async beginRenewCredentials(
+    resourceGroupName: string,
+    accountName: string,
+    options?: AccountsRenewCredentialsOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, accountName, options },
+      renewCredentialsOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "azure-async-operation"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Renew identity credentials that are used to authenticate to key vault, for customer-managed key
+   * encryption. If encryption.identity.principalId does not match identity.principalId, running this
+   * operation will fix it.
+   * @param resourceGroupName The name of the resource group.
+   * @param accountName The name of the NetApp account
+   * @param options The options parameters.
+   */
+  async beginRenewCredentialsAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    options?: AccountsRenewCredentialsOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginRenewCredentials(
+      resourceGroupName,
+      accountName,
       options
     );
     return poller.pollUntilDone();
@@ -612,6 +706,19 @@ const updateOperationSpec: coreClient.OperationSpec = {
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
+  serializer
+};
+const renewCredentialsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/renewCredentials",
+  httpMethod: "POST",
+  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName
+  ],
   serializer
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {

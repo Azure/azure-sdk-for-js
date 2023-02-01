@@ -114,6 +114,30 @@ export interface ConnectionState {
   description?: string;
 }
 
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface ProxyResource {
+  /**
+   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.EventHub/Namespaces" or "Microsoft.EventHub/Namespaces/EventHubs"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The geo-location where the resource lives
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly location?: string;
+}
+
 /** The Resource definition for other than namespace. */
 export interface Resource {
   /**
@@ -227,53 +251,45 @@ export interface OperationListResult {
   readonly nextLink?: string;
 }
 
-/** A ServiceBus REST API operation */
+/** A Service Bus REST API operation */
 export interface Operation {
   /**
    * Operation name: {provider}/{resource}/{operation}
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
-  /** The object that represents the operation. */
+  /** Indicates whether the operation is a data action */
+  isDataAction?: boolean;
+  /** Display of the operation */
   display?: OperationDisplay;
+  /** Origin of the operation */
+  origin?: string;
+  /** Properties of the operation */
+  properties?: Record<string, unknown>;
 }
 
-/** The object that represents the operation. */
+/** Operation display payload */
 export interface OperationDisplay {
   /**
-   * Service provider: Microsoft.ServiceBus
+   * Resource provider of the operation
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provider?: string;
   /**
-   * Resource on which the operation is performed: Invoice, etc.
+   * Resource of the operation
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resource?: string;
   /**
-   * Operation type: Read, write, delete, etc.
+   * Localized friendly name for the operation
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly operation?: string;
-}
-
-/** Description of a Check Name availability request properties. */
-export interface CheckNameAvailability {
-  /** The Name to check the namespace name availability and The namespace name can contain only letters, numbers, and hyphens. The namespace must start with a letter, and it must end with a letter or number. */
-  name: string;
-}
-
-/** Description of a Check Name availability request properties. */
-export interface CheckNameAvailabilityResult {
   /**
-   * The detailed info regarding the reason associated with the namespace.
+   * Localized friendly description for the operation
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly message?: string;
-  /** Value indicating namespace is availability, true if the namespace is available; otherwise, false. */
-  nameAvailable?: boolean;
-  /** The reason for unavailability of a namespace. */
-  reason?: UnavailableReason;
+  readonly description?: string;
 }
 
 /** The result of the List Alias(Disaster Recovery configuration) operation. */
@@ -291,6 +307,47 @@ export interface ArmDisasterRecoveryListResult {
 export interface FailoverProperties {
   /** Safe failover is to indicate the service should wait for pending replication to finish before switching to the secondary. */
   isSafeFailover?: boolean;
+}
+
+/** The result of the List migrationConfigurations operation. */
+export interface MigrationConfigListResult {
+  /** List of Migration Configs */
+  value?: MigrationConfigProperties[];
+  /**
+   * Link to the next set of results. Not empty if Value contains incomplete list of migrationConfigurations
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Description of VirtualNetworkRules - NetworkRules resource. */
+export interface NWRuleSetVirtualNetworkRules {
+  /** Subnet properties */
+  subnet?: Subnet;
+  /** Value that indicates whether to ignore missing VNet Service Endpoint */
+  ignoreMissingVnetServiceEndpoint?: boolean;
+}
+
+/** Properties supplied for Subnet */
+export interface Subnet {
+  /** Resource ID of Virtual Network Subnet */
+  id: string;
+}
+
+/** Description of NetWorkRuleSet - IpRules resource. */
+export interface NWRuleSetIpRules {
+  /** IP Mask */
+  ipMask?: string;
+  /** The IP Filter Action */
+  action?: NetworkRuleIPAction;
+}
+
+/** The response of the List NetworkRuleSet operation. */
+export interface NetworkRuleSetListResult {
+  /** Result of the List NetworkRuleSet operation. */
+  value?: NetworkRuleSet[];
+  /** Link to the next set of results. Not empty if Value contains incomplete list of NetworkRuleSet. */
+  nextLink?: string;
 }
 
 /** The response to the List Namespace operation. */
@@ -338,47 +395,6 @@ export interface AccessKeys {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly keyName?: string;
-}
-
-/** The result of the List migrationConfigurations operation. */
-export interface MigrationConfigListResult {
-  /** List of Migration Configs */
-  value?: MigrationConfigProperties[];
-  /**
-   * Link to the next set of results. Not empty if Value contains incomplete list of migrationConfigurations
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Description of VirtualNetworkRules - NetworkRules resource. */
-export interface NWRuleSetVirtualNetworkRules {
-  /** Subnet properties */
-  subnet?: Subnet;
-  /** Value that indicates whether to ignore missing VNet Service Endpoint */
-  ignoreMissingVnetServiceEndpoint?: boolean;
-}
-
-/** Properties supplied for Subnet */
-export interface Subnet {
-  /** Resource ID of Virtual Network Subnet */
-  id: string;
-}
-
-/** Description of NetWorkRuleSet - IpRules resource. */
-export interface NWRuleSetIpRules {
-  /** IP Mask */
-  ipMask?: string;
-  /** The IP Filter Action */
-  action?: NetworkRuleIPAction;
-}
-
-/** The response of the List NetworkRuleSet operation. */
-export interface NetworkRuleSetListResult {
-  /** Result of the List NetworkRuleSet operation. */
-  value?: NetworkRuleSet[];
-  /** Link to the next set of results. Not empty if Value contains incomplete list of NetworkRuleSet. */
-  nextLink?: string;
 }
 
 /** Parameters supplied to the Regenerate Authorization Rule operation, specifies which key needs to be reset. */
@@ -504,8 +520,27 @@ export interface SBClientAffineProperties {
   isShared?: boolean;
 }
 
+/** Description of a Check Name availability request properties. */
+export interface CheckNameAvailability {
+  /** The Name to check the namespace name availability and The namespace name can contain only letters, numbers, and hyphens. The namespace must start with a letter, and it must end with a letter or number. */
+  name: string;
+}
+
+/** Description of a Check Name availability request properties. */
+export interface CheckNameAvailabilityResult {
+  /**
+   * The detailed info regarding the reason associated with the namespace.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /** Value indicating namespace is availability, true if the namespace is available; otherwise, false. */
+  nameAvailable?: boolean;
+  /** The reason for unavailability of a namespace. */
+  reason?: UnavailableReason;
+}
+
 /** Properties of the PrivateEndpointConnection. */
-export type PrivateEndpointConnection = Resource & {
+export interface PrivateEndpointConnection extends ProxyResource {
   /**
    * The system meta data relating to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -517,26 +552,10 @@ export type PrivateEndpointConnection = Resource & {
   privateLinkServiceConnectionState?: ConnectionState;
   /** Provisioning state of the Private Endpoint Connection. */
   provisioningState?: EndPointProvisioningState;
-};
-
-/** The Resource definition. */
-export type TrackedResource = Resource & {
-  /** The Geo-location where the resource lives */
-  location: string;
-  /** Resource tags */
-  tags?: { [propertyName: string]: string };
-};
-
-/** The Resource definition. */
-export type ResourceNamespacePatch = Resource & {
-  /** Resource location */
-  location?: string;
-  /** Resource tags */
-  tags?: { [propertyName: string]: string };
-};
+}
 
 /** Single item in List or Get Alias(Disaster Recovery configuration) operation */
-export type ArmDisasterRecovery = Resource & {
+export interface ArmDisasterRecovery extends ProxyResource {
   /**
    * The system meta data relating to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -561,21 +580,10 @@ export type ArmDisasterRecovery = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly role?: RoleDisasterRecovery;
-};
-
-/** Description of a namespace authorization rule. */
-export type SBAuthorizationRule = Resource & {
-  /**
-   * The system meta data relating to this resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /** The rights associated with the rule. */
-  rights?: AccessRights[];
-};
+}
 
 /** Single item in List or Get Migration Config operation */
-export type MigrationConfigProperties = Resource & {
+export interface MigrationConfigProperties extends ProxyResource {
   /**
    * The system meta data relating to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -600,10 +608,10 @@ export type MigrationConfigProperties = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly migrationState?: string;
-};
+}
 
 /** Description of NetworkRuleSet resource. */
-export type NetworkRuleSet = Resource & {
+export interface NetworkRuleSet extends ProxyResource {
   /**
    * The system meta data relating to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -619,10 +627,21 @@ export type NetworkRuleSet = Resource & {
   ipRules?: NWRuleSetIpRules[];
   /** This determines if traffic is allowed over public network. By default it is enabled. */
   publicNetworkAccess?: PublicNetworkAccessFlag;
-};
+}
+
+/** Description of a namespace authorization rule. */
+export interface SBAuthorizationRule extends ProxyResource {
+  /**
+   * The system meta data relating to this resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** The rights associated with the rule. */
+  rights?: AccessRights[];
+}
 
 /** Description of queue Resource. */
-export type SBQueue = Resource & {
+export interface SBQueue extends ProxyResource {
   /**
    * The system meta data relating to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -690,10 +709,10 @@ export type SBQueue = Resource & {
   forwardTo?: string;
   /** Queue/Topic name to forward the Dead Letter message */
   forwardDeadLetteredMessagesTo?: string;
-};
+}
 
 /** Description of topic resource. */
-export type SBTopic = Resource & {
+export interface SBTopic extends ProxyResource {
   /**
    * The system meta data relating to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -751,10 +770,10 @@ export type SBTopic = Resource & {
   enablePartitioning?: boolean;
   /** Value that indicates whether Express Entities are enabled. An express topic holds a message in memory temporarily before writing it to persistent storage. */
   enableExpress?: boolean;
-};
+}
 
 /** Description of Rule Resource. */
-export type Rule = Resource & {
+export interface Rule extends ProxyResource {
   /**
    * The system meta data relating to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -768,10 +787,10 @@ export type Rule = Resource & {
   sqlFilter?: SqlFilter;
   /** Properties of correlationFilter */
   correlationFilter?: CorrelationFilter;
-};
+}
 
 /** Description of subscription resource. */
-export type SBSubscription = Resource & {
+export interface SBSubscription extends ProxyResource {
   /**
    * The system meta data relating to this resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -830,13 +849,29 @@ export type SBSubscription = Resource & {
   isClientAffine?: boolean;
   /** Properties specific to client affine subscriptions. */
   clientAffineProperties?: SBClientAffineProperties;
-};
+}
+
+/** The Resource definition. */
+export interface TrackedResource extends Resource {
+  /** The Geo-location where the resource lives */
+  location: string;
+  /** Resource tags */
+  tags?: { [propertyName: string]: string };
+}
+
+/** The Resource definition. */
+export interface ResourceNamespacePatch extends Resource {
+  /** Resource location */
+  location?: string;
+  /** Resource tags */
+  tags?: { [propertyName: string]: string };
+}
 
 /** Represents set of actions written in SQL language-based syntax that is performed against a ServiceBus.Messaging.BrokeredMessage */
-export type SqlRuleAction = Action & {};
+export interface SqlRuleAction extends Action {}
 
 /** Description of a namespace resource. */
-export type SBNamespace = TrackedResource & {
+export interface SBNamespace extends TrackedResource {
   /** Properties of SKU */
   sku?: SBSku;
   /** Properties of BYOK Identity description */
@@ -884,10 +919,12 @@ export type SBNamespace = TrackedResource & {
   privateEndpointConnections?: PrivateEndpointConnection[];
   /** This property disables SAS authentication for the Service Bus namespace. */
   disableLocalAuth?: boolean;
-};
+  /** Alternate name for namespace */
+  alternateName?: string;
+}
 
 /** Description of a namespace resource. */
-export type SBNamespaceUpdateParameters = ResourceNamespacePatch & {
+export interface SBNamespaceUpdateParameters extends ResourceNamespacePatch {
   /** Properties of SKU */
   sku?: SBSku;
   /** Properties of BYOK Identity description */
@@ -922,21 +959,25 @@ export type SBNamespaceUpdateParameters = ResourceNamespacePatch & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly metricId?: string;
-  /** Enabling this property creates a Premium Service Bus Namespace in regions supported availability zones. */
-  zoneRedundant?: boolean;
   /** Properties of BYOK Encryption description */
   encryption?: Encryption;
   /** List of private endpoint connections. */
   privateEndpointConnections?: PrivateEndpointConnection[];
   /** This property disables SAS authentication for the Service Bus namespace. */
   disableLocalAuth?: boolean;
-};
+  /** Alternate name for namespace */
+  alternateName?: string;
+}
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -954,9 +995,13 @@ export type CreatedByType = string;
 
 /** Known values of {@link PrivateLinkConnectionStatus} that the service accepts. */
 export enum KnownPrivateLinkConnectionStatus {
+  /** Pending */
   Pending = "Pending",
+  /** Approved */
   Approved = "Approved",
+  /** Rejected */
   Rejected = "Rejected",
+  /** Disconnected */
   Disconnected = "Disconnected"
 }
 
@@ -974,11 +1019,17 @@ export type PrivateLinkConnectionStatus = string;
 
 /** Known values of {@link EndPointProvisioningState} that the service accepts. */
 export enum KnownEndPointProvisioningState {
+  /** Creating */
   Creating = "Creating",
+  /** Updating */
   Updating = "Updating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Failed */
   Failed = "Failed"
 }
 
@@ -998,6 +1049,7 @@ export type EndPointProvisioningState = string;
 
 /** Known values of {@link MigrationConfigurationName} that the service accepts. */
 export enum KnownMigrationConfigurationName {
+  /** Default */
   Default = "$default"
 }
 
@@ -1012,7 +1064,9 @@ export type MigrationConfigurationName = string;
 
 /** Known values of {@link DefaultAction} that the service accepts. */
 export enum KnownDefaultAction {
+  /** Allow */
   Allow = "Allow",
+  /** Deny */
   Deny = "Deny"
 }
 
@@ -1028,6 +1082,7 @@ export type DefaultAction = string;
 
 /** Known values of {@link NetworkRuleIPAction} that the service accepts. */
 export enum KnownNetworkRuleIPAction {
+  /** Allow */
   Allow = "Allow"
 }
 
@@ -1042,7 +1097,9 @@ export type NetworkRuleIPAction = string;
 
 /** Known values of {@link PublicNetworkAccessFlag} that the service accepts. */
 export enum KnownPublicNetworkAccessFlag {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -1065,14 +1122,6 @@ export type ManagedServiceIdentityType =
   | "UserAssigned"
   | "SystemAssigned, UserAssigned"
   | "None";
-/** Defines values for UnavailableReason. */
-export type UnavailableReason =
-  | "None"
-  | "InvalidName"
-  | "SubscriptionIsDisabled"
-  | "NameInUse"
-  | "NameInLockdown"
-  | "TooManyNamespaceInCurrentSubscription";
 /** Defines values for ProvisioningStateDR. */
 export type ProvisioningStateDR = "Accepted" | "Succeeded" | "Failed";
 /** Defines values for RoleDisasterRecovery. */
@@ -1097,6 +1146,14 @@ export type EntityStatus =
   | "Unknown";
 /** Defines values for FilterType. */
 export type FilterType = "SqlFilter" | "CorrelationFilter";
+/** Defines values for UnavailableReason. */
+export type UnavailableReason =
+  | "None"
+  | "InvalidName"
+  | "SubscriptionIsDisabled"
+  | "NameInUse"
+  | "NameInLockdown"
+  | "TooManyNamespaceInCurrentSubscription";
 
 /** Optional parameters. */
 export interface NamespacesListOptionalParams
@@ -1301,13 +1358,6 @@ export interface OperationsListNextOptionalParams
 export type OperationsListNextResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface DisasterRecoveryConfigsCheckNameAvailabilityOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the checkNameAvailability operation. */
-export type DisasterRecoveryConfigsCheckNameAvailabilityResponse = CheckNameAvailabilityResult;
-
-/** Optional parameters. */
 export interface DisasterRecoveryConfigsListOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -1363,6 +1413,13 @@ export interface DisasterRecoveryConfigsListKeysOptionalParams
 
 /** Contains response data for the listKeys operation. */
 export type DisasterRecoveryConfigsListKeysResponse = AccessKeys;
+
+/** Optional parameters. */
+export interface DisasterRecoveryConfigsCheckNameAvailabilityOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the checkNameAvailability operation. */
+export type DisasterRecoveryConfigsCheckNameAvailabilityResponse = CheckNameAvailabilityResult;
 
 /** Optional parameters. */
 export interface DisasterRecoveryConfigsListNextOptionalParams
@@ -1500,12 +1557,7 @@ export type QueuesListAuthorizationRulesNextResponse = SBAuthorizationRuleListRe
 
 /** Optional parameters. */
 export interface QueuesListByNamespaceNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Skip is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skip parameter that specifies a starting point to use for subsequent calls. */
-  skip?: number;
-  /** May be used to limit the number of results to the most recent N usageDetails. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByNamespaceNext operation. */
 export type QueuesListByNamespaceNextResponse = SBQueueListResult;
@@ -1587,12 +1639,7 @@ export type TopicsListAuthorizationRulesNextResponse = SBAuthorizationRuleListRe
 
 /** Optional parameters. */
 export interface TopicsListByNamespaceNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Skip is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skip parameter that specifies a starting point to use for subsequent calls. */
-  skip?: number;
-  /** May be used to limit the number of results to the most recent N usageDetails. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByNamespaceNext operation. */
 export type TopicsListByNamespaceNextResponse = SBTopicListResult;
@@ -1628,12 +1675,7 @@ export type RulesGetResponse = Rule;
 
 /** Optional parameters. */
 export interface RulesListBySubscriptionsNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Skip is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skip parameter that specifies a starting point to use for subsequent calls. */
-  skip?: number;
-  /** May be used to limit the number of results to the most recent N usageDetails. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionsNext operation. */
 export type RulesListBySubscriptionsNextResponse = RuleListResult;
@@ -1670,12 +1712,7 @@ export type SubscriptionsGetResponse = SBSubscription;
 
 /** Optional parameters. */
 export interface SubscriptionsListByTopicNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Skip is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skip parameter that specifies a starting point to use for subsequent calls. */
-  skip?: number;
-  /** May be used to limit the number of results to the most recent N usageDetails. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByTopicNext operation. */
 export type SubscriptionsListByTopicNextResponse = SBSubscriptionListResult;

@@ -17,6 +17,7 @@ import {
   BotChannel as BotChannelMapper,
   SiteInfo as SiteInfoMapper,
   ConnectionSetting as ConnectionSettingMapper,
+  QnAMakerEndpointKeysRequestBody as QnAMakerEndpointKeysRequestBodyMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper
 } from "../models/mappers";
 
@@ -96,7 +97,7 @@ export const resourceName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-05-01-preview",
+    defaultValue: "2022-09-15",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -188,7 +189,13 @@ export const channelName: OperationURLParameter = {
         "DirectLineChannel",
         "SmsChannel",
         "LineChannel",
-        "DirectLineSpeechChannel"
+        "DirectLineSpeechChannel",
+        "OutlookChannel",
+        "Omnichannel",
+        "TelephonyChannel",
+        "AcsChatChannel",
+        "SearchAssistant",
+        "M365Extensions"
       ]
     }
   }
@@ -276,6 +283,11 @@ export const connectionName: OperationURLParameter = {
 export const parameters6: OperationParameter = {
   parameterPath: "parameters",
   mapper: ConnectionSettingMapper
+};
+
+export const parameters7: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: QnAMakerEndpointKeysRequestBodyMapper
 };
 
 export const operationResultId: OperationURLParameter = {

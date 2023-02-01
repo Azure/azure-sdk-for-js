@@ -1,0 +1,25 @@
+parameters:
+- name: Location
+  displayName: Location
+  type: string
+  default: eastus
+
+trigger: none
+
+stages:
+  - template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
+    parameters:
+      PackageName: "@azure/ai-language-text"
+      ServiceDirectory: cognitivelanguage
+      Location: "${{ parameters.Location }}"
+      CloudConfig:
+        Public:
+          SubscriptionConfigurations:
+            - $(sub-config-azure-cloud-test-resources)
+            - $(sub-config-text-analytics-azure-cloud-test-resources)
+      SupportedClouds: 'Public'
+      EnvVars:
+        AZURE_SUBSCRIPTION_ID: $(TEXTANALYTICS_SUBSCRIPTION_ID)
+        AZURE_TENANT_ID: $(TEXTANALYTICS_TENANT_ID)
+        AZURE_CLIENT_SECRET: $(TEXTANALYTICS_CLIENT_SECRET)
+        AZURE_CLIENT_ID: $(TEXTANALYTICS_CLIENT_ID)

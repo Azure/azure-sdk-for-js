@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { delay } from "@azure/core-http";
+import { delay } from "@azure/core-util";
 import { PollOperation, PollOperationState, Poller } from "@azure/core-lro";
 import { BlobClient, BlobStartCopyFromURLOptions, BlobBeginCopyFromURLResponse } from "../Clients";
 
@@ -198,7 +198,7 @@ const update: BlobBeginCopyFromURLPollOperation["update"] = async function updat
         );
         state.isCompleted = true;
       }
-    } catch (err) {
+    } catch (err: any) {
       state.error = err;
       state.isCompleted = true;
     }

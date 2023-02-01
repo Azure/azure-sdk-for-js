@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { Servers } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,7 +17,9 @@ import { LroImpl } from "../lroImpl";
 import {
   Server,
   ServersListByResourceGroupOptionalParams,
+  ServersListByResourceGroupResponse,
   ServersListOptionalParams,
+  ServersListResponse,
   ServerForCreate,
   ServersCreateOptionalParams,
   ServersCreateResponse,
@@ -27,8 +29,6 @@ import {
   ServersDeleteOptionalParams,
   ServersGetOptionalParams,
   ServersGetResponse,
-  ServersListByResourceGroupResponse,
-  ServersListResponse,
   ServersRestartOptionalParams,
   ServersStartOptionalParams,
   ServersStopOptionalParams
@@ -64,17 +64,26 @@ export class ServersImpl implements Servers {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: ServersListByResourceGroupOptionalParams
+    options?: ServersListByResourceGroupOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<Server[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
+    let result: ServersListByResourceGroupResponse;
+    result = await this._listByResourceGroup(resourceGroupName, options);
     yield result.value || [];
   }
 
@@ -105,16 +114,21 @@ export class ServersImpl implements Servers {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: ServersListOptionalParams
+    options?: ServersListOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<Server[]> {
-    let result = await this._list(options);
+    let result: ServersListResponse;
+    result = await this._list(options);
     yield result.value || [];
   }
 
@@ -186,10 +200,12 @@ export class ServersImpl implements Servers {
       { resourceGroupName, serverName, parameters, options },
       createOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -275,10 +291,12 @@ export class ServersImpl implements Servers {
       { resourceGroupName, serverName, parameters, options },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -359,10 +377,12 @@ export class ServersImpl implements Servers {
       { resourceGroupName, serverName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -481,10 +501,12 @@ export class ServersImpl implements Servers {
       { resourceGroupName, serverName, options },
       restartOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -561,10 +583,12 @@ export class ServersImpl implements Servers {
       { resourceGroupName, serverName, options },
       startOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -641,10 +665,12 @@ export class ServersImpl implements Servers {
       { resourceGroupName, serverName, options },
       stopOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

@@ -17,10 +17,10 @@ const { Buffer } = require("buffer");
 const { Connection, ReceiverEvents, parseConnectionString } = require("rhea-promise");
 const rheaPromise = require("rhea-promise");
 const { EventHubConsumerClient, earliestEventPosition } = require("@azure/event-hubs");
+const { ErrorNameConditionMapper: AMQPError } = require("@azure/core-amqp");
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
-dotenv.config();
+require("dotenv").config();
 
 /**
  * Type guard for AmqpError.
@@ -56,9 +56,8 @@ function generateSasToken(resourceUri, signingKey, policyName, expiresInMins) {
  * `"Endpoint=sb://<hostname>;EntityPath=<your-iot-hub>;SharedAccessKeyName=<KeyName>;SharedAccessKey=<Key>"`
  */
 async function convertIotHubToEventHubsConnectionString(connectionString) {
-  const { HostName, SharedAccessKeyName, SharedAccessKey } = parseConnectionString(
-    connectionString
-  );
+  const { HostName, SharedAccessKeyName, SharedAccessKey } =
+    parseConnectionString(connectionString);
 
   // Verify that the required info is in the connection string.
   if (!HostName || !SharedAccessKey || !SharedAccessKeyName) {
@@ -88,25 +87,30 @@ async function convertIotHubToEventHubsConnectionString(connectionString) {
     username: `${SharedAccessKeyName}@sas.root.${iotHubName}`,
     port: 5671,
     reconnect: false,
-    password: token
+    password: token,
   });
   await connection.open();
 
   // Create the receiver that will trigger a redirect error.
   const receiver = await connection.createReceiver({
-    source: { address: `amqps://${HostName}/messages/events/$management` }
+    source: { address: `amqps://${HostName}/messages/events/$management` },
   });
 
   return new Promise((resolve, reject) => {
     receiver.on(ReceiverEvents.receiverError, (context) => {
       const error = context.receiver && context.receiver.error;
-      if (isAmqpError(error) && error.condition === "amqp:link:redirect") {
-        const hostname = error.info && error.info.hostname;
-        if (!hostname) {
+      if (isAmqpError(error) && error.condition === AMQPError.LinkRedirectError && error.info) {
+        const hostname = error.info.hostname;
+        // an example: "amqps://iothub.test-1234.servicebus.windows.net:5671/hub-name/$management"
+        const iotAddress = error.info.address;
+        const regex = /:\d+\/(.*)\/\$management/i;
+        const regexResults = regex.exec(iotAddress);
+        if (!hostname || !regexResults) {
           reject(error);
         } else {
+          const eventHubName = regexResults[1];
           resolve(
-            `Endpoint=sb://${hostname}/;EntityPath=${iotHubName};SharedAccessKeyName=${SharedAccessKeyName};SharedAccessKey=${SharedAccessKey}`
+            `Endpoint=sb://${hostname}/;EntityPath=${eventHubName};SharedAccessKeyName=${SharedAccessKeyName};SharedAccessKey=${SharedAccessKey}`
           );
         }
       } else {
@@ -140,7 +144,7 @@ async function main() {
       },
       processError: async (err, context) => {
         console.log(`Error on partition "${context.partitionId}" : ${err}`);
-      }
+      },
     },
     { startPosition: earliestEventPosition }
   );
@@ -156,3 +160,5 @@ async function main() {
 main().catch((error) => {
   console.error("Error running sample:", error);
 });
+
+module.exports = { main };

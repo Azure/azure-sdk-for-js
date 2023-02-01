@@ -201,7 +201,7 @@ export interface StorageAccountCreateParameters {
   encryption?: Encryption;
   /** Network rule set */
   networkRuleSet?: NetworkRuleSet;
-  /** Required for storage accounts where kind = BlobStorage. The access tier used for billing. */
+  /** Required for storage accounts where kind = BlobStorage. The access tier is used for billing. The 'Premium' access tier is the default value for premium block blobs storage account type and it cannot be changed for the premium block blobs storage account type. */
   accessTier?: AccessTier;
   /** Provides the identity based authentication settings for Azure Files. */
   azureFilesIdentityBasedAuthentication?: AzureFilesIdentityBasedAuthentication;
@@ -231,6 +231,8 @@ export interface StorageAccountCreateParameters {
   defaultToOAuthAuthentication?: boolean;
   /** The property is immutable and can only be set to true at the account creation time. When set to true, it enables object level immutability for all the new containers in the account by default. */
   immutableStorageWithVersioning?: ImmutableStorageAccount;
+  /** Allows you to specify the type of endpoint. Set this to AzureDNSZone to create a large number of accounts in a single subscription, which creates accounts in an Azure DNS Zone and the endpoint URL will have an alphanumeric DNS Zone identifier. */
+  dnsEndpointType?: DnsEndpointType;
 }
 
 /** The SKU of the storage account. */
@@ -311,7 +313,7 @@ export interface Encryption {
   /** List of services which support encryption. */
   services?: EncryptionServices;
   /** The encryption keySource (provider). Possible values (case-insensitive):  Microsoft.Storage, Microsoft.Keyvault */
-  keySource: KeySource;
+  keySource?: KeySource;
   /** A boolean indicating whether or not the service applies a secondary layer of encryption with platform managed keys for data at rest. */
   requireInfrastructureEncryption?: boolean;
   /** Properties provided by key vault. */
@@ -363,6 +365,11 @@ export interface KeyVaultProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly lastKeyRotationTimestamp?: Date;
+  /**
+   * This is a read only property that represents the expiration time of the current version of the customer managed key used for encryption.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly currentVersionedKeyExpirationTimestamp?: Date;
 }
 
 /** Encryption identity for the storage account. */
@@ -415,9 +422,9 @@ export interface IPRule {
 
 /** Settings for Azure Files identity based authentication. */
 export interface AzureFilesIdentityBasedAuthentication {
-  /** Indicates the directory service used. */
+  /** Indicates the directory service used. Note that this enum may be extended in the future. */
   directoryServiceOptions: DirectoryServiceOptions;
-  /** Required if choose AD. */
+  /** Required if directoryServiceOptions are AD, optional if they are AADKERB. */
   activeDirectoryProperties?: ActiveDirectoryProperties;
   /** Default share permission for users using Kerberos authentication if RBAC role is not assigned. */
   defaultSharePermission?: DefaultSharePermission;
@@ -428,19 +435,19 @@ export interface ActiveDirectoryProperties {
   /** Specifies the primary domain that the AD DNS server is authoritative for. */
   domainName: string;
   /** Specifies the NetBIOS domain name. */
-  netBiosDomainName: string;
+  netBiosDomainName?: string;
   /** Specifies the Active Directory forest to get. */
-  forestName: string;
+  forestName?: string;
   /** Specifies the domain GUID. */
   domainGuid: string;
   /** Specifies the security identifier (SID). */
-  domainSid: string;
+  domainSid?: string;
   /** Specifies the security identifier (SID) for Azure Storage. */
-  azureStorageSid: string;
+  azureStorageSid?: string;
   /** Specifies the Active Directory SAMAccountName for Azure Storage. */
   samAccountName?: string;
   /** Specifies the Active Directory account type for Azure Storage. */
-  accountType?: ActiveDirectoryPropertiesAccountType;
+  accountType?: AccountType;
 }
 
 /** Routing preference defines the type of network, either microsoft or internet routing to be used to deliver the user data, the default option is microsoft routing */
@@ -670,6 +677,27 @@ export interface BlobRestoreRange {
   endRange: string;
 }
 
+/** This defines the sku conversion status object for asynchronous sku conversions. */
+export interface StorageAccountSkuConversionStatus {
+  /**
+   * This property indicates the current sku conversion status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly skuConversionStatus?: SkuConversionStatus;
+  /** This property represents the target sku name to which the account sku is being converted asynchronously. */
+  targetSkuName?: SkuName;
+  /**
+   * This property represents the sku conversion start time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startTime?: string;
+  /**
+   * This property represents the sku conversion end time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endTime?: string;
+}
+
 /** The parameters that can be provided when updating the storage account properties. */
 export interface StorageAccountUpdateParameters {
   /** Gets or sets the SKU name. Note that the SKU name cannot be updated to Standard_ZRS, Premium_LRS or Premium_ZRS, nor can accounts of those SKU names be updated to any other value. */
@@ -688,7 +716,7 @@ export interface StorageAccountUpdateParameters {
   sasPolicy?: SasPolicy;
   /** KeyPolicy assigned to the storage account. */
   keyPolicy?: KeyPolicy;
-  /** Required for storage accounts where kind = BlobStorage. The access tier used for billing. */
+  /** Required for storage accounts where kind = BlobStorage. The access tier is used for billing. The 'Premium' access tier is the default value for premium block blobs storage account type and it cannot be changed for the premium block blobs storage account type. */
   accessTier?: AccessTier;
   /** Provides the identity based authentication settings for Azure Files. */
   azureFilesIdentityBasedAuthentication?: AzureFilesIdentityBasedAuthentication;
@@ -720,6 +748,8 @@ export interface StorageAccountUpdateParameters {
   immutableStorageWithVersioning?: ImmutableStorageAccount;
   /** Restrict copy to and from Storage Accounts within an AAD tenant or with Private Links to the same VNet. */
   allowedCopyScope?: AllowedCopyScope;
+  /** Allows you to specify the type of endpoint. Set this to AzureDNSZone to create a large number of accounts in a single subscription, which creates accounts in an Azure DNS Zone and the endpoint URL will have an alphanumeric DNS Zone identifier. */
+  dnsEndpointType?: DnsEndpointType;
 }
 
 /** The response from the List Deleted Accounts operation. */
@@ -963,46 +993,64 @@ export interface ManagementPolicyAction {
 
 /** Management policy action for base blob. */
 export interface ManagementPolicyBaseBlob {
-  /** The function to tier blobs to cool storage. Support blobs currently at Hot tier */
+  /** The function to tier blobs to cool storage. */
   tierToCool?: DateAfterModification;
-  /** The function to tier blobs to archive storage. Support blobs currently at Hot or Cool tier */
+  /** The function to tier blobs to archive storage. */
   tierToArchive?: DateAfterModification;
+  /** The function to tier blobs to cold storage. */
+  tierToCold?: DateAfterModification;
+  /** The function to tier blobs to hot storage. This action can only be used with Premium Block Blob Storage Accounts */
+  tierToHot?: DateAfterModification;
   /** The function to delete the blob */
   delete?: DateAfterModification;
   /** This property enables auto tiering of a blob from cool to hot on a blob access. This property requires tierToCool.daysAfterLastAccessTimeGreaterThan. */
   enableAutoTierToHotFromCool?: boolean;
 }
 
-/** Object to define the number of days after object last modification Or last access. Properties daysAfterModificationGreaterThan and daysAfterLastAccessTimeGreaterThan are mutually exclusive. */
+/** Object to define the base blob action conditions. Properties daysAfterModificationGreaterThan, daysAfterLastAccessTimeGreaterThan and daysAfterCreationGreaterThan are mutually exclusive. The daysAfterLastTierChangeGreaterThan property is only applicable for tierToArchive actions which requires daysAfterModificationGreaterThan to be set, also it cannot be used in conjunction with daysAfterLastAccessTimeGreaterThan or daysAfterCreationGreaterThan. */
 export interface DateAfterModification {
   /** Value indicating the age in days after last modification */
   daysAfterModificationGreaterThan?: number;
   /** Value indicating the age in days after last blob access. This property can only be used in conjunction with last access time tracking policy */
   daysAfterLastAccessTimeGreaterThan?: number;
+  /** Value indicating the age in days after last blob tier change time. This property is only applicable for tierToArchive actions and requires daysAfterModificationGreaterThan to be set for baseBlobs based actions. The blob will be archived if both the conditions are satisfied. */
+  daysAfterLastTierChangeGreaterThan?: number;
+  /** Value indicating the age in days after blob creation. */
+  daysAfterCreationGreaterThan?: number;
 }
 
 /** Management policy action for snapshot. */
 export interface ManagementPolicySnapShot {
-  /** The function to tier blob snapshot to cool storage. Support blob snapshot currently at Hot tier */
+  /** The function to tier blob snapshot to cool storage. */
   tierToCool?: DateAfterCreation;
-  /** The function to tier blob snapshot to archive storage. Support blob snapshot currently at Hot or Cool tier */
+  /** The function to tier blob snapshot to archive storage. */
   tierToArchive?: DateAfterCreation;
+  /** The function to tier blobs to cold storage. */
+  tierToCold?: DateAfterCreation;
+  /** The function to tier blobs to hot storage. This action can only be used with Premium Block Blob Storage Accounts */
+  tierToHot?: DateAfterCreation;
   /** The function to delete the blob snapshot */
   delete?: DateAfterCreation;
 }
 
-/** Object to define the number of days after creation. */
+/** Object to define snapshot and version action conditions. */
 export interface DateAfterCreation {
   /** Value indicating the age in days after creation */
   daysAfterCreationGreaterThan: number;
+  /** Value indicating the age in days after last blob tier change time. This property is only applicable for tierToArchive actions and requires daysAfterCreationGreaterThan to be set for snapshots and blob version based actions. The blob will be archived if both the conditions are satisfied. */
+  daysAfterLastTierChangeGreaterThan?: number;
 }
 
 /** Management policy action for blob version. */
 export interface ManagementPolicyVersion {
-  /** The function to tier blob version to cool storage. Support blob version currently at Hot tier */
+  /** The function to tier blob version to cool storage. */
   tierToCool?: DateAfterCreation;
-  /** The function to tier blob version to archive storage. Support blob version currently at Hot or Cool tier */
+  /** The function to tier blob version to archive storage. */
   tierToArchive?: DateAfterCreation;
+  /** The function to tier blobs to cold storage. */
+  tierToCold?: DateAfterCreation;
+  /** The function to tier blobs to hot storage. This action can only be used with Premium Block Blob Storage Accounts */
+  tierToHot?: DateAfterCreation;
   /** The function to delete the blob version */
   delete?: DateAfterCreation;
 }
@@ -1031,6 +1079,11 @@ export interface TagFilter {
 export interface BlobInventoryPolicySchema {
   /** Policy is enabled if set to true. */
   enabled: boolean;
+  /**
+   * Deprecated Property from API version 2021-04-01 onwards, the required destination container name must be specified at the rule level 'policy.rule.destination'
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly destination?: string;
   /** The valid value is Inventory */
   type: InventoryRuleType;
   /** The storage account blob inventory policy rules. The rule is applied when it is enabled. */
@@ -1059,20 +1112,24 @@ export interface BlobInventoryPolicyDefinition {
   schedule: Schedule;
   /** This is a required field. This field specifies the scope of the inventory created either at the blob or container level. */
   objectType: ObjectType;
-  /** This is a required field. This field specifies the fields and properties of the object to be included in the inventory. The Schema field value 'Name' is always required. The valid values for this field for the 'Blob' definition.objectType include 'Name, Creation-Time, Last-Modified, Content-Length, Content-MD5, BlobType, AccessTier, AccessTierChangeTime, AccessTierInferred, Tags, Expiry-Time, hdi_isfolder, Owner, Group, Permissions, Acl, Snapshot, VersionId, IsCurrentVersion, Metadata, LastAccessTime'. The valid values for 'Container' definition.objectType include 'Name, Last-Modified, Metadata, LeaseStatus, LeaseState, LeaseDuration, PublicAccess, HasImmutabilityPolicy, HasLegalHold'. Schema field values 'Expiry-Time, hdi_isfolder, Owner, Group, Permissions, Acl' are valid only for Hns enabled accounts.'Tags' field is only valid for non Hns accounts */
+  /** This is a required field. This field specifies the fields and properties of the object to be included in the inventory. The Schema field value 'Name' is always required. The valid values for this field for the 'Blob' definition.objectType include 'Name, Creation-Time, Last-Modified, Content-Length, Content-MD5, BlobType, AccessTier, AccessTierChangeTime, AccessTierInferred, Tags, Expiry-Time, hdi_isfolder, Owner, Group, Permissions, Acl, Snapshot, VersionId, IsCurrentVersion, Metadata, LastAccessTime, Tags, Etag, ContentType, ContentEncoding, ContentLanguage, ContentCRC64, CacheControl, ContentDisposition, LeaseStatus, LeaseState, LeaseDuration, ServerEncrypted, Deleted, DeletionId, DeletedTime, RemainingRetentionDays, ImmutabilityPolicyUntilDate, ImmutabilityPolicyMode, LegalHold, CopyId, CopyStatus, CopySource, CopyProgress, CopyCompletionTime, CopyStatusDescription, CustomerProvidedKeySha256, RehydratePriority, ArchiveStatus, XmsBlobSequenceNumber, EncryptionScope, IncrementalCopy, TagCount'. For Blob object type schema field value 'DeletedTime' is applicable only for Hns enabled accounts. The valid values for 'Container' definition.objectType include 'Name, Last-Modified, Metadata, LeaseStatus, LeaseState, LeaseDuration, PublicAccess, HasImmutabilityPolicy, HasLegalHold, Etag, DefaultEncryptionScope, DenyEncryptionScopeOverride, ImmutableStorageWithVersioningEnabled, Deleted, Version, DeletedTime, RemainingRetentionDays'. Schema field values 'Expiry-Time, hdi_isfolder, Owner, Group, Permissions, Acl, DeletionId' are valid only for Hns enabled accounts.Schema field values 'Tags, TagCount' are only valid for Non-Hns accounts. */
   schemaFields: string[];
 }
 
 /** An object that defines the blob inventory rule filter conditions. For 'Blob' definition.objectType all filter properties are applicable, 'blobTypes' is required and others are optional. For 'Container' definition.objectType only prefixMatch is applicable and is optional. */
 export interface BlobInventoryPolicyFilter {
-  /** An array of strings for blob prefixes to be matched. */
+  /** An array of strings with maximum 10 blob prefixes to be included in the inventory. */
   prefixMatch?: string[];
+  /** An array of strings with maximum 10 blob prefixes to be excluded from the inventory. */
+  excludePrefix?: string[];
   /** An array of predefined enum values. Valid values include blockBlob, appendBlob, pageBlob. Hns accounts does not support pageBlobs. This field is required when definition.objectType property is set to 'Blob'. */
   blobTypes?: string[];
   /** Includes blob versions in blob inventory when value is set to true. The definition.schemaFields values 'VersionId and IsCurrentVersion' are required if this property is set to true, else they must be excluded. */
   includeBlobVersions?: boolean;
   /** Includes blob snapshots in blob inventory when value is set to true. The definition.schemaFields value 'Snapshot' is required if this property is set to true, else it must be excluded. */
   includeSnapshots?: boolean;
+  /** For 'Container' definition.objectType the definition.schemaFields must include 'Deleted, Version, DeletedTime and RemainingRetentionDays'. For 'Blob' definition.objectType and HNS enabled storage accounts the definition.schemaFields must include 'DeletionId, Deleted, DeletedTime and RemainingRetentionDays' and for Hns disabled accounts the definition.schemaFields must include 'Deleted and RemainingRetentionDays', else it must be excluded. */
+  includeDeleted?: boolean;
 }
 
 /** Metadata pertaining to creation and last modification of the resource. */
@@ -1089,6 +1146,24 @@ export interface SystemData {
   lastModifiedByType?: CreatedByType;
   /** The timestamp of resource last modification (UTC) */
   lastModifiedAt?: Date;
+}
+
+/** An error response from the Storage service. */
+export interface CloudError {
+  /** An error response from the Storage service. */
+  error?: CloudErrorBody;
+}
+
+/** An error response from the Storage service. */
+export interface CloudErrorBody {
+  /** An identifier for the error. Codes are invariant and are intended to be consumed programmatically. */
+  code?: string;
+  /** A message describing the error, intended to be suitable for display in a user interface. */
+  message?: string;
+  /** The target of the particular error. For example, the name of the property in error. */
+  target?: string;
+  /** A list of additional details about the error. */
+  details?: CloudErrorBody[];
 }
 
 /** List of blob inventory policies returned. */
@@ -1229,7 +1304,7 @@ export interface CorsRule {
   /** Required if CorsRule element is present. A list of origin domains that will be allowed via CORS, or "*" to allow all domains */
   allowedOrigins: string[];
   /** Required if CorsRule element is present. A list of HTTP methods that are allowed to be executed by the origin. */
-  allowedMethods: CorsRuleAllowedMethodsItem[];
+  allowedMethods: AllowedMethods[];
   /** Required if CorsRule element is present. The number of seconds that the client/browser should cache a preflight response. */
   maxAgeInSeconds: number;
   /** Required if CorsRule element is present. A list of response headers to expose to CORS clients. */
@@ -1244,6 +1319,8 @@ export interface DeleteRetentionPolicy {
   enabled?: boolean;
   /** Indicates the number of days that the deleted item should be retained. The minimum specified value can be 1 and the maximum value can be 365. */
   days?: number;
+  /** This property when set to true allows deletion of the soft deleted blob versions and snapshots. This property cannot be used blob restore policy. This property only applies to blob service and does not apply to containers or file share. */
+  allowPermanentDelete?: boolean;
 }
 
 /** The blob service properties for change feed events. */
@@ -1465,24 +1542,6 @@ export interface LeaseContainerResponse {
   leaseTimeSeconds?: string;
 }
 
-/** An error response from the Storage service. */
-export interface CloudError {
-  /** An error response from the Storage service. */
-  error?: CloudErrorBody;
-}
-
-/** An error response from the Storage service. */
-export interface CloudErrorBody {
-  /** An identifier for the error. Codes are invariant and are intended to be consumed programmatically. */
-  code?: string;
-  /** A message describing the error, intended to be suitable for display in a user interface. */
-  message?: string;
-  /** The target of the particular error. For example, the name of the property in error. */
-  target?: string;
-  /** A list of additional details about the error. */
-  details?: CloudErrorBody[];
-}
-
 export interface FileServiceItems {
   /**
    * List of file services returned.
@@ -1607,6 +1666,24 @@ export interface ListTableServices {
   readonly value?: TableServiceProperties[];
 }
 
+/** Object to set Table Access Policy. */
+export interface TableSignedIdentifier {
+  /** unique-64-character-value of the stored access policy. */
+  id: string;
+  /** Access policy */
+  accessPolicy?: TableAccessPolicy;
+}
+
+/** Table Access Policy Properties Object. */
+export interface TableAccessPolicy {
+  /** Start time of the access policy */
+  startTime?: Date;
+  /** Expiry time of the access policy */
+  expiryTime?: Date;
+  /** Required. List of abbreviated permissions. Supported permission values include 'r','a','u','d' */
+  permission: string;
+}
+
 /** Response schema. Contains list of tables returned */
 export interface ListTableResource {
   /**
@@ -1622,7 +1699,7 @@ export interface ListTableResource {
 }
 
 /** The Private Endpoint Connection resource. */
-export type PrivateEndpointConnection = Resource & {
+export interface PrivateEndpointConnection extends Resource {
   /** The resource of private end point. */
   privateEndpoint?: PrivateEndpoint;
   /** A collection of information about the state of the connection between service consumer and provider. */
@@ -1632,21 +1709,21 @@ export type PrivateEndpointConnection = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
-};
+}
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The geo-location where the resource lives */
   location: string;
-};
+}
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {}
 
 /** The Get Storage Account ManagementPolicies operation response. */
-export type ManagementPolicy = Resource & {
+export interface ManagementPolicy extends Resource {
   /**
    * Returns the date and time the ManagementPolicies was last modified.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1654,10 +1731,10 @@ export type ManagementPolicy = Resource & {
   readonly lastModifiedTime?: Date;
   /** The Storage Account ManagementPolicy, in JSON format. See more details in: https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts. */
   policy?: ManagementPolicySchema;
-};
+}
 
 /** The storage account blob inventory policy. */
-export type BlobInventoryPolicy = Resource & {
+export interface BlobInventoryPolicy extends Resource {
   /**
    * Metadata pertaining to creation and last modification of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1670,10 +1747,10 @@ export type BlobInventoryPolicy = Resource & {
   readonly lastModifiedTime?: Date;
   /** The storage account blob inventory policy object. It is composed of policy rules. */
   policy?: BlobInventoryPolicySchema;
-};
+}
 
 /** A private link resource */
-export type PrivateLinkResource = Resource & {
+export interface PrivateLinkResource extends Resource {
   /**
    * The private link resource group id.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1686,10 +1763,10 @@ export type PrivateLinkResource = Resource & {
   readonly requiredMembers?: string[];
   /** The private link resource Private link DNS zone name. */
   requiredZoneNames?: string[];
-};
+}
 
 /** The replication policy between two storage accounts. Multiple rules can be defined in one policy. */
-export type ObjectReplicationPolicy = Resource & {
+export interface ObjectReplicationPolicy extends Resource {
   /**
    * A unique id for object replication policy.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1706,10 +1783,10 @@ export type ObjectReplicationPolicy = Resource & {
   destinationAccount?: string;
   /** The storage account object replication rules. */
   rules?: ObjectReplicationPolicyRule[];
-};
+}
 
 /** The local user associated with the storage accounts. */
-export type LocalUser = Resource & {
+export interface LocalUser extends Resource {
   /**
    * Metadata pertaining to creation and last modification of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1732,10 +1809,10 @@ export type LocalUser = Resource & {
   hasSshKey?: boolean;
   /** Indicates whether ssh password exists. Set it to false to remove existing SSH password. */
   hasSshPassword?: boolean;
-};
+}
 
 /** The Encryption Scope resource. */
-export type EncryptionScope = Resource & {
+export interface EncryptionScope extends Resource {
   /** The provider for the encryption scope. Possible values (case-insensitive):  Microsoft.Storage, Microsoft.KeyVault. */
   source?: EncryptionScopeSource;
   /** The state of the encryption scope. Possible values (case-insensitive):  Enabled, Disabled. */
@@ -1754,10 +1831,10 @@ export type EncryptionScope = Resource & {
   keyVaultProperties?: EncryptionScopeKeyVaultProperties;
   /** A boolean indicating whether or not the service applies a secondary layer of encryption with platform managed keys for data at rest. */
   requireInfrastructureEncryption?: boolean;
-};
+}
 
 /** The properties of a storage account’s Blob service. */
-export type BlobServiceProperties = Resource & {
+export interface BlobServiceProperties extends Resource {
   /**
    * Sku name and tier.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1781,19 +1858,19 @@ export type BlobServiceProperties = Resource & {
   containerDeleteRetentionPolicy?: DeleteRetentionPolicy;
   /** The blob service property to configure last access time based tracking policy. */
   lastAccessTimeTrackingPolicy?: LastAccessTimeTrackingPolicy;
-};
+}
 
 /** The resource model definition for an Azure Resource Manager resource with an etag. */
-export type AzureEntityResource = Resource & {
+export interface AzureEntityResource extends Resource {
   /**
    * Resource Etag.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly etag?: string;
-};
+}
 
 /** The properties of File services in storage account. */
-export type FileServiceProperties = Resource & {
+export interface FileServiceProperties extends Resource {
   /**
    * Sku name and tier.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1805,15 +1882,15 @@ export type FileServiceProperties = Resource & {
   shareDeleteRetentionPolicy?: DeleteRetentionPolicy;
   /** Protocol settings for file service */
   protocolSettings?: ProtocolSettings;
-};
+}
 
 /** The properties of a storage account’s Queue service. */
-export type QueueServiceProperties = Resource & {
+export interface QueueServiceProperties extends Resource {
   /** Specifies CORS rules for the Queue service. You can include up to five CorsRule elements in the request. If no CorsRule elements are included in the request body, all CORS rules will be deleted, and CORS will be disabled for the Queue service. */
   cors?: CorsRules;
-};
+}
 
-export type StorageQueue = Resource & {
+export interface StorageQueue extends Resource {
   /** A name-value pair that represents queue metadata. */
   metadata?: { [propertyName: string]: string };
   /**
@@ -1821,30 +1898,32 @@ export type StorageQueue = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly approximateMessageCount?: number;
-};
+}
 
-export type ListQueue = Resource & {
+export interface ListQueue extends Resource {
   /** A name-value pair that represents queue metadata. */
   metadata?: { [propertyName: string]: string };
-};
+}
 
 /** The properties of a storage account’s Table service. */
-export type TableServiceProperties = Resource & {
+export interface TableServiceProperties extends Resource {
   /** Specifies CORS rules for the Table service. You can include up to five CorsRule elements in the request. If no CorsRule elements are included in the request body, all CORS rules will be deleted, and CORS will be disabled for the Table service. */
   cors?: CorsRules;
-};
+}
 
 /** Properties of the table, including Id, resource name, resource type. */
-export type Table = Resource & {
+export interface Table extends Resource {
   /**
    * Table name under the specified account
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly tableName?: string;
-};
+  /** List of stored access policies specified on the table. */
+  signedIdentifiers?: TableSignedIdentifier[];
+}
 
 /** The storage account. */
-export type StorageAccount = TrackedResource & {
+export interface StorageAccount extends TrackedResource {
   /**
    * Gets the SKU.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1930,7 +2009,7 @@ export type StorageAccount = TrackedResource & {
    */
   readonly encryption?: Encryption;
   /**
-   * Required for storage accounts where kind = BlobStorage. The access tier used for billing.
+   * Required for storage accounts where kind = BlobStorage. The access tier is used for billing. The 'Premium' access tier is the default value for premium block blobs storage account type and it cannot be changed for the premium block blobs storage account type.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly accessTier?: AccessTier;
@@ -1991,10 +2070,14 @@ export type StorageAccount = TrackedResource & {
   immutableStorageWithVersioning?: ImmutableStorageAccount;
   /** Restrict copy to and from Storage Accounts within an AAD tenant or with Private Links to the same VNet. */
   allowedCopyScope?: AllowedCopyScope;
-};
+  /** This property is readOnly and is set by server during asynchronous storage account sku conversion operations. */
+  storageAccountSkuConversionStatus?: StorageAccountSkuConversionStatus;
+  /** Allows you to specify the type of endpoint. Set this to AzureDNSZone to create a large number of accounts in a single subscription, which creates accounts in an Azure DNS Zone and the endpoint URL will have an alphanumeric DNS Zone identifier. */
+  dnsEndpointType?: DnsEndpointType;
+}
 
 /** Deleted storage account */
-export type DeletedAccount = ProxyResource & {
+export interface DeletedAccount extends ProxyResource {
   /**
    * Full resource id of the original storage account.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2020,10 +2103,10 @@ export type DeletedAccount = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly deletionTime?: string;
-};
+}
 
 /** The blob container properties be listed out. */
-export type ListContainerItem = AzureEntityResource & {
+export interface ListContainerItem extends AzureEntityResource {
   /**
    * The version of the deleted blob container.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2098,10 +2181,10 @@ export type ListContainerItem = AzureEntityResource & {
   enableNfsV3RootSquash?: boolean;
   /** Enable NFSv3 all squash on blob container. */
   enableNfsV3AllSquash?: boolean;
-};
+}
 
 /** Properties of the blob container, including Id, resource name, resource type, Etag. */
-export type BlobContainer = AzureEntityResource & {
+export interface BlobContainer extends AzureEntityResource {
   /**
    * The version of the deleted blob container.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2176,10 +2259,10 @@ export type BlobContainer = AzureEntityResource & {
   enableNfsV3RootSquash?: boolean;
   /** Enable NFSv3 all squash on blob container. */
   enableNfsV3AllSquash?: boolean;
-};
+}
 
 /** The ImmutabilityPolicy property of a blob container, including Id, resource name, resource type, Etag. */
-export type ImmutabilityPolicy = AzureEntityResource & {
+export interface ImmutabilityPolicy extends AzureEntityResource {
   /** The immutability period for the blobs in the container since the policy creation, in days. */
   immutabilityPeriodSinceCreationInDays?: number;
   /**
@@ -2191,10 +2274,10 @@ export type ImmutabilityPolicy = AzureEntityResource & {
   allowProtectedAppendWrites?: boolean;
   /** This property can only be changed for unlocked time-based retention policies. When enabled, new blocks can be written to both 'Append and Bock Blobs' while maintaining immutability protection and compliance. Only new blocks can be added and any existing blocks cannot be modified or deleted. This property cannot be changed with ExtendImmutabilityPolicy API. The 'allowProtectedAppendWrites' and 'allowProtectedAppendWritesAll' properties are mutually exclusive. */
   allowProtectedAppendWritesAll?: boolean;
-};
+}
 
 /** The file share properties be listed out. */
-export type FileShareItem = AzureEntityResource & {
+export interface FileShareItem extends AzureEntityResource {
   /**
    * Returns the date and time the share was last modified.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2267,10 +2350,10 @@ export type FileShareItem = AzureEntityResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly snapshotTime?: Date;
-};
+}
 
 /** Properties of the file share, including Id, resource name, resource type, Etag. */
-export type FileShare = AzureEntityResource & {
+export interface FileShare extends AzureEntityResource {
   /**
    * Returns the date and time the share was last modified.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2343,7 +2426,7 @@ export type FileShare = AzureEntityResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly snapshotTime?: Date;
-};
+}
 
 /** Defines headers for BlobContainers_createOrUpdateImmutabilityPolicy operation. */
 export interface BlobContainersCreateOrUpdateImmutabilityPolicyHeaders {
@@ -2383,13 +2466,21 @@ export interface FileSharesLeaseHeaders {
 
 /** Known values of {@link SkuName} that the service accepts. */
 export enum KnownSkuName {
+  /** StandardLRS */
   StandardLRS = "Standard_LRS",
+  /** StandardGRS */
   StandardGRS = "Standard_GRS",
+  /** StandardRagrs */
   StandardRagrs = "Standard_RAGRS",
+  /** StandardZRS */
   StandardZRS = "Standard_ZRS",
+  /** PremiumLRS */
   PremiumLRS = "Premium_LRS",
+  /** PremiumZRS */
   PremiumZRS = "Premium_ZRS",
+  /** StandardGzrs */
   StandardGzrs = "Standard_GZRS",
+  /** StandardRagzrs */
   StandardRagzrs = "Standard_RAGZRS"
 }
 
@@ -2411,10 +2502,15 @@ export type SkuName = string;
 
 /** Known values of {@link Kind} that the service accepts. */
 export enum KnownKind {
+  /** Storage */
   Storage = "Storage",
+  /** StorageV2 */
   StorageV2 = "StorageV2",
+  /** BlobStorage */
   BlobStorage = "BlobStorage",
+  /** FileStorage */
   FileStorage = "FileStorage",
+  /** BlockBlobStorage */
   BlockBlobStorage = "BlockBlobStorage"
 }
 
@@ -2433,7 +2529,9 @@ export type Kind = string;
 
 /** Known values of {@link ReasonCode} that the service accepts. */
 export enum KnownReasonCode {
+  /** QuotaId */
   QuotaId = "QuotaId",
+  /** NotAvailableForSubscription */
   NotAvailableForSubscription = "NotAvailableForSubscription"
 }
 
@@ -2449,6 +2547,7 @@ export type ReasonCode = string;
 
 /** Known values of {@link ExtendedLocationTypes} that the service accepts. */
 export enum KnownExtendedLocationTypes {
+  /** EdgeZone */
   EdgeZone = "EdgeZone"
 }
 
@@ -2463,9 +2562,13 @@ export type ExtendedLocationTypes = string;
 
 /** Known values of {@link IdentityType} that the service accepts. */
 export enum KnownIdentityType {
+  /** None */
   None = "None",
+  /** SystemAssigned */
   SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
   UserAssigned = "UserAssigned",
+  /** SystemAssignedUserAssigned */
   SystemAssignedUserAssigned = "SystemAssigned,UserAssigned"
 }
 
@@ -2483,7 +2586,9 @@ export type IdentityType = string;
 
 /** Known values of {@link AllowedCopyScope} that the service accepts. */
 export enum KnownAllowedCopyScope {
+  /** PrivateLink */
   PrivateLink = "PrivateLink",
+  /** AAD */
   AAD = "AAD"
 }
 
@@ -2499,7 +2604,9 @@ export type AllowedCopyScope = string;
 
 /** Known values of {@link PublicNetworkAccess} that the service accepts. */
 export enum KnownPublicNetworkAccess {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -2515,6 +2622,7 @@ export type PublicNetworkAccess = string;
 
 /** Known values of {@link ExpirationAction} that the service accepts. */
 export enum KnownExpirationAction {
+  /** Log */
   Log = "Log"
 }
 
@@ -2529,7 +2637,9 @@ export type ExpirationAction = string;
 
 /** Known values of {@link KeyType} that the service accepts. */
 export enum KnownKeyType {
+  /** Service */
   Service = "Service",
+  /** Account */
   Account = "Account"
 }
 
@@ -2545,7 +2655,9 @@ export type KeyType = string;
 
 /** Known values of {@link KeySource} that the service accepts. */
 export enum KnownKeySource {
+  /** MicrosoftStorage */
   MicrosoftStorage = "Microsoft.Storage",
+  /** MicrosoftKeyvault */
   MicrosoftKeyvault = "Microsoft.Keyvault"
 }
 
@@ -2561,9 +2673,13 @@ export type KeySource = string;
 
 /** Known values of {@link Bypass} that the service accepts. */
 export enum KnownBypass {
+  /** None */
   None = "None",
+  /** Logging */
   Logging = "Logging",
+  /** Metrics */
   Metrics = "Metrics",
+  /** AzureServices */
   AzureServices = "AzureServices"
 }
 
@@ -2581,10 +2697,15 @@ export type Bypass = string;
 
 /** Known values of {@link State} that the service accepts. */
 export enum KnownState {
+  /** Provisioning */
   Provisioning = "Provisioning",
+  /** Deprovisioning */
   Deprovisioning = "Deprovisioning",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** NetworkSourceDeleted */
   NetworkSourceDeleted = "NetworkSourceDeleted"
 }
 
@@ -2603,9 +2724,14 @@ export type State = string;
 
 /** Known values of {@link DirectoryServiceOptions} that the service accepts. */
 export enum KnownDirectoryServiceOptions {
+  /** None */
   None = "None",
+  /** Aadds */
   Aadds = "AADDS",
-  AD = "AD"
+  /** AD */
+  AD = "AD",
+  /** Aadkerb */
+  Aadkerb = "AADKERB"
 }
 
 /**
@@ -2615,31 +2741,38 @@ export enum KnownDirectoryServiceOptions {
  * ### Known values supported by the service
  * **None** \
  * **AADDS** \
- * **AD**
+ * **AD** \
+ * **AADKERB**
  */
 export type DirectoryServiceOptions = string;
 
-/** Known values of {@link ActiveDirectoryPropertiesAccountType} that the service accepts. */
-export enum KnownActiveDirectoryPropertiesAccountType {
+/** Known values of {@link AccountType} that the service accepts. */
+export enum KnownAccountType {
+  /** User */
   User = "User",
+  /** Computer */
   Computer = "Computer"
 }
 
 /**
- * Defines values for ActiveDirectoryPropertiesAccountType. \
- * {@link KnownActiveDirectoryPropertiesAccountType} can be used interchangeably with ActiveDirectoryPropertiesAccountType,
+ * Defines values for AccountType. \
+ * {@link KnownAccountType} can be used interchangeably with AccountType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **User** \
  * **Computer**
  */
-export type ActiveDirectoryPropertiesAccountType = string;
+export type AccountType = string;
 
 /** Known values of {@link DefaultSharePermission} that the service accepts. */
 export enum KnownDefaultSharePermission {
+  /** None */
   None = "None",
+  /** StorageFileDataSmbShareReader */
   StorageFileDataSmbShareReader = "StorageFileDataSmbShareReader",
+  /** StorageFileDataSmbShareContributor */
   StorageFileDataSmbShareContributor = "StorageFileDataSmbShareContributor",
+  /** StorageFileDataSmbShareElevatedContributor */
   StorageFileDataSmbShareElevatedContributor = "StorageFileDataSmbShareElevatedContributor"
 }
 
@@ -2657,7 +2790,9 @@ export type DefaultSharePermission = string;
 
 /** Known values of {@link LargeFileSharesState} that the service accepts. */
 export enum KnownLargeFileSharesState {
+  /** Disabled */
   Disabled = "Disabled",
+  /** Enabled */
   Enabled = "Enabled"
 }
 
@@ -2673,7 +2808,9 @@ export type LargeFileSharesState = string;
 
 /** Known values of {@link RoutingChoice} that the service accepts. */
 export enum KnownRoutingChoice {
+  /** MicrosoftRouting */
   MicrosoftRouting = "MicrosoftRouting",
+  /** InternetRouting */
   InternetRouting = "InternetRouting"
 }
 
@@ -2689,8 +2826,11 @@ export type RoutingChoice = string;
 
 /** Known values of {@link MinimumTlsVersion} that the service accepts. */
 export enum KnownMinimumTlsVersion {
+  /** TLS10 */
   TLS10 = "TLS1_0",
+  /** TLS11 */
   TLS11 = "TLS1_1",
+  /** TLS12 */
   TLS12 = "TLS1_2"
 }
 
@@ -2707,8 +2847,11 @@ export type MinimumTlsVersion = string;
 
 /** Known values of {@link AccountImmutabilityPolicyState} that the service accepts. */
 export enum KnownAccountImmutabilityPolicyState {
+  /** Unlocked */
   Unlocked = "Unlocked",
+  /** Locked */
   Locked = "Locked",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -2723,10 +2866,31 @@ export enum KnownAccountImmutabilityPolicyState {
  */
 export type AccountImmutabilityPolicyState = string;
 
+/** Known values of {@link DnsEndpointType} that the service accepts. */
+export enum KnownDnsEndpointType {
+  /** Standard */
+  Standard = "Standard",
+  /** AzureDnsZone */
+  AzureDnsZone = "AzureDnsZone"
+}
+
+/**
+ * Defines values for DnsEndpointType. \
+ * {@link KnownDnsEndpointType} can be used interchangeably with DnsEndpointType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Standard** \
+ * **AzureDnsZone**
+ */
+export type DnsEndpointType = string;
+
 /** Known values of {@link GeoReplicationStatus} that the service accepts. */
 export enum KnownGeoReplicationStatus {
+  /** Live */
   Live = "Live",
+  /** Bootstrap */
   Bootstrap = "Bootstrap",
+  /** Unavailable */
   Unavailable = "Unavailable"
 }
 
@@ -2743,8 +2907,11 @@ export type GeoReplicationStatus = string;
 
 /** Known values of {@link PrivateEndpointServiceConnectionStatus} that the service accepts. */
 export enum KnownPrivateEndpointServiceConnectionStatus {
+  /** Pending */
   Pending = "Pending",
+  /** Approved */
   Approved = "Approved",
+  /** Rejected */
   Rejected = "Rejected"
 }
 
@@ -2761,9 +2928,13 @@ export type PrivateEndpointServiceConnectionStatus = string;
 
 /** Known values of {@link PrivateEndpointConnectionProvisioningState} that the service accepts. */
 export enum KnownPrivateEndpointConnectionProvisioningState {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Creating */
   Creating = "Creating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Failed */
   Failed = "Failed"
 }
 
@@ -2781,8 +2952,11 @@ export type PrivateEndpointConnectionProvisioningState = string;
 
 /** Known values of {@link BlobRestoreProgressStatus} that the service accepts. */
 export enum KnownBlobRestoreProgressStatus {
+  /** InProgress */
   InProgress = "InProgress",
+  /** Complete */
   Complete = "Complete",
+  /** Failed */
   Failed = "Failed"
 }
 
@@ -2797,11 +2971,36 @@ export enum KnownBlobRestoreProgressStatus {
  */
 export type BlobRestoreProgressStatus = string;
 
+/** Known values of {@link SkuConversionStatus} that the service accepts. */
+export enum KnownSkuConversionStatus {
+  /** InProgress */
+  InProgress = "InProgress",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed"
+}
+
+/**
+ * Defines values for SkuConversionStatus. \
+ * {@link KnownSkuConversionStatus} can be used interchangeably with SkuConversionStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **InProgress** \
+ * **Succeeded** \
+ * **Failed**
+ */
+export type SkuConversionStatus = string;
+
 /** Known values of {@link Services} that the service accepts. */
 export enum KnownServices {
+  /** B */
   B = "b",
+  /** Q */
   Q = "q",
+  /** T */
   T = "t",
+  /** F */
   F = "f"
 }
 
@@ -2819,8 +3018,11 @@ export type Services = string;
 
 /** Known values of {@link SignedResourceTypes} that the service accepts. */
 export enum KnownSignedResourceTypes {
+  /** S */
   S = "s",
+  /** C */
   C = "c",
+  /** O */
   O = "o"
 }
 
@@ -2837,13 +3039,21 @@ export type SignedResourceTypes = string;
 
 /** Known values of {@link Permissions} that the service accepts. */
 export enum KnownPermissions {
+  /** R */
   R = "r",
+  /** D */
   D = "d",
+  /** W */
   W = "w",
+  /** L */
   L = "l",
+  /** A */
   A = "a",
+  /** C */
   C = "c",
+  /** U */
   U = "u",
+  /** P */
   P = "p"
 }
 
@@ -2865,9 +3075,13 @@ export type Permissions = string;
 
 /** Known values of {@link SignedResource} that the service accepts. */
 export enum KnownSignedResource {
+  /** B */
   B = "b",
+  /** C */
   C = "c",
+  /** F */
   F = "f",
+  /** S */
   S = "s"
 }
 
@@ -2885,6 +3099,7 @@ export type SignedResource = string;
 
 /** Known values of {@link ManagementPolicyName} that the service accepts. */
 export enum KnownManagementPolicyName {
+  /** Default */
   Default = "default"
 }
 
@@ -2899,6 +3114,7 @@ export type ManagementPolicyName = string;
 
 /** Known values of {@link RuleType} that the service accepts. */
 export enum KnownRuleType {
+  /** Lifecycle */
   Lifecycle = "Lifecycle"
 }
 
@@ -2913,6 +3129,7 @@ export type RuleType = string;
 
 /** Known values of {@link BlobInventoryPolicyName} that the service accepts. */
 export enum KnownBlobInventoryPolicyName {
+  /** Default */
   Default = "default"
 }
 
@@ -2927,6 +3144,7 @@ export type BlobInventoryPolicyName = string;
 
 /** Known values of {@link InventoryRuleType} that the service accepts. */
 export enum KnownInventoryRuleType {
+  /** Inventory */
   Inventory = "Inventory"
 }
 
@@ -2941,7 +3159,9 @@ export type InventoryRuleType = string;
 
 /** Known values of {@link Format} that the service accepts. */
 export enum KnownFormat {
+  /** Csv */
   Csv = "Csv",
+  /** Parquet */
   Parquet = "Parquet"
 }
 
@@ -2957,7 +3177,9 @@ export type Format = string;
 
 /** Known values of {@link Schedule} that the service accepts. */
 export enum KnownSchedule {
+  /** Daily */
   Daily = "Daily",
+  /** Weekly */
   Weekly = "Weekly"
 }
 
@@ -2973,7 +3195,9 @@ export type Schedule = string;
 
 /** Known values of {@link ObjectType} that the service accepts. */
 export enum KnownObjectType {
+  /** Blob */
   Blob = "Blob",
+  /** Container */
   Container = "Container"
 }
 
@@ -2989,9 +3213,13 @@ export type ObjectType = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -3009,7 +3237,9 @@ export type CreatedByType = string;
 
 /** Known values of {@link EncryptionScopeSource} that the service accepts. */
 export enum KnownEncryptionScopeSource {
+  /** MicrosoftStorage */
   MicrosoftStorage = "Microsoft.Storage",
+  /** MicrosoftKeyVault */
   MicrosoftKeyVault = "Microsoft.KeyVault"
 }
 
@@ -3025,7 +3255,9 @@ export type EncryptionScopeSource = string;
 
 /** Known values of {@link EncryptionScopeState} that the service accepts. */
 export enum KnownEncryptionScopeState {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -3039,20 +3271,50 @@ export enum KnownEncryptionScopeState {
  */
 export type EncryptionScopeState = string;
 
-/** Known values of {@link CorsRuleAllowedMethodsItem} that the service accepts. */
-export enum KnownCorsRuleAllowedMethodsItem {
-  Delete = "DELETE",
-  GET = "GET",
-  Head = "HEAD",
-  Merge = "MERGE",
-  Post = "POST",
-  Options = "OPTIONS",
-  PUT = "PUT"
+/** Known values of {@link ListEncryptionScopesInclude} that the service accepts. */
+export enum KnownListEncryptionScopesInclude {
+  /** All */
+  All = "All",
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled"
 }
 
 /**
- * Defines values for CorsRuleAllowedMethodsItem. \
- * {@link KnownCorsRuleAllowedMethodsItem} can be used interchangeably with CorsRuleAllowedMethodsItem,
+ * Defines values for ListEncryptionScopesInclude. \
+ * {@link KnownListEncryptionScopesInclude} can be used interchangeably with ListEncryptionScopesInclude,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **All** \
+ * **Enabled** \
+ * **Disabled**
+ */
+export type ListEncryptionScopesInclude = string;
+
+/** Known values of {@link AllowedMethods} that the service accepts. */
+export enum KnownAllowedMethods {
+  /** Delete */
+  Delete = "DELETE",
+  /** GET */
+  GET = "GET",
+  /** Head */
+  Head = "HEAD",
+  /** Merge */
+  Merge = "MERGE",
+  /** Post */
+  Post = "POST",
+  /** Options */
+  Options = "OPTIONS",
+  /** PUT */
+  PUT = "PUT",
+  /** Patch */
+  Patch = "PATCH"
+}
+
+/**
+ * Defines values for AllowedMethods. \
+ * {@link KnownAllowedMethods} can be used interchangeably with AllowedMethods,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **DELETE** \
@@ -3061,12 +3323,14 @@ export enum KnownCorsRuleAllowedMethodsItem {
  * **MERGE** \
  * **POST** \
  * **OPTIONS** \
- * **PUT**
+ * **PUT** \
+ * **PATCH**
  */
-export type CorsRuleAllowedMethodsItem = string;
+export type AllowedMethods = string;
 
 /** Known values of {@link Name} that the service accepts. */
 export enum KnownName {
+  /** AccessTimeTracking */
   AccessTimeTracking = "AccessTimeTracking"
 }
 
@@ -3081,6 +3345,7 @@ export type Name = string;
 
 /** Known values of {@link ListContainersInclude} that the service accepts. */
 export enum KnownListContainersInclude {
+  /** Deleted */
   Deleted = "deleted"
 }
 
@@ -3095,7 +3360,9 @@ export type ListContainersInclude = string;
 
 /** Known values of {@link LeaseStatus} that the service accepts. */
 export enum KnownLeaseStatus {
+  /** Locked */
   Locked = "Locked",
+  /** Unlocked */
   Unlocked = "Unlocked"
 }
 
@@ -3111,10 +3378,15 @@ export type LeaseStatus = string;
 
 /** Known values of {@link LeaseState} that the service accepts. */
 export enum KnownLeaseState {
+  /** Available */
   Available = "Available",
+  /** Leased */
   Leased = "Leased",
+  /** Expired */
   Expired = "Expired",
+  /** Breaking */
   Breaking = "Breaking",
+  /** Broken */
   Broken = "Broken"
 }
 
@@ -3133,7 +3405,9 @@ export type LeaseState = string;
 
 /** Known values of {@link LeaseDuration} that the service accepts. */
 export enum KnownLeaseDuration {
+  /** Infinite */
   Infinite = "Infinite",
+  /** Fixed */
   Fixed = "Fixed"
 }
 
@@ -3149,7 +3423,9 @@ export type LeaseDuration = string;
 
 /** Known values of {@link ImmutabilityPolicyState} that the service accepts. */
 export enum KnownImmutabilityPolicyState {
+  /** Locked */
   Locked = "Locked",
+  /** Unlocked */
   Unlocked = "Unlocked"
 }
 
@@ -3165,8 +3441,11 @@ export type ImmutabilityPolicyState = string;
 
 /** Known values of {@link ImmutabilityPolicyUpdateType} that the service accepts. */
 export enum KnownImmutabilityPolicyUpdateType {
+  /** Put */
   Put = "put",
+  /** Lock */
   Lock = "lock",
+  /** Extend */
   Extend = "extend"
 }
 
@@ -3183,7 +3462,9 @@ export type ImmutabilityPolicyUpdateType = string;
 
 /** Known values of {@link MigrationState} that the service accepts. */
 export enum KnownMigrationState {
+  /** InProgress */
   InProgress = "InProgress",
+  /** Completed */
   Completed = "Completed"
 }
 
@@ -3199,10 +3480,15 @@ export type MigrationState = string;
 
 /** Known values of {@link LeaseContainerRequestAction} that the service accepts. */
 export enum KnownLeaseContainerRequestAction {
+  /** Acquire */
   Acquire = "Acquire",
+  /** Renew */
   Renew = "Renew",
+  /** Change */
   Change = "Change",
+  /** Release */
   Release = "Release",
+  /** Break */
   Break = "Break"
 }
 
@@ -3221,7 +3507,9 @@ export type LeaseContainerRequestAction = string;
 
 /** Known values of {@link EnabledProtocols} that the service accepts. */
 export enum KnownEnabledProtocols {
+  /** SMB */
   SMB = "SMB",
+  /** NFS */
   NFS = "NFS"
 }
 
@@ -3237,8 +3525,11 @@ export type EnabledProtocols = string;
 
 /** Known values of {@link RootSquashType} that the service accepts. */
 export enum KnownRootSquashType {
+  /** NoRootSquash */
   NoRootSquash = "NoRootSquash",
+  /** RootSquash */
   RootSquash = "RootSquash",
+  /** AllSquash */
   AllSquash = "AllSquash"
 }
 
@@ -3255,9 +3546,13 @@ export type RootSquashType = string;
 
 /** Known values of {@link ShareAccessTier} that the service accepts. */
 export enum KnownShareAccessTier {
+  /** TransactionOptimized */
   TransactionOptimized = "TransactionOptimized",
+  /** Hot */
   Hot = "Hot",
+  /** Cool */
   Cool = "Cool",
+  /** Premium */
   Premium = "Premium"
 }
 
@@ -3275,10 +3570,15 @@ export type ShareAccessTier = string;
 
 /** Known values of {@link LeaseShareAction} that the service accepts. */
 export enum KnownLeaseShareAction {
+  /** Acquire */
   Acquire = "Acquire",
+  /** Renew */
   Renew = "Renew",
+  /** Change */
   Change = "Change",
+  /** Release */
   Release = "Release",
+  /** Break */
   Break = "Break"
 }
 
@@ -3301,7 +3601,7 @@ export type Reason = "AccountNameInvalid" | "AlreadyExists";
 /** Defines values for DefaultAction. */
 export type DefaultAction = "Allow" | "Deny";
 /** Defines values for AccessTier. */
-export type AccessTier = "Hot" | "Cool";
+export type AccessTier = "Hot" | "Cool" | "Premium";
 /** Defines values for ProvisioningState. */
 export type ProvisioningState = "Creating" | "ResolvingDNS" | "Succeeded";
 /** Defines values for AccountStatus. */
@@ -3665,14 +3965,28 @@ export type EncryptionScopesGetResponse = EncryptionScope;
 
 /** Optional parameters. */
 export interface EncryptionScopesListOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Optional, specifies the maximum number of encryption scopes that will be included in the list response. */
+  maxpagesize?: number;
+  /** Optional. When specified, only encryption scope names starting with the filter will be listed. */
+  filter?: string;
+  /** Optional, when specified, will list encryption scopes with the specific state. Defaults to All */
+  include?: ListEncryptionScopesInclude;
+}
 
 /** Contains response data for the list operation. */
 export type EncryptionScopesListResponse = EncryptionScopeListResult;
 
 /** Optional parameters. */
 export interface EncryptionScopesListNextOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Optional, specifies the maximum number of encryption scopes that will be included in the list response. */
+  maxpagesize?: number;
+  /** Optional. When specified, only encryption scope names starting with the filter will be listed. */
+  filter?: string;
+  /** Optional, when specified, will list encryption scopes with the specific state. Defaults to All */
+  include?: ListEncryptionScopesInclude;
+}
 
 /** Contains response data for the listNext operation. */
 export type EncryptionScopesListNextResponse = EncryptionScopeListResult;
@@ -3701,10 +4015,10 @@ export type BlobServicesGetServicePropertiesResponse = BlobServiceProperties;
 /** Optional parameters. */
 export interface BlobContainersListOptionalParams
   extends coreClient.OperationOptions {
-  /** Optional. Specified maximum number of containers that can be included in the list. */
-  maxpagesize?: string;
   /** Optional. When specified, only container names starting with the filter will be listed. */
   filter?: string;
+  /** Optional. Specified maximum number of containers that can be included in the list. */
+  maxpagesize?: string;
   /** Optional, used to include the properties for soft deleted blob containers. */
   include?: ListContainersInclude;
 }
@@ -3824,10 +4138,10 @@ export interface BlobContainersObjectLevelWormOptionalParams
 /** Optional parameters. */
 export interface BlobContainersListNextOptionalParams
   extends coreClient.OperationOptions {
-  /** Optional. Specified maximum number of containers that can be included in the list. */
-  maxpagesize?: string;
   /** Optional. When specified, only container names starting with the filter will be listed. */
   filter?: string;
+  /** Optional. Specified maximum number of containers that can be included in the list. */
+  maxpagesize?: string;
   /** Optional, used to include the properties for soft deleted blob containers. */
   include?: ListContainersInclude;
 }
@@ -3859,10 +4173,10 @@ export type FileServicesGetServicePropertiesResponse = FileServiceProperties;
 /** Optional parameters. */
 export interface FileSharesListOptionalParams
   extends coreClient.OperationOptions {
-  /** Optional. Specified maximum number of shares that can be included in the list. */
-  maxpagesize?: string;
   /** Optional. When specified, only share names starting with the filter will be listed. */
   filter?: string;
+  /** Optional. Specified maximum number of shares that can be included in the list. */
+  maxpagesize?: string;
   /** Optional, used to expand the properties within share's properties. Valid values are: deleted, snapshots. Should be passed as a string with delimiter ',' */
   expand?: string;
 }
@@ -3928,10 +4242,10 @@ export type FileSharesLeaseResponse = FileSharesLeaseHeaders &
 /** Optional parameters. */
 export interface FileSharesListNextOptionalParams
   extends coreClient.OperationOptions {
-  /** Optional. Specified maximum number of shares that can be included in the list. */
-  maxpagesize?: string;
   /** Optional. When specified, only share names starting with the filter will be listed. */
   filter?: string;
+  /** Optional. Specified maximum number of shares that can be included in the list. */
+  maxpagesize?: string;
   /** Optional, used to expand the properties within share's properties. Valid values are: deleted, snapshots. Should be passed as a string with delimiter ',' */
   expand?: string;
 }
@@ -3986,10 +4300,10 @@ export interface QueueDeleteOptionalParams
 
 /** Optional parameters. */
 export interface QueueListOptionalParams extends coreClient.OperationOptions {
-  /** Optional, a maximum number of queues that should be included in a list queue response */
-  maxpagesize?: string;
   /** Optional, When specified, only the queues with a name starting with the given filter will be listed. */
   filter?: string;
+  /** Optional, a maximum number of queues that should be included in a list queue response */
+  maxpagesize?: string;
 }
 
 /** Contains response data for the list operation. */
@@ -3998,10 +4312,10 @@ export type QueueListResponse = ListQueueResource;
 /** Optional parameters. */
 export interface QueueListNextOptionalParams
   extends coreClient.OperationOptions {
-  /** Optional, a maximum number of queues that should be included in a list queue response */
-  maxpagesize?: string;
   /** Optional, When specified, only the queues with a name starting with the given filter will be listed. */
   filter?: string;
+  /** Optional, a maximum number of queues that should be included in a list queue response */
+  maxpagesize?: string;
 }
 
 /** Contains response data for the listNext operation. */
@@ -4029,15 +4343,19 @@ export interface TableServicesGetServicePropertiesOptionalParams
 export type TableServicesGetServicePropertiesResponse = TableServiceProperties;
 
 /** Optional parameters. */
-export interface TableCreateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TableCreateOptionalParams extends coreClient.OperationOptions {
+  /** The parameters to provide to create a table. */
+  parameters?: Table;
+}
 
 /** Contains response data for the create operation. */
 export type TableCreateResponse = Table;
 
 /** Optional parameters. */
-export interface TableUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TableUpdateOptionalParams extends coreClient.OperationOptions {
+  /** The parameters to provide to create a table. */
+  parameters?: Table;
+}
 
 /** Contains response data for the update operation. */
 export type TableUpdateResponse = Table;

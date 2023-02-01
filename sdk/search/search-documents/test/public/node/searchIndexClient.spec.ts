@@ -5,15 +5,15 @@ import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 import { Suite } from "mocha";
 import { assert } from "chai";
-import { SearchIndexClient, SynonymMap, SearchIndex } from "../../../src";
+import { SearchIndex, SearchIndexClient, SynonymMap } from "../../../src";
 import { Hotel } from "../utils/interfaces";
 import { createClients } from "../utils/recordedClient";
 import {
+  WAIT_TIME,
+  createRandomIndexName,
   createSimpleIndex,
   createSynonymMaps,
   deleteSynonymMaps,
-  WAIT_TIME,
-  createRandomIndexName,
 } from "../utils/setup";
 import { delay, serviceVersions } from "../../../src/serviceUtils";
 import { versionsToTest } from "@azure/test-utils";
@@ -79,7 +79,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         let retrievalError: boolean = false;
         try {
           await indexClient.getSynonymMap("garbxyz");
-        } catch (ex) {
+        } catch (ex: any) {
           retrievalError = true;
         }
         assert.isTrue(retrievalError);
@@ -156,7 +156,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         let retrievalError: boolean = false;
         try {
           await indexClient.getIndex("garbxyz");
-        } catch (ex) {
+        } catch (ex: any) {
           retrievalError = true;
         }
         assert.isTrue(retrievalError);

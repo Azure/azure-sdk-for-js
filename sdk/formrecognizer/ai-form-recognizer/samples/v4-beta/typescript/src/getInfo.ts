@@ -19,7 +19,7 @@ async function main() {
 
   const client = new DocumentModelAdministrationClient(endpoint, credential);
 
-  const info = await client.getInfo();
+  const info = await client.getResourceDetails();
 
   console.log(
     `Custom document models: ${info.customDocumentModels.count} of ${info.customDocumentModels.limit}`

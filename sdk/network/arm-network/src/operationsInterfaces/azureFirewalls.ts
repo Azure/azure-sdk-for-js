@@ -19,7 +19,9 @@ import {
   AzureFirewallsCreateOrUpdateResponse,
   TagsObject,
   AzureFirewallsUpdateTagsOptionalParams,
-  AzureFirewallsUpdateTagsResponse
+  AzureFirewallsUpdateTagsResponse,
+  AzureFirewallsListLearnedPrefixesOptionalParams,
+  AzureFirewallsListLearnedPrefixesResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -136,4 +138,31 @@ export interface AzureFirewalls {
     parameters: TagsObject,
     options?: AzureFirewallsUpdateTagsOptionalParams
   ): Promise<AzureFirewallsUpdateTagsResponse>;
+  /**
+   * Retrieves a list of all IP prefixes that azure firewall has learned to not SNAT.
+   * @param resourceGroupName The name of the resource group.
+   * @param azureFirewallName The name of the azure firewall.
+   * @param options The options parameters.
+   */
+  beginListLearnedPrefixes(
+    resourceGroupName: string,
+    azureFirewallName: string,
+    options?: AzureFirewallsListLearnedPrefixesOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<AzureFirewallsListLearnedPrefixesResponse>,
+      AzureFirewallsListLearnedPrefixesResponse
+    >
+  >;
+  /**
+   * Retrieves a list of all IP prefixes that azure firewall has learned to not SNAT.
+   * @param resourceGroupName The name of the resource group.
+   * @param azureFirewallName The name of the azure firewall.
+   * @param options The options parameters.
+   */
+  beginListLearnedPrefixesAndWait(
+    resourceGroupName: string,
+    azureFirewallName: string,
+    options?: AzureFirewallsListLearnedPrefixesOptionalParams
+  ): Promise<AzureFirewallsListLearnedPrefixesResponse>;
 }

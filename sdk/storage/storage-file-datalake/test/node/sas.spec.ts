@@ -23,6 +23,7 @@ import {
   PathPermissions,
   StorageSharedKeyCredential,
   SASQueryParameters,
+  FileSystemListPathsResponse,
 } from "../../src";
 import { DataLakeFileClient } from "../../src/";
 import { DirectorySASPermissions } from "../../src/sas/DirectorySASPermissions";
@@ -31,6 +32,7 @@ import { delay } from "../../src/utils/utils.common";
 import {
   getDataLakeServiceClient,
   getDataLakeServiceClientWithDefaultCredential,
+  getEncryptionScope,
   recorderEnvSetup,
 } from "../utils";
 
@@ -78,6 +80,48 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await serviceClientWithSAS.listFileSystems().next();
   });
 
+  it("generateAccountSASQueryParameters with encryptionscope should work", async function (this: Context) {
+    let encryptionScopeName;
+    try {
+      encryptionScopeName = getEncryptionScope();
+    } catch {
+      this.skip();
+    }
+
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 10);
+
+    // By default, credential is always the last element of pipeline factories
+    const factories = (serviceClient as any).pipeline.factories;
+    const sharedKeyCredential = factories[factories.length - 1];
+
+    const sas = generateAccountSASQueryParameters(
+      {
+        expiresOn: tmr,
+        permissions: AccountSASPermissions.parse("rwdlacup"),
+        resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
+        services: AccountSASServices.parse("btqf").toString(),
+        version: "2020-12-06",
+        encryptionScope: encryptionScopeName,
+      },
+      sharedKeyCredential as StorageSharedKeyCredential
+    ).toString();
+
+    const sasClient = `${serviceClient.url}?${sas}`;
+    const serviceClientWithSAS = new DataLakeServiceClient(sasClient, newPipeline());
+
+    const filesystemClient = await serviceClientWithSAS.getFileSystemClient(
+      recorder.getUniqueName("filesystem")
+    );
+    await filesystemClient.create({
+      fileSystemEncryptionScope: {
+        defaultEncryptionScope: encryptionScopeName,
+        preventEncryptionScopeOverride: true,
+      },
+    });
+    await filesystemClient.delete();
+  });
+
   it("generateAccountSASQueryParameters should not work with invalid permission", async () => {
     const tmr = recorder.newDate("tmr");
     tmr.setDate(tmr.getDate() + 10);
@@ -105,7 +149,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     let error;
     try {
       await serviceClientWithSAS.listFileSystems().next();
-    } catch (err) {
+    } catch (err: any) {
       error = err;
     }
 
@@ -139,7 +183,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     let error;
     try {
       await serviceClientWithSAS.listFileSystems().next();
-    } catch (err) {
+    } catch (err: any) {
       error = err;
     }
 
@@ -176,7 +220,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     let error;
     try {
       await serviceClientWithSAS.listFileSystems().next();
-    } catch (err) {
+    } catch (err: any) {
       error = err;
     }
 
@@ -216,6 +260,49 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       sasClient,
       newPipeline(new AnonymousCredential())
     );
+
+    const result = (await fileSystemClientwithSAS.listPaths().byPage().next()).value;
+    assert.deepStrictEqual(result.pathItems.length, 0);
+    await fileSystemClient.deleteIfExists();
+  });
+
+  it("generateDataLakeSASQueryParameters with encryptionscope should work for filesystem", async function (this: Context) {
+    let encryptionScopeName;
+    try {
+      encryptionScopeName = getEncryptionScope();
+    } catch {
+      this.skip();
+    }
+
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 10);
+
+    // By default, credential is always the last element of pipeline factories
+    const factories = (serviceClient as any).pipeline.factories;
+    const sharedKeyCredential = factories[factories.length - 1];
+
+    const fileSystemName = recorder.getUniqueName("filesystem");
+    const fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
+    await fileSystemClient.create({
+      fileSystemEncryptionScope: {
+        defaultEncryptionScope: encryptionScopeName,
+        preventEncryptionScopeOverride: true,
+      },
+    });
+
+    const containerSAS = generateDataLakeSASQueryParameters(
+      {
+        fileSystemName: fileSystemClient.name,
+        expiresOn: tmr,
+        permissions: FileSystemSASPermissions.parse("racwdl"),
+        version: "2020-12-06",
+        encryptionScope: encryptionScopeName,
+      },
+      sharedKeyCredential as StorageSharedKeyCredential
+    );
+
+    const sasClient = `${fileSystemClient.url}?${containerSAS}`;
+    const fileSystemClientwithSAS = new DataLakeFileSystemClient(sasClient, newPipeline());
 
     const result = (await fileSystemClientwithSAS.listPaths().byPage().next()).value;
     assert.deepStrictEqual(result.pathItems.length, 0);
@@ -332,6 +419,52 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     assert.equal(properties.contentEncoding, "content-encoding-override");
     assert.equal(properties.contentLanguage, "content-language-override");
     assert.equal(properties.contentType, "content-type-override");
+
+    await fileSystemClient.deleteIfExists();
+  });
+
+  it("generateDataLakeSASQueryParameters with encryptionscope should work for file", async function (this: Context) {
+    let encryptionScopeName;
+    try {
+      encryptionScopeName = getEncryptionScope();
+    } catch {
+      this.skip();
+    }
+
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 10);
+
+    // By default, credential is always the last element of pipeline factories
+    const factories = (serviceClient as any).pipeline.factories;
+    const sharedKeyCredential = factories[factories.length - 1];
+
+    const fileSystemName = recorder.getUniqueName("filesystem");
+    const fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
+    await fileSystemClient.create({
+      fileSystemEncryptionScope: {
+        defaultEncryptionScope: encryptionScopeName,
+        preventEncryptionScopeOverride: true,
+      },
+    });
+
+    const fileName = recorder.getUniqueName("file");
+    const fileClient = fileSystemClient.getFileClient(fileName);
+
+    const fileSAS = generateDataLakeSASQueryParameters(
+      {
+        pathName: fileClient.name,
+        fileSystemName: fileClient.fileSystemName,
+        expiresOn: tmr,
+        permissions: DataLakeSASPermissions.parse("racwd"),
+        encryptionScope: encryptionScopeName,
+      },
+      sharedKeyCredential as StorageSharedKeyCredential
+    );
+
+    const sasURL = `${fileClient.url}?${fileSAS}`;
+    const fileClientWithSAS = new DataLakeFileClient(sasURL, newPipeline());
+
+    await fileClientWithSAS.create();
 
     await fileSystemClient.deleteIfExists();
   });
@@ -840,7 +973,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     let exceptionCaught = false;
     try {
       serviceClientWithSAS.generateAccountSasUrl();
-    } catch (err) {
+    } catch (err: any) {
       assert.ok(err instanceof RangeError);
       exceptionCaught = true;
     }
@@ -855,6 +988,39 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const sasURL = serviceClient.generateAccountSasUrl();
     const serviceClientWithSAS = new DataLakeServiceClient(sasURL);
     await serviceClientWithSAS.getFileSystemClient(fileSystemName).getProperties();
+
+    await fileSystemClient.delete();
+  });
+
+  it("DataLakeServiceClient.generateAccountSasUrl() with encryptionscope should work", async function (this: Context) {
+    let encryptionScopeName;
+    try {
+      encryptionScopeName = getEncryptionScope();
+    } catch {
+      this.skip();
+    }
+
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 10);
+
+    const sasURL = serviceClient.generateAccountSasUrl(
+      tmr,
+      AccountSASPermissions.parse("racwdl"),
+      "sco",
+      {
+        encryptionScope: encryptionScopeName,
+      }
+    );
+    const serviceClientWithSAS = new DataLakeServiceClient(sasURL);
+
+    const fileSystemName = recorder.getUniqueName("filesystem");
+    const fileSystemClient = serviceClientWithSAS.getFileSystemClient(fileSystemName);
+    await fileSystemClient.create({
+      fileSystemEncryptionScope: {
+        defaultEncryptionScope: encryptionScopeName,
+        preventEncryptionScopeOverride: true,
+      },
+    });
 
     await fileSystemClient.delete();
   });
@@ -891,13 +1057,131 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     let exceptionCaught = false;
     try {
       await fileSystemClientWithSAS.generateSasUrl({});
-    } catch (err) {
+    } catch (err: any) {
       assert.ok(err instanceof RangeError);
       exceptionCaught = true;
     }
     assert.ok(exceptionCaught);
 
     await fileSystemClient.deleteIfExists();
+  });
+
+  it("DataLakeFileSystemClient.generateSasUrl() with encryptionscope should work", async function (this: Context) {
+    let encryptionScopeName;
+    try {
+      encryptionScopeName = getEncryptionScope();
+    } catch {
+      this.skip();
+    }
+
+    const fileSystemName = recorder.getUniqueName("filesystem");
+    const fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
+    await fileSystemClient.createIfNotExists({
+      fileSystemEncryptionScope: {
+        defaultEncryptionScope: encryptionScopeName,
+        preventEncryptionScopeOverride: true,
+      },
+    });
+    const result = await fileSystemClient.getProperties();
+    assert.equal(result.defaultEncryptionScope, encryptionScopeName);
+
+    const now = recorder.newDate("now");
+    now.setMinutes(now.getMinutes() - 10); // Skip clock skew with server
+
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 10);
+
+    const sasURL = await fileSystemClient.generateSasUrl({
+      version: "2020-12-06",
+      startsOn: now,
+      expiresOn: tmr,
+      permissions: FileSystemSASPermissions.parse("racwdl"),
+      encryptionScope: encryptionScopeName,
+    });
+
+    const fileSystemClientWithSAS = new DataLakeFileSystemClient(sasURL);
+    const fileClient = fileSystemClientWithSAS.getFileClient(recorder.getUniqueName(`file`));
+    await fileClient.create();
+
+    const dirClient = fileSystemClientWithSAS.getFileClient(recorder.getUniqueName(`dir`));
+    await dirClient.create();
+
+    const listResult = (await fileSystemClientWithSAS.listPaths().byPage().next())
+      .value as FileSystemListPathsResponse;
+
+    assert.equal(listResult.pathItems!.length, 2);
+    assert.equal(listResult.pathItems![0].encryptionScope, encryptionScopeName);
+    assert.equal(listResult.pathItems![1].encryptionScope, encryptionScopeName);
+
+    await fileClient.delete();
+    await dirClient.delete();
+
+    await fileSystemClient.deleteIfExists();
+  });
+
+  it("DataLakeDirectoryClient.generateSasUrl() with encryptionscope should work", async function (this: Context) {
+    let encryptionScopeName;
+    try {
+      encryptionScopeName = getEncryptionScope();
+    } catch {
+      this.skip();
+    }
+
+    const fileSystemName = recorder.getUniqueName("filesystem");
+    const fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
+    await fileSystemClient.createIfNotExists({
+      fileSystemEncryptionScope: {
+        defaultEncryptionScope: encryptionScopeName,
+        preventEncryptionScopeOverride: true,
+      },
+    });
+
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 10);
+
+    const directoryClient = fileSystemClient.getDirectoryClient(
+      recorder.getUniqueName("directory")
+    );
+    const sasURL = await directoryClient.generateSasUrl({
+      expiresOn: tmr,
+      permissions: DirectorySASPermissions.parse("racwdlmeop"),
+      encryptionScope: encryptionScopeName,
+    });
+
+    const directoryClientWithSAS = new DataLakeDirectoryClient(sasURL);
+    await directoryClientWithSAS.create();
+    assert.ok(await directoryClientWithSAS.exists());
+  });
+
+  it("DataLakeFileClient.generateSasUrl() with encryptionscope should work", async function (this: Context) {
+    let encryptionScopeName;
+    try {
+      encryptionScopeName = getEncryptionScope();
+    } catch {
+      this.skip();
+    }
+    const fileSystemName = recorder.getUniqueName("filesystem");
+    const fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
+    await fileSystemClient.createIfNotExists({
+      fileSystemEncryptionScope: {
+        defaultEncryptionScope: encryptionScopeName,
+        preventEncryptionScopeOverride: true,
+      },
+    });
+
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 10);
+
+    const fileClient = fileSystemClient.getFileClient(recorder.getUniqueName("file"));
+    const sasURL = await fileClient.generateSasUrl({
+      expiresOn: tmr,
+      permissions: DataLakeSASPermissions.parse("racwdmeop"),
+      encryptionScope: encryptionScopeName,
+    });
+
+    const fileClientWithSAS = new DataLakeFileClient(sasURL);
+    await fileClientWithSAS.create();
+    assert.ok(await fileClientWithSAS.exists());
   });
 });
 
@@ -1136,7 +1420,7 @@ describe("SAS generation Node.js only for directory SAS", () => {
     let exceptionCaught = false;
     try {
       await directoryClientWithSAS.generateSasUrl({});
-    } catch (err) {
+    } catch (err: any) {
       assert.ok(err instanceof RangeError);
       exceptionCaught = true;
     }
@@ -1167,7 +1451,7 @@ describe("SAS generation Node.js only for directory SAS", () => {
     let exceptionCaught = false;
     try {
       await fileClientWithSAS.generateSasUrl({});
-    } catch (err) {
+    } catch (err: any) {
       assert.ok(err instanceof RangeError);
       exceptionCaught = true;
     }
@@ -1250,7 +1534,7 @@ describe("SAS generation Node.js only for delegation SAS", () => {
     accountName = process.env["DFS_ACCOUNT_NAME"] || "";
     try {
       oauthServiceClient = getDataLakeServiceClientWithDefaultCredential();
-    } catch (err) {
+    } catch (err: any) {
       console.log(err);
       this.skip();
     }
@@ -1353,7 +1637,7 @@ describe("SAS generation Node.js only for delegation SAS", () => {
     const newFileClientWithSAS2 = new DataLakeFileClient(`${newFileClient.url}?${fileSystemSAS2}`);
     try {
       await newFileClientWithSAS2.createIfNotExists();
-    } catch (err) {
+    } catch (err: any) {
       assert.deepStrictEqual(err.details.errorCode, "AuthorizationPermissionMismatch");
     }
 

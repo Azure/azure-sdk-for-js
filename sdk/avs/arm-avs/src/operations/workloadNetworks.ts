@@ -15,6 +15,9 @@ import { AzureVMwareSolutionAPI } from "../azureVMwareSolutionAPI";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
+  WorkloadNetwork,
+  WorkloadNetworksListNextOptionalParams,
+  WorkloadNetworksListOptionalParams,
   WorkloadNetworkSegment,
   WorkloadNetworksListSegmentsNextOptionalParams,
   WorkloadNetworksListSegmentsOptionalParams,
@@ -42,6 +45,10 @@ import {
   WorkloadNetworkPublicIP,
   WorkloadNetworksListPublicIPsNextOptionalParams,
   WorkloadNetworksListPublicIPsOptionalParams,
+  WorkloadNetworkName,
+  WorkloadNetworksGetOptionalParams,
+  WorkloadNetworksGetResponse,
+  WorkloadNetworksListResponse,
   WorkloadNetworksListSegmentsResponse,
   WorkloadNetworksGetSegmentOptionalParams,
   WorkloadNetworksGetSegmentResponse,
@@ -102,6 +109,7 @@ import {
   WorkloadNetworksCreatePublicIPOptionalParams,
   WorkloadNetworksCreatePublicIPResponse,
   WorkloadNetworksDeletePublicIPOptionalParams,
+  WorkloadNetworksListNextResponse,
   WorkloadNetworksListSegmentsNextResponse,
   WorkloadNetworksListDhcpNextResponse,
   WorkloadNetworksListGatewaysNextResponse,
@@ -124,6 +132,73 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
    */
   constructor(client: AzureVMwareSolutionAPI) {
     this.client = client;
+  }
+
+  /**
+   * List of workload networks in a private cloud.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param options The options parameters.
+   */
+  public list(
+    resourceGroupName: string,
+    privateCloudName: string,
+    options?: WorkloadNetworksListOptionalParams
+  ): PagedAsyncIterableIterator<WorkloadNetwork> {
+    const iter = this.listPagingAll(
+      resourceGroupName,
+      privateCloudName,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: () => {
+        return this.listPagingPage(
+          resourceGroupName,
+          privateCloudName,
+          options
+        );
+      }
+    };
+  }
+
+  private async *listPagingPage(
+    resourceGroupName: string,
+    privateCloudName: string,
+    options?: WorkloadNetworksListOptionalParams
+  ): AsyncIterableIterator<WorkloadNetwork[]> {
+    let result = await this._list(resourceGroupName, privateCloudName, options);
+    yield result.value || [];
+    let continuationToken = result.nextLink;
+    while (continuationToken) {
+      result = await this._listNext(
+        resourceGroupName,
+        privateCloudName,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      yield result.value || [];
+    }
+  }
+
+  private async *listPagingAll(
+    resourceGroupName: string,
+    privateCloudName: string,
+    options?: WorkloadNetworksListOptionalParams
+  ): AsyncIterableIterator<WorkloadNetwork> {
+    for await (const page of this.listPagingPage(
+      resourceGroupName,
+      privateCloudName,
+      options
+    )) {
+      yield* page;
+    }
   }
 
   /**
@@ -766,6 +841,42 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
   }
 
   /**
+   * Get a private cloud workload network.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param workloadNetworkName Name for the workload network in the private cloud
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    privateCloudName: string,
+    workloadNetworkName: WorkloadNetworkName,
+    options?: WorkloadNetworksGetOptionalParams
+  ): Promise<WorkloadNetworksGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, privateCloudName, workloadNetworkName, options },
+      getOperationSpec
+    );
+  }
+
+  /**
+   * List of workload networks in a private cloud.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param options The options parameters.
+   */
+  private _list(
+    resourceGroupName: string,
+    privateCloudName: string,
+    options?: WorkloadNetworksListOptionalParams
+  ): Promise<WorkloadNetworksListResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, privateCloudName, options },
+      listOperationSpec
+    );
+  }
+
+  /**
    * List of segments in a private cloud workload network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
@@ -871,10 +982,12 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       },
       createSegmentsOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -972,10 +1085,12 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       },
       updateSegmentsOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1060,10 +1175,12 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       { resourceGroupName, privateCloudName, segmentId, options },
       deleteSegmentOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1194,10 +1311,12 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       },
       createDhcpOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1295,10 +1414,12 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       },
       updateDhcpOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1383,10 +1504,12 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       { resourceGroupName, privateCloudName, dhcpId, options },
       deleteDhcpOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1555,10 +1678,12 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       },
       createPortMirroringOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1658,10 +1783,12 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       },
       updatePortMirroringOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1748,10 +1875,12 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       { resourceGroupName, portMirroringId, privateCloudName, options },
       deletePortMirroringOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1883,10 +2012,12 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       },
       createVMGroupOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1984,10 +2115,12 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       },
       updateVMGroupOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -2072,10 +2205,12 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       { resourceGroupName, vmGroupId, privateCloudName, options },
       deleteVMGroupOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -2242,10 +2377,12 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       },
       createDnsServiceOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -2343,10 +2480,12 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       },
       updateDnsServiceOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -2431,10 +2570,12 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       { resourceGroupName, dnsServiceId, privateCloudName, options },
       deleteDnsServiceOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -2565,10 +2706,12 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       },
       createDnsZoneOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -2666,10 +2809,12 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       },
       updateDnsZoneOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -2754,10 +2899,12 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       { resourceGroupName, dnsZoneId, privateCloudName, options },
       deleteDnsZoneOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -2890,10 +3037,12 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       },
       createPublicIPOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -2980,10 +3129,12 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       { resourceGroupName, publicIPId, privateCloudName, options },
       deletePublicIPOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -3007,6 +3158,25 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       options
     );
     return poller.pollUntilDone();
+  }
+
+  /**
+   * ListNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateCloudName Name of the private cloud
+   * @param nextLink The nextLink from the previous successful call to the List method.
+   * @param options The options parameters.
+   */
+  private _listNext(
+    resourceGroupName: string,
+    privateCloudName: string,
+    nextLink: string,
+    options?: WorkloadNetworksListNextOptionalParams
+  ): Promise<WorkloadNetworksListNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, privateCloudName, nextLink, options },
+      listNextOperationSpec
+    );
   }
 
   /**
@@ -3183,6 +3353,51 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const getOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/{workloadNetworkName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WorkloadNetwork
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.privateCloudName,
+    Parameters.workloadNetworkName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WorkloadNetworkList
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.privateCloudName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const listSegmentsOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/segments",
@@ -4194,6 +4409,28 @@ const deletePublicIPOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.privateCloudName,
     Parameters.publicIPId
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WorkloadNetworkList
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.nextLink,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.privateCloudName
   ],
   headerParameters: [Parameters.accept],
   serializer

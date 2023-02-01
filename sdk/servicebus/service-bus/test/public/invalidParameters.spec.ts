@@ -62,7 +62,7 @@ describe("invalid parameters", () => {
         await serviceBusClient.acceptSession(queue!, TestMessage.sessionId, {
           receiveMode: 123 as any,
         });
-      } catch (error) {
+      } catch (error: any) {
         errorCaught = error.message;
       }
       should.equal(
@@ -78,7 +78,7 @@ describe("invalid parameters", () => {
           // @ts-expect-error We are trying invalid types on purpose to test the error thrown
           await receiver.receiveMessages(inputValue);
           chai.assert.fail("This should not have passed.");
-        } catch (error) {
+        } catch (error: any) {
           should.equal(error && error.name, "TypeError");
           expect(error.message, "Validation error for maxMessageCount not thrown").includes(
             "maxMessageCount"
@@ -93,7 +93,7 @@ describe("invalid parameters", () => {
           // @ts-expect-error We are trying invalid types on purpose to test the error thrown
           await receiver.peekMessages(inputValue);
           chai.assert.fail("This should not have passed.");
-        } catch (error) {
+        } catch (error: any) {
           should.equal(error && error.name, "TypeError");
           expect(error.message, "Validation error for maxMessageCount not thrown").includes(
             "maxMessageCount"
@@ -110,7 +110,7 @@ describe("invalid parameters", () => {
             fromSequenceNumber: Long.ZERO,
           });
           chai.assert.fail("This should not have passed.");
-        } catch (error) {
+        } catch (error: any) {
           should.equal(error && error.name, "TypeError");
           expect(error.message, "Validation error for maxMessageCount not thrown").includes(
             "maxMessageCount"
@@ -123,7 +123,7 @@ describe("invalid parameters", () => {
       let caughtError: Error | undefined;
       try {
         await receiver.peekMessages(1, { fromSequenceNumber: "somestring" as any });
-      } catch (error) {
+      } catch (error: any) {
         caughtError = error;
       }
       should.equal(caughtError && caughtError.name, "TypeError");
@@ -133,11 +133,27 @@ describe("invalid parameters", () => {
       );
     });
 
+    [false, 0, -0, "", NaN].forEach((falsyValue) => {
+      it("PeekBySequenceNumber: Wrong type sequenceNumber in SessionReceiver when passing falsy value that is not undefined or null", async function (): Promise<void> {
+        let caughtError: Error | undefined;
+        try {
+          await receiver.peekMessages(1, { fromSequenceNumber: falsyValue as any });
+        } catch (error: any) {
+          caughtError = error;
+        }
+        should.equal(caughtError && caughtError.name, "TypeError");
+        should.equal(
+          caughtError && caughtError.message,
+          `The parameter "fromSequenceNumber" should be of type "Long"`
+        );
+      });
+    });
+
     it("RegisterMessageHandler: Missing onMessage in SessionReceiver", async function (): Promise<void> {
       let caughtError: Error | undefined;
       try {
         await receiver.subscribe(undefined as any, undefined as any);
-      } catch (error) {
+      } catch (error: any) {
         caughtError = error;
       }
       should.equal(caughtError && caughtError.name, "TypeError");
@@ -148,7 +164,7 @@ describe("invalid parameters", () => {
       let caughtError: Error | undefined;
       try {
         await receiver.subscribe("somestring" as any, "somethingelse" as any);
-      } catch (error) {
+      } catch (error: any) {
         caughtError = error;
       }
       should.equal(caughtError && caughtError.name, "TypeError");
@@ -159,7 +175,7 @@ describe("invalid parameters", () => {
       let caughtError: Error | undefined;
       try {
         await receiver.receiveDeferredMessages("somestring" as any);
-      } catch (error) {
+      } catch (error: any) {
         caughtError = error;
       }
       should.equal(caughtError && caughtError.name, "TypeError");
@@ -173,7 +189,7 @@ describe("invalid parameters", () => {
       let caughtError: Error | undefined;
       try {
         await receiver.receiveDeferredMessages(undefined as any);
-      } catch (error) {
+      } catch (error: any) {
         caughtError = error;
       }
       should.equal(caughtError && caughtError.name, "TypeError");
@@ -184,7 +200,7 @@ describe("invalid parameters", () => {
       let caughtError: Error | undefined;
       try {
         await receiver.receiveDeferredMessages(["somestring"] as any);
-      } catch (error) {
+      } catch (error: any) {
         caughtError = error;
       }
       should.equal(caughtError && caughtError.name, "TypeError");
@@ -206,7 +222,7 @@ describe("invalid parameters", () => {
       try {
         // @ts-expect-error We are trying invalid values on purpose to test the error thrown
         sbClient.createReceiver("dummyQueue", { receiveMode: 123 });
-      } catch (error) {
+      } catch (error: any) {
         errorCaught = error.message;
       }
       should.equal(
@@ -221,7 +237,7 @@ describe("invalid parameters", () => {
       try {
         // @ts-expect-error We are trying invalid values on purpose to test the error thrown
         sbClient.createReceiver("dummyQueue", { subQueueType: 123 });
-      } catch (error) {
+      } catch (error: any) {
         errorCaught = error.message;
       }
       should.equal(
@@ -237,7 +253,7 @@ describe("invalid parameters", () => {
           // @ts-expect-error We are trying invalid types on purpose to test the error thrown
           await receiver.receiveMessages(inputValue);
           chai.assert.fail("This should not have passed.");
-        } catch (error) {
+        } catch (error: any) {
           should.equal(error && error.name, "TypeError");
           expect(error.message, "Validation error for maxMessageCount not thrown").includes(
             "maxMessageCount"
@@ -252,7 +268,7 @@ describe("invalid parameters", () => {
           // @ts-expect-error We are trying invalid types on purpose to test the error thrown
           await receiver.peekMessages(inputValue);
           chai.assert.fail("This should not have passed.");
-        } catch (error) {
+        } catch (error: any) {
           should.equal(error && error.name, "TypeError");
           expect(error.message, "Validation error for maxMessageCount not thrown").includes(
             "maxMessageCount"
@@ -269,7 +285,7 @@ describe("invalid parameters", () => {
             fromSequenceNumber: Long.ZERO,
           });
           chai.assert.fail("This should not have passed.");
-        } catch (error) {
+        } catch (error: any) {
           should.equal(error && error.name, "TypeError");
           expect(error.message, "Validation error for maxMessageCount not thrown").includes(
             "maxMessageCount"
@@ -282,7 +298,7 @@ describe("invalid parameters", () => {
       let caughtError: Error | undefined;
       try {
         await receiver.peekMessages(1, { fromSequenceNumber: "somestring" as any });
-      } catch (error) {
+      } catch (error: any) {
         caughtError = error;
       }
       should.equal(caughtError && caughtError.name, "TypeError");
@@ -292,11 +308,27 @@ describe("invalid parameters", () => {
       );
     });
 
+    [false, 0, -0, "", NaN].forEach((falsyValue) => {
+      it("PeekBySequenceNumber: Wrong type fromSequenceNumber for Queue when passing falsy value that is not undefined or null", async function (): Promise<void> {
+        let caughtError: Error | undefined;
+        try {
+          await receiver.peekMessages(1, { fromSequenceNumber: falsyValue as any });
+        } catch (error: any) {
+          caughtError = error;
+        }
+        should.equal(caughtError && caughtError.name, "TypeError");
+        should.equal(
+          caughtError && caughtError.message,
+          `The parameter "fromSequenceNumber" should be of type "Long"`
+        );
+      });
+    });
+
     it("RegisterMessageHandler: Missing onMessage in Receiver", async function (): Promise<void> {
       let caughtError: Error | undefined;
       try {
         await receiver.subscribe(undefined as any, undefined as any);
-      } catch (error) {
+      } catch (error: any) {
         caughtError = error;
       }
       should.equal(caughtError && caughtError.name, "TypeError");
@@ -307,7 +339,7 @@ describe("invalid parameters", () => {
       let caughtError: Error | undefined;
       try {
         await receiver.subscribe("somestring" as any, "somethingelse" as any);
-      } catch (error) {
+      } catch (error: any) {
         caughtError = error;
       }
       should.equal(caughtError && caughtError.name, "TypeError");
@@ -318,7 +350,7 @@ describe("invalid parameters", () => {
       let caughtError: Error | undefined;
       try {
         await receiver.receiveDeferredMessages("somestring" as any);
-      } catch (error) {
+      } catch (error: any) {
         caughtError = error;
       }
       should.equal(caughtError && caughtError.name, "TypeError");
@@ -332,7 +364,7 @@ describe("invalid parameters", () => {
       let caughtError: Error | undefined;
       try {
         await receiver.receiveDeferredMessages(undefined as any);
-      } catch (error) {
+      } catch (error: any) {
         caughtError = error;
       }
       should.equal(caughtError && caughtError.name, "TypeError");
@@ -343,7 +375,7 @@ describe("invalid parameters", () => {
       let caughtError: Error | undefined;
       try {
         await receiver.receiveDeferredMessages(["somestring"] as any);
-      } catch (error) {
+      } catch (error: any) {
         caughtError = error;
       }
       should.equal(caughtError && caughtError.name, "TypeError");
@@ -364,7 +396,7 @@ describe("invalid parameters", () => {
       let caughtError: Error | undefined;
       try {
         await sender.scheduleMessages(undefined as any, undefined as any);
-      } catch (error) {
+      } catch (error: any) {
         caughtError = error;
       }
       should.equal(caughtError && caughtError.name, "TypeError");
@@ -378,7 +410,7 @@ describe("invalid parameters", () => {
       let caughtError: Error | undefined;
       try {
         await sender.scheduleMessages(undefined as any, new Date());
-      } catch (error) {
+      } catch (error: any) {
         caughtError = error;
       }
       should.equal(caughtError && caughtError.name, "TypeError");
@@ -389,7 +421,7 @@ describe("invalid parameters", () => {
       let caughtError: Error | undefined;
       try {
         await sender.cancelScheduledMessages("somestring" as any);
-      } catch (error) {
+      } catch (error: any) {
         caughtError = error;
       }
       should.equal(caughtError && caughtError.name, "TypeError");
@@ -403,7 +435,7 @@ describe("invalid parameters", () => {
       let caughtError: Error | undefined;
       try {
         await sender.cancelScheduledMessages(undefined as any);
-      } catch (error) {
+      } catch (error: any) {
         caughtError = error;
       }
       should.equal(caughtError && caughtError.name, "TypeError");
@@ -414,7 +446,7 @@ describe("invalid parameters", () => {
       let caughtError: Error | undefined;
       try {
         await sender.cancelScheduledMessages(["somestring"] as any);
-      } catch (error) {
+      } catch (error: any) {
         caughtError = error;
       }
       should.equal(caughtError && caughtError.name, "TypeError");

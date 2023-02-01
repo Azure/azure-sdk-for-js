@@ -1,0 +1,145 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-canabortcreatingacertificate-/create?api-version=7.4-preview.1",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "0",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-keyvault-certificates/4.7.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.15.1 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "4d42a9a4-5cfb-424d-bb82-c6b50a4db0ba"
+      },
+      "RequestBody": null,
+      "StatusCode": 401,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "97",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 14 Nov 2022 17:57:11 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000;includeSubDomains",
+        "WWW-Authenticate": "Bearer authorization=\u0022https://login.windows.net/12345678-1234-1234-1234-123456789012\u0022, resource=\u0022https://vault.azure.net\u0022",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "4d42a9a4-5cfb-424d-bb82-c6b50a4db0ba",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=167.220.80.222;act_addr_fam=InterNetwork;",
+        "x-ms-keyvault-region": "westus",
+        "x-ms-keyvault-service-version": "1.9.576.1",
+        "x-ms-request-id": "3130b7be-0fde-424e-a8c0-f8058b55f0e5"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "Unauthorized",
+          "message": "AKV10000: Request is missing a Bearer or PoP token."
+        }
+      }
+    },
+    {
+      "RequestUri": "https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-canabortcreatingacertificate-/create?api-version=7.4-preview.1",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "149",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-keyvault-certificates/4.7.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.15.1 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "4d42a9a4-5cfb-424d-bb82-c6b50a4db0ba"
+      },
+      "RequestBody": {
+        "policy": {
+          "key_props": {},
+          "secret_props": {},
+          "x509_props": {
+            "subject": "cn=MyCert",
+            "sans": {}
+          },
+          "issuer": {
+            "name": "Self"
+          },
+          "attributes": {}
+        },
+        "attributes": {}
+      },
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "1320",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 14 Nov 2022 17:57:13 GMT",
+        "Expires": "-1",
+        "Location": "https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-canabortcreatingacertificate-/pending?api-version=7.4-preview.1\u0026request_id=1909b8984eb049d2b634163d83297c2c",
+        "Pragma": "no-cache",
+        "Retry-After": "10",
+        "Strict-Transport-Security": "max-age=31536000;includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "4d42a9a4-5cfb-424d-bb82-c6b50a4db0ba",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=167.220.80.222;act_addr_fam=InterNetwork;",
+        "x-ms-keyvault-rbac-assignment-id": "11b60d6c-8980-5d26-b0d4-b20d478eb273",
+        "x-ms-keyvault-rbac-cache": "ra_age=2;da_age=1;rd_age=1;brd_age=9146;ra_notif_age=445;dec_lev=1;",
+        "x-ms-keyvault-region": "westus",
+        "x-ms-keyvault-service-version": "1.9.576.1",
+        "x-ms-request-id": "b4139842-0967-4c36-8d32-8580729a18b5"
+      },
+      "ResponseBody": {
+        "id": "https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-canabortcreatingacertificate-/pending",
+        "issuer": {
+          "name": "Self"
+        },
+        "csr": "MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuCYoNbdmHF19j4DSYVfWy9e2aUWDQc2I2s5Zgxq16Ldj8nRuzk7J8Q4DHUPa4nZ3W7LBckJuhSFJQfdgA4B4OIVKwe5PopVJ4T7irn5GYXslXeZaK6PiCN/eGN2mguHmOxYjoAHu4tjlOeYfV32HfioE5XoqM/Kt9x/IZXSHTHOtrPlvMKg6b5E\u002BJSElLD4zSCeAt9yaReGNvZxwBAFuhLJ4aagbPjpb5hpPf9RDtq2ywEjgTyRhC3vxbY/q9dzxwaf0Vjy9YEsdCTSYdEx36VN4F0/QhjGaTtfSx1kcIyx0AdLWbnzkgxd2pycV\u002BMuJEk3LVGkJdblV5mZkKMrzyQIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAHWgNmOkE4Lo/wryCZQ8ZsD54OyzOlbPj7jDQRfAMaYeI/\u002BjRXOUYJ8IX5kfB2Ab8T8HzuPIEWWTKwZ9476RLP5kaIDQ0OO7NZRjnzvvAqVQBR5sogYqzGyw4MhwCs25Uco7FRdrm7ENie53DR8j35H9jz5iTFoQG\u002Be8eW/z2WsLskEjpg/Wav1Xo2N3lCyaLYOWPkdtxP2lOvVLYy9P65A5pBJ2q2ED1MBKLpZgC/x49jkgCeAMbIOpLHbqF8h113YNdL10dsBqLTGL9VBuECZiHlsCgl5BogQNOXe87ffdCtM\u002Bv3VzmbiWZoTotDO047tOfEyuMstOm04SulP\u002Bw3M=",
+        "cancellation_requested": false,
+        "status": "inProgress",
+        "status_details": "Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.",
+        "request_id": "1909b8984eb049d2b634163d83297c2c"
+      }
+    },
+    {
+      "RequestUri": "https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-canabortcreatingacertificate-/pending?api-version=7.4-preview.1",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-keyvault-certificates/4.7.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.15.1 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "248114ee-cc97-4d80-94e2-dce7cb9aab63"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "1320",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 14 Nov 2022 17:57:13 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Retry-After": "10",
+        "Strict-Transport-Security": "max-age=31536000;includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "248114ee-cc97-4d80-94e2-dce7cb9aab63",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=167.220.80.222;act_addr_fam=InterNetwork;",
+        "x-ms-keyvault-rbac-assignment-id": "11b60d6c-8980-5d26-b0d4-b20d478eb273",
+        "x-ms-keyvault-rbac-cache": "ra_age=3;da_age=3;rd_age=3;brd_age=9148;ra_notif_age=446;dec_lev=0;",
+        "x-ms-keyvault-region": "westus",
+        "x-ms-keyvault-service-version": "1.9.576.1",
+        "x-ms-request-id": "fdf101c3-25fb-41da-892f-a3978100227e"
+      },
+      "ResponseBody": {
+        "id": "https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-canabortcreatingacertificate-/pending",
+        "issuer": {
+          "name": "Self"
+        },
+        "csr": "MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuCYoNbdmHF19j4DSYVfWy9e2aUWDQc2I2s5Zgxq16Ldj8nRuzk7J8Q4DHUPa4nZ3W7LBckJuhSFJQfdgA4B4OIVKwe5PopVJ4T7irn5GYXslXeZaK6PiCN/eGN2mguHmOxYjoAHu4tjlOeYfV32HfioE5XoqM/Kt9x/IZXSHTHOtrPlvMKg6b5E\u002BJSElLD4zSCeAt9yaReGNvZxwBAFuhLJ4aagbPjpb5hpPf9RDtq2ywEjgTyRhC3vxbY/q9dzxwaf0Vjy9YEsdCTSYdEx36VN4F0/QhjGaTtfSx1kcIyx0AdLWbnzkgxd2pycV\u002BMuJEk3LVGkJdblV5mZkKMrzyQIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAHWgNmOkE4Lo/wryCZQ8ZsD54OyzOlbPj7jDQRfAMaYeI/\u002BjRXOUYJ8IX5kfB2Ab8T8HzuPIEWWTKwZ9476RLP5kaIDQ0OO7NZRjnzvvAqVQBR5sogYqzGyw4MhwCs25Uco7FRdrm7ENie53DR8j35H9jz5iTFoQG\u002Be8eW/z2WsLskEjpg/Wav1Xo2N3lCyaLYOWPkdtxP2lOvVLYy9P65A5pBJ2q2ED1MBKLpZgC/x49jkgCeAMbIOpLHbqF8h113YNdL10dsBqLTGL9VBuECZiHlsCgl5BogQNOXe87ffdCtM\u002Bv3VzmbiWZoTotDO047tOfEyuMstOm04SulP\u002Bw3M=",
+        "cancellation_requested": false,
+        "status": "inProgress",
+        "status_details": "Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.",
+        "request_id": "1909b8984eb049d2b634163d83297c2c"
+      }
+    }
+  ],
+  "Variables": {}
+}

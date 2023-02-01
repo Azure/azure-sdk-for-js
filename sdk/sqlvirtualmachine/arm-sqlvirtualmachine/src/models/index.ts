@@ -30,13 +30,18 @@ export interface PrivateIPAddress {
   subnetResourceId?: string;
 }
 
+/** Multi subnet ip configuration for an availability group listener. */
+export interface MultiSubnetIpConfiguration {
+  /** Private IP address. */
+  privateIpAddress: PrivateIPAddress;
+  /** SQL virtual machine instance resource id that are enrolled into the availability group listener. */
+  sqlVirtualMachineInstance: string;
+}
+
 /** Availability group configuration. */
 export interface AgConfiguration {
-  /**
-   * Replica configurations.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly replicas?: AgReplica[];
+  /** Replica configurations. */
+  replicas?: AgReplica[];
 }
 
 /** Availability group replica configuration. */
@@ -182,6 +187,8 @@ export interface WsfcDomainProfile {
   storageAccountUrl?: string;
   /** Primary key of the witness storage account. */
   storageAccountPrimaryKey?: string;
+  /** Cluster subnet type. */
+  clusterSubnetType?: ClusterSubnetType;
 }
 
 /** An update to a SQL virtual machine group. */
@@ -279,7 +286,7 @@ export interface AutoBackupSettings {
   /** Frequency of full backups. In both cases, full backups begin during the next scheduled time window. */
   fullBackupFrequency?: FullBackupFrequencyType;
   /** Days of the week for the backups when FullBackupFrequency is set to Weekly. */
-  daysOfWeek?: DaysOfWeek[];
+  daysOfWeek?: AutoBackupDaysOfWeek[];
   /** Start time of a given day during which full backups can take place. 0-23 hours. */
   fullBackupStartTime?: number;
   /** Duration of the time window of a given day during which full backups can take place. 1-23 hours. */
@@ -362,6 +369,10 @@ export interface SQLInstanceSettings {
   minServerMemoryMB?: number;
   /** SQL Server maximum memory. */
   maxServerMemoryMB?: number;
+  /** SQL Server LPIM. */
+  isLpimEnabled?: boolean;
+  /** SQL Server IFI. */
+  isIfiEnabled?: boolean;
 }
 
 /** Storage Configurations for SQL Data, Log and TempDb. */
@@ -388,17 +399,22 @@ export interface SQLStorageSettings {
   defaultFilePath?: string;
 }
 
+/** Set tempDb storage settings for SQL Server. */
 export interface SQLTempDbSettings {
-  /** SQL Server default file size */
+  /** SQL Server tempdb data file size */
   dataFileSize?: number;
-  /** SQL Server default file autoGrowth size */
+  /** SQL Server tempdb data file autoGrowth size */
   dataGrowth?: number;
-  /** SQL Server default file size */
+  /** SQL Server tempdb log file size */
   logFileSize?: number;
-  /** SQL Server default file autoGrowth size */
+  /** SQL Server tempdb log file autoGrowth size */
   logGrowth?: number;
-  /** SQL Server default file count */
+  /** SQL Server tempdb data file count */
   dataFileCount?: number;
+  /** SQL Server tempdb persist folder choice */
+  persistFolder?: boolean;
+  /** SQL Server tempdb persist folder location */
+  persistFolderPath?: string;
   /** Logical Unit Numbers for the disks. */
   luns?: number[];
   /** SQL Server default file path */
@@ -415,6 +431,7 @@ export interface AssessmentSettings {
   schedule?: Schedule;
 }
 
+/** Set assessment schedule for SQL Server. */
 export interface Schedule {
   /** Enable or disable assessment schedule on SQL virtual machine. */
   enable?: boolean;
@@ -423,7 +440,7 @@ export interface Schedule {
   /** Occurrence of the DayOfWeek day within a month to schedule assessment. Takes values: 1,2,3,4 and -1. Use -1 for last DayOfWeek day of the month */
   monthlyOccurrence?: number;
   /** Day of the week to run assessment. */
-  dayOfWeek?: DayOfWeek;
+  dayOfWeek?: AssessmentDayOfWeek;
   /** Time of the day in HH:mm format. Eg. 17:30 */
   startTime?: string;
 }
@@ -435,18 +452,18 @@ export interface SqlVirtualMachineUpdate {
 }
 
 /** ARM proxy resource. */
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {}
 
 /** ARM tracked top level resource. */
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
   /** Resource location. */
   location: string;
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
-};
+}
 
 /** A SQL Server availability group listener. */
-export type AvailabilityGroupListener = ProxyResource & {
+export interface AvailabilityGroupListener extends ProxyResource {
   /**
    * Metadata pertaining to creation and last modification of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -461,16 +478,18 @@ export type AvailabilityGroupListener = ProxyResource & {
   availabilityGroupName?: string;
   /** List of load balancer configurations for an availability group listener. */
   loadBalancerConfigurations?: LoadBalancerConfiguration[];
+  /** List of multi subnet IP configurations for an AG listener. */
+  multiSubnetIpConfigurations?: MultiSubnetIpConfiguration[];
   /** Create a default availability group if it does not exist. */
   createDefaultAvailabilityGroupIfNotExist?: boolean;
   /** Listener port. */
   port?: number;
   /** Availability Group configuration. */
   availabilityGroupConfiguration?: AgConfiguration;
-};
+}
 
 /** A SQL virtual machine group. */
-export type SqlVirtualMachineGroup = TrackedResource & {
+export interface SqlVirtualMachineGroup extends TrackedResource {
   /**
    * Metadata pertaining to creation and last modification of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -502,10 +521,10 @@ export type SqlVirtualMachineGroup = TrackedResource & {
   readonly clusterConfiguration?: ClusterConfiguration;
   /** Cluster Active Directory domain profile. */
   wsfcDomainProfile?: WsfcDomainProfile;
-};
+}
 
 /** A SQL virtual machine. */
-export type SqlVirtualMachine = TrackedResource & {
+export interface SqlVirtualMachine extends TrackedResource {
   /** Azure Active Directory identity of the server. */
   identity?: ResourceIdentity;
   /**
@@ -526,12 +545,16 @@ export type SqlVirtualMachine = TrackedResource & {
   sqlServerLicenseType?: SqlServerLicenseType;
   /** SQL Server Management type. */
   sqlManagement?: SqlManagementMode;
+  /** SQL IaaS Agent least privilege mode. */
+  leastPrivilegeMode?: LeastPrivilegeMode;
   /** SQL Server edition type. */
   sqlImageSku?: SqlImageSku;
   /** ARM resource id of the SQL virtual machine group this SQL virtual machine is or will be part of. */
   sqlVirtualMachineGroupResourceId?: string;
   /** Domain credentials for setting up Windows Server Failover Cluster for SQL availability group. */
   wsfcDomainCredentials?: WsfcDomainCredentials;
+  /** Domain credentials for setting up Windows Server Failover Cluster for SQL availability group. */
+  wsfcStaticIp?: string;
   /** Auto patching settings for applying critical security updates to SQL virtual machine. */
   autoPatchingSettings?: AutoPatchingSettings;
   /** Auto backup settings for SQL Server. */
@@ -544,11 +567,15 @@ export type SqlVirtualMachine = TrackedResource & {
   storageConfigurationSettings?: StorageConfigurationSettings;
   /** Assessment Settings. */
   assessmentSettings?: AssessmentSettings;
-};
+  /** Enable automatic upgrade of Sql IaaS extension Agent. */
+  enableAutomaticUpgrade?: boolean;
+}
 
 /** Known values of {@link Role} that the service accepts. */
 export enum KnownRole {
+  /** Primary */
   Primary = "PRIMARY",
+  /** Secondary */
   Secondary = "SECONDARY"
 }
 
@@ -564,7 +591,9 @@ export type Role = string;
 
 /** Known values of {@link Commit} that the service accepts. */
 export enum KnownCommit {
+  /** SynchronousCommit */
   SynchronousCommit = "SYNCHRONOUS_COMMIT",
+  /** AsynchronousCommit */
   AsynchronousCommit = "ASYNCHRONOUS_COMMIT"
 }
 
@@ -580,7 +609,9 @@ export type Commit = string;
 
 /** Known values of {@link Failover} that the service accepts. */
 export enum KnownFailover {
+  /** Automatic */
   Automatic = "AUTOMATIC",
+  /** Manual */
   Manual = "MANUAL"
 }
 
@@ -596,8 +627,11 @@ export type Failover = string;
 
 /** Known values of {@link ReadableSecondary} that the service accepts. */
 export enum KnownReadableSecondary {
+  /** NO */
   NO = "NO",
+  /** ALL */
   ALL = "ALL",
+  /** ReadOnly */
   ReadOnly = "READ_ONLY"
 }
 
@@ -614,9 +648,13 @@ export type ReadableSecondary = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -634,7 +672,9 @@ export type CreatedByType = string;
 
 /** Known values of {@link OperationOrigin} that the service accepts. */
 export enum KnownOperationOrigin {
+  /** User */
   User = "user",
+  /** System */
   System = "system"
 }
 
@@ -650,7 +690,9 @@ export type OperationOrigin = string;
 
 /** Known values of {@link SqlVmGroupImageSku} that the service accepts. */
 export enum KnownSqlVmGroupImageSku {
+  /** Developer */
   Developer = "Developer",
+  /** Enterprise */
   Enterprise = "Enterprise"
 }
 
@@ -666,6 +708,7 @@ export type SqlVmGroupImageSku = string;
 
 /** Known values of {@link ScaleType} that the service accepts. */
 export enum KnownScaleType {
+  /** HA */
   HA = "HA"
 }
 
@@ -680,6 +723,7 @@ export type ScaleType = string;
 
 /** Known values of {@link ClusterManagerType} that the service accepts. */
 export enum KnownClusterManagerType {
+  /** Wsfc */
   Wsfc = "WSFC"
 }
 
@@ -694,6 +738,7 @@ export type ClusterManagerType = string;
 
 /** Known values of {@link ClusterConfiguration} that the service accepts. */
 export enum KnownClusterConfiguration {
+  /** Domainful */
   Domainful = "Domainful"
 }
 
@@ -706,9 +751,29 @@ export enum KnownClusterConfiguration {
  */
 export type ClusterConfiguration = string;
 
+/** Known values of {@link ClusterSubnetType} that the service accepts. */
+export enum KnownClusterSubnetType {
+  /** SingleSubnet */
+  SingleSubnet = "SingleSubnet",
+  /** MultiSubnet */
+  MultiSubnet = "MultiSubnet"
+}
+
+/**
+ * Defines values for ClusterSubnetType. \
+ * {@link KnownClusterSubnetType} can be used interchangeably with ClusterSubnetType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SingleSubnet** \
+ * **MultiSubnet**
+ */
+export type ClusterSubnetType = string;
+
 /** Known values of {@link IdentityType} that the service accepts. */
 export enum KnownIdentityType {
+  /** None */
   None = "None",
+  /** SystemAssigned */
   SystemAssigned = "SystemAssigned"
 }
 
@@ -724,8 +789,11 @@ export type IdentityType = string;
 
 /** Known values of {@link SqlServerLicenseType} that the service accepts. */
 export enum KnownSqlServerLicenseType {
+  /** Payg */
   Payg = "PAYG",
+  /** Ahub */
   Ahub = "AHUB",
+  /** DR */
   DR = "DR"
 }
 
@@ -742,8 +810,11 @@ export type SqlServerLicenseType = string;
 
 /** Known values of {@link SqlManagementMode} that the service accepts. */
 export enum KnownSqlManagementMode {
+  /** Full */
   Full = "Full",
+  /** LightWeight */
   LightWeight = "LightWeight",
+  /** NoAgent */
   NoAgent = "NoAgent"
 }
 
@@ -758,12 +829,32 @@ export enum KnownSqlManagementMode {
  */
 export type SqlManagementMode = string;
 
+/** Known values of {@link LeastPrivilegeMode} that the service accepts. */
+export enum KnownLeastPrivilegeMode {
+  /** Enabled */
+  Enabled = "Enabled"
+}
+
+/**
+ * Defines values for LeastPrivilegeMode. \
+ * {@link KnownLeastPrivilegeMode} can be used interchangeably with LeastPrivilegeMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled**
+ */
+export type LeastPrivilegeMode = string;
+
 /** Known values of {@link SqlImageSku} that the service accepts. */
 export enum KnownSqlImageSku {
+  /** Developer */
   Developer = "Developer",
+  /** Express */
   Express = "Express",
+  /** Standard */
   Standard = "Standard",
+  /** Enterprise */
   Enterprise = "Enterprise",
+  /** Web */
   Web = "Web"
 }
 
@@ -782,7 +873,9 @@ export type SqlImageSku = string;
 
 /** Known values of {@link BackupScheduleType} that the service accepts. */
 export enum KnownBackupScheduleType {
+  /** Manual */
   Manual = "Manual",
+  /** Automated */
   Automated = "Automated"
 }
 
@@ -798,7 +891,9 @@ export type BackupScheduleType = string;
 
 /** Known values of {@link FullBackupFrequencyType} that the service accepts. */
 export enum KnownFullBackupFrequencyType {
+  /** Daily */
   Daily = "Daily",
+  /** Weekly */
   Weekly = "Weekly"
 }
 
@@ -812,20 +907,27 @@ export enum KnownFullBackupFrequencyType {
  */
 export type FullBackupFrequencyType = string;
 
-/** Known values of {@link DaysOfWeek} that the service accepts. */
-export enum KnownDaysOfWeek {
+/** Known values of {@link AutoBackupDaysOfWeek} that the service accepts. */
+export enum KnownAutoBackupDaysOfWeek {
+  /** Monday */
   Monday = "Monday",
+  /** Tuesday */
   Tuesday = "Tuesday",
+  /** Wednesday */
   Wednesday = "Wednesday",
+  /** Thursday */
   Thursday = "Thursday",
+  /** Friday */
   Friday = "Friday",
+  /** Saturday */
   Saturday = "Saturday",
+  /** Sunday */
   Sunday = "Sunday"
 }
 
 /**
- * Defines values for DaysOfWeek. \
- * {@link KnownDaysOfWeek} can be used interchangeably with DaysOfWeek,
+ * Defines values for AutoBackupDaysOfWeek. \
+ * {@link KnownAutoBackupDaysOfWeek} can be used interchangeably with AutoBackupDaysOfWeek,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Monday** \
@@ -836,12 +938,15 @@ export enum KnownDaysOfWeek {
  * **Saturday** \
  * **Sunday**
  */
-export type DaysOfWeek = string;
+export type AutoBackupDaysOfWeek = string;
 
 /** Known values of {@link ConnectivityType} that the service accepts. */
 export enum KnownConnectivityType {
+  /** Local */
   Local = "LOCAL",
+  /** Private */
   Private = "PRIVATE",
+  /** Public */
   Public = "PUBLIC"
 }
 
@@ -858,8 +963,11 @@ export type ConnectivityType = string;
 
 /** Known values of {@link SqlWorkloadType} that the service accepts. */
 export enum KnownSqlWorkloadType {
+  /** General */
   General = "GENERAL",
+  /** Oltp */
   Oltp = "OLTP",
+  /** DW */
   DW = "DW"
 }
 
@@ -876,8 +984,11 @@ export type SqlWorkloadType = string;
 
 /** Known values of {@link DiskConfigurationType} that the service accepts. */
 export enum KnownDiskConfigurationType {
+  /** NEW */
   NEW = "NEW",
+  /** Extend */
   Extend = "EXTEND",
+  /** ADD */
   ADD = "ADD"
 }
 
@@ -894,8 +1005,11 @@ export type DiskConfigurationType = string;
 
 /** Known values of {@link StorageWorkloadType} that the service accepts. */
 export enum KnownStorageWorkloadType {
+  /** General */
   General = "GENERAL",
+  /** Oltp */
   Oltp = "OLTP",
+  /** DW */
   DW = "DW"
 }
 
@@ -911,6 +1025,16 @@ export enum KnownStorageWorkloadType {
 export type StorageWorkloadType = string;
 /** Defines values for DayOfWeek. */
 export type DayOfWeek =
+  | "Everyday"
+  | "Monday"
+  | "Tuesday"
+  | "Wednesday"
+  | "Thursday"
+  | "Friday"
+  | "Saturday"
+  | "Sunday";
+/** Defines values for AssessmentDayOfWeek. */
+export type AssessmentDayOfWeek =
   | "Monday"
   | "Tuesday"
   | "Wednesday"
@@ -1061,6 +1185,15 @@ export interface SqlVirtualMachinesListOptionalParams
 export type SqlVirtualMachinesListResponse = SqlVirtualMachineListResult;
 
 /** Optional parameters. */
+export interface SqlVirtualMachinesStartAssessmentOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
 export interface SqlVirtualMachinesRedeployOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -1118,15 +1251,6 @@ export interface SqlVirtualMachinesListByResourceGroupOptionalParams
 
 /** Contains response data for the listByResourceGroup operation. */
 export type SqlVirtualMachinesListByResourceGroupResponse = SqlVirtualMachineListResult;
-
-/** Optional parameters. */
-export interface SqlVirtualMachinesStartAssessmentOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
 
 /** Optional parameters. */
 export interface SqlVirtualMachinesListBySqlVmGroupNextOptionalParams

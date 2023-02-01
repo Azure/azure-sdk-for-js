@@ -1,19 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ProxySettings } from ".";
-import { PipelineRetryOptions } from "./interfaces";
+import { LogPolicyOptions, logPolicy } from "./policies/logPolicy";
 import { Pipeline, createEmptyPipeline } from "./pipeline";
+import { PipelineRetryOptions, TlsSettings } from "./interfaces";
+import { RedirectPolicyOptions, redirectPolicy } from "./policies/redirectPolicy";
+import { UserAgentPolicyOptions, userAgentPolicy } from "./policies/userAgentPolicy";
+
+import { ProxySettings } from ".";
 import { decompressResponsePolicy } from "./policies/decompressResponsePolicy";
-import { formDataPolicy } from "./policies/formDataPolicy";
-import { logPolicy, LogPolicyOptions } from "./policies/logPolicy";
-import { proxyPolicy } from "./policies/proxyPolicy";
-import { redirectPolicy, RedirectPolicyOptions } from "./policies/redirectPolicy";
-import { setClientRequestIdPolicy } from "./policies/setClientRequestIdPolicy";
-import { tracingPolicy } from "./policies/tracingPolicy";
-import { userAgentPolicy, UserAgentPolicyOptions } from "./policies/userAgentPolicy";
 import { defaultRetryPolicy } from "./policies/defaultRetryPolicy";
-import { isNode } from "./util/helpers";
+import { formDataPolicy } from "./policies/formDataPolicy";
+import { isNode } from "@azure/core-util";
+import { proxyPolicy } from "./policies/proxyPolicy";
+import { setClientRequestIdPolicy } from "./policies/setClientRequestIdPolicy";
+import { tlsPolicy } from "./policies/tlsPolicy";
+import { tracingPolicy } from "./policies/tracingPolicy";
 
 /**
  * Defines options that are used to configure the HTTP pipeline for
@@ -29,6 +31,9 @@ export interface PipelineOptions {
    * Options to configure a proxy for outgoing requests.
    */
   proxyOptions?: ProxySettings;
+
+  /** Options for configuring TLS authentication */
+  tlsOptions?: TlsSettings;
 
   /**
    * Options for how redirect responses are handled.
@@ -60,6 +65,9 @@ export function createPipelineFromOptions(options: InternalPipelineOptions): Pip
   const pipeline = createEmptyPipeline();
 
   if (isNode) {
+    if (options.tlsOptions) {
+      pipeline.addPolicy(tlsPolicy(options.tlsOptions));
+    }
     pipeline.addPolicy(proxyPolicy(options.proxyOptions));
     pipeline.addPolicy(decompressResponsePolicy());
   }
@@ -69,8 +77,12 @@ export function createPipelineFromOptions(options: InternalPipelineOptions): Pip
   pipeline.addPolicy(setClientRequestIdPolicy());
   pipeline.addPolicy(defaultRetryPolicy(options.retryOptions), { phase: "Retry" });
   pipeline.addPolicy(tracingPolicy(options.userAgentOptions), { afterPhase: "Retry" });
-  pipeline.addPolicy(redirectPolicy(options.redirectOptions), { afterPhase: "Retry" });
-  pipeline.addPolicy(logPolicy(options.loggingOptions), { afterPhase: "Retry" });
+  if (isNode) {
+    // Both XHR and Fetch expect to handle redirects automatically,
+    // so only include this policy when we're in Node.
+    pipeline.addPolicy(redirectPolicy(options.redirectOptions), { afterPhase: "Retry" });
+  }
+  pipeline.addPolicy(logPolicy(options.loggingOptions), { afterPhase: "Sign" });
 
   return pipeline;
 }

@@ -2,13 +2,13 @@
 // Licensed under the MIT license.
 
 import * as msalBrowser from "@azure/msal-browser";
+import { MsalBrowser, MsalBrowserFlowOptions } from "./msalBrowserCommon";
+import { defaultLoggerCallback, msalToPublic, publicToMsal, getMSALLogLevel } from "../utils";
 import { AccessToken } from "@azure/core-auth";
-
-import { AuthenticationRequiredError } from "../../errors";
-import { defaultLoggerCallback, msalToPublic, publicToMsal } from "../utils";
 import { AuthenticationRecord } from "../types";
+import { AuthenticationRequiredError } from "../../errors";
 import { CredentialFlowGetTokenOptions } from "../credentials";
-import { MsalBrowserFlowOptions, MsalBrowser } from "./msalBrowserCommon";
+import { getLogLevel } from "@azure/logger";
 
 // We keep a copy of the redirect hash.
 const redirectHash = self.location.hash;
@@ -39,6 +39,7 @@ export class MSALAuthCode extends MsalBrowser {
     this.msalConfig.system = {
       loggerOptions: {
         loggerCallback: defaultLoggerCallback(this.logger, "Browser"),
+        logLevel: getMSALLogLevel(getLogLevel()),
       },
     };
 
@@ -103,7 +104,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       }
 
       this.logger.info(`No accounts were found through MSAL.`);
-    } catch (e) {
+    } catch (e: any) {
       this.logger.info(`Failed to acquire token through MSAL. ${e.message}`);
     }
     return;
@@ -178,7 +179,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       this.logger.info("Attempting to acquire token silently");
       const response = await this.app.acquireTokenSilent(parameters);
       return this.handleResult(scopes, this.clientId, response);
-    } catch (err) {
+    } catch (err: any) {
       throw this.handleError(scopes, err, options);
     }
   }

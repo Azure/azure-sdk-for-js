@@ -15,7 +15,7 @@ import { DispositionType, ServiceBusMessageImpl } from "../serviceBusMessage";
 import { getUniqueName } from "../util/utils";
 import { ProcessErrorArgs, ReceiveMode, SubscribeOptions } from "../models";
 import { DispositionStatusOptions } from "./managementClient";
-import { AbortSignalLike } from "@azure/core-http";
+import { AbortSignalLike } from "@azure/abort-controller";
 import {
   onMessageSettled,
   DeferredPromiseAndTimer,
@@ -57,6 +57,14 @@ export interface ReceiveOptions extends SubscribeOptions {
    * prefer to work directly with the bytes present in the message body than have the client attempt to parse it.
    */
   skipParsingBodyAsJson: boolean;
+
+  /**
+   * Whether to skip converting Date type on properties of message annotations
+   * or application properties into numbers when receiving the message. By
+   * default, properties of Date type is converted into UNIX epoch number for
+   * compatibility.
+   */
+  skipConvertingDate: boolean;
 }
 
 /**
@@ -133,6 +141,7 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
   protected _lockRenewer: LockRenewer | undefined;
 
   constructor(
+    public identifier: string,
     context: ConnectionContext,
     entityPath: string,
     receiverType: ReceiverType,
@@ -165,6 +174,7 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
       {
         address: this.address,
       },
+      this.identifier,
       {
         onSettled: (context: EventContext) => {
           return onMessageSettled(this.logPrefix, context.delivery, this._deliveryDispositionMap);
@@ -186,7 +196,7 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
       // It is possible for someone to close the receiver and then start it again.
       // Thus make sure that the receiver is present in the client cache.
       this._context.messageReceivers[this.name] = this as any;
-    } catch (err) {
+    } catch (err: any) {
       const translatedError = translateServiceBusError(err);
       logger.logError(
         translatedError,

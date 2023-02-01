@@ -4,15 +4,15 @@
 import {
   PipelinePolicy,
   PipelineRequest,
-  SendRequest,
   PipelineResponse,
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 
-export const disbaleKeepAlivePolicyName = "DisableKeepAlivePolicy";
+export const disableKeepAlivePolicyName = "DisableKeepAlivePolicy";
 
 export function createDisableKeepAlivePolicy(): PipelinePolicy {
   return {
-    name: disbaleKeepAlivePolicyName,
+    name: disableKeepAlivePolicyName,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       request.disableKeepAlive = true;
       return next(request);

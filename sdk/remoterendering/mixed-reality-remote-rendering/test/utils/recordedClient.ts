@@ -6,9 +6,9 @@ import { Context } from "mocha";
 import { AccessToken, AzureKeyCredential } from "@azure/core-auth";
 import {
   Recorder,
-  isPlaybackMode,
   RecorderStartOptions,
   assertEnvironmentVariable,
+  isPlaybackMode,
 } from "@azure-tools/test-recorder";
 
 import { RemoteRenderingClient } from "../../src";

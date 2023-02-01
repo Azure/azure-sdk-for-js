@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Registries } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,18 +19,19 @@ import {
   Registry,
   RegistriesListNextOptionalParams,
   RegistriesListOptionalParams,
+  RegistriesListResponse,
   RegistriesListByResourceGroupNextOptionalParams,
   RegistriesListByResourceGroupOptionalParams,
+  RegistriesListByResourceGroupResponse,
   PrivateLinkResource,
   RegistriesListPrivateLinkResourcesNextOptionalParams,
   RegistriesListPrivateLinkResourcesOptionalParams,
+  RegistriesListPrivateLinkResourcesResponse,
   ImportImageParameters,
   RegistriesImportImageOptionalParams,
   RegistryNameCheckRequest,
   RegistriesCheckNameAvailabilityOptionalParams,
   RegistriesCheckNameAvailabilityResponse,
-  RegistriesListResponse,
-  RegistriesListByResourceGroupResponse,
   RegistriesGetOptionalParams,
   RegistriesGetResponse,
   RegistriesCreateOptionalParams,
@@ -40,7 +42,6 @@ import {
   RegistriesUpdateResponse,
   RegistriesListUsagesOptionalParams,
   RegistriesListUsagesResponse,
-  RegistriesListPrivateLinkResourcesResponse,
   RegistriesGetPrivateLinkResourceOptionalParams,
   RegistriesGetPrivateLinkResourceResponse,
   RegistriesListCredentialsOptionalParams,
@@ -48,6 +49,9 @@ import {
   RegenerateCredentialParameters,
   RegistriesRegenerateCredentialOptionalParams,
   RegistriesRegenerateCredentialResponse,
+  GenerateCredentialsParameters,
+  RegistriesGenerateCredentialsOptionalParams,
+  RegistriesGenerateCredentialsResponse,
   RunRequestUnion,
   RegistriesScheduleRunOptionalParams,
   RegistriesScheduleRunResponse,
@@ -86,22 +90,34 @@ export class RegistriesImpl implements Registries {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: RegistriesListOptionalParams
+    options?: RegistriesListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Registry[]> {
-    let result = await this._list(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: RegistriesListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -130,19 +146,33 @@ export class RegistriesImpl implements Registries {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: RegistriesListByResourceGroupOptionalParams
+    options?: RegistriesListByResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Registry[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: RegistriesListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -150,7 +180,9 @@ export class RegistriesImpl implements Registries {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -189,11 +221,15 @@ export class RegistriesImpl implements Registries {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listPrivateLinkResourcesPagingPage(
           resourceGroupName,
           registryName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -202,15 +238,22 @@ export class RegistriesImpl implements Registries {
   private async *listPrivateLinkResourcesPagingPage(
     resourceGroupName: string,
     registryName: string,
-    options?: RegistriesListPrivateLinkResourcesOptionalParams
+    options?: RegistriesListPrivateLinkResourcesOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PrivateLinkResource[]> {
-    let result = await this._listPrivateLinkResources(
-      resourceGroupName,
-      registryName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: RegistriesListPrivateLinkResourcesResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listPrivateLinkResources(
+        resourceGroupName,
+        registryName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listPrivateLinkResourcesNext(
         resourceGroupName,
@@ -219,7 +262,9 @@ export class RegistriesImpl implements Registries {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -294,10 +339,12 @@ export class RegistriesImpl implements Registries {
       { resourceGroupName, registryName, parameters, options },
       importImageOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -442,10 +489,12 @@ export class RegistriesImpl implements Registries {
       { resourceGroupName, registryName, registry, options },
       createOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -525,10 +574,12 @@ export class RegistriesImpl implements Registries {
       { resourceGroupName, registryName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -612,10 +663,12 @@ export class RegistriesImpl implements Registries {
       { resourceGroupName, registryName, registryUpdateParameters, options },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -736,6 +789,103 @@ export class RegistriesImpl implements Registries {
   }
 
   /**
+   * Generate keys for a token of a specified container registry.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param registryName The name of the container registry.
+   * @param generateCredentialsParameters The parameters for generating credentials.
+   * @param options The options parameters.
+   */
+  async beginGenerateCredentials(
+    resourceGroupName: string,
+    registryName: string,
+    generateCredentialsParameters: GenerateCredentialsParameters,
+    options?: RegistriesGenerateCredentialsOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<RegistriesGenerateCredentialsResponse>,
+      RegistriesGenerateCredentialsResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<RegistriesGenerateCredentialsResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      {
+        resourceGroupName,
+        registryName,
+        generateCredentialsParameters,
+        options
+      },
+      generateCredentialsOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Generate keys for a token of a specified container registry.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param registryName The name of the container registry.
+   * @param generateCredentialsParameters The parameters for generating credentials.
+   * @param options The options parameters.
+   */
+  async beginGenerateCredentialsAndWait(
+    resourceGroupName: string,
+    registryName: string,
+    generateCredentialsParameters: GenerateCredentialsParameters,
+    options?: RegistriesGenerateCredentialsOptionalParams
+  ): Promise<RegistriesGenerateCredentialsResponse> {
+    const poller = await this.beginGenerateCredentials(
+      resourceGroupName,
+      registryName,
+      generateCredentialsParameters,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * Schedules a new run based on the request parameters and add it to the run queue.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
@@ -797,10 +947,12 @@ export class RegistriesImpl implements Registries {
       { resourceGroupName, registryName, runRequest, options },
       scheduleRunOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -926,7 +1078,7 @@ const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.registryNameCheckRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
@@ -1007,7 +1159,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.registryName
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
@@ -1051,7 +1203,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.registryName
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
@@ -1152,7 +1304,40 @@ const regenerateCredentialOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.registryName
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const generateCredentialsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/generateCredentials",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GenerateCredentialsResult
+    },
+    201: {
+      bodyMapper: Mappers.GenerateCredentialsResult
+    },
+    202: {
+      bodyMapper: Mappers.GenerateCredentialsResult
+    },
+    204: {
+      bodyMapper: Mappers.GenerateCredentialsResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.generateCredentialsParameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.registryName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
@@ -1185,7 +1370,7 @@ const scheduleRunOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.registryName
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };

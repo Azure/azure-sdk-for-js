@@ -8,8 +8,9 @@ import isBuffer from "is-buffer";
 import { Buffer } from "buffer";
 import * as Constants from "../util/constants";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
-import { HttpOperationResponse, HttpResponse } from "@azure/core-http";
-import { isDefined } from "./typeGuards";
+import { PipelineResponse } from "@azure/core-rest-pipeline";
+import { isDefined } from "@azure/core-util";
+import { HttpResponse, toHttpResponse } from "./compat";
 import { StandardAbortMessage } from "@azure/core-amqp";
 
 // This is the only dependency we have on DOM types, so rather than require
@@ -35,6 +36,18 @@ declare const navigator: Navigator;
  */
 export function getUniqueName(name: string): string {
   return `${name}-${generate_uuid()}`;
+}
+
+/**
+ * @internal
+ * Returns the passed identifier if it is not undefined or empty;
+ * otherwise generate and returns a unique one in the following format;
+ *   `{prefix}-{uuid}`.
+ * @param prefix - The prefix used to generate identifier
+ * @param identifier - an identifier name
+ */
+export function ensureValidIdentifier(prefix: string, identifier?: string): string {
+  return identifier ? identifier : getUniqueName(prefix);
 }
 
 /**
@@ -140,7 +153,7 @@ export function toBuffer(input: unknown): Buffer {
     try {
       const inputStr = JSON.stringify(input);
       result = Buffer.from(inputStr, "utf8");
-    } catch (err) {
+    } catch (err: any) {
       const msg =
         `An error occurred while executing JSON.stringify() on the given input ` +
         input +
@@ -630,17 +643,11 @@ export function formatUserAgentPrefix(prefix?: string): string {
 
 /**
  * @internal
- * Helper method which returns `HttpResponse` from an object of shape `HttpOperationResponse`.
+ * Helper method which returns `HttpResponse` from an object of shape `PipelineResponse`.
+ * TODO: remove this and use toHttpResponse() directly
  */
-export const getHttpResponseOnly = ({
-  request,
-  status,
-  headers,
-}: HttpOperationResponse): HttpResponse => ({
-  request,
-  status,
-  headers,
-});
+export const getHttpResponseOnly = (pipelineResponse: PipelineResponse): HttpResponse =>
+  toHttpResponse(pipelineResponse);
 
 /**
  * @internal

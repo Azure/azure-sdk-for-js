@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { DedicatedHosts } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,6 +19,7 @@ import {
   DedicatedHost,
   DedicatedHostsListByHostGroupNextOptionalParams,
   DedicatedHostsListByHostGroupOptionalParams,
+  DedicatedHostsListByHostGroupResponse,
   DedicatedHostsCreateOrUpdateOptionalParams,
   DedicatedHostsCreateOrUpdateResponse,
   DedicatedHostUpdate,
@@ -26,7 +28,6 @@ import {
   DedicatedHostsDeleteOptionalParams,
   DedicatedHostsGetOptionalParams,
   DedicatedHostsGetResponse,
-  DedicatedHostsListByHostGroupResponse,
   DedicatedHostsRestartOptionalParams,
   DedicatedHostsListByHostGroupNextResponse
 } from "../models";
@@ -68,11 +69,15 @@ export class DedicatedHostsImpl implements DedicatedHosts {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByHostGroupPagingPage(
           resourceGroupName,
           hostGroupName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -81,15 +86,22 @@ export class DedicatedHostsImpl implements DedicatedHosts {
   private async *listByHostGroupPagingPage(
     resourceGroupName: string,
     hostGroupName: string,
-    options?: DedicatedHostsListByHostGroupOptionalParams
+    options?: DedicatedHostsListByHostGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<DedicatedHost[]> {
-    let result = await this._listByHostGroup(
-      resourceGroupName,
-      hostGroupName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: DedicatedHostsListByHostGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByHostGroup(
+        resourceGroupName,
+        hostGroupName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByHostGroupNext(
         resourceGroupName,
@@ -98,7 +110,9 @@ export class DedicatedHostsImpl implements DedicatedHosts {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -180,10 +194,12 @@ export class DedicatedHostsImpl implements DedicatedHosts {
       { resourceGroupName, hostGroupName, hostName, parameters, options },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -275,10 +291,12 @@ export class DedicatedHostsImpl implements DedicatedHosts {
       { resourceGroupName, hostGroupName, hostName, parameters, options },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -363,10 +381,12 @@ export class DedicatedHostsImpl implements DedicatedHosts {
       { resourceGroupName, hostGroupName, hostName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -432,7 +452,7 @@ export class DedicatedHostsImpl implements DedicatedHosts {
    * Restart the dedicated host. The operation will complete successfully once the dedicated host has
    * restarted and is running. To determine the health of VMs deployed on the dedicated host after the
    * restart check the Resource Health Center in the Azure Portal. Please refer to
-   * https://docs.microsoft.com/en-us/azure/service-health/resource-health-overview for more details.
+   * https://docs.microsoft.com/azure/service-health/resource-health-overview for more details.
    * @param resourceGroupName The name of the resource group.
    * @param hostGroupName The name of the dedicated host group.
    * @param hostName The name of the dedicated host.
@@ -488,17 +508,19 @@ export class DedicatedHostsImpl implements DedicatedHosts {
       { resourceGroupName, hostGroupName, hostName, options },
       restartOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
    * Restart the dedicated host. The operation will complete successfully once the dedicated host has
    * restarted and is running. To determine the health of VMs deployed on the dedicated host after the
    * restart check the Resource Health Center in the Azure Portal. Please refer to
-   * https://docs.microsoft.com/en-us/azure/service-health/resource-health-overview for more details.
+   * https://docs.microsoft.com/azure/service-health/resource-health-overview for more details.
    * @param resourceGroupName The name of the resource group.
    * @param hostGroupName The name of the dedicated host group.
    * @param hostName The name of the dedicated host.
@@ -562,12 +584,12 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters6,
+  requestBody: Parameters.parameters16,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.hostGroupName,
     Parameters.hostName
   ],
@@ -596,12 +618,12 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters7,
+  requestBody: Parameters.parameters17,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.hostGroupName,
     Parameters.hostName
   ],
@@ -625,8 +647,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.hostGroupName,
     Parameters.hostName
   ],
@@ -645,11 +667,11 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand1],
+  queryParameters: [Parameters.apiVersion, Parameters.expand2],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.hostGroupName,
     Parameters.hostName
   ],
@@ -671,8 +693,8 @@ const listByHostGroupOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.hostGroupName
   ],
   headerParameters: [Parameters.accept],
@@ -694,8 +716,8 @@ const restartOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.hostGroupName,
     Parameters.hostName
   ],
@@ -713,12 +735,11 @@ const listByHostGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.resourceGroupName,
     Parameters.hostGroupName
   ],
   headerParameters: [Parameters.accept],

@@ -2090,6 +2090,35 @@ export const RecoverableSqlPoolListResult: coreClient.CompositeMapper = {
   }
 };
 
+export const DedicatedSQLminimalTlsSettingsListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DedicatedSQLminimalTlsSettingsListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DedicatedSQLminimalTlsSettings"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const WorkspaceInfoListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -4665,6 +4694,21 @@ export const TopQueriesListResult: coreClient.CompositeMapper = {
               className: "TopQueries"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const DedicatedSQLminimalTlsSettingsPatchInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DedicatedSQLminimalTlsSettingsPatchInfo",
+    modelProperties: {
+      minimalTlsVersion: {
+        serializedName: "minimalTlsVersion",
+        type: {
+          name: "String"
         }
       }
     }
@@ -7940,6 +7984,29 @@ export const RecoverableSqlPool: coreClient.CompositeMapper = {
   }
 };
 
+export const DedicatedSQLminimalTlsSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DedicatedSQLminimalTlsSettings",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      location: {
+        serializedName: "location",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      minimalTlsVersion: {
+        serializedName: "properties.minimalTlsVersion",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const WorkspaceAadAdminInfo: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -8137,7 +8204,7 @@ export const Database: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "Database",
-    uberParent: "Resource",
+    uberParent: "ProxyResource",
     polymorphicDiscriminator: {
       serializedName: "kind",
       clientName: "kind"
@@ -8173,7 +8240,7 @@ export const DataConnection: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DataConnection",
-    uberParent: "Resource",
+    uberParent: "ProxyResource",
     polymorphicDiscriminator: {
       serializedName: "kind",
       clientName: "kind"
@@ -8859,8 +8926,8 @@ export const ReadWriteDatabase: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ReadWriteDatabase",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "Database",
+    polymorphicDiscriminator: Database.type.polymorphicDiscriminator,
     modelProperties: {
       ...Database.type.modelProperties,
       provisioningState: {
@@ -8905,8 +8972,8 @@ export const ReadOnlyFollowingDatabase: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ReadOnlyFollowingDatabase",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "Database",
+    polymorphicDiscriminator: Database.type.polymorphicDiscriminator,
     modelProperties: {
       ...Database.type.modelProperties,
       provisioningState: {
@@ -8966,8 +9033,8 @@ export const EventHubDataConnection: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "EventHubDataConnection",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "DataConnection",
+    polymorphicDiscriminator: DataConnection.type.polymorphicDiscriminator,
     modelProperties: {
       ...DataConnection.type.modelProperties,
       eventHubResourceId: {
@@ -9039,8 +9106,8 @@ export const IotHubDataConnection: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "IotHubDataConnection",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "DataConnection",
+    polymorphicDiscriminator: DataConnection.type.polymorphicDiscriminator,
     modelProperties: {
       ...DataConnection.type.modelProperties,
       iotHubResourceId: {
@@ -9106,8 +9173,8 @@ export const EventGridDataConnection: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "EventGridDataConnection",
-    uberParent: "Resource",
-    polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
+    uberParent: "DataConnection",
+    polymorphicDiscriminator: DataConnection.type.polymorphicDiscriminator,
     modelProperties: {
       ...DataConnection.type.modelProperties,
       storageAccountResourceId: {
@@ -9314,11 +9381,11 @@ export let discriminators = {
   "CustomSetupBase.ComponentSetup": ComponentSetup,
   "LinkedIntegrationRuntimeType.Key": LinkedIntegrationRuntimeKeyAuthorization,
   "LinkedIntegrationRuntimeType.RBAC": LinkedIntegrationRuntimeRbacAuthorization,
-  "Resource.Database": Database,
-  "Resource.DataConnection": DataConnection,
-  "Resource.ReadWrite": ReadWriteDatabase,
-  "Resource.ReadOnlyFollowing": ReadOnlyFollowingDatabase,
-  "Resource.EventHub": EventHubDataConnection,
-  "Resource.IotHub": IotHubDataConnection,
-  "Resource.EventGrid": EventGridDataConnection
+  "ProxyResource.Database": Database,
+  "ProxyResource.DataConnection": DataConnection,
+  "Database.ReadWrite": ReadWriteDatabase,
+  "Database.ReadOnlyFollowing": ReadOnlyFollowingDatabase,
+  "DataConnection.EventHub": EventHubDataConnection,
+  "DataConnection.IotHub": IotHubDataConnection,
+  "DataConnection.EventGrid": EventGridDataConnection
 };

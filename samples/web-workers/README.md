@@ -20,7 +20,7 @@ In these samples we use [JSDOM][jsdom] but you can use any library that provides
 
 ## Prerequisites
 
-The samples are compatible with [LTS versions of Node.js](https://nodejs.org/about/releases/).
+The samples are compatible with [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule).
 
 Before running the TypeScript samples, they must be compiled to JavaScript using the TypeScript compiler. For more information on TypeScript, see the [TypeScript documentation][typescript].
 
@@ -30,7 +30,7 @@ To avoid complexity in this sample, we will be using a [SAS Connection String][s
 
 To quickly create the needed resources in Azure and to receive the necessary environment variables for them, you can deploy our sample template by clicking:
 
-[![](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2Fmaster%2Fsamples%2Fweb-workers%2arm-template.json)
+[![](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2Fmain%2Fsamples%2Fweb-workers%2Farm-template.json)
 
 Once the deployment completes, head over to the "outputs" tab and copy the outputs to a local file - you'll need them in the next step.
 

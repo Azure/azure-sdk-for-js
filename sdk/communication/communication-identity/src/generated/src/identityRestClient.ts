@@ -6,32 +6,91 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as operations from "./operations";
-import * as Models from "./models";
-import * as Mappers from "./models/mappers";
-import { IdentityRestClientContext } from "./identityRestClientContext";
+import * as coreClient from "@azure/core-client";
+import {
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest
+} from "@azure/core-rest-pipeline";
+import { CommunicationIdentityOperationsImpl } from "./operations";
+import { CommunicationIdentityOperations } from "./operationsInterfaces";
 import { IdentityRestClientOptionalParams } from "./models";
 
-class IdentityRestClient extends IdentityRestClientContext {
+export class IdentityRestClient extends coreClient.ServiceClient {
+  endpoint: string;
+  apiVersion: string;
+
   /**
    * Initializes a new instance of the IdentityRestClient class.
    * @param endpoint The communication resource, for example https://my-resource.communication.azure.com
    * @param options The parameter options
    */
   constructor(endpoint: string, options?: IdentityRestClientOptionalParams) {
-    super(endpoint, options);
-    this.communicationIdentity = new operations.CommunicationIdentity(this);
+    if (endpoint === undefined) {
+      throw new Error("'endpoint' cannot be null");
+    }
+
+    // Initializing default values for options
+    if (!options) {
+      options = {};
+    }
+    const defaults: IdentityRestClientOptionalParams = {
+      requestContentType: "application/json; charset=utf-8"
+    };
+
+    const packageDetails = `azsdk-js-communication-identity/1.2.1`;
+    const userAgentPrefix =
+      options.userAgentOptions && options.userAgentOptions.userAgentPrefix
+        ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
+        : `${packageDetails}`;
+
+    const optionsWithDefaults = {
+      ...defaults,
+      ...options,
+      userAgentOptions: {
+        userAgentPrefix
+      },
+      baseUri: options.endpoint ?? options.baseUri ?? "{endpoint}"
+    };
+    super(optionsWithDefaults);
+    // Parameter assignments
+    this.endpoint = endpoint;
+
+    // Assigning values to Constant parameters
+    this.apiVersion = options.apiVersion || "2022-10-01";
+    this.communicationIdentityOperations = new CommunicationIdentityOperationsImpl(
+      this
+    );
+    this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
-  communicationIdentity: operations.CommunicationIdentity;
+  /** A function that adds a policy that sets the api-version (or equivalent) to reflect the library version. */
+  private addCustomApiVersionPolicy(apiVersion?: string) {
+    if (!apiVersion) {
+      return;
+    }
+    const apiVersionPolicy = {
+      name: "CustomApiVersionPolicy",
+      async sendRequest(
+        request: PipelineRequest,
+        next: SendRequest
+      ): Promise<PipelineResponse> {
+        const param = request.url.split("?");
+        if (param.length > 1) {
+          const newParams = param[1].split("&").map((item) => {
+            if (item.indexOf("api-version") > -1) {
+              return "api-version=" + apiVersion;
+            } else {
+              return item;
+            }
+          });
+          request.url = param[0] + "?" + newParams.join("&");
+        }
+        return next(request);
+      }
+    };
+    this.pipeline.addPolicy(apiVersionPolicy);
+  }
+
+  communicationIdentityOperations: CommunicationIdentityOperations;
 }
-
-// Operation Specifications
-
-export {
-  IdentityRestClient,
-  IdentityRestClientContext,
-  Models as IdentityRestModels,
-  Mappers as IdentityRestMappers
-};
-export * from "./operations";

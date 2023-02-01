@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { SyncMembers } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,9 +19,11 @@ import {
   SyncMember,
   SyncMembersListBySyncGroupNextOptionalParams,
   SyncMembersListBySyncGroupOptionalParams,
+  SyncMembersListBySyncGroupResponse,
   SyncFullSchemaProperties,
   SyncMembersListMemberSchemasNextOptionalParams,
   SyncMembersListMemberSchemasOptionalParams,
+  SyncMembersListMemberSchemasResponse,
   SyncMembersGetOptionalParams,
   SyncMembersGetResponse,
   SyncMembersCreateOrUpdateOptionalParams,
@@ -28,8 +31,6 @@ import {
   SyncMembersDeleteOptionalParams,
   SyncMembersUpdateOptionalParams,
   SyncMembersUpdateResponse,
-  SyncMembersListBySyncGroupResponse,
-  SyncMembersListMemberSchemasResponse,
   SyncMembersRefreshMemberSchemaOptionalParams,
   SyncMembersListBySyncGroupNextResponse,
   SyncMembersListMemberSchemasNextResponse
@@ -78,13 +79,17 @@ export class SyncMembersImpl implements SyncMembers {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listBySyncGroupPagingPage(
           resourceGroupName,
           serverName,
           databaseName,
           syncGroupName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -95,17 +100,24 @@ export class SyncMembersImpl implements SyncMembers {
     serverName: string,
     databaseName: string,
     syncGroupName: string,
-    options?: SyncMembersListBySyncGroupOptionalParams
+    options?: SyncMembersListBySyncGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<SyncMember[]> {
-    let result = await this._listBySyncGroup(
-      resourceGroupName,
-      serverName,
-      databaseName,
-      syncGroupName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: SyncMembersListBySyncGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBySyncGroup(
+        resourceGroupName,
+        serverName,
+        databaseName,
+        syncGroupName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listBySyncGroupNext(
         resourceGroupName,
@@ -116,7 +128,9 @@ export class SyncMembersImpl implements SyncMembers {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -171,14 +185,18 @@ export class SyncMembersImpl implements SyncMembers {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listMemberSchemasPagingPage(
           resourceGroupName,
           serverName,
           databaseName,
           syncGroupName,
           syncMemberName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -190,18 +208,25 @@ export class SyncMembersImpl implements SyncMembers {
     databaseName: string,
     syncGroupName: string,
     syncMemberName: string,
-    options?: SyncMembersListMemberSchemasOptionalParams
+    options?: SyncMembersListMemberSchemasOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<SyncFullSchemaProperties[]> {
-    let result = await this._listMemberSchemas(
-      resourceGroupName,
-      serverName,
-      databaseName,
-      syncGroupName,
-      syncMemberName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: SyncMembersListMemberSchemasResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listMemberSchemas(
+        resourceGroupName,
+        serverName,
+        databaseName,
+        syncGroupName,
+        syncMemberName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listMemberSchemasNext(
         resourceGroupName,
@@ -213,7 +238,9 @@ export class SyncMembersImpl implements SyncMembers {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -345,10 +372,12 @@ export class SyncMembersImpl implements SyncMembers {
       },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -452,10 +481,12 @@ export class SyncMembersImpl implements SyncMembers {
       },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -564,10 +595,12 @@ export class SyncMembersImpl implements SyncMembers {
       },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -724,10 +757,12 @@ export class SyncMembersImpl implements SyncMembers {
       },
       refreshMemberSchemaOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1006,7 +1041,6 @@ const listBySyncGroupNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1028,7 +1062,6 @@ const listMemberSchemasNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

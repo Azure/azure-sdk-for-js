@@ -203,6 +203,8 @@ export interface ConfigurationStoreUpdateParameters {
   disableLocalAuth?: boolean;
   /** Control permission for data plane traffic coming from public networks while private endpoint is enabled. */
   publicNetworkAccess?: PublicNetworkAccess;
+  /** Property specifying whether protection against purge is enabled for this configuration store. */
+  enablePurgeProtection?: boolean;
 }
 
 /** Parameters used for checking whether a resource name is available. */
@@ -513,16 +515,73 @@ export interface KeyValue {
   tags?: { [propertyName: string]: string };
 }
 
+/** List of deleted configuration stores */
+export interface DeletedConfigurationStoreListResult {
+  /** The list of deleted configuration store. */
+  value?: DeletedConfigurationStore[];
+  /** The URL to get the next set of deleted configuration stores. */
+  nextLink?: string;
+}
+
+/** Deleted configuration store information with extended details. */
+export interface DeletedConfigurationStore {
+  /**
+   * The resource ID for the deleted configuration store.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the configuration store.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The resource type of the configuration store.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The resource id of the original configuration store.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly configurationStoreId?: string;
+  /**
+   * The location of the original configuration store.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly location?: string;
+  /**
+   * The deleted date.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly deletionDate?: Date;
+  /**
+   * The scheduled purged date.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly scheduledPurgeDate?: Date;
+  /**
+   * Tags of the original configuration store.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tags?: { [propertyName: string]: string };
+  /**
+   * Purge protection status of the original configuration store.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly purgeProtectionEnabled?: boolean;
+}
+
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The geo-location where the resource lives */
   location: string;
-};
+}
 
 /** The configuration store along with all resource properties. The Configuration Store will have all information to begin utilizing it. */
-export type ConfigurationStore = TrackedResource & {
+export interface ConfigurationStore extends TrackedResource {
   /** The managed identity information, if configured. */
   identity?: ResourceIdentity;
   /** The sku of the configuration store. */
@@ -558,13 +617,23 @@ export type ConfigurationStore = TrackedResource & {
   publicNetworkAccess?: PublicNetworkAccess;
   /** Disables all authentication methods other than AAD authentication. */
   disableLocalAuth?: boolean;
-};
+  /** The amount of time in days that the configuration store will be retained when it is soft deleted. */
+  softDeleteRetentionInDays?: number;
+  /** Property specifying whether protection against purge is enabled for this configuration store. */
+  enablePurgeProtection?: boolean;
+  /** Indicates whether the configuration store need to be recovered. */
+  createMode?: CreateMode;
+}
 
 /** Known values of {@link IdentityType} that the service accepts. */
 export enum KnownIdentityType {
+  /** None */
   None = "None",
+  /** SystemAssigned */
   SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
   UserAssigned = "UserAssigned",
+  /** SystemAssignedUserAssigned */
   SystemAssignedUserAssigned = "SystemAssigned, UserAssigned"
 }
 
@@ -582,11 +651,17 @@ export type IdentityType = string;
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
+  /** Creating */
   Creating = "Creating",
+  /** Updating */
   Updating = "Updating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Canceled */
   Canceled = "Canceled"
 }
 
@@ -606,9 +681,13 @@ export type ProvisioningState = string;
 
 /** Known values of {@link ConnectionStatus} that the service accepts. */
 export enum KnownConnectionStatus {
+  /** Pending */
   Pending = "Pending",
+  /** Approved */
   Approved = "Approved",
+  /** Rejected */
   Rejected = "Rejected",
+  /** Disconnected */
   Disconnected = "Disconnected"
 }
 
@@ -626,7 +705,9 @@ export type ConnectionStatus = string;
 
 /** Known values of {@link ActionsRequired} that the service accepts. */
 export enum KnownActionsRequired {
+  /** None */
   None = "None",
+  /** Recreate */
   Recreate = "Recreate"
 }
 
@@ -642,7 +723,9 @@ export type ActionsRequired = string;
 
 /** Known values of {@link PublicNetworkAccess} that the service accepts. */
 export enum KnownPublicNetworkAccess {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -658,9 +741,13 @@ export type PublicNetworkAccess = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -678,6 +765,7 @@ export type CreatedByType = string;
 
 /** Known values of {@link ConfigurationResourceType} that the service accepts. */
 export enum KnownConfigurationResourceType {
+  /** MicrosoftAppConfigurationConfigurationStores */
   MicrosoftAppConfigurationConfigurationStores = "Microsoft.AppConfiguration/configurationStores"
 }
 
@@ -689,6 +777,8 @@ export enum KnownConfigurationResourceType {
  * **Microsoft.AppConfiguration\/configurationStores**
  */
 export type ConfigurationResourceType = string;
+/** Defines values for CreateMode. */
+export type CreateMode = "Recover" | "Default";
 
 /** Optional parameters. */
 export interface ConfigurationStoresListOptionalParams
@@ -768,6 +858,29 @@ export interface ConfigurationStoresRegenerateKeyOptionalParams
 export type ConfigurationStoresRegenerateKeyResponse = ApiKey;
 
 /** Optional parameters. */
+export interface ConfigurationStoresListDeletedOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listDeleted operation. */
+export type ConfigurationStoresListDeletedResponse = DeletedConfigurationStoreListResult;
+
+/** Optional parameters. */
+export interface ConfigurationStoresGetDeletedOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getDeleted operation. */
+export type ConfigurationStoresGetDeletedResponse = DeletedConfigurationStore;
+
+/** Optional parameters. */
+export interface ConfigurationStoresPurgeDeletedOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
 export interface ConfigurationStoresListNextOptionalParams
   extends coreClient.OperationOptions {
   /** A skip token is used to continue retrieving items after an operation returns a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
@@ -798,6 +911,13 @@ export interface ConfigurationStoresListKeysNextOptionalParams
 export type ConfigurationStoresListKeysNextResponse = ApiKeyListResult;
 
 /** Optional parameters. */
+export interface ConfigurationStoresListDeletedNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listDeletedNext operation. */
+export type ConfigurationStoresListDeletedNextResponse = DeletedConfigurationStoreListResult;
+
+/** Optional parameters. */
 export interface OperationsCheckNameAvailabilityOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -813,6 +933,13 @@ export interface OperationsListOptionalParams
 
 /** Contains response data for the list operation. */
 export type OperationsListResponse = OperationDefinitionListResult;
+
+/** Optional parameters. */
+export interface OperationsRegionalCheckNameAvailabilityOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the regionalCheckNameAvailability operation. */
+export type OperationsRegionalCheckNameAvailabilityResponse = NameAvailabilityStatus;
 
 /** Optional parameters. */
 export interface OperationsListNextOptionalParams

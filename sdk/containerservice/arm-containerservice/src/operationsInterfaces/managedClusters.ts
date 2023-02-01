@@ -34,13 +34,21 @@ import {
   ManagedClustersUpdateTagsOptionalParams,
   ManagedClustersUpdateTagsResponse,
   ManagedClustersDeleteOptionalParams,
+  ManagedClustersDeleteResponse,
   ManagedClusterServicePrincipalProfile,
   ManagedClustersResetServicePrincipalProfileOptionalParams,
   ManagedClusterAADProfile,
   ManagedClustersResetAADProfileOptionalParams,
+  ManagedClustersAbortLatestOperationOptionalParams,
+  ManagedClustersAbortLatestOperationResponse,
   ManagedClustersRotateClusterCertificatesOptionalParams,
+  ManagedClustersRotateClusterCertificatesResponse,
+  ManagedClustersRotateServiceAccountSigningKeysOptionalParams,
+  ManagedClustersRotateServiceAccountSigningKeysResponse,
   ManagedClustersStopOptionalParams,
+  ManagedClustersStopResponse,
   ManagedClustersStartOptionalParams,
+  ManagedClustersStartResponse,
   RunCommandRequest,
   ManagedClustersRunCommandOptionalParams,
   ManagedClustersRunCommandResponse,
@@ -60,7 +68,7 @@ export interface ManagedClusters {
   ): PagedAsyncIterableIterator<ManagedCluster>;
   /**
    * Lists managed clusters in the specified subscription and resource group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   listByResourceGroup(
@@ -70,7 +78,7 @@ export interface ManagedClusters {
   /**
    * Gets a list of egress endpoints (network endpoints of all outbound dependencies) in the specified
    * managed cluster. The operation returns properties of each egress endpoint.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param options The options parameters.
    */
@@ -81,7 +89,7 @@ export interface ManagedClusters {
   ): PagedAsyncIterableIterator<OutboundEnvironmentEndpoint>;
   /**
    * Gets supported OS options in the specified subscription.
-   * @param location The name of a supported Azure region.
+   * @param location The name of Azure region.
    * @param options The options parameters.
    */
   getOSOptions(
@@ -90,7 +98,7 @@ export interface ManagedClusters {
   ): Promise<ManagedClustersGetOSOptionsResponse>;
   /**
    * Gets the upgrade profile of a managed cluster.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param options The options parameters.
    */
@@ -105,7 +113,7 @@ export interface ManagedClusters {
    * or
    * [ListClusterAdminCredentials](https://docs.microsoft.com/rest/api/aks/managedclusters/listclusteradmincredentials)
    * .
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param roleName The name of the role for managed cluster accessProfile resource.
    * @param options The options parameters.
@@ -118,7 +126,7 @@ export interface ManagedClusters {
   ): Promise<ManagedClustersGetAccessProfileResponse>;
   /**
    * Lists the admin credentials of a managed cluster.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param options The options parameters.
    */
@@ -129,7 +137,7 @@ export interface ManagedClusters {
   ): Promise<ManagedClustersListClusterAdminCredentialsResponse>;
   /**
    * Lists the user credentials of a managed cluster.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param options The options parameters.
    */
@@ -140,7 +148,7 @@ export interface ManagedClusters {
   ): Promise<ManagedClustersListClusterUserCredentialsResponse>;
   /**
    * Lists the cluster monitoring user credentials of a managed cluster.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param options The options parameters.
    */
@@ -151,7 +159,7 @@ export interface ManagedClusters {
   ): Promise<ManagedClustersListClusterMonitoringUserCredentialsResponse>;
   /**
    * Gets a managed cluster.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param options The options parameters.
    */
@@ -162,7 +170,7 @@ export interface ManagedClusters {
   ): Promise<ManagedClustersGetResponse>;
   /**
    * Creates or updates a managed cluster.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param parameters The managed cluster to create or update.
    * @param options The options parameters.
@@ -180,7 +188,7 @@ export interface ManagedClusters {
   >;
   /**
    * Creates or updates a managed cluster.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param parameters The managed cluster to create or update.
    * @param options The options parameters.
@@ -193,7 +201,7 @@ export interface ManagedClusters {
   ): Promise<ManagedClustersCreateOrUpdateResponse>;
   /**
    * Updates tags on a managed cluster.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param parameters Parameters supplied to the Update Managed Cluster Tags operation.
    * @param options The options parameters.
@@ -211,7 +219,7 @@ export interface ManagedClusters {
   >;
   /**
    * Updates tags on a managed cluster.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param parameters Parameters supplied to the Update Managed Cluster Tags operation.
    * @param options The options parameters.
@@ -224,7 +232,7 @@ export interface ManagedClusters {
   ): Promise<ManagedClustersUpdateTagsResponse>;
   /**
    * Deletes a managed cluster.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param options The options parameters.
    */
@@ -232,10 +240,15 @@ export interface ManagedClusters {
     resourceGroupName: string,
     resourceName: string,
     options?: ManagedClustersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<
+    PollerLike<
+      PollOperationState<ManagedClustersDeleteResponse>,
+      ManagedClustersDeleteResponse
+    >
+  >;
   /**
    * Deletes a managed cluster.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param options The options parameters.
    */
@@ -243,10 +256,10 @@ export interface ManagedClusters {
     resourceGroupName: string,
     resourceName: string,
     options?: ManagedClustersDeleteOptionalParams
-  ): Promise<void>;
+  ): Promise<ManagedClustersDeleteResponse>;
   /**
    * This action cannot be performed on a cluster that is not using a service principal
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param parameters The service principal profile to set on the managed cluster.
    * @param options The options parameters.
@@ -259,7 +272,7 @@ export interface ManagedClusters {
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * This action cannot be performed on a cluster that is not using a service principal
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param parameters The service principal profile to set on the managed cluster.
    * @param options The options parameters.
@@ -272,7 +285,7 @@ export interface ManagedClusters {
   ): Promise<void>;
   /**
    * Reset the AAD Profile of a managed cluster.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param parameters The AAD profile to set on the Managed Cluster
    * @param options The options parameters.
@@ -285,7 +298,7 @@ export interface ManagedClusters {
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Reset the AAD Profile of a managed cluster.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param parameters The AAD profile to set on the Managed Cluster
    * @param options The options parameters.
@@ -297,9 +310,40 @@ export interface ManagedClusters {
     options?: ManagedClustersResetAADProfileOptionalParams
   ): Promise<void>;
   /**
+   * Aborts the currently running operation on the managed cluster. The Managed Cluster will be moved to
+   * a Canceling state and eventually to a Canceled state when cancellation finishes. If the operation
+   * completes before cancellation can take place, an error is returned.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param options The options parameters.
+   */
+  beginAbortLatestOperation(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: ManagedClustersAbortLatestOperationOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<ManagedClustersAbortLatestOperationResponse>,
+      ManagedClustersAbortLatestOperationResponse
+    >
+  >;
+  /**
+   * Aborts the currently running operation on the managed cluster. The Managed Cluster will be moved to
+   * a Canceling state and eventually to a Canceled state when cancellation finishes. If the operation
+   * completes before cancellation can take place, an error is returned.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param options The options parameters.
+   */
+  beginAbortLatestOperationAndWait(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: ManagedClustersAbortLatestOperationOptionalParams
+  ): Promise<ManagedClustersAbortLatestOperationResponse>;
+  /**
    * See [Certificate rotation](https://docs.microsoft.com/azure/aks/certificate-rotation) for more
    * details about rotating managed cluster certificates.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param options The options parameters.
    */
@@ -307,11 +351,16 @@ export interface ManagedClusters {
     resourceGroupName: string,
     resourceName: string,
     options?: ManagedClustersRotateClusterCertificatesOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<
+    PollerLike<
+      PollOperationState<ManagedClustersRotateClusterCertificatesResponse>,
+      ManagedClustersRotateClusterCertificatesResponse
+    >
+  >;
   /**
    * See [Certificate rotation](https://docs.microsoft.com/azure/aks/certificate-rotation) for more
    * details about rotating managed cluster certificates.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param options The options parameters.
    */
@@ -319,14 +368,43 @@ export interface ManagedClusters {
     resourceGroupName: string,
     resourceName: string,
     options?: ManagedClustersRotateClusterCertificatesOptionalParams
-  ): Promise<void>;
+  ): Promise<ManagedClustersRotateClusterCertificatesResponse>;
+  /**
+   * Rotates the service account signing keys of a managed cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param options The options parameters.
+   */
+  beginRotateServiceAccountSigningKeys(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: ManagedClustersRotateServiceAccountSigningKeysOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<
+        ManagedClustersRotateServiceAccountSigningKeysResponse
+      >,
+      ManagedClustersRotateServiceAccountSigningKeysResponse
+    >
+  >;
+  /**
+   * Rotates the service account signing keys of a managed cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param options The options parameters.
+   */
+  beginRotateServiceAccountSigningKeysAndWait(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: ManagedClustersRotateServiceAccountSigningKeysOptionalParams
+  ): Promise<ManagedClustersRotateServiceAccountSigningKeysResponse>;
   /**
    * This can only be performed on Azure Virtual Machine Scale set backed clusters. Stopping a cluster
    * stops the control plane and agent nodes entirely, while maintaining all object and cluster state. A
    * cluster does not accrue charges while it is stopped. See [stopping a
    * cluster](https://docs.microsoft.com/azure/aks/start-stop-cluster) for more details about stopping a
    * cluster.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param options The options parameters.
    */
@@ -334,14 +412,19 @@ export interface ManagedClusters {
     resourceGroupName: string,
     resourceName: string,
     options?: ManagedClustersStopOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<
+    PollerLike<
+      PollOperationState<ManagedClustersStopResponse>,
+      ManagedClustersStopResponse
+    >
+  >;
   /**
    * This can only be performed on Azure Virtual Machine Scale set backed clusters. Stopping a cluster
    * stops the control plane and agent nodes entirely, while maintaining all object and cluster state. A
    * cluster does not accrue charges while it is stopped. See [stopping a
    * cluster](https://docs.microsoft.com/azure/aks/start-stop-cluster) for more details about stopping a
    * cluster.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param options The options parameters.
    */
@@ -349,11 +432,11 @@ export interface ManagedClusters {
     resourceGroupName: string,
     resourceName: string,
     options?: ManagedClustersStopOptionalParams
-  ): Promise<void>;
+  ): Promise<ManagedClustersStopResponse>;
   /**
    * See [starting a cluster](https://docs.microsoft.com/azure/aks/start-stop-cluster) for more details
    * about starting a cluster.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param options The options parameters.
    */
@@ -361,11 +444,16 @@ export interface ManagedClusters {
     resourceGroupName: string,
     resourceName: string,
     options?: ManagedClustersStartOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<
+    PollerLike<
+      PollOperationState<ManagedClustersStartResponse>,
+      ManagedClustersStartResponse
+    >
+  >;
   /**
    * See [starting a cluster](https://docs.microsoft.com/azure/aks/start-stop-cluster) for more details
    * about starting a cluster.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param options The options parameters.
    */
@@ -373,12 +461,12 @@ export interface ManagedClusters {
     resourceGroupName: string,
     resourceName: string,
     options?: ManagedClustersStartOptionalParams
-  ): Promise<void>;
+  ): Promise<ManagedClustersStartResponse>;
   /**
    * AKS will create a pod to run the command. This is primarily useful for private clusters. For more
    * information see [AKS Run
    * Command](https://docs.microsoft.com/azure/aks/private-clusters#aks-run-command-preview).
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param requestPayload The run command request
    * @param options The options parameters.
@@ -398,7 +486,7 @@ export interface ManagedClusters {
    * AKS will create a pod to run the command. This is primarily useful for private clusters. For more
    * information see [AKS Run
    * Command](https://docs.microsoft.com/azure/aks/private-clusters#aks-run-command-preview).
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param requestPayload The run command request
    * @param options The options parameters.
@@ -411,7 +499,7 @@ export interface ManagedClusters {
   ): Promise<ManagedClustersRunCommandResponse>;
   /**
    * Gets the results of a command which has been run on the Managed Cluster.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param commandId Id of the command.
    * @param options The options parameters.

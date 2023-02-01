@@ -6,14 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { createSpan } from "../tracing";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { tracingClient } from "../tracing";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { KqlScripts } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as coreTracing from "@azure/core-tracing";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ArtifactsClientContext } from "../artifactsClientContext";
+import { ArtifactsClient } from "../artifactsClient";
 import {
   KqlScriptResource,
   KqlScriptsGetAllNextOptionalParams,
@@ -25,13 +25,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing KqlScripts operations. */
 export class KqlScriptsImpl implements KqlScripts {
-  private readonly client: ArtifactsClientContext;
+  private readonly client: ArtifactsClient;
 
   /**
    * Initialize a new instance of the class KqlScripts class.
    * @param client Reference to the service client
    */
-  constructor(client: ArtifactsClientContext) {
+  constructor(client: ArtifactsClient) {
     this.client = client;
   }
 
@@ -50,22 +50,34 @@ export class KqlScriptsImpl implements KqlScripts {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.getAllPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.getAllPagingPage(options, settings);
       }
     };
   }
 
   private async *getAllPagingPage(
-    options?: KqlScriptsGetAllOptionalParams
+    options?: KqlScriptsGetAllOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<KqlScriptResource[]> {
-    let result = await this._getAll(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: KqlScriptsGetAllResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._getAll(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._getAllNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -84,22 +96,16 @@ export class KqlScriptsImpl implements KqlScripts {
   private async _getAll(
     options?: KqlScriptsGetAllOptionalParams
   ): Promise<KqlScriptsGetAllResponse> {
-    const { span } = createSpan("ArtifactsClient-_getAll", options || {});
-    try {
-      const result = await this.client.sendOperationRequest(
-        { options },
-        getAllOperationSpec
-      );
-      return result as KqlScriptsGetAllResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "ArtifactsClient._getAll",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { options },
+          getAllOperationSpec
+        ) as Promise<KqlScriptsGetAllResponse>;
+      }
+    );
   }
 
   /**
@@ -111,22 +117,16 @@ export class KqlScriptsImpl implements KqlScripts {
     nextLink: string,
     options?: KqlScriptsGetAllNextOptionalParams
   ): Promise<KqlScriptsGetAllNextResponse> {
-    const { span } = createSpan("ArtifactsClient-_getAllNext", options || {});
-    try {
-      const result = await this.client.sendOperationRequest(
-        { nextLink, options },
-        getAllNextOperationSpec
-      );
-      return result as KqlScriptsGetAllNextResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "ArtifactsClient._getAllNext",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { nextLink, options },
+          getAllNextOperationSpec
+        ) as Promise<KqlScriptsGetAllNextResponse>;
+      }
+    );
   }
 }
 // Operation Specifications
@@ -143,7 +143,7 @@ const getAllOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorContract
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
   serializer
@@ -159,7 +159,6 @@ const getAllNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorContract
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer

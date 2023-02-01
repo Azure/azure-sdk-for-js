@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isDefined } from "../util/typeGuards";
-import { mapPartitionKeyToId } from "./patitionKeyToIdMapper";
+import { isDefined } from "@azure/core-util";
+import { mapPartitionKeyToId } from "./partitionKeyToIdMapper";
 
 /**
  * @internal

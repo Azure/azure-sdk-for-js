@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ConfigurationStores } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,13 +19,18 @@ import {
   ConfigurationStore,
   ConfigurationStoresListNextOptionalParams,
   ConfigurationStoresListOptionalParams,
+  ConfigurationStoresListResponse,
   ConfigurationStoresListByResourceGroupNextOptionalParams,
   ConfigurationStoresListByResourceGroupOptionalParams,
+  ConfigurationStoresListByResourceGroupResponse,
   ApiKey,
   ConfigurationStoresListKeysNextOptionalParams,
   ConfigurationStoresListKeysOptionalParams,
-  ConfigurationStoresListResponse,
-  ConfigurationStoresListByResourceGroupResponse,
+  ConfigurationStoresListKeysResponse,
+  DeletedConfigurationStore,
+  ConfigurationStoresListDeletedNextOptionalParams,
+  ConfigurationStoresListDeletedOptionalParams,
+  ConfigurationStoresListDeletedResponse,
   ConfigurationStoresGetOptionalParams,
   ConfigurationStoresGetResponse,
   ConfigurationStoresCreateOptionalParams,
@@ -33,13 +39,16 @@ import {
   ConfigurationStoreUpdateParameters,
   ConfigurationStoresUpdateOptionalParams,
   ConfigurationStoresUpdateResponse,
-  ConfigurationStoresListKeysResponse,
   RegenerateKeyParameters,
   ConfigurationStoresRegenerateKeyOptionalParams,
   ConfigurationStoresRegenerateKeyResponse,
+  ConfigurationStoresGetDeletedOptionalParams,
+  ConfigurationStoresGetDeletedResponse,
+  ConfigurationStoresPurgeDeletedOptionalParams,
   ConfigurationStoresListNextResponse,
   ConfigurationStoresListByResourceGroupNextResponse,
-  ConfigurationStoresListKeysNextResponse
+  ConfigurationStoresListKeysNextResponse,
+  ConfigurationStoresListDeletedNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -70,22 +79,34 @@ export class ConfigurationStoresImpl implements ConfigurationStores {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: ConfigurationStoresListOptionalParams
+    options?: ConfigurationStoresListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ConfigurationStore[]> {
-    let result = await this._list(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ConfigurationStoresListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -114,19 +135,33 @@ export class ConfigurationStoresImpl implements ConfigurationStores {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: ConfigurationStoresListByResourceGroupOptionalParams
+    options?: ConfigurationStoresListByResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ConfigurationStore[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ConfigurationStoresListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -134,7 +169,9 @@ export class ConfigurationStoresImpl implements ConfigurationStores {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -173,11 +210,15 @@ export class ConfigurationStoresImpl implements ConfigurationStores {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listKeysPagingPage(
           resourceGroupName,
           configStoreName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -186,15 +227,22 @@ export class ConfigurationStoresImpl implements ConfigurationStores {
   private async *listKeysPagingPage(
     resourceGroupName: string,
     configStoreName: string,
-    options?: ConfigurationStoresListKeysOptionalParams
+    options?: ConfigurationStoresListKeysOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ApiKey[]> {
-    let result = await this._listKeys(
-      resourceGroupName,
-      configStoreName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ConfigurationStoresListKeysResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listKeys(
+        resourceGroupName,
+        configStoreName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listKeysNext(
         resourceGroupName,
@@ -203,7 +251,9 @@ export class ConfigurationStoresImpl implements ConfigurationStores {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -217,6 +267,60 @@ export class ConfigurationStoresImpl implements ConfigurationStores {
       configStoreName,
       options
     )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Gets information about the deleted configuration stores in a subscription.
+   * @param options The options parameters.
+   */
+  public listDeleted(
+    options?: ConfigurationStoresListDeletedOptionalParams
+  ): PagedAsyncIterableIterator<DeletedConfigurationStore> {
+    const iter = this.listDeletedPagingAll(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listDeletedPagingPage(options, settings);
+      }
+    };
+  }
+
+  private async *listDeletedPagingPage(
+    options?: ConfigurationStoresListDeletedOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<DeletedConfigurationStore[]> {
+    let result: ConfigurationStoresListDeletedResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listDeleted(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listDeletedNext(continuationToken, options);
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listDeletedPagingAll(
+    options?: ConfigurationStoresListDeletedOptionalParams
+  ): AsyncIterableIterator<DeletedConfigurationStore> {
+    for await (const page of this.listDeletedPagingPage(options)) {
       yield* page;
     }
   }
@@ -330,10 +434,12 @@ export class ConfigurationStoresImpl implements ConfigurationStores {
       },
       createOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -413,10 +519,12 @@ export class ConfigurationStoresImpl implements ConfigurationStores {
       { resourceGroupName, configStoreName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -505,10 +613,12 @@ export class ConfigurationStoresImpl implements ConfigurationStores {
       },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -570,6 +680,118 @@ export class ConfigurationStoresImpl implements ConfigurationStores {
   }
 
   /**
+   * Gets information about the deleted configuration stores in a subscription.
+   * @param options The options parameters.
+   */
+  private _listDeleted(
+    options?: ConfigurationStoresListDeletedOptionalParams
+  ): Promise<ConfigurationStoresListDeletedResponse> {
+    return this.client.sendOperationRequest(
+      { options },
+      listDeletedOperationSpec
+    );
+  }
+
+  /**
+   * Gets a deleted Azure app configuration store.
+   * @param location The location in which uniqueness will be verified.
+   * @param configStoreName The name of the configuration store.
+   * @param options The options parameters.
+   */
+  getDeleted(
+    location: string,
+    configStoreName: string,
+    options?: ConfigurationStoresGetDeletedOptionalParams
+  ): Promise<ConfigurationStoresGetDeletedResponse> {
+    return this.client.sendOperationRequest(
+      { location, configStoreName, options },
+      getDeletedOperationSpec
+    );
+  }
+
+  /**
+   * Permanently deletes the specified configuration store.
+   * @param location The location in which uniqueness will be verified.
+   * @param configStoreName The name of the configuration store.
+   * @param options The options parameters.
+   */
+  async beginPurgeDeleted(
+    location: string,
+    configStoreName: string,
+    options?: ConfigurationStoresPurgeDeletedOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { location, configStoreName, options },
+      purgeDeletedOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Permanently deletes the specified configuration store.
+   * @param location The location in which uniqueness will be verified.
+   * @param configStoreName The name of the configuration store.
+   * @param options The options parameters.
+   */
+  async beginPurgeDeletedAndWait(
+    location: string,
+    configStoreName: string,
+    options?: ConfigurationStoresPurgeDeletedOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginPurgeDeleted(
+      location,
+      configStoreName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * ListNext
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -617,6 +839,21 @@ export class ConfigurationStoresImpl implements ConfigurationStores {
     return this.client.sendOperationRequest(
       { resourceGroupName, configStoreName, nextLink, options },
       listKeysNextOperationSpec
+    );
+  }
+
+  /**
+   * ListDeletedNext
+   * @param nextLink The nextLink from the previous successful call to the ListDeleted method.
+   * @param options The options parameters.
+   */
+  private _listDeletedNext(
+    nextLink: string,
+    options?: ConfigurationStoresListDeletedNextOptionalParams
+  ): Promise<ConfigurationStoresListDeletedNextResponse> {
+    return this.client.sendOperationRequest(
+      { nextLink, options },
+      listDeletedNextOperationSpec
     );
   }
 }
@@ -818,6 +1055,68 @@ const regenerateKeyOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
+const listDeletedOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.AppConfiguration/deletedConfigurationStores",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DeletedConfigurationStoreListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getDeletedOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.AppConfiguration/locations/{location}/deletedConfigurationStores/{configStoreName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DeletedConfigurationStore
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.configStoreName,
+    Parameters.location
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const purgeDeletedOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.AppConfiguration/locations/{location}/deletedConfigurationStores/{configStoreName}/purge",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.configStoreName,
+    Parameters.location
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -876,6 +1175,26 @@ const listKeysNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.configStoreName,
+    Parameters.nextLink
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listDeletedNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DeletedConfigurationStoreListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],

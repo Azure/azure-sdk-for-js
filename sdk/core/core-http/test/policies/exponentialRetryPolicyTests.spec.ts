@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpHeaders, RequestPolicyOptions } from "../../src/coreHttp";
+import { HttpHeaders, RequestPolicyOptions } from "../../src";
 import { ExponentialRetryPolicy } from "../../src/policies/exponentialRetryPolicy";
 import { HttpOperationResponse } from "../../src/httpOperationResponse";
 import { WebResource } from "../../src/webResource";
@@ -186,7 +186,7 @@ describe("ExponentialRetryPolicy", () => {
       try {
         await policy.sendRequest(request);
         assert.fail("Expecting that an error has been thrown");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal((err as Error).message, "Unknown Error");
         assert.equal(faultyPolicy.count, 1, "Retry should NOT have happened");
       }

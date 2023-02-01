@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { OperationOptions } from "@azure/core-http";
+import { OperationOptions } from "@azure/core-client";
 import {
   DecryptOptions,
   DecryptParameters,
@@ -10,9 +10,9 @@ import {
   EncryptParameters,
   EncryptResult,
   KeyWrapAlgorithm,
-  SignatureAlgorithm,
   SignOptions,
   SignResult,
+  SignatureAlgorithm,
   UnwrapKeyOptions,
   UnwrapResult,
   VerifyOptions,

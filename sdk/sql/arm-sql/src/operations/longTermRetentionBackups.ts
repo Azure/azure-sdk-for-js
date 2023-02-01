@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { LongTermRetentionBackups } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,16 +19,22 @@ import {
   LongTermRetentionBackup,
   LongTermRetentionBackupsListByDatabaseNextOptionalParams,
   LongTermRetentionBackupsListByDatabaseOptionalParams,
+  LongTermRetentionBackupsListByDatabaseResponse,
   LongTermRetentionBackupsListByLocationNextOptionalParams,
   LongTermRetentionBackupsListByLocationOptionalParams,
+  LongTermRetentionBackupsListByLocationResponse,
   LongTermRetentionBackupsListByServerNextOptionalParams,
   LongTermRetentionBackupsListByServerOptionalParams,
+  LongTermRetentionBackupsListByServerResponse,
   LongTermRetentionBackupsListByResourceGroupDatabaseNextOptionalParams,
   LongTermRetentionBackupsListByResourceGroupDatabaseOptionalParams,
+  LongTermRetentionBackupsListByResourceGroupDatabaseResponse,
   LongTermRetentionBackupsListByResourceGroupLocationNextOptionalParams,
   LongTermRetentionBackupsListByResourceGroupLocationOptionalParams,
+  LongTermRetentionBackupsListByResourceGroupLocationResponse,
   LongTermRetentionBackupsListByResourceGroupServerNextOptionalParams,
   LongTermRetentionBackupsListByResourceGroupServerOptionalParams,
+  LongTermRetentionBackupsListByResourceGroupServerResponse,
   CopyLongTermRetentionBackupParameters,
   LongTermRetentionBackupsCopyOptionalParams,
   LongTermRetentionBackupsCopyResponse,
@@ -37,9 +44,6 @@ import {
   LongTermRetentionBackupsGetOptionalParams,
   LongTermRetentionBackupsGetResponse,
   LongTermRetentionBackupsDeleteOptionalParams,
-  LongTermRetentionBackupsListByDatabaseResponse,
-  LongTermRetentionBackupsListByLocationResponse,
-  LongTermRetentionBackupsListByServerResponse,
   LongTermRetentionBackupsCopyByResourceGroupOptionalParams,
   LongTermRetentionBackupsCopyByResourceGroupResponse,
   LongTermRetentionBackupsUpdateByResourceGroupOptionalParams,
@@ -47,9 +51,6 @@ import {
   LongTermRetentionBackupsGetByResourceGroupOptionalParams,
   LongTermRetentionBackupsGetByResourceGroupResponse,
   LongTermRetentionBackupsDeleteByResourceGroupOptionalParams,
-  LongTermRetentionBackupsListByResourceGroupDatabaseResponse,
-  LongTermRetentionBackupsListByResourceGroupLocationResponse,
-  LongTermRetentionBackupsListByResourceGroupServerResponse,
   LongTermRetentionBackupsListByDatabaseNextResponse,
   LongTermRetentionBackupsListByLocationNextResponse,
   LongTermRetentionBackupsListByServerNextResponse,
@@ -97,12 +98,16 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByDatabasePagingPage(
           locationName,
           longTermRetentionServerName,
           longTermRetentionDatabaseName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -112,16 +117,23 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
     locationName: string,
     longTermRetentionServerName: string,
     longTermRetentionDatabaseName: string,
-    options?: LongTermRetentionBackupsListByDatabaseOptionalParams
+    options?: LongTermRetentionBackupsListByDatabaseOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<LongTermRetentionBackup[]> {
-    let result = await this._listByDatabase(
-      locationName,
-      longTermRetentionServerName,
-      longTermRetentionDatabaseName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: LongTermRetentionBackupsListByDatabaseResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByDatabase(
+        locationName,
+        longTermRetentionServerName,
+        longTermRetentionDatabaseName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByDatabaseNext(
         locationName,
@@ -131,7 +143,9 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -168,19 +182,29 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByLocationPagingPage(locationName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByLocationPagingPage(locationName, options, settings);
       }
     };
   }
 
   private async *listByLocationPagingPage(
     locationName: string,
-    options?: LongTermRetentionBackupsListByLocationOptionalParams
+    options?: LongTermRetentionBackupsListByLocationOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<LongTermRetentionBackup[]> {
-    let result = await this._listByLocation(locationName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: LongTermRetentionBackupsListByLocationResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByLocation(locationName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByLocationNext(
         locationName,
@@ -188,7 +212,9 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -227,11 +253,15 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByServerPagingPage(
           locationName,
           longTermRetentionServerName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -240,15 +270,22 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
   private async *listByServerPagingPage(
     locationName: string,
     longTermRetentionServerName: string,
-    options?: LongTermRetentionBackupsListByServerOptionalParams
+    options?: LongTermRetentionBackupsListByServerOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<LongTermRetentionBackup[]> {
-    let result = await this._listByServer(
-      locationName,
-      longTermRetentionServerName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: LongTermRetentionBackupsListByServerResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByServer(
+        locationName,
+        longTermRetentionServerName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByServerNext(
         locationName,
@@ -257,7 +294,9 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -305,13 +344,17 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByResourceGroupDatabasePagingPage(
           resourceGroupName,
           locationName,
           longTermRetentionServerName,
           longTermRetentionDatabaseName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -322,17 +365,24 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
     locationName: string,
     longTermRetentionServerName: string,
     longTermRetentionDatabaseName: string,
-    options?: LongTermRetentionBackupsListByResourceGroupDatabaseOptionalParams
+    options?: LongTermRetentionBackupsListByResourceGroupDatabaseOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<LongTermRetentionBackup[]> {
-    let result = await this._listByResourceGroupDatabase(
-      resourceGroupName,
-      locationName,
-      longTermRetentionServerName,
-      longTermRetentionDatabaseName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: LongTermRetentionBackupsListByResourceGroupDatabaseResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroupDatabase(
+        resourceGroupName,
+        locationName,
+        longTermRetentionServerName,
+        longTermRetentionDatabaseName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceGroupDatabaseNext(
         resourceGroupName,
@@ -343,7 +393,9 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -389,11 +441,15 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByResourceGroupLocationPagingPage(
           resourceGroupName,
           locationName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -402,15 +458,22 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
   private async *listByResourceGroupLocationPagingPage(
     resourceGroupName: string,
     locationName: string,
-    options?: LongTermRetentionBackupsListByResourceGroupLocationOptionalParams
+    options?: LongTermRetentionBackupsListByResourceGroupLocationOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<LongTermRetentionBackup[]> {
-    let result = await this._listByResourceGroupLocation(
-      resourceGroupName,
-      locationName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: LongTermRetentionBackupsListByResourceGroupLocationResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroupLocation(
+        resourceGroupName,
+        locationName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceGroupLocationNext(
         resourceGroupName,
@@ -419,7 +482,9 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -464,12 +529,16 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByResourceGroupServerPagingPage(
           resourceGroupName,
           locationName,
           longTermRetentionServerName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -479,16 +548,23 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
     resourceGroupName: string,
     locationName: string,
     longTermRetentionServerName: string,
-    options?: LongTermRetentionBackupsListByResourceGroupServerOptionalParams
+    options?: LongTermRetentionBackupsListByResourceGroupServerOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<LongTermRetentionBackup[]> {
-    let result = await this._listByResourceGroupServer(
-      resourceGroupName,
-      locationName,
-      longTermRetentionServerName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: LongTermRetentionBackupsListByResourceGroupServerResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroupServer(
+        resourceGroupName,
+        locationName,
+        longTermRetentionServerName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceGroupServerNext(
         resourceGroupName,
@@ -498,7 +574,9 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -591,10 +669,12 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
       },
       copyOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -698,10 +778,12 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
       },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -824,10 +906,12 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
       },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -988,10 +1072,12 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
       },
       copyByResourceGroupOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1103,10 +1189,12 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
       },
       updateByResourceGroupOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1241,10 +1329,12 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
       },
       deleteByResourceGroupOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1858,11 +1948,6 @@ const listByDatabaseNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [
-    Parameters.apiVersion1,
-    Parameters.onlyLatestPerDatabase,
-    Parameters.databaseState
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1883,11 +1968,6 @@ const listByLocationNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [
-    Parameters.apiVersion1,
-    Parameters.onlyLatestPerDatabase,
-    Parameters.databaseState
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1906,11 +1986,6 @@ const listByServerNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [
-    Parameters.apiVersion1,
-    Parameters.onlyLatestPerDatabase,
-    Parameters.databaseState
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1930,11 +2005,6 @@ const listByResourceGroupDatabaseNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [
-    Parameters.apiVersion1,
-    Parameters.onlyLatestPerDatabase,
-    Parameters.databaseState
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1956,11 +2026,6 @@ const listByResourceGroupLocationNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [
-    Parameters.apiVersion1,
-    Parameters.onlyLatestPerDatabase,
-    Parameters.databaseState
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1980,11 +2045,6 @@ const listByResourceGroupServerNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [
-    Parameters.apiVersion1,
-    Parameters.onlyLatestPerDatabase,
-    Parameters.databaseState
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

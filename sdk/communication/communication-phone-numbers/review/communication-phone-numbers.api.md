@@ -6,10 +6,11 @@
 
 /// <reference lib="esnext.asynciterable" />
 
+import { CommonClientOptions } from '@azure/core-client';
+import * as coreClient from '@azure/core-client';
 import { KeyCredential } from '@azure/core-auth';
-import { OperationOptions } from '@azure/core-http';
+import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PipelineOptions } from '@azure/core-http';
 import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-auth';
@@ -34,7 +35,44 @@ export interface BeginUpdatePhoneNumberCapabilitiesOptions extends OperationOpti
 export type GetPurchasedPhoneNumberOptions = OperationOptions;
 
 // @public
+export interface ListAvailableCountriesOptions extends OperationOptions {
+}
+
+// @public
+export interface ListGeographicAreaCodesOptions extends PhoneNumbersListAreaCodesOptionalParams {
+}
+
+// @public
+export interface ListLocalitiesOptions extends OperationOptions {
+    // (undocumented)
+    administrativeDivision?: string;
+}
+
+// @public
+export interface ListOfferingsOptions extends OperationOptions {
+    // (undocumented)
+    assignmentType?: PhoneNumberAssignmentType;
+    // (undocumented)
+    phoneNumberType?: PhoneNumberType;
+}
+
+// @public
 export interface ListPurchasedPhoneNumbersOptions extends OperationOptions {
+}
+
+// @public
+export interface ListTollFreeAreaCodesOptions extends Omit<PhoneNumbersListAreaCodesOptionalParams, "assignmentType" | "locality" | "administrativeDivision"> {
+}
+
+// @public
+export interface PhoneNumberAdministrativeDivision {
+    abbreviatedName: string;
+    localizedName: string;
+}
+
+// @public
+export interface PhoneNumberAreaCode {
+    areaCode?: string;
 }
 
 // @public
@@ -63,6 +101,26 @@ export interface PhoneNumberCost {
 }
 
 // @public
+export interface PhoneNumberCountry {
+    countryCode: string;
+    localizedName: string;
+}
+
+// @public
+export interface PhoneNumberLocality {
+    administrativeDivision?: PhoneNumberAdministrativeDivision;
+    localizedName: string;
+}
+
+// @public
+export interface PhoneNumberOffering {
+    assignmentType?: PhoneNumberAssignmentType;
+    availableCapabilities?: PhoneNumberCapabilities;
+    cost: PhoneNumberCost;
+    phoneNumberType?: PhoneNumberType;
+}
+
+// @public
 export class PhoneNumbersClient {
     constructor(connectionString: string, options?: PhoneNumbersClientOptions);
     constructor(url: string, credential: KeyCredential, options?: PhoneNumbersClientOptions);
@@ -72,11 +130,17 @@ export class PhoneNumbersClient {
     beginSearchAvailablePhoneNumbers(search: SearchAvailablePhoneNumbersRequest, options?: BeginSearchAvailablePhoneNumbersOptions): Promise<PollerLike<PollOperationState<PhoneNumberSearchResult>, PhoneNumberSearchResult>>;
     beginUpdatePhoneNumberCapabilities(phoneNumber: string, request: PhoneNumberCapabilitiesRequest, options?: BeginUpdatePhoneNumberCapabilitiesOptions): Promise<PollerLike<PollOperationState<PurchasedPhoneNumber>, PurchasedPhoneNumber>>;
     getPurchasedPhoneNumber(phoneNumber: string, options?: GetPurchasedPhoneNumberOptions): Promise<PurchasedPhoneNumber>;
+    listAvailableCountries(options?: ListAvailableCountriesOptions): PagedAsyncIterableIterator<PhoneNumberCountry>;
+    listAvailableGeographicAreaCodes(countryCode: string, options?: ListGeographicAreaCodesOptions): PagedAsyncIterableIterator<PhoneNumberAreaCode>;
+    listAvailableLocalities(countryCode: string, options?: ListLocalitiesOptions): PagedAsyncIterableIterator<PhoneNumberLocality>;
+    listAvailableOfferings(countryCode: string, options?: ListOfferingsOptions): PagedAsyncIterableIterator<PhoneNumberOffering>;
+    listAvailableTollFreeAreaCodes(countryCode: string, options?: ListTollFreeAreaCodesOptions): PagedAsyncIterableIterator<PhoneNumberAreaCode>;
     listPurchasedPhoneNumbers(options?: ListPurchasedPhoneNumbersOptions): PagedAsyncIterableIterator<PurchasedPhoneNumber>;
 }
 
 // @public
-export interface PhoneNumbersClientOptions extends PipelineOptions {
+export interface PhoneNumbersClientOptions extends CommonClientOptions {
+    acceptLanguage?: string;
 }
 
 // @public
@@ -97,6 +161,16 @@ export interface PhoneNumberSearchResult {
     phoneNumberType: PhoneNumberType;
     searchExpiresBy: Date;
     searchId: string;
+}
+
+// @public
+export interface PhoneNumbersListAreaCodesOptionalParams extends coreClient.OperationOptions {
+    acceptLanguage?: string;
+    administrativeDivision?: string;
+    assignmentType?: PhoneNumberAssignmentType;
+    locality?: string;
+    maxPageSize?: number;
+    skip?: number;
 }
 
 // @public
@@ -125,6 +199,47 @@ export interface ReleasePhoneNumberResult {
 // @public
 export interface SearchAvailablePhoneNumbersRequest extends PhoneNumberSearchRequest {
     countryCode: string;
+}
+
+// @public
+export class SipRoutingClient {
+    constructor(connectionString: string, options?: SipRoutingClientOptions);
+    constructor(endpoint: string, credential: KeyCredential, options?: SipRoutingClientOptions);
+    constructor(endpoint: string, credential: TokenCredential, options?: SipRoutingClientOptions);
+    deleteTrunk(fqdn: string, options?: OperationOptions): Promise<void>;
+    getRoutes(options?: OperationOptions): Promise<SipTrunkRoute[]>;
+    getTrunk(fqdn: string, options?: OperationOptions): Promise<SipTrunk>;
+    getTrunks(options?: OperationOptions): Promise<SipTrunk[]>;
+    setRoutes(routes: SipTrunkRoute[], options?: OperationOptions): Promise<SipTrunkRoute[]>;
+    setTrunk(trunk: SipTrunk, options?: OperationOptions): Promise<SipTrunk>;
+    setTrunks(trunks: SipTrunk[], options?: OperationOptions): Promise<SipTrunk[]>;
+}
+
+// @public
+export interface SipRoutingClientOptions extends CommonClientOptions {
+}
+
+// @public
+export interface SipRoutingError {
+    code: string;
+    readonly details?: SipRoutingError[];
+    readonly innerError?: SipRoutingError;
+    message: string;
+    readonly target?: string;
+}
+
+// @public
+export interface SipTrunk {
+    fqdn: string;
+    sipSignalingPort: number;
+}
+
+// @public
+export interface SipTrunkRoute {
+    description?: string;
+    name: string;
+    numberPattern: string;
+    trunks?: string[];
 }
 
 // (No @packageDocumentation comment for this package)

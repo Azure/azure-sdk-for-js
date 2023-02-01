@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { Devices } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,12 +17,15 @@ import { LroImpl } from "../lroImpl";
 import {
   Device,
   DevicesListByManagerOptionalParams,
+  DevicesListByManagerResponse,
   DevicesListFailoverTargetOptionalParams,
+  DevicesListFailoverTargetResponse,
   Metrics,
   DevicesListMetricsOptionalParams,
+  DevicesListMetricsResponse,
   MetricDefinition,
   DevicesListMetricDefinitionOptionalParams,
-  DevicesListByManagerResponse,
+  DevicesListMetricDefinitionResponse,
   DevicesGetOptionalParams,
   DevicesGetResponse,
   DevicesDeleteOptionalParams,
@@ -38,10 +41,7 @@ import {
   DevicesDownloadUpdatesOptionalParams,
   FailoverRequest,
   DevicesFailoverOptionalParams,
-  DevicesListFailoverTargetResponse,
   DevicesInstallUpdatesOptionalParams,
-  DevicesListMetricsResponse,
-  DevicesListMetricDefinitionResponse,
   DevicesGetNetworkSettingsOptionalParams,
   DevicesGetNetworkSettingsResponse,
   DevicesScanForUpdatesOptionalParams,
@@ -89,11 +89,15 @@ export class DevicesImpl implements Devices {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByManagerPagingPage(
           resourceGroupName,
           managerName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -102,13 +106,11 @@ export class DevicesImpl implements Devices {
   private async *listByManagerPagingPage(
     resourceGroupName: string,
     managerName: string,
-    options?: DevicesListByManagerOptionalParams
+    options?: DevicesListByManagerOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<Device[]> {
-    let result = await this._listByManager(
-      resourceGroupName,
-      managerName,
-      options
-    );
+    let result: DevicesListByManagerResponse;
+    result = await this._listByManager(resourceGroupName, managerName, options);
     yield result.value || [];
   }
 
@@ -152,12 +154,16 @@ export class DevicesImpl implements Devices {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listFailoverTargetPagingPage(
           deviceName,
           resourceGroupName,
           managerName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -167,9 +173,11 @@ export class DevicesImpl implements Devices {
     deviceName: string,
     resourceGroupName: string,
     managerName: string,
-    options?: DevicesListFailoverTargetOptionalParams
+    options?: DevicesListFailoverTargetOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<Device[]> {
-    let result = await this._listFailoverTarget(
+    let result: DevicesListFailoverTargetResponse;
+    result = await this._listFailoverTarget(
       deviceName,
       resourceGroupName,
       managerName,
@@ -220,12 +228,16 @@ export class DevicesImpl implements Devices {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listMetricsPagingPage(
           deviceName,
           resourceGroupName,
           managerName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -235,9 +247,11 @@ export class DevicesImpl implements Devices {
     deviceName: string,
     resourceGroupName: string,
     managerName: string,
-    options?: DevicesListMetricsOptionalParams
+    options?: DevicesListMetricsOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<Metrics[]> {
-    let result = await this._listMetrics(
+    let result: DevicesListMetricsResponse;
+    result = await this._listMetrics(
       deviceName,
       resourceGroupName,
       managerName,
@@ -288,12 +302,16 @@ export class DevicesImpl implements Devices {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listMetricDefinitionPagingPage(
           deviceName,
           resourceGroupName,
           managerName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -303,9 +321,11 @@ export class DevicesImpl implements Devices {
     deviceName: string,
     resourceGroupName: string,
     managerName: string,
-    options?: DevicesListMetricDefinitionOptionalParams
+    options?: DevicesListMetricDefinitionOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<MetricDefinition[]> {
-    let result = await this._listMetricDefinition(
+    let result: DevicesListMetricDefinitionResponse;
+    result = await this._listMetricDefinition(
       deviceName,
       resourceGroupName,
       managerName,
@@ -423,10 +443,12 @@ export class DevicesImpl implements Devices {
       { deviceName, resourceGroupName, managerName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -512,10 +534,12 @@ export class DevicesImpl implements Devices {
       { deviceName, resourceGroupName, managerName, devicePatch, options },
       patchOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -626,10 +650,12 @@ export class DevicesImpl implements Devices {
       { deviceName, resourceGroupName, managerName, alertSettings, options },
       createOrUpdateAlertSettingsOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -714,10 +740,12 @@ export class DevicesImpl implements Devices {
       { deviceName, resourceGroupName, managerName, options },
       deactivateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -799,10 +827,12 @@ export class DevicesImpl implements Devices {
       { deviceName, resourceGroupName, managerName, options },
       downloadUpdatesOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -886,10 +916,12 @@ export class DevicesImpl implements Devices {
       { deviceName, resourceGroupName, managerName, failoverRequest, options },
       failoverOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -993,10 +1025,12 @@ export class DevicesImpl implements Devices {
       { deviceName, resourceGroupName, managerName, options },
       installUpdatesOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1135,10 +1169,12 @@ export class DevicesImpl implements Devices {
       { deviceName, resourceGroupName, managerName, options },
       scanForUpdatesOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1222,10 +1258,12 @@ export class DevicesImpl implements Devices {
       { deviceName, resourceGroupName, managerName, securitySettings, options },
       createOrUpdateSecuritySettingsOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

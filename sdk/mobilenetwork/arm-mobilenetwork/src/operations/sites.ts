@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Sites } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,6 +19,7 @@ import {
   Site,
   SitesListByMobileNetworkNextOptionalParams,
   SitesListByMobileNetworkOptionalParams,
+  SitesListByMobileNetworkResponse,
   SitesDeleteOptionalParams,
   SitesGetOptionalParams,
   SitesGetResponse,
@@ -26,7 +28,6 @@ import {
   TagsObject,
   SitesUpdateTagsOptionalParams,
   SitesUpdateTagsResponse,
-  SitesListByMobileNetworkResponse,
   SitesListByMobileNetworkNextResponse
 } from "../models";
 
@@ -66,11 +67,15 @@ export class SitesImpl implements Sites {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByMobileNetworkPagingPage(
           resourceGroupName,
           mobileNetworkName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -79,15 +84,22 @@ export class SitesImpl implements Sites {
   private async *listByMobileNetworkPagingPage(
     resourceGroupName: string,
     mobileNetworkName: string,
-    options?: SitesListByMobileNetworkOptionalParams
+    options?: SitesListByMobileNetworkOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Site[]> {
-    let result = await this._listByMobileNetwork(
-      resourceGroupName,
-      mobileNetworkName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: SitesListByMobileNetworkResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByMobileNetwork(
+        resourceGroupName,
+        mobileNetworkName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByMobileNetworkNext(
         resourceGroupName,
@@ -96,7 +108,9 @@ export class SitesImpl implements Sites {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -115,7 +129,8 @@ export class SitesImpl implements Sites {
   }
 
   /**
-   * Deletes the specified mobile network site.
+   * Deletes the specified mobile network site. This will also delete any network functions that are a
+   * part of this site.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param siteName The name of the mobile network site.
@@ -171,15 +186,18 @@ export class SitesImpl implements Sites {
       { resourceGroupName, mobileNetworkName, siteName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
-   * Deletes the specified mobile network site.
+   * Deletes the specified mobile network site. This will also delete any network functions that are a
+   * part of this site.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param siteName The name of the mobile network site.
@@ -220,7 +238,8 @@ export class SitesImpl implements Sites {
   }
 
   /**
-   * Creates or updates a mobile network site.
+   * Creates or updates a mobile network site. Must be created in the same location as its parent mobile
+   * network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param siteName The name of the mobile network site.
@@ -283,15 +302,18 @@ export class SitesImpl implements Sites {
       { resourceGroupName, mobileNetworkName, siteName, parameters, options },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
-   * Creates or updates a mobile network site.
+   * Creates or updates a mobile network site. Must be created in the same location as its parent mobile
+   * network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param siteName The name of the mobile network site.
@@ -316,7 +338,7 @@ export class SitesImpl implements Sites {
   }
 
   /**
-   * Updates a site update tags.
+   * Updates site tags.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param mobileNetworkName The name of the mobile network.
    * @param siteName The name of the mobile network site.
@@ -391,8 +413,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.mobileNetworkName,
     Parameters.siteName
   ],
@@ -414,8 +436,8 @@ const getOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.mobileNetworkName,
     Parameters.siteName
   ],
@@ -443,12 +465,12 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters4,
+  requestBody: Parameters.parameters14,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.mobileNetworkName,
     Parameters.siteName
   ],
@@ -472,8 +494,8 @@ const updateTagsOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.mobileNetworkName,
     Parameters.siteName
   ],
@@ -496,8 +518,8 @@ const listByMobileNetworkOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.mobileNetworkName
   ],
   headerParameters: [Parameters.accept],
@@ -514,11 +536,10 @@ const listByMobileNetworkNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.nextLink,
     Parameters.mobileNetworkName
   ],

@@ -56,6 +56,9 @@ export interface CloudErrorBody {
 export type CreatedByType = string;
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export interface Identity {
     readonly principalId?: string;
     readonly tenantId?: string;
@@ -64,21 +67,15 @@ export interface Identity {
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownNameUnavailableReason {
-    // (undocumented)
     AlreadyExists = "AlreadyExists",
-    // (undocumented)
     Invalid = "Invalid"
 }
 
@@ -94,6 +91,7 @@ export interface MetricDimension {
     displayName?: string;
     internalName?: string;
     name?: string;
+    toBeExportedForShoebox?: boolean;
 }
 
 // @public
@@ -125,6 +123,8 @@ export class MixedRealityClient extends coreClient.ServiceClient {
     apiVersion: string;
     checkNameAvailabilityLocal(location: string, checkNameAvailability: CheckNameAvailabilityRequest, options?: CheckNameAvailabilityLocalOptionalParams): Promise<CheckNameAvailabilityLocalResponse>;
     // (undocumented)
+    objectAnchorsAccounts: ObjectAnchorsAccounts;
+    // (undocumented)
     operations: Operations;
     // (undocumented)
     remoteRenderingAccounts: RemoteRenderingAccounts;
@@ -143,6 +143,108 @@ export interface MixedRealityClientOptionalParams extends coreClient.ServiceClie
 
 // @public
 export type NameUnavailableReason = string;
+
+// @public
+export interface ObjectAnchorsAccount extends TrackedResource {
+    readonly accountDomain?: string;
+    readonly accountId?: string;
+    // (undocumented)
+    identity?: ObjectAnchorsAccountIdentity;
+    kind?: Sku;
+    plan?: Identity;
+    sku?: Sku;
+    storageAccountName?: string;
+    readonly systemData?: SystemData;
+}
+
+// @public (undocumented)
+export interface ObjectAnchorsAccountIdentity extends Identity {
+}
+
+// @public
+export interface ObjectAnchorsAccountPage {
+    nextLink?: string;
+    value?: ObjectAnchorsAccount[];
+}
+
+// @public
+export interface ObjectAnchorsAccounts {
+    create(resourceGroupName: string, accountName: string, objectAnchorsAccount: ObjectAnchorsAccount, options?: ObjectAnchorsAccountsCreateOptionalParams): Promise<ObjectAnchorsAccountsCreateResponse>;
+    delete(resourceGroupName: string, accountName: string, options?: ObjectAnchorsAccountsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, accountName: string, options?: ObjectAnchorsAccountsGetOptionalParams): Promise<ObjectAnchorsAccountsGetResponse>;
+    listByResourceGroup(resourceGroupName: string, options?: ObjectAnchorsAccountsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ObjectAnchorsAccount>;
+    listBySubscription(options?: ObjectAnchorsAccountsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<ObjectAnchorsAccount>;
+    listKeys(resourceGroupName: string, accountName: string, options?: ObjectAnchorsAccountsListKeysOptionalParams): Promise<ObjectAnchorsAccountsListKeysResponse>;
+    regenerateKeys(resourceGroupName: string, accountName: string, regenerate: AccountKeyRegenerateRequest, options?: ObjectAnchorsAccountsRegenerateKeysOptionalParams): Promise<ObjectAnchorsAccountsRegenerateKeysResponse>;
+    update(resourceGroupName: string, accountName: string, objectAnchorsAccount: ObjectAnchorsAccount, options?: ObjectAnchorsAccountsUpdateOptionalParams): Promise<ObjectAnchorsAccountsUpdateResponse>;
+}
+
+// @public
+export interface ObjectAnchorsAccountsCreateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ObjectAnchorsAccountsCreateResponse = ObjectAnchorsAccount;
+
+// @public
+export interface ObjectAnchorsAccountsDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface ObjectAnchorsAccountsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ObjectAnchorsAccountsGetResponse = ObjectAnchorsAccount;
+
+// @public
+export interface ObjectAnchorsAccountsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ObjectAnchorsAccountsListByResourceGroupNextResponse = ObjectAnchorsAccountPage;
+
+// @public
+export interface ObjectAnchorsAccountsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ObjectAnchorsAccountsListByResourceGroupResponse = ObjectAnchorsAccountPage;
+
+// @public
+export interface ObjectAnchorsAccountsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ObjectAnchorsAccountsListBySubscriptionNextResponse = ObjectAnchorsAccountPage;
+
+// @public
+export interface ObjectAnchorsAccountsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ObjectAnchorsAccountsListBySubscriptionResponse = ObjectAnchorsAccountPage;
+
+// @public
+export interface ObjectAnchorsAccountsListKeysOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ObjectAnchorsAccountsListKeysResponse = AccountKeys;
+
+// @public
+export interface ObjectAnchorsAccountsRegenerateKeysOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ObjectAnchorsAccountsRegenerateKeysResponse = AccountKeys;
+
+// @public
+export interface ObjectAnchorsAccountsUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ObjectAnchorsAccountsUpdateResponse = ObjectAnchorsAccount;
 
 // @public
 export interface Operation {
@@ -192,16 +294,16 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 export type OperationsListResponse = OperationPage;
 
 // @public
-export type RemoteRenderingAccount = TrackedResource & {
+export interface RemoteRenderingAccount extends TrackedResource {
+    readonly accountDomain?: string;
+    readonly accountId?: string;
     identity?: Identity;
+    kind?: Sku;
     plan?: Identity;
     sku?: Sku;
-    kind?: Sku;
-    readonly systemData?: SystemData;
     storageAccountName?: string;
-    readonly accountId?: string;
-    readonly accountDomain?: string;
-};
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface RemoteRenderingAccountPage {
@@ -317,16 +419,16 @@ export interface Sku {
 export type SkuTier = "Free" | "Basic" | "Standard" | "Premium";
 
 // @public
-export type SpatialAnchorsAccount = TrackedResource & {
+export interface SpatialAnchorsAccount extends TrackedResource {
+    readonly accountDomain?: string;
+    readonly accountId?: string;
     identity?: Identity;
+    kind?: Sku;
     plan?: Identity;
     sku?: Sku;
-    kind?: Sku;
-    readonly systemData?: SystemData;
     storageAccountName?: string;
-    readonly accountId?: string;
-    readonly accountDomain?: string;
-};
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface SpatialAnchorsAccountPage {
@@ -424,12 +526,12 @@ export interface SystemData {
 }
 
 // @public
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
+    location: string;
     tags?: {
         [propertyName: string]: string;
     };
-    location: string;
-};
+}
 
 // (No @packageDocumentation comment for this package)
 

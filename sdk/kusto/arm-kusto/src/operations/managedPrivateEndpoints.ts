@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { ManagedPrivateEndpoints } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,10 +17,10 @@ import { LroImpl } from "../lroImpl";
 import {
   ManagedPrivateEndpoint,
   ManagedPrivateEndpointsListOptionalParams,
+  ManagedPrivateEndpointsListResponse,
   ManagedPrivateEndpointsCheckNameRequest,
   ManagedPrivateEndpointsCheckNameAvailabilityOptionalParams,
   ManagedPrivateEndpointsCheckNameAvailabilityResponse,
-  ManagedPrivateEndpointsListResponse,
   ManagedPrivateEndpointsGetOptionalParams,
   ManagedPrivateEndpointsGetResponse,
   ManagedPrivateEndpointsCreateOrUpdateOptionalParams,
@@ -62,8 +62,16 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, clusterName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          clusterName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -71,9 +79,11 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
   private async *listPagingPage(
     resourceGroupName: string,
     clusterName: string,
-    options?: ManagedPrivateEndpointsListOptionalParams
+    options?: ManagedPrivateEndpointsListOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<ManagedPrivateEndpoint[]> {
-    let result = await this._list(resourceGroupName, clusterName, options);
+    let result: ManagedPrivateEndpointsListResponse;
+    result = await this._list(resourceGroupName, clusterName, options);
     yield result.value || [];
   }
 
@@ -216,10 +226,12 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
       },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -317,10 +329,12 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
       },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -405,10 +419,12 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
       { resourceGroupName, clusterName, managedPrivateEndpointName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

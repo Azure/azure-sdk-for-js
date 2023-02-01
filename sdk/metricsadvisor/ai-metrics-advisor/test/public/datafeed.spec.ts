@@ -4,27 +4,27 @@
 import { assert } from "chai";
 import { Context } from "mocha";
 import {
-  DataFeedGranularity,
-  DataFeedIngestionSettings,
-  DataFeedPatch,
-  DataFeedSchema,
-  DataFeedSource,
-  DataFeedDimension,
-  DataFeedMetric,
-  MetricsAdvisorAdministrationClient,
-  UnknownDataFeedSource,
-  DataFeedDescriptor,
-  DataFeedRollupSettings,
   AzureBlobDataFeedSource,
-  DataFeedAccessMode,
-  MongoDbDataFeedSource,
   AzureDataLakeStorageGen2DataFeedSource,
   AzureEventHubsDataFeedSource,
   AzureLogAnalyticsDataFeedSource,
+  DataFeedAccessMode,
+  DataFeedDescriptor,
+  DataFeedDimension,
+  DataFeedGranularity,
+  DataFeedIngestionSettings,
+  DataFeedMetric,
+  DataFeedPatch,
+  DataFeedRollupSettings,
+  DataFeedSchema,
+  DataFeedSource,
+  MetricsAdvisorAdministrationClient,
+  MongoDbDataFeedSource,
+  UnknownDataFeedSource,
 } from "../../src";
-import { createRecordedAdminClient, testEnv, makeCredential } from "./util/recordedClients";
+import { createRecordedAdminClient, makeCredential, testEnv } from "./util/recordedClients";
 import { Recorder } from "@azure-tools/test-recorder";
-import { matrix, getYieldedValue } from "@azure/test-utils";
+import { fakeTestSecretPlaceholder, getYieldedValue, matrix } from "@azure/test-utils";
 
 matrix([[true, false]] as const, async (useAad) => {
   describe(`[${useAad ? "AAD" : "API Key"}]`, () => {
@@ -580,7 +580,7 @@ matrix([[true, false]] as const, async (useAad) => {
             connectionString: "https://connect-to-influxdb",
             database: "data-feed-database",
             userName: "user",
-            password: "SecretPlaceholder",
+            password: fakeTestSecretPlaceholder,
             query: "partition-key eq @start-time",
             authenticationType: "Basic",
           };
@@ -858,7 +858,7 @@ matrix([[true, false]] as const, async (useAad) => {
               ...options,
             } as DataFeedDescriptor);
             assert.fail("Test should throw error");
-          } catch (error) {
+          } catch (error: any) {
             assert.equal(
               (error as any).message,
               "Cannot create a data feed with the Unknown source type."
@@ -875,7 +875,7 @@ matrix([[true, false]] as const, async (useAad) => {
           try {
             await client.updateDataFeed(createdPostGreSqlId, patch);
             assert.fail("Test should throw error");
-          } catch (error) {
+          } catch (error: any) {
             assert.equal(
               (error as any).message,
               "Cannot update a data feed to have the Unknown source type."
@@ -900,7 +900,7 @@ export async function verifyDataFeedDeletion(
   try {
     await client.getDataFeed(createdDataFeedId);
     assert.fail("Expecting error getting data feed");
-  } catch (error) {
+  } catch (error: any) {
     assert.equal((error as any).code, "404 NOT_FOUND");
     assert.equal((error as any).message, "datafeedId is invalid.");
   }

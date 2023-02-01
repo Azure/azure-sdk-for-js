@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Apps } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,11 +19,14 @@ import {
   App,
   AppsListBySubscriptionNextOptionalParams,
   AppsListBySubscriptionOptionalParams,
+  AppsListBySubscriptionResponse,
   AppsListByResourceGroupNextOptionalParams,
   AppsListByResourceGroupOptionalParams,
+  AppsListByResourceGroupResponse,
   AppTemplate,
   AppsListTemplatesNextOptionalParams,
   AppsListTemplatesOptionalParams,
+  AppsListTemplatesResponse,
   AppsGetOptionalParams,
   AppsGetResponse,
   AppsCreateOrUpdateOptionalParams,
@@ -31,14 +35,12 @@ import {
   AppsUpdateOptionalParams,
   AppsUpdateResponse,
   AppsDeleteOptionalParams,
-  AppsListBySubscriptionResponse,
-  AppsListByResourceGroupResponse,
+  AppsDeleteResponse,
   OperationInputs,
   AppsCheckNameAvailabilityOptionalParams,
   AppsCheckNameAvailabilityResponse,
   AppsCheckSubdomainAvailabilityOptionalParams,
   AppsCheckSubdomainAvailabilityResponse,
-  AppsListTemplatesResponse,
   AppsListBySubscriptionNextResponse,
   AppsListByResourceGroupNextResponse,
   AppsListTemplatesNextResponse
@@ -72,22 +74,34 @@ export class AppsImpl implements Apps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listBySubscriptionPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBySubscriptionPagingPage(options, settings);
       }
     };
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: AppsListBySubscriptionOptionalParams
+    options?: AppsListBySubscriptionOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<App[]> {
-    let result = await this._listBySubscription(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AppsListBySubscriptionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBySubscription(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listBySubscriptionNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -116,19 +130,33 @@ export class AppsImpl implements Apps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: AppsListByResourceGroupOptionalParams
+    options?: AppsListByResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<App[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AppsListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -136,7 +164,9 @@ export class AppsImpl implements Apps {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -167,22 +197,34 @@ export class AppsImpl implements Apps {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listTemplatesPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listTemplatesPagingPage(options, settings);
       }
     };
   }
 
   private async *listTemplatesPagingPage(
-    options?: AppsListTemplatesOptionalParams
+    options?: AppsListTemplatesOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<AppTemplate[]> {
-    let result = await this._listTemplates(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AppsListTemplatesResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listTemplates(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listTemplatesNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -275,10 +317,12 @@ export class AppsImpl implements Apps {
       { resourceGroupName, resourceName, app, options },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -364,10 +408,12 @@ export class AppsImpl implements Apps {
       { resourceGroupName, resourceName, appPatch, options },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -402,11 +448,13 @@ export class AppsImpl implements Apps {
     resourceGroupName: string,
     resourceName: string,
     options?: AppsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<
+    PollerLike<PollOperationState<AppsDeleteResponse>, AppsDeleteResponse>
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<AppsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -447,10 +495,12 @@ export class AppsImpl implements Apps {
       { resourceGroupName, resourceName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -463,7 +513,7 @@ export class AppsImpl implements Apps {
     resourceGroupName: string,
     resourceName: string,
     options?: AppsDeleteOptionalParams
-  ): Promise<void> {
+  ): Promise<AppsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       resourceName,
@@ -604,7 +654,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.App
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -623,19 +673,23 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.App
+      bodyMapper: Mappers.App,
+      headersMapper: Mappers.AppsCreateOrUpdateHeaders
     },
     201: {
-      bodyMapper: Mappers.App
+      bodyMapper: Mappers.App,
+      headersMapper: Mappers.AppsCreateOrUpdateHeaders
     },
     202: {
-      bodyMapper: Mappers.App
+      bodyMapper: Mappers.App,
+      headersMapper: Mappers.AppsCreateOrUpdateHeaders
     },
     204: {
-      bodyMapper: Mappers.App
+      bodyMapper: Mappers.App,
+      headersMapper: Mappers.AppsCreateOrUpdateHeaders
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.app,
@@ -656,19 +710,19 @@ const updateOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.App
+      headersMapper: Mappers.AppsUpdateHeaders
     },
     201: {
-      bodyMapper: Mappers.App
+      headersMapper: Mappers.AppsUpdateHeaders
     },
     202: {
-      bodyMapper: Mappers.App
+      headersMapper: Mappers.AppsUpdateHeaders
     },
     204: {
-      bodyMapper: Mappers.App
+      headersMapper: Mappers.AppsUpdateHeaders
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.appPatch,
@@ -688,12 +742,20 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTCentral/iotApps/{resourceName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.AppsDeleteHeaders
+    },
+    201: {
+      headersMapper: Mappers.AppsDeleteHeaders
+    },
+    202: {
+      headersMapper: Mappers.AppsDeleteHeaders
+    },
+    204: {
+      headersMapper: Mappers.AppsDeleteHeaders
+    },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -715,7 +777,7 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AppListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -732,7 +794,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AppListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -753,7 +815,7 @@ const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AppAvailabilityInfo
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.operationInputs,
@@ -772,7 +834,7 @@ const checkSubdomainAvailabilityOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AppAvailabilityInfo
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.operationInputs,
@@ -791,7 +853,7 @@ const listTemplatesOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AppTemplatesResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -807,7 +869,7 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AppListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -827,7 +889,7 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AppListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -848,7 +910,7 @@ const listTemplatesNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AppTemplatesResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],

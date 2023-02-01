@@ -4,11 +4,11 @@
 import { sendRequest } from "../src/sendRequest";
 import { assert } from "chai";
 import {
-  createEmptyPipeline,
-  createHttpHeaders,
   Pipeline,
   PipelineResponse,
   RestError,
+  createEmptyPipeline,
+  createHttpHeaders,
 } from "@azure/core-rest-pipeline";
 
 describe("sendRequest", () => {
@@ -35,41 +35,6 @@ describe("sendRequest", () => {
         return { headers: createHttpHeaders() } as PipelineResponse;
       };
       await sendRequest("POST", mockBaseUrl, mockPipeline, { body: "foo" });
-    });
-
-    it("should handle response body as Uint8Array", async () => {
-      const mockPipeline: Pipeline = createEmptyPipeline();
-      const expectedBody = "foo";
-      mockPipeline.sendRequest = async (_client, request) => {
-        return {
-          headers: createHttpHeaders(),
-          request,
-          bodyAsText: expectedBody,
-        } as PipelineResponse;
-      };
-      const response = await sendRequest("POST", mockBaseUrl, mockPipeline, {
-        body: "foo",
-        binaryResponse: true,
-      });
-
-      assert.deepEqual(response.body, foo);
-    });
-
-    it("should handle response body as Uint8Array from content-type", async () => {
-      const mockPipeline: Pipeline = createEmptyPipeline();
-      const expectedBody = "foo";
-      mockPipeline.sendRequest = async (_client, request) => {
-        return {
-          headers: createHttpHeaders({ "content-type": "application/octet-stream" }),
-          request,
-          bodyAsText: expectedBody,
-        } as PipelineResponse;
-      };
-      const response = await sendRequest("POST", mockBaseUrl, mockPipeline, {
-        body: "foo",
-      });
-
-      assert.deepEqual(response.body, foo);
     });
   });
 
@@ -241,7 +206,7 @@ describe("sendRequest", () => {
 
     try {
       await sendRequest("GET", mockBaseUrl, mockPipeline);
-    } catch (error) {
+    } catch (error: any) {
       assert.equal(error.code, RestError.PARSE_ERROR);
     }
   });

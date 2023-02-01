@@ -6,13 +6,12 @@ import { Context } from "mocha";
 import fs from "fs";
 import childProcess from "child_process";
 import { assert } from "@azure/test-utils";
-import { supportsTracing } from "../../../keyvault-common/test/utils/supportsTracing";
 
-import { env, Recorder } from "@azure-tools/test-recorder";
+import { env, isLiveMode, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import { AbortController } from "@azure/abort-controller";
 import { SecretClient } from "@azure/keyvault-secrets";
 import { ClientSecretCredential } from "@azure/identity";
-import { isNode } from "@azure/core-http";
+import { isNode } from "@azure/core-util";
 
 import { CertificateClient } from "../../src";
 import { assertThrowsAbortError } from "./utils/common";
@@ -44,7 +43,11 @@ describe("Certificates client - create, read, update and delete", () => {
     recorder = authentication.recorder;
     keyVaultUrl = authentication.keyVaultUrl;
     credential = authentication.credential;
-    secretClient = new SecretClient(keyVaultUrl, credential);
+    secretClient = new SecretClient(
+      keyVaultUrl,
+      credential,
+      recorder.configureClientOptions({ disableChallengeResourceVerification: !isLiveMode() })
+    );
   });
 
   afterEach(async function () {
@@ -82,9 +85,11 @@ describe("Certificates client - create, read, update and delete", () => {
     });
   });
 
-  // On playback mode, the tests happen too fast for the timeout to work - in browsers
+  // On playback mode, the tests happen too fast for the timeout to work
   it("can create a certificate with requestOptions timeout", async function (this: Context) {
-    recorder.skip("browser", "Timeout tests don't work on playback mode.");
+    if (isPlaybackMode()) {
+      this.skip();
+    }
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
 
     await assertThrowsAbortError(async () => {
@@ -99,25 +104,20 @@ describe("Certificates client - create, read, update and delete", () => {
 
   it("cannot create a certificate with an empty name", async function () {
     const certificateName = "";
-    let error;
     try {
       await client.beginCreateCertificate(
         certificateName,
         basicCertificatePolicy,
         testPollerProperties
       );
-      throw Error("Expecting an error but not catching one.");
+      assert.fail("Expected an error");
     } catch (e) {
-      error = e;
+      // Ignore expected error
     }
-    assert.equal(
-      error.message,
-      `"certificateName" with value "" should satisfy the constraint "Pattern": /^[0-9a-zA-Z-]+$/.`,
-      "Unexpected error while running beginCreateCertificate with an empty string as the name."
-    );
   });
 
   it("can update the tags of a certificate", async function (this: Context) {
+    this.retries(5);
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
 
     await client.beginCreateCertificate(
@@ -185,7 +185,10 @@ describe("Certificates client - create, read, update and delete", () => {
 
   // On playback mode, the tests happen too fast for the timeout to work
   it("can update certificate with requestOptions timeout", async function (this: Context) {
-    recorder.skip(undefined, "Timeout tests don't work on playback mode.");
+    if (isPlaybackMode()) {
+      this.skip();
+    }
+
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
 
     const poller = await client.beginCreateCertificate(
@@ -221,12 +224,9 @@ describe("Certificates client - create, read, update and delete", () => {
   });
 
   it("can get a certificate's secret in PKCS 12 format", async function (this: Context) {
-    recorder.skip(
-      undefined,
-      "This test uses the file system and the certificate value has been sanitized in recordings."
-    );
     // Skipping this test from the live browser test runs, because we use the file system.
-    if (!isNode) {
+    // This test uses the file system and the certificate value has been sanitized in recordings, so skip in playback too
+    if (!isNode || isPlaybackMode()) {
       this.skip();
     }
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
@@ -271,7 +271,6 @@ describe("Certificates client - create, read, update and delete", () => {
   });
 
   it("can get a certificate's secret in PEM format", async function (this: Context) {
-    recorder.skip("browser", "This test uses the file system.");
     // Skipping this test from the live browser test runs, because we use the file system.
     if (!isNode) {
       this.skip();
@@ -306,7 +305,10 @@ describe("Certificates client - create, read, update and delete", () => {
 
   // On playback mode, the tests happen too fast for the timeout to work
   it("can get a certificate with requestOptions timeout", async function (this: Context) {
-    recorder.skip(undefined, "Timeout tests don't work on playback mode.");
+    if (isPlaybackMode()) {
+      this.skip();
+    }
+
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     await client.beginCreateCertificate(
       certificateName,
@@ -341,7 +343,7 @@ describe("Certificates client - create, read, update and delete", () => {
     try {
       await client.getCertificate(certificateName);
       throw Error("Expecting an error but not catching one.");
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
     assert.equal(error.code, "CertificateNotFound");
@@ -349,6 +351,7 @@ describe("Certificates client - create, read, update and delete", () => {
   });
 
   it("can delete a certificate", async function (this: Context) {
+    this.retries(5);
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     await client.beginCreateCertificate(
       certificateName,
@@ -365,7 +368,7 @@ describe("Certificates client - create, read, update and delete", () => {
     try {
       await client.getCertificate(certificateName);
       throw Error("Expecting an error but not catching one.");
-    } catch (e) {
+    } catch (e: any) {
       if (e.statusCode === 404) {
         assert.equal(e.code, "CertificateNotFound");
       } else {
@@ -378,7 +381,10 @@ describe("Certificates client - create, read, update and delete", () => {
 
   // On playback mode, the tests happen too fast for the timeout to work
   it("can delete a certificate with requestOptions timeout", async function (this: Context) {
-    recorder.skip(undefined, "Timeout tests don't work on playback mode.");
+    if (isPlaybackMode()) {
+      this.skip();
+    }
+
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     await client.beginCreateCertificate(
       certificateName,
@@ -401,7 +407,7 @@ describe("Certificates client - create, read, update and delete", () => {
     try {
       await client.beginDeleteCertificate(certificateName, testPollerProperties);
       throw Error("Expecting an error but not catching one.");
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
     assert.equal(error.code, "CertificateNotFound");
@@ -459,7 +465,7 @@ describe("Certificates client - create, read, update and delete", () => {
       try {
         await client.beginDeleteCertificate(certificateName, testPollerProperties);
         throw Error("Expecting an error but not catching one.");
-      } catch (e) {
+      } catch (e: any) {
         error = e;
       }
       assert.equal(error.code, "CertificateNotFound");
@@ -528,7 +534,7 @@ describe("Certificates client - create, read, update and delete", () => {
     try {
       await client.getIssuer(issuerName);
       throw Error("Expecting an error but not catching one.");
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
     assert.equal(error.message, "Issuer not found");
@@ -556,9 +562,12 @@ describe("Certificates client - create, read, update and delete", () => {
 
   it("can read, cancel and delete a certificate's operation", async function (this: Context) {
     // Known flaky test due to the lag between the request and when the job gets picked up by the service.
-    this.retries(2);
+    this.retries(5);
 
-    const certificateName = recorder.getUniqueName("crudcertoperation");
+    const certificateName = recorder.variable(
+      "crudcertoperation",
+      `crudcertoperation-${Math.floor(Math.random() * 10000)}`
+    );
     await client.beginCreateCertificate(
       certificateName,
       basicCertificatePolicy,
@@ -585,7 +594,7 @@ describe("Certificates client - create, read, update and delete", () => {
     try {
       await client.getCertificateOperation(certificateName);
       throw Error("Expecting an error but not catching one.");
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
     assert.equal(error.message, `Pending certificate not found: ${certificateName}`);
@@ -623,7 +632,7 @@ describe("Certificates client - create, read, update and delete", () => {
     try {
       await client.getContacts();
       throw Error("Expecting an error but not catching one.");
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
     assert.equal(error.code, "ContactsNotFound");
@@ -631,24 +640,24 @@ describe("Certificates client - create, read, update and delete", () => {
 
   it("supports tracing", async function (this: Context) {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
-    await supportsTracing(
+    await assert.supportsTracing(
       async (tracingOptions) => {
         const poller = await client.beginCreateCertificate(
           certificateName,
           basicCertificatePolicy,
           {
             ...testPollerProperties,
-            tracingOptions,
+            ...tracingOptions,
           }
         );
         await poller.pollUntilDone();
-        await client.getCertificate(certificateName, { tracingOptions });
+        await client.getCertificate(certificateName, { ...tracingOptions });
       },
       [
-        "Azure.KeyVault.Certificates.CreateCertificatePoller.createCertificate",
-        "Azure.KeyVault.Certificates.CreateCertificatePoller.getPlainCertificateOperation",
-        "Azure.KeyVault.Certificates.CreateCertificatePoller.getCertificate",
-        "Azure.KeyVault.Certificates.CertificateClient.getCertificate",
+        "CreateCertificatePoller.createCertificate",
+        "CreateCertificatePoller.getPlainCertificateOperation",
+        "CreateCertificatePoller.getCertificate",
+        "CertificateClient.getCertificate",
       ]
     );
   });

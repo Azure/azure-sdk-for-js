@@ -10,7 +10,7 @@ import { VirtualNetworkSubnetUsage } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { PostgreSQLManagementClient } from "../postgreSQLManagementClient";
+import { PostgreSQLManagementFlexibleServerClient } from "../postgreSQLManagementFlexibleServerClient";
 import {
   VirtualNetworkSubnetUsageParameter,
   VirtualNetworkSubnetUsageExecuteOptionalParams,
@@ -20,13 +20,13 @@ import {
 /** Class containing VirtualNetworkSubnetUsage operations. */
 export class VirtualNetworkSubnetUsageImpl
   implements VirtualNetworkSubnetUsage {
-  private readonly client: PostgreSQLManagementClient;
+  private readonly client: PostgreSQLManagementFlexibleServerClient;
 
   /**
    * Initialize a new instance of the class VirtualNetworkSubnetUsage class.
    * @param client Reference to the service client
    */
-  constructor(client: PostgreSQLManagementClient) {
+  constructor(client: PostgreSQLManagementFlexibleServerClient) {
     this.client = client;
   }
 
@@ -59,10 +59,10 @@ const executeOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.VirtualNetworkSubnetUsageResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters5,
+  requestBody: Parameters.parameters8,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

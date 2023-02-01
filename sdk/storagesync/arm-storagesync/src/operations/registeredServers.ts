@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { RegisteredServers } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -66,11 +66,15 @@ export class RegisteredServersImpl implements RegisteredServers {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByStorageSyncServicePagingPage(
           resourceGroupName,
           storageSyncServiceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -79,9 +83,11 @@ export class RegisteredServersImpl implements RegisteredServers {
   private async *listByStorageSyncServicePagingPage(
     resourceGroupName: string,
     storageSyncServiceName: string,
-    options?: RegisteredServersListByStorageSyncServiceOptionalParams
+    options?: RegisteredServersListByStorageSyncServiceOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<RegisteredServer[]> {
-    let result = await this._listByStorageSyncService(
+    let result: RegisteredServersListByStorageSyncServiceResponse;
+    result = await this._listByStorageSyncService(
       resourceGroupName,
       storageSyncServiceName,
       options
@@ -209,10 +215,12 @@ export class RegisteredServersImpl implements RegisteredServers {
       },
       createOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -302,10 +310,12 @@ export class RegisteredServersImpl implements RegisteredServers {
       { resourceGroupName, storageSyncServiceName, serverId, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -400,10 +410,12 @@ export class RegisteredServersImpl implements RegisteredServers {
       },
       triggerRolloverOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { LongTermRetentionPolicies } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,12 +19,12 @@ import {
   LongTermRetentionPolicy,
   LongTermRetentionPoliciesListByDatabaseNextOptionalParams,
   LongTermRetentionPoliciesListByDatabaseOptionalParams,
+  LongTermRetentionPoliciesListByDatabaseResponse,
   LongTermRetentionPolicyName,
   LongTermRetentionPoliciesGetOptionalParams,
   LongTermRetentionPoliciesGetResponse,
   LongTermRetentionPoliciesCreateOrUpdateOptionalParams,
   LongTermRetentionPoliciesCreateOrUpdateResponse,
-  LongTermRetentionPoliciesListByDatabaseResponse,
   LongTermRetentionPoliciesListByDatabaseNextResponse
 } from "../models";
 
@@ -68,12 +69,16 @@ export class LongTermRetentionPoliciesImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByDatabasePagingPage(
           resourceGroupName,
           serverName,
           databaseName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -83,16 +88,23 @@ export class LongTermRetentionPoliciesImpl
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: LongTermRetentionPoliciesListByDatabaseOptionalParams
+    options?: LongTermRetentionPoliciesListByDatabaseOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<LongTermRetentionPolicy[]> {
-    let result = await this._listByDatabase(
-      resourceGroupName,
-      serverName,
-      databaseName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: LongTermRetentionPoliciesListByDatabaseResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByDatabase(
+        resourceGroupName,
+        serverName,
+        databaseName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByDatabaseNext(
         resourceGroupName,
@@ -102,7 +114,9 @@ export class LongTermRetentionPoliciesImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -218,10 +232,12 @@ export class LongTermRetentionPoliciesImpl
       },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -383,7 +399,6 @@ const listByDatabaseNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

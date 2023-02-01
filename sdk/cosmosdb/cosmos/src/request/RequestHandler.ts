@@ -16,7 +16,6 @@ import { bodyFromData } from "./request";
 import { RequestContext } from "./RequestContext";
 import { Response as CosmosResponse } from "./Response";
 import { TimeoutError } from "./TimeoutError";
-import { URL } from "../utils/url";
 import { getCachedDefaultHttpClient } from "../utils/cachedClient";
 import { AzureLogger, createClientLogger } from "@azure/logger";
 
@@ -83,7 +82,7 @@ async function httpRequest(requestContext: RequestContext): Promise<{
     } else {
       response = await httpsClient.sendRequest(pipelineRequest);
     }
-  } catch (error) {
+  } catch (error: any) {
     if (error.name === "AbortError") {
       // If the user passed signal caused the abort, cancel the timeout and rethrow the error
       if (userSignal && userSignal.aborted === true) {
@@ -91,7 +90,9 @@ async function httpRequest(requestContext: RequestContext): Promise<{
         throw error;
       }
       // If the user didn't cancel, it must be an abort we called due to timeout
-      throw new TimeoutError();
+      throw new TimeoutError(
+        `Timeout Error! Request took more than ${requestContext.connectionPolicy.requestTimeout} ms`
+      );
     }
     throw error;
   }
@@ -107,7 +108,7 @@ async function httpRequest(requestContext: RequestContext): Promise<{
     : undefined;
 
   if (response.status >= 400) {
-    const errorResponse: ErrorResponse = new Error(result.message);
+    const errorResponse: ErrorResponse = new ErrorResponse(result.message);
 
     logger.warning(
       response.status +
@@ -153,7 +154,7 @@ async function httpRequest(requestContext: RequestContext): Promise<{
 /**
  * @hidden
  */
-export async function request<T>(requestContext: RequestContext): Promise<CosmosResponse<T>> {
+async function request<T>(requestContext: RequestContext): Promise<CosmosResponse<T>> {
   if (requestContext.body) {
     requestContext.body = bodyFromData(requestContext.body);
     if (!requestContext.body) {
@@ -166,3 +167,7 @@ export async function request<T>(requestContext: RequestContext): Promise<Cosmos
     executeRequest,
   });
 }
+
+export const RequestHandler = {
+  request,
+};

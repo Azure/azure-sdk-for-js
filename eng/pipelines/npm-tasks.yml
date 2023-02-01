@@ -1,6 +1,6 @@
 trigger: none
 
-# This pipeline helps to run NPM admin tasks like remove or add tag to a released package version or deprecate a pacakge version
+# This pipeline helps to run NPM admin tasks like remove or add tag to a released package version or deprecate a package version
 # Following variables should be set at queue time to run this pipeline
 # variable name: TaskType
 # valid Options: 'AddTag', 'RemoveTag', 'Deprecate', 'Unpublish'
@@ -46,23 +46,28 @@ parameters:
     default: ''
 
 jobs:
-- job: 'NPM_Admin_Job'
+- deployment: 'NPM_Admin'
   displayName: NPM package management
+  environment: npm
 
   pool:
-    vmImage: 'windows-2019'
+    vmImage: 'windows-2022'
 
-  steps:
-    - task: PowerShell@2
-      displayName: 'Run Task'
-      inputs:
-        targetType: filePath
-        filePath: "eng/scripts/npm-admin-tasks.ps1"
-        arguments: >
-          -taskType ${{parameters.TaskType}}
-          -packageName ${{parameters.PackageName}}
-          -pkgVersion ${{parameters.PkgVersion}}
-          -tagName ${{parameters.TagName}}
-          -npmToken "$(azure-sdk-npm-token)"
-          -reason "${{parameters.Reason}}"
-        pwsh: true
+  strategy:
+    runOnce:
+      deploy:
+        steps:
+          - template: /eng/common/pipelines/templates/steps/sparse-checkout.yml
+          - task: PowerShell@2
+            displayName: 'Run Task'
+            inputs:
+              targetType: filePath
+              filePath: "eng/scripts/npm-admin-tasks.ps1"
+              arguments: >
+                -taskType ${{parameters.TaskType}}
+                -packageName ${{parameters.PackageName}}
+                -pkgVersion ${{parameters.PkgVersion}}
+                -tagName ${{parameters.TagName}}
+                -npmToken "$(azure-sdk-npm-token)"
+                -reason "${{parameters.Reason}}"
+              pwsh: true

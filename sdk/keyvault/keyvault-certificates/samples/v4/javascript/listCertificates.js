@@ -5,36 +5,36 @@
  * @summary List certificates, lists a certificate's versions, and lists deleted certificates in various ways.
  */
 
+// Load the .env file if it exists
+const dotenv = require("dotenv");
+
 const { CertificateClient } = require("@azure/keyvault-certificates");
 const { DefaultAzureCredential } = require("@azure/identity");
 
-// Load the .env file if it exists
-const dotenv = require("dotenv");
 dotenv.config();
 
 async function main() {
+  // This sample uses DefaultAzureCredential, which supports a number of authentication mechanisms.
+  // See https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
+  // about DefaultAzureCredential and the other credentials that are available for use.
   // If you're using MSI, DefaultAzureCredential should "just work".
-  // Otherwise, DefaultAzureCredential expects the following three environment variables:
-  // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
-  // - AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
-  // - AZURE_CLIENT_SECRET: The client secret for the registered application
   const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
   const credential = new DefaultAzureCredential();
 
   const client = new CertificateClient(url, credential);
 
   const uniqueString = new Date().getTime();
-  const certificateName1 = `cert1${uniqueString}`;
-  const certificateName2 = `cert2${uniqueString}`;
+  const certificateName1 = `list-1${uniqueString}`;
+  const certificateName2 = `list-2${uniqueString}`;
 
   // Creating two self-signed certificates. They will appear as pending initially.
   await client.beginCreateCertificate(certificateName1, {
     issuerName: "Self",
-    subject: "cn=MyCert"
+    subject: "cn=MyCert",
   });
   await client.beginCreateCertificate(certificateName2, {
     issuerName: "Self",
-    subject: "cn=MyCert"
+    subject: "cn=MyCert",
   });
 
   // Listing all the available certificates in a single call.
@@ -55,8 +55,8 @@ async function main() {
   // Updating one of the certificates to retrieve the certificate versions afterwards
   const updatedCertificate = await client.updateCertificateProperties(certificateName1, "", {
     tags: {
-      customTag: "value"
-    }
+      customTag: "value",
+    },
   });
   console.log("Updated certificate:", updatedCertificate);
 
@@ -82,3 +82,5 @@ main().catch((error) => {
   console.error("An error occurred:", error);
   process.exit(1);
 });
+
+module.exports = { main };

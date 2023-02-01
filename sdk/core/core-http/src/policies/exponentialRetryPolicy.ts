@@ -21,7 +21,7 @@ import { Constants } from "../util/constants";
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { RestError } from "../restError";
 import { WebResourceLike } from "../webResource";
-import { delay } from "../util/delay";
+import { delay } from "@azure/core-util";
 import { logger } from "../log";
 
 /**
@@ -182,7 +182,7 @@ async function retry(
       await delay(retryData.retryInterval);
       const res = await policy._nextPolicy.sendRequest(request.clone());
       return retry(policy, request, res, retryData);
-    } catch (err) {
+    } catch (err: any) {
       return retry(policy, request, response, retryData, err);
     }
   } else if (isAborted || requestError || !response) {

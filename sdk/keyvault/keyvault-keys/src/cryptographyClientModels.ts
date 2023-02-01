@@ -4,12 +4,12 @@
 import { CryptographyOptions, KeyVaultKey } from "./keysModels";
 
 import {
+  JsonWebKeyEncryptionAlgorithm as EncryptionAlgorithm,
   JsonWebKey,
   JsonWebKeyCurveName as KeyCurveName,
   KnownJsonWebKeyCurveName as KnownKeyCurveNames,
-  JsonWebKeyEncryptionAlgorithm as EncryptionAlgorithm,
-  JsonWebKeySignatureAlgorithm as SignatureAlgorithm,
   KnownJsonWebKeySignatureAlgorithm as KnownSignatureAlgorithms,
+  JsonWebKeySignatureAlgorithm as SignatureAlgorithm,
 } from "./generated/models";
 
 export {
@@ -283,6 +283,8 @@ export interface AesCbcEncryptParameters {
   /**
    * The initialization vector used for encryption. If omitted we will attempt to generate an IV using crypto's `randomBytes` functionality.
    * An error will be thrown if creating an IV fails, and you may recover by passing in your own cryptographically secure IV.
+   *
+   * When passing your own IV, make sure you use a cryptographically random, non-repeating IV.
    */
   iv?: Uint8Array;
 }
@@ -347,7 +349,8 @@ export interface AesCbcDecryptParameters {
    * The initialization vector used during encryption.
    */
   /**
-   * The ciphertext to decrypt.
+   * The ciphertext to decrypt. Microsoft recommends you not use CBC without first ensuring the integrity of the ciphertext using an HMAC, for example.
+   * See https://docs.microsoft.com/dotnet/standard/security/vulnerabilities-cbc-mode for more information.
    */
   ciphertext: Uint8Array;
   /**

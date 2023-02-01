@@ -47,6 +47,9 @@ export interface ExtensionTargetProperties {
     targetVersion?: string;
 }
 
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
+
 // @public (undocumented)
 export class HybridComputeManagementClient extends coreClient.ServiceClient {
     // (undocumented)
@@ -80,10 +83,10 @@ export interface HybridComputeManagementClientOptionalParams extends coreClient.
 }
 
 // @public
-export type HybridComputePrivateLinkScope = PrivateLinkScopesResource & {
+export interface HybridComputePrivateLinkScope extends PrivateLinkScopesResource {
     properties?: HybridComputePrivateLinkScopeProperties;
     readonly systemData?: SystemData;
-};
+}
 
 // @public
 export interface HybridComputePrivateLinkScopeListResult {
@@ -93,6 +96,7 @@ export interface HybridComputePrivateLinkScopeListResult {
 
 // @public
 export interface HybridComputePrivateLinkScopeProperties {
+    readonly privateEndpointConnections?: PrivateEndpointConnectionDataModel[];
     readonly privateLinkScopeId?: string;
     readonly provisioningState?: string;
     publicNetworkAccess?: PublicNetworkAccessType;
@@ -110,19 +114,14 @@ export type InstanceViewTypes = string;
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownInstanceViewTypes {
-    // (undocumented)
     InstanceView = "instanceView"
 }
 
@@ -134,21 +133,15 @@ export enum KnownPublicNetworkAccessType {
 
 // @public
 export enum KnownStatusLevelTypes {
-    // (undocumented)
     Error = "Error",
-    // (undocumented)
     Info = "Info",
-    // (undocumented)
     Warning = "Warning"
 }
 
 // @public
 export enum KnownStatusTypes {
-    // (undocumented)
     Connected = "Connected",
-    // (undocumented)
     Disconnected = "Disconnected",
-    // (undocumented)
     Error = "Error"
 }
 
@@ -161,17 +154,17 @@ export interface LocationData {
 }
 
 // @public
-export type Machine = TrackedResource & {
-    properties?: MachineProperties;
+export interface Machine extends TrackedResource {
     identity?: Identity;
+    properties?: MachineProperties;
     readonly systemData?: SystemData;
-};
+}
 
 // @public
-export type MachineExtension = TrackedResource & {
+export interface MachineExtension extends TrackedResource {
     properties?: MachineExtensionProperties;
     readonly systemData?: SystemData;
-};
+}
 
 // @public
 export interface MachineExtensionInstanceView {
@@ -269,9 +262,9 @@ export interface MachineExtensionsUpdateOptionalParams extends coreClient.Operat
 export type MachineExtensionsUpdateResponse = MachineExtension;
 
 // @public
-export type MachineExtensionUpdate = ResourceUpdate & {
+export interface MachineExtensionUpdate extends ResourceUpdate {
     properties?: MachineExtensionUpdateProperties;
-};
+}
 
 // @public
 export interface MachineExtensionUpdateProperties {
@@ -313,9 +306,11 @@ export interface MachineProperties {
     readonly lastStatusChange?: Date;
     locationData?: LocationData;
     readonly machineFqdn?: string;
+    mssqlDiscovered?: string;
     readonly osName?: string;
-    readonly osProfile?: OSProfile;
+    osProfile?: OSProfile;
     readonly osSku?: string;
+    osType?: string;
     readonly osVersion?: string;
     parentClusterResourceId?: string;
     privateLinkScopeResourceId?: string;
@@ -374,14 +369,15 @@ export interface MachinesListBySubscriptionOptionalParams extends coreClient.Ope
 export type MachinesListBySubscriptionResponse = MachineListResult;
 
 // @public
-export type MachineUpdate = ResourceUpdate & {
+export interface MachineUpdate extends ResourceUpdate {
     identity?: Identity;
     properties?: MachineUpdateProperties;
-};
+}
 
 // @public
 export interface MachineUpdateProperties {
     locationData?: LocationData;
+    osProfile?: OSProfile;
     parentClusterResourceId?: string;
     privateLinkScopeResourceId?: string;
 }
@@ -421,13 +417,33 @@ export interface OperationValueDisplay {
 // @public
 export interface OSProfile {
     readonly computerName?: string;
+    linuxConfiguration?: OSProfileLinuxConfiguration;
+    windowsConfiguration?: OSProfileWindowsConfiguration;
 }
 
 // @public
-export type PrivateEndpointConnection = ProxyResource & {
+export interface OSProfileLinuxConfiguration {
+    assessmentMode?: string;
+}
+
+// @public
+export interface OSProfileWindowsConfiguration {
+    assessmentMode?: string;
+}
+
+// @public
+export interface PrivateEndpointConnection extends ProxyResource {
     properties?: PrivateEndpointConnectionProperties;
     readonly systemData?: SystemData;
-};
+}
+
+// @public
+export interface PrivateEndpointConnectionDataModel {
+    readonly id?: string;
+    readonly name?: string;
+    properties?: PrivateEndpointConnectionProperties;
+    readonly type?: string;
+}
 
 // @public
 export interface PrivateEndpointConnectionListResult {
@@ -494,10 +510,10 @@ export interface PrivateEndpointProperty {
 }
 
 // @public
-export type PrivateLinkResource = ProxyResource & {
+export interface PrivateLinkResource extends ProxyResource {
     properties?: PrivateLinkResourceProperties;
     readonly systemData?: SystemData;
-};
+}
 
 // @public
 export interface PrivateLinkResourceListResult {
@@ -647,7 +663,8 @@ export interface PrivateLinkServiceConnectionStateProperty {
 }
 
 // @public
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {
+}
 
 // @public
 export type PublicNetworkAccessType = string;
@@ -690,12 +707,12 @@ export interface TagsResource {
 }
 
 // @public
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
+    location: string;
     tags?: {
         [propertyName: string]: string;
     };
-    location: string;
-};
+}
 
 // @public
 export interface UpgradeExtensionsOptionalParams extends coreClient.OperationOptions {

@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { MsalNode, MsalNodeOptions } from "./msalNodeCommon";
 import { AccessToken } from "@azure/core-auth";
-
 import { CredentialFlowGetTokenOptions } from "../credentials";
-import { MsalNodeOptions, MsalNode } from "./msalNodeCommon";
 
 /**
  * Options that can be passed to configure MSAL to handle client secrets.
  * @internal
  */
-export interface MSALClientSecretOptions extends MsalNodeOptions {
+export interface MsalClientSecretOptions extends MsalNodeOptions {
   /**
    * A client secret that was generated for the App Registration.
    */
@@ -22,7 +21,7 @@ export interface MSALClientSecretOptions extends MsalNodeOptions {
  * @internal
  */
 export class MsalClientSecret extends MsalNode {
-  constructor(options: MSALClientSecretOptions) {
+  constructor(options: MsalClientSecretOptions) {
     super(options);
     this.requiresConfidential = true;
     this.msalConfig.auth.clientSecret = options.clientSecret;
@@ -43,7 +42,7 @@ export class MsalClientSecret extends MsalNode {
       // The Client Credential flow does not return an account,
       // so each time getToken gets called, we will have to acquire a new token through the service.
       return this.handleResult(scopes, this.clientId, result || undefined);
-    } catch (err) {
+    } catch (err: any) {
       throw this.handleError(scopes, err, options);
     }
   }

@@ -2734,7 +2734,8 @@ export const MediaJobError: coreClient.CompositeMapper = {
             "UploadTransientError",
             "ConfigurationUnsupported",
             "ContentMalformed",
-            "ContentUnsupported"
+            "ContentUnsupported",
+            "IdentityUnsupported"
           ]
         }
       },
@@ -2757,7 +2758,8 @@ export const MediaJobError: coreClient.CompositeMapper = {
             "Download",
             "Upload",
             "Configuration",
-            "Content"
+            "Content",
+            "Account"
           ]
         }
       },
@@ -6438,6 +6440,205 @@ export const ApiManagementApiReleaseDeletedEventData: coreClient.CompositeMapper
         required: true,
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const HealthcareFhirResourceCreatedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "HealthcareFhirResourceCreatedEventData",
+    modelProperties: {
+      resourceType: {
+        serializedName: "resourceType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      resourceFhirAccount: {
+        serializedName: "resourceFhirAccount",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      resourceFhirId: {
+        serializedName: "resourceFhirId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      resourceVersionId: {
+        serializedName: "resourceVersionId",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const HealthcareFhirResourceUpdatedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "HealthcareFhirResourceUpdatedEventData",
+    modelProperties: {
+      resourceType: {
+        serializedName: "resourceType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      resourceFhirAccount: {
+        serializedName: "resourceFhirAccount",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      resourceFhirId: {
+        serializedName: "resourceFhirId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      resourceVersionId: {
+        serializedName: "resourceVersionId",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const HealthcareFhirResourceDeletedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "HealthcareFhirResourceDeletedEventData",
+    modelProperties: {
+      resourceType: {
+        serializedName: "resourceType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      resourceFhirAccount: {
+        serializedName: "resourceFhirAccount",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      resourceFhirId: {
+        serializedName: "resourceFhirId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      resourceVersionId: {
+        serializedName: "resourceVersionId",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const HealthcareDicomImageCreatedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "HealthcareDicomImageCreatedEventData",
+    modelProperties: {
+      imageStudyInstanceUid: {
+        serializedName: "imageStudyInstanceUid",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      imageSeriesInstanceUid: {
+        serializedName: "imageSeriesInstanceUid",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      imageSopInstanceUid: {
+        serializedName: "imageSopInstanceUid",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      serviceHostName: {
+        serializedName: "serviceHostName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      sequenceNumber: {
+        serializedName: "sequenceNumber",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const HealthcareDicomImageDeletedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "HealthcareDicomImageDeletedEventData",
+    modelProperties: {
+      imageStudyInstanceUid: {
+        serializedName: "imageStudyInstanceUid",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      imageSeriesInstanceUid: {
+        serializedName: "imageSeriesInstanceUid",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      imageSopInstanceUid: {
+        serializedName: "imageSopInstanceUid",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      serviceHostName: {
+        serializedName: "serviceHostName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      sequenceNumber: {
+        serializedName: "sequenceNumber",
+        required: true,
+        type: {
+          name: "Number"
         }
       }
     }

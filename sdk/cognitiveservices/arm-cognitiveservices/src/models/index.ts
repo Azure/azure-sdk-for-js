@@ -117,7 +117,7 @@ export interface AccountProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
-  /** Whether or not public endpoint access is allowed for this account. Value is optional but if passed in, must be 'Enabled' or 'Disabled' */
+  /** Whether or not public endpoint access is allowed for this account. */
   publicNetworkAccess?: PublicNetworkAccess;
   /** The api properties for special APIs. */
   apiProperties?: ApiProperties;
@@ -131,6 +131,8 @@ export interface AccountProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly callRateLimit?: CallRateLimit;
+  /** The flag to enable dynamic throttling. */
+  dynamicThrottlingEnabled?: boolean;
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly quotaLimit?: QuotaLimit;
   restrictOutboundNetworkAccess?: boolean;
@@ -142,6 +144,16 @@ export interface AccountProperties {
    */
   readonly endpoints?: { [propertyName: string]: string };
   restore?: boolean;
+  /**
+   * The deletion date, only available for deleted account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly deletionDate?: string;
+  /**
+   * The scheduled purge date, only available for deleted account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly scheduledPurgeDate?: string;
 }
 
 /** SkuCapability indicates the capability of a certain feature. */
@@ -485,6 +497,37 @@ export interface MetricName {
   localizedValue?: string;
 }
 
+/** The list of cognitive services accounts operation response. */
+export interface AccountModelListResult {
+  /** The link used to get the next page of Model. */
+  nextLink?: string;
+  /** Gets the list of Cognitive Services accounts Model and their properties. */
+  value?: AccountModel[];
+}
+
+/** Properties of Cognitive Services account deployment model. */
+export interface DeploymentModel {
+  /** Deployment model format. */
+  format?: string;
+  /** Deployment model name. */
+  name?: string;
+  /** Deployment model version. */
+  version?: string;
+  /**
+   * The call rate limit Cognitive Services account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly callRateLimit?: CallRateLimit;
+}
+
+/** Cognitive Services account ModelDeprecationInfo. */
+export interface ModelDeprecationInfo {
+  /** The datetime of deprecation of the fineTune Model. */
+  fineTune?: string;
+  /** The datetime of deprecation of the inference Model. */
+  inference?: string;
+}
+
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface OperationListResult {
   /**
@@ -707,16 +750,18 @@ export interface DeploymentProperties {
   model?: DeploymentModel;
   /** Properties of Cognitive Services account deployment model. */
   scaleSettings?: DeploymentScaleSettings;
-}
-
-/** Properties of Cognitive Services account deployment model. */
-export interface DeploymentModel {
-  /** Deployment model format. */
-  format?: string;
-  /** Deployment model name. */
-  name?: string;
-  /** Deployment model version. */
-  version?: string;
+  /**
+   * The capabilities.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly capabilities?: { [propertyName: string]: string };
+  /** The name of RAI policy. */
+  raiPolicyName?: string;
+  /**
+   * The call rate limit Cognitive Services account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly callRateLimit?: CallRateLimit;
 }
 
 /** Properties of Cognitive Services account deployment model. */
@@ -725,6 +770,11 @@ export interface DeploymentScaleSettings {
   scaleType?: DeploymentScaleType;
   /** Deployment capacity. */
   capacity?: number;
+  /**
+   * Deployment active capacity. This value might be different from `capacity` if customer recently updated `capacity`.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly activeCapacity?: number;
 }
 
 /** The list of cognitive services accounts operation response. */
@@ -781,25 +831,42 @@ export interface CommitmentPeriod {
 }
 
 /** The resource model definition for an Azure Resource Manager resource with an etag. */
-export type AzureEntityResource = Resource & {
+export interface AzureEntityResource extends Resource {
   /**
    * Resource Etag.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly etag?: string;
-};
+}
 
 /** A private link resource */
-export type PrivateLinkResource = Resource & {
+export interface PrivateLinkResource extends Resource {
   /** Resource properties. */
   properties?: PrivateLinkResourceProperties;
-};
+}
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {}
+
+/** Cognitive Services account Model. */
+export interface AccountModel extends DeploymentModel {
+  /** Base Model Identifier. */
+  baseModel?: DeploymentModel;
+  /** The max capacity. */
+  maxCapacity?: number;
+  /** The capabilities. */
+  capabilities?: { [propertyName: string]: string };
+  /** Cognitive Services account ModelDeprecationInfo. */
+  deprecation?: ModelDeprecationInfo;
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
 
 /** The Private Endpoint Connection resource. */
-export type PrivateEndpointConnection = AzureEntityResource & {
+export interface PrivateEndpointConnection extends AzureEntityResource {
   /** Resource properties. */
   properties?: PrivateEndpointConnectionProperties;
   /**
@@ -809,10 +876,10 @@ export type PrivateEndpointConnection = AzureEntityResource & {
   readonly systemData?: SystemData;
   /** The location of the private endpoint connection */
   location?: string;
-};
+}
 
 /** Cognitive Services account is an Azure resource representing the provisioned account, it's type, location and SKU. */
-export type Account = AzureEntityResource & {
+export interface Account extends AzureEntityResource {
   /** The Kind of the resource. */
   kind?: string;
   /** The resource model definition representing SKU */
@@ -830,10 +897,10 @@ export type Account = AzureEntityResource & {
   location?: string;
   /** Properties of Cognitive Services account. */
   properties?: AccountProperties;
-};
+}
 
 /** Cognitive Services account deployment. */
-export type Deployment = ProxyResource & {
+export interface Deployment extends ProxyResource {
   /**
    * Metadata pertaining to creation and last modification of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -846,10 +913,10 @@ export type Deployment = ProxyResource & {
   readonly etag?: string;
   /** Properties of Cognitive Services account deployment. */
   properties?: DeploymentProperties;
-};
+}
 
 /** Cognitive Services account commitment plan. */
-export type CommitmentPlan = ProxyResource & {
+export interface CommitmentPlan extends ProxyResource {
   /**
    * Metadata pertaining to creation and last modification of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -862,14 +929,19 @@ export type CommitmentPlan = ProxyResource & {
   readonly etag?: string;
   /** Properties of Cognitive Services account commitment plan. */
   properties?: CommitmentPlanProperties;
-};
+}
 
 /** Known values of {@link SkuTier} that the service accepts. */
 export enum KnownSkuTier {
+  /** Free */
   Free = "Free",
+  /** Basic */
   Basic = "Basic",
+  /** Standard */
   Standard = "Standard",
+  /** Premium */
   Premium = "Premium",
+  /** Enterprise */
   Enterprise = "Enterprise"
 }
 
@@ -888,9 +960,13 @@ export type SkuTier = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -908,12 +984,19 @@ export type CreatedByType = string;
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
+  /** Accepted */
   Accepted = "Accepted",
+  /** Creating */
   Creating = "Creating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Moving */
   Moving = "Moving",
+  /** Failed */
   Failed = "Failed",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** ResolvingDNS */
   ResolvingDNS = "ResolvingDNS"
 }
 
@@ -934,7 +1017,9 @@ export type ProvisioningState = string;
 
 /** Known values of {@link NetworkRuleAction} that the service accepts. */
 export enum KnownNetworkRuleAction {
+  /** Allow */
   Allow = "Allow",
+  /** Deny */
   Deny = "Deny"
 }
 
@@ -950,7 +1035,9 @@ export type NetworkRuleAction = string;
 
 /** Known values of {@link KeySource} that the service accepts. */
 export enum KnownKeySource {
+  /** MicrosoftCognitiveServices */
   MicrosoftCognitiveServices = "Microsoft.CognitiveServices",
+  /** MicrosoftKeyVault */
   MicrosoftKeyVault = "Microsoft.KeyVault"
 }
 
@@ -966,8 +1053,11 @@ export type KeySource = string;
 
 /** Known values of {@link PrivateEndpointServiceConnectionStatus} that the service accepts. */
 export enum KnownPrivateEndpointServiceConnectionStatus {
+  /** Pending */
   Pending = "Pending",
+  /** Approved */
   Approved = "Approved",
+  /** Rejected */
   Rejected = "Rejected"
 }
 
@@ -984,9 +1074,13 @@ export type PrivateEndpointServiceConnectionStatus = string;
 
 /** Known values of {@link PrivateEndpointConnectionProvisioningState} that the service accepts. */
 export enum KnownPrivateEndpointConnectionProvisioningState {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Creating */
   Creating = "Creating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Failed */
   Failed = "Failed"
 }
 
@@ -1004,7 +1098,9 @@ export type PrivateEndpointConnectionProvisioningState = string;
 
 /** Known values of {@link PublicNetworkAccess} that the service accepts. */
 export enum KnownPublicNetworkAccess {
+  /** Enabled */
   Enabled = "Enabled",
+  /** Disabled */
   Disabled = "Disabled"
 }
 
@@ -1020,7 +1116,9 @@ export type PublicNetworkAccess = string;
 
 /** Known values of {@link ResourceSkuRestrictionsReasonCode} that the service accepts. */
 export enum KnownResourceSkuRestrictionsReasonCode {
+  /** QuotaId */
   QuotaId = "QuotaId",
+  /** NotAvailableForSubscription */
   NotAvailableForSubscription = "NotAvailableForSubscription"
 }
 
@@ -1036,12 +1134,19 @@ export type ResourceSkuRestrictionsReasonCode = string;
 
 /** Known values of {@link UnitType} that the service accepts. */
 export enum KnownUnitType {
+  /** Count */
   Count = "Count",
+  /** Bytes */
   Bytes = "Bytes",
+  /** Seconds */
   Seconds = "Seconds",
+  /** Percent */
   Percent = "Percent",
+  /** CountPerSecond */
   CountPerSecond = "CountPerSecond",
+  /** BytesPerSecond */
   BytesPerSecond = "BytesPerSecond",
+  /** Milliseconds */
   Milliseconds = "Milliseconds"
 }
 
@@ -1062,9 +1167,13 @@ export type UnitType = string;
 
 /** Known values of {@link QuotaUsageStatus} that the service accepts. */
 export enum KnownQuotaUsageStatus {
+  /** Included */
   Included = "Included",
+  /** Blocked */
   Blocked = "Blocked",
+  /** InOverage */
   InOverage = "InOverage",
+  /** Unknown */
   Unknown = "Unknown"
 }
 
@@ -1082,8 +1191,11 @@ export type QuotaUsageStatus = string;
 
 /** Known values of {@link Origin} that the service accepts. */
 export enum KnownOrigin {
+  /** User */
   User = "user",
+  /** System */
   System = "system",
+  /** UserSystem */
   UserSystem = "user,system"
 }
 
@@ -1100,6 +1212,7 @@ export type Origin = string;
 
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
+  /** Internal */
   Internal = "Internal"
 }
 
@@ -1114,8 +1227,11 @@ export type ActionType = string;
 
 /** Known values of {@link HostingModel} that the service accepts. */
 export enum KnownHostingModel {
+  /** Web */
   Web = "Web",
+  /** ConnectedContainer */
   ConnectedContainer = "ConnectedContainer",
+  /** DisconnectedContainer */
   DisconnectedContainer = "DisconnectedContainer"
 }
 
@@ -1132,11 +1248,17 @@ export type HostingModel = string;
 
 /** Known values of {@link DeploymentProvisioningState} that the service accepts. */
 export enum KnownDeploymentProvisioningState {
+  /** Accepted */
   Accepted = "Accepted",
+  /** Creating */
   Creating = "Creating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Moving */
   Moving = "Moving",
+  /** Failed */
   Failed = "Failed",
+  /** Succeeded */
   Succeeded = "Succeeded"
 }
 
@@ -1156,6 +1278,9 @@ export type DeploymentProvisioningState = string;
 
 /** Known values of {@link DeploymentScaleType} that the service accepts. */
 export enum KnownDeploymentScaleType {
+  /** Standard */
+  Standard = "Standard",
+  /** Manual */
   Manual = "Manual"
 }
 
@@ -1164,6 +1289,7 @@ export enum KnownDeploymentScaleType {
  * {@link KnownDeploymentScaleType} can be used interchangeably with DeploymentScaleType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
+ * **Standard** \
  * **Manual**
  */
 export type DeploymentScaleType = string;
@@ -1264,6 +1390,13 @@ export interface AccountsListUsagesOptionalParams
 export type AccountsListUsagesResponse = UsageListResult;
 
 /** Optional parameters. */
+export interface AccountsListModelsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listModels operation. */
+export type AccountsListModelsResponse = AccountModelListResult;
+
+/** Optional parameters. */
 export interface AccountsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -1276,6 +1409,13 @@ export interface AccountsListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type AccountsListNextResponse = AccountListResult;
+
+/** Optional parameters. */
+export interface AccountsListModelsNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listModelsNext operation. */
+export type AccountsListModelsNextResponse = AccountModelListResult;
 
 /** Optional parameters. */
 export interface DeletedAccountsGetOptionalParams

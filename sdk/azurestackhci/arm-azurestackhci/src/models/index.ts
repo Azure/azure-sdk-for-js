@@ -109,6 +109,29 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, unknown>;
 }
 
+/** ArcSetting details to update. */
+export interface ArcSettingsPatch {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** contains connectivity related configuration for ARC resources */
+  connectivityProperties?: Record<string, unknown>;
+}
+
+export interface PasswordCredential {
+  secretText?: string;
+  keyId?: string;
+  startDateTime?: Date;
+  endDateTime?: Date;
+}
+
+/** ArcIdentity details. */
+export interface ArcIdentityResponse {
+  arcApplicationClientId?: string;
+  arcApplicationTenantId?: string;
+  arcServicePrincipalObjectId?: string;
+  arcApplicationObjectId?: string;
+}
+
 /** List of clusters. */
 export interface ClusterList {
   /** List of clusters. */
@@ -232,6 +255,22 @@ export interface ClusterPatch {
   desiredProperties?: ClusterDesiredProperties;
 }
 
+export interface UploadCertificateRequest {
+  properties?: RawCertificateData;
+}
+
+export interface RawCertificateData {
+  certificates?: string[];
+}
+
+/** Cluster Identity details. */
+export interface ClusterIdentityResponse {
+  aadClientId?: string;
+  aadTenantId?: string;
+  aadServicePrincipalObjectId?: string;
+  aadApplicationObjectId?: string;
+}
+
 /** List of Extensions in HCI cluster. */
 export interface ExtensionList {
   /**
@@ -329,29 +368,40 @@ export interface OperationDisplay {
   readonly description?: string;
 }
 
+/** Connectivity related configuration required by arc server. */
+export interface ArcConnectivityProperties {
+  /** True indicates ARC connectivity is enabled */
+  enabled?: boolean;
+}
+
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {}
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The geo-location where the resource lives */
   location: string;
-};
+}
 
 /** ArcSetting details. */
-export type ArcSetting = ProxyResource & {
+export interface ArcSetting extends ProxyResource {
   /**
    * Provisioning state of the ArcSetting proxy resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
-  /**
-   * The resource group that hosts the Arc agents, ie. Hybrid Compute Machine resources.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly arcInstanceResourceGroup?: string;
+  /** The resource group that hosts the Arc agents, ie. Hybrid Compute Machine resources. */
+  arcInstanceResourceGroup?: string;
+  /** App id of arc AAD identity. */
+  arcApplicationClientId?: string;
+  /** Tenant id of arc AAD identity. */
+  arcApplicationTenantId?: string;
+  /** Object id of arc AAD service principal. */
+  arcServicePrincipalObjectId?: string;
+  /** Object id of arc AAD identity. */
+  arcApplicationObjectId?: string;
   /**
    * Aggregate state of Arc agent across the nodes in this HCI cluster.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -362,6 +412,8 @@ export type ArcSetting = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly perNodeDetails?: PerNodeState[];
+  /** contains connectivity related configuration for ARC resources */
+  connectivityProperties?: Record<string, unknown>;
   /** The identity that created the resource. */
   createdBy?: string;
   /** The type of identity that created the resource. */
@@ -374,10 +426,10 @@ export type ArcSetting = ProxyResource & {
   lastModifiedByType?: CreatedByType;
   /** The timestamp of resource last modification (UTC) */
   lastModifiedAt?: Date;
-};
+}
 
 /** Details of a particular extension in HCI Cluster. */
-export type Extension = ProxyResource & {
+export interface Extension extends ProxyResource {
   /**
    * Provisioning state of the Extension proxy resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -419,10 +471,10 @@ export type Extension = ProxyResource & {
   lastModifiedByType?: CreatedByType;
   /** The timestamp of resource last modification (UTC) */
   lastModifiedAt?: Date;
-};
+}
 
 /** Cluster details. */
-export type Cluster = TrackedResource & {
+export interface Cluster extends TrackedResource {
   /**
    * Provisioning state.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -444,6 +496,10 @@ export type Cluster = TrackedResource & {
   aadClientId?: string;
   /** Tenant id of cluster AAD identity. */
   aadTenantId?: string;
+  /** Object id of cluster AAD identity. */
+  aadApplicationObjectId?: string;
+  /** Id of cluster identity service principal. */
+  aadServicePrincipalObjectId?: string;
   /** Desired properties of the cluster. */
   desiredProperties?: ClusterDesiredProperties;
   /**
@@ -476,6 +532,11 @@ export type Cluster = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly lastBillingTimestamp?: Date;
+  /**
+   * Region specific DataPath Endpoint of the cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serviceEndpoint?: string;
   /** The identity that created the resource. */
   createdBy?: string;
   /** The type of identity that created the resource. */
@@ -488,13 +549,17 @@ export type Cluster = TrackedResource & {
   lastModifiedByType?: CreatedByType;
   /** The timestamp of resource last modification (UTC) */
   lastModifiedAt?: Date;
-};
+}
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -512,10 +577,15 @@ export type CreatedByType = string;
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Accepted */
   Accepted = "Accepted",
+  /** Provisioning */
   Provisioning = "Provisioning"
 }
 
@@ -534,20 +604,35 @@ export type ProvisioningState = string;
 
 /** Known values of {@link ArcSettingAggregateState} that the service accepts. */
 export enum KnownArcSettingAggregateState {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** Error */
   Error = "Error",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Failed */
   Failed = "Failed",
+  /** Connected */
   Connected = "Connected",
+  /** Disconnected */
   Disconnected = "Disconnected",
+  /** Deleted */
   Deleted = "Deleted",
+  /** Creating */
   Creating = "Creating",
+  /** Updating */
   Updating = "Updating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Moving */
   Moving = "Moving",
+  /** PartiallySucceeded */
   PartiallySucceeded = "PartiallySucceeded",
+  /** PartiallyConnected */
   PartiallyConnected = "PartiallyConnected",
+  /** InProgress */
   InProgress = "InProgress"
 }
 
@@ -576,17 +661,29 @@ export type ArcSettingAggregateState = string;
 
 /** Known values of {@link NodeArcState} that the service accepts. */
 export enum KnownNodeArcState {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** Error */
   Error = "Error",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Failed */
   Failed = "Failed",
+  /** Connected */
   Connected = "Connected",
+  /** Disconnected */
   Disconnected = "Disconnected",
+  /** Deleted */
   Deleted = "Deleted",
+  /** Creating */
   Creating = "Creating",
+  /** Updating */
   Updating = "Updating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Moving */
   Moving = "Moving"
 }
 
@@ -612,10 +709,15 @@ export type NodeArcState = string;
 
 /** Known values of {@link Status} that the service accepts. */
 export enum KnownStatus {
+  /** NotYetRegistered */
   NotYetRegistered = "NotYetRegistered",
+  /** ConnectedRecently */
   ConnectedRecently = "ConnectedRecently",
+  /** NotConnectedRecently */
   NotConnectedRecently = "NotConnectedRecently",
+  /** Disconnected */
   Disconnected = "Disconnected",
+  /** Error */
   Error = "Error"
 }
 
@@ -634,7 +736,9 @@ export type Status = string;
 
 /** Known values of {@link WindowsServerSubscription} that the service accepts. */
 export enum KnownWindowsServerSubscription {
+  /** Disabled */
   Disabled = "Disabled",
+  /** Enabled */
   Enabled = "Enabled"
 }
 
@@ -650,8 +754,11 @@ export type WindowsServerSubscription = string;
 
 /** Known values of {@link DiagnosticLevel} that the service accepts. */
 export enum KnownDiagnosticLevel {
+  /** Off */
   Off = "Off",
+  /** Basic */
   Basic = "Basic",
+  /** Enhanced */
   Enhanced = "Enhanced"
 }
 
@@ -668,7 +775,9 @@ export type DiagnosticLevel = string;
 
 /** Known values of {@link ImdsAttestation} that the service accepts. */
 export enum KnownImdsAttestation {
+  /** Disabled */
   Disabled = "Disabled",
+  /** Enabled */
   Enabled = "Enabled"
 }
 
@@ -684,20 +793,35 @@ export type ImdsAttestation = string;
 
 /** Known values of {@link ExtensionAggregateState} that the service accepts. */
 export enum KnownExtensionAggregateState {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** Error */
   Error = "Error",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Failed */
   Failed = "Failed",
+  /** Connected */
   Connected = "Connected",
+  /** Disconnected */
   Disconnected = "Disconnected",
+  /** Deleted */
   Deleted = "Deleted",
+  /** Creating */
   Creating = "Creating",
+  /** Updating */
   Updating = "Updating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Moving */
   Moving = "Moving",
+  /** PartiallySucceeded */
   PartiallySucceeded = "PartiallySucceeded",
+  /** PartiallyConnected */
   PartiallyConnected = "PartiallyConnected",
+  /** InProgress */
   InProgress = "InProgress"
 }
 
@@ -726,17 +850,29 @@ export type ExtensionAggregateState = string;
 
 /** Known values of {@link NodeExtensionState} that the service accepts. */
 export enum KnownNodeExtensionState {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** Error */
   Error = "Error",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Failed */
   Failed = "Failed",
+  /** Connected */
   Connected = "Connected",
+  /** Disconnected */
   Disconnected = "Disconnected",
+  /** Deleted */
   Deleted = "Deleted",
+  /** Creating */
   Creating = "Creating",
+  /** Updating */
   Updating = "Updating",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Moving */
   Moving = "Moving"
 }
 
@@ -762,8 +898,11 @@ export type NodeExtensionState = string;
 
 /** Known values of {@link Origin} that the service accepts. */
 export enum KnownOrigin {
+  /** User */
   User = "user",
+  /** System */
   System = "system",
+  /** UserSystem */
   UserSystem = "user,system"
 }
 
@@ -780,6 +919,7 @@ export type Origin = string;
 
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
+  /** Internal */
   Internal = "Internal"
 }
 
@@ -814,6 +954,13 @@ export interface ArcSettingsCreateOptionalParams
 export type ArcSettingsCreateResponse = ArcSetting;
 
 /** Optional parameters. */
+export interface ArcSettingsUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type ArcSettingsUpdateResponse = ArcSetting;
+
+/** Optional parameters. */
 export interface ArcSettingsDeleteOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -821,6 +968,25 @@ export interface ArcSettingsDeleteOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Optional parameters. */
+export interface ArcSettingsGeneratePasswordOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the generatePassword operation. */
+export type ArcSettingsGeneratePasswordResponse = PasswordCredential;
+
+/** Optional parameters. */
+export interface ArcSettingsCreateIdentityOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createIdentity operation. */
+export type ArcSettingsCreateIdentityResponse = ArcIdentityResponse;
 
 /** Optional parameters. */
 export interface ArcSettingsListByClusterNextOptionalParams
@@ -866,7 +1032,33 @@ export type ClustersUpdateResponse = Cluster;
 
 /** Optional parameters. */
 export interface ClustersDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ClustersUploadCertificateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ClustersCreateIdentityOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createIdentity operation. */
+export type ClustersCreateIdentityResponse = ClusterIdentityResponse;
 
 /** Optional parameters. */
 export interface ClustersListBySubscriptionNextOptionalParams

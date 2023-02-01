@@ -2,11 +2,8 @@
 // Licensed under the MIT license.
 
 import { AuthorizeRequestOnChallengeOptions } from "@azure/core-rest-pipeline";
-import { GetTokenOptions } from "@azure/core-auth";
-import { createClientLogger } from "@azure/logger";
+import { logger as coreClientLogger } from "./log";
 import { decodeStringToString } from "./base64";
-
-const defaultLogger = createClientLogger("authorizeRequestOnClaimChallenge");
 
 /**
  * Converts: `Bearer a="b", c="d", Bearer d="e", f="g"`.
@@ -64,7 +61,7 @@ export async function authorizeRequestOnClaimChallenge(
   onChallengeOptions: AuthorizeRequestOnChallengeOptions
 ): Promise<boolean> {
   const { scopes, response } = onChallengeOptions;
-  const logger = onChallengeOptions.logger || defaultLogger;
+  const logger = onChallengeOptions.logger || coreClientLogger;
 
   const challenge = response.headers.get("WWW-Authenticate");
   if (!challenge) {
@@ -87,7 +84,7 @@ export async function authorizeRequestOnClaimChallenge(
     parsedChallenge.scope ? [parsedChallenge.scope] : scopes,
     {
       claims: decodeStringToString(parsedChallenge.claims),
-    } as GetTokenOptions
+    }
   );
 
   if (!accessToken) {

@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Workbooks } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,12 +18,13 @@ import {
   CategoryType,
   WorkbooksListBySubscriptionNextOptionalParams,
   WorkbooksListBySubscriptionOptionalParams,
+  WorkbooksListBySubscriptionResponse,
   WorkbooksListByResourceGroupNextOptionalParams,
   WorkbooksListByResourceGroupOptionalParams,
+  WorkbooksListByResourceGroupResponse,
   WorkbooksRevisionsListNextOptionalParams,
   WorkbooksRevisionsListOptionalParams,
-  WorkbooksListBySubscriptionResponse,
-  WorkbooksListByResourceGroupResponse,
+  WorkbooksRevisionsListResponse,
   WorkbooksGetOptionalParams,
   WorkbooksGetResponse,
   WorkbooksDeleteOptionalParams,
@@ -30,7 +32,6 @@ import {
   WorkbooksCreateOrUpdateResponse,
   WorkbooksUpdateOptionalParams,
   WorkbooksUpdateResponse,
-  WorkbooksRevisionsListResponse,
   WorkbooksRevisionGetOptionalParams,
   WorkbooksRevisionGetResponse,
   WorkbooksListBySubscriptionNextResponse,
@@ -52,7 +53,7 @@ export class WorkbooksImpl implements Workbooks {
   }
 
   /**
-   * Get all private workbooks defined within a specified subscription and category.
+   * Get all Workbooks defined within a specified subscription and category.
    * @param category Category of workbook to return.
    * @param options The options parameters.
    */
@@ -68,19 +69,29 @@ export class WorkbooksImpl implements Workbooks {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listBySubscriptionPagingPage(category, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBySubscriptionPagingPage(category, options, settings);
       }
     };
   }
 
   private async *listBySubscriptionPagingPage(
     category: CategoryType,
-    options?: WorkbooksListBySubscriptionOptionalParams
+    options?: WorkbooksListBySubscriptionOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Workbook[]> {
-    let result = await this._listBySubscription(category, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: WorkbooksListBySubscriptionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBySubscription(category, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listBySubscriptionNext(
         category,
@@ -88,7 +99,9 @@ export class WorkbooksImpl implements Workbooks {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -127,11 +140,15 @@ export class WorkbooksImpl implements Workbooks {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           category,
-          options
+          options,
+          settings
         );
       }
     };
@@ -140,15 +157,22 @@ export class WorkbooksImpl implements Workbooks {
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     category: CategoryType,
-    options?: WorkbooksListByResourceGroupOptionalParams
+    options?: WorkbooksListByResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Workbook[]> {
-    let result = await this._listByResourceGroup(
-      resourceGroupName,
-      category,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: WorkbooksListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(
+        resourceGroupName,
+        category,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -157,7 +181,9 @@ export class WorkbooksImpl implements Workbooks {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -178,7 +204,7 @@ export class WorkbooksImpl implements Workbooks {
   /**
    * Get the revisions for the workbook defined by its resourceName.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName The name of the Application Insights component resource.
+   * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
   public listRevisionsList(
@@ -198,11 +224,15 @@ export class WorkbooksImpl implements Workbooks {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.revisionsListPagingPage(
           resourceGroupName,
           resourceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -211,15 +241,22 @@ export class WorkbooksImpl implements Workbooks {
   private async *revisionsListPagingPage(
     resourceGroupName: string,
     resourceName: string,
-    options?: WorkbooksRevisionsListOptionalParams
+    options?: WorkbooksRevisionsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Workbook[]> {
-    let result = await this._revisionsList(
-      resourceGroupName,
-      resourceName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: WorkbooksRevisionsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._revisionsList(
+        resourceGroupName,
+        resourceName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._revisionsListNext(
         resourceGroupName,
@@ -228,7 +265,9 @@ export class WorkbooksImpl implements Workbooks {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -247,7 +286,7 @@ export class WorkbooksImpl implements Workbooks {
   }
 
   /**
-   * Get all private workbooks defined within a specified subscription and category.
+   * Get all Workbooks defined within a specified subscription and category.
    * @param category Category of workbook to return.
    * @param options The options parameters.
    */
@@ -281,7 +320,7 @@ export class WorkbooksImpl implements Workbooks {
   /**
    * Get a single workbook by its resourceName.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName The name of the Application Insights component resource.
+   * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
   get(
@@ -298,7 +337,7 @@ export class WorkbooksImpl implements Workbooks {
   /**
    * Delete a workbook.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName The name of the Application Insights component resource.
+   * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
   delete(
@@ -315,7 +354,7 @@ export class WorkbooksImpl implements Workbooks {
   /**
    * Create a new workbook.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName The name of the Application Insights component resource.
+   * @param resourceName The name of the resource.
    * @param workbookProperties Properties that need to be specified to create a new workbook.
    * @param options The options parameters.
    */
@@ -334,7 +373,7 @@ export class WorkbooksImpl implements Workbooks {
   /**
    * Updates a workbook that has already been added.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName The name of the Application Insights component resource.
+   * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
   update(
@@ -351,7 +390,7 @@ export class WorkbooksImpl implements Workbooks {
   /**
    * Get the revisions for the workbook defined by its resourceName.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName The name of the Application Insights component resource.
+   * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
   private _revisionsList(
@@ -368,7 +407,7 @@ export class WorkbooksImpl implements Workbooks {
   /**
    * Get a single workbook revision defined by its revisionId.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName The name of the Application Insights component resource.
+   * @param resourceName The name of the resource.
    * @param revisionId The id of the workbook's revision.
    * @param options The options parameters.
    */
@@ -423,7 +462,7 @@ export class WorkbooksImpl implements Workbooks {
   /**
    * RevisionsListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName The name of the Application Insights component resource.
+   * @param resourceName The name of the resource.
    * @param nextLink The nextLink from the previous successful call to the RevisionsList method.
    * @param options The options parameters.
    */
@@ -503,7 +542,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WorkbookError
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.canFetchContent, Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

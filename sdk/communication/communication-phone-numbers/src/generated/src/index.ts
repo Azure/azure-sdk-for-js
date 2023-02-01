@@ -9,4 +9,4 @@
 /// <reference lib="esnext.asynciterable" />
 export * from "./models";
 export { PhoneNumbersClient } from "./phoneNumbersClient";
-export { PhoneNumbersClientContext } from "./phoneNumbersClientContext";
+export * from "./operationsInterfaces";

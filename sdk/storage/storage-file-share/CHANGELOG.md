@@ -1,6 +1,6 @@
 # Release History
 
-## 12.9.0-beta.4 (Unreleased)
+## 12.13.0 (Unreleased)
 
 ### Features Added
 
@@ -8,9 +8,63 @@
 
 ### Bugs Fixed
 
-- Set correct content length in requests for uploading operations to avoid unexpected failure if customized content length is incorrect.
-
 ### Other Changes
+
+- Update dependency `@azure/core-http` version to `^3.0.0`.
+
+## 12.12.0 (2022-10-14)
+
+### Features Added
+
+- Added support for service version 2021-10-04.
+
+### Bugs Fixed
+
+- Fixed a hang issue in ShareFileClient.downloadToBuffer when encountering transient network failure.
+- Refined URL parsing method to let it be able to correctly parse URLs with account name in path.
+- Fixed an issue of escaping slashes in file or directory path unnecessarily.
+
+## 12.11.0 (2022-07-08)
+
+### Features Added
+
+- Added support for service version 2021-08-06.
+
+## 12.10.0 (2022-05-12)
+
+### Features Added
+
+- Includes all features released in 12.10.0-beta.1.
+
+### Bugs Fixed
+
+- Refined user-agent value to avoid failure when os information is not available on some platforms.
+
+## 12.10.0-beta.1 (2022-04-19)
+
+### Features Added
+
+- Added support for service version 2021-06-08.
+- Added ability to maintain a file's current last write time when calling ShareFileClient.uploadRange() and ShareFileClient.uploadRangeFromURL().
+- Added ability to specify a file or directory's change time when calling ShareFileClient.create(), ShareDirectoryClient.create(), ShareFileClient.setProperties(), ShareDirectoryClient.setProperties(), ShareFileClient.resize(), ShareFileClient.rename() and ShareDirectoryClient.rename().
+- Added ability to specify content-type on a file when calling ShareFileClient.rename().
+
+### Bugs Fixed
+
+- Add `react-native` mapping to ESM entry point
+
+## 12.9.0 (2022-03-11)
+
+### Features Added
+
+- Includes all features released in 12.9.0-beta.1, 12.9.0-beta.2, 12.9.0-beta.3 and 12.9.0-beta.4.
+
+## 12.9.0-beta.4 (2022-03-04)
+
+### Bugs Fixed
+
+- Fixed bug where ShareFileClient.startCopyFromURL() was not sending the ignoreReadonly parameter correctly.
+- Set correct content length in requests for uploading operations to avoid unexpected failure if customized content length is incorrect.
 
 ## 12.9.0-beta.3 (2022-02-11)
 

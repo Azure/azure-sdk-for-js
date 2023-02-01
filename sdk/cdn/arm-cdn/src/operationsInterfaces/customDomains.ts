@@ -18,7 +18,9 @@ import {
   CustomDomainsCreateResponse,
   CustomDomainsDeleteOptionalParams,
   CustomDomainsDisableCustomHttpsOptionalParams,
-  CustomDomainsEnableCustomHttpsOptionalParams
+  CustomDomainsDisableCustomHttpsResponse,
+  CustomDomainsEnableCustomHttpsOptionalParams,
+  CustomDomainsEnableCustomHttpsResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -135,7 +137,12 @@ export interface CustomDomains {
     endpointName: string,
     customDomainName: string,
     options?: CustomDomainsDisableCustomHttpsOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<
+    PollerLike<
+      PollOperationState<CustomDomainsDisableCustomHttpsResponse>,
+      CustomDomainsDisableCustomHttpsResponse
+    >
+  >;
   /**
    * Disable https delivery of the custom domain.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
@@ -150,7 +157,7 @@ export interface CustomDomains {
     endpointName: string,
     customDomainName: string,
     options?: CustomDomainsDisableCustomHttpsOptionalParams
-  ): Promise<void>;
+  ): Promise<CustomDomainsDisableCustomHttpsResponse>;
   /**
    * Enable https delivery of the custom domain.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
@@ -165,7 +172,12 @@ export interface CustomDomains {
     endpointName: string,
     customDomainName: string,
     options?: CustomDomainsEnableCustomHttpsOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<
+    PollerLike<
+      PollOperationState<CustomDomainsEnableCustomHttpsResponse>,
+      CustomDomainsEnableCustomHttpsResponse
+    >
+  >;
   /**
    * Enable https delivery of the custom domain.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
@@ -180,5 +192,5 @@ export interface CustomDomains {
     endpointName: string,
     customDomainName: string,
     options?: CustomDomainsEnableCustomHttpsOptionalParams
-  ): Promise<void>;
+  ): Promise<CustomDomainsEnableCustomHttpsResponse>;
 }

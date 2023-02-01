@@ -24,7 +24,7 @@ import {
   generateBlobSASQueryParameters,
   BlobSASPermissions,
 } from "../../src";
-import { TokenCredential } from "@azure/core-http";
+import { TokenCredential } from "@azure/core-auth";
 import { assertClientUsesTokenCredential } from "../utils/assert";
 import { record, Recorder } from "@azure-tools/test-recorder";
 import { streamToBuffer3 } from "../../src/utils/utils.node";
@@ -88,8 +88,7 @@ describe("BlockBlobClient Node.js only", () => {
   });
 
   it("can be created with a url and a credential", async () => {
-    const factories = (blockBlobClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const credential = (blockBlobClient as any).credential as StorageSharedKeyCredential;
     const newClient = new BlockBlobClient(blockBlobClient.url, credential);
 
     const body: string = recorder.getUniqueName("randomstring");
@@ -99,8 +98,7 @@ describe("BlockBlobClient Node.js only", () => {
   });
 
   it("can be created with a url and a credential and an option bag", async () => {
-    const factories = (blockBlobClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const credential = (blockBlobClient as any).credential as StorageSharedKeyCredential;
     const newClient = new BlockBlobClient(blockBlobClient.url, credential, {
       retryOptions: {
         maxTries: 5,
@@ -126,8 +124,7 @@ describe("BlockBlobClient Node.js only", () => {
   });
 
   it("can be created with a url and a pipeline", async () => {
-    const factories = (blockBlobClient as any).pipeline.factories;
-    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+    const credential = (blockBlobClient as any).credential as StorageSharedKeyCredential;
     const pipeline = newPipeline(credential);
     const newClient = new BlockBlobClient(blockBlobClient.url, pipeline);
 
@@ -472,6 +469,57 @@ describe("syncUploadFromURL", () => {
     assert.deepStrictEqual(getTagsRes.tags, tags);
   });
 
+  it("syncUploadFromURL - with COPY tags", async () => {
+    const tags = {
+      tag1: "val1",
+    };
+    await sourceBlob.setTags(tags);
+    const expiryTime = recorder.newDate("tagtestexpiry");
+    expiryTime.setDate(expiryTime.getDate() + 1);
+    const sas = generateBlobSASQueryParameters(
+      {
+        expiresOn: expiryTime,
+        permissions: BlobSASPermissions.parse("rt"),
+        containerName: sourceBlob.containerName,
+        blobName: sourceBlob.name,
+      },
+      sourceBlob.credential as StorageSharedKeyCredential
+    );
+    const urlWithSAS = sourceBlob.url + "?" + sas;
+    await blockBlobClient.syncUploadFromURL(urlWithSAS, { copySourceTags: "COPY" });
+
+    // Validate source and destination blob content match.
+    const downloadRes = await blockBlobClient.download();
+    const downloadBuffer = await streamToBuffer3(downloadRes.readableStreamBody!);
+    assert.ok(downloadBuffer.compare(Buffer.from(content)) === 0);
+
+    // Validate tags set correctly
+    const getTagsRes = await blockBlobClient.getTags();
+    assert.deepStrictEqual(getTagsRes.tags, tags);
+  });
+
+  it("syncUploadFromURL - with REPLACE tags", async () => {
+    await sourceBlob.setTags({
+      tag1: "val1",
+    });
+    const tags = {
+      tag2: "val2",
+    };
+    await blockBlobClient.syncUploadFromURL(sourceBlobURLWithSAS, {
+      tags: tags,
+      copySourceTags: "REPLACE",
+    });
+
+    // Validate source and destination blob content match.
+    const downloadRes = await blockBlobClient.download();
+    const downloadBuffer = await streamToBuffer3(downloadRes.readableStreamBody!);
+    assert.ok(downloadBuffer.compare(Buffer.from(content)) === 0);
+
+    // Validate tags set correctly
+    const getTagsRes = await blockBlobClient.getTags();
+    assert.deepStrictEqual(getTagsRes.tags, tags);
+  });
+
   it("copySourceBlobProperties = false", async () => {
     const blobHTTPHeaders = {
       blobContentLanguage: "blobContentLanguage1",
@@ -515,7 +563,7 @@ describe("syncUploadFromURL", () => {
         },
       });
       assert.fail("Should have failed with unmet condition.");
-    } catch (err) {
+    } catch (err: any) {
       assert.deepStrictEqual(err.code, "TargetConditionNotMet");
     }
   });
@@ -534,7 +582,7 @@ describe("syncUploadFromURL", () => {
         },
       });
       assert.fail("Should have failed with unmet condition.");
-    } catch (err) {
+    } catch (err: any) {
       assert.deepStrictEqual(err.code, "SourceConditionNotMet");
     }
   });
@@ -551,7 +599,7 @@ describe("syncUploadFromURL", () => {
         sourceContentMD5: invalidMD5,
       });
       assert.fail("Should have failed with unmet condition.");
-    } catch (err) {
+    } catch (err: any) {
       assert.deepStrictEqual(err.code, "Md5Mismatch");
     }
   });
@@ -577,7 +625,7 @@ describe("syncUploadFromURL", () => {
       await blockBlobClient.syncUploadFromURL(sourceBlobURLWithSAS, {
         timeoutInSeconds: 1,
       });
-    } catch (err) {
+    } catch (err: any) {
       assert.deepStrictEqual(err.code, "OperationTimedOut");
       exceptionCaught = true;
     }

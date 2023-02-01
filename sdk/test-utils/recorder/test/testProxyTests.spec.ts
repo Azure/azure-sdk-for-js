@@ -2,6 +2,9 @@
 // Licensed under the MIT license.
 
 import { ServiceClient } from "@azure/core-client";
+import { createPipelineRequest } from "@azure/core-rest-pipeline";
+import assert from "assert";
+import { expect } from "chai";
 import { CustomMatcherOptions, isPlaybackMode, Recorder } from "../src";
 import { isLiveMode, TestMode } from "../src/utils/utils";
 import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./utils/utils";
@@ -36,6 +39,36 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
       );
     });
 
+    it("redirect (redirect location has host)", async function (this: Mocha.Context) {
+      await recorder.start({ envSetupForPlayback: {} });
+
+      await makeRequestAndVerifyResponse(
+        client,
+        { path: `/redirectWithHost`, method: "GET" },
+        { val: "abc" }
+      );
+    });
+
+    it("redirect (redirect location is relative)", async function (this: Mocha.Context) {
+      await recorder.start({ envSetupForPlayback: {} });
+
+      await makeRequestAndVerifyResponse(
+        client,
+        { path: `/redirectWithoutHost`, method: "GET" },
+        { val: "abc" }
+      );
+    });
+
+    it("retry", async () => {
+      await recorder.start({ envSetupForPlayback: {} });
+      await makeRequestAndVerifyResponse(
+        client,
+        { path: "/reset_retry", method: "GET" },
+        undefined
+      );
+      await makeRequestAndVerifyResponse(client, { path: "/retry", method: "GET" }, { val: "abc" });
+    });
+
     it("sample_response with random string in path", async () => {
       await recorder.start({ envSetupForPlayback: {} });
 
@@ -57,6 +90,45 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
           method: "GET",
         },
         { val: "I am the answer!" }
+      );
+    });
+
+    describe("does not add a content-length header unnecessarily", () =>
+      (["GET", "DELETE"] as const).forEach((method) =>
+        it(`to a ${method} request`, async () => {
+          await recorder.start({ envSetupForPlayback: {} });
+          const req = createPipelineRequest({
+            url: getTestServerUrl() + "/content_length_test",
+            method,
+            allowInsecureConnection: isLiveMode(),
+          });
+
+          const rsp = await client.sendRequest(req);
+          expect(rsp.status).to.be.within(200, 299);
+        })
+      ));
+
+    it("allows multiple consecutive slashes at the start of the path", async () => {
+      await recorder.start({ envSetupForPlayback: {} });
+      await makeRequestAndVerifyResponse(
+        client,
+        { path: "///multiple_slashes", method: "GET" },
+        { val: "abc" }
+      );
+    });
+
+    it("redirected request gets reverted", async () => {
+      await recorder.start({ envSetupForPlayback: {} });
+      const req = createPipelineRequest({
+        url: getTestServerUrl() + "/sample_response",
+        method: "GET",
+        allowInsecureConnection: isLiveMode(),
+      });
+      await client.sendRequest(req);
+      assert.strictEqual(
+        req.url,
+        getTestServerUrl() + "/sample_response",
+        "Looks like the url is not the same"
       );
     });
 
@@ -224,6 +296,88 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
     });
 
     // Transforms
+
+    describe("Transforms", () => {
+      it("ApiVersionTransform", async () => {
+        await recorder.start({ envSetupForPlayback: {} });
+        await recorder.addTransform({ type: "ApiVersionTransform" });
+
+        await makeRequestAndVerifyResponse(
+          client,
+          {
+            path: `/sample_response`,
+            body: "body",
+            method: "POST",
+            headers: [
+              { headerName: "Content-Type", value: "text/plain" },
+              { headerName: "api-version", value: "myapiversion" },
+            ],
+          },
+          { val: "abc" },
+          isPlaybackMode() ? { "api-version": "myapiversion" } : {}
+        );
+      });
+
+      it("ClientIdTransform", async () => {
+        await recorder.start({ envSetupForPlayback: {} });
+        await recorder.addTransform({ type: "ClientIdTransform" });
+
+        await makeRequestAndVerifyResponse(
+          client,
+          {
+            path: `/sample_response`,
+            body: "body",
+            method: "POST",
+            headers: [
+              { headerName: "Content-Type", value: "text/plain" },
+              { headerName: "x-ms-client-id", value: "myclientid" },
+            ],
+          },
+          { val: "abc" },
+          isPlaybackMode() ? { "x-ms-client-id": "myclientid" } : {}
+        );
+      });
+
+      it("HeaderTransform", async () => {
+        await recorder.start({ envSetupForPlayback: {} });
+        await recorder.addTransform({
+          type: "HeaderTransform",
+          params: { key: "x-test-header", value: "test-value" },
+        });
+
+        await makeRequestAndVerifyResponse(
+          client,
+          {
+            path: `/sample_response`,
+            body: "body",
+            method: "POST",
+            headers: [{ headerName: "Content-Type", value: "text/plain" }],
+          },
+          { val: "abc" },
+          isPlaybackMode() ? { "x-test-header": "test-value" } : {}
+        );
+      });
+
+      it("StorageRequestIdTransform", async () => {
+        await recorder.start({ envSetupForPlayback: {} });
+        await recorder.addTransform({ type: "StorageRequestIdTransform" });
+
+        await makeRequestAndVerifyResponse(
+          client,
+          {
+            path: `/sample_response`,
+            body: "body",
+            method: "POST",
+            headers: [
+              { headerName: "Content-Type", value: "text/plain" },
+              { headerName: "x-ms-client-request-id", value: "requestid" },
+            ],
+          },
+          { val: "abc" },
+          isPlaybackMode() ? { "x-ms-client-request-id": "requestid" } : {}
+        );
+      });
+    });
 
     describe("Other methods", () => {
       it("transformsInfo()", async () => {

@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { DiskAccesses } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,11 +19,14 @@ import {
   DiskAccess,
   DiskAccessesListByResourceGroupNextOptionalParams,
   DiskAccessesListByResourceGroupOptionalParams,
+  DiskAccessesListByResourceGroupResponse,
   DiskAccessesListNextOptionalParams,
   DiskAccessesListOptionalParams,
+  DiskAccessesListResponse,
   PrivateEndpointConnection,
   DiskAccessesListPrivateEndpointConnectionsNextOptionalParams,
   DiskAccessesListPrivateEndpointConnectionsOptionalParams,
+  DiskAccessesListPrivateEndpointConnectionsResponse,
   DiskAccessesCreateOrUpdateOptionalParams,
   DiskAccessesCreateOrUpdateResponse,
   DiskAccessUpdate,
@@ -31,8 +35,6 @@ import {
   DiskAccessesGetOptionalParams,
   DiskAccessesGetResponse,
   DiskAccessesDeleteOptionalParams,
-  DiskAccessesListByResourceGroupResponse,
-  DiskAccessesListResponse,
   DiskAccessesGetPrivateLinkResourcesOptionalParams,
   DiskAccessesGetPrivateLinkResourcesResponse,
   DiskAccessesUpdateAPrivateEndpointConnectionOptionalParams,
@@ -40,7 +42,6 @@ import {
   DiskAccessesGetAPrivateEndpointConnectionOptionalParams,
   DiskAccessesGetAPrivateEndpointConnectionResponse,
   DiskAccessesDeleteAPrivateEndpointConnectionOptionalParams,
-  DiskAccessesListPrivateEndpointConnectionsResponse,
   DiskAccessesListByResourceGroupNextResponse,
   DiskAccessesListNextResponse,
   DiskAccessesListPrivateEndpointConnectionsNextResponse
@@ -76,19 +77,33 @@ export class DiskAccessesImpl implements DiskAccesses {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: DiskAccessesListByResourceGroupOptionalParams
+    options?: DiskAccessesListByResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<DiskAccess[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: DiskAccessesListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -96,7 +111,9 @@ export class DiskAccessesImpl implements DiskAccesses {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -127,22 +144,34 @@ export class DiskAccessesImpl implements DiskAccesses {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
       }
     };
   }
 
   private async *listPagingPage(
-    options?: DiskAccessesListOptionalParams
+    options?: DiskAccessesListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<DiskAccess[]> {
-    let result = await this._list(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: DiskAccessesListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -179,11 +208,15 @@ export class DiskAccessesImpl implements DiskAccesses {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listPrivateEndpointConnectionsPagingPage(
           resourceGroupName,
           diskAccessName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -192,15 +225,22 @@ export class DiskAccessesImpl implements DiskAccesses {
   private async *listPrivateEndpointConnectionsPagingPage(
     resourceGroupName: string,
     diskAccessName: string,
-    options?: DiskAccessesListPrivateEndpointConnectionsOptionalParams
+    options?: DiskAccessesListPrivateEndpointConnectionsOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PrivateEndpointConnection[]> {
-    let result = await this._listPrivateEndpointConnections(
-      resourceGroupName,
-      diskAccessName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: DiskAccessesListPrivateEndpointConnectionsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listPrivateEndpointConnections(
+        resourceGroupName,
+        diskAccessName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listPrivateEndpointConnectionsNext(
         resourceGroupName,
@@ -209,7 +249,9 @@ export class DiskAccessesImpl implements DiskAccesses {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -291,10 +333,12 @@ export class DiskAccessesImpl implements DiskAccesses {
       { resourceGroupName, diskAccessName, diskAccess, options },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -385,10 +429,12 @@ export class DiskAccessesImpl implements DiskAccesses {
       { resourceGroupName, diskAccessName, diskAccess, options },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -491,10 +537,12 @@ export class DiskAccessesImpl implements DiskAccesses {
       { resourceGroupName, diskAccessName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -636,10 +684,12 @@ export class DiskAccessesImpl implements DiskAccesses {
       },
       updateAPrivateEndpointConnectionOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -761,10 +811,12 @@ export class DiskAccessesImpl implements DiskAccesses {
       },
       deleteAPrivateEndpointConnectionOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -889,11 +941,11 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.diskAccess,
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.diskAccessName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -922,11 +974,11 @@ const updateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.diskAccess1,
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.diskAccessName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -945,11 +997,11 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.diskAccessName
   ],
   headerParameters: [Parameters.accept],
@@ -968,11 +1020,11 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.diskAccessName
   ],
   headerParameters: [Parameters.accept],
@@ -990,11 +1042,11 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -1011,7 +1063,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
@@ -1025,11 +1077,11 @@ const getPrivateLinkResourcesOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.PrivateLinkResourceListResult
     }
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.diskAccessName
   ],
   headerParameters: [Parameters.accept],
@@ -1057,11 +1109,11 @@ const updateAPrivateEndpointConnectionOperationSpec: coreClient.OperationSpec = 
     }
   },
   requestBody: Parameters.privateEndpointConnection,
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.diskAccessName,
     Parameters.privateEndpointConnectionName
   ],
@@ -1081,11 +1133,11 @@ const getAPrivateEndpointConnectionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.diskAccessName,
     Parameters.privateEndpointConnectionName
   ],
@@ -1105,11 +1157,11 @@ const deleteAPrivateEndpointConnectionOperationSpec: coreClient.OperationSpec = 
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.diskAccessName,
     Parameters.privateEndpointConnectionName
   ],
@@ -1128,11 +1180,11 @@ const listPrivateEndpointConnectionsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.diskAccessName
   ],
   headerParameters: [Parameters.accept],
@@ -1149,12 +1201,11 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -1170,7 +1221,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1190,12 +1240,11 @@ const listPrivateEndpointConnectionsNextOperationSpec: coreClient.OperationSpec 
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.resourceGroupName,
     Parameters.diskAccessName
   ],
   headerParameters: [Parameters.accept],

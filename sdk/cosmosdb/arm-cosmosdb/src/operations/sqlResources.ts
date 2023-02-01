@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { SqlResources } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,21 +17,28 @@ import { LroImpl } from "../lroImpl";
 import {
   SqlDatabaseGetResults,
   SqlResourcesListSqlDatabasesOptionalParams,
+  SqlResourcesListSqlDatabasesResponse,
   ClientEncryptionKeyGetResults,
   SqlResourcesListClientEncryptionKeysOptionalParams,
+  SqlResourcesListClientEncryptionKeysResponse,
   SqlContainerGetResults,
   SqlResourcesListSqlContainersOptionalParams,
+  SqlResourcesListSqlContainersResponse,
   SqlStoredProcedureGetResults,
   SqlResourcesListSqlStoredProceduresOptionalParams,
+  SqlResourcesListSqlStoredProceduresResponse,
   SqlUserDefinedFunctionGetResults,
   SqlResourcesListSqlUserDefinedFunctionsOptionalParams,
+  SqlResourcesListSqlUserDefinedFunctionsResponse,
   SqlTriggerGetResults,
   SqlResourcesListSqlTriggersOptionalParams,
+  SqlResourcesListSqlTriggersResponse,
   SqlRoleDefinitionGetResults,
   SqlResourcesListSqlRoleDefinitionsOptionalParams,
+  SqlResourcesListSqlRoleDefinitionsResponse,
   SqlRoleAssignmentGetResults,
   SqlResourcesListSqlRoleAssignmentsOptionalParams,
-  SqlResourcesListSqlDatabasesResponse,
+  SqlResourcesListSqlRoleAssignmentsResponse,
   SqlResourcesGetSqlDatabaseOptionalParams,
   SqlResourcesGetSqlDatabaseResponse,
   SqlDatabaseCreateUpdateParameters,
@@ -47,19 +54,20 @@ import {
   SqlResourcesMigrateSqlDatabaseToAutoscaleResponse,
   SqlResourcesMigrateSqlDatabaseToManualThroughputOptionalParams,
   SqlResourcesMigrateSqlDatabaseToManualThroughputResponse,
-  SqlResourcesListClientEncryptionKeysResponse,
   SqlResourcesGetClientEncryptionKeyOptionalParams,
   SqlResourcesGetClientEncryptionKeyResponse,
   ClientEncryptionKeyCreateUpdateParameters,
   SqlResourcesCreateUpdateClientEncryptionKeyOptionalParams,
   SqlResourcesCreateUpdateClientEncryptionKeyResponse,
-  SqlResourcesListSqlContainersResponse,
   SqlResourcesGetSqlContainerOptionalParams,
   SqlResourcesGetSqlContainerResponse,
   SqlContainerCreateUpdateParameters,
   SqlResourcesCreateUpdateSqlContainerOptionalParams,
   SqlResourcesCreateUpdateSqlContainerResponse,
   SqlResourcesDeleteSqlContainerOptionalParams,
+  MergeParameters,
+  SqlResourcesListSqlContainerPartitionMergeOptionalParams,
+  SqlResourcesListSqlContainerPartitionMergeResponse,
   SqlResourcesGetSqlContainerThroughputOptionalParams,
   SqlResourcesGetSqlContainerThroughputResponse,
   SqlResourcesUpdateSqlContainerThroughputOptionalParams,
@@ -68,21 +76,28 @@ import {
   SqlResourcesMigrateSqlContainerToAutoscaleResponse,
   SqlResourcesMigrateSqlContainerToManualThroughputOptionalParams,
   SqlResourcesMigrateSqlContainerToManualThroughputResponse,
-  SqlResourcesListSqlStoredProceduresResponse,
+  RetrieveThroughputParameters,
+  SqlResourcesSqlDatabaseRetrieveThroughputDistributionOptionalParams,
+  SqlResourcesSqlDatabaseRetrieveThroughputDistributionResponse,
+  RedistributeThroughputParameters,
+  SqlResourcesSqlDatabaseRedistributeThroughputOptionalParams,
+  SqlResourcesSqlDatabaseRedistributeThroughputResponse,
+  SqlResourcesSqlContainerRetrieveThroughputDistributionOptionalParams,
+  SqlResourcesSqlContainerRetrieveThroughputDistributionResponse,
+  SqlResourcesSqlContainerRedistributeThroughputOptionalParams,
+  SqlResourcesSqlContainerRedistributeThroughputResponse,
   SqlResourcesGetSqlStoredProcedureOptionalParams,
   SqlResourcesGetSqlStoredProcedureResponse,
   SqlStoredProcedureCreateUpdateParameters,
   SqlResourcesCreateUpdateSqlStoredProcedureOptionalParams,
   SqlResourcesCreateUpdateSqlStoredProcedureResponse,
   SqlResourcesDeleteSqlStoredProcedureOptionalParams,
-  SqlResourcesListSqlUserDefinedFunctionsResponse,
   SqlResourcesGetSqlUserDefinedFunctionOptionalParams,
   SqlResourcesGetSqlUserDefinedFunctionResponse,
   SqlUserDefinedFunctionCreateUpdateParameters,
   SqlResourcesCreateUpdateSqlUserDefinedFunctionOptionalParams,
   SqlResourcesCreateUpdateSqlUserDefinedFunctionResponse,
   SqlResourcesDeleteSqlUserDefinedFunctionOptionalParams,
-  SqlResourcesListSqlTriggersResponse,
   SqlResourcesGetSqlTriggerOptionalParams,
   SqlResourcesGetSqlTriggerResponse,
   SqlTriggerCreateUpdateParameters,
@@ -95,14 +110,12 @@ import {
   SqlResourcesCreateUpdateSqlRoleDefinitionOptionalParams,
   SqlResourcesCreateUpdateSqlRoleDefinitionResponse,
   SqlResourcesDeleteSqlRoleDefinitionOptionalParams,
-  SqlResourcesListSqlRoleDefinitionsResponse,
   SqlResourcesGetSqlRoleAssignmentOptionalParams,
   SqlResourcesGetSqlRoleAssignmentResponse,
   SqlRoleAssignmentCreateUpdateParameters,
   SqlResourcesCreateUpdateSqlRoleAssignmentOptionalParams,
   SqlResourcesCreateUpdateSqlRoleAssignmentResponse,
   SqlResourcesDeleteSqlRoleAssignmentOptionalParams,
-  SqlResourcesListSqlRoleAssignmentsResponse,
   ContinuousBackupRestoreLocation,
   SqlResourcesRetrieveContinuousBackupInformationOptionalParams,
   SqlResourcesRetrieveContinuousBackupInformationResponse
@@ -144,11 +157,15 @@ export class SqlResourcesImpl implements SqlResources {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listSqlDatabasesPagingPage(
           resourceGroupName,
           accountName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -157,9 +174,11 @@ export class SqlResourcesImpl implements SqlResources {
   private async *listSqlDatabasesPagingPage(
     resourceGroupName: string,
     accountName: string,
-    options?: SqlResourcesListSqlDatabasesOptionalParams
+    options?: SqlResourcesListSqlDatabasesOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<SqlDatabaseGetResults[]> {
-    let result = await this._listSqlDatabases(
+    let result: SqlResourcesListSqlDatabasesResponse;
+    result = await this._listSqlDatabases(
       resourceGroupName,
       accountName,
       options
@@ -207,12 +226,16 @@ export class SqlResourcesImpl implements SqlResources {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listClientEncryptionKeysPagingPage(
           resourceGroupName,
           accountName,
           databaseName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -222,9 +245,11 @@ export class SqlResourcesImpl implements SqlResources {
     resourceGroupName: string,
     accountName: string,
     databaseName: string,
-    options?: SqlResourcesListClientEncryptionKeysOptionalParams
+    options?: SqlResourcesListClientEncryptionKeysOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<ClientEncryptionKeyGetResults[]> {
-    let result = await this._listClientEncryptionKeys(
+    let result: SqlResourcesListClientEncryptionKeysResponse;
+    result = await this._listClientEncryptionKeys(
       resourceGroupName,
       accountName,
       databaseName,
@@ -275,12 +300,16 @@ export class SqlResourcesImpl implements SqlResources {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listSqlContainersPagingPage(
           resourceGroupName,
           accountName,
           databaseName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -290,9 +319,11 @@ export class SqlResourcesImpl implements SqlResources {
     resourceGroupName: string,
     accountName: string,
     databaseName: string,
-    options?: SqlResourcesListSqlContainersOptionalParams
+    options?: SqlResourcesListSqlContainersOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<SqlContainerGetResults[]> {
-    let result = await this._listSqlContainers(
+    let result: SqlResourcesListSqlContainersResponse;
+    result = await this._listSqlContainers(
       resourceGroupName,
       accountName,
       databaseName,
@@ -346,13 +377,17 @@ export class SqlResourcesImpl implements SqlResources {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listSqlStoredProceduresPagingPage(
           resourceGroupName,
           accountName,
           databaseName,
           containerName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -363,9 +398,11 @@ export class SqlResourcesImpl implements SqlResources {
     accountName: string,
     databaseName: string,
     containerName: string,
-    options?: SqlResourcesListSqlStoredProceduresOptionalParams
+    options?: SqlResourcesListSqlStoredProceduresOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<SqlStoredProcedureGetResults[]> {
-    let result = await this._listSqlStoredProcedures(
+    let result: SqlResourcesListSqlStoredProceduresResponse;
+    result = await this._listSqlStoredProcedures(
       resourceGroupName,
       accountName,
       databaseName,
@@ -422,13 +459,17 @@ export class SqlResourcesImpl implements SqlResources {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listSqlUserDefinedFunctionsPagingPage(
           resourceGroupName,
           accountName,
           databaseName,
           containerName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -439,9 +480,11 @@ export class SqlResourcesImpl implements SqlResources {
     accountName: string,
     databaseName: string,
     containerName: string,
-    options?: SqlResourcesListSqlUserDefinedFunctionsOptionalParams
+    options?: SqlResourcesListSqlUserDefinedFunctionsOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<SqlUserDefinedFunctionGetResults[]> {
-    let result = await this._listSqlUserDefinedFunctions(
+    let result: SqlResourcesListSqlUserDefinedFunctionsResponse;
+    result = await this._listSqlUserDefinedFunctions(
       resourceGroupName,
       accountName,
       databaseName,
@@ -498,13 +541,17 @@ export class SqlResourcesImpl implements SqlResources {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listSqlTriggersPagingPage(
           resourceGroupName,
           accountName,
           databaseName,
           containerName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -515,9 +562,11 @@ export class SqlResourcesImpl implements SqlResources {
     accountName: string,
     databaseName: string,
     containerName: string,
-    options?: SqlResourcesListSqlTriggersOptionalParams
+    options?: SqlResourcesListSqlTriggersOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<SqlTriggerGetResults[]> {
-    let result = await this._listSqlTriggers(
+    let result: SqlResourcesListSqlTriggersResponse;
+    result = await this._listSqlTriggers(
       resourceGroupName,
       accountName,
       databaseName,
@@ -568,11 +617,15 @@ export class SqlResourcesImpl implements SqlResources {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listSqlRoleDefinitionsPagingPage(
           resourceGroupName,
           accountName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -581,9 +634,11 @@ export class SqlResourcesImpl implements SqlResources {
   private async *listSqlRoleDefinitionsPagingPage(
     resourceGroupName: string,
     accountName: string,
-    options?: SqlResourcesListSqlRoleDefinitionsOptionalParams
+    options?: SqlResourcesListSqlRoleDefinitionsOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<SqlRoleDefinitionGetResults[]> {
-    let result = await this._listSqlRoleDefinitions(
+    let result: SqlResourcesListSqlRoleDefinitionsResponse;
+    result = await this._listSqlRoleDefinitions(
       resourceGroupName,
       accountName,
       options
@@ -628,11 +683,15 @@ export class SqlResourcesImpl implements SqlResources {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listSqlRoleAssignmentsPagingPage(
           resourceGroupName,
           accountName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -641,9 +700,11 @@ export class SqlResourcesImpl implements SqlResources {
   private async *listSqlRoleAssignmentsPagingPage(
     resourceGroupName: string,
     accountName: string,
-    options?: SqlResourcesListSqlRoleAssignmentsOptionalParams
+    options?: SqlResourcesListSqlRoleAssignmentsOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<SqlRoleAssignmentGetResults[]> {
-    let result = await this._listSqlRoleAssignments(
+    let result: SqlResourcesListSqlRoleAssignmentsResponse;
+    result = await this._listSqlRoleAssignments(
       resourceGroupName,
       accountName,
       options
@@ -771,10 +832,12 @@ export class SqlResourcesImpl implements SqlResources {
       },
       createUpdateSqlDatabaseOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -859,10 +922,12 @@ export class SqlResourcesImpl implements SqlResources {
       { resourceGroupName, accountName, databaseName, options },
       deleteSqlDatabaseOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -978,10 +1043,12 @@ export class SqlResourcesImpl implements SqlResources {
       },
       updateSqlDatabaseThroughputOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1072,10 +1139,12 @@ export class SqlResourcesImpl implements SqlResources {
       { resourceGroupName, accountName, databaseName, options },
       migrateSqlDatabaseToAutoscaleOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1164,10 +1233,12 @@ export class SqlResourcesImpl implements SqlResources {
       { resourceGroupName, accountName, databaseName, options },
       migrateSqlDatabaseToManualThroughputOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1313,10 +1384,12 @@ export class SqlResourcesImpl implements SqlResources {
       },
       createUpdateClientEncryptionKeyOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1462,10 +1535,12 @@ export class SqlResourcesImpl implements SqlResources {
       },
       createUpdateSqlContainerOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1555,10 +1630,12 @@ export class SqlResourcesImpl implements SqlResources {
       { resourceGroupName, accountName, databaseName, containerName, options },
       deleteSqlContainerOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1581,6 +1658,116 @@ export class SqlResourcesImpl implements SqlResources {
       accountName,
       databaseName,
       containerName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Merges the partitions of a SQL Container
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param containerName Cosmos DB container name.
+   * @param mergeParameters The parameters for the merge operation.
+   * @param options The options parameters.
+   */
+  async beginListSqlContainerPartitionMerge(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    containerName: string,
+    mergeParameters: MergeParameters,
+    options?: SqlResourcesListSqlContainerPartitionMergeOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<SqlResourcesListSqlContainerPartitionMergeResponse>,
+      SqlResourcesListSqlContainerPartitionMergeResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<SqlResourcesListSqlContainerPartitionMergeResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        containerName,
+        mergeParameters,
+        options
+      },
+      listSqlContainerPartitionMergeOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Merges the partitions of a SQL Container
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param containerName Cosmos DB container name.
+   * @param mergeParameters The parameters for the merge operation.
+   * @param options The options parameters.
+   */
+  async beginListSqlContainerPartitionMergeAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    containerName: string,
+    mergeParameters: MergeParameters,
+    options?: SqlResourcesListSqlContainerPartitionMergeOptionalParams
+  ): Promise<SqlResourcesListSqlContainerPartitionMergeResponse> {
+    const poller = await this.beginListSqlContainerPartitionMerge(
+      resourceGroupName,
+      accountName,
+      databaseName,
+      containerName,
+      mergeParameters,
       options
     );
     return poller.pollUntilDone();
@@ -1681,10 +1868,12 @@ export class SqlResourcesImpl implements SqlResources {
       },
       updateSqlContainerThroughputOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1780,10 +1969,12 @@ export class SqlResourcesImpl implements SqlResources {
       { resourceGroupName, accountName, databaseName, containerName, options },
       migrateSqlContainerToAutoscaleOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1877,10 +2068,12 @@ export class SqlResourcesImpl implements SqlResources {
       { resourceGroupName, accountName, databaseName, containerName, options },
       migrateSqlContainerToManualThroughputOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1903,6 +2096,448 @@ export class SqlResourcesImpl implements SqlResources {
       accountName,
       databaseName,
       containerName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Retrieve throughput distribution for an Azure Cosmos DB SQL database
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param retrieveThroughputParameters The parameters to provide for retrieving throughput distribution
+   *                                     for the current SQL database.
+   * @param options The options parameters.
+   */
+  async beginSqlDatabaseRetrieveThroughputDistribution(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    retrieveThroughputParameters: RetrieveThroughputParameters,
+    options?: SqlResourcesSqlDatabaseRetrieveThroughputDistributionOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<
+        SqlResourcesSqlDatabaseRetrieveThroughputDistributionResponse
+      >,
+      SqlResourcesSqlDatabaseRetrieveThroughputDistributionResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<SqlResourcesSqlDatabaseRetrieveThroughputDistributionResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        retrieveThroughputParameters,
+        options
+      },
+      sqlDatabaseRetrieveThroughputDistributionOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Retrieve throughput distribution for an Azure Cosmos DB SQL database
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param retrieveThroughputParameters The parameters to provide for retrieving throughput distribution
+   *                                     for the current SQL database.
+   * @param options The options parameters.
+   */
+  async beginSqlDatabaseRetrieveThroughputDistributionAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    retrieveThroughputParameters: RetrieveThroughputParameters,
+    options?: SqlResourcesSqlDatabaseRetrieveThroughputDistributionOptionalParams
+  ): Promise<SqlResourcesSqlDatabaseRetrieveThroughputDistributionResponse> {
+    const poller = await this.beginSqlDatabaseRetrieveThroughputDistribution(
+      resourceGroupName,
+      accountName,
+      databaseName,
+      retrieveThroughputParameters,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Redistribute throughput for an Azure Cosmos DB SQL database
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param redistributeThroughputParameters The parameters to provide for redistributing throughput for
+   *                                         the current SQL database.
+   * @param options The options parameters.
+   */
+  async beginSqlDatabaseRedistributeThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    redistributeThroughputParameters: RedistributeThroughputParameters,
+    options?: SqlResourcesSqlDatabaseRedistributeThroughputOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<SqlResourcesSqlDatabaseRedistributeThroughputResponse>,
+      SqlResourcesSqlDatabaseRedistributeThroughputResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<SqlResourcesSqlDatabaseRedistributeThroughputResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        redistributeThroughputParameters,
+        options
+      },
+      sqlDatabaseRedistributeThroughputOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Redistribute throughput for an Azure Cosmos DB SQL database
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param redistributeThroughputParameters The parameters to provide for redistributing throughput for
+   *                                         the current SQL database.
+   * @param options The options parameters.
+   */
+  async beginSqlDatabaseRedistributeThroughputAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    redistributeThroughputParameters: RedistributeThroughputParameters,
+    options?: SqlResourcesSqlDatabaseRedistributeThroughputOptionalParams
+  ): Promise<SqlResourcesSqlDatabaseRedistributeThroughputResponse> {
+    const poller = await this.beginSqlDatabaseRedistributeThroughput(
+      resourceGroupName,
+      accountName,
+      databaseName,
+      redistributeThroughputParameters,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Retrieve throughput distribution for an Azure Cosmos DB SQL container
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param containerName Cosmos DB container name.
+   * @param retrieveThroughputParameters The parameters to provide for retrieving throughput distribution
+   *                                     for the current SQL container.
+   * @param options The options parameters.
+   */
+  async beginSqlContainerRetrieveThroughputDistribution(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    containerName: string,
+    retrieveThroughputParameters: RetrieveThroughputParameters,
+    options?: SqlResourcesSqlContainerRetrieveThroughputDistributionOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<
+        SqlResourcesSqlContainerRetrieveThroughputDistributionResponse
+      >,
+      SqlResourcesSqlContainerRetrieveThroughputDistributionResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<SqlResourcesSqlContainerRetrieveThroughputDistributionResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        containerName,
+        retrieveThroughputParameters,
+        options
+      },
+      sqlContainerRetrieveThroughputDistributionOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Retrieve throughput distribution for an Azure Cosmos DB SQL container
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param containerName Cosmos DB container name.
+   * @param retrieveThroughputParameters The parameters to provide for retrieving throughput distribution
+   *                                     for the current SQL container.
+   * @param options The options parameters.
+   */
+  async beginSqlContainerRetrieveThroughputDistributionAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    containerName: string,
+    retrieveThroughputParameters: RetrieveThroughputParameters,
+    options?: SqlResourcesSqlContainerRetrieveThroughputDistributionOptionalParams
+  ): Promise<SqlResourcesSqlContainerRetrieveThroughputDistributionResponse> {
+    const poller = await this.beginSqlContainerRetrieveThroughputDistribution(
+      resourceGroupName,
+      accountName,
+      databaseName,
+      containerName,
+      retrieveThroughputParameters,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Redistribute throughput for an Azure Cosmos DB SQL container
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param containerName Cosmos DB container name.
+   * @param redistributeThroughputParameters The parameters to provide for redistributing throughput for
+   *                                         the current SQL container.
+   * @param options The options parameters.
+   */
+  async beginSqlContainerRedistributeThroughput(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    containerName: string,
+    redistributeThroughputParameters: RedistributeThroughputParameters,
+    options?: SqlResourcesSqlContainerRedistributeThroughputOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<
+        SqlResourcesSqlContainerRedistributeThroughputResponse
+      >,
+      SqlResourcesSqlContainerRedistributeThroughputResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<SqlResourcesSqlContainerRedistributeThroughputResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        containerName,
+        redistributeThroughputParameters,
+        options
+      },
+      sqlContainerRedistributeThroughputOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Redistribute throughput for an Azure Cosmos DB SQL container
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param containerName Cosmos DB container name.
+   * @param redistributeThroughputParameters The parameters to provide for redistributing throughput for
+   *                                         the current SQL container.
+   * @param options The options parameters.
+   */
+  async beginSqlContainerRedistributeThroughputAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    containerName: string,
+    redistributeThroughputParameters: RedistributeThroughputParameters,
+    options?: SqlResourcesSqlContainerRedistributeThroughputOptionalParams
+  ): Promise<SqlResourcesSqlContainerRedistributeThroughputResponse> {
+    const poller = await this.beginSqlContainerRedistributeThroughput(
+      resourceGroupName,
+      accountName,
+      databaseName,
+      containerName,
+      redistributeThroughputParameters,
       options
     );
     return poller.pollUntilDone();
@@ -2036,10 +2671,12 @@ export class SqlResourcesImpl implements SqlResources {
       },
       createUpdateSqlStoredProcedureOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -2142,10 +2779,12 @@ export class SqlResourcesImpl implements SqlResources {
       },
       deleteSqlStoredProcedureOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -2306,10 +2945,12 @@ export class SqlResourcesImpl implements SqlResources {
       },
       createUpdateSqlUserDefinedFunctionOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -2412,10 +3053,12 @@ export class SqlResourcesImpl implements SqlResources {
       },
       deleteSqlUserDefinedFunctionOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -2573,10 +3216,12 @@ export class SqlResourcesImpl implements SqlResources {
       },
       createUpdateSqlTriggerOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -2678,10 +3323,12 @@ export class SqlResourcesImpl implements SqlResources {
       },
       deleteSqlTriggerOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -2802,10 +3449,12 @@ export class SqlResourcesImpl implements SqlResources {
       },
       createUpdateSqlRoleDefinitionOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -2891,10 +3540,12 @@ export class SqlResourcesImpl implements SqlResources {
       { roleDefinitionId, resourceGroupName, accountName, options },
       deleteSqlRoleDefinitionOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -3026,10 +3677,12 @@ export class SqlResourcesImpl implements SqlResources {
       },
       createUpdateSqlRoleAssignmentOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -3115,10 +3768,12 @@ export class SqlResourcesImpl implements SqlResources {
       { roleAssignmentId, resourceGroupName, accountName, options },
       deleteSqlRoleAssignmentOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -3235,11 +3890,13 @@ export class SqlResourcesImpl implements SqlResources {
       },
       retrieveContinuousBackupInformationOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -3635,6 +4292,41 @@ const deleteSqlContainerOperationSpec: coreClient.OperationSpec = {
   ],
   serializer
 };
+const listSqlContainerPartitionMergeOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/partitionMerge",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PhysicalPartitionStorageInfoCollection
+    },
+    201: {
+      bodyMapper: Mappers.PhysicalPartitionStorageInfoCollection
+    },
+    202: {
+      bodyMapper: Mappers.PhysicalPartitionStorageInfoCollection
+    },
+    204: {
+      bodyMapper: Mappers.PhysicalPartitionStorageInfoCollection
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.mergeParameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName,
+    Parameters.containerName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
 const getSqlContainerThroughputOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/throughputSettings/default",
@@ -3752,6 +4444,144 @@ const migrateSqlContainerToManualThroughputOperationSpec: coreClient.OperationSp
     Parameters.containerName
   ],
   headerParameters: [Parameters.accept],
+  serializer
+};
+const sqlDatabaseRetrieveThroughputDistributionOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/throughputSettings/default/retrieveThroughputDistribution",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
+    },
+    201: {
+      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
+    },
+    202: {
+      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
+    },
+    204: {
+      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.retrieveThroughputParameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const sqlDatabaseRedistributeThroughputOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/throughputSettings/default/redistributeThroughput",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
+    },
+    201: {
+      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
+    },
+    202: {
+      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
+    },
+    204: {
+      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.redistributeThroughputParameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const sqlContainerRetrieveThroughputDistributionOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/throughputSettings/default/retrieveThroughputDistribution",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
+    },
+    201: {
+      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
+    },
+    202: {
+      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
+    },
+    204: {
+      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.retrieveThroughputParameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName,
+    Parameters.containerName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const sqlContainerRedistributeThroughputOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/throughputSettings/default/redistributeThroughput",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
+    },
+    201: {
+      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
+    },
+    202: {
+      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
+    },
+    204: {
+      bodyMapper: Mappers.PhysicalPartitionThroughputInfoResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.redistributeThroughputParameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName,
+    Parameters.containerName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const listSqlStoredProceduresOperationSpec: coreClient.OperationSpec = {

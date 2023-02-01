@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { StreamingEndpoints } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -26,10 +27,16 @@ import {
   StreamingEndpointsUpdateOptionalParams,
   StreamingEndpointsUpdateResponse,
   StreamingEndpointsDeleteOptionalParams,
+  StreamingEndpointsSkusOptionalParams,
+  StreamingEndpointsSkusResponse,
   StreamingEndpointsStartOptionalParams,
   StreamingEndpointsStopOptionalParams,
   StreamingEntityScaleUnit,
   StreamingEndpointsScaleOptionalParams,
+  StreamingEndpointsAsyncOperationOptionalParams,
+  StreamingEndpointsAsyncOperationResponse,
+  StreamingEndpointsOperationLocationOptionalParams,
+  StreamingEndpointsOperationLocationResponse,
   StreamingEndpointsListNextResponse
 } from "../models";
 
@@ -65,8 +72,16 @@ export class StreamingEndpointsImpl implements StreamingEndpoints {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, accountName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          accountName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -74,11 +89,18 @@ export class StreamingEndpointsImpl implements StreamingEndpoints {
   private async *listPagingPage(
     resourceGroupName: string,
     accountName: string,
-    options?: StreamingEndpointsListOptionalParams
+    options?: StreamingEndpointsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<StreamingEndpoint[]> {
-    let result = await this._list(resourceGroupName, accountName, options);
-    yield result.value || [];
-    let continuationToken = result.odataNextLink;
+    let result: StreamingEndpointsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, accountName, options);
+      let page = result.value || [];
+      continuationToken = result.odataNextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -87,7 +109,9 @@ export class StreamingEndpointsImpl implements StreamingEndpoints {
         options
       );
       continuationToken = result.odataNextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -211,10 +235,12 @@ export class StreamingEndpointsImpl implements StreamingEndpoints {
       },
       createOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -312,10 +338,12 @@ export class StreamingEndpointsImpl implements StreamingEndpoints {
       },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -400,10 +428,12 @@ export class StreamingEndpointsImpl implements StreamingEndpoints {
       { resourceGroupName, accountName, streamingEndpointName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -426,6 +456,25 @@ export class StreamingEndpointsImpl implements StreamingEndpoints {
       options
     );
     return poller.pollUntilDone();
+  }
+
+  /**
+   * List streaming endpoint supported skus.
+   * @param resourceGroupName The name of the resource group within the Azure subscription.
+   * @param accountName The Media Services account name.
+   * @param streamingEndpointName The name of the streaming endpoint, maximum length is 24.
+   * @param options The options parameters.
+   */
+  skus(
+    resourceGroupName: string,
+    accountName: string,
+    streamingEndpointName: string,
+    options?: StreamingEndpointsSkusOptionalParams
+  ): Promise<StreamingEndpointsSkusResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, streamingEndpointName, options },
+      skusOperationSpec
+    );
   }
 
   /**
@@ -485,10 +534,12 @@ export class StreamingEndpointsImpl implements StreamingEndpoints {
       { resourceGroupName, accountName, streamingEndpointName, options },
       startOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -570,10 +621,12 @@ export class StreamingEndpointsImpl implements StreamingEndpoints {
       { resourceGroupName, accountName, streamingEndpointName, options },
       stopOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -663,10 +716,12 @@ export class StreamingEndpointsImpl implements StreamingEndpoints {
       },
       scaleOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -692,6 +747,52 @@ export class StreamingEndpointsImpl implements StreamingEndpoints {
       options
     );
     return poller.pollUntilDone();
+  }
+
+  /**
+   * Get a streaming endpoint operation status.
+   * @param resourceGroupName The name of the resource group within the Azure subscription.
+   * @param accountName The Media Services account name.
+   * @param operationId The ID of an ongoing async operation.
+   * @param options The options parameters.
+   */
+  asyncOperation(
+    resourceGroupName: string,
+    accountName: string,
+    operationId: string,
+    options?: StreamingEndpointsAsyncOperationOptionalParams
+  ): Promise<StreamingEndpointsAsyncOperationResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, operationId, options },
+      asyncOperationOperationSpec
+    );
+  }
+
+  /**
+   * Get a streaming endpoint operation status.
+   * @param resourceGroupName The name of the resource group within the Azure subscription.
+   * @param accountName The Media Services account name.
+   * @param streamingEndpointName The name of the streaming endpoint, maximum length is 24.
+   * @param operationId The ID of an ongoing async operation.
+   * @param options The options parameters.
+   */
+  operationLocation(
+    resourceGroupName: string,
+    accountName: string,
+    streamingEndpointName: string,
+    operationId: string,
+    options?: StreamingEndpointsOperationLocationOptionalParams
+  ): Promise<StreamingEndpointsOperationLocationResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        accountName,
+        streamingEndpointName,
+        operationId,
+        options
+      },
+      operationLocationOperationSpec
+    );
   }
 
   /**
@@ -782,7 +883,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters18,
+  requestBody: Parameters.parameters19,
   queryParameters: [Parameters.apiVersion, Parameters.autoStart],
   urlParameters: [
     Parameters.$host,
@@ -816,7 +917,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters18,
+  requestBody: Parameters.parameters19,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -838,6 +939,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     201: {},
     202: {},
     204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.streamingEndpointName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const skusOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/streamingEndpoints/{streamingEndpointName}/skus",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.StreamingEndpointSkuInfoListResult
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
@@ -914,7 +1038,7 @@ const scaleOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters19,
+  requestBody: Parameters.parameters20,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -925,6 +1049,54 @@ const scaleOperationSpec: coreClient.OperationSpec = {
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
+  serializer
+};
+const asyncOperationOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/streamingEndpointOperations/{operationId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AsyncOperationResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.operationId1
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const operationLocationOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/streamingEndpoints/{streamingEndpointName}/operationLocations/{operationId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.StreamingEndpoint
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.operationId1,
+    Parameters.streamingEndpointName
+  ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
@@ -938,7 +1110,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

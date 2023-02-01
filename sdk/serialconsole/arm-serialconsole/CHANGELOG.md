@@ -1,4 +1,27 @@
 # Release History
+
+## 2.1.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 2.1.0 (2022-12-09)
+    
+**Features**
+
+  - Added Interface ProxyResource
+  - Added Interface SerialPort
+    
+## 2.0.1 (2022-05-01)
+
+**Features**
+
+  - Bug fix
     
 ## 2.0.0 (2022-01-21)
 

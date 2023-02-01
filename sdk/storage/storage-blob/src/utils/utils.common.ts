@@ -2,7 +2,9 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { HttpHeaders, isNode, URLBuilder, TokenCredential } from "@azure/core-http";
+import { TokenCredential } from "@azure/core-auth";
+import { HttpHeaders, createHttpHeaders } from "@azure/core-rest-pipeline";
+import { isNode } from "@azure/core-util";
 
 import {
   BlobQueryArrowConfiguration,
@@ -16,20 +18,15 @@ import {
   BlobName,
   ListBlobsFlatSegmentResponse,
   ListBlobsHierarchySegmentResponse,
-  BlobItemInternal,
-  BlobPrefix,
-  BlobType,
-  LeaseStatusType,
-  LeaseStateType,
-  LeaseDurationType,
-  CopyStatusType,
-  AccessTier,
-  ArchiveStatus,
-  RehydratePriority,
-  BlobImmutabilityPolicyMode,
-  BlobTag,
+  PageRange,
+  ClearRange,
 } from "../generated/src/models";
-import { DevelopmentConnectionString, HeaderConstants, URLConstants } from "./constants";
+import {
+  DevelopmentConnectionString,
+  HeaderConstants,
+  PathStylePorts,
+  URLConstants,
+} from "./constants";
 import {
   Tags,
   ObjectReplicationPolicy,
@@ -42,7 +39,10 @@ import {
   BlobItemInternal as BlobItemInternalModel,
   ListBlobsHierarchySegmentResponseModel,
   BlobPrefix as BlobPrefixModel,
+  PageBlobGetPageRangesDiffResponseModel,
+  PageRangeInfo,
 } from "../generatedModels";
+import { HttpHeadersLike, WebResourceLike } from "@azure/core-http-compat";
 
 /**
  * Reserved URL characters must be properly escaped for Storage services like Blob or File.
@@ -97,13 +97,17 @@ import {
  * @param url -
  */
 export function escapeURLPath(url: string): string {
-  const urlParsed = URLBuilder.parse(url);
+  // workaround an issue with the v1 test recorder
+  if (url.endsWith("?")) {
+    url = url.substring(0, url.length - 1);
+  }
+  const urlParsed = new URL(url);
 
-  let path = urlParsed.getPath();
+  let path = urlParsed.pathname;
   path = path || "/";
 
   path = escape(path);
-  urlParsed.setPath(path);
+  urlParsed.pathname = path;
 
   return urlParsed.toString();
 }
@@ -223,12 +227,22 @@ export function extractConnectionStringParts(connectionString: string): Connecti
   } else {
     // SAS connection string
 
-    const accountSas = getValueInConnString(connectionString, "SharedAccessSignature");
+    let accountSas = getValueInConnString(connectionString, "SharedAccessSignature");
     const accountName = getAccountNameFromUrl(blobEndpoint);
     if (!blobEndpoint) {
       throw new Error("Invalid BlobEndpoint in the provided SAS Connection String");
     } else if (!accountSas) {
       throw new Error("Invalid SharedAccessSignature in the provided SAS Connection String");
+    }
+
+    // remove test SAS
+    if (accountSas === "fakeSasToken") {
+      accountSas = "";
+    }
+
+    // client constructors assume accountSas does *not* start with ?
+    if (accountSas.startsWith("?")) {
+      accountSas = accountSas.substring(1);
     }
 
     return { kind: "SASConnString", url: blobEndpoint, accountName, accountSas };
@@ -257,11 +271,11 @@ function escape(text: string): string {
  * @returns An updated URL string
  */
 export function appendToURLPath(url: string, name: string): string {
-  const urlParsed = URLBuilder.parse(url);
+  const urlParsed = new URL(url);
 
-  let path = urlParsed.getPath();
+  let path = urlParsed.pathname;
   path = path ? (path.endsWith("/") ? `${path}${name}` : `${path}/${name}`) : name;
-  urlParsed.setPath(path);
+  urlParsed.pathname = path;
 
   return urlParsed.toString();
 }
@@ -276,8 +290,28 @@ export function appendToURLPath(url: string, name: string): string {
  * @returns An updated URL string
  */
 export function setURLParameter(url: string, name: string, value?: string): string {
-  const urlParsed = URLBuilder.parse(url);
-  urlParsed.setQueryParameter(name, value);
+  const urlParsed = new URL(url);
+  const encodedName = encodeURIComponent(name);
+  const encodedValue = value ? encodeURIComponent(value) : undefined;
+  // mutating searchParams will change the encoding, so we have to do this ourselves
+  const searchString = urlParsed.search === "" ? "?" : urlParsed.search;
+
+  const searchPieces: string[] = [];
+
+  for (const pair of searchString.slice(1).split("&")) {
+    if (pair) {
+      const [key] = pair.split("=", 2);
+      if (key !== encodedName) {
+        searchPieces.push(pair);
+      }
+    }
+  }
+  if (encodedValue) {
+    searchPieces.push(`${encodedName}=${encodedValue}`);
+  }
+
+  urlParsed.search = searchPieces.length ? `?${searchPieces.join("&")}` : "";
+
   return urlParsed.toString();
 }
 
@@ -288,8 +322,8 @@ export function setURLParameter(url: string, name: string, value?: string): stri
  * @param name -
  */
 export function getURLParameter(url: string, name: string): string | string[] | undefined {
-  const urlParsed = URLBuilder.parse(url);
-  return urlParsed.getQueryParameterValue(name);
+  const urlParsed = new URL(url);
+  return urlParsed.searchParams.get(name) ?? undefined;
 }
 
 /**
@@ -300,8 +334,8 @@ export function getURLParameter(url: string, name: string): string | string[] | 
  * @returns An updated URL string
  */
 export function setURLHost(url: string, host: string): string {
-  const urlParsed = URLBuilder.parse(url);
-  urlParsed.setHost(host);
+  const urlParsed = new URL(url);
+  urlParsed.hostname = host;
   return urlParsed.toString();
 }
 
@@ -311,8 +345,12 @@ export function setURLHost(url: string, host: string): string {
  * @param url - Source URL string
  */
 export function getURLPath(url: string): string | undefined {
-  const urlParsed = URLBuilder.parse(url);
-  return urlParsed.getPath();
+  try {
+    const urlParsed = new URL(url);
+    return urlParsed.pathname;
+  } catch (e) {
+    return undefined;
+  }
 }
 
 /**
@@ -321,8 +359,12 @@ export function getURLPath(url: string): string | undefined {
  * @param url - Source URL string
  */
 export function getURLScheme(url: string): string | undefined {
-  const urlParsed = URLBuilder.parse(url);
-  return urlParsed.getScheme();
+  try {
+    const urlParsed = new URL(url);
+    return urlParsed.protocol.endsWith(":") ? urlParsed.protocol.slice(0, -1) : urlParsed.protocol;
+  } catch (e) {
+    return undefined;
+  }
 }
 
 /**
@@ -331,13 +373,13 @@ export function getURLScheme(url: string): string | undefined {
  * @param url - Source URL string
  */
 export function getURLPathAndQuery(url: string): string | undefined {
-  const urlParsed = URLBuilder.parse(url);
-  const pathString = urlParsed.getPath();
+  const urlParsed = new URL(url);
+  const pathString = urlParsed.pathname;
   if (!pathString) {
     throw new RangeError("Invalid url without valid path.");
   }
 
-  let queryString = urlParsed.getQuery() || "";
+  let queryString = urlParsed.search || "";
   queryString = queryString.trim();
   if (queryString !== "") {
     queryString = queryString.startsWith("?") ? queryString : `?${queryString}`; // Ensure query string start with '?'
@@ -352,13 +394,13 @@ export function getURLPathAndQuery(url: string): string | undefined {
  * @param url -
  */
 export function getURLQueries(url: string): { [key: string]: string } {
-  let queryString = URLBuilder.parse(url).getQuery();
+  let queryString = new URL(url).search;
   if (!queryString) {
     return {};
   }
 
   queryString = queryString.trim();
-  queryString = queryString.startsWith("?") ? queryString.substr(1) : queryString;
+  queryString = queryString.startsWith("?") ? queryString.substring(1) : queryString;
 
   let querySubStrings: string[] = queryString.split("&");
   querySubStrings = querySubStrings.filter((value: string) => {
@@ -388,16 +430,16 @@ export function getURLQueries(url: string): { [key: string]: string } {
  * @returns An updated URL string.
  */
 export function appendToURLQuery(url: string, queryParts: string): string {
-  const urlParsed = URLBuilder.parse(url);
+  const urlParsed = new URL(url);
 
-  let query = urlParsed.getQuery();
+  let query = urlParsed.search;
   if (query) {
     query += "&" + queryParts;
   } else {
     query = queryParts;
   }
 
-  urlParsed.setQuery(query);
+  urlParsed.search = query;
   return urlParsed.toString();
 }
 
@@ -536,14 +578,14 @@ export function sanitizeURL(url: string): string {
 }
 
 export function sanitizeHeaders(originalHeader: HttpHeaders): HttpHeaders {
-  const headers: HttpHeaders = new HttpHeaders();
-  for (const header of originalHeader.headersArray()) {
-    if (header.name.toLowerCase() === HeaderConstants.AUTHORIZATION.toLowerCase()) {
-      headers.set(header.name, "*****");
-    } else if (header.name.toLowerCase() === HeaderConstants.X_MS_COPY_SOURCE) {
-      headers.set(header.name, sanitizeURL(header.value));
+  const headers: HttpHeaders = createHttpHeaders();
+  for (const [name, value] of originalHeader) {
+    if (name.toLowerCase() === HeaderConstants.AUTHORIZATION.toLowerCase()) {
+      headers.set(name, "*****");
+    } else if (name.toLowerCase() === HeaderConstants.X_MS_COPY_SOURCE) {
+      headers.set(name, sanitizeURL(value));
     } else {
-      headers.set(header.name, header.value);
+      headers.set(name, value);
     }
   }
 
@@ -565,41 +607,39 @@ export function iEqual(str1: string, str2: string): boolean {
  * @returns with the account name
  */
 export function getAccountNameFromUrl(url: string): string {
-  const parsedUrl: URLBuilder = URLBuilder.parse(url);
+  const parsedUrl = new URL(url);
   let accountName;
   try {
-    if (parsedUrl.getHost()!.split(".")[1] === "blob") {
+    if (parsedUrl.hostname.split(".")[1] === "blob") {
       // `${defaultEndpointsProtocol}://${accountName}.blob.${endpointSuffix}`;
-      accountName = parsedUrl.getHost()!.split(".")[0];
+      accountName = parsedUrl.hostname.split(".")[0];
     } else if (isIpEndpointStyle(parsedUrl)) {
       // IPv4/IPv6 address hosts... Example - http://192.0.0.10:10001/devstoreaccount1/
       // Single word domain without a [dot] in the endpoint... Example - http://localhost:10001/devstoreaccount1/
       // .getPath() -> /devstoreaccount1/
-      accountName = parsedUrl.getPath()!.split("/")[1];
+      accountName = parsedUrl.pathname.split("/")[1];
     } else {
       // Custom domain case: "https://customdomain.com/containername/blob".
       accountName = "";
     }
     return accountName;
-  } catch (error) {
+  } catch (error: any) {
     throw new Error("Unable to extract accountName with provided information.");
   }
 }
 
-export function isIpEndpointStyle(parsedUrl: URLBuilder): boolean {
-  if (parsedUrl.getHost() === undefined) {
-    return false;
-  }
-
-  const host =
-    parsedUrl.getHost()! + (parsedUrl.getPort() === undefined ? "" : ":" + parsedUrl.getPort());
+export function isIpEndpointStyle(parsedUrl: URL): boolean {
+  const host = parsedUrl.host;
 
   // Case 1: Ipv6, use a broad regex to find out candidates whose host contains two ':'.
   // Case 2: localhost(:port), use broad regex to match port part.
   // Case 3: Ipv4, use broad regex which just check if host contains Ipv4.
   // For valid host please refer to https://man7.org/linux/man-pages/man7/hostname.7.html.
-  return /^.*:.*:.*$|^localhost(:[0-9]+)?$|^(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])(\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])){3}(:[0-9]+)?$/.test(
-    host
+  return (
+    /^.*:.*:.*$|^localhost(:[0-9]+)?$|^(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])(\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])){3}(:[0-9]+)?$/.test(
+      host
+    ) ||
+    (Boolean(parsedUrl.port) && PathStylePorts.includes(parsedUrl.port))
   );
 }
 
@@ -829,189 +869,156 @@ export function ConvertInternalResponseOfListBlobHierarchy(
   };
 }
 
-function decodeBase64String(value: string): Uint8Array {
-  if (isNode) {
-    return Buffer.from(value, "base64");
-  } else {
-    const byteString = atob(value);
-    const arr = new Uint8Array(byteString.length);
-    for (let i = 0; i < byteString.length; i++) {
-      arr[i] = byteString.charCodeAt(i);
+export function* ExtractPageRangeInfoItems(
+  getPageRangesSegment: PageBlobGetPageRangesDiffResponseModel
+): IterableIterator<PageRangeInfo> {
+  let pageRange: PageRange[] = [];
+  let clearRange: ClearRange[] = [];
+
+  if (getPageRangesSegment.pageRange) pageRange = getPageRangesSegment.pageRange;
+  if (getPageRangesSegment.clearRange) clearRange = getPageRangesSegment.clearRange;
+
+  let pageRangeIndex = 0;
+  let clearRangeIndex = 0;
+
+  while (pageRangeIndex < pageRange.length && clearRangeIndex < clearRange.length) {
+    if (pageRange[pageRangeIndex].start < clearRange[clearRangeIndex].start) {
+      yield {
+        start: pageRange[pageRangeIndex].start,
+        end: pageRange[pageRangeIndex].end,
+        isClear: false,
+      };
+      ++pageRangeIndex;
+    } else {
+      yield {
+        start: clearRange[clearRangeIndex].start,
+        end: clearRange[clearRangeIndex].end,
+        isClear: true,
+      };
+      ++clearRangeIndex;
     }
-    return arr;
   }
-}
 
-function ParseBoolean(content: any) {
-  if (content === undefined) return undefined;
-  if (content === "true") return true;
-  if (content === "false") return false;
-  return undefined;
-}
-
-function ParseBlobName(blobNameInXML: any): BlobName {
-  if (blobNameInXML["$"] !== undefined && blobNameInXML["#"] !== undefined) {
-    return {
-      encoded: ParseBoolean(blobNameInXML["$"]["Encoded"]),
-      content: blobNameInXML["#"] as string,
+  for (; pageRangeIndex < pageRange.length; ++pageRangeIndex) {
+    yield {
+      start: pageRange[pageRangeIndex].start,
+      end: pageRange[pageRangeIndex].end,
+      isClear: false,
     };
-  } else {
-    return {
-      encoded: false,
-      content: blobNameInXML as string,
+  }
+
+  for (; clearRangeIndex < clearRange.length; ++clearRangeIndex) {
+    yield {
+      start: clearRange[clearRangeIndex].start,
+      end: clearRange[clearRangeIndex].end,
+      isClear: true,
     };
   }
 }
 
-function ParseBlobItem(blobInXML: any): BlobItemInternal {
-  const blobPropertiesInXML = blobInXML["Properties"];
-  const blobProperties = {
-    createdOn: new Date(blobPropertiesInXML["Creation-Time"] as string),
-    lastModified: new Date(blobPropertiesInXML["Last-Modified"] as string),
-    etag: blobPropertiesInXML["Etag"] as string,
-    contentLength:
-      blobPropertiesInXML["Content-Length"] === undefined
-        ? undefined
-        : parseFloat(blobPropertiesInXML["Content-Length"] as string),
-    contentType: blobPropertiesInXML["Content-Type"] as string,
-    contentEncoding: blobPropertiesInXML["Content-Encoding"] as string,
-    contentLanguage: blobPropertiesInXML["Content-Language"] as string,
-    contentMD5: decodeBase64String(blobPropertiesInXML["Content-MD5"] as string),
-    contentDisposition: blobPropertiesInXML["Content-Disposition"] as string,
-    cacheControl: blobPropertiesInXML["Cache-Control"] as string,
-    blobSequenceNumber:
-      blobPropertiesInXML["x-ms-blob-sequence-number"] === undefined
-        ? undefined
-        : parseFloat(blobPropertiesInXML["x-ms-blob-sequence-number"] as string),
-    blobType: blobPropertiesInXML["BlobType"] as BlobType,
-    leaseStatus: blobPropertiesInXML["LeaseStatus"] as LeaseStatusType,
-    leaseState: blobPropertiesInXML["LeaseState"] as LeaseStateType,
-    leaseDuration: blobPropertiesInXML["LeaseDuration"] as LeaseDurationType,
-    copyId: blobPropertiesInXML["CopyId"] as string,
-    copyStatus: blobPropertiesInXML["CopyStatus"] as CopyStatusType,
-    copySource: blobPropertiesInXML["CopySource"] as string,
-    copyProgress: blobPropertiesInXML["CopyProgress"] as string,
-    copyCompletedOn:
-      blobPropertiesInXML["CopyCompletionTime"] === undefined
-        ? undefined
-        : new Date(blobPropertiesInXML["CopyCompletionTime"] as string),
-    copyStatusDescription: blobPropertiesInXML["CopyStatusDescription"] as string,
-    serverEncrypted: ParseBoolean(blobPropertiesInXML["ServerEncrypted"]),
-    incrementalCopy: ParseBoolean(blobPropertiesInXML["IncrementalCopy"]),
-    destinationSnapshot: blobPropertiesInXML["DestinationSnapshot"] as string,
-    deletedOn:
-      blobPropertiesInXML["DeletedTime"] === undefined
-        ? undefined
-        : new Date(blobPropertiesInXML["DeletedTime"] as string),
-    remainingRetentionDays:
-      blobPropertiesInXML["RemainingRetentionDays"] === undefined
-        ? undefined
-        : parseFloat(blobPropertiesInXML["RemainingRetentionDays"] as string),
-    accessTier: blobPropertiesInXML["AccessTier"] as AccessTier,
-    accessTierInferred: ParseBoolean(blobPropertiesInXML["AccessTierInferred"]),
-    archiveStatus: blobPropertiesInXML["ArchiveStatus"] as ArchiveStatus,
-    customerProvidedKeySha256: blobPropertiesInXML["CustomerProvidedKeySha256"] as string,
-    encryptionScope: blobPropertiesInXML["EncryptionScope"] as string,
-    accessTierChangedOn:
-      blobPropertiesInXML["AccessTierChangeTime"] === undefined
-        ? undefined
-        : new Date(blobPropertiesInXML["AccessTierChangeTime"] as string),
-    tagCount:
-      blobPropertiesInXML["TagCount"] === undefined
-        ? undefined
-        : parseFloat(blobPropertiesInXML["TagCount"] as string),
-    expiresOn:
-      blobPropertiesInXML["Expiry-Time"] === undefined
-        ? undefined
-        : new Date(blobPropertiesInXML["Expiry-Time"] as string),
-    isSealed: ParseBoolean(blobPropertiesInXML["Sealed"]),
-    rehydratePriority: blobPropertiesInXML["RehydratePriority"] as RehydratePriority,
-    lastAccessedOn:
-      blobPropertiesInXML["LastAccessTime"] === undefined
-        ? undefined
-        : new Date(blobPropertiesInXML["LastAccessTime"] as string),
-    immutabilityPolicyExpiresOn:
-      blobPropertiesInXML["ImmutabilityPolicyUntilDate"] === undefined
-        ? undefined
-        : new Date(blobPropertiesInXML["ImmutabilityPolicyUntilDate"] as string),
-    immutabilityPolicyMode: blobPropertiesInXML[
-      "ImmutabilityPolicyMode"
-    ] as BlobImmutabilityPolicyMode,
-    legalHold: ParseBoolean(blobPropertiesInXML["LegalHold"]),
-  };
+/**
+ * Escape the blobName but keep path separator ('/').
+ */
+export function EscapePath(blobName: string): string {
+  const split = blobName.split("/");
+  for (let i = 0; i < split.length; i++) {
+    split[i] = encodeURIComponent(split[i]);
+  }
+  return split.join("/");
+}
 
-  return {
-    name: ParseBlobName(blobInXML["Name"]),
-    deleted: ParseBoolean(blobInXML["Deleted"])!,
-    snapshot: blobInXML["Snapshot"] as string,
-    versionId: blobInXML["VersionId"] as string,
-    isCurrentVersion: ParseBoolean(blobInXML["IsCurrentVersion"]),
-    properties: blobProperties,
-    metadata: blobInXML["Metadata"],
-    blobTags: ParseBlobTags(blobInXML["Tags"]),
-    objectReplicationMetadata: blobInXML["OrMetadata"],
-    hasVersionsOnly: ParseBoolean(blobInXML["HasVersionsOnly"]),
+/**
+ * A representation of an HTTP response that
+ * includes a reference to the request that
+ * originated it.
+ */
+export interface HttpResponse {
+  /**
+   * The headers from the response.
+   */
+  headers: HttpHeadersLike;
+  /**
+   * The original request that resulted in this response.
+   */
+  request: WebResourceLike;
+  /**
+   * The HTTP status code returned from the service.
+   */
+  status: number;
+}
+
+/**
+ * An object with a _response property that has
+ * headers already parsed into a typed object.
+ */
+export interface ResponseWithHeaders<Headers> {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse & {
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: Headers;
   };
 }
 
-function ParseBlobPrefix(blobPrefixInXML: any): BlobPrefix {
-  return {
-    name: ParseBlobName(blobPrefixInXML["Name"]),
+/**
+ * An object with a _response property that has body
+ * and headers already parsed into known types.
+ */
+export interface ResponseWithBody<Headers, Body> {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse & {
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: Headers;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Body;
   };
 }
 
-function ParseBlobTag(blobTagInXML: any): BlobTag {
-  return {
-    key: blobTagInXML["Key"],
-    value: blobTagInXML["Value"],
-  };
+/**
+ * An object with a simple _response property.
+ */
+export interface ResponseLike {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse;
 }
 
-function ParseBlobTags(blobTagsInXML: any): BlobTags | undefined {
-  if (
-    blobTagsInXML === undefined ||
-    blobTagsInXML["TagSet"] === undefined ||
-    blobTagsInXML["TagSet"]["Tag"] === undefined
-  ) {
-    return undefined;
+/**
+ * A type that represents an operation result with a known _response property.
+ */
+export type WithResponse<T, Headers = undefined, Body = undefined> = T &
+  (Body extends object
+    ? ResponseWithBody<Headers, Body>
+    : Headers extends object
+    ? ResponseWithHeaders<Headers>
+    : ResponseLike);
+
+/**
+ * A typesafe helper for ensuring that a given response object has
+ * the original _response attached.
+ * @param response - A response object from calling a client operation
+ * @returns The same object, but with known _response property
+ */
+export function assertResponse<T extends object, Headers = undefined, Body = undefined>(
+  response: T
+): WithResponse<T, Headers, Body> {
+  if (`_response` in response) {
+    return response as WithResponse<T, Headers, Body>;
   }
 
-  const blobTagSet = [];
-  if (blobTagsInXML["TagSet"]["Tag"] instanceof Array) {
-    blobTagsInXML["TagSet"]["Tag"].forEach((blobTagInXML: any) => {
-      blobTagSet.push(ParseBlobTag(blobTagInXML));
-    });
-  } else {
-    blobTagSet.push(ParseBlobTag(blobTagsInXML["TagSet"]["Tag"]));
-  }
-
-  return { blobTagSet: blobTagSet };
-}
-
-export function ProcessBlobItems(blobArrayInXML: any[]): BlobItemInternal[] {
-  const blobItems = [];
-
-  if (blobArrayInXML instanceof Array) {
-    blobArrayInXML.forEach((blobInXML: any) => {
-      blobItems.push(ParseBlobItem(blobInXML));
-    });
-  } else {
-    blobItems.push(ParseBlobItem(blobArrayInXML));
-  }
-
-  return blobItems;
-}
-
-export function ProcessBlobPrefixes(blobPrefixesInXML: any[]): BlobPrefix[] {
-  const blobPrefixes = [];
-
-  if (blobPrefixesInXML instanceof Array) {
-    blobPrefixesInXML.forEach((blobPrefixInXML: any) => {
-      blobPrefixes.push(ParseBlobPrefix(blobPrefixInXML));
-    });
-  } else {
-    blobPrefixes.push(ParseBlobPrefix(blobPrefixesInXML));
-  }
-
-  return blobPrefixes;
+  throw new TypeError(`Unexpected response object ${response}`);
 }

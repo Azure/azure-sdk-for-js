@@ -159,7 +159,8 @@ async function deserializeResponseBody(
   const { error, shouldReturnResponse } = handleErrorResponse(
     parsedResponse,
     operationSpec,
-    responseSpec
+    responseSpec,
+    options
   );
   if (error) {
     throw error;
@@ -182,9 +183,10 @@ async function deserializeResponseBody(
         parsedResponse.parsedBody = operationSpec.serializer.deserialize(
           responseSpec.bodyMapper,
           valueToDeserialize,
-          "operationRes.parsedBody"
+          "operationRes.parsedBody",
+          options
         );
-      } catch (deserializeError) {
+      } catch (deserializeError: any) {
         const restError = new RestError(
           `Error ${deserializeError} occurred in deserializing the responseBody - ${parsedResponse.bodyAsText}`,
           {
@@ -204,7 +206,8 @@ async function deserializeResponseBody(
       parsedResponse.parsedHeaders = operationSpec.serializer.deserialize(
         responseSpec.headersMapper,
         parsedResponse.headers.toJSON(),
-        "operationRes.parsedHeaders"
+        "operationRes.parsedHeaders",
+        { xml: {}, ignoreUnknownProperties: true }
       );
     }
   }
@@ -223,7 +226,8 @@ function isOperationSpecEmpty(operationSpec: OperationSpec): boolean {
 function handleErrorResponse(
   parsedResponse: FullOperationResponse,
   operationSpec: OperationSpec,
-  responseSpec: OperationResponseMap | undefined
+  responseSpec: OperationResponseMap | undefined,
+  options: RequiredSerializerOptions
 ): { error: RestError | null; shouldReturnResponse: boolean } {
   const isSuccessByStatus = 200 <= parsedResponse.status && parsedResponse.status < 300;
   const isExpectedStatusCode: boolean = isOperationSpecEmpty(operationSpec)
@@ -282,7 +286,8 @@ function handleErrorResponse(
         deserializedError = operationSpec.serializer.deserialize(
           defaultBodyMapper,
           valueToDeserialize,
-          "error.response.parsedBody"
+          "error.response.parsedBody",
+          options
         );
       }
 
@@ -306,7 +311,7 @@ function handleErrorResponse(
           "operationRes.parsedHeaders"
         );
     }
-  } catch (defaultError) {
+  } catch (defaultError: any) {
     error.message = `Error "${defaultError.message}" occurred in deserializing the responseBody - "${parsedResponse.bodyAsText}" for the default response.`;
   }
 
@@ -345,7 +350,7 @@ async function parse(
         operationResponse.parsedBody = body;
         return operationResponse;
       }
-    } catch (err) {
+    } catch (err: any) {
       const msg = `Error "${err}" occurred while parsing the response body - ${operationResponse.bodyAsText}.`;
       const errCode = err.code || RestError.PARSE_ERROR;
       const e = new RestError(msg, {

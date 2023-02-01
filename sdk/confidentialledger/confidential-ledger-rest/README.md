@@ -6,6 +6,7 @@ portfolio, Azure Confidential Ledger runs in SGX enclaves. It is built on Micros
 **Please rely heavily on the [service's documentation][confidential_ledger_docs] and our [Rest client docs][rest_client] to use this library**
 
 Key links:
+
 - [Source code][source_code]
 - [Package (NPM)][confidentialledger_npm]
 - [API reference documentation][ref_docs]
@@ -35,7 +36,7 @@ npm install @azure-rest/confidential-ledger
 
 #### Using Azure Active Directory
 
-This document demonstrates using [DefaultAzureCredential][default_azure_credential] to authenticate to the Confidential Ledger via Azure Active Directory. However, `ConfidentialLedger` accepts any [@azure/identity][azure_identity_credentials] credential.
+This document demonstrates using [DefaultAzureCredential][default_azure_credential] to authenticate to the Confidential Ledger via Azure Active Directory. You can find the environment variables in the Azure Portal. However, `ConfidentialLedger` accepts any [@azure/identity][azure_identity_credentials] credential.
 
 `DefaultAzureCredential` will automatically handle most Azure SDK client scenarios. To get started, set the values of client ID, tenant ID, and client secret of the AAD application as environment variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
 
@@ -46,18 +47,18 @@ Creating the client also requires your Confidential Ledger's URL and id, which y
 Because Confidential Ledgers use self-signed certificates securely generated and stored in an enclave, the signing certificate for each Confidential Ledger must first be retrieved from the Confidential Ledger Identity Service.
 
 ```typescript
-import ConfidentialLedger, { getLedgerIdentity } from "@azure-rest/confidential-ledger";
-import { DefaultAzureCredential } from "@azure/identity";
+import ConfidentialLedger, { getLedgerIdentity } from "../../src";
 
-// Get the signing certificate from the Confidential Ledger Identity Service
-const ledgerIdentity = await getLedgerIdentity("<my-ledger-id>");
+const { ledgerIdentityCertificate } = await getLedgerIdentity(
+      // for example, test-ledger-name
+      LEDGER_IDENTITY,
+      // for example, https://identity.confidential-ledger.core.azure.com
+      IDENTITY_SERVICE_URL
+    );
+    const credential = new DefaultAzureCredential();
 
-// Create the Confidential Ledger Client
-const confidentialLedger = ConfidentialLedger(
-  "https://<ledger-name>.eastus.cloudapp.azure.com",
-  ledgerIdentity.ledgerTlsCertificate,
-  new DefaultAzureCredential()
-);
+    // ENDPOINT example: https://test-ledger-name.confidential-ledger.azure.com
+    const ledgerClient = ConfidentialLedger(ENDPOINT, ledgerIdentityCertificate, credential);
 ```
 
 #### Using a client certificate
@@ -66,15 +67,23 @@ As an alternative to Azure Active Directory, clients may choose to authenticate 
 
 ```typescript
 import ConfidentialLedger, { getLedgerIdentity } from "@azure-rest/confidential-ledger";
-// Get the signing certificate from the Confidential Ledger Identity Service
-const ledgerIdentity = await getLedgerIdentity("<my-ledger-id>");
 
-// Create the Confidential Ledger Client
-const confidentialLedger = ConfidentialLedger(
-  "https://<ledger-name>.eastus.cloudapp.azure.com",
-  ledgerIdentity.ledgerTlsCertificate,
-  { cert: "<CERTIFICATE_KEY_PEM_FORMAT>", certKey: "<PRIVATE_KEY_PEM_FORMAT>" }
-);
+// Get the signing certificate from the Confidential Ledger Identity Service
+const { ledgerIdentityCertificate } = await getLedgerIdentity(
+      LEDGER_IDENTITY,
+      IDENTITY_SERVICE_URL
+    );
+    // both cert (certificate key) and key (private key) are in PEM format
+    const cert = PUBLIC_KEY;
+    const key = PRIVATE_KEY;
+    // Create the Confidential Ledger Client
+    // ENDPOINT example: https://test-ledger-name.confidential-ledger.azure.com
+    const ledgerClient = ConfidentialLedger(env.ENDPOINT, ledgerIdentityCertificate, {
+      tlsOptions: {
+        cert,
+        key,
+      },
+    });
 ```
 
 ## Key concepts
@@ -87,11 +96,11 @@ Every write to Azure Confidential Ledger generates an immutable ledger entry in 
 
 State changes to the Confidential Ledger are saved in a data structure called a Merkle tree. To cryptographically verify that writes were correctly saved, a Merkle proof, or receipt, can be retrieved for any transaction id.
 
-### Sub-ledgers
+### Collections
 
-While most use cases will involve one ledger, we provide the sub-ledger feature in case semantically or logically different groups of data need to be stored in the same Confidential Ledger.
+While most use cases will involve one ledger, we provide the collection feature in case semantically or logically different groups of data need to be stored in the same Confidential Ledger.
 
-Ledger entries are retrieved by their sub-ledger identifier. The Confidential Ledger will always assume a constant, service-determined sub-ledger id for entries submitted without a sub-ledger specified.
+Ledger entries are retrieved by their collection identifier. The Confidential Ledger will always assume a constant, service-determined collection id for entries submitted without a collection specified.
 
 ### Users
 
@@ -109,24 +118,77 @@ Azure Confidential Ledger is built on Microsoft Research's open-source [Confiden
 
 This section contains code snippets for the following samples:
 
+- [Post Ledger Entry](#post-ledger-entry "Post Ledger Entry")
+- [Get a Ledger Entry By Transaction Id](#get-a-ledger-entry "Get a Ledger Entry By Transaction Id")
+- [Get All Ledger Entries](#get-all-ledger-entries "Get All Ledger Entries")
+- [Get All Collections](#get-all-collections "Get All Collections")
+- [Get Transactions for a Collection](#transactions-for-collection "Get Transactions for a Collection")
 - [List Enclave Quotes](#list-enclave-quotes "List Enclave Quotes")
 
-### List Enclave Quotes
+### Post Ledger Entry
+```typescript
+const entry: LedgerEntry = {
+  contents: contentBody,
+};
+const ledgerEntry: CreateLedgerEntryParameters = {
+  contentType: "application/json",
+  body: entry,
+};
+const result = await client.path("/app/transactions").post(ledgerEntry);
+```
 
+### Get a Ledger Entry By Transaction Id
+```typescript
+const status = await client
+  .path("/app/transactions/{transactionId}/status", transactionId)
+  .get();
+```
+
+### Get All Ledger Entries
+```typescript
+const ledgerEntries = await client.path("/app/transactions");
+```
+
+### Get All Collections
+```typescript
+const result = await client.path("/app/collections").get();
+```
+
+### Get Transactions for a Collection
+```typescript
+const getLedgerEntriesParams = { queryParameters: { collectionId: "my collection" } };
+const ledgerEntries = await client.path("/app/transactions").get(getLedgerEntriesParams);
+```
+
+### List Enclave Quotes
+```typescript
+// Get enclave quotes
+const enclaveQuotes = await confidentialLedger.path("/app/enclaveQuotes").get();
+
+// Check for non-success response
+if (enclaveQuotes.status !== "200") {
+  throw enclaveQuotes.body.error;
+}
+
+// Log all the enclave quotes' nodeId
+Object.keys(enclaveQuotes.body.enclaveQuotes).forEach((key) => {
+  console.log(enclaveQuotes.body.enclaveQuotes[key].nodeId);
+});
+```
+
+### Full Example
 ```typescript
 import ConfidentialLedger, { getLedgerIdentity } from "@azure-rest/confidential-ledger";
 import { DefaultAzureCredential } from "@azure/identity";
 
 export async function main() {
-  console.log("== List Enclave Quotes ==");
-
   // Get the signing certificate from the Confidential Ledger Identity Service
   const ledgerIdentity = await getLedgerIdentity("<my-ledger-id>");
 
   // Create the Confidential Ledger Client
   const confidentialLedger = ConfidentialLedger(
     "https://<ledger-name>.eastus.cloudapp.azure.com",
-    ledgerIdentity.ledgerTlsCertificate,
+    ledgerIdentity.ledgerIdentityCertificate,
     new DefaultAzureCredential()
   );
 

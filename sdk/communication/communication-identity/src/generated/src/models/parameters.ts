@@ -10,10 +10,10 @@ import {
   OperationParameter,
   OperationURLParameter,
   OperationQueryParameter
-} from "@azure/core-http";
+} from "@azure/core-client";
 import {
   CommunicationIdentityCreateRequest as CommunicationIdentityCreateRequestMapper,
-  TeamsUserAccessTokenRequest as TeamsUserAccessTokenRequestMapper,
+  TeamsUserExchangeTokenRequest as TeamsUserExchangeTokenRequestMapper,
   CommunicationIdentityAccessTokenRequest as CommunicationIdentityAccessTokenRequestMapper
 } from "../models/mappers";
 
@@ -29,8 +29,25 @@ export const contentType: OperationParameter = {
   }
 };
 
-export const body: OperationParameter = {
-  parameterPath: ["options", "body"],
+export const accept: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Accept",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const createTokenWithScopes: OperationParameter = {
+  parameterPath: ["options", "createTokenWithScopes"],
+  mapper: CommunicationIdentityCreateRequestMapper
+};
+
+export const expiresInMinutes: OperationParameter = {
+  parameterPath: ["options", "expiresInMinutes"],
   mapper: CommunicationIdentityCreateRequestMapper
 };
 
@@ -49,7 +66,7 @@ export const endpoint: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-10-31-preview",
+    defaultValue: "2022-10-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -69,12 +86,27 @@ export const id: OperationURLParameter = {
   }
 };
 
-export const body1: OperationParameter = {
-  parameterPath: "body",
-  mapper: TeamsUserAccessTokenRequestMapper
+export const token: OperationParameter = {
+  parameterPath: "token",
+  mapper: TeamsUserExchangeTokenRequestMapper
 };
 
-export const body2: OperationParameter = {
-  parameterPath: "body",
+export const appId: OperationParameter = {
+  parameterPath: "appId",
+  mapper: TeamsUserExchangeTokenRequestMapper
+};
+
+export const userId: OperationParameter = {
+  parameterPath: "userId",
+  mapper: TeamsUserExchangeTokenRequestMapper
+};
+
+export const scopes: OperationParameter = {
+  parameterPath: "scopes",
+  mapper: CommunicationIdentityAccessTokenRequestMapper
+};
+
+export const expiresInMinutes1: OperationParameter = {
+  parameterPath: ["options", "expiresInMinutes"],
   mapper: CommunicationIdentityAccessTokenRequestMapper
 };

@@ -1,12 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-
-import { packageVersion } from "../../../src/appConfigurationClient";
 import { Context } from "mocha";
-import path from "path";
+import { assert } from "chai";
 import fs from "fs";
+import { packageVersion } from "../../../src/internal/constants";
+import path from "path";
 
 describe("packagejson related tests", () => {
   // if this test is failing you need to update the contant `packageVersion` referenced above
@@ -21,7 +20,7 @@ describe("packagejson related tests", () => {
       packageJsonContents = JSON.parse(
         fs.readFileSync(path.join(__dirname, "../../../../package.json"), { encoding: "utf-8" })
       );
-    } catch (e) {
+    } catch (e: any) {
       // For unit tests
       packageJsonContents = JSON.parse(
         fs.readFileSync(path.join(__dirname, "../../../package.json"), { encoding: "utf-8" })

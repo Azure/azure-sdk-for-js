@@ -114,7 +114,7 @@ export const timeout: OperationQueryParameter = {
 export const version: OperationParameter = {
   parameterPath: "version",
   mapper: {
-    defaultValue: "2020-12-06",
+    defaultValue: "2021-12-02",
     isConstant: true,
     serializedName: "x-ms-version",
     type: {
@@ -511,6 +511,122 @@ export const sourceIfUnmodifiedSince: OperationParameter = {
   }
 };
 
+export const encryptionKey: OperationParameter = {
+  parameterPath: ["options", "cpkInfo", "encryptionKey"],
+  mapper: {
+    serializedName: "x-ms-encryption-key",
+    xmlName: "x-ms-encryption-key",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const encryptionKeySha256: OperationParameter = {
+  parameterPath: ["options", "cpkInfo", "encryptionKeySha256"],
+  mapper: {
+    serializedName: "x-ms-encryption-key-sha256",
+    xmlName: "x-ms-encryption-key-sha256",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const encryptionAlgorithm: OperationParameter = {
+  parameterPath: ["options", "cpkInfo", "encryptionAlgorithm"],
+  mapper: {
+    serializedName: "x-ms-encryption-algorithm",
+    xmlName: "x-ms-encryption-algorithm",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const owner: OperationParameter = {
+  parameterPath: ["options", "owner"],
+  mapper: {
+    serializedName: "x-ms-owner",
+    xmlName: "x-ms-owner",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const group: OperationParameter = {
+  parameterPath: ["options", "group"],
+  mapper: {
+    serializedName: "x-ms-group",
+    xmlName: "x-ms-group",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const acl: OperationParameter = {
+  parameterPath: ["options", "acl"],
+  mapper: {
+    serializedName: "x-ms-acl",
+    xmlName: "x-ms-acl",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const proposedLeaseId: OperationParameter = {
+  parameterPath: ["options", "proposedLeaseId"],
+  mapper: {
+    serializedName: "x-ms-proposed-lease-id",
+    xmlName: "x-ms-proposed-lease-id",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const leaseDuration: OperationParameter = {
+  parameterPath: ["options", "leaseDuration"],
+  mapper: {
+    serializedName: "x-ms-lease-duration",
+    xmlName: "x-ms-lease-duration",
+    type: {
+      name: "Number"
+    }
+  }
+};
+
+export const expiryOptions: OperationParameter = {
+  parameterPath: ["options", "expiryOptions"],
+  mapper: {
+    serializedName: "x-ms-expiry-option",
+    xmlName: "x-ms-expiry-option",
+    type: {
+      name: "Enum",
+      allowedValues: [
+        "NeverExpire",
+        "RelativeToCreation",
+        "RelativeToNow",
+        "Absolute"
+      ]
+    }
+  }
+};
+
+export const expiresOn: OperationParameter = {
+  parameterPath: ["options", "expiresOn"],
+  mapper: {
+    serializedName: "x-ms-expiry-time",
+    xmlName: "x-ms-expiry-time",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const contentType1: OperationParameter = {
   parameterPath: ["options", "contentType"],
   mapper: {
@@ -662,39 +778,6 @@ export const contentMD5: OperationParameter = {
   }
 };
 
-export const owner: OperationParameter = {
-  parameterPath: ["options", "owner"],
-  mapper: {
-    serializedName: "x-ms-owner",
-    xmlName: "x-ms-owner",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const group: OperationParameter = {
-  parameterPath: ["options", "group"],
-  mapper: {
-    serializedName: "x-ms-group",
-    xmlName: "x-ms-group",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const acl: OperationParameter = {
-  parameterPath: ["options", "acl"],
-  mapper: {
-    serializedName: "x-ms-acl",
-    xmlName: "x-ms-acl",
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const xMsLeaseAction: OperationParameter = {
   parameterPath: "xMsLeaseAction",
   mapper: {
@@ -709,7 +792,7 @@ export const xMsLeaseAction: OperationParameter = {
 };
 
 export const xMsLeaseDuration: OperationParameter = {
-  parameterPath: ["options", "xMsLeaseDuration"],
+  parameterPath: "xMsLeaseDuration",
   mapper: {
     serializedName: "x-ms-lease-duration",
     xmlName: "x-ms-lease-duration",
@@ -726,17 +809,6 @@ export const xMsLeaseBreakPeriod: OperationParameter = {
     xmlName: "x-ms-lease-break-period",
     type: {
       name: "Number"
-    }
-  }
-};
-
-export const proposedLeaseId: OperationParameter = {
-  parameterPath: ["options", "proposedLeaseId"],
-  mapper: {
-    serializedName: "x-ms-proposed-lease-id",
-    xmlName: "x-ms-proposed-lease-id",
-    type: {
-      name: "String"
     }
   }
 };
@@ -822,6 +894,18 @@ export const action4: OperationQueryParameter = {
   }
 };
 
+export const leaseAction: OperationParameter = {
+  parameterPath: ["options", "leaseAction"],
+  mapper: {
+    serializedName: "x-ms-lease-action",
+    xmlName: "x-ms-lease-action",
+    type: {
+      name: "Enum",
+      allowedValues: ["acquire", "auto-renew", "release", "acquire-release"]
+    }
+  }
+};
+
 export const contentType2: OperationParameter = {
   parameterPath: ["options", "contentType"],
   mapper: {
@@ -868,6 +952,17 @@ export const transactionalContentCrc64: OperationParameter = {
   }
 };
 
+export const flush: OperationQueryParameter = {
+  parameterPath: ["options", "flush"],
+  mapper: {
+    serializedName: "flush",
+    xmlName: "flush",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
+
 export const comp1: OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
@@ -880,7 +975,7 @@ export const comp1: OperationQueryParameter = {
   }
 };
 
-export const expiryOptions: OperationParameter = {
+export const expiryOptions1: OperationParameter = {
   parameterPath: "expiryOptions",
   mapper: {
     serializedName: "x-ms-expiry-option",
@@ -894,17 +989,6 @@ export const expiryOptions: OperationParameter = {
         "RelativeToNow",
         "Absolute"
       ]
-    }
-  }
-};
-
-export const expiresOn: OperationParameter = {
-  parameterPath: ["options", "expiresOn"],
-  mapper: {
-    serializedName: "x-ms-expiry-time",
-    xmlName: "x-ms-expiry-time",
-    type: {
-      name: "String"
     }
   }
 };

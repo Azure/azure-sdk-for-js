@@ -14,18 +14,40 @@ import { PollOperationState } from '@azure/core-lro';
 export type ActionType = string;
 
 // @public
-export type ArcSetting = ProxyResource & {
-    readonly provisioningState?: ProvisioningState;
-    readonly arcInstanceResourceGroup?: string;
+export interface ArcConnectivityProperties {
+    enabled?: boolean;
+}
+
+// @public
+export interface ArcIdentityResponse {
+    // (undocumented)
+    arcApplicationClientId?: string;
+    // (undocumented)
+    arcApplicationObjectId?: string;
+    // (undocumented)
+    arcApplicationTenantId?: string;
+    // (undocumented)
+    arcServicePrincipalObjectId?: string;
+}
+
+// @public
+export interface ArcSetting extends ProxyResource {
     readonly aggregateState?: ArcSettingAggregateState;
-    readonly perNodeDetails?: PerNodeState[];
+    arcApplicationClientId?: string;
+    arcApplicationObjectId?: string;
+    arcApplicationTenantId?: string;
+    arcInstanceResourceGroup?: string;
+    arcServicePrincipalObjectId?: string;
+    connectivityProperties?: Record<string, unknown>;
+    createdAt?: Date;
     createdBy?: string;
     createdByType?: CreatedByType;
-    createdAt?: Date;
+    lastModifiedAt?: Date;
     lastModifiedBy?: string;
     lastModifiedByType?: CreatedByType;
-    lastModifiedAt?: Date;
-};
+    readonly perNodeDetails?: PerNodeState[];
+    readonly provisioningState?: ProvisioningState;
+}
 
 // @public
 export type ArcSettingAggregateState = string;
@@ -38,12 +60,25 @@ export interface ArcSettingList {
 
 // @public
 export interface ArcSettings {
+    beginCreateIdentity(resourceGroupName: string, clusterName: string, arcSettingName: string, options?: ArcSettingsCreateIdentityOptionalParams): Promise<PollerLike<PollOperationState<ArcSettingsCreateIdentityResponse>, ArcSettingsCreateIdentityResponse>>;
+    beginCreateIdentityAndWait(resourceGroupName: string, clusterName: string, arcSettingName: string, options?: ArcSettingsCreateIdentityOptionalParams): Promise<ArcSettingsCreateIdentityResponse>;
     beginDelete(resourceGroupName: string, clusterName: string, arcSettingName: string, options?: ArcSettingsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, clusterName: string, arcSettingName: string, options?: ArcSettingsDeleteOptionalParams): Promise<void>;
     create(resourceGroupName: string, clusterName: string, arcSettingName: string, arcSetting: ArcSetting, options?: ArcSettingsCreateOptionalParams): Promise<ArcSettingsCreateResponse>;
+    generatePassword(resourceGroupName: string, clusterName: string, arcSettingName: string, options?: ArcSettingsGeneratePasswordOptionalParams): Promise<ArcSettingsGeneratePasswordResponse>;
     get(resourceGroupName: string, clusterName: string, arcSettingName: string, options?: ArcSettingsGetOptionalParams): Promise<ArcSettingsGetResponse>;
     listByCluster(resourceGroupName: string, clusterName: string, options?: ArcSettingsListByClusterOptionalParams): PagedAsyncIterableIterator<ArcSetting>;
+    update(resourceGroupName: string, clusterName: string, arcSettingName: string, arcSetting: ArcSettingsPatch, options?: ArcSettingsUpdateOptionalParams): Promise<ArcSettingsUpdateResponse>;
 }
+
+// @public
+export interface ArcSettingsCreateIdentityOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ArcSettingsCreateIdentityResponse = ArcIdentityResponse;
 
 // @public
 export interface ArcSettingsCreateOptionalParams extends coreClient.OperationOptions {
@@ -57,6 +92,13 @@ export interface ArcSettingsDeleteOptionalParams extends coreClient.OperationOpt
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export interface ArcSettingsGeneratePasswordOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ArcSettingsGeneratePasswordResponse = PasswordCredential;
 
 // @public
 export interface ArcSettingsGetOptionalParams extends coreClient.OperationOptions {
@@ -78,6 +120,21 @@ export interface ArcSettingsListByClusterOptionalParams extends coreClient.Opera
 
 // @public
 export type ArcSettingsListByClusterResponse = ArcSettingList;
+
+// @public
+export interface ArcSettingsPatch {
+    connectivityProperties?: Record<string, unknown>;
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface ArcSettingsUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ArcSettingsUpdateResponse = ArcSetting;
 
 // @public (undocumented)
 export class AzureStackHCIClient extends coreClient.ServiceClient {
@@ -106,32 +163,47 @@ export interface AzureStackHCIClientOptionalParams extends coreClient.ServiceCli
 }
 
 // @public
-export type Cluster = TrackedResource & {
-    readonly provisioningState?: ProvisioningState;
-    readonly status?: Status;
+export interface Cluster extends TrackedResource {
+    aadApplicationObjectId?: string;
+    aadClientId?: string;
+    aadServicePrincipalObjectId?: string;
+    aadTenantId?: string;
+    readonly billingModel?: string;
     readonly cloudId?: string;
     cloudManagementEndpoint?: string;
-    aadClientId?: string;
-    aadTenantId?: string;
-    desiredProperties?: ClusterDesiredProperties;
-    readonly reportedProperties?: ClusterReportedProperties;
-    readonly trialDaysRemaining?: number;
-    readonly billingModel?: string;
-    readonly registrationTimestamp?: Date;
-    readonly lastSyncTimestamp?: Date;
-    readonly lastBillingTimestamp?: Date;
+    createdAt?: Date;
     createdBy?: string;
     createdByType?: CreatedByType;
-    createdAt?: Date;
+    desiredProperties?: ClusterDesiredProperties;
+    readonly lastBillingTimestamp?: Date;
+    lastModifiedAt?: Date;
     lastModifiedBy?: string;
     lastModifiedByType?: CreatedByType;
-    lastModifiedAt?: Date;
-};
+    readonly lastSyncTimestamp?: Date;
+    readonly provisioningState?: ProvisioningState;
+    readonly registrationTimestamp?: Date;
+    readonly reportedProperties?: ClusterReportedProperties;
+    readonly serviceEndpoint?: string;
+    readonly status?: Status;
+    readonly trialDaysRemaining?: number;
+}
 
 // @public
 export interface ClusterDesiredProperties {
     diagnosticLevel?: DiagnosticLevel;
     windowsServerSubscription?: WindowsServerSubscription;
+}
+
+// @public
+export interface ClusterIdentityResponse {
+    // (undocumented)
+    aadApplicationObjectId?: string;
+    // (undocumented)
+    aadClientId?: string;
+    // (undocumented)
+    aadServicePrincipalObjectId?: string;
+    // (undocumented)
+    aadTenantId?: string;
 }
 
 // @public
@@ -178,13 +250,27 @@ export interface ClusterReportedProperties {
 
 // @public
 export interface Clusters {
+    beginCreateIdentity(resourceGroupName: string, clusterName: string, options?: ClustersCreateIdentityOptionalParams): Promise<PollerLike<PollOperationState<ClustersCreateIdentityResponse>, ClustersCreateIdentityResponse>>;
+    beginCreateIdentityAndWait(resourceGroupName: string, clusterName: string, options?: ClustersCreateIdentityOptionalParams): Promise<ClustersCreateIdentityResponse>;
+    beginDelete(resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams): Promise<void>;
+    beginUploadCertificate(resourceGroupName: string, clusterName: string, uploadCertificateRequest: UploadCertificateRequest, options?: ClustersUploadCertificateOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginUploadCertificateAndWait(resourceGroupName: string, clusterName: string, uploadCertificateRequest: UploadCertificateRequest, options?: ClustersUploadCertificateOptionalParams): Promise<void>;
     create(resourceGroupName: string, clusterName: string, cluster: Cluster, options?: ClustersCreateOptionalParams): Promise<ClustersCreateResponse>;
-    delete(resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, clusterName: string, options?: ClustersGetOptionalParams): Promise<ClustersGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: ClustersListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Cluster>;
     listBySubscription(options?: ClustersListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Cluster>;
     update(resourceGroupName: string, clusterName: string, cluster: ClusterPatch, options?: ClustersUpdateOptionalParams): Promise<ClustersUpdateResponse>;
 }
+
+// @public
+export interface ClustersCreateIdentityOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ClustersCreateIdentityResponse = ClusterIdentityResponse;
 
 // @public
 export interface ClustersCreateOptionalParams extends coreClient.OperationOptions {
@@ -195,6 +281,8 @@ export type ClustersCreateResponse = Cluster;
 
 // @public
 export interface ClustersDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -240,6 +328,12 @@ export interface ClustersUpdateOptionalParams extends coreClient.OperationOption
 export type ClustersUpdateResponse = Cluster;
 
 // @public
+export interface ClustersUploadCertificateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
 export type CreatedByType = string;
 
 // @public
@@ -266,24 +360,24 @@ export interface ErrorResponse {
 }
 
 // @public
-export type Extension = ProxyResource & {
-    readonly provisioningState?: ProvisioningState;
+export interface Extension extends ProxyResource {
     readonly aggregateState?: ExtensionAggregateState;
-    readonly perNodeExtensionDetails?: PerNodeExtensionState[];
-    forceUpdateTag?: string;
-    publisher?: string;
-    typePropertiesExtensionParametersType?: string;
-    typeHandlerVersion?: string;
     autoUpgradeMinorVersion?: boolean;
-    settings?: Record<string, unknown>;
-    protectedSettings?: Record<string, unknown>;
+    createdAt?: Date;
     createdBy?: string;
     createdByType?: CreatedByType;
-    createdAt?: Date;
+    forceUpdateTag?: string;
+    lastModifiedAt?: Date;
     lastModifiedBy?: string;
     lastModifiedByType?: CreatedByType;
-    lastModifiedAt?: Date;
-};
+    readonly perNodeExtensionDetails?: PerNodeExtensionState[];
+    protectedSettings?: Record<string, unknown>;
+    readonly provisioningState?: ProvisioningState;
+    publisher?: string;
+    settings?: Record<string, unknown>;
+    typeHandlerVersion?: string;
+    typePropertiesExtensionParametersType?: string;
+}
 
 // @public
 export type ExtensionAggregateState = string;
@@ -352,211 +446,135 @@ export interface ExtensionsUpdateOptionalParams extends coreClient.OperationOpti
 export type ExtensionsUpdateResponse = Extension;
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export type ImdsAttestation = string;
 
 // @public
 export enum KnownActionType {
-    // (undocumented)
     Internal = "Internal"
 }
 
 // @public
 export enum KnownArcSettingAggregateState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Connected = "Connected",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleted = "Deleted",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Disconnected = "Disconnected",
-    // (undocumented)
     Error = "Error",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     InProgress = "InProgress",
-    // (undocumented)
     Moving = "Moving",
-    // (undocumented)
     NotSpecified = "NotSpecified",
-    // (undocumented)
     PartiallyConnected = "PartiallyConnected",
-    // (undocumented)
     PartiallySucceeded = "PartiallySucceeded",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownDiagnosticLevel {
-    // (undocumented)
     Basic = "Basic",
-    // (undocumented)
     Enhanced = "Enhanced",
-    // (undocumented)
     Off = "Off"
 }
 
 // @public
 export enum KnownExtensionAggregateState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Connected = "Connected",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleted = "Deleted",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Disconnected = "Disconnected",
-    // (undocumented)
     Error = "Error",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     InProgress = "InProgress",
-    // (undocumented)
     Moving = "Moving",
-    // (undocumented)
     NotSpecified = "NotSpecified",
-    // (undocumented)
     PartiallyConnected = "PartiallyConnected",
-    // (undocumented)
     PartiallySucceeded = "PartiallySucceeded",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownImdsAttestation {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownNodeArcState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Connected = "Connected",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleted = "Deleted",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Disconnected = "Disconnected",
-    // (undocumented)
     Error = "Error",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Moving = "Moving",
-    // (undocumented)
     NotSpecified = "NotSpecified",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownNodeExtensionState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Connected = "Connected",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleted = "Deleted",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Disconnected = "Disconnected",
-    // (undocumented)
     Error = "Error",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Moving = "Moving",
-    // (undocumented)
     NotSpecified = "NotSpecified",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownOrigin {
-    // (undocumented)
     System = "system",
-    // (undocumented)
     User = "user",
-    // (undocumented)
     UserSystem = "user,system"
 }
 
 // @public
 export enum KnownProvisioningState {
-    // (undocumented)
     Accepted = "Accepted",
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Provisioning = "Provisioning",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownStatus {
-    // (undocumented)
     ConnectedRecently = "ConnectedRecently",
-    // (undocumented)
     Disconnected = "Disconnected",
-    // (undocumented)
     Error = "Error",
-    // (undocumented)
     NotConnectedRecently = "NotConnectedRecently",
-    // (undocumented)
     NotYetRegistered = "NotYetRegistered"
 }
 
 // @public
 export enum KnownWindowsServerSubscription {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
@@ -604,6 +622,18 @@ export type OperationsListResponse = OperationListResult;
 // @public
 export type Origin = string;
 
+// @public (undocumented)
+export interface PasswordCredential {
+    // (undocumented)
+    endDateTime?: Date;
+    // (undocumented)
+    keyId?: string;
+    // (undocumented)
+    secretText?: string;
+    // (undocumented)
+    startDateTime?: Date;
+}
+
 // @public
 export interface PerNodeExtensionState {
     readonly extension?: string;
@@ -622,7 +652,14 @@ export interface PerNodeState {
 export type ProvisioningState = string;
 
 // @public
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {
+}
+
+// @public (undocumented)
+export interface RawCertificateData {
+    // (undocumented)
+    certificates?: string[];
+}
 
 // @public
 export interface Resource {
@@ -635,12 +672,18 @@ export interface Resource {
 export type Status = string;
 
 // @public
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
+    location: string;
     tags?: {
         [propertyName: string]: string;
     };
-    location: string;
-};
+}
+
+// @public (undocumented)
+export interface UploadCertificateRequest {
+    // (undocumented)
+    properties?: RawCertificateData;
+}
 
 // @public
 export type WindowsServerSubscription = string;

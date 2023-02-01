@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Topics } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,10 +19,13 @@ import {
   Topic,
   TopicsListBySubscriptionNextOptionalParams,
   TopicsListBySubscriptionOptionalParams,
+  TopicsListBySubscriptionResponse,
   TopicsListByResourceGroupNextOptionalParams,
   TopicsListByResourceGroupOptionalParams,
+  TopicsListByResourceGroupResponse,
   EventType,
   TopicsListEventTypesOptionalParams,
+  TopicsListEventTypesResponse,
   TopicsGetOptionalParams,
   TopicsGetResponse,
   TopicsCreateOrUpdateOptionalParams,
@@ -29,14 +33,11 @@ import {
   TopicsDeleteOptionalParams,
   TopicUpdateParameters,
   TopicsUpdateOptionalParams,
-  TopicsListBySubscriptionResponse,
-  TopicsListByResourceGroupResponse,
   TopicsListSharedAccessKeysOptionalParams,
   TopicsListSharedAccessKeysResponse,
   TopicRegenerateKeyRequest,
   TopicsRegenerateKeyOptionalParams,
   TopicsRegenerateKeyResponse,
-  TopicsListEventTypesResponse,
   TopicsListBySubscriptionNextResponse,
   TopicsListByResourceGroupNextResponse
 } from "../models";
@@ -69,22 +70,34 @@ export class TopicsImpl implements Topics {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listBySubscriptionPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBySubscriptionPagingPage(options, settings);
       }
     };
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: TopicsListBySubscriptionOptionalParams
+    options?: TopicsListBySubscriptionOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Topic[]> {
-    let result = await this._listBySubscription(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: TopicsListBySubscriptionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBySubscription(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listBySubscriptionNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -113,19 +126,33 @@ export class TopicsImpl implements Topics {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: TopicsListByResourceGroupOptionalParams
+    options?: TopicsListByResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Topic[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: TopicsListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -133,7 +160,9 @@ export class TopicsImpl implements Topics {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -178,13 +207,17 @@ export class TopicsImpl implements Topics {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listEventTypesPagingPage(
           resourceGroupName,
           providerNamespace,
           resourceTypeName,
           resourceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -195,9 +228,11 @@ export class TopicsImpl implements Topics {
     providerNamespace: string,
     resourceTypeName: string,
     resourceName: string,
-    options?: TopicsListEventTypesOptionalParams
+    options?: TopicsListEventTypesOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<EventType[]> {
-    let result = await this._listEventTypes(
+    let result: TopicsListEventTypesResponse;
+    result = await this._listEventTypes(
       resourceGroupName,
       providerNamespace,
       resourceTypeName,
@@ -304,10 +339,12 @@ export class TopicsImpl implements Topics {
       { resourceGroupName, topicName, topicInfo, options },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -387,10 +424,12 @@ export class TopicsImpl implements Topics {
       { resourceGroupName, topicName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -469,10 +508,12 @@ export class TopicsImpl implements Topics {
       { resourceGroupName, topicName, topicUpdateParameters, options },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -604,10 +645,12 @@ export class TopicsImpl implements Topics {
       { resourceGroupName, topicName, regenerateKeyRequest, options },
       regenerateKeyOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -891,7 +934,6 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -909,7 +951,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

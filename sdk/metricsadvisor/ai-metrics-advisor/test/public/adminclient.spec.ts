@@ -12,7 +12,7 @@ import {
 } from "../../src";
 import { createRecordedAdminClient, makeCredential, testEnv } from "./util/recordedClients";
 import { Recorder } from "@azure-tools/test-recorder";
-import { matrix, getYieldedValue } from "@azure/test-utils";
+import { getYieldedValue, matrix } from "@azure/test-utils";
 
 matrix([[true, false]] as const, async (useAad) => {
   describe(`[${useAad ? "AAD" : "API Key"}]`, () => {
@@ -376,7 +376,7 @@ matrix([[true, false]] as const, async (useAad) => {
           try {
             await client.getAlertConfig(createdAlertConfigId);
             assert.fail("Expecting error getting alert config");
-          } catch (error) {
+          } catch (error: any) {
             assert.equal((error as any).code, "Not Found");
           }
         });
@@ -390,7 +390,7 @@ matrix([[true, false]] as const, async (useAad) => {
           try {
             await client.getDetectionConfig(createdDetectionConfigId);
             assert.fail("Expecting error getting detection config");
-          } catch (error) {
+          } catch (error: any) {
             assert.equal((error as any).code, "Not Found");
           }
         });

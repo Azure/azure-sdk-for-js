@@ -7,6 +7,7 @@
  */
 
 export * from "./autoscaleSettings";
+export * from "./predictiveMetric";
 export * from "./operations";
 export * from "./alertRuleIncidents";
 export * from "./alertRules";

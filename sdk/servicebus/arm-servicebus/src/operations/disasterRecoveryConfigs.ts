@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { DisasterRecoveryConfigs } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,13 +17,11 @@ import {
   ArmDisasterRecovery,
   DisasterRecoveryConfigsListNextOptionalParams,
   DisasterRecoveryConfigsListOptionalParams,
+  DisasterRecoveryConfigsListResponse,
   SBAuthorizationRule,
   DisasterRecoveryConfigsListAuthorizationRulesNextOptionalParams,
   DisasterRecoveryConfigsListAuthorizationRulesOptionalParams,
-  CheckNameAvailability,
-  DisasterRecoveryConfigsCheckNameAvailabilityOptionalParams,
-  DisasterRecoveryConfigsCheckNameAvailabilityResponse,
-  DisasterRecoveryConfigsListResponse,
+  DisasterRecoveryConfigsListAuthorizationRulesResponse,
   DisasterRecoveryConfigsCreateOrUpdateOptionalParams,
   DisasterRecoveryConfigsCreateOrUpdateResponse,
   DisasterRecoveryConfigsDeleteOptionalParams,
@@ -30,11 +29,13 @@ import {
   DisasterRecoveryConfigsGetResponse,
   DisasterRecoveryConfigsBreakPairingOptionalParams,
   DisasterRecoveryConfigsFailOverOptionalParams,
-  DisasterRecoveryConfigsListAuthorizationRulesResponse,
   DisasterRecoveryConfigsGetAuthorizationRuleOptionalParams,
   DisasterRecoveryConfigsGetAuthorizationRuleResponse,
   DisasterRecoveryConfigsListKeysOptionalParams,
   DisasterRecoveryConfigsListKeysResponse,
+  CheckNameAvailability,
+  DisasterRecoveryConfigsCheckNameAvailabilityOptionalParams,
+  DisasterRecoveryConfigsCheckNameAvailabilityResponse,
   DisasterRecoveryConfigsListNextResponse,
   DisasterRecoveryConfigsListAuthorizationRulesNextResponse
 } from "../models";
@@ -71,8 +72,16 @@ export class DisasterRecoveryConfigsImpl implements DisasterRecoveryConfigs {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, namespaceName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          namespaceName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -80,11 +89,18 @@ export class DisasterRecoveryConfigsImpl implements DisasterRecoveryConfigs {
   private async *listPagingPage(
     resourceGroupName: string,
     namespaceName: string,
-    options?: DisasterRecoveryConfigsListOptionalParams
+    options?: DisasterRecoveryConfigsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ArmDisasterRecovery[]> {
-    let result = await this._list(resourceGroupName, namespaceName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: DisasterRecoveryConfigsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, namespaceName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -93,7 +109,9 @@ export class DisasterRecoveryConfigsImpl implements DisasterRecoveryConfigs {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -137,12 +155,16 @@ export class DisasterRecoveryConfigsImpl implements DisasterRecoveryConfigs {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listAuthorizationRulesPagingPage(
           resourceGroupName,
           namespaceName,
           alias,
-          options
+          options,
+          settings
         );
       }
     };
@@ -152,16 +174,23 @@ export class DisasterRecoveryConfigsImpl implements DisasterRecoveryConfigs {
     resourceGroupName: string,
     namespaceName: string,
     alias: string,
-    options?: DisasterRecoveryConfigsListAuthorizationRulesOptionalParams
+    options?: DisasterRecoveryConfigsListAuthorizationRulesOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<SBAuthorizationRule[]> {
-    let result = await this._listAuthorizationRules(
-      resourceGroupName,
-      namespaceName,
-      alias,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: DisasterRecoveryConfigsListAuthorizationRulesResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listAuthorizationRules(
+        resourceGroupName,
+        namespaceName,
+        alias,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listAuthorizationRulesNext(
         resourceGroupName,
@@ -171,7 +200,9 @@ export class DisasterRecoveryConfigsImpl implements DisasterRecoveryConfigs {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -189,25 +220,6 @@ export class DisasterRecoveryConfigsImpl implements DisasterRecoveryConfigs {
     )) {
       yield* page;
     }
-  }
-
-  /**
-   * Check the give namespace name availability.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param namespaceName The namespace name
-   * @param parameters Parameters to check availability of the given namespace name
-   * @param options The options parameters.
-   */
-  checkNameAvailability(
-    resourceGroupName: string,
-    namespaceName: string,
-    parameters: CheckNameAvailability,
-    options?: DisasterRecoveryConfigsCheckNameAvailabilityOptionalParams
-  ): Promise<DisasterRecoveryConfigsCheckNameAvailabilityResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, namespaceName, parameters, options },
-      checkNameAvailabilityOperationSpec
-    );
   }
 
   /**
@@ -399,6 +411,25 @@ export class DisasterRecoveryConfigsImpl implements DisasterRecoveryConfigs {
   }
 
   /**
+   * Check the give namespace name availability.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param namespaceName The namespace name
+   * @param parameters Parameters to check availability of the given namespace name
+   * @param options The options parameters.
+   */
+  checkNameAvailability(
+    resourceGroupName: string,
+    namespaceName: string,
+    parameters: CheckNameAvailability,
+    options?: DisasterRecoveryConfigsCheckNameAvailabilityOptionalParams
+  ): Promise<DisasterRecoveryConfigsCheckNameAvailabilityResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, namespaceName, parameters, options },
+      checkNameAvailabilityOperationSpec
+    );
+  }
+
+  /**
    * ListNext
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
@@ -441,30 +472,6 @@ export class DisasterRecoveryConfigsImpl implements DisasterRecoveryConfigs {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/disasterRecoveryConfigs/CheckNameAvailability",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.CheckNameAvailabilityResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.parameters5,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName1
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
 const listOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/disasterRecoveryConfigs",
@@ -519,6 +526,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   httpMethod: "DELETE",
   responses: {
     200: {},
+    204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
@@ -672,6 +680,30 @@ const listKeysOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
+const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/disasterRecoveryConfigs/CheckNameAvailability",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CheckNameAvailabilityResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.parameters5,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.namespaceName1
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -683,7 +715,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -705,7 +736,6 @@ const listAuthorizationRulesNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

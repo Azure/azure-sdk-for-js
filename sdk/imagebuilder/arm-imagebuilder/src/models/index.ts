@@ -20,6 +20,10 @@ export type ImageTemplateCustomizerUnion =
   | ImageTemplateWindowsUpdateCustomizer
   | ImageTemplatePowerShellCustomizer
   | ImageTemplateFileCustomizer;
+export type ImageTemplateInVMValidatorUnion =
+  | ImageTemplateInVMValidator
+  | ImageTemplateShellValidator
+  | ImageTemplatePowerShellValidator;
 export type ImageTemplateDistributorUnion =
   | ImageTemplateDistributor
   | ImageTemplateManagedImageDistributor
@@ -45,6 +49,24 @@ export interface ImageTemplateCustomizer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Shell" | "WindowsRestart" | "WindowsUpdate" | "PowerShell" | "File";
   /** Friendly Name to provide context on what this customization step does */
+  name?: string;
+}
+
+/** Configuration options and list of validations to be performed on the resulting image. */
+export interface ImageTemplatePropertiesValidate {
+  /** If validation fails and this field is set to false, output image(s) will not be distributed. This is the default behavior. If validation fails and this field is set to true, output image(s) will still be distributed. Please use this option with caution as it may result in bad images being distributed for use. In either case (true or false), the end to end image run will be reported as having failed in case of a validation failure. [Note: This field has no effect if validation succeeds.] */
+  continueDistributeOnFailure?: boolean;
+  /** If this field is set to true, the image specified in the 'source' section will directly be validated. No separate build will be run to generate and then validate a customized image. */
+  sourceValidationOnly?: boolean;
+  /** List of validations to be performed. */
+  inVMValidations?: ImageTemplateInVMValidatorUnion[];
+}
+
+/** Describes a unit of in-VM validation of image */
+export interface ImageTemplateInVMValidator {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Shell" | "PowerShell";
+  /** Friendly Name to provide context on what this validation step does */
   name?: string;
 }
 
@@ -80,15 +102,15 @@ export interface ImageTemplateLastRunStatus {
   message?: string;
 }
 
-/** Describes the virtual machine used to build, customize and capture images */
+/** Describes the virtual machines used to build and validate images */
 export interface ImageTemplateVmProfile {
-  /** Size of the virtual machine used to build, customize and capture images. Omit or specify empty string to use the default (Standard_D2ds_v4). */
+  /** Size of the virtual machine used to build, customize and capture images. Omit or specify empty string to use the default (Standard_D1_v2 for Gen1 images and Standard_D2ds_v4 for Gen2 images). */
   vmSize?: string;
   /** Size of the OS disk in GB. Omit or specify 0 to use Azure's default OS disk size. */
   osDiskSizeGB?: number;
-  /** Optional array of resource IDs of user assigned managed identities to be configured on the build VM. This may include the identity of the image template. */
+  /** Optional array of resource IDs of user assigned managed identities to be configured on the build VM and validation VM. This may include the identity of the image template. */
   userAssignedIdentities?: string[];
-  /** Optional configuration of the virtual network to use to deploy the build virtual machine in. Omit if no specific virtual network needs to be used. */
+  /** Optional configuration of the virtual network to use to deploy the build VM and validation VM in. Omit if no specific virtual network needs to be used. */
   vnetConfig?: VirtualNetworkConfig;
 }
 
@@ -96,7 +118,7 @@ export interface ImageTemplateVmProfile {
 export interface VirtualNetworkConfig {
   /** Resource id of a pre-existing subnet. */
   subnetId?: string;
-  /** Size of the virtual machine used to build, customize and capture images. Omit or specify empty string to use the default (Standard_D1_v2 for Gen1 images and Standard_D2ds_v4 for Gen2 images). */
+  /** Size of the proxy virtual machine used to pass traffic to the build VM and validation VM. Omit or specify empty string to use the default (Standard_A1_v2). */
   proxyVmSize?: string;
 }
 
@@ -123,22 +145,6 @@ export interface ComponentsVrq145SchemasImagetemplateidentityPropertiesUserassig
   readonly clientId?: string;
 }
 
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
-}
-
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
   /**
@@ -156,6 +162,27 @@ export interface Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
 }
 
 /** An error response from the Azure VM Image Builder service. */
@@ -192,22 +219,6 @@ export interface RunOutputCollection {
   nextLink?: string;
 }
 
-/** The Sub Resource model definition. */
-export interface SubResource {
-  /**
-   * Resource Id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /** Resource name */
-  name: string;
-  /**
-   * Resource type
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-}
-
 /** Result of the request to list REST API operations. It contains a list of operations and a URL nextLink to get the next set of results. */
 export interface OperationListResult {
   /** The list of operations supported by the resource provider. */
@@ -224,7 +235,7 @@ export interface Operation {
   display?: OperationDisplay;
   /** The intended executor of the operation. */
   origin?: string;
-  /** Any object */
+  /** Properties of the operation. */
   properties?: Record<string, unknown>;
   /** The flag that indicates whether the operation applies to data plane. */
   isDataAction?: boolean;
@@ -253,7 +264,7 @@ export interface PlatformImagePurchasePlan {
 }
 
 /** Describes an image source from [Azure Gallery Images](https://docs.microsoft.com/en-us/rest/api/compute/virtualmachineimages). */
-export type ImageTemplatePlatformImageSource = ImageTemplateSource & {
+export interface ImageTemplatePlatformImageSource extends ImageTemplateSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "PlatformImage";
   /** Image Publisher in [Azure Gallery Images](https://docs.microsoft.com/en-us/rest/api/compute/virtualmachineimages). */
@@ -271,26 +282,27 @@ export type ImageTemplatePlatformImageSource = ImageTemplateSource & {
   readonly exactVersion?: string;
   /** Optional configuration of purchase plan for platform image. */
   planInfo?: PlatformImagePurchasePlan;
-};
+}
 
-/** Describes an image source that is a managed image in customer subscription. */
-export type ImageTemplateManagedImageSource = ImageTemplateSource & {
+/** Describes an image source that is a managed image in customer subscription. This image must reside in the same subscription and region as the Image Builder template. */
+export interface ImageTemplateManagedImageSource extends ImageTemplateSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ManagedImage";
   /** ARM resource id of the managed image in customer subscription */
   imageId: string;
-};
+}
 
 /** Describes an image source that is an image version in a shared image gallery. */
-export type ImageTemplateSharedImageVersionSource = ImageTemplateSource & {
+export interface ImageTemplateSharedImageVersionSource
+  extends ImageTemplateSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SharedImageVersion";
   /** ARM resource id of the image version in the shared image gallery */
   imageVersionId: string;
-};
+}
 
 /** Runs a shell script during the customization phase (Linux). Corresponds to Packer shell provisioner. Exactly one of 'scriptUri' or 'inline' can be specified. */
-export type ImageTemplateShellCustomizer = ImageTemplateCustomizer & {
+export interface ImageTemplateShellCustomizer extends ImageTemplateCustomizer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Shell";
   /** URI of the shell script to be run for customizing. It can be a github link, SAS URI for Azure Storage, etc */
@@ -299,10 +311,11 @@ export type ImageTemplateShellCustomizer = ImageTemplateCustomizer & {
   sha256Checksum?: string;
   /** Array of shell commands to execute */
   inline?: string[];
-};
+}
 
 /** Reboots a VM and waits for it to come back online (Windows). Corresponds to Packer windows-restart provisioner */
-export type ImageTemplateRestartCustomizer = ImageTemplateCustomizer & {
+export interface ImageTemplateRestartCustomizer
+  extends ImageTemplateCustomizer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "WindowsRestart";
   /** Command to execute the restart [Default: 'shutdown /r /f /t 0 /c "packer restart"'] */
@@ -311,10 +324,11 @@ export type ImageTemplateRestartCustomizer = ImageTemplateCustomizer & {
   restartCheckCommand?: string;
   /** Restart timeout specified as a string of magnitude and unit, e.g. '5m' (5 minutes) or '2h' (2 hours) [Default: '5m'] */
   restartTimeout?: string;
-};
+}
 
 /** Installs Windows Updates. Corresponds to Packer Windows Update Provisioner (https://github.com/rgl/packer-provisioner-windows-update) */
-export type ImageTemplateWindowsUpdateCustomizer = ImageTemplateCustomizer & {
+export interface ImageTemplateWindowsUpdateCustomizer
+  extends ImageTemplateCustomizer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "WindowsUpdate";
   /** Criteria to search updates. Omit or specify empty string to use the default (search all). Refer to above link for examples and detailed description of this field. */
@@ -323,10 +337,11 @@ export type ImageTemplateWindowsUpdateCustomizer = ImageTemplateCustomizer & {
   filters?: string[];
   /** Maximum number of updates to apply at a time. Omit or specify 0 to use the default (1000) */
   updateLimit?: number;
-};
+}
 
 /** Runs the specified PowerShell on the VM (Windows). Corresponds to Packer powershell provisioner. Exactly one of 'scriptUri' or 'inline' can be specified. */
-export type ImageTemplatePowerShellCustomizer = ImageTemplateCustomizer & {
+export interface ImageTemplatePowerShellCustomizer
+  extends ImageTemplateCustomizer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "PowerShell";
   /** URI of the PowerShell script to be run for customizing. It can be a github link, SAS URI for Azure Storage, etc */
@@ -341,10 +356,10 @@ export type ImageTemplatePowerShellCustomizer = ImageTemplateCustomizer & {
   runAsSystem?: boolean;
   /** Valid exit codes for the PowerShell script. [Default: 0] */
   validExitCodes?: number[];
-};
+}
 
 /** Uploads files to VMs (Linux, Windows). Corresponds to Packer file provisioner */
-export type ImageTemplateFileCustomizer = ImageTemplateCustomizer & {
+export interface ImageTemplateFileCustomizer extends ImageTemplateCustomizer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "File";
   /** The URI of the file to be uploaded for customizing the VM. It can be a github link, SAS URI for Azure Storage, etc */
@@ -353,20 +368,54 @@ export type ImageTemplateFileCustomizer = ImageTemplateCustomizer & {
   sha256Checksum?: string;
   /** The absolute path to a file (with nested directory structures already created) where the file (from sourceUri) will be uploaded to in the VM */
   destination?: string;
-};
+}
+
+/** Runs the specified shell script during the validation phase (Linux). Corresponds to Packer shell provisioner. Exactly one of 'scriptUri' or 'inline' can be specified. */
+export interface ImageTemplateShellValidator
+  extends ImageTemplateInVMValidator {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Shell";
+  /** URI of the shell script to be run for validation. It can be a github link, Azure Storage URI, etc */
+  scriptUri?: string;
+  /** SHA256 checksum of the shell script provided in the scriptUri field */
+  sha256Checksum?: string;
+  /** Array of shell commands to execute */
+  inline?: string[];
+}
+
+/** Runs the specified PowerShell script during the validation phase (Windows). Corresponds to Packer powershell provisioner. Exactly one of 'scriptUri' or 'inline' can be specified. */
+export interface ImageTemplatePowerShellValidator
+  extends ImageTemplateInVMValidator {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "PowerShell";
+  /** URI of the PowerShell script to be run for validation. It can be a github link, Azure Storage URI, etc */
+  scriptUri?: string;
+  /** SHA256 checksum of the power shell script provided in the scriptUri field above */
+  sha256Checksum?: string;
+  /** Array of PowerShell commands to execute */
+  inline?: string[];
+  /** If specified, the PowerShell script will be run with elevated privileges */
+  runElevated?: boolean;
+  /** If specified, the PowerShell script will be run with elevated privileges using the Local System user. Can only be true when the runElevated field above is set to true. */
+  runAsSystem?: boolean;
+  /** Valid exit codes for the PowerShell script. [Default: 0] */
+  validExitCodes?: number[];
+}
 
 /** Distribute as a Managed Disk Image. */
-export type ImageTemplateManagedImageDistributor = ImageTemplateDistributor & {
+export interface ImageTemplateManagedImageDistributor
+  extends ImageTemplateDistributor {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ManagedImage";
   /** Resource Id of the Managed Disk Image */
   imageId: string;
   /** Azure location for the image, should match if image already exists */
   location: string;
-};
+}
 
 /** Distribute via Shared Image Gallery. */
-export type ImageTemplateSharedImageDistributor = ImageTemplateDistributor & {
+export interface ImageTemplateSharedImageDistributor
+  extends ImageTemplateDistributor {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "SharedImage";
   /** Resource Id of the Shared Image Gallery image */
@@ -377,48 +426,35 @@ export type ImageTemplateSharedImageDistributor = ImageTemplateDistributor & {
   excludeFromLatest?: boolean;
   /** Storage account type to be used to store the shared image. Omit to use the default (Standard_LRS). */
   storageAccountType?: SharedImageStorageAccountType;
-};
+}
 
 /** Distribute via VHD in a storage account. */
-export type ImageTemplateVhdDistributor = ImageTemplateDistributor & {
+export interface ImageTemplateVhdDistributor extends ImageTemplateDistributor {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "VHD";
-};
+}
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
   /** The geo-location where the resource lives */
   location: string;
-};
+}
 
-/** Represents an output that was created by running an image template. */
-export type RunOutput = SubResource & {
-  /** The resource id of the artifact. */
-  artifactId?: string;
-  /** The location URI of the artifact. */
-  artifactUri?: string;
-  /**
-   * Provisioning state of the resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-};
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
 
 /** Image template is an ARM resource managed by Microsoft.VirtualMachineImages provider */
-export type ImageTemplate = TrackedResource & {
+export interface ImageTemplate extends TrackedResource {
   /** The identity of the image template, if configured. */
   identity: ImageTemplateIdentity;
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
   /** Specifies the properties used to describe the source image. */
   source?: ImageTemplateSourceUnion;
   /** Specifies the properties used to describe the customization steps of the image, like Image source etc */
   customize?: ImageTemplateCustomizerUnion[];
+  /** Configuration options and list of validations to be performed on the resulting image. */
+  validate?: ImageTemplatePropertiesValidate;
   /** The distribution targets where the image output needs to go to. */
   distribute?: ImageTemplateDistributorUnion[];
   /**
@@ -436,24 +472,63 @@ export type ImageTemplate = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly lastRunStatus?: ImageTemplateLastRunStatus;
-  /** Maximum duration to wait while building the image template. Omit or specify 0 to use the default (4 hours). */
+  /** Maximum duration to wait while building the image template (includes all customizations, validations, and distributions). Omit or specify 0 to use the default (4 hours). */
   buildTimeoutInMinutes?: number;
   /** Describes how virtual machine is set up to build images */
   vmProfile?: ImageTemplateVmProfile;
-};
+  /** The staging resource group id in the same subscription as the image template that will be used to build the image. If this field is empty, a resource group with a random name will be created. If the resource group specified in this field doesn't exist, it will be created with the same name. If the resource group specified exists, it must be empty and in the same region as the image template. The resource group created will be deleted during template deletion if this field is empty or the resource group specified doesn't exist, but if the resource group specified exists the resources created in the resource group will be deleted during template deletion and the resource group itself will remain. */
+  stagingResourceGroup?: string;
+  /**
+   * The staging resource group id in the same subscription as the image template that will be used to build the image. This read-only field differs from 'stagingResourceGroup' only if the value specified in the 'stagingResourceGroup' field is empty.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly exactStagingResourceGroup?: string;
+}
+
+/** Represents an output that was created by running an image template. */
+export interface RunOutput extends ProxyResource {
+  /** The resource id of the artifact. */
+  artifactId?: string;
+  /** The location URI of the artifact. */
+  artifactUri?: string;
+  /**
+   * Provisioning state of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+}
 
 /** Known values of {@link ProvisioningErrorCode} that the service accepts. */
 export enum KnownProvisioningErrorCode {
+  /** BadSourceType */
   BadSourceType = "BadSourceType",
+  /** BadPIRSource */
   BadPIRSource = "BadPIRSource",
+  /** BadManagedImageSource */
   BadManagedImageSource = "BadManagedImageSource",
+  /** BadSharedImageVersionSource */
   BadSharedImageVersionSource = "BadSharedImageVersionSource",
+  /** BadCustomizerType */
   BadCustomizerType = "BadCustomizerType",
+  /** UnsupportedCustomizerType */
   UnsupportedCustomizerType = "UnsupportedCustomizerType",
+  /** NoCustomizerScript */
   NoCustomizerScript = "NoCustomizerScript",
+  /** BadValidatorType */
+  BadValidatorType = "BadValidatorType",
+  /** UnsupportedValidatorType */
+  UnsupportedValidatorType = "UnsupportedValidatorType",
+  /** NoValidatorScript */
+  NoValidatorScript = "NoValidatorScript",
+  /** BadDistributeType */
   BadDistributeType = "BadDistributeType",
+  /** BadSharedImageDistribute */
   BadSharedImageDistribute = "BadSharedImageDistribute",
+  /** BadStagingResourceGroup */
+  BadStagingResourceGroup = "BadStagingResourceGroup",
+  /** ServerError */
   ServerError = "ServerError",
+  /** Other */
   Other = "Other"
 }
 
@@ -469,8 +544,12 @@ export enum KnownProvisioningErrorCode {
  * **BadCustomizerType** \
  * **UnsupportedCustomizerType** \
  * **NoCustomizerScript** \
+ * **BadValidatorType** \
+ * **UnsupportedValidatorType** \
+ * **NoValidatorScript** \
  * **BadDistributeType** \
  * **BadSharedImageDistribute** \
+ * **BadStagingResourceGroup** \
  * **ServerError** \
  * **Other**
  */
@@ -478,9 +557,13 @@ export type ProvisioningErrorCode = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -498,7 +581,9 @@ export type CreatedByType = string;
 
 /** Known values of {@link SharedImageStorageAccountType} that the service accepts. */
 export enum KnownSharedImageStorageAccountType {
+  /** StandardLRS */
   StandardLRS = "Standard_LRS",
+  /** StandardZRS */
   StandardZRS = "Standard_ZRS"
 }
 
@@ -531,6 +616,7 @@ export type RunSubState =
   | "Queued"
   | "Building"
   | "Customizing"
+  | "Validating"
   | "Distributing";
 /** Defines values for ResourceIdentityType. */
 export type ResourceIdentityType = "UserAssigned" | "None";

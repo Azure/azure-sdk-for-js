@@ -14,6 +14,7 @@ import {
 import {
   MapsAccount as MapsAccountMapper,
   MapsAccountUpdateParameters as MapsAccountUpdateParametersMapper,
+  AccountSasParameters as AccountSasParametersMapper,
   MapsKeySpecification as MapsKeySpecificationMapper,
   Creator as CreatorMapper,
   CreatorUpdateParameters as CreatorUpdateParametersMapper
@@ -63,7 +64,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-02-01",
+    defaultValue: "2021-12-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -115,6 +116,11 @@ export const accountName: OperationURLParameter = {
 export const mapsAccountUpdateParameters: OperationParameter = {
   parameterPath: "mapsAccountUpdateParameters",
   mapper: MapsAccountUpdateParametersMapper
+};
+
+export const mapsAccountSasParameters: OperationParameter = {
+  parameterPath: "mapsAccountSasParameters",
+  mapper: AccountSasParametersMapper
 };
 
 export const keySpecification: OperationParameter = {

@@ -21,6 +21,7 @@ import { SinonSpy, fake, stub } from "sinon";
 import EventEmitter from "events";
 import { assert } from "chai";
 import { createConnectionStub } from "./utils/createConnectionStub";
+import { isError } from "@azure/core-util";
 
 interface Window {}
 declare let self: Window & typeof globalThis;
@@ -66,7 +67,8 @@ describe("RequestResponseLink", function () {
         await RequestResponseLink.create(connection, {}, {}, { abortSignal: signal });
         throw new Error(TEST_FAILURE);
       } catch (err) {
-        assert.equal(err.name, "AbortError");
+        assert.ok(isError(err));
+        assert.equal((err as Error).name, "AbortError");
       }
     });
 
@@ -82,7 +84,8 @@ describe("RequestResponseLink", function () {
         await RequestResponseLink.create(connection, {}, {}, { abortSignal: signal });
         throw new Error(TEST_FAILURE);
       } catch (err) {
-        assert.equal(err.name, "AbortError");
+        assert.ok(isError(err));
+        assert.equal((err as Error).name, "AbortError");
       }
     });
   });
@@ -99,6 +102,9 @@ describe("RequestResponseLink", function () {
         return Promise.resolve({
           send: (request: any) => {
             req = request;
+          },
+          on: () => {
+            /* no_op */
           },
         });
       },
@@ -145,6 +151,9 @@ describe("RequestResponseLink", function () {
         return Promise.resolve({
           send: (request: RheaMessage) => {
             reqs.push(request);
+          },
+          on: () => {
+            /* no_op */
           },
         });
       },
@@ -213,6 +222,9 @@ describe("RequestResponseLink", function () {
           send: (request: RheaMessage) => {
             reqs.push(request);
           },
+          on: () => {
+            /* no_op */
+          },
         });
       },
       createReceiver: () => {
@@ -256,6 +268,9 @@ describe("RequestResponseLink", function () {
         return Promise.resolve({
           send: (request: RheaMessage) => {
             reqs.push(request);
+          },
+          on: () => {
+            /* no_op */
           },
         });
       },
@@ -313,7 +328,8 @@ describe("RequestResponseLink", function () {
       await failedRequest;
       throw new Error("Test failure");
     } catch (err) {
-      err.message.should.not.equal("Test failure");
+      assert.ok(isError(err));
+      (err as Error).message.should.not.equal("Test failure");
     }
 
     // ensure the other request succeeds
@@ -336,6 +352,9 @@ describe("RequestResponseLink", function () {
           send: (request: any) => {
             count++;
             messageId = request.message_id;
+          },
+          on: () => {
+            /* no_op */
           },
         });
       },
@@ -415,6 +434,9 @@ describe("RequestResponseLink", function () {
           send: (request: any) => {
             req = request;
           },
+          on: () => {
+            /* no_op */
+          },
         });
       },
       createReceiver: () => {
@@ -450,8 +472,14 @@ describe("RequestResponseLink", function () {
       await link.sendRequest(request, { abortSignal: signal, requestName: "foo" });
       throw new Error(`Test failure`);
     } catch (err) {
-      assert.equal(err.name, "AbortError", `Error name ${err.name} is not as expected`);
-      assert.equal(err.message, StandardAbortMessage, `Incorrect error received "${err.message}"`);
+      assert.ok(isError(err));
+      const error = err as Error;
+      assert.equal(error.name, "AbortError", `Error name ${error.name} is not as expected`);
+      assert.equal(
+        error.message,
+        StandardAbortMessage,
+        `Incorrect error received "${error.message}"`
+      );
     }
     assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
   });
@@ -468,6 +496,9 @@ describe("RequestResponseLink", function () {
         return Promise.resolve({
           send: (request: any) => {
             req = request;
+          },
+          on: () => {
+            /* no_op */
           },
         });
       },
@@ -514,8 +545,14 @@ describe("RequestResponseLink", function () {
       });
       throw new Error(`Test failure`);
     } catch (err) {
-      assert.equal(err.name, "AbortError", `Error name ${err.name} is not as expected`);
-      assert.equal(err.message, StandardAbortMessage, `Incorrect error received "${err.message}"`);
+      assert.ok(isError(err));
+      const error = err as Error;
+      assert.equal(error.name, "AbortError", `Error name ${error.name} is not as expected`);
+      assert.equal(
+        error.message,
+        StandardAbortMessage,
+        `Incorrect error received "${error.message}"`
+      );
     }
     // Final state of the map
     assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
@@ -533,6 +570,9 @@ describe("RequestResponseLink", function () {
         return Promise.resolve({
           send: (request: any) => {
             req = request;
+          },
+          on: () => {
+            /* no_op */
           },
         });
       },
@@ -569,8 +609,14 @@ describe("RequestResponseLink", function () {
       await link.sendRequest(request, { abortSignal: signal, requestName: "foo" });
       throw new Error(`Test failure`);
     } catch (err) {
-      assert.equal(err.name, "AbortError", `Error name ${err.name} is not as expected`);
-      assert.equal(err.message, StandardAbortMessage, `Incorrect error received "${err.message}"`);
+      assert.ok(isError(err));
+      const error = err as Error;
+      assert.equal(error.name, "AbortError", `Error name ${error.name} is not as expected`);
+      assert.equal(
+        error.message,
+        StandardAbortMessage,
+        `Incorrect error received "${error.message}"`
+      );
     }
     assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
   });
@@ -582,7 +628,7 @@ describe("RequestResponseLink", function () {
 
     beforeEach(() => {
       clearTimeoutCalledCount = 0;
-      _global.clearTimeout = (tid) => {
+      _global.clearTimeout = (tid: any) => {
         clearTimeoutCalledCount++;
         return originalClearTimeout(tid);
       };
@@ -604,6 +650,9 @@ describe("RequestResponseLink", function () {
           return Promise.resolve({
             send: (request: any) => {
               req = request;
+            },
+            on: () => {
+              /* no_op */
             },
           });
         },
@@ -638,7 +687,9 @@ describe("RequestResponseLink", function () {
         await link.sendRequest(request, { timeoutInMs: 120000, requestName: "foo" });
         throw new Error(testFailureMessage);
       } catch (err) {
-        assert.notEqual(err.message, testFailureMessage);
+        assert.ok(isError(err));
+        const error = err as Error;
+        assert.notEqual(error.message, testFailureMessage);
       }
       assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
       assert.equal(clearTimeoutCalledCount, 1, "Expected clearTimeout to be called once.");
@@ -656,6 +707,9 @@ describe("RequestResponseLink", function () {
           return Promise.resolve({
             send: (request: any) => {
               req = request;
+            },
+            on: () => {
+              /* no_op */
             },
           });
         },
@@ -706,6 +760,9 @@ describe("RequestResponseLink", function () {
               /* no op */
             },
             close: fake(),
+            on: () => {
+              /* no_op */
+            },
           });
         },
         createReceiver: () => {

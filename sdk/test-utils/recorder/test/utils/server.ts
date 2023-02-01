@@ -15,7 +15,39 @@ app.get("/", (_, res) => {
   res.send("Hello world!");
 });
 
-app.get("/sample_response", (_, res) => {
+app.get("/redirectWithHost", (req, res) => {
+  res.redirect(307, `http://${req.hostname}:${port}/sample_response`);
+});
+
+app.get("/redirectWithoutHost", (_, res) => {
+  res.redirect(307, `/sample_response`);
+});
+
+let sendRetryResponse = true;
+
+app.get("/reset_retry", (_, res) => {
+  sendRetryResponse = true;
+  res.send("The retry flag was reset. The next call to /retry will return a 429 status.");
+});
+
+app.get("/retry", (_, res) => {
+  if (sendRetryResponse) {
+    res
+      .status(429)
+      .header("Retry-After", new Date().toUTCString())
+      .send({ error: "429 Too Many Requests" });
+    sendRetryResponse = false;
+  } else {
+    res.send({ val: "abc" });
+  }
+});
+
+app.get("/sample_response", (req, res) => {
+  if (req.header("x-recording-id") !== undefined) {
+    res.status(400).send({ error: "This request bypassed the proxy tool!" });
+    return;
+  }
+
   res.send({ val: "abc" });
 });
 
@@ -42,6 +74,18 @@ app.post("/api/sample_request_body", function (req, res) {
 app.get("/api/sample_uuid_in_header", function (_, res) {
   res.header("your_uuid", uuidv4());
   res.send();
+});
+
+app.all("/content_length_test", function (req, res) {
+  if (["GET", "DELETE"].includes(req.method) && req.header("Content-Length")) {
+    res.status(400).json({ error: "Content-Length header should not be present" });
+  } else {
+    res.status(204).send();
+  }
+});
+
+app.get("///multiple_slashes", (_, res) => {
+  res.send({ val: "abc" });
 });
 
 app.listen(port, () => {

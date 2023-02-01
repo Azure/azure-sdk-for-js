@@ -21,9 +21,11 @@ import {
   AlertsUpdateSubscriptionLevelStateToDismissOptionalParams,
   AlertsUpdateSubscriptionLevelStateToResolveOptionalParams,
   AlertsUpdateSubscriptionLevelStateToActivateOptionalParams,
+  AlertsUpdateSubscriptionLevelStateToInProgressOptionalParams,
   AlertsUpdateResourceGroupLevelStateToResolveOptionalParams,
   AlertsUpdateResourceGroupLevelStateToDismissOptionalParams,
   AlertsUpdateResourceGroupLevelStateToActivateOptionalParams,
+  AlertsUpdateResourceGroupLevelStateToInProgressOptionalParams,
   AlertSimulatorRequestBody,
   AlertsSimulateOptionalParams
 } from "../models";
@@ -48,121 +50,184 @@ export interface Alerts {
   ): PagedAsyncIterableIterator<Alert>;
   /**
    * List all the alerts that are associated with the subscription that are stored in a specific location
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param options The options parameters.
    */
   listSubscriptionLevelByRegion(
+    ascLocation: string,
     options?: AlertsListSubscriptionLevelByRegionOptionalParams
   ): PagedAsyncIterableIterator<Alert>;
   /**
    * List all the alerts that are associated with the resource group that are stored in a specific
    * location
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
    * @param options The options parameters.
    */
   listResourceGroupLevelByRegion(
+    ascLocation: string,
     resourceGroupName: string,
     options?: AlertsListResourceGroupLevelByRegionOptionalParams
   ): PagedAsyncIterableIterator<Alert>;
   /**
    * Get an alert that is associated with a subscription
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param alertName Name of the alert object
    * @param options The options parameters.
    */
   getSubscriptionLevel(
+    ascLocation: string,
     alertName: string,
     options?: AlertsGetSubscriptionLevelOptionalParams
   ): Promise<AlertsGetSubscriptionLevelResponse>;
   /**
    * Get an alert that is associated a resource group or a resource in a resource group
-   * @param alertName Name of the alert object
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
+   * @param alertName Name of the alert object
    * @param options The options parameters.
    */
   getResourceGroupLevel(
-    alertName: string,
     resourceGroupName: string,
+    ascLocation: string,
+    alertName: string,
     options?: AlertsGetResourceGroupLevelOptionalParams
   ): Promise<AlertsGetResourceGroupLevelResponse>;
   /**
    * Update the alert's state
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param alertName Name of the alert object
    * @param options The options parameters.
    */
   updateSubscriptionLevelStateToDismiss(
+    ascLocation: string,
     alertName: string,
     options?: AlertsUpdateSubscriptionLevelStateToDismissOptionalParams
   ): Promise<void>;
   /**
    * Update the alert's state
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param alertName Name of the alert object
    * @param options The options parameters.
    */
   updateSubscriptionLevelStateToResolve(
+    ascLocation: string,
     alertName: string,
     options?: AlertsUpdateSubscriptionLevelStateToResolveOptionalParams
   ): Promise<void>;
   /**
    * Update the alert's state
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param alertName Name of the alert object
    * @param options The options parameters.
    */
   updateSubscriptionLevelStateToActivate(
+    ascLocation: string,
     alertName: string,
     options?: AlertsUpdateSubscriptionLevelStateToActivateOptionalParams
   ): Promise<void>;
   /**
    * Update the alert's state
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param alertName Name of the alert object
+   * @param options The options parameters.
+   */
+  updateSubscriptionLevelStateToInProgress(
+    ascLocation: string,
+    alertName: string,
+    options?: AlertsUpdateSubscriptionLevelStateToInProgressOptionalParams
+  ): Promise<void>;
+  /**
+   * Update the alert's state
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
+   * @param alertName Name of the alert object
    * @param options The options parameters.
    */
   updateResourceGroupLevelStateToResolve(
-    alertName: string,
     resourceGroupName: string,
+    ascLocation: string,
+    alertName: string,
     options?: AlertsUpdateResourceGroupLevelStateToResolveOptionalParams
   ): Promise<void>;
   /**
    * Update the alert's state
-   * @param alertName Name of the alert object
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
+   * @param alertName Name of the alert object
    * @param options The options parameters.
    */
   updateResourceGroupLevelStateToDismiss(
-    alertName: string,
     resourceGroupName: string,
+    ascLocation: string,
+    alertName: string,
     options?: AlertsUpdateResourceGroupLevelStateToDismissOptionalParams
   ): Promise<void>;
   /**
    * Update the alert's state
-   * @param alertName Name of the alert object
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
+   * @param alertName Name of the alert object
    * @param options The options parameters.
    */
   updateResourceGroupLevelStateToActivate(
-    alertName: string,
     resourceGroupName: string,
+    ascLocation: string,
+    alertName: string,
     options?: AlertsUpdateResourceGroupLevelStateToActivateOptionalParams
   ): Promise<void>;
   /**
+   * Update the alert's state
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
+   *                          case insensitive.
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
+   * @param alertName Name of the alert object
+   * @param options The options parameters.
+   */
+  updateResourceGroupLevelStateToInProgress(
+    resourceGroupName: string,
+    ascLocation: string,
+    alertName: string,
+    options?: AlertsUpdateResourceGroupLevelStateToInProgressOptionalParams
+  ): Promise<void>;
+  /**
    * Simulate security alerts
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param alertSimulatorRequestBody Alert Simulator Request Properties
    * @param options The options parameters.
    */
   beginSimulate(
+    ascLocation: string,
     alertSimulatorRequestBody: AlertSimulatorRequestBody,
     options?: AlertsSimulateOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Simulate security alerts
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param alertSimulatorRequestBody Alert Simulator Request Properties
    * @param options The options parameters.
    */
   beginSimulateAndWait(
+    ascLocation: string,
     alertSimulatorRequestBody: AlertSimulatorRequestBody,
     options?: AlertsSimulateOptionalParams
   ): Promise<void>;

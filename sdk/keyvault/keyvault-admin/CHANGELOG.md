@@ -1,6 +1,6 @@
 # Release History
 
-## 4.2.0-beta.3 (Unreleased)
+## 4.4.0-beta.2 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,39 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 4.4.0-beta.1 (2022-11-10)
+
+### Features Added
+
+- Added `KeyVaultSettingsClient` to get and update Managed HSM settings.
+- Added support for service version `7.4-preview.1`.
+
+## 4.3.0 (2022-09-20)
+
+### Breaking Changes
+
+- Verify the challenge resource matches the vault domain.
+  This should affect few customers who can set `disableChallengeResourceVerification` in the options bag to `true` to disable.
+  See https://aka.ms/azsdk/blog/vault-uri for more information.
+
+## 4.2.2 (2022-08-09)
+
+### Other Changes
+
+- Improvements to documentation.
+
+## 4.2.1 (2022-07-05)
+
+### Bugs Fixed
+
+- The scope of the token used for authentication now reflects the scope required by the service in the WWW-Authenticate header.
+
+## 4.2.0 (2022-03-24)
+
+### Other Changes
+
+- This release updates `BackupClient` and `AccessControlClient` to support service version 7.3 by default.
 
 ## 4.2.0-beta.2 (2021-11-09)
 
@@ -29,7 +62,7 @@
     ```typescript
     let rawResponse: FullOperationResponse | undefined;
     await client.getRoleDefinition(globalScope, "roleDefinitionName", {
-      onResponse: (response) => (rawResponse = response)
+      onResponse: (response) => (rawResponse = response),
     });
     ```
 

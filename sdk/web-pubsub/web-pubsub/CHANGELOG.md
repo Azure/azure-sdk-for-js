@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.1 (Unreleased)
+## 1.1.2 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,26 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.1.1 (2023-01-03)
+
+### Other Changes
+
+- Bumped the version of the jsonwebtoken dependency to v9.
+
+## 1.1.0 (2022-11-11)
+
+### Features Added
+- Added method `serviceClient.removeConnectionFromAllGroups` to remove the connection from all the groups it is in.
+- Added a `groups` option in `serviceClient.generateClientToken`, to enable connections join initial groups once it is connected.
+- Added a `filter` parameter when sending messages to connections in a hub/group/user to filter out the connections recieving message, details about `filter` syntax please see [OData filter syntax for Azure Web PubSub](https://aka.ms/awps/filter-syntax).
+- Provided a utility method `odata` to generate the `filter` parameter
+
+### Other Changes
+
+- Updated our `@azure/core-tracing` dependency to the latest version (1.0.0).
+  - Notable changes include Removal of `@opentelemetry/api` as a transitive dependency and ensuring that the active context is properly propagated.
+  - Customers who would like to continue using OpenTelemetry driven tracing should visit our [OpenTelemetry Instrumentation](https://www.npmjs.com/package/@azure/opentelemetry-instrumentation-azure-sdk) package for instructions.
 
 ## 1.0.0 (2021-11-11)
 

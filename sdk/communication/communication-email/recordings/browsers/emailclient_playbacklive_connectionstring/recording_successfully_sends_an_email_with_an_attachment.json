@@ -1,0 +1,29 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://someEndpoint/emails:send",
+   "query": {
+    "api-version": "2021-10-01-preview"
+   },
+   "requestBody": "{\"sender\":\"someSender@contoso.com\",\"content\":{\"subject\":\"someSubject\",\"plainText\":\"somePlainTextBody\",\"html\":\"<html><h1>someHtmlBody</html>\"},\"recipients\":{\"to\":[{\"email\":\"someRecipient@domain.com\",\"displayName\":\"someRecipient\"}]},\"attachments\":[{\"name\":\"readme.txt\",\"attachmentType\":\"txt\",\"contentBytesBase64\":\"ZW1haWwgdGVzdCBhdHRhY2htZW50\"}]}",
+   "status": 202,
+   "response": "",
+   "responseHeaders": {
+    "api-supported-versions": "2021-10-01-preview",
+    "content-length": "0",
+    "date": "Tue, 17 May 2022 21:21:14 GMT",
+    "operation-location": "someOperationLocation",
+    "repeatability-result": "accepted",
+    "x-azure-ref": "0yhGEYgAAAADT4UqYDShQRKp3ZtWJfLcxRE0yQUExMDkxMjA5MDQ5AGNjOTI3NThkLTA1ZjctNGFkNi1hYTVlLTBmYTk3MThkODk4NQ==",
+    "x-cache": "CONFIG_NOCACHE",
+    "x-ms-request-id": "someRequestId"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "e6fa1ae06ed759a7140f5a977898d567"
+}

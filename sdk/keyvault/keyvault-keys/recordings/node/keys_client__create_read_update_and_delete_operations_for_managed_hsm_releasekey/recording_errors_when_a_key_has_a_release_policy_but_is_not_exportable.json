@@ -1,0 +1,75 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://azure_managedhsm.managedhsm.azure.net/keys/policynonexportable-81283/create?api-version=7.4-preview.1",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "0",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-keyvault-keys/4.6.1 azsdk-js-keyvault-keys/4.6.1 core-rest-pipeline/1.10.0 Node/v16.15.1 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "0761a1a6-21f2-4023-b9fb-ad3f8c0a53c4"
+      },
+      "RequestBody": null,
+      "StatusCode": 401,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "0",
+        "Content-Security-Policy": "default-src \u0027self\u0027",
+        "Content-Type": "application/json; charset=utf-8",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "WWW-Authenticate": "Bearer authorization=\u0022https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012\u0022, resource=\u0022https://managedhsm.azure.net\u0022",
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "SAMEORIGIN",
+        "x-ms-request-id": "d8a5ed38-6052-11ed-9307-000d3a610397",
+        "x-ms-server-latency": "0"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://azure_managedhsm.managedhsm.azure.net/keys/policynonexportable-81283/create?api-version=7.4-preview.1",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "238",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-keyvault-keys/4.6.1 azsdk-js-keyvault-keys/4.6.1 core-rest-pipeline/1.10.0 Node/v16.15.1 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "0761a1a6-21f2-4023-b9fb-ad3f8c0a53c4"
+      },
+      "RequestBody": {
+        "kty": "RSA",
+        "attributes": {},
+        "release_policy": {
+          "data": "eyJhbnlPZiI6W3siYWxsT2YiOlt7ImNsYWltIjoic2RrLXRlc3QiLCJlcXVhbHMiOiJ0cnVlIn1dLCJhdXRob3JpdHkiOiJodHRwczovL3RpbW92a2V5dmF1bHRzaXRlLmF6dXJld2Vic2l0ZXMubmV0LyJ9XSwidmVyc2lvbiI6IjEuMCJ9"
+        }
+      },
+      "StatusCode": 400,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "144",
+        "Content-Security-Policy": "default-src \u0027self\u0027",
+        "Content-Type": "application/json; charset=utf-8",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "SAMEORIGIN",
+        "x-ms-request-id": "d8cf590c-6052-11ed-9307-000d3a610397",
+        "x-ms-server-latency": "1"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "BadParameter",
+          "message": "Key Release Policy: missing \u0027version\u0027 property (Activity ID: d8cf590c-6052-11ed-9307-000d3a610397)"
+        }
+      }
+    }
+  ],
+  "Variables": {
+    "attestation": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik5WYWRfSmdZekJhVFJpTTZxNTFCTkYwUzhJOGhjaVNOMFNGX21IRU1yQ00iLCJqa3UiOiJodHRwczovL3RpbW92a2V5dmF1bHRzaXRlLmF6dXJld2Vic2l0ZXMubmV0L2tleXMifQ.eyJpc3MiOiJodHRwczovL3RpbW92a2V5dmF1bHRzaXRlLmF6dXJld2Vic2l0ZXMubmV0LyIsInNkay10ZXN0Ijp0cnVlLCJ4LW1zLWluaXR0aW1lIjp7fSwieC1tcy1ydW50aW1lIjp7ImtleXMiOlt7Imt0eSI6IlJTQSIsImtpZCI6ImZha2UtcmVsZWFzZS1rZXkiLCJ1c2UiOiJlbmMiLCJlIjoiQVFBQiIsIm4iOiJyaV80bkw5SjlUMnRhWWVscWZsdVdhV0xzXzZ4TWpJUlhHdVNfQnI3ZENSWF9fakNVWmFadEpoa2RiSmI4NzZaY0p6eFF1NEtxX1I1aHJGMUVRR0NHcDE0aU9CREtYOFlUa1dBY3hsLW5oLW51ZFRrU1FrQXRYTWlhYTc1N3ZaMkx4MDZ3VzlZbGZQLXZtaTdHZkxpR2RiRVFGSE9vcnM5NmJzOXl2Z0VpMW80LVZSQTZhS3JyODlINDRxLWhjWkhVUVJ2NXQzRHdLbXdCczZFc3c0b0hkNjh4OTdYaVU3UTJUYzFZakxUbXBCazNhMXFxYmtyblpQSFlFa3prRl9FRWhpODFRMzBtVzRHcWtzUUtyZG9VQ0J6ZFZFUzJHMXlCNUZmYWkwY2tXVUxtUkNrX0xxcGRfYVlueDctM2JSWVgtMm9Fc3lVRVN0YmotYnBjNzRrTFEifV19LCJpYXQiOjE2NjgwMTQ0NDUsImV4cCI6MTY2ODYxOTI0NX0.Aypm26VQnDxNHv1EZJCyKcrM2w5Mea29HTELUf9UXvMxCVoJsfHcfyPDFQlxN4BvJ21kCmi8kQkqu7dXmUkVPEU2Bzj1iqiY0PdGZNENJhD2XNIC3pKBpxLinbKue_HQTesN_yyjDaqPGzej8nsQlqIhv1Pfio9K4ZMrZAyf7R-fcchG0aoDPXQRmmnt5uko-rXthMPBstUz4vbxUPZcQiQnqyZCzJFIWosmH77dmVqQVjZhRE_Bf7eOv6NUH2n_IUUZ8jtjYFSEtXHx5pUxC0t55qAu0R_zxAdMEvAIKlGRmjEZ0i6aBWvrT3hDLHS6qKv8Mv3cO2bs8dvVqcQxFw",
+    "policynonexportable": "policynonexportable-81283"
+  }
+}

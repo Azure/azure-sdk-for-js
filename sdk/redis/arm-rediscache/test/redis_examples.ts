@@ -8,32 +8,26 @@
 
 import {
   env,
-  record,
-  RecorderEnvironmentSetup,
   Recorder,
+  RecorderStartOptions,
   delay,
-  isPlaybackMode
+  isPlaybackMode,
 } from "@azure-tools/test-recorder";
-import * as assert from "assert";
-import { ClientSecretCredential } from "@azure/identity";
+import { createTestCredential } from "@azure-tools/test-credential";
+import { assert } from "chai";
+import { Context } from "mocha";
 import { RedisManagementClient } from "../src/redisManagementClient";
 import { NetworkManagementClient, VirtualNetwork } from "@azure/arm-network";
 
-const recorderEnvSetup: RecorderEnvironmentSetup = {
-  replaceableVariables: {
-    AZURE_CLIENT_ID: "azure_client_id",
-    AZURE_CLIENT_SECRET: "azure_client_secret",
-    AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-    SUBSCRIPTION_ID: "azure_subscription_id"
-  },
-  customizationsOnRecordings: [
-    (recording: any): any =>
-      recording.replace(
-        /"access_token":"[^"]*"/g,
-        `"access_token":"access_token"`
-      )
-  ],
-  queryParametersToSkip: []
+const replaceableVariables: Record<string, string> = {
+  AZURE_CLIENT_ID: "azure_client_id",
+  AZURE_CLIENT_SECRET: "azure_client_secret",
+  AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
+  SUBSCRIPTION_ID: "azure_subscription_id"
+};
+
+const recorderOptions: RecorderStartOptions = {
+  envSetupForPlayback: replaceableVariables
 };
 
 export const testPollingOptions = {
@@ -51,17 +45,14 @@ describe("Redis test", () => {
   let subnetName: string;
   let name: string;
 
-  beforeEach(async function () {
-    recorder = record(this, recorderEnvSetup);
-    subscriptionId = env.SUBSCRIPTION_ID;
+  beforeEach(async function (this: Context) {
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderOptions);
+    subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
-    const credential = new ClientSecretCredential(
-      env.AZURE_TENANT_ID,
-      env.AZURE_CLIENT_ID,
-      env.AZURE_CLIENT_SECRET
-    );
-    client = new RedisManagementClient(credential, subscriptionId);
-    network_client = new NetworkManagementClient(credential, subscriptionId);
+    const credential = createTestCredential();
+    client = new RedisManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+    network_client = new NetworkManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "eastus";
     resourceGroupName = "myjstest";
     networkName = "networknamex";
@@ -90,9 +81,9 @@ describe("Redis test", () => {
       },
     };
     //network create
-    const network_create = await network_client.virtualNetworks.beginCreateOrUpdateAndWait(groupName, networkName, parameter,testPollingOptions);
+    const network_create = await network_client.virtualNetworks.beginCreateOrUpdateAndWait(groupName, networkName, parameter, testPollingOptions);
     //subnet create
-    const subnet_info = await network_client.subnets.beginCreateOrUpdateAndWait(groupName, networkName, subnetName, { addressPrefix: "10.0.0.0/24" },testPollingOptions);
+    const subnet_info = await network_client.subnets.beginCreateOrUpdateAndWait(groupName, networkName, subnetName, { addressPrefix: "10.0.0.0/24" }, testPollingOptions);
   }
 
   it("Redis create test", async function () {
@@ -116,7 +107,7 @@ describe("Redis test", () => {
       subnetId: "/subscriptions/" + subscriptionId + "/resourceGroups/" + resourceGroupName + "/providers/Microsoft.Network/virtualNetworks/" + networkName + "/subnets/" + subnetName,
       staticIP: "10.0.0.5",
       minimumTlsVersion: "1.2"
-    },testPollingOptions);
+    }, testPollingOptions);
     assert.equal(res.name, name);
   });
 
@@ -126,7 +117,7 @@ describe("Redis test", () => {
   });
 
   it("patchSchedules create for redis test", async function () {
-    const res = await client.patchSchedules.createOrUpdate(resourceGroupName, name, {
+    const res = await client.patchSchedules.createOrUpdate(resourceGroupName, name, "default", {
       scheduleEntries: [
         {
           dayOfWeek: "Monday",
@@ -138,7 +129,7 @@ describe("Redis test", () => {
           startHourUtc: 12
         }
       ]
-    }, "default");
+    });
     assert.equal(res.type, "Microsoft.Cache/Redis/PatchSchedules");
   });
 
@@ -164,7 +155,7 @@ describe("Redis test", () => {
       count++;
       const res = await client.redis.get(resourceGroupName, name);
       if (res.provisioningState == "Succeeded") {
-        const res = await client.redis.update(resourceGroupName, name, { enableNonSslPort: true });
+        const res = await client.redis.beginUpdateAndWait(resourceGroupName, name, { enableNonSslPort: true });
         assert.equal(res.enableNonSslPort, true);
         break;
       } else {
@@ -180,7 +171,7 @@ describe("Redis test", () => {
   });
 
   it("redis delete test", async function () {
-    const res = await client.redis.beginDeleteAndWait(resourceGroupName, name,testPollingOptions);
+    const res = await client.redis.beginDeleteAndWait(resourceGroupName, name, testPollingOptions);
     const resArray = new Array();
     for await (let item of client.redis.listByResourceGroup(resourceGroupName)) {
       resArray.push(item);

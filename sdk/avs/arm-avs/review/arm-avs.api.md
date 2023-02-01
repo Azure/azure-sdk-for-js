@@ -11,15 +11,21 @@ import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 
 // @public
-export type Addon = Resource & {
+export interface Addon extends Resource {
     properties?: AddonPropertiesUnion;
-};
+}
 
 // @public
-export type AddonHcxProperties = AddonProperties & {
+export interface AddonArcProperties extends AddonProperties {
+    addonType: "Arc";
+    vCenter?: string;
+}
+
+// @public
+export interface AddonHcxProperties extends AddonProperties {
     addonType: "HCX";
     offer: string;
-};
+}
 
 // @public
 export interface AddonList {
@@ -29,12 +35,12 @@ export interface AddonList {
 
 // @public
 export interface AddonProperties {
-    addonType: "SRM" | "VR" | "HCX";
+    addonType: "SRM" | "VR" | "HCX" | "Arc";
     readonly provisioningState?: AddonProvisioningState;
 }
 
 // @public (undocumented)
-export type AddonPropertiesUnion = AddonProperties | AddonSrmProperties | AddonVrProperties | AddonHcxProperties;
+export type AddonPropertiesUnion = AddonProperties | AddonSrmProperties | AddonVrProperties | AddonHcxProperties | AddonArcProperties;
 
 // @public
 export type AddonProvisioningState = string;
@@ -86,19 +92,19 @@ export interface AddonsListOptionalParams extends coreClient.OperationOptions {
 export type AddonsListResponse = AddonList;
 
 // @public
-export type AddonSrmProperties = AddonProperties & {
+export interface AddonSrmProperties extends AddonProperties {
     addonType: "SRM";
     licenseKey?: string;
-};
+}
 
 // @public
 export type AddonType = string;
 
 // @public
-export type AddonVrProperties = AddonProperties & {
+export interface AddonVrProperties extends AddonProperties {
     addonType: "VR";
     vrsCount: number;
-};
+}
 
 // @public
 export interface AdminCredentials {
@@ -107,6 +113,9 @@ export interface AdminCredentials {
     readonly vcenterPassword?: string;
     readonly vcenterUsername?: string;
 }
+
+// @public
+export type AffinityStrength = string;
 
 // @public
 export type AffinityType = string;
@@ -166,6 +175,9 @@ export interface AvailabilityProperties {
 
 // @public
 export type AvailabilityStrategy = string;
+
+// @public
+export type AzureHybridBenefitType = string;
 
 // @public (undocumented)
 export class AzureVMwareSolutionAPI extends coreClient.ServiceClient {
@@ -231,10 +243,10 @@ export interface CloudError {
 }
 
 // @public
-export type CloudLink = Resource & {
-    readonly status?: CloudLinkStatus;
+export interface CloudLink extends Resource {
     linkedCloud?: string;
-};
+    readonly status?: CloudLinkStatus;
+}
 
 // @public
 export interface CloudLinkList {
@@ -292,13 +304,13 @@ export type CloudLinksListResponse = CloudLinkList;
 export type CloudLinkStatus = string;
 
 // @public
-export type Cluster = Resource & {
-    sku: Sku;
-    clusterSize?: number;
-    readonly provisioningState?: ClusterProvisioningState;
+export interface Cluster extends Resource {
     readonly clusterId?: number;
+    clusterSize?: number;
     hosts?: string[];
-};
+    readonly provisioningState?: ClusterProvisioningState;
+    sku: Sku;
+}
 
 // @public
 export interface ClusterList {
@@ -307,7 +319,8 @@ export interface ClusterList {
 }
 
 // @public
-export type ClusterProperties = CommonClusterProperties & {};
+export interface ClusterProperties extends CommonClusterProperties {
+}
 
 // @public
 export type ClusterProvisioningState = string;
@@ -322,6 +335,7 @@ export interface Clusters {
     beginUpdateAndWait(resourceGroupName: string, privateCloudName: string, clusterName: string, clusterUpdate: ClusterUpdate, options?: ClustersUpdateOptionalParams): Promise<ClustersUpdateResponse>;
     get(resourceGroupName: string, privateCloudName: string, clusterName: string, options?: ClustersGetOptionalParams): Promise<ClustersGetResponse>;
     list(resourceGroupName: string, privateCloudName: string, options?: ClustersListOptionalParams): PagedAsyncIterableIterator<Cluster>;
+    listZones(resourceGroupName: string, privateCloudName: string, clusterName: string, options?: ClustersListZonesOptionalParams): Promise<ClustersListZonesResponse>;
 }
 
 // @public
@@ -361,6 +375,13 @@ export interface ClustersListOptionalParams extends coreClient.OperationOptions 
 export type ClustersListResponse = ClusterList;
 
 // @public
+export interface ClustersListZonesOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ClustersListZonesResponse = ClusterZoneList;
+
+// @public
 export interface ClustersUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -376,6 +397,17 @@ export interface ClusterUpdate {
 }
 
 // @public
+export interface ClusterZone {
+    readonly hosts?: string[];
+    readonly zone?: string;
+}
+
+// @public
+export interface ClusterZoneList {
+    zones?: ClusterZone[];
+}
+
+// @public
 export interface CommonClusterProperties {
     readonly clusterId?: number;
     clusterSize?: number;
@@ -384,12 +416,12 @@ export interface CommonClusterProperties {
 }
 
 // @public
-export type Datastore = Resource & {
-    readonly provisioningState?: DatastoreProvisioningState;
-    netAppVolume?: NetAppVolume;
+export interface Datastore extends Resource {
     diskPoolVolume?: DiskPoolVolume;
+    netAppVolume?: NetAppVolume;
+    readonly provisioningState?: DatastoreProvisioningState;
     readonly status?: DatastoreStatus;
-};
+}
 
 // @public
 export interface DatastoreList {
@@ -477,6 +509,7 @@ export type EncryptionKeyStatus = string;
 
 // @public
 export interface EncryptionKeyVaultProperties {
+    readonly autoDetectedKeyVersion?: string;
     keyName?: string;
     readonly keyState?: EncryptionKeyStatus;
     keyVaultUrl?: string;
@@ -513,12 +546,12 @@ export interface ErrorResponse {
 }
 
 // @public
-export type ExpressRouteAuthorization = Resource & {
-    readonly provisioningState?: ExpressRouteAuthorizationProvisioningState;
+export interface ExpressRouteAuthorization extends Resource {
     readonly expressRouteAuthorizationId?: string;
     readonly expressRouteAuthorizationKey?: string;
     expressRouteId?: string;
-};
+    readonly provisioningState?: ExpressRouteAuthorizationProvisioningState;
+}
 
 // @public
 export interface ExpressRouteAuthorizationList {
@@ -530,14 +563,14 @@ export interface ExpressRouteAuthorizationList {
 export type ExpressRouteAuthorizationProvisioningState = string;
 
 // @public
-export type GlobalReachConnection = Resource & {
-    readonly provisioningState?: GlobalReachConnectionProvisioningState;
+export interface GlobalReachConnection extends Resource {
     readonly addressPrefix?: string;
     authorizationKey?: string;
     readonly circuitConnectionStatus?: GlobalReachConnectionStatus;
-    peerExpressRouteCircuit?: string;
     expressRouteId?: string;
-};
+    peerExpressRouteCircuit?: string;
+    readonly provisioningState?: GlobalReachConnectionProvisioningState;
+}
 
 // @public
 export interface GlobalReachConnectionList {
@@ -598,10 +631,10 @@ export type GlobalReachConnectionsListResponse = GlobalReachConnectionList;
 export type GlobalReachConnectionStatus = string;
 
 // @public
-export type HcxEnterpriseSite = Resource & {
+export interface HcxEnterpriseSite extends Resource {
     readonly activationKey?: string;
     readonly status?: HcxEnterpriseSiteStatus;
-};
+}
 
 // @public
 export interface HcxEnterpriseSiteList {
@@ -671,523 +704,395 @@ export type InternetEnum = string;
 
 // @public
 export enum KnownAddonProvisioningState {
-    // (undocumented)
     Building = "Building",
-    // (undocumented)
+    Canceled = "Canceled",
     Cancelled = "Cancelled",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownAddonType {
-    // (undocumented)
+    Arc = "Arc",
     HCX = "HCX",
-    // (undocumented)
     SRM = "SRM",
-    // (undocumented)
     VR = "VR"
 }
 
 // @public
+export enum KnownAffinityStrength {
+    Must = "Must",
+    Should = "Should"
+}
+
+// @public
 export enum KnownAffinityType {
-    // (undocumented)
     Affinity = "Affinity",
-    // (undocumented)
     AntiAffinity = "AntiAffinity"
 }
 
 // @public
 export enum KnownAvailabilityStrategy {
-    // (undocumented)
     DualZone = "DualZone",
-    // (undocumented)
     SingleZone = "SingleZone"
 }
 
 // @public
+export enum KnownAzureHybridBenefitType {
+    None = "None",
+    SqlHost = "SqlHost"
+}
+
+// @public
 export enum KnownCloudLinkStatus {
-    // (undocumented)
     Active = "Active",
-    // (undocumented)
     Building = "Building",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Disconnected = "Disconnected",
-    // (undocumented)
     Failed = "Failed"
 }
 
 // @public
 export enum KnownClusterProvisioningState {
-    // (undocumented)
+    Canceled = "Canceled",
     Cancelled = "Cancelled",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownDatastoreProvisioningState {
-    // (undocumented)
+    Canceled = "Canceled",
     Cancelled = "Cancelled",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownDatastoreStatus {
-    // (undocumented)
     Accessible = "Accessible",
-    // (undocumented)
     Attached = "Attached",
-    // (undocumented)
     DeadOrError = "DeadOrError",
-    // (undocumented)
     Detached = "Detached",
-    // (undocumented)
     Inaccessible = "Inaccessible",
-    // (undocumented)
     LostCommunication = "LostCommunication",
-    // (undocumented)
     Unknown = "Unknown"
 }
 
 // @public
 export enum KnownDhcpTypeEnum {
-    // (undocumented)
     Relay = "RELAY",
-    // (undocumented)
     Server = "SERVER"
 }
 
 // @public
 export enum KnownDnsServiceLogLevelEnum {
-    // (undocumented)
     Debug = "DEBUG",
-    // (undocumented)
     Error = "ERROR",
-    // (undocumented)
     Fatal = "FATAL",
-    // (undocumented)
     Info = "INFO",
-    // (undocumented)
     Warning = "WARNING"
 }
 
 // @public
 export enum KnownDnsServiceStatusEnum {
-    // (undocumented)
     Failure = "FAILURE",
-    // (undocumented)
     Success = "SUCCESS"
 }
 
 // @public
 export enum KnownEncryptionKeyStatus {
-    // (undocumented)
     AccessDenied = "AccessDenied",
-    // (undocumented)
     Connected = "Connected"
 }
 
 // @public
 export enum KnownEncryptionState {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownEncryptionVersionType {
-    // (undocumented)
     AutoDetected = "AutoDetected",
-    // (undocumented)
     Fixed = "Fixed"
 }
 
 // @public
 export enum KnownExpressRouteAuthorizationProvisioningState {
-    // (undocumented)
+    Canceled = "Canceled",
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownGlobalReachConnectionProvisioningState {
-    // (undocumented)
+    Canceled = "Canceled",
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownGlobalReachConnectionStatus {
-    // (undocumented)
     Connected = "Connected",
-    // (undocumented)
     Connecting = "Connecting",
-    // (undocumented)
     Disconnected = "Disconnected"
 }
 
 // @public
 export enum KnownHcxEnterpriseSiteStatus {
-    // (undocumented)
     Available = "Available",
-    // (undocumented)
     Consumed = "Consumed",
-    // (undocumented)
     Deactivated = "Deactivated",
-    // (undocumented)
     Deleted = "Deleted"
 }
 
 // @public
 export enum KnownInternetEnum {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownMountOptionEnum {
-    // (undocumented)
     Attach = "ATTACH",
-    // (undocumented)
     Mount = "MOUNT"
 }
 
 // @public
+export enum KnownNsxPublicIpQuotaRaisedEnum {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownOptionalParamEnum {
-    // (undocumented)
     Optional = "Optional",
-    // (undocumented)
     Required = "Required"
 }
 
 // @public
 export enum KnownPlacementPolicyProvisioningState {
-    // (undocumented)
     Building = "Building",
-    // (undocumented)
+    Canceled = "Canceled",
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownPlacementPolicyState {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownPlacementPolicyType {
-    // (undocumented)
     VmHost = "VmHost",
-    // (undocumented)
     VmVm = "VmVm"
 }
 
 // @public
 export enum KnownPortMirroringDirectionEnum {
-    // (undocumented)
     Bidirectional = "BIDIRECTIONAL",
-    // (undocumented)
     Egress = "EGRESS",
-    // (undocumented)
     Ingress = "INGRESS"
 }
 
 // @public
 export enum KnownPortMirroringStatusEnum {
-    // (undocumented)
     Failure = "FAILURE",
-    // (undocumented)
     Success = "SUCCESS"
 }
 
 // @public
 export enum KnownPrivateCloudProvisioningState {
-    // (undocumented)
     Building = "Building",
-    // (undocumented)
+    Canceled = "Canceled",
     Cancelled = "Cancelled",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownQuotaEnabled {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownResourceIdentityType {
-    // (undocumented)
     None = "None",
-    // (undocumented)
     SystemAssigned = "SystemAssigned"
 }
 
 // @public
 export enum KnownScriptExecutionParameterType {
-    // (undocumented)
     Credential = "Credential",
-    // (undocumented)
     SecureValue = "SecureValue",
-    // (undocumented)
     Value = "Value"
 }
 
 // @public
 export enum KnownScriptExecutionProvisioningState {
-    // (undocumented)
+    Canceled = "Canceled",
     Cancelled = "Cancelled",
-    // (undocumented)
     Cancelling = "Cancelling",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Running = "Running",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownScriptOutputStreamType {
-    // (undocumented)
     Error = "Error",
-    // (undocumented)
     Information = "Information",
-    // (undocumented)
     Output = "Output",
-    // (undocumented)
     Warning = "Warning"
 }
 
 // @public
 export enum KnownScriptParameterTypes {
-    // (undocumented)
     Bool = "Bool",
-    // (undocumented)
     Credential = "Credential",
-    // (undocumented)
     Float = "Float",
-    // (undocumented)
     Int = "Int",
-    // (undocumented)
     SecureString = "SecureString",
-    // (undocumented)
     String = "String"
 }
 
 // @public
 export enum KnownSegmentStatusEnum {
-    // (undocumented)
     Failure = "FAILURE",
-    // (undocumented)
     Success = "SUCCESS"
 }
 
 // @public
 export enum KnownSslEnum {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownTrialStatus {
-    // (undocumented)
     TrialAvailable = "TrialAvailable",
-    // (undocumented)
     TrialDisabled = "TrialDisabled",
-    // (undocumented)
     TrialUsed = "TrialUsed"
 }
 
 // @public
 export enum KnownVirtualMachineRestrictMovementState {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownVisibilityParameterEnum {
-    // (undocumented)
     Hidden = "Hidden",
-    // (undocumented)
     Visible = "Visible"
 }
 
 // @public
 export enum KnownVMGroupStatusEnum {
-    // (undocumented)
     Failure = "FAILURE",
-    // (undocumented)
     Success = "SUCCESS"
 }
 
 // @public
 export enum KnownVMTypeEnum {
-    // (undocumented)
     Edge = "EDGE",
-    // (undocumented)
     Regular = "REGULAR",
-    // (undocumented)
     Service = "SERVICE"
 }
 
 // @public
 export enum KnownWorkloadNetworkDhcpProvisioningState {
-    // (undocumented)
     Building = "Building",
-    // (undocumented)
+    Canceled = "Canceled",
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownWorkloadNetworkDnsServiceProvisioningState {
-    // (undocumented)
     Building = "Building",
-    // (undocumented)
+    Canceled = "Canceled",
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownWorkloadNetworkDnsZoneProvisioningState {
-    // (undocumented)
     Building = "Building",
-    // (undocumented)
+    Canceled = "Canceled",
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
+export enum KnownWorkloadNetworkName {
+    Default = "default"
+}
+
+// @public
 export enum KnownWorkloadNetworkPortMirroringProvisioningState {
-    // (undocumented)
     Building = "Building",
-    // (undocumented)
+    Canceled = "Canceled",
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownWorkloadNetworkPublicIPProvisioningState {
-    // (undocumented)
     Building = "Building",
-    // (undocumented)
+    Canceled = "Canceled",
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownWorkloadNetworkSegmentProvisioningState {
-    // (undocumented)
     Building = "Building",
-    // (undocumented)
+    Canceled = "Canceled",
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownWorkloadNetworkVMGroupProvisioningState {
-    // (undocumented)
     Building = "Building",
-    // (undocumented)
+    Canceled = "Canceled",
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
@@ -1206,6 +1111,7 @@ export type LocationsCheckQuotaAvailabilityResponse = Quota;
 
 // @public
 export interface LocationsCheckTrialAvailabilityOptionalParams extends coreClient.OperationOptions {
+    sku?: Sku;
 }
 
 // @public
@@ -1219,7 +1125,8 @@ export interface LogSpecification {
 }
 
 // @public
-export type ManagementCluster = CommonClusterProperties & {};
+export interface ManagementCluster extends CommonClusterProperties {
+}
 
 // @public
 export interface MetricDimension {
@@ -1253,6 +1160,9 @@ export type MountOptionEnum = string;
 export interface NetAppVolume {
     id: string;
 }
+
+// @public
+export type NsxPublicIpQuotaRaisedEnum = string;
 
 // @public
 export interface Operation {
@@ -1368,9 +1278,9 @@ export interface PlacementPoliciesUpdateOptionalParams extends coreClient.Operat
 export type PlacementPoliciesUpdateResponse = PlacementPolicy;
 
 // @public
-export type PlacementPolicy = Resource & {
+export interface PlacementPolicy extends Resource {
     properties?: PlacementPolicyPropertiesUnion;
-};
+}
 
 // @public
 export interface PlacementPolicyProperties {
@@ -1394,6 +1304,8 @@ export type PlacementPolicyType = string;
 
 // @public
 export interface PlacementPolicyUpdate {
+    affinityStrength?: AffinityStrength;
+    azureHybridBenefitType?: AzureHybridBenefitType;
     hostMembers?: string[];
     state?: PlacementPolicyState;
     vmMembers?: string[];
@@ -1406,28 +1318,29 @@ export type PortMirroringDirectionEnum = string;
 export type PortMirroringStatusEnum = string;
 
 // @public
-export type PrivateCloud = TrackedResource & {
-    sku: Sku;
-    identity?: PrivateCloudIdentity;
-    managementCluster?: ManagementCluster;
-    internet?: InternetEnum;
-    identitySources?: IdentitySource[];
+export interface PrivateCloud extends TrackedResource {
     availability?: AvailabilityProperties;
-    encryption?: Encryption;
-    readonly provisioningState?: PrivateCloudProvisioningState;
     circuit?: Circuit;
+    encryption?: Encryption;
     readonly endpoints?: Endpoints;
-    networkBlock?: string;
-    readonly managementNetwork?: string;
-    readonly provisioningNetwork?: string;
-    readonly vmotionNetwork?: string;
-    vcenterPassword?: string;
-    nsxtPassword?: string;
-    readonly vcenterCertificateThumbprint?: string;
-    readonly nsxtCertificateThumbprint?: string;
     readonly externalCloudLinks?: string[];
+    identity?: PrivateCloudIdentity;
+    identitySources?: IdentitySource[];
+    internet?: InternetEnum;
+    managementCluster?: ManagementCluster;
+    readonly managementNetwork?: string;
+    networkBlock?: string;
+    readonly nsxPublicIpQuotaRaised?: NsxPublicIpQuotaRaisedEnum;
+    readonly nsxtCertificateThumbprint?: string;
+    nsxtPassword?: string;
+    readonly provisioningNetwork?: string;
+    readonly provisioningState?: PrivateCloudProvisioningState;
     secondaryCircuit?: Circuit;
-};
+    sku: Sku;
+    readonly vcenterCertificateThumbprint?: string;
+    vcenterPassword?: string;
+    readonly vmotionNetwork?: string;
+}
 
 // @public
 export interface PrivateCloudIdentity {
@@ -1443,21 +1356,22 @@ export interface PrivateCloudList {
 }
 
 // @public
-export type PrivateCloudProperties = PrivateCloudUpdateProperties & {
-    readonly provisioningState?: PrivateCloudProvisioningState;
+export interface PrivateCloudProperties extends PrivateCloudUpdateProperties {
     circuit?: Circuit;
     readonly endpoints?: Endpoints;
-    networkBlock: string;
-    readonly managementNetwork?: string;
-    readonly provisioningNetwork?: string;
-    readonly vmotionNetwork?: string;
-    vcenterPassword?: string;
-    nsxtPassword?: string;
-    readonly vcenterCertificateThumbprint?: string;
-    readonly nsxtCertificateThumbprint?: string;
     readonly externalCloudLinks?: string[];
+    readonly managementNetwork?: string;
+    networkBlock: string;
+    readonly nsxPublicIpQuotaRaised?: NsxPublicIpQuotaRaisedEnum;
+    readonly nsxtCertificateThumbprint?: string;
+    nsxtPassword?: string;
+    readonly provisioningNetwork?: string;
+    readonly provisioningState?: PrivateCloudProvisioningState;
     secondaryCircuit?: Circuit;
-};
+    readonly vcenterCertificateThumbprint?: string;
+    vcenterPassword?: string;
+    readonly vmotionNetwork?: string;
+}
 
 // @public
 export type PrivateCloudProvisioningState = string;
@@ -1581,14 +1495,15 @@ export interface PrivateCloudUpdateProperties {
 }
 
 // @public
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {
+}
 
 // @public
-export type PSCredentialExecutionParameter = ScriptExecutionParameter & {
+export interface PSCredentialExecutionParameter extends ScriptExecutionParameter {
+    password?: string;
     type: "Credential";
     username?: string;
-    password?: string;
-};
+}
 
 // @public
 export interface Quota {
@@ -1612,11 +1527,11 @@ export interface Resource {
 export type ResourceIdentityType = string;
 
 // @public
-export type ScriptCmdlet = ProxyResource & {
+export interface ScriptCmdlet extends ProxyResource {
     readonly description?: string;
-    readonly timeout?: string;
     readonly parameters?: ScriptParameter[];
-};
+    readonly timeout?: string;
+}
 
 // @public
 export interface ScriptCmdlets {
@@ -1652,25 +1567,25 @@ export interface ScriptCmdletsListOptionalParams extends coreClient.OperationOpt
 export type ScriptCmdletsListResponse = ScriptCmdletsList;
 
 // @public
-export type ScriptExecution = ProxyResource & {
-    scriptCmdletId?: string;
-    parameters?: ScriptExecutionParameterUnion[];
-    hiddenParameters?: ScriptExecutionParameterUnion[];
+export interface ScriptExecution extends ProxyResource {
+    readonly errors?: string[];
     failureReason?: string;
-    timeout?: string;
-    retention?: string;
-    readonly submittedAt?: Date;
-    readonly startedAt?: Date;
     readonly finishedAt?: Date;
-    readonly provisioningState?: ScriptExecutionProvisioningState;
-    output?: string[];
+    hiddenParameters?: ScriptExecutionParameterUnion[];
+    readonly information?: string[];
     namedOutputs?: {
         [propertyName: string]: Record<string, unknown>;
     };
-    readonly information?: string[];
+    output?: string[];
+    parameters?: ScriptExecutionParameterUnion[];
+    readonly provisioningState?: ScriptExecutionProvisioningState;
+    retention?: string;
+    scriptCmdletId?: string;
+    readonly startedAt?: Date;
+    readonly submittedAt?: Date;
+    timeout?: string;
     readonly warnings?: string[];
-    readonly errors?: string[];
-};
+}
 
 // @public
 export interface ScriptExecutionParameter {
@@ -1752,10 +1667,12 @@ export type ScriptExecutionsListResponse = ScriptExecutionsList;
 export type ScriptOutputStreamType = string;
 
 // @public
-export type ScriptPackage = ProxyResource & {
+export interface ScriptPackage extends ProxyResource {
+    readonly company?: string;
     readonly description?: string;
+    readonly uri?: string;
     readonly version?: string;
-};
+}
 
 // @public
 export interface ScriptPackages {
@@ -1803,16 +1720,16 @@ export interface ScriptParameter {
 export type ScriptParameterTypes = string;
 
 // @public
-export type ScriptSecureStringExecutionParameter = ScriptExecutionParameter & {
-    type: "SecureValue";
+export interface ScriptSecureStringExecutionParameter extends ScriptExecutionParameter {
     secureValue?: string;
-};
+    type: "SecureValue";
+}
 
 // @public
-export type ScriptStringExecutionParameter = ScriptExecutionParameter & {
+export interface ScriptStringExecutionParameter extends ScriptExecutionParameter {
     type: "Value";
     value?: string;
-};
+}
 
 // @public
 export type SegmentStatusEnum = string;
@@ -1832,12 +1749,12 @@ export interface Sku {
 export type SslEnum = string;
 
 // @public
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
     location?: string;
     tags?: {
         [propertyName: string]: string;
     };
-};
+}
 
 // @public
 export interface Trial {
@@ -1849,12 +1766,12 @@ export interface Trial {
 export type TrialStatus = string;
 
 // @public
-export type VirtualMachine = ProxyResource & {
+export interface VirtualMachine extends ProxyResource {
     readonly displayName?: string;
-    readonly moRefId?: string;
     readonly folderPath?: string;
+    readonly moRefId?: string;
     readonly restrictMovement?: VirtualMachineRestrictMovementState;
-};
+}
 
 // @public
 export interface VirtualMachineRestrictMovement {
@@ -1912,27 +1829,33 @@ export type VisibilityParameterEnum = string;
 export type VMGroupStatusEnum = string;
 
 // @public
-export type VmHostPlacementPolicyProperties = PlacementPolicyProperties & {
+export interface VmHostPlacementPolicyProperties extends PlacementPolicyProperties {
+    affinityStrength?: AffinityStrength;
+    affinityType: AffinityType;
+    azureHybridBenefitType?: AzureHybridBenefitType;
+    hostMembers: string[];
     type: "VmHost";
     vmMembers: string[];
-    hostMembers: string[];
-    affinityType: AffinityType;
-};
+}
 
 // @public
-export type VmPlacementPolicyProperties = PlacementPolicyProperties & {
+export interface VmPlacementPolicyProperties extends PlacementPolicyProperties {
+    affinityType: AffinityType;
     type: "VmVm";
     vmMembers: string[];
-    affinityType: AffinityType;
-};
+}
 
 // @public
 export type VMTypeEnum = string;
 
 // @public
-export type WorkloadNetworkDhcp = ProxyResource & {
+export interface WorkloadNetwork extends ProxyResource {
+}
+
+// @public
+export interface WorkloadNetworkDhcp extends ProxyResource {
     properties?: WorkloadNetworkDhcpEntityUnion;
-};
+}
 
 // @public
 export interface WorkloadNetworkDhcpEntity {
@@ -1956,29 +1879,29 @@ export interface WorkloadNetworkDhcpList {
 export type WorkloadNetworkDhcpProvisioningState = string;
 
 // @public
-export type WorkloadNetworkDhcpRelay = WorkloadNetworkDhcpEntity & {
+export interface WorkloadNetworkDhcpRelay extends WorkloadNetworkDhcpEntity {
     dhcpType: "RELAY";
     serverAddresses?: string[];
-};
+}
 
 // @public
-export type WorkloadNetworkDhcpServer = WorkloadNetworkDhcpEntity & {
+export interface WorkloadNetworkDhcpServer extends WorkloadNetworkDhcpEntity {
     dhcpType: "SERVER";
-    serverAddress?: string;
     leaseTime?: number;
-};
+    serverAddress?: string;
+}
 
 // @public
-export type WorkloadNetworkDnsService = ProxyResource & {
+export interface WorkloadNetworkDnsService extends ProxyResource {
+    defaultDnsZone?: string;
     displayName?: string;
     dnsServiceIp?: string;
-    defaultDnsZone?: string;
     fqdnZones?: string[];
     logLevel?: DnsServiceLogLevelEnum;
-    readonly status?: DnsServiceStatusEnum;
     readonly provisioningState?: WorkloadNetworkDnsServiceProvisioningState;
     revision?: number;
-};
+    readonly status?: DnsServiceStatusEnum;
+}
 
 // @public
 export type WorkloadNetworkDnsServiceProvisioningState = string;
@@ -1990,15 +1913,15 @@ export interface WorkloadNetworkDnsServicesList {
 }
 
 // @public
-export type WorkloadNetworkDnsZone = ProxyResource & {
+export interface WorkloadNetworkDnsZone extends ProxyResource {
     displayName?: string;
-    domain?: string[];
     dnsServerIps?: string[];
-    sourceIp?: string;
     dnsServices?: number;
+    domain?: string[];
     readonly provisioningState?: WorkloadNetworkDnsZoneProvisioningState;
     revision?: number;
-};
+    sourceIp?: string;
+}
 
 // @public
 export type WorkloadNetworkDnsZoneProvisioningState = string;
@@ -2010,10 +1933,10 @@ export interface WorkloadNetworkDnsZonesList {
 }
 
 // @public
-export type WorkloadNetworkGateway = ProxyResource & {
+export interface WorkloadNetworkGateway extends ProxyResource {
     displayName?: string;
     readonly path?: string;
-};
+}
 
 // @public
 export interface WorkloadNetworkGatewayList {
@@ -2022,15 +1945,24 @@ export interface WorkloadNetworkGatewayList {
 }
 
 // @public
-export type WorkloadNetworkPortMirroring = ProxyResource & {
-    displayName?: string;
-    direction?: PortMirroringDirectionEnum;
-    source?: string;
+export interface WorkloadNetworkList {
+    readonly nextLink?: string;
+    readonly value?: WorkloadNetwork[];
+}
+
+// @public
+export type WorkloadNetworkName = string;
+
+// @public
+export interface WorkloadNetworkPortMirroring extends ProxyResource {
     destination?: string;
-    readonly status?: PortMirroringStatusEnum;
+    direction?: PortMirroringDirectionEnum;
+    displayName?: string;
     readonly provisioningState?: WorkloadNetworkPortMirroringProvisioningState;
     revision?: number;
-};
+    source?: string;
+    readonly status?: PortMirroringStatusEnum;
+}
 
 // @public
 export interface WorkloadNetworkPortMirroringList {
@@ -2042,12 +1974,12 @@ export interface WorkloadNetworkPortMirroringList {
 export type WorkloadNetworkPortMirroringProvisioningState = string;
 
 // @public
-export type WorkloadNetworkPublicIP = ProxyResource & {
+export interface WorkloadNetworkPublicIP extends ProxyResource {
     displayName?: string;
     numberOfPublicIPs?: number;
-    readonly publicIPBlock?: string;
     readonly provisioningState?: WorkloadNetworkPublicIPProvisioningState;
-};
+    readonly publicIPBlock?: string;
+}
 
 // @public
 export type WorkloadNetworkPublicIPProvisioningState = string;
@@ -2100,6 +2032,7 @@ export interface WorkloadNetworks {
     beginUpdateSegmentsAndWait(resourceGroupName: string, privateCloudName: string, segmentId: string, workloadNetworkSegment: WorkloadNetworkSegment, options?: WorkloadNetworksUpdateSegmentsOptionalParams): Promise<WorkloadNetworksUpdateSegmentsResponse>;
     beginUpdateVMGroup(resourceGroupName: string, privateCloudName: string, vmGroupId: string, workloadNetworkVMGroup: WorkloadNetworkVMGroup, options?: WorkloadNetworksUpdateVMGroupOptionalParams): Promise<PollerLike<PollOperationState<WorkloadNetworksUpdateVMGroupResponse>, WorkloadNetworksUpdateVMGroupResponse>>;
     beginUpdateVMGroupAndWait(resourceGroupName: string, privateCloudName: string, vmGroupId: string, workloadNetworkVMGroup: WorkloadNetworkVMGroup, options?: WorkloadNetworksUpdateVMGroupOptionalParams): Promise<WorkloadNetworksUpdateVMGroupResponse>;
+    get(resourceGroupName: string, privateCloudName: string, workloadNetworkName: WorkloadNetworkName, options?: WorkloadNetworksGetOptionalParams): Promise<WorkloadNetworksGetResponse>;
     getDhcp(resourceGroupName: string, dhcpId: string, privateCloudName: string, options?: WorkloadNetworksGetDhcpOptionalParams): Promise<WorkloadNetworksGetDhcpResponse>;
     getDnsService(resourceGroupName: string, privateCloudName: string, dnsServiceId: string, options?: WorkloadNetworksGetDnsServiceOptionalParams): Promise<WorkloadNetworksGetDnsServiceResponse>;
     getDnsZone(resourceGroupName: string, privateCloudName: string, dnsZoneId: string, options?: WorkloadNetworksGetDnsZoneOptionalParams): Promise<WorkloadNetworksGetDnsZoneResponse>;
@@ -2109,6 +2042,7 @@ export interface WorkloadNetworks {
     getSegment(resourceGroupName: string, privateCloudName: string, segmentId: string, options?: WorkloadNetworksGetSegmentOptionalParams): Promise<WorkloadNetworksGetSegmentResponse>;
     getVirtualMachine(resourceGroupName: string, privateCloudName: string, virtualMachineId: string, options?: WorkloadNetworksGetVirtualMachineOptionalParams): Promise<WorkloadNetworksGetVirtualMachineResponse>;
     getVMGroup(resourceGroupName: string, privateCloudName: string, vmGroupId: string, options?: WorkloadNetworksGetVMGroupOptionalParams): Promise<WorkloadNetworksGetVMGroupResponse>;
+    list(resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListOptionalParams): PagedAsyncIterableIterator<WorkloadNetwork>;
     listDhcp(resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListDhcpOptionalParams): PagedAsyncIterableIterator<WorkloadNetworkDhcp>;
     listDnsServices(resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListDnsServicesOptionalParams): PagedAsyncIterableIterator<WorkloadNetworkDnsService>;
     listDnsZones(resourceGroupName: string, privateCloudName: string, options?: WorkloadNetworksListDnsZonesOptionalParams): PagedAsyncIterableIterator<WorkloadNetworkDnsZone>;
@@ -2226,15 +2160,15 @@ export interface WorkloadNetworksDeleteVMGroupOptionalParams extends coreClient.
 }
 
 // @public
-export type WorkloadNetworkSegment = ProxyResource & {
-    displayName?: string;
+export interface WorkloadNetworkSegment extends ProxyResource {
     connectedGateway?: string;
-    subnet?: WorkloadNetworkSegmentSubnet;
+    displayName?: string;
     readonly portVif?: WorkloadNetworkSegmentPortVif[];
-    readonly status?: SegmentStatusEnum;
     readonly provisioningState?: WorkloadNetworkSegmentProvisioningState;
     revision?: number;
-};
+    readonly status?: SegmentStatusEnum;
+    subnet?: WorkloadNetworkSegmentSubnet;
+}
 
 // @public
 export interface WorkloadNetworkSegmentPortVif {
@@ -2285,6 +2219,10 @@ export interface WorkloadNetworksGetGatewayOptionalParams extends coreClient.Ope
 export type WorkloadNetworksGetGatewayResponse = WorkloadNetworkGateway;
 
 // @public
+export interface WorkloadNetworksGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
 export interface WorkloadNetworksGetPortMirroringOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -2297,6 +2235,9 @@ export interface WorkloadNetworksGetPublicIPOptionalParams extends coreClient.Op
 
 // @public
 export type WorkloadNetworksGetPublicIPResponse = WorkloadNetworkPublicIP;
+
+// @public
+export type WorkloadNetworksGetResponse = WorkloadNetwork;
 
 // @public
 export interface WorkloadNetworksGetSegmentOptionalParams extends coreClient.OperationOptions {
@@ -2376,6 +2317,17 @@ export interface WorkloadNetworksListGatewaysOptionalParams extends coreClient.O
 export type WorkloadNetworksListGatewaysResponse = WorkloadNetworkGatewayList;
 
 // @public
+export interface WorkloadNetworksListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WorkloadNetworksListNextResponse = WorkloadNetworkList;
+
+// @public
+export interface WorkloadNetworksListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
 export interface WorkloadNetworksListPortMirroringNextOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -2402,6 +2354,9 @@ export interface WorkloadNetworksListPublicIPsOptionalParams extends coreClient.
 
 // @public
 export type WorkloadNetworksListPublicIPsResponse = WorkloadNetworkPublicIPsList;
+
+// @public
+export type WorkloadNetworksListResponse = WorkloadNetworkList;
 
 // @public
 export interface WorkloadNetworksListSegmentsNextOptionalParams extends coreClient.OperationOptions {
@@ -2500,10 +2455,10 @@ export interface WorkloadNetworksUpdateVMGroupOptionalParams extends coreClient.
 export type WorkloadNetworksUpdateVMGroupResponse = WorkloadNetworkVMGroup;
 
 // @public
-export type WorkloadNetworkVirtualMachine = ProxyResource & {
+export interface WorkloadNetworkVirtualMachine extends ProxyResource {
     displayName?: string;
     readonly vmType?: VMTypeEnum;
-};
+}
 
 // @public
 export interface WorkloadNetworkVirtualMachinesList {
@@ -2512,13 +2467,13 @@ export interface WorkloadNetworkVirtualMachinesList {
 }
 
 // @public
-export type WorkloadNetworkVMGroup = ProxyResource & {
+export interface WorkloadNetworkVMGroup extends ProxyResource {
     displayName?: string;
     members?: string[];
-    readonly status?: VMGroupStatusEnum;
     readonly provisioningState?: WorkloadNetworkVMGroupProvisioningState;
     revision?: number;
-};
+    readonly status?: VMGroupStatusEnum;
+}
 
 // @public
 export type WorkloadNetworkVMGroupProvisioningState = string;

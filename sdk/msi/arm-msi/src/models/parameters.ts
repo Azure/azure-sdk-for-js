@@ -13,7 +13,8 @@ import {
 } from "@azure/core-client";
 import {
   Identity as IdentityMapper,
-  IdentityUpdate as IdentityUpdateMapper
+  IdentityUpdate as IdentityUpdateMapper,
+  FederatedIdentityCredential as FederatedIdentityCredentialMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -55,7 +56,7 @@ export const scope: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2018-11-30",
+    defaultValue: "2022-01-31-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -98,6 +99,73 @@ export const resourceGroupName: OperationURLParameter = {
   }
 };
 
+export const resourceName: OperationURLParameter = {
+  parameterPath: "resourceName",
+  mapper: {
+    serializedName: "resourceName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const filter: OperationQueryParameter = {
+  parameterPath: ["options", "filter"],
+  mapper: {
+    serializedName: "$filter",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const orderby: OperationQueryParameter = {
+  parameterPath: ["options", "orderby"],
+  mapper: {
+    serializedName: "$orderby",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const top: OperationQueryParameter = {
+  parameterPath: ["options", "top"],
+  mapper: {
+    constraints: {
+      InclusiveMinimum: 1
+    },
+    serializedName: "$top",
+    type: {
+      name: "Number"
+    }
+  }
+};
+
+export const skip: OperationQueryParameter = {
+  parameterPath: ["options", "skip"],
+  mapper: {
+    constraints: {
+      InclusiveMinimum: 1
+    },
+    serializedName: "$skip",
+    type: {
+      name: "Number"
+    }
+  }
+};
+
+export const skiptoken: OperationQueryParameter = {
+  parameterPath: ["options", "skiptoken"],
+  mapper: {
+    serializedName: "$skiptoken",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],
   mapper: {
@@ -115,18 +183,23 @@ export const parameters: OperationParameter = {
   mapper: IdentityMapper
 };
 
-export const resourceName: OperationURLParameter = {
-  parameterPath: "resourceName",
+export const parameters1: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: IdentityUpdateMapper
+};
+
+export const parameters2: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: FederatedIdentityCredentialMapper
+};
+
+export const federatedIdentityCredentialResourceName: OperationURLParameter = {
+  parameterPath: "federatedIdentityCredentialResourceName",
   mapper: {
-    serializedName: "resourceName",
+    serializedName: "federatedIdentityCredentialResourceName",
     required: true,
     type: {
       name: "String"
     }
   }
-};
-
-export const parameters1: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: IdentityUpdateMapper
 };

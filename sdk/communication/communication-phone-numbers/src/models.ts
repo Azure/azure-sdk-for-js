@@ -1,8 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { OperationOptions } from "@azure/core-http";
-import { PhoneNumberSearchRequest } from "./generated/src/models/";
+import { OperationOptions } from "@azure/core-client";
+import {
+  PhoneNumberAssignmentType,
+  PhoneNumberSearchRequest,
+  PhoneNumbersListAreaCodesOptionalParams,
+  PhoneNumberType,
+} from "./generated/src/models/";
 
 /**
  * The result of the phone numbers purchase operation.
@@ -35,14 +40,70 @@ export interface SearchAvailablePhoneNumbersRequest extends PhoneNumberSearchReq
   countryCode: string;
 }
 
+/**
+ * Additional options that can be passed to the available countries request.
+ */
+export interface ListAvailableCountriesOptions extends OperationOptions {}
+
+/**
+ * Additional options that can be passed to the Toll-Free area codes request.
+ */
+export interface ListTollFreeAreaCodesOptions
+  extends Omit<
+    PhoneNumbersListAreaCodesOptionalParams,
+    "assignmentType" | "locality" | "administrativeDivision"
+  > {}
+
+/**
+ * Additional options that can be passed to the Geographic area codes request.
+ */
+export interface ListGeographicAreaCodesOptions extends PhoneNumbersListAreaCodesOptionalParams {}
+
+/**
+ * Additional options that can be passed to the available localities request.
+ */
+export interface ListLocalitiesOptions extends OperationOptions {
+  administrativeDivision?: string;
+}
+
+/**
+ * Additional options that can be passed to the available offerings request.
+ */
+export interface ListOfferingsOptions extends OperationOptions {
+  phoneNumberType?: PhoneNumberType;
+  assignmentType?: PhoneNumberAssignmentType;
+}
+
 export {
-  PurchasedPhoneNumber,
+  PhoneNumberAdministrativeDivision,
   PhoneNumberAssignmentType,
+  PhoneNumberAreaCode,
   PhoneNumberCapabilities,
   PhoneNumberCapabilitiesRequest,
   PhoneNumberCapabilityType,
   PhoneNumberCost,
-  PhoneNumberSearchResult,
+  PhoneNumberCountry,
+  PhoneNumbersListAreaCodesOptionalParams,
+  PhoneNumberLocality,
+  PhoneNumberOffering,
   PhoneNumberSearchRequest,
+  PhoneNumberSearchResult,
   PhoneNumberType,
+  PurchasedPhoneNumber,
 } from "./generated/src/models/";
+
+export { SipRoutingError, SipTrunkRoute } from "./generated/src/siprouting/models";
+
+/**
+ * Represents a SIP trunk for routing calls. See RFC 4904.
+ */
+export interface SipTrunk {
+  /**
+   * Gets or sets FQDN of the trunk.
+   */
+  fqdn: string;
+  /**
+   * Gets or sets SIP signaling port of the trunk.
+   */
+  sipSignalingPort: number;
+}

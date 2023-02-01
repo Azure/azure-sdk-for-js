@@ -11,6 +11,9 @@ import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 
 // @public
+export type ActionType = string;
+
+// @public
 export interface CheckNameAvailabilityParameters {
     name: string;
     type: string;
@@ -18,6 +21,89 @@ export interface CheckNameAvailabilityParameters {
 
 // @public
 export type CreatedByType = string;
+
+// @public
+export interface DicomService extends TaggedResource, ServiceManagedIdentity {
+    authenticationConfiguration?: DicomServiceAuthenticationConfiguration;
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
+    readonly provisioningState?: ProvisioningState;
+    publicNetworkAccess?: PublicNetworkAccess;
+    readonly serviceUrl?: string;
+    readonly systemData?: SystemData;
+}
+
+// @public
+export interface DicomServiceAuthenticationConfiguration {
+    readonly audiences?: string[];
+    readonly authority?: string;
+}
+
+// @public
+export interface DicomServiceCollection {
+    nextLink?: string;
+    value?: DicomService[];
+}
+
+// @public
+export interface DicomServicePatchResource extends ResourceTags, ServiceManagedIdentity {
+}
+
+// @public
+export interface DicomServices {
+    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, dicomServiceName: string, dicomservice: DicomService, options?: DicomServicesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<DicomServicesCreateOrUpdateResponse>, DicomServicesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, workspaceName: string, dicomServiceName: string, dicomservice: DicomService, options?: DicomServicesCreateOrUpdateOptionalParams): Promise<DicomServicesCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, dicomServiceName: string, workspaceName: string, options?: DicomServicesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, dicomServiceName: string, workspaceName: string, options?: DicomServicesDeleteOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, dicomServiceName: string, workspaceName: string, dicomservicePatchResource: DicomServicePatchResource, options?: DicomServicesUpdateOptionalParams): Promise<PollerLike<PollOperationState<DicomServicesUpdateResponse>, DicomServicesUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, dicomServiceName: string, workspaceName: string, dicomservicePatchResource: DicomServicePatchResource, options?: DicomServicesUpdateOptionalParams): Promise<DicomServicesUpdateResponse>;
+    get(resourceGroupName: string, workspaceName: string, dicomServiceName: string, options?: DicomServicesGetOptionalParams): Promise<DicomServicesGetResponse>;
+    listByWorkspace(resourceGroupName: string, workspaceName: string, options?: DicomServicesListByWorkspaceOptionalParams): PagedAsyncIterableIterator<DicomService>;
+}
+
+// @public
+export interface DicomServicesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type DicomServicesCreateOrUpdateResponse = DicomService;
+
+// @public
+export interface DicomServicesDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface DicomServicesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DicomServicesGetResponse = DicomService;
+
+// @public
+export interface DicomServicesListByWorkspaceNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DicomServicesListByWorkspaceNextResponse = DicomServiceCollection;
+
+// @public
+export interface DicomServicesListByWorkspaceOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DicomServicesListByWorkspaceResponse = DicomServiceCollection;
+
+// @public
+export interface DicomServicesUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type DicomServicesUpdateResponse = DicomService;
 
 // @public
 export interface ErrorDetails {
@@ -31,6 +117,154 @@ export interface ErrorDetailsInternal {
     readonly target?: string;
 }
 
+// @public
+export interface ErrorModel {
+    error?: ErrorDetailsInternal;
+}
+
+// @public
+export interface FhirDestinations {
+    listByIotConnector(resourceGroupName: string, workspaceName: string, iotConnectorName: string, options?: FhirDestinationsListByIotConnectorOptionalParams): PagedAsyncIterableIterator<IotFhirDestination>;
+}
+
+// @public
+export interface FhirDestinationsListByIotConnectorNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FhirDestinationsListByIotConnectorNextResponse = IotFhirDestinationCollection;
+
+// @public
+export interface FhirDestinationsListByIotConnectorOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FhirDestinationsListByIotConnectorResponse = IotFhirDestinationCollection;
+
+// @public
+export type FhirResourceVersionPolicy = string;
+
+// @public
+export interface FhirService extends TaggedResource, ServiceManagedIdentity {
+    accessPolicies?: FhirServiceAccessPolicyEntry[];
+    acrConfiguration?: FhirServiceAcrConfiguration;
+    authenticationConfiguration?: FhirServiceAuthenticationConfiguration;
+    corsConfiguration?: FhirServiceCorsConfiguration;
+    readonly eventState?: ServiceEventState;
+    exportConfiguration?: FhirServiceExportConfiguration;
+    kind?: FhirServiceKind;
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
+    readonly provisioningState?: ProvisioningState;
+    publicNetworkAccess?: PublicNetworkAccess;
+    resourceVersionPolicyConfiguration?: ResourceVersionPolicyConfiguration;
+    readonly systemData?: SystemData;
+}
+
+// @public
+export interface FhirServiceAccessPolicyEntry {
+    objectId: string;
+}
+
+// @public
+export interface FhirServiceAcrConfiguration {
+    loginServers?: string[];
+    ociArtifacts?: ServiceOciArtifactEntry[];
+}
+
+// @public
+export interface FhirServiceAuthenticationConfiguration {
+    audience?: string;
+    authority?: string;
+    smartProxyEnabled?: boolean;
+}
+
+// @public
+export interface FhirServiceCollection {
+    nextLink?: string;
+    value?: FhirService[];
+}
+
+// @public
+export interface FhirServiceCorsConfiguration {
+    allowCredentials?: boolean;
+    headers?: string[];
+    maxAge?: number;
+    methods?: string[];
+    origins?: string[];
+}
+
+// @public
+export interface FhirServiceExportConfiguration {
+    storageAccountName?: string;
+}
+
+// @public
+export type FhirServiceKind = string;
+
+// @public
+export interface FhirServicePatchResource extends ResourceTags, ServiceManagedIdentity {
+}
+
+// @public
+export interface FhirServices {
+    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, fhirServiceName: string, fhirservice: FhirService, options?: FhirServicesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<FhirServicesCreateOrUpdateResponse>, FhirServicesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, workspaceName: string, fhirServiceName: string, fhirservice: FhirService, options?: FhirServicesCreateOrUpdateOptionalParams): Promise<FhirServicesCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, fhirServiceName: string, workspaceName: string, options?: FhirServicesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, fhirServiceName: string, workspaceName: string, options?: FhirServicesDeleteOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, fhirServiceName: string, workspaceName: string, fhirservicePatchResource: FhirServicePatchResource, options?: FhirServicesUpdateOptionalParams): Promise<PollerLike<PollOperationState<FhirServicesUpdateResponse>, FhirServicesUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, fhirServiceName: string, workspaceName: string, fhirservicePatchResource: FhirServicePatchResource, options?: FhirServicesUpdateOptionalParams): Promise<FhirServicesUpdateResponse>;
+    get(resourceGroupName: string, workspaceName: string, fhirServiceName: string, options?: FhirServicesGetOptionalParams): Promise<FhirServicesGetResponse>;
+    listByWorkspace(resourceGroupName: string, workspaceName: string, options?: FhirServicesListByWorkspaceOptionalParams): PagedAsyncIterableIterator<FhirService>;
+}
+
+// @public
+export interface FhirServicesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type FhirServicesCreateOrUpdateResponse = FhirService;
+
+// @public
+export interface FhirServicesDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface FhirServicesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FhirServicesGetResponse = FhirService;
+
+// @public
+export interface FhirServicesListByWorkspaceNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FhirServicesListByWorkspaceNextResponse = FhirServiceCollection;
+
+// @public
+export interface FhirServicesListByWorkspaceOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FhirServicesListByWorkspaceResponse = FhirServiceCollection;
+
+// @public
+export interface FhirServicesUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type FhirServicesUpdateResponse = FhirService;
+
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
+
 // @public (undocumented)
 export class HealthcareApisManagementClient extends coreClient.ServiceClient {
     // (undocumented)
@@ -38,6 +272,16 @@ export class HealthcareApisManagementClient extends coreClient.ServiceClient {
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: HealthcareApisManagementClientOptionalParams);
     // (undocumented)
     apiVersion: string;
+    // (undocumented)
+    dicomServices: DicomServices;
+    // (undocumented)
+    fhirDestinations: FhirDestinations;
+    // (undocumented)
+    fhirServices: FhirServices;
+    // (undocumented)
+    iotConnectorFhirDestination: IotConnectorFhirDestination;
+    // (undocumented)
+    iotConnectors: IotConnectors;
     // (undocumented)
     operationResults: OperationResults;
     // (undocumented)
@@ -50,6 +294,12 @@ export class HealthcareApisManagementClient extends coreClient.ServiceClient {
     services: Services;
     // (undocumented)
     subscriptionId: string;
+    // (undocumented)
+    workspacePrivateEndpointConnections: WorkspacePrivateEndpointConnections;
+    // (undocumented)
+    workspacePrivateLinkResources: WorkspacePrivateLinkResources;
+    // (undocumented)
+    workspaces: Workspaces;
 }
 
 // @public
@@ -60,102 +310,307 @@ export interface HealthcareApisManagementClientOptionalParams extends coreClient
 }
 
 // @public
+export interface IotConnector extends TaggedResource, ServiceManagedIdentity {
+    deviceMapping?: IotMappingProperties;
+    ingestionEndpointConfiguration?: IotEventHubIngestionEndpointConfiguration;
+    readonly provisioningState?: ProvisioningState;
+    readonly systemData?: SystemData;
+}
+
+// @public
+export interface IotConnectorCollection {
+    nextLink?: string;
+    value?: IotConnector[];
+}
+
+// @public
+export interface IotConnectorFhirDestination {
+    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, iotConnectorName: string, fhirDestinationName: string, iotFhirDestination: IotFhirDestination, options?: IotConnectorFhirDestinationCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<IotConnectorFhirDestinationCreateOrUpdateResponse>, IotConnectorFhirDestinationCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, workspaceName: string, iotConnectorName: string, fhirDestinationName: string, iotFhirDestination: IotFhirDestination, options?: IotConnectorFhirDestinationCreateOrUpdateOptionalParams): Promise<IotConnectorFhirDestinationCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, workspaceName: string, iotConnectorName: string, fhirDestinationName: string, options?: IotConnectorFhirDestinationDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, workspaceName: string, iotConnectorName: string, fhirDestinationName: string, options?: IotConnectorFhirDestinationDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, workspaceName: string, iotConnectorName: string, fhirDestinationName: string, options?: IotConnectorFhirDestinationGetOptionalParams): Promise<IotConnectorFhirDestinationGetResponse>;
+}
+
+// @public
+export interface IotConnectorFhirDestinationCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type IotConnectorFhirDestinationCreateOrUpdateResponse = IotFhirDestination;
+
+// @public
+export interface IotConnectorFhirDestinationDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface IotConnectorFhirDestinationGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type IotConnectorFhirDestinationGetResponse = IotFhirDestination;
+
+// @public
+export interface IotConnectorPatchResource extends ResourceTags, ServiceManagedIdentity {
+}
+
+// @public
+export interface IotConnectors {
+    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, iotConnectorName: string, iotConnector: IotConnector, options?: IotConnectorsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<IotConnectorsCreateOrUpdateResponse>, IotConnectorsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, workspaceName: string, iotConnectorName: string, iotConnector: IotConnector, options?: IotConnectorsCreateOrUpdateOptionalParams): Promise<IotConnectorsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, iotConnectorName: string, workspaceName: string, options?: IotConnectorsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, iotConnectorName: string, workspaceName: string, options?: IotConnectorsDeleteOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, iotConnectorName: string, workspaceName: string, iotConnectorPatchResource: IotConnectorPatchResource, options?: IotConnectorsUpdateOptionalParams): Promise<PollerLike<PollOperationState<IotConnectorsUpdateResponse>, IotConnectorsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, iotConnectorName: string, workspaceName: string, iotConnectorPatchResource: IotConnectorPatchResource, options?: IotConnectorsUpdateOptionalParams): Promise<IotConnectorsUpdateResponse>;
+    get(resourceGroupName: string, workspaceName: string, iotConnectorName: string, options?: IotConnectorsGetOptionalParams): Promise<IotConnectorsGetResponse>;
+    listByWorkspace(resourceGroupName: string, workspaceName: string, options?: IotConnectorsListByWorkspaceOptionalParams): PagedAsyncIterableIterator<IotConnector>;
+}
+
+// @public
+export interface IotConnectorsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type IotConnectorsCreateOrUpdateResponse = IotConnector;
+
+// @public
+export interface IotConnectorsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface IotConnectorsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type IotConnectorsGetResponse = IotConnector;
+
+// @public
+export interface IotConnectorsListByWorkspaceNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type IotConnectorsListByWorkspaceNextResponse = IotConnectorCollection;
+
+// @public
+export interface IotConnectorsListByWorkspaceOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type IotConnectorsListByWorkspaceResponse = IotConnectorCollection;
+
+// @public
+export interface IotConnectorsUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type IotConnectorsUpdateResponse = IotConnector;
+
+// @public
+export interface IotDestinationProperties {
+    readonly provisioningState?: ProvisioningState;
+}
+
+// @public
+export interface IotEventHubIngestionEndpointConfiguration {
+    consumerGroup?: string;
+    eventHubName?: string;
+    fullyQualifiedEventHubNamespace?: string;
+}
+
+// @public
+export interface IotFhirDestination extends LocationBasedResource {
+    fhirMapping: IotMappingProperties;
+    fhirServiceResourceId: string;
+    readonly provisioningState?: ProvisioningState;
+    resourceIdentityResolutionType: IotIdentityResolutionType;
+    readonly systemData?: SystemData;
+}
+
+// @public
+export interface IotFhirDestinationCollection {
+    nextLink?: string;
+    value?: IotFhirDestination[];
+}
+
+// @public
+export interface IotFhirDestinationProperties extends IotDestinationProperties {
+    fhirMapping: IotMappingProperties;
+    fhirServiceResourceId: string;
+    resourceIdentityResolutionType: IotIdentityResolutionType;
+}
+
+// @public
+export type IotIdentityResolutionType = string;
+
+// @public
+export interface IotMappingProperties {
+    content?: Record<string, unknown>;
+}
+
+// @public
 export type Kind = "fhir" | "fhir-Stu3" | "fhir-R4";
 
 // @public
+export enum KnownActionType {
+    Internal = "Internal"
+}
+
+// @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
+export enum KnownFhirResourceVersionPolicy {
+    NoVersion = "no-version",
+    Versioned = "versioned",
+    VersionedUpdate = "versioned-update"
+}
+
+// @public
+export enum KnownFhirServiceKind {
+    FhirR4 = "fhir-R4",
+    FhirStu3 = "fhir-Stu3"
+}
+
+// @public
+export enum KnownIotIdentityResolutionType {
+    Create = "Create",
+    Lookup = "Lookup"
+}
+
+// @public
 export enum KnownManagedServiceIdentityType {
-    // (undocumented)
     None = "None",
-    // (undocumented)
     SystemAssigned = "SystemAssigned"
 }
 
 // @public
 export enum KnownOperationResultStatus {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Requested = "Requested",
-    // (undocumented)
     Running = "Running",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownPrivateEndpointConnectionProvisioningState {
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownPrivateEndpointServiceConnectionStatus {
-    // (undocumented)
     Approved = "Approved",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Rejected = "Rejected"
 }
 
 // @public
 export enum KnownProvisioningState {
-    // (undocumented)
     Accepted = "Accepted",
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Deprovisioned = "Deprovisioned",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
+    Moving = "Moving",
     Succeeded = "Succeeded",
-    // (undocumented)
+    Suspended = "Suspended",
+    SystemMaintenance = "SystemMaintenance",
     Updating = "Updating",
-    // (undocumented)
-    Verifying = "Verifying"
+    Verifying = "Verifying",
+    Warned = "Warned"
 }
 
 // @public
 export enum KnownPublicNetworkAccess {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
+}
+
+// @public
+export enum KnownServiceEventState {
+    Disabled = "Disabled",
+    Enabled = "Enabled",
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownServiceManagedIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+    UserAssigned = "UserAssigned"
+}
+
+// @public
+export interface ListOperations {
+    nextLink?: string;
+    readonly value?: OperationDetail[];
+}
+
+// @public
+export interface LocationBasedResource extends ResourceCore {
+    location?: string;
+}
+
+// @public
+export interface LogSpecification {
+    blobDuration?: string;
+    displayName?: string;
+    name?: string;
 }
 
 // @public
 export type ManagedServiceIdentityType = string;
 
 // @public
-export interface Operation {
+export interface MetricDimension {
+    displayName?: string;
+    name?: string;
+    toBeExportedForShoebox?: boolean;
+}
+
+// @public
+export interface MetricSpecification {
+    aggregationType?: string;
+    category?: string;
+    dimensions?: MetricDimension[];
+    displayDescription?: string;
+    displayName?: string;
+    fillGapWithZero?: boolean;
+    name?: string;
+    sourceMdmNamespace?: string;
+    supportedAggregationTypes?: string[];
+    supportedTimeGrainTypes?: string[];
+    unit?: string;
+}
+
+// @public
+export interface OperationDetail {
+    readonly actionType?: ActionType;
     display?: OperationDisplay;
+    readonly isDataAction?: boolean;
     readonly name?: string;
     readonly origin?: string;
+    properties?: OperationProperties;
 }
 
 // @public
@@ -167,9 +622,8 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationListResult {
-    nextLink?: string;
-    readonly value?: Operation[];
+export interface OperationProperties {
+    serviceSpecification?: ServiceSpecification;
 }
 
 // @public
@@ -179,9 +633,10 @@ export interface OperationResults {
 
 // @public
 export interface OperationResultsDescription {
+    readonly endTime?: string;
     readonly id?: string;
     readonly name?: string;
-    properties?: any;
+    properties?: Record<string, unknown>;
     readonly startTime?: string;
     readonly status?: OperationResultStatus;
 }
@@ -198,7 +653,7 @@ export type OperationResultStatus = string;
 
 // @public
 export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<OperationDetail>;
 }
 
 // @public
@@ -206,14 +661,14 @@ export interface OperationsListNextOptionalParams extends coreClient.OperationOp
 }
 
 // @public
-export type OperationsListNextResponse = OperationListResult;
+export type OperationsListNextResponse = ListOperations;
 
 // @public
 export interface OperationsListOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type OperationsListResponse = OperationListResult;
+export type OperationsListResponse = ListOperations;
 
 // @public
 export interface PrivateEndpoint {
@@ -221,16 +676,21 @@ export interface PrivateEndpoint {
 }
 
 // @public
-export type PrivateEndpointConnection = Resource & {
+export interface PrivateEndpointConnection extends Resource {
     privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
     readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
-};
+}
 
 // @public
-export type PrivateEndpointConnectionDescription = PrivateEndpointConnection & {
+export interface PrivateEndpointConnectionDescription extends PrivateEndpointConnection {
     readonly systemData?: SystemData;
-};
+}
+
+// @public
+export interface PrivateEndpointConnectionListResult {
+    value?: PrivateEndpointConnection[];
+}
 
 // @public
 export interface PrivateEndpointConnectionListResultDescription {
@@ -283,16 +743,16 @@ export type PrivateEndpointConnectionsListByServiceResponse = PrivateEndpointCon
 export type PrivateEndpointServiceConnectionStatus = string;
 
 // @public
-export type PrivateLinkResource = Resource & {
+export interface PrivateLinkResource extends Resource {
     readonly groupId?: string;
     readonly requiredMembers?: string[];
     requiredZoneNames?: string[];
-};
+}
 
 // @public
-export type PrivateLinkResourceDescription = PrivateLinkResource & {
+export interface PrivateLinkResourceDescription extends PrivateLinkResource {
     readonly systemData?: SystemData;
-};
+}
 
 // @public
 export interface PrivateLinkResourceListResultDescription {
@@ -340,6 +800,29 @@ export interface Resource {
 }
 
 // @public
+export interface ResourceCore {
+    etag?: string;
+    readonly id?: string;
+    readonly name?: string;
+    readonly type?: string;
+}
+
+// @public
+export interface ResourceTags {
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface ResourceVersionPolicyConfiguration {
+    default?: FhirResourceVersionPolicy;
+    resourceTypeOverrides?: {
+        [propertyName: string]: FhirResourceVersionPolicy;
+    };
+}
+
+// @public
 export interface ServiceAccessPolicyEntry {
     objectId: string;
 }
@@ -347,6 +830,7 @@ export interface ServiceAccessPolicyEntry {
 // @public
 export interface ServiceAcrConfigurationInfo {
     loginServers?: string[];
+    ociArtifacts?: ServiceOciArtifactEntry[];
 }
 
 // @public
@@ -372,12 +856,40 @@ export interface ServiceCosmosDbConfigurationInfo {
 }
 
 // @public
+export type ServiceEventState = string;
+
+// @public
 export interface ServiceExportConfigurationInfo {
     storageAccountName?: string;
 }
 
 // @public
+export interface ServiceManagedIdentity {
+    identity?: ServiceManagedIdentityIdentity;
+}
+
+// @public
+export interface ServiceManagedIdentityIdentity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type: ServiceManagedIdentityType;
+    userAssignedIdentities?: {
+        [propertyName: string]: UserAssignedIdentity;
+    };
+}
+
+// @public
+export type ServiceManagedIdentityType = string;
+
+// @public
 export type ServiceNameUnavailabilityReason = "Invalid" | "AlreadyExists";
+
+// @public
+export interface ServiceOciArtifactEntry {
+    digest?: string;
+    imageName?: string;
+    loginServer?: string;
+}
 
 // @public
 export interface Services {
@@ -416,10 +928,10 @@ export interface ServicesDeleteOptionalParams extends coreClient.OperationOption
 }
 
 // @public
-export type ServicesDescription = ServicesResource & {
+export interface ServicesDescription extends ServicesResource {
     properties?: ServicesProperties;
     readonly systemData?: SystemData;
-};
+}
 
 // @public
 export interface ServicesDescriptionListResult {
@@ -478,6 +990,12 @@ export interface ServicesPatchDescription {
 }
 
 // @public
+export interface ServiceSpecification {
+    logSpecifications?: LogSpecification[];
+    metricSpecifications?: MetricSpecification[];
+}
+
+// @public
 export interface ServicesProperties {
     accessPolicies?: ServiceAccessPolicyEntry[];
     acrConfiguration?: ServiceAcrConfigurationInfo;
@@ -529,6 +1047,170 @@ export interface SystemData {
     lastModifiedBy?: string;
     lastModifiedByType?: CreatedByType;
 }
+
+// @public
+export interface TaggedResource extends ResourceTags, LocationBasedResource {
+}
+
+// @public
+export interface UserAssignedIdentity {
+    readonly clientId?: string;
+    readonly principalId?: string;
+}
+
+// @public
+export interface Workspace extends TaggedResource {
+    properties?: WorkspaceProperties;
+    readonly systemData?: SystemData;
+}
+
+// @public
+export interface WorkspaceList {
+    nextLink?: string;
+    value?: Workspace[];
+}
+
+// @public
+export interface WorkspacePatchResource extends ResourceTags {
+}
+
+// @public
+export interface WorkspacePrivateEndpointConnections {
+    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnectionDescription, options?: WorkspacePrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<WorkspacePrivateEndpointConnectionsCreateOrUpdateResponse>, WorkspacePrivateEndpointConnectionsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnectionDescription, options?: WorkspacePrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<WorkspacePrivateEndpointConnectionsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, options?: WorkspacePrivateEndpointConnectionsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, options?: WorkspacePrivateEndpointConnectionsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, options?: WorkspacePrivateEndpointConnectionsGetOptionalParams): Promise<WorkspacePrivateEndpointConnectionsGetResponse>;
+    listByWorkspace(resourceGroupName: string, workspaceName: string, options?: WorkspacePrivateEndpointConnectionsListByWorkspaceOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnectionDescription>;
+}
+
+// @public
+export interface WorkspacePrivateEndpointConnectionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type WorkspacePrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnectionDescription;
+
+// @public
+export interface WorkspacePrivateEndpointConnectionsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface WorkspacePrivateEndpointConnectionsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WorkspacePrivateEndpointConnectionsGetResponse = PrivateEndpointConnectionDescription;
+
+// @public
+export interface WorkspacePrivateEndpointConnectionsListByWorkspaceOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WorkspacePrivateEndpointConnectionsListByWorkspaceResponse = PrivateEndpointConnectionListResultDescription;
+
+// @public
+export interface WorkspacePrivateLinkResources {
+    get(resourceGroupName: string, workspaceName: string, groupName: string, options?: WorkspacePrivateLinkResourcesGetOptionalParams): Promise<WorkspacePrivateLinkResourcesGetResponse>;
+    listByWorkspace(resourceGroupName: string, workspaceName: string, options?: WorkspacePrivateLinkResourcesListByWorkspaceOptionalParams): PagedAsyncIterableIterator<PrivateLinkResourceDescription>;
+}
+
+// @public
+export interface WorkspacePrivateLinkResourcesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WorkspacePrivateLinkResourcesGetResponse = PrivateLinkResourceDescription;
+
+// @public
+export interface WorkspacePrivateLinkResourcesListByWorkspaceOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WorkspacePrivateLinkResourcesListByWorkspaceResponse = PrivateLinkResourceListResultDescription;
+
+// @public
+export interface WorkspaceProperties {
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
+    readonly provisioningState?: ProvisioningState;
+    publicNetworkAccess?: PublicNetworkAccess;
+}
+
+// @public
+export interface Workspaces {
+    beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, workspace: Workspace, options?: WorkspacesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<WorkspacesCreateOrUpdateResponse>, WorkspacesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, workspaceName: string, workspace: Workspace, options?: WorkspacesCreateOrUpdateOptionalParams): Promise<WorkspacesCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, workspaceName: string, options?: WorkspacesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, workspaceName: string, options?: WorkspacesDeleteOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, workspaceName: string, workspacePatchResource: WorkspacePatchResource, options?: WorkspacesUpdateOptionalParams): Promise<PollerLike<PollOperationState<WorkspacesUpdateResponse>, WorkspacesUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, workspaceName: string, workspacePatchResource: WorkspacePatchResource, options?: WorkspacesUpdateOptionalParams): Promise<WorkspacesUpdateResponse>;
+    get(resourceGroupName: string, workspaceName: string, options?: WorkspacesGetOptionalParams): Promise<WorkspacesGetResponse>;
+    listByResourceGroup(resourceGroupName: string, options?: WorkspacesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Workspace>;
+    listBySubscription(options?: WorkspacesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Workspace>;
+}
+
+// @public
+export interface WorkspacesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type WorkspacesCreateOrUpdateResponse = Workspace;
+
+// @public
+export interface WorkspacesDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface WorkspacesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WorkspacesGetResponse = Workspace;
+
+// @public
+export interface WorkspacesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WorkspacesListByResourceGroupNextResponse = WorkspaceList;
+
+// @public
+export interface WorkspacesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WorkspacesListByResourceGroupResponse = WorkspaceList;
+
+// @public
+export interface WorkspacesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WorkspacesListBySubscriptionNextResponse = WorkspaceList;
+
+// @public
+export interface WorkspacesListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WorkspacesListBySubscriptionResponse = WorkspaceList;
+
+// @public
+export interface WorkspacesUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type WorkspacesUpdateResponse = Workspace;
 
 // (No @packageDocumentation comment for this package)
 

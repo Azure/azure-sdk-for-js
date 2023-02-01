@@ -3,12 +3,11 @@
 
 import https from "https";
 import {
+  PipelineRequestOptions,
   createHttpHeaders,
   createPipelineRequest,
-  PipelineRequestOptions,
 } from "@azure/core-rest-pipeline";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
-import { TokenResponseParsedBody } from "../../client/identityClient";
 import { credentialLogger } from "../../util/logging";
 import { MSI, MSIConfiguration } from "./models";
 import { mapScopesToResource } from "./utils";
@@ -27,14 +26,6 @@ import { azureFabricVersion } from "./constants";
 
 const msiName = "ManagedIdentityCredential - Fabric MSI";
 const logger = credentialLogger(msiName);
-
-/**
- * Formats the expiration date of the received token into the number of milliseconds between that date and midnight, January 1, 1970.
- */
-function expiresOnParser(requestBody: TokenResponseParsedBody): number {
-  // Parses a string representation of the milliseconds since epoch into a number value
-  return Number(requestBody.expires_on);
-}
 
 /**
  * Generates the options used on the request for an access token.
@@ -136,7 +127,7 @@ export const fabricMsi: MSI = {
       rejectUnauthorized: false,
     });
 
-    const tokenResponse = await identityClient.sendTokenRequest(request, expiresOnParser);
+    const tokenResponse = await identityClient.sendTokenRequest(request);
     return (tokenResponse && tokenResponse.accessToken) || null;
   },
 };

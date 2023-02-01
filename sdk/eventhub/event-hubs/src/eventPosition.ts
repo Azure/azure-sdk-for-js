@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { Constants, ErrorNameConditionMapper, translate } from "@azure/core-amqp";
-import { isDefined, objectHasProperty } from "./util/typeGuards";
+import { isDefined, objectHasProperty } from "@azure/core-util";
 
 /**
  * Represents the position of an event in an Event Hub partition, typically used when calling the `subscribe()`

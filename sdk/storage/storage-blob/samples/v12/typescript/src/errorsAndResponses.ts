@@ -36,9 +36,9 @@ async function main() {
     // Creating an existing container fails...
     console.log("// Creating an existing container fails...");
     createContainerResponse = await containerClient.create();
-  } catch (err) {
+  } catch (err: any) {
     console.log(
-      `requestId - ${err.details.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}\n`
+      `requestId - ${err.request.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}\n`
     );
   }
 
@@ -51,10 +51,10 @@ async function main() {
     // Invoke getProperties() on a non existing blob
     console.log("// Invoke getProperties() on a non existing blob...");
     await blockBlobClient.getProperties();
-  } catch (err) {
+  } catch (err: any) {
     console.log(`getProperties() failed as expected,`);
     console.log(
-      `requestId - ${err.details.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}\n`
+      `requestId - ${err.request.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}\n`
     );
 
     // Create a new block blob
@@ -82,10 +82,10 @@ async function main() {
     console.log("// Downloading from a non existing blob...");
     blockBlobClient = containerClient.getBlockBlobClient("invalid" + blobName);
     await blockBlobClient.download();
-  } catch (err) {
+  } catch (err: any) {
     console.log(`download() failed as expected,`);
     console.log(
-      `requestId - ${err.details.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}\n`
+      `requestId - ${err.request.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}\n`
     );
 
     // Download blob content
@@ -109,10 +109,10 @@ async function main() {
     // Downloading an archived blockBlob fails
     console.log("// Downloading an archived blockBlob fails...");
     await blockBlobClient.download();
-  } catch (err) {
+  } catch (err: any) {
     // BlobArchived	Conflict (409)	This operation is not permitted on an archived blob.
     console.log(
-      `requestId - ${err.details.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`
+      `requestId - ${err.request.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`
     );
     console.log(`error message - ${err.details.message}\n`);
   }
@@ -123,10 +123,10 @@ async function main() {
     console.log("// Deleting a non-existing container...");
     containerClient = blobServiceClient.getContainerClient("invalid" + containerName);
     await containerClient.delete();
-  } catch (err) {
+  } catch (err: any) {
     console.log(`Deleting a non-existing container fails as expected`);
     console.log(
-      `requestId - ${err.details.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`
+      `requestId - ${err.request.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`
     );
     console.log(`error message - \n${err.details.message}\n`);
 

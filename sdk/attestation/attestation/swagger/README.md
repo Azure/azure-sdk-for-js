@@ -19,21 +19,27 @@ autorest README.md
 package-name: "@azure/attestation"
 package-version: 1.0.1
 tag: package-2020-10-01
-generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
 source-code-folder-path: .
 clear-output-folder: true
-typescript: true
 require: 
   - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/attestation/data-plane/readme.md
 add-credentials: false
-#credential-scopes:
-#  - https://attest.azure.net/.default
 override-client-name: GeneratedClient
 title: AzureAttestationRestClient
 v3: true
 no-namespace-folders: true
+use-extension:
+  "@autorest/typescript": "latest"
+
+tracing-info:
+  namespace: "Azure.Security.Attestation"
+  packagePrefix: "Azure.Security.Attestation"
+
+typescript:
+  generate-metadata: false
+  azure-arm: false
 ```
 
 ## Customizations for Track 2 Generator

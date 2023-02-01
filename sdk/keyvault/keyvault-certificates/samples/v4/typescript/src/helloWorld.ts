@@ -5,19 +5,25 @@
  * @summary Uses a CertificateClient in various ways to read a certificate as well as update a certificate's tags.
  */
 
-import { CertificateClient, DefaultCertificatePolicy, UpdateCertificateOptions, CertificatePolicy } from "@azure/keyvault-certificates";
-import { DefaultAzureCredential } from "@azure/identity";
-
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
+
+import {
+  CertificateClient,
+  CertificatePolicy,
+  DefaultCertificatePolicy,
+  UpdateCertificateOptions,
+} from "@azure/keyvault-certificates";
+
+import { DefaultAzureCredential } from "@azure/identity";
+
 dotenv.config();
 
 export async function main(): Promise<void> {
+  // This sample uses DefaultAzureCredential, which supports a number of authentication mechanisms.
+  // See https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
+  // about DefaultAzureCredential and the other credentials that are available for use.
   // If you're using MSI, DefaultAzureCredential should "just work".
-  // Otherwise, DefaultAzureCredential expects the following three environment variables:
-  // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
-  // - AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
-  // - AZURE_CLIENT_SECRET: The client secret for the registered application
   const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
   const credential = new DefaultAzureCredential();
 
@@ -25,7 +31,7 @@ export async function main(): Promise<void> {
 
   // Create unique certificate name
   const uniqueString = new Date().getTime();
-  const certificateName = `cert${uniqueString}`;
+  const certificateName = `hello-world-${uniqueString}`;
 
   // Creating a self-signed certificate
   const createPoller = await client.beginCreateCertificate(
@@ -55,9 +61,9 @@ export async function main(): Promise<void> {
   const properties: UpdateCertificateOptions = {
     tags: {
       projectName: "certificate-sample",
-      projectOwner: "REPLACE-WITH-YOUR-NAME"
+      projectOwner: "REPLACE-WITH-YOUR-NAME",
     },
-    enabled: true
+    enabled: true,
   };
   const updatedCertificate = await client.updateCertificateProperties(
     certificateName,
@@ -71,10 +77,10 @@ export async function main(): Promise<void> {
     issuerName: "Self",
     subject: "cn=MyOtherCert",
     exportable: true,
-    enabled: true
-  };  
+    enabled: true,
+  };
   await client.updateCertificatePolicy(certificateName, policy);
-  
+
   // Get updated certificate with policy
   certificateWithPolicy = await client.getCertificate(certificateName);
   console.log("updatedCertificate certificate's policy:", certificateWithPolicy.policy);

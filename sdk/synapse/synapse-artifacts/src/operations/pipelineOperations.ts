@@ -6,14 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { createSpan } from "../tracing";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { tracingClient } from "../tracing";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { PipelineOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as coreTracing from "@azure/core-tracing";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ArtifactsClientContext } from "../artifactsClientContext";
+import { ArtifactsClient } from "../artifactsClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -36,13 +36,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing PipelineOperations operations. */
 export class PipelineOperationsImpl implements PipelineOperations {
-  private readonly client: ArtifactsClientContext;
+  private readonly client: ArtifactsClient;
 
   /**
    * Initialize a new instance of the class PipelineOperations class.
    * @param client Reference to the service client
    */
-  constructor(client: ArtifactsClientContext) {
+  constructor(client: ArtifactsClient) {
     this.client = client;
   }
 
@@ -61,25 +61,37 @@ export class PipelineOperationsImpl implements PipelineOperations {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.getPipelinesByWorkspacePagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.getPipelinesByWorkspacePagingPage(options, settings);
       }
     };
   }
 
   private async *getPipelinesByWorkspacePagingPage(
-    options?: PipelineGetPipelinesByWorkspaceOptionalParams
+    options?: PipelineGetPipelinesByWorkspaceOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<PipelineResource[]> {
-    let result = await this._getPipelinesByWorkspace(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: PipelineGetPipelinesByWorkspaceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._getPipelinesByWorkspace(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._getPipelinesByWorkspaceNext(
         continuationToken,
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -98,25 +110,16 @@ export class PipelineOperationsImpl implements PipelineOperations {
   private async _getPipelinesByWorkspace(
     options?: PipelineGetPipelinesByWorkspaceOptionalParams
   ): Promise<PipelineGetPipelinesByWorkspaceResponse> {
-    const { span } = createSpan(
-      "ArtifactsClient-_getPipelinesByWorkspace",
-      options || {}
+    return tracingClient.withSpan(
+      "ArtifactsClient._getPipelinesByWorkspace",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { options },
+          getPipelinesByWorkspaceOperationSpec
+        ) as Promise<PipelineGetPipelinesByWorkspaceResponse>;
+      }
     );
-    try {
-      const result = await this.client.sendOperationRequest(
-        { options },
-        getPipelinesByWorkspaceOperationSpec
-      );
-      return result as PipelineGetPipelinesByWorkspaceResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -135,26 +138,19 @@ export class PipelineOperationsImpl implements PipelineOperations {
       PipelineCreateOrUpdatePipelineResponse
     >
   > {
-    const { span } = createSpan(
-      "ArtifactsClient-beginCreateOrUpdatePipeline",
-      options || {}
-    );
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<PipelineCreateOrUpdatePipelineResponse> => {
-      try {
-        const result = await this.client.sendOperationRequest(args, spec);
-        return result as PipelineCreateOrUpdatePipelineResponse;
-      } catch (error) {
-        span.setStatus({
-          code: coreTracing.SpanStatusCode.UNSET,
-          message: error.message
-        });
-        throw error;
-      } finally {
-        span.end();
-      }
+      return tracingClient.withSpan(
+        "ArtifactsClient.beginCreateOrUpdatePipeline",
+        options ?? {},
+        async () => {
+          return this.client.sendOperationRequest(args, spec) as Promise<
+            PipelineCreateOrUpdatePipelineResponse
+          >;
+        }
+      );
     };
     const sendOperation = async (
       args: coreClient.OperationArguments,
@@ -194,10 +190,12 @@ export class PipelineOperationsImpl implements PipelineOperations {
       { pipelineName, pipeline, options },
       createOrUpdatePipelineOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -228,22 +226,16 @@ export class PipelineOperationsImpl implements PipelineOperations {
     pipelineName: string,
     options?: PipelineGetPipelineOptionalParams
   ): Promise<PipelineGetPipelineResponse> {
-    const { span } = createSpan("ArtifactsClient-getPipeline", options || {});
-    try {
-      const result = await this.client.sendOperationRequest(
-        { pipelineName, options },
-        getPipelineOperationSpec
-      );
-      return result as PipelineGetPipelineResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan(
+      "ArtifactsClient.getPipeline",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { pipelineName, options },
+          getPipelineOperationSpec
+        ) as Promise<PipelineGetPipelineResponse>;
+      }
+    );
   }
 
   /**
@@ -255,26 +247,17 @@ export class PipelineOperationsImpl implements PipelineOperations {
     pipelineName: string,
     options?: PipelineDeletePipelineOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const { span } = createSpan(
-      "ArtifactsClient-beginDeletePipeline",
-      options || {}
-    );
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
-      try {
-        const result = await this.client.sendOperationRequest(args, spec);
-        return result as void;
-      } catch (error) {
-        span.setStatus({
-          code: coreTracing.SpanStatusCode.UNSET,
-          message: error.message
-        });
-        throw error;
-      } finally {
-        span.end();
-      }
+      return tracingClient.withSpan(
+        "ArtifactsClient.beginDeletePipeline",
+        options ?? {},
+        async () => {
+          return this.client.sendOperationRequest(args, spec) as Promise<void>;
+        }
+      );
     };
     const sendOperation = async (
       args: coreClient.OperationArguments,
@@ -314,10 +297,12 @@ export class PipelineOperationsImpl implements PipelineOperations {
       { pipelineName, options },
       deletePipelineOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -344,26 +329,17 @@ export class PipelineOperationsImpl implements PipelineOperations {
     request: ArtifactRenameRequest,
     options?: PipelineRenamePipelineOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const { span } = createSpan(
-      "ArtifactsClient-beginRenamePipeline",
-      options || {}
-    );
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
-      try {
-        const result = await this.client.sendOperationRequest(args, spec);
-        return result as void;
-      } catch (error) {
-        span.setStatus({
-          code: coreTracing.SpanStatusCode.UNSET,
-          message: error.message
-        });
-        throw error;
-      } finally {
-        span.end();
-      }
+      return tracingClient.withSpan(
+        "ArtifactsClient.beginRenamePipeline",
+        options ?? {},
+        async () => {
+          return this.client.sendOperationRequest(args, spec) as Promise<void>;
+        }
+      );
     };
     const sendOperation = async (
       args: coreClient.OperationArguments,
@@ -403,10 +379,12 @@ export class PipelineOperationsImpl implements PipelineOperations {
       { pipelineName, request, options },
       renamePipelineOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -437,25 +415,16 @@ export class PipelineOperationsImpl implements PipelineOperations {
     pipelineName: string,
     options?: PipelineCreatePipelineRunOptionalParams
   ): Promise<PipelineCreatePipelineRunResponse> {
-    const { span } = createSpan(
-      "ArtifactsClient-createPipelineRun",
-      options || {}
+    return tracingClient.withSpan(
+      "ArtifactsClient.createPipelineRun",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { pipelineName, options },
+          createPipelineRunOperationSpec
+        ) as Promise<PipelineCreatePipelineRunResponse>;
+      }
     );
-    try {
-      const result = await this.client.sendOperationRequest(
-        { pipelineName, options },
-        createPipelineRunOperationSpec
-      );
-      return result as PipelineCreatePipelineRunResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -468,25 +437,16 @@ export class PipelineOperationsImpl implements PipelineOperations {
     nextLink: string,
     options?: PipelineGetPipelinesByWorkspaceNextOptionalParams
   ): Promise<PipelineGetPipelinesByWorkspaceNextResponse> {
-    const { span } = createSpan(
-      "ArtifactsClient-_getPipelinesByWorkspaceNext",
-      options || {}
+    return tracingClient.withSpan(
+      "ArtifactsClient._getPipelinesByWorkspaceNext",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { nextLink, options },
+          getPipelinesByWorkspaceNextOperationSpec
+        ) as Promise<PipelineGetPipelinesByWorkspaceNextResponse>;
+      }
     );
-    try {
-      const result = await this.client.sendOperationRequest(
-        { nextLink, options },
-        getPipelinesByWorkspaceNextOperationSpec
-      );
-      return result as PipelineGetPipelinesByWorkspaceNextResponse;
-    } catch (error) {
-      span.setStatus({
-        code: coreTracing.SpanStatusCode.UNSET,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 }
 // Operation Specifications
@@ -500,10 +460,10 @@ const getPipelinesByWorkspaceOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.PipelineListResponse
     },
     default: {
-      bodyMapper: Mappers.CloudErrorAutoGenerated
+      bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
   serializer
@@ -525,11 +485,11 @@ const createOrUpdatePipelineOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.PipelineResource
     },
     default: {
-      bodyMapper: Mappers.CloudErrorAutoGenerated
+      bodyMapper: Mappers.CloudError
     }
   },
   requestBody: Parameters.pipeline,
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.endpoint, Parameters.pipelineName],
   headerParameters: [
     Parameters.accept,
@@ -548,10 +508,10 @@ const getPipelineOperationSpec: coreClient.OperationSpec = {
     },
     304: {},
     default: {
-      bodyMapper: Mappers.CloudErrorAutoGenerated
+      bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.endpoint, Parameters.pipelineName],
   headerParameters: [Parameters.accept, Parameters.ifNoneMatch],
   serializer
@@ -565,10 +525,10 @@ const deletePipelineOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudErrorAutoGenerated
+      bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.endpoint, Parameters.pipelineName],
   headerParameters: [Parameters.accept],
   serializer
@@ -582,11 +542,11 @@ const renamePipelineOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudErrorAutoGenerated
+      bodyMapper: Mappers.CloudError
     }
   },
   requestBody: Parameters.request,
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.endpoint, Parameters.pipelineName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -600,12 +560,12 @@ const createPipelineRunOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CreateRunResponse
     },
     default: {
-      bodyMapper: Mappers.CloudErrorAutoGenerated
+      bodyMapper: Mappers.CloudError
     }
   },
   requestBody: Parameters.parameters,
   queryParameters: [
-    Parameters.apiVersion3,
+    Parameters.apiVersion4,
     Parameters.referencePipelineRunId,
     Parameters.isRecovery,
     Parameters.startActivityName
@@ -623,10 +583,9 @@ const getPipelinesByWorkspaceNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.PipelineListResponse
     },
     default: {
-      bodyMapper: Mappers.CloudErrorAutoGenerated
+      bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion3],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer

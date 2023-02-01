@@ -1,15 +1,58 @@
 # Release History
+    
+## 7.3.1 (2022-11-21)
 
-## 7.0.1 (Unreleased)
+**Features**
 
-### Features Added
+ -  Exposes `getContinuationToken` helper function to extract continuation token
 
-### Breaking Changes
+**Bugs Fixed**
 
-### Bugs Fixed
+  - A series of small bug fixs relevant to authentication and apiVersion policy
 
-### Other Changes
+## 7.3.0 (2022-10-31)
+    
+**Features**
 
+  - Added Interface Account
+  - Added Interface AccountModel
+  - Added Interface AzureEntityResource
+  - Added Interface CommitmentPlan
+  - Added Interface Deployment
+  - Added Interface PrivateEndpointConnection
+  - Added Interface PrivateLinkResource
+  - Added Interface ProxyResource
+  - Interface DeploymentModel has a new optional parameter callRateLimit
+  - Interface DeploymentProperties has a new optional parameter callRateLimit
+  - Interface DeploymentProperties has a new optional parameter capabilities
+  - Interface DeploymentProperties has a new optional parameter raiPolicyName
+    
+    
+## 7.2.0 (2022-06-10)
+    
+**Features**
+
+  - Enum KnownDeploymentScaleType has a new value Standard
+    
+    
+## 7.1.0 (2022-04-06)
+    
+**Features**
+
+  - Added operation Accounts.listModels
+  - Added Interface AccountModelListResult
+  - Added Interface AccountsListModelsNextOptionalParams
+  - Added Interface AccountsListModelsOptionalParams
+  - Added Interface ModelDeprecationInfo
+  - Added Type Alias AccountModel
+  - Added Type Alias AccountsListModelsNextResponse
+  - Added Type Alias AccountsListModelsResponse
+  - Interface AccountProperties has a new optional parameter deletionDate
+  - Interface AccountProperties has a new optional parameter dynamicThrottlingEnabled
+  - Interface AccountProperties has a new optional parameter scheduledPurgeDate
+  - Interface DeploymentScaleSettings has a new optional parameter activeCapacity
+    
+    
 ## 7.0.0 (2021-12-20)
 
 The package of @azure/arm-cognitiveservices is using our next generation design principles since version 7.0.0, which contains breaking changes.

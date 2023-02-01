@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ManagedRestorableDroppedDatabaseBackupShortTermRetentionPolicies } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,6 +19,7 @@ import {
   ManagedBackupShortTermRetentionPolicy,
   ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesListByRestorableDroppedDatabaseNextOptionalParams,
   ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesListByRestorableDroppedDatabaseOptionalParams,
+  ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesListByRestorableDroppedDatabaseResponse,
   ManagedShortTermRetentionPolicyName,
   ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesGetOptionalParams,
   ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesGetResponse,
@@ -25,7 +27,6 @@ import {
   ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesCreateOrUpdateResponse,
   ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesUpdateOptionalParams,
   ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesUpdateResponse,
-  ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesListByRestorableDroppedDatabaseResponse,
   ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesListByRestorableDroppedDatabaseNextResponse
 } from "../models";
 
@@ -70,12 +71,16 @@ export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesImp
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByRestorableDroppedDatabasePagingPage(
           resourceGroupName,
           managedInstanceName,
           restorableDroppedDatabaseId,
-          options
+          options,
+          settings
         );
       }
     };
@@ -85,16 +90,23 @@ export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesImp
     resourceGroupName: string,
     managedInstanceName: string,
     restorableDroppedDatabaseId: string,
-    options?: ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesListByRestorableDroppedDatabaseOptionalParams
+    options?: ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesListByRestorableDroppedDatabaseOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ManagedBackupShortTermRetentionPolicy[]> {
-    let result = await this._listByRestorableDroppedDatabase(
-      resourceGroupName,
-      managedInstanceName,
-      restorableDroppedDatabaseId,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesListByRestorableDroppedDatabaseResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByRestorableDroppedDatabase(
+        resourceGroupName,
+        managedInstanceName,
+        restorableDroppedDatabaseId,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByRestorableDroppedDatabaseNext(
         resourceGroupName,
@@ -104,7 +116,9 @@ export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesImp
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -230,10 +244,12 @@ export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesImp
       },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -343,10 +359,12 @@ export class ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesImp
       },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -559,7 +577,6 @@ const listByRestorableDroppedDatabaseNextOperationSpec: coreClient.OperationSpec
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

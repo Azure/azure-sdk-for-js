@@ -9,7 +9,7 @@ import {
 } from "@azure/core-rest-pipeline";
 import { shaHMAC, shaHash } from "./cryptoUtils";
 import { KeyCredential } from "@azure/core-auth";
-import { isNode } from "./isNode";
+import { isNode } from "@azure/core-util";
 
 /**
  * CommunicationKeyCredentialPolicy provides a means of signing requests made through

@@ -2,9 +2,13 @@
 // Licensed under the MIT license.
 import { URLBuilder } from "@azure/core-http";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { ContainerItem, PublicAccessType as ContainerPublicAccessType } from "@azure/storage-blob";
+import {
+  ContainerItem,
+  CpkInfo as BlobCpkInfo,
+  PublicAccessType as ContainerPublicAccessType,
+} from "@azure/storage-blob";
 
-import { AclFailedEntry, PathGetPropertiesResponse } from "./generated/src/models";
+import { AclFailedEntry, CpkInfo, PathGetPropertiesResponse } from "./generated/src/models";
 import {
   AccessControlChangeError,
   FileSystemItem,
@@ -209,10 +213,7 @@ export function toPathGetAccessControlResponse(
   };
 }
 
-export function toRolePermissions(
-  permissionsString: string,
-  allowStickyBit: boolean = false
-): RolePermissions {
+export function toRolePermissions(permissionsString: string): RolePermissions {
   const error = new RangeError(
     `toRolePermissions() Invalid role permissions string ${permissionsString}`
   );
@@ -239,12 +240,6 @@ export function toRolePermissions(
   let execute = false;
   if (permissionsString[2] === "x") {
     execute = true;
-  } else if (allowStickyBit) {
-    if (permissionsString[2] === "t") {
-      execute = true;
-    } else if (permissionsString[2] !== "-") {
-      throw error;
-    }
   } else if (permissionsString[2] !== "-") {
     throw error;
   }
@@ -261,13 +256,21 @@ export function toPermissions(permissionsString?: string): PathPermissions | und
     throw RangeError(`toPermissions() Invalid permissions string ${permissionsString}`);
   }
 
-  // Case insensitive
-  permissionsString = permissionsString.toLowerCase();
-
   let stickyBit = false;
   if (permissionsString[8] === "t") {
     stickyBit = true;
+    const firstPart = permissionsString.substr(0, 8);
+    const lastPart = permissionsString.substr(9);
+    permissionsString = firstPart + "x" + lastPart;
+  } else if (permissionsString[8] === "T") {
+    stickyBit = true;
+    const firstPart = permissionsString.substr(0, 8);
+    const lastPart = permissionsString.substr(9);
+    permissionsString = firstPart + "-" + lastPart;
   }
+
+  // Case insensitive
+  permissionsString = permissionsString.toLowerCase();
 
   let extendedAcls = false;
   if (permissionsString.length === 10) {
@@ -280,9 +283,9 @@ export function toPermissions(permissionsString?: string): PathPermissions | und
     }
   }
 
-  const owner = toRolePermissions(permissionsString.substr(0, 3), false);
-  const group = toRolePermissions(permissionsString.substr(3, 3), false);
-  const other = toRolePermissions(permissionsString.substr(6, 3), true);
+  const owner = toRolePermissions(permissionsString.substr(0, 3));
+  const group = toRolePermissions(permissionsString.substr(3, 3));
+  const other = toRolePermissions(permissionsString.substr(6, 3));
 
   return {
     owner,
@@ -428,7 +431,9 @@ export function toAclString(acl: PathAccessControlItem[]): string {
 }
 
 export function toRolePermissionsString(p: RolePermissions, stickyBit: boolean = false): string {
-  return `${p.read ? "r" : "-"}${p.write ? "w" : "-"}${stickyBit ? "t" : p.execute ? "x" : "-"}`;
+  return `${p.read ? "r" : "-"}${p.write ? "w" : "-"}${
+    stickyBit ? (p.execute ? "t" : "T") : p.execute ? "x" : "-"
+  }`;
 }
 
 export function toPermissionsString(permissions: PathPermissions): string {
@@ -449,4 +454,14 @@ export function toAccessControlChangeFailureArray(
       message: aclFailedEntry.errorMessage || "",
     };
   });
+}
+
+export function toBlobCpkInfo(input?: CpkInfo): BlobCpkInfo | undefined {
+  return input
+    ? {
+        encryptionKey: input.encryptionKey,
+        encryptionKeySha256: input.encryptionKeySha256,
+        encryptionAlgorithm: "AES256",
+      }
+    : undefined;
 }

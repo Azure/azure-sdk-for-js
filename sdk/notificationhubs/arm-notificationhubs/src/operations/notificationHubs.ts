@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { NotificationHubs } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,9 +17,11 @@ import {
   NotificationHubResource,
   NotificationHubsListNextOptionalParams,
   NotificationHubsListOptionalParams,
+  NotificationHubsListResponse,
   SharedAccessAuthorizationRuleResource,
   NotificationHubsListAuthorizationRulesNextOptionalParams,
   NotificationHubsListAuthorizationRulesOptionalParams,
+  NotificationHubsListAuthorizationRulesResponse,
   CheckAvailabilityParameters,
   NotificationHubsCheckNotificationHubAvailabilityOptionalParams,
   NotificationHubsCheckNotificationHubAvailabilityResponse,
@@ -38,8 +41,6 @@ import {
   NotificationHubsDeleteAuthorizationRuleOptionalParams,
   NotificationHubsGetAuthorizationRuleOptionalParams,
   NotificationHubsGetAuthorizationRuleResponse,
-  NotificationHubsListResponse,
-  NotificationHubsListAuthorizationRulesResponse,
   NotificationHubsListKeysOptionalParams,
   NotificationHubsListKeysResponse,
   PolicykeyResource,
@@ -83,8 +84,16 @@ export class NotificationHubsImpl implements NotificationHubs {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, namespaceName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          namespaceName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -92,11 +101,18 @@ export class NotificationHubsImpl implements NotificationHubs {
   private async *listPagingPage(
     resourceGroupName: string,
     namespaceName: string,
-    options?: NotificationHubsListOptionalParams
+    options?: NotificationHubsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<NotificationHubResource[]> {
-    let result = await this._list(resourceGroupName, namespaceName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: NotificationHubsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, namespaceName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -105,7 +121,9 @@ export class NotificationHubsImpl implements NotificationHubs {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -149,12 +167,16 @@ export class NotificationHubsImpl implements NotificationHubs {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listAuthorizationRulesPagingPage(
           resourceGroupName,
           namespaceName,
           notificationHubName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -164,16 +186,23 @@ export class NotificationHubsImpl implements NotificationHubs {
     resourceGroupName: string,
     namespaceName: string,
     notificationHubName: string,
-    options?: NotificationHubsListAuthorizationRulesOptionalParams
+    options?: NotificationHubsListAuthorizationRulesOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<SharedAccessAuthorizationRuleResource[]> {
-    let result = await this._listAuthorizationRules(
-      resourceGroupName,
-      namespaceName,
-      notificationHubName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: NotificationHubsListAuthorizationRulesResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listAuthorizationRules(
+        resourceGroupName,
+        namespaceName,
+        notificationHubName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listAuthorizationRulesNext(
         resourceGroupName,
@@ -183,7 +212,9 @@ export class NotificationHubsImpl implements NotificationHubs {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 

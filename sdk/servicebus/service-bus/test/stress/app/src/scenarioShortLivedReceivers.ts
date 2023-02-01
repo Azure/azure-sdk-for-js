@@ -17,7 +17,7 @@ import {
 import { EventEmitter } from "stream";
 import { EventContext, ReceiverEvents } from "rhea-promise";
 import parsedArgs from "minimist";
-import { generateUuid } from "@azure/core-http";
+import { v4 as generateUuid } from "uuid";
 
 const messageNumberPropertyName = "messageNumber";
 
@@ -164,7 +164,7 @@ async function main() {
       console.log(`Success - all messages accounted for with no duplicates.`);
       process.exit(0);
     }
-  } catch (err) {
+  } catch (err: any) {
     console.log(`Exception thrown: `, err);
 
     appInsightsClient.trackException({
@@ -334,7 +334,7 @@ async function sendTestMessages(
     }
 
     console.log(`Done sending messages to ${queueName}`);
-  } catch (err) {
+  } catch (err: any) {
     console.log(`Exception thrown: `, err);
 
     appInsightsClient.trackException({

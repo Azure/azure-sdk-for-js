@@ -1,0 +1,136 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.SignalRService/signalR?api-version=2022-08-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-signalr/5.2.0-beta.1 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "79eb2643-4b13-4785-8e02-0c36ca2bc642"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 08 Nov 2022 02:06:35 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "79eb2643-4b13-4785-8e02-0c36ca2bc642",
+        "x-ms-correlation-request-id": "a5148a5b-37cd-402d-8e3a-f8a9da8754a2",
+        "x-ms-ratelimit-remaining-subscription-reads": "11982",
+        "x-ms-request-id": "d01773ec-5c12-4ce1-8e0d-9a6a94dcd586",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221108T020636Z:a5148a5b-37cd-402d-8e3a-f8a9da8754a2",
+        "x-rp-server-mvid": "54bef194-19f7-4c41-9b83-6785272e94c3"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "sku": {
+              "name": "Free_F1",
+              "tier": "Free",
+              "size": "F1",
+              "capacity": 1
+            },
+            "properties": {
+              "provisioningState": "Succeeded",
+              "externalIP": "20.62.133.87",
+              "hostName": "mysignalrservice1.service.signalr.net",
+              "publicPort": 443,
+              "serverPort": 443,
+              "version": "1.0",
+              "privateEndpointConnections": [],
+              "sharedPrivateLinkResources": [],
+              "tls": {
+                "clientCertEnabled": false
+              },
+              "hostNamePrefix": "mysignalrservice1",
+              "features": [
+                {
+                  "flag": "ServiceMode",
+                  "value": "Serverless",
+                  "properties": {}
+                },
+                {
+                  "flag": "EnableConnectivityLogs",
+                  "value": "True",
+                  "properties": {}
+                },
+                {
+                  "flag": "EnableMessagingLogs",
+                  "value": "False",
+                  "properties": {}
+                },
+                {
+                  "flag": "EnableLiveTrace",
+                  "value": "False",
+                  "properties": {}
+                }
+              ],
+              "liveTraceConfiguration": null,
+              "resourceLogConfiguration": null,
+              "cors": {
+                "allowedOrigins": [
+                  "*"
+                ]
+              },
+              "serverless": {
+                "connectionTimeoutInSeconds": 30
+              },
+              "upstream": {
+                "templates": []
+              },
+              "networkACLs": {
+                "defaultAction": "Deny",
+                "publicNetwork": {
+                  "allow": [
+                    "ServerConnection",
+                    "ClientConnection",
+                    "RESTAPI",
+                    "Trace"
+                  ],
+                  "deny": null
+                },
+                "privateEndpoints": []
+              },
+              "publicNetworkAccess": "Enabled",
+              "disableLocalAuth": false,
+              "disableAadAuth": false
+            },
+            "kind": "SignalR",
+            "identity": {
+              "type": "SystemAssigned",
+              "principalId": "70279162-21d5-4412-9edf-8bd19dfeeccb",
+              "tenantId": "88888888-8888-8888-8888-888888888888"
+            },
+            "systemData": {
+              "createdBy": "azure_client_id",
+              "createdByType": "Application",
+              "createdAt": "2022-11-08T02:05:51.4775939Z",
+              "lastModifiedBy": "azure_client_id",
+              "lastModifiedByType": "Application",
+              "lastModifiedAt": "2022-11-08T02:05:51.4775939Z"
+            },
+            "location": "eastus",
+            "tags": {
+              "key1": "value1"
+            },
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.SignalRService/SignalR/mySignalRService1",
+            "name": "mySignalRService1",
+            "type": "Microsoft.SignalRService/SignalR"
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

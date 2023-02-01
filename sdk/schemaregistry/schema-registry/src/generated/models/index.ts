@@ -8,12 +8,6 @@
 
 import * as coreClient from "@azure/core-client";
 
-/** Array received from the registry containing the list of schema groups. */
-export interface SchemaGroups {
-  /** Array of schema groups. */
-  schemaGroups?: string[];
-}
-
 /** An error response returned from Azure Schema Registry service. */
 export interface ErrorModel {
   /** Error response returned from Azure Schema Registry service. */
@@ -22,7 +16,7 @@ export interface ErrorModel {
 
 /** Error response returned from Azure Schema Registry service. */
 export interface ErrorDetail {
-  /** Type of error. */
+  /** Server-defined error code. */
   code: string;
   /** Brief description of error. */
   message: string;
@@ -30,22 +24,10 @@ export interface ErrorDetail {
   details?: ErrorDetail[];
 }
 
-/** Array received from the registry containing the list of versions for specific schema. */
-export interface SchemaVersions {
-  /** Array of schema groups. */
-  schemaVersions?: number[];
-}
-
 /** Object received from the registry containing schema identifiers. */
 export interface SchemaId {
   /** Schema ID that uniquely identifies a schema in the registry namespace. */
   id?: string;
-}
-
-/** Defines headers for SchemaGroups_list operation. */
-export interface SchemaGroupsListExceptionHeaders {
-  /** Error code for specific error that occurred. */
-  xMsErrorCode?: string;
 }
 
 /** Defines headers for Schema_getById operation. */
@@ -72,8 +54,26 @@ export interface SchemaGetByIdExceptionHeaders {
   xMsErrorCode?: string;
 }
 
-/** Defines headers for Schema_getVersions operation. */
-export interface SchemaGetVersionsExceptionHeaders {
+/** Defines headers for Schema_getSchemaVersion operation. */
+export interface SchemaGetSchemaVersionHeaders {
+  /** URL location of schema, identified by schema group, schema name, and version. */
+  location?: string;
+  /** The content type for given schema. Each schema type has an associated content-type. */
+  contentType?: string;
+  /** References specific schema in registry namespace. */
+  schemaId?: string;
+  /** URL location of schema, identified by schema ID. */
+  schemaIdLocation?: string;
+  /** References schema group. */
+  schemaGroupName?: string;
+  /** References schema name. */
+  schemaName?: string;
+  /** Version of the returned schema. */
+  schemaVersion?: number;
+}
+
+/** Defines headers for Schema_getSchemaVersion operation. */
+export interface SchemaGetSchemaVersionExceptionHeaders {
   /** Error code for specific error that occurred. */
   xMsErrorCode?: string;
 }
@@ -123,13 +123,6 @@ export interface SchemaRegisterExceptionHeaders {
 }
 
 /** Optional parameters. */
-export interface SchemaGroupsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type SchemaGroupsListResponse = SchemaGroups;
-
-/** Optional parameters. */
 export interface SchemaGetByIdOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -152,11 +145,26 @@ export type SchemaGetByIdResponse = SchemaGetByIdHeaders & {
 };
 
 /** Optional parameters. */
-export interface SchemaGetVersionsOptionalParams
+export interface SchemaGetSchemaVersionOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the getVersions operation. */
-export type SchemaGetVersionsResponse = SchemaVersions;
+/** Contains response data for the getSchemaVersion operation. */
+export type SchemaGetSchemaVersionResponse = SchemaGetSchemaVersionHeaders & {
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser Blob.
+   * Always `undefined` in node.js.
+   */
+  blobBody?: Promise<Blob>;
+  /**
+   * NODEJS ONLY
+   *
+   * The response body as a node.js Readable stream.
+   * Always `undefined` in the browser.
+   */
+  readableStreamBody?: NodeJS.ReadableStream;
+};
 
 /** Optional parameters. */
 export interface SchemaQueryIdByContentOptionalParams

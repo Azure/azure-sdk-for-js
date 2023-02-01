@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { SqlPools } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,6 +19,7 @@ import {
   SqlPool,
   SqlPoolsListByWorkspaceNextOptionalParams,
   SqlPoolsListByWorkspaceOptionalParams,
+  SqlPoolsListByWorkspaceResponse,
   SqlPoolsGetOptionalParams,
   SqlPoolsGetResponse,
   SqlPoolPatchInfo,
@@ -27,7 +29,6 @@ import {
   SqlPoolsCreateResponse,
   SqlPoolsDeleteOptionalParams,
   SqlPoolsDeleteResponse,
-  SqlPoolsListByWorkspaceResponse,
   SqlPoolsPauseOptionalParams,
   SqlPoolsPauseResponse,
   SqlPoolsResumeOptionalParams,
@@ -73,11 +74,15 @@ export class SqlPoolsImpl implements SqlPools {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByWorkspacePagingPage(
           resourceGroupName,
           workspaceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -86,15 +91,22 @@ export class SqlPoolsImpl implements SqlPools {
   private async *listByWorkspacePagingPage(
     resourceGroupName: string,
     workspaceName: string,
-    options?: SqlPoolsListByWorkspaceOptionalParams
+    options?: SqlPoolsListByWorkspaceOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<SqlPool[]> {
-    let result = await this._listByWorkspace(
-      resourceGroupName,
-      workspaceName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: SqlPoolsListByWorkspaceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByWorkspace(
+        resourceGroupName,
+        workspaceName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByWorkspaceNext(
         resourceGroupName,
@@ -103,7 +115,9 @@ export class SqlPoolsImpl implements SqlPools {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -225,11 +239,13 @@ export class SqlPoolsImpl implements SqlPools {
       { resourceGroupName, workspaceName, sqlPoolName, sqlPoolInfo, options },
       createOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -319,11 +335,13 @@ export class SqlPoolsImpl implements SqlPools {
       { resourceGroupName, workspaceName, sqlPoolName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -424,11 +442,13 @@ export class SqlPoolsImpl implements SqlPools {
       { resourceGroupName, workspaceName, sqlPoolName, options },
       pauseOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -515,11 +535,13 @@ export class SqlPoolsImpl implements SqlPools {
       { resourceGroupName, workspaceName, sqlPoolName, options },
       resumeOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -841,7 +863,6 @@ const listByWorkspaceNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

@@ -12,6 +12,7 @@ import { HttpMockFacade, getHttpMock } from "./mockHttp";
 import { PassThrough, Readable } from "stream";
 import { ReadStream, createReadStream } from "fs";
 import { TransferProgressEvent, WebResource } from "../src/webResource";
+import { fakeTestPasswordPlaceholder, fakeTestSecretPlaceholder } from "@azure/test-utils";
 import { AbortController } from "@azure/abort-controller";
 import { DefaultHttpClient } from "../src/defaultHttpClient";
 import { OperationSpec } from "../src/operationSpec";
@@ -359,7 +360,7 @@ describe("defaultHttpClient (node)", function () {
       host: "host1",
       port: 8001,
       username: "user1",
-      password: "SecretPlaceholder",
+      password: fakeTestSecretPlaceholder,
     };
     const request1 = new WebResource("/url");
     request1.proxySettings = proxySettings;
@@ -382,10 +383,15 @@ describe("defaultHttpClient (node)", function () {
       host: "host1",
       port: 8001,
       username: "user1",
-      password: "SecretPlaceholder",
+      password: fakeTestSecretPlaceholder,
     };
     const request2 = new WebResource("/url");
-    request2.proxySettings = { host: "host2", port: 8002, username: "user2", password: "p@55wOrd" };
+    request2.proxySettings = {
+      host: "host2",
+      port: 8002,
+      username: "user2",
+      password: fakeTestPasswordPlaceholder,
+    };
     const client = new DefaultHttpClient();
 
     const requestInit1: Partial<RequestInit & { agent?: any }> = await client.prepareRequest(
@@ -409,7 +415,7 @@ describe("defaultHttpClient (node)", function () {
       host: "host1",
       port: 8001,
       username: "user1",
-      password: "SecretPlaceholder",
+      password: fakeTestSecretPlaceholder,
     };
     const request2 = new WebResource("/url");
     request2.proxySettings = { host: "host1", port: 8001 };

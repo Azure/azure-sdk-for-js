@@ -3,15 +3,17 @@
 import url from "url";
 import { diag } from "@opentelemetry/api";
 import { FullOperationResponse } from "@azure/core-client";
-import { redirectPolicyName } from "@azure/core-rest-pipeline";
+import { bearerTokenAuthenticationPolicy, redirectPolicyName } from "@azure/core-rest-pipeline";
 import { Sender, SenderResult } from "../../types";
 import {
   TelemetryItem as Envelope,
   ApplicationInsightsClient,
   ApplicationInsightsClientOptionalParams,
-  ApplicationInsightsClientTrackOptionalParams,
+  TrackOptionalParams,
 } from "../../generated";
-import { AzureExporterInternalConfig } from "../../config";
+import { AzureMonitorExporterOptions } from "../../config";
+
+const applicationInsightsResource = "https://monitor.azure.com//.default";
 
 /**
  * Exporter HTTP sender class
@@ -21,17 +23,26 @@ export class HttpSender implements Sender {
   private readonly _appInsightsClient: ApplicationInsightsClient;
   private _appInsightsClientOptions: ApplicationInsightsClientOptionalParams;
 
-  constructor(private _exporterOptions: AzureExporterInternalConfig) {
+  constructor(endpointUrl: string, options?: AzureMonitorExporterOptions) {
     // Build endpoint using provided configuration or default values
     this._appInsightsClientOptions = {
-      host: this._exporterOptions.endpointUrl,
+      host: endpointUrl,
+      ...options,
     };
+    this._appInsightsClient = new ApplicationInsightsClient(this._appInsightsClientOptions);
 
-    this._appInsightsClient = new ApplicationInsightsClient({
-      ...this._appInsightsClientOptions,
-    });
-
+    // Handle redirects in HTTP Sender
     this._appInsightsClient.pipeline.removePolicy({ name: redirectPolicyName });
+
+    if (options?.aadTokenCredential) {
+      let scopes: string[] = [applicationInsightsResource];
+      this._appInsightsClient.pipeline.addPolicy(
+        bearerTokenAuthenticationPolicy({
+          credential: options?.aadTokenCredential,
+          scopes: scopes,
+        })
+      );
+    }
   }
 
   /**
@@ -39,7 +50,7 @@ export class HttpSender implements Sender {
    * @internal
    */
   async send(envelopes: Envelope[]): Promise<SenderResult> {
-    let options: ApplicationInsightsClientTrackOptionalParams = {};
+    let options: TrackOptionalParams = {};
     try {
       let response: FullOperationResponse | undefined;
       function onResponse(rawResponse: FullOperationResponse, flatResponse: unknown): void {
@@ -54,7 +65,7 @@ export class HttpSender implements Sender {
       });
 
       return { statusCode: response?.status, result: response?.bodyAsText ?? "" };
-    } catch (e) {
+    } catch (e: any) {
       throw e;
     }
   }

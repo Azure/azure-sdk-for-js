@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AssertionError, assert } from "chai";
-import { Constants, HttpHeaders, RequestPolicyOptions } from "../../src/coreHttp";
+import { Constants, HttpHeaders, RequestPolicyOptions } from "../../src";
 import { AbortController } from "@azure/abort-controller";
 import { HttpOperationResponse } from "../../src/httpOperationResponse";
 import { ThrottlingRetryPolicy } from "../../src/policies/throttlingRetryPolicy";
@@ -256,7 +256,7 @@ describe("ThrottlingRetryPolicy", () => {
       let errorWasThrown = false;
       try {
         await policy.sendRequest(request);
-      } catch (error) {
+      } catch (error: any) {
         errorWasThrown = true;
         assert.equal((error as any).name, "AbortError", "Unexpected error thrown");
       }

@@ -14,17 +14,23 @@ import * as Mappers from "./models/mappers";
 import { KeyVaultClientContext } from "./keyVaultClientContext";
 import {
   KeyVaultClientOptionalParams,
-  ApiVersion73Preview,
-  KeyVaultClientFullBackupOptionalParams,
-  KeyVaultClientFullBackupResponse,
-  KeyVaultClientFullBackupStatusOptionalParams,
-  KeyVaultClientFullBackupStatusResponse,
-  KeyVaultClientFullRestoreOperationOptionalParams,
-  KeyVaultClientFullRestoreOperationResponse,
-  KeyVaultClientRestoreStatusOptionalParams,
-  KeyVaultClientRestoreStatusResponse,
-  KeyVaultClientSelectiveKeyRestoreOperationOptionalParams,
-  KeyVaultClientSelectiveKeyRestoreOperationResponse
+  ApiVersion74Preview1,
+  FullBackupOptionalParams,
+  FullBackupResponse,
+  FullBackupStatusOptionalParams,
+  FullBackupStatusResponse,
+  FullRestoreOperationOptionalParams,
+  FullRestoreOperationResponse,
+  RestoreStatusOptionalParams,
+  RestoreStatusResponse,
+  SelectiveKeyRestoreOperationOptionalParams,
+  SelectiveKeyRestoreOperationResponse,
+  UpdateSettingOptionalParams,
+  UpdateSettingResponse,
+  GetSettingOptionalParams,
+  GetSettingResponse,
+  GetSettingsOptionalParams,
+  GetSettingsResponse
 } from "./models";
 
 export class KeyVaultClient extends KeyVaultClientContext {
@@ -34,7 +40,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
    * @param options The parameter options
    */
   constructor(
-    apiVersion: ApiVersion73Preview,
+    apiVersion: ApiVersion74Preview1,
     options?: KeyVaultClientOptionalParams
   ) {
     super(apiVersion, options);
@@ -49,8 +55,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
    */
   fullBackup(
     vaultBaseUrl: string,
-    options?: KeyVaultClientFullBackupOptionalParams
-  ): Promise<KeyVaultClientFullBackupResponse> {
+    options?: FullBackupOptionalParams
+  ): Promise<FullBackupResponse> {
     return this.sendOperationRequest(
       { vaultBaseUrl, options },
       fullBackupOperationSpec
@@ -66,8 +72,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
   fullBackupStatus(
     vaultBaseUrl: string,
     jobId: string,
-    options?: KeyVaultClientFullBackupStatusOptionalParams
-  ): Promise<KeyVaultClientFullBackupStatusResponse> {
+    options?: FullBackupStatusOptionalParams
+  ): Promise<FullBackupStatusResponse> {
     return this.sendOperationRequest(
       { vaultBaseUrl, jobId, options },
       fullBackupStatusOperationSpec
@@ -82,8 +88,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
    */
   fullRestoreOperation(
     vaultBaseUrl: string,
-    options?: KeyVaultClientFullRestoreOperationOptionalParams
-  ): Promise<KeyVaultClientFullRestoreOperationResponse> {
+    options?: FullRestoreOperationOptionalParams
+  ): Promise<FullRestoreOperationResponse> {
     return this.sendOperationRequest(
       { vaultBaseUrl, options },
       fullRestoreOperationOperationSpec
@@ -99,8 +105,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
   restoreStatus(
     vaultBaseUrl: string,
     jobId: string,
-    options?: KeyVaultClientRestoreStatusOptionalParams
-  ): Promise<KeyVaultClientRestoreStatusResponse> {
+    options?: RestoreStatusOptionalParams
+  ): Promise<RestoreStatusResponse> {
     return this.sendOperationRequest(
       { vaultBaseUrl, jobId, options },
       restoreStatusOperationSpec
@@ -117,11 +123,62 @@ export class KeyVaultClient extends KeyVaultClientContext {
   selectiveKeyRestoreOperation(
     vaultBaseUrl: string,
     keyName: string,
-    options?: KeyVaultClientSelectiveKeyRestoreOperationOptionalParams
-  ): Promise<KeyVaultClientSelectiveKeyRestoreOperationResponse> {
+    options?: SelectiveKeyRestoreOperationOptionalParams
+  ): Promise<SelectiveKeyRestoreOperationResponse> {
     return this.sendOperationRequest(
       { vaultBaseUrl, keyName, options },
       selectiveKeyRestoreOperationOperationSpec
+    );
+  }
+
+  /**
+   * Description of the pool setting to be updated
+   * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
+   * @param settingName The name of the account setting. Must be a valid settings option.
+   * @param value The value of the pool setting.
+   * @param options The options parameters.
+   */
+  updateSetting(
+    vaultBaseUrl: string,
+    settingName: string,
+    value: string,
+    options?: UpdateSettingOptionalParams
+  ): Promise<UpdateSettingResponse> {
+    return this.sendOperationRequest(
+      { vaultBaseUrl, settingName, value, options },
+      updateSettingOperationSpec
+    );
+  }
+
+  /**
+   * Retrieves the setting object of a specified setting name.
+   * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
+   * @param settingName The name of the account setting. Must be a valid settings option.
+   * @param options The options parameters.
+   */
+  getSetting(
+    vaultBaseUrl: string,
+    settingName: string,
+    options?: GetSettingOptionalParams
+  ): Promise<GetSettingResponse> {
+    return this.sendOperationRequest(
+      { vaultBaseUrl, settingName, options },
+      getSettingOperationSpec
+    );
+  }
+
+  /**
+   * Retrieves a list of all the available account settings that can be configured.
+   * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
+   * @param options The options parameters.
+   */
+  getSettings(
+    vaultBaseUrl: string,
+    options?: GetSettingsOptionalParams
+  ): Promise<GetSettingsResponse> {
+    return this.sendOperationRequest(
+      { vaultBaseUrl, options },
+      getSettingsOperationSpec
     );
   }
 
@@ -218,5 +275,58 @@ const selectiveKeyRestoreOperationOperationSpec: coreClient.OperationSpec = {
   urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
+  serializer
+};
+const updateSettingOperationSpec: coreClient.OperationSpec = {
+  path: "/settings/{setting-name}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Setting
+    },
+    default: {
+      bodyMapper: Mappers.KeyVaultError
+    }
+  },
+  requestBody: {
+    parameterPath: { value: ["value"] },
+    mapper: { ...Mappers.UpdateSettingRequest, required: true }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.settingName],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const getSettingOperationSpec: coreClient.OperationSpec = {
+  path: "/settings/{setting-name}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Setting
+    },
+    default: {
+      bodyMapper: Mappers.KeyVaultError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.vaultBaseUrl, Parameters.settingName],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getSettingsOperationSpec: coreClient.OperationSpec = {
+  path: "/settings",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SettingsListResult
+    },
+    default: {
+      bodyMapper: Mappers.KeyVaultError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.vaultBaseUrl],
+  headerParameters: [Parameters.accept],
   serializer
 };

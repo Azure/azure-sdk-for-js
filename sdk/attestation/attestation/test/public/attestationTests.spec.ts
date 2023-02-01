@@ -141,33 +141,33 @@ describe("[AAD] Attestation Client", function () {
     "RHZvOGgyazVkdTFpV0RkQmtBbiswaWlBPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0" +
     "tLQoA";
 
-  it("#AttestOpenEnclaveShared", async () => {
+  it("#AttestOpenEnclaveShared", async function () {
     await testOpenEnclave("Shared");
   });
 
-  it("#AttestOpenEnclaveAad", async () => {
+  it("#AttestOpenEnclaveAad", async function () {
     await testOpenEnclave("AAD");
   });
 
-  it("#AttestOpenEnclaveIsolated", async () => {
+  it("#AttestOpenEnclaveIsolated", async function () {
     await testOpenEnclave("Isolated");
   });
 
-  it("#AttestSgxEnclaveShared", async () => {
+  it("#AttestSgxEnclaveShared", async function () {
     await testSgxEnclave("Shared");
   });
 
-  it("#AttestSgxEnclaveAad", async () => {
+  it("#AttestSgxEnclaveAad", async function () {
     await testSgxEnclave("AAD");
   });
 
-  it("#AttestSgxEnclaveIsolated", async () => {
+  it("#AttestSgxEnclaveIsolated", async function () {
     await testSgxEnclave("Isolated");
   });
 
   /* TPM Attestation can only be performed on an AAD or isolated mode client.
    */
-  it("#attestTpm", async () => {
+  it("#attestTpm", async function () {
     const client = createRecordedClient(recorder, "AAD", true);
     const adminClient = createRecordedAdminClient(recorder, "AAD");
 

@@ -37,7 +37,7 @@ import {
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { ServiceBusError, translateServiceBusError } from "../serviceBusError";
 import { abandonMessage, completeMessage } from "../receivers/receiverCommon";
-import { isDefined } from "../util/typeGuards";
+import { isDefined } from "@azure/core-util";
 
 /**
  * Describes the options that need to be provided while creating a message session receiver link.
@@ -63,6 +63,7 @@ export type MessageSessionOptions = Pick<
   receiveMode?: ReceiveMode;
   retryOptions: RetryOptions | undefined;
   skipParsingBodyAsJson: boolean;
+  skipConvertingDate: boolean;
 };
 
 /**
@@ -186,6 +187,14 @@ export class MessageSession extends LinkEntity<Receiver> {
    */
   private skipParsingBodyAsJson: boolean;
 
+  /**
+   * Whether to skip converting Date type on properties of message annotations
+   * or application properties into numbers when receiving the message. By
+   * default, properties of Date type is converted into UNIX epoch number for
+   * compatibility.
+   */
+  private skipConvertingDate: boolean;
+
   public get receiverHelper(): ReceiverHelper {
     return this._receiverHelper;
   }
@@ -229,7 +238,7 @@ export class MessageSession extends LinkEntity<Receiver> {
             this.sessionId
           );
           this._ensureSessionLockRenewal();
-        } catch (err) {
+        } catch (err: any) {
           logger.logError(
             err,
             "%s An error occurred while renewing the session lock for MessageSession '%s'",
@@ -258,10 +267,12 @@ export class MessageSession extends LinkEntity<Receiver> {
   /**
    * Creates a new AMQP receiver under a new AMQP session.
    */
-  private async _init(abortSignal?: AbortSignalLike): Promise<void> {
+  private async _init(
+    opts: { abortSignal?: AbortSignalLike; timeoutInMs?: number } = {}
+  ): Promise<void> {
     try {
-      const options = this._createMessageSessionOptions();
-      await this.initLink(options, abortSignal);
+      const sessionOptions = this._createMessageSessionOptions(this.identifier, opts.timeoutInMs);
+      await this.initLink(sessionOptions, opts.abortSignal);
 
       if (this.link == null) {
         throw new Error("INTERNAL ERROR: failed to create receiver but without an error.");
@@ -302,13 +313,17 @@ export class MessageSession extends LinkEntity<Receiver> {
         this.sessionId,
         this.sessionLockedUntilUtc.toISOString()
       );
-      logger.verbose("%s Receiver created with receiver options: %O", this.logPrefix, options);
+      logger.verbose(
+        "%s Receiver created with receiver options: %O",
+        this.logPrefix,
+        sessionOptions
+      );
       if (!this._context.messageSessions[this.name]) {
         this._context.messageSessions[this.name] = this;
       }
       this._totalAutoLockRenewDuration = Date.now() + this.maxAutoRenewDurationInMs;
       this._ensureSessionLockRenewal();
-    } catch (err) {
+    } catch (err: any) {
       const errObj = translateServiceBusError(err);
       logger.logError(errObj, "%s An error occured while creating the receiver", this.logPrefix);
 
@@ -327,7 +342,7 @@ export class MessageSession extends LinkEntity<Receiver> {
   /**
    * Creates the options that need to be specified while creating an AMQP receiver link.
    */
-  private _createMessageSessionOptions(): ReceiverOptions {
+  private _createMessageSessionOptions(clientId: string, timeoutInMs?: number): ReceiverOptions {
     const rcvrOptions: ReceiverOptions = createReceiverOptions(
       this.name,
       this.receiveMode,
@@ -335,6 +350,7 @@ export class MessageSession extends LinkEntity<Receiver> {
         address: this.address,
         filter: { [Constants.sessionFilterName]: this.sessionId },
       },
+      clientId,
       {
         onClose: (context) =>
           this._onAmqpClose(context).catch(() => {
@@ -347,7 +363,8 @@ export class MessageSession extends LinkEntity<Receiver> {
         onError: this._onAmqpError,
         onSessionError: this._onSessionError,
         onSettled: this._onSettled,
-      }
+      },
+      timeoutInMs
     );
 
     return rcvrOptions;
@@ -364,6 +381,7 @@ export class MessageSession extends LinkEntity<Receiver> {
    * to indicate we want the next unlocked non-empty session.
    */
   constructor(
+    public identifier: string,
     connectionContext: ConnectionContext,
     entityPath: string,
     private _providedSessionId: string | undefined,
@@ -382,6 +400,7 @@ export class MessageSession extends LinkEntity<Receiver> {
     if (isDefined(this._providedSessionId)) this.sessionId = this._providedSessionId;
     this.receiveMode = options.receiveMode || "peekLock";
     this.skipParsingBodyAsJson = options.skipParsingBodyAsJson;
+    this.skipConvertingDate = options.skipConvertingDate;
     this.maxAutoRenewDurationInMs =
       options.maxAutoLockRenewalDurationInMs != null
         ? options.maxAutoLockRenewalDurationInMs
@@ -397,7 +416,8 @@ export class MessageSession extends LinkEntity<Receiver> {
         return this.link!;
       },
       this.receiveMode,
-      this.skipParsingBodyAsJson
+      this.skipParsingBodyAsJson,
+      this.skipConvertingDate
     );
 
     // setting all the handlers
@@ -430,6 +450,7 @@ export class MessageSession extends LinkEntity<Receiver> {
           errorSource: "receive",
           entityPath: this.entityPath,
           fullyQualifiedNamespace: this._context.config.host,
+          identifier: this.identifier,
         });
       }
     };
@@ -451,6 +472,7 @@ export class MessageSession extends LinkEntity<Receiver> {
           errorSource: "receive",
           entityPath: this.entityPath,
           fullyQualifiedNamespace: this._context.config.host,
+          identifier: this.identifier,
         });
       }
     };
@@ -482,7 +504,7 @@ export class MessageSession extends LinkEntity<Receiver> {
         );
         try {
           await this.close();
-        } catch (err) {
+        } catch (err: any) {
           logger.logError(
             err,
             "%s An error occurred while closing the receiver for sessionId '%s'.",
@@ -525,7 +547,7 @@ export class MessageSession extends LinkEntity<Receiver> {
         );
         try {
           await this.close();
-        } catch (err) {
+        } catch (err: any) {
           logger.logError(
             err,
             "%s An error occurred while closing the receiver for sessionId '%s'",
@@ -560,7 +582,7 @@ export class MessageSession extends LinkEntity<Receiver> {
       await super.close();
 
       this._batchingReceiverLite.terminate(error);
-    } catch (err) {
+    } catch (err: any) {
       logger.logError(
         err,
         "%s An error occurred while closing the message session with id '%s'",
@@ -637,12 +659,13 @@ export class MessageSession extends LinkEntity<Receiver> {
           context.delivery!,
           true,
           this.receiveMode,
-          this.skipParsingBodyAsJson
+          this.skipParsingBodyAsJson,
+          this.skipConvertingDate
         );
 
         try {
           await this._onMessage(bMessage);
-        } catch (err) {
+        } catch (err: any) {
           logger.logError(
             err,
             "%s An error occurred while running user's message handler for the message " +
@@ -655,6 +678,7 @@ export class MessageSession extends LinkEntity<Receiver> {
             errorSource: "processMessageCallback",
             entityPath: this.entityPath,
             fullyQualifiedNamespace: this._context.config.host,
+            identifier: this.identifier,
           });
 
           const error = translateServiceBusError(err);
@@ -678,7 +702,7 @@ export class MessageSession extends LinkEntity<Receiver> {
                 undefined,
                 this._retryOptions
               );
-            } catch (abandonError) {
+            } catch (abandonError: any) {
               const translatedError = translateServiceBusError(abandonError);
               logger.logError(
                 translatedError,
@@ -693,6 +717,7 @@ export class MessageSession extends LinkEntity<Receiver> {
                 errorSource: "abandon",
                 entityPath: this.entityPath,
                 fullyQualifiedNamespace: this._context.config.host,
+                identifier: this.identifier,
               });
             }
           }
@@ -700,7 +725,7 @@ export class MessageSession extends LinkEntity<Receiver> {
         } finally {
           try {
             this.receiverHelper.addCredit(1);
-          } catch (err) {
+          } catch (err: any) {
             // this isn't something we expect in normal operation - we'd only get here
             // because of a bug in our code.
             this.processCreditError(err);
@@ -721,7 +746,7 @@ export class MessageSession extends LinkEntity<Receiver> {
               bMessage.messageId
             );
             await completeMessage(bMessage, this._context, this.entityPath, this._retryOptions);
-          } catch (completeError) {
+          } catch (completeError: any) {
             const translatedError = translateServiceBusError(completeError);
             logger.logError(
               translatedError,
@@ -734,6 +759,7 @@ export class MessageSession extends LinkEntity<Receiver> {
               errorSource: "complete",
               entityPath: this.entityPath,
               fullyQualifiedNamespace: this._context.config.host,
+              identifier: this.identifier,
             });
           }
         }
@@ -743,7 +769,7 @@ export class MessageSession extends LinkEntity<Receiver> {
 
       try {
         this.receiverHelper.addCredit(this.maxConcurrentCalls);
-      } catch (err) {
+      } catch (err: any) {
         // this isn't something we expect in normal operation - we'd only get here
         // because of a bug in our code.
         this.processCreditError(err);
@@ -767,6 +793,7 @@ export class MessageSession extends LinkEntity<Receiver> {
         errorSource: "receive",
         entityPath: this.entityPath,
         fullyQualifiedNamespace: this._context.config.host,
+        identifier: this.identifier,
       });
     }
   }
@@ -790,6 +817,7 @@ export class MessageSession extends LinkEntity<Receiver> {
       errorSource: "processMessageCallback",
       entityPath: this.entityPath,
       fullyQualifiedNamespace: this._context.config.host,
+      identifier: this.identifier,
     });
   }
 
@@ -815,7 +843,7 @@ export class MessageSession extends LinkEntity<Receiver> {
         maxTimeAfterFirstMessageInMs,
         ...options,
       });
-    } catch (error) {
+    } catch (error: any) {
       logger.logError(error, `${this.logPrefix} Rejecting receiveMessages() with error`);
       throw error;
     }
@@ -837,8 +865,9 @@ export class MessageSession extends LinkEntity<Receiver> {
         fullyQualifiedNamespace: this._context.config.host,
         error: translateServiceBusError(connectionError),
         errorSource: "receive",
+        identifier: this.identifier,
       });
-    } catch (error) {
+    } catch (error: any) {
       logger.error(
         translateServiceBusError(error),
         `${
@@ -920,18 +949,54 @@ export class MessageSession extends LinkEntity<Receiver> {
 
   /**
    * Creates a new instance of the MessageSession based on the provided parameters.
+   * @param identifier - name to identify the message session
    * @param context - The client entity context
    * @param options - Options that can be provided while creating the MessageSession.
    */
   static async create(
+    identifier: string,
     context: ConnectionContext,
     entityPath: string,
     sessionId: string | undefined,
     options: MessageSessionOptions
   ): Promise<MessageSession> {
     throwErrorIfConnectionClosed(context);
-    const messageSession = new MessageSession(context, entityPath, sessionId, options);
-    await messageSession._init(options?.abortSignal);
+    const messageSession = new MessageSession(identifier, context, entityPath, sessionId, options);
+    let timeoutInMs: number | undefined;
+    // Only passing client timeout in link properties for accepting next available
+    // session as this is the only long-polling scenario.
+    if (sessionId === undefined) {
+      timeoutInMs = options.retryOptions?.timeoutInMs ?? Constants.defaultOperationTimeoutInMs;
+      // The number of milliseconds to use as the basis for calculating a random jitter amount
+      // opening receiver links. This is intended to ensure that multiple
+      // session operations don't timeout at the same exact moment.
+      const openReceiveLinkBaseJitterInMs = 100;
+      // The amount of time to subtract from the client timeout when setting the server timeout when attempting to
+      // accept the next available session. This will decrease the likelihood that the client times out before receiving a
+      // response from the server.
+      const openReceiveLinkBufferInMs = 20;
+      // The amount minimum threshold for the server timeout for which we will subtract the "openReceiveLinkBufferInMs".
+      // If the server timeout is less than this, we will not subtract the additional buffer.
+      const openReceiveLinkBufferThresholdInMs = 1000;
+      // Subtract a random amount up to 100ms from the operation timeout as the jitter when attempting to open next available session link.
+      // This prevents excessive resource usage when using high amounts of concurrency and accepting the next available session.
+      // Take the min of 1% of the total timeout and the base jitter amount so that we don't end up subtracting more than 1% of the total timeout.
+      const jitterBaseInMs = Math.min(timeoutInMs * 0.01, openReceiveLinkBaseJitterInMs);
+      // We set the operation timeout on the properties not only to include the jitter, but also because the server will otherwise
+      // restrict the maximum timeout to 1 minute and 5 seconds, regardless of the client timeout. We only do this for accepting next available
+      // session as this is the only long-polling scenario.
+      timeoutInMs = Math.floor(timeoutInMs - jitterBaseInMs * Math.random());
+      // Subtract an additional constant buffer to reduce the likelihood that the client times out before the service which leads to unnecessary
+      // network traffic. If the timeout is too short, we won't do this.
+      if (timeoutInMs >= openReceiveLinkBufferThresholdInMs) {
+        timeoutInMs -= openReceiveLinkBufferInMs;
+      }
+    }
+
+    await messageSession._init({
+      abortSignal: options?.abortSignal,
+      timeoutInMs,
+    });
     return messageSession;
   }
 

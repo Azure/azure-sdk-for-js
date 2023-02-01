@@ -96,7 +96,7 @@ export const subscriptionId: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-02-01",
+    defaultValue: "2022-07-07",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -230,6 +230,17 @@ export const databaseName: OperationURLParameter = {
 export const parameters3: OperationParameter = {
   parameterPath: "parameters",
   mapper: DatabaseMapper
+};
+
+export const callerRole: OperationQueryParameter = {
+  parameterPath: ["options", "callerRole"],
+  mapper: {
+    defaultValue: "Admin",
+    serializedName: "callerRole",
+    type: {
+      name: "String"
+    }
+  }
 };
 
 export const databasePrincipalsToAdd: OperationParameter = {

@@ -3,10 +3,10 @@
 
 import { assert } from "@azure/test-utils";
 import { Context } from "mocha";
-import { env, Recorder } from "@azure-tools/test-recorder";
+import { Recorder, env, isLiveMode } from "@azure-tools/test-recorder";
 import { PollerStoppedError } from "@azure/core-lro";
 
-import { SecretClient, DeletedSecret } from "../../src";
+import { DeletedSecret, SecretClient } from "../../src";
 import { assertThrowsAbortError, getServiceVersion } from "./utils/common";
 import { testPollerProperties } from "./utils/recorderUtils";
 import { authenticate } from "./utils/testAuthentication";
@@ -85,7 +85,10 @@ describe("Secrets client - Long Running Operations - delete", () => {
 
   // On playback mode, the tests happen too fast for the timeout to work
   it("can attempt to delete a secret with requestOptions timeout", async function (this: Context) {
-    recorder.skip(undefined, "Timeout tests don't work on playback mode.");
+    if (!isLiveMode()) {
+      this.skip();
+    }
+
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );

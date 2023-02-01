@@ -15,7 +15,9 @@ import {
   TRACEPARENT_PROPERTY,
 } from "../../../src/diagnostics/instrumentServiceBusMessage";
 import { ServiceBusReceivedMessage } from "../../../src";
-import { TraceFlags } from "@azure/core-tracing";
+import Sinon from "sinon";
+import { tracingClient } from "../../../src/diagnostics/tracing";
+
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
@@ -86,7 +88,7 @@ describe("utils", () => {
       try {
         await prm;
         assert.fail("Should have thrown an AbortError");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.message, StandardAbortMessage);
         assert.equal(err.name, "AbortError");
       }
@@ -113,7 +115,7 @@ describe("utils", () => {
         });
 
         assert.fail("Should have thrown an AbortError");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.message, StandardAbortMessage);
         assert.equal(err.name, "AbortError");
       }
@@ -138,7 +140,7 @@ describe("utils", () => {
         });
 
         assert.fail("Should have thrown an TimeoutError");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.message, "the message for the timeout");
         assert.equal(err.name, "OperationTimeoutError");
       }
@@ -159,7 +161,7 @@ describe("utils", () => {
         });
 
         assert.fail("Should have thrown an TimeoutError");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.message, "the message for the timeout");
         assert.equal(err.name, "OperationTimeoutError");
       }
@@ -204,7 +206,7 @@ describe("utils", () => {
         });
 
         assert.fail("Should have thrown");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.message, "Error thrown from action");
       }
 
@@ -225,7 +227,7 @@ describe("utils", () => {
           timeoutMs: 1,
           abortSignal,
         });
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.message, "the message for the timeout");
       }
 
@@ -240,7 +242,7 @@ describe("utils", () => {
           timeoutMs: neverFireMs,
           abortSignal,
         });
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.message, StandardAbortMessage);
       }
     });
@@ -273,7 +275,7 @@ describe("utils", () => {
           throw new Error("Will never be called");
         }, abortSignal);
         assert.fail("Should have thrown an AbortError");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.name, "AbortError");
         assert.equal(err.message, StandardAbortMessage);
       }
@@ -325,52 +327,21 @@ describe("utils", () => {
   });
 
   describe("extractSpanContextFromServiceBusMessage", function () {
-    it("should extract a SpanContext from a properly instrumented ServiceBusMessage", function () {
-      const traceId = "11111111111111111111111111111111";
-      const spanId = "2222222222222222";
-      const flags = "00";
+    it("should use diagnostic id from a properly instrumented ServiceBusMessage", function () {
+      const tracingClientSpy = Sinon.spy(tracingClient, "parseTraceparentHeader");
+      const traceparent = `00-11111111111111111111111111111111-2222222222222222-00`;
       const receivedMessage: ServiceBusReceivedMessage = {
         body: "This is a test.",
         state: "active",
         enqueuedTimeUtc: new Date(),
         applicationProperties: {
-          [TRACEPARENT_PROPERTY]: `00-${traceId}-${spanId}-${flags}`,
+          [TRACEPARENT_PROPERTY]: traceparent,
         },
         _rawAmqpMessage: { body: "This is a test." },
       };
 
-      const spanContext = extractSpanContextFromServiceBusMessage(receivedMessage);
-
-      assert.exists(spanContext, "Extracted spanContext should be defined.");
-      assert.equal(spanContext!.traceId, traceId, "Extracted traceId does not match expectation.");
-      assert.equal(spanContext!.spanId, spanId, "Extracted spanId does not match expectation.");
-      assert.equal(
-        spanContext!.traceFlags,
-        TraceFlags.NONE,
-        "Extracted traceFlags do not match expectations."
-      );
-    });
-
-    it("should return undefined when ServiceBusMessage is not properly instrumented", function () {
-      const traceId = "11111111111111111111111111111111";
-      const spanId = "2222222222222222";
-      const flags = "00";
-      const receivedMessage: ServiceBusReceivedMessage = {
-        body: "This is a test.",
-        state: "active",
-        enqueuedTimeUtc: new Date(),
-        applicationProperties: {
-          [TRACEPARENT_PROPERTY]: `99-${traceId}-${spanId}-${flags}`,
-        },
-        _rawAmqpMessage: { body: "This is a test." },
-      };
-
-      const spanContext = extractSpanContextFromServiceBusMessage(receivedMessage);
-
-      assert.notExists(
-        spanContext,
-        "Invalid diagnosticId version should return undefined spanContext."
-      );
+      extractSpanContextFromServiceBusMessage(receivedMessage);
+      assert.isTrue(tracingClientSpy.calledWith(traceparent));
     });
 
     it("should return undefined when ServiceBusMessage is not instrumented", function () {

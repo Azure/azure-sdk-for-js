@@ -635,6 +635,12 @@ export const Endpoint: coreClient.CompositeMapper = {
             }
           }
         }
+      },
+      alwaysServe: {
+        serializedName: "properties.alwaysServe",
+        type: {
+          name: "String"
+        }
       }
     }
   }

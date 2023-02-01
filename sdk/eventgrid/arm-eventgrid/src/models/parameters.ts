@@ -12,6 +12,8 @@ import {
   OperationQueryParameter
 } from "@azure/core-client";
 import {
+  Channel as ChannelMapper,
+  ChannelUpdateParameters as ChannelUpdateParametersMapper,
   Domain as DomainMapper,
   DomainUpdateParameters as DomainUpdateParametersMapper,
   DomainRegenerateKeyRequest as DomainRegenerateKeyRequestMapper,
@@ -20,6 +22,16 @@ import {
   Topic as TopicMapper,
   TopicUpdateParameters as TopicUpdateParametersMapper,
   TopicRegenerateKeyRequest as TopicRegenerateKeyRequestMapper,
+  PartnerConfiguration as PartnerConfigurationMapper,
+  PartnerConfigurationUpdateParameters as PartnerConfigurationUpdateParametersMapper,
+  Partner as PartnerMapper,
+  PartnerNamespace as PartnerNamespaceMapper,
+  PartnerNamespaceUpdateParameters as PartnerNamespaceUpdateParametersMapper,
+  PartnerNamespaceRegenerateKeyRequest as PartnerNamespaceRegenerateKeyRequestMapper,
+  PartnerRegistration as PartnerRegistrationMapper,
+  PartnerRegistrationUpdateParameters as PartnerRegistrationUpdateParametersMapper,
+  PartnerTopic as PartnerTopicMapper,
+  PartnerTopicUpdateParameters as PartnerTopicUpdateParametersMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
   SystemTopic as SystemTopicMapper,
   SystemTopicUpdateParameters as SystemTopicUpdateParametersMapper
@@ -71,10 +83,21 @@ export const resourceGroupName: OperationURLParameter = {
   }
 };
 
-export const domainName: OperationURLParameter = {
-  parameterPath: "domainName",
+export const partnerNamespaceName: OperationURLParameter = {
+  parameterPath: "partnerNamespaceName",
   mapper: {
-    serializedName: "domainName",
+    serializedName: "partnerNamespaceName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const channelName: OperationURLParameter = {
+  parameterPath: "channelName",
+  mapper: {
+    serializedName: "channelName",
     required: true,
     type: {
       name: "String"
@@ -85,7 +108,7 @@ export const domainName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-12-01",
+    defaultValue: "2022-06-15",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -106,14 +129,14 @@ export const contentType: OperationParameter = {
   }
 };
 
-export const domainInfo: OperationParameter = {
-  parameterPath: "domainInfo",
-  mapper: DomainMapper
+export const channelInfo: OperationParameter = {
+  parameterPath: "channelInfo",
+  mapper: ChannelMapper
 };
 
-export const domainUpdateParameters: OperationParameter = {
-  parameterPath: "domainUpdateParameters",
-  mapper: DomainUpdateParametersMapper
+export const channelUpdateParameters: OperationParameter = {
+  parameterPath: "channelUpdateParameters",
+  mapper: ChannelUpdateParametersMapper
 };
 
 export const filter: OperationQueryParameter = {
@@ -136,11 +159,6 @@ export const top: OperationQueryParameter = {
   }
 };
 
-export const regenerateKeyRequest: OperationParameter = {
-  parameterPath: "regenerateKeyRequest",
-  mapper: DomainRegenerateKeyRequestMapper
-};
-
 export const nextLink: OperationURLParameter = {
   parameterPath: "nextLink",
   mapper: {
@@ -151,6 +169,32 @@ export const nextLink: OperationURLParameter = {
     }
   },
   skipEncoding: true
+};
+
+export const domainName: OperationURLParameter = {
+  parameterPath: "domainName",
+  mapper: {
+    serializedName: "domainName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const domainInfo: OperationParameter = {
+  parameterPath: "domainInfo",
+  mapper: DomainMapper
+};
+
+export const domainUpdateParameters: OperationParameter = {
+  parameterPath: "domainUpdateParameters",
+  mapper: DomainUpdateParametersMapper
+};
+
+export const regenerateKeyRequest: OperationParameter = {
+  parameterPath: "regenerateKeyRequest",
+  mapper: DomainRegenerateKeyRequestMapper
 };
 
 export const domainTopicName: OperationURLParameter = {
@@ -164,16 +208,15 @@ export const domainTopicName: OperationURLParameter = {
   }
 };
 
-export const scope: OperationURLParameter = {
-  parameterPath: "scope",
+export const topicName: OperationURLParameter = {
+  parameterPath: "topicName",
   mapper: {
-    serializedName: "scope",
+    serializedName: "topicName",
     required: true,
     type: {
       name: "String"
     }
-  },
-  skipEncoding: true
+  }
 };
 
 export const eventSubscriptionName: OperationURLParameter = {
@@ -195,6 +238,18 @@ export const eventSubscriptionInfo: OperationParameter = {
 export const eventSubscriptionUpdateParameters: OperationParameter = {
   parameterPath: "eventSubscriptionUpdateParameters",
   mapper: EventSubscriptionUpdateParametersMapper
+};
+
+export const scope: OperationURLParameter = {
+  parameterPath: "scope",
+  mapper: {
+    serializedName: "scope",
+    required: true,
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
 };
 
 export const topicTypeName: OperationURLParameter = {
@@ -252,10 +307,10 @@ export const resourceName: OperationURLParameter = {
   }
 };
 
-export const topicName: OperationURLParameter = {
-  parameterPath: "topicName",
+export const systemTopicName: OperationURLParameter = {
+  parameterPath: "systemTopicName",
   mapper: {
-    serializedName: "topicName",
+    serializedName: "systemTopicName",
     required: true,
     type: {
       name: "String"
@@ -263,10 +318,10 @@ export const topicName: OperationURLParameter = {
   }
 };
 
-export const systemTopicName: OperationURLParameter = {
-  parameterPath: "systemTopicName",
+export const partnerTopicName: OperationURLParameter = {
+  parameterPath: "partnerTopicName",
   mapper: {
-    serializedName: "systemTopicName",
+    serializedName: "partnerTopicName",
     required: true,
     type: {
       name: "String"
@@ -287,6 +342,67 @@ export const topicUpdateParameters: OperationParameter = {
 export const regenerateKeyRequest1: OperationParameter = {
   parameterPath: "regenerateKeyRequest",
   mapper: TopicRegenerateKeyRequestMapper
+};
+
+export const partnerConfigurationInfo: OperationParameter = {
+  parameterPath: "partnerConfigurationInfo",
+  mapper: PartnerConfigurationMapper
+};
+
+export const partnerConfigurationUpdateParameters: OperationParameter = {
+  parameterPath: "partnerConfigurationUpdateParameters",
+  mapper: PartnerConfigurationUpdateParametersMapper
+};
+
+export const partnerInfo: OperationParameter = {
+  parameterPath: "partnerInfo",
+  mapper: PartnerMapper
+};
+
+export const partnerNamespaceInfo: OperationParameter = {
+  parameterPath: "partnerNamespaceInfo",
+  mapper: PartnerNamespaceMapper
+};
+
+export const partnerNamespaceUpdateParameters: OperationParameter = {
+  parameterPath: "partnerNamespaceUpdateParameters",
+  mapper: PartnerNamespaceUpdateParametersMapper
+};
+
+export const regenerateKeyRequest2: OperationParameter = {
+  parameterPath: "regenerateKeyRequest",
+  mapper: PartnerNamespaceRegenerateKeyRequestMapper
+};
+
+export const partnerRegistrationName: OperationURLParameter = {
+  parameterPath: "partnerRegistrationName",
+  mapper: {
+    serializedName: "partnerRegistrationName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const partnerRegistrationInfo: OperationParameter = {
+  parameterPath: "partnerRegistrationInfo",
+  mapper: PartnerRegistrationMapper
+};
+
+export const partnerRegistrationUpdateParameters: OperationParameter = {
+  parameterPath: "partnerRegistrationUpdateParameters",
+  mapper: PartnerRegistrationUpdateParametersMapper
+};
+
+export const partnerTopicInfo: OperationParameter = {
+  parameterPath: "partnerTopicInfo",
+  mapper: PartnerTopicMapper
+};
+
+export const partnerTopicUpdateParameters: OperationParameter = {
+  parameterPath: "partnerTopicUpdateParameters",
+  mapper: PartnerTopicUpdateParametersMapper
 };
 
 export const parentType: OperationURLParameter = {
@@ -338,39 +454,6 @@ export const parentType1: OperationURLParameter = {
   }
 };
 
-export const parentType2: OperationURLParameter = {
-  parameterPath: "parentType",
-  mapper: {
-    serializedName: "parentType",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parentType3: OperationURLParameter = {
-  parameterPath: "parentType",
-  mapper: {
-    serializedName: "parentType",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parentType4: OperationURLParameter = {
-  parameterPath: "parentType",
-  mapper: {
-    serializedName: "parentType",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const privateLinkResourceName: OperationURLParameter = {
   parameterPath: "privateLinkResourceName",
   mapper: {
@@ -396,6 +479,17 @@ export const scope1: OperationURLParameter = {
   parameterPath: "scope",
   mapper: {
     serializedName: "scope",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const verifiedPartnerName: OperationURLParameter = {
+  parameterPath: "verifiedPartnerName",
+  mapper: {
+    serializedName: "verifiedPartnerName",
     required: true,
     type: {
       name: "String"

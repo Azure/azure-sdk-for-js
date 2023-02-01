@@ -57,6 +57,7 @@ module.exports = function (config) {
     envPreprocessor: [
       "DFS_ACCOUNT_NAME",
       "DFS_ACCOUNT_SAS",
+      "ENCRYPTION_SCOPE",
       "TEST_MODE",
       "DFS_ACCOUNT_TOKEN",
       "DFS_SOFT_DELETE_ACCOUNT_NAME",

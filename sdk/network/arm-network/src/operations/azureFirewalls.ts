@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { AzureFirewalls } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,8 +19,10 @@ import {
   AzureFirewall,
   AzureFirewallsListNextOptionalParams,
   AzureFirewallsListOptionalParams,
+  AzureFirewallsListResponse,
   AzureFirewallsListAllNextOptionalParams,
   AzureFirewallsListAllOptionalParams,
+  AzureFirewallsListAllResponse,
   AzureFirewallsDeleteOptionalParams,
   AzureFirewallsGetOptionalParams,
   AzureFirewallsGetResponse,
@@ -28,8 +31,8 @@ import {
   TagsObject,
   AzureFirewallsUpdateTagsOptionalParams,
   AzureFirewallsUpdateTagsResponse,
-  AzureFirewallsListResponse,
-  AzureFirewallsListAllResponse,
+  AzureFirewallsListLearnedPrefixesOptionalParams,
+  AzureFirewallsListLearnedPrefixesResponse,
   AzureFirewallsListNextResponse,
   AzureFirewallsListAllNextResponse
 } from "../models";
@@ -64,19 +67,29 @@ export class AzureFirewallsImpl implements AzureFirewalls {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(resourceGroupName, options, settings);
       }
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
-    options?: AzureFirewallsListOptionalParams
+    options?: AzureFirewallsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<AzureFirewall[]> {
-    let result = await this._list(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AzureFirewallsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -84,7 +97,9 @@ export class AzureFirewallsImpl implements AzureFirewalls {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -112,22 +127,34 @@ export class AzureFirewallsImpl implements AzureFirewalls {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listAllPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listAllPagingPage(options, settings);
       }
     };
   }
 
   private async *listAllPagingPage(
-    options?: AzureFirewallsListAllOptionalParams
+    options?: AzureFirewallsListAllOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<AzureFirewall[]> {
-    let result = await this._listAll(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AzureFirewallsListAllResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listAll(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listAllNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -194,11 +221,13 @@ export class AzureFirewallsImpl implements AzureFirewalls {
       { resourceGroupName, azureFirewallName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -299,11 +328,13 @@ export class AzureFirewallsImpl implements AzureFirewalls {
       { resourceGroupName, azureFirewallName, parameters, options },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -390,11 +421,13 @@ export class AzureFirewallsImpl implements AzureFirewalls {
       { resourceGroupName, azureFirewallName, parameters, options },
       updateTagsOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -442,6 +475,94 @@ export class AzureFirewallsImpl implements AzureFirewalls {
     options?: AzureFirewallsListAllOptionalParams
   ): Promise<AzureFirewallsListAllResponse> {
     return this.client.sendOperationRequest({ options }, listAllOperationSpec);
+  }
+
+  /**
+   * Retrieves a list of all IP prefixes that azure firewall has learned to not SNAT.
+   * @param resourceGroupName The name of the resource group.
+   * @param azureFirewallName The name of the azure firewall.
+   * @param options The options parameters.
+   */
+  async beginListLearnedPrefixes(
+    resourceGroupName: string,
+    azureFirewallName: string,
+    options?: AzureFirewallsListLearnedPrefixesOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<AzureFirewallsListLearnedPrefixesResponse>,
+      AzureFirewallsListLearnedPrefixesResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<AzureFirewallsListLearnedPrefixesResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, azureFirewallName, options },
+      listLearnedPrefixesOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Retrieves a list of all IP prefixes that azure firewall has learned to not SNAT.
+   * @param resourceGroupName The name of the resource group.
+   * @param azureFirewallName The name of the azure firewall.
+   * @param options The options parameters.
+   */
+  async beginListLearnedPrefixesAndWait(
+    resourceGroupName: string,
+    azureFirewallName: string,
+    options?: AzureFirewallsListLearnedPrefixesOptionalParams
+  ): Promise<AzureFirewallsListLearnedPrefixesResponse> {
+    const poller = await this.beginListLearnedPrefixes(
+      resourceGroupName,
+      azureFirewallName,
+      options
+    );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -625,6 +746,37 @@ const listAllOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listLearnedPrefixesOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}/learnedIPPrefixes",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.IPPrefixesList
+    },
+    201: {
+      bodyMapper: Mappers.IPPrefixesList
+    },
+    202: {
+      bodyMapper: Mappers.IPPrefixesList
+    },
+    204: {
+      bodyMapper: Mappers.IPPrefixesList
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.azureFirewallName
+  ],
   headerParameters: [Parameters.accept],
   serializer
 };

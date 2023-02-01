@@ -1,10 +1,10 @@
 {
-  "name": "azure-core-paging-samples-js",
+  "name": "@azure-samples/core-paging-js",
   "private": true,
   "version": "1.0.0",
   "description": "Azure SDK Core client library samples for JavaScript",
   "engines": {
-    "node": ">=12.0.0"
+    "node": ">=14.0.0"
   },
   "repository": {
     "type": "git",

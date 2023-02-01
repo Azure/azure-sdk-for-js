@@ -1,0 +1,90 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://keyvault_name.vault.azure.net/keys/policynonexportable-150/create?api-version=7.4-preview.1",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "0",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-keyvault-keys/4.6.1 azsdk-js-keyvault-keys/4.6.1 core-rest-pipeline/1.10.0 Node/v16.15.1 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "e43bb70c-4363-4d00-8374-7da63a8209d9"
+      },
+      "RequestBody": null,
+      "StatusCode": 401,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "97",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 09 Nov 2022 17:22:24 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000;includeSubDomains",
+        "WWW-Authenticate": "Bearer authorization=\u0022https://login.windows.net/12345678-1234-1234-1234-123456789012\u0022, resource=\u0022https://vault.azure.net\u0022",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "e43bb70c-4363-4d00-8374-7da63a8209d9",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=167.220.77.94;act_addr_fam=InterNetwork;",
+        "x-ms-keyvault-region": "northcentralus",
+        "x-ms-keyvault-service-version": "1.9.576.1",
+        "x-ms-request-id": "6d485497-fdd7-4670-ae68-c71f71ad09c6"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "Unauthorized",
+          "message": "AKV10000: Request is missing a Bearer or PoP token."
+        }
+      }
+    },
+    {
+      "RequestUri": "https://keyvault_name.vault.azure.net/keys/policynonexportable-150/create?api-version=7.4-preview.1",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "245",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-keyvault-keys/4.6.1 azsdk-js-keyvault-keys/4.6.1 core-rest-pipeline/1.10.0 Node/v16.15.1 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "e43bb70c-4363-4d00-8374-7da63a8209d9"
+      },
+      "RequestBody": {
+        "kty": "RSA-HSM",
+        "attributes": {},
+        "release_policy": {
+          "data": "eyJhbnlPZiI6W3siYWxsT2YiOlt7ImNsYWltIjoic2RrLXRlc3QiLCJlcXVhbHMiOiJ0cnVlIn1dLCJhdXRob3JpdHkiOiJodHRwczovL3RpbW92a2V5dmF1bHRzaXRlLmF6dXJld2Vic2l0ZXMubmV0LyJ9XSwidmVyc2lvbiI6IjEuMC4wIn0"
+        }
+      },
+      "StatusCode": 400,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "109",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 09 Nov 2022 17:22:24 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000;includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "e43bb70c-4363-4d00-8374-7da63a8209d9",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=167.220.77.94;act_addr_fam=InterNetwork;",
+        "x-ms-keyvault-rbac-assignment-id": "0b5c37e2-546f-5f67-b775-71961d2f0c3d",
+        "x-ms-keyvault-rbac-cache": "ra_age=519;da_age=759;rd_age=759;brd_age=20079;ra_notif_age=894;dec_lev=1;",
+        "x-ms-keyvault-region": "northcentralus",
+        "x-ms-keyvault-service-version": "1.9.576.1",
+        "x-ms-request-id": "5b0a8bfb-566c-4fd8-a0b2-783460ae4800"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "BadParameter",
+          "message": "AKV.SKR.1005: Non-exportable keys must not have release policy."
+        }
+      }
+    }
+  ],
+  "Variables": {
+    "attestation": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik5WYWRfSmdZekJhVFJpTTZxNTFCTkYwUzhJOGhjaVNOMFNGX21IRU1yQ00iLCJqa3UiOiJodHRwczovL3RpbW92a2V5dmF1bHRzaXRlLmF6dXJld2Vic2l0ZXMubmV0L2tleXMifQ.eyJpc3MiOiJodHRwczovL3RpbW92a2V5dmF1bHRzaXRlLmF6dXJld2Vic2l0ZXMubmV0LyIsInNkay10ZXN0Ijp0cnVlLCJ4LW1zLWluaXR0aW1lIjp7fSwieC1tcy1ydW50aW1lIjp7ImtleXMiOlt7Imt0eSI6IlJTQSIsImtpZCI6ImZha2UtcmVsZWFzZS1rZXkiLCJ1c2UiOiJlbmMiLCJlIjoiQVFBQiIsIm4iOiI2YVpKdHRuLVJWb0dDUUZPQTNrTWJqdVpLNE55YThjU09qOHB1X0MzX1VfX0NVY3lOZUF4SDJ5cV9KbGtidDNFZHpYdjFGVEZTaTc1VDRXLXpxVk00aktfNTdwOEhaa19UN1hhQVExaG9IazFCRGhfYXdVUzBqQ3E3eDI1LWM1ZzIxZXFnSG91LTY3LWNER2EwOUJNWDNNa0xSNFdRZElrOEpGelMzTXJCdXBXUXF2TzN6X0FiZ0NaZFNTR0RtQWVCd1FaWDFTWVRDbTNWUUZRZ0pfQmI0eFd1b09HdExKRmdtY01OekQ3U1M3X0J5M3pfLXlmNUpxZjlPSUxZSnktLVBwcnJKdFc0QzdBckx4T3o0LWNIcG1hSDRybTk5aEw1YUpwOFlWSi1DQkoyMGJmUTI3MjM1UUhpTmNtZ1o3Y0RWZDRvcXJGWXhYSTA2aXVOV2M5ZVEifV19LCJpYXQiOjE2NjgwMTQ1NDQsImV4cCI6MTY2ODYxOTM0NH0.kqDHJK6gs3udmTID67T7b6B_iSHGCrb0HxyIZcq7wPpQ2iohKGuXLTVCeiB0NGyAAve2BXOsTSso91v5wfCGrzqJRSvtKRHtG4-u9zjYDYu8UbXjlyV7KUo0cWKpldmuMZ0BT8mSicMsa80i5LPTrEQhcXssq9hR9j4B4eTmvvzHtWUZ9Q5LIUSm8q_EE4cA_38hctRDWj_54pXSK6QE85H9KXmGIJVpbxN513Jsenb_n8dohmV6yA2EcWelEm6PakfSCqB-804cPhG0q0X1B1iCynzg7Vor57DLvFES1IuM9ySGHDNyZjbT5vsEWz4nUicMNlbHGnVZaomu6dbPOg",
+    "policynonexportable": "policynonexportable-150"
+  }
+}

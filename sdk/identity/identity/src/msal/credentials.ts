@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
-
 import { AuthenticationRecord } from "./types";
 
 /**
@@ -27,6 +26,11 @@ export interface CredentialFlowGetTokenOptions extends GetTokenOptions {
    * Claims received from challenges.
    */
   claims?: string;
+
+  /**
+   * Client Assertion
+   */
+  getAssertion?: () => Promise<string>;
 }
 
 /**

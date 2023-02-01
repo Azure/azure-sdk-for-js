@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Accounts } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,8 +17,10 @@ import {
   MapsAccount,
   AccountsListByResourceGroupNextOptionalParams,
   AccountsListByResourceGroupOptionalParams,
+  AccountsListByResourceGroupResponse,
   AccountsListBySubscriptionNextOptionalParams,
   AccountsListBySubscriptionOptionalParams,
+  AccountsListBySubscriptionResponse,
   AccountsCreateOrUpdateOptionalParams,
   AccountsCreateOrUpdateResponse,
   MapsAccountUpdateParameters,
@@ -26,8 +29,9 @@ import {
   AccountsDeleteOptionalParams,
   AccountsGetOptionalParams,
   AccountsGetResponse,
-  AccountsListByResourceGroupResponse,
-  AccountsListBySubscriptionResponse,
+  AccountSasParameters,
+  AccountsListSasOptionalParams,
+  AccountsListSasResponse,
   AccountsListKeysOptionalParams,
   AccountsListKeysResponse,
   MapsKeySpecification,
@@ -67,19 +71,33 @@ export class AccountsImpl implements Accounts {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: AccountsListByResourceGroupOptionalParams
+    options?: AccountsListByResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<MapsAccount[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AccountsListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -87,7 +105,9 @@ export class AccountsImpl implements Accounts {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -118,22 +138,34 @@ export class AccountsImpl implements Accounts {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listBySubscriptionPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBySubscriptionPagingPage(options, settings);
       }
     };
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: AccountsListBySubscriptionOptionalParams
+    options?: AccountsListBySubscriptionOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<MapsAccount[]> {
-    let result = await this._listBySubscription(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AccountsListBySubscriptionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBySubscription(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listBySubscriptionNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -244,6 +276,32 @@ export class AccountsImpl implements Accounts {
     return this.client.sendOperationRequest(
       { options },
       listBySubscriptionOperationSpec
+    );
+  }
+
+  /**
+   * Create and list an account shared access signature token. Use this SAS token for authentication to
+   * Azure Maps REST APIs through various Azure Maps SDKs. As prerequisite to create a SAS Token.
+   *
+   * Prerequisites:
+   * 1. Create or have an existing User Assigned Managed Identity in the same Azure region as the
+   * account.
+   * 2. Create or update an Azure Map account with the same Azure region as the User Assigned Managed
+   * Identity is placed.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the Maps Account.
+   * @param mapsAccountSasParameters The updated parameters for the Maps Account.
+   * @param options The options parameters.
+   */
+  listSas(
+    resourceGroupName: string,
+    accountName: string,
+    mapsAccountSasParameters: AccountSasParameters,
+    options?: AccountsListSasOptionalParams
+  ): Promise<AccountsListSasResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, mapsAccountSasParameters, options },
+      listSasOperationSpec
     );
   }
 
@@ -450,6 +508,30 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
+  serializer
+};
+const listSasOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}/listSas",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.MapsAccountSasToken
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.mapsAccountSasParameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
   serializer
 };
 const listKeysOperationSpec: coreClient.OperationSpec = {

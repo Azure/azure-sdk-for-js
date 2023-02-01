@@ -34,7 +34,7 @@ const examplePackageGood = `{
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "engines": {
-    "node": ">=12.0.0"
+    "node": ">=14.0.0"
   },
   "main": "./dist/index.js",
   "module": "dist-esm/src/index.js",
@@ -93,7 +93,6 @@ const examplePackageGood = `{
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-amqp": "^3.0.0",
-    "@azure/core-asynciterator-polyfill": "^1.0.0",
     "@azure/core-auth": "^1.3.0",
     "@azure/core-tracing": "1.0.0-preview.13",
     "@azure/logger": "^1.0.0",
@@ -112,7 +111,7 @@ const examplePackageGood = `{
     "@azure/mock-hub": "^1.0.0",
     "@azure/test-utils": "^1.0.0",
     "@azure/test-utils-perf": "^1.0.0",
-    "@microsoft/api-extractor": "^7.18.11",
+    "@microsoft/api-extractor": "^7.31.1",
     "@rollup/plugin-commonjs": "11.0.2",
     "@rollup/plugin-inject": "^4.0.0",
     "@rollup/plugin-json": "^4.0.0",
@@ -126,7 +125,7 @@ const examplePackageGood = `{
     "@types/debug": "^4.1.4",
     "@types/long": "^4.0.0",
     "@types/mocha": "^7.0.2",
-    "@types/node": "^12.0.0",
+    "@types/node": "^14.0.0",
     "@types/sinon": "^9.0.4",
     "@types/uuid": "^8.0.0",
     "@types/ws": "^7.2.4",
@@ -137,7 +136,7 @@ const examplePackageGood = `{
     "chai-string": "^1.5.0",
     "cross-env": "^7.0.2",
     "debug": "^4.1.1",
-    "dotenv": "^8.2.0",
+    "dotenv": "^16.0.0",
     "downlevel-dts": "~0.4.0",
     "eslint": "^7.15.0",
     "esm": "^3.2.18",
@@ -166,7 +165,7 @@ const examplePackageGood = `{
     "rollup-plugin-terser": "^5.1.1",
     "sinon": "^9.0.2",
     "ts-node": "^10.0.0",
-    "typescript": "~4.2.0",
+    "typescript": "~4.6.0",
     "ws": "^7.1.1",
     "typedoc": "0.15.2"
   }
@@ -192,7 +191,7 @@ const examplePackageBad = `{
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "engines": {
-    "node": ">=12.0.0"
+    "node": ">=14.0.0"
   },
   "main": "./dist/index.js",
   "module": "dist-esm/src/index.js",
@@ -251,7 +250,6 @@ const examplePackageBad = `{
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-amqp": "^3.0.0",
-    "@azure/core-asynciterator-polyfill": "^1.0.0",
     "@azure/core-auth": "^1.3.0",
     "@azure/core-tracing": "1.0.0-preview.13",
     "@azure/logger": "^1.0.0",
@@ -270,7 +268,7 @@ const examplePackageBad = `{
     "@azure/mock-hub": "^1.0.0",
     "@azure/test-utils": "^1.0.0",
     "@azure/test-utils-perf": "^1.0.0",
-    "@microsoft/api-extractor": "^7.18.11",
+    "@microsoft/api-extractor": "^7.31.1",
     "@rollup/plugin-commonjs": "11.0.2",
     "@rollup/plugin-inject": "^4.0.0",
     "@rollup/plugin-json": "^4.0.0",
@@ -284,7 +282,7 @@ const examplePackageBad = `{
     "@types/debug": "^4.1.4",
     "@types/long": "^4.0.0",
     "@types/mocha": "^7.0.2",
-    "@types/node": "^12.0.0",
+    "@types/node": "^14.0.0",
     "@types/sinon": "^9.0.4",
     "@types/uuid": "^8.0.0",
     "@types/ws": "^7.2.4",
@@ -295,7 +293,7 @@ const examplePackageBad = `{
     "chai-string": "^1.5.0",
     "cross-env": "^7.0.2",
     "debug": "^4.1.1",
-    "dotenv": "^8.2.0",
+    "dotenv": "^16.0.0",
     "downlevel-dts": "~0.4.0",
     "eslint": "^7.15.0",
     "esm": "^3.2.18",
@@ -324,7 +322,7 @@ const examplePackageBad = `{
     "rollup-plugin-terser": "^5.1.1",
     "sinon": "^9.0.2",
     "ts-node": "^10.0.0",
-    "typescript": "~4.2.0",
+    "typescript": "~4.6.0",
     "ws": "^7.1.1",
     "typedoc": "0.15.2"
   }
