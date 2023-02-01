@@ -32,6 +32,7 @@ import {
 import { Test_CPK_INFO } from "./utils/fakeTestSecrets";
 import { base64encode } from "../src/utils/utils.common";
 import { Context } from "mocha";
+import { isRestError } from "@azure/core-rest-pipeline";
 
 describe("BlobClient", () => {
   let blobServiceClient: BlobServiceClient;
@@ -743,21 +744,24 @@ describe("BlobClient", () => {
     assert.deepStrictEqual(properties2.copyId, result.copyId);
     assert.equal(properties2.accessTier, initialTier);
 
-    // A service feature is being rolling out which will sanitize the sig field
-    // so we remove it before comparing urls.
-    assert.ok(properties2.copySource, "Expecting valid 'properties2.copySource");
+    // we don't record this header so we can't find it during playback
+    if (isLiveMode()) {
+      // A service feature is being rolling out which will sanitize the sig field
+      // so we remove it before comparing urls.
+      assert.ok(properties2.copySource, "Expecting valid 'properties2.copySource");
 
-    const sanitizedActualUrl = new URL(properties2.copySource!);
-    sanitizedActualUrl.searchParams.delete("sig");
+      const sanitizedActualUrl = new URL(properties2.copySource!);
+      sanitizedActualUrl.searchParams.delete("sig");
 
-    const sanitizedExpectedUrl = new URL(blobClient.url);
-    sanitizedExpectedUrl.searchParams.delete("sig");
+      const sanitizedExpectedUrl = new URL(blobClient.url);
+      sanitizedExpectedUrl.searchParams.delete("sig");
 
-    assert.strictEqual(
-      sanitizedActualUrl.toString(),
-      sanitizedExpectedUrl.toString(),
-      "copySource does not match original source"
-    );
+      assert.strictEqual(
+        sanitizedActualUrl.toString(),
+        sanitizedExpectedUrl.toString(),
+        "copySource does not match original source"
+      );
+    }
 
     await newBlobURL.setAccessTier(BlockBlobTier.Hot);
     const properties3 = await newBlobURL.getProperties();
@@ -979,24 +983,31 @@ describe("BlobClient", () => {
       await blobClient.setTags(tags);
     });
 
-    async function throwExpectedError(promise: Promise<any>, errorCode: string): Promise<boolean> {
-      let expectedExceptionCaught = false;
+    async function throwExpectedError(promise: Promise<any>, errorCode: string): Promise<void> {
       try {
         await promise;
-      } catch (e: any) {
-        assert.equal(e.details?.errorCode, errorCode);
-        expectedExceptionCaught = true;
+        assert.fail("Expected promise to reject with a RestError");
+      } catch (e: unknown) {
+        if (isRestError(e)) {
+          if (e.code) {
+            assert.equal(e.code, errorCode);
+          } else if (e.details) {
+            assert.nestedPropertyVal(e.details, "errorCode", errorCode);
+          } else {
+            throw e;
+          }
+        } else {
+          throw e;
+        }
       }
-      return expectedExceptionCaught;
     }
 
     it("getTags", async function () {
       await blobClient.getTags({ conditions: tagConditionMet });
-      assert.ok(
-        await throwExpectedError(
-          blobClient.getTags({ conditions: tagConditionUnmet }),
-          "ConditionNotMet"
-        )
+
+      await throwExpectedError(
+        blobClient.getTags({ conditions: tagConditionUnmet }),
+        "ConditionNotMet"
       );
     });
 
@@ -1006,11 +1017,9 @@ describe("BlobClient", () => {
       };
       await blobClient.setTags(tags2, { conditions: tagConditionMet });
 
-      assert.ok(
-        await throwExpectedError(
-          blobClient.setTags(tags, { conditions: tagConditionUnmet }),
-          "ConditionNotMet"
-        )
+      await throwExpectedError(
+        blobClient.setTags(tags, { conditions: tagConditionUnmet }),
+        "ConditionNotMet"
       );
     });
 
@@ -1026,11 +1035,9 @@ describe("BlobClient", () => {
       assert.equal(result.leaseStatus, "locked");
 
       const newGuid = "3c7e72ebb4304526bc53d8ecef03798f";
-      assert.ok(
-        await throwExpectedError(
-          leaseClient.changeLease(newGuid, { conditions: tagConditionUnmet }),
-          "ConditionNotMet"
-        )
+      await throwExpectedError(
+        leaseClient.changeLease(newGuid, { conditions: tagConditionUnmet }),
+        "ConditionNotMet"
       );
     });
 
@@ -1039,14 +1046,8 @@ describe("BlobClient", () => {
       const duration = 15;
       const leaseClient = containerClient.getBlobLeaseClient(guid);
 
-      let exceptionCaught = false;
-      try {
-        await leaseClient.acquireLease(duration, { conditions: tagConditionMet });
-      } catch (err: any) {
-        assert.ok(err instanceof RangeError);
-        exceptionCaught = true;
-      }
-      assert.ok(exceptionCaught);
+      const promise = leaseClient.acquireLease(duration, { conditions: tagConditionMet });
+      await assert.isRejected(promise, RangeError);
     });
 
     it("async copy's destination blob", async () => {
@@ -1058,11 +1059,9 @@ describe("BlobClient", () => {
       };
       await newBlobClient.upload(content, content.length, { tags: tags2 });
 
-      assert.ok(
-        await throwExpectedError(
-          newBlobClient.beginCopyFromURL(blobClient.url, { conditions: tagConditionUnmet }),
-          "ConditionNotMet"
-        )
+      await throwExpectedError(
+        newBlobClient.beginCopyFromURL(blobClient.url, { conditions: tagConditionUnmet }),
+        "ConditionNotMet"
       );
 
       await newBlobClient.beginCopyFromURL(blobClient.url, {
@@ -1075,11 +1074,9 @@ describe("BlobClient", () => {
         recorder.variable("copiedblob", getUniqueName("copiedblob"))
       );
 
-      assert.ok(
-        await throwExpectedError(
-          newBlobClient.beginCopyFromURL(blobClient.url, { sourceConditions: tagConditionUnmet }),
-          "ConditionNotMet"
-        )
+      await throwExpectedError(
+        newBlobClient.beginCopyFromURL(blobClient.url, { sourceConditions: tagConditionUnmet }),
+        "ConditionNotMet"
       );
 
       await newBlobClient.beginCopyFromURL(blobClient.url, {
@@ -1095,13 +1092,11 @@ describe("BlobClient", () => {
         tag: "val",
       };
       await newBlobClient.upload(content, content.length, { tags: tags2 });
-      assert.ok(
-        await throwExpectedError(
-          newBlobClient.syncCopyFromURL("https://azure.github.io/azure-sdk-for-js/index.html", {
-            conditions: tagConditionUnmet,
-          }),
-          "ConditionNotMet"
-        )
+      await throwExpectedError(
+        newBlobClient.syncCopyFromURL("https://azure.github.io/azure-sdk-for-js/index.html", {
+          conditions: tagConditionUnmet,
+        }),
+        "ConditionNotMet"
       );
 
       await newBlobClient.syncCopyFromURL("https://azure.github.io/azure-sdk-for-js/index.html", {
@@ -1110,41 +1105,33 @@ describe("BlobClient", () => {
     });
 
     it("download", async function () {
-      assert.ok(
-        await throwExpectedError(
-          blobClient.download(undefined, undefined, { conditions: tagConditionUnmet }),
-          "ConditionNotMet"
-        )
+      await throwExpectedError(
+        blobClient.download(undefined, undefined, { conditions: tagConditionUnmet }),
+        "ConditionNotMet"
       );
       await blobClient.download(undefined, undefined, { conditions: tagConditionMet });
     });
 
     it("getProperties", async function () {
-      assert.ok(
-        await throwExpectedError(
-          blobClient.getProperties({ conditions: tagConditionUnmet }),
-          "ConditionNotMet"
-        )
+      await throwExpectedError(
+        blobClient.getProperties({ conditions: tagConditionUnmet }),
+        "ConditionNotMet"
       );
       await blobClient.getProperties({ conditions: tagConditionMet });
     });
 
     it("delete", async function () {
-      assert.ok(
-        await throwExpectedError(
-          blobClient.delete({ conditions: tagConditionUnmet }),
-          "ConditionNotMet"
-        )
+      await throwExpectedError(
+        blobClient.delete({ conditions: tagConditionUnmet }),
+        "ConditionNotMet"
       );
       await blobClient.delete({ conditions: tagConditionMet });
     });
 
     it("setHTTPHeaders", async function () {
-      assert.ok(
-        await throwExpectedError(
-          blobClient.setHTTPHeaders({}, { conditions: tagConditionUnmet }),
-          "ConditionNotMet"
-        )
+      await throwExpectedError(
+        blobClient.setHTTPHeaders({}, { conditions: tagConditionUnmet }),
+        "ConditionNotMet"
       );
       await blobClient.setHTTPHeaders({}, { conditions: tagConditionMet });
     });
@@ -1154,31 +1141,25 @@ describe("BlobClient", () => {
         a: "a",
         b: "b",
       };
-      assert.ok(
-        await throwExpectedError(
-          blobClient.setMetadata(metadata, { conditions: tagConditionUnmet }),
-          "ConditionNotMet"
-        )
+      await throwExpectedError(
+        blobClient.setMetadata(metadata, { conditions: tagConditionUnmet }),
+        "ConditionNotMet"
       );
       await blobClient.setMetadata(metadata, { conditions: tagConditionMet });
     });
 
     it("createSnapshot", async function () {
-      assert.ok(
-        await throwExpectedError(
-          blobClient.createSnapshot({ conditions: tagConditionUnmet }),
-          "ConditionNotMet"
-        )
+      await throwExpectedError(
+        blobClient.createSnapshot({ conditions: tagConditionUnmet }),
+        "ConditionNotMet"
       );
       await blobClient.createSnapshot({ conditions: tagConditionMet });
     });
 
     it("setAccessTier", async function () {
-      assert.ok(
-        await throwExpectedError(
-          blobClient.setAccessTier("Hot", { conditions: tagConditionUnmet }),
-          "ConditionNotMet"
-        )
+      await throwExpectedError(
+        blobClient.setAccessTier("Hot", { conditions: tagConditionUnmet }),
+        "ConditionNotMet"
       );
       await blobClient.setAccessTier("Hot", { conditions: tagConditionMet });
     });
@@ -1188,11 +1169,9 @@ describe("BlobClient", () => {
         recorder.variable("appendBlob", getUniqueName("appendBlob"))
       );
       await newBlobClient.create({ tags });
-      assert.ok(
-        await throwExpectedError(
-          newBlobClient.create({ conditions: tagConditionUnmet }),
-          "ConditionNotMet"
-        )
+      await throwExpectedError(
+        newBlobClient.create({ conditions: tagConditionUnmet }),
+        "ConditionNotMet"
       );
       await newBlobClient.create({ conditions: tagConditionMet });
     });
@@ -1202,21 +1181,17 @@ describe("BlobClient", () => {
         recorder.variable("appendBlob", getUniqueName("appendBlob"))
       );
       await newBlobClient.create({ tags });
-      assert.ok(
-        await throwExpectedError(
-          newBlobClient.appendBlock(content, content.length, { conditions: tagConditionUnmet }),
-          "ConditionNotMet"
-        )
+      await throwExpectedError(
+        newBlobClient.appendBlock(content, content.length, { conditions: tagConditionUnmet }),
+        "ConditionNotMet"
       );
       await newBlobClient.appendBlock(content, content.length, { conditions: tagConditionMet });
     });
 
     it("BlockBlobClient.upload", async () => {
-      assert.ok(
-        await throwExpectedError(
-          blockBlobClient.upload(content, content.length, { conditions: tagConditionUnmet }),
-          "ConditionNotMet"
-        )
+      await throwExpectedError(
+        blockBlobClient.upload(content, content.length, { conditions: tagConditionUnmet }),
+        "ConditionNotMet"
       );
       await blockBlobClient.upload(content, content.length, { conditions: tagConditionMet });
     });
@@ -1226,13 +1201,11 @@ describe("BlobClient", () => {
       await blockBlobClient.stageBlock(base64encode("1"), body, body.length);
       await blockBlobClient.stageBlock(base64encode("2"), body, body.length);
 
-      assert.ok(
-        await throwExpectedError(
-          blockBlobClient.commitBlockList([base64encode("1"), base64encode("2")], {
-            conditions: tagConditionUnmet,
-          }),
-          "ConditionNotMet"
-        )
+      await throwExpectedError(
+        blockBlobClient.commitBlockList([base64encode("1"), base64encode("2")], {
+          conditions: tagConditionUnmet,
+        }),
+        "ConditionNotMet"
       );
       await blockBlobClient.commitBlockList([base64encode("1"), base64encode("2")], {
         conditions: tagConditionMet,
@@ -1245,11 +1218,9 @@ describe("BlobClient", () => {
       await blockBlobClient.stageBlock(base64encode("2"), body, body.length);
       await blockBlobClient.commitBlockList([base64encode("1"), base64encode("2")], { tags });
 
-      assert.ok(
-        await throwExpectedError(
-          blockBlobClient.getBlockList("all", { conditions: tagConditionUnmet }),
-          "ConditionNotMet"
-        )
+      await throwExpectedError(
+        blockBlobClient.getBlockList("all", { conditions: tagConditionUnmet }),
+        "ConditionNotMet"
       );
       await blockBlobClient.getBlockList("all", { conditions: tagConditionMet });
     });
@@ -1259,11 +1230,9 @@ describe("BlobClient", () => {
         recorder.variable("pageBlob", getUniqueName("pageBlob"))
       );
       await newBlobClient.create(512, { tags });
-      assert.ok(
-        await throwExpectedError(
-          newBlobClient.create(512, { conditions: tagConditionUnmet }),
-          "ConditionNotMet"
-        )
+      await throwExpectedError(
+        newBlobClient.create(512, { conditions: tagConditionUnmet }),
+        "ConditionNotMet"
       );
       await newBlobClient.create(512, { conditions: tagConditionMet });
     });
@@ -1273,11 +1242,9 @@ describe("BlobClient", () => {
         recorder.variable("pageBlob", getUniqueName("pageBlob"))
       );
       await newBlobClient.create(512, { tags });
-      assert.ok(
-        await throwExpectedError(
-          newBlobClient.uploadPages("a".repeat(512), 0, 512, { conditions: tagConditionUnmet }),
-          "ConditionNotMet"
-        )
+      await throwExpectedError(
+        newBlobClient.uploadPages("a".repeat(512), 0, 512, { conditions: tagConditionUnmet }),
+        "ConditionNotMet"
       );
       await newBlobClient.uploadPages("a".repeat(512), 0, 512, { conditions: tagConditionMet });
     });
@@ -1287,11 +1254,9 @@ describe("BlobClient", () => {
         recorder.variable("pageBlob", getUniqueName("pageBlob"))
       );
       await newBlobClient.create(512, { tags });
-      assert.ok(
-        await throwExpectedError(
-          newBlobClient.clearPages(0, 512, { conditions: tagConditionUnmet }),
-          "ConditionNotMet"
-        )
+      await throwExpectedError(
+        newBlobClient.clearPages(0, 512, { conditions: tagConditionUnmet }),
+        "ConditionNotMet"
       );
       await newBlobClient.clearPages(0, 512, { conditions: tagConditionMet });
     });
@@ -1301,16 +1266,14 @@ describe("BlobClient", () => {
         recorder.variable("pageBlob", getUniqueName("pageBlob"))
       );
       await newBlobClient.create(512, { tags });
-      assert.ok(
-        await throwExpectedError(
-          newBlobClient
-            .listPageRanges(0, 512, {
-              conditions: tagConditionUnmet,
-            })
-            .byPage()
-            .next(),
-          "ConditionNotMet"
-        )
+      await throwExpectedError(
+        newBlobClient
+          .listPageRanges(0, 512, {
+            conditions: tagConditionUnmet,
+          })
+          .byPage()
+          .next(),
+        "ConditionNotMet"
       );
       await newBlobClient
         .listPageRanges(0, 512, {
@@ -1329,16 +1292,14 @@ describe("BlobClient", () => {
       assert.ok(snapshotResult.snapshot);
       await newBlobClient.uploadPages("a".repeat(512), 0, 512);
 
-      assert.ok(
-        await throwExpectedError(
-          newBlobClient
-            .listPageRangesDiff(0, 512, snapshotResult.snapshot!, {
-              conditions: tagConditionUnmet,
-            })
-            .byPage()
-            .next(),
-          "ConditionNotMet"
-        )
+      await throwExpectedError(
+        newBlobClient
+          .listPageRangesDiff(0, 512, snapshotResult.snapshot!, {
+            conditions: tagConditionUnmet,
+          })
+          .byPage()
+          .next(),
+        "ConditionNotMet"
       );
       await newBlobClient
         .listPageRangesDiff(0, 512, snapshotResult.snapshot!, {
@@ -1353,11 +1314,9 @@ describe("BlobClient", () => {
         recorder.variable("pageBlob", getUniqueName("pageBlob"))
       );
       await newBlobClient.create(512, { tags });
-      assert.ok(
-        await throwExpectedError(
-          newBlobClient.getPageRanges(0, 512, { conditions: tagConditionUnmet }),
-          "ConditionNotMet"
-        )
+      await throwExpectedError(
+        newBlobClient.getPageRanges(0, 512, { conditions: tagConditionUnmet }),
+        "ConditionNotMet"
       );
       await newBlobClient.getPageRanges(0, 512, { conditions: tagConditionMet });
     });
@@ -1371,13 +1330,11 @@ describe("BlobClient", () => {
       assert.ok(snapshotResult.snapshot);
       await newBlobClient.uploadPages("a".repeat(512), 0, 512);
 
-      assert.ok(
-        await throwExpectedError(
-          newBlobClient.getPageRangesDiff(0, 512, snapshotResult.snapshot!, {
-            conditions: tagConditionUnmet,
-          }),
-          "ConditionNotMet"
-        )
+      await throwExpectedError(
+        newBlobClient.getPageRangesDiff(0, 512, snapshotResult.snapshot!, {
+          conditions: tagConditionUnmet,
+        }),
+        "ConditionNotMet"
       );
       await newBlobClient.getPageRangesDiff(0, 512, snapshotResult.snapshot!, {
         conditions: tagConditionMet,
@@ -1389,11 +1346,9 @@ describe("BlobClient", () => {
         recorder.variable("pageBlob", getUniqueName("pageBlob"))
       );
       await newBlobClient.create(512, { tags });
-      assert.ok(
-        await throwExpectedError(
-          newBlobClient.resize(1024, { conditions: tagConditionUnmet }),
-          "ConditionNotMet"
-        )
+      await throwExpectedError(
+        newBlobClient.resize(1024, { conditions: tagConditionUnmet }),
+        "ConditionNotMet"
       );
       await newBlobClient.resize(1024, { conditions: tagConditionMet });
     });
@@ -1403,13 +1358,11 @@ describe("BlobClient", () => {
         recorder.variable("pageBlob", getUniqueName("pageBlob"))
       );
       await newBlobClient.create(512, { tags });
-      assert.ok(
-        await throwExpectedError(
-          newBlobClient.updateSequenceNumber("increment", undefined, {
-            conditions: tagConditionUnmet,
-          }),
-          "ConditionNotMet"
-        )
+      await throwExpectedError(
+        newBlobClient.updateSequenceNumber("increment", undefined, {
+          conditions: tagConditionUnmet,
+        }),
+        "ConditionNotMet"
       );
       await newBlobClient.updateSequenceNumber("increment", undefined, {
         conditions: tagConditionMet,
@@ -1576,10 +1529,7 @@ describe("BlobClient - Object Replication", () => {
   });
 
   it("download to file", async function (this: Context) {
-    if (!isNode) {
-      this.skip();
-    }
-    if (isNode && !isLiveMode()) {
+    if (!isNode || !isLiveMode()) {
       this.skip();
     }
     const srcDownloadedFilePath = recorder.variable(
