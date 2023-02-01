@@ -47,6 +47,20 @@ export type ClientOptions = PipelineOptions & {
 export function createRestError(message: string, response: PathUncheckedResponse): RestError;
 
 // @public
+export interface ErrorModel {
+    code: string;
+    details: Array<ErrorModel>;
+    innererror?: InnerError;
+    message: string;
+    target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error: ErrorModel;
+}
+
+// @public
 export function getClient(baseUrl: string, options?: ClientOptions): Client;
 
 // @public
@@ -69,6 +83,12 @@ export type HttpResponse = {
     body: unknown;
     status: string;
 };
+
+// @public
+export interface InnerError {
+    code: string;
+    innererror?: InnerError;
+}
 
 // @public
 export type PathParameters<TRoute extends string> = TRoute extends `${infer _Head}/{${infer _Param}}${infer Tail}` ? [

@@ -23,7 +23,7 @@
   "files": [
     "dist/",
     "dist-esm/src/",
-    "types/maps-search.d.ts",
+    "types/maps-search-rest.d.ts",
     "README.md",
     "LICENSE",
     "review/*"
