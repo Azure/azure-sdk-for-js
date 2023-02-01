@@ -19,7 +19,9 @@ describe("DevCenter Dev Boxes Operations Test", () => {
 
   beforeEach(async function (this: Context) {
     recorder = await createRecorder(this);
-    endpoint = env["DEVCENTER_ENDPOINT"] || "<endpoint>";
+    endpoint =
+      env["DEVCENTER_ENDPOINT"] ||
+      "https://8ab2df1c-ed88-4946-a8a9-e1bbb3e4d1fd-sdk-dc-na4b3zkj5hmeo.eastus.devcenter.azure.com";
     client = createRecordedClient(recorder, endpoint, {
       allowInsecureConnection: false,
     });
@@ -31,8 +33,8 @@ describe("DevCenter Dev Boxes Operations Test", () => {
 
   it("Create dev box", async function () {
     // Build client and fetch required parameters
-    const projectName = env["DEFAULT_PROJECT_NAME"] || "sdk-default-project";
-    const poolName = env["DEFAULT_POOL_NAME"] || "sdk-default-pool";
+    const projectName = env["DEFAULT_PROJECT_NAME"] || "sdk-project-hdhjgzht7tgyq";
+    const poolName = env["DEFAULT_POOL_NAME"] || "sdk-pool-bxwfu4kgo6dz6";
     const devBoxName = "SdkTestDevBox";
     const userId = "me";
 

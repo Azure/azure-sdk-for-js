@@ -19,7 +19,9 @@ describe("DevCenter Environments Operations Test", () => {
 
   beforeEach(async function (this: Context) {
     recorder = await createRecorder(this);
-    endpoint = env["DEVCENTER_ENDPOINT"] || "<endpoint>";
+    endpoint =
+      env["DEVCENTER_ENDPOINT"] ||
+      "https://8ab2df1c-ed88-4946-a8a9-e1bbb3e4d1fd-sdk-dc-na4b3zkj5hmeo.eastus.devcenter.azure.com";
     client = createRecordedClient(recorder, endpoint, {
       allowInsecureConnection: false,
     });
@@ -31,11 +33,11 @@ describe("DevCenter Environments Operations Test", () => {
 
   it("Create environment", async function () {
     // Build client and fetch required parameters
-    const projectName = env["DEFAULT_PROJECT_NAME"] || "sdk-default-project";
+    const projectName = env["DEFAULT_PROJECT_NAME"] || "sdk-project-hdhjgzht7tgyq";
     const catalogName = env["DEFAULT_CATALOG_NAME"] || "sdk-default-catalog";
     const catalogItemName = env["DEFAULT_CATALOG_ITEM_NAME"] || "Empty";
     const environmentTypeName =
-      env["DEFAULT_ENVIRONMENT_TYPE_NAME"] || "sdk-default-environment-type";
+      env["DEFAULT_ENVIRONMENT_TYPE_NAME"] || "sdk-environment-type-5x47m3lk7iv3i";
     const environmentName = "SdkTest-Environment";
     const userId = "me";
 
