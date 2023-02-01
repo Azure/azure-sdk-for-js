@@ -3,7 +3,6 @@
 
 import * as http from "http";
 import * as https from "https";
-import * as tough from "tough-cookie";
 import { AbortController, AbortError } from "@azure/abort-controller";
 import { HttpHeaders, HttpHeadersLike } from "./httpHeaders";
 import { ProxyAgent, createProxyAgent, isUrlHttps } from "./proxyAgent";
@@ -299,8 +298,6 @@ export class NodeFetchHttpClient implements HttpClient {
   private proxyAgentMap: Map<string, AgentCache> = new Map();
   private keepAliveAgents: AgentCache = {};
 
-  private readonly cookieJar = new tough.CookieJar(undefined, { looseMode: true });
-
   private getOrCreateAgent(httpRequest: WebResourceLike): http.Agent | https.Agent {
     const isHttps = isUrlHttps(httpRequest.url);
 
@@ -368,20 +365,6 @@ export class NodeFetchHttpClient implements HttpClient {
   async prepareRequest(httpRequest: WebResourceLike): Promise<Partial<RequestInit>> {
     const requestInit: Partial<RequestInit & { agent?: any; compress?: boolean }> = {};
 
-    if (this.cookieJar && !httpRequest.headers.get("Cookie")) {
-      const cookieString = await new Promise<string>((resolve, reject) => {
-        this.cookieJar!.getCookieString(httpRequest.url, (err, cookie) => {
-          if (err) {
-            reject(err);
-          } else {
-            resolve(cookie);
-          }
-        });
-      });
-
-      httpRequest.headers.set("Cookie", cookieString);
-    }
-
     // Set the http(s) agent
     requestInit.agent = this.getOrCreateAgent(httpRequest);
 
@@ -391,27 +374,9 @@ export class NodeFetchHttpClient implements HttpClient {
   }
 
   /**
-   * Process an HTTP response. Handles persisting a cookie for subsequent requests if the response has a "Set-Cookie" header.
+   * Process an HTTP response.
    */
-  async processRequest(operationResponse: HttpOperationResponse): Promise<void> {
-    if (this.cookieJar) {
-      const setCookieHeader = operationResponse.headers.get("Set-Cookie");
-      if (setCookieHeader !== undefined) {
-        await new Promise<void>((resolve, reject) => {
-          this.cookieJar!.setCookie(
-            setCookieHeader,
-            operationResponse.request.url,
-            { ignoreError: true },
-            (err) => {
-              if (err) {
-                reject(err);
-              } else {
-                resolve();
-              }
-            }
-          );
-        });
-      }
-    }
+  async processRequest(_operationResponse: HttpOperationResponse): Promise<void> {
+    /* no_op */
   }
 }
