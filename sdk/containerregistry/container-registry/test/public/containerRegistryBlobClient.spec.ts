@@ -178,7 +178,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
       await client.deleteBlob(digest);
     });
 
-    it("can upload a big blob with size a multiple of 4MB", async function(this: Mocha.Context) {
+    it("can upload a big blob with size a multiple of 4MB", async function (this: Mocha.Context) {
       // Skip in record and playback due to large recording size
       if (!isLiveMode()) {
         this.skip();
@@ -193,6 +193,6 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
       const bigBlob = Buffer.alloc(64 * 1024 * 1024, 0x00);
       const { digest } = await client.uploadBlob(Readable.from(bigBlob));
       await client.deleteBlob(digest);
-    })
+    });
   });
 });
