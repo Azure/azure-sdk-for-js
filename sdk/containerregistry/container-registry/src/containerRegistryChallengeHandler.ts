@@ -40,7 +40,7 @@ export class ChallengeHandler implements ChallengeCallbacks {
 
   constructor(
     private credential: ContainerRegistryRefreshTokenCredential,
-    private options: GetTokenOptions & { claims?: string } = {}
+    private options: GetTokenOptions = {}
   ) {
     this.cycler = createTokenCycler(credential, {
       refreshWindowInMs: fiveMinutesInMs,
