@@ -15,7 +15,7 @@ import createClient from "@azure-rest/developer-devcenter";
  */
 async function createEnvironment() {
   // Build client and fetch required parameters
-  const endpoint = process.env.AZURE_ENDPOINT || "<endpoint>";
+  const endpoint = process.env.DEVCENTER_ENDPOINT || "<endpoint>";
   const client = createClient(endpoint, new DefaultAzureCredential());
 
   // Get all projects
