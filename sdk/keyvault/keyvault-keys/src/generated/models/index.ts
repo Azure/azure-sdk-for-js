@@ -460,11 +460,7 @@ export enum KnownJsonWebKeyType {
   /** Octet sequence (used to represent symmetric keys) */
   Oct = "oct",
   /** Octet sequence (used to represent symmetric keys) which is stored the HSM. */
-  OctHSM = "oct-HSM",
-  /** Octet key pair (https://tools.ietf.org/html/rfc8037) */
-  OKP = "OKP",
-  /** Octet key pair (https://tools.ietf.org/html/rfc8037) with a private key which is stored in the HSM. */
-  OKPHSM = "OKP-HSM"
+  OctHSM = "oct-HSM"
 }
 
 /**
@@ -477,9 +473,7 @@ export enum KnownJsonWebKeyType {
  * **RSA**: RSA (https:\/\/tools.ietf.org\/html\/rfc3447) \
  * **RSA-HSM**: RSA with a private key which is stored in the HSM. \
  * **oct**: Octet sequence (used to represent symmetric keys) \
- * **oct-HSM**: Octet sequence (used to represent symmetric keys) which is stored the HSM. \
- * **OKP**: Octet key pair (https:\/\/tools.ietf.org\/html\/rfc8037) \
- * **OKP-HSM**: Octet key pair (https:\/\/tools.ietf.org\/html\/rfc8037) with a private key which is stored in the HSM.
+ * **oct-HSM**: Octet sequence (used to represent symmetric keys) which is stored the HSM.
  */
 export type JsonWebKeyType = string;
 
@@ -553,9 +547,7 @@ export enum KnownJsonWebKeyCurveName {
   /** The NIST P-521 elliptic curve, AKA SECG curve SECP521R1. */
   P521 = "P-521",
   /** The SECG SECP256K1 elliptic curve. */
-  P256K = "P-256K",
-  /** The Ed25519 Edwards curve. */
-  Ed25519 = "Ed25519"
+  P256K = "P-256K"
 }
 
 /**
@@ -566,8 +558,7 @@ export enum KnownJsonWebKeyCurveName {
  * **P-256**: The NIST P-256 elliptic curve, AKA SECG curve SECP256R1. \
  * **P-384**: The NIST P-384 elliptic curve, AKA SECG curve SECP384R1. \
  * **P-521**: The NIST P-521 elliptic curve, AKA SECG curve SECP521R1. \
- * **P-256K**: The SECG SECP256K1 elliptic curve. \
- * **Ed25519**: The Ed25519 Edwards curve.
+ * **P-256K**: The SECG SECP256K1 elliptic curve.
  */
 export type JsonWebKeyCurveName = string;
 
@@ -636,9 +627,7 @@ export enum KnownJsonWebKeySignatureAlgorithm {
   /** ECDSA using P-521 and SHA-512, as described in https://tools.ietf.org/html/rfc7518 */
   ES512 = "ES512",
   /** ECDSA using P-256K and SHA-256, as described in https://tools.ietf.org/html/rfc7518 */
-  ES256K = "ES256K",
-  /** Edwards-Curve Digital Signature Algorithm, as described in https://tools.ietf.org/html/rfc8032. */
-  EdDSA = "EdDSA"
+  ES256K = "ES256K"
 }
 
 /**
@@ -656,8 +645,7 @@ export enum KnownJsonWebKeySignatureAlgorithm {
  * **ES256**: ECDSA using P-256 and SHA-256, as described in https:\/\/tools.ietf.org\/html\/rfc7518. \
  * **ES384**: ECDSA using P-384 and SHA-384, as described in https:\/\/tools.ietf.org\/html\/rfc7518 \
  * **ES512**: ECDSA using P-521 and SHA-512, as described in https:\/\/tools.ietf.org\/html\/rfc7518 \
- * **ES256K**: ECDSA using P-256K and SHA-256, as described in https:\/\/tools.ietf.org\/html\/rfc7518 \
- * **EdDSA**: Edwards-Curve Digital Signature Algorithm, as described in https:\/\/tools.ietf.org\/html\/rfc8032.
+ * **ES256K**: ECDSA using P-256K and SHA-256, as described in https:\/\/tools.ietf.org\/html\/rfc7518
  */
 export type JsonWebKeySignatureAlgorithm = string;
 

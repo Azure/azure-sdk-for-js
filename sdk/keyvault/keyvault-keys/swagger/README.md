@@ -59,3 +59,33 @@ directive:
     transform: >
       $["x-ms-client-name"] = "encodedPolicy";
 ```
+
+### Remove OKP and OKP-HSM key types
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.JsonWebKey.properties.kty
+    transform: >
+      $["x-ms-enum"]["values"] = $["x-ms-enum"]["values"].filter(function(e) { return !["OKP", "OKP-HSM"].includes(e.value); });
+```
+
+### Remove Ed25519 key curve type
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.JsonWebKey.properties.crv
+    transform: >
+      $["x-ms-enum"]["values"] = $["x-ms-enum"]["values"].filter(function(e) { return e.value !== "Ed25519"; });
+```
+
+### Remove EdDSA signature algorithm
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.KeySignParameters.properties.alg
+    transform: >
+      $["x-ms-enum"]["values"] = $["x-ms-enum"]["values"].filter(function(e) { return e.value !== "EdDSA"; });
+```
