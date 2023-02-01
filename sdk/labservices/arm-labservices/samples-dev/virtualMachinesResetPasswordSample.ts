@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { ResetPasswordBody, LabServicesClient } from "@azure/arm-labservices";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Resets a lab virtual machine password.
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/labservices/resource-manager/Microsoft.LabServices/stable/2022-08-01/examples/VirtualMachines/resetPasswordVirtualMachine.json
  */
 async function resetPasswordVirtualMachine() {
-  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = "testrg123";
+  const subscriptionId =
+    process.env["LABSERVICES_SUBSCRIPTION_ID"] ||
+    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const resourceGroupName =
+    process.env["LABSERVICES_RESOURCE_GROUP"] || "testrg123";
   const labName = "testlab";
   const virtualMachineName = "template";
   const body: ResetPasswordBody = {
@@ -37,4 +43,8 @@ async function resetPasswordVirtualMachine() {
   console.log(result);
 }
 
-resetPasswordVirtualMachine().catch(console.error);
+async function main() {
+  resetPasswordVirtualMachine();
+}
+
+main().catch(console.error);

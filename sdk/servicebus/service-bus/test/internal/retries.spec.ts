@@ -354,6 +354,7 @@ describe("Retries - Receive methods", () => {
           lockRenewer: undefined,
           receiveMode: "peekLock",
           skipParsingBodyAsJson: false,
+          skipConvertingDate: false,
         }
       );
       batchingReceiver.isOpen = () => true;
