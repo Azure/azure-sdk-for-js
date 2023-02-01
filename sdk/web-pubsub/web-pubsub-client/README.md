@@ -1,6 +1,6 @@
-# Azure Web PubSub Client
+# Web PubSub client library for JavaScript
 
-[Azure Web PubSub](https://aka.ms/awps/doc) is an Azure-managed service that helps developers easily build web applications with real-time features and publish-subscribe patterns. Any scenario that requires real-time publish-subscribe messaging between server and clients or among clients can use Azure Web PubSub. Traditional real-time features that often require polling from the server or submitting HTTP requests can also use Azure Web PubSub.
+[Web PubSub](https://aka.ms/awps/doc) is an Azure-managed service that helps developers easily build web applications with real-time features and publish-subscribe patterns. Any scenario that requires real-time publish-subscribe messaging between server and clients or among clients can use Web PubSub. Traditional real-time features that often require polling from the server or submitting HTTP requests can also use Web PubSub.
 
 You can use this library on your client side to manage the WebSocket client connections, as shown below diagram:
 
@@ -21,7 +21,7 @@ Details about the terms used here are described in [Key concepts](#key-concepts)
 ### Prerequisites
 
 - An [Azure subscription][azure_sub].
-- An existing Azure Web PubSub endpoint.
+- An existing Web PubSub endpoint.
 
 ### 1. Install the `@azure/web-pubsub-client` package
 
@@ -121,7 +121,7 @@ Refer to the browser sample [samples-browser](https://github.com/Azure/azure-sdk
 
 ### Connection
 
-A connection, also known as a client or a client connection, represents an individual WebSocket connection connected to the Web PubSub service. When successfully connected, a unique connection ID is assigned to this connection by the Web PubSub service. Each `WebPubSubClient` creates its own exclusive connection.
+A connection, also known as a client or a client connection, represents an individual WebSocket connection connected to the Web PubSub. When successfully connected, a unique connection ID is assigned to this connection by the Web PubSub. Each `WebPubSubClient` creates its own exclusive connection.
 
 ### Recovery
 
@@ -133,7 +133,7 @@ Reconnection happens when the client connection drops and fails to recover. Reco
 
 ### Hub
 
-A hub is a logical concept for a set of client connections. Usually, you use one hub for one purpose, for example, a chat hub, or a notification hub. When a client connection is created, it connects to a hub, and during its lifetime, it belongs to that hub. Different applications can share one Azure Web PubSub service by using different hub names.
+A hub is a logical concept for a set of client connections. Usually, you use one hub for one purpose, for example, a chat hub, or a notification hub. When a client connection is created, it connects to a hub, and during its lifetime, it belongs to that hub. Different applications can share one Web PubSub by using different hub names.
 
 ### Group
 
@@ -238,7 +238,7 @@ try {
 
 You can set the following environment variable to get the debug logs when using this library.
 
-- Getting debug logs from the SignalR client library
+- Getting debug logs from the Web PubSub client library
 
 ```bash
 export AZURE_LOG_LEVEL=verbose
@@ -248,7 +248,7 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 
 ### Live Trace
 
-Use **Live Trace** from the Web PubSub service portal to view the live traffic.
+Use **Live Trace** from the Web PubSub portal to view the live traffic.
 
 ## Next steps
 
