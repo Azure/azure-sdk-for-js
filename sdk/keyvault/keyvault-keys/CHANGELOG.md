@@ -9,7 +9,7 @@
 - Removed support for OKP key types as introduced in 4.7.0-beta.1.
   - Removed `KeyClient.createOkpKey`.
   - Removed `OKP` and `OKP-HSM` from `KnownKeyTypes`.
-  - Removed `EdDSA` from `KnownSignatureAlgorithms`
+  - Removed `EdDSA` from `KnownSignatureAlgorithms`.
   - Removed `Ed25519` from `KnownKeyCurveNames`.
 
 ### Bugs Fixed
