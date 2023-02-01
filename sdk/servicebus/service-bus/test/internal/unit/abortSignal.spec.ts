@@ -31,6 +31,7 @@ describe("AbortSignal", () => {
     lockRenewer: undefined,
     receiveMode: <ReceiveMode>"peekLock",
     skipParsingBodyAsJson: false,
+    skipConvertingDate: false,
   };
 
   const testMessageThatDoesntMatter = {
@@ -391,6 +392,7 @@ describe("AbortSignal", () => {
         {
           retryOptions: undefined,
           skipParsingBodyAsJson: false,
+          skipConvertingDate: false,
         }
       );
 

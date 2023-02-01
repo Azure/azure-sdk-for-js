@@ -6,6 +6,7 @@ import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import * as dotenv from "dotenv";
 import { Constants as CoreAmqpConstants } from "@azure/core-amqp";
+import { isObjectWithProperties } from "@azure/core-util";
 import Long from "long";
 import {
   isServiceBusError,
@@ -74,6 +75,10 @@ describe("ServiceBusClient live tests", () => {
         const testMessages = entities.usesSessions
           ? TestMessage.getSessionSample()
           : TestMessage.getSample();
+        testMessages.applicationProperties = {
+          ...testMessages.applicationProperties,
+          date1: new Date(),
+        };
         await sender.sendMessages(testMessages);
         await testPeekMsgsLength(receiver, 1);
 
@@ -88,6 +93,12 @@ describe("ServiceBusClient live tests", () => {
           "MessageId is different than expected"
         );
         should.equal(msgs[0].deliveryCount, 0, "DeliveryCount is different than expected");
+        should.equal(
+          typeof msgs[0].applicationProperties!["date1"],
+          "number",
+          "expect date1 to be an epoch value"
+        );
+
         await receiver.completeMessage(msgs[0]);
 
         await testPeekMsgsLength(receiver, 0);
@@ -99,6 +110,61 @@ describe("ServiceBusClient live tests", () => {
         await sbClientWithRelaxedEndPoint.close();
       }
     });
+
+    it(
+      noSessionTestClientType + ": preserve Date type if choosing to",
+      async function (): Promise<void> {
+        // Create a test client to get the entity types
+        const sbClient = createServiceBusClientForTests();
+        const entities = await sbClient.test.createTestEntities(noSessionTestClientType);
+        await sbClient.close();
+
+        // Create a sb client, sender, receiver with relaxed endpoint
+        const sbClientWithRelaxedEndPoint = new ServiceBusClient(
+          getEnvVars().SERVICEBUS_CONNECTION_STRING.replace("sb://", "CheeseBurger://")
+        );
+        const sender = sbClientWithRelaxedEndPoint.createSender(entities.queue || entities.topic!);
+        const receiveOptions = { skipConvertingDate: true };
+        const receiver = entities.queue
+          ? sbClientWithRelaxedEndPoint.createReceiver(entities.queue, receiveOptions)
+          : sbClientWithRelaxedEndPoint.createReceiver(
+              entities.topic!,
+              entities.subscription!,
+              receiveOptions
+            );
+
+        try {
+          // Send and receive messages
+          const testMessages = entities.usesSessions
+            ? TestMessage.getSessionSample()
+            : TestMessage.getSample();
+          testMessages.applicationProperties = {
+            date1: new Date(),
+          };
+          await sender.sendMessages(testMessages);
+          await testPeekMsgsLength(receiver, 1);
+
+          const msgs = await receiver.receiveMessages(1);
+
+          should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
+          should.equal(msgs.length, 1, "Unexpected number of messages");
+          should.equal(
+            isObjectWithProperties(msgs[0].applicationProperties!["date1"], ["getTime"]),
+            true,
+            "expect date1 to be an instance of Date"
+          );
+          await receiver.completeMessage(msgs[0]);
+
+          await testPeekMsgsLength(receiver, 0);
+        } finally {
+          // Clean up
+          await sbClient.test.after();
+          await sender.close();
+          await receiver.close();
+          await sbClientWithRelaxedEndPoint.close();
+        }
+      }
+    );
 
     it.skip(
       noSessionTestClientType + ":can omit message body when peeking",
