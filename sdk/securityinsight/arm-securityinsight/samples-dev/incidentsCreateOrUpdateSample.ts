@@ -10,27 +10,39 @@
 // Licensed under the MIT License.
 import { Incident, SecurityInsights } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates or updates the incident.
  *
  * @summary Creates or updates the incident.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/incidents/CreateIncident.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-12-01-preview/examples/incidents/Incidents_CreateOrUpdate.json
  */
-async function createsOrUpdatesAnIncident() {
-  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = "myRg";
+async function incidentsCreateOrUpdate() {
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
+    "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const resourceGroupName =
+    process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
   const workspaceName = "myWorkspace";
   const incidentId = "73e01a99-5cd7-4139-a149-9f2736ff2ab5";
   const incident: Incident = {
     description: "This is a demo incident",
     classification: "FalsePositive",
     classificationComment: "Not a malicious activity",
-    classificationReason: "IncorrectAlertLogic",
+    classificationReason: "InaccurateData",
     etag: '"0300bf09-0000-0000-0000-5c37296e0000"',
     firstActivityTimeUtc: new Date("2019-01-01T13:00:30Z"),
     lastActivityTimeUtc: new Date("2019-01-01T13:05:30Z"),
-    owner: { objectId: "2046feea-040d-4a46-9e2b-91c2941bfa70" },
+    owner: {
+      assignedTo: undefined,
+      email: undefined,
+      objectId: "2046feea-040d-4a46-9e2b-91c2941bfa70",
+      ownerType: undefined,
+      userPrincipalName: undefined
+    },
     severity: "High",
     status: "Closed",
     title: "My incident"
@@ -46,4 +58,8 @@ async function createsOrUpdatesAnIncident() {
   console.log(result);
 }
 
-createsOrUpdatesAnIncident().catch(console.error);
+async function main() {
+  incidentsCreateOrUpdate();
+}
+
+main().catch(console.error);

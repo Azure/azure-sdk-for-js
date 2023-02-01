@@ -8,24 +8,27 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { TeamProperties, SecurityInsights } from "@azure/arm-securityinsight";
+import { TeamInformation, SecurityInsights } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates a Microsoft team to investigate the incident by sharing information and insights between participants.
  *
  * @summary Creates a Microsoft team to investigate the incident by sharing information and insights between participants.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/incidents/CreateTeam.json
+ * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-12-01-preview/examples/incidents/IncidentTeam/Incidents_CreateTeam.json
  */
-async function createsIncidentTeamsGroup() {
-  const subscriptionId = "9023f5b5-df22-4313-8fbf-b4b75af8a6d9";
-  const resourceGroupName = "ambawolvese5resourcegroup";
-  const workspaceName = "AmbaE5WestCentralUS";
+async function incidentsCreateTeam() {
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
+    "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const resourceGroupName =
+    process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
+  const workspaceName = "myWorkspace";
   const incidentId = "69a30280-6a4c-4aa7-9af0-5d63f335d600";
-  const teamProperties: TeamProperties = {
-    teamDescription: "Team description",
-    teamName: "Team name"
-  };
+  const teamProperties: TeamInformation = {};
   const credential = new DefaultAzureCredential();
   const client = new SecurityInsights(credential, subscriptionId);
   const result = await client.incidents.createTeam(
@@ -37,4 +40,8 @@ async function createsIncidentTeamsGroup() {
   console.log(result);
 }
 
-createsIncidentTeamsGroup().catch(console.error);
+async function main() {
+  incidentsCreateTeam();
+}
+
+main().catch(console.error);
