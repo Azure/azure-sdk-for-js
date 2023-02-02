@@ -1,15 +1,15 @@
 # Release History
+    
+## 17.0.1 (2023-02-01)
+    
+**Features**
 
-## 17.0.1 (Unreleased)
+  - Exposes `getContinuationToken` helper function to extract continuation token
 
-### Features Added
+**Bugs Fixed**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - A series of small bug fixs relevant to authentication and apiVersion policy
+    
 ## 17.0.0 (2022-09-21)
     
 **Features**

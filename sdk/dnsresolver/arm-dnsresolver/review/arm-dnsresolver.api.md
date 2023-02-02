@@ -90,7 +90,6 @@ export type DnsForwardingRulesetsGetResponse = DnsForwardingRuleset;
 
 // @public
 export interface DnsForwardingRulesetsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -106,7 +105,6 @@ export type DnsForwardingRulesetsListByResourceGroupResponse = DnsForwardingRule
 
 // @public
 export interface DnsForwardingRulesetsListByVirtualNetworkNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -122,7 +120,6 @@ export type DnsForwardingRulesetsListByVirtualNetworkResponse = VirtualNetworkDn
 
 // @public
 export interface DnsForwardingRulesetsListNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -240,7 +237,6 @@ export type DnsResolversGetResponse = DnsResolver;
 
 // @public
 export interface DnsResolversListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -256,7 +252,6 @@ export type DnsResolversListByResourceGroupResponse = DnsResolverListResult;
 
 // @public
 export interface DnsResolversListByVirtualNetworkNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -272,7 +267,6 @@ export type DnsResolversListByVirtualNetworkResponse = SubResourceListResult;
 
 // @public
 export interface DnsResolversListNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -359,7 +353,6 @@ export type ForwardingRulesGetResponse = ForwardingRule;
 
 // @public
 export interface ForwardingRulesListNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -383,6 +376,9 @@ export interface ForwardingRulesUpdateOptionalParams extends coreClient.Operatio
 
 // @public
 export type ForwardingRulesUpdateResponse = ForwardingRule;
+
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export interface InboundEndpoint extends TrackedResource {
@@ -445,7 +441,6 @@ export type InboundEndpointsGetResponse = InboundEndpoint;
 
 // @public
 export interface InboundEndpointsListNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -576,7 +571,6 @@ export type OutboundEndpointsGetResponse = OutboundEndpoint;
 
 // @public
 export interface OutboundEndpointsListNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -724,7 +718,6 @@ export type VirtualNetworkLinksGetResponse = VirtualNetworkLink;
 
 // @public
 export interface VirtualNetworkLinksListNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public

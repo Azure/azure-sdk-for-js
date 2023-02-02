@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { IntegrationAccountAssemblies } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -62,11 +62,15 @@ export class IntegrationAccountAssembliesImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listPagingPage(
           resourceGroupName,
           integrationAccountName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -75,9 +79,11 @@ export class IntegrationAccountAssembliesImpl
   private async *listPagingPage(
     resourceGroupName: string,
     integrationAccountName: string,
-    options?: IntegrationAccountAssembliesListOptionalParams
+    options?: IntegrationAccountAssembliesListOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<AssemblyDefinition[]> {
-    let result = await this._list(
+    let result: IntegrationAccountAssembliesListResponse;
+    result = await this._list(
       resourceGroupName,
       integrationAccountName,
       options

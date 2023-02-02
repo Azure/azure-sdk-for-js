@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { HDInsightManagementClient } = require("@azure/arm-hdinsight");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Deletes the specified application on the HDInsight cluster.
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/stable/2021-06-01/examples/DeleteApplication.json
  */
 async function deleteApplicationFromHdInsightCluster() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["HDINSIGHT_RESOURCE_GROUP"] || "rg1";
   const clusterName = "cluster1";
   const applicationName = "hue";
   const credential = new DefaultAzureCredential();
@@ -32,4 +33,8 @@ async function deleteApplicationFromHdInsightCluster() {
   console.log(result);
 }
 
-deleteApplicationFromHdInsightCluster().catch(console.error);
+async function main() {
+  deleteApplicationFromHdInsightCluster();
+}
+
+main().catch(console.error);

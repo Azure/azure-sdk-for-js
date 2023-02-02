@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { EducationManagementClient } from "@azure/arm-education";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Get the details for a specific student in the specified lab by student alias
@@ -33,4 +36,8 @@ async function student() {
   console.log(result);
 }
 
-student().catch(console.error);
+async function main() {
+  student();
+}
+
+main().catch(console.error);

@@ -6,9 +6,9 @@ import { Pipeline } from "@azure/core-rest-pipeline";
 
 import { AbortController } from "@azure/abort-controller";
 import { ContainerClient, RestError, BlobServiceClient } from "../src";
-import { getBSU, recorderEnvSetup } from "./utils";
+import { getBSU, getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils";
 import { injectorPolicy, injectorPolicyName } from "./utils/InjectorPolicy";
-import { record, Recorder } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 
 describe("RetryPolicy", () => {
@@ -19,9 +19,11 @@ describe("RetryPolicy", () => {
   let recorder: Recorder;
 
   beforeEach(async function (this: Context) {
-    recorder = record(this, recorderEnvSetup);
-    blobServiceClient = getBSU();
-    containerName = recorder.getUniqueName("container");
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["playback", "record"]);
+    blobServiceClient = getBSU(recorder);
+    containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
   });
@@ -33,7 +35,7 @@ describe("RetryPolicy", () => {
     await recorder.stop();
   });
 
-  it("Retry Policy should work when first request fails with 500", async () => {
+  it("Retry Policy should work when first request fails with 500", async function () {
     let injectCounter = 0;
     const injector = injectorPolicy(() => {
       if (injectCounter === 0) {
@@ -61,7 +63,7 @@ describe("RetryPolicy", () => {
     assert.deepEqual(result.metadata, metadata);
   });
 
-  it("Retry Policy should abort when abort event trigger during retry interval", async () => {
+  it("Retry Policy should abort when abort event trigger during retry interval", async function () {
     let injectCounter = 0;
     const injector = injectorPolicy(() => {
       if (injectCounter < 2) {
@@ -96,7 +98,7 @@ describe("RetryPolicy", () => {
     assert.ok(hasError);
   });
 
-  it("Retry Policy should failed when requests always fail with 500", async () => {
+  it("Retry Policy should failed when requests always fail with 500", async function () {
     const injector = injectorPolicy(() => {
       return new RestError("Server Internal Error", {
         code: "ServerInternalError",
@@ -104,7 +106,7 @@ describe("RetryPolicy", () => {
       });
     });
 
-    blobServiceClient = getBSU({ retryOptions: { maxTries: 3 } });
+    blobServiceClient = getBSU(recorder, { retryOptions: { maxTries: 3 } });
     containerClient = blobServiceClient.getContainerClient(containerName);
     const pipeline: Pipeline = (containerClient as any).storageClientContext.pipeline;
     pipeline.addPolicy(injector, { afterPhase: "Retry" });
@@ -123,7 +125,7 @@ describe("RetryPolicy", () => {
     assert.ok(hasError);
   });
 
-  it("Retry Policy should work for secondary endpoint", async () => {
+  it("Retry Policy should work for secondary endpoint", async function () {
     let injectCounter = 0;
     const injector = injectorPolicy(() => {
       if (injectCounter++ < 1) {
@@ -144,7 +146,7 @@ describe("RetryPolicy", () => {
     hostParts.unshift(secondaryAccount);
     const secondaryHost = hostParts.join(".");
 
-    blobServiceClient = getBSU({ retryOptions: { maxTries: 2, secondaryHost } });
+    blobServiceClient = getBSU(recorder, { retryOptions: { maxTries: 2, secondaryHost } });
     containerClient = blobServiceClient.getContainerClient(containerName);
 
     const pipeline: Pipeline = (containerClient as any).storageClientContext.pipeline;
@@ -161,7 +163,7 @@ describe("RetryPolicy", () => {
     assert.deepStrictEqual(new URL(finalRequestURL).hostname, secondaryHost);
   });
 
-  it("Retry Policy should work when on PARSE_ERROR with unclosed root tag", async () => {
+  it("Retry Policy should work when on PARSE_ERROR with unclosed root tag", async function () {
     let injectCounter = 0;
     const injector = injectorPolicy(() => {
       if (injectCounter === 0) {

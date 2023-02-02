@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { DynatraceObservability } = require("@azure/arm-dynatrace");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to List all TagRule by monitorName
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/stable/2021-09-01/examples/TagRules_List_MaximumSet_Gen.json
  */
 async function tagRulesListMaximumSetGen() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["DYNATRACE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["DYNATRACE_RESOURCE_GROUP"] || "myResourceGroup";
   const monitorName = "myMonitor";
   const credential = new DefaultAzureCredential();
   const client = new DynatraceObservability(credential, subscriptionId);
@@ -29,8 +31,6 @@ async function tagRulesListMaximumSetGen() {
   }
   console.log(resArray);
 }
-
-tagRulesListMaximumSetGen().catch(console.error);
 
 /**
  * This sample demonstrates how to List all TagRule by monitorName
@@ -39,8 +39,9 @@ tagRulesListMaximumSetGen().catch(console.error);
  * x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/stable/2021-09-01/examples/TagRules_List_MinimumSet_Gen.json
  */
 async function tagRulesListMinimumSetGen() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["DYNATRACE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["DYNATRACE_RESOURCE_GROUP"] || "myResourceGroup";
   const monitorName = "myMonitor";
   const credential = new DefaultAzureCredential();
   const client = new DynatraceObservability(credential, subscriptionId);
@@ -51,4 +52,9 @@ async function tagRulesListMinimumSetGen() {
   console.log(resArray);
 }
 
-tagRulesListMinimumSetGen().catch(console.error);
+async function main() {
+  tagRulesListMaximumSetGen();
+  tagRulesListMinimumSetGen();
+}
+
+main().catch(console.error);

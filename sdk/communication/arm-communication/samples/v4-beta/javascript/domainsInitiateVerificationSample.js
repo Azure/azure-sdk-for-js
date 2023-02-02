@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { CommunicationServiceManagementClient } = require("@azure/arm-communication");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Initiate verification of DNS record.
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2022-07-01-preview/examples/domains/initiateVerification.json
  */
 async function initiateVerification() {
-  const subscriptionId = "12345";
-  const resourceGroupName = "MyResourceGroup";
+  const subscriptionId = process.env["COMMUNICATION_SUBSCRIPTION_ID"] || "12345";
+  const resourceGroupName = process.env["COMMUNICATION_RESOURCE_GROUP"] || "MyResourceGroup";
   const emailServiceName = "MyEmailServiceResource";
   const domainName = "mydomain.com";
   const parameters = { verificationType: "SPF" };
@@ -34,4 +35,8 @@ async function initiateVerification() {
   console.log(result);
 }
 
-initiateVerification().catch(console.error);
+async function main() {
+  initiateVerification();
+}
+
+main().catch(console.error);
