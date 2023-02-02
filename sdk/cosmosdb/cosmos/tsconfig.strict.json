@@ -125,6 +125,7 @@
     "src/routing/index.ts",
     "src/utils/SasToken.ts",
     "src/utils/tracing.ts",
+    "src/utils/hashing",
     "src/client/SasToken/SasTokenProperties.ts",
     "src/client/SasToken/PermissionScopeValues.ts",
     "test/public/common/TestHelpers.ts",
