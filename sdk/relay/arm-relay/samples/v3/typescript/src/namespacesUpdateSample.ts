@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { RelayUpdateParameters, RelayAPI } from "@azure/arm-relay";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates or updates a namespace. Once created, this namespace's resource manifest is immutable. This operation is idempotent.
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/relay/resource-manager/Microsoft.Relay/stable/2017-04-01/examples/NameSpaces/RelayNameSpaceUpdate.json
  */
 async function relayNameSpaceUpdate() {
-  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = "resourcegroup";
+  const subscriptionId =
+    process.env["RELAY_SUBSCRIPTION_ID"] ||
+    "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName =
+    process.env["RELAY_RESOURCE_GROUP"] || "resourcegroup";
   const namespaceName = "example-RelayNamespace-01";
   const parameters: RelayUpdateParameters = {
     tags: { tag3: "value3", tag4: "value4", tag5: "value5", tag6: "value6" }
@@ -34,4 +40,8 @@ async function relayNameSpaceUpdate() {
   console.log(result);
 }
 
-relayNameSpaceUpdate().catch(console.error);
+async function main() {
+  relayNameSpaceUpdate();
+}
+
+main().catch(console.error);
