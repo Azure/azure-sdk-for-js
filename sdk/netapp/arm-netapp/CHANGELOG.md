@@ -3,6 +3,7 @@
 ## 17.0.1 (2023-02-01)
     
 **Features**
+
   - Exposes `getContinuationToken` helper function to extract continuation token
 
 **Bugs Fixed**
