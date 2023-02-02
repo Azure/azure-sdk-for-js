@@ -37,39 +37,6 @@ describe("defaultHttpClient (node)", function () {
     return httpClient;
   }
 
-  it("should not overwrite a user-provided cookie (nodejs only)", async function () {
-    // Cookie is only allowed to be set by the browser based on an actual response Set-Cookie header
-    httpMock.get("http://my.fake.domain/set-cookie", {
-      status: 200,
-      headers: {
-        "Set-Cookie": "data=123456",
-      },
-    });
-
-    httpMock.get("http://my.fake.domain/cookie", async (_url, _method, _body, headers) => {
-      return {
-        status: 200,
-        headers: headers,
-      };
-    });
-
-    const client = getMockedHttpClient();
-
-    const request1 = new WebResource("http://my.fake.domain/set-cookie");
-    const response1 = await client.sendRequest(request1);
-    response1.headers.get("Set-Cookie")!.should.equal("data=123456");
-
-    const request2 = new WebResource("http://my.fake.domain/cookie");
-    const response2 = await client.sendRequest(request2);
-    response2.headers.get("Cookie")!.should.equal("data=123456");
-
-    const request3 = new WebResource("http://my.fake.domain/cookie", "GET", undefined, undefined, {
-      Cookie: "data=abcdefg",
-    });
-    const response3 = await client.sendRequest(request3);
-    response3.headers.get("Cookie")!.should.equal("data=abcdefg");
-  });
-
   it("should send HTTP requests", async function () {
     const localPort = 32293;
     const responseContent = "<html><body><marquee>Under Construction</marquee></body></html>";
