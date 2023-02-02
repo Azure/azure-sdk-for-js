@@ -4,12 +4,13 @@
 import { assert } from "chai";
 import { Context } from "mocha";
 
-import { getYieldedValue, matrix } from "@azure/test-utils";
+import { getYieldedValue, isNode, matrix } from "@azure/test-utils";
 
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 
 import {
   createRecorder,
+  getAudience,
   getRandomNumber,
   makeCredential,
   testPollingOptions,
