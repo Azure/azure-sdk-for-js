@@ -14779,29 +14779,30 @@ packages:
     dev: false
 
   file:projects/arm-storagecache.tgz:
-    resolution: {integrity: sha512-NROOAhxE/TFI5Vioqf9kdrOtXSsEEiaTDo7rj+Zymd3zvjicpt+icAcPIgMOqh1uHPC5jqSSwgsyZ0I5xl9VUA==, tarball: file:projects/arm-storagecache.tgz}
+    resolution: {integrity: sha512-znHF4KMsbhiBlqXb42a9DyP31b/uq0Hn0sWrB3eRIf7M8ngcAixr55CIRNQx3sa5FAkHGMqMSsmHc3Pa78n4QA==, tarball: file:projects/arm-storagecache.tgz}
     name: '@rush-temp/arm-storagecache'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.2
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
+      '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_p2gydaekoyjvl5wd3ixslt7iq4
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
