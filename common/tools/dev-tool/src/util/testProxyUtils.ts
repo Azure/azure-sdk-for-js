@@ -165,6 +165,20 @@ export async function runTestProxyCommand(argv: string[]): Promise<void> {
   return runCommand(await getTestProxyExecutable(), argv, { stdio: "inherit" }).result;
 }
 
+export async function runMigrationScript(initialPush: boolean): Promise<void> {
+  const migrationScriptLocation = path.join(
+    await resolveRoot(),
+    "eng/common/testproxy/transition-scripts/generate-assets-json.ps1"
+  );
+
+  const argv = [migrationScriptLocation, "-TestProxyExe", await getTestProxyExecutable()];
+  if (initialPush) {
+    argv.push("-InitialPush");
+  }
+
+  await runCommand("pwsh", argv, { stdio: "inherit" }).result;
+}
+
 export interface TestProxy {
   stop(): Promise<void>;
 }

@@ -13,4 +13,5 @@ export default subCommand(commandInfo, {
   push: () => import("./push"),
   restore: () => import("./restore"),
   reset: () => import("./reset"),
+  migrate: () => import("./migrate"),
 });
