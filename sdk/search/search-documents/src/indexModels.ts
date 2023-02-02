@@ -747,7 +747,7 @@ export type SelectFields<T extends object> = T extends Array<infer U>
  * Deeply pick fields of T using valid Cognitive Search OData $select
  * paths.
  */
-type SearchPick<T extends object, Paths extends SelectFields<T>> = [T] extends [never]
+export type SearchPick<T extends object, Paths extends SelectFields<T>> = [T] extends [never]
   ? object
   : // We're going to get a union of individual interfaces for each field in T that's selected, so convert that to an intersection.
     UnionToIntersection<
@@ -813,7 +813,7 @@ export type NarrowedModel<Model extends object, Fields extends SelectFields<Mode
   // Avoid calculating the type if every field is specified
   SelectFields<Model> extends Fields ? Model : SearchPick<Model, Fields>;
 
-type SuggestNarrowedModel<Model extends object, Fields extends SelectFields<Model>> = [
+export type SuggestNarrowedModel<Model extends object, Fields extends SelectFields<Model>> = [
   Model
 ] extends [never]
   ? // The client was instantiated with no model, so the narrowest possible result type is `object`

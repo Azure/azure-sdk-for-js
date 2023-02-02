@@ -530,6 +530,9 @@ export type EntityRecognitionSkillV3 = BaseSearchIndexerSkill & {
     modelVersion?: string;
 };
 
+// @public (undocumented)
+export type ExcludedODataTypes = Date | GeographyPoint;
+
 // @public
 export interface FacetResult {
     [property: string]: any;
@@ -1848,6 +1851,9 @@ export type MicrosoftStemmingTokenizerLanguage = "arabic" | "bangla" | "bulgaria
 // @public
 export type MicrosoftTokenizerLanguage = "bangla" | "bulgarian" | "catalan" | "chineseSimplified" | "chineseTraditional" | "croatian" | "czech" | "danish" | "dutch" | "english" | "french" | "german" | "greek" | "gujarati" | "hindi" | "icelandic" | "indonesian" | "italian" | "japanese" | "kannada" | "korean" | "malay" | "malayalam" | "marathi" | "norwegianBokmaal" | "polish" | "portuguese" | "portugueseBrazilian" | "punjabi" | "romanian" | "russian" | "serbianCyrillic" | "serbianLatin" | "slovenian" | "spanish" | "swedish" | "tamil" | "telugu" | "thai" | "ukrainian" | "urdu" | "vietnamese";
 
+// @public (undocumented)
+export type NarrowedModel<Model extends object, Fields extends SelectFields<Model>> = SelectFields<Model> extends Fields ? Model : SearchPick<Model, Fields>;
+
 // @public
 export interface NGramTokenFilter {
     maxGram?: number;
@@ -2044,7 +2050,6 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
     deleteDocuments(documents: Model[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
     deleteDocuments(keyName: keyof Model, keyValues: string[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
     readonly endpoint: string;
-    // Warning: (ae-forgotten-export) The symbol "NarrowedModel" needs to be exported by the entry point index.d.ts
     getDocument<Fields extends SelectFields<Model>>(key: string, options?: GetDocumentOptions<Model, Fields>): Promise<NarrowedModel<Model, Fields>>;
     getDocumentsCount(options?: CountDocumentsOptions): Promise<number>;
     indexDocuments(batch: IndexDocumentsBatch<Model>, options?: IndexDocumentsOptions): Promise<IndexDocumentsResult>;
@@ -2403,6 +2408,18 @@ export type SearchMode = "any" | "all";
 // @public
 export type SearchOptions<Model extends object, Fields extends SelectFields<Model>> = OperationOptions & SearchRequestOptions<Model, Fields>;
 
+// Warning: (ae-forgotten-export) The symbol "UnionToIntersection" needs to be exported by the entry point index.d.ts
+//
+// @public
+export type SearchPick<T extends object, Paths extends SelectFields<T>> = [T] extends [never] ? object : // We're going to get a union of individual interfaces for each field in T that's selected, so convert that to an intersection.
+UnionToIntersection<Paths extends `${infer FieldName}/${infer RestPaths}` ? FieldName extends Exclude<keyof T, symbol | number> ? NonNullable<T[FieldName]> extends Array<infer U> ? U extends object ? RestPaths extends SelectFields<U> ? {
+    [K in FieldName]: Array<SearchPick<U, RestPaths> | Extract<U, null | undefined>> | Extract<T[K], undefined>;
+} : never : never : NonNullable<T[FieldName]> extends object ? {
+    [K in FieldName]: RestPaths extends SelectFields<T[K] & {}> ? SearchPick<T[K] & {}, RestPaths> | Extract<T[K], null | undefined> : never;
+} : never : never : Paths extends keyof T ? {
+    [K in Paths]: T[K];
+} : never> & {};
+
 // @public
 export interface SearchRequest {
     answers?: QueryAnswerType;
@@ -2493,8 +2510,6 @@ export interface SearchSuggester {
     sourceFields: string[];
 }
 
-// Warning: (ae-forgotten-export) The symbol "ExcludedODataTypes" needs to be exported by the entry point index.d.ts
-//
 // @public
 export type SelectFields<T extends object> = T extends Array<infer U> ? NonNullable<U> extends object ? SelectFields<NonNullable<U>> : never : {
     [K in Exclude<keyof T, symbol | number>]: NonNullable<T[K]> extends object ? NonNullable<T[K]> extends ExcludedODataTypes ? K : SelectFields<NonNullable<T[K]>> extends infer NextPaths ? NextPaths extends string ? // Union this key with all the next paths separated with '/'
@@ -2670,6 +2685,15 @@ export interface SuggestDocumentsResult<Model extends object, Fields extends Sel
     readonly results: SuggestResult<Model, Fields>[];
 }
 
+// Warning: (ae-forgotten-export) The symbol "ExtractDocumentKey" needs to be exported by the entry point index.d.ts
+//
+// @public (undocumented)
+export type SuggestNarrowedModel<Model extends object, Fields extends SelectFields<Model>> = [
+Model
+] extends [never] ? object : [
+Fields
+] extends [never] ? keyof ExtractDocumentKey<Model> extends never ? Model : ExtractDocumentKey<Model> : Fields extends SelectFields<Model> ? NarrowedModel<Model, Fields> : never;
+
 // @public
 export type SuggestOptions<Model extends object, Fields extends SelectFields<Model>> = OperationOptions & SuggestRequest<Model, Fields>;
 
@@ -2800,10 +2824,6 @@ export type WordDelimiterTokenFilter = BaseTokenFilter & {
     stemEnglishPossessive?: boolean;
     protectedWords?: string[];
 };
-
-// Warnings were encountered during analysis:
-//
-// src/indexModels.ts:620:3 - (ae-forgotten-export) The symbol "SuggestNarrowedModel" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

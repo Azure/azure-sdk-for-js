@@ -12,6 +12,7 @@ export {
   AutocompleteOptions,
   CountDocumentsOptions,
   DeleteDocumentsOptions,
+  ExcludedODataTypes,
   GetDocumentOptions,
   IndexDocumentsAction,
   ListSearchResultsPageSettings,
@@ -30,6 +31,7 @@ export {
   SuggestOptions,
   MergeDocumentsOptions,
   MergeOrUploadDocumentsOptions,
+  NarrowedModel,
   UploadDocumentsOptions,
   SearchIndexingBufferedSenderOptions,
   SearchIndexingBufferedSenderDeleteDocumentsOptions,
@@ -37,7 +39,9 @@ export {
   SearchIndexingBufferedSenderMergeDocumentsOptions,
   SearchIndexingBufferedSenderMergeOrUploadDocumentsOptions,
   SearchIndexingBufferedSenderUploadDocumentsOptions,
+  SearchPick,
   SelectFields,
+  SuggestNarrowedModel,
 } from "./indexModels";
 export { SearchIndexingBufferedSender, IndexDocumentsClient } from "./searchIndexingBufferedSender";
 export { SearchIndexClient, SearchIndexClientOptions } from "./searchIndexClient";
