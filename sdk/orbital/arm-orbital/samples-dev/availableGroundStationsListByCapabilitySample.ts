@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { AzureOrbital } from "@azure/arm-orbital";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Returns list of available ground stations
@@ -18,7 +21,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/orbital/resource-manager/Microsoft.Orbital/stable/2022-03-01/examples/AvailableGroundStationsByCapabilityList.json
  */
 async function listOfGroundStationsByCapability() {
-  const subscriptionId = "subId";
+  const subscriptionId = process.env["ORBITAL_SUBSCRIPTION_ID"] || "subId";
   const capability = "EarthObservation";
   const credential = new DefaultAzureCredential();
   const client = new AzureOrbital(credential, subscriptionId);
@@ -31,4 +34,8 @@ async function listOfGroundStationsByCapability() {
   console.log(resArray);
 }
 
-listOfGroundStationsByCapability().catch(console.error);
+async function main() {
+  listOfGroundStationsByCapability();
+}
+
+main().catch(console.error);

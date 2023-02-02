@@ -112,6 +112,9 @@ export interface FirewallRulesListOptionalParams extends coreClient.OperationOpt
 export type FirewallRulesListResponse = RedisFirewallRuleListResult;
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export interface ImportRDBParameters {
     files: string[];
     format?: string;

@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { RecoveryServicesClient } from "@azure/arm-recoveryservices";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Deletes a vault.
@@ -18,8 +21,12 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2022-04-01/examples/DeleteVault.json
  */
 async function deleteRecoveryServicesVault() {
-  const subscriptionId = "77777777-b0c6-47a2-b37c-d8e65a629c18";
-  const resourceGroupName = "Default-RecoveryServices-ResourceGroup";
+  const subscriptionId =
+    process.env["RECOVERYSERVICES_SUBSCRIPTION_ID"] ||
+    "77777777-b0c6-47a2-b37c-d8e65a629c18";
+  const resourceGroupName =
+    process.env["RECOVERYSERVICES_RESOURCE_GROUP"] ||
+    "Default-RecoveryServices-ResourceGroup";
   const vaultName = "swaggerExample";
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesClient(credential, subscriptionId);
@@ -27,4 +34,8 @@ async function deleteRecoveryServicesVault() {
   console.log(result);
 }
 
-deleteRecoveryServicesVault().catch(console.error);
+async function main() {
+  deleteRecoveryServicesVault();
+}
+
+main().catch(console.error);

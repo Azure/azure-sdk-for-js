@@ -129,6 +129,9 @@ export interface ErrorModel {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export interface GetOperationResultOptionalParams extends coreClient.OperationOptions {
 }
 

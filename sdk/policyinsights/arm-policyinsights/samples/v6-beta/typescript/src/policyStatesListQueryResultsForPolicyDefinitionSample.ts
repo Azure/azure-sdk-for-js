@@ -13,6 +13,9 @@ import {
   PolicyInsightsClient
 } from "@azure/arm-policyinsights";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Queries policy states for the subscription level policy definition.
@@ -21,7 +24,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyStates_QuerySubscriptionLevelPolicyDefinitionScope.json
  */
 async function queryLatestAtSubscriptionLevelPolicyDefinitionScope() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const policyStatesResource = "latest";
   const policyDefinitionName = "24813039-7534-408a-9842-eb99f45721b1";
   const credential = new DefaultAzureCredential();
@@ -37,8 +42,6 @@ async function queryLatestAtSubscriptionLevelPolicyDefinitionScope() {
   console.log(resArray);
 }
 
-queryLatestAtSubscriptionLevelPolicyDefinitionScope().catch(console.error);
-
 /**
  * This sample demonstrates how to Queries policy states for the subscription level policy definition.
  *
@@ -46,7 +49,9 @@ queryLatestAtSubscriptionLevelPolicyDefinitionScope().catch(console.error);
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2019-10-01/examples/PolicyStates_QuerySubscriptionLevelPolicyDefinitionScopeNextLink.json
  */
 async function queryLatestAtSubscriptionLevelPolicyDefinitionScopeWithNextLink() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const policyStatesResource = "latest";
   const policyDefinitionName = "24813039-7534-408a-9842-eb99f45721b1";
   const skipToken = "WpmWfBSvPhkAK6QD";
@@ -67,6 +72,9 @@ async function queryLatestAtSubscriptionLevelPolicyDefinitionScopeWithNextLink()
   console.log(resArray);
 }
 
-queryLatestAtSubscriptionLevelPolicyDefinitionScopeWithNextLink().catch(
-  console.error
-);
+async function main() {
+  queryLatestAtSubscriptionLevelPolicyDefinitionScope();
+  queryLatestAtSubscriptionLevelPolicyDefinitionScopeWithNextLink();
+}
+
+main().catch(console.error);

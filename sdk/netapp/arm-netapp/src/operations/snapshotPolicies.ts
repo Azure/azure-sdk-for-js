@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { SnapshotPolicies } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -62,8 +62,16 @@ export class SnapshotPoliciesImpl implements SnapshotPolicies {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, accountName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          accountName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -71,9 +79,11 @@ export class SnapshotPoliciesImpl implements SnapshotPolicies {
   private async *listPagingPage(
     resourceGroupName: string,
     accountName: string,
-    options?: SnapshotPoliciesListOptionalParams
+    options?: SnapshotPoliciesListOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<SnapshotPolicy[]> {
-    let result = await this._list(resourceGroupName, accountName, options);
+    let result: SnapshotPoliciesListResponse;
+    result = await this._list(resourceGroupName, accountName, options);
     yield result.value || [];
   }
 
