@@ -385,6 +385,7 @@ export enum KnownEncryptionAlgorithms {
 
 // @public
 export enum KnownKeyCurveNames {
+    Ed25519 = "Ed25519",
     P256 = "P-256",
     P256K = "P-256K",
     P384 = "P-384",
@@ -415,12 +416,15 @@ export enum KnownKeyTypes {
     ECHSM = "EC-HSM",
     Oct = "oct",
     OctHSM = "oct-HSM",
+    OKP = "OKP",
+    OKPHSM = "OKP-HSM",
     RSA = "RSA",
     RSAHSM = "RSA-HSM"
 }
 
 // @public
 export enum KnownSignatureAlgorithms {
+    EdDSA = "EdDSA",
     ES256 = "ES256",
     ES256K = "ES256K",
     ES384 = "ES384",
