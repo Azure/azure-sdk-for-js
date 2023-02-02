@@ -70,6 +70,9 @@ export interface ErrorResponse {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export interface Identity {
     readonly principalId?: string;
     readonly tenantId?: string;
@@ -151,7 +154,6 @@ export type ImagesGetResponse = Image_2;
 
 // @public
 export interface ImagesListByLabPlanNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -339,7 +341,6 @@ export type LabPlansListByResourceGroupResponse = PagedLabPlans;
 
 // @public
 export interface LabPlansListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -536,7 +537,6 @@ export type LabsListByResourceGroupResponse = PagedLabs;
 
 // @public
 export interface LabsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -829,7 +829,6 @@ export type SchedulesGetResponse = Schedule;
 
 // @public
 export interface SchedulesListByLabNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -893,7 +892,6 @@ export interface Skus {
 
 // @public
 export interface SkusListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -964,7 +962,6 @@ export interface Usages {
 
 // @public
 export interface UsagesListByLocationNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -1049,7 +1046,6 @@ export interface UsersInviteOptionalParams extends coreClient.OperationOptions {
 
 // @public
 export interface UsersListByLabNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -1146,7 +1142,6 @@ export type VirtualMachinesGetResponse = VirtualMachine;
 
 // @public
 export interface VirtualMachinesListByLabNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public

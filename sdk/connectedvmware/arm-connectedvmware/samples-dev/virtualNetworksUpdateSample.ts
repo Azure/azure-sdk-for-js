@@ -14,6 +14,9 @@ import {
   AzureArcVMwareManagementServiceAPI
 } from "@azure/arm-connectedvmware";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to API to update certain properties of the virtual network resource.
@@ -22,8 +25,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/connectedvmware/resource-manager/Microsoft.ConnectedVMwarevSphere/preview/2022-01-10-preview/examples/UpdateVirtualNetwork.json
  */
 async function updateVirtualNetwork() {
-  const subscriptionId = "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
-  const resourceGroupName = "testrg";
+  const subscriptionId =
+    process.env["CONNECTEDVMWARE_SUBSCRIPTION_ID"] ||
+    "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
+  const resourceGroupName =
+    process.env["CONNECTEDVMWARE_RESOURCE_GROUP"] || "testrg";
   const virtualNetworkName = "ProdNetwork";
   const body: ResourcePatch = { tags: { tag1: "value1", tag2: "value2" } };
   const options: VirtualNetworksUpdateOptionalParams = { body };
@@ -40,4 +46,8 @@ async function updateVirtualNetwork() {
   console.log(result);
 }
 
-updateVirtualNetwork().catch(console.error);
+async function main() {
+  updateVirtualNetwork();
+}
+
+main().catch(console.error);

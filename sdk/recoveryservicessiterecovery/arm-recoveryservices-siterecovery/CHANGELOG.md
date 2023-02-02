@@ -1,7 +1,23 @@
 # Release History
-    
+
+## 5.0.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 5.0.1 (2023-01-05)
+
+**Migration Guide**
+
+- To assist customers migrating from v4.0.0, since v5.0.0 release, we have moved the resourceGroupName and resourceName parameters from the SiteRecoveryManagementClient constructor method to its instance method level, to make it consistent with the client constructors of other service SDKs. For example, in the previous v4.0.0 release, we would create the client like this: `const client = new SiteRecoveryManagementClient(credentials, resourceGroupName, subscriptionId, resourceName);` and call the method like this: `client.replicationJobs.list();`. Now, we need to create the client like this: `const client = new SiteRecoveryManagementClient(credentials, subscriptionId);` and call the method like this: `client.replicationJobs.list(resourceName, resourceGroupName);`.
+
 ## 5.0.0 (2022-12-08)
-    
+
 **Features**
 
   - Added operation ReplicationMigrationItems.beginPauseReplication

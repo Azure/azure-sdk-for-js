@@ -833,7 +833,6 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -853,7 +852,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -874,7 +872,6 @@ const listOutboundNetworkDependenciesEndpointsNextOperationSpec: coreClient.Oper
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,

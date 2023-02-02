@@ -13,16 +13,22 @@ import {
   AzureMediaServices
 } from "@azure/arm-mediaservices";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to List Assets in the Media Services account with optional filtering and ordering
  *
  * @summary List Assets in the Media Services account with optional filtering and ordering
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2022-08-01/examples/assets-list-in-date-range.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2022-08-01/examples/assets-list-in-date-range.json
  */
 async function listAssetCreatedInADateRange() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "contoso";
+  const subscriptionId =
+    process.env["MEDIASERVICES_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
   const accountName = "contosomedia";
   const filter =
     "properties/created gt 2012-06-01 and properties/created lt 2013-07-01";
@@ -41,17 +47,18 @@ async function listAssetCreatedInADateRange() {
   console.log(resArray);
 }
 
-listAssetCreatedInADateRange().catch(console.error);
-
 /**
  * This sample demonstrates how to List Assets in the Media Services account with optional filtering and ordering
  *
  * @summary List Assets in the Media Services account with optional filtering and ordering
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2022-08-01/examples/assets-list-by-date.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2022-08-01/examples/assets-list-by-date.json
  */
 async function listAssetOrderedByDate() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "contoso";
+  const subscriptionId =
+    process.env["MEDIASERVICES_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
   const accountName = "contosomedia";
   const orderby = "properties/created";
   const options: AssetsListOptionalParams = { orderby };
@@ -68,17 +75,18 @@ async function listAssetOrderedByDate() {
   console.log(resArray);
 }
 
-listAssetOrderedByDate().catch(console.error);
-
 /**
  * This sample demonstrates how to List Assets in the Media Services account with optional filtering and ordering
  *
  * @summary List Assets in the Media Services account with optional filtering and ordering
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2022-08-01/examples/assets-list-all.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2022-08-01/examples/assets-list-all.json
  */
 async function listAllAssets() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "contoso";
+  const subscriptionId =
+    process.env["MEDIASERVICES_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
   const accountName = "contosomedia";
   const credential = new DefaultAzureCredential();
   const client = new AzureMediaServices(credential, subscriptionId);
@@ -89,4 +97,10 @@ async function listAllAssets() {
   console.log(resArray);
 }
 
-listAllAssets().catch(console.error);
+async function main() {
+  listAssetCreatedInADateRange();
+  listAssetOrderedByDate();
+  listAllAssets();
+}
+
+main().catch(console.error);

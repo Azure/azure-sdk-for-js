@@ -10,16 +10,22 @@
 // Licensed under the MIT License.
 import { AppPlatformManagementClient } from "@azure/arm-appplatform";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Get an App and its properties.
  *
  * @summary Get an App and its properties.
- * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-09-01-preview/examples/Apps_Get.json
+ * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-11-01-preview/examples/Apps_Get.json
  */
 async function appsGet() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["APPPLATFORM_RESOURCE_GROUP"] || "myResourceGroup";
   const serviceName = "myservice";
   const appName = "myapp";
   const credential = new DefaultAzureCredential();
@@ -27,18 +33,19 @@ async function appsGet() {
   const result = await client.apps.get(resourceGroupName, serviceName, appName);
   console.log(result);
 }
-
-appsGet().catch(console.error);
 
 /**
  * This sample demonstrates how to Get an App and its properties.
  *
  * @summary Get an App and its properties.
- * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-09-01-preview/examples/Apps_Get_VNetInjection.json
+ * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-11-01-preview/examples/Apps_Get_VNetInjection.json
  */
 async function appsGetVNetInjection() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["APPPLATFORM_RESOURCE_GROUP"] || "myResourceGroup";
   const serviceName = "myservice";
   const appName = "myapp";
   const credential = new DefaultAzureCredential();
@@ -47,4 +54,9 @@ async function appsGetVNetInjection() {
   console.log(result);
 }
 
-appsGetVNetInjection().catch(console.error);
+async function main() {
+  appsGet();
+  appsGetVNetInjection();
+}
+
+main().catch(console.error);

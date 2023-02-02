@@ -85,6 +85,9 @@ export interface ErrorResponse {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export interface GitHubOAuthCallbackOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -292,7 +295,6 @@ export type WorkflowGetResponse = Workflow;
 
 // @public
 export interface WorkflowListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    managedClusterResource?: string;
 }
 
 // @public

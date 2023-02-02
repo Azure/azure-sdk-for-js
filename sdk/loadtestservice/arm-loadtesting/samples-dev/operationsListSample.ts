@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { LoadTestClient } from "@azure/arm-loadtesting";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Lists all the available API operations for Load Test Resource.
@@ -18,7 +21,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/loadtestservice/resource-manager/Microsoft.LoadTestService/stable/2022-12-01/examples/Operations_List.json
  */
 async function operationsList() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["LOADTESTSERVICE_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new LoadTestClient(credential, subscriptionId);
   const resArray = new Array();
@@ -28,4 +33,8 @@ async function operationsList() {
   console.log(resArray);
 }
 
-operationsList().catch(console.error);
+async function main() {
+  operationsList();
+}
+
+main().catch(console.error);

@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { Service } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -58,8 +58,16 @@ export class ServiceImpl implements Service {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, accountName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          accountName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -67,9 +75,11 @@ export class ServiceImpl implements Service {
   private async *listPagingPage(
     resourceGroupName: string,
     accountName: string,
-    options?: ServiceListOptionalParams
+    options?: ServiceListOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<ServiceResource[]> {
-    let result = await this._list(resourceGroupName, accountName, options);
+    let result: ServiceListResponse;
+    result = await this._list(resourceGroupName, accountName, options);
     yield result.value || [];
   }
 

@@ -134,7 +134,7 @@ export interface ProjectListResult {
 }
 
 /** An object that represents a machine learning team account. */
-export type Account = Resource & {
+export interface Account extends Resource {
   /** The fully qualified arm id of the vso account to be used for this team account. */
   vsoAccountId?: string;
   /**
@@ -167,10 +167,10 @@ export type Account = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
-};
+}
 
 /** An object that represents a machine learning team account workspace. */
-export type Workspace = Resource & {
+export interface Workspace extends Resource {
   /** The description of this workspace. */
   description?: string;
   /**
@@ -195,10 +195,10 @@ export type Workspace = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
-};
+}
 
 /** An object that represents a machine learning project. */
-export type Project = Resource & {
+export interface Project extends Resource {
   /** The description of this project. */
   description?: string;
   /**
@@ -230,7 +230,8 @@ export type Project = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
-};
+}
+
 /** Defines values for ProvisioningState. */
 export type ProvisioningState =
   | "Creating"

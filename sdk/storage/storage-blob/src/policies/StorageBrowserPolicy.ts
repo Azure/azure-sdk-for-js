@@ -2,13 +2,13 @@
 // Licensed under the MIT license.
 
 import {
-  BaseRequestPolicy,
-  HttpOperationResponse,
-  isNode,
   RequestPolicy,
-  RequestPolicyOptions,
-  WebResource,
-} from "@azure/core-http";
+  RequestPolicyOptionsLike as RequestPolicyOptions,
+  WebResourceLike as WebResource,
+  CompatResponse as HttpOperationResponse,
+} from "@azure/core-http-compat";
+import { BaseRequestPolicy } from "./RequestPolicy";
+import { isNode } from "@azure/core-util";
 
 import { HeaderConstants, URLConstants } from "../utils/constants";
 import { setURLParameter } from "../utils/utils.common";

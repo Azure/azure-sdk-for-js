@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { DeveloperHubServiceClient } = require("@azure/arm-devhub");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Deletes a workflow
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-04-01-preview/examples/Workflow_Delete.json
  */
 async function deleteWorkflow() {
-  const subscriptionId = "subscriptionId1";
-  const resourceGroupName = "resourceGroup1";
+  const subscriptionId = process.env["DEVHUB_SUBSCRIPTION_ID"] || "subscriptionId1";
+  const resourceGroupName = process.env["DEVHUB_RESOURCE_GROUP"] || "resourceGroup1";
   const workflowName = "workflow1";
   const credential = new DefaultAzureCredential();
   const client = new DeveloperHubServiceClient(credential, subscriptionId);
@@ -27,4 +28,8 @@ async function deleteWorkflow() {
   console.log(result);
 }
 
-deleteWorkflow().catch(console.error);
+async function main() {
+  deleteWorkflow();
+}
+
+main().catch(console.error);

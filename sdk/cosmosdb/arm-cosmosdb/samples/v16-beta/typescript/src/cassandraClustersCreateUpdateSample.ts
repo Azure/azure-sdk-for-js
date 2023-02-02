@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { ClusterResource, CosmosDBManagementClient } from "@azure/arm-cosmosdb";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create or update a managed Cassandra cluster. When updating, you must specify all writable properties. To update only some properties, use PATCH.
@@ -18,8 +21,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBManagedCassandraClusterCreate.json
  */
 async function cosmosDbManagedCassandraClusterCreate() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "cassandra-prod-rg";
+  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["COSMOSDB_RESOURCE_GROUP"] || "cassandra-prod-rg";
   const clusterName = "cassandra-prod";
   const body: ClusterResource = {
     location: "West US",
@@ -61,4 +65,8 @@ async function cosmosDbManagedCassandraClusterCreate() {
   console.log(result);
 }
 
-cosmosDbManagedCassandraClusterCreate().catch(console.error);
+async function main() {
+  cosmosDbManagedCassandraClusterCreate();
+}
+
+main().catch(console.error);

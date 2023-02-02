@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Channels } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,6 +19,7 @@ import {
   Channel,
   ChannelsListByPartnerNamespaceNextOptionalParams,
   ChannelsListByPartnerNamespaceOptionalParams,
+  ChannelsListByPartnerNamespaceResponse,
   ChannelsGetOptionalParams,
   ChannelsGetResponse,
   ChannelsCreateOrUpdateOptionalParams,
@@ -25,7 +27,6 @@ import {
   ChannelsDeleteOptionalParams,
   ChannelUpdateParameters,
   ChannelsUpdateOptionalParams,
-  ChannelsListByPartnerNamespaceResponse,
   ChannelsGetFullUrlOptionalParams,
   ChannelsGetFullUrlResponse,
   ChannelsListByPartnerNamespaceNextResponse
@@ -67,11 +68,15 @@ export class ChannelsImpl implements Channels {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByPartnerNamespacePagingPage(
           resourceGroupName,
           partnerNamespaceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -80,15 +85,22 @@ export class ChannelsImpl implements Channels {
   private async *listByPartnerNamespacePagingPage(
     resourceGroupName: string,
     partnerNamespaceName: string,
-    options?: ChannelsListByPartnerNamespaceOptionalParams
+    options?: ChannelsListByPartnerNamespaceOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Channel[]> {
-    let result = await this._listByPartnerNamespace(
-      resourceGroupName,
-      partnerNamespaceName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ChannelsListByPartnerNamespaceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByPartnerNamespace(
+        resourceGroupName,
+        partnerNamespaceName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByPartnerNamespaceNext(
         resourceGroupName,
@@ -97,7 +109,9 @@ export class ChannelsImpl implements Channels {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -463,7 +477,6 @@ const listByPartnerNamespaceNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

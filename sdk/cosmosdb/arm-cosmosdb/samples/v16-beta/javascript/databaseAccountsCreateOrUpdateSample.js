@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Creates or updates an Azure Cosmos DB database account. The "Update" method is preferred when performing updates on an account.
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBDatabaseAccountCreateMax.json
  */
 async function cosmosDbDatabaseAccountCreateMax() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
   const createUpdateParameters = {
     analyticalStorageConfiguration: { schemaType: "WellDefined" },
@@ -88,8 +89,6 @@ async function cosmosDbDatabaseAccountCreateMax() {
   console.log(result);
 }
 
-cosmosDbDatabaseAccountCreateMax().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates or updates an Azure Cosmos DB database account. The "Update" method is preferred when performing updates on an account.
  *
@@ -97,8 +96,8 @@ cosmosDbDatabaseAccountCreateMax().catch(console.error);
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBDatabaseAccountCreateMin.json
  */
 async function cosmosDbDatabaseAccountCreateMin() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
   const createUpdateParameters = {
     createMode: "Default",
@@ -122,8 +121,6 @@ async function cosmosDbDatabaseAccountCreateMin() {
   console.log(result);
 }
 
-cosmosDbDatabaseAccountCreateMin().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates or updates an Azure Cosmos DB database account. The "Update" method is preferred when performing updates on an account.
  *
@@ -131,8 +128,8 @@ cosmosDbDatabaseAccountCreateMin().catch(console.error);
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2022-08-15-preview/examples/CosmosDBRestoreDatabaseAccountCreateUpdate.json
  */
 async function cosmosDbRestoreDatabaseAccountCreateUpdateJson() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
   const createUpdateParameters = {
     apiProperties: { serverVersion: "3.2" },
@@ -185,4 +182,10 @@ async function cosmosDbRestoreDatabaseAccountCreateUpdateJson() {
   console.log(result);
 }
 
-cosmosDbRestoreDatabaseAccountCreateUpdateJson().catch(console.error);
+async function main() {
+  cosmosDbDatabaseAccountCreateMax();
+  cosmosDbDatabaseAccountCreateMin();
+  cosmosDbRestoreDatabaseAccountCreateUpdateJson();
+}
+
+main().catch(console.error);

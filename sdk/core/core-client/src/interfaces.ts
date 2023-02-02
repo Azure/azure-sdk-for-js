@@ -46,6 +46,11 @@ export interface SerializerOptions {
    * Options to configure xml parser/builder behavior.
    */
   xml: XmlOptions;
+  /**
+   * Normally additional properties are included in the result object, even if there is no mapper for them.
+   * This flag disables this behavior when true. It is used when parsing headers to avoid polluting the result object.
+   */
+  ignoreUnknownProperties?: boolean;
 }
 
 export type RequiredSerializerOptions = {

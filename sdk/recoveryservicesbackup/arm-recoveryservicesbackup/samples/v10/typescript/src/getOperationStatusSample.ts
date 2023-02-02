@@ -10,17 +10,23 @@
 // Licensed under the MIT License.
 import { RecoveryServicesBackupClient } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Fetches operation status for data move operation on vault
  *
  * @summary Fetches operation status for data move operation on vault
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2022-03-01/examples/BackupDataMove/BackupDataMoveOperationStatus_Get.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/BackupDataMove/BackupDataMoveOperationStatus_Get.json
  */
 async function getOperationStatus() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const vaultName = "source-rsv";
-  const resourceGroupName = "sourceRG";
+  const resourceGroupName =
+    process.env["RECOVERYSERVICESBACKUP_RESOURCE_GROUP"] || "sourceRG";
   const operationId = "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesBackupClient(credential, subscriptionId);
@@ -32,4 +38,8 @@ async function getOperationStatus() {
   console.log(result);
 }
 
-getOperationStatus().catch(console.error);
+async function main() {
+  getOperationStatus();
+}
+
+main().catch(console.error);

@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { AzureArcVMwareManagementServiceAPI } from "@azure/arm-connectedvmware";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Implements resourcePool GET method.
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/connectedvmware/resource-manager/Microsoft.ConnectedVMwarevSphere/preview/2022-01-10-preview/examples/GetResourcePool.json
  */
 async function getResourcePool() {
-  const subscriptionId = "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
-  const resourceGroupName = "testrg";
+  const subscriptionId =
+    process.env["CONNECTEDVMWARE_SUBSCRIPTION_ID"] ||
+    "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
+  const resourceGroupName =
+    process.env["CONNECTEDVMWARE_RESOURCE_GROUP"] || "testrg";
   const resourcePoolName = "HRPool";
   const credential = new DefaultAzureCredential();
   const client = new AzureArcVMwareManagementServiceAPI(
@@ -33,4 +39,8 @@ async function getResourcePool() {
   console.log(result);
 }
 
-getResourcePool().catch(console.error);
+async function main() {
+  getResourcePool();
+}
+
+main().catch(console.error);

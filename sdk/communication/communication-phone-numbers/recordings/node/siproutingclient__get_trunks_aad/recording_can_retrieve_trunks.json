@@ -8,7 +8,7 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.3 Node/v16.14.0 OS/(x64-Windows_NT-10.0.22621)",
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
         "x-ms-client-request-id": "sanitized"
       },
       "RequestBody": null,
@@ -16,17 +16,17 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 02 Dec 2022 00:26:12 GMT",
-        "MS-CV": "lG9OsL/nNUivjoAMQHgILQ.0",
+        "Date": "Fri, 06 Jan 2023 17:33:06 GMT",
+        "MS-CV": "h8SeW2AzokupkNPAclmBqQ.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0I0aJYwAAAAA3dMZ2lN\u002BOSY4Fru6Vta8sUFJHMDFFREdFMDkxOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0Ulu4YwAAAACWPsscajTRS7YET\u002BN6wBUSTUVYMzBFREdFMDQyMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "424ms"
+        "X-Processing-Time": "66ms"
       },
       "ResponseBody": {
         "trunks": {
-          "test.263ace4f9b604b679faf21353809c939.com": {
+          "test.03055bdfa6104c72a2fbf640038e740e.com": {
             "sipSignalingPort": 4567
           }
         },
@@ -35,9 +35,9 @@
     }
   ],
   "Variables": {
-    "fqdn-1": "test.f6122e31d6d743f1af20dfa0934ea7ed.com",
-    "fqdn-2": "test.50fe59d0e48c4bc587546999b137e792.com",
-    "fqdn-3": "test.6c47175138884c90b83f78d1bd0eee8d.com",
-    "fqdn-4": "test.f2dec60838d34838bf79b21dd06e3a36.com"
+    "fqdn-1": "test.705ebf67c8164a4395fc1351b0a1abbd.com",
+    "fqdn-2": "test.6e4839a6dc7a4a80a2e1d5dd848f94af.com",
+    "fqdn-3": "test.8b938496338846319d70e81bce731002.com",
+    "fqdn-4": "test.7593647955c241c092b3bb9e0a1e609d.com"
   }
 }
