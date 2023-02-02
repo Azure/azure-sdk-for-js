@@ -15,29 +15,29 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Starts the SAP application, that is the Central Services instance and Application server instances.
+ * This sample demonstrates how to Gets configuration values for Single Pane Of Glass for SAP monitor for the specified subscription, resource group, and resource name.
  *
- * @summary Starts the SAP application, that is the Central Services instance and Application server instances.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPVirtualInstances_Start.json
+ * @summary Gets configuration values for Single Pane Of Glass for SAP monitor for the specified subscription, resource group, and resource name.
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/workloadmonitor/SapLandscapeMonitor_Get.json
  */
-async function sapVirtualInstancesStart() {
+async function getPropertiesOfASapMonitor() {
   const subscriptionId =
     process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
-    "8e17e36c-42e9-4cd5-a078-7b44883414e0";
+    "00000000-0000-0000-0000-000000000000";
   const resourceGroupName =
-    process.env["WORKLOADS_RESOURCE_GROUP"] || "test-rg";
-  const sapVirtualInstanceName = "X00";
+    process.env["WORKLOADS_RESOURCE_GROUP"] || "myResourceGroup";
+  const monitorName = "mySapMonitor";
   const credential = new DefaultAzureCredential();
   const client = new WorkloadsClient(credential, subscriptionId);
-  const result = await client.sAPVirtualInstances.beginStartAndWait(
+  const result = await client.sapLandscapeMonitorOperations.get(
     resourceGroupName,
-    sapVirtualInstanceName
+    monitorName
   );
   console.log(result);
 }
 
 async function main() {
-  sapVirtualInstancesStart();
+  getPropertiesOfASapMonitor();
 }
 
 main().catch(console.error);

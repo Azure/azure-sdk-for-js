@@ -8,38 +8,45 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { WorkloadsClient } from "@azure/arm-workloads";
+import {
+  StopRequest,
+  SAPCentralInstancesStopInstanceOptionalParams,
+  WorkloadsClient
+} from "@azure/arm-workloads";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
 dotenv.config();
 
 /**
- * This sample demonstrates how to Gets the SAP Application Server Instance corresponding to the Virtual Instance for SAP solutions resource.
+ * This sample demonstrates how to Stops the SAP Central Services Instance.
  *
- * @summary Gets the SAP Application Server Instance corresponding to the Virtual Instance for SAP solutions resource.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPApplicationServerInstances_Get.json
+ * @summary Stops the SAP Central Services Instance.
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPCentralInstances_StopInstance.json
  */
-async function sapApplicationServerInstancesGet() {
+async function stopTheSapCentralServicesInstance() {
   const subscriptionId =
     process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
-    "6d875e77-e412-4d7d-9af4-8895278b4443";
+    "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const resourceGroupName =
     process.env["WORKLOADS_RESOURCE_GROUP"] || "test-rg";
   const sapVirtualInstanceName = "X00";
-  const applicationInstanceName = "app01";
+  const centralInstanceName = "centralServer";
+  const body: StopRequest = { softStopTimeoutSeconds: 1200 };
+  const options: SAPCentralInstancesStopInstanceOptionalParams = { body };
   const credential = new DefaultAzureCredential();
   const client = new WorkloadsClient(credential, subscriptionId);
-  const result = await client.sAPApplicationServerInstances.get(
+  const result = await client.sAPCentralInstances.beginStopInstanceAndWait(
     resourceGroupName,
     sapVirtualInstanceName,
-    applicationInstanceName
+    centralInstanceName,
+    options
   );
   console.log(result);
 }
 
 async function main() {
-  sapApplicationServerInstancesGet();
+  stopTheSapCentralServicesInstance();
 }
 
 main().catch(console.error);

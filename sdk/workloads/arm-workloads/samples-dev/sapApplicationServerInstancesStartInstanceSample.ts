@@ -15,22 +15,22 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Gets the SAP Application Server Instance corresponding to the Virtual Instance for SAP solutions resource.
+ * This sample demonstrates how to Starts the SAP Application Server Instance.
  *
- * @summary Gets the SAP Application Server Instance corresponding to the Virtual Instance for SAP solutions resource.
- * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPApplicationServerInstances_Get.json
+ * @summary Starts the SAP Application Server Instance.
+ * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2022-11-01-preview/examples/sapvirtualinstances/SAPApplicationServerInstances_StartInstance.json
  */
-async function sapApplicationServerInstancesGet() {
+async function startTheSapApplicationServerInstance() {
   const subscriptionId =
     process.env["WORKLOADS_SUBSCRIPTION_ID"] ||
-    "6d875e77-e412-4d7d-9af4-8895278b4443";
+    "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const resourceGroupName =
     process.env["WORKLOADS_RESOURCE_GROUP"] || "test-rg";
   const sapVirtualInstanceName = "X00";
   const applicationInstanceName = "app01";
   const credential = new DefaultAzureCredential();
   const client = new WorkloadsClient(credential, subscriptionId);
-  const result = await client.sAPApplicationServerInstances.get(
+  const result = await client.sAPApplicationServerInstances.beginStartInstanceAndWait(
     resourceGroupName,
     sapVirtualInstanceName,
     applicationInstanceName
@@ -39,7 +39,7 @@ async function sapApplicationServerInstancesGet() {
 }
 
 async function main() {
-  sapApplicationServerInstancesGet();
+  startTheSapApplicationServerInstance();
 }
 
 main().catch(console.error);
