@@ -1,14 +1,10 @@
 # Release History
 
-## 3.2.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 3.2.2 (2023-02-02)
 
 ### Other Changes
+
+- Remove unused dependency `url` [PR #24380](https://github.com/Azure/azure-sdk-for-js/pull/24380).
 
 ## 3.2.1 (2023-01-05)
 

@@ -72,7 +72,6 @@ export type CapabilitiesGetResponse = Capability;
 
 // @public
 export interface CapabilitiesListNextOptionalParams extends coreClient.OperationOptions {
-    continuationToken?: string;
 }
 
 // @public
@@ -142,7 +141,6 @@ export type CapabilityTypesGetResponse = CapabilityType;
 
 // @public
 export interface CapabilityTypesListNextOptionalParams extends coreClient.OperationOptions {
-    continuationToken?: string;
 }
 
 // @public
@@ -348,8 +346,6 @@ export type ExperimentsGetStatusResponse = ExperimentStatus;
 
 // @public
 export interface ExperimentsListAllNextOptionalParams extends coreClient.OperationOptions {
-    continuationToken?: string;
-    running?: boolean;
 }
 
 // @public
@@ -394,8 +390,6 @@ export type ExperimentsListExecutionDetailsResponse = ExperimentExecutionDetails
 
 // @public
 export interface ExperimentsListNextOptionalParams extends coreClient.OperationOptions {
-    continuationToken?: string;
-    running?: boolean;
 }
 
 // @public
@@ -449,6 +443,9 @@ export type FilterType = string;
 
 // @public (undocumented)
 export type FilterUnion = Filter | SimpleFilter;
+
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export interface KeyValuePair {
@@ -638,7 +635,6 @@ export type TargetsGetResponse = Target;
 
 // @public
 export interface TargetsListNextOptionalParams extends coreClient.OperationOptions {
-    continuationToken?: string;
 }
 
 // @public
@@ -683,7 +679,6 @@ export type TargetTypesGetResponse = TargetType;
 
 // @public
 export interface TargetTypesListNextOptionalParams extends coreClient.OperationOptions {
-    continuationToken?: string;
 }
 
 // @public

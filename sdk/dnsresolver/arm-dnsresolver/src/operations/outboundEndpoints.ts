@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { OutboundEndpoints } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,6 +19,7 @@ import {
   OutboundEndpoint,
   OutboundEndpointsListNextOptionalParams,
   OutboundEndpointsListOptionalParams,
+  OutboundEndpointsListResponse,
   OutboundEndpointsCreateOrUpdateOptionalParams,
   OutboundEndpointsCreateOrUpdateResponse,
   OutboundEndpointPatch,
@@ -26,7 +28,6 @@ import {
   OutboundEndpointsDeleteOptionalParams,
   OutboundEndpointsGetOptionalParams,
   OutboundEndpointsGetResponse,
-  OutboundEndpointsListResponse,
   OutboundEndpointsListNextResponse
 } from "../models";
 
@@ -66,8 +67,16 @@ export class OutboundEndpointsImpl implements OutboundEndpoints {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, dnsResolverName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          dnsResolverName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -75,11 +84,18 @@ export class OutboundEndpointsImpl implements OutboundEndpoints {
   private async *listPagingPage(
     resourceGroupName: string,
     dnsResolverName: string,
-    options?: OutboundEndpointsListOptionalParams
+    options?: OutboundEndpointsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<OutboundEndpoint[]> {
-    let result = await this._list(resourceGroupName, dnsResolverName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: OutboundEndpointsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, dnsResolverName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -88,7 +104,9 @@ export class OutboundEndpointsImpl implements OutboundEndpoints {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -614,7 +632,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

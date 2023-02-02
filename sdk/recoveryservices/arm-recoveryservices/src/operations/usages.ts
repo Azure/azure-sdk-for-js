@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { Usages } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -55,11 +55,15 @@ export class UsagesImpl implements Usages {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByVaultsPagingPage(
           resourceGroupName,
           vaultName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -68,13 +72,11 @@ export class UsagesImpl implements Usages {
   private async *listByVaultsPagingPage(
     resourceGroupName: string,
     vaultName: string,
-    options?: UsagesListByVaultsOptionalParams
+    options?: UsagesListByVaultsOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<VaultUsage[]> {
-    let result = await this._listByVaults(
-      resourceGroupName,
-      vaultName,
-      options
-    );
+    let result: UsagesListByVaultsResponse;
+    result = await this._listByVaults(resourceGroupName, vaultName, options);
     yield result.value || [];
   }
 

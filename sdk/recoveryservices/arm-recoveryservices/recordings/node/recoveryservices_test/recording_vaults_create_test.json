@@ -10,8 +10,8 @@
         "Connection": "keep-alive",
         "Content-Length": "100",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-arm-recoveryservices/5.1.0 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "e3d0a2a5-0d32-4c7a-a5a6-8b1100264334"
+        "User-Agent": "azsdk-js-arm-recoveryservices/5.1.1 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "4799e7f2-b38e-4adf-aff4-49a57d2ab485"
       },
       "RequestBody": {
         "location": "eastus",
@@ -27,26 +27,26 @@
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
         "Content-Length": "562",
-        "Content-Type": "application/json",
-        "Date": "Fri, 22 Jul 2022 07:43:20 GMT",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 31 Jan 2023 08:18:56 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
-        "Server": "Microsoft-IIS/10.0",
+        "Server": "Kestrel",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-client-request-id": "e3d0a2a5-0d32-4c7a-a5a6-8b1100264334",
-        "x-ms-correlation-request-id": "59ad82a0-fea9-4899-aeaf-45e6f5a0896e",
+        "x-ms-client-request-id": "4799e7f2-b38e-4adf-aff4-49a57d2ab485",
+        "x-ms-correlation-request-id": "fbcc7902-feeb-4fcd-85dc-10260b71ac1c",
         "x-ms-ratelimit-remaining-subscription-resource-requests": "209",
-        "x-ms-request-id": "59ad82a0-fea9-4899-aeaf-45e6f5a0896e",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220722T074321Z:59ad82a0-fea9-4899-aeaf-45e6f5a0896e"
+        "x-ms-request-id": "fbcc7902-feeb-4fcd-85dc-10260b71ac1c",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230131T081857Z:fbcc7902-feeb-4fcd-85dc-10260b71ac1c"
       },
       "ResponseBody": {
         "location": "eastus",
         "name": "myvaultxxx",
-        "etag": "W/\u0022datetime\u00272022-07-22T07%3A43%3A19.1658137Z\u0027\u0022",
+        "etag": "W/\u0022datetime\u00272023-01-31T08%3A18%3A56.0555653Z\u0027\u0022",
         "identity": {
           "tenantId": "88888888-8888-8888-8888-888888888888",
-          "principalId": "d289cb8d-2e52-41a7-adb6-255bb3d6eed8",
+          "principalId": "54056929-ec59-4d59-9953-de3a6c2048cd",
           "type": "SystemAssigned"
         },
         "properties": {

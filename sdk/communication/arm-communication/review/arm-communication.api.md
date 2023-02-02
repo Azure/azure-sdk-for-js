@@ -508,6 +508,9 @@ export interface ErrorResponse {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 type KeyType_2 = "Primary" | "Secondary";
 export { KeyType_2 as KeyType }
 
