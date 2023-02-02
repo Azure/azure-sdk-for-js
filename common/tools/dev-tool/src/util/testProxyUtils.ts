@@ -46,31 +46,31 @@ const AVAILABLE_TEST_PROXY_BINARIES: TestProxyBinary[] = [
     platform: "win32",
     architecture: "x64",
     fileName: "test-proxy-standalone-win-x64.zip",
-    executableLocation: "test-proxy.exe",
+    executableLocation: "Azure.Sdk.Tools.TestProxy.exe",
   },
   {
     platform: "linux",
     architecture: "x64",
     fileName: "test-proxy-standalone-linux-x64.tar.gz",
-    executableLocation: "test-proxy",
+    executableLocation: "Azure.Sdk.Tools.TestProxy",
   },
   {
     platform: "linux",
     architecture: "arm64",
     fileName: "test-proxy-standalone-linux-arm64.tar.gz",
-    executableLocation: "test-proxy",
+    executableLocation: "Azure.Sdk.Tools.TestProxy",
   },
   {
     platform: "darwin",
     architecture: "x64",
     fileName: "test-proxy-standalone-osx-x64.zip",
-    executableLocation: "test-proxy",
+    executableLocation: "Azure.Sdk.Tools.TestProxy",
   },
   {
     platform: "darwin",
     architecture: "arm64",
     fileName: "test-proxy-standalone-osx-arm64.zip",
-    executableLocation: "test-proxy",
+    executableLocation: "Azure.Sdk.Tools.TestProxy",
   },
 ];
 
@@ -95,7 +95,7 @@ function getTestProxyBinary(): TestProxyBinary {
  * Gets the download URL for a specific binary and version.
  */
 function getDownloadUrl(binary: TestProxyBinary, version: string): string {
-  return `https://github.com/Azure/azure-sdk-tools/releases/download/test-proxy_${version}/${binary.fileName}`;
+  return `https://github.com/Azure/azure-sdk-tools/releases/download/Azure.Sdk.Tools.TestProxy_${version}/${binary.fileName}`;
 }
 
 async function downloadTestProxy(downloadLocation: string, downloadUrl: string): Promise<void> {
@@ -206,30 +206,28 @@ export async function isProxyToolActive(): Promise<boolean> {
 }
 
 async function getTargetVersion() {
-  return "1.0.0-dev.20230126.1";
-
   // Grab the tag from the `/eng/common/testproxy/target_version.txt` file [..is used to control the default version]
   // Example content:
   //
   // 1.0.0-dev.20220224.2
   // (Bot regularly updates the tag in the file above.)
-  // try {
-  //   const contentInVersionFile = await fs.readFile(
-  //     `${path.join(await resolveRoot(), "eng/common/testproxy/target_version.txt")}`,
-  //     "utf-8"
-  //   );
+  try {
+    const contentInVersionFile = await fs.readFile(
+      `${path.join(await resolveRoot(), "eng/common/testproxy/target_version.txt")}`,
+      "utf-8"
+    );
 
-  //   const tag = contentInVersionFile.trim();
-  //   if (tag === undefined) {
-  //     throw new Error();
-  //   }
+    const tag = contentInVersionFile.trim();
+    if (tag === undefined) {
+      throw new Error();
+    }
 
-  //   log.info(`Image tag obtained from the powershell script => ${tag}\n`);
-  //   return tag;
-  // } catch (_: any) {
-  //   log.warn(
-  //     `Unable to get the image tag from the powershell script, trying "latest" tag instead\n`
-  //   );
-  //   return "latest";
-  // }
+    log.info(`Image tag obtained from the powershell script => ${tag}\n`);
+    return tag;
+  } catch (_: any) {
+    log.warn(
+      `Unable to get the image tag from the powershell script, trying "latest" tag instead\n`
+    );
+    return "latest";
+  }
 }
