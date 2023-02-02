@@ -33,8 +33,8 @@ async function checkQuotaAvailability() {
   const result = await client.netAppResource.checkQuotaAvailability(
     location,
     name,
-    typeParam,
-    resourceGroup
+    resourceGroup,
+    typeParam
   );
   console.log(result);
 }

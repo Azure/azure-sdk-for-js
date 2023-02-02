@@ -911,8 +911,8 @@ export interface NetAppManagementClientOptionalParams extends coreClient.Service
 // @public
 export interface NetAppResource {
     checkFilePathAvailability(location: string, name: string, subnetId: string, options?: NetAppResourceCheckFilePathAvailabilityOptionalParams): Promise<NetAppResourceCheckFilePathAvailabilityResponse>;
-    checkNameAvailability(location: string, name: string, typeParam: CheckNameResourceTypes, resourceGroup: string, options?: NetAppResourceCheckNameAvailabilityOptionalParams): Promise<NetAppResourceCheckNameAvailabilityResponse>;
-    checkQuotaAvailability(location: string, name: string, typeParam: CheckQuotaNameResourceTypes, resourceGroup: string, options?: NetAppResourceCheckQuotaAvailabilityOptionalParams): Promise<NetAppResourceCheckQuotaAvailabilityResponse>;
+    checkNameAvailability(location: string, name: string, resourceGroup: string, typeParam: CheckNameResourceTypes, options?: NetAppResourceCheckNameAvailabilityOptionalParams): Promise<NetAppResourceCheckNameAvailabilityResponse>;
+    checkQuotaAvailability(location: string, name: string, resourceGroup: string, typeParam: CheckQuotaNameResourceTypes, options?: NetAppResourceCheckQuotaAvailabilityOptionalParams): Promise<NetAppResourceCheckQuotaAvailabilityResponse>;
     queryRegionInfo(location: string, options?: NetAppResourceQueryRegionInfoOptionalParams): Promise<NetAppResourceQueryRegionInfoResponse>;
 }
 
