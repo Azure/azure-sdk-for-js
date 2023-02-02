@@ -1,15 +1,19 @@
 # Release History
+    
+## 1.0.0-beta.3 (2023-01-12)
+    
+**Features**
 
-## 1.0.0-beta.3 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface CapabilitiesListNextOptionalParams no longer has parameter continuationToken
+  - Interface CapabilityTypesListNextOptionalParams no longer has parameter continuationToken
+  - Interface ExperimentsListAllNextOptionalParams no longer has parameter continuationToken
+  - Interface ExperimentsListAllNextOptionalParams no longer has parameter running
+  - Interface ExperimentsListNextOptionalParams no longer has parameter continuationToken
+  - Interface ExperimentsListNextOptionalParams no longer has parameter running
+  - Interface TargetsListNextOptionalParams no longer has parameter continuationToken
+  - Interface TargetTypesListNextOptionalParams no longer has parameter continuationToken
+    
+    
 ## 1.0.0-beta.2 (2022-10-19)
     
 **Features**
