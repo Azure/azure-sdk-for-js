@@ -15,6 +15,7 @@ import {
   KnownSpeller,
   SearchClient,
   SearchIndexClient,
+  SelectFields,
 } from "../../../src";
 import { Hotel } from "../utils/interfaces";
 import { WAIT_TIME, createIndex, createRandomIndexName, populateIndex } from "../utils/setup";
@@ -115,38 +116,74 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         "tags",
       ];
 
-      const selectResults = await searchClient.search("New", {
-        select: ["hotelId", "address/city", "rooms/type"],
-      });
-      for await (const result of selectResults.results) {
-        assert.doesNotHaveAnyKeys(
-          result.document,
-          hotelKeys.filter((key) => !["hotelId", "address", "rooms"].includes(key))
-        );
-        assert.doesNotHaveAnyKeys(
-          result.document.address,
-          addressKeys.filter((key) => key !== "city")
-        );
-        for (const room of result.document.rooms!) {
-          assert.doesNotHaveAnyKeys(
-            room,
-            roomKeys.filter((key) => key !== "type")
-          );
-          break;
-        }
-      }
+      const select: SelectFields<Hotel>[] = ["hotelId", "address/city", "rooms/type"];
+      const selectNarrowed = ["hotelId", "address/city", "rooms/type"] as const;
 
-      const searchFieldsResults = await searchClient.search("New", {
-        searchFields: ["address/city"],
-      });
-      for await (const result of searchFieldsResults.results) {
-        const city = result.document.address?.city;
-        if (!city) {
-          assert.fail();
-        }
-        assert.hasAllKeys(result.document, hotelKeys);
-        assert.hasAllKeys(result.document.address, addressKeys);
-      }
+      const selectPromises = [
+        searchClient.search("New", {
+          select,
+        }),
+        searchClient.search("New", {
+          select: selectNarrowed,
+        }),
+        searchClient.search("New", {
+          select: ["hotelId", "address/city", "rooms/type"],
+        }),
+      ];
+
+      const selectTestPromises = selectPromises.map((selectPromise) =>
+        selectPromise.then(async (selectResults) => {
+          for await (const result of selectResults.results) {
+            assert.doesNotHaveAnyKeys(
+              result.document,
+              hotelKeys.filter((key) => !["hotelId", "address", "rooms"].includes(key))
+            );
+            assert.doesNotHaveAnyKeys(
+              result.document.address,
+              addressKeys.filter((key) => key !== "city")
+            );
+            for (const room of result.document.rooms!) {
+              assert.doesNotHaveAnyKeys(
+                room,
+                roomKeys.filter((key) => key !== "type")
+              );
+              break;
+            }
+          }
+        })
+      );
+
+      await Promise.all(selectTestPromises);
+
+      const searchFields: SelectFields<Hotel>[] = ["address/city"];
+      const searchFieldsNarrowed = ["address/city"] as const;
+
+      const searchFieldsPromises = [
+        searchClient.search("New", {
+          searchFields,
+        }),
+        searchClient.search("New", {
+          searchFields: searchFieldsNarrowed,
+        }),
+        searchClient.search("New", {
+          searchFields: ["address/city"],
+        }),
+      ];
+
+      const searchFieldsTestPromises = searchFieldsPromises.map((searchFieldsPromise) =>
+        searchFieldsPromise.then(async (searchFieldsResults) => {
+          for await (const result of searchFieldsResults.results) {
+            const city = result.document.address?.city;
+            if (!city) {
+              assert.fail();
+            }
+            assert.hasAllKeys(result.document, hotelKeys);
+            assert.hasAllKeys(result.document.address, addressKeys);
+          }
+        })
+      );
+
+      await Promise.all(searchFieldsTestPromises);
     });
 
     it("search returns zero results for invalid query", async function () {

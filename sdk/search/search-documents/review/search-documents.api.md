@@ -80,7 +80,7 @@ export interface AutocompleteRequest<Model extends object> {
     highlightPostTag?: string;
     highlightPreTag?: string;
     minimumCoverage?: number;
-    searchFields?: SelectFields<Model>[];
+    searchFields?: SelectFields<Model>[] | Readonly<SelectFields<Model>[]>;
     top?: number;
     useFuzzyMatching?: boolean;
 }
@@ -584,7 +584,7 @@ export type GetDataSourceConnectionOptions = OperationOptions;
 
 // @public
 export interface GetDocumentOptions<Model extends object, Fields extends SelectFields<Model>> extends OperationOptions {
-    selectedFields?: [Fields] extends [never] ? string[] : Fields[];
+    selectedFields?: [string] extends [Fields] ? string[] : Fields[] | Readonly<Fields[]>;
 }
 
 // @public
@@ -2077,7 +2077,7 @@ export interface SearchDocumentsPageResult<Model extends object, Fields extends 
 }
 
 // @public
-export interface SearchDocumentsResult<Model extends object, Fields extends SelectFields<Model>> extends SearchDocumentsResultBase {
+export interface SearchDocumentsResult<Model extends object, Fields extends SelectFields<Model> = SelectFields<Model>> extends SearchDocumentsResultBase {
     readonly results: SearchIterator<Model, Fields>;
 }
 
@@ -2466,9 +2466,9 @@ export interface SearchRequestOptions<Model extends object, Fields extends Selec
     scoringParameters?: string[];
     scoringProfile?: string;
     scoringStatistics?: ScoringStatistics;
-    searchFields?: SelectFields<Model>[];
+    searchFields?: SelectFields<Model>[] | Readonly<SelectFields<Model>[]>;
     searchMode?: SearchMode;
-    select?: [Fields] extends [never] ? string[] : Fields[];
+    select?: [string] extends [Fields] ? string[] : Fields[] | Readonly<Fields[]>;
     semanticFields?: string[];
     sessionId?: string;
     skip?: number;
@@ -2704,8 +2704,8 @@ export interface SuggestRequest<Model extends object, Fields extends SelectField
     highlightPreTag?: string;
     minimumCoverage?: number;
     orderBy?: string[];
-    searchFields?: SelectFields<Model>[];
-    select?: [Fields] extends [never] ? string[] : Fields[];
+    searchFields?: SelectFields<Model>[] | Readonly<SelectFields<Model>[]>;
+    select?: [string] extends [Fields] ? string[] : Fields[] | Readonly<Fields[]>;
     top?: number;
     useFuzzyMatching?: boolean;
 }

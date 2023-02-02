@@ -93,7 +93,7 @@ export interface GetDocumentOptions<Model extends object, Fields extends SelectF
    * List of field names to retrieve for the document; Any field not retrieved will be missing from
    * the returned document.
    */
-  selectedFields?: [Fields] extends [never] ? string[] : Fields[];
+  selectedFields?: [string] extends [Fields] ? string[] : Fields[] | Readonly<Fields[]>;
 }
 
 /**
@@ -392,7 +392,7 @@ export interface SearchRequestOptions<Model extends object, Fields extends Selec
    * fielded search (fieldName:searchExpression) in a full Lucene query, the field names of each
    * fielded search expression take precedence over any field names listed in this parameter.
    */
-  searchFields?: SelectFields<Model>[];
+  searchFields?: SelectFields<Model>[] | Readonly<SelectFields<Model>[]>;
   /**
    * The language of the query.
    */
@@ -431,7 +431,7 @@ export interface SearchRequestOptions<Model extends object, Fields extends Selec
    * The list of fields to retrieve. If unspecified, all fields marked as
    * retrievable in the schema are included.
    */
-  select?: [Fields] extends [never] ? string[] : Fields[];
+  select?: [string] extends [Fields] ? string[] : Fields[] | Readonly<Fields[]>;
   /**
    * The number of search results to skip. This value cannot be greater than 100,000. If you need
    * to scan documents in sequence, but cannot use skip due to this limitation, consider using
@@ -522,8 +522,10 @@ export interface SearchDocumentsResultBase {
 /**
  * Response containing search results from an index.
  */
-export interface SearchDocumentsResult<Model extends object, Fields extends SelectFields<Model>>
-  extends SearchDocumentsResultBase {
+export interface SearchDocumentsResult<
+  Model extends object,
+  Fields extends SelectFields<Model> = SelectFields<Model>
+> extends SearchDocumentsResultBase {
   /**
    * The sequence of results returned by the query.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -594,12 +596,12 @@ export interface SuggestRequest<Model extends object, Fields extends SelectField
    * The comma-separated list of field names to search for the specified search text. Target fields
    * must be included in the specified suggester.
    */
-  searchFields?: SelectFields<Model>[];
+  searchFields?: SelectFields<Model>[] | Readonly<SelectFields<Model>[]>;
   /**
    * The list of fields to retrieve. If unspecified, only the key field will be
    * included in the results.
    */
-  select?: [Fields] extends [never] ? string[] : Fields[];
+  select?: [string] extends [Fields] ? string[] : Fields[] | Readonly<Fields[]>;
   /**
   /**
    * The number of suggestions to retrieve. This must be a value between 1 and 100. The default is
@@ -667,7 +669,7 @@ export interface AutocompleteRequest<Model extends object> {
   highlightPostTag?: string;
   /**
    * A string tag that is prepended to hit highlights. Must be set with highlightPostTag. If
-   * omitted, hit highlighting is disabled.
+   * omitted, hit highlighting is disabled.availability
    */
   highlightPreTag?: string;
   /**
@@ -681,7 +683,7 @@ export interface AutocompleteRequest<Model extends object> {
    * The comma-separated list of field names to consider when querying for auto-completed terms.
    * Target fields must be included in the specified suggester.
    */
-  searchFields?: SelectFields<Model>[];
+  searchFields?: SelectFields<Model>[] | Readonly<SelectFields<Model>[]>;
   /**
    * The number of auto-completed terms to retrieve. This must be a value between 1 and 100. The
    * default is 5.

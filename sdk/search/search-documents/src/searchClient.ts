@@ -565,7 +565,10 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
   ): Promise<NarrowedModel<Model, Fields>> {
     const { span, updatedOptions } = createSpan("SearchClient-getDocument", options);
     try {
-      const result = await this.client.documents.get(key, updatedOptions);
+      const result = await this.client.documents.get(key, {
+        ...updatedOptions,
+        selectedFields: updatedOptions.selectedFields as string[],
+      });
       return deserialize<NarrowedModel<Model, Fields>>(result);
     } catch (e: any) {
       span.setStatus({
