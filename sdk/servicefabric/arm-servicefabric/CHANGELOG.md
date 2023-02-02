@@ -1,6 +1,6 @@
 # Release History
 
-## 2.0.2 (Unreleased)
+## 2.1.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,28 @@
 
 ### Other Changes
 
+## 2.1.0 (2022-12-12)
+    
+**Features**
+
+  - Added Interface ApplicationResource
+  - Added Interface ApplicationResourceProperties
+  - Added Interface ApplicationResourceUpdate
+  - Added Interface ApplicationTypeResource
+  - Added Interface ApplicationTypeVersionResource
+  - Added Interface Cluster
+  - Added Interface NamedPartitionSchemeDescription
+  - Added Interface ServiceResource
+  - Added Interface ServiceResourceProperties
+  - Added Interface ServiceResourceUpdate
+  - Added Interface ServiceResourceUpdateProperties
+  - Added Interface SingletonPartitionSchemeDescription
+  - Added Interface StatefulServiceProperties
+  - Added Interface StatefulServiceUpdateProperties
+  - Added Interface StatelessServiceProperties
+  - Added Interface StatelessServiceUpdateProperties
+  - Added Interface UniformInt64RangePartitionSchemeDescription
+    
 ## 2.0.1 (2022-05-01)
 
 **Features**

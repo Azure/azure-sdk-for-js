@@ -1,6 +1,6 @@
 # Release History
 
-## 2.0.0-beta.2 (Unreleased)
+## 2.0.0-beta.3 (Unreleased)
 
 ### Features Added
 
@@ -10,8 +10,12 @@
 
 ### Other Changes
 
-## 2.0.0-beta.1 (2022-10-12)
+## 2.0.0-beta.2 (2022-11-15)
     
+  - Bugs Fixed
+
+## 2.0.0-beta.1 (2022-10-12)
+
 **Features**
 
   - Added operation group AvailableWorkloadProfiles

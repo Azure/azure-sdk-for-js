@@ -70,60 +70,40 @@ export interface ErrorResponseBody {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownProvisionState {
-    // (undocumented)
     Accepted = "Accepted",
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleted = "Deleted",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     NotSpecified = "NotSpecified",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownSaaSOfferStatus {
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     InProgress = "InProgress",
-    // (undocumented)
     PendingFulfillmentStart = "PendingFulfillmentStart",
-    // (undocumented)
     Reinstated = "Reinstated",
-    // (undocumented)
     Started = "Started",
-    // (undocumented)
     Subscribed = "Subscribed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Suspended = "Suspended",
-    // (undocumented)
     Unsubscribed = "Unsubscribed",
-    // (undocumented)
     Updating = "Updating"
 }
 

@@ -88,6 +88,9 @@ export interface DimensionProperties {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export interface IPRule {
     value: string;
 }
@@ -125,143 +128,86 @@ export interface KeyVaultManagementClientOptionalParams extends coreClient.Servi
 
 // @public
 export enum KnownCertificatePermissions {
-    // (undocumented)
     All = "all",
-    // (undocumented)
     Backup = "backup",
-    // (undocumented)
     Create = "create",
-    // (undocumented)
     Delete = "delete",
-    // (undocumented)
     Deleteissuers = "deleteissuers",
-    // (undocumented)
     Get = "get",
-    // (undocumented)
     Getissuers = "getissuers",
-    // (undocumented)
     Import = "import",
-    // (undocumented)
     List = "list",
-    // (undocumented)
     Listissuers = "listissuers",
-    // (undocumented)
     Managecontacts = "managecontacts",
-    // (undocumented)
     Manageissuers = "manageissuers",
-    // (undocumented)
     Purge = "purge",
-    // (undocumented)
     Recover = "recover",
-    // (undocumented)
     Restore = "restore",
-    // (undocumented)
     Setissuers = "setissuers",
-    // (undocumented)
     Update = "update"
 }
 
 // @public
 export enum KnownKeyPermissions {
-    // (undocumented)
     All = "all",
-    // (undocumented)
     Backup = "backup",
-    // (undocumented)
     Create = "create",
-    // (undocumented)
     Decrypt = "decrypt",
-    // (undocumented)
     Delete = "delete",
-    // (undocumented)
     Encrypt = "encrypt",
-    // (undocumented)
     Get = "get",
-    // (undocumented)
     Import = "import",
-    // (undocumented)
     List = "list",
-    // (undocumented)
     Purge = "purge",
-    // (undocumented)
     Recover = "recover",
-    // (undocumented)
     Restore = "restore",
-    // (undocumented)
     Sign = "sign",
-    // (undocumented)
     UnwrapKey = "unwrapKey",
-    // (undocumented)
     Update = "update",
-    // (undocumented)
     Verify = "verify",
-    // (undocumented)
     WrapKey = "wrapKey"
 }
 
 // @public
 export enum KnownNetworkRuleAction {
-    // (undocumented)
     Allow = "Allow",
-    // (undocumented)
     Deny = "Deny"
 }
 
 // @public
 export enum KnownNetworkRuleBypassOptions {
-    // (undocumented)
     AzureServices = "AzureServices",
-    // (undocumented)
     None = "None"
 }
 
 // @public
 export enum KnownPrivateEndpointConnectionProvisioningState {
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Disconnected = "Disconnected",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownPrivateEndpointServiceConnectionStatus {
-    // (undocumented)
     Approved = "Approved",
-    // (undocumented)
     Disconnected = "Disconnected",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Rejected = "Rejected"
 }
 
 // @public
 export enum KnownSecretPermissions {
-    // (undocumented)
     All = "all",
-    // (undocumented)
     Backup = "backup",
-    // (undocumented)
     Delete = "delete",
-    // (undocumented)
     Get = "get",
-    // (undocumented)
     List = "list",
-    // (undocumented)
     Purge = "purge",
-    // (undocumented)
     Recover = "recover",
-    // (undocumented)
     Restore = "restore",
-    // (undocumented)
     Set = "set"
 }
 
@@ -273,43 +219,26 @@ export enum KnownSkuFamily {
 
 // @public
 export enum KnownStoragePermissions {
-    // (undocumented)
     All = "all",
-    // (undocumented)
     Backup = "backup",
-    // (undocumented)
     Delete = "delete",
-    // (undocumented)
     Deletesas = "deletesas",
-    // (undocumented)
     Get = "get",
-    // (undocumented)
     Getsas = "getsas",
-    // (undocumented)
     List = "list",
-    // (undocumented)
     Listsas = "listsas",
-    // (undocumented)
     Purge = "purge",
-    // (undocumented)
     Recover = "recover",
-    // (undocumented)
     Regeneratekey = "regeneratekey",
-    // (undocumented)
     Restore = "restore",
-    // (undocumented)
     Set = "set",
-    // (undocumented)
     Setsas = "setsas",
-    // (undocumented)
     Update = "update"
 }
 
 // @public
 export enum KnownVaultProvisioningState {
-    // (undocumented)
     RegisteringDns = "RegisteringDns",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
@@ -406,12 +335,12 @@ export interface PrivateEndpoint {
 }
 
 // @public
-export type PrivateEndpointConnection = Resource & {
+export interface PrivateEndpointConnection extends Resource {
     etag?: string;
     privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
     readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
-};
+}
 
 // @public
 export interface PrivateEndpointConnectionItem {
@@ -472,11 +401,11 @@ export type PrivateEndpointConnectionsPutResponse = PrivateEndpointConnectionsPu
 export type PrivateEndpointServiceConnectionStatus = string;
 
 // @public
-export type PrivateLinkResource = Resource & {
+export interface PrivateLinkResource extends Resource {
     readonly groupId?: string;
     readonly requiredMembers?: string[];
     requiredZoneNames?: string[];
-};
+}
 
 // @public
 export interface PrivateLinkResourceListResult {
@@ -523,12 +452,13 @@ export interface ResourceListResult {
 }
 
 // @public
-export type Secret = Resource & {
+export interface Secret extends Resource {
     properties: SecretProperties;
-};
+}
 
 // @public
-export type SecretAttributes = Attributes & {};
+export interface SecretAttributes extends Attributes {
+}
 
 // @public
 export interface SecretCreateOrUpdateParameters {
@@ -595,7 +525,6 @@ export type SecretsGetResponse = Secret;
 
 // @public
 export interface SecretsListNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -785,7 +714,6 @@ export type VaultsGetResponse = Vault;
 
 // @public
 export interface VaultsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -801,7 +729,6 @@ export type VaultsListByResourceGroupResponse = VaultListResult;
 
 // @public
 export interface VaultsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public
@@ -831,7 +758,6 @@ export type VaultsListDeletedResponse = DeletedVaultListResult;
 
 // @public
 export interface VaultsListNextOptionalParams extends coreClient.OperationOptions {
-    top?: number;
 }
 
 // @public

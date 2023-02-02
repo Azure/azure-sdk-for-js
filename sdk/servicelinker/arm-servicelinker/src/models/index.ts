@@ -303,59 +303,59 @@ export interface SecretInfoBase {
 }
 
 /** The azure resource info when target service type is AzureResource */
-export type AzureResource = TargetServiceBase & {
+export interface AzureResource extends TargetServiceBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureResource";
   /** The Id of azure resource. */
   id?: string;
   /** The azure resource connection related properties. */
   resourceProperties?: AzureResourcePropertiesBaseUnion;
-};
+}
 
 /** The service properties when target service type is ConfluentBootstrapServer */
-export type ConfluentBootstrapServer = TargetServiceBase & {
+export interface ConfluentBootstrapServer extends TargetServiceBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ConfluentBootstrapServer";
   /** The endpoint of service. */
   endpoint?: string;
-};
+}
 
 /** The service properties when target service type is ConfluentSchemaRegistry */
-export type ConfluentSchemaRegistry = TargetServiceBase & {
+export interface ConfluentSchemaRegistry extends TargetServiceBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "ConfluentSchemaRegistry";
   /** The endpoint of service. */
   endpoint?: string;
-};
+}
 
 /** The authentication info when authType is secret */
-export type SecretAuthInfo = AuthInfoBase & {
+export interface SecretAuthInfo extends AuthInfoBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   authType: "secret";
   /** Username or account name for secret auth. */
   name?: string;
   /** Password or key vault secret for secret auth. */
   secretInfo?: SecretInfoBaseUnion;
-};
+}
 
 /** The authentication info when authType is userAssignedIdentity */
-export type UserAssignedIdentityAuthInfo = AuthInfoBase & {
+export interface UserAssignedIdentityAuthInfo extends AuthInfoBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   authType: "userAssignedIdentity";
   /** Client Id for userAssignedIdentity. */
   clientId?: string;
   /** Subscription id for userAssignedIdentity. */
   subscriptionId?: string;
-};
+}
 
 /** The authentication info when authType is systemAssignedIdentity */
-export type SystemAssignedIdentityAuthInfo = AuthInfoBase & {
+export interface SystemAssignedIdentityAuthInfo extends AuthInfoBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   authType: "systemAssignedIdentity";
-};
+}
 
 /** The authentication info when authType is servicePrincipal secret */
-export type ServicePrincipalSecretAuthInfo = AuthInfoBase & {
+export interface ServicePrincipalSecretAuthInfo extends AuthInfoBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   authType: "servicePrincipalSecret";
   /** ServicePrincipal application clientId for servicePrincipal auth. */
@@ -364,10 +364,10 @@ export type ServicePrincipalSecretAuthInfo = AuthInfoBase & {
   principalId: string;
   /** Secret for servicePrincipal auth. */
   secret: string;
-};
+}
 
 /** The authentication info when authType is servicePrincipal certificate */
-export type ServicePrincipalCertificateAuthInfo = AuthInfoBase & {
+export interface ServicePrincipalCertificateAuthInfo extends AuthInfoBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   authType: "servicePrincipalCertificate";
   /** Application clientId for servicePrincipal auth. */
@@ -376,47 +376,47 @@ export type ServicePrincipalCertificateAuthInfo = AuthInfoBase & {
   principalId: string;
   /** ServicePrincipal certificate for servicePrincipal auth. */
   certificate: string;
-};
+}
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export type ProxyResource = Resource & {};
+export interface ProxyResource extends Resource {}
 
 /** The resource properties when type is Azure Key Vault */
-export type AzureKeyVaultProperties = AzureResourcePropertiesBase & {
+export interface AzureKeyVaultProperties extends AzureResourcePropertiesBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "KeyVault";
   /** True if connect via Kubernetes CSI Driver. */
   connectAsKubernetesCsiDriver?: boolean;
-};
+}
 
 /** The secret info when type is rawValue. It's for scenarios that user input the secret. */
-export type ValueSecretInfo = SecretInfoBase & {
+export interface ValueSecretInfo extends SecretInfoBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   secretType: "rawValue";
   /** The actual value of the secret. */
   value?: string;
-};
+}
 
 /** The secret info when type is keyVaultSecretReference. It's for scenario that user provides a secret stored in user's keyvault and source is Azure Kubernetes. The key Vault's resource id is linked to secretStore.keyVaultId. */
-export type KeyVaultSecretReferenceSecretInfo = SecretInfoBase & {
+export interface KeyVaultSecretReferenceSecretInfo extends SecretInfoBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   secretType: "keyVaultSecretReference";
   /** Name of the Key Vault secret. */
   name?: string;
   /** Version of the Key Vault secret. */
   version?: string;
-};
+}
 
 /** The secret info when type is keyVaultSecretUri. It's for scenario that user provides a secret stored in user's keyvault and source is Web App, Spring Cloud or Container App. */
-export type KeyVaultSecretUriSecretInfo = SecretInfoBase & {
+export interface KeyVaultSecretUriSecretInfo extends SecretInfoBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   secretType: "keyVaultSecretUri";
   /** URI to the keyvault secret */
   value?: string;
-};
+}
 
 /** Linker of source and target resource */
-export type LinkerResource = ProxyResource & {
+export interface LinkerResource extends ProxyResource {
   /**
    * The system data.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -439,12 +439,15 @@ export type LinkerResource = ProxyResource & {
   secretStore?: SecretStore;
   /** connection scope in source service. */
   scope?: string;
-};
+}
 
 /** Known values of {@link TargetServiceType} that the service accepts. */
 export enum KnownTargetServiceType {
+  /** AzureResource */
   AzureResource = "AzureResource",
+  /** ConfluentBootstrapServer */
   ConfluentBootstrapServer = "ConfluentBootstrapServer",
+  /** ConfluentSchemaRegistry */
   ConfluentSchemaRegistry = "ConfluentSchemaRegistry"
 }
 
@@ -461,10 +464,15 @@ export type TargetServiceType = string;
 
 /** Known values of {@link AuthType} that the service accepts. */
 export enum KnownAuthType {
+  /** SystemAssignedIdentity */
   SystemAssignedIdentity = "systemAssignedIdentity",
+  /** UserAssignedIdentity */
   UserAssignedIdentity = "userAssignedIdentity",
+  /** ServicePrincipalSecret */
   ServicePrincipalSecret = "servicePrincipalSecret",
+  /** ServicePrincipalCertificate */
   ServicePrincipalCertificate = "servicePrincipalCertificate",
+  /** Secret */
   Secret = "secret"
 }
 
@@ -483,15 +491,25 @@ export type AuthType = string;
 
 /** Known values of {@link ClientType} that the service accepts. */
 export enum KnownClientType {
+  /** None */
   None = "none",
+  /** Dotnet */
   Dotnet = "dotnet",
+  /** Java */
   Java = "java",
+  /** Python */
   Python = "python",
+  /** Go */
   Go = "go",
+  /** Php */
   Php = "php",
+  /** Ruby */
   Ruby = "ruby",
+  /** Django */
   Django = "django",
+  /** Nodejs */
   Nodejs = "nodejs",
+  /** SpringBoot */
   SpringBoot = "springBoot"
 }
 
@@ -515,7 +533,9 @@ export type ClientType = string;
 
 /** Known values of {@link VNetSolutionType} that the service accepts. */
 export enum KnownVNetSolutionType {
+  /** ServiceEndpoint */
   ServiceEndpoint = "serviceEndpoint",
+  /** PrivateLink */
   PrivateLink = "privateLink"
 }
 
@@ -531,9 +551,13 @@ export type VNetSolutionType = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
+  /** User */
   User = "User",
+  /** Application */
   Application = "Application",
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
+  /** Key */
   Key = "Key"
 }
 
@@ -551,8 +575,11 @@ export type CreatedByType = string;
 
 /** Known values of {@link ValidationResultStatus} that the service accepts. */
 export enum KnownValidationResultStatus {
+  /** Success */
   Success = "success",
+  /** Failure */
   Failure = "failure",
+  /** Warning */
   Warning = "warning"
 }
 
@@ -569,8 +596,11 @@ export type ValidationResultStatus = string;
 
 /** Known values of {@link Origin} that the service accepts. */
 export enum KnownOrigin {
+  /** User */
   User = "user",
+  /** System */
   System = "system",
+  /** UserSystem */
   UserSystem = "user,system"
 }
 
@@ -587,6 +617,7 @@ export type Origin = string;
 
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
+  /** Internal */
   Internal = "Internal"
 }
 
@@ -601,6 +632,7 @@ export type ActionType = string;
 
 /** Known values of {@link AzureResourceType} that the service accepts. */
 export enum KnownAzureResourceType {
+  /** KeyVault */
   KeyVault = "KeyVault"
 }
 
@@ -615,8 +647,11 @@ export type AzureResourceType = string;
 
 /** Known values of {@link SecretType} that the service accepts. */
 export enum KnownSecretType {
+  /** RawValue */
   RawValue = "rawValue",
+  /** KeyVaultSecretUri */
   KeyVaultSecretUri = "keyVaultSecretUri",
+  /** KeyVaultSecretReference */
   KeyVaultSecretReference = "keyVaultSecretReference"
 }
 

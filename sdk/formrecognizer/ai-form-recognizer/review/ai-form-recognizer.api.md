@@ -284,7 +284,7 @@ export interface DocumentModelAdministrationClientOptions extends FormRecognizer
 }
 
 // @public
-export type DocumentModelBuildMode = typeof DocumentModelBuildMode[keyof typeof DocumentModelBuildMode];
+export type DocumentModelBuildMode = (typeof DocumentModelBuildMode)[keyof typeof DocumentModelBuildMode];
 
 // @public
 export const DocumentModelBuildMode: {
@@ -493,7 +493,7 @@ export interface ErrorModel {
 }
 
 // @public
-export type FormRecognizerApiVersion = typeof FormRecognizerApiVersion[keyof typeof FormRecognizerApiVersion];
+export type FormRecognizerApiVersion = (typeof FormRecognizerApiVersion)[keyof typeof FormRecognizerApiVersion];
 
 // @public
 export const FormRecognizerApiVersion: {
@@ -616,7 +616,7 @@ export interface ResourceDetails {
 export type SelectionMarkState = string;
 
 // @public
-export type StringIndexType = typeof StringIndexType[keyof typeof StringIndexType];
+export type StringIndexType = (typeof StringIndexType)[keyof typeof StringIndexType];
 
 // @public
 export const StringIndexType: {

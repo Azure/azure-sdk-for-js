@@ -13,6 +13,9 @@ import {
   RedisManagementClient
 } from "@azure/arm-rediscache";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Regenerate Redis cache's access keys. This operation requires write permission to the cache resource.
@@ -21,8 +24,8 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2022-06-01/examples/RedisCacheRegenerateKey.json
  */
 async function redisCacheRegenerateKey() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["REDIS_RESOURCE_GROUP"] || "rg1";
   const name = "cache1";
   const parameters: RedisRegenerateKeyParameters = { keyType: "Primary" };
   const credential = new DefaultAzureCredential();
@@ -35,4 +38,8 @@ async function redisCacheRegenerateKey() {
   console.log(result);
 }
 
-redisCacheRegenerateKey().catch(console.error);
+async function main() {
+  redisCacheRegenerateKey();
+}
+
+main().catch(console.error);

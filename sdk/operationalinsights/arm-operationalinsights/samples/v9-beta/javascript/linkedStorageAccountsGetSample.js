@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { OperationalInsightsManagementClient } = require("@azure/arm-operationalinsights");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets all linked storage account of a specific data source type associated with the specified workspace.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2020-08-01/examples/LinkedStorageAccountsGet.json
  */
 async function linkedStorageAccountsGet() {
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const resourceGroupName = "mms-eus";
+  const subscriptionId =
+    process.env["OPERATIONALINSIGHTS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-00000000000";
+  const resourceGroupName = process.env["OPERATIONALINSIGHTS_RESOURCE_GROUP"] || "mms-eus";
   const workspaceName = "testLinkStorageAccountsWS";
   const dataSourceType = "CustomLogs";
   const credential = new DefaultAzureCredential();
@@ -32,4 +34,8 @@ async function linkedStorageAccountsGet() {
   console.log(result);
 }
 
-linkedStorageAccountsGet().catch(console.error);
+async function main() {
+  linkedStorageAccountsGet();
+}
+
+main().catch(console.error);

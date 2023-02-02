@@ -4,39 +4,20 @@
 
 ```ts
 
-/// <reference lib="esnext.asynciterable" />
-
-import * as coreHttp from '@azure/core-http';
-import { OperationOptions } from '@azure/core-http';
+import { CommonClientOptions } from '@azure/core-client';
+import * as coreClient from '@azure/core-client';
+import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PageSettings } from '@azure/core-paging';
-import { PipelineOptions } from '@azure/core-http';
-import { RestResponse } from '@azure/core-http';
-import { TokenCredential } from '@azure/core-http';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export type DigitalTwinModelsAddResponse = DigitalTwinsModelData[] & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: DigitalTwinsModelData[];
-    };
-};
+export type DigitalTwinModelsAddResponse = DigitalTwinsModelData[];
 
 // @public
-export type DigitalTwinModelsGetByIdResponse = DigitalTwinsModelData & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: DigitalTwinsModelData;
-    };
-};
+export type DigitalTwinModelsGetByIdResponse = DigitalTwinsModelData;
 
 // @public
-export type DigitalTwinModelsListResponse = PagedDigitalTwinsModelDataCollection & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: PagedDigitalTwinsModelDataCollection;
-    };
-};
+export type DigitalTwinModelsListResponse = PagedDigitalTwinsModelDataCollection;
 
 // @public
 export interface DigitalTwinsAddHeaders {
@@ -44,10 +25,8 @@ export interface DigitalTwinsAddHeaders {
 }
 
 // @public
-export interface DigitalTwinsAddOptionalParams extends coreHttp.OperationOptions {
+export interface DigitalTwinsAddOptionalParams extends coreClient.OperationOptions {
     ifNoneMatch?: string;
-    traceparent?: string;
-    tracestate?: string;
 }
 
 // @public
@@ -56,78 +35,57 @@ export interface DigitalTwinsAddRelationshipHeaders {
 }
 
 // @public
-export interface DigitalTwinsAddRelationshipOptionalParams extends coreHttp.OperationOptions {
+export interface DigitalTwinsAddRelationshipOptionalParams extends coreClient.OperationOptions {
     ifNoneMatch?: string;
-    traceparent?: string;
-    tracestate?: string;
 }
 
 // @public
-export type DigitalTwinsAddRelationshipResponse = DigitalTwinsAddRelationshipHeaders & {
-    body: any;
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: any;
-        parsedHeaders: DigitalTwinsAddRelationshipHeaders;
-    };
-};
+export type DigitalTwinsAddRelationshipResponse = DigitalTwinsAddRelationshipHeaders & Record<string, unknown>;
 
 // @public
-export type DigitalTwinsAddResponse = DigitalTwinsAddHeaders & {
-    body: any;
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: any;
-        parsedHeaders: DigitalTwinsAddHeaders;
-    };
-};
+export type DigitalTwinsAddResponse = DigitalTwinsAddHeaders & Record<string, unknown>;
 
 // @public
 export class DigitalTwinsClient {
     constructor(endpointUrl: string, credential: TokenCredential, options?: DigitalTwinsClientOptions);
-    createModels(dtdlModels: any[], options?: OperationOptions): Promise<DigitalTwinModelsAddResponse>;
-    decomissionModel(modelId: string, options?: OperationOptions): Promise<RestResponse>;
-    deleteDigitalTwin(digitalTwinId: string, options?: DigitalTwinsDeleteOptionalParams): Promise<RestResponse>;
-    deleteEventRoute(eventRouteId: string, options?: OperationOptions): Promise<RestResponse>;
-    deleteModel(modelId: string, options?: OperationOptions): Promise<RestResponse>;
-    deleteRelationship(digitalTwinId: string, relationshipId: string, options?: DigitalTwinsDeleteRelationshipOptionalParams): Promise<RestResponse>;
+    createModels(dtdlModels: Array<Record<string, unknown>>, options?: OperationOptions): Promise<DigitalTwinModelsAddResponse>;
+    decomissionModel(modelId: string, options?: OperationOptions): Promise<void>;
+    deleteDigitalTwin(digitalTwinId: string, options?: DigitalTwinsDeleteOptionalParams): Promise<void>;
+    deleteEventRoute(eventRouteId: string, options?: OperationOptions): Promise<void>;
+    deleteModel(modelId: string, options?: OperationOptions): Promise<void>;
+    deleteRelationship(digitalTwinId: string, relationshipId: string, options?: DigitalTwinsDeleteRelationshipOptionalParams): Promise<void>;
     getComponent(digitalTwinId: string, componentName: string, options?: OperationOptions): Promise<DigitalTwinsGetComponentResponse>;
     getDigitalTwin(digitalTwinId: string, options?: OperationOptions): Promise<DigitalTwinsGetByIdResponse>;
     getEventRoute(eventRouteId: string, options?: OperationOptions): Promise<EventRoutesGetByIdResponse>;
-    getModel(modelId: string, includeModelDefinition?: boolean, options?: OperationOptions): Promise<DigitalTwinModelsGetByIdResponse>;
+    getModel(modelId: string, options?: GetModelOptions): Promise<DigitalTwinModelsGetByIdResponse>;
     getRelationship(digitalTwinId: string, relationshipId: string, options?: OperationOptions): Promise<DigitalTwinsGetRelationshipByIdResponse>;
-    listEventRoutes(resultsPerPage?: number, options?: OperationOptions & PageSettings): PagedAsyncIterableIterator<EventRoute, EventRoutesListNextResponse>;
-    listIncomingRelationships(digitalTwinId: string, options?: OperationOptions & PageSettings): PagedAsyncIterableIterator<IncomingRelationship, DigitalTwinsListIncomingRelationshipsResponse>;
-    listModels(dependeciesFor?: string[], includeModelDefinition?: boolean, resultsPerPage?: number, options?: OperationOptions & PageSettings): PagedAsyncIterableIterator<DigitalTwinsModelData, DigitalTwinModelsListResponse>;
-    listRelationships(digitalTwinId: string, options?: OperationOptions & PageSettings): PagedAsyncIterableIterator<any, DigitalTwinsListRelationshipsResponse>;
-    publishComponentTelemetry(digitalTwinId: string, componentName: string, payload: string, messageId: string, options?: OperationOptions): Promise<RestResponse>;
-    publishTelemetry(digitalTwinId: string, payload: any, messageId: string, options?: OperationOptions): Promise<RestResponse>;
-    queryTwins(query: string, resultsPerPage?: number, options?: OperationOptions & PageSettings): PagedAsyncIterableIterator<any, QueryQueryTwinsResponse>;
-    updateComponent(digitalTwinId: string, componentName: string, jsonPatch: any[], options?: DigitalTwinsUpdateComponentOptionalParams): Promise<DigitalTwinsUpdateComponentResponse>;
-    updateDigitalTwin(digitalTwinId: string, jsonPatch: any, options?: DigitalTwinsUpdateOptionalParams): Promise<DigitalTwinsUpdateResponse>;
-    updateRelationship(digitalTwinId: string, relationshipId: string, jsonPatch: any[], options?: DigitalTwinsUpdateRelationshipOptionalParams): Promise<DigitalTwinsUpdateRelationshipResponse>;
+    listEventRoutes(options?: ListEventRoutesOptions): PagedAsyncIterableIterator<EventRoute>;
+    listIncomingRelationships(digitalTwinId: string, options?: ListIncomingRelationshipsOptions): PagedAsyncIterableIterator<IncomingRelationship>;
+    listModels(options?: ListModelsOptions): PagedAsyncIterableIterator<DigitalTwinsModelData>;
+    listRelationships(digitalTwinId: string, options?: ListRelationshipsOptions): PagedAsyncIterableIterator<Record<string, unknown>>;
+    publishComponentTelemetry(digitalTwinId: string, componentName: string, payload: Record<string, unknown>, messageId: string, options?: OperationOptions): Promise<void>;
+    publishTelemetry(digitalTwinId: string, payload: Record<string, unknown>, messageId: string, options?: OperationOptions): Promise<void>;
+    queryTwins(query: string, options?: QueryTwinsOptions): PagedAsyncIterableIterator<Record<string, unknown>, QueryQueryTwinsResponse>;
+    updateComponent(digitalTwinId: string, componentName: string, jsonPatch: Array<Record<string, unknown>>, options?: DigitalTwinsUpdateComponentOptionalParams): Promise<DigitalTwinsUpdateComponentResponse>;
+    updateDigitalTwin(digitalTwinId: string, jsonPatch: Array<Record<string, unknown>>, options?: DigitalTwinsUpdateOptionalParams): Promise<DigitalTwinsUpdateResponse>;
+    updateRelationship(digitalTwinId: string, relationshipId: string, jsonPatch: Array<Record<string, unknown>>, options?: DigitalTwinsUpdateRelationshipOptionalParams): Promise<DigitalTwinsUpdateRelationshipResponse>;
     upsertDigitalTwin(digitalTwinId: string, digitalTwinJson: string, options?: DigitalTwinsAddOptionalParams): Promise<DigitalTwinsAddResponse>;
-    upsertEventRoute(eventRouteId: string, endpointId: string, filter: string, options?: OperationOptions): Promise<RestResponse>;
-    upsertRelationship(digitalTwinId: string, relationshipId: string, relationship: any, options?: DigitalTwinsAddRelationshipOptionalParams): Promise<DigitalTwinsAddRelationshipResponse>;
-}
-
-// @public (undocumented)
-export interface DigitalTwinsClientOptions extends PipelineOptions {
-    apiVersion?: string;
+    upsertEventRoute(eventRouteId: string, endpointId: string, filter: string, options?: OperationOptions): Promise<void>;
+    upsertRelationship(digitalTwinId: string, relationshipId: string, relationship: Record<string, unknown>, options?: DigitalTwinsAddRelationshipOptionalParams): Promise<DigitalTwinsAddRelationshipResponse>;
 }
 
 // @public
-export interface DigitalTwinsDeleteOptionalParams extends coreHttp.OperationOptions {
-    ifMatch?: string;
-    traceparent?: string;
-    tracestate?: string;
+export interface DigitalTwinsClientOptions extends CommonClientOptions {
 }
 
 // @public
-export interface DigitalTwinsDeleteRelationshipOptionalParams extends coreHttp.OperationOptions {
+export interface DigitalTwinsDeleteOptionalParams extends coreClient.OperationOptions {
     ifMatch?: string;
-    traceparent?: string;
-    tracestate?: string;
+}
+
+// @public
+export interface DigitalTwinsDeleteRelationshipOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
 }
 
 // @public
@@ -136,14 +94,7 @@ export interface DigitalTwinsGetByIdHeaders {
 }
 
 // @public
-export type DigitalTwinsGetByIdResponse = DigitalTwinsGetByIdHeaders & {
-    body: any;
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: any;
-        parsedHeaders: DigitalTwinsGetByIdHeaders;
-    };
-};
+export type DigitalTwinsGetByIdResponse = DigitalTwinsGetByIdHeaders & Record<string, unknown>;
 
 // @public
 export interface DigitalTwinsGetComponentHeaders {
@@ -151,14 +102,7 @@ export interface DigitalTwinsGetComponentHeaders {
 }
 
 // @public
-export type DigitalTwinsGetComponentResponse = DigitalTwinsGetComponentHeaders & {
-    body: any;
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: any;
-        parsedHeaders: DigitalTwinsGetComponentHeaders;
-    };
-};
+export type DigitalTwinsGetComponentResponse = DigitalTwinsGetComponentHeaders & Record<string, unknown>;
 
 // @public
 export interface DigitalTwinsGetRelationshipByIdHeaders {
@@ -166,30 +110,13 @@ export interface DigitalTwinsGetRelationshipByIdHeaders {
 }
 
 // @public
-export type DigitalTwinsGetRelationshipByIdResponse = DigitalTwinsGetRelationshipByIdHeaders & {
-    body: any;
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: any;
-        parsedHeaders: DigitalTwinsGetRelationshipByIdHeaders;
-    };
-};
+export type DigitalTwinsGetRelationshipByIdResponse = DigitalTwinsGetRelationshipByIdHeaders & Record<string, unknown>;
 
 // @public
-export type DigitalTwinsListIncomingRelationshipsResponse = IncomingRelationshipCollection & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: IncomingRelationshipCollection;
-    };
-};
+export type DigitalTwinsListIncomingRelationshipsResponse = IncomingRelationshipCollection;
 
 // @public
-export type DigitalTwinsListRelationshipsResponse = RelationshipCollection & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: RelationshipCollection;
-    };
-};
+export type DigitalTwinsListRelationshipsResponse = RelationshipCollection;
 
 // @public
 export interface DigitalTwinsModelData {
@@ -201,7 +128,7 @@ export interface DigitalTwinsModelData {
         [propertyName: string]: string;
     };
     id: string;
-    model?: any;
+    model?: Record<string, unknown>;
     uploadTime?: Date;
 }
 
@@ -211,18 +138,12 @@ export interface DigitalTwinsUpdateComponentHeaders {
 }
 
 // @public
-export interface DigitalTwinsUpdateComponentOptionalParams extends coreHttp.OperationOptions {
+export interface DigitalTwinsUpdateComponentOptionalParams extends coreClient.OperationOptions {
     ifMatch?: string;
-    traceparent?: string;
-    tracestate?: string;
 }
 
 // @public
-export type DigitalTwinsUpdateComponentResponse = DigitalTwinsUpdateComponentHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: DigitalTwinsUpdateComponentHeaders;
-    };
-};
+export type DigitalTwinsUpdateComponentResponse = DigitalTwinsUpdateComponentHeaders;
 
 // @public
 export interface DigitalTwinsUpdateHeaders {
@@ -230,10 +151,8 @@ export interface DigitalTwinsUpdateHeaders {
 }
 
 // @public
-export interface DigitalTwinsUpdateOptionalParams extends coreHttp.OperationOptions {
+export interface DigitalTwinsUpdateOptionalParams extends coreClient.OperationOptions {
     ifMatch?: string;
-    traceparent?: string;
-    tracestate?: string;
 }
 
 // @public
@@ -242,25 +161,15 @@ export interface DigitalTwinsUpdateRelationshipHeaders {
 }
 
 // @public
-export interface DigitalTwinsUpdateRelationshipOptionalParams extends coreHttp.OperationOptions {
+export interface DigitalTwinsUpdateRelationshipOptionalParams extends coreClient.OperationOptions {
     ifMatch?: string;
-    traceparent?: string;
-    tracestate?: string;
 }
 
 // @public
-export type DigitalTwinsUpdateRelationshipResponse = DigitalTwinsUpdateRelationshipHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: DigitalTwinsUpdateRelationshipHeaders;
-    };
-};
+export type DigitalTwinsUpdateRelationshipResponse = DigitalTwinsUpdateRelationshipHeaders;
 
 // @public
-export type DigitalTwinsUpdateResponse = DigitalTwinsUpdateHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: DigitalTwinsUpdateHeaders;
-    };
-};
+export type DigitalTwinsUpdateResponse = DigitalTwinsUpdateHeaders;
 
 // @public
 export interface EventRoute {
@@ -276,20 +185,15 @@ export interface EventRouteCollection {
 }
 
 // @public
-export type EventRoutesGetByIdResponse = EventRoute & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: EventRoute;
-    };
-};
+export type EventRoutesGetByIdResponse = EventRoute;
 
 // @public
-export type EventRoutesListNextResponse = EventRouteCollection & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: EventRouteCollection;
-    };
-};
+export type EventRoutesListNextResponse = EventRouteCollection;
+
+// @public
+export interface GetModelOptions extends coreClient.OperationOptions {
+    includeModelDefinition?: boolean;
+}
 
 // @public
 export interface IncomingRelationship {
@@ -307,6 +211,27 @@ export interface IncomingRelationshipCollection {
 }
 
 // @public
+export interface ListEventRoutesOptions extends coreClient.OperationOptions {
+    resultsPerPage?: number;
+}
+
+// @public
+export interface ListIncomingRelationshipsOptions extends coreClient.OperationOptions {
+}
+
+// @public
+export interface ListModelsOptions extends coreClient.OperationOptions {
+    dependenciesFor?: string[];
+    includeModelDefinition?: boolean;
+    resultsPerPage?: number;
+}
+
+// @public
+export interface ListRelationshipsOptions extends coreClient.OperationOptions {
+    relationshipName?: string;
+}
+
+// @public
 export interface PagedDigitalTwinsModelDataCollection {
     nextLink?: string;
     value?: DigitalTwinsModelData[];
@@ -318,18 +243,12 @@ export interface QueryQueryTwinsHeaders {
 }
 
 // @public
-export type QueryQueryTwinsResponse = QueryQueryTwinsHeaders & QueryResult & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: QueryResult;
-        parsedHeaders: QueryQueryTwinsHeaders;
-    };
-};
+export type QueryQueryTwinsResponse = QueryQueryTwinsHeaders & QueryResult;
 
 // @public
 export interface QueryResult {
     continuationToken?: string;
-    value?: any[];
+    value?: Record<string, unknown>[];
 }
 
 // @public
@@ -339,9 +258,14 @@ export interface QuerySpecification {
 }
 
 // @public
+export interface QueryTwinsOptions extends coreClient.OperationOptions {
+    resultsPerPage?: number;
+}
+
+// @public
 export interface RelationshipCollection {
     nextLink?: string;
-    value?: any[];
+    value?: Record<string, unknown>[];
 }
 
 // (No @packageDocumentation comment for this package)

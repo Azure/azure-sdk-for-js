@@ -29,7 +29,8 @@ async function createNetworkVirtualAppliance() {
       identity: {
         type: "UserAssigned",
         userAssignedIdentities: {
-          "/subscriptions/subid/resourcegroups/rg1/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity1": {},
+          "/subscriptions/subid/resourcegroups/rg1/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity1":
+            {},
         },
       },
       location: "West US",
@@ -47,8 +48,7 @@ async function createNetworkVirtualAppliance() {
         },
         virtualApplianceAsn: 10000,
         virtualHub: {
-          id:
-            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/hub1",
+          id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/hub1",
         },
       },
       tags: { key1: "value1" },

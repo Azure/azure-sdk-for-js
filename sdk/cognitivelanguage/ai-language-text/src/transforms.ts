@@ -6,7 +6,6 @@ import {
   AnalyzeResponse,
   AnalyzeTextLROResultUnion,
   AssessmentSentiment,
-  ClassificationDocumentResult,
   CustomEntityRecognitionLROResult,
   CustomMultiLabelClassificationLROResult,
   CustomSingleLabelClassificationLROResult,
@@ -19,7 +18,6 @@ import {
   ErrorModel,
   ErrorResponse,
   ExtractiveSummarizationLROResult,
-  CustomLabelClassificationResult as GeneratedCustomClassificationResult,
   DynamicClassificationResult as GeneratedDynamicClassification,
   EntityLinkingResult as GeneratedEntityLinkingResult,
   EntitiesResult as GeneratedEntityRecognitionResult,
@@ -44,20 +42,16 @@ import {
   SentimentLROResult,
   SentimentTaskResult,
   TargetRelation,
-  DynamicClassificationResultDocumentsItem,
-  ClassificationCategory,
   CustomEntitiesResultDocumentsItem,
   ExtractedSummaryDocumentResultWithDetectedLanguage,
   AbstractiveSummaryDocumentResultWithDetectedLanguage,
-  HealthcareResultDocumentsItem,
-  DetectedLanguage,
+  HealthcareEntitiesDocumentResultWithDocumentDetectedLanguage,
+  CustomLabelClassificationResultDocumentsItem,
 } from "./generated";
 import {
   AnalyzeActionName,
   AnalyzeBatchResult,
   AnalyzeResult,
-  CustomSingleLabelClassificationResult,
-  CustomSingleLabelClassificationSuccessResult,
   DynamicClassificationResult,
   EntityLinkingResult,
   EntityRecognitionResult,
@@ -177,23 +171,7 @@ function toDynamicClassificationResult(
   docIds: string[],
   results: GeneratedDynamicClassification
 ): DynamicClassificationResult[] {
-  return transformDocumentResults(docIds, results, {
-    // FIXME: Fixing a service bug, see https://github.com/Azure/azure-sdk-for-js/issues/23617
-    processSuccess: ({
-      class: classes,
-      id,
-      warnings,
-      statistics,
-      classifications,
-    }: DynamicClassificationResultDocumentsItem & {
-      classifications?: ClassificationCategory[];
-    }) => ({
-      id,
-      warnings,
-      classifications: classes ? classes : classifications ?? [],
-      ...(statistics ? { statistics } : {}),
-    }),
-  });
+  return transformDocumentResults(docIds, results);
 }
 
 /**
@@ -365,18 +343,6 @@ export async function throwError<T>(p: Promise<T>): Promise<T> {
   }
 }
 
-export function deserializeDetectedLanguage(input: string): DetectedLanguage {
-  function helper(str: string): undefined {
-    try {
-      return JSON.parse(str);
-    } catch (e) {
-      return undefined;
-    }
-  }
-  const obj = helper(input);
-  return obj !== undefined ? obj : ({ iso6391Name: input } as any);
-}
-
 function toHealthcareResult(
   docIds: string[],
   results: GeneratedHealthcareResult
@@ -407,7 +373,7 @@ function toHealthcareResult(
     });
   }
   return transformDocumentResults<
-    HealthcareResultDocumentsItem,
+    HealthcareEntitiesDocumentResultWithDocumentDetectedLanguage,
     WithDetectedLanguage<HealthcareSuccessResult>
   >(docIds, results, {
     processSuccess: ({ entities, relations, detectedLanguage, ...rest }) => {
@@ -416,26 +382,7 @@ function toHealthcareResult(
         entities: newEntities,
         entityRelations: relations.map(makeHealthcareRelation(newEntities)),
         // FIXME: remove this mitigation when the API fixes the representation on their end
-        ...(detectedLanguage
-          ? { detectedLanguage: deserializeDetectedLanguage(detectedLanguage) }
-          : {}),
-        ...rest,
-      };
-    },
-  });
-}
-
-function toCustomSingleLabelClassificationResult(
-  docIds: string[],
-  results: GeneratedCustomClassificationResult
-): CustomSingleLabelClassificationResult[] {
-  return transformDocumentResults<
-    ClassificationDocumentResult,
-    CustomSingleLabelClassificationSuccessResult
-  >(docIds, results, {
-    processSuccess: ({ class: classification, ...rest }) => {
-      return {
-        classifications: classification,
+        ...(detectedLanguage ? { detectedLanguage: { iso6391Name: detectedLanguage } as any } : {}),
         ...rest,
       };
     },
@@ -542,7 +489,10 @@ export function transformAnalyzeBatchResults(
         const { deploymentName, projectName, statistics } = results;
         return {
           kind: "CustomSingleLabelClassification",
-          results: toCustomSingleLabelClassificationResult(docIds, results),
+          results: transformDocumentResults<CustomLabelClassificationResultDocumentsItem>(
+            docIds,
+            results
+          ),
           completedOn,
           ...(actionName ? { actionName } : {}),
           ...(statistics ? { statistics } : {}),
@@ -555,7 +505,10 @@ export function transformAnalyzeBatchResults(
         const { deploymentName, projectName, statistics } = results;
         return {
           kind: "CustomMultiLabelClassification",
-          results: toCustomSingleLabelClassificationResult(docIds, results),
+          results: transformDocumentResults<CustomLabelClassificationResultDocumentsItem>(
+            docIds,
+            results
+          ),
           completedOn,
           ...(actionName ? { actionName } : {}),
           ...(statistics ? { statistics } : {}),

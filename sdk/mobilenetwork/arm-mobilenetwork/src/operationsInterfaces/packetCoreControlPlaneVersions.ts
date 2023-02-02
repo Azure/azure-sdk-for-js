@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   PacketCoreControlPlaneVersion,
-  PacketCoreControlPlaneVersionsListByResourceGroupOptionalParams,
+  PacketCoreControlPlaneVersionsListOptionalParams,
   PacketCoreControlPlaneVersionsGetOptionalParams,
   PacketCoreControlPlaneVersionsGetResponse
 } from "../models";
@@ -21,8 +21,8 @@ export interface PacketCoreControlPlaneVersions {
    * Lists all supported packet core control planes versions.
    * @param options The options parameters.
    */
-  listByResourceGroup(
-    options?: PacketCoreControlPlaneVersionsListByResourceGroupOptionalParams
+  list(
+    options?: PacketCoreControlPlaneVersionsListOptionalParams
   ): PagedAsyncIterableIterator<PacketCoreControlPlaneVersion>;
   /**
    * Gets information about the specified packet core control plane version.

@@ -8,7 +8,6 @@ import { TokenCredential } from "@azure/core-auth";
 import { ClientOptions } from "@azure-rest/core-client";
 import { ComputeManagementClient } from "../../../src/clientDefinitions";
 import createComputeManagementClient from "../../../src";
-import { customizedTestPolicy } from "./customizedTestPolicy";
 
 const envSetupForPlayback: Record<string, string> = {
   ENDPOINT: "https://endpoint",
@@ -42,8 +41,5 @@ export function createTestComputeManagementClient(
     credentials,
     recorder.configureClientOptions(options)
   );
-  client.pipeline.addPolicy(customizedTestPolicy(), {
-    beforePolicies: ["bearerTokenAuthenticationPolicy"],
-  });
   return client;
 }

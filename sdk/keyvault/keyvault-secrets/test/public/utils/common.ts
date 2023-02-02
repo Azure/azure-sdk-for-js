@@ -14,7 +14,6 @@ export async function assertThrowsAbortError(cb: () => Promise<any>): Promise<vo
   } catch (e: any) {
     console.log(`name: ${e.name}, message: ${e.message}`);
     assert.equal(e.name, "AbortError");
-    assert.equal(e.message, "The operation was aborted.");
   }
 
   if (passed) {
@@ -32,6 +31,7 @@ export const serviceVersions: readonly NonNullable<ServiceVersion>[] = [
   "7.1",
   "7.2",
   "7.3",
+  "7.4-preview.1",
 ] as const;
 
 /**

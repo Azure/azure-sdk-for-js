@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ConsumptionManagementClient } = require("@azure/arm-consumption");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets the budget for the scope by budget name.
@@ -18,7 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/Budget.json
  */
 async function budget() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/00000000-0000-0000-0000-000000000000";
   const budgetName = "TestBudget";
   const credential = new DefaultAzureCredential();
@@ -27,4 +29,8 @@ async function budget() {
   console.log(result);
 }
 
-budget().catch(console.error);
+async function main() {
+  budget();
+}
+
+main().catch(console.error);

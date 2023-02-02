@@ -33,6 +33,6 @@ export async function createRecordedRouterClientWithConnectionString(
       env.COMMUNICATION_CONNECTION_STRING as string,
       recorder.configureClientOptions({}) as RouterAdministrationClientOptions
     ),
-    recorder
+    recorder,
   };
 }

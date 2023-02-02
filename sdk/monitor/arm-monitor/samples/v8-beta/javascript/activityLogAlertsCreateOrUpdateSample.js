@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { MonitorClient } = require("@azure/arm-monitor");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Create a new Activity Log Alert rule or update an existing one.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2020-10-01/examples/ActivityLogAlertRule_CreateOrUpdate.json
  */
 async function createOrUpdateAnActivityLogAlertRule() {
-  const subscriptionId = "187f412d-1758-44d9-b052-169e2564721d";
-  const resourceGroupName = "MyResourceGroup";
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] || "187f412d-1758-44d9-b052-169e2564721d";
+  const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "MyResourceGroup";
   const activityLogAlertName = "SampleActivityLogAlertRule";
   const activityLogAlertRule = {
     description: "Description of sample Activity Log Alert rule.",
@@ -53,8 +55,6 @@ async function createOrUpdateAnActivityLogAlertRule() {
   console.log(result);
 }
 
-createOrUpdateAnActivityLogAlertRule().catch(console.error);
-
 /**
  * This sample demonstrates how to Create a new Activity Log Alert rule or update an existing one.
  *
@@ -62,8 +62,9 @@ createOrUpdateAnActivityLogAlertRule().catch(console.error);
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2020-10-01/examples/ActivityLogAlertRule_CreateOrUpdateRuleWithAnyOfCondition.json
  */
 async function createOrUpdateAnActivityLogAlertRuleWithAnyOfCondition() {
-  const subscriptionId = "187f412d-1758-44d9-b052-169e2564721d";
-  const resourceGroupName = "MyResourceGroup";
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] || "187f412d-1758-44d9-b052-169e2564721d";
+  const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "MyResourceGroup";
   const activityLogAlertName = "SampleActivityLogAlertRuleWithAnyOfCondition";
   const activityLogAlertRule = {
     description: "Description of sample Activity Log Alert rule with 'anyOf' condition.",
@@ -102,8 +103,6 @@ async function createOrUpdateAnActivityLogAlertRuleWithAnyOfCondition() {
   console.log(result);
 }
 
-createOrUpdateAnActivityLogAlertRuleWithAnyOfCondition().catch(console.error);
-
 /**
  * This sample demonstrates how to Create a new Activity Log Alert rule or update an existing one.
  *
@@ -111,8 +110,9 @@ createOrUpdateAnActivityLogAlertRuleWithAnyOfCondition().catch(console.error);
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2020-10-01/examples/ActivityLogAlertRule_CreateOrUpdateRuleWithContainsAny.json
  */
 async function createOrUpdateAnActivityLogAlertRuleWithContainsAny() {
-  const subscriptionId = "187f412d-1758-44d9-b052-169e2564721d";
-  const resourceGroupName = "MyResourceGroup";
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] || "187f412d-1758-44d9-b052-169e2564721d";
+  const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "MyResourceGroup";
   const activityLogAlertName = "SampleActivityLogAlertRuleWithContainsAny";
   const activityLogAlertRule = {
     description: "Description of sample Activity Log Alert rule with 'containsAny'.",
@@ -149,4 +149,10 @@ async function createOrUpdateAnActivityLogAlertRuleWithContainsAny() {
   console.log(result);
 }
 
-createOrUpdateAnActivityLogAlertRuleWithContainsAny().catch(console.error);
+async function main() {
+  createOrUpdateAnActivityLogAlertRule();
+  createOrUpdateAnActivityLogAlertRuleWithAnyOfCondition();
+  createOrUpdateAnActivityLogAlertRuleWithContainsAny();
+}
+
+main().catch(console.error);

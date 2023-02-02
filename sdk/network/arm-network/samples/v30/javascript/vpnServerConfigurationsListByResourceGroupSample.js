@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Lists all the vpnServerConfigurations in a resource group.
  *
  * @summary Lists all the vpnServerConfigurations in a resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VpnServerConfigurationListByResourceGroup.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/VpnServerConfigurationListByResourceGroup.json
  */
 async function vpnServerConfigurationListByResourceGroup() {
   const subscriptionId = "subid";

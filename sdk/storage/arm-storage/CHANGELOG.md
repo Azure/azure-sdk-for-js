@@ -1,6 +1,6 @@
 # Release History
 
-## 18.0.1 (Unreleased)
+## 18.1.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,26 @@
 
 ### Other Changes
 
+## 18.1.0 (2022-11-24)
+    
+**Features**
+
+  - Added Type Alias ListEncryptionScopesInclude
+  - Interface EncryptionScopesListNextOptionalParams has a new optional parameter filter
+  - Interface EncryptionScopesListNextOptionalParams has a new optional parameter include
+  - Interface EncryptionScopesListNextOptionalParams has a new optional parameter maxpagesize
+  - Interface EncryptionScopesListOptionalParams has a new optional parameter filter
+  - Interface EncryptionScopesListOptionalParams has a new optional parameter include
+  - Interface EncryptionScopesListOptionalParams has a new optional parameter maxpagesize
+  - Interface ManagementPolicyBaseBlob has a new optional parameter tierToCold
+  - Interface ManagementPolicyBaseBlob has a new optional parameter tierToHot
+  - Interface ManagementPolicySnapShot has a new optional parameter tierToCold
+  - Interface ManagementPolicySnapShot has a new optional parameter tierToHot
+  - Interface ManagementPolicyVersion has a new optional parameter tierToCold
+  - Interface ManagementPolicyVersion has a new optional parameter tierToHot
+  - Added Enum KnownListEncryptionScopesInclude
+    
+    
 ## 18.0.0 (2022-08-16)
     
 **Features**

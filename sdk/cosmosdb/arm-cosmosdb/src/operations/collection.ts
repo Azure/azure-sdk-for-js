@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { Collection } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -15,12 +15,12 @@ import { CosmosDBManagementClient } from "../cosmosDBManagementClient";
 import {
   Metric,
   CollectionListMetricsOptionalParams,
+  CollectionListMetricsResponse,
   Usage,
   CollectionListUsagesOptionalParams,
+  CollectionListUsagesResponse,
   MetricDefinition,
   CollectionListMetricDefinitionsOptionalParams,
-  CollectionListMetricsResponse,
-  CollectionListUsagesResponse,
   CollectionListMetricDefinitionsResponse
 } from "../models";
 
@@ -71,14 +71,18 @@ export class CollectionImpl implements Collection {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listMetricsPagingPage(
           resourceGroupName,
           accountName,
           databaseRid,
           collectionRid,
           filter,
-          options
+          options,
+          settings
         );
       }
     };
@@ -90,9 +94,11 @@ export class CollectionImpl implements Collection {
     databaseRid: string,
     collectionRid: string,
     filter: string,
-    options?: CollectionListMetricsOptionalParams
+    options?: CollectionListMetricsOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<Metric[]> {
-    let result = await this._listMetrics(
+    let result: CollectionListMetricsResponse;
+    result = await this._listMetrics(
       resourceGroupName,
       accountName,
       databaseRid,
@@ -152,13 +158,17 @@ export class CollectionImpl implements Collection {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listUsagesPagingPage(
           resourceGroupName,
           accountName,
           databaseRid,
           collectionRid,
-          options
+          options,
+          settings
         );
       }
     };
@@ -169,9 +179,11 @@ export class CollectionImpl implements Collection {
     accountName: string,
     databaseRid: string,
     collectionRid: string,
-    options?: CollectionListUsagesOptionalParams
+    options?: CollectionListUsagesOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<Usage[]> {
-    let result = await this._listUsages(
+    let result: CollectionListUsagesResponse;
+    result = await this._listUsages(
       resourceGroupName,
       accountName,
       databaseRid,
@@ -228,13 +240,17 @@ export class CollectionImpl implements Collection {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listMetricDefinitionsPagingPage(
           resourceGroupName,
           accountName,
           databaseRid,
           collectionRid,
-          options
+          options,
+          settings
         );
       }
     };
@@ -245,9 +261,11 @@ export class CollectionImpl implements Collection {
     accountName: string,
     databaseRid: string,
     collectionRid: string,
-    options?: CollectionListMetricDefinitionsOptionalParams
+    options?: CollectionListMetricDefinitionsOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<MetricDefinition[]> {
-    let result = await this._listMetricDefinitions(
+    let result: CollectionListMetricDefinitionsResponse;
+    result = await this._listMetricDefinitions(
       resourceGroupName,
       accountName,
       databaseRid,

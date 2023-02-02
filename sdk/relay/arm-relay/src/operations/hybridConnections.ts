@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { HybridConnections } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,16 +17,16 @@ import {
   HybridConnection,
   HybridConnectionsListByNamespaceNextOptionalParams,
   HybridConnectionsListByNamespaceOptionalParams,
+  HybridConnectionsListByNamespaceResponse,
   AuthorizationRule,
   HybridConnectionsListAuthorizationRulesNextOptionalParams,
   HybridConnectionsListAuthorizationRulesOptionalParams,
-  HybridConnectionsListByNamespaceResponse,
+  HybridConnectionsListAuthorizationRulesResponse,
   HybridConnectionsCreateOrUpdateOptionalParams,
   HybridConnectionsCreateOrUpdateResponse,
   HybridConnectionsDeleteOptionalParams,
   HybridConnectionsGetOptionalParams,
   HybridConnectionsGetResponse,
-  HybridConnectionsListAuthorizationRulesResponse,
   HybridConnectionsCreateOrUpdateAuthorizationRuleOptionalParams,
   HybridConnectionsCreateOrUpdateAuthorizationRuleResponse,
   HybridConnectionsDeleteAuthorizationRuleOptionalParams,
@@ -76,11 +77,15 @@ export class HybridConnectionsImpl implements HybridConnections {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByNamespacePagingPage(
           resourceGroupName,
           namespaceName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -89,15 +94,22 @@ export class HybridConnectionsImpl implements HybridConnections {
   private async *listByNamespacePagingPage(
     resourceGroupName: string,
     namespaceName: string,
-    options?: HybridConnectionsListByNamespaceOptionalParams
+    options?: HybridConnectionsListByNamespaceOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<HybridConnection[]> {
-    let result = await this._listByNamespace(
-      resourceGroupName,
-      namespaceName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: HybridConnectionsListByNamespaceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByNamespace(
+        resourceGroupName,
+        namespaceName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByNamespaceNext(
         resourceGroupName,
@@ -106,7 +118,9 @@ export class HybridConnectionsImpl implements HybridConnections {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -150,12 +164,16 @@ export class HybridConnectionsImpl implements HybridConnections {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listAuthorizationRulesPagingPage(
           resourceGroupName,
           namespaceName,
           hybridConnectionName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -165,16 +183,23 @@ export class HybridConnectionsImpl implements HybridConnections {
     resourceGroupName: string,
     namespaceName: string,
     hybridConnectionName: string,
-    options?: HybridConnectionsListAuthorizationRulesOptionalParams
+    options?: HybridConnectionsListAuthorizationRulesOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<AuthorizationRule[]> {
-    let result = await this._listAuthorizationRules(
-      resourceGroupName,
-      namespaceName,
-      hybridConnectionName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: HybridConnectionsListAuthorizationRulesResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listAuthorizationRules(
+        resourceGroupName,
+        namespaceName,
+        hybridConnectionName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listAuthorizationRulesNext(
         resourceGroupName,
@@ -184,7 +209,9 @@ export class HybridConnectionsImpl implements HybridConnections {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -744,7 +771,6 @@ const listByNamespaceNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -766,7 +792,6 @@ const listAuthorizationRulesNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,

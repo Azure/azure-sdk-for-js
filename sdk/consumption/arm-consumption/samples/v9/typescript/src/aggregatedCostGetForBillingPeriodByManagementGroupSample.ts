@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { ConsumptionManagementClient } from "@azure/arm-consumption";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Provides the aggregate cost of a management group and all child management groups by specified billing period
@@ -18,7 +21,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/AggregatedCostForBillingPeriodByManagementGroup.json
  */
 async function aggregatedCostListForBillingPeriodByManagementGroup() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const managementGroupId = "managementGroupForTest";
   const billingPeriodName = "201807";
   const credential = new DefaultAzureCredential();
@@ -30,4 +35,8 @@ async function aggregatedCostListForBillingPeriodByManagementGroup() {
   console.log(result);
 }
 
-aggregatedCostListForBillingPeriodByManagementGroup().catch(console.error);
+async function main() {
+  aggregatedCostListForBillingPeriodByManagementGroup();
+}
+
+main().catch(console.error);

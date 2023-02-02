@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { EmailClientOptions, EmailMessage, SendEmailResult, SendStatusResult } from "./models";
+import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import {
   createCommunicationAuthPolicy,
   isKeyCredential,
@@ -9,7 +10,6 @@ import {
 } from "@azure/communication-common";
 import { EmailRestApiClient } from "./generated/src/emailRestApiClient";
 import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
-import { KeyCredential } from "@azure/core-auth";
 import { logger } from "./logger";
 import { v4 as uuid } from "uuid";
 
@@ -19,7 +19,7 @@ import { v4 as uuid } from "uuid";
  * @param options - The value being checked.
  */
 const isEmailClientOptions = (options: any): options is EmailClientOptions =>
-  !!options && !isKeyCredential(options);
+  !!options && !isTokenCredential(options) && !isKeyCredential(options);
 
 /**
  *  The Email service client.
@@ -43,9 +43,17 @@ export class EmailClient {
    */
   constructor(endpoint: string, credential: KeyCredential, options?: EmailClientOptions);
 
+  /**
+   * Initializes a new instance of the EmailClient class using a TokenCredential.
+   * @param endpoint - The endpoint of the service (ex: https://contoso.eastus.communications.azure.net).
+   * @param credential - TokenCredential that is used to authenticate requests to the service. Use the Azure KeyCredential or `@azure/identity` to create a credential.
+   * @param options - Optional. Options to configure the HTTP pipeline.
+   */
+  constructor(endpoint: string, credential: TokenCredential, options?: EmailClientOptions);
+
   constructor(
     connectionStringOrUrl: string,
-    credentialOrOptions?: EmailClientOptions | KeyCredential,
+    credentialOrOptions?: EmailClientOptions | TokenCredential | KeyCredential,
     maybeOptions: EmailClientOptions = {}
   ) {
     const { url, credential } = parseClientArguments(connectionStringOrUrl, credentialOrOptions);

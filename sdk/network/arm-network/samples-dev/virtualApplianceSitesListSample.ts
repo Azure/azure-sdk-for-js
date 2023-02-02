@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Lists all Network Virtual Appliance Sites in a Network Virtual Appliance resource.
  *
  * @summary Lists all Network Virtual Appliance Sites in a Network Virtual Appliance resource.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkVirtualApplianceSiteList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/NetworkVirtualApplianceSiteList.json
  */
 async function listAllNetworkVirtualApplianceSitesForAGivenNetworkVirtualAppliance() {
   const subscriptionId = "subid";

@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Gets all virtual network peerings in a virtual network.
  *
  * @summary Gets all virtual network peerings in a virtual network.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkPeeringList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/VirtualNetworkPeeringList.json
  */
 async function listPeerings() {
   const subscriptionId = "subid";
@@ -39,7 +39,7 @@ listPeerings().catch(console.error);
  * This sample demonstrates how to Gets all virtual network peerings in a virtual network.
  *
  * @summary Gets all virtual network peerings in a virtual network.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkPeeringListWithRemoteVirtualNetworkEncryption.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-07-01/examples/VirtualNetworkPeeringListWithRemoteVirtualNetworkEncryption.json
  */
 async function listPeeringsWithRemoteVirtualNetworkEncryption() {
   const subscriptionId = "subid";

@@ -13,16 +13,22 @@ import {
   AzureMediaServices
 } from "@azure/arm-mediaservices";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Lists the Transforms in the account.
  *
  * @summary Lists the Transforms in the account.
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2021-11-01/examples/transforms-list-all.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Encoding/stable/2022-07-01/examples/transforms-list-all.json
  */
 async function listsTheTransforms() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "contosoresources";
+  const subscriptionId =
+    process.env["MEDIASERVICES_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contosoresources";
   const accountName = "contosomedia";
   const credential = new DefaultAzureCredential();
   const client = new AzureMediaServices(credential, subscriptionId);
@@ -36,20 +42,21 @@ async function listsTheTransforms() {
   console.log(resArray);
 }
 
-listsTheTransforms().catch(console.error);
-
 /**
  * This sample demonstrates how to Lists the Transforms in the account.
  *
  * @summary Lists the Transforms in the account.
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2021-11-01/examples/transforms-list-all-filter-by-created.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Encoding/stable/2022-07-01/examples/transforms-list-all-filter-by-created.json
  */
 async function listsTheTransformsFilterByCreated() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "contosoresources";
+  const subscriptionId =
+    process.env["MEDIASERVICES_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contosoresources";
   const accountName = "contosomedia";
   const filter =
-    "properties/created gt 2021-11-01T00:00:00.0000000Z and properties/created le 2021-11-01T00:00:10.0000000Z";
+    "properties/created gt 2021-06-01T00:00:00.0000000Z and properties/created le 2021-06-01T00:00:10.0000000Z";
   const orderby = "properties/created";
   const options: TransformsListOptionalParams = { filter, orderby };
   const credential = new DefaultAzureCredential();
@@ -65,20 +72,21 @@ async function listsTheTransformsFilterByCreated() {
   console.log(resArray);
 }
 
-listsTheTransformsFilterByCreated().catch(console.error);
-
 /**
  * This sample demonstrates how to Lists the Transforms in the account.
  *
  * @summary Lists the Transforms in the account.
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2021-11-01/examples/transforms-list-all-filter-by-lastmodified.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Encoding/stable/2022-07-01/examples/transforms-list-all-filter-by-lastmodified.json
  */
 async function listsTheTransformsFilterByLastmodified() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "contosoresources";
+  const subscriptionId =
+    process.env["MEDIASERVICES_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contosoresources";
   const accountName = "contosomedia";
   const filter =
-    "properties/lastmodified gt 2021-11-01T00:00:00.0000000Z and properties/lastmodified le 2021-11-01T00:00:10.0000000Z";
+    "properties/lastmodified gt 2021-06-01T00:00:00.0000000Z and properties/lastmodified le 2021-06-01T00:00:10.0000000Z";
   const orderby = "properties/lastmodified desc";
   const options: TransformsListOptionalParams = { filter, orderby };
   const credential = new DefaultAzureCredential();
@@ -94,17 +102,18 @@ async function listsTheTransformsFilterByLastmodified() {
   console.log(resArray);
 }
 
-listsTheTransformsFilterByLastmodified().catch(console.error);
-
 /**
  * This sample demonstrates how to Lists the Transforms in the account.
  *
  * @summary Lists the Transforms in the account.
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2021-11-01/examples/transforms-list-all-filter-by-name.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Encoding/stable/2022-07-01/examples/transforms-list-all-filter-by-name.json
  */
 async function listsTheTransformsFilterByName() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "contosoresources";
+  const subscriptionId =
+    process.env["MEDIASERVICES_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contosoresources";
   const accountName = "contosomedia";
   const filter =
     "(name eq 'sampleEncode') or (name eq 'sampleEncodeAndVideoIndex')";
@@ -123,4 +132,11 @@ async function listsTheTransformsFilterByName() {
   console.log(resArray);
 }
 
-listsTheTransformsFilterByName().catch(console.error);
+async function main() {
+  listsTheTransforms();
+  listsTheTransformsFilterByCreated();
+  listsTheTransformsFilterByLastmodified();
+  listsTheTransformsFilterByName();
+}
+
+main().catch(console.error);

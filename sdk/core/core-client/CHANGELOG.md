@@ -1,21 +1,27 @@
 # Release History
 
-## 1.6.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 1.7.1 (2023-02-02)
 
 ### Other Changes
 
-## 1.6.1 (2022-08-04)
+- Only deserialize headers that are mapped in OperationSpec when using a header mapper. Previously core-client would include all header values when deserializing, leading to result objects having unintended extra metadata.
 
+## 1.7.0 (2023-01-05)
+
+### Features Added
+
+- Ported support for `xmlIsMsText` from `@azure/core-http`.
 
 ### Bugs Fixed
 
-- Fix serializer to find the correct discriminator index. Please refer to [#22523](https://github.com/Azure/azure-sdk-for-js/pull/22523) for further details.  
+- Fix a serializer issue where resettable streams were not being accepted.
+- Fix an issue where XML options are not propagated during deserialization.
+
+## 1.6.1 (2022-08-04)
+
+### Bugs Fixed
+
+- Fix serializer to find the correct discriminator index. Please refer to [#22523](https://github.com/Azure/azure-sdk-for-js/pull/22523) for further details.
 
 ### Other Changes
 

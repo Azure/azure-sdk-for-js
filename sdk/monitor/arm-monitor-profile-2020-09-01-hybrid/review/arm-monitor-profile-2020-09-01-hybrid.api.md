@@ -43,9 +43,9 @@ export interface DiagnosticSettingsCategoryListOptionalParams extends coreClient
 export type DiagnosticSettingsCategoryListResponse = DiagnosticSettingsCategoryResourceCollection;
 
 // @public
-export type DiagnosticSettingsCategoryResource = ProxyOnlyResource & {
+export interface DiagnosticSettingsCategoryResource extends ProxyOnlyResource {
     categoryType?: CategoryType;
-};
+}
 
 // @public
 export interface DiagnosticSettingsCategoryResourceCollection {
@@ -78,16 +78,16 @@ export interface DiagnosticSettingsListOptionalParams extends coreClient.Operati
 export type DiagnosticSettingsListResponse = DiagnosticSettingsResourceCollection;
 
 // @public
-export type DiagnosticSettingsResource = ProxyOnlyResource & {
-    storageAccountId?: string;
-    serviceBusRuleId?: string;
+export interface DiagnosticSettingsResource extends ProxyOnlyResource {
     eventHubAuthorizationRuleId?: string;
     eventHubName?: string;
-    metrics?: MetricSettings[];
-    logs?: LogSettings[];
-    workspaceId?: string;
     logAnalyticsDestinationType?: string;
-};
+    logs?: LogSettings[];
+    metrics?: MetricSettings[];
+    serviceBusRuleId?: string;
+    storageAccountId?: string;
+    workspaceId?: string;
+}
 
 // @public
 export interface DiagnosticSettingsResourceCollection {
@@ -118,46 +118,31 @@ export interface EventCategoryCollection {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export enum KnownMetricClass {
-    // (undocumented)
     Availability = "Availability",
-    // (undocumented)
     Errors = "Errors",
-    // (undocumented)
     Latency = "Latency",
-    // (undocumented)
     Saturation = "Saturation",
-    // (undocumented)
     Transactions = "Transactions"
 }
 
 // @public
 export enum KnownMetricUnit {
-    // (undocumented)
     BitsPerSecond = "BitsPerSecond",
-    // (undocumented)
     Bytes = "Bytes",
-    // (undocumented)
     ByteSeconds = "ByteSeconds",
-    // (undocumented)
     BytesPerSecond = "BytesPerSecond",
-    // (undocumented)
     Cores = "Cores",
-    // (undocumented)
     Count = "Count",
-    // (undocumented)
     CountPerSecond = "CountPerSecond",
-    // (undocumented)
     MilliCores = "MilliCores",
-    // (undocumented)
     MilliSeconds = "MilliSeconds",
-    // (undocumented)
     NanoCores = "NanoCores",
-    // (undocumented)
     Percent = "Percent",
-    // (undocumented)
     Seconds = "Seconds",
-    // (undocumented)
     Unspecified = "Unspecified"
 }
 

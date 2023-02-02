@@ -889,7 +889,7 @@ export interface MetricNameFilter {
 }
 
 /** The StorSimple Manager. */
-export type Manager = Resource & {
+export interface Manager extends Resource {
   /** The etag of the manager. */
   etag?: string;
   /** Represents the type of StorSimple Manager. */
@@ -898,10 +898,10 @@ export type Manager = Resource & {
   sku?: ManagerSku;
   /** Specifies the state of the resource as it is getting provisioned. Value of "Succeeded" means the Manager was successfully created. */
   provisioningState?: string;
-};
+}
 
 /** The access control record. */
-export type AccessControlRecord = BaseModel & {
+export interface AccessControlRecord extends BaseModel {
   /** The iSCSI initiator name (IQN). */
   initiatorName: string;
   /**
@@ -909,10 +909,10 @@ export type AccessControlRecord = BaseModel & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly volumeCount?: number;
-};
+}
 
 /** The alert. */
-export type Alert = BaseModel & {
+export interface Alert extends BaseModel {
   /** The title of the alert */
   title: string;
   /** The scope of the alert */
@@ -941,10 +941,10 @@ export type Alert = BaseModel & {
   errorDetails?: AlertErrorDetails;
   /** More details about the alert */
   detailedInformation?: { [propertyName: string]: string };
-};
+}
 
 /** The bandwidth setting. */
-export type BandwidthSetting = BaseModel & {
+export interface BandwidthSetting extends BaseModel {
   /** The schedules. */
   schedules: BandwidthSchedule[];
   /**
@@ -952,10 +952,10 @@ export type BandwidthSetting = BaseModel & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly volumeCount?: number;
-};
+}
 
 /** The cloud appliance configuration */
-export type CloudApplianceConfiguration = BaseModel & {
+export interface CloudApplianceConfiguration extends BaseModel {
   /** The model number. */
   modelNumber: string;
   /** The cloud platform. */
@@ -970,10 +970,10 @@ export type CloudApplianceConfiguration = BaseModel & {
   supportedVmTypes: string[];
   /** The supported virtual machine images. */
   supportedVmImages: VmImage[];
-};
+}
 
 /** The mandatory device configuration request. */
-export type ConfigureDeviceRequest = BaseModel & {
+export interface ConfigureDeviceRequest extends BaseModel {
   /** The friendly name for the device. */
   friendlyName: string;
   /** The current name of the device. */
@@ -984,10 +984,10 @@ export type ConfigureDeviceRequest = BaseModel & {
   dnsSettings?: SecondaryDNSSettings;
   /** The 'Data 0' network interface card settings. */
   networkInterfaceData0Settings?: NetworkInterfaceData0Settings;
-};
+}
 
 /** The StorSimple device. */
-export type Device = BaseModel & {
+export interface Device extends BaseModel {
   /** The friendly name of the device. */
   friendlyName: string;
   /** The UTC time at which the device was activated */
@@ -1045,10 +1045,10 @@ export type Device = BaseModel & {
   details?: DeviceDetails;
   /** The additional device details for the service data encryption key rollover. */
   rolloverDetails?: DeviceRolloverDetails;
-};
+}
 
 /** The alert settings. */
-export type AlertSettings = BaseModel & {
+export interface AlertSettings extends BaseModel {
   /** Indicates whether email notification enabled or not. */
   emailNotification: AlertEmailNotificationStatus;
   /** The alert notification culture. */
@@ -1057,10 +1057,10 @@ export type AlertSettings = BaseModel & {
   notificationToServiceOwners?: AlertEmailNotificationStatus;
   /** The alert notification email list. */
   additionalRecipientEmailList?: string[];
-};
+}
 
 /** The backup policy. */
-export type BackupPolicy = BaseModel & {
+export interface BackupPolicy extends BaseModel {
   /** The path IDs of the volumes which are part of the backup policy. */
   volumeIds: string[];
   /**
@@ -1093,10 +1093,10 @@ export type BackupPolicy = BaseModel & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly ssmHostName?: string;
-};
+}
 
 /** The backup schedule. */
-export type BackupSchedule = BaseModel & {
+export interface BackupSchedule extends BaseModel {
   /** The schedule recurrence. */
   scheduleRecurrence: ScheduleRecurrence;
   /** The type of backup which needs to be taken. */
@@ -1112,10 +1112,10 @@ export type BackupSchedule = BaseModel & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly lastSuccessfulRun?: Date;
-};
+}
 
 /** The backup. */
-export type Backup = BaseModel & {
+export interface Backup extends BaseModel {
   /** The time when the backup was created. */
   createdOn: Date;
   /** The backup size in bytes. */
@@ -1130,20 +1130,20 @@ export type Backup = BaseModel & {
   ssmHostName?: string;
   /** The backup elements. */
   elements: BackupElement[];
-};
+}
 
 /** The hardware component group. */
-export type HardwareComponentGroup = BaseModel & {
+export interface HardwareComponentGroup extends BaseModel {
   /** The display name the hardware component group. */
   displayName: string;
   /** The last updated time. */
   lastUpdatedTime: Date;
   /** The list of hardware components. */
   components: HardwareComponent[];
-};
+}
 
 /** The controller power state change request. */
-export type ControllerPowerStateChangeRequest = BaseModel & {
+export interface ControllerPowerStateChangeRequest extends BaseModel {
   /** The power state that the request is expecting for the controller of the device. */
   action: ControllerPowerStateAction;
   /** The active controller that the request is expecting on the device. */
@@ -1152,10 +1152,10 @@ export type ControllerPowerStateChangeRequest = BaseModel & {
   controller0State: ControllerStatus;
   /** The controller 1's status that the request is expecting on the device. */
   controller1State: ControllerStatus;
-};
+}
 
 /** The job. */
-export type Job = BaseModel & {
+export interface Job extends BaseModel {
   /** The current status of the job. */
   status: JobStatus;
   /** The UTC time at which the job was started. */
@@ -1186,38 +1186,38 @@ export type Job = BaseModel & {
   sourceDeviceId?: string;
   /** The time of the backup used for the failover. */
   backupPointInTime?: Date;
-};
+}
 
 /** Represents the network settings of a device. */
-export type NetworkSettings = BaseModel & {
+export interface NetworkSettings extends BaseModel {
   /** The DNS (Domain Name System) settings of device. */
   dnsSettings: DNSSettings;
   /** The network adapter list of device. */
   networkAdapters: NetworkAdapterList;
   /** The webproxy settings of device. */
   webproxySettings: WebproxySettings;
-};
+}
 
 /** The security settings of a device. */
-export type SecuritySettings = BaseModel & {
+export interface SecuritySettings extends BaseModel {
   /** The settings for remote management of a device. */
   remoteManagementSettings: RemoteManagementSettings;
   /** The Challenge-Handshake Authentication Protocol (CHAP) settings. */
   chapSettings: ChapSettings;
-};
+}
 
 /** The time settings of a device. */
-export type TimeSettings = BaseModel & {
+export interface TimeSettings extends BaseModel {
   /** The timezone of device, like '(UTC -06:00) Central America' */
   timeZone: string;
   /** The primary Network Time Protocol (NTP) server name, like 'time.windows.com'. */
   primaryTimeServer?: string;
   /** The secondary Network Time Protocol (NTP) server name, like 'time.contoso.com'. It's optional. */
   secondaryTimeServer?: string[];
-};
+}
 
 /** The updates profile of a device. */
-export type Updates = BaseModel & {
+export interface Updates extends BaseModel {
   /** Set to 'true' if regular updates are available for the device. */
   regularUpdatesAvailable?: boolean;
   /** Set to 'true' if maintenance mode update available. */
@@ -1226,10 +1226,10 @@ export type Updates = BaseModel & {
   isUpdateInProgress?: boolean;
   /** The time when the last update was completed. */
   lastUpdatedTime?: Date;
-};
+}
 
 /** The volume container. */
-export type VolumeContainer = BaseModel & {
+export interface VolumeContainer extends BaseModel {
   /** The key used to encrypt data in the volume container. It is required when property 'EncryptionStatus' is "Enabled". */
   encryptionKey?: AsymmetricEncryptedSecret;
   /**
@@ -1258,10 +1258,10 @@ export type VolumeContainer = BaseModel & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly totalCloudStorageUsageInBytes?: number;
-};
+}
 
 /** The volume. */
-export type Volume = BaseModel & {
+export interface Volume extends BaseModel {
   /** The size of the volume in bytes. */
   sizeInBytes: number;
   /** The type of the volume. */
@@ -1292,18 +1292,18 @@ export type Volume = BaseModel & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly backupPolicyIds?: string[];
-};
+}
 
 /** The encryption settings. */
-export type EncryptionSettings = BaseModel & {
+export interface EncryptionSettings extends BaseModel {
   /** The encryption status to indicates if encryption is enabled or not. */
   encryptionStatus: EncryptionStatus;
   /** The key rollover status to indicates if key rollover is required or not. If secret's encryption has been upgraded, then it requires key rollover. */
   keyRolloverStatus: KeyRolloverStatus;
-};
+}
 
 /** The extended info of the manager. */
-export type ManagerExtendedInfo = BaseModel & {
+export interface ManagerExtendedInfo extends BaseModel {
   /** The etag of the resource. */
   etag?: string;
   /** The version of the extended info being persisted. */
@@ -1318,10 +1318,10 @@ export type ManagerExtendedInfo = BaseModel & {
   portalCertificateThumbprint?: string;
   /** Represents the encryption algorithm used to encrypt the keys. None - if Key is saved in plain text format. Algorithm name - if key is encrypted */
   algorithm?: string;
-};
+}
 
 /** The storage account credential. */
-export type StorageAccountCredential = BaseModel & {
+export interface StorageAccountCredential extends BaseModel {
   /** The storage endpoint */
   endPoint: string;
   /** Signifies whether SSL needs to be enabled or not. */
@@ -1333,7 +1333,8 @@ export type StorageAccountCredential = BaseModel & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly volumesCount?: number;
-};
+}
+
 /** Defines values for ManagerType. */
 export type ManagerType = "GardaV1" | "HelsinkiV1";
 /** Defines values for AlertScope. */
@@ -1705,10 +1706,7 @@ export interface AlertsSendTestEmailOptionalParams
 
 /** Optional parameters. */
 export interface AlertsListByManagerNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** OData Filter options */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByManagerNext operation. */
 export type AlertsListByManagerNextResponse = AlertList;
@@ -2086,10 +2084,7 @@ export interface BackupsRestoreOptionalParams
 
 /** Optional parameters. */
 export interface BackupsListByDeviceNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** OData Filter options */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByDeviceNext operation. */
 export type BackupsListByDeviceNextResponse = BackupList;
@@ -2146,20 +2141,14 @@ export type JobsListByManagerResponse = JobList;
 
 /** Optional parameters. */
 export interface JobsListByDeviceNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** OData Filter options */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByDeviceNext operation. */
 export type JobsListByDeviceNextResponse = JobList;
 
 /** Optional parameters. */
 export interface JobsListByManagerNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** OData Filter options */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByManagerNext operation. */
 export type JobsListByManagerNextResponse = JobList;

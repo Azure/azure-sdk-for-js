@@ -20,7 +20,7 @@ export const TIME_SINCE_ENQUEUED = "timeSinceEnqueued";
  * AzureMonitorTraceExporter version.
  * @internal
  */
-export const packageVersion = "1.0.0-beta.10";
+export const packageVersion = "1.0.0-beta.11";
 
 export enum DependencyTypes {
   InProc = "InProc",

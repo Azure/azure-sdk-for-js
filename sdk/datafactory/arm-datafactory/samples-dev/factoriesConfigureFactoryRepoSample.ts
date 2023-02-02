@@ -13,6 +13,9 @@ import {
   DataFactoryManagementClient
 } from "@azure/arm-datafactory";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Updates a factory's repo information.
@@ -21,7 +24,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/Factories_ConfigureFactoryRepo.json
  */
 async function factoriesConfigureFactoryRepo() {
-  const subscriptionId = "12345678-1234-1234-1234-12345678abc";
+  const subscriptionId =
+    process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
+    "12345678-1234-1234-1234-12345678abc";
   const locationId = "East US";
   const factoryRepoUpdate: FactoryRepoUpdate = {
     factoryResourceId:
@@ -46,4 +51,8 @@ async function factoriesConfigureFactoryRepo() {
   console.log(result);
 }
 
-factoriesConfigureFactoryRepo().catch(console.error);
+async function main() {
+  factoriesConfigureFactoryRepo();
+}
+
+main().catch(console.error);

@@ -15,13 +15,14 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Gets the  manager metrics
  *
  * @summary Gets the  manager metrics
- * x-ms-original-file: specification/storSimple1200Series/resource-manager/Microsoft.StorSimple/stable/2016-10-01/examples/ManagersListMetrics.json
+ * x-ms-original-file: specification/storsimple1200series/resource-manager/Microsoft.StorSimple/stable/2016-10-01/examples/ManagersListMetrics.json
  */
 async function managersListMetrics() {
   const subscriptionId = "9eb689cd-7243-43b4-b6f6-5c65cb296641";
   const resourceGroupName = "ResourceGroupForSDKTest";
   const managerName = "hAzureSDKOperations";
-  const filter = "startTime ge '2018-08-04T18:30:00Z' and endTime le '2018-08-11T18:30:00Z'";
+  const filter =
+    "startTime%20ge%20'2018-08-04T18:30:00Z'%20and%20endTime%20le%20'2018-08-11T18:30:00Z'";
   const options = { filter };
   const credential = new DefaultAzureCredential();
   const client = new StorSimpleManagementClient(credential, subscriptionId);

@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { CommunicationServiceManagementClient } = require("@azure/arm-communication");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Checks that the CommunicationService name is valid and is not already in use.
@@ -18,7 +19,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2022-07-01-preview/examples/communicationServices/checkNameAvailabilityAvailable.json
  */
 async function checkNameAvailabilityAvailable() {
-  const subscriptionId = "12345";
+  const subscriptionId = process.env["COMMUNICATION_SUBSCRIPTION_ID"] || "12345";
   const nameAvailabilityParameters = {
     name: "MyCommunicationService",
     type: "Microsoft.Communication/CommunicationServices",
@@ -30,8 +31,6 @@ async function checkNameAvailabilityAvailable() {
   );
   console.log(result);
 }
-
-checkNameAvailabilityAvailable().catch(console.error);
 
 /**
  * This sample demonstrates how to Checks that the CommunicationService name is valid and is not already in use.
@@ -40,7 +39,7 @@ checkNameAvailabilityAvailable().catch(console.error);
  * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2022-07-01-preview/examples/communicationServices/checkNameAvailabilityUnavailable.json
  */
 async function checkNameAvailabilityUnavailable() {
-  const subscriptionId = "12345";
+  const subscriptionId = process.env["COMMUNICATION_SUBSCRIPTION_ID"] || "12345";
   const nameAvailabilityParameters = {
     name: "MyCommunicationService",
     type: "Microsoft.Communication/CommunicationServices",
@@ -53,4 +52,9 @@ async function checkNameAvailabilityUnavailable() {
   console.log(result);
 }
 
-checkNameAvailabilityUnavailable().catch(console.error);
+async function main() {
+  checkNameAvailabilityAvailable();
+  checkNameAvailabilityUnavailable();
+}
+
+main().catch(console.error);

@@ -1,6 +1,6 @@
 # Release History
 
-## 1.3.1 (Unreleased)
+## 1.3.3 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,18 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.3.2 (2023-01-05)
+
+### Other Changes
+
+- Fix excess escaping of nested XML entities. [PR #24356](https://github.com/Azure/azure-sdk-for-js/pull/24356)
+
+## 1.3.1 (2022-11-21)
+
+### Bugs Fixed
+
+- Support for CDATA in browser XML now fixed
 
 ## 1.3.0 (2022-08-04)
 
@@ -25,7 +37,7 @@
 
 ### Bugs Fixed
 
-- Add a `react-native` mapping to use `fast-xml-parser` for xml building/parsing as it is already in our dependency list.  With this customers don't need to polyfill the DOM api for XML processing.
+- Add a `react-native` mapping to use `fast-xml-parser` for xml building/parsing as it is already in our dependency list. With this customers don't need to polyfill the DOM api for XML processing.
 
 ## 1.2.0 (2022-02-03)
 

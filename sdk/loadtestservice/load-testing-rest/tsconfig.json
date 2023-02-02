@@ -9,7 +9,10 @@
       "@azure-rest/load-testing": ["./src/index"]
     },
     "types": [],
-    "lib": ["DOM"]
+    "lib": ["DOM"],
+    "target": "ES6",
+    "module": "commonjs",
+    "skipLibCheck": true
   },
   "include": ["src/**/*.ts", "./test/**/*.ts", "samples-dev/**/*.ts"]
 }

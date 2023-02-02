@@ -14,6 +14,7 @@
 ### Bugs Fixed
 
 - Allow nested field names to be specified in `select` and `searchField` options [#23627](https://github.com/Azure/azure-sdk-for-js/pull/23627)
+- Fix discarded user-defined `onResponse` callback [#24479](https://github.com/Azure/azure-sdk-for-js/pull/24479)
 
 ### Other Changes
 

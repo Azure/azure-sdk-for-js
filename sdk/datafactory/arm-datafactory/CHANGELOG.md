@@ -1,5 +1,25 @@
 # Release History
-    
+
+## 10.10.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 10.10.1 (2023-01-04)
+
+**Features**
+
+-  Exposes `getContinuationToken` helper function to extract continuation token
+
+**Bugs Fixed**
+
+- A series of small bug fixs relevant to authentication and apiVersion policy
+
 ## 10.10.0 (2022-11-04)
     
 **Features**

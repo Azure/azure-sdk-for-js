@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { RedisManagementClient } = require("@azure/arm-rediscache");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Checks that the redis cache name is valid and is not already in use.
@@ -18,7 +19,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2022-06-01/examples/RedisCacheCheckNameAvailability.json
  */
 async function redisCacheCheckNameAvailability() {
-  const subscriptionId = "subid";
+  const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";
   const parameters = {
     name: "cacheName",
     type: "Microsoft.Cache/Redis",
@@ -29,4 +30,8 @@ async function redisCacheCheckNameAvailability() {
   console.log(result);
 }
 
-redisCacheCheckNameAvailability().catch(console.error);
+async function main() {
+  redisCacheCheckNameAvailability();
+}
+
+main().catch(console.error);

@@ -67,21 +67,21 @@ export interface CheckNameAvailabilityParameters {
 export type ConfigurationResourceType = string;
 
 // @public
-export type ConfigurationStore = TrackedResource & {
-    identity?: ResourceIdentity;
-    sku: Sku;
-    readonly systemData?: SystemData;
-    readonly provisioningState?: ProvisioningState;
-    readonly creationDate?: Date;
-    readonly endpoint?: string;
-    encryption?: EncryptionProperties;
-    readonly privateEndpointConnections?: PrivateEndpointConnectionReference[];
-    publicNetworkAccess?: PublicNetworkAccess;
-    disableLocalAuth?: boolean;
-    softDeleteRetentionInDays?: number;
-    enablePurgeProtection?: boolean;
+export interface ConfigurationStore extends TrackedResource {
     createMode?: CreateMode;
-};
+    readonly creationDate?: Date;
+    disableLocalAuth?: boolean;
+    enablePurgeProtection?: boolean;
+    encryption?: EncryptionProperties;
+    readonly endpoint?: string;
+    identity?: ResourceIdentity;
+    readonly privateEndpointConnections?: PrivateEndpointConnectionReference[];
+    readonly provisioningState?: ProvisioningState;
+    publicNetworkAccess?: PublicNetworkAccess;
+    sku: Sku;
+    softDeleteRetentionInDays?: number;
+    readonly systemData?: SystemData;
+}
 
 // @public
 export interface ConfigurationStoreListResult {
@@ -288,6 +288,9 @@ export interface ErrorResponse {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export type IdentityType = string;
 
 // @public
@@ -367,75 +370,52 @@ export interface KeyVaultProperties {
 
 // @public
 export enum KnownActionsRequired {
-    // (undocumented)
     None = "None",
-    // (undocumented)
     Recreate = "Recreate"
 }
 
 // @public
 export enum KnownConfigurationResourceType {
-    // (undocumented)
     MicrosoftAppConfigurationConfigurationStores = "Microsoft.AppConfiguration/configurationStores"
 }
 
 // @public
 export enum KnownConnectionStatus {
-    // (undocumented)
     Approved = "Approved",
-    // (undocumented)
     Disconnected = "Disconnected",
-    // (undocumented)
     Pending = "Pending",
-    // (undocumented)
     Rejected = "Rejected"
 }
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownIdentityType {
-    // (undocumented)
     None = "None",
-    // (undocumented)
     SystemAssigned = "SystemAssigned",
-    // (undocumented)
     SystemAssignedUserAssigned = "SystemAssigned, UserAssigned",
-    // (undocumented)
     UserAssigned = "UserAssigned"
 }
 
 // @public
 export enum KnownProvisioningState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownPublicNetworkAccess {
-    // (undocumented)
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
@@ -714,12 +694,12 @@ export interface SystemData {
 }
 
 // @public
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
+    location: string;
     tags?: {
         [propertyName: string]: string;
     };
-    location: string;
-};
+}
 
 // @public
 export interface UserIdentity {

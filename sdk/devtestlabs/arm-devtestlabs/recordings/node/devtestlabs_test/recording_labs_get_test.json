@@ -1,0 +1,67 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.DevTestLab/labs/mylabsxxx?api-version=2018-09-15",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-devtestlabs/4.1.0 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "06334c84-facd-4d87-9e12-5bf52c58e189"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 22 Nov 2022 02:11:56 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Request-Context": "appId=cid-v1:9e8cebda-9c88-460b-b55d-9410c4648f9a",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "6b81a24b-fd8f-41c5-b772-20d1a7177223",
+        "x-ms-ratelimit-remaining-subscription-reads": "11875",
+        "x-ms-request-id": "6b81a24b-fd8f-41c5-b772-20d1a7177223",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20221122T021156Z:6b81a24b-fd8f-41c5-b772-20d1a7177223"
+      },
+      "ResponseBody": {
+        "properties": {
+          "defaultStorageAccount": "/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/microsoft.storage/storageaccounts/amylabsxxx8762",
+          "defaultPremiumStorageAccount": "/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/microsoft.storage/storageaccounts/amylabsxxx8762",
+          "artifactsStorageAccount": "/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/microsoft.storage/storageaccounts/amylabsxxx8762",
+          "premiumDataDiskStorageAccount": "/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/microsoft.storage/storageaccounts/amylabsxxx8762",
+          "vaultName": "/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/microsoft.keyvault/vaults/mylabsxxx8627",
+          "labStorageType": "Premium",
+          "mandatoryArtifactsResourceIdsLinux": [],
+          "mandatoryArtifactsResourceIdsWindows": [],
+          "createdDate": "2022-11-22T02:07:10.6255957\u002B00:00",
+          "premiumDataDisks": "Disabled",
+          "environmentPermission": "Reader",
+          "announcement": {
+            "title": "",
+            "markdown": "",
+            "enabled": "Disabled",
+            "expired": false
+          },
+          "support": {
+            "enabled": "Disabled",
+            "markdown": ""
+          },
+          "provisioningState": "Succeeded",
+          "uniqueIdentifier": "809c094c-9d7c-475d-ab01-1b447c8e0dd6"
+        },
+        "location": "eastus",
+        "id": "/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/microsoft.devtestlab/labs/mylabsxxx",
+        "name": "mylabsxxx",
+        "type": "Microsoft.DevTestLab/labs"
+      }
+    }
+  ],
+  "Variables": {}
+}

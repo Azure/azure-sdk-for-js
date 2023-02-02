@@ -75,8 +75,11 @@ export interface ManagementLockListResult {
 
 /** Known values of {@link LockLevel} that the service accepts. */
 export enum KnownLockLevel {
+  /** NotSpecified */
   NotSpecified = "NotSpecified",
+  /** CanNotDelete */
   CanNotDelete = "CanNotDelete",
+  /** ReadOnly */
   ReadOnly = "ReadOnly"
 }
 
@@ -219,40 +222,28 @@ export type ManagementLocksListByScopeResponse = ManagementLockListResult;
 
 /** Optional parameters. */
 export interface ManagementLocksListAtResourceGroupLevelNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAtResourceGroupLevelNext operation. */
 export type ManagementLocksListAtResourceGroupLevelNextResponse = ManagementLockListResult;
 
 /** Optional parameters. */
 export interface ManagementLocksListAtResourceLevelNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAtResourceLevelNext operation. */
 export type ManagementLocksListAtResourceLevelNextResponse = ManagementLockListResult;
 
 /** Optional parameters. */
 export interface ManagementLocksListAtSubscriptionLevelNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAtSubscriptionLevelNext operation. */
 export type ManagementLocksListAtSubscriptionLevelNextResponse = ManagementLockListResult;
 
 /** Optional parameters. */
 export interface ManagementLocksListByScopeNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByScopeNext operation. */
 export type ManagementLocksListByScopeNextResponse = ManagementLockListResult;

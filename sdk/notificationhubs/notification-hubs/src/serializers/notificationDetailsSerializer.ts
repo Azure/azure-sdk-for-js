@@ -16,7 +16,6 @@ import { parseXML } from "@azure/core-xml";
 export async function parseNotificationDetails(bodyText: string): Promise<NotificationDetails> {
   const xml = await parseXML(bodyText, {
     includeRoot: true,
-    stopNodes: ["NotificationDetails.NotificationBody"],
   });
   const notificationDetails = xml["NotificationDetails"];
 
@@ -54,6 +53,7 @@ export async function parseNotificationDetails(bodyText: string): Promise<Notifi
     endTime: getDateOrUndefined(notificationDetails["EndTime"]),
     pnsErrorDetailsUrl: getStringOrUndefined(notificationDetails["PnsErrorDetailsUri"]),
     targetPlatforms: getStringOrUndefined(notificationDetails["TargetPlatforms"]),
+    notificationBody: getStringOrUndefined(notificationDetails["NotificationBody"]),
     apnsOutcomeCounts,
     admOutcomeCounts,
     baiduOutcomeCounts,

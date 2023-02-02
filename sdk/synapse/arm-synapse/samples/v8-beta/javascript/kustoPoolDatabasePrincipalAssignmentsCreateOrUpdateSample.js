@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { SynapseManagementClient } = require("@azure/arm-synapse");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Creates a Kusto pool database principalAssignment.
@@ -18,12 +19,13 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/preview/2021-06-01-preview/examples/KustoPoolDatabasePrincipalAssignmentsCreateOrUpdate.json
  */
 async function kustoPoolDatabasePrincipalAssignmentsCreateOrUpdate() {
-  const subscriptionId = "12345678-1234-1234-1234-123456789098";
+  const subscriptionId =
+    process.env["SYNAPSE_SUBSCRIPTION_ID"] || "12345678-1234-1234-1234-123456789098";
   const workspaceName = "synapseWorkspaceName";
   const kustoPoolName = "kustoclusterrptest4";
   const databaseName = "Kustodatabase8";
   const principalAssignmentName = "kustoprincipal1";
-  const resourceGroupName = "kustorptest";
+  const resourceGroupName = process.env["SYNAPSE_RESOURCE_GROUP"] || "kustorptest";
   const parameters = {
     principalId: "87654321-1234-1234-1234-123456789123",
     principalType: "App",
@@ -43,4 +45,8 @@ async function kustoPoolDatabasePrincipalAssignmentsCreateOrUpdate() {
   console.log(result);
 }
 
-kustoPoolDatabasePrincipalAssignmentsCreateOrUpdate().catch(console.error);
+async function main() {
+  kustoPoolDatabasePrincipalAssignmentsCreateOrUpdate();
+}
+
+main().catch(console.error);

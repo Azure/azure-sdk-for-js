@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { SynapseManagementClient } = require("@azure/arm-synapse");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to List workspace managed sql server's minimal tls settings.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/ListWorkspaceManagedSqlServerDedicatedSQLminimalTlsSettings.json
  */
 async function listDedicatedSqlMinimalTlsSettingsOfTheWorkspaceManagedSqlServer() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "workspace-6852";
+  const subscriptionId =
+    process.env["SYNAPSE_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName = process.env["SYNAPSE_RESOURCE_GROUP"] || "workspace-6852";
   const workspaceName = "workspace-2080";
   const credential = new DefaultAzureCredential();
   const client = new SynapseManagementClient(credential, subscriptionId);
@@ -33,4 +35,8 @@ async function listDedicatedSqlMinimalTlsSettingsOfTheWorkspaceManagedSqlServer(
   console.log(resArray);
 }
 
-listDedicatedSqlMinimalTlsSettingsOfTheWorkspaceManagedSqlServer().catch(console.error);
+async function main() {
+  listDedicatedSqlMinimalTlsSettingsOfTheWorkspaceManagedSqlServer();
+}
+
+main().catch(console.error);

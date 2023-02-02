@@ -13,6 +13,9 @@ import {
   SynapseManagementClient
 } from "@azure/arm-synapse";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create a new Big Data pool.
@@ -21,8 +24,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/preview/2021-06-01-preview/examples/CreateOrUpdateBigDataPool.json
  */
 async function createOrUpdateABigDataPool() {
-  const subscriptionId = "01234567-89ab-4def-0123-456789abcdef";
-  const resourceGroupName = "ExampleResourceGroup";
+  const subscriptionId =
+    process.env["SYNAPSE_SUBSCRIPTION_ID"] ||
+    "01234567-89ab-4def-0123-456789abcdef";
+  const resourceGroupName =
+    process.env["SYNAPSE_RESOURCE_GROUP"] || "ExampleResourceGroup";
   const workspaceName = "ExampleWorkspace";
   const bigDataPoolName = "ExamplePool";
   const bigDataPoolInfo: BigDataPoolResourceInfo = {
@@ -49,4 +55,8 @@ async function createOrUpdateABigDataPool() {
   console.log(result);
 }
 
-createOrUpdateABigDataPool().catch(console.error);
+async function main() {
+  createOrUpdateABigDataPool();
+}
+
+main().catch(console.error);

@@ -152,6 +152,7 @@ export const registrationDescriptionParser: RegistrationDescriptionParser = {
    */
   async parseRegistrationEntry(bodyText: string): Promise<RegistrationDescription> {
     const xml = await parseXML(bodyText, { includeRoot: true });
+    delete xml.entry.content["$"];
     const keyName = Object.keys(xml.entry.content)[0];
     const content = xml.entry.content[keyName];
     const methodName = `create${keyName}`;

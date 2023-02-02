@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { VirtualMachines } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,13 +19,16 @@ import {
   VirtualMachine,
   VirtualMachinesListByLocationNextOptionalParams,
   VirtualMachinesListByLocationOptionalParams,
+  VirtualMachinesListByLocationResponse,
   VirtualMachinesListNextOptionalParams,
   VirtualMachinesListOptionalParams,
+  VirtualMachinesListResponse,
   VirtualMachinesListAllNextOptionalParams,
   VirtualMachinesListAllOptionalParams,
+  VirtualMachinesListAllResponse,
   VirtualMachineSize,
   VirtualMachinesListAvailableSizesOptionalParams,
-  VirtualMachinesListByLocationResponse,
+  VirtualMachinesListAvailableSizesResponse,
   VirtualMachineCaptureParameters,
   VirtualMachinesCaptureOptionalParams,
   VirtualMachinesCaptureResponse,
@@ -41,9 +45,6 @@ import {
   VirtualMachinesConvertToManagedDisksOptionalParams,
   VirtualMachinesDeallocateOptionalParams,
   VirtualMachinesGeneralizeOptionalParams,
-  VirtualMachinesListResponse,
-  VirtualMachinesListAllResponse,
-  VirtualMachinesListAvailableSizesResponse,
   VirtualMachinesPowerOffOptionalParams,
   VirtualMachinesReapplyOptionalParams,
   VirtualMachinesRestartOptionalParams,
@@ -91,19 +92,29 @@ export class VirtualMachinesImpl implements VirtualMachines {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByLocationPagingPage(location, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByLocationPagingPage(location, options, settings);
       }
     };
   }
 
   private async *listByLocationPagingPage(
     location: string,
-    options?: VirtualMachinesListByLocationOptionalParams
+    options?: VirtualMachinesListByLocationOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<VirtualMachine[]> {
-    let result = await this._listByLocation(location, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: VirtualMachinesListByLocationResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByLocation(location, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByLocationNext(
         location,
@@ -111,7 +122,9 @@ export class VirtualMachinesImpl implements VirtualMachines {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -142,19 +155,29 @@ export class VirtualMachinesImpl implements VirtualMachines {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(resourceGroupName, options, settings);
       }
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
-    options?: VirtualMachinesListOptionalParams
+    options?: VirtualMachinesListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<VirtualMachine[]> {
-    let result = await this._list(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: VirtualMachinesListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -162,7 +185,9 @@ export class VirtualMachinesImpl implements VirtualMachines {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -191,22 +216,34 @@ export class VirtualMachinesImpl implements VirtualMachines {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listAllPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listAllPagingPage(options, settings);
       }
     };
   }
 
   private async *listAllPagingPage(
-    options?: VirtualMachinesListAllOptionalParams
+    options?: VirtualMachinesListAllOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<VirtualMachine[]> {
-    let result = await this._listAll(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: VirtualMachinesListAllResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listAll(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listAllNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -241,11 +278,15 @@ export class VirtualMachinesImpl implements VirtualMachines {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listAvailableSizesPagingPage(
           resourceGroupName,
           vmName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -254,13 +295,11 @@ export class VirtualMachinesImpl implements VirtualMachines {
   private async *listAvailableSizesPagingPage(
     resourceGroupName: string,
     vmName: string,
-    options?: VirtualMachinesListAvailableSizesOptionalParams
+    options?: VirtualMachinesListAvailableSizesOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<VirtualMachineSize[]> {
-    let result = await this._listAvailableSizes(
-      resourceGroupName,
-      vmName,
-      options
-    );
+    let result: VirtualMachinesListAvailableSizesResponse;
+    result = await this._listAvailableSizes(resourceGroupName, vmName, options);
     yield result.value || [];
   }
 
@@ -356,11 +395,13 @@ export class VirtualMachinesImpl implements VirtualMachines {
       { resourceGroupName, vmName, parameters, options },
       captureOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -449,10 +490,12 @@ export class VirtualMachinesImpl implements VirtualMachines {
       { resourceGroupName, vmName, parameters, options },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -540,10 +583,12 @@ export class VirtualMachinesImpl implements VirtualMachines {
       { resourceGroupName, vmName, parameters, options },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -623,10 +668,12 @@ export class VirtualMachinesImpl implements VirtualMachines {
       { resourceGroupName, vmName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -734,10 +781,12 @@ export class VirtualMachinesImpl implements VirtualMachines {
       { resourceGroupName, vmName, options },
       convertToManagedDisksOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -816,10 +865,12 @@ export class VirtualMachinesImpl implements VirtualMachines {
       { resourceGroupName, vmName, options },
       deallocateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -964,10 +1015,12 @@ export class VirtualMachinesImpl implements VirtualMachines {
       { resourceGroupName, vmName, options },
       powerOffOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1041,10 +1094,12 @@ export class VirtualMachinesImpl implements VirtualMachines {
       { resourceGroupName, vmName, options },
       reapplyOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1117,10 +1172,12 @@ export class VirtualMachinesImpl implements VirtualMachines {
       { resourceGroupName, vmName, options },
       restartOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1193,10 +1250,12 @@ export class VirtualMachinesImpl implements VirtualMachines {
       { resourceGroupName, vmName, options },
       startOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1269,10 +1328,12 @@ export class VirtualMachinesImpl implements VirtualMachines {
       { resourceGroupName, vmName, options },
       redeployOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1345,10 +1406,12 @@ export class VirtualMachinesImpl implements VirtualMachines {
       { resourceGroupName, vmName, options },
       reimageOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1438,10 +1501,12 @@ export class VirtualMachinesImpl implements VirtualMachines {
       { resourceGroupName, vmName, options },
       performMaintenanceOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1540,11 +1605,13 @@ export class VirtualMachinesImpl implements VirtualMachines {
       { resourceGroupName, vmName, options },
       assessPatchesOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -2059,7 +2126,6 @@ const listByLocationNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.VirtualMachineListResult
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -2077,7 +2143,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.VirtualMachineListResult
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -2095,7 +2160,6 @@ const listAllNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.VirtualMachineListResult
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.statusOnly],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

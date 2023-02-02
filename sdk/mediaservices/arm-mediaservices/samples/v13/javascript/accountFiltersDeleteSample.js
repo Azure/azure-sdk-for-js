@@ -10,16 +10,18 @@
 // Licensed under the MIT License.
 const { AzureMediaServices } = require("@azure/arm-mediaservices");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Deletes an Account Filter in the Media Services account.
  *
  * @summary Deletes an Account Filter in the Media Services account.
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2022-08-01/examples/accountFilters-delete.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2022-08-01/examples/accountFilters-delete.json
  */
 async function deleteAnAccountFilter() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "contoso";
+  const subscriptionId =
+    process.env["MEDIASERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
   const accountName = "contosomedia";
   const filterName = "accountFilterWithTimeWindowAndTrack";
   const credential = new DefaultAzureCredential();
@@ -28,4 +30,8 @@ async function deleteAnAccountFilter() {
   console.log(result);
 }
 
-deleteAnAccountFilter().catch(console.error);
+async function main() {
+  deleteAnAccountFilter();
+}
+
+main().catch(console.error);

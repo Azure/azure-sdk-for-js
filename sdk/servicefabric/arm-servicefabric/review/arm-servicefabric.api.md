@@ -38,21 +38,21 @@ export interface ApplicationMetricDescription {
 }
 
 // @public
-export type ApplicationResource = ProxyResource & {
+export interface ApplicationResource extends ProxyResource {
     identity?: ManagedIdentity;
-    typeVersion?: string;
+    managedIdentities?: ApplicationUserAssignedIdentity[];
+    maximumNodes?: number;
+    metrics?: ApplicationMetricDescription[];
+    minimumNodes?: number;
     parameters?: {
         [propertyName: string]: string;
     };
-    upgradePolicy?: ApplicationUpgradePolicy;
-    minimumNodes?: number;
-    maximumNodes?: number;
-    removeApplicationCapacity?: boolean;
-    metrics?: ApplicationMetricDescription[];
-    managedIdentities?: ApplicationUserAssignedIdentity[];
     readonly provisioningState?: string;
+    removeApplicationCapacity?: boolean;
     typeName?: string;
-};
+    typeVersion?: string;
+    upgradePolicy?: ApplicationUpgradePolicy;
+}
 
 // @public
 export interface ApplicationResourceList {
@@ -62,24 +62,24 @@ export interface ApplicationResourceList {
 }
 
 // @public
-export type ApplicationResourceProperties = ApplicationResourceUpdateProperties & {
+export interface ApplicationResourceProperties extends ApplicationResourceUpdateProperties {
     readonly provisioningState?: string;
     typeName?: string;
-};
+}
 
 // @public
-export type ApplicationResourceUpdate = ProxyResource & {
-    typeVersion?: string;
+export interface ApplicationResourceUpdate extends ProxyResource {
+    managedIdentities?: ApplicationUserAssignedIdentity[];
+    maximumNodes?: number;
+    metrics?: ApplicationMetricDescription[];
+    minimumNodes?: number;
     parameters?: {
         [propertyName: string]: string;
     };
-    upgradePolicy?: ApplicationUpgradePolicy;
-    minimumNodes?: number;
-    maximumNodes?: number;
     removeApplicationCapacity?: boolean;
-    metrics?: ApplicationMetricDescription[];
-    managedIdentities?: ApplicationUserAssignedIdentity[];
-};
+    typeVersion?: string;
+    upgradePolicy?: ApplicationUpgradePolicy;
+}
 
 // @public
 export interface ApplicationResourceUpdateProperties {
@@ -146,9 +146,9 @@ export interface ApplicationsUpdateOptionalParams extends coreClient.OperationOp
 export type ApplicationsUpdateResponse = ApplicationResource;
 
 // @public
-export type ApplicationTypeResource = ProxyResource & {
+export interface ApplicationTypeResource extends ProxyResource {
     readonly provisioningState?: string;
-};
+}
 
 // @public
 export interface ApplicationTypeResourceList {
@@ -194,13 +194,13 @@ export interface ApplicationTypesListOptionalParams extends coreClient.Operation
 export type ApplicationTypesListResponse = ApplicationTypeResourceList;
 
 // @public
-export type ApplicationTypeVersionResource = ProxyResource & {
-    readonly provisioningState?: string;
+export interface ApplicationTypeVersionResource extends ProxyResource {
     appPackageUrl?: string;
     readonly defaultParameterList?: {
         [propertyName: string]: string;
     };
-};
+    readonly provisioningState?: string;
+}
 
 // @public
 export interface ApplicationTypeVersionResourceList {
@@ -338,8 +338,9 @@ export interface ClientCertificateThumbprint {
 }
 
 // @public
-export type Cluster = Resource & {
+export interface Cluster extends Resource {
     addOnFeatures?: AddOnFeatures[];
+    applicationTypeVersionsCleanupPolicy?: ApplicationTypeVersionsCleanupPolicy;
     readonly availableClusterVersions?: ClusterVersionDetails[];
     azureActiveDirectory?: AzureActiveDirectory;
     certificate?: CertificateDescription;
@@ -353,25 +354,24 @@ export type Cluster = Resource & {
     diagnosticsStorageAccountConfig?: DiagnosticsStorageAccountConfig;
     eventStoreServiceEnabled?: boolean;
     fabricSettings?: SettingsSectionDescription[];
+    infrastructureServiceManager?: boolean;
     managementEndpoint?: string;
     nodeTypes?: NodeTypeDescription[];
+    notifications?: Notification_2[];
     readonly provisioningState?: ProvisioningState;
     reliabilityLevel?: ReliabilityLevel;
     reverseProxyCertificate?: CertificateDescription;
     reverseProxyCertificateCommonNames?: ServerCertificateCommonNames;
+    sfZonalUpgradeMode?: SfZonalUpgradeMode;
     upgradeDescription?: ClusterUpgradePolicy;
     upgradeMode?: UpgradeMode;
-    applicationTypeVersionsCleanupPolicy?: ApplicationTypeVersionsCleanupPolicy;
-    vmImage?: string;
-    sfZonalUpgradeMode?: SfZonalUpgradeMode;
-    vmssZonalUpgradeMode?: VmssZonalUpgradeMode;
-    infrastructureServiceManager?: boolean;
-    upgradeWave?: ClusterUpgradeCadence;
-    upgradePauseStartTimestampUtc?: Date;
     upgradePauseEndTimestampUtc?: Date;
+    upgradePauseStartTimestampUtc?: Date;
+    upgradeWave?: ClusterUpgradeCadence;
+    vmImage?: string;
+    vmssZonalUpgradeMode?: VmssZonalUpgradeMode;
     waveUpgradePaused?: boolean;
-    notifications?: Notification_2[];
-};
+}
 
 // @public
 export interface ClusterCodeVersionsListResult {
@@ -608,14 +608,13 @@ export interface ErrorModelError {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export enum KnownAddOnFeatures {
-    // (undocumented)
     BackupRestoreService = "BackupRestoreService",
-    // (undocumented)
     DnsService = "DnsService",
-    // (undocumented)
     RepairManager = "RepairManager",
-    // (undocumented)
     ResourceMonitorService = "ResourceMonitorService"
 }
 
@@ -633,33 +632,21 @@ export enum KnownArmUpgradeFailureAction {
 
 // @public
 export enum KnownClusterEnvironment {
-    // (undocumented)
     Linux = "Linux",
-    // (undocumented)
     Windows = "Windows"
 }
 
 // @public
 export enum KnownClusterState {
-    // (undocumented)
     AutoScale = "AutoScale",
-    // (undocumented)
     BaselineUpgrade = "BaselineUpgrade",
-    // (undocumented)
     Deploying = "Deploying",
-    // (undocumented)
     EnforcingClusterVersion = "EnforcingClusterVersion",
-    // (undocumented)
     Ready = "Ready",
-    // (undocumented)
     UpdatingInfrastructure = "UpdatingInfrastructure",
-    // (undocumented)
     UpdatingUserCertificate = "UpdatingUserCertificate",
-    // (undocumented)
     UpdatingUserConfiguration = "UpdatingUserConfiguration",
-    // (undocumented)
     UpgradeServiceUnreachable = "UpgradeServiceUnreachable",
-    // (undocumented)
     WaitingForNodes = "WaitingForNodes"
 }
 
@@ -672,19 +659,14 @@ export enum KnownClusterUpgradeCadence {
 
 // @public
 export enum KnownDurabilityLevel {
-    // (undocumented)
     Bronze = "Bronze",
-    // (undocumented)
     Gold = "Gold",
-    // (undocumented)
     Silver = "Silver"
 }
 
 // @public
 export enum KnownEnum14 {
-    // (undocumented)
     Linux = "Linux",
-    // (undocumented)
     Windows = "Windows"
 }
 
@@ -723,27 +705,18 @@ export enum KnownPartitionScheme {
 
 // @public
 export enum KnownProvisioningState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownReliabilityLevel {
-    // (undocumented)
     Bronze = "Bronze",
-    // (undocumented)
     Gold = "Gold",
-    // (undocumented)
     None = "None",
-    // (undocumented)
     Platinum = "Platinum",
-    // (undocumented)
     Silver = "Silver"
 }
 
@@ -796,21 +769,13 @@ export enum KnownSfZonalUpgradeMode {
 
 // @public
 export enum KnownStoreName {
-    // (undocumented)
     AddressBook = "AddressBook",
-    // (undocumented)
     AuthRoot = "AuthRoot",
-    // (undocumented)
     CertificateAuthority = "CertificateAuthority",
-    // (undocumented)
     Disallowed = "Disallowed",
-    // (undocumented)
     My = "My",
-    // (undocumented)
     Root = "Root",
-    // (undocumented)
     TrustedPeople = "TrustedPeople",
-    // (undocumented)
     TrustedPublisher = "TrustedPublisher"
 }
 
@@ -843,11 +808,11 @@ export type ManagedIdentityType = "SystemAssigned" | "UserAssigned" | "SystemAss
 export type MoveCost = string;
 
 // @public
-export type NamedPartitionSchemeDescription = PartitionSchemeDescription & {
-    partitionScheme: "Named";
+export interface NamedPartitionSchemeDescription extends PartitionSchemeDescription {
     count: number;
     names: string[];
-};
+    partitionScheme: "Named";
+}
 
 // @public
 export interface NodeTypeDescription {
@@ -1044,26 +1009,26 @@ export type ServiceLoadMetricWeight = string;
 
 // @public
 export interface ServicePlacementPolicyDescription {
-    type: "undefined";
+    type: "ServicePlacementPolicyDescription";
 }
 
 // @public
 export type ServicePlacementPolicyType = string;
 
 // @public
-export type ServiceResource = ProxyResource & {
-    placementConstraints?: string;
+export interface ServiceResource extends ProxyResource {
     correlationScheme?: ServiceCorrelationDescription[];
-    serviceLoadMetrics?: ServiceLoadMetricDescription[];
-    servicePlacementPolicies?: ServicePlacementPolicyDescription[];
     defaultMoveCost?: MoveCost;
-    readonly provisioningState?: string;
-    serviceKind?: ServiceKind;
-    serviceTypeName?: string;
     partitionDescription?: PartitionSchemeDescriptionUnion;
-    servicePackageActivationMode?: ArmServicePackageActivationMode;
+    placementConstraints?: string;
+    readonly provisioningState?: string;
     serviceDnsName?: string;
-};
+    serviceKind?: ServiceKind;
+    serviceLoadMetrics?: ServiceLoadMetricDescription[];
+    servicePackageActivationMode?: ArmServicePackageActivationMode;
+    servicePlacementPolicies?: ServicePlacementPolicyDescription[];
+    serviceTypeName?: string;
+}
 
 // @public
 export interface ServiceResourceList {
@@ -1073,14 +1038,14 @@ export interface ServiceResourceList {
 }
 
 // @public
-export type ServiceResourceProperties = ServiceResourcePropertiesBase & {
-    readonly provisioningState?: string;
-    serviceKind: ServiceKind;
-    serviceTypeName?: string;
+export interface ServiceResourceProperties extends ServiceResourcePropertiesBase {
     partitionDescription?: PartitionSchemeDescriptionUnion;
-    servicePackageActivationMode?: ArmServicePackageActivationMode;
+    readonly provisioningState?: string;
     serviceDnsName?: string;
-};
+    serviceKind: ServiceKind;
+    servicePackageActivationMode?: ArmServicePackageActivationMode;
+    serviceTypeName?: string;
+}
 
 // @public
 export interface ServiceResourcePropertiesBase {
@@ -1095,19 +1060,19 @@ export interface ServiceResourcePropertiesBase {
 export type ServiceResourcePropertiesUnion = ServiceResourceProperties | StatefulServiceProperties | StatelessServiceProperties;
 
 // @public
-export type ServiceResourceUpdate = ProxyResource & {
-    placementConstraints?: string;
+export interface ServiceResourceUpdate extends ProxyResource {
     correlationScheme?: ServiceCorrelationDescription[];
+    defaultMoveCost?: MoveCost;
+    placementConstraints?: string;
+    serviceKind?: ServiceKind;
     serviceLoadMetrics?: ServiceLoadMetricDescription[];
     servicePlacementPolicies?: ServicePlacementPolicyDescription[];
-    defaultMoveCost?: MoveCost;
-    serviceKind?: ServiceKind;
-};
+}
 
 // @public
-export type ServiceResourceUpdateProperties = ServiceResourcePropertiesBase & {
+export interface ServiceResourceUpdateProperties extends ServiceResourcePropertiesBase {
     serviceKind: ServiceKind;
-};
+}
 
 // @public (undocumented)
 export type ServiceResourceUpdatePropertiesUnion = ServiceResourceUpdateProperties | StatefulServiceUpdateProperties | StatelessServiceUpdateProperties;
@@ -1188,40 +1153,44 @@ export interface SettingsSectionDescription {
 export type SfZonalUpgradeMode = string;
 
 // @public
-export type SingletonPartitionSchemeDescription = PartitionSchemeDescription & {
+export interface SingletonPartitionSchemeDescription extends PartitionSchemeDescription {
     partitionScheme: "Singleton";
-};
+}
 
 // @public
-export type StatefulServiceProperties = ServiceResourceProperties & {
+export interface StatefulServiceProperties extends ServiceResourceProperties {
     hasPersistedState?: boolean;
-    targetReplicaSetSize?: number;
     minReplicaSetSize?: number;
-    replicaRestartWaitDuration?: Date;
     quorumLossWaitDuration?: Date;
+    replicaRestartWaitDuration?: Date;
+    serviceKind: "Stateful";
     standByReplicaKeepDuration?: Date;
-};
-
-// @public
-export type StatefulServiceUpdateProperties = ServiceResourceUpdateProperties & {
     targetReplicaSetSize?: number;
+}
+
+// @public
+export interface StatefulServiceUpdateProperties extends ServiceResourceUpdateProperties {
     minReplicaSetSize?: number;
-    replicaRestartWaitDuration?: Date;
     quorumLossWaitDuration?: Date;
+    replicaRestartWaitDuration?: Date;
+    serviceKind: "Stateful";
     standByReplicaKeepDuration?: Date;
-};
+    targetReplicaSetSize?: number;
+}
 
 // @public
-export type StatelessServiceProperties = ServiceResourceProperties & {
-    instanceCount?: number;
+export interface StatelessServiceProperties extends ServiceResourceProperties {
     instanceCloseDelayDuration?: string;
-};
+    instanceCount?: number;
+    serviceKind: "Stateless";
+}
 
 // @public
-export type StatelessServiceUpdateProperties = ServiceResourceUpdateProperties & {
-    instanceCount?: number;
+export interface StatelessServiceUpdateProperties extends ServiceResourceUpdateProperties {
     instanceCloseDelayDuration?: string;
-};
+    instanceCount?: number;
+    serviceKind: "Stateless";
+}
 
 // @public
 export type StoreName = string;
@@ -1237,12 +1206,12 @@ export interface SystemData {
 }
 
 // @public
-export type UniformInt64RangePartitionSchemeDescription = PartitionSchemeDescription & {
-    partitionScheme: "UniformInt64Range";
+export interface UniformInt64RangePartitionSchemeDescription extends PartitionSchemeDescription {
     count: number;
-    lowKey: string;
     highKey: string;
-};
+    lowKey: string;
+    partitionScheme: "UniformInt64Range";
+}
 
 // @public
 export interface UpgradableVersionPathResult {

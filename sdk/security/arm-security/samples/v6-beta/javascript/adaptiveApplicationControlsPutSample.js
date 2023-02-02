@@ -26,7 +26,7 @@ async function updateAnApplicationControlMachineGroupByAddingANewApplication() {
     pathRecommendations: [
       {
         type: "PublisherSignature",
-        path: "[Exe] O=MICROSOFT CORPORATION, L=REDMOND, S=WASHINGTON, C=US**\0.0.0.0",
+        path: "[Exe] O=MICROSOFT CORPORATION, L=REDMOND, S=WASHINGTON, C=US\\*\\*\\0.0.0.0",
         action: "Recommended",
         common: true,
         configurationStatus: "Configured",
@@ -42,7 +42,7 @@ async function updateAnApplicationControlMachineGroupByAddingANewApplication() {
       },
       {
         type: "ProductSignature",
-        path: "%OSDRIVE%WINDOWSAZURESECAGENTWASECAGENTPROV.EXE",
+        path: "%OSDRIVE%\\WINDOWSAZURE\\SECAGENT\\WASECAGENTPROV.EXE",
         action: "Recommended",
         common: true,
         configurationStatus: "Configured",
@@ -57,13 +57,13 @@ async function updateAnApplicationControlMachineGroupByAddingANewApplication() {
         usernames: [
           {
             recommendationAction: "Recommended",
-            username: "NT AUTHORITYSYSTEM",
+            username: "NT AUTHORITY\\SYSTEM",
           },
         ],
       },
       {
         type: "PublisherSignature",
-        path: "%OSDRIVE%WINDOWSAZUREPACKAGES_201973_7415COLLECTGUESTLOGS.EXE",
+        path: "%OSDRIVE%\\WINDOWSAZURE\\PACKAGES_201973_7415\\COLLECTGUESTLOGS.EXE",
         action: "Recommended",
         common: true,
         configurationStatus: "Configured",
@@ -78,13 +78,13 @@ async function updateAnApplicationControlMachineGroupByAddingANewApplication() {
         usernames: [
           {
             recommendationAction: "Recommended",
-            username: "NT AUTHORITYSYSTEM",
+            username: "NT AUTHORITY\\SYSTEM",
           },
         ],
       },
       {
         type: "File",
-        path: "C:directory\file.exe",
+        path: "C:\\directory\\file.exe",
         action: "Add",
         common: true,
       },

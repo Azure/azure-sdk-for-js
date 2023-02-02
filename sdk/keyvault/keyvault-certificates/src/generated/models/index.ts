@@ -143,7 +143,7 @@ export interface CertificatePolicy {
 
 /** Properties of the key pair backing a certificate. */
 export interface KeyProperties {
-  /** Indicates if the private key can be exported. */
+  /** Indicates if the private key can be exported. Release policy must be provided when creating the first version of an exportable key. */
   exportable?: boolean;
   /** The type of key pair to be used for the certificate. */
   keyType?: JsonWebKeyType;
@@ -169,7 +169,7 @@ export interface X509CertificateProperties {
   ekus?: string[];
   /** The subject alternative names. */
   subjectAlternativeNames?: SubjectAlternativeNames;
-  /** List of key usages. */
+  /** Defines how the certificate's key may be used. */
   keyUsage?: KeyUsageType[];
   /** The duration that the certificate is valid in months. */
   validityInMonths?: number;
@@ -504,20 +504,20 @@ export type DeletedCertificateBundle = CertificateBundle & {
   readonly deletedDate?: Date;
 };
 
-/** Known values of {@link ApiVersion73} that the service accepts. */
-export enum KnownApiVersion73 {
-  /** Api Version '7.3' */
-  Seven3 = "7.3"
+/** Known values of {@link ApiVersion74Preview1} that the service accepts. */
+export enum KnownApiVersion74Preview1 {
+  /** Api Version '7.4-preview.1' */
+  Seven4Preview1 = "7.4-preview.1"
 }
 
 /**
- * Defines values for ApiVersion73. \
- * {@link KnownApiVersion73} can be used interchangeably with ApiVersion73,
+ * Defines values for ApiVersion74Preview1. \
+ * {@link KnownApiVersion74Preview1} can be used interchangeably with ApiVersion74Preview1,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **7.3**: Api Version '7.3'
+ * **7.4-preview.1**: Api Version '7.4-preview.1'
  */
-export type ApiVersion73 = string;
+export type ApiVersion74Preview1 = string;
 
 /** Known values of {@link DeletionRecoveryLevel} that the service accepts. */
 export enum KnownDeletionRecoveryLevel {
@@ -559,7 +559,9 @@ export enum KnownJsonWebKeyType {
   RSA = "RSA",
   RSAHSM = "RSA-HSM",
   Oct = "oct",
-  OctHSM = "oct-HSM"
+  OctHSM = "oct-HSM",
+  OKP = "OKP",
+  OKPHSM = "OKP-HSM"
 }
 
 /**
@@ -572,7 +574,9 @@ export enum KnownJsonWebKeyType {
  * **RSA** \
  * **RSA-HSM** \
  * **oct** \
- * **oct-HSM**
+ * **oct-HSM** \
+ * **OKP** \
+ * **OKP-HSM**
  */
 export type JsonWebKeyType = string;
 
@@ -581,7 +585,8 @@ export enum KnownJsonWebKeyCurveName {
   P256 = "P-256",
   P384 = "P-384",
   P521 = "P-521",
-  P256K = "P-256K"
+  P256K = "P-256K",
+  Ed25519 = "Ed25519"
 }
 
 /**
@@ -592,7 +597,8 @@ export enum KnownJsonWebKeyCurveName {
  * **P-256** \
  * **P-384** \
  * **P-521** \
- * **P-256K**
+ * **P-256K** \
+ * **Ed25519**
  */
 export type JsonWebKeyCurveName = string;
 

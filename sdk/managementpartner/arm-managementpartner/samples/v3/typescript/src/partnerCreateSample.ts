@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { ACEProvisioningManagementPartnerAPI } from "@azure/arm-managementpartner";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create a management partner for the objectId and tenantId.
@@ -25,4 +28,8 @@ async function putPartnerDetails() {
   console.log(result);
 }
 
-putPartnerDetails().catch(console.error);
+async function main() {
+  putPartnerDetails();
+}
+
+main().catch(console.error);

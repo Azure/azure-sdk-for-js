@@ -1194,3 +1194,61 @@ export const application: OperationParameter = {
   parameterPath: "application",
   mapper: ApplicationMapper
 };
+
+export const resourceGroupName1: OperationURLParameter = {
+  parameterPath: "resourceGroupName",
+  mapper: {
+    constraints: {
+      MaxLength: 90,
+      MinLength: 1
+    },
+    serializedName: "resourceGroupName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const serviceName: OperationURLParameter = {
+  parameterPath: "serviceName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$"),
+      MaxLength: 50,
+      MinLength: 1
+    },
+    serializedName: "serviceName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const apiVersion20: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2022-11-20-preview",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const apiCollectionId: OperationURLParameter = {
+  parameterPath: "apiCollectionId",
+  mapper: {
+    constraints: {
+      MaxLength: 256,
+      MinLength: 1
+    },
+    serializedName: "apiCollectionId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};

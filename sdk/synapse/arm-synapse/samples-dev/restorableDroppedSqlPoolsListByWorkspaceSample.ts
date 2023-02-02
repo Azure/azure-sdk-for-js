@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { SynapseManagementClient } from "@azure/arm-synapse";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets a list of deleted Sql pools that can be restored
@@ -18,8 +21,12 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/RestorableDroppedSqlpoolList.json
  */
 async function getListOfRestorableDroppedSqlPools() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "restorabledroppeddatabasetest-1349";
+  const subscriptionId =
+    process.env["SYNAPSE_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName =
+    process.env["SYNAPSE_RESOURCE_GROUP"] ||
+    "restorabledroppeddatabasetest-1349";
   const workspaceName = "restorabledroppeddatabasetest-1840";
   const credential = new DefaultAzureCredential();
   const client = new SynapseManagementClient(credential, subscriptionId);
@@ -33,4 +40,8 @@ async function getListOfRestorableDroppedSqlPools() {
   console.log(resArray);
 }
 
-getListOfRestorableDroppedSqlPools().catch(console.error);
+async function main() {
+  getListOfRestorableDroppedSqlPools();
+}
+
+main().catch(console.error);

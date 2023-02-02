@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { SynapseManagementClient } = require("@azure/arm-synapse");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Creates or updates a Sql pool's maintenance windows settings.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/CreateOrUpdateMaintenanceWindows.json
  */
 async function setsMaintenanceWindowSettingsForASelectedSqlAnalyticsPool() {
-  const subscriptionId = "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = "samplerg";
+  const subscriptionId =
+    process.env["SYNAPSE_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName = process.env["SYNAPSE_RESOURCE_GROUP"] || "samplerg";
   const workspaceName = "testworkspace";
   const sqlPoolName = "testsp";
   const maintenanceWindowName = "current";
@@ -38,4 +40,8 @@ async function setsMaintenanceWindowSettingsForASelectedSqlAnalyticsPool() {
   console.log(result);
 }
 
-setsMaintenanceWindowSettingsForASelectedSqlAnalyticsPool().catch(console.error);
+async function main() {
+  setsMaintenanceWindowSettingsForASelectedSqlAnalyticsPool();
+}
+
+main().catch(console.error);

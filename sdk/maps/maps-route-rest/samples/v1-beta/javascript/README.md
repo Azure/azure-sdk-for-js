@@ -1,13 +1,3 @@
----
-page_type: sample
-languages:
-  - javascript
-products:
-  - azure
-  - azure-maps
-urlFragment: maps-route-javascript-beta
----
-
 # Azure Maps Route client library samples for JavaScript (Beta)
 
 These sample programs show how to use the JavaScript client libraries for Azure Maps Route in some common scenarios.
@@ -65,9 +55,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [matrix]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-route-rest/samples/v1-beta/javascript/matrix.js
 [range]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-route-rest/samples/v1-beta/javascript/range.js
 [resumelro]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-route-rest/samples/v1-beta/javascript/resumeLro.js
-
-<!-- [apiref]: https://docs.microsoft.com/javascript/api/@azure/maps-route -->
-
+[apiref]: https://docs.microsoft.com/javascript/api/@azure-rest/maps-route
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azuremapsresource]: https://docs.microsoft.com/azure/azure-maps/how-to-create-template
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-route-rest/README.md
