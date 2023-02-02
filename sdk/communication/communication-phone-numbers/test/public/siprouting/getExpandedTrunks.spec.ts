@@ -17,9 +17,6 @@ import {
 } from "./utils/recordedClient";
 import { matrix } from "@azure/test-utils";
 
-process.env['COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING'] = 'endpoint=https://jb-sdk-e2e-test.communication.azure.com/;accesskey=x/TC+y7u3A/JtLJeeilJFDeEiRpzlihc3m8kbSgfk0EFFG7diBKf6b9F/IaFW6135S1lLMn2UdD9XvBIisnqUg==';
-process.env['TEST_MODE'] = "live";
-
 matrix([[true, false]], async function (useAad) {
   describe(`SipRoutingClient - get trunks with expanded properties${useAad ? " [AAD]" : ""}`, function () {
     let client: SipRoutingClient;
