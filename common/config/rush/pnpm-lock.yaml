@@ -13751,7 +13751,7 @@ packages:
     dev: false
 
   file:projects/arm-powerbidedicated.tgz:
-    resolution: {integrity: sha512-zlXnSG4X7VgboTiFzjpikSBx9rFGztmLiBErsYpz1IYAHIiVOzH5hIXWu/TvTm8RD6UlphmP8gc56zY23AOKUw==, tarball: file:projects/arm-powerbidedicated.tgz}
+    resolution: {integrity: sha512-/j93ZyXKOxm0b2OoMINrFVfigpUZx4g3HUYXPwFz2fwZhDqe2h72psGbuZnXrMGH5BwF/g/cCWe1s6/PA34gSw==, tarball: file:projects/arm-powerbidedicated.tgz}
     name: '@rush-temp/arm-powerbidedicated'
     version: 0.0.0
     dependencies:
@@ -13762,18 +13762,19 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
+      '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_p2gydaekoyjvl5wd3ixslt7iq4
       tslib: 2.5.0
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
@@ -13913,7 +13914,7 @@ packages:
     dev: false
 
   file:projects/arm-recoveryservices.tgz:
-    resolution: {integrity: sha512-xWGySKqk9c6Nxc/AaNJOLb+Uvo7LwHHTez+oy1UcHvrHpxONvFjw3dR+gZS2gpFDCVSLDA+NJzB2RSjE+6IdtA==, tarball: file:projects/arm-recoveryservices.tgz}
+    resolution: {integrity: sha512-W0TK5OIvV41rLH9AYjd/k/xI6PrlofmyoXlg5pW1XU/V2EwCmMmv9PsGuoRlD+vg152FsG/yx9zctI1of+1MwA==, tarball: file:projects/arm-recoveryservices.tgz}
     name: '@rush-temp/arm-recoveryservices'
     version: 0.0.0
     dependencies:
@@ -13924,18 +13925,19 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
+      '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_p2gydaekoyjvl5wd3ixslt7iq4
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
@@ -13968,7 +13970,7 @@ packages:
     dev: false
 
   file:projects/arm-rediscache.tgz:
-    resolution: {integrity: sha512-MYagWt7Br2nyBPNurHcSRKCA6L6aiJZV72WUgLxCHhYYXA1SFuOPOR7gtkNzLm7FtgOnwyI4tIYjb3aoZsME0w==, tarball: file:projects/arm-rediscache.tgz}
+    resolution: {integrity: sha512-5nTm8W6Tv9g+j9FwZTPnN06wG97J++/uJ9u2XgaCCjeKOjKVb7tYUnMVX43TaecYB81wttYIxN/N+pLgc2cgzw==, tarball: file:projects/arm-rediscache.tgz}
     name: '@rush-temp/arm-rediscache'
     version: 0.0.0
     dependencies:
@@ -13983,13 +13985,14 @@ packages:
       '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_p2gydaekoyjvl5wd3ixslt7iq4
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - supports-color
@@ -14023,7 +14026,7 @@ packages:
     dev: false
 
   file:projects/arm-relay.tgz:
-    resolution: {integrity: sha512-UgmZayIbmWy43qahnu5MZ6bXJesxI1+F/mZAGRplyBomp/WEAJiCJ9ITD2/iDeJZZ3hSz96XlBV5aj3RpwyzGA==, tarball: file:projects/arm-relay.tgz}
+    resolution: {integrity: sha512-JXpEVfx19tZ+RDtbiBzNyB3uPy2sGJ8NHvIWg6oz0HjMWkb4xG2dTFIEufW6I/W0Zy4XmZp2sevulBhH9tmmlg==, tarball: file:projects/arm-relay.tgz}
     name: '@rush-temp/arm-relay'
     version: 0.0.0
     dependencies:
@@ -14034,18 +14037,19 @@ packages:
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
+      '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_p2gydaekoyjvl5wd3ixslt7iq4
       tslib: 2.5.0
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
