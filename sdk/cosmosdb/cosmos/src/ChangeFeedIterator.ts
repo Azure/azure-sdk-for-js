@@ -6,6 +6,7 @@ import { ChangeFeedResponse } from "./ChangeFeedResponse";
 import { Resource } from "./client";
 import { ClientContext } from "./ClientContext";
 import { Constants, ResourceType, StatusCodes } from "./common";
+import { PartitionKey } from "./documents";
 import { FeedOptions } from "./request";
 import { Response } from "./request";
 
@@ -28,7 +29,7 @@ export class ChangeFeedIterator<T> {
     private clientContext: ClientContext,
     private resourceId: string,
     private resourceLink: string,
-    private partitionKey: string | number | boolean,
+    private partitionKey: PartitionKey,
     private changeFeedOptions: ChangeFeedOptions
   ) {
     // partition key XOR partition key range id

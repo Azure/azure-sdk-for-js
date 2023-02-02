@@ -101,7 +101,7 @@ The following sections provide several code snippets covering some of the most c
 - [Query documents](#query-the-database)
 - [Read an item](#read-an-item)
 - [Delete an item](#delete-an-data)
-
+- [CRUD on Container with hierarchical partition key](#container-hierarchical-partition-key)
 ### Create a database
 
 After authenticating your [CosmosClient](https://docs.microsoft.com/javascript/api/@azure/cosmos/cosmosclient?view=azure-node-latest), you can work with any resource in the account. The code snippet below creates a SQL API database.
@@ -144,7 +144,46 @@ To read a single item from a container, use [Item.read](https://docs.microsoft.c
 ```js
 await container.item("1").read();
 ```
-
+### CRUD on Container with hierarchical partition key
+```js
+const containerDefinition = {
+  id: "Test Database",
+  partitionKey: {
+    paths: ["/name", "/address/zip"],
+    version: PartitionKeyDefinitionVersion.V2,
+    kind: PartitionKeyKind.MultiHash,
+  },
+}
+const { container } = await database.containers.createIfNotExists(containerDefinition);
+console.log(container.id);
+```
+#### Insert an item with hierarchical partition key
+```js
+const item = {
+  id: 1,
+  name: 'foo',
+  address: {
+    zip: 100
+  },
+  active: true
+}
+await container.items.create(item);
+```
+#### Read an item with hierarchical partition key
+```js
+To read a single item from a container with hierarchical partition key defines as `paths: ["/name", "/address/zip"],`
+await container.item("1", ["foo", 100]).read();
+```
+#### Query an item with hierarchical partition key
+```js
+const { resources } = await container.items
+  .query("SELECT * from c WHERE c.active = true", {
+          partitionKey: ["foo", 100],
+        })
+  .fetchAll();
+for (const item of resources) {
+  console.log(`${item.name}, ${item.address.zip} `);
+}
 ### Delete an item
 
 To delete items from a container, use [Item.delete](https://docs.microsoft.com/javascript/api/@azure/cosmos/item?view=azure-node-latest#delete-requestoptions-).
