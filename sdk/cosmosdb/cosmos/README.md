@@ -149,7 +149,7 @@ await container.item("1").read();
 const containerDefinition = {
   id: "Test Database",
   partitionKey: {
-    paths: ["/foo", "/key"],
+    paths: ["/name", "/address/zip"],
     version: PartitionKeyDefinitionVersion.V2,
     kind: PartitionKeyKind.MultiHash,
   },
