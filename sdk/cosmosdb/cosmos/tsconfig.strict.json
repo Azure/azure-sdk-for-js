@@ -95,6 +95,7 @@
     "src/utils/batch.ts",
     "src/utils/headers.ts",
     "src/utils/offers.ts",
+    "src/utils/typeChecks.ts",
     "src/auth.ts",
     "src/ChangeFeedIterator.ts",
     "src/ChangeFeedResponse.ts",
