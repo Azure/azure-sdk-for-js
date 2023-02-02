@@ -3907,7 +3907,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20230201
+      typescript: 5.0.0-dev.20230202
     dev: false
 
   /downlevel-dts/0.7.0:
@@ -8722,8 +8722,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20230201:
-    resolution: {integrity: sha512-pm0yhjZLWOXF1eWp07qymk04I6IM8CUFAKgwFpilOqrD0y3ZDpi997Ah7I4vrRoH3YQzT1fCyuUUYOBZwZ0C1Q==}
+  /typescript/5.0.0-dev.20230202:
+    resolution: {integrity: sha512-uGAdYMTTn/t+7Gi8qRR5lMGQxa0bKByvbiEc5Dr4d/y4rSqKxO26bFu4SV1fUpzkZ91+O8Cnryj3+VOiR+Yuzw==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -14998,29 +14998,30 @@ packages:
     dev: false
 
   file:projects/arm-support.tgz:
-    resolution: {integrity: sha512-gHDXr7CuCFM2PL/X6vzFaNfMDFgPUiYonBTBHCWf6E5oUldEvER3XHN65rI6KWudGFW+iF6VhjsjbEUcNx6O8Q==, tarball: file:projects/arm-support.tgz}
+    resolution: {integrity: sha512-HBv0rtKQ5EoOa1AHfj2Rb0K3LV/OfctVyPoJKHlaVi+ne5mDmJs+0AjvKR8Qqfw0sKJPg9+uqx8ePVeLqfy8eg==, tarball: file:projects/arm-support.tgz}
     name: '@rush-temp/arm-support'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.2
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
+      '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_p2gydaekoyjvl5wd3ixslt7iq4
       tslib: 2.5.0
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
