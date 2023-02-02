@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Projects } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,12 +17,13 @@ import {
   Project,
   ProjectsListBySubscriptionNextOptionalParams,
   ProjectsListBySubscriptionOptionalParams,
+  ProjectsListBySubscriptionResponse,
   ProjectsListNextOptionalParams,
   ProjectsListOptionalParams,
+  ProjectsListResponse,
   AssessmentOptions,
   ProjectsAssessmentOptionsListOptionalParams,
-  ProjectsListBySubscriptionResponse,
-  ProjectsListResponse,
+  ProjectsAssessmentOptionsListResponse,
   ProjectsGetOptionalParams,
   ProjectsGetResponse,
   ProjectsCreateOptionalParams,
@@ -32,7 +34,6 @@ import {
   ProjectsDeleteResponse,
   ProjectsAssessmentOptionsOptionalParams,
   ProjectsAssessmentOptionsResponse,
-  ProjectsAssessmentOptionsListResponse,
   ProjectsListBySubscriptionNextResponse,
   ProjectsListNextResponse
 } from "../models";
@@ -65,22 +66,34 @@ export class ProjectsImpl implements Projects {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listBySubscriptionPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBySubscriptionPagingPage(options, settings);
       }
     };
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: ProjectsListBySubscriptionOptionalParams
+    options?: ProjectsListBySubscriptionOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Project[]> {
-    let result = await this._listBySubscription(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ProjectsListBySubscriptionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBySubscription(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listBySubscriptionNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -109,19 +122,29 @@ export class ProjectsImpl implements Projects {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(resourceGroupName, options, settings);
       }
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
-    options?: ProjectsListOptionalParams
+    options?: ProjectsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Project[]> {
-    let result = await this._list(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: ProjectsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -129,7 +152,9 @@ export class ProjectsImpl implements Projects {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -165,11 +190,15 @@ export class ProjectsImpl implements Projects {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.assessmentOptionsListPagingPage(
           resourceGroupName,
           projectName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -178,9 +207,11 @@ export class ProjectsImpl implements Projects {
   private async *assessmentOptionsListPagingPage(
     resourceGroupName: string,
     projectName: string,
-    options?: ProjectsAssessmentOptionsListOptionalParams
+    options?: ProjectsAssessmentOptionsListOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<AssessmentOptions[]> {
-    let result = await this._assessmentOptionsList(
+    let result: ProjectsAssessmentOptionsListResponse;
+    result = await this._assessmentOptionsList(
       resourceGroupName,
       projectName,
       options
@@ -569,7 +600,6 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -590,7 +620,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

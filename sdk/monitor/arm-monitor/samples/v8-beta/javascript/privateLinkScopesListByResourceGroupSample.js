@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { MonitorClient } = require("@azure/arm-monitor");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets a list of Azure Monitor PrivateLinkScopes within a resource group.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2021-07-01-preview/examples/PrivateLinkScopesListByResourceGroup.json
  */
 async function privateLinkScopeListByResourceGroup() {
-  const subscriptionId = "86dc51d3-92ed-4d7e-947a-775ea79b4919";
-  const resourceGroupName = "my-resource-group";
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] || "86dc51d3-92ed-4d7e-947a-775ea79b4919";
+  const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "my-resource-group";
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
   const resArray = new Array();
@@ -29,4 +31,8 @@ async function privateLinkScopeListByResourceGroup() {
   console.log(resArray);
 }
 
-privateLinkScopeListByResourceGroup().catch(console.error);
+async function main() {
+  privateLinkScopeListByResourceGroup();
+}
+
+main().catch(console.error);
