@@ -179,7 +179,7 @@ export function createSpanFunction(args: SpanConfig): <T extends OperationOption
 export class DefaultHttpClient implements HttpClient {
     fetch(input: CommonRequestInfo, init?: CommonRequestInit): Promise<CommonResponse>;
     prepareRequest(httpRequest: WebResourceLike): Promise<Partial<RequestInit>>;
-    processRequest(operationResponse: HttpOperationResponse): Promise<void>;
+    processRequest(_operationResponse: HttpOperationResponse): Promise<void>;
     sendRequest(httpRequest: WebResourceLike): Promise<HttpOperationResponse>;
 }
 
