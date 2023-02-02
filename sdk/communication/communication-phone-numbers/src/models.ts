@@ -119,6 +119,10 @@ export interface SipTrunk {
    * Gets or sets SIP signaling port of the trunk.
    */
   sipSignalingPort: number;
+  /**
+   * Gets or sets enabled property of the trunk.
+   */
+  enabled?: boolean;
 }
 
 /**

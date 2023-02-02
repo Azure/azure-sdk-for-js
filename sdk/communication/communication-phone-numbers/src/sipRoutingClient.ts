@@ -254,7 +254,7 @@ export class SipRoutingClient {
    * @param options - The optional parameters.
    */
   public getExpandedTrunks(options: OperationOptions = {}): Promise<SipTrunkExpanded[]> {
-    const expandedOptions = { ...options, expand: "trunkHealth" };
+    const expandedOptions = { ...options, expand: "trunks/health" };
     return tracingClient.withSpan(
       "SipRoutingClient-getExpandedTrunks",
       expandedOptions,
@@ -271,7 +271,7 @@ export class SipRoutingClient {
    * @param options - The options parameters.
    */
   public getExpandedTrunk(fqdn: string, options: OperationOptions = {}): Promise<SipTrunkExpanded> {
-    const expandedOptions = { ...options, expand: "trunkHealth" };
+    const expandedOptions = { ...options, expand: "trunks/health" };
     return tracingClient.withSpan(
       "SipRoutingClient-getExpandedTrunk",
       expandedOptions,

@@ -241,8 +241,9 @@ export interface SipRoutingError {
 
 // @public
 export interface SipTrunk {
+    enabled?: boolean;
     fqdn: string;
-    sipSignalingPort: number;
+    sipSignalingPort?: number;
 }
 
 // @public

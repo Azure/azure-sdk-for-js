@@ -2,51 +2,88 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { createRecordedClient } from "./utils/recordedClient";
 import { Context } from "mocha";
-import { Recorder } from "@azure-tools/test-recorder";
+
 import { SipRoutingClient } from "../../../src";
 
-describe("SipRoutingClient - get expanded trunks", function () {
-  let client: SipRoutingClient;
-  let recorder: Recorder;
+import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
+import { SipTrunk, SipTrunkExpanded } from "../../../src/models";
+import {
+  clearSipConfiguration,
+  createRecordedClient,
+  createRecordedClientWithToken,
+  getUniqueFqdn,
+  resetUniqueFqdns,
+} from "./utils/recordedClient";
+import { matrix } from "@azure/test-utils";
 
-  beforeEach(async function (this: Context) {
-    ({ client, recorder } = await createRecordedClient(this));
-  });
+process.env['COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING'] = 'endpoint=https://jb-sdk-e2e-test.communication.azure.com/;accesskey=x/TC+y7u3A/JtLJeeilJFDeEiRpzlihc3m8kbSgfk0EFFG7diBKf6b9F/IaFW6135S1lLMn2UdD9XvBIisnqUg==';
+process.env['TEST_MODE'] = "live";
 
-  afterEach(async function (this: Context) {
-    if (!this.currentTest?.isPending()) {
-      await recorder.stop();
-    }
-  });
+matrix([[true, false]], async function (useAad) {
+  describe(`SipRoutingClient - get trunks with expanded properties${useAad ? " [AAD]" : ""}`, function () {
+    let client: SipRoutingClient;
+    let recorder: Recorder;
+    let firstFqdn = "";
+    let secondFqdn = "";
+    let thirdFqdn = "";
+    let fourthFqdn = "";
 
-  it("can retrieve trunks", async () => {
-    assert.isArray(await client.getExpandedTrunks());
-  });
+    before(async function (this: Context) {
+      if (!isPlaybackMode()) {
+        await clearSipConfiguration();
+      }
+    });
 
-  it("can retrieve empty trunks", async () => {
-    await client.setTrunks([]);
+    beforeEach(async function (this: Context) {
+      ({ client, recorder } = useAad
+        ? await createRecordedClientWithToken(this)
+        : await createRecordedClient(this));
+      firstFqdn = getUniqueFqdn(recorder);
+      secondFqdn = getUniqueFqdn(recorder);
+      thirdFqdn = getUniqueFqdn(recorder);
+      fourthFqdn = getUniqueFqdn(recorder);
+    });
 
-    const trunks = await client.getExpandedTrunks();
+    afterEach(async function (this: Context) {
+      if (!this.currentTest?.isPending()) {
+        await recorder.stop();
+      }
+      resetUniqueFqdns();
+    });
 
-    assert.isNotNull(trunks);
-    assert.isArray(trunks);
-    assert.isEmpty(trunks);
-  });
+    it("can retrieve a mocked trunk with health status", async () => {
+        const expectedHealth = { tls: {status: "unknown"}, ping: {status: "unknown"}, overall: {status: "unknown"} };
+        await client.setTrunk({ fqdn: fourthFqdn, sipSignalingPort: 4567 } as SipTrunk);
 
-  it("can retrieve not empty trunks", async () => {
-    const expectedTrunks = [
-      { fqdn: "11.fqdn.com", sipSignalingPort: 1239 },
-      { fqdn: "22.fqdn.com", sipSignalingPort: 2348 },
-      { fqdn: "33.fqdn.com", sipSignalingPort: 3457 },
-    ];
-    await client.setTrunks(expectedTrunks);
+        const trunk = await client.getExpandedTrunk(fourthFqdn);
 
-    const trunks = await client.getExpandedTrunks();
+        assert.isNotNull(trunk);
+        assert.isNotNull(trunk.health);
+        assert.deepEqual(trunk.health, expectedHealth);
+    });
 
-    assert.isNotNull(trunks);
-    assert.isArray(trunks);
-    assert.deepEqual(trunks, expectedTrunks);
+    it("can retrieve multiple mocked trunks with health statuses", async () => {
+        const expectedHealth = { tls: {status: "unknown"}, ping: {status: "unknown"}, overall: {status: "unknown"} };
+        const expectedTrunks = [
+          { fqdn: firstFqdn, sipSignalingPort: 1239, enabled: true, health: expectedHealth } as SipTrunkExpanded,
+          { fqdn: secondFqdn, sipSignalingPort: 2348, enabled: true, health: expectedHealth } as SipTrunkExpanded,
+          { fqdn: thirdFqdn, sipSignalingPort: 3457, enabled: true, health: expectedHealth } as SipTrunkExpanded,
+        ];
+    
+        const createdTrunks = [
+          { fqdn: firstFqdn, sipSignalingPort: 1239 },
+          { fqdn: secondFqdn, sipSignalingPort: 2348 },
+          { fqdn: thirdFqdn, sipSignalingPort: 3457 },
+        ];
+    
+        await client.setTrunks(createdTrunks);
+    
+        const trunks = await client.getExpandedTrunks();
+    
+        assert.isNotNull(trunks);
+        assert.isArray(trunks);
+        assert.deepEqual(trunks, expectedTrunks);
+      });
   });
 });
