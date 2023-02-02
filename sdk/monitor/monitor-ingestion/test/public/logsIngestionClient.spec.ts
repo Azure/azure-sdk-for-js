@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AggregateUploadLogsError, LogsIngestionClient } from "../../src";
+import { AggregateUploadLogsError, LogsIngestionClient, UploadLogsError } from "../../src";
 import { Context } from "mocha";
 import { assert } from "chai";
 import { AdditionalPolicyConfig } from "@azure/core-client";
@@ -153,7 +153,37 @@ describe("LogsIngestionClient live tests", function () {
       }
     }
   });
+  it("Calls the error callback function",async function(){
+    const noOfElements = 25000;
+    const logData = getObjects(noOfElements);
+    const errorCallback = async function errorCallback(uploadLogsError : UploadLogsError){
+      assert.exists("On error Callback function is called and executed");
+      if((uploadLogsError.cause as Error).message === "Data collection rule with immutable Id 'immutable-id-123' not found."  ){
+        await client.upload(getDcrId(), "Custom-MyTableRawData", uploadLogsError.failedLogs, {
+          maxConcurrency: 3
+        });      
+      }
+    }
+    try {
+      await client.upload("immutable-id-123", "Custom-MyTableRawData", logData, {
+        maxConcurrency: 3,
+        errorCallback: errorCallback
+      });
+    } catch (e: any) {
+      const result = (e as AggregateUploadLogsError).errors;
+      if (result.length > 0) {
+        result.forEach((err) => {
+          assert.equal(
+            err.cause.message,
+            `Data collection rule with immutable Id 'immutable-id-123' not found.`
+          );
+        });
+      }
+    }
+
+  })
 });
+
 
 export function getObjects(logsCount: number): LogData[] {
   const logs: LogData[] = [];
