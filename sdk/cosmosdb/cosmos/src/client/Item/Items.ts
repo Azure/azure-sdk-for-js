@@ -27,7 +27,7 @@ import {
 } from "../../utils/batch";
 import { CosmosDiagnosticContext } from "../../CosmosDiagnosticsContext";
 import { readAndRecordPartitionKeyDefinition } from "../ClientUtils";
-import { assertNotUndefined } from "../../utils/typeChecks";
+import { assertNotUndefined, isPrimitivePartitionKeyValue } from "../../utils/typeChecks";
 import { hashPartitionKey } from "../../utils/hashing/hash";
 import { PartitionKey, PartitionKeyDefinition } from "../../documents";
 
@@ -35,10 +35,7 @@ import { PartitionKey, PartitionKeyDefinition } from "../../documents";
  * @hidden
  */
 function isChangeFeedOptions(options: unknown): options is ChangeFeedOptions {
-  const optionsType = typeof options;
-  return (
-    options && !(optionsType === "string" || optionsType === "boolean" || optionsType === "number")
-  );
+  return options && !(isPrimitivePartitionKeyValue(options) || Array.isArray(options));
 }
 
 /**
@@ -135,7 +132,7 @@ export class Items {
    * ```
    */
   public readChangeFeed(
-    partitionKey: string | number | boolean,
+    partitionKey: PartitionKey,
     changeFeedOptions?: ChangeFeedOptions
   ): ChangeFeedIterator<any>;
   /**
@@ -149,7 +146,7 @@ export class Items {
    * @deprecated Use `changeFeed` instead.
    */
   public readChangeFeed<T>(
-    partitionKey: string | number | boolean,
+    partitionKey: PartitionKey,
     changeFeedOptions?: ChangeFeedOptions
   ): ChangeFeedIterator<T>;
   /**
@@ -158,7 +155,7 @@ export class Items {
    */
   public readChangeFeed<T>(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
   public readChangeFeed<T>(
-    partitionKeyOrChangeFeedOptions?: string | number | boolean | ChangeFeedOptions,
+    partitionKeyOrChangeFeedOptions?: PartitionKey | ChangeFeedOptions,
     changeFeedOptions?: ChangeFeedOptions
   ): ChangeFeedIterator<T> {
     if (isChangeFeedOptions(partitionKeyOrChangeFeedOptions)) {
@@ -180,7 +177,7 @@ export class Items {
    * ```
    */
   public changeFeed(
-    partitionKey: string | number | boolean,
+    partitionKey: PartitionKey,
     changeFeedOptions?: ChangeFeedOptions
   ): ChangeFeedIterator<any>;
   /**
@@ -191,7 +188,7 @@ export class Items {
    * Create a `ChangeFeedIterator` to iterate over pages of changes
    */
   public changeFeed<T>(
-    partitionKey: string | number | boolean,
+    partitionKey: PartitionKey,
     changeFeedOptions?: ChangeFeedOptions
   ): ChangeFeedIterator<T>;
   /**
@@ -199,10 +196,10 @@ export class Items {
    */
   public changeFeed<T>(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
   public changeFeed<T>(
-    partitionKeyOrChangeFeedOptions?: string | number | boolean | ChangeFeedOptions,
+    partitionKeyOrChangeFeedOptions?: PartitionKey | ChangeFeedOptions,
     changeFeedOptions?: ChangeFeedOptions
   ): ChangeFeedIterator<T> {
-    let partitionKey: string | number | boolean;
+    let partitionKey: PartitionKey;
     if (!changeFeedOptions && isChangeFeedOptions(partitionKeyOrChangeFeedOptions)) {
       partitionKey = undefined;
       changeFeedOptions = partitionKeyOrChangeFeedOptions;

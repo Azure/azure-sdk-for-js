@@ -3,6 +3,12 @@
 
 import { NonePartitionKeyLiteral, NullPartitionKeyLiteral } from "./PartitionKeyInternal";
 
+/**
+ * PartitionKey of a container.
+ * @remarks
+ * - PartitionKeyDefinition is no longer part of PartitionKey. So please use PartitionKeyDefinition
+ * type directly where appropriate.
+ */
 export type PartitionKey = PrimitivePartitionKeyValue | PrimitivePartitionKeyValue[];
 
 /**

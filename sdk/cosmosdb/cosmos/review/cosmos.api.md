@@ -968,9 +968,9 @@ export class Items {
     constructor(container: Container, clientContext: ClientContext);
     batch(operations: OperationInput[], partitionKey?: PartitionKey, options?: RequestOptions): Promise<Response_2<OperationResponse[]>>;
     bulk(operations: OperationInput[], bulkOptions?: BulkOptions, options?: RequestOptions): Promise<BulkOperationResponse>;
-    changeFeed(partitionKey: string | number | boolean, changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
+    changeFeed(partitionKey: PartitionKey, changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
     changeFeed(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
-    changeFeed<T>(partitionKey: string | number | boolean, changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
+    changeFeed<T>(partitionKey: PartitionKey, changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
     changeFeed<T>(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
     // (undocumented)
     readonly container: Container;
@@ -980,11 +980,11 @@ export class Items {
     readAll(options?: FeedOptions): QueryIterator<ItemDefinition>;
     readAll<T extends ItemDefinition>(options?: FeedOptions): QueryIterator<T>;
     // @deprecated
-    readChangeFeed(partitionKey: string | number | boolean, changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
+    readChangeFeed(partitionKey: PartitionKey, changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
     // @deprecated
     readChangeFeed(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
     // @deprecated
-    readChangeFeed<T>(partitionKey: string | number | boolean, changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
+    readChangeFeed<T>(partitionKey: PartitionKey, changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
     // @deprecated
     readChangeFeed<T>(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
     upsert(body: unknown, options?: RequestOptions): Promise<ItemResponse<ItemDefinition>>;
@@ -1048,6 +1048,14 @@ export enum MetadataLookUpType {
 
 // @public
 export type Next<T> = (context: RequestContext) => Promise<Response_2<T>>;
+
+// @public
+export type NonePartitionKeyType = {
+    [K in any]: never;
+};
+
+// @public
+export type NullPartitionKeyType = null;
 
 // @public
 export class Offer {
@@ -1171,20 +1179,32 @@ export interface PartitionedQueryExecutionInfo {
     queryRanges: QueryRange[];
 }
 
-// Warning: (ae-forgotten-export) The symbol "PrimitivePartitionKeyValue" needs to be exported by the entry point index.d.ts
-//
-// @public (undocumented)
+// @public
 export type PartitionKey = PrimitivePartitionKeyValue | PrimitivePartitionKeyValue[];
 
 // @public (undocumented)
 export interface PartitionKeyDefinition {
-    // Warning: (ae-forgotten-export) The symbol "PartitionKeyKind" needs to be exported by the entry point index.d.ts
     kind?: PartitionKeyKind;
     paths: string[];
     // (undocumented)
     systemKey?: boolean;
-    // Warning: (ae-forgotten-export) The symbol "PartitionKeyDefinitionVersion" needs to be exported by the entry point index.d.ts
     version?: PartitionKeyDefinitionVersion;
+}
+
+// @public
+export enum PartitionKeyDefinitionVersion {
+    // (undocumented)
+    V1 = 1,
+    // (undocumented)
+    V2 = 2
+}
+
+// @public
+export enum PartitionKeyKind {
+    // (undocumented)
+    Hash = "Hash",
+    // (undocumented)
+    MultiHash = "MultiHash"
 }
 
 // @public (undocumented)
@@ -1317,6 +1337,9 @@ export enum PluginOn {
     operation = "operation",
     request = "request"
 }
+
+// @public
+export type PrimitivePartitionKeyValue = string | number | boolean | NullPartitionKeyType | NonePartitionKeyType;
 
 // @public (undocumented)
 export interface QueryInfo {
