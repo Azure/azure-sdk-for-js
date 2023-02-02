@@ -866,17 +866,6 @@ packages:
       - supports-color
     dev: false
 
-  /@azure/core-http-compat/2.0.0:
-    resolution: {integrity: sha512-dkfH9MRHixeCtCEkPFEUquziy+VjdPCjmK+Il7nwAoz9ajofx4n4X7AigwSfFBzDCxIs+M3QND0ilQGhtjttOA==}
-    engines: {node: '>=14.0.0'}
-    dependencies:
-      '@azure/abort-controller': 1.1.0
-      '@azure/core-client': 1.7.0
-      '@azure/core-rest-pipeline': 1.10.1
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
   /@azure/core-http/1.2.6:
     resolution: {integrity: sha512-odtH7UMKtekc5YQ86xg9GlVHNXR6pq2JgJ5FBo7/jbOjNGdBqcrIVrZx2bevXVJz/uUTSx6vUf62gzTXTfqYSQ==}
     engines: {node: '>=8.0.0'}
@@ -2602,12 +2591,6 @@ packages:
 
   /@types/unist/2.0.6:
     resolution: {integrity: sha512-PBjIUxZHOuj0R15/xuwJYjFi+KZdNFrehocChv4g5hu6aFroHue8m0lBP0POdK2nKzbw0cgV1mws8+V/JAcEkQ==}
-    dev: false
-
-  /@types/util.promisify/1.0.4:
-    resolution: {integrity: sha512-sqbKBFegMRBvFOTq1+dXmRNfZvGZTNT+PlmIla/RFWLTQuNIKK3F9txxuG35Hk5Yl72pQLKdMBKwieqDcgzJ4Q==}
-    dependencies:
-      '@types/node': 18.11.18
     dev: false
 
   /@types/uuid/8.3.4:
@@ -4859,15 +4842,6 @@ packages:
 
   /fs-constants/1.0.0:
     resolution: {integrity: sha512-y6OAwoSIf7FyjMIv94u+b5rdheZEjzR63GTyZJm5qh4Bi+2YgwLCcI/fPFZkL5PSixOt6ZNKm+w+Hfp/Bciwow==}
-    dev: false
-
-  /fs-extra/10.1.0:
-    resolution: {integrity: sha512-oRXApq54ETRj4eMiFzGnHWGy+zo5raudjuxN0b8H7s/RU2oW0Wvsx9O0ACRN/kRq9E8Vu/ReskGB5o3ji+FzHQ==}
-    engines: {node: '>=12'}
-    dependencies:
-      graceful-fs: 4.2.10
-      jsonfile: 6.1.0
-      universalify: 2.0.0
     dev: false
 
   /fs-extra/11.1.0:
@@ -18466,7 +18440,7 @@ packages:
     dev: false
 
   file:projects/perf-service-bus.tgz:
-    resolution: {integrity: sha512-6KUigPOKJGEM5Bm/pur02Fcdh5HDArdPgFNIfmSu0Xa2pcxdk0ZzrPFsAIc8YSUCbNyTBFZLdUKnkHzzDWiZIw==, tarball: file:projects/perf-service-bus.tgz}
+    resolution: {integrity: sha512-pgKKPyjZPVnnBEeY51OmFrW+Fv0wiWQwwfeZtMnBW95mAZPc+8lTXb62SgIRcdgMKV9TAAAf1oDKK9mY14V4aQ==, tarball: file:projects/perf-service-bus.tgz}
     name: '@rush-temp/perf-service-bus'
     version: 0.0.0
     dependencies:
@@ -18487,20 +18461,14 @@ packages:
     dev: false
 
   file:projects/perf-storage-blob.tgz:
-    resolution: {integrity: sha512-U9pYZ/I6YZV5nLug3hh1sgIliUk6GhFbXSKYgmwgob35UEPe6KhJNq2kyj5d1F4raNXS+xvRER+onJyYTfgUrg==, tarball: file:projects/perf-storage-blob.tgz}
+    resolution: {integrity: sha512-nc7/Gw4vqguJo5TCcwOWICJ+JWkZrZcJfd1R222FrhN1x1INz0KjrFJKdTMjxzKoQY9mBLn5FuMlmHocuu8M9A==, tarball: file:projects/perf-storage-blob.tgz}
     name: '@rush-temp/perf-storage-blob'
     version: 0.0.0
     dependencies:
-      '@azure/core-client': 1.7.0
-      '@azure/core-http': 2.3.1
-      '@azure/core-http-compat': 2.0.0
-      '@azure/core-lro': 2.5.0
-      '@azure/core-rest-pipeline': 1.10.1
-      '@azure/core-xml': 1.3.2
       '@types/node': 14.18.36
       '@types/node-fetch': 2.6.2
       '@types/uuid': 8.3.4
-      dotenv: 8.6.0
+      dotenv: 16.0.3
       eslint: 8.33.0
       node-fetch: 2.6.9
       prettier: 2.8.3
@@ -19665,17 +19633,14 @@ packages:
     dev: false
 
   file:projects/test-utils-perf.tgz:
-    resolution: {integrity: sha512-OH3UyLIw3VvTtVkc69pFAfW1tIEEqqnlj2/d6XJ8crwhUEP+fHpUrqkkBW1pYfghHSqDURWYbK+obTC/HEpItw==, tarball: file:projects/test-utils-perf.tgz}
+    resolution: {integrity: sha512-e0SWxrRiG1Zf9QaOueeMh/BUv53IiuT7oOU8Vf53Cx4LX2TwdgsWKvZH2GMWdSpAtZqKDJ9niw90PqqSdeX5Gw==, tarball: file:projects/test-utils-perf.tgz}
     name: '@rush-temp/test-utils-perf'
     version: 0.0.0
     dependencies:
-      '@types/fs-extra': 9.0.13
       '@types/minimist': 1.2.2
       '@types/node': 14.18.36
       '@types/node-fetch': 2.6.2
-      '@types/util.promisify': 1.0.4
       eslint: 8.33.0
-      fs-extra: 10.1.0
       karma: 6.4.1
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
