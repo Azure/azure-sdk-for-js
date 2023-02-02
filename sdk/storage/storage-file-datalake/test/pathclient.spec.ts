@@ -765,7 +765,7 @@ describe("DataLakePathClient", () => {
                     /* {
                       name: "HTTP GET",
                       children: [],
-                    },*/
+                    },
                   ],
                 },*/
               ],
