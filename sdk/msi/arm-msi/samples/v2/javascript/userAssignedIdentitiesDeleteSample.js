@@ -8,11 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { ManagedServiceIdentityClient } from "@azure/arm-msi";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+const { ManagedServiceIdentityClient } = require("@azure/arm-msi");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Deletes the identity.
@@ -26,10 +24,7 @@ async function identityDelete() {
   const resourceName = "resourceName";
   const credential = new DefaultAzureCredential();
   const client = new ManagedServiceIdentityClient(credential, subscriptionId);
-  const result = await client.userAssignedIdentities.delete(
-    resourceGroupName,
-    resourceName
-  );
+  const result = await client.userAssignedIdentities.delete(resourceGroupName, resourceName);
   console.log(result);
 }
 
