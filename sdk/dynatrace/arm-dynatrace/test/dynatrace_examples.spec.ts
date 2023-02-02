@@ -53,33 +53,10 @@ describe("Dynatrace test", () => {
     client = new DynatraceObservability(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "eastus";
     resourceGroup = "myjstest";
-    monitorName = "myMonitormtest";
+    monitorName = "myMonitormtest1";
     resource = {
-      dynatraceEnvironmentProperties: {
-        accountInfo: {},
-        environmentInfo: {},
-        singleSignOnProperties: {}
-      },
-      identity: { type: "SystemAssigned" },
-      liftrResourceCategory: "Unknown",
-      location: "West US 2",
-      marketplaceSubscriptionStatus: "Active",
-      monitoringStatus: "Enabled",
-      planData: {
-        billingCycle: "Monthly",
-        effectiveDate: new Date("2019-08-30T15:14:33+02:00"),
-        planDetails: "dynatraceapitestplan",
-        usageType: "Committed"
-      },
-      provisioningState: "Accepted",
-      tags: { environment: "Dev" },
-      userInfo: {
-        country: "westus2",
-        emailAddress: "alice@microsoft.com",
-        firstName: "Alice",
-        lastName: "Bobab",
-        phoneNumber: "123456"
-      }
+      dynatraceEnvironmentProperties: {},
+      location
     }
   });
 
@@ -109,7 +86,7 @@ describe("Dynatrace test", () => {
     for await (let item of client.monitors.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
-    assert.equal(resArray.length, 2);
+    assert.equal(resArray.length, 1);
   });
 
   it("monitor delete test", async function () {
@@ -118,6 +95,6 @@ describe("Dynatrace test", () => {
     for await (let item of client.monitors.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
-    assert.equal(resArray.length, 1);
+    assert.equal(resArray.length, 0);
   });
 });
