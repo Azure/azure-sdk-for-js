@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { AzureOrbital } from "@azure/arm-orbital";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets the specified  available ground station
@@ -18,7 +21,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/orbital/resource-manager/Microsoft.Orbital/stable/2022-03-01/examples/AvailableGroundStationGet.json
  */
 async function getGroundStation() {
-  const subscriptionId = "subid";
+  const subscriptionId = process.env["ORBITAL_SUBSCRIPTION_ID"] || "subid";
   const groundStationName = "westus_gs1";
   const credential = new DefaultAzureCredential();
   const client = new AzureOrbital(credential, subscriptionId);
@@ -26,4 +29,8 @@ async function getGroundStation() {
   console.log(result);
 }
 
-getGroundStation().catch(console.error);
+async function main() {
+  getGroundStation();
+}
+
+main().catch(console.error);

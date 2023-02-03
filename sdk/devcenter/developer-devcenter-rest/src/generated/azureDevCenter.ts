@@ -7,21 +7,16 @@ import { AzureDevCenterClient } from "./clientDefinitions";
 
 /**
  * Initialize a new instance of the class AzureDevCenterClient class.
- * @param tenantId type: string The tenant to operate on.
- * @param devCenter type: string The DevCenter to operate on.
- * @param devCenterDnsSuffix type: string The DNS suffix used as the base for all devcenter requests.
+ * @param endpoint type: string The DevCenter-specific URI to operate on.
  * @param credentials type: TokenCredential
  */
 export default function createClient(
-  tenantId: string,
-  devCenter: string,
-  devCenterDnsSuffix: string,
+  endpoint: string,
   credentials: TokenCredential,
   options: ClientOptions = {}
 ): AzureDevCenterClient {
-  const baseUrl =
-    options.baseUrl ?? `https://${tenantId}-${devCenter}.${devCenterDnsSuffix}`;
-  options.apiVersion = options.apiVersion ?? "2022-03-01-preview";
+  const baseUrl = options.baseUrl ?? `${endpoint}`;
+  options.apiVersion = options.apiVersion ?? "2022-11-11-preview";
   options = {
     ...options,
     credentials: {
@@ -29,7 +24,7 @@ export default function createClient(
     }
   };
 
-  const userAgentInfo = `azsdk-js-developer-devcenter-rest/1.0.0-beta.1`;
+  const userAgentInfo = `azsdk-js-developer-devcenter-rest/1.0.0-beta.3`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`

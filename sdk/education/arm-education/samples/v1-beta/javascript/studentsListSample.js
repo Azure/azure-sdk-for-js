@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { EducationManagementClient } = require("@azure/arm-education");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Get a list of details about students that are associated with the specified lab.
@@ -34,4 +35,8 @@ async function studentList() {
   console.log(resArray);
 }
 
-studentList().catch(console.error);
+async function main() {
+  studentList();
+}
+
+main().catch(console.error);

@@ -7,12 +7,15 @@ import * as zlib from "zlib";
 import {
   base64encode,
   bodyToString,
-  genearteRandomUint8Array,
+  configureBlobStorageClient,
+  generateRandomUint8Array,
   getBSU,
   getConnectionStringFromEnvironment,
   getStorageAccessTokenWithDefaultCredential,
   getTokenBSUWithDefaultCredential,
+  getUniqueName,
   recorderEnvSetup,
+  uriSanitizers,
 } from "../utils";
 import {
   BlockBlobClient,
@@ -26,7 +29,7 @@ import {
 } from "../../src";
 import { TokenCredential } from "@azure/core-auth";
 import { assertClientUsesTokenCredential } from "../utils/assert";
-import { record, Recorder } from "@azure-tools/test-recorder";
+import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { streamToBuffer3 } from "../../src/utils/utils.node";
 import * as crypto from "crypto";
 import { BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES } from "../../src/utils/constants";
@@ -42,25 +45,26 @@ describe("BlockBlobClient Node.js only", () => {
 
   let blobServiceClient: BlobServiceClient;
   beforeEach(async function (this: Context) {
-    recorder = record(this, recorderEnvSetup);
-    blobServiceClient = getBSU();
-    containerName = recorder.getUniqueName("container");
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderEnvSetup);
+    blobServiceClient = getBSU(recorder);
+    containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
-    blobName = recorder.getUniqueName("blob");
+    blobName = recorder.variable("blob", getUniqueName("blob"));
     blobClient = containerClient.getBlobClient(blobName);
     blockBlobClient = blobClient.getBlockBlobClient();
   });
 
   afterEach(async function (this: Context) {
-    if (!this.currentTest?.isPending()) {
+    if (containerClient) {
       await containerClient.delete();
-      await recorder.stop();
     }
+    await recorder.stop();
   });
 
-  it("upload with Readable stream body and default parameters", async () => {
-    const body: string = recorder.getUniqueName("randomstring");
+  it("upload with Readable stream body and default parameters", async function () {
+    const body: string = recorder.variable("randomstring", getUniqueName("randomstring"));
     const bodyBuffer = Buffer.from(body);
 
     await blockBlobClient.upload(bodyBuffer, body.length);
@@ -80,38 +84,40 @@ describe("BlockBlobClient Node.js only", () => {
     assert.deepStrictEqual(downloadedBody, body);
   });
 
-  it("upload with Chinese string body and default parameters", async () => {
-    const body: string = recorder.getUniqueName("randomstring你好");
+  it("upload with Chinese string body and default parameters", async function () {
+    const body: string = recorder.variable("randomstring你好", getUniqueName("randomstring你好"));
     await blockBlobClient.upload(body, Buffer.byteLength(body));
     const result = await blobClient.download(0);
     assert.deepStrictEqual(await bodyToString(result, Buffer.byteLength(body)), body);
   });
 
-  it("can be created with a url and a credential", async () => {
+  it("can be created with a url and a credential", async function () {
     const credential = (blockBlobClient as any).credential as StorageSharedKeyCredential;
     const newClient = new BlockBlobClient(blockBlobClient.url, credential);
+    configureBlobStorageClient(recorder, newClient);
 
-    const body: string = recorder.getUniqueName("randomstring");
+    const body: string = recorder.variable("randomstring", getUniqueName("randomstring"));
     await newClient.upload(body, body.length);
     const result = await newClient.download(0);
     assert.deepStrictEqual(await bodyToString(result, body.length), body);
   });
 
-  it("can be created with a url and a credential and an option bag", async () => {
+  it("can be created with a url and a credential and an option bag", async function () {
     const credential = (blockBlobClient as any).credential as StorageSharedKeyCredential;
     const newClient = new BlockBlobClient(blockBlobClient.url, credential, {
       retryOptions: {
         maxTries: 5,
       },
     });
+    configureBlobStorageClient(recorder, newClient);
 
-    const body: string = recorder.getUniqueName("randomstring");
+    const body: string = recorder.variable("randomstring", getUniqueName("randomstring"));
     await newClient.upload(body, body.length);
     const result = await newClient.download(0);
     assert.deepStrictEqual(await bodyToString(result, body.length), body);
   });
 
-  it("can be created with a url and a TokenCredential", async () => {
+  it("can be created with a url and a TokenCredential", async function () {
     const tokenCredential: TokenCredential = {
       getToken: () =>
         Promise.resolve({
@@ -123,31 +129,33 @@ describe("BlockBlobClient Node.js only", () => {
     assertClientUsesTokenCredential(newClient);
   });
 
-  it("can be created with a url and a pipeline", async () => {
+  it("can be created with a url and a pipeline", async function () {
     const credential = (blockBlobClient as any).credential as StorageSharedKeyCredential;
     const pipeline = newPipeline(credential);
     const newClient = new BlockBlobClient(blockBlobClient.url, pipeline);
+    configureBlobStorageClient(recorder, newClient);
 
-    const body: string = recorder.getUniqueName("randomstring");
+    const body: string = recorder.variable("randomstring", getUniqueName("randomstring"));
     await newClient.upload(body, body.length);
     const result = await newClient.download(0);
     assert.deepStrictEqual(await bodyToString(result, body.length), body);
   });
 
-  it("can be created with a connection string", async () => {
+  it("can be created with a connection string", async function () {
     const newClient = new BlockBlobClient(
       getConnectionStringFromEnvironment(),
       containerName,
       blobName
     );
+    configureBlobStorageClient(recorder, newClient);
 
-    const body: string = recorder.getUniqueName("randomstring");
+    const body: string = recorder.variable("randomstring", getUniqueName("randomstring"));
     await newClient.upload(body, body.length);
     const result = await newClient.download(0);
     assert.deepStrictEqual(await bodyToString(result, body.length), body);
   });
 
-  it("can be created with a connection string and an option bag", async () => {
+  it("can be created with a connection string and an option bag", async function () {
     const newClient = new BlockBlobClient(
       getConnectionStringFromEnvironment(),
       containerName,
@@ -158,14 +166,19 @@ describe("BlockBlobClient Node.js only", () => {
         },
       }
     );
+    configureBlobStorageClient(recorder, newClient);
 
-    const body: string = recorder.getUniqueName("randomstring");
+    const body: string = recorder.variable("randomstring", getUniqueName("randomstring"));
     await newClient.upload(body, body.length);
     const result = await newClient.download(0);
     assert.deepStrictEqual(await bodyToString(result, body.length), body);
   });
 
-  it("should not decompress during downloading", async () => {
+  it("should not decompress during downloading", async function () {
+    // recorder doesn't save binary payload correctly
+    if (!isLiveMode()) {
+      this.skip();
+    }
     const body: string = "hello world body string!";
     const deflated = zlib.deflateSync(body);
 
@@ -200,27 +213,38 @@ describe("syncUploadFromURL", () => {
   };
 
   before(async function () {
-    largeContent = genearteRandomUint8Array(BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES);
+    largeContent = generateRandomUint8Array(BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES);
   });
 
   beforeEach(async function (this: Context) {
-    recorder = record(this, recorderEnvSetup);
-    const blobServiceClient = getBSU();
-    const containerName = recorder.getUniqueName("container");
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers(
+      {
+        uriSanitizers,
+        removeHeaderSanitizer: {
+          headersForRemoval: ["x-ms-copy-source", "x-ms-copy-source-authorization"],
+        },
+      },
+      ["playback", "record"]
+    );
+    const blobServiceClient = getBSU(recorder);
+    const containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
-    const blobName = recorder.getUniqueName("blockblob");
+    const blobName = recorder.variable("blockblob", getUniqueName("blockblob"));
     blockBlobClient = containerClient.getBlockBlobClient(blobName);
 
     // generate source blob SAS
-    const srcBlobName = recorder.getUniqueName("srcblob/%2+%2F");
+
+    const srcBlobName = recorder.variable("srcblob/%2+%2F", getUniqueName("srcblob/%2+%2F"));
     sourceBlob = containerClient.getBlockBlobClient(srcBlobName);
     const uploadSrcRes = await sourceBlob.upload(content, content.length, {
       blobHTTPHeaders: srcHttpHeaders,
     });
     srcEtag = uploadSrcRes.etag;
 
-    const expiryTime = recorder.newDate("expiry");
+    const expiryTime = new Date(recorder.variable("expiry", new Date().toISOString()));
     expiryTime.setDate(expiryTime.getDate() + 1);
     const sas = generateBlobSASQueryParameters(
       {
@@ -235,14 +259,14 @@ describe("syncUploadFromURL", () => {
   });
 
   afterEach(async function (this: Context) {
-    if (!this.currentTest?.isPending()) {
+    if (containerClient) {
       await containerClient.delete();
-      await recorder.stop();
     }
+    await recorder.stop();
   });
 
   it("stageBlockFromURL - source SAS and destination bearer token", async function (this: Context) {
-    const stokenBlobServiceClient = getTokenBSUWithDefaultCredential();
+    const stokenBlobServiceClient = getTokenBSUWithDefaultCredential(recorder);
     const tokenNewBlockBlobClient = stokenBlobServiceClient
       .getContainerClient(containerClient.containerName)
       .getBlockBlobClient(blockBlobClient.name);
@@ -276,7 +300,7 @@ describe("syncUploadFromURL", () => {
     const accessToken = await getStorageAccessTokenWithDefaultCredential();
 
     const newBlockBlobClient = containerClient.getBlockBlobClient(
-      recorder.getUniqueName("newblockblob")
+      recorder.variable("newblockblob", getUniqueName("newblockblob"))
     );
 
     await newBlockBlobClient.stageBlockFromURL(
@@ -320,8 +344,8 @@ describe("syncUploadFromURL", () => {
 
     const accessToken = await getStorageAccessTokenWithDefaultCredential();
 
-    const stokenBlobServiceClient = getTokenBSUWithDefaultCredential();
-    const newBlobName = recorder.getUniqueName("newblockblob");
+    const stokenBlobServiceClient = getTokenBSUWithDefaultCredential(recorder);
+    const newBlobName = recorder.variable("newblockblob", getUniqueName("newblockblob"));
     const newBlockBlobClient = containerClient.getBlockBlobClient(newBlobName);
     const tokenNewBlockBlobClient = stokenBlobServiceClient
       .getContainerClient(containerClient.containerName)
@@ -363,7 +387,7 @@ describe("syncUploadFromURL", () => {
   });
 
   it("syncUploadFromURL - source SAS and destination bearer token", async function (this: Context) {
-    const stokenBlobServiceClient = getTokenBSUWithDefaultCredential();
+    const stokenBlobServiceClient = getTokenBSUWithDefaultCredential(recorder);
     const tokenNewBlockBlobClient = stokenBlobServiceClient
       .getContainerClient(containerClient.containerName)
       .getBlockBlobClient(blockBlobClient.name);
@@ -383,7 +407,7 @@ describe("syncUploadFromURL", () => {
     const accessToken = await getStorageAccessTokenWithDefaultCredential();
 
     const newBlockBlobClient = containerClient.getBlockBlobClient(
-      recorder.getUniqueName("newblockblob")
+      recorder.variable("newblockblob", getUniqueName("newblockblob"))
     );
 
     await newBlockBlobClient.syncUploadFromURL(blockBlobClient.url, {
@@ -405,8 +429,8 @@ describe("syncUploadFromURL", () => {
 
     const accessToken = await getStorageAccessTokenWithDefaultCredential();
 
-    const stokenBlobServiceClient = getTokenBSUWithDefaultCredential();
-    const newBlobName = recorder.getUniqueName("newblockblob");
+    const stokenBlobServiceClient = getTokenBSUWithDefaultCredential(recorder);
+    const newBlobName = recorder.variable("newblockblob", getUniqueName("newblockblob"));
     const newBlockBlobClient = containerClient.getBlockBlobClient(newBlobName);
     const tokenNewBlockBlobClient = stokenBlobServiceClient
       .getContainerClient(containerClient.containerName)
@@ -425,7 +449,7 @@ describe("syncUploadFromURL", () => {
     assert.equal(downloadRes.contentLength!, body.length);
   });
 
-  it("with default options", async () => {
+  it("with default options", async function () {
     await blockBlobClient.syncUploadFromURL(sourceBlobURLWithSAS);
 
     // Validate source and destination blob content match.
@@ -441,7 +465,7 @@ describe("syncUploadFromURL", () => {
     assert.deepStrictEqual(downloadRes.contentType, srcHttpHeaders.blobContentType);
   });
 
-  it("set some of the properties on the request", async () => {
+  it("set some of the properties on the request", async function () {
     const blobHTTPHeaders = {
       blobContentLanguage: "blobContentLanguage1",
       blobContentType: "blobContentType1",
@@ -474,7 +498,7 @@ describe("syncUploadFromURL", () => {
       tag1: "val1",
     };
     await sourceBlob.setTags(tags);
-    const expiryTime = recorder.newDate("tagtestexpiry");
+    const expiryTime = new Date(recorder.variable("tagtestexpiry", new Date().toISOString()));
     expiryTime.setDate(expiryTime.getDate() + 1);
     const sas = generateBlobSASQueryParameters(
       {
@@ -544,7 +568,7 @@ describe("syncUploadFromURL", () => {
     assert.deepStrictEqual(downloadRes.contentType, blobHTTPHeaders.blobContentType);
   });
 
-  it("destination conditon", async () => {
+  it("destination conditon", async function () {
     // upload to dest blob first
     const hello = "hello";
     await blockBlobClient.upload(hello, hello.length);
@@ -568,7 +592,7 @@ describe("syncUploadFromURL", () => {
     }
   });
 
-  it("source conditon", async () => {
+  it("source conditon", async function () {
     await blockBlobClient.syncUploadFromURL(sourceBlobURLWithSAS, {
       sourceConditions: {
         ifMatch: srcEtag,
@@ -587,7 +611,7 @@ describe("syncUploadFromURL", () => {
     }
   });
 
-  it("sourceContentMD5", async () => {
+  it("sourceContentMD5", async function () {
     const sourceContentMD5 = crypto.createHash("md5").update(Buffer.from(content)).digest();
     await blockBlobClient.syncUploadFromURL(sourceBlobURLWithSAS, {
       sourceContentMD5,
@@ -604,20 +628,18 @@ describe("syncUploadFromURL", () => {
     }
   });
 
-  it("large content", async () => {
-    recorder.skip(
-      undefined,
-      "recording file too large, exceeds GitHub's file size limit of 100.00 MB"
-    );
+  it("large content", async function () {
+    if (!isLiveMode()) {
+      this.skip();
+    }
     await sourceBlob.uploadData(largeContent);
     await blockBlobClient.syncUploadFromURL(sourceBlobURLWithSAS);
   }).timeout(10 * 60 * 1000);
 
-  it("large content with timeout", async () => {
-    recorder.skip(
-      undefined,
-      "recording file too large, exceeds GitHub's file size limit of 100.00 MB"
-    );
+  it("large content with timeout", async function () {
+    if (!isLiveMode()) {
+      this.skip();
+    }
     await sourceBlob.uploadData(largeContent);
 
     let exceptionCaught = false;

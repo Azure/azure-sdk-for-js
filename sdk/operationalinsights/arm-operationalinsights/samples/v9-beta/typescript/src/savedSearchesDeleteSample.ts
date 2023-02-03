@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { OperationalInsightsManagementClient } from "@azure/arm-operationalinsights";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Deletes the specified saved search in a given workspace.
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2020-08-01/examples/WorkspacesDeleteSavedSearches.json
  */
 async function savedSearchesDelete() {
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const resourceGroupName = "TestRG";
+  const subscriptionId =
+    process.env["OPERATIONALINSIGHTS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-00000000000";
+  const resourceGroupName =
+    process.env["OPERATIONALINSIGHTS_RESOURCE_GROUP"] || "TestRG";
   const workspaceName = "TestWS";
   const savedSearchId = "00000000-0000-0000-0000-00000000000";
   const credential = new DefaultAzureCredential();
@@ -35,4 +41,8 @@ async function savedSearchesDelete() {
   console.log(result);
 }
 
-savedSearchesDelete().catch(console.error);
+async function main() {
+  savedSearchesDelete();
+}
+
+main().catch(console.error);

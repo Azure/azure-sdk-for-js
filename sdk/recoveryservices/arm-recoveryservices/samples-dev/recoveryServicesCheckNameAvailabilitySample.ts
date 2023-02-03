@@ -13,6 +13,9 @@ import {
   RecoveryServicesClient
 } from "@azure/arm-recoveryservices";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to API to check for resource name availability.
@@ -25,8 +28,11 @@ or if one or more such resources exist, each of these must be GC'd and their tim
  * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2022-04-01/examples/CheckNameAvailability_Available.json
  */
 async function availabilityStatusOfResourceNameWhenNoResourceWithSameNameTypeAndSubscriptionExistsNorHasBeenDeletedWithinLast24Hours() {
-  const subscriptionId = "77777777-b0c6-47a2-b37c-d8e65a629c18";
-  const resourceGroupName = "resGroupFoo";
+  const subscriptionId =
+    process.env["RECOVERYSERVICES_SUBSCRIPTION_ID"] ||
+    "77777777-b0c6-47a2-b37c-d8e65a629c18";
+  const resourceGroupName =
+    process.env["RECOVERYSERVICES_RESOURCE_GROUP"] || "resGroupFoo";
   const location = "westus";
   const input: CheckNameAvailabilityParameters = {
     name: "swaggerExample",
@@ -42,10 +48,6 @@ async function availabilityStatusOfResourceNameWhenNoResourceWithSameNameTypeAnd
   console.log(result);
 }
 
-availabilityStatusOfResourceNameWhenNoResourceWithSameNameTypeAndSubscriptionExistsNorHasBeenDeletedWithinLast24Hours().catch(
-  console.error
-);
-
 /**
  * This sample demonstrates how to API to check for resource name availability.
 A name is available if no other resource exists that has the same SubscriptionId, Resource Name and Type
@@ -57,8 +59,11 @@ or if one or more such resources exist, each of these must be GC'd and their tim
  * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2022-04-01/examples/CheckNameAvailability_NotAvailable.json
  */
 async function availabilityStatusOfResourceNameWhenResourceWithSameNameTypeAndSubscriptionExists() {
-  const subscriptionId = "77777777-b0c6-47a2-b37c-d8e65a629c18";
-  const resourceGroupName = "resGroupBar";
+  const subscriptionId =
+    process.env["RECOVERYSERVICES_SUBSCRIPTION_ID"] ||
+    "77777777-b0c6-47a2-b37c-d8e65a629c18";
+  const resourceGroupName =
+    process.env["RECOVERYSERVICES_RESOURCE_GROUP"] || "resGroupBar";
   const location = "westus";
   const input: CheckNameAvailabilityParameters = {
     name: "swaggerExample2",
@@ -74,6 +79,9 @@ async function availabilityStatusOfResourceNameWhenResourceWithSameNameTypeAndSu
   console.log(result);
 }
 
-availabilityStatusOfResourceNameWhenResourceWithSameNameTypeAndSubscriptionExists().catch(
-  console.error
-);
+async function main() {
+  availabilityStatusOfResourceNameWhenNoResourceWithSameNameTypeAndSubscriptionExistsNorHasBeenDeletedWithinLast24Hours();
+  availabilityStatusOfResourceNameWhenResourceWithSameNameTypeAndSubscriptionExists();
+}
+
+main().catch(console.error);

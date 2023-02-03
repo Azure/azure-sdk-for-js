@@ -73,8 +73,6 @@ export type FederatedIdentityCredentialsGetResponse = FederatedIdentityCredentia
 
 // @public
 export interface FederatedIdentityCredentialsListNextOptionalParams extends coreClient.OperationOptions {
-    skiptoken?: string;
-    top?: number;
 }
 
 // @public
@@ -94,6 +92,9 @@ export interface FederatedIdentityCredentialsListResult {
     nextLink?: string;
     value?: FederatedIdentityCredential[];
 }
+
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export interface Identity extends TrackedResource {
@@ -252,11 +253,6 @@ export type UserAssignedIdentitiesGetResponse = Identity;
 
 // @public
 export interface UserAssignedIdentitiesListAssociatedResourcesNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    orderby?: string;
-    skip?: number;
-    skiptoken?: string;
-    top?: number;
 }
 
 // @public

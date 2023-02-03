@@ -42,9 +42,9 @@ export interface AvailableServiceTiersListByWorkspaceOptionalParams extends core
 export type AvailableServiceTiersListByWorkspaceResponse = AvailableServiceTier[];
 
 // @public
-export type AzureEntityResource = Resource & {
+export interface AzureEntityResource extends Resource {
     readonly etag?: string;
-};
+}
 
 // @public
 export interface AzureResourceProperties {
@@ -70,20 +70,20 @@ export interface CapacityReservationProperties {
 }
 
 // @public
-export type Cluster = TrackedResource & {
-    identity?: Identity;
-    sku?: ClusterSku;
-    readonly clusterId?: string;
-    readonly provisioningState?: ClusterEntityStatus;
-    isDoubleEncryptionEnabled?: boolean;
-    isAvailabilityZonesEnabled?: boolean;
+export interface Cluster extends TrackedResource {
+    associatedWorkspaces?: AssociatedWorkspace[];
     billingType?: BillingType;
+    capacityReservationProperties?: CapacityReservationProperties;
+    readonly clusterId?: string;
+    readonly createdDate?: string;
+    identity?: Identity;
+    isAvailabilityZonesEnabled?: boolean;
+    isDoubleEncryptionEnabled?: boolean;
     keyVaultProperties?: KeyVaultProperties;
     readonly lastModifiedDate?: string;
-    readonly createdDate?: string;
-    associatedWorkspaces?: AssociatedWorkspace[];
-    capacityReservationProperties?: CapacityReservationProperties;
-};
+    readonly provisioningState?: ClusterEntityStatus;
+    sku?: ClusterSku;
+}
 
 // @public
 export type ClusterEntityStatus = string;
@@ -213,16 +213,16 @@ export interface CoreSummary {
 export type CreatedByType = string;
 
 // @public
-export type DataExport = ProxyResource & {
-    dataExportId?: string;
-    tableNames?: string[];
-    enable?: boolean;
+export interface DataExport extends ProxyResource {
     createdDate?: string;
+    dataExportId?: string;
+    enable?: boolean;
+    eventHubName?: string;
     lastModifiedDate?: string;
     resourceId?: string;
+    tableNames?: string[];
     readonly typePropertiesDestinationType?: Type;
-    eventHubName?: string;
-};
+}
 
 // @public
 export interface DataExportListResult {
@@ -266,14 +266,14 @@ export type DataExportsListByWorkspaceResponse = DataExportListResult;
 export type DataIngestionStatus = string;
 
 // @public
-export type DataSource = ProxyResource & {
-    properties: Record<string, unknown>;
+export interface DataSource extends ProxyResource {
     etag?: string;
     kind: DataSourceKind;
+    properties: Record<string, unknown>;
     tags?: {
         [propertyName: string]: string;
     };
-};
+}
 
 // @public
 export interface DataSourceFilter {
@@ -317,7 +317,6 @@ export type DataSourcesGetResponse = DataSource;
 
 // @public
 export interface DataSourcesListByWorkspaceNextOptionalParams extends coreClient.OperationOptions {
-    skiptoken?: string;
 }
 
 // @public
@@ -384,6 +383,9 @@ export interface GatewaysDeleteOptionalParams extends coreClient.OperationOption
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export interface Identity {
     readonly principalId?: string;
     readonly tenantId?: string;
@@ -435,33 +437,23 @@ export interface KeyVaultProperties {
 
 // @public
 export enum KnownBillingType {
-    // (undocumented)
     Cluster = "Cluster",
-    // (undocumented)
     Workspaces = "Workspaces"
 }
 
 // @public
 export enum KnownClusterEntityStatus {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     ProvisioningAccount = "ProvisioningAccount",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownClusterSkuNameEnum {
-    // (undocumented)
     CapacityReservation = "CapacityReservation"
 }
 
@@ -475,33 +467,21 @@ export enum KnownColumnDataTypeHintEnum {
 
 // @public
 export enum KnownColumnTypeEnum {
-    // (undocumented)
     Boolean = "boolean",
-    // (undocumented)
     DateTime = "dateTime",
-    // (undocumented)
     Dynamic = "dynamic",
-    // (undocumented)
     Guid = "guid",
-    // (undocumented)
     Int = "int",
-    // (undocumented)
     Long = "long",
-    // (undocumented)
     Real = "real",
-    // (undocumented)
     String = "string"
 }
 
 // @public
 export enum KnownCreatedByType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Key = "Key",
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity",
-    // (undocumented)
     User = "User"
 }
 
@@ -517,101 +497,57 @@ export enum KnownDataIngestionStatus {
 
 // @public
 export enum KnownDataSourceKind {
-    // (undocumented)
     ApplicationInsights = "ApplicationInsights",
-    // (undocumented)
     AzureActivityLog = "AzureActivityLog",
-    // (undocumented)
     AzureAuditLog = "AzureAuditLog",
-    // (undocumented)
     ChangeTrackingContentLocation = "ChangeTrackingContentLocation",
-    // (undocumented)
     ChangeTrackingCustomPath = "ChangeTrackingCustomPath",
-    // (undocumented)
     ChangeTrackingDataTypeConfiguration = "ChangeTrackingDataTypeConfiguration",
-    // (undocumented)
     ChangeTrackingDefaultRegistry = "ChangeTrackingDefaultRegistry",
-    // (undocumented)
     ChangeTrackingLinuxPath = "ChangeTrackingLinuxPath",
-    // (undocumented)
     ChangeTrackingPath = "ChangeTrackingPath",
-    // (undocumented)
     ChangeTrackingRegistry = "ChangeTrackingRegistry",
-    // (undocumented)
     ChangeTrackingServices = "ChangeTrackingServices",
-    // (undocumented)
     CustomLog = "CustomLog",
-    // (undocumented)
     CustomLogCollection = "CustomLogCollection",
-    // (undocumented)
     DnsAnalytics = "DnsAnalytics",
-    // (undocumented)
     GenericDataSource = "GenericDataSource",
-    // (undocumented)
     IISLogs = "IISLogs",
-    // (undocumented)
     ImportComputerGroup = "ImportComputerGroup",
-    // (undocumented)
     Itsm = "Itsm",
-    // (undocumented)
     LinuxChangeTrackingPath = "LinuxChangeTrackingPath",
-    // (undocumented)
     LinuxPerformanceCollection = "LinuxPerformanceCollection",
-    // (undocumented)
     LinuxPerformanceObject = "LinuxPerformanceObject",
-    // (undocumented)
     LinuxSyslog = "LinuxSyslog",
-    // (undocumented)
     LinuxSyslogCollection = "LinuxSyslogCollection",
-    // (undocumented)
     NetworkMonitoring = "NetworkMonitoring",
-    // (undocumented)
     Office365 = "Office365",
-    // (undocumented)
     SecurityCenterSecurityWindowsBaselineConfiguration = "SecurityCenterSecurityWindowsBaselineConfiguration",
-    // (undocumented)
     SecurityEventCollectionConfiguration = "SecurityEventCollectionConfiguration",
-    // (undocumented)
     SecurityInsightsSecurityEventCollectionConfiguration = "SecurityInsightsSecurityEventCollectionConfiguration",
-    // (undocumented)
     SecurityWindowsBaselineConfiguration = "SecurityWindowsBaselineConfiguration",
-    // (undocumented)
     SqlDataClassification = "SqlDataClassification",
-    // (undocumented)
     WindowsEvent = "WindowsEvent",
-    // (undocumented)
     WindowsPerformanceCounter = "WindowsPerformanceCounter",
-    // (undocumented)
     WindowsTelemetry = "WindowsTelemetry"
 }
 
 // @public
 export enum KnownIdentityType {
-    // (undocumented)
     Application = "application",
-    // (undocumented)
     Key = "key",
-    // (undocumented)
     ManagedIdentity = "managedIdentity",
-    // (undocumented)
     None = "None",
-    // (undocumented)
     SystemAssigned = "SystemAssigned",
-    // (undocumented)
     User = "user",
-    // (undocumented)
     UserAssigned = "UserAssigned"
 }
 
 // @public
 export enum KnownLinkedServiceEntityStatus {
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     ProvisioningAccount = "ProvisioningAccount",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
@@ -630,35 +566,24 @@ export enum KnownPublicNetworkAccessType {
 
 // @public
 export enum KnownPurgeState {
-    // (undocumented)
     Completed = "completed",
-    // (undocumented)
     Pending = "pending"
 }
 
 // @public
 export enum KnownSearchSortEnum {
-    // (undocumented)
     Asc = "asc",
-    // (undocumented)
     Desc = "desc"
 }
 
 // @public
 export enum KnownSkuNameEnum {
-    // (undocumented)
     CapacityReservation = "CapacityReservation",
-    // (undocumented)
     Free = "Free",
-    // (undocumented)
     PerGB2018 = "PerGB2018",
-    // (undocumented)
     PerNode = "PerNode",
-    // (undocumented)
     Premium = "Premium",
-    // (undocumented)
     Standalone = "Standalone",
-    // (undocumented)
     Standard = "Standard"
 }
 
@@ -670,9 +595,7 @@ export enum KnownSourceEnum {
 
 // @public
 export enum KnownStorageInsightState {
-    // (undocumented)
     Error = "ERROR",
-    // (undocumented)
     OK = "OK"
 }
 
@@ -699,59 +622,42 @@ export enum KnownTableTypeEnum {
 
 // @public
 export enum KnownType {
-    // (undocumented)
     EventHub = "EventHub",
-    // (undocumented)
     StorageAccount = "StorageAccount"
 }
 
 // @public
 export enum KnownWorkspaceEntityStatus {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     ProvisioningAccount = "ProvisioningAccount",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownWorkspaceSkuNameEnum {
-    // (undocumented)
     CapacityReservation = "CapacityReservation",
-    // (undocumented)
     Free = "Free",
-    // (undocumented)
     LACluster = "LACluster",
-    // (undocumented)
     PerGB2018 = "PerGB2018",
-    // (undocumented)
     PerNode = "PerNode",
-    // (undocumented)
     Premium = "Premium",
-    // (undocumented)
     Standalone = "Standalone",
-    // (undocumented)
     Standard = "Standard"
 }
 
 // @public
-export type LinkedService = ProxyResource & {
+export interface LinkedService extends ProxyResource {
+    provisioningState?: LinkedServiceEntityStatus;
+    resourceId?: string;
     tags?: {
         [propertyName: string]: string;
     };
-    resourceId?: string;
     writeAccessResourceId?: string;
-    provisioningState?: LinkedServiceEntityStatus;
-};
+}
 
 // @public
 export type LinkedServiceEntityStatus = string;
@@ -842,18 +748,18 @@ export interface LinkedStorageAccountsListResult {
 }
 
 // @public
-export type LinkedStorageAccountsResource = ProxyResource & {
+export interface LinkedStorageAccountsResource extends ProxyResource {
     readonly dataSourceType?: DataSourceType;
     storageAccountIds?: string[];
-};
+}
 
 // @public
-export type LogAnalyticsQueryPack = QueryPacksResource & {
+export interface LogAnalyticsQueryPack extends QueryPacksResource {
+    readonly provisioningState?: string;
     readonly queryPackId?: string;
     readonly timeCreated?: Date;
     readonly timeModified?: Date;
-    readonly provisioningState?: string;
-};
+}
 
 // @public
 export interface LogAnalyticsQueryPackListResult {
@@ -862,20 +768,20 @@ export interface LogAnalyticsQueryPackListResult {
 }
 
 // @public
-export type LogAnalyticsQueryPackQuery = AzureResourceProperties & {
-    readonly idPropertiesId?: string;
-    displayName?: string;
-    readonly timeCreated?: Date;
-    readonly timeModified?: Date;
+export interface LogAnalyticsQueryPackQuery extends AzureResourceProperties {
     readonly author?: string;
-    description?: string;
     body?: string;
+    description?: string;
+    displayName?: string;
+    readonly idPropertiesId?: string;
+    properties?: Record<string, unknown>;
     related?: LogAnalyticsQueryPackQueryPropertiesRelated;
     tags?: {
         [propertyName: string]: string[];
     };
-    properties?: Record<string, unknown>;
-};
+    readonly timeCreated?: Date;
+    readonly timeModified?: Date;
+}
 
 // @public
 export interface LogAnalyticsQueryPackQueryListResult {
@@ -1065,7 +971,8 @@ export interface PrivateLinkScopedResource {
 export type ProvisioningStateEnum = string;
 
 // @public
-export type ProxyResource = Resource;
+export interface ProxyResource extends Resource {
+}
 
 // @public
 export type PublicNetworkAccessType = string;
@@ -1096,9 +1003,6 @@ export type QueriesGetResponse = LogAnalyticsQueryPackQuery;
 
 // @public
 export interface QueriesListNextOptionalParams extends coreClient.OperationOptions {
-    includeBody?: boolean;
-    skipToken?: string;
-    top?: number;
 }
 
 // @public
@@ -1123,9 +1027,6 @@ export type QueriesPutResponse = LogAnalyticsQueryPackQuery;
 
 // @public
 export interface QueriesSearchNextOptionalParams extends coreClient.OperationOptions {
-    includeBody?: boolean;
-    skipToken?: string;
-    top?: number;
 }
 
 // @public
@@ -1243,16 +1144,16 @@ export interface ResultStatistics {
 }
 
 // @public
-export type SavedSearch = ProxyResource & {
-    etag?: string;
+export interface SavedSearch extends ProxyResource {
     category: string;
     displayName: string;
-    query: string;
+    etag?: string;
     functionAlias?: string;
     functionParameters?: string;
-    version?: number;
+    query: string;
     tags?: Tag[];
-};
+    version?: number;
+}
 
 // @public
 export interface SavedSearches {
@@ -1423,16 +1324,16 @@ export interface StorageAccount {
 }
 
 // @public
-export type StorageInsight = ProxyResource & {
+export interface StorageInsight extends ProxyResource {
+    containers?: string[];
     eTag?: string;
+    readonly status?: StorageInsightStatus;
+    storageAccount?: StorageAccount;
+    tables?: string[];
     tags?: {
         [propertyName: string]: string;
     };
-    containers?: string[];
-    tables?: string[];
-    storageAccount?: StorageAccount;
-    readonly status?: StorageInsightStatus;
-};
+}
 
 // @public
 export interface StorageInsightConfigs {
@@ -1510,19 +1411,19 @@ export interface SystemDataAutoGenerated {
 }
 
 // @public
-export type Table = ProxyResource & {
-    readonly systemData?: SystemDataAutoGenerated;
-    retentionInDays?: number;
-    totalRetentionInDays?: number;
+export interface Table extends ProxyResource {
     readonly archiveRetentionInDays?: number;
-    searchResults?: SearchResults;
+    readonly lastPlanModifiedDate?: string;
+    plan?: TablePlanEnum;
+    readonly provisioningState?: ProvisioningStateEnum;
     restoredLogs?: RestoredLogs;
     resultStatistics?: ResultStatistics;
-    plan?: TablePlanEnum;
-    readonly lastPlanModifiedDate?: string;
+    retentionInDays?: number;
     schema?: Schema;
-    readonly provisioningState?: ProvisioningStateEnum;
-};
+    searchResults?: SearchResults;
+    readonly systemData?: SystemDataAutoGenerated;
+    totalRetentionInDays?: number;
+}
 
 // @public
 export type TablePlanEnum = string;
@@ -1607,12 +1508,12 @@ export interface TagsResource {
 }
 
 // @public
-export type TrackedResource = Resource & {
+export interface TrackedResource extends Resource {
+    location: string;
     tags?: {
         [propertyName: string]: string;
     };
-    location: string;
-};
+}
 
 // @public
 export type Type = string;
@@ -1646,23 +1547,23 @@ export interface UserIdentityProperties {
 }
 
 // @public
-export type Workspace = TrackedResource & {
-    readonly systemData?: SystemDataAutoGenerated;
-    eTag?: string;
-    readonly provisioningState?: WorkspaceEntityStatus;
-    readonly customerId?: string;
-    sku?: WorkspaceSku;
-    retentionInDays?: number;
-    workspaceCapping?: WorkspaceCapping;
+export interface Workspace extends TrackedResource {
     readonly createdDate?: string;
+    readonly customerId?: string;
+    defaultDataCollectionRuleResourceId?: string;
+    eTag?: string;
+    features?: WorkspaceFeatures;
+    forceCmkForQuery?: boolean;
     readonly modifiedDate?: string;
+    readonly privateLinkScopedResources?: PrivateLinkScopedResource[];
+    readonly provisioningState?: WorkspaceEntityStatus;
     publicNetworkAccessForIngestion?: PublicNetworkAccessType;
     publicNetworkAccessForQuery?: PublicNetworkAccessType;
-    forceCmkForQuery?: boolean;
-    readonly privateLinkScopedResources?: PrivateLinkScopedResource[];
-    features?: WorkspaceFeatures;
-    defaultDataCollectionRuleResourceId?: string;
-};
+    retentionInDays?: number;
+    sku?: WorkspaceSku;
+    readonly systemData?: SystemDataAutoGenerated;
+    workspaceCapping?: WorkspaceCapping;
+}
 
 // @public
 export interface WorkspaceCapping {
@@ -1700,24 +1601,24 @@ export interface WorkspaceListUsagesResult {
 }
 
 // @public
-export type WorkspacePatch = AzureEntityResource & {
+export interface WorkspacePatch extends AzureEntityResource {
+    readonly createdDate?: string;
+    readonly customerId?: string;
+    defaultDataCollectionRuleResourceId?: string;
+    features?: WorkspaceFeatures;
+    forceCmkForQuery?: boolean;
+    readonly modifiedDate?: string;
+    readonly privateLinkScopedResources?: PrivateLinkScopedResource[];
+    readonly provisioningState?: WorkspaceEntityStatus;
+    publicNetworkAccessForIngestion?: PublicNetworkAccessType;
+    publicNetworkAccessForQuery?: PublicNetworkAccessType;
+    retentionInDays?: number;
+    sku?: WorkspaceSku;
     tags?: {
         [propertyName: string]: string;
     };
-    readonly provisioningState?: WorkspaceEntityStatus;
-    readonly customerId?: string;
-    sku?: WorkspaceSku;
-    retentionInDays?: number;
     workspaceCapping?: WorkspaceCapping;
-    readonly createdDate?: string;
-    readonly modifiedDate?: string;
-    publicNetworkAccessForIngestion?: PublicNetworkAccessType;
-    publicNetworkAccessForQuery?: PublicNetworkAccessType;
-    forceCmkForQuery?: boolean;
-    readonly privateLinkScopedResources?: PrivateLinkScopedResource[];
-    features?: WorkspaceFeatures;
-    defaultDataCollectionRuleResourceId?: string;
-};
+}
 
 // @public
 export interface WorkspacePurge {

@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { MetricAlertResource, MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create or update an metric alert definition.
@@ -18,8 +21,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2018-03-01/examples/createOrUpdateDynamicMetricAlertMultipleResource.json
  */
 async function createOrUpdateADynamicAlertRuleForMultipleResources() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "gigtest";
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "gigtest";
   const ruleName = "MetricAlertOnMultipleResources";
   const parameters: MetricAlertResource = {
     description: "This is the description of the rule1",
@@ -74,8 +79,6 @@ async function createOrUpdateADynamicAlertRuleForMultipleResources() {
   console.log(result);
 }
 
-createOrUpdateADynamicAlertRuleForMultipleResources().catch(console.error);
-
 /**
  * This sample demonstrates how to Create or update an metric alert definition.
  *
@@ -83,8 +86,10 @@ createOrUpdateADynamicAlertRuleForMultipleResources().catch(console.error);
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2018-03-01/examples/createOrUpdateDynamicMetricAlertSingleResource.json
  */
 async function createOrUpdateADynamicAlertRuleForSingleResource() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "gigtest";
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "gigtest";
   const ruleName = "chiricutin";
   const parameters: MetricAlertResource = {
     description: "This is the description of the rule1",
@@ -137,8 +142,6 @@ async function createOrUpdateADynamicAlertRuleForSingleResource() {
   console.log(result);
 }
 
-createOrUpdateADynamicAlertRuleForSingleResource().catch(console.error);
-
 /**
  * This sample demonstrates how to Create or update an metric alert definition.
  *
@@ -146,8 +149,11 @@ createOrUpdateADynamicAlertRuleForSingleResource().catch(console.error);
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2018-03-01/examples/createOrUpdateWebTestMetricAlert.json
  */
 async function createOrUpdateAWebTestAlertRule() {
-  const subscriptionId = "12345678-1234-1234-1234-123456789101";
-  const resourceGroupName = "rg-example";
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] ||
+    "12345678-1234-1234-1234-123456789101";
+  const resourceGroupName =
+    process.env["MONITOR_RESOURCE_GROUP"] || "rg-example";
   const ruleName = "webtest-name-example";
   const parameters: MetricAlertResource = {
     description:
@@ -187,8 +193,6 @@ async function createOrUpdateAWebTestAlertRule() {
   console.log(result);
 }
 
-createOrUpdateAWebTestAlertRule().catch(console.error);
-
 /**
  * This sample demonstrates how to Create or update an metric alert definition.
  *
@@ -196,8 +200,10 @@ createOrUpdateAWebTestAlertRule().catch(console.error);
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2018-03-01/examples/createOrUpdateMetricAlertMultipleResource.json
  */
 async function createOrUpdateAnAlertRuleForMultipleResource() {
-  const subscriptionId = "14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7";
-  const resourceGroupName = "gigtest";
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] ||
+    "14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7";
+  const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "gigtest";
   const ruleName = "MetricAlertOnMultipleResources";
   const parameters: MetricAlertResource = {
     description: "This is the description of the rule1",
@@ -248,8 +254,6 @@ async function createOrUpdateAnAlertRuleForMultipleResource() {
   console.log(result);
 }
 
-createOrUpdateAnAlertRuleForMultipleResource().catch(console.error);
-
 /**
  * This sample demonstrates how to Create or update an metric alert definition.
  *
@@ -257,8 +261,10 @@ createOrUpdateAnAlertRuleForMultipleResource().catch(console.error);
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2018-03-01/examples/createOrUpdateMetricAlertSingleResource.json
  */
 async function createOrUpdateAnAlertRuleForSingleResource() {
-  const subscriptionId = "14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7";
-  const resourceGroupName = "gigtest";
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] ||
+    "14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7";
+  const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "gigtest";
   const ruleName = "chiricutin";
   const parameters: MetricAlertResource = {
     description: "This is the description of the rule1",
@@ -276,7 +282,7 @@ async function createOrUpdateAnAlertRuleForSingleResource() {
           name: "High_CPU_80",
           criterionType: "StaticThresholdCriterion",
           dimensions: [],
-          metricName: "Processor(_Total)% Processor Time",
+          metricName: "\\Processor(_Total)\\% Processor Time",
           operator: "GreaterThan",
           threshold: 80.5,
           timeAggregation: "Average"
@@ -304,8 +310,6 @@ async function createOrUpdateAnAlertRuleForSingleResource() {
   console.log(result);
 }
 
-createOrUpdateAnAlertRuleForSingleResource().catch(console.error);
-
 /**
  * This sample demonstrates how to Create or update an metric alert definition.
  *
@@ -313,8 +317,10 @@ createOrUpdateAnAlertRuleForSingleResource().catch(console.error);
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2018-03-01/examples/createOrUpdateMetricAlertResourceGroup.json
  */
 async function createOrUpdateAnAlertRuleOnResourceGroupS() {
-  const subscriptionId = "14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7";
-  const resourceGroupName = "gigtest1";
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] ||
+    "14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7";
+  const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "gigtest1";
   const ruleName = "MetricAlertAtResourceGroupLevel";
   const parameters: MetricAlertResource = {
     description: "This is the description of the rule1",
@@ -365,8 +371,6 @@ async function createOrUpdateAnAlertRuleOnResourceGroupS() {
   console.log(result);
 }
 
-createOrUpdateAnAlertRuleOnResourceGroupS().catch(console.error);
-
 /**
  * This sample demonstrates how to Create or update an metric alert definition.
  *
@@ -374,8 +378,10 @@ createOrUpdateAnAlertRuleOnResourceGroupS().catch(console.error);
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2018-03-01/examples/createOrUpdateMetricAlertSubscription.json
  */
 async function createOrUpdateAnAlertRuleOnSubscription() {
-  const subscriptionId = "14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7";
-  const resourceGroupName = "gigtest";
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] ||
+    "14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7";
+  const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "gigtest";
   const ruleName = "MetricAlertAtSubscriptionLevel";
   const parameters: MetricAlertResource = {
     description: "This is the description of the rule1",
@@ -423,8 +429,6 @@ async function createOrUpdateAnAlertRuleOnSubscription() {
   console.log(result);
 }
 
-createOrUpdateAnAlertRuleOnSubscription().catch(console.error);
-
 /**
  * This sample demonstrates how to Create or update an metric alert definition.
  *
@@ -432,8 +436,10 @@ createOrUpdateAnAlertRuleOnSubscription().catch(console.error);
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2018-03-01/examples/createOrUpdateMetricAlertWithDimensions.json
  */
 async function createOrUpdateAnAlertRulesWithDimensions() {
-  const subscriptionId = "14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7";
-  const resourceGroupName = "gigtest";
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] ||
+    "14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7";
+  const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "gigtest";
   const ruleName = "MetricAlertOnMultipleDimensions";
   const parameters: MetricAlertResource = {
     description: "This is the description of the rule1",
@@ -484,4 +490,15 @@ async function createOrUpdateAnAlertRulesWithDimensions() {
   console.log(result);
 }
 
-createOrUpdateAnAlertRulesWithDimensions().catch(console.error);
+async function main() {
+  createOrUpdateADynamicAlertRuleForMultipleResources();
+  createOrUpdateADynamicAlertRuleForSingleResource();
+  createOrUpdateAWebTestAlertRule();
+  createOrUpdateAnAlertRuleForMultipleResource();
+  createOrUpdateAnAlertRuleForSingleResource();
+  createOrUpdateAnAlertRuleOnResourceGroupS();
+  createOrUpdateAnAlertRuleOnSubscription();
+  createOrUpdateAnAlertRulesWithDimensions();
+}
+
+main().catch(console.error);

@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { OperationalInsightsManagementClient } from "@azure/arm-operationalinsights";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Returns a Log Analytics QueryPack.
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2019-09-01/examples/QueryPacksGet.json
  */
 async function queryPackGet() {
-  const subscriptionId = "86dc51d3-92ed-4d7e-947a-775ea79b4919";
-  const resourceGroupName = "my-resource-group";
+  const subscriptionId =
+    process.env["OPERATIONALINSIGHTS_SUBSCRIPTION_ID"] ||
+    "86dc51d3-92ed-4d7e-947a-775ea79b4919";
+  const resourceGroupName =
+    process.env["OPERATIONALINSIGHTS_RESOURCE_GROUP"] || "my-resource-group";
   const queryPackName = "my-querypack";
   const credential = new DefaultAzureCredential();
   const client = new OperationalInsightsManagementClient(
@@ -30,4 +36,8 @@ async function queryPackGet() {
   console.log(result);
 }
 
-queryPackGet().catch(console.error);
+async function main() {
+  queryPackGet();
+}
+
+main().catch(console.error);

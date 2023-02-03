@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { RecoveryServicesClient } = require("@azure/arm-recoveryservices");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Returns the list of private link resources that need to be created for Backup and SiteRecovery
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2022-04-01/examples/ListPrivateLinkResources.json
  */
 async function listPrivateLinkResources() {
-  const subscriptionId = "6c48fa17-39c7-45f1-90ac-47a587128ace";
-  const resourceGroupName = "petesting";
+  const subscriptionId =
+    process.env["RECOVERYSERVICES_SUBSCRIPTION_ID"] || "6c48fa17-39c7-45f1-90ac-47a587128ace";
+  const resourceGroupName = process.env["RECOVERYSERVICES_RESOURCE_GROUP"] || "petesting";
   const vaultName = "pemsi-ecy-rsv2";
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesClient(credential, subscriptionId);
@@ -30,4 +32,8 @@ async function listPrivateLinkResources() {
   console.log(resArray);
 }
 
-listPrivateLinkResources().catch(console.error);
+async function main() {
+  listPrivateLinkResources();
+}
+
+main().catch(console.error);

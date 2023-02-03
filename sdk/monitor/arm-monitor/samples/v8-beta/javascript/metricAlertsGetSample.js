@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { MonitorClient } = require("@azure/arm-monitor");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Retrieve an alert rule definition.
@@ -18,16 +19,15 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2018-03-01/examples/getDynamicMetricAlertMultipleResource.json
  */
 async function getADynamicAlertRuleForMultipleResources() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "gigtest";
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "gigtest";
   const ruleName = "MetricAlertOnMultipleResources";
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
   const result = await client.metricAlerts.get(resourceGroupName, ruleName);
   console.log(result);
 }
-
-getADynamicAlertRuleForMultipleResources().catch(console.error);
 
 /**
  * This sample demonstrates how to Retrieve an alert rule definition.
@@ -36,16 +36,15 @@ getADynamicAlertRuleForMultipleResources().catch(console.error);
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2018-03-01/examples/getDynamicMetricAlertSingleResource.json
  */
 async function getADynamicAlertRuleForSingleResource() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "gigtest";
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "gigtest";
   const ruleName = "chiricutin";
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
   const result = await client.metricAlerts.get(resourceGroupName, ruleName);
   console.log(result);
 }
-
-getADynamicAlertRuleForSingleResource().catch(console.error);
 
 /**
  * This sample demonstrates how to Retrieve an alert rule definition.
@@ -54,16 +53,15 @@ getADynamicAlertRuleForSingleResource().catch(console.error);
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2018-03-01/examples/getWebTestMetricAlert.json
  */
 async function getAWebTestAlertRule() {
-  const subscriptionId = "12345678-1234-1234-1234-123456789101";
-  const resourceGroupName = "rg-example";
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] || "12345678-1234-1234-1234-123456789101";
+  const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "rg-example";
   const ruleName = "webtest-name-example";
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
   const result = await client.metricAlerts.get(resourceGroupName, ruleName);
   console.log(result);
 }
-
-getAWebTestAlertRule().catch(console.error);
 
 /**
  * This sample demonstrates how to Retrieve an alert rule definition.
@@ -72,16 +70,15 @@ getAWebTestAlertRule().catch(console.error);
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2018-03-01/examples/getMetricAlertMultipleResource.json
  */
 async function getAnAlertRuleForMultipleResources() {
-  const subscriptionId = "14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7";
-  const resourceGroupName = "gigtest";
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] || "14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7";
+  const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "gigtest";
   const ruleName = "MetricAlertOnMultipleResources";
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
   const result = await client.metricAlerts.get(resourceGroupName, ruleName);
   console.log(result);
 }
-
-getAnAlertRuleForMultipleResources().catch(console.error);
 
 /**
  * This sample demonstrates how to Retrieve an alert rule definition.
@@ -90,16 +87,15 @@ getAnAlertRuleForMultipleResources().catch(console.error);
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2018-03-01/examples/getMetricAlertSingleResource.json
  */
 async function getAnAlertRuleForSingleResource() {
-  const subscriptionId = "14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7";
-  const resourceGroupName = "gigtest";
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] || "14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7";
+  const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "gigtest";
   const ruleName = "chiricutin";
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
   const result = await client.metricAlerts.get(resourceGroupName, ruleName);
   console.log(result);
 }
-
-getAnAlertRuleForSingleResource().catch(console.error);
 
 /**
  * This sample demonstrates how to Retrieve an alert rule definition.
@@ -108,16 +104,15 @@ getAnAlertRuleForSingleResource().catch(console.error);
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2018-03-01/examples/getMetricAlertResourceGroup.json
  */
 async function getAnAlertRuleOnResourceGroupS() {
-  const subscriptionId = "14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7";
-  const resourceGroupName = "gigtest1";
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] || "14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7";
+  const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "gigtest1";
   const ruleName = "MetricAlertAtResourceGroupLevel";
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
   const result = await client.metricAlerts.get(resourceGroupName, ruleName);
   console.log(result);
 }
-
-getAnAlertRuleOnResourceGroupS().catch(console.error);
 
 /**
  * This sample demonstrates how to Retrieve an alert rule definition.
@@ -126,8 +121,9 @@ getAnAlertRuleOnResourceGroupS().catch(console.error);
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2018-03-01/examples/getMetricAlertSubscription.json
  */
 async function getAnAlertRuleOnSubscription() {
-  const subscriptionId = "14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7";
-  const resourceGroupName = "gigtest";
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] || "14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7";
+  const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "gigtest";
   const ruleName = "MetricAlertAtSubscriptionLevel";
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
@@ -135,4 +131,14 @@ async function getAnAlertRuleOnSubscription() {
   console.log(result);
 }
 
-getAnAlertRuleOnSubscription().catch(console.error);
+async function main() {
+  getADynamicAlertRuleForMultipleResources();
+  getADynamicAlertRuleForSingleResource();
+  getAWebTestAlertRule();
+  getAnAlertRuleForMultipleResources();
+  getAnAlertRuleForSingleResource();
+  getAnAlertRuleOnResourceGroupS();
+  getAnAlertRuleOnSubscription();
+}
+
+main().catch(console.error);
