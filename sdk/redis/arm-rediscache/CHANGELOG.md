@@ -1,14 +1,14 @@
 # Release History
 
-## 7.1.1 (Unreleased)
+## 7.1.1 (2023-01-31)
 
-### Features Added
+**Features**
 
-### Breaking Changes
+  - Exposes `getContinuationToken` helper function to extract continuation token
 
-### Bugs Fixed
+**Bugs Fixed**
 
-### Other Changes
+  - A series of small bug fixs relevant to authentication and apiVersion policy
 
 ## 7.1.0 (2022-10-21)
     

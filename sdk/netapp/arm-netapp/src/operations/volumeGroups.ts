@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { VolumeGroups } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -62,11 +62,15 @@ export class VolumeGroupsImpl implements VolumeGroups {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByNetAppAccountPagingPage(
           resourceGroupName,
           accountName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -75,9 +79,11 @@ export class VolumeGroupsImpl implements VolumeGroups {
   private async *listByNetAppAccountPagingPage(
     resourceGroupName: string,
     accountName: string,
-    options?: VolumeGroupsListByNetAppAccountOptionalParams
+    options?: VolumeGroupsListByNetAppAccountOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<VolumeGroup[]> {
-    let result = await this._listByNetAppAccount(
+    let result: VolumeGroupsListByNetAppAccountResponse;
+    result = await this._listByNetAppAccount(
       resourceGroupName,
       accountName,
       options

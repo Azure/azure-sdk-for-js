@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { OperationalInsightsManagementClient } from "@azure/arm-operationalinsights";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Enables an intelligence pack for a given workspace.
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2020-08-01/examples/WorkspacesEnableIntelligencePack.json
  */
 async function intelligencePacksEnable() {
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const resourceGroupName = "rg1";
+  const subscriptionId =
+    process.env["OPERATIONALINSIGHTS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-00000000000";
+  const resourceGroupName =
+    process.env["OPERATIONALINSIGHTS_RESOURCE_GROUP"] || "rg1";
   const workspaceName = "TestLinkWS";
   const intelligencePackName = "ChangeTracking";
   const credential = new DefaultAzureCredential();
@@ -35,4 +41,8 @@ async function intelligencePacksEnable() {
   console.log(result);
 }
 
-intelligencePacksEnable().catch(console.error);
+async function main() {
+  intelligencePacksEnable();
+}
+
+main().catch(console.error);

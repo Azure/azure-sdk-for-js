@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { Portal } = require("@azure/arm-portal");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Creates or updates a Dashboard.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/portal/resource-manager/Microsoft.Portal/preview/2020-09-01-preview/examples/createOrUpdateDashboard.json
  */
 async function createOrUpdateADashboard() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "testRG";
+  const subscriptionId =
+    process.env["PORTAL_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["PORTAL_RESOURCE_GROUP"] || "testRG";
   const dashboardName = "testDashboard";
   const dashboard = {
     lenses: [
@@ -46,4 +48,8 @@ async function createOrUpdateADashboard() {
   console.log(result);
 }
 
-createOrUpdateADashboard().catch(console.error);
+async function main() {
+  createOrUpdateADashboard();
+}
+
+main().catch(console.error);
