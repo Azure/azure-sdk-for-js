@@ -5,7 +5,7 @@
 ## Configuration
 
 ```yaml
-package-name: "@azure/communication-toll-free-verification"
+package-name: "@azure-tools/communication-toll-free-verification"
 description: Toll Free Verification client
 package-version: 1.0.0-beta.1
 license-header: MICROSOFT_MIT_NO_VERSION

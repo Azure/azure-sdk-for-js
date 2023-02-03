@@ -10,6 +10,6 @@ import { createTracingClient } from "@azure/core-tracing";
 
 export const tracingClient = createTracingClient({
   namespace: "Microsoft.Communication",
-  packageName: "@azure/communication-toll-free-verification",
+  packageName: "@azure-tools/communication-toll-free-verification",
   packageVersion: "1.0.0-beta.1"
 });
