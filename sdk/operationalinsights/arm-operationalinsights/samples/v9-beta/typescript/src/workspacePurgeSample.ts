@@ -13,6 +13,9 @@ import {
   OperationalInsightsManagementClient
 } from "@azure/arm-operationalinsights";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Purges data in an Log Analytics workspace by a set of user-defined filters.
@@ -25,8 +28,11 @@ In order to manage system resources, purge requests are throttled at 50 requests
  * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2020-08-01/examples/WorkspacesPurge.json
  */
 async function workspacePurge() {
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const resourceGroupName = "OIAutoRest5123";
+  const subscriptionId =
+    process.env["OPERATIONALINSIGHTS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-00000000000";
+  const resourceGroupName =
+    process.env["OPERATIONALINSIGHTS_RESOURCE_GROUP"] || "OIAutoRest5123";
   const workspaceName = "aztest5048";
   const body: WorkspacePurgeBody = {
     filters: [
@@ -47,4 +53,8 @@ async function workspacePurge() {
   console.log(result);
 }
 
-workspacePurge().catch(console.error);
+async function main() {
+  workspacePurge();
+}
+
+main().catch(console.error);

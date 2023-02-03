@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { RecoveryServicesClient } = require("@azure/arm-recoveryservices");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Fetches the replication usages of the vault.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2022-04-01/examples/ListReplicationUsages.json
  */
 async function getsReplicationUsagesOfVault() {
-  const subscriptionId = "6808dbbc-98c7-431f-a1b1-9580902423b7";
-  const resourceGroupName = "avrai7517RG1";
+  const subscriptionId =
+    process.env["RECOVERYSERVICES_SUBSCRIPTION_ID"] || "6808dbbc-98c7-431f-a1b1-9580902423b7";
+  const resourceGroupName = process.env["RECOVERYSERVICES_RESOURCE_GROUP"] || "avrai7517RG1";
   const vaultName = "avrai7517Vault1";
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesClient(credential, subscriptionId);
@@ -30,4 +32,8 @@ async function getsReplicationUsagesOfVault() {
   console.log(resArray);
 }
 
-getsReplicationUsagesOfVault().catch(console.error);
+async function main() {
+  getsReplicationUsagesOfVault();
+}
+
+main().catch(console.error);

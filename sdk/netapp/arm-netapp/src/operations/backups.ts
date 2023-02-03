@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { Backups } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,11 +17,11 @@ import { LroImpl } from "../lroImpl";
 import {
   Backup,
   BackupsListOptionalParams,
+  BackupsListResponse,
   BackupsGetStatusOptionalParams,
   BackupsGetStatusResponse,
   BackupsGetVolumeRestoreStatusOptionalParams,
   BackupsGetVolumeRestoreStatusResponse,
-  BackupsListResponse,
   BackupsGetOptionalParams,
   BackupsGetResponse,
   BackupsCreateOptionalParams,
@@ -73,13 +73,17 @@ export class BackupsImpl implements Backups {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listPagingPage(
           resourceGroupName,
           accountName,
           poolName,
           volumeName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -90,9 +94,11 @@ export class BackupsImpl implements Backups {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: BackupsListOptionalParams
+    options?: BackupsListOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<Backup[]> {
-    let result = await this._list(
+    let result: BackupsListResponse;
+    result = await this._list(
       resourceGroupName,
       accountName,
       poolName,

@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { CommunicationServiceManagementClient } from "@azure/arm-communication";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Get a list of domains that are fully verified in Exchange Online.
@@ -18,7 +21,8 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2022-07-01-preview/examples/emailServices/getVerifiedExchangeOnlineDomains.json
  */
 async function getVerifiedExchangeOnlineDomains() {
-  const subscriptionId = "12345";
+  const subscriptionId =
+    process.env["COMMUNICATION_SUBSCRIPTION_ID"] || "12345";
   const credential = new DefaultAzureCredential();
   const client = new CommunicationServiceManagementClient(
     credential,
@@ -28,4 +32,8 @@ async function getVerifiedExchangeOnlineDomains() {
   console.log(result);
 }
 
-getVerifiedExchangeOnlineDomains().catch(console.error);
+async function main() {
+  getVerifiedExchangeOnlineDomains();
+}
+
+main().catch(console.error);
