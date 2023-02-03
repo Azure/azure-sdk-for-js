@@ -24,7 +24,7 @@ export {
   FileType,
   TollFreeVerificationGetCampaignBriefOptionalParams,
   TollFreeVerificationGetAllCampaignBriefsByCountryCodeOptionalParams,
-  TollFreeVerificationGetAllCampaignBriefsOptionalParams,
+  TollFreeVerificationGetAllCampaignBriefSummariesOptionalParams,
   TollFreeVerificationUpsertCampaignBriefResponse,
   TollFreeVerificationUpsertCampaignBriefOptionalParams,
   TollFreeVerificationSubmitCampaignBriefOptionalParams,

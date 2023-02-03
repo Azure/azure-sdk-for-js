@@ -20,9 +20,9 @@ import {
   TollFreeVerificationGetAllCampaignBriefsByCountryCodeOptionalParams,
   TollFreeVerificationGetAllCampaignBriefsByCountryCodeResponse,
   CampaignBriefSummary,
-  TollFreeVerificationGetAllCampaignBriefsNextOptionalParams,
-  TollFreeVerificationGetAllCampaignBriefsOptionalParams,
-  TollFreeVerificationGetAllCampaignBriefsResponse,
+  TollFreeVerificationGetAllCampaignBriefSummariesNextOptionalParams,
+  TollFreeVerificationGetAllCampaignBriefSummariesOptionalParams,
+  TollFreeVerificationGetAllCampaignBriefSummariesResponse,
   CampaignBriefAttachment,
   TollFreeVerificationGetCampaignBriefAttachmentsNextOptionalParams,
   TollFreeVerificationGetCampaignBriefAttachmentsOptionalParams,
@@ -42,7 +42,7 @@ import {
   TollFreeVerificationGetCampaignBriefAttachmentOptionalParams,
   TollFreeVerificationGetCampaignBriefAttachmentResponse,
   TollFreeVerificationGetAllCampaignBriefsByCountryCodeNextResponse,
-  TollFreeVerificationGetAllCampaignBriefsNextResponse,
+  TollFreeVerificationGetAllCampaignBriefSummariesNextResponse,
   TollFreeVerificationGetCampaignBriefAttachmentsNextResponse
 } from "../models";
 
@@ -60,7 +60,7 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
   }
 
   /**
-   * Get a list of Campaign Briefs excluding Denied campaign briefs for the current resource.
+   * Get a list of campaign briefs by country code for the current resource.
    * @param countryCode
    * @param options The options parameters.
    */
@@ -135,14 +135,13 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
   }
 
   /**
-   * Get a list of Campaign Brief Summaries excluding Denied campaign brief summaries for the current
-   * resource.
+   * Get a list of Campaign Brief Summaries for the current resource.
    * @param options The options parameters.
    */
-  public listAllCampaignBriefs(
-    options?: TollFreeVerificationGetAllCampaignBriefsOptionalParams
+  public listAllCampaignBriefSummaries(
+    options?: TollFreeVerificationGetAllCampaignBriefSummariesOptionalParams
   ): PagedAsyncIterableIterator<CampaignBriefSummary> {
-    const iter = this.getAllCampaignBriefsPagingAll(options);
+    const iter = this.getAllCampaignBriefSummariesPagingAll(options);
     return {
       next() {
         return iter.next();
@@ -154,26 +153,29 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.getAllCampaignBriefsPagingPage(options, settings);
+        return this.getAllCampaignBriefSummariesPagingPage(options, settings);
       }
     };
   }
 
-  private async *getAllCampaignBriefsPagingPage(
-    options?: TollFreeVerificationGetAllCampaignBriefsOptionalParams,
+  private async *getAllCampaignBriefSummariesPagingPage(
+    options?: TollFreeVerificationGetAllCampaignBriefSummariesOptionalParams,
     settings?: PageSettings
   ): AsyncIterableIterator<CampaignBriefSummary[]> {
-    let result: TollFreeVerificationGetAllCampaignBriefsResponse;
+    let result: TollFreeVerificationGetAllCampaignBriefSummariesResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._getAllCampaignBriefs(options);
+      result = await this._getAllCampaignBriefSummaries(options);
       let page = result.campaignBriefSummaries || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._getAllCampaignBriefsNext(continuationToken, options);
+      result = await this._getAllCampaignBriefSummariesNext(
+        continuationToken,
+        options
+      );
       continuationToken = result.nextLink;
       let page = result.campaignBriefSummaries || [];
       setContinuationToken(page, continuationToken);
@@ -181,10 +183,12 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
     }
   }
 
-  private async *getAllCampaignBriefsPagingAll(
-    options?: TollFreeVerificationGetAllCampaignBriefsOptionalParams
+  private async *getAllCampaignBriefSummariesPagingAll(
+    options?: TollFreeVerificationGetAllCampaignBriefSummariesOptionalParams
   ): AsyncIterableIterator<CampaignBriefSummary> {
-    for await (const page of this.getAllCampaignBriefsPagingPage(options)) {
+    for await (const page of this.getAllCampaignBriefSummariesPagingPage(
+      options
+    )) {
       yield* page;
     }
   }
@@ -366,7 +370,7 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
   }
 
   /**
-   * Get a list of Campaign Briefs excluding Denied campaign briefs for the current resource.
+   * Get a list of campaign briefs by country code for the current resource.
    * @param countryCode
    * @param options The options parameters.
    */
@@ -389,21 +393,20 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
   }
 
   /**
-   * Get a list of Campaign Brief Summaries excluding Denied campaign brief summaries for the current
-   * resource.
+   * Get a list of Campaign Brief Summaries for the current resource.
    * @param options The options parameters.
    */
-  private async _getAllCampaignBriefs(
-    options?: TollFreeVerificationGetAllCampaignBriefsOptionalParams
-  ): Promise<TollFreeVerificationGetAllCampaignBriefsResponse> {
+  private async _getAllCampaignBriefSummaries(
+    options?: TollFreeVerificationGetAllCampaignBriefSummariesOptionalParams
+  ): Promise<TollFreeVerificationGetAllCampaignBriefSummariesResponse> {
     return tracingClient.withSpan(
-      "TollFreeVerificationClient._getAllCampaignBriefs",
+      "TollFreeVerificationClient._getAllCampaignBriefSummaries",
       options ?? {},
       async (options) => {
         return this.client.sendOperationRequest(
           { options },
-          getAllCampaignBriefsOperationSpec
-        ) as Promise<TollFreeVerificationGetAllCampaignBriefsResponse>;
+          getAllCampaignBriefSummariesOperationSpec
+        ) as Promise<TollFreeVerificationGetAllCampaignBriefSummariesResponse>;
       }
     );
   }
@@ -562,22 +565,25 @@ export class TollFreeVerificationImpl implements TollFreeVerification {
   }
 
   /**
-   * GetAllCampaignBriefsNext
-   * @param nextLink The nextLink from the previous successful call to the GetAllCampaignBriefs method.
+   * GetAllCampaignBriefSummariesNext
+   * @param nextLink The nextLink from the previous successful call to the GetAllCampaignBriefSummaries
+   *                 method.
    * @param options The options parameters.
    */
-  private async _getAllCampaignBriefsNext(
+  private async _getAllCampaignBriefSummariesNext(
     nextLink: string,
-    options?: TollFreeVerificationGetAllCampaignBriefsNextOptionalParams
-  ): Promise<TollFreeVerificationGetAllCampaignBriefsNextResponse> {
+    options?: TollFreeVerificationGetAllCampaignBriefSummariesNextOptionalParams
+  ): Promise<TollFreeVerificationGetAllCampaignBriefSummariesNextResponse> {
     return tracingClient.withSpan(
-      "TollFreeVerificationClient._getAllCampaignBriefsNext",
+      "TollFreeVerificationClient._getAllCampaignBriefSummariesNext",
       options ?? {},
       async (options) => {
         return this.client.sendOperationRequest(
           { nextLink, options },
-          getAllCampaignBriefsNextOperationSpec
-        ) as Promise<TollFreeVerificationGetAllCampaignBriefsNextResponse>;
+          getAllCampaignBriefSummariesNextOperationSpec
+        ) as Promise<
+          TollFreeVerificationGetAllCampaignBriefSummariesNextResponse
+        >;
       }
     );
   }
@@ -716,7 +722,7 @@ const getAllCampaignBriefsByCountryCodeOperationSpec: coreClient.OperationSpec =
   headerParameters: [Parameters.accept],
   serializer
 };
-const getAllCampaignBriefsOperationSpec: coreClient.OperationSpec = {
+const getAllCampaignBriefSummariesOperationSpec: coreClient.OperationSpec = {
   path: "/tollfreeVerification/campaignBriefs",
   httpMethod: "GET",
   responses: {
@@ -851,7 +857,7 @@ const getAllCampaignBriefsByCountryCodeNextOperationSpec: coreClient.OperationSp
   headerParameters: [Parameters.accept],
   serializer
 };
-const getAllCampaignBriefsNextOperationSpec: coreClient.OperationSpec = {
+const getAllCampaignBriefSummariesNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {

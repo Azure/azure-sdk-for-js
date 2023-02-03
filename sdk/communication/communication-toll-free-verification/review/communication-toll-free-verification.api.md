@@ -103,7 +103,7 @@ export interface CampaignBriefs {
 }
 
 // @public
-export type CampaignBriefStatus = "submitted" | "approved" | "updateRequested" | "draft" | "denied" | "cancelled";
+export type CampaignBriefStatus = "submitted" | "approved" | "updateRequested" | "draft" | "denied";
 
 // @public
 export interface CampaignBriefSummaries {
@@ -167,7 +167,7 @@ export class TollFreeVerificationClient {
     // (undocumented)
     listCampaignBriefAttachments(countryCode: string, campaignBriefId: string, options?: TollFreeVerificationGetCampaignBriefAttachmentsOptionalParams): PagedAsyncIterableIterator<CampaignBrief>;
     // (undocumented)
-    listCampaignBriefs(options?: TollFreeVerificationGetAllCampaignBriefsOptionalParams): PagedAsyncIterableIterator<CampaignBriefSummary>;
+    listCampaignBriefs(options?: TollFreeVerificationGetAllCampaignBriefSummariesOptionalParams): PagedAsyncIterableIterator<CampaignBriefSummary>;
     // (undocumented)
     submitCampaignBrief(campaignBriefId: string, countryCode: string, options?: TollFreeVerificationSubmitCampaignBriefOptionalParams): Promise<TollFreeVerificationSubmitCampaignBriefResponse>;
     // (undocumented)
@@ -203,7 +203,7 @@ export interface TollFreeVerificationGetAllCampaignBriefsByCountryCodeOptionalPa
 }
 
 // @public
-export interface TollFreeVerificationGetAllCampaignBriefsOptionalParams extends coreClient.OperationOptions {
+export interface TollFreeVerificationGetAllCampaignBriefSummariesOptionalParams extends coreClient.OperationOptions {
     skip?: number;
     top?: number;
 }

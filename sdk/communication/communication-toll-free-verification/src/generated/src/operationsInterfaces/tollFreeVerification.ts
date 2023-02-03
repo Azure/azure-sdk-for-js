@@ -11,7 +11,7 @@ import {
   CampaignBrief,
   TollFreeVerificationGetAllCampaignBriefsByCountryCodeOptionalParams,
   CampaignBriefSummary,
-  TollFreeVerificationGetAllCampaignBriefsOptionalParams,
+  TollFreeVerificationGetAllCampaignBriefSummariesOptionalParams,
   CampaignBriefAttachment,
   TollFreeVerificationGetCampaignBriefAttachmentsOptionalParams,
   TollFreeVerificationUpsertCampaignBriefOptionalParams,
@@ -34,7 +34,7 @@ import {
 /** Interface representing a TollFreeVerification. */
 export interface TollFreeVerification {
   /**
-   * Get a list of Campaign Briefs excluding Denied campaign briefs for the current resource.
+   * Get a list of campaign briefs by country code for the current resource.
    * @param countryCode
    * @param options The options parameters.
    */
@@ -43,12 +43,11 @@ export interface TollFreeVerification {
     options?: TollFreeVerificationGetAllCampaignBriefsByCountryCodeOptionalParams
   ): PagedAsyncIterableIterator<CampaignBrief>;
   /**
-   * Get a list of Campaign Brief Summaries excluding Denied campaign brief summaries for the current
-   * resource.
+   * Get a list of Campaign Brief Summaries for the current resource.
    * @param options The options parameters.
    */
-  listAllCampaignBriefs(
-    options?: TollFreeVerificationGetAllCampaignBriefsOptionalParams
+  listAllCampaignBriefSummaries(
+    options?: TollFreeVerificationGetAllCampaignBriefSummariesOptionalParams
   ): PagedAsyncIterableIterator<CampaignBriefSummary>;
   /**
    * Gets a list of attachments from a Campaign Brief.

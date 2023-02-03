@@ -168,7 +168,7 @@ export interface CampaignBriefSummary {
   id?: string;
   /** Country code of the Campaign Brief */
   countryCode?: string;
-  /** Campaign Brief status e.g. 'submitted', 'approved', etc */
+  /** Campaign Brief types e.g. 'tollfreeVerification' */
   briefType?: "tollfreeVerification";
   /** Campaign Brief status e.g. 'submitted', 'approved', etc */
   status?: CampaignBriefStatus;
@@ -215,8 +215,7 @@ export type CampaignBriefStatus =
   | "approved"
   | "updateRequested"
   | "draft"
-  | "denied"
-  | "cancelled";
+  | "denied";
 /** Defines values for CampaignBriefUseCaseType. */
 export type CampaignBriefUseCaseType =
   | "TwoFactorAuthentication"
@@ -336,7 +335,7 @@ export interface TollFreeVerificationGetAllCampaignBriefsByCountryCodeOptionalPa
 export type TollFreeVerificationGetAllCampaignBriefsByCountryCodeResponse = CampaignBriefs;
 
 /** Optional parameters. */
-export interface TollFreeVerificationGetAllCampaignBriefsOptionalParams
+export interface TollFreeVerificationGetAllCampaignBriefSummariesOptionalParams
   extends coreClient.OperationOptions {
   /** An optional parameter for how many entries to skip, for pagination purposes. */
   skip?: number;
@@ -344,8 +343,8 @@ export interface TollFreeVerificationGetAllCampaignBriefsOptionalParams
   top?: number;
 }
 
-/** Contains response data for the getAllCampaignBriefs operation. */
-export type TollFreeVerificationGetAllCampaignBriefsResponse = CampaignBriefSummaries;
+/** Contains response data for the getAllCampaignBriefSummaries operation. */
+export type TollFreeVerificationGetAllCampaignBriefSummariesResponse = CampaignBriefSummaries;
 
 /** Optional parameters. */
 export interface TollFreeVerificationCreateOrReplaceCampaignBriefAttachmentOptionalParams
@@ -388,11 +387,11 @@ export interface TollFreeVerificationGetAllCampaignBriefsByCountryCodeNextOption
 export type TollFreeVerificationGetAllCampaignBriefsByCountryCodeNextResponse = CampaignBriefs;
 
 /** Optional parameters. */
-export interface TollFreeVerificationGetAllCampaignBriefsNextOptionalParams
+export interface TollFreeVerificationGetAllCampaignBriefSummariesNextOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the getAllCampaignBriefsNext operation. */
-export type TollFreeVerificationGetAllCampaignBriefsNextResponse = CampaignBriefSummaries;
+/** Contains response data for the getAllCampaignBriefSummariesNext operation. */
+export type TollFreeVerificationGetAllCampaignBriefSummariesNextResponse = CampaignBriefSummaries;
 
 /** Optional parameters. */
 export interface TollFreeVerificationGetCampaignBriefAttachmentsNextOptionalParams
