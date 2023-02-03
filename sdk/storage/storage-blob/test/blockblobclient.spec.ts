@@ -3,13 +3,16 @@
 
 import { assert } from "chai";
 
-import { record, Recorder } from "@azure-tools/test-recorder";
+import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import {
   base64encode,
   bodyToString,
+  configureBlobStorageClient,
   getBSU,
   getSASConnectionStringFromEnvironment,
+  getUniqueName,
   recorderEnvSetup,
+  uriSanitizers,
 } from "./utils";
 import { ContainerClient, BlobClient, BlockBlobClient } from "../src";
 import { Test_CPK_INFO } from "./utils/fakeTestSecrets";
@@ -27,32 +30,37 @@ describe("BlockBlobClient", () => {
   let recorder: Recorder;
 
   beforeEach(async function (this: Context) {
-    recorder = record(this, recorderEnvSetup);
-    const blobServiceClient = getBSU();
-    containerName = recorder.getUniqueName("container");
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers(
+      { uriSanitizers, removeHeaderSanitizer: { headersForRemoval: ["x-ms-copy-source"] } },
+      ["playback", "record"]
+    );
+    const blobServiceClient = getBSU(recorder);
+    containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
-    blobName = recorder.getUniqueName("blob");
+    blobName = recorder.variable("blob", getUniqueName("blob"));
     blobClient = containerClient.getBlobClient(blobName);
     blockBlobClient = blobClient.getBlockBlobClient();
   });
 
   afterEach(async function (this: Context) {
-    if (!this.currentTest?.isPending()) {
+    if (containerClient) {
       await containerClient.delete();
-      await recorder.stop();
     }
+    await recorder.stop();
   });
 
-  it("upload with string body and default parameters", async () => {
-    const body: string = recorder.getUniqueName("randomstring");
+  it("upload with string body and default parameters", async function () {
+    const body: string = recorder.variable("randomstring", getUniqueName("randomstring"));
     await blockBlobClient.upload(body, body.length);
     const result = await blobClient.download(0);
     assert.deepStrictEqual(await bodyToString(result, body.length), body);
   });
 
-  it("upload with progress report", async () => {
-    const body: string = recorder.getUniqueName("randomstring");
+  it("upload with progress report", async function () {
+    const body: string = recorder.variable("randomstring", getUniqueName("randomstring"));
     await blockBlobClient.upload(body, body.length, {
       onProgress: () => {
         /* empty */
@@ -62,8 +70,8 @@ describe("BlockBlobClient", () => {
     assert.deepStrictEqual(await bodyToString(result, body.length), body);
   });
 
-  it("upload with string body and all parameters set", async () => {
-    const body: string = recorder.getUniqueName("randomstring");
+  it("upload with string body and all parameters set", async function () {
+    const body: string = recorder.variable("randomstring", getUniqueName("randomstring"));
     const options = {
       blobCacheControl: "blobCacheControl",
       blobContentDisposition: "blobContentDisposition",
@@ -93,7 +101,7 @@ describe("BlockBlobClient", () => {
     assert.equal(gResp.accessTier, BlockBlobTier.Cool);
   });
 
-  it("stageBlock", async () => {
+  it("stageBlock", async function () {
     const body = "HelloWorld";
     await blockBlobClient.stageBlock(base64encode("1"), body, body.length);
     await blockBlobClient.stageBlock(base64encode("2"), body, body.length);
@@ -105,7 +113,7 @@ describe("BlockBlobClient", () => {
     assert.equal(listResponse.uncommittedBlocks![1].size, body.length);
   });
 
-  it("stageBlock with progress report", async () => {
+  it("stageBlock with progress report", async function () {
     const body = "HelloWorld";
     await blockBlobClient.stageBlock(base64encode("1"), body, body.length, {
       onProgress: () => {
@@ -126,7 +134,7 @@ describe("BlockBlobClient", () => {
     assert.equal(listResponse.committedBlocks![1].size, body.length);
   });
 
-  it("stageBlockFromURL copy source blob as single block", async () => {
+  it("stageBlockFromURL copy source blob as single block", async function () {
     const body = "HelloWorld";
     await blockBlobClient.upload(body, body.length);
 
@@ -137,7 +145,7 @@ describe("BlockBlobClient", () => {
     }
 
     const newBlockBlobClient = containerClient.getBlockBlobClient(
-      recorder.getUniqueName("newblockblob")
+      recorder.variable("newblockblob", getUniqueName("newblockblob"))
     );
     await newBlockBlobClient.stageBlockFromURL(base64encode("1"), blockBlobClient.url);
 
@@ -147,7 +155,7 @@ describe("BlockBlobClient", () => {
     assert.equal(listResponse.uncommittedBlocks![0].size, body.length);
   });
 
-  it("stageBlockFromURL copy source blob as separate blocks", async () => {
+  it("stageBlockFromURL copy source blob as separate blocks", async function () {
     const body = "HelloWorld";
     await blockBlobClient.upload(body, body.length);
 
@@ -158,7 +166,7 @@ describe("BlockBlobClient", () => {
     }
 
     const newBlockBlobClient = containerClient.getBlockBlobClient(
-      recorder.getUniqueName("newblockblob")
+      recorder.variable("newblockblob", getUniqueName("newblockblob"))
     );
     await newBlockBlobClient.stageBlockFromURL(base64encode("1"), blockBlobClient.url, 0, 4);
     await newBlockBlobClient.stageBlockFromURL(base64encode("2"), blockBlobClient.url, 4, 4);
@@ -183,7 +191,7 @@ describe("BlockBlobClient", () => {
     assert.equal(await bodyToString(downloadResponse, 10), body);
   });
 
-  it("commitBlockList", async () => {
+  it("commitBlockList", async function () {
     const body = "HelloWorld";
     await blockBlobClient.stageBlock(base64encode("1"), body, body.length);
     await blockBlobClient.stageBlock(base64encode("2"), body, body.length);
@@ -196,7 +204,7 @@ describe("BlockBlobClient", () => {
     assert.equal(listResponse.committedBlocks![1].size, body.length);
   });
 
-  it("commitBlockList with all parameters set", async () => {
+  it("commitBlockList with all parameters set", async function () {
     const body = "HelloWorld";
     await blockBlobClient.stageBlock(base64encode("1"), body, body.length);
     await blockBlobClient.stageBlock(base64encode("2"), body, body.length);
@@ -238,7 +246,7 @@ describe("BlockBlobClient", () => {
     assert.equal(gResp.accessTier, BlockBlobTier.Cool);
   });
 
-  it("getBlockList", async () => {
+  it("getBlockList", async function () {
     const body = "HelloWorld";
     await blockBlobClient.stageBlock(base64encode("1"), body, body.length);
     await blockBlobClient.stageBlock(base64encode("2"), body, body.length);
@@ -250,7 +258,7 @@ describe("BlockBlobClient", () => {
     assert.equal(listResponse.committedBlocks![0].size, body.length);
   });
 
-  it("commitBlockList with cold tier", async () => {
+  it("commitBlockList with cold tier", async function () {
     const body = "HelloWorld";
     await blockBlobClient.stageBlock(base64encode("1"), body, body.length);
     await blockBlobClient.stageBlock(base64encode("2"), body, body.length);
@@ -265,23 +273,26 @@ describe("BlockBlobClient", () => {
     assert.deepStrictEqual(await bodyToString(result, body.length * 2), "HelloWorldHelloWorld");
   });
 
-  it("can be created with a sas connection string", async () => {
-    recorder.skip("node", "SAS token is not handled in playback");
+  it("can be created with a sas connection string", async function () {
+    if (isNode && !isLiveMode()) {
+      this.skip();
+    }
     const newClient = new BlockBlobClient(
-      getSASConnectionStringFromEnvironment(),
+      getSASConnectionStringFromEnvironment(recorder),
       containerName,
       blobName
     );
+    configureBlobStorageClient(recorder, newClient);
 
-    const body: string = recorder.getUniqueName("randomstring");
+    const body: string = recorder.variable("randomstring", getUniqueName("randomstring"));
     await newClient.upload(body, body.length);
     const result = await newClient.download(0);
     assert.deepStrictEqual(await bodyToString(result, body.length), body);
   });
 
-  it("throws error if constructor containerName parameter is empty", async () => {
+  it("throws error if constructor containerName parameter is empty", async function () {
     try {
-      new BlockBlobClient(getSASConnectionStringFromEnvironment(), "", "blobName");
+      new BlockBlobClient(getSASConnectionStringFromEnvironment(recorder), "", "blobName");
       assert.fail("Expecting an thrown error but didn't get one.");
     } catch (error: any) {
       assert.equal(
@@ -292,10 +303,10 @@ describe("BlockBlobClient", () => {
     }
   });
 
-  it("throws error if constructor blobName parameter is empty", async () => {
+  it("throws error if constructor blobName parameter is empty", async function () {
     try {
       // tslint:disable-next-line: no-unused-expression
-      new BlockBlobClient(getSASConnectionStringFromEnvironment(), "containerName", "");
+      new BlockBlobClient(getSASConnectionStringFromEnvironment(recorder), "containerName", "");
       assert.fail("Expecting an thrown error but didn't get one.");
     } catch (error: any) {
       assert.equal(
@@ -306,8 +317,8 @@ describe("BlockBlobClient", () => {
     }
   });
 
-  it("upload and download with CPK", async () => {
-    const body: string = recorder.getUniqueName("randomstring");
+  it("upload and download with CPK", async function () {
+    const body: string = recorder.variable("randomstring", getUniqueName("randomstring"));
     const options = {
       blobCacheControl: "blobCacheControl",
       blobContentDisposition: "blobContentDisposition",
@@ -348,7 +359,7 @@ describe("BlockBlobClient", () => {
     }
 
     const newBlockBlobURL = containerClient.getBlockBlobClient(
-      recorder.getUniqueName("newblockblob")
+      recorder.variable("newblockblob", getUniqueName("newblockblob"))
     );
     const sResp = await newBlockBlobURL.stageBlock(base64encode("1"), body.substring(0, 4), 4, {
       customerProvidedKey: Test_CPK_INFO,
@@ -390,7 +401,7 @@ describe("BlockBlobClient", () => {
   });
 
   it("download without CPK should fail, if upload with CPK", async () => {
-    const body: string = recorder.getUniqueName("randomstring");
+    const body: string = recorder.variable("randomstring", getUniqueName("randomstring"));
     await blockBlobClient.upload(body, body.length, {
       customerProvidedKey: Test_CPK_INFO,
     });
@@ -406,7 +417,7 @@ describe("BlockBlobClient", () => {
     assert.ok(exceptionCaught);
   });
 
-  it("stageBlock with invalid CRC64 should fail", async () => {
+  it("stageBlock with invalid CRC64 should fail", async function () {
     const content = "Hello World!";
     let exceptionCaught = false;
     try {
@@ -427,7 +438,7 @@ describe("BlockBlobClient", () => {
     assert.ok(exceptionCaught);
   });
 
-  it("syncUploadFromURL with public source should work", async () => {
+  it("syncUploadFromURL with public source should work", async function () {
     const metadata = {
       key1: "val1",
       key2: "val2",
@@ -459,7 +470,7 @@ describe("BlockBlobClient", () => {
     }
   });
 
-  it("syncUploadFromURL with cold tier should work", async () => {
+  it("syncUploadFromURL with cold tier should work", async function () {
     await blockBlobClient.syncUploadFromURL("https://azure.github.io/azure-sdk-for-js/index.html", {
       tier: "Cold",
     });

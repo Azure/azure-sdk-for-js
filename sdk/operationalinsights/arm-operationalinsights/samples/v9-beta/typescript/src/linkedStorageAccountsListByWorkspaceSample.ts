@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { OperationalInsightsManagementClient } from "@azure/arm-operationalinsights";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets all linked storage accounts associated with the specified workspace, storage accounts will be sorted by their data source type.
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2020-08-01/examples/LinkedStorageAccountsListByWorkspace.json
  */
 async function getsListOfLinkedStorageAccountsOnAWorkspace() {
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const resourceGroupName = "mms-eus";
+  const subscriptionId =
+    process.env["OPERATIONALINSIGHTS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-00000000000";
+  const resourceGroupName =
+    process.env["OPERATIONALINSIGHTS_RESOURCE_GROUP"] || "mms-eus";
   const workspaceName = "testLinkStorageAccountsWS";
   const credential = new DefaultAzureCredential();
   const client = new OperationalInsightsManagementClient(
@@ -36,4 +42,8 @@ async function getsListOfLinkedStorageAccountsOnAWorkspace() {
   console.log(resArray);
 }
 
-getsListOfLinkedStorageAccountsOnAWorkspace().catch(console.error);
+async function main() {
+  getsListOfLinkedStorageAccountsOnAWorkspace();
+}
+
+main().catch(console.error);

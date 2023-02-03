@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { AzureOrbital } = require("@azure/arm-orbital");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Updates the specified spacecraft tags.
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/orbital/resource-manager/Microsoft.Orbital/stable/2022-03-01/examples/SpacecraftUpdateTags.json
  */
 async function updateSpacecraftTags() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["ORBITAL_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["ORBITAL_RESOURCE_GROUP"] || "rg1";
   const spacecraftName = "AQUA";
   const parameters = { tags: { tag1: "value1", tag2: "value2" } };
   const credential = new DefaultAzureCredential();
@@ -32,4 +33,8 @@ async function updateSpacecraftTags() {
   console.log(result);
 }
 
-updateSpacecraftTags().catch(console.error);
+async function main() {
+  updateSpacecraftTags();
+}
+
+main().catch(console.error);

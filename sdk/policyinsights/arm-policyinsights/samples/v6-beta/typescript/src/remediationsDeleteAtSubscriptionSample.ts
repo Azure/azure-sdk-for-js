@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { PolicyInsightsClient } from "@azure/arm-policyinsights";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Deletes an existing remediation at subscription scope.
@@ -18,7 +21,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2021-10-01/examples/Remediations_DeleteSubscriptionScope.json
  */
 async function deleteRemediationAtSubscriptionScope() {
-  const subscriptionId = "35ee058e-5fa0-414c-8145-3ebb8d09b6e2";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
+    "35ee058e-5fa0-414c-8145-3ebb8d09b6e2";
   const remediationName = "storageRemediation";
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
@@ -28,4 +33,8 @@ async function deleteRemediationAtSubscriptionScope() {
   console.log(result);
 }
 
-deleteRemediationAtSubscriptionScope().catch(console.error);
+async function main() {
+  deleteRemediationAtSubscriptionScope();
+}
+
+main().catch(console.error);

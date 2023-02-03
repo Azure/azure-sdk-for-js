@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { EducationManagementClient } = require("@azure/arm-education");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Approve student joining the redeemable lab
@@ -33,4 +34,8 @@ async function joinRequestApprove() {
   console.log(result);
 }
 
-joinRequestApprove().catch(console.error);
+async function main() {
+  joinRequestApprove();
+}
+
+main().catch(console.error);

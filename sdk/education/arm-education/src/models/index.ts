@@ -607,20 +607,14 @@ export type GrantsGetResponse = GrantDetails;
 
 /** Optional parameters. */
 export interface GrantsListAllNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** May be used to include information about budget that has been allocated. */
-  includeAllocatedBudget?: boolean;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAllNext operation. */
 export type GrantsListAllNextResponse = GrantListResponse;
 
 /** Optional parameters. */
 export interface GrantsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** May be used to include information about budget that has been allocated. */
-  includeAllocatedBudget?: boolean;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type GrantsListNextResponse = GrantListResponse;
@@ -676,22 +670,14 @@ export type LabsGenerateInviteCodeResponse = LabDetails;
 
 /** Optional parameters. */
 export interface LabsListAllNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** May be used to include budget information. */
-  includeBudget?: boolean;
-  /** May be used to show deleted items. */
-  includeDeleted?: boolean;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAllNext operation. */
 export type LabsListAllNextResponse = LabListResult;
 
 /** Optional parameters. */
 export interface LabsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** May be used to include budget information. */
-  includeBudget?: boolean;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type LabsListNextResponse = LabListResult;
@@ -723,10 +709,7 @@ export interface JoinRequestsDenyOptionalParams
 
 /** Optional parameters. */
 export interface JoinRequestsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Include denied */
-  includeDenied?: boolean;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type JoinRequestsListNextResponse = JoinRequestList;
@@ -765,10 +748,7 @@ export type StudentsCreateOrUpdateResponse = StudentDetails;
 
 /** Optional parameters. */
 export interface StudentsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** May be used to show deleted items. */
-  includeDeleted?: boolean;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type StudentsListNextResponse = StudentListResult;

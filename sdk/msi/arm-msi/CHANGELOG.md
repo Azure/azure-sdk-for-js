@@ -1,16 +1,6 @@
 # Release History
-
-## 2.1.0-beta.3 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 2.1.0-beta.2 (2022-06-27)
+    
+## 2.1.0-beta.3 (2023-01-29)
     
 **Features**
 
@@ -38,7 +28,7 @@
   - Added Type Alias FederatedIdentityCredentialsListResponse
   - Added Type Alias UserAssignedIdentitiesListAssociatedResourcesNextResponse
   - Added Type Alias UserAssignedIdentitiesListAssociatedResourcesResponse
-  - Class ManagedServiceIdentityClient has a new parameter federatedIdentityCredentials
+  - Added function getContinuationToken
     
     
 ## 2.0.0 (2021-12-17)

@@ -13,6 +13,9 @@ import {
   CommunicationServiceManagementClient
 } from "@azure/arm-communication";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Cancel verification of DNS record.
@@ -21,8 +24,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2022-07-01-preview/examples/domains/cancelVerification.json
  */
 async function cancelVerification() {
-  const subscriptionId = "12345";
-  const resourceGroupName = "MyResourceGroup";
+  const subscriptionId =
+    process.env["COMMUNICATION_SUBSCRIPTION_ID"] || "12345";
+  const resourceGroupName =
+    process.env["COMMUNICATION_RESOURCE_GROUP"] || "MyResourceGroup";
   const emailServiceName = "MyEmailServiceResource";
   const domainName = "mydomain.com";
   const parameters: VerificationParameter = { verificationType: "SPF" };
@@ -40,4 +45,8 @@ async function cancelVerification() {
   console.log(result);
 }
 
-cancelVerification().catch(console.error);
+async function main() {
+  cancelVerification();
+}
+
+main().catch(console.error);
