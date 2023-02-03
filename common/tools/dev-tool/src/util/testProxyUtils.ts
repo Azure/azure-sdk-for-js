@@ -119,6 +119,7 @@ export async function getTestProxyExecutable(): Promise<string> {
   // Check the executable is already downloaded and is, in fact, executable. If it's not, download it.
   try {
     await fs.access(executableLocation, fs.constants.X_OK);
+    log(`Test proxy executable already exists at ${executableLocation}, not downloading it.`);
   } catch {
     // Nuking the root .test-proxy folder, without the version, ensures that older versions of the test proxy
     // get cleaned up, so we don't end up with a ton of different test proxy versions using up disk space.
