@@ -6,50 +6,45 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   RoleAssignment,
-  RoleAssignmentsListForResourceOptionalParams,
+  RoleAssignmentsListForSubscriptionOptionalParams,
   RoleAssignmentsListForResourceGroupOptionalParams,
-  RoleAssignmentsListOptionalParams,
+  RoleAssignmentsListForResourceOptionalParams,
   RoleAssignmentsListForScopeOptionalParams,
-  RoleAssignmentsDeleteOptionalParams,
-  RoleAssignmentsDeleteResponse,
+  RoleAssignmentsGetOptionalParams,
+  RoleAssignmentsGetResponse,
   RoleAssignmentCreateParameters,
   RoleAssignmentsCreateOptionalParams,
   RoleAssignmentsCreateResponse,
-  RoleAssignmentsGetOptionalParams,
-  RoleAssignmentsGetResponse,
-  RoleAssignmentsDeleteByIdOptionalParams,
-  RoleAssignmentsDeleteByIdResponse,
+  RoleAssignmentsDeleteOptionalParams,
+  RoleAssignmentsDeleteResponse,
+  RoleAssignmentsValidateOptionalParams,
+  RoleAssignmentsValidateResponse,
+  RoleAssignmentsGetByIdOptionalParams,
+  RoleAssignmentsGetByIdResponse,
   RoleAssignmentsCreateByIdOptionalParams,
   RoleAssignmentsCreateByIdResponse,
-  RoleAssignmentsGetByIdOptionalParams,
-  RoleAssignmentsGetByIdResponse
+  RoleAssignmentsDeleteByIdOptionalParams,
+  RoleAssignmentsDeleteByIdResponse,
+  RoleAssignmentsValidateByIdOptionalParams,
+  RoleAssignmentsValidateByIdResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a RoleAssignments. */
 export interface RoleAssignments {
   /**
-   * List role assignments for a resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceProviderNamespace The namespace of the resource provider.
-   * @param parentResourcePath The parent resource identity.
-   * @param resourceType The resource type of the resource.
-   * @param resourceName The name of the resource to get role assignments for.
+   * List all role assignments that apply to a subscription.
    * @param options The options parameters.
    */
-  listForResource(
-    resourceGroupName: string,
-    resourceProviderNamespace: string,
-    parentResourcePath: string,
-    resourceType: string,
-    resourceName: string,
-    options?: RoleAssignmentsListForResourceOptionalParams
+  listForSubscription(
+    options?: RoleAssignmentsListForSubscriptionOptionalParams
   ): PagedAsyncIterableIterator<RoleAssignment>;
   /**
-   * List role assignments for a resource group.
+   * List all role assignments that apply to a resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
@@ -58,15 +53,27 @@ export interface RoleAssignments {
     options?: RoleAssignmentsListForResourceGroupOptionalParams
   ): PagedAsyncIterableIterator<RoleAssignment>;
   /**
-   * Gets all role assignments for the subscription.
+   * List all role assignments that apply to a resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceProviderNamespace The namespace of the resource provider.
+   * @param resourceType The resource type name. For example the type name of a web app is 'sites' (from
+   *                     Microsoft.Web/sites).
+   * @param resourceName The resource name.
    * @param options The options parameters.
    */
-  list(
-    options?: RoleAssignmentsListOptionalParams
+  listForResource(
+    resourceGroupName: string,
+    resourceProviderNamespace: string,
+    resourceType: string,
+    resourceName: string,
+    options?: RoleAssignmentsListForResourceOptionalParams
   ): PagedAsyncIterableIterator<RoleAssignment>;
   /**
-   * Gets role assignments for a scope.
-   * @param scope The scope of the role assignments.
+   * List all role assignments that apply to a scope.
+   * @param scope The scope of the operation or resource. Valid scopes are: subscription (format:
+   *              '/subscriptions/{subscriptionId}'), resource group (format:
+   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format:
+   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'
    * @param options The options parameters.
    */
   listForScope(
@@ -74,24 +81,26 @@ export interface RoleAssignments {
     options?: RoleAssignmentsListForScopeOptionalParams
   ): PagedAsyncIterableIterator<RoleAssignment>;
   /**
-   * Delete a role assignment.
-   * @param scope The scope of the role assignment to delete.
-   * @param roleAssignmentName The name of the role assignment to delete.
+   * Get a role assignment by scope and name.
+   * @param scope The scope of the operation or resource. Valid scopes are: subscription (format:
+   *              '/subscriptions/{subscriptionId}'), resource group (format:
+   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format:
+   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'
+   * @param roleAssignmentName The name of the role assignment. It can be any valid GUID.
    * @param options The options parameters.
    */
-  delete(
+  get(
     scope: string,
     roleAssignmentName: string,
-    options?: RoleAssignmentsDeleteOptionalParams
-  ): Promise<RoleAssignmentsDeleteResponse>;
+    options?: RoleAssignmentsGetOptionalParams
+  ): Promise<RoleAssignmentsGetResponse>;
   /**
-   * Create a role assignment.
-   * @param scope The scope of the role assignment to create. The scope can be any REST resource
-   *              instance. For example, use '/subscriptions/{subscription-id}/' for a subscription,
-   *              '/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}' for a resource group, and
-   *              '/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/{resource-provider}/{resource-type}/{resource-name}'
-   *              for a resource.
-   * @param roleAssignmentName The name of the role assignment to create. It can be any valid GUID.
+   * Create or update a role assignment by scope and name.
+   * @param scope The scope of the operation or resource. Valid scopes are: subscription (format:
+   *              '/subscriptions/{subscriptionId}'), resource group (format:
+   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format:
+   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'
+   * @param roleAssignmentName The name of the role assignment. It can be any valid GUID.
    * @param parameters Parameters for the role assignment.
    * @param options The options parameters.
    */
@@ -102,43 +111,85 @@ export interface RoleAssignments {
     options?: RoleAssignmentsCreateOptionalParams
   ): Promise<RoleAssignmentsCreateResponse>;
   /**
-   * Get the specified role assignment.
-   * @param scope The scope of the role assignment.
-   * @param roleAssignmentName The name of the role assignment to get.
+   * Delete a role assignment by scope and name.
+   * @param scope The scope of the operation or resource. Valid scopes are: subscription (format:
+   *              '/subscriptions/{subscriptionId}'), resource group (format:
+   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format:
+   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'
+   * @param roleAssignmentName The name of the role assignment. It can be any valid GUID.
    * @param options The options parameters.
    */
-  get(
+  delete(
     scope: string,
     roleAssignmentName: string,
-    options?: RoleAssignmentsGetOptionalParams
-  ): Promise<RoleAssignmentsGetResponse>;
+    options?: RoleAssignmentsDeleteOptionalParams
+  ): Promise<RoleAssignmentsDeleteResponse>;
   /**
-   * Delete a role assignment.
-   * @param roleId The ID of the role assignment to delete.
+   * Validate a role assignment create or update operation by scope and name.
+   * @param scope The scope of the operation or resource. Valid scopes are: subscription (format:
+   *              '/subscriptions/{subscriptionId}'), resource group (format:
+   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format:
+   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'
+   * @param roleAssignmentName The name of the role assignment. It can be any valid GUID.
+   * @param parameters Parameters for the role assignment.
    * @param options The options parameters.
    */
-  deleteById(
-    roleId: string,
-    options?: RoleAssignmentsDeleteByIdOptionalParams
-  ): Promise<RoleAssignmentsDeleteByIdResponse>;
+  validate(
+    scope: string,
+    roleAssignmentName: string,
+    parameters: RoleAssignmentCreateParameters,
+    options?: RoleAssignmentsValidateOptionalParams
+  ): Promise<RoleAssignmentsValidateResponse>;
   /**
-   * Creates a role assignment by ID.
-   * @param roleId The ID of the role assignment to create.
+   * Get a role assignment by ID.
+   * @param roleAssignmentId The fully qualified ID of the role assignment including scope, resource
+   *                         name, and resource type. Format:
+   *                         /{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}. Example:
+   *                         /subscriptions/<SUB_ID>/resourcegroups/<RESOURCE_GROUP>/providers/Microsoft.Authorization/roleAssignments/<ROLE_ASSIGNMENT_NAME>
+   * @param options The options parameters.
+   */
+  getById(
+    roleAssignmentId: string,
+    options?: RoleAssignmentsGetByIdOptionalParams
+  ): Promise<RoleAssignmentsGetByIdResponse>;
+  /**
+   * Create or update a role assignment by ID.
+   * @param roleAssignmentId The fully qualified ID of the role assignment including scope, resource
+   *                         name, and resource type. Format:
+   *                         /{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}. Example:
+   *                         /subscriptions/<SUB_ID>/resourcegroups/<RESOURCE_GROUP>/providers/Microsoft.Authorization/roleAssignments/<ROLE_ASSIGNMENT_NAME>
    * @param parameters Parameters for the role assignment.
    * @param options The options parameters.
    */
   createById(
-    roleId: string,
+    roleAssignmentId: string,
     parameters: RoleAssignmentCreateParameters,
     options?: RoleAssignmentsCreateByIdOptionalParams
   ): Promise<RoleAssignmentsCreateByIdResponse>;
   /**
-   * Gets a role assignment by ID.
-   * @param roleId The ID of the role assignment to get.
+   * Delete a role assignment by ID.
+   * @param roleAssignmentId The fully qualified ID of the role assignment including scope, resource
+   *                         name, and resource type. Format:
+   *                         /{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}. Example:
+   *                         /subscriptions/<SUB_ID>/resourcegroups/<RESOURCE_GROUP>/providers/Microsoft.Authorization/roleAssignments/<ROLE_ASSIGNMENT_NAME>
    * @param options The options parameters.
    */
-  getById(
-    roleId: string,
-    options?: RoleAssignmentsGetByIdOptionalParams
-  ): Promise<RoleAssignmentsGetByIdResponse>;
+  deleteById(
+    roleAssignmentId: string,
+    options?: RoleAssignmentsDeleteByIdOptionalParams
+  ): Promise<RoleAssignmentsDeleteByIdResponse>;
+  /**
+   * Validate a role assignment create or update operation by ID.
+   * @param roleAssignmentId The fully qualified ID of the role assignment including scope, resource
+   *                         name, and resource type. Format:
+   *                         /{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}. Example:
+   *                         /subscriptions/<SUB_ID>/resourcegroups/<RESOURCE_GROUP>/providers/Microsoft.Authorization/roleAssignments/<ROLE_ASSIGNMENT_NAME>
+   * @param parameters Parameters for the role assignment.
+   * @param options The options parameters.
+   */
+  validateById(
+    roleAssignmentId: string,
+    parameters: RoleAssignmentCreateParameters,
+    options?: RoleAssignmentsValidateByIdOptionalParams
+  ): Promise<RoleAssignmentsValidateByIdResponse>;
 }
