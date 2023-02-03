@@ -23,7 +23,7 @@ import {
   BulkOptions,
   decorateBatchOperation,
 } from "../../utils/batch";
-import { assertNotUndefined } from "../../utils/typeChecks";
+import { assertNotUndefined, isPrimitivePartitionKeyValue } from "../../utils/typeChecks";
 import { hashPartitionKey } from "../../utils/hashing/hash";
 import { PartitionKey, PartitionKeyDefinition } from "../../documents";
 
@@ -31,16 +31,7 @@ import { PartitionKey, PartitionKeyDefinition } from "../../documents";
  * @hidden
  */
 function isChangeFeedOptions(options: unknown): options is ChangeFeedOptions {
-  const optionsType = typeof options;
-  return (
-    options &&
-    !(
-      optionsType === "string" ||
-      optionsType === "boolean" ||
-      optionsType === "number" ||
-      Array.isArray(options)
-    )
-  );
+  return options && !(isPrimitivePartitionKeyValue(options) || Array.isArray(options));
 }
 
 /**
