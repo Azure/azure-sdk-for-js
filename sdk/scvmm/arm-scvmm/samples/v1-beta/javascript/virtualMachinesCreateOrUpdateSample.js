@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { Scvmm } = require("@azure/arm-scvmm");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Creates Or Updates virtual machines deployed on scvmm fabric.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/preview/2020-06-05-preview/examples/CreateVirtualMachine.json
  */
 async function createVirtualMachine() {
-  const subscriptionId = "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
-  const resourceGroupName = "testrg";
+  const subscriptionId =
+    process.env["SCVMM_SUBSCRIPTION_ID"] || "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
+  const resourceGroupName = process.env["SCVMM_RESOURCE_GROUP"] || "testrg";
   const virtualMachineName = "DemoVM";
   const body = {
     cloudId:
@@ -45,4 +47,8 @@ async function createVirtualMachine() {
   console.log(result);
 }
 
-createVirtualMachine().catch(console.error);
+async function main() {
+  createVirtualMachine();
+}
+
+main().catch(console.error);
