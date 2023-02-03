@@ -17,7 +17,7 @@ export interface UploadLogsOptions extends OperationOptions {
    * @param uploadLogsError - This is the {@link UploadLogsError} object
    * @returns void
    */
-  errorCallback?: (uploadLogsError: UploadLogsError) => void;
+  errorCallback?: (uploadLogsError: UploadLogsError) => Promise<void>;
 }
 
 /**

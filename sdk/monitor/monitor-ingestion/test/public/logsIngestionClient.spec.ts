@@ -14,6 +14,7 @@ import {
 } from "./shared/testShared";
 import { Recorder } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
+import Sinon from "sinon";
 
 function createFailedPolicies(failedInterval: { isFailed: boolean }): AdditionalPolicyConfig[] {
   return [
@@ -153,20 +154,36 @@ describe("LogsIngestionClient live tests", function () {
       }
     }
   });
-  it("Calls the error callback function",async function(){
+  it.only("Calls the error callback function when all logs fail", async function () {
     const noOfElements = 25000;
     const logData = getObjects(noOfElements);
-    const errorCallback = async function errorCallback(uploadLogsError : UploadLogsError){
-      assert.exists("On error Callback function is called and executed");
-      if((uploadLogsError.cause as Error).message === "Data collection rule with immutable Id 'immutable-id-123' not found."  ){
+    let concurrency = 3;
+
+    let errorCallbackCount = 0;
+    const errorCallback = async function errorCallback(uploadLogsError: UploadLogsError) {      
+      if ((uploadLogsError.cause as Error).message === "Data collection rule with immutable Id 'immutable-id-123' not found.") {
+       try{
         await client.upload(getDcrId(), "Custom-MyTableRawData", uploadLogsError.failedLogs, {
-          maxConcurrency: 3
-        });      
+          maxConcurrency: 1
+        });
+        ++errorCallbackCount;
+       }
+       catch(e){
+        const result = (e as AggregateUploadLogsError).errors;
+        if (result.length > 0) {
+          result.forEach((err) => {
+           console.log(err.cause.message);
+          });
+        }
+       } 
       }
     }
+
+    let uploadSinon = Sinon.spy(LogsIngestionClient.prototype,"upload");
+
     try {
       await client.upload("immutable-id-123", "Custom-MyTableRawData", logData, {
-        maxConcurrency: 3,
+        maxConcurrency: concurrency,
         errorCallback: errorCallback
       });
     } catch (e: any) {
@@ -180,8 +197,11 @@ describe("LogsIngestionClient live tests", function () {
         });
       }
     }
-
+    assert.equal(errorCallbackCount,concurrency);
+    assert.equal(uploadSinon.callCount,4);
+    //console.log(uploadSinon.getCalls()[3]);
   })
+
 });
 
 

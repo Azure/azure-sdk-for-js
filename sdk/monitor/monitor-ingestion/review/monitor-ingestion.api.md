@@ -36,7 +36,7 @@ export interface UploadLogsError {
 
 // @public
 export interface UploadLogsOptions extends OperationOptions {
-    errorCallback?: (uploadLogsError: UploadLogsError) => void;
+    errorCallback?: (uploadLogsError: UploadLogsError) => Promise<void> | void;
     maxConcurrency?: number;
 }
 
