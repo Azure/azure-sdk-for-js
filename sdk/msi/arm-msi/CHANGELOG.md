@@ -1,13 +1,10 @@
 # Release History
     
-## 2.1.0-beta.3 (2023-01-29)
+## 2.1.0 (2023-02-03)
     
 **Features**
 
   - Added operation group FederatedIdentityCredentials
-  - Added operation UserAssignedIdentities.listAssociatedResources
-  - Added Interface AssociatedResourcesListResult
-  - Added Interface AzureResource
   - Added Interface FederatedIdentityCredential
   - Added Interface FederatedIdentityCredentialsCreateOrUpdateOptionalParams
   - Added Interface FederatedIdentityCredentialsDeleteOptionalParams
@@ -19,15 +16,15 @@
   - Added Interface IdentityUpdate
   - Added Interface ProxyResource
   - Added Interface SystemAssignedIdentity
+  - Added Interface SystemData
   - Added Interface TrackedResource
-  - Added Interface UserAssignedIdentitiesListAssociatedResourcesNextOptionalParams
-  - Added Interface UserAssignedIdentitiesListAssociatedResourcesOptionalParams
+  - Added Type Alias CreatedByType
   - Added Type Alias FederatedIdentityCredentialsCreateOrUpdateResponse
   - Added Type Alias FederatedIdentityCredentialsGetResponse
   - Added Type Alias FederatedIdentityCredentialsListNextResponse
   - Added Type Alias FederatedIdentityCredentialsListResponse
-  - Added Type Alias UserAssignedIdentitiesListAssociatedResourcesNextResponse
-  - Added Type Alias UserAssignedIdentitiesListAssociatedResourcesResponse
+  - Interface Resource has a new optional parameter systemData
+  - Added Enum KnownCreatedByType
   - Added function getContinuationToken
     
     
