@@ -769,8 +769,12 @@ matrix([[true, false]] as const, async (useAad) => {
               amount: 56651.49,
               currencySymbol: "$",
             },
-            date: "2017-06-18T00:00:00.000Z",
+            date: "2017-06-24T00:00:00.000Z",
             productCode: "34278587",
+            tax: {
+              amount: 0,
+              currencySymbol: "",
+            },
           },
         ],
       });
