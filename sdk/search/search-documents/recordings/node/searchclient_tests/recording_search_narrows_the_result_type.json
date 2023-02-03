@@ -10,11 +10,11 @@
         "Connection": "keep-alive",
         "Content-Length": "3356",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-search-documents/11.3.0-beta.9 azsdk-js-search-documents/11.3.0-beta.8 core-rest-pipeline/1.10.1 Node/v16.14.2 OS/(x64-Linux-5.4.0-1094-azure)",
-        "x-ms-client-request-id": "55fdc5f6-dc07-4551-b2bc-acfd63f04ec5"
+        "User-Agent": "azsdk-js-search-documents/12.0.0-beta.1 azsdk-js-search-documents/11.3.0-beta.8 core-rest-pipeline/1.10.1 Node/v16.14.2 OS/(x64-Linux-5.4.0-1100-azure)",
+        "x-ms-client-request-id": "6497f60c-6cab-40c0-806a-6726e2887423"
       },
       "RequestBody": {
-        "name": "hotel-live-test-1077091",
+        "name": "hotel-live-test-1006582",
         "fields": [
           {
             "name": "hotelId",
@@ -264,21 +264,21 @@
         "Cache-Control": "no-cache",
         "Content-Length": "6727",
         "Content-Type": "application/json; odata.metadata=minimal",
-        "Date": "Sat, 12 Nov 2022 01:33:31 GMT",
-        "elapsed-time": "642",
-        "ETag": "W/\u00220x8DAC44DE8847289\u0022",
+        "Date": "Fri, 03 Feb 2023 22:25:35 GMT",
+        "elapsed-time": "1512",
+        "ETag": "W/\u00220x8DB06359230B71E\u0022",
         "Expires": "-1",
-        "Location": "https://endpoint/indexes(\u0027hotel-live-test-1077091\u0027)?api-version=2021-04-30-Preview",
+        "Location": "https://endpoint/indexes(\u0027hotel-live-test-1006582\u0027)?api-version=2021-04-30-Preview",
         "OData-Version": "4.0",
         "Pragma": "no-cache",
         "Preference-Applied": "odata.include-annotations=\u0022*\u0022",
-        "request-id": "55fdc5f6-dc07-4551-b2bc-acfd63f04ec5",
+        "request-id": "6497f60c-6cab-40c0-806a-6726e2887423",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains"
       },
       "ResponseBody": {
         "@odata.context": "https://endpoint/$metadata#indexes/$entity",
-        "@odata.etag": "\u00220x8DAC44DE8847289\u0022",
-        "name": "hotel-live-test-1077091",
+        "@odata.etag": "\u00220x8DB06359230B71E\u0022",
+        "name": "hotel-live-test-1006582",
         "defaultScoringProfile": null,
         "fields": [
           {
@@ -707,7 +707,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/indexes(\u0027hotel-live-test-1077091\u0027)/docs/search.index?api-version=2021-04-30-Preview",
+      "RequestUri": "https://endpoint/indexes(\u0027hotel-live-test-1006582\u0027)/docs/search.index?api-version=2021-04-30-Preview",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json;odata.metadata=none",
@@ -716,8 +716,8 @@
         "Connection": "keep-alive",
         "Content-Length": "6379",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-search-documents/11.3.0-beta.9 azsdk-js-search-documents/11.3.0-beta.8 core-rest-pipeline/1.10.1 Node/v16.14.2 OS/(x64-Linux-5.4.0-1094-azure)",
-        "x-ms-client-request-id": "d099a72a-e9fc-4d90-9bdd-70d63e939b7a"
+        "User-Agent": "azsdk-js-search-documents/12.0.0-beta.1 azsdk-js-search-documents/11.3.0-beta.8 core-rest-pipeline/1.10.1 Node/v16.14.2 OS/(x64-Linux-5.4.0-1100-azure)",
+        "x-ms-client-request-id": "a5436821-bac6-4471-a9cc-dbc3d7e91532"
       },
       "RequestBody": {
         "value": [
@@ -1022,13 +1022,13 @@
         "Content-Encoding": "gzip",
         "Content-Length": "642",
         "Content-Type": "application/json; odata.metadata=none",
-        "Date": "Sat, 12 Nov 2022 01:33:35 GMT",
-        "elapsed-time": "122",
+        "Date": "Fri, 03 Feb 2023 22:25:40 GMT",
+        "elapsed-time": "597",
         "Expires": "-1",
         "OData-Version": "4.0",
         "Pragma": "no-cache",
         "Preference-Applied": "odata.include-annotations=\u0022*\u0022",
-        "request-id": "d099a72a-e9fc-4d90-9bdd-70d63e939b7a",
+        "request-id": "a5436821-bac6-4471-a9cc-dbc3d7e91532",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "Vary": "Accept-Encoding"
       },
@@ -1098,15 +1098,15 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/indexes(\u0027hotel-live-test-1077091\u0027)/docs/$count?api-version=2021-04-30-Preview",
+      "RequestUri": "https://endpoint/indexes(\u0027hotel-live-test-1006582\u0027)/docs/$count?api-version=2021-04-30-Preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json;odata.metadata=none",
         "Accept-Encoding": "gzip,deflate",
         "api-key": "admin_key",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-search-documents/11.3.0-beta.9 azsdk-js-search-documents/11.3.0-beta.8 core-rest-pipeline/1.10.1 Node/v16.14.2 OS/(x64-Linux-5.4.0-1094-azure)",
-        "x-ms-client-request-id": "e1f81be9-e185-4d53-b42b-936449dc2851"
+        "User-Agent": "azsdk-js-search-documents/12.0.0-beta.1 azsdk-js-search-documents/11.3.0-beta.8 core-rest-pipeline/1.10.1 Node/v16.14.2 OS/(x64-Linux-5.4.0-1100-azure)",
+        "x-ms-client-request-id": "a2a2b06c-26cc-4a73-896a-02cc61985137"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -1115,28 +1115,28 @@
         "Content-Encoding": "gzip",
         "Content-Length": "4",
         "Content-Type": "text/plain",
-        "Date": "Sat, 12 Nov 2022 01:33:35 GMT",
-        "elapsed-time": "5",
+        "Date": "Fri, 03 Feb 2023 22:25:40 GMT",
+        "elapsed-time": "72",
         "Expires": "-1",
         "OData-Version": "4.0",
         "Pragma": "no-cache",
         "Preference-Applied": "odata.include-annotations=\u0022*\u0022",
-        "request-id": "e1f81be9-e185-4d53-b42b-936449dc2851",
+        "request-id": "a2a2b06c-26cc-4a73-896a-02cc61985137",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "Vary": "Accept-Encoding"
       },
       "ResponseBody": "\uFEFF0"
     },
     {
-      "RequestUri": "https://endpoint/indexes(\u0027hotel-live-test-1077091\u0027)/docs/$count?api-version=2021-04-30-Preview",
+      "RequestUri": "https://endpoint/indexes(\u0027hotel-live-test-1006582\u0027)/docs/$count?api-version=2021-04-30-Preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json;odata.metadata=none",
         "Accept-Encoding": "gzip,deflate",
         "api-key": "admin_key",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-search-documents/11.3.0-beta.9 azsdk-js-search-documents/11.3.0-beta.8 core-rest-pipeline/1.10.1 Node/v16.14.2 OS/(x64-Linux-5.4.0-1094-azure)",
-        "x-ms-client-request-id": "25829df6-f8b1-41b3-8790-027804c255a4"
+        "User-Agent": "azsdk-js-search-documents/12.0.0-beta.1 azsdk-js-search-documents/11.3.0-beta.8 core-rest-pipeline/1.10.1 Node/v16.14.2 OS/(x64-Linux-5.4.0-1100-azure)",
+        "x-ms-client-request-id": "e97ad671-422f-411d-80ec-5c3e3f4ec850"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -1145,20 +1145,20 @@
         "Content-Encoding": "gzip",
         "Content-Length": "5",
         "Content-Type": "text/plain",
-        "Date": "Sat, 12 Nov 2022 01:33:40 GMT",
-        "elapsed-time": "6",
+        "Date": "Fri, 03 Feb 2023 22:25:44 GMT",
+        "elapsed-time": "21",
         "Expires": "-1",
         "OData-Version": "4.0",
         "Pragma": "no-cache",
         "Preference-Applied": "odata.include-annotations=\u0022*\u0022",
-        "request-id": "25829df6-f8b1-41b3-8790-027804c255a4",
+        "request-id": "e97ad671-422f-411d-80ec-5c3e3f4ec850",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "Vary": "Accept-Encoding"
       },
       "ResponseBody": "\uFEFF10"
     },
     {
-      "RequestUri": "https://endpoint/indexes(\u0027hotel-live-test-1077091\u0027)/docs/search.post.search?api-version=2021-04-30-Preview",
+      "RequestUri": "https://endpoint/indexes(\u0027hotel-live-test-1006582\u0027)/docs/search.post.search?api-version=2021-04-30-Preview",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json;odata.metadata=none",
@@ -1167,8 +1167,8 @@
         "Connection": "keep-alive",
         "Content-Length": "59",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-search-documents/11.3.0-beta.9 azsdk-js-search-documents/11.3.0-beta.8 core-rest-pipeline/1.10.1 Node/v16.14.2 OS/(x64-Linux-5.4.0-1094-azure)",
-        "x-ms-client-request-id": "92ccb337-4d28-44d5-8cae-8a9c850d62b8"
+        "User-Agent": "azsdk-js-search-documents/12.0.0-beta.1 azsdk-js-search-documents/11.3.0-beta.8 core-rest-pipeline/1.10.1 Node/v16.14.2 OS/(x64-Linux-5.4.0-1100-azure)",
+        "x-ms-client-request-id": "9c619eae-b106-4b10-80a5-e4768b329489"
       },
       "RequestBody": {
         "search": "New",
@@ -1180,13 +1180,13 @@
         "Content-Encoding": "gzip",
         "Content-Length": "139",
         "Content-Type": "application/json; odata.metadata=none",
-        "Date": "Sat, 12 Nov 2022 01:33:44 GMT",
-        "elapsed-time": "22",
+        "Date": "Fri, 03 Feb 2023 22:25:49 GMT",
+        "elapsed-time": "241",
         "Expires": "-1",
         "OData-Version": "4.0",
         "Pragma": "no-cache",
         "Preference-Applied": "odata.include-annotations=\u0022*\u0022",
-        "request-id": "92ccb337-4d28-44d5-8cae-8a9c850d62b8",
+        "request-id": "9c619eae-b106-4b10-80a5-e4768b329489",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "Vary": "Accept-Encoding"
       },
@@ -1211,7 +1211,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/indexes(\u0027hotel-live-test-1077091\u0027)/docs/search.post.search?api-version=2021-04-30-Preview",
+      "RequestUri": "https://endpoint/indexes(\u0027hotel-live-test-1006582\u0027)/docs/search.post.search?api-version=2021-04-30-Preview",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json;odata.metadata=none",
@@ -1220,8 +1220,114 @@
         "Connection": "keep-alive",
         "Content-Length": "59",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-search-documents/11.3.0-beta.9 azsdk-js-search-documents/11.3.0-beta.8 core-rest-pipeline/1.10.1 Node/v16.14.2 OS/(x64-Linux-5.4.0-1094-azure)",
-        "x-ms-client-request-id": "68d05ed7-f95a-415e-b9fe-2c390099f8f0"
+        "User-Agent": "azsdk-js-search-documents/12.0.0-beta.1 azsdk-js-search-documents/11.3.0-beta.8 core-rest-pipeline/1.10.1 Node/v16.14.2 OS/(x64-Linux-5.4.0-1100-azure)",
+        "x-ms-client-request-id": "4507f6fc-6926-4819-b7aa-b85d6fa66cca"
+      },
+      "RequestBody": {
+        "search": "New",
+        "select": "hotelId,address/city,rooms/type"
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Length": "139",
+        "Content-Type": "application/json; odata.metadata=none",
+        "Date": "Fri, 03 Feb 2023 22:25:49 GMT",
+        "elapsed-time": "180",
+        "Expires": "-1",
+        "OData-Version": "4.0",
+        "Pragma": "no-cache",
+        "Preference-Applied": "odata.include-annotations=\u0022*\u0022",
+        "request-id": "4507f6fc-6926-4819-b7aa-b85d6fa66cca",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
+        "Vary": "Accept-Encoding"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "@search.score": 1.6516755,
+            "hotelId": "9",
+            "address": {
+              "city": "New York"
+            },
+            "rooms": [
+              {
+                "type": "Budget Room"
+              },
+              {
+                "type": "Budget Room"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/indexes(\u0027hotel-live-test-1006582\u0027)/docs/search.post.search?api-version=2021-04-30-Preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json;odata.metadata=none",
+        "Accept-Encoding": "gzip,deflate",
+        "api-key": "admin_key",
+        "Connection": "keep-alive",
+        "Content-Length": "59",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-search-documents/12.0.0-beta.1 azsdk-js-search-documents/11.3.0-beta.8 core-rest-pipeline/1.10.1 Node/v16.14.2 OS/(x64-Linux-5.4.0-1100-azure)",
+        "x-ms-client-request-id": "9a2739b0-da6b-4068-8cd6-e9a37a911629"
+      },
+      "RequestBody": {
+        "search": "New",
+        "select": "hotelId,address/city,rooms/type"
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Length": "139",
+        "Content-Type": "application/json; odata.metadata=none",
+        "Date": "Fri, 03 Feb 2023 22:25:49 GMT",
+        "elapsed-time": "98",
+        "Expires": "-1",
+        "OData-Version": "4.0",
+        "Pragma": "no-cache",
+        "Preference-Applied": "odata.include-annotations=\u0022*\u0022",
+        "request-id": "9a2739b0-da6b-4068-8cd6-e9a37a911629",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
+        "Vary": "Accept-Encoding"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "@search.score": 1.6516755,
+            "hotelId": "9",
+            "address": {
+              "city": "New York"
+            },
+            "rooms": [
+              {
+                "type": "Budget Room"
+              },
+              {
+                "type": "Budget Room"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/indexes(\u0027hotel-live-test-1006582\u0027)/docs/search.post.search?api-version=2021-04-30-Preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json;odata.metadata=none",
+        "Accept-Encoding": "gzip,deflate",
+        "api-key": "admin_key",
+        "Connection": "keep-alive",
+        "Content-Length": "59",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-search-documents/12.0.0-beta.1 azsdk-js-search-documents/11.3.0-beta.8 core-rest-pipeline/1.10.1 Node/v16.14.2 OS/(x64-Linux-5.4.0-1100-azure)",
+        "x-ms-client-request-id": "1df99960-7368-457d-93ba-a78ba5d45353"
       },
       "RequestBody": {
         "search": "New",
@@ -1234,13 +1340,13 @@
         "Content-Encoding": "gzip",
         "Content-Length": "1705",
         "Content-Type": "application/json; odata.metadata=none",
-        "Date": "Sat, 12 Nov 2022 01:33:44 GMT",
-        "elapsed-time": "11",
+        "Date": "Fri, 03 Feb 2023 22:25:49 GMT",
+        "elapsed-time": "65",
         "Expires": "-1",
         "OData-Version": "4.0",
         "Pragma": "no-cache",
         "Preference-Applied": "odata.include-annotations=\u0022*\u0022",
-        "request-id": "68d05ed7-f95a-415e-b9fe-2c390099f8f0",
+        "request-id": "1df99960-7368-457d-93ba-a78ba5d45353",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "Vary": "Accept-Encoding"
       },
@@ -1314,31 +1420,237 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/indexes(\u0027hotel-live-test-1077091\u0027)?api-version=2021-04-30-Preview",
+      "RequestUri": "https://endpoint/indexes(\u0027hotel-live-test-1006582\u0027)/docs/search.post.search?api-version=2021-04-30-Preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json;odata.metadata=none",
+        "Accept-Encoding": "gzip,deflate",
+        "api-key": "admin_key",
+        "Connection": "keep-alive",
+        "Content-Length": "59",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-search-documents/12.0.0-beta.1 azsdk-js-search-documents/11.3.0-beta.8 core-rest-pipeline/1.10.1 Node/v16.14.2 OS/(x64-Linux-5.4.0-1100-azure)",
+        "x-ms-client-request-id": "3e803796-4c22-4547-9283-e34fed311377"
+      },
+      "RequestBody": {
+        "search": "New",
+        "searchFields": "address/city",
+        "select": "*"
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Length": "1705",
+        "Content-Type": "application/json; odata.metadata=none",
+        "Date": "Fri, 03 Feb 2023 22:25:49 GMT",
+        "elapsed-time": "85",
+        "Expires": "-1",
+        "OData-Version": "4.0",
+        "Pragma": "no-cache",
+        "Preference-Applied": "odata.include-annotations=\u0022*\u0022",
+        "request-id": "3e803796-4c22-4547-9283-e34fed311377",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
+        "Vary": "Accept-Encoding"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "@search.score": 0.25811607,
+            "hotelId": "9",
+            "hotelName": "Secret Point Motel",
+            "description": "The hotel is ideally located on the main commercial artery of the city in the heart of New York. A few minutes away is Time\u0027s Square and the historic centre of the city, as well as other places of interest that make New York one of America\u0027s most attractive and cosmopolitan cities.",
+            "descriptionFr": "L\u0027h\u00F4tel est id\u00E9alement situ\u00E9 sur la principale art\u00E8re commerciale de la ville en plein c\u0153ur de New York. A quelques minutes se trouve la place du temps et le centre historique de la ville, ainsi que d\u0027autres lieux d\u0027int\u00E9r\u00EAt qui font de New York l\u0027une des villes les plus attractives et cosmopolites de l\u0027Am\u00E9rique.",
+            "category": "Boutique",
+            "tags": [
+              "pool",
+              "air conditioning",
+              "concierge"
+            ],
+            "parkingIncluded": false,
+            "smokingAllowed": true,
+            "lastRenovationDate": "1970-01-18T00:00:00Z",
+            "rating": 4.0,
+            "location": {
+              "type": "Point",
+              "coordinates": [
+                -73.975403,
+                40.760586
+              ],
+              "crs": {
+                "type": "name",
+                "properties": {
+                  "name": "EPSG:4326"
+                }
+              }
+            },
+            "address": {
+              "streetAddress": "677 5th Ave",
+              "city": "New York",
+              "stateProvince": "NY",
+              "country": "USA",
+              "postalCode": "10022"
+            },
+            "rooms": [
+              {
+                "description": "Budget Room, 1 Queen Bed (Cityside)",
+                "descriptionFr": "Chambre \u00C9conomique, 1 grand lit (c\u00F4t\u00E9 ville)",
+                "type": "Budget Room",
+                "baseRate": 9.69,
+                "bedOptions": "1 Queen Bed",
+                "sleepsCount": 2,
+                "smokingAllowed": true,
+                "tags": [
+                  "vcr/dvd"
+                ]
+              },
+              {
+                "description": "Budget Room, 1 King Bed (Mountain View)",
+                "descriptionFr": "Chambre \u00C9conomique, 1 tr\u00E8s grand lit (Mountain View)",
+                "type": "Budget Room",
+                "baseRate": 8.09,
+                "bedOptions": "1 King Bed",
+                "sleepsCount": 2,
+                "smokingAllowed": true,
+                "tags": [
+                  "vcr/dvd",
+                  "jacuzzi tub"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/indexes(\u0027hotel-live-test-1006582\u0027)/docs/search.post.search?api-version=2021-04-30-Preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json;odata.metadata=none",
+        "Accept-Encoding": "gzip,deflate",
+        "api-key": "admin_key",
+        "Connection": "keep-alive",
+        "Content-Length": "59",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-search-documents/12.0.0-beta.1 azsdk-js-search-documents/11.3.0-beta.8 core-rest-pipeline/1.10.1 Node/v16.14.2 OS/(x64-Linux-5.4.0-1100-azure)",
+        "x-ms-client-request-id": "7f85b105-2aa5-42f2-9205-d9292f11dc31"
+      },
+      "RequestBody": {
+        "search": "New",
+        "searchFields": "address/city",
+        "select": "*"
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Length": "1705",
+        "Content-Type": "application/json; odata.metadata=none",
+        "Date": "Fri, 03 Feb 2023 22:25:49 GMT",
+        "elapsed-time": "97",
+        "Expires": "-1",
+        "OData-Version": "4.0",
+        "Pragma": "no-cache",
+        "Preference-Applied": "odata.include-annotations=\u0022*\u0022",
+        "request-id": "7f85b105-2aa5-42f2-9205-d9292f11dc31",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
+        "Vary": "Accept-Encoding"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "@search.score": 0.25811607,
+            "hotelId": "9",
+            "hotelName": "Secret Point Motel",
+            "description": "The hotel is ideally located on the main commercial artery of the city in the heart of New York. A few minutes away is Time\u0027s Square and the historic centre of the city, as well as other places of interest that make New York one of America\u0027s most attractive and cosmopolitan cities.",
+            "descriptionFr": "L\u0027h\u00F4tel est id\u00E9alement situ\u00E9 sur la principale art\u00E8re commerciale de la ville en plein c\u0153ur de New York. A quelques minutes se trouve la place du temps et le centre historique de la ville, ainsi que d\u0027autres lieux d\u0027int\u00E9r\u00EAt qui font de New York l\u0027une des villes les plus attractives et cosmopolites de l\u0027Am\u00E9rique.",
+            "category": "Boutique",
+            "tags": [
+              "pool",
+              "air conditioning",
+              "concierge"
+            ],
+            "parkingIncluded": false,
+            "smokingAllowed": true,
+            "lastRenovationDate": "1970-01-18T00:00:00Z",
+            "rating": 4.0,
+            "location": {
+              "type": "Point",
+              "coordinates": [
+                -73.975403,
+                40.760586
+              ],
+              "crs": {
+                "type": "name",
+                "properties": {
+                  "name": "EPSG:4326"
+                }
+              }
+            },
+            "address": {
+              "streetAddress": "677 5th Ave",
+              "city": "New York",
+              "stateProvince": "NY",
+              "country": "USA",
+              "postalCode": "10022"
+            },
+            "rooms": [
+              {
+                "description": "Budget Room, 1 Queen Bed (Cityside)",
+                "descriptionFr": "Chambre \u00C9conomique, 1 grand lit (c\u00F4t\u00E9 ville)",
+                "type": "Budget Room",
+                "baseRate": 9.69,
+                "bedOptions": "1 Queen Bed",
+                "sleepsCount": 2,
+                "smokingAllowed": true,
+                "tags": [
+                  "vcr/dvd"
+                ]
+              },
+              {
+                "description": "Budget Room, 1 King Bed (Mountain View)",
+                "descriptionFr": "Chambre \u00C9conomique, 1 tr\u00E8s grand lit (Mountain View)",
+                "type": "Budget Room",
+                "baseRate": 8.09,
+                "bedOptions": "1 King Bed",
+                "sleepsCount": 2,
+                "smokingAllowed": true,
+                "tags": [
+                  "vcr/dvd",
+                  "jacuzzi tub"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/indexes(\u0027hotel-live-test-1006582\u0027)?api-version=2021-04-30-Preview",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json;odata.metadata=minimal",
         "Accept-Encoding": "gzip,deflate",
         "api-key": "admin_key",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-search-documents/11.3.0-beta.9 azsdk-js-search-documents/11.3.0-beta.8 core-rest-pipeline/1.10.1 Node/v16.14.2 OS/(x64-Linux-5.4.0-1094-azure)",
-        "x-ms-client-request-id": "73961b71-0532-4e99-8b0c-2b6d15bab627"
+        "User-Agent": "azsdk-js-search-documents/12.0.0-beta.1 azsdk-js-search-documents/11.3.0-beta.8 core-rest-pipeline/1.10.1 Node/v16.14.2 OS/(x64-Linux-5.4.0-1100-azure)",
+        "x-ms-client-request-id": "2149431d-3f0a-424d-99b3-dba2e7c0c9ab"
       },
       "RequestBody": null,
       "StatusCode": 204,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
-        "Date": "Sat, 12 Nov 2022 01:33:44 GMT",
-        "elapsed-time": "159",
+        "Date": "Fri, 03 Feb 2023 22:25:49 GMT",
+        "elapsed-time": "210",
         "Expires": "-1",
         "Pragma": "no-cache",
-        "request-id": "73961b71-0532-4e99-8b0c-2b6d15bab627",
+        "request-id": "2149431d-3f0a-424d-99b3-dba2e7c0c9ab",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains"
       },
       "ResponseBody": null
     }
   ],
   "Variables": {
-    "TEST_INDEX_NAME": "hotel-live-test-1077091"
+    "TEST_INDEX_NAME": "hotel-live-test-1006582"
   }
 }
