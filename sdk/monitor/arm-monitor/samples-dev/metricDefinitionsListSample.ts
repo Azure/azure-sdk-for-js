@@ -13,6 +13,9 @@ import {
   MonitorClient
 } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Lists the metric definitions for the resource.
@@ -21,7 +24,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2018-01-01/examples/GetMetricDefinitionsApplicationInsights.json
  */
 async function getApplicationInsightsMetricDefinitionsWithoutFilter() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const resourceUri =
     "subscriptions/182c901a-129a-4f5d-86e4-cc6b294590a2/resourceGroups/hyr-log/providers/microsoft.insights/components/f1-bill/providers/microsoft.insights/metricdefinitions";
   const metricnamespace = "microsoft.insights/components";
@@ -35,8 +40,6 @@ async function getApplicationInsightsMetricDefinitionsWithoutFilter() {
   console.log(resArray);
 }
 
-getApplicationInsightsMetricDefinitionsWithoutFilter().catch(console.error);
-
 /**
  * This sample demonstrates how to Lists the metric definitions for the resource.
  *
@@ -44,7 +47,9 @@ getApplicationInsightsMetricDefinitionsWithoutFilter().catch(console.error);
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2018-01-01/examples/GetMetricDefinitions.json
  */
 async function getMetricDefinitionsWithoutFilter() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const resourceUri =
     "subscriptions/07c0b09d-9f69-4e6e-8d05-f59f67299cb2/resourceGroups/Rac46PostSwapRG/providers/Microsoft.Web/sites/alertruleTest/providers/microsoft.insights/metricDefinitions";
   const metricnamespace = "Microsoft.Web/sites";
@@ -58,8 +63,6 @@ async function getMetricDefinitionsWithoutFilter() {
   console.log(resArray);
 }
 
-getMetricDefinitionsWithoutFilter().catch(console.error);
-
 /**
  * This sample demonstrates how to Lists the metric definitions for the resource.
  *
@@ -67,7 +70,9 @@ getMetricDefinitionsWithoutFilter().catch(console.error);
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2018-01-01/examples/GetMetricDefinitionsMetricClass.json
  */
 async function getStorageCacheMetricDefinitionsWithMetricClass() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const resourceUri =
     "subscriptions/46841c0e-69c8-4b17-af46-6626ecb15fc2/resourceGroups/adgarntptestrg/providers/Microsoft.StorageCache/caches/adgarntptestcache";
   const metricnamespace = "microsoft.storagecache/caches";
@@ -81,4 +86,10 @@ async function getStorageCacheMetricDefinitionsWithMetricClass() {
   console.log(resArray);
 }
 
-getStorageCacheMetricDefinitionsWithMetricClass().catch(console.error);
+async function main() {
+  getApplicationInsightsMetricDefinitionsWithoutFilter();
+  getMetricDefinitionsWithoutFilter();
+  getStorageCacheMetricDefinitionsWithMetricClass();
+}
+
+main().catch(console.error);

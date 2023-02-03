@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { SecurityInsights } = require("@azure/arm-securityinsight");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets all bookmark relations.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/bookmarks/relations/GetAllBookmarkRelations.json
  */
 async function getAllBookmarkRelations() {
-  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
   const workspaceName = "myWorkspace";
   const bookmarkId = "2216d0e1-91e3-4902-89fd-d2df8c535096";
   const credential = new DefaultAzureCredential();
@@ -35,4 +37,8 @@ async function getAllBookmarkRelations() {
   console.log(resArray);
 }
 
-getAllBookmarkRelations().catch(console.error);
+async function main() {
+  getAllBookmarkRelations();
+}
+
+main().catch(console.error);

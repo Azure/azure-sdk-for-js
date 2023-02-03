@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ManagedServiceIdentityClient } = require("@azure/arm-msi");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Lists all the userAssignedIdentities available under the specified ResourceGroup.
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/preview/2022-01-31-preview/examples/IdentityListByResourceGroup.json
  */
 async function identityListByResourceGroup() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rgName";
+  const subscriptionId = process.env["MSI_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["MSI_RESOURCE_GROUP"] || "rgName";
   const credential = new DefaultAzureCredential();
   const client = new ManagedServiceIdentityClient(credential, subscriptionId);
   const resArray = new Array();
@@ -29,4 +30,8 @@ async function identityListByResourceGroup() {
   console.log(resArray);
 }
 
-identityListByResourceGroup().catch(console.error);
+async function main() {
+  identityListByResourceGroup();
+}
+
+main().catch(console.error);

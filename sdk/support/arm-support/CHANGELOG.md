@@ -1,15 +1,14 @@
 # Release History
+    
+## 2.1.0 (2023-02-02)
+    
+**Features**
 
-## 2.0.3 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface CommunicationsListNextOptionalParams no longer has parameter filter
+  - Interface CommunicationsListNextOptionalParams no longer has parameter top
+  - Interface SupportTicketsListNextOptionalParams no longer has parameter filter
+  - Interface SupportTicketsListNextOptionalParams no longer has parameter top
+    
 ## 2.0.2 (2022-07-05)
 
 **Features**
