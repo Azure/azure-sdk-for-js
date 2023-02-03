@@ -255,14 +255,14 @@ export type DataFlowUnion =
   | MappingDataFlow
   | Flowlet
   | WranglingDataFlow;
+export type CredentialUnion =
+  | Credential
+  | ManagedIdentityCredential
+  | ServicePrincipalCredential;
 export type SecretBaseUnion =
   | SecretBase
   | SecureString
   | AzureKeyVaultSecretReference;
-export type CredentialUnion =
-  | Credential
-  | ServicePrincipalCredential
-  | ManagedIdentityCredential;
 export type DatasetLocationUnion =
   | DatasetLocation
   | AzureBlobStorageLocation
@@ -2242,6 +2242,26 @@ export interface ConnectionStateProperties {
   readonly status?: string;
 }
 
+/** A list of credential resources. */
+export interface CredentialListResponse {
+  /** List of credentials. */
+  value: ManagedIdentityCredentialResource[];
+  /** The link to the next page of results, if any remaining results exist. */
+  nextLink?: string;
+}
+
+/** The Azure Data Factory nested object which contains the information and credential which can be used to connect with related store or compute resource. */
+export interface Credential {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "ManagedIdentity" | "ServicePrincipal";
+  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
+  [property: string]: any;
+  /** Credential description. */
+  description?: string;
+  /** List of tags that can be used for describing the Credential. */
+  annotations?: any[];
+}
+
 /** A list of linked service resources. */
 export interface PrivateEndpointConnectionListResponse {
   /** List of Private Endpoint Connections. */
@@ -2412,18 +2432,6 @@ export interface CredentialReference {
   referenceName: string;
 }
 
-/** The Azure Data Factory nested object which contains the information and credential which can be used to connect with related store or compute resource. */
-export interface Credential {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "ServicePrincipal" | "ManagedIdentity";
-  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
-  [property: string]: any;
-  /** Credential description. */
-  description?: string;
-  /** List of tags that can be used for describing the Credential. */
-  annotations?: any[];
-}
-
 /** A data flow transformation. */
 export interface Transformation {
   /** Transformation name. */
@@ -2524,6 +2532,10 @@ export interface IntegrationRuntimeComputeProperties {
   dataFlowProperties?: IntegrationRuntimeDataFlowProperties;
   /** VNet properties for managed integration runtime. */
   vNetProperties?: IntegrationRuntimeVNetProperties;
+  /** CopyComputeScale properties for managed integration runtime. */
+  copyComputeScaleProperties?: CopyComputeScaleProperties;
+  /** PipelineExternalComputeScale properties for managed integration runtime. */
+  pipelineExternalComputeScaleProperties?: PipelineExternalComputeScaleProperties;
 }
 
 /** Data flow properties for managed integration runtime. */
@@ -2552,6 +2564,24 @@ export interface IntegrationRuntimeVNetProperties {
   publicIPs?: string[];
   /** The ID of subnet, to which this Azure-SSIS integration runtime will be joined. */
   subnetId?: string;
+}
+
+/** CopyComputeScale properties for managed integration runtime. */
+export interface CopyComputeScaleProperties {
+  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
+  [property: string]: any;
+  /** DIU number setting reserved for copy activity execution. Supported values are multiples of 4 in range 4-256. */
+  dataIntegrationUnit?: number;
+  /** Time to live (in minutes) setting of integration runtime which will execute copy activity. */
+  timeToLive?: number;
+}
+
+/** PipelineExternalComputeScale properties for managed integration runtime. */
+export interface PipelineExternalComputeScaleProperties {
+  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
+  [property: string]: any;
+  /** Time to live (in minutes) setting of integration runtime which will execute pipeline and external activity. */
+  timeToLive?: number;
 }
 
 /** SSIS properties for managed integration runtime. */
@@ -3630,6 +3660,14 @@ export interface SynapseSparkJobReference {
   referenceName: any;
 }
 
+/** Spark configuration reference. */
+export interface SparkConfigurationParametrizationReference {
+  /** Spark configuration reference type. */
+  type: SparkConfigurationReferenceType;
+  /** Reference spark configuration name. Type: string (or Expression with resultType string). */
+  referenceName: any;
+}
+
 /** The workflow trigger recurrence. */
 export interface ScheduleTriggerRecurrence {
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
@@ -3845,6 +3883,12 @@ export interface ManagedVirtualNetworkResource extends SubResource {
 export interface ManagedPrivateEndpointResource extends SubResource {
   /** Managed private endpoint properties. */
   properties: ManagedPrivateEndpoint;
+}
+
+/** Credential resource type. */
+export interface ManagedIdentityCredentialResource extends SubResource {
+  /** Managed Identity Credential properties. */
+  properties: ManagedIdentityCredential;
 }
 
 /** Private Endpoint Connection ARM resource. */
@@ -7538,6 +7582,26 @@ export interface LinkedServiceDebugResource extends SubResourceDebugResource {
   properties: LinkedServiceUnion;
 }
 
+/** Managed identity credential. */
+export interface ManagedIdentityCredential extends Credential {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "ManagedIdentity";
+  /** The resource id of user assigned managed identity */
+  resourceId?: string;
+}
+
+/** Service principal credential. */
+export interface ServicePrincipalCredential extends Credential {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "ServicePrincipal";
+  /** The app ID of the service principal used to authenticate */
+  servicePrincipalId?: any;
+  /** The key of the service principal used to authenticate. */
+  servicePrincipalKey?: AzureKeyVaultSecretReference;
+  /** The ID of the tenant to which the service principal belongs */
+  tenant?: any;
+}
+
 /** Azure Data Factory secure string definition. The string value will be masked with asterisks '*' during Get or List API calls. */
 export interface SecureString extends SecretBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -7556,26 +7620,6 @@ export interface AzureKeyVaultSecretReference extends SecretBase {
   secretName: any;
   /** The version of the secret in Azure Key Vault. The default value is the latest version of the secret. Type: string (or Expression with resultType string). */
   secretVersion?: any;
-}
-
-/** Service principal credential. */
-export interface ServicePrincipalCredential extends Credential {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "ServicePrincipal";
-  /** The app ID of the service principal used to authenticate */
-  servicePrincipalId?: any;
-  /** The key of the service principal used to authenticate. */
-  servicePrincipalKey?: AzureKeyVaultSecretReference;
-  /** The ID of the tenant to which the service principal belongs */
-  tenant?: any;
-}
-
-/** Managed identity credential. */
-export interface ManagedIdentityCredential extends Credential {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "ManagedIdentity";
-  /** The resource id of user assigned managed identity */
-  resourceId?: string;
 }
 
 /** Transformation for data flow source. */
@@ -8811,7 +8855,7 @@ export interface SnowflakeSource extends CopySource {
   /** Snowflake Sql query. Type: string (or Expression with resultType string). */
   query?: any;
   /** Snowflake export settings. */
-  exportSettings?: SnowflakeExportCopyCommand;
+  exportSettings: SnowflakeExportCopyCommand;
 }
 
 /** A copy activity Azure Databricks Delta Lake source. */
@@ -10006,6 +10050,8 @@ export interface SynapseSparkJobDefinitionActivity extends ExecutionActivity {
   arguments?: any[];
   /** The main file used for the job, which will override the 'file' of the spark job definition you provide. Type: string (or Expression with resultType string). */
   file?: any;
+  /** Scanning subfolders from the root folder of the main definition file, these files will be added as reference files. The folders named 'jars', 'pyFiles', 'files' or 'archives' will be scanned, and the folders name are case sensitive. Type: boolean (or Expression with resultType boolean). */
+  scanFolder?: any;
   /** The fully-qualified identifier or the main class that is in the main definition file, which will override the 'className' of the spark job definition you provide. Type: string (or Expression with resultType string). */
   className?: any;
   /** (Deprecated. Please use pythonCodeReference and filesV2) Additional files used for reference in the main definition file, which will override the 'files' of the spark job definition you provide. */
@@ -10022,8 +10068,14 @@ export interface SynapseSparkJobDefinitionActivity extends ExecutionActivity {
   conf?: any;
   /** Number of core and memory to be used for driver allocated in the specified Spark pool for the job, which will be used for overriding 'driverCores' and 'driverMemory' of the spark job definition you provide. Type: string (or Expression with resultType string). */
   driverSize?: any;
-  /** Number of executors to launch for this job, which will override the 'numExecutors' of the spark job definition you provide. */
-  numExecutors?: number;
+  /** Number of executors to launch for this job, which will override the 'numExecutors' of the spark job definition you provide. Type: integer (or Expression with resultType integer). */
+  numExecutors?: any;
+  /** The type of the spark config. */
+  configurationType?: ConfigurationType;
+  /** The spark configuration of the spark job. */
+  targetSparkConfiguration?: SparkConfigurationParametrizationReference;
+  /** Spark configuration property. */
+  sparkConfig?: { [propertyName: string]: any };
 }
 
 /** Trigger that creates pipeline runs periodically, on schedule. */
@@ -12530,6 +12582,42 @@ export enum KnownSparkJobReferenceType {
  */
 export type SparkJobReferenceType = string;
 
+/** Known values of {@link ConfigurationType} that the service accepts. */
+export enum KnownConfigurationType {
+  /** Default */
+  Default = "Default",
+  /** Customized */
+  Customized = "Customized",
+  /** Artifact */
+  Artifact = "Artifact"
+}
+
+/**
+ * Defines values for ConfigurationType. \
+ * {@link KnownConfigurationType} can be used interchangeably with ConfigurationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Default** \
+ * **Customized** \
+ * **Artifact**
+ */
+export type ConfigurationType = string;
+
+/** Known values of {@link SparkConfigurationReferenceType} that the service accepts. */
+export enum KnownSparkConfigurationReferenceType {
+  /** SparkConfigurationReference */
+  SparkConfigurationReference = "SparkConfigurationReference"
+}
+
+/**
+ * Defines values for SparkConfigurationReferenceType. \
+ * {@link KnownSparkConfigurationReferenceType} can be used interchangeably with SparkConfigurationReferenceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SparkConfigurationReference**
+ */
+export type SparkConfigurationReferenceType = string;
+
 /** Known values of {@link RecurrenceFrequency} that the service accepts. */
 export enum KnownRecurrenceFrequency {
   /** NotSpecified */
@@ -13790,6 +13878,44 @@ export interface ManagedPrivateEndpointsListByFactoryNextOptionalParams
 
 /** Contains response data for the listByFactoryNext operation. */
 export type ManagedPrivateEndpointsListByFactoryNextResponse = ManagedPrivateEndpointListResponse;
+
+/** Optional parameters. */
+export interface CredentialOperationsListByFactoryOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByFactory operation. */
+export type CredentialOperationsListByFactoryResponse = CredentialListResponse;
+
+/** Optional parameters. */
+export interface CredentialOperationsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** ETag of the credential entity. Should only be specified for update, for which it should match existing entity or can be * for unconditional update. */
+  ifMatch?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type CredentialOperationsCreateOrUpdateResponse = ManagedIdentityCredentialResource;
+
+/** Optional parameters. */
+export interface CredentialOperationsGetOptionalParams
+  extends coreClient.OperationOptions {
+  /** ETag of the credential entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned. */
+  ifNoneMatch?: string;
+}
+
+/** Contains response data for the get operation. */
+export type CredentialOperationsGetResponse = ManagedIdentityCredentialResource;
+
+/** Optional parameters. */
+export interface CredentialOperationsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface CredentialOperationsListByFactoryNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByFactoryNext operation. */
+export type CredentialOperationsListByFactoryNextResponse = CredentialListResponse;
 
 /** Optional parameters. */
 export interface PrivateEndPointConnectionsListByFactoryOptionalParams

@@ -3828,7 +3828,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20230202
+      typescript: 5.0.0-dev.20230203
     dev: false
 
   /downlevel-dts/0.7.0:
@@ -8633,8 +8633,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20230202:
-    resolution: {integrity: sha512-uGAdYMTTn/t+7Gi8qRR5lMGQxa0bKByvbiEc5Dr4d/y4rSqKxO26bFu4SV1fUpzkZ91+O8Cnryj3+VOiR+Yuzw==}
+  /typescript/5.0.0-dev.20230203:
+    resolution: {integrity: sha512-B+UiFUnk+joGpmluibAIauIFWHdmhisuC9GB3BZVNqvOYMPCtg/HokU1P5cxsw/07TesqdWkjAWQqW5kJrm2qA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -11303,7 +11303,7 @@ packages:
     dev: false
 
   file:projects/arm-datafactory.tgz:
-    resolution: {integrity: sha512-xO/lp1vFAIdYvglGYoUob64jkxQNZQdvlLLYzZ0hdZa6D7KNo8FY2BZTiKqebNwqcHqoQ5ZsaQWRxHUb2D31zg==, tarball: file:projects/arm-datafactory.tgz}
+    resolution: {integrity: sha512-vkukREbL1bj9Fe+TCT+JogtJa1ReeO+lrWSL60F5BRjWr8QDd7QsQYD7GdxeKMl0n9bMCgi18ktRP9uxG1we6w==, tarball: file:projects/arm-datafactory.tgz}
     name: '@rush-temp/arm-datafactory'
     version: 0.0.0
     dependencies:
@@ -11317,7 +11317,7 @@ packages:
       '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
-      dotenv: 16.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -12264,7 +12264,7 @@ packages:
     dev: false
 
   file:projects/arm-imagebuilder.tgz:
-    resolution: {integrity: sha512-MrdQwI9D0qgloHDwkTdeD5sUA5sI5bLI1ip5EoJmEcJlxpyBQITAVceaXV51tD4TF47WP1TkrqktshJnB/rRLw==, tarball: file:projects/arm-imagebuilder.tgz}
+    resolution: {integrity: sha512-GpidMSFx1cW7QpodwuDWaiIiCgE1XvoRoujlPUmCtke1tO59eAnxykzoCM/61sQ5vpPyRTq9QPnCEr29Ndhu2w==, tarball: file:projects/arm-imagebuilder.tgz}
     name: '@rush-temp/arm-imagebuilder'
     version: 0.0.0
     dependencies:
@@ -13997,7 +13997,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.2
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -14052,7 +14052,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.2
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -14189,7 +14189,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.2
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -14271,7 +14271,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.2
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -18921,7 +18921,7 @@ packages:
     dev: false
 
   file:projects/storage-blob.tgz:
-    resolution: {integrity: sha512-GDijcqIlHbL7cEbB3aWdlFtJyW9UdW1jDbtmrfvDmDmPtUE6oH0fqoHHA/YqkR5qWnu7BCufseaVDQBA97KHpA==, tarball: file:projects/storage-blob.tgz}
+    resolution: {integrity: sha512-bhNiQhvRrIaiOuggLbi6aZvV5Cdpj93epYXntHxYBGVyVDBZx+elLy18oyiiZp38jXbw28hXImJbOGvyx+rh6w==, tarball: file:projects/storage-blob.tgz}
     name: '@rush-temp/storage-blob'
     version: 0.0.0
     dependencies:
