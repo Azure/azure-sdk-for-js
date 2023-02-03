@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { TestJobStreams } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,9 +17,9 @@ import {
   JobStream,
   TestJobStreamsListByTestJobNextOptionalParams,
   TestJobStreamsListByTestJobOptionalParams,
+  TestJobStreamsListByTestJobResponse,
   TestJobStreamsGetOptionalParams,
   TestJobStreamsGetResponse,
-  TestJobStreamsListByTestJobResponse,
   TestJobStreamsListByTestJobNextResponse
 } from "../models";
 
@@ -61,12 +62,16 @@ export class TestJobStreamsImpl implements TestJobStreams {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByTestJobPagingPage(
           resourceGroupName,
           automationAccountName,
           runbookName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -76,16 +81,23 @@ export class TestJobStreamsImpl implements TestJobStreams {
     resourceGroupName: string,
     automationAccountName: string,
     runbookName: string,
-    options?: TestJobStreamsListByTestJobOptionalParams
+    options?: TestJobStreamsListByTestJobOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<JobStream[]> {
-    let result = await this._listByTestJob(
-      resourceGroupName,
-      automationAccountName,
-      runbookName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: TestJobStreamsListByTestJobResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByTestJob(
+        resourceGroupName,
+        automationAccountName,
+        runbookName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByTestJobNext(
         resourceGroupName,
@@ -95,7 +107,9 @@ export class TestJobStreamsImpl implements TestJobStreams {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -249,7 +263,6 @@ const listByTestJobNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { SourceControlSyncJobOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,12 +17,12 @@ import {
   SourceControlSyncJob,
   SourceControlSyncJobListByAutomationAccountNextOptionalParams,
   SourceControlSyncJobListByAutomationAccountOptionalParams,
+  SourceControlSyncJobListByAutomationAccountResponse,
   SourceControlSyncJobCreateParameters,
   SourceControlSyncJobCreateOptionalParams,
   SourceControlSyncJobCreateResponse,
   SourceControlSyncJobGetOptionalParams,
   SourceControlSyncJobGetResponse,
-  SourceControlSyncJobListByAutomationAccountResponse,
   SourceControlSyncJobListByAutomationAccountNextResponse
 } from "../models";
 
@@ -65,12 +66,16 @@ export class SourceControlSyncJobOperationsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByAutomationAccountPagingPage(
           resourceGroupName,
           automationAccountName,
           sourceControlName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -80,16 +85,23 @@ export class SourceControlSyncJobOperationsImpl
     resourceGroupName: string,
     automationAccountName: string,
     sourceControlName: string,
-    options?: SourceControlSyncJobListByAutomationAccountOptionalParams
+    options?: SourceControlSyncJobListByAutomationAccountOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<SourceControlSyncJob[]> {
-    let result = await this._listByAutomationAccount(
-      resourceGroupName,
-      automationAccountName,
-      sourceControlName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: SourceControlSyncJobListByAutomationAccountResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByAutomationAccount(
+        resourceGroupName,
+        automationAccountName,
+        sourceControlName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByAutomationAccountNext(
         resourceGroupName,
@@ -99,7 +111,9 @@ export class SourceControlSyncJobOperationsImpl
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -310,7 +324,6 @@ const listByAutomationAccountNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
