@@ -583,7 +583,7 @@ export type GetAliasOptions = OperationOptions;
 export type GetDataSourceConnectionOptions = OperationOptions;
 
 // @public
-export interface GetDocumentOptions<Model extends object, Fields extends SelectFields<Model>> extends OperationOptions {
+export interface GetDocumentOptions<Model extends object, Fields extends SelectFields<Model> = SelectFields<Model>> extends OperationOptions {
     selectedFields?: [string] extends [Fields] ? string[] : Fields[] | Readonly<Fields[]>;
 }
 
@@ -1852,7 +1852,7 @@ export type MicrosoftStemmingTokenizerLanguage = "arabic" | "bangla" | "bulgaria
 export type MicrosoftTokenizerLanguage = "bangla" | "bulgarian" | "catalan" | "chineseSimplified" | "chineseTraditional" | "croatian" | "czech" | "danish" | "dutch" | "english" | "french" | "german" | "greek" | "gujarati" | "hindi" | "icelandic" | "indonesian" | "italian" | "japanese" | "kannada" | "korean" | "malay" | "malayalam" | "marathi" | "norwegianBokmaal" | "polish" | "portuguese" | "portugueseBrazilian" | "punjabi" | "romanian" | "russian" | "serbianCyrillic" | "serbianLatin" | "slovenian" | "spanish" | "swedish" | "tamil" | "telugu" | "thai" | "ukrainian" | "urdu" | "vietnamese";
 
 // @public (undocumented)
-export type NarrowedModel<Model extends object, Fields extends SelectFields<Model>> = SelectFields<Model> extends Fields ? Model : SearchPick<Model, Fields>;
+export type NarrowedModel<Model extends object, Fields extends SelectFields<Model> = SelectFields<Model>> = SelectFields<Model> extends Fields ? Model : SearchPick<Model, Fields>;
 
 // @public
 export interface NGramTokenFilter {
@@ -2058,7 +2058,7 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
     mergeOrUploadDocuments(documents: Model[], options?: MergeOrUploadDocumentsOptions): Promise<IndexDocumentsResult>;
     search<Fields extends SelectFields<Model>>(searchText?: string, options?: SearchOptions<Model, Fields>): Promise<SearchDocumentsResult<Model, Fields>>;
     readonly serviceVersion: string;
-    suggest<Fields extends SelectFields<Model>>(searchText: string, suggesterName: string, options?: SuggestOptions<Model, Fields>): Promise<SuggestDocumentsResult<Model, Fields>>;
+    suggest<Fields extends SelectFields<Model> = never>(searchText: string, suggesterName: string, options?: SuggestOptions<Model, Fields>): Promise<SuggestDocumentsResult<Model, Fields>>;
     uploadDocuments(documents: Model[], options?: UploadDocumentsOptions): Promise<IndexDocumentsResult>;
 }
 
@@ -2071,7 +2071,7 @@ export interface SearchClientOptions extends ExtendedCommonClientOptions {
 }
 
 // @public
-export interface SearchDocumentsPageResult<Model extends object, Fields extends SelectFields<Model>> extends SearchDocumentsResultBase {
+export interface SearchDocumentsPageResult<Model extends object, Fields extends SelectFields<Model> = SelectFields<Model>> extends SearchDocumentsResultBase {
     continuationToken?: string;
     readonly results: SearchResult<Model, Fields>[];
 }
@@ -2400,13 +2400,13 @@ export interface SearchIndexStatistics {
 }
 
 // @public
-export type SearchIterator<Model extends object, Fields extends SelectFields<Model>> = PagedAsyncIterableIterator<SearchResult<Model, Fields>, SearchDocumentsPageResult<Model, Fields>, ListSearchResultsPageSettings>;
+export type SearchIterator<Model extends object, Fields extends SelectFields<Model> = SelectFields<Model>> = PagedAsyncIterableIterator<SearchResult<Model, Fields>, SearchDocumentsPageResult<Model, Fields>, ListSearchResultsPageSettings>;
 
 // @public
 export type SearchMode = "any" | "all";
 
 // @public
-export type SearchOptions<Model extends object, Fields extends SelectFields<Model>> = OperationOptions & SearchRequestOptions<Model, Fields>;
+export type SearchOptions<Model extends object, Fields extends SelectFields<Model> = SelectFields<Model>> = OperationOptions & SearchRequestOptions<Model, Fields>;
 
 // Warning: (ae-forgotten-export) The symbol "UnionToIntersection" needs to be exported by the entry point index.d.ts
 //
@@ -2450,7 +2450,7 @@ export interface SearchRequest {
 }
 
 // @public
-export interface SearchRequestOptions<Model extends object, Fields extends SelectFields<Model>> {
+export interface SearchRequestOptions<Model extends object, Fields extends SelectFields<Model> = SelectFields<Model>> {
     answers?: Answers;
     captions?: Captions;
     facets?: string[];
@@ -2487,7 +2487,7 @@ export interface SearchResourceEncryptionKey {
 }
 
 // @public
-export type SearchResult<Model extends object, Fields extends SelectFields<Model>> = {
+export type SearchResult<Model extends object, Fields extends SelectFields<Model> = SelectFields<Model>> = {
     readonly score: number;
     readonly rerankerScore?: number;
     readonly highlights?: {
@@ -2680,7 +2680,7 @@ export type StopwordsTokenFilter = BaseTokenFilter & {
 };
 
 // @public
-export interface SuggestDocumentsResult<Model extends object, Fields extends SelectFields<Model>> {
+export interface SuggestDocumentsResult<Model extends object, Fields extends SelectFields<Model> = SelectFields<Model>> {
     readonly coverage?: number;
     readonly results: SuggestResult<Model, Fields>[];
 }
@@ -2688,17 +2688,15 @@ export interface SuggestDocumentsResult<Model extends object, Fields extends Sel
 // Warning: (ae-forgotten-export) The symbol "ExtractDocumentKey" needs to be exported by the entry point index.d.ts
 //
 // @public (undocumented)
-export type SuggestNarrowedModel<Model extends object, Fields extends SelectFields<Model>> = [
-Model
-] extends [never] ? object : [
+export type SuggestNarrowedModel<Model extends object, Fields extends SelectFields<Model> = SelectFields<Model>> = [Model] extends [never] ? object : [
 Fields
 ] extends [never] ? keyof ExtractDocumentKey<Model> extends never ? Model : ExtractDocumentKey<Model> : Fields extends SelectFields<Model> ? NarrowedModel<Model, Fields> : never;
 
 // @public
-export type SuggestOptions<Model extends object, Fields extends SelectFields<Model>> = OperationOptions & SuggestRequest<Model, Fields>;
+export type SuggestOptions<Model extends object, Fields extends SelectFields<Model> = SelectFields<Model>> = OperationOptions & SuggestRequest<Model, Fields>;
 
 // @public
-export interface SuggestRequest<Model extends object, Fields extends SelectFields<Model>> {
+export interface SuggestRequest<Model extends object, Fields extends SelectFields<Model> = SelectFields<Model>> {
     filter?: string;
     highlightPostTag?: string;
     highlightPreTag?: string;
@@ -2711,7 +2709,7 @@ export interface SuggestRequest<Model extends object, Fields extends SelectField
 }
 
 // @public
-export type SuggestResult<Model extends object, Fields extends SelectFields<Model>> = {
+export type SuggestResult<Model extends object, Fields extends SelectFields<Model> = SelectFields<Model>> = {
     readonly text: string;
     document: SuggestNarrowedModel<Model, Fields>;
 };
