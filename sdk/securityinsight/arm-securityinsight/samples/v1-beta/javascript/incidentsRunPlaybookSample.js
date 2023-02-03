@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { SecurityInsights } = require("@azure/arm-securityinsight");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Triggers playbook on a specific incident
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/manualTrigger/Incidents_RunPlaybook.json
  */
 async function incidentsRunPlaybook() {
-  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
   const workspaceName = "myWorkspace";
   const incidentIdentifier = "73e01a99-5cd7-4139-a149-9f2736ff2ar4";
   const credential = new DefaultAzureCredential();
@@ -32,4 +34,8 @@ async function incidentsRunPlaybook() {
   console.log(result);
 }
 
-incidentsRunPlaybook().catch(console.error);
+async function main() {
+  incidentsRunPlaybook();
+}
+
+main().catch(console.error);
