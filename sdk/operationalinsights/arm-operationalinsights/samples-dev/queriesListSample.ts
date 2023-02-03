@@ -13,6 +13,9 @@ import {
   OperationalInsightsManagementClient
 } from "@azure/arm-operationalinsights";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets a list of Queries defined within a Log Analytics QueryPack.
@@ -21,8 +24,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2019-09-01/examples/QueryPackQueriesList.json
  */
 async function queryList() {
-  const subscriptionId = "86dc51d3-92ed-4d7e-947a-775ea79b4918";
-  const resourceGroupName = "my-resource-group";
+  const subscriptionId =
+    process.env["OPERATIONALINSIGHTS_SUBSCRIPTION_ID"] ||
+    "86dc51d3-92ed-4d7e-947a-775ea79b4918";
+  const resourceGroupName =
+    process.env["OPERATIONALINSIGHTS_RESOURCE_GROUP"] || "my-resource-group";
   const queryPackName = "my-querypack";
   const includeBody = true;
   const options: QueriesListOptionalParams = { includeBody };
@@ -42,4 +48,8 @@ async function queryList() {
   console.log(resArray);
 }
 
-queryList().catch(console.error);
+async function main() {
+  queryList();
+}
+
+main().catch(console.error);

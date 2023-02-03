@@ -3,10 +3,17 @@
 
 import { JSONObject } from "../queryExecutionContext";
 import { extractPartitionKey } from "../extractPartitionKey";
-import { PartitionKeyDefinition } from "../documents";
+import {
+  NonePartitionKeyLiteral,
+  PartitionKey,
+  PartitionKeyDefinition,
+  PrimitivePartitionKeyValue,
+  convertToInternalPartitionKey,
+} from "../documents";
 import { RequestOptions } from "..";
 import { PatchRequestBody } from "./patch";
 import { v4 } from "uuid";
+import { assertNotUndefined } from "./typeChecks";
 const uuid = v4;
 
 export type Operation =
@@ -70,7 +77,7 @@ export type OperationInput =
   | PatchOperationInput;
 
 export interface CreateOperationInput {
-  partitionKey?: string | number | null | Record<string, unknown> | undefined;
+  partitionKey?: PartitionKey;
   ifMatch?: string;
   ifNoneMatch?: string;
   operationType: typeof BulkOperationType.Create;
@@ -78,7 +85,7 @@ export interface CreateOperationInput {
 }
 
 export interface UpsertOperationInput {
-  partitionKey?: string | number | null | Record<string, unknown> | undefined;
+  partitionKey?: PartitionKey;
   ifMatch?: string;
   ifNoneMatch?: string;
   operationType: typeof BulkOperationType.Upsert;
@@ -86,19 +93,19 @@ export interface UpsertOperationInput {
 }
 
 export interface ReadOperationInput {
-  partitionKey?: string | number | boolean | null | Record<string, unknown> | undefined;
+  partitionKey?: PartitionKey;
   operationType: typeof BulkOperationType.Read;
   id: string;
 }
 
 export interface DeleteOperationInput {
-  partitionKey?: string | number | null | Record<string, unknown> | undefined;
+  partitionKey?: PartitionKey;
   operationType: typeof BulkOperationType.Delete;
   id: string;
 }
 
 export interface ReplaceOperationInput {
-  partitionKey?: string | number | null | Record<string, unknown> | undefined;
+  partitionKey?: PartitionKey;
   ifMatch?: string;
   ifNoneMatch?: string;
   operationType: typeof BulkOperationType.Replace;
@@ -107,7 +114,7 @@ export interface ReplaceOperationInput {
 }
 
 export interface PatchOperationInput {
-  partitionKey?: string | number | null | Record<string, unknown> | undefined;
+  partitionKey?: PartitionKey;
   ifMatch?: string;
   ifNoneMatch?: string;
   operationType: typeof BulkOperationType.Patch;
@@ -155,59 +162,77 @@ export function hasResource(
     (operation as OperationWithItem).resourceBody !== undefined
   );
 }
-
-export function getPartitionKeyToHash(operation: Operation, partitionProperty: string): any {
-  const toHashKey = hasResource(operation)
-    ? deepFind(operation.resourceBody, partitionProperty)
-    : (operation.partitionKey && operation.partitionKey.replace(/[[\]"']/g, "")) ||
-      operation.partitionKey;
-  // We check for empty object since replace will stringify the value
-  // The second check avoids cases where the partitionKey value is actually the string '{}'
-  if (toHashKey === "{}" && operation.partitionKey === "[{}]") {
-    return {};
-  }
-  if (toHashKey === "null" && operation.partitionKey === "[null]") {
-    return null;
-  }
-  if (toHashKey === "0" && operation.partitionKey === "[0]") {
-    return 0;
-  }
-  return toHashKey;
-}
-
-export function decorateOperation(
-  operation: OperationInput,
+/**
+ * Maps OperationInput to Operation by
+ * - generating Ids if needed.
+ * - choosing partitionKey which can be used to choose which batch this
+ * operation should be part of. The order is -
+ *   1. If the operationInput itself has partitionKey field set it is used.
+ *   2. Other wise for create/replace/upsert it is extracted from resource body.
+ *   3. For read/delete/patch type operations undefined partitionKey is used.
+ * - Here one nuance is that, the partitionKey field inside Operation needs to
+ *  be serialized as a JSON string.
+ * @param operationInput - OperationInput
+ * @param definition - PartitionKeyDefinition
+ * @param options - RequestOptions
+ * @returns
+ */
+export function prepareOperations(
+  operationInput: OperationInput,
   definition: PartitionKeyDefinition,
   options: RequestOptions = {}
-): Operation {
-  if (
-    operation.operationType === BulkOperationType.Create ||
-    operation.operationType === BulkOperationType.Upsert
-  ) {
-    if (
-      (operation.resourceBody.id === undefined || operation.resourceBody.id === "") &&
-      !options.disableAutomaticIdGeneration
-    ) {
-      operation.resourceBody.id = uuid();
+): {
+  operation: Operation;
+  partitionKey: PrimitivePartitionKeyValue[];
+} {
+  populateIdsIfNeeded(operationInput, options);
+
+  let partitionKey: PrimitivePartitionKeyValue[];
+  if (Object.prototype.hasOwnProperty.call(operationInput, "partitionKey")) {
+    if (operationInput.partitionKey === undefined) {
+      partitionKey = definition.paths.map(() => NonePartitionKeyLiteral);
+    } else {
+      partitionKey = convertToInternalPartitionKey(operationInput.partitionKey);
+    }
+  } else {
+    switch (operationInput.operationType) {
+      case BulkOperationType.Create:
+      case BulkOperationType.Replace:
+      case BulkOperationType.Upsert:
+        partitionKey = assertNotUndefined(
+          extractPartitionKey(operationInput.resourceBody, definition),
+          ""
+        );
+        break;
+      case BulkOperationType.Read:
+      case BulkOperationType.Delete:
+      case BulkOperationType.Patch:
+        partitionKey = definition.paths.map(() => NonePartitionKeyLiteral);
     }
   }
-  if ("partitionKey" in operation) {
-    const extracted = extractPartitionKey(operation, { paths: ["/partitionKey"] });
-    return { ...operation, partitionKey: JSON.stringify(extracted) } as Operation;
-  } else if (
-    operation.operationType === BulkOperationType.Create ||
-    operation.operationType === BulkOperationType.Replace ||
-    operation.operationType === BulkOperationType.Upsert
+  return {
+    operation: { ...operationInput, partitionKey: JSON.stringify(partitionKey) } as Operation,
+    partitionKey,
+  };
+}
+
+/**
+ * For operations requiring Id genrate random uuids.
+ * @param operationInput - OperationInput to be checked.
+ * @param options - RequestOptions
+ */
+function populateIdsIfNeeded(operationInput: OperationInput, options: RequestOptions) {
+  if (
+    operationInput.operationType === BulkOperationType.Create ||
+    operationInput.operationType === BulkOperationType.Upsert
   ) {
-    const pk = extractPartitionKey(operation.resourceBody, definition);
-    return { ...operation, partitionKey: JSON.stringify(pk) } as Operation;
-  } else if (
-    operation.operationType === BulkOperationType.Read ||
-    operation.operationType === BulkOperationType.Delete
-  ) {
-    return { ...operation, partitionKey: "[{}]" };
+    if (
+      (operationInput.resourceBody.id === undefined || operationInput.resourceBody.id === "") &&
+      !options.disableAutomaticIdGeneration
+    ) {
+      operationInput.resourceBody.id = uuid();
+    }
   }
-  return operation as Operation;
 }
 
 export function decorateBatchOperation(
@@ -226,20 +251,4 @@ export function decorateBatchOperation(
     }
   }
   return operation as Operation;
-}
-/**
- * Util function for finding partition key values nested in objects at slash (/) separated paths
- * @hidden
- */
-export function deepFind<T, P extends string>(document: T, path: P): string | JSONObject {
-  const apath = path.split("/");
-  let h: any = document;
-  for (const p of apath) {
-    if (p in h) h = h[p];
-    else {
-      console.warn(`Partition key not found, using undefined: ${path} at ${p}`);
-      return "{}";
-    }
-  }
-  return h;
 }

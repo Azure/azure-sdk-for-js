@@ -1,15 +1,16 @@
 # Release History
+    
+## 1.2.0 (2023-01-30)
+    
+**Features**
 
-## 1.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface ContactProfilesListBySubscriptionNextOptionalParams no longer has parameter skiptoken
+  - Interface ContactProfilesListNextOptionalParams no longer has parameter skiptoken
+  - Interface ContactsListNextOptionalParams no longer has parameter skiptoken
+  - Interface SpacecraftsListBySubscriptionNextOptionalParams no longer has parameter skiptoken
+  - Interface SpacecraftsListNextOptionalParams no longer has parameter skiptoken
+    
+    
 ## 1.1.0 (2022-07-11)
     
 **Features**

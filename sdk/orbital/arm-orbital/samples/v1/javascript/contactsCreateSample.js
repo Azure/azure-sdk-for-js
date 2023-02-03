@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { AzureOrbital } = require("@azure/arm-orbital");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Creates a contact.
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/orbital/resource-manager/Microsoft.Orbital/stable/2022-03-01/examples/ContactCreate.json
  */
 async function createAContact() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["ORBITAL_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["ORBITAL_RESOURCE_GROUP"] || "rg1";
   const spacecraftName = "AQUA";
   const contactName = "contact1";
   const parameters = {
@@ -41,4 +42,8 @@ async function createAContact() {
   console.log(result);
 }
 
-createAContact().catch(console.error);
+async function main() {
+  createAContact();
+}
+
+main().catch(console.error);

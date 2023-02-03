@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { Scvmm } from "@azure/arm-scvmm";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Returns list of all operations.
@@ -18,7 +21,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/preview/2020-06-05-preview/examples/ListOperations.json
  */
 async function listOperations() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["SCVMM_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new Scvmm(credential, subscriptionId);
   const resArray = new Array();
@@ -28,4 +33,8 @@ async function listOperations() {
   console.log(resArray);
 }
 
-listOperations().catch(console.error);
+async function main() {
+  listOperations();
+}
+
+main().catch(console.error);

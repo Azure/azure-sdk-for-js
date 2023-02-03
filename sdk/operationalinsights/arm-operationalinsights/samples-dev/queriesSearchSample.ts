@@ -14,6 +14,9 @@ import {
   OperationalInsightsManagementClient
 } from "@azure/arm-operationalinsights";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Search a list of Queries defined within a Log Analytics QueryPack according to given search properties.
@@ -22,8 +25,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2019-09-01/examples/QueryPackQueriesSearch.json
  */
 async function querySearch() {
-  const subscriptionId = "86dc51d3-92ed-4d7e-947a-775ea79b4918";
-  const resourceGroupName = "my-resource-group";
+  const subscriptionId =
+    process.env["OPERATIONALINSIGHTS_SUBSCRIPTION_ID"] ||
+    "86dc51d3-92ed-4d7e-947a-775ea79b4918";
+  const resourceGroupName =
+    process.env["OPERATIONALINSIGHTS_RESOURCE_GROUP"] || "my-resource-group";
   const queryPackName = "my-querypack";
   const top = 3;
   const includeBody = true;
@@ -49,4 +55,8 @@ async function querySearch() {
   console.log(resArray);
 }
 
-querySearch().catch(console.error);
+async function main() {
+  querySearch();
+}
+
+main().catch(console.error);

@@ -4,20 +4,17 @@
 import { AnonymousCredential, StoragePipelineOptions } from "../../src";
 import { BlobServiceClient } from "../../src";
 import { newPipeline } from "../../src";
-import { SimpleTokenCredential } from "./testutils.common";
+import { SimpleTokenCredential, configureBlobStorageClient } from "./testutils.common";
 import { TokenCredential } from "@azure/core-auth";
-import { createXhrHttpClient } from "@azure/test-utils";
-import { _testOnlySetCachedDefaultHttpClient } from "../../src/utils/cache";
-import { isLiveMode } from "@azure-tools/test-recorder";
+import { env, Recorder } from "@azure-tools/test-recorder";
 
 export * from "./testutils.common";
 
-export function getGenericCredential(accountType: string): AnonymousCredential {
-  const anewAccountType = accountType; // bypass compiling error
-  accountType = anewAccountType;
+export function getGenericCredential(): AnonymousCredential {
   return new AnonymousCredential();
 }
 export function getGenericBSU(
+  recorder: Recorder,
   accountType: string,
   accountNameSuffix: string = "",
   pipelineOptions: StoragePipelineOptions = {}
@@ -25,11 +22,10 @@ export function getGenericBSU(
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   const accountSASEnvVar = `${accountType}ACCOUNT_SAS`;
 
-  const accountName = (self as any).__env__[accountNameEnvVar];
-  let accountSAS: string | undefined;
-  accountSAS = (self as any).__env__[accountSASEnvVar];
+  const accountName = env[accountNameEnvVar];
+  let accountSAS = env[accountSASEnvVar];
 
-  if (!accountName || !accountSAS || accountName === "" || accountSAS === "") {
+  if (!accountName || !accountSAS) {
     throw new Error(
       `${accountNameEnvVar} and/or ${accountSASEnvVar} environment variables not specified.`
     );
@@ -38,27 +34,21 @@ export function getGenericBSU(
   if (accountSAS) {
     accountSAS = accountSAS.startsWith("?") ? accountSAS : `?${accountSAS}`;
   }
-  // don't add the test account SAS value.
-  if (accountSAS === "?fakeSasToken") {
-    accountSAS = "";
-  }
 
-  if (!isLiveMode()) {
-    _testOnlySetCachedDefaultHttpClient(createXhrHttpClient());
-  }
-
-  const credentials = getGenericCredential(accountType);
+  const credentials = getGenericCredential();
   const pipeline = newPipeline(credentials, pipelineOptions);
   const blobPrimaryURL = `https://${accountName}${accountNameSuffix}.blob.core.windows.net${accountSAS}`;
-  return new BlobServiceClient(blobPrimaryURL, pipeline);
+  const client = new BlobServiceClient(blobPrimaryURL, pipeline);
+  configureBlobStorageClient(recorder, client);
+  return client;
 }
 
 export function getTokenCredential(): TokenCredential {
   const accountTokenEnvVar = `ACCOUNT_TOKEN`;
 
-  const accountToken = (self as any).__env__[accountTokenEnvVar];
+  const accountToken = env[accountTokenEnvVar];
 
-  if (!accountToken || accountToken === "") {
+  if (!accountToken) {
     throw new Error(`${accountTokenEnvVar} environment variables not specified.`);
   }
 
@@ -67,7 +57,7 @@ export function getTokenCredential(): TokenCredential {
 
 export function getEncryptionScope_1(): string {
   const encryptionScopeEnvVar = "ENCRYPTION_SCOPE_1";
-  const encryptionScope = (self as any).__env__[encryptionScopeEnvVar];
+  const encryptionScope = env[encryptionScopeEnvVar];
 
   if (!encryptionScope) {
     throw new Error(`${encryptionScopeEnvVar} environment variables not specified.`);
@@ -78,7 +68,7 @@ export function getEncryptionScope_1(): string {
 
 export function getEncryptionScope_2(): string {
   const encryptionScopeEnvVar = "ENCRYPTION_SCOPE_2";
-  const encryptionScope = (self as any).__env__[encryptionScopeEnvVar];
+  const encryptionScope = env[encryptionScopeEnvVar];
 
   if (!encryptionScope) {
     throw new Error(`${encryptionScopeEnvVar} environment variables not specified.`);
@@ -87,26 +77,27 @@ export function getEncryptionScope_2(): string {
   return encryptionScope;
 }
 
-export function getTokenBSU(): BlobServiceClient {
+export function getTokenBSU(recorder: Recorder): BlobServiceClient {
   const accountNameEnvVar = `ACCOUNT_NAME`;
 
-  const accountName = (self as any).__env__[accountNameEnvVar];
+  const accountName = env[accountNameEnvVar];
 
-  if (!accountName || accountName === "") {
+  if (!accountName) {
     throw new Error(`${accountNameEnvVar} environment variables not specified.`);
   }
 
   const credentials = getTokenCredential();
   const pipeline = newPipeline(credentials);
-  (pipeline as any)._httpClient = createXhrHttpClient();
   const blobPrimaryURL = `https://${accountName}.blob.core.windows.net/`;
-  return new BlobServiceClient(blobPrimaryURL, pipeline);
+  const client = new BlobServiceClient(blobPrimaryURL, pipeline);
+  configureBlobStorageClient(recorder, client);
+  return client;
 }
 
 export function getImmutableContainerName(): string {
   const immutableContainerEnvVar = `IMMUTABLE_CONTAINER_NAME`;
 
-  const immutableContainerName = (self as any).__env__[immutableContainerEnvVar];
+  const immutableContainerName = env[immutableContainerEnvVar];
 
   if (!immutableContainerName || immutableContainerName === "") {
     throw new Error(`${immutableContainerEnvVar} environment variables not specified.`);
@@ -115,12 +106,15 @@ export function getImmutableContainerName(): string {
   return immutableContainerName;
 }
 
-export function getBSU(pipelineOptions: StoragePipelineOptions = {}): BlobServiceClient {
-  return getGenericBSU("", undefined, pipelineOptions);
+export function getBSU(
+  recorder: Recorder,
+  pipelineOptions: StoragePipelineOptions = {}
+): BlobServiceClient {
+  return getGenericBSU(recorder, "", undefined, pipelineOptions);
 }
 
-export function getAlternateBSU(): BlobServiceClient {
-  return getGenericBSU("SECONDARY_", "-secondary");
+export function getAlternateBSU(recorder: Recorder): BlobServiceClient {
+  return getGenericBSU(recorder, "SECONDARY_", "-secondary");
 }
 
 /**
@@ -196,11 +190,5 @@ export function getBrowserFile(name: string, size: number): File {
 }
 
 export function getSASConnectionStringFromEnvironment(): string {
-  if (!isLiveMode()) {
-    const xhrClient = createXhrHttpClient();
-    _testOnlySetCachedDefaultHttpClient(xhrClient);
-  }
-  const env = (self as any).__env__;
-
   return `BlobEndpoint=https://${env.ACCOUNT_NAME}.blob.core.windows.net/;QueueEndpoint=https://${env.ACCOUNT_NAME}.queue.core.windows.net/;FileEndpoint=https://${env.ACCOUNT_NAME}.file.core.windows.net/;TableEndpoint=https://${env.ACCOUNT_NAME}.table.core.windows.net/;SharedAccessSignature=${env.ACCOUNT_SAS}`;
 }

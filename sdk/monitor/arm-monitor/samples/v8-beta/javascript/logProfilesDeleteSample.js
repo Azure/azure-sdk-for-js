@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { MonitorClient } = require("@azure/arm-monitor");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Deletes the log profile.
@@ -18,7 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2016-03-01/examples/deleteLogProfile.json
  */
 async function deleteLogProfile() {
-  const subscriptionId = "b67f7fec-69fc-4974-9099-a26bd6ffeda3";
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] || "b67f7fec-69fc-4974-9099-a26bd6ffeda3";
   const logProfileName = "Rac46PostSwapRG";
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
@@ -26,4 +28,8 @@ async function deleteLogProfile() {
   console.log(result);
 }
 
-deleteLogProfile().catch(console.error);
+async function main() {
+  deleteLogProfile();
+}
+
+main().catch(console.error);

@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { MicrosoftResourceHealth } = require("@azure/arm-resourcehealth");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Lists the all the children and its current health status for a parent resource. Use the nextLink property in the response to get the next page of children current health
@@ -18,7 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/resourcehealth/resource-manager/Microsoft.ResourceHealth/stable/2017-07-01/examples/ChildResources_List.json
  */
 async function getHealthHistoryByResource() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["RESOURCEHEALTH_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceUri = "resourceUri";
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftResourceHealth(credential, subscriptionId);
@@ -29,4 +31,8 @@ async function getHealthHistoryByResource() {
   console.log(resArray);
 }
 
-getHealthHistoryByResource().catch(console.error);
+async function main() {
+  getHealthHistoryByResource();
+}
+
+main().catch(console.error);

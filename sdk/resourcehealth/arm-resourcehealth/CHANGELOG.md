@@ -1,15 +1,21 @@
 # Release History
+    
+## 3.2.0 (2023-02-01)
+    
+**Features**
 
-## 3.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface AvailabilityStatusesListByResourceGroupNextOptionalParams no longer has parameter expand
+  - Interface AvailabilityStatusesListByResourceGroupNextOptionalParams no longer has parameter filter
+  - Interface AvailabilityStatusesListBySubscriptionIdNextOptionalParams no longer has parameter expand
+  - Interface AvailabilityStatusesListBySubscriptionIdNextOptionalParams no longer has parameter filter
+  - Interface AvailabilityStatusesListNextOptionalParams no longer has parameter expand
+  - Interface AvailabilityStatusesListNextOptionalParams no longer has parameter filter
+  - Interface ChildAvailabilityStatusesListNextOptionalParams no longer has parameter expand
+  - Interface ChildAvailabilityStatusesListNextOptionalParams no longer has parameter filter
+  - Interface ChildResourcesListNextOptionalParams no longer has parameter expand
+  - Interface ChildResourcesListNextOptionalParams no longer has parameter filter
+    
+    
 ## 3.1.0 (2022-07-14)
     
 **Features**
