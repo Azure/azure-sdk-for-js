@@ -26,16 +26,6 @@ if ($deps)
 }
 Write-Host "Installing $($apiviewParser)"
 npm install $apiviewParser --registry $NpmDevopsFeedRegistry
-$installedPath = npm ls @azure-tools/ts-genapi -p
-if (!(Test-Path -Path $installedPath))
-{
-  Write-Host "@Azure-tools/ts-genapi is not installed to $($installedPath)"
-  exit 1
-}
-
-Write-Host "Setting working directory to $($installedPath)"
-Set-Location $installedPath
-npm run-script build
 
 $apiFiles = Get-ChildItem -Path $ArtifactPath -Recurse -Filter "*.api.json"
 foreach ($apiPkgFile in $apiFiles)
