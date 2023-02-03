@@ -228,7 +228,7 @@
         "tags": [
           "TollFreeVerification - CampaignBrief"
         ],
-        "summary": "Get a list of Campaign Briefs excluding Denied campaign briefs for the current resource.",
+        "summary": "Get a list of campaign briefs by country code for the current resource.",
         "operationId": "TollFreeVerification_GetAllCampaignBriefsByCountryCode",
         "produces": [
           "application/json"
@@ -280,7 +280,7 @@
         },
         "x-ms-examples": {
           "List Briefs": {
-            "$ref": "./examples/GetAllCampaignBriefsAsync.json"
+            "$ref": "./examples/GetAllCampaignBriefsByCountryCodeAsync.json"
           }
         }
       }
@@ -290,8 +290,8 @@
         "tags": [
           "TollFreeVerification - CampaignBrief"
         ],
-        "summary": "Get a list of Campaign Brief Summaries excluding Denied campaign brief summaries for the current resource.",
-        "operationId": "TollFreeVerification_GetAllCampaignBriefs",
+        "summary": "Get a list of Campaign Brief Summaries for the current resource.",
+        "operationId": "TollFreeVerification_GetAllCampaignBriefSummaries",
         "produces": [
           "application/json"
         ],
@@ -336,7 +336,7 @@
         },
         "x-ms-examples": {
           "List Briefs": {
-            "$ref": "./examples/GetAllCampaignBriefsAsync.json"
+            "$ref": "./examples/GetAllCampaignBriefSummariesAsync.json"
           }
         }
       }
@@ -684,8 +684,7 @@
             "approved",
             "updateRequested",
             "draft",
-            "denied",
-            "cancelled"
+            "denied"
           ],
           "type": "string",
           "x-ms-enum": {
@@ -912,7 +911,7 @@
           "type": "string"
         },
         "briefType": {
-          "description": "Campaign Brief status e.g. 'submitted', 'approved', etc",
+          "description": "Campaign Brief types e.g. 'tollfreeVerification'",
           "enum": [
             "tollfreeVerification"
           ],
@@ -929,8 +928,7 @@
             "approved",
             "updateRequested",
             "draft",
-            "denied",
-            "cancelled"
+            "denied"
           ],
           "type": "string",
           "x-ms-enum": {
