@@ -2,15 +2,15 @@
 // Licensed under the MIT license.
 
 import { leafCommand, makeCommandInfo } from "../../framework/command";
-import { stopProxyTool } from "../../util/testProxyUtils";
+import { runTestProxyCommand } from "../../util/testProxyUtils";
 
 export const commandInfo = makeCommandInfo(
   "test-proxy",
-  "stops the test proxy that was started with test-proxy start, if it was running",
+  "pushes the assets, referenced by assets.json, into git",
   {}
 );
 
 export default leafCommand(commandInfo, async () => {
-  await stopProxyTool();
+  await runTestProxyCommand(["push", "-a", "assets.json"]);
   return true;
 });

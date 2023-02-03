@@ -2,17 +2,15 @@
 // Licensed under the MIT license.
 
 import { leafCommand, makeCommandInfo } from "../../framework/command";
-import { config } from "dotenv";
-import { startProxyTool } from "../../util/testProxyUtils";
-config();
+import { runTestProxyCommand } from "../../util/testProxyUtils";
 
 export const commandInfo = makeCommandInfo(
   "test-proxy",
-  "runs the proxy-tool with the `docker run ...` command",
+  "reset the assets, referenced by assets.json, from git to their original files referenced by the tag. Will prompt if there's pending changes",
   {}
 );
 
 export default leafCommand(commandInfo, async () => {
-  await startProxyTool();
+  await runTestProxyCommand(["reset", "-a", "assets.json"]);
   return true;
 });
