@@ -9,29 +9,69 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-arm-workloads/1.0.0-beta.3 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
-        "x-ms-client-request-id": "cffebdb5-5449-406a-a5fa-30261a999e74"
+        "x-ms-client-request-id": "963fcb1c-3cab-439c-82d9-b0c451eef1f4"
       },
       "RequestBody": null,
-      "StatusCode": 404,
+      "StatusCode": 200,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
-        "Content-Length": "230",
+        "Content-Encoding": "gzip",
+        "Content-Length": "1283",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 02 Feb 2023 02:14:42 GMT",
+        "Date": "Fri, 03 Feb 2023 03:30:45 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "155b2153-25af-4033-ba72-20e019c04f71",
-        "x-ms-failure-cause": "gateway",
-        "x-ms-request-id": "155b2153-25af-4033-ba72-20e019c04f71",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20230202T021443Z:155b2153-25af-4033-ba72-20e019c04f71"
+        "x-ms-correlation-request-id": "2dc50b5f-d39b-46f9-b35c-c1dd1f0c2b4a",
+        "x-ms-original-request-ids": [
+          "03536549-a3ff-46a3-ac07-cc342e2b99d1",
+          "8b29b657-2868-4b3b-bcf1-b24fee3a0bc6",
+          "5cd3965d-3ffa-431f-ac77-c0b55ae3a1d5",
+          "555c9c8e-20fb-461a-a4b3-b1d2dffd56ac",
+          "7f0c07ba-cc86-4c65-958f-49efeed20a74",
+          "ef9d7081-bfc9-44f3-ba0b-ea0f680968f6",
+          "d62a16cd-6d30-4a30-b5b1-d397c0e42bb6",
+          "9d8379e9-683f-4c3b-b1e9-389c02ced404"
+        ],
+        "x-ms-ratelimit-remaining-subscription-reads": "11921",
+        "x-ms-request-id": "2dc50b5f-d39b-46f9-b35c-c1dd1f0c2b4a",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230203T033046Z:2dc50b5f-d39b-46f9-b35c-c1dd1f0c2b4a"
       },
       "ResponseBody": {
-        "error": {
-          "code": "InvalidResourceType",
-          "message": "The resource type \u0027monitors\u0027 could not be found in the namespace \u0027Microsoft.Workloads\u0027 for api version \u00272022-11-01-preview\u0027. The supported api-versions are \u00272021-12-01-preview\u0027."
-        }
+        "value": [
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Workloads/monitors/myMonitor",
+            "name": "myMonitor",
+            "type": "microsoft.workloads/monitors",
+            "location": "eastus2",
+            "tags": {
+              "key": "value"
+            },
+            "systemData": {
+              "createdBy": "azure_client_id",
+              "createdByType": "Application",
+              "createdAt": "2023-02-03T03:23:56.6527539Z",
+              "lastModifiedBy": "azure_client_id",
+              "lastModifiedByType": "Application",
+              "lastModifiedAt": "2023-02-03T03:27:29.0700728Z"
+            },
+            "properties": {
+              "appLocation": "eastus2",
+              "routingPreference": "RouteAll",
+              "managedResourceGroupConfiguration": {
+                "name": "myManagedRg"
+              },
+              "logAnalyticsWorkspaceArmId": "/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/microsoft.operationalinsights/workspaces/myWorkspace",
+              "monitorSubnet": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/virtualNetworks/virtualnetworkabc/subnets/mySubnet",
+              "msiArmId": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourcegroups/myManagedRg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/sapmon-msi-e259938971574e",
+              "storageAccountArmId": "/subscriptions/azure_subscription_id/resourcegroups/myManagedRg/providers/Microsoft.Storage/storageAccounts/sapstoe259938971574e",
+              "provisioningState": "Succeeded",
+              "errors": {}
+            }
+          }
+        ]
       }
     }
   ],
