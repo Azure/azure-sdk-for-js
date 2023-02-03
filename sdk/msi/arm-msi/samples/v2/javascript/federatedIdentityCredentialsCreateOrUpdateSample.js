@@ -8,14 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  FederatedIdentityCredential,
-  ManagedServiceIdentityClient
-} from "@azure/arm-msi";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+const { ManagedServiceIdentityClient } = require("@azure/arm-msi");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Create or update a federated identity credential under the specified user assigned identity.
@@ -25,15 +20,14 @@ dotenv.config();
  */
 async function federatedIdentityCredentialCreate() {
   const subscriptionId =
-    process.env["MSI_SUBSCRIPTION_ID"] ||
-    "c267c0e7-0a73-4789-9e17-d26aeb0904e5";
+    process.env["MSI_SUBSCRIPTION_ID"] || "c267c0e7-0a73-4789-9e17-d26aeb0904e5";
   const resourceGroupName = process.env["MSI_RESOURCE_GROUP"] || "rgName";
   const resourceName = "resourceName";
   const federatedIdentityCredentialResourceName = "ficResourceName";
-  const parameters: FederatedIdentityCredential = {
+  const parameters = {
     audiences: ["api://AzureADTokenExchange"],
     issuer: "https://oidc.prod-aks.azure.com/TenantGUID/IssuerGUID",
-    subject: "system:serviceaccount:ns:svcaccount"
+    subject: "system:serviceaccount:ns:svcaccount",
   };
   const credential = new DefaultAzureCredential();
   const client = new ManagedServiceIdentityClient(credential, subscriptionId);

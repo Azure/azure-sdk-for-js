@@ -8,28 +8,25 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { ManagedServiceIdentityClient } from "@azure/arm-msi";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+const { ManagedServiceIdentityClient } = require("@azure/arm-msi");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
- * This sample demonstrates how to Deletes the federated identity credential.
+ * This sample demonstrates how to Gets the federated identity credential.
  *
- * @summary Deletes the federated identity credential.
- * x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/stable/2023-01-31/examples/FederatedIdentityCredentialDelete.json
+ * @summary Gets the federated identity credential.
+ * x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/stable/2023-01-31/examples/FederatedIdentityCredentialGet.json
  */
-async function federatedIdentityCredentialDelete() {
+async function federatedIdentityCredentialGet() {
   const subscriptionId =
-    process.env["MSI_SUBSCRIPTION_ID"] ||
-    "c267c0e7-0a73-4789-9e17-d26aeb0904e5";
+    process.env["MSI_SUBSCRIPTION_ID"] || "c267c0e7-0a73-4789-9e17-d26aeb0904e5";
   const resourceGroupName = process.env["MSI_RESOURCE_GROUP"] || "rgName";
   const resourceName = "resourceName";
   const federatedIdentityCredentialResourceName = "ficResourceName";
   const credential = new DefaultAzureCredential();
   const client = new ManagedServiceIdentityClient(credential, subscriptionId);
-  const result = await client.federatedIdentityCredentials.delete(
+  const result = await client.federatedIdentityCredentials.get(
     resourceGroupName,
     resourceName,
     federatedIdentityCredentialResourceName
@@ -38,7 +35,7 @@ async function federatedIdentityCredentialDelete() {
 }
 
 async function main() {
-  federatedIdentityCredentialDelete();
+  federatedIdentityCredentialGet();
 }
 
 main().catch(console.error);

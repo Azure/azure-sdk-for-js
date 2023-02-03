@@ -8,11 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { ManagedServiceIdentityClient } from "@azure/arm-msi";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+const { ManagedServiceIdentityClient } = require("@azure/arm-msi");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Lists all the userAssignedIdentities available under the specified ResourceGroup.
@@ -26,9 +24,7 @@ async function identityListByResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new ManagedServiceIdentityClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.userAssignedIdentities.listByResourceGroup(
-    resourceGroupName
-  )) {
+  for await (let item of client.userAssignedIdentities.listByResourceGroup(resourceGroupName)) {
     resArray.push(item);
   }
   console.log(resArray);

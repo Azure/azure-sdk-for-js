@@ -8,33 +8,36 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { ManagedServiceIdentityClient } from "@azure/arm-msi";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+const { ManagedServiceIdentityClient } = require("@azure/arm-msi");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
- * This sample demonstrates how to Deletes the identity.
+ * This sample demonstrates how to Update an identity in the specified subscription and resource group.
  *
- * @summary Deletes the identity.
- * x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/stable/2023-01-31/examples/IdentityDelete.json
+ * @summary Update an identity in the specified subscription and resource group.
+ * x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/stable/2023-01-31/examples/IdentityUpdate.json
  */
-async function identityDelete() {
+async function identityUpdate() {
   const subscriptionId = process.env["MSI_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["MSI_RESOURCE_GROUP"] || "rgName";
   const resourceName = "resourceName";
+  const parameters = {
+    location: "eastus",
+    tags: { key1: "value1", key2: "value2" },
+  };
   const credential = new DefaultAzureCredential();
   const client = new ManagedServiceIdentityClient(credential, subscriptionId);
-  const result = await client.userAssignedIdentities.delete(
+  const result = await client.userAssignedIdentities.update(
     resourceGroupName,
-    resourceName
+    resourceName,
+    parameters
   );
   console.log(result);
 }
 
 async function main() {
-  identityDelete();
+  identityUpdate();
 }
 
 main().catch(console.error);
