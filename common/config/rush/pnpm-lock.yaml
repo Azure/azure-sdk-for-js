@@ -1,7 +1,6 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@microsoft/api-extractor': 7.34.0
   '@rush-temp/abort-controller': file:./projects/abort-controller.tgz
   '@rush-temp/agrifood-farming': file:./projects/agrifood-farming.tgz
   '@rush-temp/ai-anomaly-detector': file:./projects/ai-anomaly-detector.tgz
@@ -327,7 +326,6 @@ specifiers:
   '@rush-temp/web-pubsub-express': file:./projects/web-pubsub-express.tgz
 
 dependencies:
-  '@microsoft/api-extractor': 7.34.0
   '@rush-temp/abort-controller': file:projects/abort-controller.tgz
   '@rush-temp/agrifood-farming': file:projects/agrifood-farming.tgz
   '@rush-temp/ai-anomaly-detector': file:projects/ai-anomaly-detector.tgz
@@ -1592,48 +1590,44 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.14
     dev: false
 
-  /@microsoft/api-extractor-model/7.13.9:
-    resolution: {integrity: sha512-t/XKTr8MlHRWgDr1fkyCzTQRR5XICf/WzIFs8yw1JLU8Olw99M3by4/dtpOZNskfqoW+J8NwOxovduU2csi4Ww==}
-    dependencies:
-      '@microsoft/tsdoc': 0.13.2
-      '@microsoft/tsdoc-config': 0.15.2
-      '@rushstack/node-core-library': 3.41.0
-    dev: false
-
-  /@microsoft/api-extractor-model/7.26.0:
-    resolution: {integrity: sha512-iUlscM9a3/scqgaL+sipTYsfbkF/frrZhdYWXm5+zEVMW6QlP5jDV6cYNeIEIdMeGSbzk1yxpBjyeBDAZQLdyA==}
+  /@microsoft/api-extractor-model/7.26.2:
+    resolution: {integrity: sha512-V9tTHbYTNelTrNDXBzeDlszq29nQcjJdP6s27QJiATbqSRjEbKTeztlSVsCRHL2Wkkv5IN5jT4xkYjnFFPbK0A==}
     dependencies:
       '@microsoft/tsdoc': 0.14.2
       '@microsoft/tsdoc-config': 0.16.2
-      '@rushstack/node-core-library': 3.53.3
+      '@rushstack/node-core-library': 3.55.0
+    transitivePeerDependencies:
+      - '@types/node'
     dev: false
 
-  /@microsoft/api-extractor/7.18.11:
-    resolution: {integrity: sha512-WfN5MZry4TrF60OOcGadFDsGECF9JNKNT+8P/8crYAumAYQRitI2cUiQRlCWrgmFgCWNezsNZeI/2BggdnUqcg==}
-    hasBin: true
+  /@microsoft/api-extractor-model/7.26.2_@types+node@14.18.36:
+    resolution: {integrity: sha512-V9tTHbYTNelTrNDXBzeDlszq29nQcjJdP6s27QJiATbqSRjEbKTeztlSVsCRHL2Wkkv5IN5jT4xkYjnFFPbK0A==}
     dependencies:
-      '@microsoft/api-extractor-model': 7.13.9
-      '@microsoft/tsdoc': 0.13.2
-      '@microsoft/tsdoc-config': 0.15.2
-      '@rushstack/node-core-library': 3.41.0
-      '@rushstack/rig-package': 0.3.1
-      '@rushstack/ts-command-line': 4.9.1
-      colors: 1.2.5
-      lodash: 4.17.21
-      resolve: 1.17.0
-      semver: 7.3.8
-      source-map: 0.6.1
-      typescript: 4.4.4
-    dev: false
-
-  /@microsoft/api-extractor/7.34.0:
-    resolution: {integrity: sha512-U9opcYpFrN0eIVunEx90SDSYzmjgO2mEVbttHwtJBjOHUhK2cY2QykH8uiBnJuVtuBvHVCdEFUGt6i/8LVexYA==}
-    hasBin: true
-    dependencies:
-      '@microsoft/api-extractor-model': 7.26.0
       '@microsoft/tsdoc': 0.14.2
       '@microsoft/tsdoc-config': 0.16.2
-      '@rushstack/node-core-library': 3.53.3
+      '@rushstack/node-core-library': 3.55.0_@types+node@14.18.36
+    transitivePeerDependencies:
+      - '@types/node'
+    dev: false
+
+  /@microsoft/api-extractor-model/7.26.2_@types+node@16.18.11:
+    resolution: {integrity: sha512-V9tTHbYTNelTrNDXBzeDlszq29nQcjJdP6s27QJiATbqSRjEbKTeztlSVsCRHL2Wkkv5IN5jT4xkYjnFFPbK0A==}
+    dependencies:
+      '@microsoft/tsdoc': 0.14.2
+      '@microsoft/tsdoc-config': 0.16.2
+      '@rushstack/node-core-library': 3.55.0_@types+node@16.18.11
+    transitivePeerDependencies:
+      - '@types/node'
+    dev: false
+
+  /@microsoft/api-extractor/7.34.2:
+    resolution: {integrity: sha512-oREyUU7p3JgjrqapJxEHe83gA1SXOWgaA4XCiY9PvsiLkgGHtn2ibTRgw9GCI/4kZzcb+OQv5waUDxsnQSKfwQ==}
+    hasBin: true
+    dependencies:
+      '@microsoft/api-extractor-model': 7.26.2
+      '@microsoft/tsdoc': 0.14.2
+      '@microsoft/tsdoc-config': 0.16.2
+      '@rushstack/node-core-library': 3.55.0
       '@rushstack/rig-package': 0.3.17
       '@rushstack/ts-command-line': 4.13.1
       colors: 1.2.5
@@ -1642,15 +1636,48 @@ packages:
       semver: 7.3.8
       source-map: 0.6.1
       typescript: 4.8.4
+    transitivePeerDependencies:
+      - '@types/node'
     dev: false
 
-  /@microsoft/tsdoc-config/0.15.2:
-    resolution: {integrity: sha512-mK19b2wJHSdNf8znXSMYVShAHktVr/ib0Ck2FA3lsVBSEhSI/TfXT7DJQkAYgcztTuwazGcg58ZjYdk0hTCVrA==}
+  /@microsoft/api-extractor/7.34.2_@types+node@14.18.36:
+    resolution: {integrity: sha512-oREyUU7p3JgjrqapJxEHe83gA1SXOWgaA4XCiY9PvsiLkgGHtn2ibTRgw9GCI/4kZzcb+OQv5waUDxsnQSKfwQ==}
+    hasBin: true
     dependencies:
-      '@microsoft/tsdoc': 0.13.2
-      ajv: 6.12.6
-      jju: 1.4.0
-      resolve: 1.19.0
+      '@microsoft/api-extractor-model': 7.26.2_@types+node@14.18.36
+      '@microsoft/tsdoc': 0.14.2
+      '@microsoft/tsdoc-config': 0.16.2
+      '@rushstack/node-core-library': 3.55.0_@types+node@14.18.36
+      '@rushstack/rig-package': 0.3.17
+      '@rushstack/ts-command-line': 4.13.1
+      colors: 1.2.5
+      lodash: 4.17.21
+      resolve: 1.22.1
+      semver: 7.3.8
+      source-map: 0.6.1
+      typescript: 4.8.4
+    transitivePeerDependencies:
+      - '@types/node'
+    dev: false
+
+  /@microsoft/api-extractor/7.34.2_@types+node@16.18.11:
+    resolution: {integrity: sha512-oREyUU7p3JgjrqapJxEHe83gA1SXOWgaA4XCiY9PvsiLkgGHtn2ibTRgw9GCI/4kZzcb+OQv5waUDxsnQSKfwQ==}
+    hasBin: true
+    dependencies:
+      '@microsoft/api-extractor-model': 7.26.2_@types+node@16.18.11
+      '@microsoft/tsdoc': 0.14.2
+      '@microsoft/tsdoc-config': 0.16.2
+      '@rushstack/node-core-library': 3.55.0_@types+node@16.18.11
+      '@rushstack/rig-package': 0.3.17
+      '@rushstack/ts-command-line': 4.13.1
+      colors: 1.2.5
+      lodash: 4.17.21
+      resolve: 1.22.1
+      semver: 7.3.8
+      source-map: 0.6.1
+      typescript: 4.8.4
+    transitivePeerDependencies:
+      - '@types/node'
     dev: false
 
   /@microsoft/tsdoc-config/0.16.2:
@@ -1660,10 +1687,6 @@ packages:
       ajv: 6.12.6
       jju: 1.4.0
       resolve: 1.19.0
-    dev: false
-
-  /@microsoft/tsdoc/0.13.2:
-    resolution: {integrity: sha512-WrHvO8PDL8wd8T2+zBGKrMwVL5IyzR3ryWUsl0PXgEV0QHup4mTLi0QcATefGI6Gx9Anu7vthPyyyLpY0EpiQg==}
     dev: false
 
   /@microsoft/tsdoc/0.14.2:
@@ -2049,38 +2072,57 @@ packages:
       rollup: 2.79.1
     dev: false
 
-  /@rushstack/node-core-library/3.41.0:
-    resolution: {integrity: sha512-JxdmqR+SHU04jTDaZhltMZL3/XTz2ZZM47DTN+FSPUGUVp6WmxLlvJnT5FoHrOZWUjL/FoIlZUdUPTSXjTjIcg==}
+  /@rushstack/node-core-library/3.55.0:
+    resolution: {integrity: sha512-6lSel8w3DeGaD/JCKw64wfezEBijlCQlMwBoYg9Ci5VPy+dZ+FpBkIBrY8mi3Ge4xNzr4gyTbQ5XEt0QP1Kv/w==}
+    peerDependencies:
+      '@types/node': '*'
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
     dependencies:
-      '@types/node': 12.20.24
       colors: 1.2.5
       fs-extra: 7.0.1
       import-lazy: 4.0.0
       jju: 1.4.0
-      resolve: 1.17.0
-      semver: 7.3.8
-      timsort: 0.3.0
-      z-schema: 3.18.4
-    dev: false
-
-  /@rushstack/node-core-library/3.53.3:
-    resolution: {integrity: sha512-H0+T5koi5MFhJUd5ND3dI3bwLhvlABetARl78L3lWftJVQEPyzcgTStvTTRiIM5mCltyTM8VYm6BuCtNUuxD0Q==}
-    dependencies:
-      '@types/node': 12.20.24
-      colors: 1.2.5
-      fs-extra: 7.0.1
-      import-lazy: 4.0.0
-      jju: 1.4.0
-      resolve: 1.17.0
+      resolve: 1.22.1
       semver: 7.3.8
       z-schema: 5.0.5
     dev: false
 
-  /@rushstack/rig-package/0.3.1:
-    resolution: {integrity: sha512-DXQmrPWOCNoE2zPzHCShE1y47FlgbAg48wpaY058Qo/yKDzL0GlEGf5Ra2NIt22pMcp0R/HHh+kZGbqTnF4CrA==}
+  /@rushstack/node-core-library/3.55.0_@types+node@14.18.36:
+    resolution: {integrity: sha512-6lSel8w3DeGaD/JCKw64wfezEBijlCQlMwBoYg9Ci5VPy+dZ+FpBkIBrY8mi3Ge4xNzr4gyTbQ5XEt0QP1Kv/w==}
+    peerDependencies:
+      '@types/node': '*'
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
     dependencies:
-      resolve: 1.17.0
-      strip-json-comments: 3.1.1
+      '@types/node': 14.18.36
+      colors: 1.2.5
+      fs-extra: 7.0.1
+      import-lazy: 4.0.0
+      jju: 1.4.0
+      resolve: 1.22.1
+      semver: 7.3.8
+      z-schema: 5.0.5
+    dev: false
+
+  /@rushstack/node-core-library/3.55.0_@types+node@16.18.11:
+    resolution: {integrity: sha512-6lSel8w3DeGaD/JCKw64wfezEBijlCQlMwBoYg9Ci5VPy+dZ+FpBkIBrY8mi3Ge4xNzr4gyTbQ5XEt0QP1Kv/w==}
+    peerDependencies:
+      '@types/node': '*'
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+    dependencies:
+      '@types/node': 16.18.11
+      colors: 1.2.5
+      fs-extra: 7.0.1
+      import-lazy: 4.0.0
+      jju: 1.4.0
+      resolve: 1.22.1
+      semver: 7.3.8
+      z-schema: 5.0.5
     dev: false
 
   /@rushstack/rig-package/0.3.17:
@@ -2092,15 +2134,6 @@ packages:
 
   /@rushstack/ts-command-line/4.13.1:
     resolution: {integrity: sha512-UTQMRyy/jH1IS2U+6pyzyn9xQ2iMcoUKkTcZUzOP/aaMiKlWLwCTDiBVwhw/M1crDx6apF9CwyjuWO9r1SBdJQ==}
-    dependencies:
-      '@types/argparse': 1.0.38
-      argparse: 1.0.10
-      colors: 1.2.5
-      string-argv: 0.3.1
-    dev: false
-
-  /@rushstack/ts-command-line/4.9.1:
-    resolution: {integrity: sha512-zzoWB6OqVbMjnxlxbAUqbZqDWITUSHqwFCx7JbH5CVrjR9kcsB4NeWkN1I8GcR92beiOGvO3yPlB2NRo5Ugh+A==}
     dependencies:
       '@types/argparse': 1.0.38
       argparse: 1.0.10
@@ -2368,14 +2401,6 @@ packages:
     dependencies:
       '@types/node': 18.11.18
       form-data: 3.0.1
-    dev: false
-
-  /@types/node/12.20.24:
-    resolution: {integrity: sha512-yxDeaQIAJlMav7fH5AQqPH1u8YIuhYJXYBzxaQ4PifsU0GDO38MSdmEDeRlIxrKbC6NbEaaEHDanWb+y30U8SQ==}
-    dev: false
-
-  /@types/node/12.20.55:
-    resolution: {integrity: sha512-J8xLz7q2OFulZ2cyGTLE1TbbZcjpno7FaN6zdJNrgAdrJ+DZzh/uFR6YrTb4C+nXakvud8Q4+rbhoIWlYQbUFQ==}
     dev: false
 
   /@types/node/14.18.36:
@@ -3090,7 +3115,7 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001449
+      caniuse-lite: 1.0.30001450
       electron-to-chromium: 1.4.284
       node-releases: 2.0.9
       update-browserslist-db: 1.0.10_browserslist@4.21.5
@@ -3176,8 +3201,8 @@ packages:
     engines: {node: '>=6'}
     dev: false
 
-  /caniuse-lite/1.0.30001449:
-    resolution: {integrity: sha512-CPB+UL9XMT/Av+pJxCKGhdx+yg1hzplvFJQlJ2n68PyQGMz9L/E2zCyLdOL8uasbouTUgnPl+y0tccI/se+BEw==}
+  /caniuse-lite/1.0.30001450:
+    resolution: {integrity: sha512-qMBmvmQmFXaSxexkjjfMvD5rnDL0+m+dUMZKoDYsGG8iZN29RuYh9eRoMvKsT6uMAWlyUUGDEQGJJYjzCIO9ew==}
     dev: false
 
   /chai-as-promised/7.1.1_chai@4.3.7:
@@ -3386,12 +3411,6 @@ packages:
     dependencies:
       delayed-stream: 1.0.0
     dev: false
-
-  /commander/2.20.3:
-    resolution: {integrity: sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==}
-    requiresBuild: true
-    dev: false
-    optional: true
 
   /commander/9.5.0:
     resolution: {integrity: sha512-KRs7WVDKg86PWiuAqhDrAQnTXZKraVcCc6vFdL14qrZ/DcWwuRo7VoiYXalXO7S5GKpqYiVEwCbgFDfxNHKJBQ==}
@@ -3809,7 +3828,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20230201
+      typescript: 5.0.0-dev.20230202
     dev: false
 
   /downlevel-dts/0.7.0:
@@ -7554,7 +7573,7 @@ packages:
     resolution: {integrity: sha512-paFu+nT1xvuO1tPFYXGe+XnQvg4Hjqv/eIhG8i5EspfYYPBKL57X7iVbfv55aNVASg3dzWvES9dmWsL2KhfByw==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
-      '@types/node': '>=10.0.0'
+      '@types/node': '*'
       rollup: '>=0.31.2'
     peerDependenciesMeta:
       '@types/node':
@@ -7570,7 +7589,7 @@ packages:
     resolution: {integrity: sha512-paFu+nT1xvuO1tPFYXGe+XnQvg4Hjqv/eIhG8i5EspfYYPBKL57X7iVbfv55aNVASg3dzWvES9dmWsL2KhfByw==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
-      '@types/node': '>=10.0.0'
+      '@types/node': '*'
       rollup: '>=0.31.2'
     peerDependenciesMeta:
       '@types/node':
@@ -7585,7 +7604,7 @@ packages:
     resolution: {integrity: sha512-paFu+nT1xvuO1tPFYXGe+XnQvg4Hjqv/eIhG8i5EspfYYPBKL57X7iVbfv55aNVASg3dzWvES9dmWsL2KhfByw==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
-      '@types/node': '>=10.0.0'
+      '@types/node': '*'
       rollup: '>=0.31.2'
     peerDependenciesMeta:
       '@types/node':
@@ -8244,10 +8263,6 @@ packages:
       xtend: 4.0.2
     dev: false
 
-  /timsort/0.3.0:
-    resolution: {integrity: sha512-qsdtZH+vMoCARQtyod4imc2nIJwg9Cc7lPRrw9CzF8ZKR0khdr8+2nX80PBhET3tcyTtJDxAffGh2rXH4tyU8A==}
-    dev: false
-
   /tmp/0.0.33:
     resolution: {integrity: sha512-jRCJlojKnZ3addtTOjdIqoRuPEKBvNXcGYqzO6zWZX8KfKEpnGY5jfggJQ3EjKuu8D4bJRr0y+cYJFmYbImXGw==}
     engines: {node: '>=0.6.0'}
@@ -8468,37 +8483,6 @@ packages:
       yn: 3.1.1
     dev: false
 
-  /ts-node/10.9.1_ww6uvdrdq4e6cxibofusavnrrm:
-    resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
-    hasBin: true
-    peerDependencies:
-      '@swc/core': '>=1.2.50'
-      '@swc/wasm': '>=1.2.50'
-      '@types/node': '*'
-      typescript: '>=2.7'
-    peerDependenciesMeta:
-      '@swc/core':
-        optional: true
-      '@swc/wasm':
-        optional: true
-    dependencies:
-      '@cspotcode/source-map-support': 0.8.1
-      '@tsconfig/node10': 1.0.9
-      '@tsconfig/node12': 1.0.11
-      '@tsconfig/node14': 1.0.3
-      '@tsconfig/node16': 1.0.3
-      '@types/node': 12.20.55
-      acorn: 8.8.2
-      acorn-walk: 8.2.0
-      arg: 4.1.3
-      create-require: 1.1.1
-      diff: 4.0.2
-      make-error: 1.3.6
-      typescript: 4.6.4
-      v8-compile-cache-lib: 3.0.1
-      yn: 3.1.1
-    dev: false
-
   /ts-node/8.10.2_typescript@4.8.4:
     resolution: {integrity: sha512-ISJJGgkIpDdBhWVu3jufsWpK3Rzo7bdiIXJjQc0ynKxVOVcg2oIrf2H2cejminGrptVc6q6/uynAHNCuWGbpVA==}
     engines: {node: '>=6.0.0'}
@@ -8631,12 +8615,6 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/4.4.4:
-    resolution: {integrity: sha512-DqGhF5IKoBl8WNf8C1gu8q0xZSInh9j1kJJMqT3a94w1JzVaBU4EXOSMrz9yDqMT0xt3selp83fuFMQ0uzv6qA==}
-    engines: {node: '>=4.2.0'}
-    hasBin: true
-    dev: false
-
   /typescript/4.6.4:
     resolution: {integrity: sha512-9ia/jWHIEbo49HfjrLGfKbZSuWo9iTMwXO+Ca3pRsSpbsMbc7/IU8NKdCZVRRBafVPGnoJeFL76ZOAA84I9fEg==}
     engines: {node: '>=4.2.0'}
@@ -8655,8 +8633,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20230201:
-    resolution: {integrity: sha512-pm0yhjZLWOXF1eWp07qymk04I6IM8CUFAKgwFpilOqrD0y3ZDpi997Ah7I4vrRoH3YQzT1fCyuUUYOBZwZ0C1Q==}
+  /typescript/5.0.0-dev.20230202:
+    resolution: {integrity: sha512-uGAdYMTTn/t+7Gi8qRR5lMGQxa0bKByvbiEc5Dr4d/y4rSqKxO26bFu4SV1fUpzkZ91+O8Cnryj3+VOiR+Yuzw==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -8812,11 +8790,6 @@ packages:
 
   /validator/13.7.0:
     resolution: {integrity: sha512-nYXQLCBkpJ8X6ltALua9dRrZDHVYxjJ1wgskNt1lH9fzGjs3tgojGSCBjmEPwkWS1y29+DrizMTW19Pr9uB2nw==}
-    engines: {node: '>= 0.10'}
-    dev: false
-
-  /validator/8.2.0:
-    resolution: {integrity: sha512-Yw5wW34fSv5spzTXNkokD6S6/Oq92d8q/t14TqsS3fAiA1RYnxSFSIZ+CY3n6PGGRCq5HhJTSepQvFUS2QUDxA==}
     engines: {node: '>= 0.10'}
     dev: false
 
@@ -9186,17 +9159,6 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
-  /z-schema/3.18.4:
-    resolution: {integrity: sha512-DUOKC/IhbkdLKKiV89gw9DUauTV8U/8yJl1sjf6MtDmzevLKOF2duNJ495S3MFVjqZarr+qNGCPbkg4mu4PpLw==}
-    hasBin: true
-    dependencies:
-      lodash.get: 4.4.2
-      lodash.isequal: 4.5.0
-      validator: 8.2.0
-    optionalDependencies:
-      commander: 2.20.3
-    dev: false
-
   /z-schema/5.0.5:
     resolution: {integrity: sha512-D7eujBWkLa3p2sIpJA0d1pr7es+a7m0vFAnZLlCEKq/Ij2k0MLi9Br2UPxoxdYystm5K1yeBGzub0FlYUEWj2Q==}
     engines: {node: '>=8.0.0'}
@@ -9214,7 +9176,7 @@ packages:
     name: '@rush-temp/abort-controller'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
@@ -9257,7 +9219,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
@@ -9302,7 +9264,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
@@ -9346,7 +9308,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
@@ -9389,7 +9351,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.75.7
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
@@ -9437,7 +9399,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -9493,7 +9455,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
@@ -9543,7 +9505,7 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/core-http-compat': 1.3.0
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
@@ -9592,7 +9554,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/node': 14.18.36
       autorest: 3.6.3
@@ -9634,7 +9596,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
@@ -9681,7 +9643,7 @@ packages:
     name: '@rush-temp/api-management-custom-widgets-scaffolder'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.75.7
       '@types/chai': 4.3.4
       '@types/glob': 8.0.1
@@ -9723,7 +9685,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.75.7
       '@types/chai': 4.3.4
       '@types/glob': 8.0.1
@@ -9778,7 +9740,7 @@ packages:
       '@azure/core-http-compat': 1.3.0
       '@azure/identity': 2.1.0
       '@azure/keyvault-secrets': 4.6.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
@@ -9827,7 +9789,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -9854,7 +9816,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -9881,7 +9843,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -9908,7 +9870,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -9936,7 +9898,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -9963,7 +9925,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -9990,7 +9952,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -10017,7 +9979,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -10044,7 +10006,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -10072,7 +10034,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -10099,7 +10061,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -10127,7 +10089,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/node': 14.18.36
       autorest: 3.6.3
@@ -10169,7 +10131,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -10196,7 +10158,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -10223,7 +10185,7 @@ packages:
     name: '@rush-temp/arm-authorization'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@2.79.1
@@ -10244,7 +10206,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -10271,7 +10233,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -10298,7 +10260,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -10325,7 +10287,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -10352,7 +10314,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -10379,7 +10341,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -10407,7 +10369,7 @@ packages:
     dependencies:
       '@azure/arm-storage': 17.2.1
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -10434,7 +10396,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -10461,7 +10423,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -10488,7 +10450,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -10516,7 +10478,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -10543,7 +10505,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -10570,7 +10532,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -10592,13 +10554,13 @@ packages:
     dev: false
 
   file:projects/arm-chaos.tgz:
-    resolution: {integrity: sha512-5PDAxWyvP+f7NdVgUpaU48hcLq4JHi5wgTpbI3WFbBQmpAcYWjixz0+Iazyj2WztNW3klU8xtbsv7CZsPXejDg==, tarball: file:projects/arm-chaos.tgz}
+    resolution: {integrity: sha512-zfmhvEHmixZl4FpYo9Sz7tj7+2RmSCIWkCc/JF0ramhBD/PyuqHJ40HBZn7KpoU2t1twdmJWVTlFZJO+S7E6fA==, tarball: file:projects/arm-chaos.tgz}
     name: '@rush-temp/arm-chaos'
     version: 0.0.0
     dependencies:
       '@azure/arm-cosmosdb': 15.2.0
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -10607,13 +10569,14 @@ packages:
       '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_p2gydaekoyjvl5wd3ixslt7iq4
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - supports-color
@@ -10625,7 +10588,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -10652,7 +10615,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -10680,7 +10643,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -10707,7 +10670,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -10729,29 +10692,30 @@ packages:
     dev: false
 
   file:projects/arm-communication.tgz:
-    resolution: {integrity: sha512-7PePWGRpSdOrOXcPpmDccv6AtMK4tirADzQSytyidW+evQnwu4jYvAutyW8Brt68Wzv11W0KW0WCCWLPZN5bxw==, tarball: file:projects/arm-communication.tgz}
+    resolution: {integrity: sha512-jSnlMF666V6cUGpf1x4YugJF+wiJWpqicVNVHskYJI+F5HuXaQROWWobxjnQcGDmMcFx/36grMLgrbbDAanrOg==, tarball: file:projects/arm-communication.tgz}
     name: '@rush-temp/arm-communication'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
+      '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_p2gydaekoyjvl5wd3ixslt7iq4
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
@@ -10762,7 +10726,7 @@ packages:
     dependencies:
       '@azure/arm-network': 26.0.0
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -10790,7 +10754,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -10820,7 +10784,7 @@ packages:
       '@azure-rest/core-client': 1.0.0-beta.10
       '@azure/arm-network': 26.0.0
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/node': 14.18.36
       autorest: 3.6.3
@@ -10857,29 +10821,30 @@ packages:
     dev: false
 
   file:projects/arm-confidentialledger.tgz:
-    resolution: {integrity: sha512-NpjwjFOcGTTUduMnHeOC5tJWEVUqK1etKBMvjNki4v77KgcxdM/w9V5Gd4m+jgxHmFTK5ki6UTCnWknQyxxj2A==, tarball: file:projects/arm-confidentialledger.tgz}
+    resolution: {integrity: sha512-ACMr5VdLoud/xDP6Olgx2xUD8sAuo0l/O1Fge6l0YkFe/sdqrycTEEje1aWSssnZa5Mayg9rx5y/sM4TIB/vig==, tarball: file:projects/arm-confidentialledger.tgz}
     name: '@rush-temp/arm-confidentialledger'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
+      '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_p2gydaekoyjvl5wd3ixslt7iq4
       tslib: 2.5.0
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
@@ -10889,7 +10854,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -10916,7 +10881,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -10944,7 +10909,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -10972,7 +10937,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -11000,7 +10965,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -11027,7 +10992,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -11056,7 +11021,7 @@ packages:
     dependencies:
       '@azure-rest/core-client': 1.0.0-beta.10
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/node': 14.18.36
       autorest: 3.6.3
@@ -11098,7 +11063,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -11126,7 +11091,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -11153,7 +11118,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -11181,7 +11146,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -11208,7 +11173,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -11236,7 +11201,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -11263,7 +11228,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -11290,7 +11255,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -11317,7 +11282,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -11344,7 +11309,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -11372,7 +11337,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -11399,7 +11364,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -11426,7 +11391,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -11453,7 +11418,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -11480,7 +11445,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -11507,7 +11472,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -11535,7 +11500,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -11558,29 +11523,30 @@ packages:
     dev: false
 
   file:projects/arm-deviceupdate.tgz:
-    resolution: {integrity: sha512-CDrLKYNm0mDrBwHbqJ7yH2o+LBcHIDHrnPYnce3TbRKN3wHWEPIqpoMhWBsBEGUIH7Bo1T/SNN0idR1wKeH1rg==, tarball: file:projects/arm-deviceupdate.tgz}
+    resolution: {integrity: sha512-DvopOV0e7wnoETLoh5BxH2P0sGBJ83EihMWuwcCtz+hyEMZQbFuErEhxet1ujaZ2h69SpW/DQs+00PLmr30WXw==, tarball: file:projects/arm-deviceupdate.tgz}
     name: '@rush-temp/arm-deviceupdate'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
+      '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_p2gydaekoyjvl5wd3ixslt7iq4
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
@@ -11590,7 +11556,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -11617,7 +11583,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -11644,7 +11610,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -11671,7 +11637,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -11699,7 +11665,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -11721,29 +11687,30 @@ packages:
     dev: false
 
   file:projects/arm-dnsresolver.tgz:
-    resolution: {integrity: sha512-j5pmfd4GcHf0y/3yAEQCnNLRgWzU9PhE7xaIPkIJha0JXHY0RoMhIqGav914HuQCWMEIRa7+yC6XH2RdVYSu0Q==, tarball: file:projects/arm-dnsresolver.tgz}
+    resolution: {integrity: sha512-VLjc2cDNzozgtE7P6QPLCGk8kCGKGDyBGnR7h8YK9+ENKw0Hklstbo7jlKLgx5fS+T6IrwbPKD0sLp2Vg5vZ1A==, tarball: file:projects/arm-dnsresolver.tgz}
     name: '@rush-temp/arm-dnsresolver'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
+      '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_p2gydaekoyjvl5wd3ixslt7iq4
       tslib: 2.5.0
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
@@ -11753,7 +11720,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -11775,56 +11742,58 @@ packages:
     dev: false
 
   file:projects/arm-dynatrace.tgz:
-    resolution: {integrity: sha512-gluCDjB/qfTVPLSiyVVMeRdy+mmxYsVWyprSV7jsdXDWeIY53L/eF4VkI6KQIyS13Hct+RDZxmUlaWYTKnu64Q==, tarball: file:projects/arm-dynatrace.tgz}
+    resolution: {integrity: sha512-gkv+BWeJMACEOw/sbMpiXeaedRf79U8PRyOcAoBiFD/RAmGgUblCm3s0RCfAKBHuTJxcEYAuZ9F0HIG9YZD6dA==, tarball: file:projects/arm-dynatrace.tgz}
     name: '@rush-temp/arm-dynatrace'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
+      '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_p2gydaekoyjvl5wd3ixslt7iq4
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
   file:projects/arm-education.tgz:
-    resolution: {integrity: sha512-BMIc4Rb6g8ydr8gWUeRg4t7JSnJihzTnL4anvfWwgIJdl56sV/qR9+1y78kID2TZQwuVmOqbW4g7qt2LgCw+6Q==, tarball: file:projects/arm-education.tgz}
+    resolution: {integrity: sha512-jSRzM/Ap7AGLq/voul91+MVjW0RAtLIk9swyqhANzB8F31ZJ4D6LPzWwPNQljDADSJxMr4hIzWdsK5R5cd3OLQ==, tarball: file:projects/arm-education.tgz}
     name: '@rush-temp/arm-education'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
+      '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_p2gydaekoyjvl5wd3ixslt7iq4
       tslib: 2.5.0
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
@@ -11834,7 +11803,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -11861,7 +11830,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -11889,7 +11858,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -11917,7 +11886,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -11947,7 +11916,7 @@ packages:
       '@azure/arm-network': 26.0.0
       '@azure/arm-storage': 17.2.1
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -11974,7 +11943,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -12002,7 +11971,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -12029,7 +11998,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -12057,7 +12026,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -12084,7 +12053,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -12111,7 +12080,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -12138,7 +12107,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -12166,7 +12135,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -12193,7 +12162,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -12220,7 +12189,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -12247,7 +12216,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -12274,7 +12243,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -12296,14 +12265,14 @@ packages:
     dev: false
 
   file:projects/arm-imagebuilder.tgz:
-    resolution: {integrity: sha512-MrdQwI9D0qgloHDwkTdeD5sUA5sI5bLI1ip5EoJmEcJlxpyBQITAVceaXV51tD4TF47WP1TkrqktshJnB/rRLw==, tarball: file:projects/arm-imagebuilder.tgz}
+    resolution: {integrity: sha512-GpidMSFx1cW7QpodwuDWaiIiCgE1XvoRoujlPUmCtke1tO59eAnxykzoCM/61sQ5vpPyRTq9QPnCEr29Ndhu2w==, tarball: file:projects/arm-imagebuilder.tgz}
     name: '@rush-temp/arm-imagebuilder'
     version: 0.0.0
     dependencies:
       '@azure/arm-compute': 17.3.1
       '@azure/arm-msi': 2.0.0
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -12331,7 +12300,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -12358,7 +12327,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -12386,7 +12355,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -12413,7 +12382,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -12441,7 +12410,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -12468,7 +12437,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -12495,7 +12464,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -12523,7 +12492,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -12551,7 +12520,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -12578,7 +12547,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -12606,7 +12575,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -12634,7 +12603,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -12661,7 +12630,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -12689,7 +12658,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -12716,7 +12685,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -12743,7 +12712,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -12771,7 +12740,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -12798,7 +12767,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -12825,7 +12794,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -12853,7 +12822,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -12880,7 +12849,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -12907,7 +12876,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -12936,7 +12905,7 @@ packages:
     dependencies:
       '@azure/arm-storage': 17.2.1
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -12959,29 +12928,30 @@ packages:
     dev: false
 
   file:projects/arm-migrate.tgz:
-    resolution: {integrity: sha512-9lBQBSPturolswsTsReVXaW9LzVHdgFyOVZJ2pyzHP2p+hi6GIV7o9wcciTK+nwCNoeGIDgt/oqQMIqA1DXGvg==, tarball: file:projects/arm-migrate.tgz}
+    resolution: {integrity: sha512-QVoQDzZX/cbWpyjGRXtPHAqpMVe2re2m9T5HTlBYAsXUskVGd+zVnplDFLASzXCYzQL6kA1aJgsI4Cy30LRAYA==, tarball: file:projects/arm-migrate.tgz}
     name: '@rush-temp/arm-migrate'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
+      '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_p2gydaekoyjvl5wd3ixslt7iq4
       tslib: 2.5.0
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
@@ -12991,7 +12961,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -13018,7 +12988,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -13046,7 +13016,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -13069,58 +13039,60 @@ packages:
     dev: false
 
   file:projects/arm-monitor.tgz:
-    resolution: {integrity: sha512-JqAHhcYJwMaGSP5SvF2dZyO6RFZaYueuYmtilPzpg6vje557tOyo94Ud179y+XPTayevkly2risLB+bRd6JM3w==, tarball: file:projects/arm-monitor.tgz}
+    resolution: {integrity: sha512-oq5JDGPAPxfCBG+nXCFWSALf4OMsJOksdI3Fi3miHkWn/wXRjik4OqpKOslcRvApy3H0ipOfNf8jnkhWE2q3Sw==, tarball: file:projects/arm-monitor.tgz}
     name: '@rush-temp/arm-monitor'
     version: 0.0.0
     dependencies:
       '@azure/arm-operationalinsights': 8.0.1
       '@azure/arm-storage': 17.2.1
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
+      '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_p2gydaekoyjvl5wd3ixslt7iq4
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
   file:projects/arm-msi.tgz:
-    resolution: {integrity: sha512-7WhqaXYe1gaajUpN330AFS9o4ZzO836by2vQROb6+mfPnx5cXODNbf7MiRM+3lgNTxy1n+piE4s2ScsCDZD6zw==, tarball: file:projects/arm-msi.tgz}
+    resolution: {integrity: sha512-GGiehjd0vjWkvInW+ghrpsrkS2+R4WC+tkl7s7a7SjCikb9B23ZN1BRKlpXhNOnq0oeiTvPY2gZ9ePBGXlla4A==, tarball: file:projects/arm-msi.tgz}
     name: '@rush-temp/arm-msi'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
+      '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_p2gydaekoyjvl5wd3ixslt7iq4
       tslib: 2.5.0
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
@@ -13130,7 +13102,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -13158,7 +13130,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -13180,29 +13152,30 @@ packages:
     dev: false
 
   file:projects/arm-netapp.tgz:
-    resolution: {integrity: sha512-Be87k+UXyNc0L/9IzjMVNDD0mb37fMSe9oX9/XL3dbr5DKm0t3qCPZaF/rkWK5/PvND9usEHom7dJg8iNeBRbw==, tarball: file:projects/arm-netapp.tgz}
+    resolution: {integrity: sha512-qwyhax/4MQYt2g6Q3lTlDjtFVdfGw1jjQl96i/XrE3x8rMJIss82OwM5GXxPj5B6RuELL/9UBu4A18m175uNlw==, tarball: file:projects/arm-netapp.tgz}
     name: '@rush-temp/arm-netapp'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
+      '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_p2gydaekoyjvl5wd3ixslt7iq4
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
@@ -13212,7 +13185,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -13239,7 +13212,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -13268,7 +13241,7 @@ packages:
     dependencies:
       '@azure-rest/core-client': 1.0.0-beta.10
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/node': 14.18.36
       autorest: 3.6.3
@@ -13310,7 +13283,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -13332,12 +13305,12 @@ packages:
     dev: false
 
   file:projects/arm-nginx.tgz:
-    resolution: {integrity: sha512-gXyvzQA6bOGuXWxfKbaykuHGbIX9Up5bcdPpVS/63ztTXOabTdWKwZv8u6R0aFabJVi9NJ4Pni7pSk2P4Enesg==, tarball: file:projects/arm-nginx.tgz}
+    resolution: {integrity: sha512-94Y23AdtBO9FWZejGci64JMkZA0f6FBGgrIWAmKlMjRC1ArUGQEjyWJCgxxEptL2Q64JWQbZE/KO38j8NofPzA==, tarball: file:projects/arm-nginx.tgz}
     name: '@rush-temp/arm-nginx'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -13346,13 +13319,14 @@ packages:
       '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_p2gydaekoyjvl5wd3ixslt7iq4
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - supports-color
@@ -13364,7 +13338,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -13391,7 +13365,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -13413,29 +13387,30 @@ packages:
     dev: false
 
   file:projects/arm-operationalinsights.tgz:
-    resolution: {integrity: sha512-K2KSsQhoesVhEcD1lHvDxp+SppPgT2e5RCVFAgGU2UGJfVccgfGCjg9iOcgZ9ljIWAplDkdfnsTeHJeMEaW9YA==, tarball: file:projects/arm-operationalinsights.tgz}
+    resolution: {integrity: sha512-Yr8FWwXAuwH1ki2vmFUJqXuWzveNAUwzuWNvqJ2J8GwhJhADUY77RcuL2QnfoIxk4T4OAEta4VzR4Z40yMT1Lg==, tarball: file:projects/arm-operationalinsights.tgz}
     name: '@rush-temp/arm-operationalinsights'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
+      '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_p2gydaekoyjvl5wd3ixslt7iq4
       tslib: 2.5.0
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
@@ -13445,7 +13420,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -13467,29 +13442,30 @@ packages:
     dev: false
 
   file:projects/arm-orbital.tgz:
-    resolution: {integrity: sha512-izM2/abzglvZp0ztH4RfZDu5SJ/j5dyQ1+sw+5Vmdr8M7KJ2QeudZgCpQhKZoMYK9Orl7q26BaodooJDbP07aA==, tarball: file:projects/arm-orbital.tgz}
+    resolution: {integrity: sha512-1XtgmlCIDnJmHCR3XGtu6VgnPsf+hOyzNlnTEyy/CuLOebbx6Rwggijj6DiVTFKdozzmQFkxHVJ3YUcLIZXLhA==, tarball: file:projects/arm-orbital.tgz}
     name: '@rush-temp/arm-orbital'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
+      '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_p2gydaekoyjvl5wd3ixslt7iq4
       tslib: 2.5.0
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
@@ -13499,7 +13475,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -13526,7 +13502,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -13554,7 +13530,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -13576,12 +13552,12 @@ packages:
     dev: false
 
   file:projects/arm-policyinsights.tgz:
-    resolution: {integrity: sha512-ru4lDBnj+5+U+Mj5VHYhYB8BT5R6V77lJPlVAkoSOMAPZ9/X7+rQnV2MrbeVGswJ9K0Y3YawS4A5EwOeA/MCag==, tarball: file:projects/arm-policyinsights.tgz}
+    resolution: {integrity: sha512-7nh/vZEDkEL51QDkT54OfeHzRjFwEQr6wNXSDUU66+5zlOm70Z9WE7RpYaaArIeg+BvJstd8aPBU+hxiQPJw0Q==, tarball: file:projects/arm-policyinsights.tgz}
     name: '@rush-temp/arm-policyinsights'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -13590,42 +13566,44 @@ packages:
       '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_p2gydaekoyjvl5wd3ixslt7iq4
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - supports-color
     dev: false
 
   file:projects/arm-portal.tgz:
-    resolution: {integrity: sha512-X9QbGP53THFf7kvmmZgeU07sHlw+eVlvt7RNZAJOOedIz2HpwV3vaXi7NiIKUwoj/EsR9oSSUUUN2++0v6tHQQ==, tarball: file:projects/arm-portal.tgz}
+    resolution: {integrity: sha512-9ybNpwLn58fb3aSVB4e6n9jGSMjByE6JkD1TnPIaa/9ryZOvq029gjfs7VNItvrD69nxpydtrXATBU5tqxH/7w==, tarball: file:projects/arm-portal.tgz}
     name: '@rush-temp/arm-portal'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
+      '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_p2gydaekoyjvl5wd3ixslt7iq4
       tslib: 2.5.0
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
@@ -13635,7 +13613,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -13663,7 +13641,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -13685,29 +13663,30 @@ packages:
     dev: false
 
   file:projects/arm-powerbidedicated.tgz:
-    resolution: {integrity: sha512-zlXnSG4X7VgboTiFzjpikSBx9rFGztmLiBErsYpz1IYAHIiVOzH5hIXWu/TvTm8RD6UlphmP8gc56zY23AOKUw==, tarball: file:projects/arm-powerbidedicated.tgz}
+    resolution: {integrity: sha512-/j93ZyXKOxm0b2OoMINrFVfigpUZx4g3HUYXPwFz2fwZhDqe2h72psGbuZnXrMGH5BwF/g/cCWe1s6/PA34gSw==, tarball: file:projects/arm-powerbidedicated.tgz}
     name: '@rush-temp/arm-powerbidedicated'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
+      '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_p2gydaekoyjvl5wd3ixslt7iq4
       tslib: 2.5.0
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
@@ -13717,7 +13696,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -13744,7 +13723,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -13771,7 +13750,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -13798,7 +13777,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -13825,7 +13804,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -13847,29 +13826,30 @@ packages:
     dev: false
 
   file:projects/arm-recoveryservices.tgz:
-    resolution: {integrity: sha512-xWGySKqk9c6Nxc/AaNJOLb+Uvo7LwHHTez+oy1UcHvrHpxONvFjw3dR+gZS2gpFDCVSLDA+NJzB2RSjE+6IdtA==, tarball: file:projects/arm-recoveryservices.tgz}
+    resolution: {integrity: sha512-W0TK5OIvV41rLH9AYjd/k/xI6PrlofmyoXlg5pW1XU/V2EwCmMmv9PsGuoRlD+vg152FsG/yx9zctI1of+1MwA==, tarball: file:projects/arm-recoveryservices.tgz}
     name: '@rush-temp/arm-recoveryservices'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
+      '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_p2gydaekoyjvl5wd3ixslt7iq4
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
@@ -13879,7 +13859,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -13902,13 +13882,13 @@ packages:
     dev: false
 
   file:projects/arm-rediscache.tgz:
-    resolution: {integrity: sha512-MYagWt7Br2nyBPNurHcSRKCA6L6aiJZV72WUgLxCHhYYXA1SFuOPOR7gtkNzLm7FtgOnwyI4tIYjb3aoZsME0w==, tarball: file:projects/arm-rediscache.tgz}
+    resolution: {integrity: sha512-5nTm8W6Tv9g+j9FwZTPnN06wG97J++/uJ9u2XgaCCjeKOjKVb7tYUnMVX43TaecYB81wttYIxN/N+pLgc2cgzw==, tarball: file:projects/arm-rediscache.tgz}
     name: '@rush-temp/arm-rediscache'
     version: 0.0.0
     dependencies:
       '@azure/arm-network': 26.0.0
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -13917,13 +13897,14 @@ packages:
       '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
       rollup-plugin-sourcemaps: 0.6.3_p2gydaekoyjvl5wd3ixslt7iq4
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
       - supports-color
@@ -13935,7 +13916,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -13957,29 +13938,30 @@ packages:
     dev: false
 
   file:projects/arm-relay.tgz:
-    resolution: {integrity: sha512-UgmZayIbmWy43qahnu5MZ6bXJesxI1+F/mZAGRplyBomp/WEAJiCJ9ITD2/iDeJZZ3hSz96XlBV5aj3RpwyzGA==, tarball: file:projects/arm-relay.tgz}
+    resolution: {integrity: sha512-JXpEVfx19tZ+RDtbiBzNyB3uPy2sGJ8NHvIWg6oz0HjMWkb4xG2dTFIEufW6I/W0Zy4XmZp2sevulBhH9tmmlg==, tarball: file:projects/arm-relay.tgz}
     name: '@rush-temp/arm-relay'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
+      '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_p2gydaekoyjvl5wd3ixslt7iq4
       tslib: 2.5.0
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
@@ -13989,7 +13971,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -14011,29 +13993,30 @@ packages:
     dev: false
 
   file:projects/arm-resourceconnector.tgz:
-    resolution: {integrity: sha512-z8Lyx1xdSk6nnnbXKSUadhp6tbY4jKso3vHjvvHbQcb5nI1Tt+tM2bBM22LvIAKG/Y8eNqtp66Yvymwd29vs2w==, tarball: file:projects/arm-resourceconnector.tgz}
+    resolution: {integrity: sha512-A/nmVTdn2BRBvynEK3zNspSf8SN5wTXhKRW8hbDZQTEvqILI5rRRbrrpr3a0Pns4BpI7zSIt88G8pK3Fhu4BrQ==, tarball: file:projects/arm-resourceconnector.tgz}
     name: '@rush-temp/arm-resourceconnector'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
+      '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_p2gydaekoyjvl5wd3ixslt7iq4
       tslib: 2.5.0
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
@@ -14043,7 +14026,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -14065,29 +14048,30 @@ packages:
     dev: false
 
   file:projects/arm-resourcehealth.tgz:
-    resolution: {integrity: sha512-Wgl98neDnGlahm6+x5H/b22PmI9RmUy4DJzmR97JTM/oO8EWyAHiM4eVG9fvZnQR1QggVkAXCqzl8hFKHSLoVw==, tarball: file:projects/arm-resourcehealth.tgz}
+    resolution: {integrity: sha512-PjXPDvbHAmYqW/L5HQYmUWNiv00Qd2AdwtvxwmqUx6mI8RPQcmtvTmlu+zeBCo32faAg5OnYkFA3TsfApFNJsQ==, tarball: file:projects/arm-resourcehealth.tgz}
     name: '@rush-temp/arm-resourcehealth'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
+      '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_p2gydaekoyjvl5wd3ixslt7iq4
       tslib: 2.5.0
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
@@ -14097,7 +14081,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -14124,7 +14108,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -14152,7 +14136,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -14179,7 +14163,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -14201,29 +14185,30 @@ packages:
     dev: false
 
   file:projects/arm-scvmm.tgz:
-    resolution: {integrity: sha512-JxQFFixxyefx1lmMJMTu5kv/onnTKt+l2NMAKHdRZrJeO83uMCHZAKD/BiFfjAQizAhcQcDvT1W1TAEVStnljg==, tarball: file:projects/arm-scvmm.tgz}
+    resolution: {integrity: sha512-e5kV+r4BryzQ0ElV9uvw43yg2jGS8GGaygQ+fsgC8FINrnZbmDVDZY8TcBrf94fcYucMcz6URQkv0ce/kQ2Qbg==, tarball: file:projects/arm-scvmm.tgz}
     name: '@rush-temp/arm-scvmm'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
+      '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_p2gydaekoyjvl5wd3ixslt7iq4
       tslib: 2.5.0
-      typescript: 4.2.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
@@ -14233,7 +14218,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -14260,7 +14245,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -14282,29 +14267,30 @@ packages:
     dev: false
 
   file:projects/arm-securitydevops.tgz:
-    resolution: {integrity: sha512-lw134aJPsuu1BIOV4F7KKu8jmQgqHJZgDWywwe7Hstt5GxKmZxMlw2OHnHoudCsWEpbWbOC44BZ5wLWzrMwvMA==, tarball: file:projects/arm-securitydevops.tgz}
+    resolution: {integrity: sha512-1Q97R0q8m1cIKM7Cofgb1Q44CuSA3lXgXhAh3GpQMNFne+jr/wodkihOh0mIFhphf3J/CJ9n9qpS7yKHZ6W7cw==, tarball: file:projects/arm-securitydevops.tgz}
     name: '@rush-temp/arm-securitydevops'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
+      '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_p2gydaekoyjvl5wd3ixslt7iq4
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
@@ -14314,7 +14300,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -14341,7 +14327,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -14368,7 +14354,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -14395,7 +14381,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -14423,7 +14409,7 @@ packages:
     dependencies:
       '@azure-rest/core-client': 1.0.0-beta.10
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/node': 14.18.36
       autorest: 3.6.3
@@ -14465,7 +14451,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -14492,7 +14478,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -14520,7 +14506,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -14548,7 +14534,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -14576,7 +14562,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -14603,7 +14589,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -14630,7 +14616,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -14657,7 +14643,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -14685,7 +14671,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -14712,7 +14698,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -14739,7 +14725,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -14766,7 +14752,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -14793,7 +14779,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -14820,7 +14806,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -14847,7 +14833,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -14874,7 +14860,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -14902,7 +14888,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -14929,7 +14915,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -14956,7 +14942,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -14984,7 +14970,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -15011,7 +14997,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -15039,7 +15025,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -15066,7 +15052,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -15093,7 +15079,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -15120,7 +15106,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -15147,7 +15133,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -15174,7 +15160,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -15201,7 +15187,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -15228,7 +15214,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
@@ -15283,7 +15269,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
@@ -15325,7 +15311,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/communication-signaling': 1.0.0-beta.16
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
@@ -15373,7 +15359,7 @@ packages:
     name: '@rush-temp/communication-common'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
@@ -15418,7 +15404,7 @@ packages:
     name: '@rush-temp/communication-email'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
@@ -15461,7 +15447,7 @@ packages:
     dependencies:
       '@azure/identity': 2.1.0
       '@azure/msal-node': 1.14.6
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
@@ -15507,7 +15493,7 @@ packages:
     name: '@rush-temp/communication-job-router'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
@@ -15555,7 +15541,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@2.79.1
@@ -15608,7 +15594,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
@@ -15652,7 +15638,7 @@ packages:
     name: '@rush-temp/communication-rooms'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/sinon': 10.0.13
@@ -15689,7 +15675,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
@@ -15734,7 +15720,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
@@ -15781,7 +15767,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
@@ -15826,7 +15812,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
@@ -15868,7 +15854,7 @@ packages:
     name: '@rush-temp/core-amqp'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-inject': 4.0.4_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
@@ -15924,7 +15910,7 @@ packages:
     name: '@rush-temp/core-auth'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
@@ -15949,7 +15935,7 @@ packages:
     name: '@rush-temp/core-client-1'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
@@ -15993,7 +15979,7 @@ packages:
     name: '@rush-temp/core-client'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
@@ -16032,7 +16018,7 @@ packages:
     name: '@rush-temp/core-http-compat'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2
       cross-env: 7.0.3
       downlevel-dts: 0.10.1
       eslint: 8.33.0
@@ -16042,6 +16028,7 @@ packages:
       rimraf: 3.0.2
       typescript: 4.8.4
     transitivePeerDependencies:
+      - '@types/node'
       - supports-color
     dev: false
 
@@ -16052,7 +16039,7 @@ packages:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/logger-js': 1.3.2
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@opentelemetry/api': 1.4.0
       '@types/chai': 4.3.4
       '@types/express': 4.17.16
@@ -16115,7 +16102,7 @@ packages:
     name: '@rush-temp/core-lro'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
       cross-env: 7.0.3
@@ -16153,7 +16140,7 @@ packages:
     name: '@rush-temp/core-paging'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
@@ -16189,7 +16176,7 @@ packages:
     name: '@rush-temp/core-rest-pipeline'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@opentelemetry/api': 1.4.0
       '@types/chai': 4.3.4
       '@types/chai-as-promised': 7.1.5
@@ -16241,7 +16228,7 @@ packages:
     name: '@rush-temp/core-tracing'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
@@ -16281,7 +16268,7 @@ packages:
     name: '@rush-temp/core-util'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
@@ -16322,7 +16309,7 @@ packages:
     name: '@rush-temp/core-xml'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
@@ -16369,7 +16356,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/debug': 4.1.7
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
@@ -16415,7 +16402,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
@@ -16465,7 +16452,7 @@ packages:
     dependencies:
       '@_ts/max': /typescript/4.9.5
       '@_ts/min': /typescript/4.2.4
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
@@ -16521,7 +16508,7 @@ packages:
     dependencies:
       '@azure-rest/core-client': 1.0.0-beta.10
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/node': 14.18.36
       autorest: 3.6.3
@@ -16563,7 +16550,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
@@ -16645,7 +16632,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-inject': 4.0.4_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
@@ -16720,7 +16707,7 @@ packages:
     name: '@rush-temp/eventgrid'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
@@ -16768,7 +16755,7 @@ packages:
     name: '@rush-temp/eventhubs-checkpointstore-blob'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/chai-as-promised': 7.1.5
       '@types/chai-string': 1.4.2
@@ -16820,7 +16807,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/data-tables': 12.1.2
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/chai-as-promised': 7.1.5
       '@types/chai-string': 1.4.2
@@ -16872,7 +16859,7 @@ packages:
     dependencies:
       '@azure/functions': 3.5.0
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
@@ -16919,7 +16906,7 @@ packages:
       '@azure/identity': 2.1.0
       '@azure/msal-node': 1.14.6
       '@azure/msal-node-extensions': 1.0.0-alpha.25
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/jws': 3.2.5
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
@@ -16952,7 +16939,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/jws': 3.2.5
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
@@ -16989,7 +16976,7 @@ packages:
       '@azure/msal-browser': 2.32.2
       '@azure/msal-common': 9.1.1
       '@azure/msal-node': 1.14.6
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/jsonwebtoken': 9.0.1
       '@types/jws': 3.2.5
@@ -17043,7 +17030,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
@@ -17086,7 +17073,7 @@ packages:
     name: '@rush-temp/iot-modelsrepository'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
@@ -17134,7 +17121,7 @@ packages:
     dependencies:
       '@azure/identity': 2.1.0
       '@azure/keyvault-keys': 4.6.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
       '@types/sinon': 9.0.11
@@ -17165,7 +17152,7 @@ packages:
       '@azure/core-http-compat': 1.3.0
       '@azure/identity': 2.1.0
       '@azure/keyvault-secrets': 4.6.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
       '@types/sinon': 9.0.11
@@ -17209,7 +17196,7 @@ packages:
     name: '@rush-temp/keyvault-common'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2
       cross-env: 7.0.3
       eslint: 8.33.0
       esm: 3.2.25
@@ -17224,6 +17211,7 @@ packages:
       tslib: 2.5.0
       typescript: 4.6.4
     transitivePeerDependencies:
+      - '@types/node'
       - bufferutil
       - encoding
       - supports-color
@@ -17237,7 +17225,7 @@ packages:
     dependencies:
       '@azure/core-http-compat': 1.3.0
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
       '@types/sinon': 9.0.11
@@ -17284,7 +17272,7 @@ packages:
     dependencies:
       '@azure/core-http-compat': 1.3.0
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
       '@types/sinon': 9.0.11
@@ -17322,12 +17310,12 @@ packages:
     dev: false
 
   file:projects/load-testing.tgz:
-    resolution: {integrity: sha512-WnZdS1HTTe9yM4NqkmaAc8MGF6d0GSuyc/NHWxJKkIBBfk1zvIuiYyKXhDZKFYqwPd/jUx9oTxu306Lixgn2oQ==, tarball: file:projects/load-testing.tgz}
+    resolution: {integrity: sha512-dEMfZdZQA9IdCKED1XMgIbZPlzjkgkufRsv0nplKiTSquk/UW5owAY3RmTR5B3USaIv+Ik0ccFX6U067urILBg==, tarball: file:projects/load-testing.tgz}
     name: '@rush-temp/load-testing'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.18.11
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
@@ -17371,7 +17359,7 @@ packages:
     name: '@rush-temp/logger'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
@@ -17416,13 +17404,14 @@ packages:
     name: '@rush-temp/maps-common'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2
       downlevel-dts: 0.8.0
       eslint: 8.33.0
       prettier: 2.8.3
       rimraf: 3.0.2
       typescript: 4.8.4
     transitivePeerDependencies:
+      - '@types/node'
       - supports-color
     dev: false
 
@@ -17434,7 +17423,7 @@ packages:
       '@azure-rest/core-client': 1.0.0-beta.10
       '@azure/identity': 2.1.0
       '@azure/maps-common': 1.0.0-beta.2
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
@@ -17479,7 +17468,7 @@ packages:
       '@azure-rest/core-client': 1.0.0-beta.10
       '@azure/identity': 2.1.0
       '@azure/maps-common': 1.0.0-beta.2
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
@@ -17517,17 +17506,17 @@ packages:
     dev: false
 
   file:projects/maps-route.tgz:
-    resolution: {integrity: sha512-8VshA7w3AJSjpnhuYD2r7LdBV67D0knrNvZOYJDpIsdoVvV8HDlOdMkux+bk6ffMNOn1lT/AWFMRnRivJ1We3A==, tarball: file:projects/maps-route.tgz}
+    resolution: {integrity: sha512-HO2s9MGBjYPw2RPbIL5EhtTEXZLperxLNhjzzDr6tAOw5rVa8jSWP9IrCJpax6wpf6jcdHn+w4hxxVxOSV72ag==, tarball: file:projects/maps-route.tgz}
     name: '@rush-temp/maps-route'
     version: 0.0.0
     dependencies:
       '@azure-rest/core-client': 1.0.0-beta.10
       '@azure/identity': 2.1.0
       '@azure/maps-common': 1.0.0-beta.2
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 14.18.36
       autorest: 3.6.3
       chai: 4.3.7
       cross-env: 7.0.3
@@ -17567,7 +17556,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
@@ -17616,7 +17605,7 @@ packages:
       '@azure-rest/core-client': 1.0.0-beta.10
       '@azure/identity': 2.1.0
       '@azure/maps-common': 1.0.0-beta.2
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
@@ -17658,7 +17647,7 @@ packages:
     name: '@rush-temp/mixed-reality-authentication'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
@@ -17701,7 +17690,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
@@ -17764,7 +17753,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
@@ -17810,7 +17799,7 @@ packages:
     name: '@rush-temp/monitor-opentelemetry-exporter'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@opentelemetry/api': 1.4.0
       '@opentelemetry/core': 1.9.1_@opentelemetry+api@1.4.0
       '@opentelemetry/instrumentation': 0.35.1_@opentelemetry+api@1.4.0
@@ -17846,7 +17835,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@opentelemetry/api': 1.4.0
       '@opentelemetry/sdk-trace-base': 1.9.1_@opentelemetry+api@1.4.0
       '@opentelemetry/sdk-trace-node': 1.9.1_@opentelemetry+api@1.4.0
@@ -17892,7 +17881,7 @@ packages:
     name: '@rush-temp/notification-hubs'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-typescript': 10.0.1_bhcmvni67fkldpaxrtldxbogce
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
@@ -17945,7 +17934,7 @@ packages:
     name: '@rush-temp/opentelemetry-instrumentation-azure-sdk'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@opentelemetry/api': 1.4.0
       '@opentelemetry/core': 1.9.1_@opentelemetry+api@1.4.0
       '@opentelemetry/instrumentation': 0.35.1_@opentelemetry+api@1.4.0
@@ -18288,18 +18277,18 @@ packages:
     dev: false
 
   file:projects/perf-monitor-ingestion.tgz:
-    resolution: {integrity: sha512-udW2mw4BcsvRgqZdiX4aPUQOABHtRMa+m1JyJ6oVDXtkVUhRGJ3YV42+sMqrOikiXytMncoQXtzl4kGrDqex6g==, tarball: file:projects/perf-monitor-ingestion.tgz}
+    resolution: {integrity: sha512-i025V6507AzM1NTqwqZCWUflXpBIeX1SZaGleQgOh4M/Jrc7H5oGF9+FU+KYc3OwCNGo21YJoBJdyrzkOBf57A==, tarball: file:projects/perf-monitor-ingestion.tgz}
     name: '@rush-temp/perf-monitor-ingestion'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
       '@azure/monitor-ingestion': 1.0.0-beta.2
-      '@types/node': 12.20.55
+      '@types/node': 14.18.36
       dotenv: 16.0.3
       eslint: 8.33.0
       prettier: 2.8.3
       rimraf: 3.0.2
-      ts-node: 10.9.1_ww6uvdrdq4e6cxibofusavnrrm
+      ts-node: 10.9.1_qsp6e3reeqlii3qgbcynqdh4ku
       tslib: 2.5.0
       typescript: 4.6.4
     transitivePeerDependencies:
@@ -18485,7 +18474,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
@@ -18528,7 +18517,7 @@ packages:
     dependencies:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
@@ -18570,7 +18559,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
@@ -18613,7 +18602,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
@@ -18662,7 +18651,7 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.1.0
       '@azure/schema-registry': 1.2.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@16.18.11
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-inject': 4.0.4_rollup@2.79.1
       '@types/chai': 4.3.4
@@ -18718,7 +18707,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
       cross-env: 7.0.3
@@ -18758,7 +18747,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/core-http-compat': 1.3.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
@@ -18807,7 +18796,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/chai-as-promised': 7.1.5
       '@types/debug': 4.1.7
@@ -18876,7 +18865,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/core-tracing': 1.0.0-preview.13
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
@@ -18926,13 +18915,13 @@ packages:
     dev: false
 
   file:projects/storage-blob.tgz:
-    resolution: {integrity: sha512-GDijcqIlHbL7cEbB3aWdlFtJyW9UdW1jDbtmrfvDmDmPtUE6oH0fqoHHA/YqkR5qWnu7BCufseaVDQBA97KHpA==, tarball: file:projects/storage-blob.tgz}
+    resolution: {integrity: sha512-bhNiQhvRrIaiOuggLbi6aZvV5Cdpj93epYXntHxYBGVyVDBZx+elLy18oyiiZp38jXbw28hXImJbOGvyx+rh6w==, tarball: file:projects/storage-blob.tgz}
     name: '@rush-temp/storage-blob'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
@@ -18990,7 +18979,7 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
@@ -19045,7 +19034,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/core-tracing': 1.0.0-preview.13
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
@@ -19097,7 +19086,7 @@ packages:
     name: '@rush-temp/storage-internal-avro'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
@@ -19148,7 +19137,7 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
@@ -19199,7 +19188,7 @@ packages:
     name: '@rush-temp/synapse-access-control-1'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
@@ -19248,7 +19237,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
@@ -19301,7 +19290,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
@@ -19351,7 +19340,7 @@ packages:
     name: '@rush-temp/synapse-managed-private-endpoints'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2
       '@types/chai': 4.3.4
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
@@ -19381,6 +19370,7 @@ packages:
       typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
+      - '@types/node'
       - bufferutil
       - debug
       - supports-color
@@ -19392,7 +19382,7 @@ packages:
     name: '@rush-temp/synapse-monitoring'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2
       '@rollup/plugin-commonjs': 22.0.2_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
@@ -19413,7 +19403,7 @@ packages:
     name: '@rush-temp/synapse-spark'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2
       '@types/chai': 4.3.4
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
@@ -19443,6 +19433,7 @@ packages:
       typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
+      - '@types/node'
       - bufferutil
       - debug
       - supports-color
@@ -19455,7 +19446,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
@@ -19495,17 +19486,21 @@ packages:
     dev: false
 
   file:projects/test-credential.tgz:
-    resolution: {integrity: sha512-MJSVSXVlAoq3Zs6RT7SceKLV/+Ni8BwAovo6JPVBsGUpnDzIGI0q4hmvmIBkk3RRDq9opdDiA6CE3aAMk5fnQQ==, tarball: file:projects/test-credential.tgz}
+    resolution: {integrity: sha512-w71fRsg20mCiOkU0aqsZjWe7boFkpbFRp9QoH7p0CKtfgOfxlfSTZlH+I8hAWW3qBHJAkU7Dhqn6SYZeJCcC3A==, tarball: file:projects/test-credential.tgz}
     name: '@rush-temp/test-credential'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/node': 14.18.36
       eslint: 8.33.0
       prettier: 2.8.3
       rimraf: 3.0.2
+      ts-node: 10.9.1_qsp6e3reeqlii3qgbcynqdh4ku
       typescript: 4.6.4
     transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
       - supports-color
     dev: false
 
@@ -19590,7 +19585,7 @@ packages:
     name: '@rush-temp/test-utils'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@opentelemetry/api': 1.4.0
       '@types/chai': 4.3.4
       '@types/chai-as-promised': 7.1.5
@@ -19624,7 +19619,7 @@ packages:
     name: '@rush-temp/video-analyzer-edge'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
@@ -19665,18 +19660,18 @@ packages:
     dev: false
 
   file:projects/web-pubsub-client.tgz:
-    resolution: {integrity: sha512-Knnj2mlaIuigvhhvtabsU4z3D6XETFDtxaI0Defrzj5CeYXBXfeLFXHcwiWAsQHN8P88OQ26zQrIIwnxaK9UBQ==, tarball: file:projects/web-pubsub-client.tgz}
+    resolution: {integrity: sha512-aJpnjvAtxLoIzNa7FJYNjc2bYyYyGLCkyo/PTuS8kzZP5W90dh6QKYPkm8LlrMBYQ2zdsWAZMnKfTeLRivYmcg==, tarball: file:projects/web-pubsub-client.tgz}
     name: '@rush-temp/web-pubsub-client'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/chai-as-promised': 7.1.5
       '@types/express': 4.17.16
       '@types/express-serve-static-core': 4.17.33
       '@types/jsonwebtoken': 9.0.1
       '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
+      '@types/node': 14.18.36
       '@types/sinon': 9.0.11
       '@types/ws': 7.4.7
       buffer: 6.0.3
@@ -19725,7 +19720,7 @@ packages:
     name: '@rush-temp/web-pubsub-express'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/express': 4.17.16
       '@types/express-serve-static-core': 4.17.33
@@ -19761,7 +19756,7 @@ packages:
     name: '@rush-temp/web-pubsub'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.34.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/jsonwebtoken': 9.0.1
       '@types/mocha': 7.0.2

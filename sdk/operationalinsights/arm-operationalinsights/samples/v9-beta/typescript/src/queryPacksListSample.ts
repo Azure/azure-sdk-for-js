@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { OperationalInsightsManagementClient } from "@azure/arm-operationalinsights";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets a list of all Log Analytics QueryPacks within a subscription.
@@ -18,7 +21,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2019-09-01/examples/QueryPacksList.json
  */
 async function queryPacksList() {
-  const subscriptionId = "86dc51d3-92ed-4d7e-947a-775ea79b4919";
+  const subscriptionId =
+    process.env["OPERATIONALINSIGHTS_SUBSCRIPTION_ID"] ||
+    "86dc51d3-92ed-4d7e-947a-775ea79b4919";
   const credential = new DefaultAzureCredential();
   const client = new OperationalInsightsManagementClient(
     credential,
@@ -31,4 +36,8 @@ async function queryPacksList() {
   console.log(resArray);
 }
 
-queryPacksList().catch(console.error);
+async function main() {
+  queryPacksList();
+}
+
+main().catch(console.error);

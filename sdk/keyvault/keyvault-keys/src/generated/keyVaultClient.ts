@@ -12,7 +12,7 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
 import {
-  ApiVersion74Preview1,
+  ApiVersion74,
   KeyVaultClientOptionalParams,
   JsonWebKeyType,
   CreateKeyOptionalParams,
@@ -75,7 +75,7 @@ import {
 } from "./models";
 
 export class KeyVaultClient extends coreHttpCompat.ExtendedServiceClient {
-  apiVersion: ApiVersion74Preview1;
+  apiVersion: ApiVersion74;
 
   /**
    * Initializes a new instance of the KeyVaultClient class.
@@ -83,7 +83,7 @@ export class KeyVaultClient extends coreHttpCompat.ExtendedServiceClient {
    * @param options The parameter options
    */
   constructor(
-    apiVersion: ApiVersion74Preview1,
+    apiVersion: ApiVersion74,
     options?: KeyVaultClientOptionalParams
   ) {
     if (apiVersion === undefined) {

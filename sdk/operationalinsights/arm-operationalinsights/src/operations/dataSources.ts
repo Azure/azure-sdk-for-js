@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { DataSources } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,12 +17,12 @@ import {
   DataSource,
   DataSourcesListByWorkspaceNextOptionalParams,
   DataSourcesListByWorkspaceOptionalParams,
+  DataSourcesListByWorkspaceResponse,
   DataSourcesCreateOrUpdateOptionalParams,
   DataSourcesCreateOrUpdateResponse,
   DataSourcesDeleteOptionalParams,
   DataSourcesGetOptionalParams,
   DataSourcesGetResponse,
-  DataSourcesListByWorkspaceResponse,
   DataSourcesListByWorkspaceNextResponse
 } from "../models";
 
@@ -64,12 +65,16 @@ export class DataSourcesImpl implements DataSources {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByWorkspacePagingPage(
           resourceGroupName,
           workspaceName,
           filter,
-          options
+          options,
+          settings
         );
       }
     };
@@ -79,26 +84,34 @@ export class DataSourcesImpl implements DataSources {
     resourceGroupName: string,
     workspaceName: string,
     filter: string,
-    options?: DataSourcesListByWorkspaceOptionalParams
+    options?: DataSourcesListByWorkspaceOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<DataSource[]> {
-    let result = await this._listByWorkspace(
-      resourceGroupName,
-      workspaceName,
-      filter,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: DataSourcesListByWorkspaceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByWorkspace(
+        resourceGroupName,
+        workspaceName,
+        filter,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByWorkspaceNext(
         resourceGroupName,
         workspaceName,
-        filter,
         continuationToken,
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -200,19 +213,17 @@ export class DataSourcesImpl implements DataSources {
    * ListByWorkspaceNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
-   * @param filter The filter to apply on the operation.
    * @param nextLink The nextLink from the previous successful call to the ListByWorkspace method.
    * @param options The options parameters.
    */
   private _listByWorkspaceNext(
     resourceGroupName: string,
     workspaceName: string,
-    filter: string,
     nextLink: string,
     options?: DataSourcesListByWorkspaceNextOptionalParams
   ): Promise<DataSourcesListByWorkspaceNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, filter, nextLink, options },
+      { resourceGroupName, workspaceName, nextLink, options },
       listByWorkspaceNextOperationSpec
     );
   }
@@ -311,11 +322,6 @@ const listByWorkspaceNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DataSourceListResult
     }
   },
-  queryParameters: [
-    Parameters.apiVersion1,
-    Parameters.filter,
-    Parameters.skiptoken
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

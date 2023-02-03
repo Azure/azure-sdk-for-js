@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { PowerBIDedicated } from "@azure/arm-powerbidedicated";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Lists eligible SKUs for PowerBI Dedicated resource provider.
@@ -18,11 +21,17 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/powerbidedicated/resource-manager/Microsoft.PowerBIdedicated/stable/2021-01-01/examples/listSKUsForNew.json
  */
 async function listEligibleSkUsForANewCapacity() {
-  const subscriptionId = "613192d7-503f-477a-9cfe-4efc3ee2bd60";
+  const subscriptionId =
+    process.env["POWERBIDEDICATED_SUBSCRIPTION_ID"] ||
+    "613192d7-503f-477a-9cfe-4efc3ee2bd60";
   const credential = new DefaultAzureCredential();
   const client = new PowerBIDedicated(credential, subscriptionId);
   const result = await client.capacities.listSkus();
   console.log(result);
 }
 
-listEligibleSkUsForANewCapacity().catch(console.error);
+async function main() {
+  listEligibleSkUsForANewCapacity();
+}
+
+main().catch(console.error);

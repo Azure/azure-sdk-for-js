@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { RedisManagementClient } = require("@azure/arm-rediscache");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets all patch schedules in the specified redis cache (there is only one).
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2022-06-01/examples/RedisCachePatchSchedulesList.json
  */
 async function redisCachePatchSchedulesList() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["REDIS_RESOURCE_GROUP"] || "rg1";
   const cacheName = "cache1";
   const credential = new DefaultAzureCredential();
   const client = new RedisManagementClient(credential, subscriptionId);
@@ -30,4 +31,8 @@ async function redisCachePatchSchedulesList() {
   console.log(resArray);
 }
 
-redisCachePatchSchedulesList().catch(console.error);
+async function main() {
+  redisCachePatchSchedulesList();
+}
+
+main().catch(console.error);

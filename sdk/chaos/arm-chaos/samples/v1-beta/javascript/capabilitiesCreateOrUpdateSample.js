@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ChaosManagementClient } = require("@azure/arm-chaos");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Create or update a Capability resource that extends a Target resource.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/preview/2022-10-01-preview/examples/CreateOrUpdateACapability.json
  */
 async function createOrUpdateACapabilityThatExtendsAVirtualMachineTargetResource() {
-  const subscriptionId = "6b052e15-03d3-4f17-b2e1-be7f07588291";
-  const resourceGroupName = "exampleRG";
+  const subscriptionId =
+    process.env["CHAOS_SUBSCRIPTION_ID"] || "6b052e15-03d3-4f17-b2e1-be7f07588291";
+  const resourceGroupName = process.env["CHAOS_RESOURCE_GROUP"] || "exampleRG";
   const parentProviderNamespace = "Microsoft.Compute";
   const parentResourceType = "virtualMachines";
   const parentResourceName = "exampleVM";
@@ -40,4 +42,8 @@ async function createOrUpdateACapabilityThatExtendsAVirtualMachineTargetResource
   console.log(result);
 }
 
-createOrUpdateACapabilityThatExtendsAVirtualMachineTargetResource().catch(console.error);
+async function main() {
+  createOrUpdateACapabilityThatExtendsAVirtualMachineTargetResource();
+}
+
+main().catch(console.error);
