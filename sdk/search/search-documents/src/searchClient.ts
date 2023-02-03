@@ -254,12 +254,12 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
    *   new AzureKeyCredential("key")
    * );
    *
-   * const fields: SelectFields<Model>[] = ["azure/sdk"];
+   * const searchFields: SelectFields<Model>[] = ["azure/sdk"];
    *
    * const autocompleteResult = await client.autocomplete(
    *   "searchText",
    *   "suggesterName",
-   *   { searchFields: fields }
+   *   { searchFields }
    * );
    * ```
    */
@@ -442,9 +442,13 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
    *   new AzureKeyCredential("key")
    * );
    *
-   * const fields: SelectFields<Model>[] = ["azure/sdk"];
+   * const select = ["azure/sdk"] as const;
+   * const searchFields: SelectFields<Model>[] = ["azure/sdk"];
    *
-   * const searchResult = await client.search("searchText", { select: fields });
+   * const searchResult = await client.search("searchText", {
+   *   select,
+   *   searchFields,
+   * });
    * ```
    */
   public async search<Fields extends SelectFields<Model>>(
@@ -501,14 +505,16 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
    *   new AzureKeyCredential("key")
    * );
    *
-   * const fields: SelectFields<Model>[] = ["azure/sdk"];
+   * const select = ["azure/sdk"] as const;
+   * const searchFields: SelectFields<Model>[] = ["azure/sdk"];
    *
    * const suggestResult = await client.suggest("searchText", "suggesterName", {
-   *   select: fields,
+   *   select,
+   *   searchFields,
    * });
    * ```
    */
-  public async suggest<Fields extends SelectFields<Model>>(
+  public async suggest<Fields extends SelectFields<Model> = never>(
     searchText: string,
     suggesterName: string,
     options: SuggestOptions<Model, Fields> = {}
