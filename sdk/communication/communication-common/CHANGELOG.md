@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- Added support for a new communication identifier `MicrosoftTeamsBotIdentifier`.
+- Added support for a new communication identifier `MicrosoftBotIdentifier`.
 
 ### Breaking Changes
 
