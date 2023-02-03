@@ -112,6 +112,7 @@ specifiers:
   '@rush-temp/arm-kubernetesconfiguration': file:./projects/arm-kubernetesconfiguration.tgz
   '@rush-temp/arm-kusto': file:./projects/arm-kusto.tgz
   '@rush-temp/arm-labservices': file:./projects/arm-labservices.tgz
+  '@rush-temp/arm-liftrqumulo': file:./projects/arm-liftrqumulo.tgz
   '@rush-temp/arm-links': file:./projects/arm-links.tgz
   '@rush-temp/arm-loadtesting': file:./projects/arm-loadtesting.tgz
   '@rush-temp/arm-locks': file:./projects/arm-locks.tgz
@@ -437,6 +438,7 @@ dependencies:
   '@rush-temp/arm-kubernetesconfiguration': file:projects/arm-kubernetesconfiguration.tgz
   '@rush-temp/arm-kusto': file:projects/arm-kusto.tgz
   '@rush-temp/arm-labservices': file:projects/arm-labservices.tgz
+  '@rush-temp/arm-liftrqumulo': file:projects/arm-liftrqumulo.tgz
   '@rush-temp/arm-links': file:projects/arm-links.tgz
   '@rush-temp/arm-loadtesting': file:projects/arm-loadtesting.tgz
   '@rush-temp/arm-locks': file:projects/arm-locks.tgz
@@ -12513,6 +12515,34 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-liftrqumulo.tgz:
+    resolution: {integrity: sha512-1xtVBBuv5dA5w90/A25AXT6WUbgyEKZPvA/jD0d9QFGl27HzREfEn3giOTETP+Loi66Qsvp1k1jjZ/wayCyVQA==, tarball: file:projects/arm-liftrqumulo.tgz}
+    name: '@rush-temp/arm-liftrqumulo'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.4
+      '@types/node': 14.18.36
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 8.6.0
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_p2gydaekoyjvl5wd3ixslt7iq4
+      tslib: 2.5.0
+      typescript: 4.8.4
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   file:projects/arm-links.tgz:
     resolution: {integrity: sha512-JV+thrIXDv0aY2koGSPbjA+V6SsS44i+n2wG1Id7aPi5Y89HSYBrAcmuNy8PSpjzyz6BfIPU/B+I7rMquHP5eQ==, tarball: file:projects/arm-links.tgz}
     name: '@rush-temp/arm-links'
@@ -18910,7 +18940,7 @@ packages:
     dev: false
 
   file:projects/storage-blob.tgz:
-    resolution: {integrity: sha512-GDijcqIlHbL7cEbB3aWdlFtJyW9UdW1jDbtmrfvDmDmPtUE6oH0fqoHHA/YqkR5qWnu7BCufseaVDQBA97KHpA==, tarball: file:projects/storage-blob.tgz}
+    resolution: {integrity: sha512-bhNiQhvRrIaiOuggLbi6aZvV5Cdpj93epYXntHxYBGVyVDBZx+elLy18oyiiZp38jXbw28hXImJbOGvyx+rh6w==, tarball: file:projects/storage-blob.tgz}
     name: '@rush-temp/storage-blob'
     version: 0.0.0
     dependencies:
