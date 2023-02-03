@@ -470,6 +470,9 @@ export interface ErrorResponse {
 export type FirmwareStatusType = string;
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export type HealthStateType = string;
 
 // @public

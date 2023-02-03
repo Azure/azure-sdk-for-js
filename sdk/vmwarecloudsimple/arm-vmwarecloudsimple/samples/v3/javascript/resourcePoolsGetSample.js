@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { VMwareCloudSimple } = require("@azure/arm-vmwarecloudsimple");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Returns resource pool templates by its name
@@ -18,7 +19,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/vmwarecloudsimple/resource-manager/Microsoft.VMwareCloudSimple/stable/2019-04-01/examples/GetResourcePool.json
  */
 async function getResourcePool() {
-  const subscriptionId = "{subscription-id}";
+  const subscriptionId = process.env["VMWARECLOUDSIMPLE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const regionId = "westus2";
   const pcName = "myPrivateCloud";
   const resourcePoolName = "resgroup-26";
@@ -28,4 +29,8 @@ async function getResourcePool() {
   console.log(result);
 }
 
-getResourcePool().catch(console.error);
+async function main() {
+  getResourcePool();
+}
+
+main().catch(console.error);

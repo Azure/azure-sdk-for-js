@@ -14,6 +14,9 @@ import {
   StorageCacheManagementClient
 } from "@azure/arm-storagecache";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create or update a Storage Target. This operation is allowed at any time, but if the Cache is down or unhealthy, the actual creation/modification of the Storage Target may be delayed until the Cache is healthy again.
@@ -22,8 +25,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-05-01/examples/StorageTargets_CreateOrUpdate.json
  */
 async function storageTargetsCreateOrUpdate() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "scgroup";
+  const subscriptionId =
+    process.env["STORAGECACHE_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["STORAGECACHE_RESOURCE_GROUP"] || "scgroup";
   const cacheName = "sc1";
   const storageTargetName = "st1";
   const storagetarget: StorageTarget = {
@@ -56,8 +62,6 @@ async function storageTargetsCreateOrUpdate() {
   console.log(result);
 }
 
-storageTargetsCreateOrUpdate().catch(console.error);
-
 /**
  * This sample demonstrates how to Create or update a Storage Target. This operation is allowed at any time, but if the Cache is down or unhealthy, the actual creation/modification of the Storage Target may be delayed until the Cache is healthy again.
  *
@@ -65,8 +69,11 @@ storageTargetsCreateOrUpdate().catch(console.error);
  * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-05-01/examples/StorageTargets_CreateOrUpdate_BlobNfs.json
  */
 async function storageTargetsCreateOrUpdateBlobNfs() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "scgroup";
+  const subscriptionId =
+    process.env["STORAGECACHE_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["STORAGECACHE_RESOURCE_GROUP"] || "scgroup";
   const cacheName = "sc1";
   const storageTargetName = "st1";
   const storagetarget: StorageTarget = {
@@ -90,8 +97,6 @@ async function storageTargetsCreateOrUpdateBlobNfs() {
   console.log(result);
 }
 
-storageTargetsCreateOrUpdateBlobNfs().catch(console.error);
-
 /**
  * This sample demonstrates how to Create or update a Storage Target. This operation is allowed at any time, but if the Cache is down or unhealthy, the actual creation/modification of the Storage Target may be delayed until the Cache is healthy again.
  *
@@ -99,8 +104,11 @@ storageTargetsCreateOrUpdateBlobNfs().catch(console.error);
  * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-05-01/examples/StorageTargets_CreateOrUpdate_NoJunctions.json
  */
 async function storageTargetsCreateOrUpdateNoJunctions() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "scgroup";
+  const subscriptionId =
+    process.env["STORAGECACHE_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["STORAGECACHE_RESOURCE_GROUP"] || "scgroup";
   const cacheName = "sc1";
   const storageTargetName = "st1";
   const storagetarget: StorageTarget = {
@@ -119,4 +127,10 @@ async function storageTargetsCreateOrUpdateNoJunctions() {
   console.log(result);
 }
 
-storageTargetsCreateOrUpdateNoJunctions().catch(console.error);
+async function main() {
+  storageTargetsCreateOrUpdate();
+  storageTargetsCreateOrUpdateBlobNfs();
+  storageTargetsCreateOrUpdateNoJunctions();
+}
+
+main().catch(console.error);
