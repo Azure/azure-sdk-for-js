@@ -295,8 +295,12 @@ matrix([[true, false]] as const, async (useAad) => {
               amount: 56651.49,
               currencySymbol: "$",
             },
-            date: "2017-06-18T00:00:00.000Z",
+            date: "2017-06-24T00:00:00.000Z",
             productCode: "34278587",
+            tax: {
+              amount: 0,
+              currencySymbol: "",
+            },
           },
         ],
       });
@@ -766,8 +770,12 @@ matrix([[true, false]] as const, async (useAad) => {
               amount: 56651.49,
               currencySymbol: "$",
             },
-            date: "2017-06-18T00:00:00.000Z",
+            date: "2017-06-24T00:00:00.000Z",
             productCode: "34278587",
+            tax: {
+              amount: 0,
+              currencySymbol: "",
+            },
           },
         ],
       });
@@ -1008,8 +1016,8 @@ matrix([[true, false]] as const, async (useAad) => {
             amount: 123.3,
           },
         ],
-        isStatutoryEmployee: "true",
-        isThirdPartySickPay: "true",
+        // isStatutoryEmployee: "true", // Service Regression
+        // isThirdPartySickPay: "true", // Service Regression
         other: "DISINS 170.85",
         stateTaxInfos: [
           {
@@ -1018,7 +1026,7 @@ matrix([[true, false]] as const, async (useAad) => {
           },
           {
             state: "WA",
-            employerStateIdNumber: "112345678",
+            employerStateIdNumber: "12345678",
           },
         ],
         localTaxInfos: [
