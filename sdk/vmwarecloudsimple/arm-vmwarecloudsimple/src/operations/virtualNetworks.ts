@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { VirtualNetworks } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -61,8 +62,17 @@ export class VirtualNetworksImpl implements VirtualNetworks {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(regionId, pcName, resourcePoolName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          regionId,
+          pcName,
+          resourcePoolName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -71,21 +81,29 @@ export class VirtualNetworksImpl implements VirtualNetworks {
     regionId: string,
     pcName: string,
     resourcePoolName: string,
-    options?: VirtualNetworksListOptionalParams
+    options?: VirtualNetworksListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<VirtualNetwork[]> {
-    let result = await this._list(regionId, pcName, resourcePoolName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: VirtualNetworksListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(regionId, pcName, resourcePoolName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         regionId,
         pcName,
-        resourcePoolName,
         continuationToken,
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -147,19 +165,17 @@ export class VirtualNetworksImpl implements VirtualNetworks {
    * ListNext
    * @param regionId The region Id (westus, eastus)
    * @param pcName The private cloud name
-   * @param resourcePoolName Resource pool used to derive vSphere cluster which contains virtual networks
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
     regionId: string,
     pcName: string,
-    resourcePoolName: string,
     nextLink: string,
     options?: VirtualNetworksListNextOptionalParams
   ): Promise<VirtualNetworksListNextResponse> {
     return this.client.sendOperationRequest(
-      { regionId, pcName, resourcePoolName, nextLink, options },
+      { regionId, pcName, nextLink, options },
       listNextOperationSpec
     );
   }
@@ -223,7 +239,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CsrpError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.resourcePoolName1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

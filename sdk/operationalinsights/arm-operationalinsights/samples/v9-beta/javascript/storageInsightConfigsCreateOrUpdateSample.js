@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { OperationalInsightsManagementClient } = require("@azure/arm-operationalinsights");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Create or update a storage insight.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2020-08-01/examples/StorageInsightsCreateOrUpdate.json
  */
 async function storageInsightsCreate() {
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const resourceGroupName = "OIAutoRest5123";
+  const subscriptionId =
+    process.env["OPERATIONALINSIGHTS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-00000000000";
+  const resourceGroupName = process.env["OPERATIONALINSIGHTS_RESOURCE_GROUP"] || "OIAutoRest5123";
   const workspaceName = "aztest5048";
   const storageInsightName = "AzTestSI1110";
   const parameters = {
@@ -41,4 +43,8 @@ async function storageInsightsCreate() {
   console.log(result);
 }
 
-storageInsightsCreate().catch(console.error);
+async function main() {
+  storageInsightsCreate();
+}
+
+main().catch(console.error);

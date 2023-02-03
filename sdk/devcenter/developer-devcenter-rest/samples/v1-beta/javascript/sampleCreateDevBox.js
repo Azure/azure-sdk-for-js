@@ -7,9 +7,8 @@ const createClient = require("@azure-rest/developer-devcenter").default;
  */
 async function createDevBox() {
   // Build client and fetch required parameters
-  const tenantId = process.env.AZURE_TENANT_ID || "<tenant id>";
-  const devCenter = process.env.AZURE_DEVCENTER_NAME || "<devcenter name>";
-  const client = createClient(tenantId, devCenter, new DefaultAzureCredential());
+  const endpoint = process.env.DEVCENTER_ENDPOINT || "<endpoint>";
+  const client = createClient(endpoint, new DefaultAzureCredential());
 
   // Get all projects
   const projectList = await client.path("/projects").get();

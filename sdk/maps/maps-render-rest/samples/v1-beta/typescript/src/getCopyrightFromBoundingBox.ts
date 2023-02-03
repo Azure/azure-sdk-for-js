@@ -2,8 +2,10 @@
 // Licensed under the MIT License.
 
 import { AzureKeyCredential } from "@azure/core-auth";
-import { isUnexpected } from "../src/generated";
-import MapsRender from "../src/mapsRender";
+import { isUnexpected } from "@azure-rest/maps-render";
+import MapsRender from "@azure-rest/maps-render";
+import * as dotenv from "dotenv";
+dotenv.config();
 
 /**
  * @summary How to get the copyright of tiles in a given bounding box.

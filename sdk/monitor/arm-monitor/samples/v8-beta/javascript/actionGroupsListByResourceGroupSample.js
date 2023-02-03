@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { MonitorClient } = require("@azure/arm-monitor");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Get a list of all action groups in a resource group.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2022-06-01/examples/listActionGroups.json
  */
 async function listActionGroupsAtResourceGroupLevel() {
-  const subscriptionId = "187f412d-1758-44d9-b052-169e2564721d";
-  const resourceGroupName = "Default-NotificationRules";
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] || "187f412d-1758-44d9-b052-169e2564721d";
+  const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "Default-NotificationRules";
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
   const resArray = new Array();
@@ -29,4 +31,8 @@ async function listActionGroupsAtResourceGroupLevel() {
   console.log(resArray);
 }
 
-listActionGroupsAtResourceGroupLevel().catch(console.error);
+async function main() {
+  listActionGroupsAtResourceGroupLevel();
+}
+
+main().catch(console.error);

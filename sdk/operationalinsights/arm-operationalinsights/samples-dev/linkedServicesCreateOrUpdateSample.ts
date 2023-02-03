@@ -13,6 +13,9 @@ import {
   OperationalInsightsManagementClient
 } from "@azure/arm-operationalinsights";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create or update a linked service.
@@ -21,8 +24,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2020-08-01/examples/LinkedServicesCreate.json
  */
 async function linkedServicesCreate() {
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const resourceGroupName = "mms-eus";
+  const subscriptionId =
+    process.env["OPERATIONALINSIGHTS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-00000000000";
+  const resourceGroupName =
+    process.env["OPERATIONALINSIGHTS_RESOURCE_GROUP"] || "mms-eus";
   const workspaceName = "TestLinkWS";
   const linkedServiceName = "Cluster";
   const parameters: LinkedService = {
@@ -43,4 +49,8 @@ async function linkedServicesCreate() {
   console.log(result);
 }
 
-linkedServicesCreate().catch(console.error);
+async function main() {
+  linkedServicesCreate();
+}
+
+main().catch(console.error);

@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { AuthorizationRule, RelayAPI } from "@azure/arm-relay";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates or updates an authorization rule for a WCF relay.
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/relay/resource-manager/Microsoft.Relay/stable/2017-04-01/examples/Relay/RelayAuthorizationRuleCreate.json
  */
 async function relayAuthorizationRuleCreate() {
-  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const resourceGroupName = "resourcegroup";
+  const subscriptionId =
+    process.env["RELAY_SUBSCRIPTION_ID"] ||
+    "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName =
+    process.env["RELAY_RESOURCE_GROUP"] || "resourcegroup";
   const namespaceName = "example-RelayNamespace-01";
   const relayName = "example-Relay-wcf-01";
   const authorizationRuleName = "example-RelayAuthRules-01";
@@ -36,4 +42,8 @@ async function relayAuthorizationRuleCreate() {
   console.log(result);
 }
 
-relayAuthorizationRuleCreate().catch(console.error);
+async function main() {
+  relayAuthorizationRuleCreate();
+}
+
+main().catch(console.error);

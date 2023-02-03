@@ -9,6 +9,7 @@ import {
   getResourceLocation,
   getStatusFromInitialResponse,
   inferLroMode,
+  isOperationError,
   parseRetryAfter,
 } from "./operation";
 import { CreateHttpPollerOptions } from "./models";
@@ -36,6 +37,7 @@ export async function createHttpPoller<TResult, TState extends OperationState<TR
   return buildCreatePoller<LroResponse, TResult, TState>({
     getStatusFromInitialResponse,
     getStatusFromPollResponse: getOperationStatus,
+    isOperationError,
     getOperationLocation,
     getResourceLocation,
     getPollingInterval: parseRetryAfter,

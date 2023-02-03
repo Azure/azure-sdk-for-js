@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { GitHubRepo, MicrosoftSecurityDevOps } from "@azure/arm-securitydevops";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create or update a monitored GitHub repository.
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/securitydevops/resource-manager/Microsoft.SecurityDevOps/preview/2022-09-01-preview/examples/GitHubRepoCreateOrUpdate.json
  */
 async function gitHubRepoCreateOrUpdate() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "westusrg";
+  const subscriptionId =
+    process.env["SECURITYDEVOPS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["SECURITYDEVOPS_RESOURCE_GROUP"] || "westusrg";
   const gitHubConnectorName = "testconnector";
   const gitHubOwnerName = "Azure";
   const gitHubRepoName = "azure-rest-api-specs";
@@ -36,4 +42,8 @@ async function gitHubRepoCreateOrUpdate() {
   console.log(result);
 }
 
-gitHubRepoCreateOrUpdate().catch(console.error);
+async function main() {
+  gitHubRepoCreateOrUpdate();
+}
+
+main().catch(console.error);

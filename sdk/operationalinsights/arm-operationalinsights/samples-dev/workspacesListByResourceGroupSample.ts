@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { OperationalInsightsManagementClient } from "@azure/arm-operationalinsights";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets workspaces in a resource group.
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/preview/2021-12-01-preview/examples/WorkspacesListByResourceGroup.json
  */
 async function workspacesGet() {
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const resourceGroupName = "oiautorest6685";
+  const subscriptionId =
+    process.env["OPERATIONALINSIGHTS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-00000000000";
+  const resourceGroupName =
+    process.env["OPERATIONALINSIGHTS_RESOURCE_GROUP"] || "oiautorest6685";
   const credential = new DefaultAzureCredential();
   const client = new OperationalInsightsManagementClient(
     credential,
@@ -34,4 +40,8 @@ async function workspacesGet() {
   console.log(resArray);
 }
 
-workspacesGet().catch(console.error);
+async function main() {
+  workspacesGet();
+}
+
+main().catch(console.error);

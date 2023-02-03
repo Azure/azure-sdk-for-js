@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { MonitorResource, DynatraceObservability } from "@azure/arm-dynatrace";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create a MonitorResource
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/stable/2021-09-01/examples/Monitors_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function monitorsCreateOrUpdateMaximumSetGen() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["DYNATRACE_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["DYNATRACE_RESOURCE_GROUP"] || "myResourceGroup";
   const monitorName = "myMonitor";
   const resource: MonitorResource = {
     dynatraceEnvironmentProperties: {
@@ -58,8 +64,6 @@ async function monitorsCreateOrUpdateMaximumSetGen() {
   console.log(result);
 }
 
-monitorsCreateOrUpdateMaximumSetGen().catch(console.error);
-
 /**
  * This sample demonstrates how to Create a MonitorResource
  *
@@ -67,8 +71,11 @@ monitorsCreateOrUpdateMaximumSetGen().catch(console.error);
  * x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/stable/2021-09-01/examples/Monitors_CreateOrUpdate_MinimumSet_Gen.json
  */
 async function monitorsCreateOrUpdateMinimumSetGen() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["DYNATRACE_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["DYNATRACE_RESOURCE_GROUP"] || "myResourceGroup";
   const monitorName = "myMonitor";
   const resource: MonitorResource = { location: "West US 2" };
   const credential = new DefaultAzureCredential();
@@ -81,4 +88,9 @@ async function monitorsCreateOrUpdateMinimumSetGen() {
   console.log(result);
 }
 
-monitorsCreateOrUpdateMinimumSetGen().catch(console.error);
+async function main() {
+  monitorsCreateOrUpdateMaximumSetGen();
+  monitorsCreateOrUpdateMinimumSetGen();
+}
+
+main().catch(console.error);
