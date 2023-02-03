@@ -87,8 +87,10 @@ export type SearchIndexingBufferedSenderFlushDocumentsOptions = OperationOptions
 /**
  * Options for retrieving a single document.
  */
-export interface GetDocumentOptions<Model extends object, Fields extends SelectFields<Model>>
-  extends OperationOptions {
+export interface GetDocumentOptions<
+  Model extends object,
+  Fields extends SelectFields<Model> = SelectFields<Model>
+> extends OperationOptions {
   /**
    * List of field names to retrieve for the document; Any field not retrieved will be missing from
    * the returned document.
@@ -154,14 +156,14 @@ export type AutocompleteOptions<Model extends object> = OperationOptions &
  */
 export type SearchOptions<
   Model extends object,
-  Fields extends SelectFields<Model>
+  Fields extends SelectFields<Model> = SelectFields<Model>
 > = OperationOptions & SearchRequestOptions<Model, Fields>;
 /**
  * Options for retrieving suggestions based on the searchText.
  */
 export type SuggestOptions<
   Model extends object,
-  Fields extends SelectFields<Model>
+  Fields extends SelectFields<Model> = SelectFields<Model>
 > = OperationOptions & SuggestRequest<Model, Fields>;
 
 /**
@@ -171,7 +173,7 @@ export type SuggestOptions<
  */
 export type SearchIterator<
   Model extends object,
-  Fields extends SelectFields<Model>
+  Fields extends SelectFields<Model> = SelectFields<Model>
 > = PagedAsyncIterableIterator<
   SearchResult<Model, Fields>,
   SearchDocumentsPageResult<Model, Fields>,
@@ -324,7 +326,10 @@ export interface SearchRequest {
 /**
  * Parameters for filtering, sorting, faceting, paging, and other search query behaviors.
  */
-export interface SearchRequestOptions<Model extends object, Fields extends SelectFields<Model>> {
+export interface SearchRequestOptions<
+  Model extends object,
+  Fields extends SelectFields<Model> = SelectFields<Model>
+> {
   /**
    * A value that specifies whether to fetch the total count of results. Default is false. Setting
    * this value to true may have a performance impact. Note that the count returned is an
@@ -461,7 +466,10 @@ export interface SearchRequestOptions<Model extends object, Fields extends Selec
 /**
  * Contains a document found by a search query, plus associated metadata.
  */
-export type SearchResult<Model extends object, Fields extends SelectFields<Model>> = {
+export type SearchResult<
+  Model extends object,
+  Fields extends SelectFields<Model> = SelectFields<Model>
+> = {
   /**
    * The relevance score of the document compared to other documents returned by the query.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -536,8 +544,10 @@ export interface SearchDocumentsResult<
 /**
  * Response containing search page results from an index.
  */
-export interface SearchDocumentsPageResult<Model extends object, Fields extends SelectFields<Model>>
-  extends SearchDocumentsResultBase {
+export interface SearchDocumentsPageResult<
+  Model extends object,
+  Fields extends SelectFields<Model> = SelectFields<Model>
+> extends SearchDocumentsResultBase {
   /**
    * The sequence of results returned by the query.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -553,7 +563,10 @@ export interface SearchDocumentsPageResult<Model extends object, Fields extends 
 /**
  * Parameters for filtering, sorting, fuzzy matching, and other suggestions query behaviors.
  */
-export interface SuggestRequest<Model extends object, Fields extends SelectFields<Model>> {
+export interface SuggestRequest<
+  Model extends object,
+  Fields extends SelectFields<Model> = SelectFields<Model>
+> {
   /**
    * An OData expression that filters the documents considered for suggestions.
    */
@@ -613,7 +626,10 @@ export interface SuggestRequest<Model extends object, Fields extends SelectField
 /**
  * A result containing a document found by a suggestion query, plus associated metadata.
  */
-export type SuggestResult<Model extends object, Fields extends SelectFields<Model>> = {
+export type SuggestResult<
+  Model extends object,
+  Fields extends SelectFields<Model> = SelectFields<Model>
+> = {
   /**
    * The text of the suggestion result.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -625,7 +641,10 @@ export type SuggestResult<Model extends object, Fields extends SelectFields<Mode
 /**
  * Response containing suggestion query results from an index.
  */
-export interface SuggestDocumentsResult<Model extends object, Fields extends SelectFields<Model>> {
+export interface SuggestDocumentsResult<
+  Model extends object,
+  Fields extends SelectFields<Model> = SelectFields<Model>
+> {
   /**
    * The sequence of results returned by the query.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -811,13 +830,17 @@ type ExtractDocumentKey<Model> = {
   [K in keyof Model as Model[K] extends string | undefined ? K : never]: Model[K];
 };
 
-export type NarrowedModel<Model extends object, Fields extends SelectFields<Model>> =
+export type NarrowedModel<
+  Model extends object,
+  Fields extends SelectFields<Model> = SelectFields<Model>
+> =
   // Avoid calculating the type if every field is specified
   SelectFields<Model> extends Fields ? Model : SearchPick<Model, Fields>;
 
-export type SuggestNarrowedModel<Model extends object, Fields extends SelectFields<Model>> = [
-  Model
-] extends [never]
+export type SuggestNarrowedModel<
+  Model extends object,
+  Fields extends SelectFields<Model> = SelectFields<Model>
+> = [Model] extends [never]
   ? // The client was instantiated with no model, so the narrowest possible result type is `object`
     object
   : // null represents the default case (no fields specified as selected)
