@@ -21,14 +21,17 @@ import { CommonClientOptions, InternalClientPipelineOptions } from "@azure/core-
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { isKeyCredential, parseClientArguments } from "@azure/communication-common";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { CampaignBriefSummary, TollFreeVerificationClient as TollFreeVerificationGeneratedClient } from "./generated/src";
+import {
+  CampaignBriefSummary,
+  TollFreeVerificationClient as TollFreeVerificationGeneratedClient,
+} from "./generated/src";
 import { createCommunicationAuthPolicy } from "@azure/communication-common";
 import { logger } from "./utils";
 import { tracingClient } from "./generated/src/tracing";
 /**
  * Client options used to configure the TollFreeVerificationClient API requests.
  */
-export interface TollFreeVerificationClientOptions extends CommonClientOptions { }
+export interface TollFreeVerificationClientOptions extends CommonClientOptions {}
 
 const isTollFreeVerificationClientOptions = (
   options: any
@@ -184,7 +187,11 @@ export class TollFreeVerificationClient {
     return tracingClient.withSpan(
       "TollFreeVerificationClient-upsertCampaignBriefAttachment",
       options,
-      async (updatedOptions: TollFreeVerificationCreateOrReplaceCampaignBriefAttachmentOptionalParams | undefined) => {
+      async (
+        updatedOptions:
+          | TollFreeVerificationCreateOrReplaceCampaignBriefAttachmentOptionalParams
+          | undefined
+      ) => {
         return this.client.tollFreeVerification.createOrReplaceCampaignBriefAttachment(
           countryCode,
           campaignBriefId,
@@ -209,7 +216,9 @@ export class TollFreeVerificationClient {
     return tracingClient.withSpan(
       "TollFreeVerificationClient-deleteCampaignBriefAttachment",
       options,
-      async (updatedOptions: TollFreeVerificationDeleteCampaignBriefAttachmentOptionalParams | undefined) => {
+      async (
+        updatedOptions: TollFreeVerificationDeleteCampaignBriefAttachmentOptionalParams | undefined
+      ) => {
         return this.client.tollFreeVerification.deleteCampaignBriefAttachment(
           countryCode,
           campaignBriefId,
@@ -255,7 +264,9 @@ export class TollFreeVerificationClient {
     return tracingClient.withSpan(
       "TollFreeVerificationClient-getCampaignBriefAttachment",
       options,
-      async (updatedOptions: TollFreeVerificationGetCampaignBriefAttachmentOptionalParams | undefined) => {
+      async (
+        updatedOptions: TollFreeVerificationGetCampaignBriefAttachmentOptionalParams | undefined
+      ) => {
         return this.client.tollFreeVerification.getCampaignBriefAttachment(
           countryCode,
           campaignBriefId,

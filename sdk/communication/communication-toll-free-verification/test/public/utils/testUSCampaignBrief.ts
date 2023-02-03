@@ -14,7 +14,10 @@ import { CompositeMapper } from "@azure/core-client";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { v1 as uuid } from "uuid";
 
-export function getTestUSCampaignBrief(): { campaignBrief: CampaignBrief, campaignBriefSummary: CampaignBriefSummary } {
+export function getTestUSCampaignBrief(): {
+  campaignBrief: CampaignBrief;
+  campaignBriefSummary: CampaignBriefSummary;
+} {
   let campaignBriefId = uuid();
 
   if (isPlaybackMode()) {
