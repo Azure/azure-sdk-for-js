@@ -1,14 +1,10 @@
 # Release History
 
-## 3.0.0 (Unreleased)
+## 3.0.0 (2023-02-03)
 
 ### Features Added
 
 - Add support for `x-ms-text` [PR# 23631](https://github.com/Azure/azure-sdk-for-js/pull/23631)
-
-### Breaking Changes
-
-### Bugs Fixed
 
 ### Other Changes
 
