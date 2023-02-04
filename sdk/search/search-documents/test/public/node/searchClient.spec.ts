@@ -131,27 +131,26 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         }),
       ];
 
-      const selectTestPromises = selectPromises.map((selectPromise) =>
-        selectPromise.then(async (selectResults) => {
-          for await (const result of selectResults.results) {
+      const selectTestPromises = selectPromises.map(async (selectPromise) => {
+        const selectResults = await selectPromise;
+        for await (const result of selectResults.results) {
+          assert.doesNotHaveAnyKeys(
+            result.document,
+            hotelKeys.filter((key) => !["hotelId", "address", "rooms"].includes(key))
+          );
+          assert.doesNotHaveAnyKeys(
+            result.document.address,
+            addressKeys.filter((key) => key !== "city")
+          );
+          for (const room of result.document.rooms!) {
             assert.doesNotHaveAnyKeys(
-              result.document,
-              hotelKeys.filter((key) => !["hotelId", "address", "rooms"].includes(key))
+              room,
+              roomKeys.filter((key) => key !== "type")
             );
-            assert.doesNotHaveAnyKeys(
-              result.document.address,
-              addressKeys.filter((key) => key !== "city")
-            );
-            for (const room of result.document.rooms!) {
-              assert.doesNotHaveAnyKeys(
-                room,
-                roomKeys.filter((key) => key !== "type")
-              );
-              break;
-            }
+            break;
           }
-        })
-      );
+        }
+      });
 
       await Promise.all(selectTestPromises);
 
@@ -170,18 +169,17 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         }),
       ];
 
-      const searchFieldsTestPromises = searchFieldsPromises.map((searchFieldsPromise) =>
-        searchFieldsPromise.then(async (searchFieldsResults) => {
-          for await (const result of searchFieldsResults.results) {
-            const city = result.document.address?.city;
-            if (!city) {
-              assert.fail();
-            }
-            assert.hasAllKeys(result.document, hotelKeys);
-            assert.hasAllKeys(result.document.address, addressKeys);
+      const searchFieldsTestPromises = searchFieldsPromises.map(async (searchFieldsPromise) => {
+        const searchFieldsResults = await searchFieldsPromise;
+        for await (const result of searchFieldsResults.results) {
+          const city = result.document.address?.city;
+          if (!city) {
+            assert.fail();
           }
-        })
-      );
+          assert.hasAllKeys(result.document, hotelKeys);
+          assert.hasAllKeys(result.document.address, addressKeys);
+        }
+      });
 
       await Promise.all(searchFieldsTestPromises);
     });
