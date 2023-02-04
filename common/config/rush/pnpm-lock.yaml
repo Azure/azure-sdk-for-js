@@ -18024,7 +18024,7 @@ packages:
     dev: false
 
   file:projects/monitor-query.tgz:
-    resolution: {integrity: sha512-QoURBdOeU5DnA92LjwOxKC6ChSmo2/axOYalk7z1WhyNAWO5xDKFIDC+D4TWiA9clT8MhlyXriuizqnmNawCjA==, tarball: file:projects/monitor-query.tgz}
+    resolution: {integrity: sha512-QbZlbgSdCqZmrP+ZMQ7vjNBko57TgZA9d5WDYZiKAQw42hZTkVAjHjqtqpTp5Pc0cxPhUY8YbWauMflzmSBpSg==, tarball: file:projects/monitor-query.tgz}
     name: '@rush-temp/monitor-query'
     version: 0.0.0
     dependencies:
@@ -18062,7 +18062,7 @@ packages:
       rimraf: 3.0.2
       source-map-support: 0.5.21
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
     transitivePeerDependencies:
       - bufferutil
       - debug
