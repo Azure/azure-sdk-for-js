@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { ConfigurationProfilesVersions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -15,12 +15,12 @@ import { AutomanageClient } from "../automanageClient";
 import {
   ConfigurationProfile,
   ConfigurationProfilesVersionsListChildResourcesOptionalParams,
+  ConfigurationProfilesVersionsListChildResourcesResponse,
   ConfigurationProfilesVersionsCreateOrUpdateOptionalParams,
   ConfigurationProfilesVersionsCreateOrUpdateResponse,
   ConfigurationProfilesVersionsGetOptionalParams,
   ConfigurationProfilesVersionsGetResponse,
-  ConfigurationProfilesVersionsDeleteOptionalParams,
-  ConfigurationProfilesVersionsListChildResourcesResponse
+  ConfigurationProfilesVersionsDeleteOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -60,11 +60,15 @@ export class ConfigurationProfilesVersionsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listChildResourcesPagingPage(
           configurationProfileName,
           resourceGroupName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -73,9 +77,11 @@ export class ConfigurationProfilesVersionsImpl
   private async *listChildResourcesPagingPage(
     configurationProfileName: string,
     resourceGroupName: string,
-    options?: ConfigurationProfilesVersionsListChildResourcesOptionalParams
+    options?: ConfigurationProfilesVersionsListChildResourcesOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<ConfigurationProfile[]> {
-    let result = await this._listChildResources(
+    let result: ConfigurationProfilesVersionsListChildResourcesResponse;
+    result = await this._listChildResources(
       configurationProfileName,
       resourceGroupName,
       options

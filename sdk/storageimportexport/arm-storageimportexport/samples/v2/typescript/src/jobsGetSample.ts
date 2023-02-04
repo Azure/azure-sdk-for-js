@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { StorageImportExport } from "@azure/arm-storageimportexport";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets information about an existing job.
@@ -18,16 +21,17 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/storageimportexport/resource-manager/Microsoft.ImportExport/preview/2021-01-01/examples/GetExportJob.json
  */
 async function getExportJob() {
-  const subscriptionId = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
+  const subscriptionId =
+    process.env["STORAGEIMPORTEXPORT_SUBSCRIPTION_ID"] ||
+    "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
   const jobName = "myJob";
-  const resourceGroupName = "myResourceGroup";
+  const resourceGroupName =
+    process.env["STORAGEIMPORTEXPORT_RESOURCE_GROUP"] || "myResourceGroup";
   const credential = new DefaultAzureCredential();
   const client = new StorageImportExport(credential, subscriptionId);
   const result = await client.jobs.get(jobName, resourceGroupName);
   console.log(result);
 }
-
-getExportJob().catch(console.error);
 
 /**
  * This sample demonstrates how to Gets information about an existing job.
@@ -36,13 +40,21 @@ getExportJob().catch(console.error);
  * x-ms-original-file: specification/storageimportexport/resource-manager/Microsoft.ImportExport/preview/2021-01-01/examples/GetJob.json
  */
 async function getImportJob() {
-  const subscriptionId = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
+  const subscriptionId =
+    process.env["STORAGEIMPORTEXPORT_SUBSCRIPTION_ID"] ||
+    "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
   const jobName = "myJob";
-  const resourceGroupName = "myResourceGroup";
+  const resourceGroupName =
+    process.env["STORAGEIMPORTEXPORT_RESOURCE_GROUP"] || "myResourceGroup";
   const credential = new DefaultAzureCredential();
   const client = new StorageImportExport(credential, subscriptionId);
   const result = await client.jobs.get(jobName, resourceGroupName);
   console.log(result);
 }
 
-getImportJob().catch(console.error);
+async function main() {
+  getExportJob();
+  getImportJob();
+}
+
+main().catch(console.error);

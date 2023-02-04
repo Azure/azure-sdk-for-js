@@ -13,6 +13,9 @@ import {
   OperationalInsightsManagementClient
 } from "@azure/arm-operationalinsights";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates or updates a saved search for a given workspace.
@@ -21,8 +24,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2020-08-01/examples/WorkspacesSavedSearchesCreateOrUpdate.json
  */
 async function savedSearchCreateOrUpdate() {
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const resourceGroupName = "TestRG";
+  const subscriptionId =
+    process.env["OPERATIONALINSIGHTS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-00000000000";
+  const resourceGroupName =
+    process.env["OPERATIONALINSIGHTS_RESOURCE_GROUP"] || "TestRG";
   const workspaceName = "TestWS";
   const savedSearchId = "00000000-0000-0000-0000-00000000000";
   const parameters: SavedSearch = {
@@ -48,4 +54,8 @@ async function savedSearchCreateOrUpdate() {
   console.log(result);
 }
 
-savedSearchCreateOrUpdate().catch(console.error);
+async function main() {
+  savedSearchCreateOrUpdate();
+}
+
+main().catch(console.error);

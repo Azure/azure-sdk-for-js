@@ -10,8 +10,8 @@
         "Connection": "keep-alive",
         "Content-Length": "252",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-arm-logic/8.1.0 core-rest-pipeline/1.9.3 Node/v16.13.2 OS/(x64-Windows_NT-10.0.19044)",
-        "x-ms-client-request-id": "9bfc16dd-9723-4e9d-a839-b12529a3a07b"
+        "User-Agent": "azsdk-js-arm-logic/8.2.0 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "842e7d50-2abb-4957-a52a-86bcc1a38ce5"
       },
       "RequestBody": {
         "location": "eastus",
@@ -29,26 +29,26 @@
       "StatusCode": 201,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
-        "Content-Length": "1816",
+        "Content-Length": "1815",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 21 Sep 2022 04:30:14 GMT",
+        "Date": "Fri, 20 Jan 2023 07:47:59 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "1d24db58-31c7-4ad4-a68a-41f890f57e81",
-        "x-ms-ratelimit-remaining-subscription-writes": "1197",
-        "x-ms-request-id": "eastus:42e534e6-72af-4721-87ee-c87b4108c667",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220921T043014Z:1d24db58-31c7-4ad4-a68a-41f890f57e81"
+        "x-ms-correlation-request-id": "3561cb02-2099-47e0-81e5-bb0cd91390c5",
+        "x-ms-ratelimit-remaining-subscription-writes": "1199",
+        "x-ms-request-id": "eastus:36880c80-95b5-4b6a-91d5-f28db60568a1",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230120T074759Z:3561cb02-2099-47e0-81e5-bb0cd91390c5"
       },
       "ResponseBody": {
         "properties": {
           "provisioningState": "Succeeded",
-          "createdTime": "2022-09-21T04:30:11.6361626Z",
-          "changedTime": "2022-09-21T04:30:11.6274974Z",
+          "createdTime": "2023-01-20T07:47:58.4694272Z",
+          "changedTime": "2023-01-20T07:47:58.461867Z",
           "state": "Enabled",
-          "version": "08585378722740824872",
-          "accessEndpoint": "https://prod-36.eastus.logic.azure.com:443/workflows/01faf158c7744a54b17eb7c3830ad926",
+          "version": "08585274060071086936",
+          "accessEndpoint": "https://prod-53.eastus.logic.azure.com:443/workflows/74e14310289b415c8749f42e60558825",
           "definition": {
             "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
             "contentVersion": "1.0.0.0",

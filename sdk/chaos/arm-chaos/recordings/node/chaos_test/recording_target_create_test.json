@@ -10,8 +10,8 @@
         "Connection": "keep-alive",
         "Content-Length": "118",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-arm-chaos/1.0.0-beta.2 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "c44db565-d4da-49ef-ad68-cdc8e5539228"
+        "User-Agent": "azsdk-js-arm-chaos/1.0.0-beta.3 core-rest-pipeline/1.10.1 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "2bfffa5c-3a11-4b85-a50b-e976098185a9"
       },
       "RequestBody": {
         "location": "eastus",
@@ -30,8 +30,8 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 19 Oct 2022 08:23:47 GMT",
-        "ETag": "\u002282002a40-0000-0100-0000-634fb4130000\u0022",
+        "Date": "Thu, 29 Dec 2022 02:16:45 GMT",
+        "ETag": "\u0022ac000910-0000-0100-0000-63acf88e0000\u0022",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Request-Context": "appId=",
@@ -39,18 +39,18 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "194b68ca-012e-4269-a599-7fe1260fb093",
+        "x-ms-correlation-request-id": "d99d78d6-59c1-4147-9982-9de4c160c586",
         "x-ms-ratelimit-remaining-subscription-resource-requests": "199",
-        "x-ms-request-id": "194b68ca-012e-4269-a599-7fe1260fb093",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20221019T082347Z:194b68ca-012e-4269-a599-7fe1260fb093"
+        "x-ms-request-id": "d99d78d6-59c1-4147-9982-9de4c160c586",
+        "x-ms-routing-request-id": "KOREASOUTH:20221229T021646Z:d99d78d6-59c1-4147-9982-9de4c160c586"
       },
       "ResponseBody": {
         "location": "eastus",
         "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.DocumentDB/databaseAccounts/test-123aa/providers/Microsoft.Chaos/targets/Microsoft-CosmosDB",
         "name": "Microsoft-CosmosDB",
         "systemData": {
-          "createdAt": "2022-10-19T08:23:47.0499307\u002B00:00",
-          "lastModifiedAt": "2022-10-19T08:23:47.0499307\u002B00:00",
+          "createdAt": "2022-12-29T02:16:46.2201467\u002B00:00",
+          "lastModifiedAt": "2022-12-29T02:16:46.2201467\u002B00:00",
           "createdByType": "User"
         },
         "type": "Microsoft.Chaos/targets",

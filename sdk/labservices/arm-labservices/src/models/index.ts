@@ -1467,10 +1467,7 @@ export type ImagesUpdateResponse = Image;
 
 /** Optional parameters. */
 export interface ImagesListByLabPlanNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply to the operation. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByLabPlanNext operation. */
 export type ImagesListByLabPlanNextResponse = PagedImages;
@@ -1543,10 +1540,7 @@ export interface LabPlansSaveImageOptionalParams
 
 /** Optional parameters. */
 export interface LabPlansListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply to the operation. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type LabPlansListBySubscriptionNextResponse = PagedLabPlans;
@@ -1645,10 +1639,7 @@ export interface LabsSyncGroupOptionalParams
 
 /** Optional parameters. */
 export interface LabsListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply to the operation. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type LabsListBySubscriptionNextResponse = PagedLabs;
@@ -1709,10 +1700,7 @@ export interface SchedulesDeleteOptionalParams
 
 /** Optional parameters. */
 export interface SchedulesListByLabNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply to the operation. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByLabNext operation. */
 export type SchedulesListByLabNextResponse = PagedSchedules;
@@ -1728,10 +1716,7 @@ export type SkusListResponse = PagedLabServicesSkus;
 
 /** Optional parameters. */
 export interface SkusListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply to the operation. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type SkusListNextResponse = PagedLabServicesSkus;
@@ -1748,10 +1733,7 @@ export type UsagesListByLocationResponse = ListUsagesResult;
 
 /** Optional parameters. */
 export interface UsagesListByLocationNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply to the operation. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByLocationNext operation. */
 export type UsagesListByLocationNextResponse = ListUsagesResult;
@@ -1813,10 +1795,7 @@ export interface UsersInviteOptionalParams extends coreClient.OperationOptions {
 
 /** Optional parameters. */
 export interface UsersListByLabNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply to the operation. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByLabNext operation. */
 export type UsersListByLabNextResponse = PagedUsers;
@@ -1885,10 +1864,7 @@ export interface VirtualMachinesResetPasswordOptionalParams
 
 /** Optional parameters. */
 export interface VirtualMachinesListByLabNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply to the operation. */
-  filter?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByLabNext operation. */
 export type VirtualMachinesListByLabNextResponse = PagedVirtualMachines;

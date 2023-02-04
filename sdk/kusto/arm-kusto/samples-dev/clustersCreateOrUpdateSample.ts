@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { Cluster, KustoManagementClient } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create or update a Kusto cluster.
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoClustersCreateOrUpdate.json
  */
 async function kustoClustersCreateOrUpdate() {
-  const subscriptionId = "12345678-1234-1234-1234-123456789098";
-  const resourceGroupName = "kustorptest";
+  const subscriptionId =
+    process.env["KUSTO_SUBSCRIPTION_ID"] ||
+    "12345678-1234-1234-1234-123456789098";
+  const resourceGroupName =
+    process.env["KUSTO_RESOURCE_GROUP"] || "kustorptest";
   const clusterName = "kustoCluster";
   const parameters: Cluster = {
     allowedIpRangeList: ["0.0.0.0/0"],
@@ -43,4 +49,8 @@ async function kustoClustersCreateOrUpdate() {
   console.log(result);
 }
 
-kustoClustersCreateOrUpdate().catch(console.error);
+async function main() {
+  kustoClustersCreateOrUpdate();
+}
+
+main().catch(console.error);

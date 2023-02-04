@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { EducationManagementClient } = require("@azure/arm-education");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Lists all of the available Microsoft.Education API operations.
@@ -24,4 +25,8 @@ async function getOperations() {
   console.log(result);
 }
 
-getOperations().catch(console.error);
+async function main() {
+  getOperations();
+}
+
+main().catch(console.error);
