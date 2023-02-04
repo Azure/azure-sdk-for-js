@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { OperationalInsightsManagementClient } = require("@azure/arm-operationalinsights");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Adds or Updates a specific Query within a Log Analytics QueryPack.
@@ -18,8 +19,10 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2019-09-01/examples/QueryPackQueriesPut.json
  */
 async function queryPut() {
-  const subscriptionId = "86dc51d3-92ed-4d7e-947a-775ea79b4918";
-  const resourceGroupName = "my-resource-group";
+  const subscriptionId =
+    process.env["OPERATIONALINSIGHTS_SUBSCRIPTION_ID"] || "86dc51d3-92ed-4d7e-947a-775ea79b4918";
+  const resourceGroupName =
+    process.env["OPERATIONALINSIGHTS_RESOURCE_GROUP"] || "my-resource-group";
   const queryPackName = "my-querypack";
   const id = "a449f8af-8e64-4b3a-9b16-5a7165ff98c4";
   const queryPayload = {
@@ -35,4 +38,8 @@ async function queryPut() {
   console.log(result);
 }
 
-queryPut().catch(console.error);
+async function main() {
+  queryPut();
+}
+
+main().catch(console.error);

@@ -792,10 +792,6 @@ export type BookmarkRelationsGetResponse = Relation;
 
 // @public
 export interface BookmarkRelationsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    orderby?: string;
-    skipToken?: string;
-    top?: number;
 }
 
 // @public
@@ -1471,10 +1467,6 @@ export interface EntitiesRelations {
 
 // @public
 export interface EntitiesRelationsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    orderby?: string;
-    skipToken?: string;
-    top?: number;
 }
 
 // @public
@@ -1623,7 +1615,6 @@ export type EntityQueriesGetResponse = EntityQueryUnion;
 
 // @public
 export interface EntityQueriesListNextOptionalParams extends coreClient.OperationOptions {
-    kind?: Enum13;
 }
 
 // @public
@@ -1916,10 +1907,6 @@ export type FileImportsGetResponse = FileImport;
 
 // @public
 export interface FileImportsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    orderby?: string;
-    skipToken?: string;
-    top?: number;
 }
 
 // @public
@@ -2041,6 +2028,9 @@ export interface GeoLocation {
     readonly longitude?: number;
     readonly state?: string;
 }
+
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export type GetInsightsError = string;
@@ -2245,10 +2235,6 @@ export type IncidentCommentsGetResponse = IncidentComment;
 
 // @public
 export interface IncidentCommentsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    orderby?: string;
-    skipToken?: string;
-    top?: number;
 }
 
 // @public
@@ -2354,10 +2340,6 @@ export type IncidentRelationsGetResponse = Relation;
 
 // @public
 export interface IncidentRelationsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    orderby?: string;
-    skipToken?: string;
-    top?: number;
 }
 
 // @public
@@ -2438,10 +2420,6 @@ export type IncidentsListEntitiesResponse = IncidentEntitiesResponse;
 
 // @public
 export interface IncidentsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    orderby?: string;
-    skipToken?: string;
-    top?: number;
 }
 
 // @public
@@ -3699,10 +3677,6 @@ export interface MetadataList {
 
 // @public
 export interface MetadataListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    orderby?: string;
-    skip?: number;
-    top?: number;
 }
 
 // @public
@@ -5299,10 +5273,6 @@ export interface ThreatIntelligenceIndicators {
 
 // @public
 export interface ThreatIntelligenceIndicatorsListNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    orderby?: string;
-    skipToken?: string;
-    top?: number;
 }
 
 // @public
@@ -5613,7 +5583,6 @@ export type WatchlistItemsGetResponse = WatchlistItem;
 
 // @public
 export interface WatchlistItemsListNextOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
 }
 
 // @public
@@ -5674,7 +5643,6 @@ export type WatchlistsGetResponse = Watchlist;
 
 // @public
 export interface WatchlistsListNextOptionalParams extends coreClient.OperationOptions {
-    skipToken?: string;
 }
 
 // @public

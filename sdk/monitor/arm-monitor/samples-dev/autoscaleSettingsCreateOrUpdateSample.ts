@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { AutoscaleSettingResource, MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates or updates an autoscale setting.
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2022-10-01/examples/createOrUpdateAutoscaleSetting.json
  */
 async function createOrUpdateAnAutoscaleSetting() {
-  const subscriptionId = "b67f7fec-69fc-4974-9099-a26bd6ffeda3";
-  const resourceGroupName = "TestingMetricsScaleSet";
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] ||
+    "b67f7fec-69fc-4974-9099-a26bd6ffeda3";
+  const resourceGroupName =
+    process.env["MONITOR_RESOURCE_GROUP"] || "TestingMetricsScaleSet";
   const autoscaleSettingName = "MySetting";
   const parameters: AutoscaleSettingResource = {
     enabled: true,
@@ -153,4 +159,8 @@ async function createOrUpdateAnAutoscaleSetting() {
   console.log(result);
 }
 
-createOrUpdateAnAutoscaleSetting().catch(console.error);
+async function main() {
+  createOrUpdateAnAutoscaleSetting();
+}
+
+main().catch(console.error);

@@ -8,8 +8,8 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-rediscache/7.1.0 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "69e7a106-5a6a-49ad-8647-70a38979983e"
+        "User-Agent": "azsdk-js-arm-rediscache/7.1.1 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "c5b3fd29-d024-47fb-a125-17866383e372"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,7 +17,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 21 Oct 2022 07:06:35 GMT",
+        "Date": "Tue, 31 Jan 2023 09:27:52 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "Microsoft-HTTPAPI/2.0",
@@ -25,11 +25,11 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "e4601ef3-215a-4d1d-a0db-4079b2cc643b",
-        "x-ms-ratelimit-remaining-subscription-reads": "11603",
-        "x-ms-request-id": "840a6ebe-c2c3-407e-bb08-ce65a1646971",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20221021T070635Z:e4601ef3-215a-4d1d-a0db-4079b2cc643b",
-        "x-rp-server-mvid": "be1ed6d8-4bcc-498f-a45e-34b9fb6c6358"
+        "x-ms-correlation-request-id": "145b0924-9651-4b98-8e8a-620b09550da5",
+        "x-ms-ratelimit-remaining-subscription-reads": "11665",
+        "x-ms-request-id": "0213ce59-f947-411c-b49b-cb75db84fd63",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230131T092752Z:145b0924-9651-4b98-8e8a-620b09550da5",
+        "x-rp-server-mvid": "b9a917b0-7b08-4f97-9f88-dbe71340e8fc"
       },
       "ResponseBody": {
         "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Cache/Redis/myrediscachexxx111",
@@ -113,8 +113,8 @@
         "Connection": "keep-alive",
         "Content-Length": "40",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-arm-rediscache/7.1.0 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "e4a4694e-47b3-4ddd-86cd-bc8d4f73f6c3"
+        "User-Agent": "azsdk-js-arm-rediscache/7.1.1 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "fc9c6ade-46f4-4526-b653-535aaee6854b"
       },
       "RequestBody": {
         "properties": {
@@ -126,7 +126,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 21 Oct 2022 07:06:38 GMT",
+        "Date": "Tue, 31 Jan 2023 09:27:54 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "Microsoft-HTTPAPI/2.0",
@@ -134,11 +134,11 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "23410054-f26b-4b2a-b80a-5cedc7d171ad",
+        "x-ms-correlation-request-id": "262d75bd-bd11-43a2-8488-73156428f18d",
         "x-ms-ratelimit-remaining-subscription-writes": "1195",
-        "x-ms-request-id": "699a0340-8016-4905-bdaa-5fbec17e7f7b",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20221021T070639Z:23410054-f26b-4b2a-b80a-5cedc7d171ad",
-        "x-rp-server-mvid": "be1ed6d8-4bcc-498f-a45e-34b9fb6c6358"
+        "x-ms-request-id": "c6cfabf4-359d-4de1-9f8f-69b134252522",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230131T092754Z:262d75bd-bd11-43a2-8488-73156428f18d",
+        "x-rp-server-mvid": "b9a917b0-7b08-4f97-9f88-dbe71340e8fc"
       },
       "ResponseBody": {
         "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Cache/Redis/myrediscachexxx111",

@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { StorageCacheManagementClient } = require("@azure/arm-storagecache");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Tells the cache to write all dirty data to the Storage Target's backend storage. Client requests to this storage target's namespace will return errors until the flush operation completes.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-05-01/examples/StorageTargets_Flush.json
  */
 async function storageTargetsFlush() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "scgroup";
+  const subscriptionId =
+    process.env["STORAGECACHE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["STORAGECACHE_RESOURCE_GROUP"] || "scgroup";
   const cacheName = "sc";
   const storageTargetName = "st1";
   const credential = new DefaultAzureCredential();
@@ -32,4 +34,8 @@ async function storageTargetsFlush() {
   console.log(result);
 }
 
-storageTargetsFlush().catch(console.error);
+async function main() {
+  storageTargetsFlush();
+}
+
+main().catch(console.error);

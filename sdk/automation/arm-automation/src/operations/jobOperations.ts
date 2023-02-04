@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { JobOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -16,6 +17,7 @@ import {
   JobCollectionItem,
   JobListByAutomationAccountNextOptionalParams,
   JobListByAutomationAccountOptionalParams,
+  JobListByAutomationAccountResponse,
   JobGetOutputOptionalParams,
   JobGetOutputResponse,
   JobGetRunbookContentOptionalParams,
@@ -27,7 +29,6 @@ import {
   JobCreateParameters,
   JobCreateOptionalParams,
   JobCreateResponse,
-  JobListByAutomationAccountResponse,
   JobResumeOptionalParams,
   JobListByAutomationAccountNextResponse
 } from "../models";
@@ -68,11 +69,15 @@ export class JobOperationsImpl implements JobOperations {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByAutomationAccountPagingPage(
           resourceGroupName,
           automationAccountName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -81,15 +86,22 @@ export class JobOperationsImpl implements JobOperations {
   private async *listByAutomationAccountPagingPage(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: JobListByAutomationAccountOptionalParams
+    options?: JobListByAutomationAccountOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<JobCollectionItem[]> {
-    let result = await this._listByAutomationAccount(
-      resourceGroupName,
-      automationAccountName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: JobListByAutomationAccountResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByAutomationAccount(
+        resourceGroupName,
+        automationAccountName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByAutomationAccountNext(
         resourceGroupName,
@@ -98,7 +110,9 @@ export class JobOperationsImpl implements JobOperations {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -487,7 +501,6 @@ const listByAutomationAccountNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

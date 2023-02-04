@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { SecurityInsights } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets an incident comment.
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/incidents/comments/GetIncidentCommentById.json
  */
 async function getAnIncidentComment() {
-  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
+    "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const resourceGroupName =
+    process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
   const workspaceName = "myWorkspace";
   const incidentId = "73e01a99-5cd7-4139-a149-9f2736ff2ab5";
   const incidentCommentId = "4bb36b7b-26ff-4d1c-9cbe-0d8ab3da0014";
@@ -34,4 +40,8 @@ async function getAnIncidentComment() {
   console.log(result);
 }
 
-getAnIncidentComment().catch(console.error);
+async function main() {
+  getAnIncidentComment();
+}
+
+main().catch(console.error);

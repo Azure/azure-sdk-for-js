@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { GitHubRepoOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,9 +19,9 @@ import {
   GitHubRepo,
   GitHubRepoListByConnectorNextOptionalParams,
   GitHubRepoListByConnectorOptionalParams,
+  GitHubRepoListByConnectorResponse,
   GitHubRepoListNextOptionalParams,
   GitHubRepoListOptionalParams,
-  GitHubRepoListByConnectorResponse,
   GitHubRepoListOperationResponse,
   GitHubRepoGetOptionalParams,
   GitHubRepoGetResponse,
@@ -68,11 +69,15 @@ export class GitHubRepoOperationsImpl implements GitHubRepoOperations {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByConnectorPagingPage(
           resourceGroupName,
           gitHubConnectorName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -81,15 +86,22 @@ export class GitHubRepoOperationsImpl implements GitHubRepoOperations {
   private async *listByConnectorPagingPage(
     resourceGroupName: string,
     gitHubConnectorName: string,
-    options?: GitHubRepoListByConnectorOptionalParams
+    options?: GitHubRepoListByConnectorOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<GitHubRepo[]> {
-    let result = await this._listByConnector(
-      resourceGroupName,
-      gitHubConnectorName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: GitHubRepoListByConnectorResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByConnector(
+        resourceGroupName,
+        gitHubConnectorName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByConnectorNext(
         resourceGroupName,
@@ -98,7 +110,9 @@ export class GitHubRepoOperationsImpl implements GitHubRepoOperations {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -142,12 +156,16 @@ export class GitHubRepoOperationsImpl implements GitHubRepoOperations {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listPagingPage(
           resourceGroupName,
           gitHubConnectorName,
           gitHubOwnerName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -157,16 +175,23 @@ export class GitHubRepoOperationsImpl implements GitHubRepoOperations {
     resourceGroupName: string,
     gitHubConnectorName: string,
     gitHubOwnerName: string,
-    options?: GitHubRepoListOptionalParams
+    options?: GitHubRepoListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<GitHubRepo[]> {
-    let result = await this._list(
-      resourceGroupName,
-      gitHubConnectorName,
-      gitHubOwnerName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: GitHubRepoListOperationResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(
+        resourceGroupName,
+        gitHubConnectorName,
+        gitHubOwnerName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -176,7 +201,9 @@ export class GitHubRepoOperationsImpl implements GitHubRepoOperations {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -671,7 +698,6 @@ const listByConnectorNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -693,7 +719,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

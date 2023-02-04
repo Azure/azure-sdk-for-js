@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { PolicyInsightsClient } = require("@azure/arm-policyinsights");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Creates or updates an attestation at subscription scope.
@@ -18,7 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2022-09-01/examples/Attestations_CreateSubscriptionScope.json
  */
 async function createAttestationAtSubscriptionScope() {
-  const subscriptionId = "35ee058e-5fa0-414c-8145-3ebb8d09b6e2";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] || "35ee058e-5fa0-414c-8145-3ebb8d09b6e2";
   const attestationName = "790996e6-9871-4b1f-9cd9-ec42cd6ced1e";
   const parameters = {
     complianceState: "Compliant",
@@ -34,8 +36,6 @@ async function createAttestationAtSubscriptionScope() {
   console.log(result);
 }
 
-createAttestationAtSubscriptionScope().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates or updates an attestation at subscription scope.
  *
@@ -43,7 +43,8 @@ createAttestationAtSubscriptionScope().catch(console.error);
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2022-09-01/examples/Attestations_CreateSubscriptionScope_AllProperties.json
  */
 async function createAttestationAtSubscriptionScopeWithAllProperties() {
-  const subscriptionId = "35ee058e-5fa0-414c-8145-3ebb8d09b6e2";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] || "35ee058e-5fa0-414c-8145-3ebb8d09b6e2";
   const attestationName = "790996e6-9871-4b1f-9cd9-ec42cd6ced1e";
   const parameters = {
     assessmentDate: new Date("2021-06-10T00:00:00Z"),
@@ -71,4 +72,9 @@ async function createAttestationAtSubscriptionScopeWithAllProperties() {
   console.log(result);
 }
 
-createAttestationAtSubscriptionScopeWithAllProperties().catch(console.error);
+async function main() {
+  createAttestationAtSubscriptionScope();
+  createAttestationAtSubscriptionScopeWithAllProperties();
+}
+
+main().catch(console.error);
