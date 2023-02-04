@@ -7309,12 +7309,6 @@ packages:
     engines: {node: '>= 0.8.0'}
     dev: false
 
-  /prettier/2.2.1:
-    resolution: {integrity: sha512-PqyhM2yCjg/oKkFPtTGUojv7gnZAoG80ttl45O6x2Ug/rMJw4wcc9k6aaf2hibP7BGVCCM33gZoGjyvt9mm16Q==}
-    engines: {node: '>=10.13.0'}
-    hasBin: true
-    dev: false
-
   /prettier/2.8.3:
     resolution: {integrity: sha512-tJ/oJ4amDihPoufT5sM0Z1SKEuKay8LfVAMlbbhnnkvt6BUserZylqo2PN+p9KeljLr0OHa2rXHU1T8reeoTrw==}
     engines: {node: '>=10.13.0'}
@@ -17504,7 +17498,7 @@ packages:
     dev: false
 
   file:projects/load-testing.tgz:
-    resolution: {integrity: sha512-dEMfZdZQA9IdCKED1XMgIbZPlzjkgkufRsv0nplKiTSquk/UW5owAY3RmTR5B3USaIv+Ik0ccFX6U067urILBg==, tarball: file:projects/load-testing.tgz}
+    resolution: {integrity: sha512-W9vkfSJU9XQ0HIf6k71GlwNgqY3TtvJFUo6GMHJf0Y66MOw9beCLlqBlMncxn8YIQbDL83Zic7shxsWmX9KNDA==, tarball: file:projects/load-testing.tgz}
     name: '@rush-temp/load-testing'
     version: 0.0.0
     dependencies:
@@ -17535,7 +17529,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
       nyc: 14.1.1
-      prettier: 2.2.1
+      prettier: 2.8.3
       rimraf: 3.0.2
       source-map-support: 0.5.21
       tslib: 2.5.0
