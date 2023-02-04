@@ -46,6 +46,7 @@ export class GeneratedMonitorIngestionClient extends GeneratedMonitorIngestionCl
     body: Record<string, unknown>[],
     options?: UploadOptionalParams
   ): Promise<void> {
+    console.log("how many times is this operation called?",options?.abortSignal, options?.abortSignal?.aborted);
     return this.sendOperationRequest(
       { ruleId, stream, body, options },
       uploadOperationSpec

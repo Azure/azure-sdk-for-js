@@ -15,6 +15,7 @@ import {
 import { Recorder } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import Sinon from "sinon";
+import { AbortController } from "@azure/abort-controller";
 
 function createFailedPolicies(failedInterval: { isFailed: boolean }): AdditionalPolicyConfig[] {
   return [
@@ -154,7 +155,7 @@ describe("LogsIngestionClient live tests", function () {
       }
     }
   });
-  it.only("Calls the error callback function when all logs fail", async function () {
+  it("Calls the error callback function when all logs fail", async function () {
     const noOfElements = 25000;
     const logData = getObjects(noOfElements);
     let concurrency = 3;
@@ -168,14 +169,9 @@ describe("LogsIngestionClient live tests", function () {
         });
         ++errorCallbackCount;
        }
-       catch(e){
-        const result = (e as AggregateUploadLogsError).errors;
-        if (result.length > 0) {
-          result.forEach((err) => {
-           console.log(err.cause.message);
-          });
-        }
-       } 
+       finally{
+
+       }
       }
     }
 
@@ -199,9 +195,37 @@ describe("LogsIngestionClient live tests", function () {
     }
     assert.equal(errorCallbackCount,concurrency);
     assert.equal(uploadSinon.callCount,4);
-    //console.log(uploadSinon.getCalls()[3]);
   })
 
+  it.only("Aborts further processing of upload when user aborts", async function(){
+    const noOfElements = 250000;
+    const logData = getObjects(noOfElements);
+    let concurrency = 3;
+
+    let abortController = new AbortController();
+    let errorCallbackCount = 0;
+    const errorCallback = async function errorCallback() { 
+      abortController.abort();
+      ++errorCallbackCount;
+    }
+    try {
+      await client.upload("immutable-id-123", "Custom-MyTableRawData", logData, {
+        maxConcurrency: concurrency,
+        errorCallback: errorCallback,
+        abortSignal: abortController.signal
+      });
+    } catch (e: any) {
+      const result = (e as AggregateUploadLogsError).errors;
+      console.log("result length", result.length)
+      if (result.length > 0) {
+       assert.equal(result[0].cause.message, `Data collection rule with immutable Id 'immutable-id-123' not found.`);
+       assert.equal(result[1].cause.message, `The operation was aborted.`);
+       assert.equal(result[result.length-1].cause.message, `The operation was aborted.`);
+      }
+    }
+   // assert.equal(errorCallbackCount,3);
+   console.log(errorCallbackCount)
+  })
 });
 
 
