@@ -10,6 +10,10 @@ export const setTestMode = (mode: TestMode): TestMode => {
   return mode;
 };
 
+/**
+ * The test server url.
+ * This server acts as the endpoint [ Works as a substitute to the actual Azure Services ]
+ */
 export const TEST_SERVER_URL = "http://127.0.0.1:8080";
 
 export async function makeRequestAndVerifyResponse(
