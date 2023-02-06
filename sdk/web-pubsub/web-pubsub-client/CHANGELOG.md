@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.2 (2023-02-01)
+## 1.0.0-beta.2 (2023-02-06)
 
 ### Breaking Changes
 - To keep the naming consistency, change interface name `OnRestoreGroupFailedArgs` to `OnRejoinGroupFailedArgs`, and change config name `WebPubSubClientOptions.autoRestoreGroups` to `WebPubSubClientOptions.autoRejoinGroups`
