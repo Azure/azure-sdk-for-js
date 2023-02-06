@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper";
-import { PrivateLinkResources } from "../operationsInterfaces";
+import { PrivateLinkResourcesOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -24,12 +24,13 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing PrivateLinkResources operations. */
-export class PrivateLinkResourcesImpl implements PrivateLinkResources {
+/** Class containing PrivateLinkResourcesOperations operations. */
+export class PrivateLinkResourcesOperationsImpl
+  implements PrivateLinkResourcesOperations {
   private readonly client: SynapseManagementClient;
 
   /**
-   * Initialize a new instance of the class PrivateLinkResources class.
+   * Initialize a new instance of the class PrivateLinkResourcesOperations class.
    * @param client Reference to the service client
    */
   constructor(client: SynapseManagementClient) {
