@@ -42,7 +42,6 @@ export type AnswerCallResult = CallResult;
 // @public
 export class CallAutomationClient {
     constructor(connectionString: string, options?: CallAutomationClientOptions);
-    constructor(connectionString: string, endpoint: string, options?: CallAutomationClientOptions);
     constructor(endpoint: string, credential: KeyCredential, options?: CallAutomationClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: CallAutomationClientOptions);
     answerCall(incomingCallContext: string, callbackUrl: string, options?: AnswerCallOptions): Promise<AnswerCallResult>;
@@ -103,12 +102,30 @@ export interface CallParticipant {
 
 // @public
 export class CallRecording {
-    constructor(callRecordingImpl: CallRecordingImpl);
     // Warning: (ae-forgotten-export) The symbol "CallRecordingImpl" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
-    readonly callRecordingImpl: CallRecordingImpl;
+    constructor(callRecordingImpl: CallRecordingImpl);
+    getRecordingProperties(recordingId: string, options: CallRecordingGetRecordingPropertiesOptions): Promise<RecordingStateResponseDto>;
+    pauseRecording(recordingId: string, options: CallRecordingPauseRecordingOptions): Promise<void>;
+    resumeRecording(recordingId: string, options: CallRecordingResumeRecordingOptionalParams): Promise<void>;
+    // Warning: (ae-forgotten-export) The symbol "RecordingStateResponse" needs to be exported by the entry point index.d.ts
+    startRecording(request: StartCallRecordingRequestDto, options?: CallRecordingStartRecordingOptions): Promise<RecordingStateResponse>;
+    stopRecording(recordingId: string, options: CallRecordingStopRecordingOptions): Promise<void>;
 }
+
+// @public
+export type CallRecordingGetRecordingPropertiesOptions = OperationOptions;
+
+// @public
+export type CallRecordingPauseRecordingOptions = OperationOptions;
+
+// @public
+export type CallRecordingResumeRecordingOptionalParams = OperationOptions;
+
+// @public
+export type CallRecordingStartRecordingOptions = RestCallRecordingStartRecordingOptions;
+
+// @public
+export type CallRecordingStopRecordingOptions = OperationOptions;
 
 // @public
 export type CallRejectReason = string;
@@ -135,6 +152,14 @@ export type GetCallConnectionPropertiesOptions = OperationOptions;
 
 // @public
 export type GetParticipantOptions = OperationOptions;
+
+// @public (undocumented)
+export interface GroupCallLocator {
+    // (undocumented)
+    id: string;
+    // (undocumented)
+    readonly kind?: "groupCallLocator";
+}
 
 // @public
 export type HangUpOptions = OperationOptions;
@@ -172,6 +197,16 @@ export type MediaStreamingContentType = string;
 // @public
 export type MediaStreamingTransportType = string;
 
+// @public (undocumented)
+export interface RecordingStateResponseDto {
+    // (undocumented)
+    recordingId?: string;
+    // Warning: (ae-forgotten-export) The symbol "RecordingState" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    recordingState?: RecordingState;
+}
+
 // @public
 export type RedirectCallOptions = OperationOptions;
 
@@ -190,8 +225,38 @@ export interface RemoveParticipantsResult {
     operationContext?: string;
 }
 
+// @public
+export interface RestCallRecordingStartRecordingOptions extends coreClient.OperationOptions {
+    repeatabilityFirstSent?: string;
+    repeatabilityRequestID?: string;
+}
+
 // @public (undocumented)
 export const SDK_VERSION: string;
+
+// @public (undocumented)
+export interface ServerCallLocator {
+    // (undocumented)
+    id: string;
+    // (undocumented)
+    readonly kind?: "serverCallLocator";
+}
+
+// @public
+export interface StartCallRecordingRequestDto {
+    // Warning: (ae-forgotten-export) The symbol "CommunicationIdentifierModel" needs to be exported by the entry point index.d.ts
+    audioChannelParticipantOrdering?: CommunicationIdentifierModel[];
+    callLocator: ServerCallLocator | GroupCallLocator;
+    // Warning: (ae-forgotten-export) The symbol "RecordingChannelType" needs to be exported by the entry point index.d.ts
+    recordingChannelType?: RecordingChannelType;
+    // Warning: (ae-forgotten-export) The symbol "RecordingContentType" needs to be exported by the entry point index.d.ts
+    recordingContentType?: RecordingContentType;
+    // Warning: (ae-forgotten-export) The symbol "RecordingFormatType" needs to be exported by the entry point index.d.ts
+    recordingFormatType?: RecordingFormatType;
+    recordingStateCallbackUri?: string;
+    // Warning: (ae-forgotten-export) The symbol "RecordingStorageType" needs to be exported by the entry point index.d.ts
+    recordingStorageType?: RecordingStorageType;
+}
 
 // @public
 export interface TransferCallResult {
