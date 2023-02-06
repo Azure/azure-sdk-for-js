@@ -175,7 +175,7 @@
         "x-ms-routing-request-id": "SOUTHEASTASIA:20230113T062248Z:5c5163c5-dabb-4f27-abfe-36390093de9e"
       },
       "ResponseBody": {
-        "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.ContainerInstance/containerGroups/mycontainerGroupxxx",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ContainerInstance/containerGroups/mycontainerGroupxxx",
         "status": "Pending",
         "startTime": "2023-01-13T06:22:46.8913592Z",
         "properties": {
@@ -217,7 +217,7 @@
         "x-ms-routing-request-id": "SOUTHEASTASIA:20230113T062248Z:9b448792-81da-452e-9f19-c0060960f6de"
       },
       "ResponseBody": {
-        "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.ContainerInstance/containerGroups/mycontainerGroupxxx",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ContainerInstance/containerGroups/mycontainerGroupxxx",
         "status": "Pending",
         "startTime": "2023-01-13T06:22:46.8913592Z",
         "properties": {
@@ -259,7 +259,7 @@
         "x-ms-routing-request-id": "SOUTHEASTASIA:20230113T062251Z:4a58f161-16bb-4e73-8e8a-f8af3513a0f8"
       },
       "ResponseBody": {
-        "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.ContainerInstance/containerGroups/mycontainerGroupxxx",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ContainerInstance/containerGroups/mycontainerGroupxxx",
         "status": "Pending",
         "startTime": "2023-01-13T06:22:46.8913592Z",
         "properties": {
@@ -301,7 +301,7 @@
         "x-ms-routing-request-id": "SOUTHEASTASIA:20230113T062253Z:b6321ed0-cec4-4e06-bf96-8193785b4fd3"
       },
       "ResponseBody": {
-        "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.ContainerInstance/containerGroups/mycontainerGroupxxx",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ContainerInstance/containerGroups/mycontainerGroupxxx",
         "status": "Pending",
         "startTime": "2023-01-13T06:22:46.8913592Z",
         "properties": {
@@ -343,7 +343,7 @@
         "x-ms-routing-request-id": "SOUTHEASTASIA:20230113T062255Z:41dfb90f-6dea-4bcd-a090-a2a6900c5ad5"
       },
       "ResponseBody": {
-        "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.ContainerInstance/containerGroups/mycontainerGroupxxx",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ContainerInstance/containerGroups/mycontainerGroupxxx",
         "status": "Pending",
         "startTime": "2023-01-13T06:22:46.8913592Z",
         "properties": {
@@ -385,7 +385,7 @@
         "x-ms-routing-request-id": "SOUTHEASTASIA:20230113T062258Z:b14374a0-06b9-4d92-b349-403197e04dc0"
       },
       "ResponseBody": {
-        "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.ContainerInstance/containerGroups/mycontainerGroupxxx",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ContainerInstance/containerGroups/mycontainerGroupxxx",
         "status": "Pending",
         "startTime": "2023-01-13T06:22:46.8913592Z",
         "properties": {
@@ -427,7 +427,7 @@
         "x-ms-routing-request-id": "SOUTHEASTASIA:20230113T062301Z:bee905ab-ba57-4db4-a7ea-08b2f3da35f7"
       },
       "ResponseBody": {
-        "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.ContainerInstance/containerGroups/mycontainerGroupxxx",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ContainerInstance/containerGroups/mycontainerGroupxxx",
         "status": "Pending",
         "startTime": "2023-01-13T06:22:46.8913592Z",
         "properties": {
@@ -469,7 +469,7 @@
         "x-ms-routing-request-id": "SOUTHEASTASIA:20230113T062305Z:a7482780-acc9-41f2-9c88-6f44dc0cd441"
       },
       "ResponseBody": {
-        "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.ContainerInstance/containerGroups/mycontainerGroupxxx",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ContainerInstance/containerGroups/mycontainerGroupxxx",
         "status": "Pending",
         "startTime": "2023-01-13T06:22:46.8913592Z",
         "properties": {
@@ -511,7 +511,7 @@
         "x-ms-routing-request-id": "SOUTHEASTASIA:20230113T062307Z:c1915485-59c2-4147-8abd-0b4738b4bec7"
       },
       "ResponseBody": {
-        "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.ContainerInstance/containerGroups/mycontainerGroupxxx",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ContainerInstance/containerGroups/mycontainerGroupxxx",
         "status": "Pending",
         "startTime": "2023-01-13T06:22:46.8913592Z",
         "properties": {
@@ -553,7 +553,7 @@
         "x-ms-routing-request-id": "SOUTHEASTASIA:20230113T062310Z:edea5d64-fcea-4af3-9d56-d3398f2a3010"
       },
       "ResponseBody": {
-        "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.ContainerInstance/containerGroups/mycontainerGroupxxx",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ContainerInstance/containerGroups/mycontainerGroupxxx",
         "status": "Pending",
         "startTime": "2023-01-13T06:22:46.8913592Z",
         "properties": {
@@ -595,7 +595,7 @@
         "x-ms-routing-request-id": "SOUTHEASTASIA:20230113T062312Z:d70430de-9f97-4ffa-b101-3aaa2d3dfa70"
       },
       "ResponseBody": {
-        "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.ContainerInstance/containerGroups/mycontainerGroupxxx",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ContainerInstance/containerGroups/mycontainerGroupxxx",
         "status": "Pending",
         "startTime": "2023-01-13T06:22:46.8913592Z",
         "properties": {
@@ -637,7 +637,7 @@
         "x-ms-routing-request-id": "SOUTHEASTASIA:20230113T062314Z:44e33b80-b224-489b-b482-677e78c82380"
       },
       "ResponseBody": {
-        "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.ContainerInstance/containerGroups/mycontainerGroupxxx",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ContainerInstance/containerGroups/mycontainerGroupxxx",
         "status": "Pending",
         "startTime": "2023-01-13T06:22:46.8913592Z",
         "properties": {
@@ -679,7 +679,7 @@
         "x-ms-routing-request-id": "SOUTHEASTASIA:20230113T062317Z:e3253805-765b-4acd-a7ab-06013e609e76"
       },
       "ResponseBody": {
-        "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.ContainerInstance/containerGroups/mycontainerGroupxxx",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ContainerInstance/containerGroups/mycontainerGroupxxx",
         "status": "Succeeded",
         "startTime": "2023-01-13T06:22:46.8913592Z",
         "properties": {

@@ -35,7 +35,7 @@
       "ResponseBody": {
         "value": [
           {
-            "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.BotService/botServices/mybotxxx/channels/WebChatChannel",
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.BotService/botServices/mybotxxx/channels/WebChatChannel",
             "name": "mybotxxx/WebChatChannel",
             "type": "Microsoft.BotService/botServices/channels",
             "etag": "W/\u00228d77368d37daf212f8a06f48c5b6ec5c1/16/2023 3:17:45 AM\u0022",
@@ -70,7 +70,7 @@
             "zones": []
           },
           {
-            "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.BotService/botServices/mybotxxx/channels/DirectLineChannel",
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.BotService/botServices/mybotxxx/channels/DirectLineChannel",
             "name": "mybotxxx/DirectLineChannel",
             "type": "Microsoft.BotService/botServices/channels",
             "etag": "W/\u002270f3c7bb339b0eee0e6919c9f668ad091/16/2023 3:17:45 AM\u0022",
@@ -109,7 +109,7 @@
             "zones": []
           },
           {
-            "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.BotService/botServices/mybotxxx/channels/MsTeamsChannel",
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.BotService/botServices/mybotxxx/channels/MsTeamsChannel",
             "name": "mybotxxx/MsTeamsChannel",
             "type": "Microsoft.BotService/botServices/channels",
             "etag": "W/\u00227bdfb872f95de0268023338b25a9a1611/16/2023 3:17:46 AM\u0022",
