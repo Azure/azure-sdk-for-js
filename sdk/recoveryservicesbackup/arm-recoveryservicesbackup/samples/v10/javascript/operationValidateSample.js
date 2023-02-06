@@ -10,17 +10,19 @@
 // Licensed under the MIT License.
 const { RecoveryServicesBackupClient } = require("@azure/arm-recoveryservicesbackup");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Validate operation for specified backed up item. This is a synchronous operation.
  *
  * @summary Validate operation for specified backed up item. This is a synchronous operation.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2022-03-01/examples/AzureIaasVm/ValidateOperation_RestoreDisk.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/AzureIaasVm/ValidateOperation_RestoreDisk.json
  */
 async function validateOperation() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const vaultName = "testVault";
-  const resourceGroupName = "testRG";
+  const resourceGroupName = process.env["RECOVERYSERVICESBACKUP_RESOURCE_GROUP"] || "testRG";
   const parameters = {
     objectType: "ValidateIaasVMRestoreOperationRequest",
     restoreRequest: {
@@ -48,18 +50,17 @@ async function validateOperation() {
   console.log(result);
 }
 
-validateOperation().catch(console.error);
-
 /**
  * This sample demonstrates how to Validate operation for specified backed up item. This is a synchronous operation.
  *
  * @summary Validate operation for specified backed up item. This is a synchronous operation.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2022-03-01/examples/AzureIaasVm/ValidateOperation_RestoreDisk_IdentityBasedRestoreDetails.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/AzureIaasVm/ValidateOperation_RestoreDisk_IdentityBasedRestoreDetails.json
  */
 async function validateOperationWithIdentityBasedRestoreDetails() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const vaultName = "testVault";
-  const resourceGroupName = "testRG";
+  const resourceGroupName = process.env["RECOVERYSERVICESBACKUP_RESOURCE_GROUP"] || "testRG";
   const parameters = {
     objectType: "ValidateIaasVMRestoreOperationRequest",
     restoreRequest: {
@@ -89,4 +90,9 @@ async function validateOperationWithIdentityBasedRestoreDetails() {
   console.log(result);
 }
 
-validateOperationWithIdentityBasedRestoreDetails().catch(console.error);
+async function main() {
+  validateOperation();
+  validateOperationWithIdentityBasedRestoreDetails();
+}
+
+main().catch(console.error);

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { ClientSecretCredential, TokenCredentialOptions } from "@azure/identity";
-import { env, isPlaybackMode } from "@azure-tools/test-recorder";
+import { assertEnvironmentVariable, isPlaybackMode } from "@azure-tools/test-recorder";
 import { NoOpCredential } from "./noOpCredential";
 
 export interface CreateTestCredentialOptions {
@@ -28,9 +28,10 @@ export function createTestCredential(
   return isPlaybackMode()
     ? new NoOpCredential()
     : new ClientSecretCredential(
-        createTestCredentialOptions?.tenantId ?? env["AZURE_TENANT_ID"],
-        createTestCredentialOptions?.clientId ?? env["AZURE_CLIENT_ID"],
-        createTestCredentialOptions?.clientSecret ?? env["AZURE_CLIENT_SECRET"],
+        createTestCredentialOptions?.tenantId ?? assertEnvironmentVariable("AZURE_TENANT_ID"),
+        createTestCredentialOptions?.clientId ?? assertEnvironmentVariable("AZURE_CLIENT_ID"),
+        createTestCredentialOptions?.clientSecret ??
+          assertEnvironmentVariable("AZURE_CLIENT_SECRET"),
         tokenCredentialOptions
       );
 }

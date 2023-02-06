@@ -1,6 +1,7 @@
 # Release History
 
 ## 3.17.3 (Unreleased)
+- Fix add timeout message in timeout error
 
 ### Features Added
 
