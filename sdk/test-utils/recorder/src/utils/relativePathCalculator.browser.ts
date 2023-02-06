@@ -21,22 +21,22 @@ export function relativeRecordingsPath(): string {
  *
  * Note for browser tests:
  *    1. Supposed to be called from karma.conf.js in the package for which the testing is being done.
- *    2. Set this `RECORDING_ASSETS_PATH` as an env variable
+ *    2. Set this `RECORDINGS_ASSETS_PATH` as an env variable
  *      ```js
  *        const { relativeRecordingsPathForBrowser } = require("@azure-tools/test-recorder-new");
- *        process.env.RECORDING_ASSETS_PATH = relativeRecordingsPathForBrowser();
+ *        process.env.RECORDINGS_ASSETS_PATH = relativeRecordingsPathForBrowser();
  *      ```
- *    3. Add "RECORDING_ASSETS_PATH" in the `envPreprocessor` array to let this be loaded in the browser environment.
+ *    3. Add "RECORDINGS_ASSETS_PATH" in the `envPreprocessor` array to let this be loaded in the browser environment.
  *      ```
- *        envPreprocessor: ["RECORDING_ASSETS_PATH"],
+ *        envPreprocessor: ["RECORDINGS_ASSETS_PATH"],
  *      ```
  *
- * `RECORDING_ASSETS_PATH` in the browser environment is used in the recorder to tell the proxy-tool about whether or not to pass additional body argument
+ * `RECORDINGS_ASSETS_PATH` in the browser environment is used in the recorder to tell the proxy-tool about whether or not to pass additional body argument
  * `x-recording-assets-file` to playback|record/Start. Doing so enables the proxy to auto-restore files from a remote location.
  *
  * @export
  * @returns {string} location of the relative path to discovered assets.json - `sdk/storage/storage-blob/assets.json` for example.
  */
 export function relativeAssetsPath(): string | undefined {
-  return env.RECORDING_ASSETS_PATH;
+  return env.RECORDINGS_ASSETS_PATH;
 }
