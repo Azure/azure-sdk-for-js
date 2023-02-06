@@ -28,7 +28,7 @@ export class CallRecording {
   }
 
   /**
-  * Returns ChatThreadClient with the specific thread id.
+  * Starts a call recording with the specified options.
   * @param startCallRecordingRequest - options to start the call recording
   * @param options - Operation options.
   */
