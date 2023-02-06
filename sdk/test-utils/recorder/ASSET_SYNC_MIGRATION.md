@@ -1,5 +1,4 @@
-Migrating recordings to the `azure-sdk-assets` repository
-=========================================================
+# Migrating recordings to the `azure-sdk-assets` repository
 
 ## Some background
 
@@ -25,17 +24,17 @@ process.env.RECORDING_ASSETS_PATH = relativeAssetsPath();
 and the `envPreprocessor` property of the config should have entries for both `"RECORDINGS_RELATIVE_PATH"` and `"RECORDING_ASSETS_PATH"`:
 
 ```js
-module.exports = function(config) {
+module.exports = function (config) {
   config.set({
     // ... other config options omitted
-    
+
     envPreprocessor: [
       // ... other environment variables omitted
       "RECORDINGS_RELATIVE_PATH",
       "RECORDING_ASSETS_PATH",
     ],
   });
-}
+};
 ```
 
 ### Step 2. Migrate the assets using `dev-tool`
@@ -77,7 +76,7 @@ Offline work is supported out-of-the-box. Of course, however, you won't be able 
 
 ## Further reading
 
-- [Asset Sync reference in azure-sdk-tools](asset-sync-reference)
+- [Asset Sync reference in azure-sdk-tools][asset-sync-reference]
 - [Recorder 2.0 migration guide]
 
 [recorder 2.0 migration guide]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/MIGRATION.md
