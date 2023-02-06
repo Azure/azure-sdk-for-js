@@ -72,7 +72,8 @@ export class GlobalEndpointManager {
     await this.refreshEndpointList();
     const location = this.readableLocations.find((loc) => loc.databaseAccountEndpoint === endpoint);
     if (location) {
-      location.locationUnavailability = { lastUnavailabilityTimestamp: Date.now() };
+      location.unavailable = true;
+      location.lastUnavailabilityTimestamp = Date.now();
       this.unavailableReadableLocations.push(location);
     }
   }
@@ -83,7 +84,8 @@ export class GlobalEndpointManager {
       (loc) => loc.databaseAccountEndpoint === endpoint
     );
     if (location) {
-      location.locationUnavailability = { lastUnavailabilityTimestamp: Date.now() };
+      location.unavailable = true;
+      location.lastUnavailabilityTimestamp = Date.now();
       this.unavailableWriteableLocations.push(location);
     }
   }
@@ -136,7 +138,7 @@ export class GlobalEndpointManager {
       for (const preferredLocation of this.preferredLocations) {
         location = locations.find(
           (loc) =>
-            loc.locationUnavailability === undefined &&
+            loc.unavailable !== true &&
             normalizeEndpoint(loc.name) === normalizeEndpoint(preferredLocation)
         );
         if (location) {
@@ -148,7 +150,7 @@ export class GlobalEndpointManager {
     // If no preferred locations or one did not match, just grab the first one that is available
     if (!location) {
       location = locations.find((loc) => {
-        return loc.locationUnavailability === undefined;
+        return loc.unavailable !== true;
       });
     }
     return location ? location.databaseAccountEndpoint : this.defaultEndpoint;
@@ -201,15 +203,22 @@ export class GlobalEndpointManager {
       this.unavailableWriteableLocations
     );
   }
+
+  /**
+   * update the locationUnavailability to undefined if the location is available again
+   * @param now : current time
+   * @param unavailableLocations : list of unavailable locations
+   * @param allLocations : list of all locations
+   */
   private updateLocation(now: number, unavailableLocations: Location[], allLocations: Location[]) {
     for (const location of unavailableLocations) {
       const unavaialableLocation = allLocations.find((loc) => loc.name === location.name);
       if (
-        unavaialableLocation.locationUnavailability &&
-        now - unavaialableLocation.locationUnavailability.lastUnavailabilityTimestamp >
+        unavaialableLocation &&
+        now - unavaialableLocation.lastUnavailabilityTimestamp >
           Constants.LocationUnavailableExpirationTime
       ) {
-        unavaialableLocation.locationUnavailability = undefined;
+        unavaialableLocation.unavailable = false;
       }
     }
   }
@@ -217,9 +226,8 @@ export class GlobalEndpointManager {
   private cleanUnavailableLocationList(now: number, unavailableLocations: Location[]): Location[] {
     return unavailableLocations.filter((loc) => {
       if (
-        loc.locationUnavailability &&
-        now - loc.locationUnavailability.lastUnavailabilityTimestamp >=
-          Constants.LocationUnavailableExpirationTime
+        loc &&
+        now - loc.lastUnavailabilityTimestamp >= Constants.LocationUnavailableExpirationTime
       ) {
         return true;
       }

@@ -944,17 +944,13 @@ interface Location_2 {
     // (undocumented)
     databaseAccountEndpoint: string;
     // (undocumented)
-    locationUnavailability?: LocationUnavailability;
+    lastUnavailabilityTimestamp: number;
     // (undocumented)
     name: string;
+    // (undocumented)
+    unavailable?: boolean;
 }
 export { Location_2 as Location }
-
-// @public (undocumented)
-export interface LocationUnavailability {
-    // (undocumented)
-    lastUnavailabilityTimestamp: number;
-}
 
 // @public
 export type Next<T> = (context: RequestContext) => Promise<Response_2<T>>;

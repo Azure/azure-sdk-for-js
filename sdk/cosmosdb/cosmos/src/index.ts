@@ -53,7 +53,6 @@ export {
   TriggerOperation,
   TriggerType,
   UserDefinedFunctionType,
-  LocationUnavailability,
 } from "./documents";
 
 export { UniqueKeyPolicy, UniqueKey } from "./client/Container/UniqueKeyPolicy";
