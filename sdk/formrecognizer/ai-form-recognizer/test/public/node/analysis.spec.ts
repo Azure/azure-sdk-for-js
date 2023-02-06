@@ -1071,11 +1071,6 @@ matrix([[true, false]] as const, async (useAad) => {
           employer: "Microsoft",
           idNumberSuffix: "01",
         },
-        dependents: [
-          {
-            name: "Coinsurance Max",
-          },
-        ],
         idNumber: {
           prefix: "ABC",
           number: "123456789",
@@ -1087,14 +1082,18 @@ matrix([[true, false]] as const, async (useAad) => {
         },
         copays: [
           {
-            benefit: "deductible",
+            benefit: "Deductible",
             amount: "$1,500",
           },
           {
-            benefit: "coinsurancemax",
+            benefit: "Coinsurance Max",
             amount: "$1,000",
           },
         ],
+        plan: {
+          number: "456",
+          name: "HEALTH SAVINGS PLAN",
+        },
       });
 
       it("png file stream", async function (this: Mocha.Context) {
