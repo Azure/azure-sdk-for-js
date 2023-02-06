@@ -5,6 +5,13 @@ import { PhoneNumberIdentifier, CommunicationIdentifier } from "@azure/communica
 import { OperationOptions } from "@azure/core-client";
 import { MediaStreamingConfiguration } from "../models/models";
 import { CallRejectReason } from "./models";
+import {
+    CallRecordingStartRecordingOptionalParams as RestCallRecordingStartRecordingOptions
+} from "../generated/src/models";
+  
+export {
+    RestCallRecordingStartRecordingOptions
+}
 
 /**
  * Options to create a call.
@@ -99,3 +106,28 @@ export type HangUpOptions = OperationOptions;
  * Options to get a participant.
  */
 export type GetParticipantOptions = OperationOptions;
+
+/**
+ * Options to get a start a recording.
+ */
+export type CallRecordingStartRecordingOptions = RestCallRecordingStartRecordingOptions
+
+/**
+ * Options to get a stop a recording.
+ */
+export type CallRecordingStopRecordingOptions = OperationOptions
+
+/**
+ * Options to get a pause a recording.
+ */
+export type CallRecordingPauseRecordingOptions = OperationOptions
+
+/**
+ * Options to get recording properties.
+ */
+export type CallRecordingGetRecordingPropertiesOptions = OperationOptions
+
+/**
+ * Options to resume recording.
+ */
+export type CallRecordingResumeRecordingOptionalParams = OperationOptions

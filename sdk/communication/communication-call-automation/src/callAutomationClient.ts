@@ -8,9 +8,7 @@ import {
     isKeyCredential,
     createCommunicationAuthPolicy,
     CommunicationIdentifier,
-    serializeCommunicationIdentifier,
-    parseConnectionString,
-    EndpointCredential
+    serializeCommunicationIdentifier
 } from "@azure/communication-common";
 import { logger } from "./models/logger";
 import { SDK_VERSION } from "./models/constants";
