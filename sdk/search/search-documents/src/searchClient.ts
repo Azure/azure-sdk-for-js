@@ -53,7 +53,7 @@ import { KnownSearchAudience } from "./searchAudience";
 export interface SearchClientOptions extends ExtendedCommonClientOptions {
   /**
    * The API version to use when communicating with the service.
-   * @deprecated use {@Link serviceVersion} instead
+   * @deprecated use {@link serviceVersion} instead
    */
   apiVersion?: string;
 
@@ -117,13 +117,32 @@ export class SearchClient<Model extends object> implements IndexDocumentsClient<
    * const client = new SearchClient(
    *   "<endpoint>",
    *   "<indexName>",
-   *   new AzureKeyCredential("<Admin Key>");
+   *   new AzureKeyCredential("<Admin Key>")
    * );
    * ```
+   *
+   * Optionally, the type of the model can be used to enable strong typing and type hints:
+   * ```ts
+   * type Model = {
+   *   keyName: string;
+   *   field1?: string | null;
+   *   field2?: { anotherField?: string | null } | null;
+   * };
+   *
+   * const client = new SearchClient<Model>(
+   *   ...
+   * );
+   * ```
+   *
    * @param endpoint - The endpoint of the search service
    * @param indexName - The name of the index
    * @param credential - Used to authenticate requests to the service.
    * @param options - Used to configure the Search client.
+   *
+   * @typeParam Model - An optional TS interface that matches the type of the
+   * documents stored in the search index. For the best typing experience, all
+   * non-key fields should be marked optional and nullable, and the key property
+   * should have the non-nullable type `string`.
    */
   constructor(
     endpoint: string,
