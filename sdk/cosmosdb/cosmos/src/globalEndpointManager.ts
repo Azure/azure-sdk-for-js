@@ -206,9 +206,9 @@ export class GlobalEndpointManager {
 
   /**
    * update the locationUnavailability to undefined if the location is available again
-   * @param now : current time
-   * @param unavailableLocations : list of unavailable locations
-   * @param allLocations : list of all locations
+   * @param now - current time
+   * @param unavailableLocations - list of unavailable locations
+   * @param allLocations - list of all locations
    */
   private updateLocation(now: number, unavailableLocations: Location[], allLocations: Location[]) {
     for (const location of unavailableLocations) {
