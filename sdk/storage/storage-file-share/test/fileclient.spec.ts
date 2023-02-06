@@ -847,6 +847,23 @@ describe("FileClient", () => {
     }
   });
 
+  it("listHandles for file with Invalid Char should work", async () => {
+    const fileName = recorder.getUniqueName("file\uFFFE");
+    const fileWithInvalidChar = shareClient.getDirectoryClient("").getFileClient(fileName);
+    await fileWithInvalidChar.create(10);
+
+    const result = (await fileWithInvalidChar.listHandles().byPage().next()).value;
+    if (result.handleList !== undefined && result.handleList.length > 0) {
+      const handle = result.handleList[0];
+      assert.notDeepEqual(handle.handleId, undefined);
+      assert.notDeepEqual(handle.path, undefined);
+      assert.notDeepEqual(handle.fileId, undefined);
+      assert.notDeepEqual(handle.sessionId, undefined);
+      assert.notDeepEqual(handle.clientIp, undefined);
+      assert.notDeepEqual(handle.openTime, undefined);
+    }
+  });
+
   it("forceCloseAllHandles should work", async () => {
     await fileClient.create(10);
 

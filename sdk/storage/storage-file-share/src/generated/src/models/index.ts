@@ -159,14 +159,20 @@ export interface ListFilesAndDirectoriesSegmentResponse {
   serviceEndpoint: string;
   shareName: string;
   shareSnapshot?: string;
+  encoded?: boolean;
   directoryPath: string;
-  prefix: string;
+  prefix: StringEncoded;
   marker?: string;
   maxResults?: number;
   /** Abstract for entries that can be listed from Directory. */
   segment: FilesAndDirectoriesListSegment;
   continuationToken: string;
   directoryId?: string;
+}
+
+export interface StringEncoded {
+  encoded?: boolean;
+  content?: string;
 }
 
 /** Abstract for entries that can be listed from Directory. */
@@ -177,7 +183,7 @@ export interface FilesAndDirectoriesListSegment {
 
 /** A listed directory item. */
 export interface DirectoryItem {
-  name: string;
+  name: StringEncoded;
   fileId?: string;
   /** File properties. */
   properties?: FileProperty;
@@ -199,7 +205,7 @@ export interface FileProperty {
 
 /** A listed file item. */
 export interface FileItem {
-  name: string;
+  name: StringEncoded;
   fileId?: string;
   /** File properties. */
   properties: FileProperty;
@@ -217,8 +223,7 @@ export interface ListHandlesResponse {
 export interface HandleItem {
   /** XSMB service handle ID */
   handleId: string;
-  /** File or directory name including full path starting from share root */
-  path: string;
+  path: StringEncoded;
   /** FileId uniquely identifies the file or directory. */
   fileId: string;
   /** ParentId uniquely identifies the parent directory of the object. */
