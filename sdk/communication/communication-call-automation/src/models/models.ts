@@ -2,7 +2,14 @@
 // Licensed under the MIT license.
 
 import { CommunicationIdentifier, PhoneNumberIdentifier } from "@azure/communication-common";
-import { CallConnectionStateModel } from "../generated/src";
+import { CallConnectionStateModel,
+    CommunicationIdentifierModel,
+    RecordingChannelType,
+    RecordingContentType,
+    RecordingFormatType,
+    RecordingState,
+    RecordingStorageType
+} from "../generated/src";
 
 export {
     CallRejectReason,
@@ -51,4 +58,42 @@ export interface CallParticipant {
     identifier?: CommunicationIdentifier;
     /** Is participant muted */
     isMuted?: boolean;
+}
+
+export interface ServerCallLocator {
+    id: string;
+    readonly kind?: "serverCallLocator";
+}
+  
+export interface GroupCallLocator {
+    id: string;
+    readonly kind?: "groupCallLocator";
+}
+  
+/** The request payload start for call recording operation with call locator. */
+export interface StartCallRecordingRequestDto {
+    /** The call locator. */
+    callLocator: ServerCallLocator | GroupCallLocator;
+    /** The uri to send notifications to. */
+    recordingStateCallbackUri?: string;
+    /** The content type of call recording. */
+    recordingContentType?: RecordingContentType;
+    /** The channel type of call recording. */
+    recordingChannelType?: RecordingChannelType;
+    /** The format type of call recording. */
+    recordingFormatType?: RecordingFormatType;
+    /**
+     * The sequential order in which audio channels are assigned to participants in the unmixed recording.
+     * When 'recordingChannelType' is set to 'unmixed' and `audioChannelParticipantOrdering is not specified,
+     * the audio channel to participant mapping will be automatically assigned based on the order in which participant
+     * first audio was detected.  Channel to participant mapping details can be found in the metadata of the recording.
+     */
+    audioChannelParticipantOrdering?: CommunicationIdentifierModel[];
+    /** Recording storage mode. `External` enables bring your own storage. */
+    recordingStorageType?: RecordingStorageType;
+}
+  
+export interface RecordingStateResponseDto {
+    recordingId?: string;
+    recordingState?: RecordingState;
 }
