@@ -37,7 +37,7 @@ const recorderOptions: RecorderStartOptions = {
     uriSanitizers: [{
       regex: true,
       value: `fakeKey`,
-      target: `[a-z0-9_A-z]{40,100}`
+      target: `[a-z0-9_A-z=]{40,100}`
     }]
   }
 };
