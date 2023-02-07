@@ -35,7 +35,7 @@
         "value": [
           {
             "type": "Microsoft.Chaos/experiments",
-            "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Chaos/experiments/exampleExperiment",
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Chaos/experiments/exampleExperiment",
             "name": "exampleExperiment",
             "systemData": {
               "createdAt": "2022-12-29T02:16:52.2491232\u002B00:00",
@@ -50,7 +50,7 @@
                   "id": "f15dd483-3281-4e95-bcbe-cbf535d0de98",
                   "targets": [
                     {
-                      "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.DocumentDB/databaseAccounts/test-123aa",
+                      "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.DocumentDB/databaseAccounts/test-123aa",
                       "type": "ChaosTarget"
                     }
                   ]
