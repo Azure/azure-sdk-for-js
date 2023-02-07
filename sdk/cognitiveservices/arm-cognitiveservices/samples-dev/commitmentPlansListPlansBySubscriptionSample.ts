@@ -10,25 +10,34 @@
 // Licensed under the MIT License.
 import { CognitiveServicesManagementClient } from "@azure/arm-cognitiveservices";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Returns all the resources of a particular type belonging to a subscription.
  *
  * @summary Returns all the resources of a particular type belonging to a subscription.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2022-10-01/examples/ListAccountsBySubscription.json
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2022-12-01/examples/ListSharedCommitmentPlansBySubscription.json
  */
 async function listAccountsBySubscription() {
-  const subscriptionId = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
+  const subscriptionId =
+    process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] ||
+    "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
   const credential = new DefaultAzureCredential();
   const client = new CognitiveServicesManagementClient(
     credential,
     subscriptionId
   );
   const resArray = new Array();
-  for await (let item of client.accounts.list()) {
+  for await (let item of client.commitmentPlans.listPlansBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
-listAccountsBySubscription().catch(console.error);
+async function main() {
+  listAccountsBySubscription();
+}
+
+main().catch(console.error);

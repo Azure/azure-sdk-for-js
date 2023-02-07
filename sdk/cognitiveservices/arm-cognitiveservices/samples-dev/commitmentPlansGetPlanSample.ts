@@ -10,29 +10,37 @@
 // Licensed under the MIT License.
 import { CognitiveServicesManagementClient } from "@azure/arm-cognitiveservices";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
- * This sample demonstrates how to Gets the specified commitmentPlans associated with the Cognitive Services account.
+ * This sample demonstrates how to Returns a Cognitive Services commitment plan specified by the parameters.
  *
- * @summary Gets the specified commitmentPlans associated with the Cognitive Services account.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2022-10-01/examples/GetCommitmentPlan.json
+ * @summary Returns a Cognitive Services commitment plan specified by the parameters.
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2022-12-01/examples/GetSharedCommitmentPlan.json
  */
 async function getCommitmentPlan() {
-  const subscriptionId = "subscriptionId";
-  const resourceGroupName = "resourceGroupName";
-  const accountName = "accountName";
+  const subscriptionId =
+    process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] ||
+    "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
+  const resourceGroupName =
+    process.env["COGNITIVESERVICES_RESOURCE_GROUP"] || "resourceGroupName";
   const commitmentPlanName = "commitmentPlanName";
   const credential = new DefaultAzureCredential();
   const client = new CognitiveServicesManagementClient(
     credential,
     subscriptionId
   );
-  const result = await client.commitmentPlans.get(
+  const result = await client.commitmentPlans.getPlan(
     resourceGroupName,
-    accountName,
     commitmentPlanName
   );
   console.log(result);
 }
 
-getCommitmentPlan().catch(console.error);
+async function main() {
+  getCommitmentPlan();
+}
+
+main().catch(console.error);

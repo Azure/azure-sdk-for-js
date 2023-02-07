@@ -8,40 +8,44 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { CognitiveServicesManagementClient } from "@azure/arm-cognitiveservices";
+import {
+  PatchResourceTagsAndSku,
+  CognitiveServicesManagementClient
+} from "@azure/arm-cognitiveservices";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
 dotenv.config();
 
 /**
- * This sample demonstrates how to Gets the specified deployments associated with the Cognitive Services account.
+ * This sample demonstrates how to Create Cognitive Services commitment plan.
  *
- * @summary Gets the specified deployments associated with the Cognitive Services account.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2022-12-01/examples/GetDeployment.json
+ * @summary Create Cognitive Services commitment plan.
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2022-12-01/examples/UpdateSharedCommitmentPlan.json
  */
-async function getDeployment() {
+async function createCommitmentPlan() {
   const subscriptionId =
-    process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] || "subscriptionId";
+    process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] ||
+    "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
   const resourceGroupName =
     process.env["COGNITIVESERVICES_RESOURCE_GROUP"] || "resourceGroupName";
-  const accountName = "accountName";
-  const deploymentName = "deploymentName";
+  const commitmentPlanName = "commitmentPlanName";
+  const commitmentPlan: PatchResourceTagsAndSku = { tags: { name: "value" } };
   const credential = new DefaultAzureCredential();
   const client = new CognitiveServicesManagementClient(
     credential,
     subscriptionId
   );
-  const result = await client.deployments.get(
+  const result = await client.commitmentPlans.beginUpdatePlanAndWait(
     resourceGroupName,
-    accountName,
-    deploymentName
+    commitmentPlanName,
+    commitmentPlan
   );
   console.log(result);
 }
 
 async function main() {
-  getDeployment();
+  createCommitmentPlan();
 }
 
 main().catch(console.error);

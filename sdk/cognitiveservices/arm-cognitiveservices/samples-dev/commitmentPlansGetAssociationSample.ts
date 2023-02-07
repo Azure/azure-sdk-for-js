@@ -15,33 +15,34 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Gets the specified deployments associated with the Cognitive Services account.
+ * This sample demonstrates how to Gets the association of the Cognitive Services commitment plan.
  *
- * @summary Gets the specified deployments associated with the Cognitive Services account.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2022-12-01/examples/GetDeployment.json
+ * @summary Gets the association of the Cognitive Services commitment plan.
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2022-12-01/examples/GetSharedCommitmentPlanAssociation.json
  */
-async function getDeployment() {
+async function getCommitmentPlan() {
   const subscriptionId =
-    process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] || "subscriptionId";
+    process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] ||
+    "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
   const resourceGroupName =
     process.env["COGNITIVESERVICES_RESOURCE_GROUP"] || "resourceGroupName";
-  const accountName = "accountName";
-  const deploymentName = "deploymentName";
+  const commitmentPlanName = "commitmentPlanName";
+  const commitmentPlanAssociationName = "commitmentPlanAssociationName";
   const credential = new DefaultAzureCredential();
   const client = new CognitiveServicesManagementClient(
     credential,
     subscriptionId
   );
-  const result = await client.deployments.get(
+  const result = await client.commitmentPlans.getAssociation(
     resourceGroupName,
-    accountName,
-    deploymentName
+    commitmentPlanName,
+    commitmentPlanAssociationName
   );
   console.log(result);
 }
 
 async function main() {
-  getDeployment();
+  getCommitmentPlan();
 }
 
 main().catch(console.error);

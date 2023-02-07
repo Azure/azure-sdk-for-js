@@ -15,33 +15,32 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Gets the specified deployments associated with the Cognitive Services account.
+ * This sample demonstrates how to Deletes a Cognitive Services commitment plan from the resource group.
  *
- * @summary Gets the specified deployments associated with the Cognitive Services account.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2022-12-01/examples/GetDeployment.json
+ * @summary Deletes a Cognitive Services commitment plan from the resource group.
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2022-12-01/examples/DeleteSharedCommitmentPlan.json
  */
-async function getDeployment() {
+async function deleteCommitmentPlan() {
   const subscriptionId =
-    process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] || "subscriptionId";
+    process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] ||
+    "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
   const resourceGroupName =
     process.env["COGNITIVESERVICES_RESOURCE_GROUP"] || "resourceGroupName";
-  const accountName = "accountName";
-  const deploymentName = "deploymentName";
+  const commitmentPlanName = "commitmentPlanName";
   const credential = new DefaultAzureCredential();
   const client = new CognitiveServicesManagementClient(
     credential,
     subscriptionId
   );
-  const result = await client.deployments.get(
+  const result = await client.commitmentPlans.beginDeletePlanAndWait(
     resourceGroupName,
-    accountName,
-    deploymentName
+    commitmentPlanName
   );
   console.log(result);
 }
 
 async function main() {
-  getDeployment();
+  deleteCommitmentPlan();
 }
 
 main().catch(console.error);

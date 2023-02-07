@@ -13,38 +13,49 @@ import {
   CognitiveServicesManagementClient
 } from "@azure/arm-cognitiveservices";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
- * This sample demonstrates how to Update the state of specified commitmentPlans associated with the Cognitive Services account.
+ * This sample demonstrates how to Create Cognitive Services commitment plan.
  *
- * @summary Update the state of specified commitmentPlans associated with the Cognitive Services account.
- * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2022-10-01/examples/PutCommitmentPlan.json
+ * @summary Create Cognitive Services commitment plan.
+ * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2022-12-01/examples/CreateSharedCommitmentPlan.json
  */
-async function putCommitmentPlan() {
-  const subscriptionId = "subscriptionId";
-  const resourceGroupName = "resourceGroupName";
-  const accountName = "accountName";
+async function createCommitmentPlan() {
+  const subscriptionId =
+    process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] ||
+    "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
+  const resourceGroupName =
+    process.env["COGNITIVESERVICES_RESOURCE_GROUP"] || "resourceGroupName";
   const commitmentPlanName = "commitmentPlanName";
   const commitmentPlan: CommitmentPlan = {
+    kind: "SpeechServices",
+    location: "West US",
     properties: {
       autoRenew: true,
       current: { tier: "T1" },
       hostingModel: "Web",
-      planType: "Speech2Text"
-    }
+      planType: "STT"
+    },
+    sku: { name: "S0" }
   };
   const credential = new DefaultAzureCredential();
   const client = new CognitiveServicesManagementClient(
     credential,
     subscriptionId
   );
-  const result = await client.commitmentPlans.createOrUpdate(
+  const result = await client.commitmentPlans.beginCreateOrUpdatePlanAndWait(
     resourceGroupName,
-    accountName,
     commitmentPlanName,
     commitmentPlan
   );
   console.log(result);
 }
 
-putCommitmentPlan().catch(console.error);
+async function main() {
+  createCommitmentPlan();
+}
+
+main().catch(console.error);
