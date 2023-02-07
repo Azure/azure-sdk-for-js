@@ -144,7 +144,7 @@ let setting = await client.getConfigurationSetting({
 setting = await client.getConfigurationSetting(setting);
 ```
 
-A new feature supported in `2022-11-01-preview` API version is the creation of key-value snapshots. They allow developers to create an immuntable point-in-time snapshot of their configuration store. During creation, developers can add filters to their snapshots to filter what key-values get put inside. This allows developers to create immutable, composed views of their configuration store that they can release with their application. 
+A new feature supported in `2022-11-01-preview` API version is the creation of key-value snapshots. They allow developers to create an immutable point-in-time snapshot of their configuration store. During creation, developers can add filters to their snapshots to filter what key-values get put inside. This allows developers to create immutable, composed views of their configuration store that they can release with their application. 
 
 ## Examples
 
