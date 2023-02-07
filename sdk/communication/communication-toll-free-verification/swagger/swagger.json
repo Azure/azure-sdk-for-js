@@ -684,6 +684,7 @@
             "approved",
             "updateRequested",
             "draft",
+            "cancelled",
             "denied"
           ],
           "type": "string",
@@ -928,6 +929,7 @@
             "approved",
             "updateRequested",
             "draft",
+            "cancelled",
             "denied"
           ],
           "type": "string",

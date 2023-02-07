@@ -103,7 +103,7 @@ export interface CampaignBriefs {
 }
 
 // @public
-export type CampaignBriefStatus = "submitted" | "approved" | "updateRequested" | "draft" | "denied";
+export type CampaignBriefStatus = "submitted" | "approved" | "updateRequested" | "draft" | "cancelled" | "denied";
 
 // @public
 export interface CampaignBriefSummaries {

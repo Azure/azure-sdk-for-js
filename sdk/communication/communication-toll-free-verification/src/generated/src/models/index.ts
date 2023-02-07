@@ -215,6 +215,7 @@ export type CampaignBriefStatus =
   | "approved"
   | "updateRequested"
   | "draft"
+  | "cancelled"
   | "denied";
 /** Defines values for CampaignBriefUseCaseType. */
 export type CampaignBriefUseCaseType =
