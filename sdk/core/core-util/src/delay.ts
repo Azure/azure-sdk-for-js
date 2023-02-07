@@ -2,9 +2,8 @@
 // Licensed under the MIT license.
 
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
-import { isDefined } from "./typeGuards";
 
-const StandardAbortMessage = "The operation was aborted.";
+const StandardAbortMessage = "The delay was aborted.";
 
 /**
  * Options for support abort functionality for the delay method
@@ -28,38 +27,24 @@ export interface DelayOptions {
  */
 export function delay(timeInMs: number, options?: DelayOptions): Promise<void> {
   return new Promise((resolve, reject) => {
-    let timer: ReturnType<typeof setTimeout> | undefined = undefined;
-    let onAborted: (() => void) | undefined = undefined;
-
     const rejectOnAbort = (): void => {
-      return reject(new AbortError(options?.abortErrorMsg ?? StandardAbortMessage));
+      reject(new AbortError(options?.abortErrorMsg ?? StandardAbortMessage));
     };
-
     const removeListeners = (): void => {
-      if (options?.abortSignal && onAborted) {
-        options.abortSignal.removeEventListener("abort", onAborted);
-      }
+      options?.abortSignal?.removeEventListener("abort", onAbort);
     };
-
-    onAborted = (): void => {
-      if (isDefined(timer)) {
-        clearTimeout(timer);
-      }
+    const onAbort = (): void => {
+      clearTimeout(token);
       removeListeners();
-      return rejectOnAbort();
+      rejectOnAbort();
     };
-
-    if (options?.abortSignal && options.abortSignal.aborted) {
+    if (options?.abortSignal?.aborted) {
       return rejectOnAbort();
     }
-
-    timer = setTimeout(() => {
+    const token = setTimeout(() => {
       removeListeners();
       resolve();
     }, timeInMs);
-
-    if (options?.abortSignal) {
-      options.abortSignal.addEventListener("abort", onAborted);
-    }
+    options?.abortSignal?.addEventListener("abort", onAbort);
   });
 }
