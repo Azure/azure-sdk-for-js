@@ -13,25 +13,29 @@ const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
 /**
- * This sample demonstrates how to Deletes a vault.
+ * This sample demonstrates how to API to get details about capabilities provided by Microsoft.RecoveryServices RP
  *
- * @summary Deletes a vault.
- * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/DeleteVault.json
+ * @summary API to get details about capabilities provided by Microsoft.RecoveryServices RP
+ * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/Capabilities.json
  */
-async function deleteRecoveryServicesVault() {
+async function capabilitiesForMicrosoftRecoveryServicesOrVaults() {
   const subscriptionId =
     process.env["RECOVERYSERVICES_SUBSCRIPTION_ID"] || "77777777-b0c6-47a2-b37c-d8e65a629c18";
-  const resourceGroupName =
-    process.env["RECOVERYSERVICES_RESOURCE_GROUP"] || "Default-RecoveryServices-ResourceGroup";
-  const vaultName = "swaggerExample";
+  const location = "westus";
+  const input = {
+    type: "Microsoft.RecoveryServices/Vaults",
+    properties: {
+      dnsZones: [{ subResource: "AzureBackup" }, { subResource: "AzureSiteRecovery" }],
+    },
+  };
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesClient(credential, subscriptionId);
-  const result = await client.vaults.delete(resourceGroupName, vaultName);
+  const result = await client.recoveryServices.capabilities(location, input);
   console.log(result);
 }
 
 async function main() {
-  deleteRecoveryServicesVault();
+  capabilitiesForMicrosoftRecoveryServicesOrVaults();
 }
 
 main().catch(console.error);
