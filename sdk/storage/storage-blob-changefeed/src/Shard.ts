@@ -6,7 +6,7 @@ import { ChunkFactory } from "./ChunkFactory";
 import { Chunk } from "./Chunk";
 import { BlobChangeFeedEvent } from "./models/BlobChangeFeedEvent";
 import { ShardCursor } from "./models/ChangeFeedCursor";
-import { AbortSignalLike } from "@azure/core-http";
+import { AbortSignalLike } from "@azure/abort-controller";
 import { createSpan } from "./utils/tracing";
 import { SpanStatusCode } from "@azure/core-tracing";
 
