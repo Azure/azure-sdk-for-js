@@ -33,14 +33,14 @@
       "ResponseBody": {
         "value": [
           {
-            "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/microsoft.insights/logprofiles/mylogprofilexxx",
+            "id": "/subscriptions/azure_subscription_id/providers/microsoft.insights/logprofiles/mylogprofilexxx",
             "type": null,
             "name": "mylogprofilexxx",
             "location": null,
             "kind": null,
             "tags": null,
             "properties": {
-              "storageAccountId": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Storage/storageAccounts/mystorageaccountyyy",
+              "storageAccountId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Storage/storageAccounts/mystorageaccountyyy",
               "serviceBusRuleId": null,
               "locations": [
                 "global"

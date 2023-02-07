@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { AzureVMwareSolutionAPI } = require("@azure/arm-avs");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to List script cmdlet resources available for a private cloud to create a script execution resource on a private cloud
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2022-05-01/examples/ScriptCmdlets_List.json
  */
 async function scriptCmdletsList() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "group1";
+  const subscriptionId =
+    process.env["AVS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["AVS_RESOURCE_GROUP"] || "group1";
   const privateCloudName = "{privateCloudName}";
   const scriptPackageName = "{scriptPackageName}";
   const credential = new DefaultAzureCredential();
@@ -35,4 +37,8 @@ async function scriptCmdletsList() {
   console.log(resArray);
 }
 
-scriptCmdletsList().catch(console.error);
+async function main() {
+  scriptCmdletsList();
+}
+
+main().catch(console.error);

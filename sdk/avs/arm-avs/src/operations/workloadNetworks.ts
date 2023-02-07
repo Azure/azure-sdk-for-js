@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { WorkloadNetworks } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,38 +19,46 @@ import {
   WorkloadNetwork,
   WorkloadNetworksListNextOptionalParams,
   WorkloadNetworksListOptionalParams,
+  WorkloadNetworksListResponse,
   WorkloadNetworkSegment,
   WorkloadNetworksListSegmentsNextOptionalParams,
   WorkloadNetworksListSegmentsOptionalParams,
+  WorkloadNetworksListSegmentsResponse,
   WorkloadNetworkDhcp,
   WorkloadNetworksListDhcpNextOptionalParams,
   WorkloadNetworksListDhcpOptionalParams,
+  WorkloadNetworksListDhcpResponse,
   WorkloadNetworkGateway,
   WorkloadNetworksListGatewaysNextOptionalParams,
   WorkloadNetworksListGatewaysOptionalParams,
+  WorkloadNetworksListGatewaysResponse,
   WorkloadNetworkPortMirroring,
   WorkloadNetworksListPortMirroringNextOptionalParams,
   WorkloadNetworksListPortMirroringOptionalParams,
+  WorkloadNetworksListPortMirroringResponse,
   WorkloadNetworkVMGroup,
   WorkloadNetworksListVMGroupsNextOptionalParams,
   WorkloadNetworksListVMGroupsOptionalParams,
+  WorkloadNetworksListVMGroupsResponse,
   WorkloadNetworkVirtualMachine,
   WorkloadNetworksListVirtualMachinesNextOptionalParams,
   WorkloadNetworksListVirtualMachinesOptionalParams,
+  WorkloadNetworksListVirtualMachinesResponse,
   WorkloadNetworkDnsService,
   WorkloadNetworksListDnsServicesNextOptionalParams,
   WorkloadNetworksListDnsServicesOptionalParams,
+  WorkloadNetworksListDnsServicesResponse,
   WorkloadNetworkDnsZone,
   WorkloadNetworksListDnsZonesNextOptionalParams,
   WorkloadNetworksListDnsZonesOptionalParams,
+  WorkloadNetworksListDnsZonesResponse,
   WorkloadNetworkPublicIP,
   WorkloadNetworksListPublicIPsNextOptionalParams,
   WorkloadNetworksListPublicIPsOptionalParams,
+  WorkloadNetworksListPublicIPsResponse,
   WorkloadNetworkName,
   WorkloadNetworksGetOptionalParams,
   WorkloadNetworksGetResponse,
-  WorkloadNetworksListResponse,
-  WorkloadNetworksListSegmentsResponse,
   WorkloadNetworksGetSegmentOptionalParams,
   WorkloadNetworksGetSegmentResponse,
   WorkloadNetworksCreateSegmentsOptionalParams,
@@ -57,7 +66,6 @@ import {
   WorkloadNetworksUpdateSegmentsOptionalParams,
   WorkloadNetworksUpdateSegmentsResponse,
   WorkloadNetworksDeleteSegmentOptionalParams,
-  WorkloadNetworksListDhcpResponse,
   WorkloadNetworksGetDhcpOptionalParams,
   WorkloadNetworksGetDhcpResponse,
   WorkloadNetworksCreateDhcpOptionalParams,
@@ -65,10 +73,8 @@ import {
   WorkloadNetworksUpdateDhcpOptionalParams,
   WorkloadNetworksUpdateDhcpResponse,
   WorkloadNetworksDeleteDhcpOptionalParams,
-  WorkloadNetworksListGatewaysResponse,
   WorkloadNetworksGetGatewayOptionalParams,
   WorkloadNetworksGetGatewayResponse,
-  WorkloadNetworksListPortMirroringResponse,
   WorkloadNetworksGetPortMirroringOptionalParams,
   WorkloadNetworksGetPortMirroringResponse,
   WorkloadNetworksCreatePortMirroringOptionalParams,
@@ -76,7 +82,6 @@ import {
   WorkloadNetworksUpdatePortMirroringOptionalParams,
   WorkloadNetworksUpdatePortMirroringResponse,
   WorkloadNetworksDeletePortMirroringOptionalParams,
-  WorkloadNetworksListVMGroupsResponse,
   WorkloadNetworksGetVMGroupOptionalParams,
   WorkloadNetworksGetVMGroupResponse,
   WorkloadNetworksCreateVMGroupOptionalParams,
@@ -84,10 +89,8 @@ import {
   WorkloadNetworksUpdateVMGroupOptionalParams,
   WorkloadNetworksUpdateVMGroupResponse,
   WorkloadNetworksDeleteVMGroupOptionalParams,
-  WorkloadNetworksListVirtualMachinesResponse,
   WorkloadNetworksGetVirtualMachineOptionalParams,
   WorkloadNetworksGetVirtualMachineResponse,
-  WorkloadNetworksListDnsServicesResponse,
   WorkloadNetworksGetDnsServiceOptionalParams,
   WorkloadNetworksGetDnsServiceResponse,
   WorkloadNetworksCreateDnsServiceOptionalParams,
@@ -95,7 +98,6 @@ import {
   WorkloadNetworksUpdateDnsServiceOptionalParams,
   WorkloadNetworksUpdateDnsServiceResponse,
   WorkloadNetworksDeleteDnsServiceOptionalParams,
-  WorkloadNetworksListDnsZonesResponse,
   WorkloadNetworksGetDnsZoneOptionalParams,
   WorkloadNetworksGetDnsZoneResponse,
   WorkloadNetworksCreateDnsZoneOptionalParams,
@@ -103,7 +105,6 @@ import {
   WorkloadNetworksUpdateDnsZoneOptionalParams,
   WorkloadNetworksUpdateDnsZoneResponse,
   WorkloadNetworksDeleteDnsZoneOptionalParams,
-  WorkloadNetworksListPublicIPsResponse,
   WorkloadNetworksGetPublicIPOptionalParams,
   WorkloadNetworksGetPublicIPResponse,
   WorkloadNetworksCreatePublicIPOptionalParams,
@@ -157,11 +158,15 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listPagingPage(
           resourceGroupName,
           privateCloudName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -170,11 +175,18 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
   private async *listPagingPage(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: WorkloadNetworksListOptionalParams
+    options?: WorkloadNetworksListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<WorkloadNetwork[]> {
-    let result = await this._list(resourceGroupName, privateCloudName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: WorkloadNetworksListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, privateCloudName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
@@ -183,7 +195,9 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -224,11 +238,15 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listSegmentsPagingPage(
           resourceGroupName,
           privateCloudName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -237,15 +255,22 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
   private async *listSegmentsPagingPage(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: WorkloadNetworksListSegmentsOptionalParams
+    options?: WorkloadNetworksListSegmentsOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<WorkloadNetworkSegment[]> {
-    let result = await this._listSegments(
-      resourceGroupName,
-      privateCloudName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: WorkloadNetworksListSegmentsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listSegments(
+        resourceGroupName,
+        privateCloudName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listSegmentsNext(
         resourceGroupName,
@@ -254,7 +279,9 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -295,11 +322,15 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listDhcpPagingPage(
           resourceGroupName,
           privateCloudName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -308,15 +339,22 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
   private async *listDhcpPagingPage(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: WorkloadNetworksListDhcpOptionalParams
+    options?: WorkloadNetworksListDhcpOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<WorkloadNetworkDhcp[]> {
-    let result = await this._listDhcp(
-      resourceGroupName,
-      privateCloudName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: WorkloadNetworksListDhcpResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listDhcp(
+        resourceGroupName,
+        privateCloudName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listDhcpNext(
         resourceGroupName,
@@ -325,7 +363,9 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -366,11 +406,15 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listGatewaysPagingPage(
           resourceGroupName,
           privateCloudName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -379,15 +423,22 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
   private async *listGatewaysPagingPage(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: WorkloadNetworksListGatewaysOptionalParams
+    options?: WorkloadNetworksListGatewaysOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<WorkloadNetworkGateway[]> {
-    let result = await this._listGateways(
-      resourceGroupName,
-      privateCloudName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: WorkloadNetworksListGatewaysResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listGateways(
+        resourceGroupName,
+        privateCloudName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listGatewaysNext(
         resourceGroupName,
@@ -396,7 +447,9 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -437,11 +490,15 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listPortMirroringPagingPage(
           resourceGroupName,
           privateCloudName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -450,15 +507,22 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
   private async *listPortMirroringPagingPage(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: WorkloadNetworksListPortMirroringOptionalParams
+    options?: WorkloadNetworksListPortMirroringOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<WorkloadNetworkPortMirroring[]> {
-    let result = await this._listPortMirroring(
-      resourceGroupName,
-      privateCloudName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: WorkloadNetworksListPortMirroringResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listPortMirroring(
+        resourceGroupName,
+        privateCloudName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listPortMirroringNext(
         resourceGroupName,
@@ -467,7 +531,9 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -508,11 +574,15 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listVMGroupsPagingPage(
           resourceGroupName,
           privateCloudName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -521,15 +591,22 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
   private async *listVMGroupsPagingPage(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: WorkloadNetworksListVMGroupsOptionalParams
+    options?: WorkloadNetworksListVMGroupsOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<WorkloadNetworkVMGroup[]> {
-    let result = await this._listVMGroups(
-      resourceGroupName,
-      privateCloudName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: WorkloadNetworksListVMGroupsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listVMGroups(
+        resourceGroupName,
+        privateCloudName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listVMGroupsNext(
         resourceGroupName,
@@ -538,7 +615,9 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -579,11 +658,15 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listVirtualMachinesPagingPage(
           resourceGroupName,
           privateCloudName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -592,15 +675,22 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
   private async *listVirtualMachinesPagingPage(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: WorkloadNetworksListVirtualMachinesOptionalParams
+    options?: WorkloadNetworksListVirtualMachinesOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<WorkloadNetworkVirtualMachine[]> {
-    let result = await this._listVirtualMachines(
-      resourceGroupName,
-      privateCloudName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: WorkloadNetworksListVirtualMachinesResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listVirtualMachines(
+        resourceGroupName,
+        privateCloudName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listVirtualMachinesNext(
         resourceGroupName,
@@ -609,7 +699,9 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -650,11 +742,15 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listDnsServicesPagingPage(
           resourceGroupName,
           privateCloudName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -663,15 +759,22 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
   private async *listDnsServicesPagingPage(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: WorkloadNetworksListDnsServicesOptionalParams
+    options?: WorkloadNetworksListDnsServicesOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<WorkloadNetworkDnsService[]> {
-    let result = await this._listDnsServices(
-      resourceGroupName,
-      privateCloudName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: WorkloadNetworksListDnsServicesResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listDnsServices(
+        resourceGroupName,
+        privateCloudName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listDnsServicesNext(
         resourceGroupName,
@@ -680,7 +783,9 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -721,11 +826,15 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listDnsZonesPagingPage(
           resourceGroupName,
           privateCloudName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -734,15 +843,22 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
   private async *listDnsZonesPagingPage(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: WorkloadNetworksListDnsZonesOptionalParams
+    options?: WorkloadNetworksListDnsZonesOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<WorkloadNetworkDnsZone[]> {
-    let result = await this._listDnsZones(
-      resourceGroupName,
-      privateCloudName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: WorkloadNetworksListDnsZonesResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listDnsZones(
+        resourceGroupName,
+        privateCloudName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listDnsZonesNext(
         resourceGroupName,
@@ -751,7 +867,9 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -792,11 +910,15 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listPublicIPsPagingPage(
           resourceGroupName,
           privateCloudName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -805,15 +927,22 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
   private async *listPublicIPsPagingPage(
     resourceGroupName: string,
     privateCloudName: string,
-    options?: WorkloadNetworksListPublicIPsOptionalParams
+    options?: WorkloadNetworksListPublicIPsOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<WorkloadNetworkPublicIP[]> {
-    let result = await this._listPublicIPs(
-      resourceGroupName,
-      privateCloudName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: WorkloadNetworksListPublicIPsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listPublicIPs(
+        resourceGroupName,
+        privateCloudName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listPublicIPsNext(
         resourceGroupName,
@@ -822,7 +951,9 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -4424,7 +4555,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -4446,7 +4576,6 @@ const listSegmentsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -4468,7 +4597,6 @@ const listDhcpNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -4490,7 +4618,6 @@ const listGatewaysNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -4512,7 +4639,6 @@ const listPortMirroringNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -4534,7 +4660,6 @@ const listVMGroupsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -4556,7 +4681,6 @@ const listVirtualMachinesNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -4578,7 +4702,6 @@ const listDnsServicesNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -4600,7 +4723,6 @@ const listDnsZonesNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
@@ -4622,7 +4744,6 @@ const listPublicIPsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,

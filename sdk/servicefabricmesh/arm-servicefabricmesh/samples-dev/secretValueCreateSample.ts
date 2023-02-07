@@ -13,6 +13,9 @@ import {
   ServiceFabricMeshManagementClient
 } from "@azure/arm-servicefabricmesh";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates a new value of the specified secret resource. The name of the value is typically the version identifier. Once created the value cannot be changed.
@@ -21,8 +24,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/servicefabricmesh/resource-manager/Microsoft.ServiceFabricMesh/preview/2018-09-01-preview/examples/secrets/values/create.json
  */
 async function createSecretValue() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "sbz_demo";
+  const subscriptionId =
+    process.env["SERVICEFABRICMESH_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["SERVICEFABRICMESH_RESOURCE_GROUP"] || "sbz_demo";
   const secretResourceName = "dbConnectionString";
   const secretValueResourceName = "v1";
   const secretValueResourceDescription: SecretValueResourceDescription = {
@@ -45,4 +51,8 @@ async function createSecretValue() {
   console.log(result);
 }
 
-createSecretValue().catch(console.error);
+async function main() {
+  createSecretValue();
+}
+
+main().catch(console.error);

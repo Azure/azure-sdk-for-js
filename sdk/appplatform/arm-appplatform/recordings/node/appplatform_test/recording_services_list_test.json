@@ -87,13 +87,13 @@
             "tags": {
               "key1": "value1"
             },
-            "id": "/subscriptions/92f95d8F-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.AppPlatform/Spring/myservicexxx11",
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/Spring/myservicexxx11",
             "name": "myservicexxx11",
             "systemData": {
-              "createdBy": "22fb30f7-6809-48b0-824a-b810b1c7f954",
+              "createdBy": "azure_client_id",
               "createdByType": "Application",
               "createdAt": "2023-01-13T09:13:40.6542355Z",
-              "lastModifiedBy": "22fb30f7-6809-48b0-824a-b810b1c7f954",
+              "lastModifiedBy": "azure_client_id",
               "lastModifiedByType": "Application",
               "lastModifiedAt": "2023-01-13T09:13:40.6542355Z"
             }
@@ -153,13 +153,13 @@
             "tags": {
               "key1": "value1"
             },
-            "id": "/subscriptions/92f95d8F-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.AppPlatform/Spring/myservicexxx1",
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/Spring/myservicexxx1",
             "name": "myservicexxx1",
             "systemData": {
-              "createdBy": "22fb30f7-6809-48b0-824a-b810b1c7f954",
+              "createdBy": "azure_client_id",
               "createdByType": "Application",
               "createdAt": "2023-01-13T09:02:17.4328235Z",
-              "lastModifiedBy": "22fb30f7-6809-48b0-824a-b810b1c7f954",
+              "lastModifiedBy": "azure_client_id",
               "lastModifiedByType": "Application",
               "lastModifiedAt": "2023-01-13T09:02:17.4328235Z"
             }
@@ -182,13 +182,13 @@
             "tags": {
               "key1": "value1"
             },
-            "id": "/subscriptions/92f95d8F-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.AppPlatform/Spring/myservicexxx",
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/Spring/myservicexxx",
             "name": "myservicexxx",
             "systemData": {
-              "createdBy": "22fb30f7-6809-48b0-824a-b810b1c7f954",
+              "createdBy": "azure_client_id",
               "createdByType": "Application",
               "createdAt": "2023-01-13T08:03:09.1654042Z",
-              "lastModifiedBy": "22fb30f7-6809-48b0-824a-b810b1c7f954",
+              "lastModifiedBy": "azure_client_id",
               "lastModifiedByType": "Application",
               "lastModifiedAt": "2023-01-13T08:03:09.1654042Z"
             }
@@ -211,13 +211,13 @@
             "tags": {
               "key1": "value1"
             },
-            "id": "/subscriptions/92f95d8F-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.AppPlatform/Spring/myservicexx",
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AppPlatform/Spring/myservicexx",
             "name": "myservicexx",
             "systemData": {
-              "createdBy": "22fb30f7-6809-48b0-824a-b810b1c7f954",
+              "createdBy": "azure_client_id",
               "createdByType": "Application",
               "createdAt": "2023-01-13T08:17:02.0239255Z",
-              "lastModifiedBy": "22fb30f7-6809-48b0-824a-b810b1c7f954",
+              "lastModifiedBy": "azure_client_id",
               "lastModifiedByType": "Application",
               "lastModifiedAt": "2023-01-13T08:17:02.0239255Z"
             }
