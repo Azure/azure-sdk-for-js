@@ -7,7 +7,6 @@ import {
   EnvironmentsCreateOrUpdateEnvironmentParameters,
   getLongRunningPoller,
   paginate,
-  ArtifactOutput,
 } from "@azure-rest/developer-devcenter";
 import createClient from "@azure-rest/developer-devcenter";
 
@@ -16,9 +15,8 @@ import createClient from "@azure-rest/developer-devcenter";
  */
 async function createEnvironment() {
   // Build client and fetch required parameters
-  const tenantId = process.env.AZURE_TENANT_ID || "<tenant id>";
-  const devCenter = process.env.AZURE_DEVCENTER_NAME || "<devcenter name>";
-  const client = createClient(tenantId, devCenter, new DefaultAzureCredential());
+  const endpoint = process.env.DEVCENTER_ENDPOINT || "<endpoint>";
+  const client = createClient(endpoint, new DefaultAzureCredential());
 
   // Get all projects
   const projectList = await client.path("/projects").get();
@@ -138,29 +136,6 @@ async function createEnvironment() {
   console.log(
     `Provisioned environment with state ${environmentCreateResult.body.provisioningState}.`
   );
-
-  // Get the deployment outputs
-  const artifactListResult = await client
-    .path(
-      "/projects/{projectName}/users/{userId}/environments/{environmentName}/artifacts",
-      projectName,
-      userId,
-      environmentName
-    )
-    .get();
-  const artifacts: ArtifactOutput[] = [];
-
-  if (isUnexpected(artifactListResult)) {
-    throw new Error(artifactListResult.body.error.message);
-  }
-
-  console.log("Iterating through artifacts:");
-
-  for await (const artifact of paginate(client, artifactListResult)) {
-    const { name } = artifact;
-    console.log(`Received artifact "${name}"`);
-    artifacts.push(artifact);
-  }
 
   // Tear down the environment when finished
   const environmentDeleteResponse = await client

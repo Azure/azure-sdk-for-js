@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { VMwareCloudSimple } from "@azure/arm-vmwarecloudsimple";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Returns list of customization policies in region for private cloud
@@ -18,7 +21,8 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/vmwarecloudsimple/resource-manager/Microsoft.VMwareCloudSimple/stable/2019-04-01/examples/ListCustomizationPolicies.json
  */
 async function listCustomizationPolicies() {
-  const subscriptionId = "{subscription-id}";
+  const subscriptionId =
+    process.env["VMWARECLOUDSIMPLE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const regionId = "myResourceGroup";
   const pcName = "myPrivateCloud";
   const credential = new DefaultAzureCredential();
@@ -30,4 +34,8 @@ async function listCustomizationPolicies() {
   console.log(resArray);
 }
 
-listCustomizationPolicies().catch(console.error);
+async function main() {
+  listCustomizationPolicies();
+}
+
+main().catch(console.error);

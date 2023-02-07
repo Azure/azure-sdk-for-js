@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { MicrosoftSecurityDevOps } from "@azure/arm-securitydevops";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Returns a monitored AzureDevOps Project resource for a given ID.
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/securitydevops/resource-manager/Microsoft.SecurityDevOps/preview/2022-09-01-preview/examples/AzureDevOpsProjectGet.json
  */
 async function azureDevOpsProjectGet() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "westusrg";
+  const subscriptionId =
+    process.env["SECURITYDEVOPS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["SECURITYDEVOPS_RESOURCE_GROUP"] || "westusrg";
   const azureDevOpsConnectorName = "testconnector";
   const azureDevOpsOrgName = "myOrg";
   const azureDevOpsProjectName = "myProject";
@@ -34,4 +40,8 @@ async function azureDevOpsProjectGet() {
   console.log(result);
 }
 
-azureDevOpsProjectGet().catch(console.error);
+async function main() {
+  azureDevOpsProjectGet();
+}
+
+main().catch(console.error);

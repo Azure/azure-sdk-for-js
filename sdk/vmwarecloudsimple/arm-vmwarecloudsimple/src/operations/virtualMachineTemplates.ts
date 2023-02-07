@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { VirtualMachineTemplates } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -61,8 +62,17 @@ export class VirtualMachineTemplatesImpl implements VirtualMachineTemplates {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(pcName, regionId, resourcePoolName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          pcName,
+          regionId,
+          resourcePoolName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -71,21 +81,29 @@ export class VirtualMachineTemplatesImpl implements VirtualMachineTemplates {
     pcName: string,
     regionId: string,
     resourcePoolName: string,
-    options?: VirtualMachineTemplatesListOptionalParams
+    options?: VirtualMachineTemplatesListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<VirtualMachineTemplate[]> {
-    let result = await this._list(pcName, regionId, resourcePoolName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: VirtualMachineTemplatesListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(pcName, regionId, resourcePoolName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         pcName,
         regionId,
-        resourcePoolName,
         continuationToken,
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -147,19 +165,17 @@ export class VirtualMachineTemplatesImpl implements VirtualMachineTemplates {
    * ListNext
    * @param pcName The private cloud name
    * @param regionId The region Id (westus, eastus)
-   * @param resourcePoolName Resource pool used to derive vSphere cluster which contains VM templates
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
     pcName: string,
     regionId: string,
-    resourcePoolName: string,
     nextLink: string,
     options?: VirtualMachineTemplatesListNextOptionalParams
   ): Promise<VirtualMachineTemplatesListNextResponse> {
     return this.client.sendOperationRequest(
-      { pcName, regionId, resourcePoolName, nextLink, options },
+      { pcName, regionId, nextLink, options },
       listNextOperationSpec
     );
   }
@@ -223,7 +239,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CsrpError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.resourcePoolName1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

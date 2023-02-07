@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { PolicyInsightsClient } = require("@azure/arm-policyinsights");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Queries policy tracked resources under the resource.
@@ -18,7 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/preview/2018-07-01-preview/examples/PolicyTrackedResources_QueryResourceScope.json
  */
 async function queryAtResourceScope() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceId =
     "subscriptions/fff8dfdb-fff3-fff0-fff4-fffdcbe6b2ef/resourceGroups/myResourceGroup/providers/Microsoft.Example/exampleResourceType/myResource";
   const policyTrackedResourcesResource = "default";
@@ -34,8 +36,6 @@ async function queryAtResourceScope() {
   console.log(resArray);
 }
 
-queryAtResourceScope().catch(console.error);
-
 /**
  * This sample demonstrates how to Queries policy tracked resources under the resource.
  *
@@ -43,7 +43,8 @@ queryAtResourceScope().catch(console.error);
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/preview/2018-07-01-preview/examples/PolicyTrackedResources_QueryResourceScopeWithFilterAndTop.json
  */
 async function queryAtResourceScopeUsingQueryParameters() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceId =
     "subscriptions/fff8dfdb-fff3-fff0-fff4-fffdcbe6b2ef/resourceGroups/myResourceGroup/providers/Microsoft.Example/exampleResourceType/myResource";
   const policyTrackedResourcesResource = "default";
@@ -66,4 +67,9 @@ async function queryAtResourceScopeUsingQueryParameters() {
   console.log(resArray);
 }
 
-queryAtResourceScopeUsingQueryParameters().catch(console.error);
+async function main() {
+  queryAtResourceScope();
+  queryAtResourceScopeUsingQueryParameters();
+}
+
+main().catch(console.error);

@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { PolicyInsightsClient } = require("@azure/arm-policyinsights");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets all remediations for a resource.
@@ -18,7 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2021-10-01/examples/Remediations_ListResourceScope.json
  */
 async function listRemediationsAtIndividualResourceScope() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceId =
     "subscriptions/35ee058e-5fa0-414c-8145-3ebb8d09b6e2/resourcegroups/myResourceGroup/providers/microsoft.storage/storageaccounts/storAc1";
   const credential = new DefaultAzureCredential();
@@ -30,8 +32,6 @@ async function listRemediationsAtIndividualResourceScope() {
   console.log(resArray);
 }
 
-listRemediationsAtIndividualResourceScope().catch(console.error);
-
 /**
  * This sample demonstrates how to Gets all remediations for a resource.
  *
@@ -39,7 +39,8 @@ listRemediationsAtIndividualResourceScope().catch(console.error);
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2021-10-01/examples/Remediations_ListResourceScope_WithQuery.json
  */
 async function listRemediationsAtIndividualResourceScopeWithQueryParameters() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceId =
     "subscriptions/35ee058e-5fa0-414c-8145-3ebb8d09b6e2/resourcegroups/myResourceGroup/providers/microsoft.storage/storageaccounts/storAc1";
   const top = 1;
@@ -55,4 +56,9 @@ async function listRemediationsAtIndividualResourceScopeWithQueryParameters() {
   console.log(resArray);
 }
 
-listRemediationsAtIndividualResourceScopeWithQueryParameters().catch(console.error);
+async function main() {
+  listRemediationsAtIndividualResourceScope();
+  listRemediationsAtIndividualResourceScopeWithQueryParameters();
+}
+
+main().catch(console.error);

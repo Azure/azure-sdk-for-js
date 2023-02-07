@@ -9,7 +9,7 @@ import {
   ResourceType,
   StatusCodes,
 } from "../../common";
-import { PartitionKey } from "../../documents";
+import { PartitionKey, PartitionKeyInternal, convertToInternalPartitionKey } from "../../documents";
 import { extractPartitionKey, undefinedPartitionKey } from "../../extractPartitionKey";
 import { RequestOptions, Response } from "../../request";
 import { PatchRequestBody } from "../../utils/patch";
@@ -24,7 +24,7 @@ import { ItemResponse } from "./ItemResponse";
  * @see {@link Items} for operations on all items; see `container.items`.
  */
 export class Item {
-  private partitionKey: PartitionKey;
+  private partitionKey: PartitionKeyInternal;
   /**
    * Returns a reference URL to the resource. Used for linking in Permissions.
    */
@@ -41,10 +41,11 @@ export class Item {
   constructor(
     public readonly container: Container,
     public readonly id: string,
-    partitionKey: PartitionKey,
-    private readonly clientContext: ClientContext
+    private readonly clientContext: ClientContext,
+    partitionKey?: PartitionKey
   ) {
-    this.partitionKey = partitionKey;
+    this.partitionKey =
+      partitionKey === undefined ? undefined : convertToInternalPartitionKey(partitionKey);
   }
 
   /**

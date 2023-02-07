@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { StorageCacheManagementClient } = require("@azure/arm-storagecache");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Update a Cache instance.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-05-01/examples/Caches_Update.json
  */
 async function cachesUpdate() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "scgroup";
+  const subscriptionId =
+    process.env["STORAGECACHE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["STORAGECACHE_RESOURCE_GROUP"] || "scgroup";
   const cacheName = "sc1";
   const cache = {
     cacheSizeGB: 3072,
@@ -102,8 +104,6 @@ async function cachesUpdate() {
   console.log(result);
 }
 
-cachesUpdate().catch(console.error);
-
 /**
  * This sample demonstrates how to Update a Cache instance.
  *
@@ -111,8 +111,9 @@ cachesUpdate().catch(console.error);
  * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-05-01/examples/Caches_Update_ldap_only.json
  */
 async function cachesUpdateLdapOnly() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "scgroup";
+  const subscriptionId =
+    process.env["STORAGECACHE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["STORAGECACHE_RESOURCE_GROUP"] || "scgroup";
   const cacheName = "sc1";
   const cache = {
     cacheSizeGB: 3072,
@@ -197,4 +198,9 @@ async function cachesUpdateLdapOnly() {
   console.log(result);
 }
 
-cachesUpdateLdapOnly().catch(console.error);
+async function main() {
+  cachesUpdate();
+  cachesUpdateLdapOnly();
+}
+
+main().catch(console.error);

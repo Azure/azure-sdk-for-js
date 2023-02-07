@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { ReplicationUsages } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -51,8 +51,16 @@ export class ReplicationUsagesImpl implements ReplicationUsages {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(resourceGroupName, vaultName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          vaultName,
+          options,
+          settings
+        );
       }
     };
   }
@@ -60,9 +68,11 @@ export class ReplicationUsagesImpl implements ReplicationUsages {
   private async *listPagingPage(
     resourceGroupName: string,
     vaultName: string,
-    options?: ReplicationUsagesListOptionalParams
+    options?: ReplicationUsagesListOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<ReplicationUsage[]> {
-    let result = await this._list(resourceGroupName, vaultName, options);
+    let result: ReplicationUsagesListResponse;
+    result = await this._list(resourceGroupName, vaultName, options);
     yield result.value || [];
   }
 

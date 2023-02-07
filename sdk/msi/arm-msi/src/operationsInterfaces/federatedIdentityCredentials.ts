@@ -22,7 +22,7 @@ import {
 export interface FederatedIdentityCredentials {
   /**
    * Lists all the federated identity credentials under the specified user assigned identity.
-   * @param resourceGroupName The name of the Resource Group to which the identity belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the identity resource.
    * @param options The options parameters.
    */
@@ -33,7 +33,7 @@ export interface FederatedIdentityCredentials {
   ): PagedAsyncIterableIterator<FederatedIdentityCredential>;
   /**
    * Create or update a federated identity credential under the specified user assigned identity.
-   * @param resourceGroupName The name of the Resource Group to which the identity belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the identity resource.
    * @param federatedIdentityCredentialResourceName The name of the federated identity credential
    *                                                resource.
@@ -49,7 +49,7 @@ export interface FederatedIdentityCredentials {
   ): Promise<FederatedIdentityCredentialsCreateOrUpdateResponse>;
   /**
    * Gets the federated identity credential.
-   * @param resourceGroupName The name of the Resource Group to which the identity belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the identity resource.
    * @param federatedIdentityCredentialResourceName The name of the federated identity credential
    *                                                resource.
@@ -63,7 +63,7 @@ export interface FederatedIdentityCredentials {
   ): Promise<FederatedIdentityCredentialsGetResponse>;
   /**
    * Deletes the federated identity credential.
-   * @param resourceGroupName The name of the Resource Group to which the identity belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the identity resource.
    * @param federatedIdentityCredentialResourceName The name of the federated identity credential
    *                                                resource.
