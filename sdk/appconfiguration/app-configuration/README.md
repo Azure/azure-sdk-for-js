@@ -196,13 +196,25 @@ const newSetting = await client.addConfigurationSetting({
   value,
   label
 });
-
 const newSnapshot = await client.addSnapshot("testsnapshot", {
-  key: "testkey",
-  value: "testvalue",
-  label: "optional-label"
+  key,
+  label
 });
-
+/*
+  {
+    name: "testsnapshot",
+    status: "provisioning",
+    statusCode: 202,
+    filters: [{ key: "testkey", label: "optional-label" }],
+    compositionType: "all",
+    created: "2023-02-07T22:24:41.000Z",
+    retentionPeriod: 2592000,
+    size: 0,
+    itemsCount: 0,
+    tags: {},
+    etag: "T6JtbpthSWZQCkxmiK1OW6s3jMP-ZRYQPAFYZNbf0gE",
+  }
+ */
 let retrievedSnapshot = await client.getSnapshot("testsnapshot");
 console.log("Retrieved snapshot:", retrievedSnapshot);
 
@@ -210,16 +222,64 @@ console.log("Retrieved snapshot:", retrievedSnapshot);
 
 ### List the `ConfigurationSetting` in the snapshot
 ```javascript
-let retrievedSnapshotSetting = await client.listConfigurationSettings({
+let retrievedSnapshotSettings = await client.listConfigurationSettings({
   snapshotFilter: "testsnapshot"
 });
-console.log("Retrieved snapshot configuration setting:", retrievedSnapshotSetting);
+
+for await (const setting of retrievedSnapshotSettings) {
+  console.log(`Found key: ${setting.key}, label: ${setting.label}`);
+}
+/*
+[
+  {
+    value: 'testvalue',
+    key: 'testkey',
+    label: 'optional-label',
+    contentType: null,
+    lastModified: 2023-02-07T22:22:04.000Z,
+    tags: {},
+    etag: 'vQPVS9gNesV-XTsPMXFRPc_b_LwYX_OoJ8xL1JyqiHE',
+    isReadOnly: false
+  }
+]
+*/
 ```
 
 ```javascript
 let snapshots = await client.listSnapshots();
-const sortedSnapshot = await toSortedSnapshotArray(snapshot);
-console.log("All the snapshots listed:", snapshots);
+for await (const snapshot of snapshots) {
+  console.log(`Found snapshot: ${snapshot.name}`);
+}
+/*
+{
+  name: 'testsnapshot1',
+  status: 'archived',
+  statusCode: 200,
+  filters: [ { key: 'testkey1', label: 'MyLabel' } ],
+  compositionType: 'all',
+  created: 2023-02-02T19:23:26.000Z,
+  expires: 2023-03-09T17:53:39.000Z,
+  retentionPeriod: 2592000,
+  size: 1000,
+  itemsCount: 1,
+  tags: {},
+  etag: 'Vm7s17ZRLnwTy2lkcDI5dBt_QghurxwiU7IbeImbMNU'
+},
+{
+  name: 'testsnapshot2',
+  status: 'archived',
+  statusCode: 200,
+  filters: [ { key: 'testkey2', label: 'MyLabel' } ],
+  compositionType: 'all',
+  created: 2023-02-02T21:54:30.000Z,
+  expires: 2023-03-09T17:53:32.000Z,
+  retentionPeriod: 2592000,
+  size: 1000,
+  itemsCount: 1,
+  tags: {},
+  etag: 'yKvRAnAmxDLaPY7EHKnPzKDH4hT71I1rpD5ifODrLGQ'
+}
+*/
 ```
 
 ### Recover and archive the snapshot
@@ -227,7 +287,21 @@ console.log("All the snapshots listed:", snapshots);
 // Snapshot is in ready status
 let archivedSnapshot = await client.archiveSnapshot("testsnapshot");
 console.log("Snapshot updated status is:", archivedSnapshot.status);
-
+/*
+  {
+    name: "testsnapshot",
+    status: "archived",
+    statusCode: 202,
+    filters: [{ key: "testkey", label: "optional-label" }],
+    compositionType: "all",
+    created: "2023-02-07T22:24:41.000Z",
+    retentionPeriod: 2592000,
+    size: 0,
+    itemsCount: 0,
+    tags: {},
+    etag: "T6JtbpthSWZQCkxmiK1OW6s3jMP-ZRYQPAFYZNbf0gE",
+  }
+*/
 // Snapshot is in archive status
 let recoverSnapshot = await client.recoverSnapshot("testsnapshot");
 console.log("Snapshot updated status is:", recoverSnapshot.status);
@@ -258,7 +332,6 @@ The following samples show you the various ways you can interact with App Config
 - [`listRevisions.ts`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/app-configuration/samples/v1/typescript/src/listRevisions.ts) - List the revisions of a key, allowing you to see previous values and when they were set.
 - [`secretReference.ts`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/app-configuration/samples/v1/typescript/src/secretReference.ts) - SecretReference represents a configuration setting that references as KeyVault secret.
 - [`featureFlag.ts`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/app-configuration/samples/v1/typescript/src/featureFlag.ts) - Feature flags are settings that follow specific JSON schema for the value.
-- [`snapshot.ts`]() - Basic usage of the snapshots feature.
 
 More in-depth examples can be found in the [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/app-configuration/samples/v1/) folder on GitHub.
 
