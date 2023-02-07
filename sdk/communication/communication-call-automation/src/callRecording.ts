@@ -34,19 +34,19 @@ export class CallRecording {
   */
   public async startRecording(request: StartCallRecordingRequestDto, options: CallRecordingStartRecordingOptions = {}): Promise<RecordingStateResponse> {
 
-    const newRequest: StartCallRecordingRequest = {
+    const startCallRecordingRequest: StartCallRecordingRequest = {
       ...request,
     }
     if (request.callLocator.kind === "groupCallLocator") {
-      newRequest.callLocator.kind = "groupCallLocator"
-      newRequest.callLocator.groupCallId = request.callLocator.id
+        startCallRecordingRequest.callLocator.kind = "groupCallLocator"
+        startCallRecordingRequest.callLocator.groupCallId = request.callLocator.id
     }
     else {
-      newRequest.callLocator.kind = "serverCallLocator"
-      newRequest.callLocator.serverCallId = request.callLocator.id
+        startCallRecordingRequest.callLocator.kind = "serverCallLocator"
+        startCallRecordingRequest.callLocator.serverCallId = request.callLocator.id
     }
     const response: RecordingStateResponseDto = {
-      ...await this.callRecordingImpl.startRecording(newRequest, options)
+      ...await this.callRecordingImpl.startRecording(startCallRecordingRequest, options)
     }
 
     return response
