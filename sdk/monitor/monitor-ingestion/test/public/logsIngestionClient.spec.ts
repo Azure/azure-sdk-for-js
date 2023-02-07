@@ -197,7 +197,7 @@ describe("LogsIngestionClient live tests", function () {
     assert.equal(uploadSinon.callCount,4);
   })
 
-  it("Aborts further processing of upload when user aborts", async function(){
+  it.only("User abort additional processing early if they handle the error", async function(){
     const noOfElements = 250000;
     const logData = getObjects(noOfElements);
     let concurrency = 4;
@@ -217,7 +217,7 @@ describe("LogsIngestionClient live tests", function () {
     } catch (e: any) {
       const result = (e as AggregateUploadLogsError).errors;
       if (result.length > 0) {
-       //assert.equal(result[0].cause.message, `Data collection rule with immutable Id 'immutable-id-123' not found.`);
+       assert.equal(result[0].cause.message, `Data collection rule with immutable Id 'immutable-id-123' not found.`);
        assert.equal(result[1].cause.message, `The operation was aborted.`);
        assert.equal(result[result.length-1].cause.message, `The operation was aborted.`);
       }
