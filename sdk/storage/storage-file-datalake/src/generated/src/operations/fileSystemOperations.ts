@@ -6,10 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import { FileSystemOperations } from "../operationsInterfaces";
+import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { StorageClientContext } from "../storageClientContext";
+import { StorageClient } from "../storageClient";
 import {
   FileSystemCreateOptionalParams,
   FileSystemCreateResponse,
@@ -25,15 +26,15 @@ import {
   FileSystemListBlobHierarchySegmentResponse
 } from "../models";
 
-/** Class representing a FileSystem. */
-export class FileSystem {
-  private readonly client: StorageClientContext;
+/** Class containing FileSystemOperations operations. */
+export class FileSystemOperationsImpl implements FileSystemOperations {
+  private readonly client: StorageClient;
 
   /**
-   * Initialize a new instance of the class FileSystem class.
+   * Initialize a new instance of the class FileSystemOperations class.
    * @param client Reference to the service client
    */
-  constructor(client: StorageClientContext) {
+  constructor(client: StorageClient) {
     this.client = client;
   }
 
@@ -45,13 +46,7 @@ export class FileSystem {
   create(
     options?: FileSystemCreateOptionalParams
   ): Promise<FileSystemCreateResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      createOperationSpec
-    ) as Promise<FileSystemCreateResponse>;
+    return this.client.sendOperationRequest({ options }, createOperationSpec);
   }
 
   /**
@@ -63,13 +58,10 @@ export class FileSystem {
   setProperties(
     options?: FileSystemSetPropertiesOptionalParams
   ): Promise<FileSystemSetPropertiesResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { options },
       setPropertiesOperationSpec
-    ) as Promise<FileSystemSetPropertiesResponse>;
+    );
   }
 
   /**
@@ -79,13 +71,10 @@ export class FileSystem {
   getProperties(
     options?: FileSystemGetPropertiesOptionalParams
   ): Promise<FileSystemGetPropertiesResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { options },
       getPropertiesOperationSpec
-    ) as Promise<FileSystemGetPropertiesResponse>;
+    );
   }
 
   /**
@@ -103,13 +92,7 @@ export class FileSystem {
   delete(
     options?: FileSystemDeleteOptionalParams
   ): Promise<FileSystemDeleteResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      deleteOperationSpec
-    ) as Promise<FileSystemDeleteResponse>;
+    return this.client.sendOperationRequest({ options }, deleteOperationSpec);
   }
 
   /**
@@ -121,14 +104,10 @@ export class FileSystem {
     recursive: boolean,
     options?: FileSystemListPathsOptionalParams
   ): Promise<FileSystemListPathsResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      recursive,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { recursive, options },
       listPathsOperationSpec
-    ) as Promise<FileSystemListPathsResponse>;
+    );
   }
 
   /**
@@ -138,21 +117,18 @@ export class FileSystem {
   listBlobHierarchySegment(
     options?: FileSystemListBlobHierarchySegmentOptionalParams
   ): Promise<FileSystemListBlobHierarchySegmentResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { options },
       listBlobHierarchySegmentOperationSpec
-    ) as Promise<FileSystemListBlobHierarchySegmentResponse>;
+    );
   }
 }
 // Operation Specifications
-const xmlSerializer = new coreHttp.Serializer(Mappers, /* isXml */ true);
+const xmlSerializer = coreClient.createSerializer(Mappers, /* isXml */ true);
 
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const createOperationSpec: coreHttp.OperationSpec = {
+const createOperationSpec: coreClient.OperationSpec = {
   path: "/{filesystem}",
   httpMethod: "PUT",
   responses: {
@@ -174,7 +150,7 @@ const createOperationSpec: coreHttp.OperationSpec = {
   ],
   serializer
 };
-const setPropertiesOperationSpec: coreHttp.OperationSpec = {
+const setPropertiesOperationSpec: coreClient.OperationSpec = {
   path: "/{filesystem}",
   httpMethod: "PATCH",
   responses: {
@@ -198,7 +174,7 @@ const setPropertiesOperationSpec: coreHttp.OperationSpec = {
   ],
   serializer
 };
-const getPropertiesOperationSpec: coreHttp.OperationSpec = {
+const getPropertiesOperationSpec: coreClient.OperationSpec = {
   path: "/{filesystem}",
   httpMethod: "HEAD",
   responses: {
@@ -219,7 +195,7 @@ const getPropertiesOperationSpec: coreHttp.OperationSpec = {
   ],
   serializer
 };
-const deleteOperationSpec: coreHttp.OperationSpec = {
+const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/{filesystem}",
   httpMethod: "DELETE",
   responses: {
@@ -242,7 +218,7 @@ const deleteOperationSpec: coreHttp.OperationSpec = {
   ],
   serializer
 };
-const listPathsOperationSpec: coreHttp.OperationSpec = {
+const listPathsOperationSpec: coreClient.OperationSpec = {
   path: "/{filesystem}",
   httpMethod: "GET",
   responses: {
@@ -272,7 +248,7 @@ const listPathsOperationSpec: coreHttp.OperationSpec = {
   ],
   serializer
 };
-const listBlobHierarchySegmentOperationSpec: coreHttp.OperationSpec = {
+const listBlobHierarchySegmentOperationSpec: coreClient.OperationSpec = {
   path: "/{filesystem}",
   httpMethod: "GET",
   responses: {
