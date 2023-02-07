@@ -5,7 +5,7 @@
 Any scenario that requires real-time messaging between server and clients or among clients following publish-subscribe patterns can benefit from using Web PubSub. Developers no longer need to poll the server by sending repeated HTTP requests at intervals, which is wasteful and hard-to-scale. 
 
 As shown in the diagram below, your clients establish WebSocket connections with your Web PubSub resource. This client library: 
-- simplifies managing client connections, 
+- simplifies managing client connections
 - simplifies sending messages among clients
 - automatically retries after unintended drops of client connection
 - reliably deliveries messages in number and in order after recovering from connection drops
@@ -293,6 +293,6 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 [azure_sub]: https://azure.microsoft.com/free/
 [samples_ref]: https://github.com/Azure/azure-webpubsub/tree/main/samples/javascript/
-[create_instance]: https://learn.microsoft.com/en-us/azure/azure-web-pubsub/howto-develop-create-instance
+[create_instance]: https://learn.microsoft.com/azure/azure-web-pubsub/howto-develop-create-instance
 [npm]: https://www.npmjs.com/package/@azure/web-pubsub-client
-[live_trace]: https://learn.microsoft.com/en-us/azure/azure-web-pubsub/howto-troubleshoot-resource-logs
+[live_trace]: https://learn.microsoft.com/azure/azure-web-pubsub/howto-troubleshoot-resource-logs
