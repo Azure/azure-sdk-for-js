@@ -83,7 +83,7 @@
         "X-Powered-By": "ASP.NET"
       },
       "ResponseBody": {
-        "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Consumption/budgets/mybudgetxxxy",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Consumption/budgets/mybudgetxxxy",
         "name": "mybudgetxxxy",
         "type": "Microsoft.Consumption/budgets",
         "eTag": "\u00221d91f19f9f08acb\u0022",

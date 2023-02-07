@@ -15,7 +15,7 @@
       },
       "RequestBody": {
         "properties": {
-          "storageAccountId": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Storage/storageAccounts/mystorageaccountyyy",
+          "storageAccountId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Storage/storageAccounts/mystorageaccountyyy",
           "eventHubAuthorizationRuleId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/authorizationRules/myauthorizationRulexxx",
           "eventHubName": "myeventhubxxx",
           "metrics": [],
@@ -29,7 +29,7 @@
               }
             }
           ],
-          "workspaceId": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourcegroups/myjstest/providers/microsoft.operationalinsights/workspaces/myworkspacexxx"
+          "workspaceId": "/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/microsoft.operationalinsights/workspaces/myworkspacexxx"
         }
       },
       "StatusCode": 200,
@@ -51,16 +51,16 @@
         "x-ms-routing-request-id": "JAPANEAST:20230129T082429Z:53f04c39-8d50-4891-af21-90524dd173e1"
       },
       "ResponseBody": {
-        "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourcegroups/myjstest/providers/microsoft.logic/workflows/myworkflowxxx/providers/microsoft.insights/diagnosticSettings/mydiagnosticxxxx",
+        "id": "/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/microsoft.logic/workflows/myworkflowxxx/providers/microsoft.insights/diagnosticSettings/mydiagnosticxxxx",
         "type": "Microsoft.Insights/diagnosticSettings",
         "name": "mydiagnosticxxxx",
         "location": null,
         "kind": null,
         "tags": null,
         "properties": {
-          "storageAccountId": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Storage/storageAccounts/mystorageaccountyyy",
+          "storageAccountId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Storage/storageAccounts/mystorageaccountyyy",
           "serviceBusRuleId": null,
-          "workspaceId": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourcegroups/myjstest/providers/microsoft.operationalinsights/workspaces/myworkspacexxx",
+          "workspaceId": "/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/microsoft.operationalinsights/workspaces/myworkspacexxx",
           "eventHubAuthorizationRuleId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/authorizationRules/myauthorizationRulexxx",
           "eventHubName": "myeventhubxxx",
           "metrics": [],
