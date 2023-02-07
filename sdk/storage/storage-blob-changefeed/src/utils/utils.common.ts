@@ -29,7 +29,7 @@ export function floorToNearestHour(date: Date | undefined): Date | undefined {
  * @param url - Source URL string
  */
 export function getHost(url: string): string | undefined {
-  const urlParsed = new URL(url)
+  const urlParsed = new URL(url);
   return urlParsed.hostname;
 }
 
