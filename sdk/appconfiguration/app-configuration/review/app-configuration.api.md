@@ -35,7 +35,6 @@ export class AppConfigurationClient {
     getSnapshot(name: string, options?: GetSnapshotOptions): Promise<GetSnapshotResponse>;
     listConfigurationSettings(options?: ListConfigurationSettingsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings>;
     listRevisions(options?: ListRevisionsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListRevisionsPage, PageSettings>;
-    listSnapshotConfigurationSettings(snapshotFilter: string): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings>;
     listSnapshots(options?: ListSnapshotsOptions): PagedAsyncIterableIterator<Snapshot, ListSnapshotsPage, PageSettings>;
     recoverSnapshot(name: string, options?: UpdateSnapshotOptions): Promise<UpdateSnapshotResponse>;
     setConfigurationSetting(configurationSetting: SetConfigurationSettingParam | SetConfigurationSettingParam<FeatureFlagValue> | SetConfigurationSettingParam<SecretReferenceValue>, options?: SetConfigurationSettingOptions): Promise<SetConfigurationSettingResponse>;
@@ -46,6 +45,9 @@ export class AppConfigurationClient {
 // @public
 export interface AppConfigurationClientOptions extends CommonClientOptions {
 }
+
+// @public
+export type CompositionType = string;
 
 // @public
 export type ConfigurationSetting<T extends string | FeatureFlagValue | SecretReferenceValue = string> = ConfigurationSettingParam<T> & {
@@ -76,9 +78,6 @@ export type ConfigurationSettingResponse<HeadersT> = ConfigurationSetting & Http
 // @public
 export interface CreateSnapshotOptions extends OperationOptions {
 }
-
-// @public
-export type CreateSnapshotParam<T extends string | FeatureFlagValue | SecretReferenceValue = string> = ConfigurationSettingParam<T>;
 
 // @public
 export interface CreateSnapshotResponse extends Snapshot, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> {
@@ -254,7 +253,6 @@ export interface SetReadOnlyResponse extends ConfigurationSetting, SyncTokenHead
 
 // @public (undocumented)
 export interface Snapshot {
-    // Warning: (ae-forgotten-export) The symbol "CompositionType" needs to be exported by the entry point index.d.ts
     compositionType?: CompositionType;
     readonly created?: Date;
     readonly etag?: string;
@@ -264,7 +262,6 @@ export interface Snapshot {
     readonly name?: string;
     retentionPeriod?: number;
     readonly size?: number;
-    // Warning: (ae-forgotten-export) The symbol "SnapshotStatus" needs to be exported by the entry point index.d.ts
     readonly status?: SnapshotStatus;
     readonly statusCode?: number;
     tags?: {
@@ -281,6 +278,9 @@ export interface SnapshotFilter {
         [propertyName: string]: string;
     };
 }
+
+// @public
+export type SnapshotStatus = string;
 
 // @public
 export interface SyncTokenHeaderField {

@@ -685,20 +685,4 @@ export class AppConfigurationClient {
       }
     );
   }
-
-  /**
-   * Lists settings from the Azure App Configuration service, optionally
-   * filtered by key names, labels and accept datetime.
-   *
-   * Example code:
-   * ```ts
-   * const allSettingsWithLabel = client.listConfigurationSettings({ labelFilter: "MyLabel" });
-   * ```
-   * @param options - Optional parameters for the request.
-   */
-  listSnapshotConfigurationSettings(
-    snapshotFilter: string
-  ): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings> {
-    return this.listConfigurationSettings({ snapshotFilter });
-  }
 }

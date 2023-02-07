@@ -5,7 +5,7 @@ import { CompatResponse } from "@azure/core-http-compat";
 import { FeatureFlagValue } from "./featureFlag";
 import { OperationOptions } from "@azure/core-client";
 import { SecretReferenceValue } from "./secretReference";
-import { CompositionType, KeyValueFilter, Snapshot } from "./generated/src";
+import { CompositionType, KeyValueFilter, Snapshot, SnapshotStatus } from "./generated/src";
 /**
  * Fields that uniquely identify a configuration setting
  */
@@ -384,13 +384,6 @@ export interface CreateSnapshotResponse
     HttpResponseField<SyncTokenHeaderField> {}
 
 /**
- * Parameters for adding a new Snapshot
- */
-export type CreateSnapshotParam<
-  T extends string | FeatureFlagValue | SecretReferenceValue = string
-> = ConfigurationSettingParam<T>;
-
-/**
  * Options used when getting a Snapshot.
  */
 export interface GetSnapshotOptions extends OperationOptions {}
@@ -416,7 +409,7 @@ export interface UpdateSnapshotResponse
     SyncTokenHeaderField,
     HttpResponseField<SyncTokenHeaderField> {}
 
-export { Snapshot, KeyValueFilter };
+export { Snapshot, KeyValueFilter, CompositionType, SnapshotStatus };
 
 export interface SnapshotFilter {
   /** A list of filters used to filter the key-values included in the snapshot. */

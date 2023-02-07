@@ -144,7 +144,7 @@ let setting = await client.getConfigurationSetting({
 setting = await client.getConfigurationSetting(setting);
 ```
 
-A new feature supported in `2022-11-01preview` API version is the creation of key-value snapshots. They allow developers to create an immuntable point-in-time snapshot of their configuration store. During creation, developers can add filters to their snapshots to filter what key-values get put inside. This allows developers to create immutable, composed views of their configuration store that they can release with their application. 
+A new feature supported in `2022-11-01-preview` API version is the creation of key-value snapshots. They allow developers to create an immuntable point-in-time snapshot of their configuration store. During creation, developers can add filters to their snapshots to filter what key-values get put inside. This allows developers to create immutable, composed views of their configuration store that they can release with their application. 
 
 ## Examples
 
@@ -187,28 +187,25 @@ const client = new appConfig.AppConfigurationClient(
   "<App Configuration connection string goes here>"
 );
 
-async function run() {
-  const key = "testkey";
-  const value = "testvalue";
-  const label = "optional-label";
+const key = "testkey";
+const value = "testvalue";
+const label = "optional-label";
 
-  const newSetting = await client.addConfigurationSetting({
-    key,
-    value,
-    label
-  });
+const newSetting = await client.addConfigurationSetting({
+  key,
+  value,
+  label
+});
 
-  const newSnapshot = await client.addSnapshot("testsnapshot", {
-    key: "testkey",
-    value: "testvalue",
-    label: "optional-label"
-  });
+const newSnapshot = await client.addSnapshot("testsnapshot", {
+  key: "testkey",
+  value: "testvalue",
+  label: "optional-label"
+});
 
-  let retrievedSnapshot = await client.getSnapshot("testsnapshot");
-  console.log("Retrieved snapshot:", retrievedSnapshot);
-}
+let retrievedSnapshot = await client.getSnapshot("testsnapshot");
+console.log("Retrieved snapshot:", retrievedSnapshot);
 
-run().catch((err) => console.log("ERROR:", err));
 ```
 
 ### List the `ConfigurationSetting` in the snapshot
