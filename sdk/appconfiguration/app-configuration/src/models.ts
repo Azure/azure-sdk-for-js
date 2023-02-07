@@ -5,22 +5,11 @@ import { CompatResponse } from "@azure/core-http-compat";
 import { FeatureFlagValue } from "./featureFlag";
 import { OperationOptions } from "@azure/core-client";
 import { SecretReferenceValue } from "./secretReference";
+import { CompositionType, KeyValueFilter, Snapshot } from "./generated/src";
 /**
  * Fields that uniquely identify a configuration setting
  */
-export interface ConfigurationSettingId {
-  /**
-   * The key for this setting.
-   * Feature flags must be prefixed with `.appconfig.featureflag/<feature-flag-name>`.
-   */
-  key: string;
-
-  /**
-   * The label for this setting. Leaving this undefined means this
-   * setting does not have a label.
-   */
-  label?: string;
-
+export interface ConfigurationSettingId extends KeyValueFilter {
   /**
    * The etag for this setting
    */
@@ -281,6 +270,11 @@ export interface ListSettingsOptions extends OptionalFields {
    * to be specified: * or \\ or ,
    */
   labelFilter?: string;
+
+  /**
+   * Filters for snapshots.
+   */
+  snapshotFilter?: string;
 }
 
 /**
@@ -289,6 +283,13 @@ export interface ListSettingsOptions extends OptionalFields {
  * result.
  */
 export interface ListConfigurationSettingsOptions extends OperationOptions, ListSettingsOptions {}
+
+/**
+ * Options for listConfigurationSettings that allow for filtering based on keys, labels and other fields.
+ * Also provides `fields` which allows you to selectively choose which fields are populated in the
+ * result.
+ */
+export interface ListSnapshotsOptions extends OperationOptions, ListSettingsOptions {}
 
 /**
  * An interface that tracks the settings for paged iteration
@@ -312,6 +313,16 @@ export interface ListConfigurationSettingPage
    * The configuration settings for this page of results.
    */
   items: ConfigurationSetting[];
+}
+
+/**
+ * A page of configuration settings and the corresponding HTTP response
+ */
+export interface ListSnapshotsPage extends HttpResponseField<SyncTokenHeaderField>, PageSettings {
+  /**
+   * The configuration settings for this page of results.
+   */
+  items: Snapshot[];
 }
 
 /**
@@ -357,4 +368,63 @@ export interface RetryOptions {
    * The maximum delay in milliseconds allowed before retrying an operation.
    */
   maxRetryDelayInMs?: number;
+}
+
+/**
+ * Options used when creating a Snapshot.
+ */
+export interface CreateSnapshotOptions extends OperationOptions {}
+
+/**
+ * Response from adding a Snapshot.
+ */
+export interface CreateSnapshotResponse
+  extends Snapshot,
+    SyncTokenHeaderField,
+    HttpResponseField<SyncTokenHeaderField> {}
+
+/**
+ * Parameters for adding a new Snapshot
+ */
+export type CreateSnapshotParam<
+  T extends string | FeatureFlagValue | SecretReferenceValue = string
+> = ConfigurationSettingParam<T>;
+
+/**
+ * Options used when getting a Snapshot.
+ */
+export interface GetSnapshotOptions extends OperationOptions {}
+
+/**
+ * Response from getting a Snapshot.
+ */
+export interface GetSnapshotResponse
+  extends Snapshot,
+    SyncTokenHeaderField,
+    HttpResponseField<SyncTokenHeaderField> {}
+
+/**
+ * Options used when upadting a Snapshot.
+ */
+export interface UpdateSnapshotOptions extends OperationOptions {}
+
+/**
+ * Response from updating a Snapshot.
+ */
+export interface UpdateSnapshotResponse
+  extends Snapshot,
+    SyncTokenHeaderField,
+    HttpResponseField<SyncTokenHeaderField> {}
+
+export { Snapshot, KeyValueFilter };
+
+export interface SnapshotFilter {
+  /** A list of filters used to filter the key-values included in the snapshot. */
+  filters: KeyValueFilter[];
+  /** The composition type describes how the key-values within the snapshot are composed. The 'all' composition type includes all key-values. The 'group_by_key' composition type ensures there are no two key-values containing the same key. */
+  compositionType?: CompositionType;
+  /** The amount of time, in seconds, that a snapshot will remain in the archived state before expiring. This property is only writable during the creation of a snapshot. If not specified, the default lifetime of key-value revisions will be used. */
+  retentionPeriod?: number;
+  /** The tags of the snapshot. */
+  tags?: { [propertyName: string]: string };
 }

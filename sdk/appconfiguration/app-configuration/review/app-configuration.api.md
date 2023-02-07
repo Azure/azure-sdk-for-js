@@ -28,10 +28,16 @@ export class AppConfigurationClient {
     constructor(connectionString: string, options?: AppConfigurationClientOptions);
     constructor(endpoint: string, tokenCredential: TokenCredential, options?: AppConfigurationClientOptions);
     addConfigurationSetting(configurationSetting: AddConfigurationSettingParam | AddConfigurationSettingParam<FeatureFlagValue> | AddConfigurationSettingParam<SecretReferenceValue>, options?: AddConfigurationSettingOptions): Promise<AddConfigurationSettingResponse>;
+    archiveSnapshot(name: string, options?: UpdateSnapshotOptions): Promise<UpdateSnapshotResponse>;
+    createSnapshot(name: string, snapshot: SnapshotFilter, options?: CreateSnapshotOptions): Promise<CreateSnapshotResponse>;
     deleteConfigurationSetting(id: ConfigurationSettingId, options?: DeleteConfigurationSettingOptions): Promise<DeleteConfigurationSettingResponse>;
     getConfigurationSetting(id: ConfigurationSettingId, options?: GetConfigurationSettingOptions): Promise<GetConfigurationSettingResponse>;
+    getSnapshot(name: string, options?: GetSnapshotOptions): Promise<GetSnapshotResponse>;
     listConfigurationSettings(options?: ListConfigurationSettingsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings>;
     listRevisions(options?: ListRevisionsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListRevisionsPage, PageSettings>;
+    listSnapshotConfigurationSettings(snapshotFilter: string): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings>;
+    listSnapshots(options?: ListSnapshotsOptions): PagedAsyncIterableIterator<Snapshot, ListSnapshotsPage, PageSettings>;
+    recoverSnapshot(name: string, options?: UpdateSnapshotOptions): Promise<UpdateSnapshotResponse>;
     setConfigurationSetting(configurationSetting: SetConfigurationSettingParam | SetConfigurationSettingParam<FeatureFlagValue> | SetConfigurationSettingParam<SecretReferenceValue>, options?: SetConfigurationSettingOptions): Promise<SetConfigurationSettingResponse>;
     setReadOnly(id: ConfigurationSettingId, readOnly: boolean, options?: SetReadOnlyOptions): Promise<SetReadOnlyResponse>;
     updateSyncToken(syncToken: string): void;
@@ -48,10 +54,8 @@ export type ConfigurationSetting<T extends string | FeatureFlagValue | SecretRef
 };
 
 // @public
-export interface ConfigurationSettingId {
+export interface ConfigurationSettingId extends KeyValueFilter {
     etag?: string;
-    key: string;
-    label?: string;
 }
 
 // @public
@@ -68,6 +72,17 @@ export type ConfigurationSettingParam<T extends string | FeatureFlagValue | Secr
 
 // @public
 export type ConfigurationSettingResponse<HeadersT> = ConfigurationSetting & HttpResponseField<HeadersT> & Pick<HeadersT, Exclude<keyof HeadersT, "eTag">>;
+
+// @public
+export interface CreateSnapshotOptions extends OperationOptions {
+}
+
+// @public
+export type CreateSnapshotParam<T extends string | FeatureFlagValue | SecretReferenceValue = string> = ConfigurationSettingParam<T>;
+
+// @public
+export interface CreateSnapshotResponse extends Snapshot, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> {
+}
 
 // @public
 export interface DeleteConfigurationSettingOptions extends HttpOnlyIfUnchangedField, OperationOptions {
@@ -111,6 +126,14 @@ export interface GetConfigurationSettingResponse extends ConfigurationSetting, G
 }
 
 // @public
+export interface GetSnapshotOptions extends OperationOptions {
+}
+
+// @public
+export interface GetSnapshotResponse extends Snapshot, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> {
+}
+
+// @public
 export interface HttpOnlyIfChangedField {
     onlyIfChanged?: boolean;
 }
@@ -140,6 +163,12 @@ export function isFeatureFlag(setting: ConfigurationSetting): setting is Configu
 export function isSecretReference(setting: ConfigurationSetting): setting is ConfigurationSetting & Required<Pick<ConfigurationSetting, "value">>;
 
 // @public
+export interface KeyValueFilter {
+    key: string;
+    label?: string;
+}
+
+// @public
 export interface ListConfigurationSettingPage extends HttpResponseField<SyncTokenHeaderField>, PageSettings {
     items: ConfigurationSetting[];
 }
@@ -162,6 +191,16 @@ export interface ListSettingsOptions extends OptionalFields {
     acceptDateTime?: Date;
     keyFilter?: string;
     labelFilter?: string;
+    snapshotFilter?: string;
+}
+
+// @public
+export interface ListSnapshotsOptions extends OperationOptions, ListSettingsOptions {
+}
+
+// @public
+export interface ListSnapshotsPage extends HttpResponseField<SyncTokenHeaderField>, PageSettings {
+    items: Snapshot[];
 }
 
 // @public
@@ -213,9 +252,47 @@ export interface SetReadOnlyOptions extends HttpOnlyIfUnchangedField, OperationO
 export interface SetReadOnlyResponse extends ConfigurationSetting, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> {
 }
 
+// @public (undocumented)
+export interface Snapshot {
+    // Warning: (ae-forgotten-export) The symbol "CompositionType" needs to be exported by the entry point index.d.ts
+    compositionType?: CompositionType;
+    readonly created?: Date;
+    readonly etag?: string;
+    readonly expires?: Date;
+    filters: KeyValueFilter[];
+    readonly itemsCount?: number;
+    readonly name?: string;
+    retentionPeriod?: number;
+    readonly size?: number;
+    // Warning: (ae-forgotten-export) The symbol "SnapshotStatus" needs to be exported by the entry point index.d.ts
+    readonly status?: SnapshotStatus;
+    readonly statusCode?: number;
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public (undocumented)
+export interface SnapshotFilter {
+    compositionType?: CompositionType;
+    filters: KeyValueFilter[];
+    retentionPeriod?: number;
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
 // @public
 export interface SyncTokenHeaderField {
     syncToken?: string;
+}
+
+// @public
+export interface UpdateSnapshotOptions extends OperationOptions {
+}
+
+// @public
+export interface UpdateSnapshotResponse extends Snapshot, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> {
 }
 
 // (No @packageDocumentation comment for this package)

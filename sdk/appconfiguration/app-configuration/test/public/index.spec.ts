@@ -8,9 +8,10 @@ import {
   assertThrowsAbortError,
   assertThrowsRestError,
   createAppConfigurationClientForTests,
-  deleteEverySetting,
+  // deleteEverySetting,
   deleteKeyCompletely,
   startRecorder,
+  toSortedSnapshotArray,
   toSortedArray,
 } from "./utils/testHelpers";
 import { Context } from "mocha";
@@ -31,7 +32,7 @@ describe("AppConfigurationClient", () => {
 
   after(async function (this: Context) {
     if (!isPlaybackMode()) {
-      await deleteEverySetting();
+      // await deleteEverySetting();
     }
   });
 
@@ -1245,6 +1246,112 @@ describe("AppConfigurationClient", () => {
           }
         );
       });
+    });
+  });
+
+  describe("createSnapshot", () => {
+    it("create a snapshot", async () => {
+      // const name = recorder.variable(
+      //   "createSnapshotTest",
+      //   `createSnapshotTest${Math.floor(Math.random() * 1000)}`
+      // );
+      // const key = recorder.variable(
+      //   "key",
+      //   `key${Math.floor(Math.random() * 1000)}`
+      // );
+      // const label = "MyLabel";
+      // const filters = [
+      //   {
+      //     key,
+      //     label
+      //   }
+      // ];
+      // await client.addConfigurationSetting({ key, label });
+      // const result = await client.createSnapshot(name, { filters });
+      // assert.isNotNull(result)
+      // // assert.equal(result.filters, filters)
+      // assert.equal(result.name, name)
+      const snapshot = await client.getSnapshot("snapshot1324");
+      console.log(snapshot);
+    });
+
+    it("throws an error if the snapshot already exists", async () => {
+      const key = recorder.variable(
+        "createSnapshotTwice",
+        `createSnapshotTwice${Math.floor(Math.random() * 1000)}`
+      );
+      const label = "test";
+      const name = "foo";
+      const filters = [
+        {
+          key,
+          label,
+        },
+      ];
+      await client.addConfigurationSetting({ key, label });
+
+      const result = await client.createSnapshot(name, { filters });
+
+      assert.equal(
+        result.filters,
+        filters,
+        "Unexpected key in result from addConfigurationSetting()."
+      );
+
+      // attempt to add the same setting
+      try {
+        await client.addConfigurationSetting({ key, label });
+        throw new Error("Test failure");
+      } catch (err: any) {
+        assert.equal(
+          (err as { message: string }).message,
+          "Status 412: Setting was already present"
+        );
+        assert.notEqual((err as { message: string }).message, "Test failure");
+      }
+
+      await client.deleteConfigurationSetting({ key, label });
+    });
+  });
+  describe("listConfigurationSettings for Snapshot", () => {
+    it("list a snapshot configuration setting", async () => {
+      const snapshot = await client.listConfigurationSettings({ snapshotFilter: "snapshot1324" });
+      const byKeySettings = await toSortedArray(snapshot);
+
+      assertEqualSettings(
+        [
+          {
+            key: "createSnapshotTest110",
+            label: "MyLabel",
+            isReadOnly: false,
+            value: undefined,
+          },
+        ],
+        byKeySettings
+      );
+    });
+  });
+
+  describe("listSnapshots", () => {
+    it("list all snapshots", async () => {
+      const snapshot = await client.listSnapshots();
+      const byKeySettings = await toSortedSnapshotArray(snapshot);
+      console.log(byKeySettings);
+      assert.isNotNull(byKeySettings);
+    });
+  });
+
+  describe("archiveSnapshot", () => {
+    it.only("archive all snapshot", async () => {
+      const snapshot = await client.archiveSnapshot("snapshot1324");
+      assert.equal(snapshot.status, "ready");
+    });
+  });
+
+  describe("recoverSnapshot", () => {
+    it("recover a snapshot", async () => {
+      const snapshot = await client.recoverSnapshot("snapshot1324");
+      assert.equal(snapshot.status, "ready");
     });
   });
 });

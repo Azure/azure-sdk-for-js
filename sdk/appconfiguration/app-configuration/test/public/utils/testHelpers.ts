@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AppConfigurationClient, AppConfigurationClientOptions } from "../../../src";
+import {
+  AppConfigurationClient,
+  AppConfigurationClientOptions,
+  ListSnapshotsPage,
+  Snapshot,
+} from "../../../src";
 import {
   ConfigurationSetting,
   ListConfigurationSettingPage,
@@ -136,6 +141,35 @@ export async function toSortedArray(
   );
 
   return settings;
+}
+
+export async function toSortedSnapshotArray(
+  pagedIterator: PagedAsyncIterableIterator<Snapshot, ListSnapshotsPage>,
+  compareFn?: (a: Snapshot, b: Snapshot) => number
+): Promise<Snapshot[]> {
+  const snapshots: Snapshot[] = [];
+
+  for await (const snapshot of pagedIterator) {
+    snapshots.push(snapshot);
+  }
+
+  let snapshotsViaPageIterator: Snapshot[] = [];
+
+  for await (const page of pagedIterator.byPage()) {
+    snapshotsViaPageIterator = snapshotsViaPageIterator.concat(page.items);
+  }
+
+  // just a sanity-check
+  assert.deepEqual(snapshots, snapshotsViaPageIterator);
+
+  snapshots.sort((a, b) =>
+    compareFn
+      ? compareFn(a, b)
+      : `${a.name}-${a.itemsCount}-${a.status}`.localeCompare(
+          `${b.name}-${b.itemsCount}-${b.status}`
+        )
+  );
+  return snapshots;
 }
 
 export function assertEqualSettings(

@@ -11,6 +11,7 @@ import {
   HttpResponseFields,
   ListConfigurationSettingsOptions,
   ListRevisionsOptions,
+  Snapshot,
 } from "../models";
 import { FeatureFlagHelper, FeatureFlagValue, featureFlagContentType } from "../featureFlag";
 import { GetKeyValuesOptionalParams, KeyValue } from "../generated/src/models";
@@ -90,7 +91,7 @@ export function checkAndFormatIfAndIfNoneMatch(
  */
 export function formatFiltersAndSelect(
   listConfigOptions: ListConfigurationSettingsOptions | ListRevisionsOptions
-): Pick<GetKeyValuesOptionalParams, "key" | "label" | "select" | "acceptDatetime"> {
+): Pick<GetKeyValuesOptionalParams, "key" | "label" | "select" | "acceptDatetime" | "snapshot"> {
   let acceptDatetime: string | undefined = undefined;
 
   if (listConfigOptions.acceptDateTime) {
@@ -100,6 +101,7 @@ export function formatFiltersAndSelect(
   return {
     key: listConfigOptions.keyFilter,
     label: listConfigOptions.labelFilter,
+    snapshot: listConfigOptions.snapshotFilter,
     acceptDatetime,
     select: formatFieldsForSelect(listConfigOptions.fields),
   };
@@ -273,6 +275,19 @@ export function transformKeyValueResponse<T extends KeyValue & { eTag?: string }
 
   delete setting.eTag;
   return setting;
+}
+
+/**
+ * @internal
+ */
+export function transformSnapshotResponse<T extends Snapshot>(snapshot: T): any {
+  if (hasUnderscoreResponse(snapshot)) {
+    Object.defineProperty(snapshot, "_response", {
+      enumerable: false,
+      value: snapshot._response,
+    });
+  }
+  return snapshot;
 }
 
 /**

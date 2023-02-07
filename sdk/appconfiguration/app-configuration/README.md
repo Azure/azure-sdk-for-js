@@ -7,6 +7,7 @@ Use the client library for App Configuration to:
 - Create flexible key representations and mappings
 - Tag keys with labels
 - Replay settings from any point in time
+- Create immutable single point-in-time snapshots of the keys/ values
 
 Key links:
 
@@ -143,9 +144,11 @@ let setting = await client.getConfigurationSetting({
 setting = await client.getConfigurationSetting(setting);
 ```
 
+A new feature supported in `2022-11-01preview` API version is the creation of key-value snapshots. They allow developers to create an immuntable point-in-time snapshot of their configuration store. During creation, developers can add filters to their snapshots to filter what key-values get put inside. This allows developers to create immutable, composed views of their configuration store that they can release with their application. 
+
 ## Examples
 
-#### Create and get a setting
+### Create and get a setting
 
 ```javascript
 const appConfig = require("@azure/app-configuration");
@@ -175,6 +178,63 @@ async function run() {
 run().catch((err) => console.log("ERROR:", err));
 ```
 
+### Create and get a snapshot
+
+```javascript
+const appConfig = require("@azure/app-configuration");
+
+const client = new appConfig.AppConfigurationClient(
+  "<App Configuration connection string goes here>"
+);
+
+async function run() {
+  const key = "testkey";
+  const value = "testvalue";
+  const label = "optional-label";
+
+  const newSetting = await client.addConfigurationSetting({
+    key,
+    value,
+    label
+  });
+
+  const newSnapshot = await client.addSnapshot("testsnapshot", {
+    key: "testkey",
+    value: "testvalue",
+    label: "optional-label"
+  });
+
+  let retrievedSnapshot = await client.getSnapshot("testsnapshot");
+  console.log("Retrieved snapshot:", retrievedSnapshot);
+}
+
+run().catch((err) => console.log("ERROR:", err));
+```
+
+### List the `ConfigurationSetting` in the snapshot
+```javascript
+let retrievedSnapshotSetting = await client.listConfigurationSettings({
+  snapshotFilter: "testsnapshot"
+});
+console.log("Retrieved snapshot configuration setting:", retrievedSnapshotSetting);
+```
+
+```javascript
+let snapshots = await client.listSnapshots();
+const sortedSnapshot = await toSortedSnapshotArray(snapshot);
+console.log("All the snapshots listed:", snapshots);
+```
+
+### Recover and archive the snapshot
+```javascript
+// Snapshot is in ready status
+let archivedSnapshot = await client.archiveSnapshot("testsnapshot");
+console.log("Snapshot updated status is:", archivedSnapshot.status);
+
+// Snapshot is in archive status
+let recoverSnapshot = await client.recoverSnapshot("testsnapshot");
+console.log("Snapshot updated status is:", recoverSnapshot.status);
+```
 ## Troubleshooting
 
 ### Logging
@@ -201,6 +261,7 @@ The following samples show you the various ways you can interact with App Config
 - [`listRevisions.ts`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/app-configuration/samples/v1/typescript/src/listRevisions.ts) - List the revisions of a key, allowing you to see previous values and when they were set.
 - [`secretReference.ts`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/app-configuration/samples/v1/typescript/src/secretReference.ts) - SecretReference represents a configuration setting that references as KeyVault secret.
 - [`featureFlag.ts`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/app-configuration/samples/v1/typescript/src/featureFlag.ts) - Feature flags are settings that follow specific JSON schema for the value.
+- [`snapshot.ts`]() - Basic usage of the snapshots feature.
 
 More in-depth examples can be found in the [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/app-configuration/samples/v1/) folder on GitHub.
 
