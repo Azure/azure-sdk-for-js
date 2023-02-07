@@ -197,7 +197,7 @@ describe("LogsIngestionClient live tests", function () {
     assert.equal(uploadSinon.callCount,4);
   })
 
-  it.only("User abort additional processing early if they handle the error", async function(){
+  it("User abort additional processing early if they handle the error", async function(){
     const noOfElements = 250000;
     const logData = getObjects(noOfElements);
     let concurrency = 4;

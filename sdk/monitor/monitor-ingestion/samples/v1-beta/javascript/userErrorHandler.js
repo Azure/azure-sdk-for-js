@@ -5,8 +5,8 @@
  * @summary Demonstrates error handling via a user defined error handler.
  */
 
-import { DefaultAzureCredential } from "@azure/identity";
-import { AggregateUploadLogsError, LogsIngestionClient, UploadLogsError } from "@azure/monitor-ingestion";
+const { DefaultAzureCredential } = require("@azure/identity");
+const { LogsIngestionClient } = require("@azure/monitor-ingestion");
 
 require("dotenv").config();
 
@@ -17,11 +17,14 @@ async function main() {
   const client = new LogsIngestionClient(logsIngestionEndpoint, credential);
   let abortController = new AbortController();
 
-  const errorCallback =  async function errorCallback(uploadLogsError: UploadLogsError) {      
-    if ((uploadLogsError.cause as Error).message === "Data collection rule with immutable Id 'immutable-id-123' not found.") {
-     abortController.abort();
+  const errorCallback = async function errorCallback(uploadLogsError) {
+    if (
+      uploadLogsError.cause.message ===
+      "Data collection rule with immutable Id 'immutable-id-123' not found."
+    ) {
+      abortController.abort();
     }
-  }
+  };
   // Constructing a large number of logs to ensure batching takes place
   const logs = [];
   for (let i = 0; i < 100000; ++i) {
@@ -35,12 +38,12 @@ async function main() {
   // The logs will be split into multiple batches and uploaded concurrently. By default,
   // the maximum number of concurrent uploads is 5.
   try {
-    await client.upload('immutable-id-123', streamName, logs,{
-        onError: errorCallback,
-        abortSignal: abortController.signal
+    await client.upload("immutable-id-123", streamName, logs, {
+      onError: errorCallback,
+      abortSignal: abortController.signal,
     });
   } catch (e) {
-    let aggregateErrors = (e as AggregateUploadLogsError).errors;
+    let aggregateErrors = e.errors;
     if (aggregateErrors.length > 0) {
       console.log(
         "Some logs have failed to complete ingestion. Number of error batches=",

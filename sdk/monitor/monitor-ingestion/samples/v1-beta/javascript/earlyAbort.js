@@ -5,8 +5,8 @@
  * @summary Demonstrates aborting additional processing early if user handle the error and decide continuing is hopeless
  */
 
-import { DefaultAzureCredential } from "@azure/identity";
-import { AggregateUploadLogsError, LogsIngestionClient, UploadLogsError } from "@azure/monitor-ingestion";
+const { DefaultAzureCredential } = require("@azure/identity");
+const { LogsIngestionClient } = require("@azure/monitor-ingestion");
 
 require("dotenv").config();
 
@@ -30,11 +30,11 @@ async function main() {
   // The logs will be split into multiple batches and uploaded concurrently. By default,
   // the maximum number of concurrent uploads is 5.
   try {
-    await client.upload('immutable-id-123', streamName, logs,{
-        onError: errorCallback
+    await client.upload("immutable-id-123", streamName, logs, {
+      onError: errorCallback,
     });
   } catch (e) {
-    let aggregateErrors = (e as AggregateUploadLogsError).errors;
+    let aggregateErrors = e.errors;
     if (aggregateErrors.length > 0) {
       console.log(
         "Some logs have failed to complete ingestion. Number of error batches=",
@@ -48,19 +48,19 @@ async function main() {
   }
 }
 
-
-async function errorCallback(uploadLogsError: UploadLogsError) {      
-    if ((uploadLogsError.cause as Error).message === "Data collection rule with immutable Id 'immutable-id-123' not found.") {
-     try{
+async function errorCallback(uploadLogsError) {
+  if (
+    uploadLogsError.cause.message ===
+    "Data collection rule with immutable Id 'immutable-id-123' not found."
+  ) {
+    try {
       await client.upload(ruleId, "Custom-MyTableRawData", uploadLogsError.failedLogs, {
-        maxConcurrency: 1
+        maxConcurrency: 1,
       });
-     }
-     finally{
-
-     }
+    } finally {
     }
   }
+}
 
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
