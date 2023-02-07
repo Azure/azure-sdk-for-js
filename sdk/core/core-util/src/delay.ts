@@ -27,17 +27,18 @@ export interface DelayOptions {
  */
 export function delay(timeInMs: number, options?: DelayOptions): Promise<void> {
   return new Promise((resolve, reject) => {
-    const rejectOnAbort = (): void => {
+    function rejectOnAbort(): void {
       reject(new AbortError(options?.abortErrorMsg ?? StandardAbortMessage));
-    };
-    const removeListeners = (): void => {
+    }
+    function removeListeners(): void {
       options?.abortSignal?.removeEventListener("abort", onAbort);
-    };
-    const onAbort = (): void => {
+    }
+    function onAbort(): void {
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
       clearTimeout(token);
       removeListeners();
       rejectOnAbort();
-    };
+    }
     if (options?.abortSignal?.aborted) {
       return rejectOnAbort();
     }
