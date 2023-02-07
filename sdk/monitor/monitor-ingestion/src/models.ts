@@ -59,4 +59,5 @@ export class AggregateUploadLogsError extends Error {
     this.errors = errors;
     this.name = AggregateUploadLogsErrorName;
   }
+  //isAggregateUploadLogsError
 }
