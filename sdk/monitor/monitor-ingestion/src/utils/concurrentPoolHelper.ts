@@ -17,14 +17,6 @@ export async function concurrentRun<T>(
   }
   while (dataQueue.length) {
     while (dataQueue.length && promises.length < maxConcurrency) {
-      console.log("abort signal status in the concurrent run = ", abortSignal?.aborted);
-      if (abortSignal?.aborted) {
-        console.log("when did this happen");
-        console.log("dataqueue length", dataQueue.length)
-        console.log("promises length", promises.length)
-        await Promise.all(promises);
-        return;
-      }
       const worker = dataQueue.pop();
       const promise = callback(worker!);
       // eslint-disable-next-line promise/catch-or-return
@@ -35,10 +27,7 @@ export async function concurrentRun<T>(
     if (promises.length === maxConcurrency) {
       await Promise.race(promises);
     }
-    console.log("ot of while - abort signal status in the concurrent run = ", abortSignal?.aborted);
     if (abortSignal?.aborted) {
-      console.log("ot of while - dataqueue length", dataQueue.length)
-      console.log("ot of while - promises length", promises.length)
       await Promise.all(promises);
       return;
     }

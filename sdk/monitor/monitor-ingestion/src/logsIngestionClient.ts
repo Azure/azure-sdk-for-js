@@ -70,7 +70,6 @@ export class LogsIngestionClient {
     const concurrency = Math.max(options?.maxConcurrency ?? DEFAULT_MAX_CONCURRENCY, 1);
 
     const uploadResultErrors: Array<UploadLogsError> = [];
-    console.log("abort signal status passed to upload method = ", options?.abortSignal?.aborted);
     await concurrentRun(
       concurrency,
       chunkArray,
