@@ -80,8 +80,8 @@ export class LogsIngestionClient {
             abortSignal: options?.abortSignal,
           });
         } catch (e: any) {
-          if (options?.errorCallback) {
-            await options.errorCallback({ failedLogs: eachChunk, cause: isError(e) ? e : new Error(e) });
+          if (options?.onError) {
+            await options.onError({ failedLogs: eachChunk, cause: isError(e) ? e : new Error(e) });
           }
           uploadResultErrors.push({
             cause: e,

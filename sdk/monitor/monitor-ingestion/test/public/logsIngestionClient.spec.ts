@@ -180,7 +180,7 @@ describe("LogsIngestionClient live tests", function () {
     try {
       await client.upload("immutable-id-123", "Custom-MyTableRawData", logData, {
         maxConcurrency: concurrency,
-        errorCallback: errorCallback
+        onError: errorCallback
       });
     } catch (e: any) {
       const result = (e as AggregateUploadLogsError).errors;
@@ -211,7 +211,7 @@ describe("LogsIngestionClient live tests", function () {
     try {
       await client.upload("immutable-id-123", "Custom-MyTableRawData", logData, {
         maxConcurrency: concurrency,
-        errorCallback: errorCallback,
+        onError: errorCallback,
         abortSignal: abortController.signal
       });
     } catch (e: any) {
