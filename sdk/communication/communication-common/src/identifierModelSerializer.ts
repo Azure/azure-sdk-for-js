@@ -130,7 +130,7 @@ const assertMaximumOneNestedModel = (identifier: SerializedCommunicationIdentifi
     presentProperties.push("microsoftTeamsUser");
   }
   if (identifier.microsoftBot !== undefined) {
-    presentProperties.push("microsoftTeamsBot");
+    presentProperties.push("microsoftBot");
   }
   if (identifier.phoneNumber !== undefined) {
     presentProperties.push("phoneNumber");
@@ -203,7 +203,7 @@ const getKind = (serializedIdentifier: SerializedCommunicationIdentifier): strin
   }
 
   if (serializedIdentifier.microsoftBot) {
-    return "microsoftTeamsBot";
+    return "microsoftBot";
   }
 
   return "unknown";
