@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { SecurityInsights } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets all Security ML Analytics Settings.
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/securityMLAnalyticsSettings/GetAllSecurityMLAnalyticsSettings.json
  */
 async function getAllSecurityMlAnalyticsSettings() {
-  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = "myRg";
+  const subscriptionId =
+    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
+    "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const resourceGroupName =
+    process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
   const workspaceName = "myWorkspace";
   const credential = new DefaultAzureCredential();
   const client = new SecurityInsights(credential, subscriptionId);
@@ -33,4 +39,8 @@ async function getAllSecurityMlAnalyticsSettings() {
   console.log(resArray);
 }
 
-getAllSecurityMlAnalyticsSettings().catch(console.error);
+async function main() {
+  getAllSecurityMlAnalyticsSettings();
+}
+
+main().catch(console.error);

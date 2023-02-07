@@ -99,6 +99,7 @@ export function relativeRecordingsPath(): string {
  * @returns {string} location of the relative path to discovered assets.json - `sdk/storage/storage-blob/assets.json` for example, or undefined if the path does not exist
  */
 export function relativeAssetsPath(): string | undefined {
-  const assetsJsonPath = path.join(relativePackagePath(), "assets.json");
-  return fs.existsSync(assetsJsonPath) ? toSafePath(assetsJsonPath) : undefined;
+  return fs.existsSync("assets.json")
+    ? toSafePath(path.join(relativePackagePath(), "assets.json"))
+    : undefined;
 }

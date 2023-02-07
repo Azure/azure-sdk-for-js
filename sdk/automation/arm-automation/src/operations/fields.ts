@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { Fields } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -60,13 +60,17 @@ export class FieldsImpl implements Fields {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByTypePagingPage(
           resourceGroupName,
           automationAccountName,
           moduleName,
           typeName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -77,9 +81,11 @@ export class FieldsImpl implements Fields {
     automationAccountName: string,
     moduleName: string,
     typeName: string,
-    options?: FieldsListByTypeOptionalParams
+    options?: FieldsListByTypeOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<TypeField[]> {
-    let result = await this._listByType(
+    let result: FieldsListByTypeResponse;
+    result = await this._listByType(
       resourceGroupName,
       automationAccountName,
       moduleName,

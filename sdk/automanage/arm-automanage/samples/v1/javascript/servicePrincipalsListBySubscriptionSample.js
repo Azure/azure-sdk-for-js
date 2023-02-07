@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { AutomanageClient } = require("@azure/arm-automanage");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Get the Automanage AAD first party Application Service Principal details for the subscription id.
@@ -18,7 +19,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/automanage/resource-manager/Microsoft.Automanage/stable/2022-05-04/examples/listServicePrincipalBySubscription.json
  */
 async function listServicePrincipalBySubscription() {
-  const subscriptionId = "mySubscriptionId";
+  const subscriptionId = process.env["AUTOMANAGE_SUBSCRIPTION_ID"] || "mySubscriptionId";
   const credential = new DefaultAzureCredential();
   const client = new AutomanageClient(credential, subscriptionId);
   const resArray = new Array();
@@ -28,4 +29,8 @@ async function listServicePrincipalBySubscription() {
   console.log(resArray);
 }
 
-listServicePrincipalBySubscription().catch(console.error);
+async function main() {
+  listServicePrincipalBySubscription();
+}
+
+main().catch(console.error);

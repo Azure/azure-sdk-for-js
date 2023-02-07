@@ -77,7 +77,7 @@ npm install @azure/core-auth
 
 ```javascript
 const MapsRender = require("@azure-rest/maps-render").default;
-const AzureKeyCredential = require("@azure/core-auth");
+const { AzureKeyCredential } = require("@azure/core-auth");
 
 const credential = new AzureKeyCredential("<subscription-key>");
 const client = MapsRender(credential);
@@ -151,7 +151,7 @@ if (isUnexpected(response)) {
 }
 
 console.log("Copyright attribution for microsoft.base: ");
-baseResponse.body.copyrights.forEach((copyright) => console.log(copyright));
+response.body.copyrights.forEach((copyright) => console.log(copyright));
 ```
 
 ### Request metadata for a tileset
