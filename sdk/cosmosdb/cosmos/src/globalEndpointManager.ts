@@ -73,7 +73,7 @@ export class GlobalEndpointManager {
     const location = this.readableLocations.find((loc) => loc.databaseAccountEndpoint === endpoint);
     if (location) {
       location.unavailable = true;
-      location.lastUnavailabilityTimestamp = Date.now();
+      location.lastUnavailabilityTimestampInMs = Date.now();
       this.unavailableReadableLocations.push(location);
     }
   }
@@ -85,7 +85,7 @@ export class GlobalEndpointManager {
     );
     if (location) {
       location.unavailable = true;
-      location.lastUnavailabilityTimestamp = Date.now();
+      location.lastUnavailabilityTimestampInMs = Date.now();
       this.unavailableWriteableLocations.push(location);
     }
   }
@@ -215,8 +215,8 @@ export class GlobalEndpointManager {
       const unavaialableLocation = allLocations.find((loc) => loc.name === location.name);
       if (
         unavaialableLocation &&
-        now - unavaialableLocation.lastUnavailabilityTimestamp >
-          Constants.LocationUnavailableExpirationTime
+        now - unavaialableLocation.lastUnavailabilityTimestampInMs >
+          Constants.LocationUnavailableExpirationTimeInMs
       ) {
         unavaialableLocation.unavailable = false;
       }
@@ -227,7 +227,7 @@ export class GlobalEndpointManager {
     return unavailableLocations.filter((loc) => {
       if (
         loc &&
-        now - loc.lastUnavailabilityTimestamp >= Constants.LocationUnavailableExpirationTime
+        now - loc.lastUnavailabilityTimestampInMs >= Constants.LocationUnavailableExpirationTimeInMs
       ) {
         return true;
       }

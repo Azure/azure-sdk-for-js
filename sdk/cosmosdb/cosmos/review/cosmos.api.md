@@ -404,7 +404,7 @@ export const Constants: {
     };
     WritableLocations: string;
     ReadableLocations: string;
-    LocationUnavailableExpirationTime: number;
+    LocationUnavailableExpirationTimeInMs: number;
     ENABLE_MULTIPLE_WRITABLE_LOCATIONS: string;
     DefaultUnavailableLocationExpirationTimeMS: number;
     ThrottleRetryCount: string;
@@ -944,7 +944,7 @@ interface Location_2 {
     // (undocumented)
     databaseAccountEndpoint: string;
     // (undocumented)
-    lastUnavailabilityTimestamp: number;
+    lastUnavailabilityTimestampInMs?: number;
     // (undocumented)
     name: string;
     // (undocumented)

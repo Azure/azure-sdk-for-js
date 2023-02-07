@@ -98,5 +98,5 @@ export interface Location {
   name: string;
   databaseAccountEndpoint: string;
   unavailable?: boolean;
-  lastUnavailabilityTimestamp: number;
+  lastUnavailabilityTimestampInMs?: number;
 }
