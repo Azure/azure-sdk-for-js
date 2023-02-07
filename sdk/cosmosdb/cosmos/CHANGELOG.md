@@ -9,7 +9,7 @@
 
 ### Bugs Fixed
 
-- Fix issue with GlobalEndpointManager never makes endpoints available after they are set unavailable [#22726](https://github.com/Azure/azure-sdk-for-js/issues/22726)
+- Fix issue with GlobalEndpointManager never makes endpoints available after they fall-back [#22726](https://github.com/Azure/azure-sdk-for-js/issues/22726)
 
 ### Other Changes
 
