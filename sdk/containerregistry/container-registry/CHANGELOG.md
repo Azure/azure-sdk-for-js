@@ -1,12 +1,14 @@
 # Release History
 
-## 1.1.0-beta.2 (Unreleased)
+## 1.1.0-beta.2 (2023-02-08)
 
 ### Features Added
 
+- `ContainerRegistryBlobClient.uploadBlob` now uploads a blob using multiple requests if the size of the blob is greater than 4MB.
+
 ### Breaking Changes
 
-### Bugs Fixed
+- Removed resettable stream overload for `ContainerRegistryBlobClient.uploadBlob`.
 
 ### Other Changes
 
