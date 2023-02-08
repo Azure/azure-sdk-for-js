@@ -35,7 +35,7 @@ async function createOrUpdateABigDataPool() {
     nodeSize: "Medium",
     nodeSizeFamily: "MemoryOptimized",
     sparkEventsFolder: "/events",
-    sparkVersion: "3.3",
+    sparkVersion: "2.4",
     tags: { key: "value" },
   };
   const credential = new DefaultAzureCredential();
