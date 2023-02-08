@@ -1,48 +1,121 @@
-# Azure PurviewWorkflow REST client library for JavaScript
+# Azure Purview Workflow Rest-Level client library for JavaScript
 
-Purview Workflow Client
+Workflows are automated, repeatable business processes that users can create within Microsoft Purview to validate and orchestrate CUD (create, update, delete) operations on their data entities. Enabling these processes allow organizations to track changes, enforce policy compliance, and ensure quality data across their data landscape.
 
-**If you are not familiar with our REST client, please spend 5 minutes to take a look at our [REST client docs](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md) to use this library, the REST client provides a light-weighted & developer friendly way to call azure rest api
+Use the client library for Purview Workflow to:
 
-Key links:
+- Manage workflows
+- Submit user requests and monitor workflow runs
+- View and respond to workflow tasks
 
-- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/purview/purview-workflow-rest)
-- [Package (NPM)](https://www.npmjs.com/package/@azure-rest/purview-workflow)
-- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure-rest/purview-workflow?view=azure-node-preview)
-- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/purview/purview-workflow-rest/samples)
+**For more details about how to use workflow, please refer to the [service documentation][product_documentation]**
 
 ## Getting started
 
 ### Currently supported environments
 
-- LTS versions of Node.js
+- Node.js version 14.x.x or higher
 
 ### Prerequisites
 
-- You must have an [Azure subscription](https://azure.microsoft.com/free/) to use this package.
-
-### Install the `@azure-rest/purview-workflow` package
-
-Install the Azure PurviewWorkflow REST client REST client library for JavaScript with `npm`:
-
-```bash
-npm install @azure-rest/purview-workflow
-```
+- You must have an [Azure subscription][azure_subscription] and a [Purview resource][purview_resource] to use this package.
 
 ### Create and authenticate a `PurviewWorkflowClient`
 
-To use an [Azure Active Directory (AAD) token credential](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token),
-provide an instance of the desired credential type obtained from the
-[@azure/identity](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#credentials) library.
+Since the Workflow service uses an Azure Active Directory (AAD) bearer token for authentication and identification, an email address should be encoded into the token to allow for notification when using Workflow. It is recommended that the [Azure Identity][azure_identity] library be used  with a the [UsernamePasswordCredential][username_password_credential]. Before using the [Azure Identity][azure_identity] library with Workflow, [an application][app_registration] should be registered and used for the clientId passed to the [UsernamePasswordCredential][username_password_credential].
+Set the values of the client ID, tenant ID, username and password as environment variables:
+AZURE_CLIENT_ID, AZURE_TENANT_ID, USERNAME, PASSWORD
 
-To authenticate with AAD, you must first `npm` install [`@azure/identity`](https://www.npmjs.com/package/@azure/identity) 
+```typescript
+import PurviewWorkflow from "@azure-rest/purview-workflow";
+import { UsernamePasswordCredential } from "@azure/identity";
+const client = PurviewWorkflow(
+  "https://<account-name>.purview.azure.com",
+  new UsernamePasswordCredential(
+        <AZURE_TENANT_ID>,
+        <AZURE_CLIENT_ID>,
+        <USERNAME>,
+        <PASSWORD>
+      )
+  );
+```
 
-After setup, you can choose which type of [credential](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#credentials) from `@azure/identity` to use.
-As an example, [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential)
-can be used to authenticate the client.
+## Examples
 
-Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables:
-AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET
+The following section provides several code snippets covering some of the most common scenarios, including:
+
+- [Submit User Requests](#submit-user-requests)
+- [Approve Workflow Task](#approve-workflow-task)
+
+### Submit user requests
+
+```typescript
+import createPurviewWorkflowClient, {
+  SubmitUserRequestsParameters
+} from "@azure-rest/purview-workflow";
+import { UsernamePasswordCredential } from "@azure/identity";
+
+async function userRequestsSubmit() {
+  const endpoint = <ENDPOINT>;
+  const tenantId = <TENANTID>;
+  const clientId = <CLIENTID>;
+  const username = <USERNAME>;
+  const password = <PASSWORD>;
+  const credential = new UsernamePasswordCredential(tenantId , clientId, username, password);
+  const client = createPurviewWorkflowClient(endpoint, credential);
+  const options: SubmitUserRequestsParameters = {
+    body: {
+      comment: "Thanks!",
+      operations: [
+        {
+          type: "CreateTerm",
+          payload: {
+            glossaryTerm: {
+              name: "term",
+              anchor: { glossaryGuid: "20031e20-b4df-4a66-a61d-1b0716f3fa48" },
+              nickName: "term",
+              status: "Approved"
+            }
+          }
+        }
+      ]
+    }
+  };
+  const result = await client.path("/userrequests").post(options);
+  console.log(result);
+}
+
+userRequestsSubmit().catch(console.error);
+```
+
+### Approve workflow task
+
+```typescript
+// This taskId represents an existing workflow task. The id can be obtained by calling GET /workflowtasks API.
+import createPurviewWorkflowClient, {
+  SubmitUserRequestsParameters
+} from "@azure-rest/purview-workflow";
+import { UsernamePasswordCredential } from "@azure/identity";
+async function approvalTaskApprove() {
+  const endpoint = <ENDPOINT>;
+  const tenantId = <TENANTID>;
+  const clientId = <CLIENTID>;
+  const username = <USERNAME>;
+  const password = <PASSWORD>;
+  const credential = new UsernamePasswordCredential(tenantId, clientId, username, password);
+  const client = createPurviewWorkflowClient(endpoint, credential);
+  const taskId = "98d98e2c-23fa-4157-a3f8-ff8ce5cc095c";
+  const options: ApproveApprovalTaskParameters = {
+    body: { comment: "Thanks for raising this!" }
+  };
+  const result = await client
+    .path("/workflowtasks/{taskId}/approve-approval", taskId)
+    .post(options);
+  console.log(result);
+}
+
+approvalTaskApprove().catch(console.error);
+```
 
 ## Troubleshooting
 
@@ -57,3 +130,11 @@ setLogLevel("info");
 ```
 
 For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
+
+<!-- LINKS -->
+[product_documentation]: https://learn.microsoft.com/azure/purview/concept-workflow
+[azure_subscription]: https://azure.microsoft.com/free/dotnet/
+[purview_resource]: https://docs.microsoft.com/azure/purview/create-catalog-portal
+[azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#readme
+[app_registration]: https://learn.microsoft.com/azure/active-directory/develop/quickstart-register-app
+[username_password_credential]: https://learn.microsoft.com/en-us/javascript/api/@azure/identity/usernamepasswordcredential?view=azure-node-latest

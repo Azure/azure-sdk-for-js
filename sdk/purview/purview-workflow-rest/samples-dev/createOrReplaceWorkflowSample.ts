@@ -7,6 +7,7 @@ import createPurviewWorkflowClient, {
   CreateOrReplaceWorkflowParameters
 } from "@azure-rest/purview-workflow";
 import { UsernamePasswordCredential } from "@azure/identity";
+import { randomUUID } from "crypto";
 import * as dotenv from "dotenv";
 
 dotenv.config();
@@ -26,7 +27,7 @@ const password = process.env["PASSWORD"] || "";
 async function workflowCreateOrUpdate() {
   const credential = new UsernamePasswordCredential(tenantId, clientId, username, password);
   const client = createPurviewWorkflowClient(endpoint, credential);
-  const workflowId = "4afb5752-e47f-43a1-8ba7-c696bf8d2745";
+  const workflowId = randomUUID();
   const options: CreateOrReplaceWorkflowParameters = {
     body: {
       name: "Create glossary term workflow",
