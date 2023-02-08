@@ -1,0 +1,127 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/workflow/workflows/669ab714-1900-47a9-8346-060358f26623?api-version=2022-05-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-purview-workflow-rest/1.0.0-beta.2 core-rest-pipeline/1.10.1 Node/v18.8.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "f9f1168f-7f41-4aa8-89cf-a1e456afc805"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "1703",
+        "Content-Type": "application/json",
+        "Date": "Wed, 08 Feb 2023 08:16:09 GMT",
+        "Server": "MicrosoftPurview",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "x-ms-client-request-id": "f9f1168f-7f41-4aa8-89cf-a1e456afc805",
+        "x-ms-correlation-request-id": "f9797014-af84-4a5e-9f83-d6c718308849",
+        "x-ms-request-id": "1774369f-6ae8-4fa3-9b3f-39ce229f0a8e"
+      },
+      "ResponseBody": {
+        "id": "669ab714-1900-47a9-8346-060358f26623",
+        "triggers": [
+          {
+            "type": "when_term_update_is_requested"
+          }
+        ],
+        "createdTime": "2023-02-08T08:01:16.817168353Z",
+        "createdBy": "83ffc40f-f670-49b0-a17e-30c7f74f209a",
+        "lastUpdateTime": "2023-02-08T08:01:16.817168353Z",
+        "updatedBy": "83ffc40f-f670-49b0-a17e-30c7f74f209a",
+        "name": "Update glossary term",
+        "isEnabled": false,
+        "description": "",
+        "actionDag": {
+          "actions": {
+            "Start and wait for an approval": {
+              "type": "Approval",
+              "inputs": {
+                "parameters": {
+                  "approvalType": "PendingOnAll",
+                  "title": "Approval Request for Update Glossary Term",
+                  "assignedTo": [
+                    "ebd5d73f-ebd1-40bc-8f63-6d3724957d15"
+                  ]
+                }
+              },
+              "runAfter": {}
+            },
+            "Condition": {
+              "type": "If",
+              "expression": {
+                "and": [
+                  {
+                    "equals": [
+                      "@outputs(\u0027Start and wait for an approval\u0027)[\u0027body/outcome\u0027]",
+                      "Approved"
+                    ]
+                  }
+                ]
+              },
+              "actions": {
+                "Update glossary term": {
+                  "type": "UpdateTerm",
+                  "runAfter": {}
+                },
+                "Send email notification": {
+                  "type": "EmailNotification",
+                  "inputs": {
+                    "parameters": {
+                      "emailSubject": "Glossary Term Update - APPROVED",
+                      "emailMessage": "Your request for Glossary Term @{triggerBody()[\u0027request\u0027][\u0027term\u0027][\u0027name\u0027]} is approved.",
+                      "emailRecipients": [
+                        "@{triggerBody()[\u0027request\u0027][\u0027requestor\u0027]}"
+                      ]
+                    }
+                  },
+                  "runAfter": {
+                    "Update glossary term": [
+                      "Succeeded"
+                    ]
+                  },
+                  "runtimeConfiguration": {
+                    "secureInput": false,
+                    "secureOutput": false
+                  }
+                }
+              },
+              "else": {
+                "actions": {
+                  "Send reject email notification": {
+                    "type": "EmailNotification",
+                    "inputs": {
+                      "parameters": {
+                        "emailSubject": "Glossary Term Update - REJECTED",
+                        "emailMessage": "Your request for Glossary Term @{triggerBody()[\u0027request\u0027][\u0027term\u0027][\u0027name\u0027]} is rejected.",
+                        "emailRecipients": [
+                          "@{triggerBody()[\u0027request\u0027][\u0027requestor\u0027]}"
+                        ]
+                      }
+                    },
+                    "runAfter": {},
+                    "runtimeConfiguration": {
+                      "secureInput": false,
+                      "secureOutput": false
+                    }
+                  }
+                }
+              },
+              "runAfter": {
+                "Start and wait for an approval": [
+                  "Succeeded"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

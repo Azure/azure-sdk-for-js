@@ -6,7 +6,7 @@
 import createPurviewWorkflowClient, {
   SubmitUserRequestsParameters
 } from "@azure-rest/purview-workflow";
-import { DefaultAzureCredential } from "@azure/identity";
+import { UsernamePasswordCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
 dotenv.config();
@@ -17,9 +17,15 @@ dotenv.config();
  * @summary Submit a user request for requestor, a user  request describes user ask to do operation(s) on Purview. If any workflow's trigger matches with an operation in request, a run of the workflow is created.
  * x-ms-original-file: specification/purview/data-plane/Azure.Analytics.Purview.Workflow/preview/2022-05-01-preview/examples/SubmitUserRequests.json
  */
+const endpoint = process.env["ENDPOINT"] || "";
+const tenantId = process.env["TENANTID"] || "";
+const clientId = process.env["CLIENTID"] || "";
+const username = process.env["USERNAME"] || "";
+const password = process.env["PASSWORD"] || "";
+
 async function userRequestsSubmit() {
-  const credential = new DefaultAzureCredential();
-  const client = createPurviewWorkflowClient(credential);
+  const credential = new UsernamePasswordCredential(tenantId, clientId, username, password);
+  const client = createPurviewWorkflowClient(endpoint, credential);
   const options: SubmitUserRequestsParameters = {
     body: {
       comment: "Thanks!",

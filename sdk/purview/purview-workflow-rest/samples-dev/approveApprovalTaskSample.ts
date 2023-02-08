@@ -6,7 +6,7 @@
 import createPurviewWorkflowClient, {
   ApproveApprovalTaskParameters
 } from "@azure-rest/purview-workflow";
-import { DefaultAzureCredential } from "@azure/identity";
+import { UsernamePasswordCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
 dotenv.config();
@@ -17,9 +17,16 @@ dotenv.config();
  * @summary Approve an approval task.
  * x-ms-original-file: specification/purview/data-plane/Azure.Analytics.Purview.Workflow/preview/2022-05-01-preview/examples/ApproveApprovalTask.json
  */
+const endpoint = process.env["ENDPOINT"] || "";
+const tenantId = process.env["TENANTID"] || "";
+const clientId = process.env["CLIENTID"] || "";
+const username = process.env["USERNAME"] || "";
+const password = process.env["PASSWORD"] || "";
+
+
 async function approvalTaskApprove() {
-  const credential = new DefaultAzureCredential();
-  const client = createPurviewWorkflowClient(credential);
+  const credential = new UsernamePasswordCredential(tenantId, clientId, username, password);
+  const client = createPurviewWorkflowClient(endpoint, credential);
   const taskId = "98d98e2c-23fa-4157-a3f8-ff8ce5cc095c";
   const options: ApproveApprovalTaskParameters = {
     body: { comment: "Thanks for raising this!" }

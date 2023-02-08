@@ -6,7 +6,7 @@
 import createPurviewWorkflowClient, {
   ReassignWorkflowTaskParameters
 } from "@azure-rest/purview-workflow";
-import { DefaultAzureCredential } from "@azure/identity";
+import { UsernamePasswordCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
 dotenv.config();
@@ -17,9 +17,15 @@ dotenv.config();
  * @summary Reassign a workflow task.
  * x-ms-original-file: specification/purview/data-plane/Azure.Analytics.Purview.Workflow/preview/2022-05-01-preview/examples/ReassignWorkflowTask.json
  */
+const endpoint = process.env["ENDPOINT"] || "";
+const tenantId = process.env["TENANTID"] || "";
+const clientId = process.env["CLIENTID"] || "";
+const username = process.env["USERNAME"] || "";
+const password = process.env["PASSWORD"] || "";
+
 async function approvalRequestReassign() {
-  const credential = new DefaultAzureCredential();
-  const client = createPurviewWorkflowClient(credential);
+  const credential = new UsernamePasswordCredential(tenantId, clientId, username, password);
+  const client = createPurviewWorkflowClient(endpoint, credential);
   const taskId = "11b0244b-70ea-4c6b-9d28-08f52de40f2f";
   const options: ReassignWorkflowTaskParameters = {
     body: {

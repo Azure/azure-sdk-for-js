@@ -6,7 +6,7 @@
 import createPurviewWorkflowClient, {
   ClaimDsarTaskRequestParameters
 } from "@azure-rest/purview-workflow";
-import { DefaultAzureCredential } from "@azure/identity";
+import { UsernamePasswordCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
 dotenv.config();
@@ -17,9 +17,15 @@ dotenv.config();
  * @summary Claim a DSAR task request.
  * x-ms-original-file: specification/purview/data-plane/Azure.Analytics.Purview.Workflow/preview/2022-05-01-preview/examples/ClaimDSARTaskRequest.json
  */
+const endpoint = process.env["ENDPOINT"] || "";
+const tenantId = process.env["TENANTID"] || "";
+const clientId = process.env["CLIENTID"] || "";
+const username = process.env["USERNAME"] || "";
+const password = process.env["PASSWORD"] || "";
+
 async function dsarTaskRequestClaim() {
-  const credential = new DefaultAzureCredential();
-  const client = createPurviewWorkflowClient(credential);
+  const credential = new UsernamePasswordCredential(tenantId, clientId, username, password);
+  const client = createPurviewWorkflowClient(endpoint, credential);
   const taskId = "d5bd0215-df84-4245-8e18-3a8f012be376";
   const options: ClaimDsarTaskRequestParameters = {
     body: { comment: "Thanks!" }
