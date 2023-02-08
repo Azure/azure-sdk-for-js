@@ -1,15 +1,11 @@
 # Release History
 
-## 12.12.0 (Unreleased)
+## 12.12.0-beta.1 (2023-02-09)
 
 ### Features Added
 
 - Added support for service version 2021-12-02.
 - Add support for acquiring, renewing and releasing lease in methods DataLakeFileClient.append() and flush().
-
-### Breaking Changes
-
-### Bugs Fixed
 
 ### Other Changes
 

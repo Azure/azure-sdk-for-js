@@ -1247,6 +1247,53 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/storage-blob/12.12.0:
+    resolution: {integrity: sha512-o/Mf6lkyYG/eBW4/hXB9864RxVNmAkcKHjsGR6Inlp5hupa3exjSyH2KjO3tLO//YGA+tS+17hM2bxRl9Sn16g==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-http': 2.3.1
+      '@azure/core-lro': 2.5.0
+      '@azure/core-paging': 1.4.0
+      '@azure/core-tracing': 1.0.0-preview.13
+      '@azure/logger': 1.0.3
+      events: 3.3.0
+      tslib: 2.5.0
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
+  /@azure/storage-file-datalake/12.11.0:
+    resolution: {integrity: sha512-9ZcdR9ZJR1O5/E0UyN3XyQ1NdZIcaOfuYxpiPmn0vJsRe/YnbRfbz0j8ObrCGU9VZgQRj+RkI2A8GdhnmOwAzA==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-http': 2.3.1
+      '@azure/core-paging': 1.4.0
+      '@azure/core-tracing': 1.0.0-preview.13
+      '@azure/logger': 1.0.3
+      '@azure/storage-blob': 12.12.0
+      events: 3.3.0
+      tslib: 2.5.0
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
+  /@azure/storage-file-share/12.12.0:
+    resolution: {integrity: sha512-WBYkQ21mmrXFO6eT1YQ3QlTj9t8NiSwvUyyi4tSFUK0gAlzV+PsaMMIH193V2BQCtDZ7d3nwuv8DxKsd/Ok57A==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-http': 2.3.1
+      '@azure/core-paging': 1.4.0
+      '@azure/core-tracing': 1.0.0-preview.13
+      '@azure/logger': 1.0.3
+      events: 3.3.0
+      tslib: 2.5.0
+    transitivePeerDependencies:
+      - encoding
+    dev: false
+
   /@babel/code-frame/7.12.11:
     resolution: {integrity: sha512-Zt1yodBx1UcyiePMSkWnU4hPqhwq7hGi2nFL1LeA3EUl+q2LQx16MISgJ0+z7dnmgvP9QtIleuETGOiOH1RcIw==}
     dependencies:
@@ -2290,7 +2337,7 @@ packages:
     resolution: {integrity: sha512-ALYone6pm6QmwZoAgeyNksccT9Q4AWZQ6PvfwR37GT6r6FWUPguq6sUmNGSMV2Wr761oQoBxwGGa6DR5o1DC9g==}
     dependencies:
       '@types/connect': 3.4.35
-      '@types/node': 14.18.36
+      '@types/node': 18.11.18
     dev: false
 
   /@types/chai-as-promised/7.1.5:
@@ -2312,7 +2359,7 @@ packages:
   /@types/connect/3.4.35:
     resolution: {integrity: sha512-cdeYyv4KWoEgpBISTxWvqYsVy444DOqehiF3fM3ne10AmJ62RSyNkUnxMJXHQWRQQX2eR94m5y1IZyDwBjV9FQ==}
     dependencies:
-      '@types/node': 14.18.36
+      '@types/node': 18.11.18
     dev: false
 
   /@types/cookie/0.4.1:
@@ -2322,7 +2369,7 @@ packages:
   /@types/cors/2.8.13:
     resolution: {integrity: sha512-RG8AStHlUiV5ysZQKq97copd2UmVYw3/pRMLefISZ3S1hK104Cwm7iLQ3fTKx+lsUH2CE8FlLaYeEA2LSeqYUA==}
     dependencies:
-      '@types/node': 14.18.36
+      '@types/node': 18.11.18
     dev: false
 
   /@types/debug/4.1.7:
@@ -2349,7 +2396,7 @@ packages:
   /@types/express-serve-static-core/4.17.33:
     resolution: {integrity: sha512-TPBqmR/HRYI3eC2E5hmiivIzv+bidAfXofM+sbonAGvyDhySGw9/PQZFt2BLOrjUUR++4eJVpx6KnLQK1Fk9tA==}
     dependencies:
-      '@types/node': 12.20.55
+      '@types/node': 18.11.18
       '@types/qs': 6.9.7
       '@types/range-parser': 1.2.4
     dev: false
@@ -2366,20 +2413,20 @@ packages:
   /@types/fs-extra/8.1.2:
     resolution: {integrity: sha512-SvSrYXfWSc7R4eqnOzbQF4TZmfpNSM9FrSWLU3EUnWBuyZqNBOrv1B1JA3byUDPUl9z4Ab3jeZG2eDdySlgNMg==}
     dependencies:
-      '@types/node': 14.18.36
+      '@types/node': 18.11.18
     dev: false
 
   /@types/fs-extra/9.0.13:
     resolution: {integrity: sha512-nEnwB++1u5lVDM2UI4c1+5R+FYaKfaAzS4OococimjVm3nQw3TuzH5UNsocrcTBbhnerblyHj4A49qXbIiZdpA==}
     dependencies:
-      '@types/node': 14.18.36
+      '@types/node': 18.11.18
     dev: false
 
   /@types/glob/8.0.1:
     resolution: {integrity: sha512-8bVUjXZvJacUFkJXHdyZ9iH1Eaj5V7I8c4NdH5sQJsdXkqT4CA5Dhb4yb4VE/3asyx4L9ayZr1NIhTsWHczmMw==}
     dependencies:
       '@types/minimatch': 5.1.2
-      '@types/node': 14.18.36
+      '@types/node': 18.11.18
     dev: false
 
   /@types/inquirer/8.2.5:
@@ -2391,7 +2438,7 @@ packages:
   /@types/is-buffer/2.0.0:
     resolution: {integrity: sha512-0f7N/e3BAz32qDYvgB4d2cqv1DqUwvGxHkXsrucICn8la1Vb6Yl6Eg8mPScGwUiqHJeE7diXlzaK+QMA9m4Gxw==}
     dependencies:
-      '@types/node': 14.18.36
+      '@types/node': 18.11.18
     dev: false
 
   /@types/json-schema/7.0.11:
@@ -2405,13 +2452,13 @@ packages:
   /@types/jsonwebtoken/9.0.1:
     resolution: {integrity: sha512-c5ltxazpWabia/4UzhIoaDcIza4KViOQhdbjRlfcIGVnsE3c3brkz9Z+F/EeJIECOQP7W7US2hNE930cWWkPiw==}
     dependencies:
-      '@types/node': 14.18.36
+      '@types/node': 18.11.18
     dev: false
 
   /@types/jws/3.2.5:
     resolution: {integrity: sha512-xGTxZH34xOryaTN8CMsvhh9lfNqFuHiMoRvsLYWQdBJHqiECyfInXVl2eK8Jz2emxZWMIn5RBlmr3oDVPeWujw==}
     dependencies:
-      '@types/node': 14.18.36
+      '@types/node': 18.11.18
     dev: false
 
   /@types/mdast/3.0.10:
@@ -2447,7 +2494,7 @@ packages:
   /@types/node-fetch/2.6.2:
     resolution: {integrity: sha512-DHqhlq5jeESLy19TYhLakJ07kNumXWjcDdxXsLUMJZ6ue8VZJj4kLPQVE/2mdHh3xZziNF1xppu5lwmS53HR+A==}
     dependencies:
-      '@types/node': 14.18.36
+      '@types/node': 18.11.18
       form-data: 3.0.1
     dev: false
 
@@ -2498,7 +2545,7 @@ packages:
   /@types/resolve/1.17.1:
     resolution: {integrity: sha512-yy7HuzQhj0dhGpD8RLXSZWEkLsV9ibvxvi6EiJ3bkqLAO1RGo0WbkWQiwpRlSFymTJRz0d3k5LM3kkx8ArDbLw==}
     dependencies:
-      '@types/node': 14.18.36
+      '@types/node': 18.11.18
     dev: false
 
   /@types/semaphore/1.1.1:
@@ -2513,7 +2560,7 @@ packages:
     resolution: {integrity: sha512-z5xyF6uh8CbjAu9760KDKsH2FcDxZ2tFCsA4HIMWE6IkiYMXfVoa+4f9KX+FN0ZLsaMw1WNG2ETLA6N+/YA+cg==}
     dependencies:
       '@types/mime': 3.0.1
-      '@types/node': 14.18.36
+      '@types/node': 18.11.18
     dev: false
 
   /@types/sinon/10.0.13:
@@ -2535,13 +2582,13 @@ packages:
   /@types/stoppable/1.1.1:
     resolution: {integrity: sha512-b8N+fCADRIYYrGZOcmOR8ZNBOqhktWTB/bMUl5LvGtT201QKJZOOH5UsFyI3qtteM6ZAJbJqZoBcLqqxKIwjhw==}
     dependencies:
-      '@types/node': 14.18.36
+      '@types/node': 18.11.18
     dev: false
 
   /@types/through/0.0.30:
     resolution: {integrity: sha512-FvnCJljyxhPM3gkRgWmxmDZyAQSiBQQWLI0A0VFL0K7W1oRUrPJSqNO0NvTnLkBcotdlp3lKvaT0JrnyRDkzOg==}
     dependencies:
-      '@types/node': 14.18.36
+      '@types/node': 18.11.18
     dev: false
 
   /@types/tough-cookie/4.0.2:
@@ -2555,13 +2602,13 @@ packages:
   /@types/tunnel/0.0.1:
     resolution: {integrity: sha512-AOqu6bQu5MSWwYvehMXLukFHnupHrpZ8nvgae5Ggie9UwzDR1CCwoXgSSWNZJuyOlCdfdsWMA5F2LlmvyoTv8A==}
     dependencies:
-      '@types/node': 14.18.36
+      '@types/node': 18.11.18
     dev: false
 
   /@types/tunnel/0.0.3:
     resolution: {integrity: sha512-sOUTGn6h1SfQ+gbgqC364jLFBw2lnFqkgF3q0WovEHRLMrVD1sd5aufqi/aJObLekJO+Aq5z646U4Oxy6shXMA==}
     dependencies:
-      '@types/node': 14.18.36
+      '@types/node': 18.11.18
     dev: false
 
   /@types/underscore/1.11.4:
@@ -2579,19 +2626,19 @@ packages:
   /@types/ws/7.4.7:
     resolution: {integrity: sha512-JQbbmxZTZehdc2iszGKs5oC3NFnjeay7mtAWrdt7qNtAVK0g19muApzAy4bm9byz79xa2ZnO/BOBC2R8RC5Lww==}
     dependencies:
-      '@types/node': 14.18.36
+      '@types/node': 18.11.18
     dev: false
 
   /@types/ws/8.5.4:
     resolution: {integrity: sha512-zdQDHKUgcX/zBc4GrwsE/7dVdAD8JR4EuiAXiiUhhfyIJXXb2+PrGshFyeXWQPMmmZ2XxgaqclgpIC7eTXc1mg==}
     dependencies:
-      '@types/node': 14.18.36
+      '@types/node': 18.11.18
     dev: false
 
   /@types/xml2js/0.4.11:
     resolution: {integrity: sha512-JdigeAKmCyoJUiQljjr7tQG3if9NkqGUgwEUqBvV0N7LM4HyQk7UXCnusRa1lnvXAEYJ8mw8GtZWioagNztOwA==}
     dependencies:
-      '@types/node': 14.18.36
+      '@types/node': 18.11.18
     dev: false
 
   /@types/yargs-parser/21.0.0:
@@ -2608,7 +2655,7 @@ packages:
     resolution: {integrity: sha512-Cn6WYCm0tXv8p6k+A8PvbDG763EDpBoTzHdA+Q/MF6H3sapGjCm9NzoaJncJS9tUKSuCoDs9XHxYYsQDgxR6kw==}
     requiresBuild: true
     dependencies:
-      '@types/node': 14.18.36
+      '@types/node': 18.11.18
     dev: false
     optional: true
 
@@ -3656,7 +3703,7 @@ packages:
     resolution: {integrity: sha512-mel+jf7nrtEl5Pn1Qx46zARXKDpBbvzezse7p7LqINmdoIk8PYP5SySaxEmYv6TZ0JyEKA1hsCId6DIhgITtWQ==}
     deprecated: Debug versions >=3.2.0 <3.2.7 || >=4 <4.3.1 have a low-severity ReDos regression when used in a Node.js environment. It is recommended you upgrade to 3.2.7 or 4.3.1. (https://github.com/visionmedia/debug/issues/797)
     dependencies:
-      ms: 2.1.1
+      ms: 2.1.3
     dev: false
 
   /debug/3.2.7:
@@ -3838,7 +3885,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20230201
+      typescript: 5.0.0-dev.20230208
     dev: false
 
   /downlevel-dts/0.7.0:
@@ -3856,7 +3903,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 4.6.4
+      typescript: 4.9.5
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -3907,7 +3954,7 @@ packages:
     dependencies:
       '@types/cookie': 0.4.1
       '@types/cors': 2.8.13
-      '@types/node': 14.18.36
+      '@types/node': 18.11.18
       accepts: 1.3.8
       base64id: 2.0.0
       cookie: 0.4.2
@@ -4910,7 +4957,7 @@ packages:
       fs.realpath: 1.0.0
       inflight: 1.0.6
       inherits: 2.0.4
-      minimatch: 3.0.4
+      minimatch: 3.1.2
       once: 1.4.0
       path-is-absolute: 1.0.1
     dev: false
@@ -8451,8 +8498,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20230201:
-    resolution: {integrity: sha512-pm0yhjZLWOXF1eWp07qymk04I6IM8CUFAKgwFpilOqrD0y3ZDpi997Ah7I4vrRoH3YQzT1fCyuUUYOBZwZ0C1Q==}
+  /typescript/5.0.0-dev.20230208:
+    resolution: {integrity: sha512-FkUy5kJ7XmLYxej9g9Lq4FMw3P6YjKuesa+1YoLvz2lHZuRuf91VxLsj9DWtknGCmjOVvyu+eefaeVknGTiI/Q==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -9480,11 +9527,12 @@ packages:
     dev: false
 
   file:projects/api-management-custom-widgets-tools.tgz:
-    resolution: {integrity: sha512-qC4iqzqWu2mja0Pm3Y0GZGTERbGg85Cu5GP9YJfWVpwJd7XqgTakqqjwH/ANI+nQQqNQeePQouogEL02gezkhQ==, tarball: file:projects/api-management-custom-widgets-tools.tgz}
+    resolution: {integrity: sha512-Tnjt+HsjtcvmkmENBwyzZypEDDtO7eXdTyePnfGcbvilKaYv8bTcItk9n8K9Y0sxPCBgzHg9t0pjrKDcFLs+DA==, tarball: file:projects/api-management-custom-widgets-tools.tgz}
     name: '@rush-temp/api-management-custom-widgets-tools'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
+      '@azure/storage-blob': 12.12.0
       '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.75.7
       '@types/chai': 4.3.4
@@ -9528,6 +9576,7 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - debug
+      - encoding
       - supports-color
       - utf-8-validate
     dev: false
@@ -16515,10 +16564,11 @@ packages:
     dev: false
 
   file:projects/eventhubs-checkpointstore-blob.tgz:
-    resolution: {integrity: sha512-riM26vkLP0Sv4WqP1Hz2jHu77NwZvWUGd5Zb7G3mtvfbBemo10/RSmxUeaKh7fE2ODV+wi0ntglBURUO12Y9mA==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
+    resolution: {integrity: sha512-G34wHggD9EqRpo9qqR3jy+Pt5PXKH8dDv2f9vNxXLEBtGGc8MTAg781qQbi9E5PI5ne80T0bNJieTsx9nNuv1Q==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
     name: '@rush-temp/eventhubs-checkpointstore-blob'
     version: 0.0.0
     dependencies:
+      '@azure/storage-blob': 12.12.0
       '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/chai-as-promised': 7.1.5
@@ -16561,6 +16611,7 @@ packages:
       - '@swc/core'
       - '@swc/wasm'
       - bufferutil
+      - encoding
       - supports-color
       - utf-8-validate
     dev: false
@@ -18150,10 +18201,11 @@ packages:
     dev: false
 
   file:projects/perf-storage-blob.tgz:
-    resolution: {integrity: sha512-jK57Eg/wAEJQ9F/7j4JZzWpOODHK9T4kEqWTw3IZEaFGA6saKefrIDm+l1AS15vWD/lGDOioiibtkyHDE8w5mQ==, tarball: file:projects/perf-storage-blob.tgz}
+    resolution: {integrity: sha512-eWFJAelqDA7qbtDwi48/LHloZUwKTF5K/oErSrL121xmzLe7Hrxc4QPA9NDhGe+06sAMhEeh0Eg9FMS8CVA5Hw==, tarball: file:projects/perf-storage-blob.tgz}
     name: '@rush-temp/perf-storage-blob'
     version: 0.0.0
     dependencies:
+      '@azure/storage-blob': 12.12.0
       '@types/node': 14.18.36
       '@types/node-fetch': 2.6.2
       '@types/uuid': 8.3.4
@@ -18174,10 +18226,11 @@ packages:
     dev: false
 
   file:projects/perf-storage-file-datalake.tgz:
-    resolution: {integrity: sha512-kiz/W60w1+lWhI9rTq562tYkoiQ6izYjewEkbLTr343DeG6/9X9a/SkrG9PWSh7fH6NEh703/ojeH+5LMErKpg==, tarball: file:projects/perf-storage-file-datalake.tgz}
+    resolution: {integrity: sha512-hOg3QPYA84eSaehVO722iWQQHy7JgDfkA12R7QsPWgOOIi24h/iex3TTupdAR3IZ78j0UCxlRx3MceAT9jwBmw==, tarball: file:projects/perf-storage-file-datalake.tgz}
     name: '@rush-temp/perf-storage-file-datalake'
     version: 0.0.0
     dependencies:
+      '@azure/storage-file-datalake': 12.11.0
       '@types/node': 14.18.36
       '@types/uuid': 8.3.4
       dotenv: 8.6.0
@@ -18191,14 +18244,16 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
+      - encoding
       - supports-color
     dev: false
 
   file:projects/perf-storage-file-share.tgz:
-    resolution: {integrity: sha512-BcqKHCjhhdX3CGcpa1Exwu7/ytXalGiJhjtdIcb3dcFBnieIA6LUQZLw8lIC3GmvbffQZ+o5oTZARFnhYA3SVg==, tarball: file:projects/perf-storage-file-share.tgz}
+    resolution: {integrity: sha512-hBayUQnqdYJRtW9HBKPAwfqI39j2qmZGIndc/0WLp09y0KayAIr2PkAwjlAi0TsvJ9/ir+M4nLzMWuGWDLWvaQ==, tarball: file:projects/perf-storage-file-share.tgz}
     name: '@rush-temp/perf-storage-file-share'
     version: 0.0.0
     dependencies:
+      '@azure/storage-file-share': 12.12.0
       '@types/node': 14.18.36
       '@types/uuid': 8.3.4
       dotenv: 8.6.0
@@ -18212,6 +18267,7 @@ packages:
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
+      - encoding
       - supports-color
     dev: false
 
@@ -18365,12 +18421,13 @@ packages:
     dev: false
 
   file:projects/quantum-jobs.tgz:
-    resolution: {integrity: sha512-l/BSD4i+H4u/Se/aiY4QAQbZmNUBaATzCp8nZvTfq07EKyOG7V7gt/cN3YYhRDPsvN9179NAc9dJHMZv9KtTFg==, tarball: file:projects/quantum-jobs.tgz}
+    resolution: {integrity: sha512-ONqoYo1ECThliKzQdgGPugy0AZqInWmvNTXW/BpbZ71P8YR3/az9eI1mFVlrnuHYW6DPDw34W5IBKiqAeaawMw==, tarball: file:projects/quantum-jobs.tgz}
     name: '@rush-temp/quantum-jobs'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.1.0
+      '@azure/storage-blob': 12.12.0
       '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
@@ -18628,12 +18685,13 @@ packages:
     dev: false
 
   file:projects/storage-blob-changefeed.tgz:
-    resolution: {integrity: sha512-edQiJQBf+qQhkyE+lG/j17BaAEFOb4lu7oD1M8zLkG1M7VmMZM6ro/1DtD48RpsADV6nalA63LMq7cCDQuzc4Q==, tarball: file:projects/storage-blob-changefeed.tgz}
+    resolution: {integrity: sha512-Eu5iKp4W8WAwRwFPn3oUWPkv1HvYPrmNtYhVYHwIrzw+u/wt4ayl465vjcdnFycz+hJbii2wReZVubfv2GoRmA==, tarball: file:projects/storage-blob-changefeed.tgz}
     name: '@rush-temp/storage-blob-changefeed'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/core-tracing': 1.0.0-preview.13
+      '@azure/storage-blob': 12.12.0
       '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
@@ -18740,7 +18798,7 @@ packages:
     dev: false
 
   file:projects/storage-file-datalake.tgz:
-    resolution: {integrity: sha512-mMbO0F04pfSd2T6MLbYpgeZSkoDXsf77arMSWbOXGRbzF8vGBeOl1idSXaMKPEhDFNokTsC3zPZ+iv+g0JXYvA==, tarball: file:projects/storage-file-datalake.tgz}
+    resolution: {integrity: sha512-dLB/95eL/r6nJiXIJHx30BfIzUactLopW7IpzIugx1Np7J+WB6lQ/5J3Ih8Fbq4xW/nr+giMWu76H+vVnaqGBQ==, tarball: file:projects/storage-file-datalake.tgz}
     name: '@rush-temp/storage-file-datalake'
     version: 0.0.0
     dependencies:
@@ -18796,12 +18854,13 @@ packages:
     dev: false
 
   file:projects/storage-file-share.tgz:
-    resolution: {integrity: sha512-Zo49yvYMhCHju+Ssr41wGyTEx3NoQU6AHgEsXUJPoY9AnWT15aFnt5KKx9aSd08Yhs3R7JqXvBADs4nzi6d4eA==, tarball: file:projects/storage-file-share.tgz}
+    resolution: {integrity: sha512-scAObLAFczjGdD2JiteSmNVUVtnSqqjv0KDGJE+9Zc6X52auI0jdyZVuRPqka4W5vtvzG8DVARU4cLt2B5/FGg==, tarball: file:projects/storage-file-share.tgz}
     name: '@rush-temp/storage-file-share'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/core-tracing': 1.0.0-preview.13
+      '@azure/storage-blob': 12.12.0
       '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2

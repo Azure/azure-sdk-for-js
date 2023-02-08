@@ -1,12 +1,15 @@
 # Release History
 
-## 12.13.0 (Unreleased)
+## 12.13.0-beta.1 (2023-02-09)
 
 ### Features Added
 
-### Breaking Changes
+- Added support for service version 2021-12-02.
+- Added support for Blob Cold Tier.
 
 ### Bugs Fixed
+
+- Fixed bug where IncrementalCopyOfEarlierVersionSnapshotNotAllowed was spelled incorrectly.
 
 ### Other Changes
 
