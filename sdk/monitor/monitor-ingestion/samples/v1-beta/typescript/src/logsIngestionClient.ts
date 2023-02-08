@@ -23,17 +23,16 @@ export async function main() {
     });
     console.log("All the logs provided are successfully ingested");
   } catch (e) {
-    let aggregateErrors =  isAggregateUploadLogsError(e) ? e.errors: [];
-    if(aggregateErrors.length > 0){
+    let aggregateErrors = isAggregateUploadLogsError(e) ? e.errors : [];
+    if (aggregateErrors.length > 0) {
       console.log("Some logs have failed to complete ingestion");
       for (const error of aggregateErrors) {
         console.log(`Error - ${JSON.stringify(error.cause)}`);
         console.log(`Log - ${JSON.stringify(error.failedLogs)}`);
       }
-    }
-    else{
+    } else {
       console.log(e);
-    }    
+    }
   }
 }
 

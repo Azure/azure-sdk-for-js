@@ -32,8 +32,8 @@ async function main() {
   try {
     await client.upload(ruleId, streamName, logs);
   } catch (e) {
-    if(isAggregateUploadLogsError(e)){
-      let aggregateErrors = (e).errors;
+    if (isAggregateUploadLogsError(e)) {
+      let aggregateErrors = e.errors;
       if (aggregateErrors.length > 0) {
         console.log(
           "Some logs have failed to complete ingestion. Number of error batches=",
@@ -44,8 +44,7 @@ async function main() {
           console.log(`Log - ${JSON.stringify(errors.failedLogs)}`);
         }
       }
-    }
-    else{
+    } else {
       console.log(e);
     }
   }

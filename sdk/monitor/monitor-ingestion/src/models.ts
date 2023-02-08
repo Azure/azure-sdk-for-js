@@ -71,4 +71,3 @@ export function isAggregateUploadLogsError(e: unknown): e is AggregateUploadLogs
   }
   return isError(e) && e.name === "AggregateUploadLogsError";
 }
-

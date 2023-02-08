@@ -31,7 +31,7 @@ async function main() {
   try {
     await client.upload(ruleId, streamName, logs, { maxConcurrency: 1 });
   } catch (e) {
-    if(isAggregateUploadLogsError(e)){
+    if (isAggregateUploadLogsError(e)) {
       let aggregateErrors = e.errors;
       console.log(
         "Some logs have failed to complete ingestion. Length of errors =",

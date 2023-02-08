@@ -158,29 +158,31 @@ describe("LogsIngestionClient live tests", function () {
   it("Calls the error callback function when all logs fail", async function () {
     const noOfElements = 25000;
     const logData = getObjects(noOfElements);
-    let concurrency = 3;
+    const concurrency = 3;
 
     let errorCallbackCount = 0;
-    const errorCallback = async function errorCallback(uploadLogsError: UploadLogsError) {      
-      if ((uploadLogsError.cause as Error).message === "Data collection rule with immutable Id 'immutable-id-123' not found.") {
-       try{
-        await client.upload(getDcrId(), "Custom-MyTableRawData", uploadLogsError.failedLogs, {
-          maxConcurrency: 1
-        });
-        ++errorCallbackCount;
-       }
-       finally{
-
-       }
+    const errorCallback = async function errorCallback(uploadLogsError: UploadLogsError): Promise<void> {
+      if (
+        (uploadLogsError.cause as Error).message ===
+        "Data collection rule with immutable Id 'immutable-id-123' not found."
+      ) {
+        try {
+          await client.upload(getDcrId(), "Custom-MyTableRawData", uploadLogsError.failedLogs, {
+            maxConcurrency: 1,
+          });
+          ++errorCallbackCount;
+        } finally {
+          // do nothing
+        }
       }
-    }
+    };
 
-    let uploadSinon = Sinon.spy(LogsIngestionClient.prototype,"upload");
+    const uploadSinon = Sinon.spy(LogsIngestionClient.prototype, "upload");
 
     try {
       await client.upload("immutable-id-123", "Custom-MyTableRawData", logData, {
         maxConcurrency: concurrency,
-        onError: errorCallback
+        onError: errorCallback,
       });
     } catch (e: any) {
       const result = (e as AggregateUploadLogsError).errors;
@@ -193,39 +195,41 @@ describe("LogsIngestionClient live tests", function () {
         });
       }
     }
-    assert.equal(errorCallbackCount,concurrency);
-    assert.equal(uploadSinon.callCount,4);
-  })
+    assert.equal(errorCallbackCount, concurrency);
+    assert.equal(uploadSinon.callCount, 4);
+  });
 
-  it("User abort additional processing early if they handle the error", async function(){
+  it("User abort additional processing early if they handle the error", async function () {
     const noOfElements = 250000;
     const logData = getObjects(noOfElements);
-    let concurrency = 4;
+    const concurrency = 4;
 
-    let abortController = new AbortController();
+    const abortController = new AbortController();
     let errorCallbackCount = 0;
-    const errorCallback = async function errorCallback() { 
+    const errorCallback = async function errorCallback(): Promise<void> {
       abortController.abort();
       ++errorCallbackCount;
-    }
+    };
     try {
       await client.upload("immutable-id-123", "Custom-MyTableRawData", logData, {
         maxConcurrency: concurrency,
         onError: errorCallback,
-        abortSignal: abortController.signal
+        abortSignal: abortController.signal,
       });
     } catch (e: any) {
       const result = (e as AggregateUploadLogsError).errors;
       if (result.length > 0) {
-       assert.equal(result[0].cause.message, `Data collection rule with immutable Id 'immutable-id-123' not found.`);
-       assert.equal(result[1].cause.message, `The operation was aborted.`);
-       assert.equal(result[result.length-1].cause.message, `The operation was aborted.`);
+        assert.equal(
+          result[0].cause.message,
+          `Data collection rule with immutable Id 'immutable-id-123' not found.`
+        );
+        assert.equal(result[1].cause.message, `The operation was aborted.`);
+        assert.equal(result[result.length - 1].cause.message, `The operation was aborted.`);
       }
     }
-   assert.equal(errorCallbackCount,concurrency);
-  })
+    assert.equal(errorCallbackCount, concurrency);
+  });
 });
-
 
 export function getObjects(logsCount: number): LogData[] {
   const logs: LogData[] = [];

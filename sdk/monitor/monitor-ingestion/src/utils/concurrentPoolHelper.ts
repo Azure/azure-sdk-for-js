@@ -22,7 +22,6 @@ export async function concurrentRun<T>(
       // eslint-disable-next-line promise/catch-or-return
       promise.finally(() => removePromise(promise));
       promises.push(promise);
-      
     }
     if (promises.length === maxConcurrency) {
       await Promise.race(promises);
