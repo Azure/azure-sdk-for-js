@@ -1909,6 +1909,11 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure/arm-dataprotection",
+      "projectFolder": "sdk/dataprotection/arm-dataprotection",
+      "versionPolicyName": "management"
+    },
+    {
       "packageName": "@azure/arm-liftrqumulo",
       "projectFolder": "sdk/liftrqumulo/arm-liftrqumulo",
       "versionPolicyName": "management"

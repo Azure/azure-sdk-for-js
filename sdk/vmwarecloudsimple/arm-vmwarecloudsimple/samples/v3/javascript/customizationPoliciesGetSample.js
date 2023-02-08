@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { VMwareCloudSimple } = require("@azure/arm-vmwarecloudsimple");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Returns customization policy by its name
@@ -18,7 +19,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/vmwarecloudsimple/resource-manager/Microsoft.VMwareCloudSimple/stable/2019-04-01/examples/GetCustomizationPolicy.json
  */
 async function getCustomizationPolicy() {
-  const subscriptionId = "{subscription-id}";
+  const subscriptionId = process.env["VMWARECLOUDSIMPLE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const regionId = "myResourceGroup";
   const pcName = "myPrivateCloud";
   const customizationPolicyName = "Linux1";
@@ -28,4 +29,8 @@ async function getCustomizationPolicy() {
   console.log(result);
 }
 
-getCustomizationPolicy().catch(console.error);
+async function main() {
+  getCustomizationPolicy();
+}
+
+main().catch(console.error);

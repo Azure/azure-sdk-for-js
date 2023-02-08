@@ -34,7 +34,7 @@
         "x-ms-routing-request-id": "SOUTHEASTASIA:20230116T031744Z:37b9d775-9522-465e-98e1-2b6aa0b5c57f"
       },
       "ResponseBody": {
-        "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.BotService/botServices/mybotxxx/channels/MsTeamsChannel",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.BotService/botServices/mybotxxx/channels/MsTeamsChannel",
         "name": "mybotxxx/MsTeamsChannel",
         "type": "Microsoft.BotService/botServices/channels",
         "etag": "W/\u00227bdfb872f95de0268023338b25a9a1611/16/2023 3:17:44 AM\u0022",

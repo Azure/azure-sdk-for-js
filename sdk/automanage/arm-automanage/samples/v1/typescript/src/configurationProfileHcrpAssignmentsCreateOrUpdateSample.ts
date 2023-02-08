@@ -13,6 +13,9 @@ import {
   AutomanageClient
 } from "@azure/arm-automanage";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates an association between a ARC machine and Automanage configuration profile
@@ -21,8 +24,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/automanage/resource-manager/Microsoft.Automanage/stable/2022-05-04/examples/createOrUpdateConfigurationProfileHCRPAssignment.json
  */
 async function createOrUpdateHcrpConfigurationProfileAssignment() {
-  const subscriptionId = "mySubscriptionId";
-  const resourceGroupName = "myResourceGroupName";
+  const subscriptionId =
+    process.env["AUTOMANAGE_SUBSCRIPTION_ID"] || "mySubscriptionId";
+  const resourceGroupName =
+    process.env["AUTOMANAGE_RESOURCE_GROUP"] || "myResourceGroupName";
   const machineName = "myMachineName";
   const configurationProfileAssignmentName = "default";
   const parameters: ConfigurationProfileAssignment = {
@@ -42,4 +47,8 @@ async function createOrUpdateHcrpConfigurationProfileAssignment() {
   console.log(result);
 }
 
-createOrUpdateHcrpConfigurationProfileAssignment().catch(console.error);
+async function main() {
+  createOrUpdateHcrpConfigurationProfileAssignment();
+}
+
+main().catch(console.error);

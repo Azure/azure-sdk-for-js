@@ -21,10 +21,6 @@ import {
   UserAssignedIdentitiesListByResourceGroupNextOptionalParams,
   UserAssignedIdentitiesListByResourceGroupOptionalParams,
   UserAssignedIdentitiesListByResourceGroupResponse,
-  AzureResource,
-  UserAssignedIdentitiesListAssociatedResourcesNextOptionalParams,
-  UserAssignedIdentitiesListAssociatedResourcesOptionalParams,
-  UserAssignedIdentitiesListAssociatedResourcesResponse,
   UserAssignedIdentitiesCreateOrUpdateOptionalParams,
   UserAssignedIdentitiesCreateOrUpdateResponse,
   IdentityUpdate,
@@ -34,8 +30,7 @@ import {
   UserAssignedIdentitiesGetResponse,
   UserAssignedIdentitiesDeleteOptionalParams,
   UserAssignedIdentitiesListBySubscriptionNextResponse,
-  UserAssignedIdentitiesListByResourceGroupNextResponse,
-  UserAssignedIdentitiesListAssociatedResourcesNextResponse
+  UserAssignedIdentitiesListByResourceGroupNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -175,90 +170,6 @@ export class UserAssignedIdentitiesImpl implements UserAssignedIdentities {
   }
 
   /**
-   * Lists the associated resources for this identity.
-   * @param resourceGroupName The name of the Resource Group to which the identity belongs.
-   * @param resourceName The name of the identity resource.
-   * @param options The options parameters.
-   */
-  public listAssociatedResources(
-    resourceGroupName: string,
-    resourceName: string,
-    options?: UserAssignedIdentitiesListAssociatedResourcesOptionalParams
-  ): PagedAsyncIterableIterator<AzureResource> {
-    const iter = this.listAssociatedResourcesPagingAll(
-      resourceGroupName,
-      resourceName,
-      options
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listAssociatedResourcesPagingPage(
-          resourceGroupName,
-          resourceName,
-          options,
-          settings
-        );
-      }
-    };
-  }
-
-  private async *listAssociatedResourcesPagingPage(
-    resourceGroupName: string,
-    resourceName: string,
-    options?: UserAssignedIdentitiesListAssociatedResourcesOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<AzureResource[]> {
-    let result: UserAssignedIdentitiesListAssociatedResourcesResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listAssociatedResources(
-        resourceGroupName,
-        resourceName,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listAssociatedResourcesNext(
-        resourceGroupName,
-        resourceName,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listAssociatedResourcesPagingAll(
-    resourceGroupName: string,
-    resourceName: string,
-    options?: UserAssignedIdentitiesListAssociatedResourcesOptionalParams
-  ): AsyncIterableIterator<AzureResource> {
-    for await (const page of this.listAssociatedResourcesPagingPage(
-      resourceGroupName,
-      resourceName,
-      options
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
    * Lists all the userAssignedIdentities available under the specified subscription.
    * @param options The options parameters.
    */
@@ -283,23 +194,6 @@ export class UserAssignedIdentitiesImpl implements UserAssignedIdentities {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
       listByResourceGroupOperationSpec
-    );
-  }
-
-  /**
-   * Lists the associated resources for this identity.
-   * @param resourceGroupName The name of the Resource Group to which the identity belongs.
-   * @param resourceName The name of the identity resource.
-   * @param options The options parameters.
-   */
-  private _listAssociatedResources(
-    resourceGroupName: string,
-    resourceName: string,
-    options?: UserAssignedIdentitiesListAssociatedResourcesOptionalParams
-  ): Promise<UserAssignedIdentitiesListAssociatedResourcesResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, resourceName, options },
-      listAssociatedResourcesOperationSpec
     );
   }
 
@@ -406,26 +300,6 @@ export class UserAssignedIdentitiesImpl implements UserAssignedIdentities {
       listByResourceGroupNextOperationSpec
     );
   }
-
-  /**
-   * ListAssociatedResourcesNext
-   * @param resourceGroupName The name of the Resource Group to which the identity belongs.
-   * @param resourceName The name of the identity resource.
-   * @param nextLink The nextLink from the previous successful call to the ListAssociatedResources
-   *                 method.
-   * @param options The options parameters.
-   */
-  private _listAssociatedResourcesNext(
-    resourceGroupName: string,
-    resourceName: string,
-    nextLink: string,
-    options?: UserAssignedIdentitiesListAssociatedResourcesNextOptionalParams
-  ): Promise<UserAssignedIdentitiesListAssociatedResourcesNextResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, resourceName, nextLink, options },
-      listAssociatedResourcesNextOperationSpec
-    );
-  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -464,35 +338,6 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listAssociatedResourcesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{resourceName}/listAssociatedResources",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AssociatedResourcesListResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.orderby,
-    Parameters.top,
-    Parameters.skip,
-    Parameters.skiptoken
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -626,27 +471,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listAssociatedResourcesNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AssociatedResourcesListResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName
   ],
   headerParameters: [Parameters.accept],
   serializer

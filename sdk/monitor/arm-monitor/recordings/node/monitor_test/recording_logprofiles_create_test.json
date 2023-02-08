@@ -50,7 +50,7 @@
       "RequestBody": {
         "location": "",
         "properties": {
-          "storageAccountId": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Storage/storageAccounts/mystorageaccountyyy",
+          "storageAccountId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Storage/storageAccounts/mystorageaccountyyy",
           "locations": [
             "global"
           ],
@@ -84,14 +84,14 @@
         "x-ms-routing-request-id": "JAPANEAST:20230129T082440Z:fec10b97-1065-426e-8013-82855467b70c"
       },
       "ResponseBody": {
-        "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/microsoft.insights/logprofiles/mylogProfilexxx",
+        "id": "/subscriptions/azure_subscription_id/providers/microsoft.insights/logprofiles/mylogProfilexxx",
         "type": null,
         "name": "mylogProfilexxx",
         "location": "",
         "kind": null,
         "tags": null,
         "properties": {
-          "storageAccountId": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Storage/storageAccounts/mystorageaccountyyy",
+          "storageAccountId": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Storage/storageAccounts/mystorageaccountyyy",
           "serviceBusRuleId": null,
           "locations": [
             "global"
