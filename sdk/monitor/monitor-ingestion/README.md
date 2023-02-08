@@ -89,7 +89,7 @@ You can familiarize yourself with different APIs using [Samples](https://github.
 You can create a client and call the client's `Upload` method. Take note of the data ingestion [limits](https://docs.microsoft.com/azure/azure-monitor/service-limits#custom-logs).
 
 ```js
-const { DefaultAzureCredential } = require("@azure/identity");
+const { isAggregateUploadLogsError, DefaultAzureCredential } = require("@azure/identity");
 const { LogsIngestionClient } = require("@azure/monitor-ingestion");
 
 require("dotenv").config();
@@ -112,15 +112,23 @@ async function main() {
       AdditionalContext: "context",
     },
   ];
-  const result = await client.upload(ruleId, streamName, logs);
-  if (result.status !== "Success") {
-    console.log("Some logs have failed to complete ingestion. Upload status=", result.status);
-    for (const errors of result.errors) {
-      console.log(`Error - ${JSON.stringify(errors.cause)}`);
-      console.log(`Log - ${JSON.stringify(errors.failedLogs)}`);
+  try{
+    await client.upload(ruleId, streamName, logs);
+  }
+  catch(e){
+    let aggregateErrors = isAggregateUploadLogsError(e) ? e.errors : [];
+    if (aggregateErrors.length > 0) {
+      console.log("Some logs have failed to complete ingestion");
+      for (const error of aggregateErrors) {
+        console.log(`Error - ${JSON.stringify(error.cause)}`);
+        console.log(`Log - ${JSON.stringify(error.failedLogs)}`);
+      }
+    } else {
+      console.log(e);
     }
   }
 }
+
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
   process.exit(1);
@@ -184,7 +192,7 @@ When uploading more than 1MB of logs in a single call to the `upload` method on 
 
 ```js
 const { DefaultAzureCredential } = require("@azure/identity");
-const { LogsIngestionClient } = require("@azure/monitor-ingestion");
+const { isAggregateUploadLogsError, LogsIngestionClient } = require("@azure/monitor-ingestion");
 
 require("dotenv").config();
 
@@ -205,13 +213,20 @@ async function main() {
     });
   }
 
-  // Set the maximum concurrency to 1 to prevent concurrent requests entirely
-  const result = await client.upload(ruleId, streamName, logs, { maxConcurrency: 1 });
-  if (result.status !== "Success") {
-    console.log("Some logs have failed to complete ingestion. Upload status=", result.status);
-    for (const error of result.errors) {
-      console.log(`Error - ${JSON.stringify(error.cause)}`);
-      console.log(`Log - ${JSON.stringify(error.failedLogs)}`);
+  try{
+    // Set the maximum concurrency to 1 to prevent concurrent requests entirely
+    await client.upload(ruleId, streamName, logs, { maxConcurrency: 1 });
+  }
+  catch(e){
+    let aggregateErrors = isAggregateUploadLogsError(e) ? e.errors : [];
+    if (aggregateErrors.length > 0) {
+      console.log("Some logs have failed to complete ingestion");
+      for (const error of aggregateErrors) {
+        console.log(`Error - ${JSON.stringify(error.cause)}`);
+        console.log(`Log - ${JSON.stringify(error.failedLogs)}`);
+      }
+    } else {
+      console.log(e);
     }
   }
 }
