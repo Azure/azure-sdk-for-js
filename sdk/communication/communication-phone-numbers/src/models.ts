@@ -8,12 +8,7 @@ import {
   PhoneNumbersListAreaCodesOptionalParams,
   PhoneNumberType,
 } from "./generated/src/models/";
-import {
-  InactiveStatusReason,
-  OverallHealthStatus,
-  PingStatus,
-  TlsStatus,
-} from "./generated/src/siprouting/models";
+import { SipTrunkHealth } from "./generated/src/siprouting/models";
 
 /**
  * The result of the phone numbers purchase operation.
@@ -103,8 +98,12 @@ export {
   SipTrunkRoute,
   TlsStatus,
   PingStatus,
-  OverallHealthStatus,
-  InactiveStatusReason,
+  ActivityStatus,
+  InactiveReason,
+  SipTrunkHealth,
+  SipTrunkTls,
+  SipTrunkPing,
+  SipTrunkActivity,
 } from "./generated/src/siprouting/models";
 
 /**
@@ -123,64 +122,14 @@ export interface SipTrunk {
    * Gets or sets enabled property of the trunk.
    */
   enabled?: boolean;
+  /**
+   * Represents health state of a SIP trunk for routing calls.
+   */
+  readonly health?: SipTrunkHealth;
 }
 
-/**
- * Represents a SIP trunk for routing calls. See RFC 4904.
- */
-export type SipTrunkExpanded = SipTrunk & {
-  /** Represents health state of a SIP trunk for routing calls. */
-  readonly health: SipTrunkHealth;
-};
+export type GetSipTrunksExpandType = "trunks/health";
 
-/**
- * Represents health state of SIP trunk.
- */
-export interface SipTrunkHealth {
-  /**
-   * Trunk's TLS connection status details.
-   */
-  tls: SipTrunkTls;
-  /**
-   * Trunk's Ping connection status details.
-   */
-  ping: SipTrunkPing;
-  /**
-   * Trunk's overall health.
-   */
-  overall: SipTrunkOverallHealth;
-}
-
-/**
- * Details about the status of TLS connection between Direct Routing infrastructure and the SBC.
- */
-export interface SipTrunkTls {
-  /**
-   * Status of TLS connection.
-   */
-  status: TlsStatus;
-}
-
-/**
- * Details about the status of options message sent by SBC.
- */
-export interface SipTrunkPing {
-  /**
-   * Status of options message sent by SBC.
-   */
-  status: PingStatus;
-}
-
-/**
- * Details about the status of options message sent by SBC.
- */
-export interface SipTrunkOverallHealth {
-  /**
-   * The overall health status of SBC.
-   */
-  status: OverallHealthStatus;
-  /**
-   * The reason why overall status of SBC is inactive.
-   */
-  reason?: InactiveStatusReason;
+export interface GetSipTrunksOptions extends OperationOptions {
+  expand?: GetSipTrunksExpandType;
 }

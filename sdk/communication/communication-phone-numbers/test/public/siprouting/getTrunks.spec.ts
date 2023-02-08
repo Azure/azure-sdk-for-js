@@ -7,7 +7,13 @@ import { Context } from "mocha";
 import { SipRoutingClient } from "../../../src";
 
 import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
-import { SipTrunk } from "../../../src/models";
+import {
+  ActivityStatus,
+  PingStatus,
+  SipTrunk,
+  SipTrunkHealth,
+  TlsStatus,
+} from "../../../src/models";
 import {
   clearSipConfiguration,
   createRecordedClient,
@@ -91,6 +97,63 @@ matrix([[true, false]], async function (useAad) {
       await client.setTrunks(expectedTrunks);
 
       const trunks = await client.getTrunks();
+
+      assert.isNotNull(trunks);
+      assert.isArray(trunks);
+      assert.deepEqual(trunks, expectedTrunks);
+    });
+
+    it("can retrieve a mocked trunk with health status", async () => {
+      const expectedHealth = {
+        tls: { status: "unknown" as TlsStatus },
+        ping: { status: "unknown" as PingStatus },
+        overall: { status: "unknown" as ActivityStatus },
+      } as SipTrunkHealth;
+      await client.setTrunk({ fqdn: fourthFqdn, sipSignalingPort: 4567 } as SipTrunk);
+
+      const trunk = await client.getTrunk(fourthFqdn, { expand: "trunks/health" });
+
+      assert.isNotNull(trunk);
+      assert.isNotNull(trunk.health);
+      assert.deepEqual(trunk.health, expectedHealth);
+    });
+
+    it("can retrieve multiple mocked trunks with health statuses", async () => {
+      const expectedHealth = {
+        tls: { status: "unknown" as TlsStatus },
+        ping: { status: "unknown" as PingStatus },
+        overall: { status: "unknown" as ActivityStatus },
+      } as SipTrunkHealth;
+      const expectedTrunks = [
+        {
+          fqdn: firstFqdn,
+          sipSignalingPort: 1239,
+          enabled: true,
+          health: expectedHealth,
+        } as SipTrunk,
+        {
+          fqdn: secondFqdn,
+          sipSignalingPort: 2348,
+          enabled: true,
+          health: expectedHealth,
+        } as SipTrunk,
+        {
+          fqdn: thirdFqdn,
+          sipSignalingPort: 3457,
+          enabled: true,
+          health: expectedHealth,
+        } as SipTrunk,
+      ];
+
+      const createdTrunks = [
+        { fqdn: firstFqdn, sipSignalingPort: 1239 },
+        { fqdn: secondFqdn, sipSignalingPort: 2348 },
+        { fqdn: thirdFqdn, sipSignalingPort: 3457 },
+      ];
+
+      await client.setTrunks(createdTrunks);
+
+      const trunks = await client.getTrunks({ expand: "trunks/health" });
 
       assert.isNotNull(trunks);
       assert.isArray(trunks);

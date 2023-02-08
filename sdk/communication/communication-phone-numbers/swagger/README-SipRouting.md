@@ -89,15 +89,6 @@ directive:
       $["x-nullable"] = true;
 ```
 
-### Directive renaming "TrunkExpanded" model to "SipTrunkStatus"
-```yaml
-directive:
-    - from: swagger-document
-      where: "$.definitions.TrunkExpanded" 
-      transform: >
-          $["x-ms-client-name"] = "SipTrunkStatus";
-```
-
 ### Directive for resolving default error type as "CommunicationErrorResponse"
 ```yaml
 directive:
@@ -112,6 +103,47 @@ directive:
       }
     }
     $.responses = newResponses;
+```
+
+### Directive renaming Health to SipTrunkHealth
+```yaml
+directive:
+    - from: swagger-document
+      where: "$.definitions.Health"
+      transform: >
+          $["x-ms-client-name"] = "SipTrunkHealth";
+```
+
+### Directive renaming Tls to SipTrunkTls
+```yaml
+directive:
+    - from: swagger-document
+      where: "$.definitions.Tls"
+      transform: >
+          $["x-ms-client-name"] = "SipTrunkTls";
+```
+
+### Directive renaming Ping to SipTrunkPing
+```yaml
+directive:
+    - from: swagger-document
+      where: "$.definitions.Ping"
+      transform: >
+          $["x-ms-client-name"] = "SipTrunkPing";
+```
+
+### Directive renaming OverallHealth to SipTrunkActivity together with status and reason properties
+```yaml
+directive:
+    - from: swagger-document
+      where: "$.definitions.OverallHealth"
+      transform: >
+          $.properties.status["x-ms-enum"].name = "activityStatus";
+          $.properties.status.description = "The activity status of Trunk.";
+          $.properties.reason["x-ms-enum"].name = "inactiveReason";
+          $.properties.reason.description = "The reason activity status of Trunk is inactive.";
+          $["x-ms-client-name"] = "SipTrunkActivity";
+          $.description = "The activity status of Trunk.";
 ```
 
 ```yaml

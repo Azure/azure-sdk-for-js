@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { SipTrunk as RestSipTrunk } from "./generated/src/siprouting/models";
-import { SipTrunk, SipTrunkExpanded } from "./models";
+import { SipTrunk } from "./models";
 
 /**
  * @internal
@@ -15,26 +15,7 @@ export function transformFromRestModel(
 
   if (trunks) {
     Object.keys(trunks).forEach((fqdn: string) => {
-      const port = trunks[fqdn].sipSignalingPort;
-      result.push({ fqdn: fqdn, sipSignalingPort: port } as SipTrunk);
-    });
-  }
-
-  return result;
-}
-
-/**
- * @internal
- * Transforming SIP trunks REST model to SDK model
- */
-export function transformExpandedTrunkFromModel(
-  trunks: { [propertyName: string]: RestSipTrunk } | undefined
-): SipTrunkExpanded[] {
-  const result: SipTrunkExpanded[] = [];
-
-  if (trunks) {
-    Object.keys(trunks).forEach((fqdn: string) => {
-      result.push({ fqdn: fqdn, ...trunks[fqdn] } as SipTrunkExpanded);
+      result.push({ fqdn: fqdn, ...trunks[fqdn] } as SipTrunk);
     });
   }
 

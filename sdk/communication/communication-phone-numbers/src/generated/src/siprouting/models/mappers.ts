@@ -85,47 +85,47 @@ export const SipTrunk: coreClient.CompositeMapper = {
         serializedName: "health",
         type: {
           name: "Composite",
-          className: "Health"
+          className: "SipTrunkHealth"
         }
       }
     }
   }
 };
 
-export const Health: coreClient.CompositeMapper = {
+export const SipTrunkHealth: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "Health",
+    className: "SipTrunkHealth",
     modelProperties: {
       tls: {
         serializedName: "tls",
         type: {
           name: "Composite",
-          className: "Tls"
+          className: "SipTrunkTls"
         }
       },
       ping: {
         serializedName: "ping",
         type: {
           name: "Composite",
-          className: "Ping"
+          className: "SipTrunkPing"
         }
       },
       overall: {
         serializedName: "overall",
         type: {
           name: "Composite",
-          className: "OverallHealth"
+          className: "SipTrunkActivity"
         }
       }
     }
   }
 };
 
-export const Tls: coreClient.CompositeMapper = {
+export const SipTrunkTls: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "Tls",
+    className: "SipTrunkTls",
     modelProperties: {
       status: {
         serializedName: "status",
@@ -138,10 +138,10 @@ export const Tls: coreClient.CompositeMapper = {
   }
 };
 
-export const Ping: coreClient.CompositeMapper = {
+export const SipTrunkPing: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "Ping",
+    className: "SipTrunkPing",
     modelProperties: {
       status: {
         serializedName: "status",
@@ -154,10 +154,10 @@ export const Ping: coreClient.CompositeMapper = {
   }
 };
 
-export const OverallHealth: coreClient.CompositeMapper = {
+export const SipTrunkActivity: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "OverallHealth",
+    className: "SipTrunkActivity",
     modelProperties: {
       status: {
         serializedName: "status",

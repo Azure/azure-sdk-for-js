@@ -16,6 +16,9 @@ import { PollOperationState } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
+export type ActivityStatus = "unknown" | "active" | "inactive";
+
+// @public
 export interface BeginPurchasePhoneNumbersOptions extends OperationOptions {
 }
 
@@ -34,8 +37,17 @@ export interface BeginUpdatePhoneNumberCapabilitiesOptions extends OperationOpti
 // @public
 export type GetPurchasedPhoneNumberOptions = OperationOptions;
 
+// @public (undocumented)
+export type GetSipTrunksExpandType = "trunks/health";
+
+// @public (undocumented)
+export interface GetSipTrunksOptions extends OperationOptions {
+    // (undocumented)
+    expand?: GetSipTrunksExpandType;
+}
+
 // @public
-export type InactiveStatusReason = "noRecentCalls" | "noRecentPings" | "noRecentCallsAndPings";
+export type InactiveReason = "noRecentCalls" | "noRecentPings" | "noRecentCallsAndPings";
 
 // @public
 export interface ListAvailableCountriesOptions extends OperationOptions {
@@ -66,9 +78,6 @@ export interface ListPurchasedPhoneNumbersOptions extends OperationOptions {
 // @public
 export interface ListTollFreeAreaCodesOptions extends Omit<PhoneNumbersListAreaCodesOptionalParams, "assignmentType" | "locality" | "administrativeDivision"> {
 }
-
-// @public
-export type OverallHealthStatus = "unknown" | "active" | "inactive";
 
 // @public
 export interface PhoneNumberAdministrativeDivision {
@@ -216,11 +225,9 @@ export class SipRoutingClient {
     constructor(endpoint: string, credential: KeyCredential, options?: SipRoutingClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: SipRoutingClientOptions);
     deleteTrunk(fqdn: string, options?: OperationOptions): Promise<void>;
-    getExpandedTrunk(fqdn: string, options?: OperationOptions): Promise<SipTrunkExpanded>;
-    getExpandedTrunks(options?: OperationOptions): Promise<SipTrunkExpanded[]>;
     getRoutes(options?: OperationOptions): Promise<SipTrunkRoute[]>;
-    getTrunk(fqdn: string, options?: OperationOptions): Promise<SipTrunk>;
-    getTrunks(options?: OperationOptions): Promise<SipTrunk[]>;
+    getTrunk(fqdn: string, options?: GetSipTrunksOptions): Promise<SipTrunk>;
+    getTrunks(options?: GetSipTrunksOptions): Promise<SipTrunk[]>;
     setRoutes(routes: SipTrunkRoute[], options?: OperationOptions): Promise<SipTrunkRoute[]>;
     setTrunk(trunk: SipTrunk, options?: OperationOptions): Promise<SipTrunk>;
     setTrunks(trunks: SipTrunk[], options?: OperationOptions): Promise<SipTrunk[]>;
@@ -243,25 +250,21 @@ export interface SipRoutingError {
 export interface SipTrunk {
     enabled?: boolean;
     fqdn: string;
-    sipSignalingPort?: number;
+    readonly health?: SipTrunkHealth;
+    sipSignalingPort: number;
 }
 
 // @public
-export type SipTrunkExpanded = SipTrunk & {
-    readonly health: SipTrunkHealth;
-};
+export interface SipTrunkActivity {
+    reason?: InactiveReason;
+    status: ActivityStatus;
+}
 
 // @public
 export interface SipTrunkHealth {
-    overall: SipTrunkOverallHealth;
+    overall: SipTrunkActivity;
     ping: SipTrunkPing;
     tls: SipTrunkTls;
-}
-
-// @public
-export interface SipTrunkOverallHealth {
-    reason?: InactiveStatusReason;
-    status: OverallHealthStatus;
 }
 
 // @public

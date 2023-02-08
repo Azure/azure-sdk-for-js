@@ -48,37 +48,37 @@ export interface SipTrunk {
    * Represents health state of a SIP trunk for routing calls.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly health?: Health;
+  readonly health?: SipTrunkHealth;
 }
 
 /** Represents health state of a SIP trunk for routing calls. */
-export interface Health {
+export interface SipTrunkHealth {
   /** The status of the TLS connections of the Trunk. */
-  tls: Tls;
+  tls: SipTrunkTls;
   /** The status of SIP OPTIONS message sent by Trunk. */
-  ping: Ping;
-  /** The overall health status of Trunk. */
-  overall: OverallHealth;
+  ping: SipTrunkPing;
+  /** The activity status of Trunk. */
+  overall: SipTrunkActivity;
 }
 
 /** The status of the TLS connections of the Trunk. */
-export interface Tls {
+export interface SipTrunkTls {
   /** The status of the TLS connections of the Trunk. */
   status: TlsStatus;
 }
 
 /** The status of SIP OPTIONS message sent by Trunk. */
-export interface Ping {
+export interface SipTrunkPing {
   /** The status of SIP OPTIONS message sent by Trunk. */
   status: PingStatus;
 }
 
-/** The overall health status of Trunk. */
-export interface OverallHealth {
-  /** The overall health status of Trunk. */
-  status: OverallHealthStatus;
-  /** The reason overall status of Trunk is inactive. */
-  reason?: InactiveStatusReason;
+/** The activity status of Trunk. */
+export interface SipTrunkActivity {
+  /** The activity status of Trunk. */
+  status: ActivityStatus;
+  /** The reason activity status of Trunk is inactive. */
+  reason?: InactiveReason;
 }
 
 /** Represents a trunk route for routing calls. */
@@ -181,10 +181,10 @@ export interface SipRoutingPatchExceptionHeaders {
 export type TlsStatus = "unknown" | "ok" | "certExpiring" | "certExpired";
 /** Defines values for PingStatus. */
 export type PingStatus = "unknown" | "ok" | "expired" | "error";
-/** Defines values for OverallHealthStatus. */
-export type OverallHealthStatus = "unknown" | "active" | "inactive";
-/** Defines values for InactiveStatusReason. */
-export type InactiveStatusReason =
+/** Defines values for ActivityStatus. */
+export type ActivityStatus = "unknown" | "active" | "inactive";
+/** Defines values for InactiveReason. */
+export type InactiveReason =
   | "noRecentCalls"
   | "noRecentPings"
   | "noRecentCallsAndPings";
