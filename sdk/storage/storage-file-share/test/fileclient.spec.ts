@@ -16,7 +16,13 @@ import { DirectoryCreateResponse } from "../src/generated/src/models";
 import { Pipeline } from "../src/Pipeline";
 import { FILE_MAX_SIZE_BYTES } from "../src/utils/constants";
 import { truncatedISO8061Date } from "../src/utils/utils.common";
-import { bodyToString, compareBodyWithUint8Array, getBSU, recorderEnvSetup } from "./utils";
+import {
+  bodyToString,
+  compareBodyWithUint8Array,
+  getBSU,
+  isBrowser,
+  recorderEnvSetup,
+} from "./utils";
 import { MockPolicyFactory } from "./utils/MockPolicyFactory";
 
 describe("FileClient", () => {
@@ -836,6 +842,29 @@ describe("FileClient", () => {
     await fileClient.create(10);
 
     const result = (await fileClient.listHandles().byPage().next()).value;
+    if (result.handleList !== undefined && result.handleList.length > 0) {
+      const handle = result.handleList[0];
+      assert.notDeepEqual(handle.handleId, undefined);
+      assert.notDeepEqual(handle.path, undefined);
+      assert.notDeepEqual(handle.fileId, undefined);
+      assert.notDeepEqual(handle.sessionId, undefined);
+      assert.notDeepEqual(handle.clientIp, undefined);
+      assert.notDeepEqual(handle.openTime, undefined);
+    }
+  });
+
+  it("listHandles for file with Invalid Char should work", async function (this: Context) {
+    if (isBrowser() && isLiveMode()) {
+      // Skipped for now as the generating new version SAS token is not supported in pipeline yet.
+      this.skip();
+    }
+    const fileNameWithInvalidChar = recorder.getUniqueName("file\uFFFE");
+    const fileWithInvalidChar = shareClient
+      .getDirectoryClient("")
+      .getFileClient(fileNameWithInvalidChar);
+    await fileWithInvalidChar.create(10);
+
+    const result = (await fileWithInvalidChar.listHandles().byPage().next()).value;
     if (result.handleList !== undefined && result.handleList.length > 0) {
       const handle = result.handleList[0];
       assert.notDeepEqual(handle.handleId, undefined);
