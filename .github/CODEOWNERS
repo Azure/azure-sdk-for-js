@@ -6,17 +6,15 @@
 ################
 # As of 1/30/2023 these paths have no owners:
 
-# /
-# /.devcontainer/
-# /documentation/
-# /samples/
+# /**
 
-###########
-# Eng Sys
-###########
-/eng/           @ckairen @mikeharder @weshaggard @benbp
-/**/tests.yml   @ckairen @benbp
-/**/ci.yml      @ckairen @benbp
+################
+# Misc.
+################
+
+/.devcontainer/ @jeremymeng
+/documentation/ @jeremymeng
+/samples/       @jeremymeng
 
 # Add owners for notifications for specific pipelines
 /eng/pipelines/aggregate-reports.yml @jeremymeng @xirzec
@@ -1452,6 +1450,11 @@
 
 # PRLabel: %eslint plugin
 /common/tools/eslint-plugin-azure-sdk/ @deyaaeldeen
+
+###########
+# Eng Sys
+###########
+/eng/           @ckairen @mikeharder @weshaggard @benbp
 
 ###########
 # Config
