@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { AbortSignalLike } from "@azure/abort-controller";
-import { HttpResponse, TransferProgressEvent } from "@azure/core-http";
+import { HttpResponse, TransferProgressEvent } from "@azure/core-rest-pipeline";
 
 import {
   LeaseAccessConditions,
@@ -11,6 +11,7 @@ import {
   ServiceRenameContainerOptions,
   ContainerRenameResponse,
   ContainerUndeleteResponse,
+  CommonOptions
 } from "@azure/storage-blob";
 import { DataLakePathClient } from "./clients";
 export type ModifiedAccessConditions = Omit<ModifiedAccessConditionsModel, "ifTags">;
@@ -52,7 +53,6 @@ import { DirectorySASPermissions } from "./sas/DirectorySASPermissions";
 import { FileSystemSASPermissions } from "./sas/FileSystemSASPermissions";
 import { SasIPRange } from "./sas/SasIPRange";
 import { SASProtocol } from "./sas/SASQueryParameters";
-import { CommonOptions } from "./StorageClient";
 
 export {
   LeaseAccessConditions,

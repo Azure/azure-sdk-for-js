@@ -1,14 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { TokenCredential } from "@azure/core-http";
+import { TokenCredential } from "@azure/core-auth";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { ContainerClient } from "@azure/storage-blob";
+import { ContainerClient, AnonymousCredential, StorageSharedKeyCredential, newPipeline, Pipeline, StoragePipelineOptions } from "@azure/storage-blob";
 import { SpanStatusCode } from "@azure/core-tracing";
 
-import { AnonymousCredential } from "./credentials/AnonymousCredential";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { DataLakeLeaseClient } from "./DataLakeLeaseClient";
-import { FileSystem } from "./generated/src/operations";
+import { FileSystemOperationsImpl as FileSystem } from "./generated/src/operations";
 import {
   AccessPolicy,
   FileSystemCreateOptions,
@@ -41,7 +39,6 @@ import {
   FileSystemUndeletePathOption,
   ListDeletedPathsSegmentOptions,
 } from "./models";
-import { newPipeline, Pipeline, StoragePipelineOptions } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
 import { toContainerPublicAccessType, toPublicAccessType, toPermissions } from "./transforms";
 import { convertTracingToRequestOptionsBase, createSpan } from "./utils/tracing";

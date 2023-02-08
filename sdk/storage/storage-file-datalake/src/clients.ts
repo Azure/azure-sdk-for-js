@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { HttpRequestBody, isNode, TokenCredential } from "@azure/core-http";
-import { BlobClient, BlockBlobClient } from "@azure/storage-blob";
+import { TokenCredential } from "@azure/core-auth";
+import { RequestBodyType as HttpRequestBody } from "@azure/core-rest-pipeline";
+import { isNode } from "@azure/core-util";
+import { AnonymousCredential, BlobClient, BlockBlobClient, StorageSharedKeyCredential, newPipeline, Pipeline, StoragePipelineOptions } from "@azure/storage-blob";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { Readable } from "stream";
 
 import { BufferScheduler } from "../../storage-common/src";
-import { AnonymousCredential } from "./credentials/AnonymousCredential";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { DataLakeLeaseClient } from "./DataLakeLeaseClient";
-import { Path } from "./generated/src/operations";
+import { PathOperationsImpl as Path } from "./generated/src/operations";
 import {
   AccessControlChanges,
   DirectoryCreateIfNotExistsOptions,
@@ -67,7 +67,6 @@ import {
   RemovePathAccessControlItem,
 } from "./models";
 import { PathSetAccessControlRecursiveMode } from "./models.internal";
-import { newPipeline, Pipeline, StoragePipelineOptions } from "./Pipeline";
 import { generateDataLakeSASQueryParameters } from "./sas/DataLakeSASSignatureValues";
 import { StorageClient } from "./StorageClient";
 import {
