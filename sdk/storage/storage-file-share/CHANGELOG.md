@@ -4,9 +4,8 @@
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
+- Added support for service version 2021-12-02.
+- Added support for invalid XML characters in file and directory names for ShareDirectoryClient.listFilesAndDirectories(), .listHandles(), and ShareFileClient.listHandles().
 
 ### Other Changes
 

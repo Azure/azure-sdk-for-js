@@ -77,6 +77,8 @@ import {
   setURLPath,
   setURLQueries,
   EscapePath,
+  ConvertInternalResponseOfListFiles,
+  ConvertInternalResponseOfListHandles,
 } from "./utils/utils.common";
 import { Credential } from "./credentials/Credential";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
@@ -2438,11 +2440,20 @@ export class ShareDirectoryClient extends StorageClient {
     }
 
     try {
-      return await this.context.listFilesAndDirectoriesSegment({
+      const response = await this.context.listFilesAndDirectoriesSegment({
         marker,
         ...options,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
+
+      const wrappedResponse: DirectoryListFilesAndDirectoriesSegmentResponse = {
+        ...ConvertInternalResponseOfListFiles(response),
+        _response: {
+          ...response._response,
+          parsedBody: ConvertInternalResponseOfListFiles(response._response.parsedBody),
+        }, // _response is made non-enumerable
+      };
+      return wrappedResponse;
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -2631,7 +2642,16 @@ export class ShareDirectoryClient extends StorageClient {
       if ((response.handleList as any) === "") {
         response.handleList = undefined;
       }
-      return response;
+
+      const wrappedResponse: DirectoryListHandlesResponse = {
+        ...ConvertInternalResponseOfListHandles(response),
+        _response: {
+          ...response._response,
+          parsedBody: ConvertInternalResponseOfListHandles(response._response.parsedBody),
+        },
+      };
+
+      return wrappedResponse;
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -5098,7 +5118,16 @@ export class ShareFileClient extends StorageClient {
       if ((response.handleList as any) === "") {
         response.handleList = undefined;
       }
-      return response;
+
+      const wrappedResponse: DirectoryListHandlesResponse = {
+        ...ConvertInternalResponseOfListHandles(response),
+        _response: {
+          ...response._response,
+          parsedBody: ConvertInternalResponseOfListHandles(response._response.parsedBody),
+        },
+      };
+
+      return wrappedResponse;
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
