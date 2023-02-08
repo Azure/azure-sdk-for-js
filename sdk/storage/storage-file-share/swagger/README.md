@@ -12,7 +12,7 @@ enable-xml: true
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/e432d9cc87bfed320d8feead4b448be9481c9181/specification/storage/data-plane/Microsoft.FileStorage/preview/2021-06-08/file.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/0cd0d5c070e85ea7d5816df056eddadc939b898a/specification/storage/data-plane/Microsoft.FileStorage/preview/2021-12-02/file.json
 model-date-time-as-string: true
 optional-response-headers: true
 v3: true
@@ -855,13 +855,14 @@ directive:
       $["modelAsString"] = false;
 ```
 
-### Update service version from "2018-06-08" to "2021-10-04"
+### Define ShareAccessTier to enum type
 
 ```yaml
 directive:
   - from: swagger-document
-    where: $.parameters.ApiVersionParameter
-    transform: $.enum = [ "2021-10-04" ];
+    where: $["definitions"]["StringEncoded"]["properties"]
+    transform: >
+      $["content"]["xml"]["name"] = "_";
 ```
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fstorage%2Fstorage-file-share%2Fswagger%2FREADME.png)
