@@ -24,7 +24,7 @@ export default function createClient(
     }
   };
 
-  const userAgentInfo = `azsdk-js-purview-workflow-rest/1.0.0-beta.2`;
+  const userAgentInfo = `azsdk-js-purview-workflow-rest/1.0.0-beta.1`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`

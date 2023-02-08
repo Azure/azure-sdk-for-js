@@ -15,7 +15,7 @@ license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src
 input-file: https://github.com/Azure/azure-rest-api-specs/blob/main/specification/purview/data-plane/Azure.Analytics.Purview.Workflow/preview/2022-05-01-preview/purviewWorkflow.json
-package-version: 1.0.0-beta.2
+package-version: 1.0.0-beta.1
 rest-level-client: true
 add-credentials: true
 credential-scopes: "https://purview.azure.net/.default"
