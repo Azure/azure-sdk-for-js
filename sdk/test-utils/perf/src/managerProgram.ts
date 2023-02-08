@@ -116,8 +116,15 @@ export class ManagerPerfProgram implements PerfProgram {
   }
 
   private createWorkers(): void {
-    const cpuOption = this.parsedOptions.cpus.value ?? 0;
     const parallels = this.parsedOptions.parallel.value ?? 1;
+
+    let cpuOption;
+    if (this.parsedOptions.profile.value) {
+      cpuOption = 1;
+    } else {
+      cpuOption = this.parsedOptions.cpus.value ?? 0;
+    }
+
     let cpus: number;
     if (cpuOption === 0) {
       cpus = os.cpus().length;

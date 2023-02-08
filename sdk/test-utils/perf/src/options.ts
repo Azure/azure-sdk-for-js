@@ -145,7 +145,7 @@ export const defaultPerfOptions: PerfOptionDictionary<DefaultPerfOptions> = {
     defaultValue: false,
   },
   profile: {
-    description: "Set to true to profile the perf test.",
+    description: "Set to true to profile the perf test. When set to true, `cpus` will be overriden to 1.",
     defaultValue: false
   }
 };
