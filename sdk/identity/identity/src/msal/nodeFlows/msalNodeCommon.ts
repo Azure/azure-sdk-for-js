@@ -30,6 +30,7 @@ import { LogPolicyOptions } from "@azure/core-rest-pipeline";
 import { MultiTenantTokenCredentialOptions } from "../../credentials/multiTenantTokenCredentialOptions";
 import { RegionalAuthority } from "../../regionalAuthority";
 import { TokenCachePersistenceOptions } from "./tokenCachePersistenceOptions";
+import { setDefaultInstanceDisovery } from "../../credentials/authorityValidationOptions";
 
 /**
  * Union of the constructor parameters that all MSAL flow types for Node.
@@ -152,16 +153,12 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
     if (process.env.AZURE_IDENTITY_DISABLE_CP1) {
       clientCapabilities = [];
     }
-    if (options.instanceDiscovery) {
-      // DO we need to set cloudDiscoveryMetadata OR authorityHostMetadata?
-      // iF YES, WHAT scenarios?
-    }
 
     return {
       auth: {
         clientId,
         authority,
-        knownAuthorities: getKnownAuthorities(tenantId, authority, options.instanceDiscovery),
+        knownAuthorities: getKnownAuthorities(tenantId, authority, setDefaultInstanceDisovery(options.instanceDiscovery)),
         clientCapabilities,
       },
       // Cache is defined in this.prepare();

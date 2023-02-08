@@ -16,6 +16,7 @@ import { BrowserLoginStyle } from "../../credentials/interactiveBrowserCredentia
 import { CredentialFlowGetTokenOptions } from "../credentials";
 import { DefaultTenantId } from "../../constants";
 import { MultiTenantTokenCredentialOptions } from "../../credentials/multiTenantTokenCredentialOptions";
+import { setDefaultInstanceDisovery } from "../../credentials/authorityValidationOptions";
 
 /**
  * Union of the constructor parameters that all MSAL flow types take.
@@ -46,15 +47,12 @@ export function defaultBrowserMsalConfig(
 ): msalBrowser.Configuration {
   const tenantId = options.tenantId || DefaultTenantId;
   const authority = getAuthority(tenantId, options.authorityHost);
-  if (options.instanceDiscovery) {
-    // DO we need to set cloudDiscoveryMetadata OR authorityHostMetadata?
-    // iF YES, WHAT scenarios?
-  }
+
   return {
     auth: {
       clientId: options.clientId!,
       authority,
-      knownAuthorities: getKnownAuthorities(tenantId, authority, options.instanceDiscovery),
+      knownAuthorities: getKnownAuthorities(tenantId, authority, setDefaultInstanceDisovery(options.instanceDiscovery)),
       // If the users picked redirect as their login style,
       // but they didn't provide a redirectUri,
       // we can try to use the current page we're in as a default value.
