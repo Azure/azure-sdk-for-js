@@ -262,6 +262,7 @@ export interface MoveCollectionProperties {
     readonly provisioningState?: ProvisioningState;
     sourceRegion: string;
     targetRegion: string;
+    version?: string;
 }
 
 // @public
@@ -760,6 +761,7 @@ export interface ResourceMoverServiceAPIOptionalParams extends coreClient.Servic
 // @public
 export interface ResourceSettings {
     resourceType: "Microsoft.Compute/virtualMachines" | "Microsoft.Compute/availabilitySets" | "Microsoft.Network/virtualNetworks" | "Microsoft.Network/networkInterfaces" | "Microsoft.Network/networkSecurityGroups" | "Microsoft.Network/loadBalancers" | "Microsoft.Sql/servers" | "Microsoft.Sql/servers/elasticPools" | "Microsoft.Sql/servers/databases" | "resourceGroups" | "Microsoft.Network/publicIPAddresses" | "Microsoft.KeyVault/vaults" | "Microsoft.Compute/diskEncryptionSets";
+    targetResourceGroupName?: string;
     targetResourceName: string;
 }
 

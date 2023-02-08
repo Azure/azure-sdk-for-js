@@ -1,15 +1,13 @@
 # Release History
+    
+## 2.2.0 (2023-02-08)
+    
+**Features**
 
-## 2.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface MoveCollectionProperties has a new optional parameter version
+  - Interface ResourceSettings has a new optional parameter targetResourceGroupName
+    
+    
 ## 2.1.0 (2022-12-12)
     
 **Features**

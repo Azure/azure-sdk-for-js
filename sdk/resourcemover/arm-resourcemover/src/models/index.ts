@@ -82,6 +82,8 @@ export interface MoveCollectionProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /** Gets or sets the version of move collection. */
+  version?: string;
   /**
    * Defines the move collection errors.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -413,6 +415,8 @@ export interface ResourceSettings {
     | "Microsoft.Compute/diskEncryptionSets";
   /** Gets or sets the target Resource name. */
   targetResourceName: string;
+  /** Gets or sets the target resource group name. */
+  targetResourceGroupName?: string;
 }
 
 /** Defines the move resource status. */
