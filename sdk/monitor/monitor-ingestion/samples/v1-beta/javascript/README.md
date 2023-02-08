@@ -5,11 +5,11 @@ These sample programs show how to use the JavaScript client libraries for Monito
 | **File Name**                                       | **Description**                                                                                                         |
 | --------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
 | [defaultConcurrency.js][defaultconcurrency]         | Demonstrates uploading a large number of logs where the logs are split into multiple batches and uploaded concurrently. |
-| [earlyAbort.js][earlyabort]                         | Demonstrates aborting additional processing early if user handle the error and decide continuing is hopeless            |
+| [earlyAborting.js][earlyaborting]                   | Demonstrates aborting additional processing early if user handle the error and decide continuing is hopeless            |
 | [logsIngestionClient.js][logsingestionclient]       | Demonstrates how to upload logs to a Monitor Resource (Log Analytics workspace). The user can track failed log entries. |
 | [uploadCustomLogs.js][uploadcustomlogs]             | Demonstrates how to upload logs to a Monitor Resource (Log Analytics workspace). The user can track failed log entries. |
 | [userDefinedConcurrency.js][userdefinedconcurrency] | Demonstrates how to control the number of concurrent requests using the maxConcurrency option                           |
-| [userErrorHandler.js][usererrorhandler]             | Demonstrates error handling via a user defined error handler.                                                           |
+| [userErrorHandling.js][usererrorhandling]           | Demonstrates error handling via a user defined error handler.                                                           |
 
 ## Prerequisites
 
@@ -52,11 +52,11 @@ npx cross-env LOGS_INGESTION_ENDPOINT="<logs ingestion endpoint>" DATA_COLLECTIO
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [defaultconcurrency]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-ingestion/samples/v1-beta/javascript/defaultConcurrency.js
-[earlyabort]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-ingestion/samples/v1-beta/javascript/earlyAbort.js
+[earlyaborting]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-ingestion/samples/v1-beta/javascript/earlyAborting.js
 [logsingestionclient]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-ingestion/samples/v1-beta/javascript/logsIngestionClient.js
 [uploadcustomlogs]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-ingestion/samples/v1-beta/javascript/uploadCustomLogs.js
 [userdefinedconcurrency]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-ingestion/samples/v1-beta/javascript/userDefinedConcurrency.js
-[usererrorhandler]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-ingestion/samples/v1-beta/javascript/userErrorHandler.js
+[usererrorhandling]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-ingestion/samples/v1-beta/javascript/userErrorHandling.js
 [apiref]: https://docs.microsoft.com/javascript/api/
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azuremonitor]: https://docs.microsoft.com/azure/azure-monitor/

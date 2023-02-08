@@ -5,7 +5,7 @@
  * @summary Demonstrates how to upload logs to a Monitor Resource (Log Analytics workspace). The user can track failed log entries.
  */
 const { DefaultAzureCredential } = require("@azure/identity");
-const { LogsIngestionClient } = require("@azure/monitor-ingestion");
+const { isAggregateUploadLogsError, LogsIngestionClient } = require("@azure/monitor-ingestion");
 
 require("dotenv").config();
 
@@ -30,7 +30,7 @@ async function main() {
   try {
     await client.upload(ruleId, streamName, logs);
   } catch (e) {
-    let aggregateErrors = e.errors;
+    let aggregateErrors = isAggregateUploadLogsError(e) ? e.errors : [];
     console.log(
       "Some logs have failed to complete ingestion. Length of errors =",
       aggregateErrors.length

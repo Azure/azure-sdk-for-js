@@ -6,22 +6,17 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import { AggregateUploadLogsError, LogsIngestionClient, UploadLogsError } from "@azure/monitor-ingestion";
+import { AggregateUploadLogsError, isAggregateUploadLogsError, LogsIngestionClient, UploadLogsError } from "@azure/monitor-ingestion";
 
 require("dotenv").config();
 
-async function main() {
-  const logsIngestionEndpoint = process.env.LOGS_INGESTION_ENDPOINT || "logs_ingestion_endpoint";
-  const streamName = process.env.STREAM_NAME || "data_stream_name";
-  const credential = new DefaultAzureCredential();
-  const client = new LogsIngestionClient(logsIngestionEndpoint, credential);
-  let abortController = new AbortController();
+const logsIngestionEndpoint = process.env.LOGS_INGESTION_ENDPOINT || "logs_ingestion_endpoint";
+const ruleId = process.env.DATA_COLLECTION_RULE_ID || "data_collection_rule_id";
+const streamName = process.env.STREAM_NAME || "data_stream_name";
+const credential = new DefaultAzureCredential();
+const client = new LogsIngestionClient(logsIngestionEndpoint, credential);
 
-  const errorCallback =  async function errorCallback(uploadLogsError: UploadLogsError) {      
-    if ((uploadLogsError.cause as Error).message === "Data collection rule with immutable Id 'immutable-id-123' not found.") {
-     abortController.abort();
-    }
-  }
+async function main() {
   // Constructing a large number of logs to ensure batching takes place
   const logs = [];
   for (let i = 0; i < 100000; ++i) {
@@ -36,11 +31,10 @@ async function main() {
   // the maximum number of concurrent uploads is 5.
   try {
     await client.upload('immutable-id-123', streamName, logs,{
-        onError: errorCallback,
-        abortSignal: abortController.signal
+        onError: errorCallback
     });
   } catch (e) {
-    let aggregateErrors = (e as AggregateUploadLogsError).errors;
+    let aggregateErrors = isAggregateUploadLogsError(e) ? e.errors: [];
     if (aggregateErrors.length > 0) {
       console.log(
         "Some logs have failed to complete ingestion. Number of error batches=",
@@ -51,8 +45,24 @@ async function main() {
         console.log(`Log - ${JSON.stringify(errors.failedLogs)}`);
       }
     }
+    else{
+      console.log(e);
+    }
   }
 }
+
+async function errorCallback(uploadLogsError: UploadLogsError) {      
+    if ((uploadLogsError.cause as Error).message === "Data collection rule with immutable Id 'immutable-id-123' not found.") {
+     try{
+      await client.upload(ruleId, "Custom-MyTableRawData", uploadLogsError.failedLogs, {
+        maxConcurrency: 1
+      });
+     }
+     finally{
+
+     }
+    }
+  }
 
 main().catch((err) => {
   console.error("The sample encountered an error:", err);

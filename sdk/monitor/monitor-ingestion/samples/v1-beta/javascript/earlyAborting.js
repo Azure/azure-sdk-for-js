@@ -2,11 +2,11 @@
 // Licensed under the MIT license.
 
 /**
- * @summary Demonstrates error handling via a user defined error handler.
+ * @summary Demonstrates aborting additional processing early if user handle the error and decide continuing is hopeless
  */
 
 const { DefaultAzureCredential } = require("@azure/identity");
-const { LogsIngestionClient } = require("@azure/monitor-ingestion");
+const { isAggregateUploadLogsError, LogsIngestionClient } = require("@azure/monitor-ingestion");
 
 require("dotenv").config();
 
@@ -43,15 +43,16 @@ async function main() {
       abortSignal: abortController.signal,
     });
   } catch (e) {
-    let aggregateErrors = e.errors;
-    if (aggregateErrors.length > 0) {
-      console.log(
-        "Some logs have failed to complete ingestion. Number of error batches=",
-        aggregateErrors.length
-      );
-      for (const errors of aggregateErrors) {
-        console.log(`Error - ${JSON.stringify(errors.cause)}`);
-        console.log(`Log - ${JSON.stringify(errors.failedLogs)}`);
+    if (isAggregateUploadLogsError(e)) {
+      let aggregateErrors = e.errors;
+      if (aggregateErrors.length > 0) {
+        console.log(
+          "Some logs have failed to complete ingestion. Number of error batches=",
+          aggregateErrors.length
+        );
+        for (const errors of aggregateErrors) {
+          console.log(`Error - ${JSON.stringify(errors.cause)}`);
+        }
       }
     }
   }

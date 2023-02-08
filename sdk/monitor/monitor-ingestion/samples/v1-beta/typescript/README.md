@@ -5,11 +5,11 @@ These sample programs show how to use the TypeScript client libraries for Monito
 | **File Name**                                       | **Description**                                                                                                         |
 | --------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
 | [defaultConcurrency.ts][defaultconcurrency]         | Demonstrates uploading a large number of logs where the logs are split into multiple batches and uploaded concurrently. |
-| [earlyAbort.ts][earlyabort]                         | Demonstrates aborting additional processing early if user handle the error and decide continuing is hopeless            |
+| [earlyAborting.ts][earlyaborting]                   | Demonstrates aborting additional processing early if user handle the error and decide continuing is hopeless            |
 | [logsIngestionClient.ts][logsingestionclient]       | Demonstrates how to upload logs to a Monitor Resource (Log Analytics workspace). The user can track failed log entries. |
 | [uploadCustomLogs.ts][uploadcustomlogs]             | Demonstrates how to upload logs to a Monitor Resource (Log Analytics workspace). The user can track failed log entries. |
 | [userDefinedConcurrency.ts][userdefinedconcurrency] | Demonstrates how to control the number of concurrent requests using the maxConcurrency option                           |
-| [userErrorHandler.ts][usererrorhandler]             | Demonstrates error handling via a user defined error handler.                                                           |
+| [userErrorHandling.ts][usererrorhandling]           | Demonstrates error handling via a user defined error handler.                                                           |
 
 ## Prerequisites
 
@@ -64,11 +64,11 @@ npx cross-env LOGS_INGESTION_ENDPOINT="<logs ingestion endpoint>" DATA_COLLECTIO
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [defaultconcurrency]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-ingestion/samples/v1-beta/typescript/src/defaultConcurrency.ts
-[earlyabort]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-ingestion/samples/v1-beta/typescript/src/earlyAbort.ts
+[earlyaborting]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-ingestion/samples/v1-beta/typescript/src/earlyAborting.ts
 [logsingestionclient]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-ingestion/samples/v1-beta/typescript/src/logsIngestionClient.ts
 [uploadcustomlogs]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-ingestion/samples/v1-beta/typescript/src/uploadCustomLogs.ts
 [userdefinedconcurrency]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-ingestion/samples/v1-beta/typescript/src/userDefinedConcurrency.ts
-[usererrorhandler]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-ingestion/samples/v1-beta/typescript/src/userErrorHandler.ts
+[usererrorhandling]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-ingestion/samples/v1-beta/typescript/src/userErrorHandling.ts
 [apiref]: https://docs.microsoft.com/javascript/api/
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azuremonitor]: https://docs.microsoft.com/azure/azure-monitor/

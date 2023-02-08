@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { OperationOptions } from "@azure/core-client";
-
+import { isError } from "@azure/core-util";
 /**
  * Options for send logs operation
  */
@@ -59,5 +59,16 @@ export class AggregateUploadLogsError extends Error {
     this.errors = errors;
     this.name = AggregateUploadLogsErrorName;
   }
-  //isAggregateUploadLogsError
 }
+
+/**
+ * Typeguard for AggregateUploadLogsError
+ * @param e - Something caught by a catch clause.
+ */
+export function isAggregateUploadLogsError(e: unknown): e is AggregateUploadLogsError {
+  if (e instanceof AggregateUploadLogsError) {
+    return true;
+  }
+  return isError(e) && e.name === "AggregateUploadLogsError";
+}
+
