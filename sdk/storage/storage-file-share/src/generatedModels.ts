@@ -183,7 +183,6 @@ export type DirectoryListFilesAndDirectoriesSegmentResponse =
       };
     };
 
-    
 /** A listed Azure Storage handle item. */
 export interface HandleItem {
   /** XSMB service handle ID */
@@ -210,7 +209,6 @@ export interface ListHandlesResponse {
   continuationToken: string;
 }
 
-
 /** Contains response data for the listHandles operation. */
 export type FileListHandlesResponse = FileListHandlesHeaders &
   ListHandlesResponse & {
@@ -225,8 +223,6 @@ export type FileListHandlesResponse = FileListHandlesHeaders &
       parsedHeaders: FileListHandlesHeaders;
     };
   };
-
-
 
 /** Contains response data for the listHandles operation. */
 export type DirectoryListHandlesResponse = DirectoryListHandlesHeaders &

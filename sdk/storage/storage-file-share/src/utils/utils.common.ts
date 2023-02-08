@@ -582,7 +582,7 @@ export function ConvertInternalResponseOfListFiles(
     prefix: undefined,
     directoryPath: StringEncodedToString({
       encoded: internalResponse.encoded,
-      content: internalResponse.directoryPath
+      content: internalResponse.directoryPath,
     }),
     segment: {
       fileItems: internalResponse.segment.fileItems.map((fileItemInternal) => {
@@ -616,15 +616,17 @@ export function ConvertInternalResponseOfListFiles(
 export function ConvertInternalResponseOfListHandles(
   internalResponse: ListHandlesResponseInternal
 ): ListHandlesResponse {
-  const wrappedResponse : ListHandlesResponse = {
+  const wrappedResponse: ListHandlesResponse = {
     ...internalResponse,
-    handleList : internalResponse.handleList ? internalResponse.handleList.map((handleItemInternal) => {
-      const handleItem: HandleItem = {
-        ...handleItemInternal,
-        path: StringEncodedToString(handleItemInternal.path),
-      };
-      return handleItem;
-    }) : undefined,
+    handleList: internalResponse.handleList
+      ? internalResponse.handleList.map((handleItemInternal) => {
+          const handleItem: HandleItem = {
+            ...handleItemInternal,
+            path: StringEncodedToString(handleItemInternal.path),
+          };
+          return handleItem;
+        })
+      : undefined,
   };
 
   return wrappedResponse;

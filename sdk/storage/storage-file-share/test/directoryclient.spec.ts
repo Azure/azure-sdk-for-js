@@ -3,9 +3,9 @@
 
 import { assert } from "chai";
 
-import { getBSU, recorderEnvSetup } from "./utils";
+import { getBSU, isBrowser, recorderEnvSetup } from "./utils";
 import { ShareClient, ShareDirectoryClient, FileSystemAttributes } from "../src";
-import { record, Recorder } from "@azure-tools/test-recorder";
+import { isLiveMode, record, Recorder } from "@azure-tools/test-recorder";
 import { DirectoryCreateResponse } from "../src/generated/src/models";
 import { truncatedISO8061Date } from "../src/utils/utils.common";
 import { SpanGraph, setTracer, getYieldedValue } from "@azure/test-utils";
@@ -397,16 +397,22 @@ describe("DirectoryClient", () => {
     }
   });
 
-  it("listFilesAndDirectories - with invalid char", async () => {
+  it("listFilesAndDirectories - with invalid char", async function (this: Context) {
+    if (isBrowser() && isLiveMode()) {
+      // Skipped for now as the generating new version SAS token is not supported in pipeline yet.
+      this.skip();
+    }
     const subDirClients = [];
     const subDirNames = [];
 
-    const dirName = recorder.getUniqueName("dir\uFFFE");
-    const dirWithInvalidChar = shareClient.getDirectoryClient(dirName);
+    const dirNameWithInvalidChar = recorder.getUniqueName("dir\uFFFE");
+    const dirWithInvalidChar = shareClient.getDirectoryClient(dirNameWithInvalidChar);
     await dirWithInvalidChar.create();
 
     for (let i = 0; i < 3; i++) {
-      const subDirClient = dirWithInvalidChar.getDirectoryClient(recorder.getUniqueName(`dir\uFFFE${i}`));
+      const subDirClient = dirWithInvalidChar.getDirectoryClient(
+        recorder.getUniqueName(`dir\uFFFE${i}`)
+      );
       await subDirClient.create();
       subDirClients.push(subDirClient);
       subDirNames.push(subDirClient.name);
@@ -415,7 +421,9 @@ describe("DirectoryClient", () => {
     const subFileClients = [];
     const subFileNames = [];
     for (let i = 0; i < 3; i++) {
-      const subFileClient = dirWithInvalidChar.getFileClient(recorder.getUniqueName(`file\uFFFE${i}`));
+      const subFileClient = dirWithInvalidChar.getFileClient(
+        recorder.getUniqueName(`file\uFFFE${i}`)
+      );
       await subFileClient.create(1024);
       subFileClients.push(subFileClient);
       subFileNames.push(subFileClient.name);
@@ -441,7 +449,7 @@ describe("DirectoryClient", () => {
     assert.deepStrictEqual(result.continuationToken, "");
     assert.deepStrictEqual(result.segment.directoryItems.length, subDirClients.length);
     assert.deepStrictEqual(result.segment.fileItems.length, subFileClients.length);
-    assert.deepStrictEqual(result.directoryPath, dirName);
+    assert.deepStrictEqual(result.directoryPath, dirNameWithInvalidChar);
 
     let resultDirNames = [];
     for (const entry of result.segment.directoryItems) {
@@ -477,7 +485,7 @@ describe("DirectoryClient", () => {
       assert.ok(resultFileNames.includes(subFileName));
     }
 
-    //List with dir prefix
+    // List with dir prefix
     result = (
       await dirWithInvalidChar
         .listFilesAndDirectories({
@@ -498,7 +506,7 @@ describe("DirectoryClient", () => {
     assert.deepStrictEqual(result.segment.directoryItems.length, subDirClients.length);
     assert.deepStrictEqual(result.segment.fileItems.length, 0);
     assert.deepStrictEqual(result.prefix, "dir\uFFFE");
-    assert.deepStrictEqual(result.directoryPath, dirName);
+    assert.deepStrictEqual(result.directoryPath, dirNameWithInvalidChar);
 
     resultDirNames = [];
     for (const entry of result.segment.directoryItems) {
@@ -516,8 +524,8 @@ describe("DirectoryClient", () => {
     for (const subDirName of subDirNames) {
       assert.ok(resultDirNames.includes(subDirName));
     }
-    
-    //List with file prefix
+
+    // List with file prefix
     result = (
       await dirWithInvalidChar
         .listFilesAndDirectories({
@@ -538,7 +546,7 @@ describe("DirectoryClient", () => {
     assert.deepStrictEqual(result.segment.directoryItems.length, 0);
     assert.deepStrictEqual(result.segment.fileItems.length, subFileClients.length);
     assert.deepStrictEqual(result.prefix, "file\uFFFE");
-    assert.deepStrictEqual(result.directoryPath, dirName);
+    assert.deepStrictEqual(result.directoryPath, dirNameWithInvalidChar);
 
     resultFileNames = [];
     for (const entry of result.segment.fileItems) {
@@ -1041,12 +1049,16 @@ describe("DirectoryClient", () => {
       assert.notDeepEqual(handle.clientIp, undefined);
       assert.notDeepEqual(handle.openTime, undefined);
     }
-  });  
+  });
 
-  it("listHandles for directory with Invalid Char should work", async () => {
-    // TODO: Open or create a handle; Currently can only be done manually; No REST APIs for creating handles
-    const dirName = recorder.getUniqueName("dir\uFFFE");
-    const dirWithInvalidChar = shareClient.getDirectoryClient(dirName);
+  it("listHandles for directory with Invalid Char should work", async function (this: Context) {
+    if (isBrowser() && isLiveMode()) {
+      // Skipped for now as the generating new version SAS token is not supported in pipeline yet.
+      this.skip();
+    }
+
+    const dirNameWithInvalidChar = recorder.getUniqueName("dir\uFFFE");
+    const dirWithInvalidChar = shareClient.getDirectoryClient(dirNameWithInvalidChar);
     await dirWithInvalidChar.create();
 
     const result = (await dirWithInvalidChar.listHandles().byPage().next()).value;

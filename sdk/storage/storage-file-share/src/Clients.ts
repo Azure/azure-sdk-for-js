@@ -2647,11 +2647,10 @@ export class ShareDirectoryClient extends StorageClient {
         ...ConvertInternalResponseOfListHandles(response),
         _response: {
           ...response._response,
-          parsedBody: 
-            ConvertInternalResponseOfListHandles(response._response.parsedBody)
-        }
-      }
-      
+          parsedBody: ConvertInternalResponseOfListHandles(response._response.parsedBody),
+        },
+      };
+
       return wrappedResponse;
     } catch (e: any) {
       span.setStatus({
@@ -5124,11 +5123,10 @@ export class ShareFileClient extends StorageClient {
         ...ConvertInternalResponseOfListHandles(response),
         _response: {
           ...response._response,
-          parsedBody: 
-            ConvertInternalResponseOfListHandles(response._response.parsedBody)
-        }
-      }
-      
+          parsedBody: ConvertInternalResponseOfListHandles(response._response.parsedBody),
+        },
+      };
+
       return wrappedResponse;
     } catch (e: any) {
       span.setStatus({
