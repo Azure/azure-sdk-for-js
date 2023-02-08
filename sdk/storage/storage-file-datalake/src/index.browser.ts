@@ -16,14 +16,12 @@ export {
   StoragePipelineOptions,
   AnonymousCredential,
   Credential,
-  StorageSharedKeyCredential,
   AnonymousCredentialPolicy,
   CredentialPolicy,
   StorageBrowserPolicy,
   StorageBrowserPolicyFactory,
   StorageRetryPolicy,
   StorageRetryPolicyFactory,
-  StorageSharedKeyCredentialPolicy,
 } from "@azure/storage-blob";
 export { ToBlobEndpointHostMappings, ToDfsEndpointHostMappings } from "./utils/constants";
 export { RestError } from "@azure/core-rest-pipeline";

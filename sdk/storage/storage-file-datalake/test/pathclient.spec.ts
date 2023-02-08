@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AbortController } from "@azure/abort-controller";
-import { isNode, delay } from "@azure/core-http";
+import { isNode, delay } from "@azure/core-util";
 import { SpanGraph, setTracer } from "@azure/test-utils";
 import { isPlaybackMode, record, Recorder } from "@azure-tools/test-recorder";
 import { setSpan, context } from "@azure/core-tracing";

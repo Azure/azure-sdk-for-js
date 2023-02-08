@@ -2,7 +2,8 @@
 // Licensed under the MIT license.
 import { TokenCredential } from "@azure/core-auth";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { ContainerClient, AnonymousCredential, StorageSharedKeyCredential, newPipeline, Pipeline, StoragePipelineOptions } from "@azure/storage-blob";
+import { ContainerClient, AnonymousCredential, newPipeline, Pipeline, StoragePipelineOptions } from "@azure/storage-blob";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential"; 
 import { SpanStatusCode } from "@azure/core-tracing";
 
 import { DataLakeLeaseClient } from "./DataLakeLeaseClient";
@@ -38,13 +39,15 @@ import {
   FileSystemUndeletePathResponse,
   FileSystemUndeletePathOption,
   ListDeletedPathsSegmentOptions,
+  PathUndeleteHeaders,
 } from "./models";
 import { StorageClient } from "./StorageClient";
 import { toContainerPublicAccessType, toPublicAccessType, toPermissions } from "./transforms";
-import { convertTracingToRequestOptionsBase, createSpan } from "./utils/tracing";
+import { createSpan } from "./utils/tracing";
 import {
   appendToURLPath,
   appendToURLQuery,
+  assertResponse,
   EscapePath,
   windowsFileTimeTicksToTime,
 } from "./utils/utils.common";
@@ -599,7 +602,7 @@ export class DataLakeFileSystemClient extends StorageClient {
         continuation,
         ...options,
         upn: options.userPrincipalName,
-        ...convertTracingToRequestOptionsBase(updatedOptions),
+        ...updatedOptions,
       });
 
       const response = rawResponse as FileSystemListPathsResponse;
@@ -751,7 +754,7 @@ export class DataLakeFileSystemClient extends StorageClient {
         marker: continuation,
         ...options,
         prefix: options.prefix === "" ? undefined : options.prefix,
-        ...convertTracingToRequestOptionsBase(updatedOptions),
+        ...updatedOptions,
       });
 
       const response = rawResponse as FileSystemListDeletedPathsResponse;
@@ -804,11 +807,11 @@ export class DataLakeFileSystemClient extends StorageClient {
         this.pipeline
       );
 
-      const rawResponse = await pathClient.blobPathContext.undelete({
+      const rawResponse = assertResponse<PathUndeleteHeaders, PathUndeleteHeaders>(await pathClient.blobPathContext.undelete({
         undeleteSource: "?" + DeletionIdKey + "=" + deletionId,
         ...options,
         tracingOptions: updatedOptions.tracingOptions,
-      });
+      }));
 
       if (rawResponse.resourceType === PathResultTypeConstants.DirectoryResourceType) {
         return {

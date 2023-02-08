@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { StorageSharedKeyCredential } from "@azure/storage-blob";
+import { StorageSharedKeyCredential } from "../credentials/StorageSharedKeyCredential"; 
 import { UserDelegationKeyCredential } from "../credentials/UserDelegationKeyCredential";
 import { DataLakeSASPermissions } from "./DataLakeSASPermissions";
 import { FileSystemSASPermissions } from "./FileSystemSASPermissions";

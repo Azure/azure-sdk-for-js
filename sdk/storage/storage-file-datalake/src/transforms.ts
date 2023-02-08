@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { URLBuilder } from "@azure/core-http";
+
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import {
   ContainerItem,
@@ -8,13 +8,12 @@ import {
   PublicAccessType as ContainerPublicAccessType,
 } from "@azure/storage-blob";
 
-import { AclFailedEntry, CpkInfo, PathGetPropertiesResponse } from "./generated/src/models";
+import { AclFailedEntry, CpkInfo } from "./generated/src/models";
 import {
   AccessControlChangeError,
   FileSystemItem,
   Metadata,
   PathAccessControlItem,
-  PathGetAccessControlResponse,
   PathPermissions,
   PublicAccessType,
   RemovePathAccessControlItem,
@@ -40,9 +39,9 @@ import { base64encode } from "./utils/utils.common";
  * @param url -
  */
 export function toBlobEndpointUrl(url: string): string {
-  const urlParsed = URLBuilder.parse(url);
+  const urlParsed = new URL(url);
 
-  let host = urlParsed.getHost();
+  let host = urlParsed.hostname;
   if (host === undefined) {
     throw RangeError(`toBlobEndpointUrl() parameter url ${url} doesn't include valid host.`);
   }
@@ -54,7 +53,7 @@ export function toBlobEndpointUrl(url: string): string {
     }
   }
 
-  urlParsed.setHost(host);
+  urlParsed.hostname = host;
   return urlParsed.toString();
 }
 
@@ -73,9 +72,9 @@ export function toBlobEndpointUrl(url: string): string {
  * @param url -
  */
 export function toDfsEndpointUrl(url: string): string {
-  const urlParsed = URLBuilder.parse(url);
+  const urlParsed = new URL(url);
 
-  let host = urlParsed.getHost();
+  let host = urlParsed.hostname
   if (host === undefined) {
     throw RangeError(`toDfsEndpointUrl() parameter url ${url} doesn't include valid host.`);
   }
@@ -87,7 +86,7 @@ export function toDfsEndpointUrl(url: string): string {
     }
   }
 
-  urlParsed.setHost(host);
+  urlParsed.hostname = host;
   return urlParsed.toString();
 }
 
@@ -200,17 +199,6 @@ export function toProperties(metadata?: Metadata): string | undefined {
   }
 
   return properties.join(",");
-}
-
-export function toPathGetAccessControlResponse(
-  response: PathGetPropertiesResponse
-): PathGetAccessControlResponse {
-  return {
-    ...response,
-    _response: response._response,
-    permissions: toPermissions(response.permissions),
-    acl: toAcl(response.acl),
-  };
 }
 
 export function toRolePermissions(permissionsString: string): RolePermissions {

@@ -1,18 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredential } from "@azure/core-http";
+import { TokenCredential } from "@azure/core-auth";
 
 import { DataLakeServiceClient } from "../../src";
-import { AnonymousCredential } from "../../src/credentials/AnonymousCredential";
-import { newPipeline } from "../../src/Pipeline";
+import { newPipeline, AnonymousCredential } from "@azure/storage-blob";
 import { SimpleTokenCredential } from "./testutils.common";
 
 export * from "./testutils.common";
 
-export function getGenericCredential(accountType: string): AnonymousCredential {
-  const _accountType = accountType; // bypass compiling error
-  accountType = _accountType;
+export function getGenericCredential(): AnonymousCredential {
   return new AnonymousCredential();
 }
 
@@ -49,7 +46,7 @@ export function getGenericDataLakeServiceClient(
     accountSAS = accountSAS.startsWith("?") ? accountSAS : `?${accountSAS}`;
   }
 
-  const credentials = getGenericCredential(accountType);
+  const credentials = getGenericCredential();
   const pipeline = newPipeline(credentials, {
     // Enable logger when debugging
     // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)

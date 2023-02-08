@@ -2,7 +2,8 @@
 // Licensed under the MIT license.
 import { TokenCredential } from "@azure/core-auth";
 import { StorageClient as StorageClientContext } from "./generated/src";
-import { AnonymousCredential, Pipeline, StorageSharedKeyCredential, BlobClient, StoragePipelineOptions } from "@azure/storage-blob";
+import { AnonymousCredential, Pipeline, BlobClient, StoragePipelineOptions } from "@azure/storage-blob";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential"; 
 import { toBlobEndpointUrl, toDfsEndpointUrl } from "./transforms";
 import { escapeURLPath, getAccountNameFromUrl, getURLScheme, iEqual } from "./utils/utils.common";
 import { ExtendedServiceClientOptions } from "@azure/core-http-compat";

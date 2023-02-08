@@ -3,7 +3,8 @@
 import { TokenCredential } from "@azure/core-auth";
 import { RequestBodyType as HttpRequestBody } from "@azure/core-rest-pipeline";
 import { isNode } from "@azure/core-util";
-import { AnonymousCredential, BlobClient, BlockBlobClient, StorageSharedKeyCredential, newPipeline, Pipeline, StoragePipelineOptions } from "@azure/storage-blob";
+import { AnonymousCredential, BlobClient, BlockBlobClient, newPipeline, Pipeline, StoragePipelineOptions } from "@azure/storage-blob";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential"; 
 import { SpanStatusCode } from "@azure/core-tracing";
 import { Readable } from "stream";
 
@@ -71,9 +72,10 @@ import { generateDataLakeSASQueryParameters } from "./sas/DataLakeSASSignatureVa
 import { StorageClient } from "./StorageClient";
 import {
   toAccessControlChangeFailureArray,
+  toAcl,
   toAclString,
   toBlobCpkInfo,
-  toPathGetAccessControlResponse,
+  toPermissions,
   toPermissionsString,
   toProperties,
 } from "./transforms";
@@ -88,16 +90,18 @@ import {
   FILE_UPLOAD_MAX_CHUNK_SIZE,
 } from "./utils/constants";
 import { DataLakeAclChangeFailedError } from "./utils/DataLakeAclChangeFailedError";
-import { convertTracingToRequestOptionsBase, createSpan } from "./utils/tracing";
+import { createSpan } from "./utils/tracing";
 import {
   appendToURLPath,
   appendToURLQuery,
+  assertResponse,
   ensureCpkIfSpecified,
   getURLPathAndQuery,
   setURLPath,
   setURLQueries,
 } from "./utils/utils.common";
 import { fsCreateReadStream, fsStat } from "./utils/utils.node";
+import { PathCreateHeaders, PathGetPropertiesHeaders } from "./generated/src";
 
 /**
  * A DataLakePathClient represents a URL to the Azure Storage path (directory or file).
@@ -162,7 +166,7 @@ export class DataLakePathClient extends StorageClient {
             maxRecords: options.batchSize,
             continuation: continuationToken,
             forceFlag: options.continueOnFailure,
-            ...convertTracingToRequestOptionsBase(updatedOptions),
+            ...updatedOptions,
           });
         } catch (e: any) {
           throw new DataLakeAclChangeFailedError(e, continuationToken);
@@ -344,8 +348,8 @@ export class DataLakePathClient extends StorageClient {
         }
       }
 
-      return await this.pathContext.create({
-        ...options,
+      return assertResponse<PathCreateHeaders, PathCreateHeaders>(await this.pathContext.create({
+        ...updatedOptions,
         resource: resourceType,
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: options.conditions,
@@ -354,8 +358,7 @@ export class DataLakePathClient extends StorageClient {
         acl: options.acl ? toAclString(options.acl) : undefined,
         expiryOptions: expiryOptions,
         expiresOn: expiresOn,
-        ...convertTracingToRequestOptionsBase(updatedOptions),
-      });
+      }));
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -465,7 +468,7 @@ export class DataLakePathClient extends StorageClient {
           recursive,
           leaseAccessConditions: options.conditions,
           modifiedAccessConditions: options.conditions,
-          ...convertTracingToRequestOptionsBase(updatedOptions),
+          ...updatedOptions,
           abortSignal: options.abortSignal,
         });
         continuation = response.continuation;
@@ -538,15 +541,20 @@ export class DataLakePathClient extends StorageClient {
     options.conditions = options.conditions || {};
     const { span, updatedOptions } = createSpan("DataLakePathClient-getAccessControl", options);
     try {
-      const response = await this.pathContext.getProperties({
+      const response = assertResponse<PathGetPropertiesHeaders, PathGetPropertiesHeaders>(await this.pathContext.getProperties({
         action: "getAccessControl",
         upn: options.userPrincipalName,
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: options.conditions,
-        ...convertTracingToRequestOptionsBase(updatedOptions),
+        ...updatedOptions,
         abortSignal: options.abortSignal,
-      });
-      return toPathGetAccessControlResponse(response);
+      }));
+      return {
+        ...response,
+        _response: response._response,
+        permissions: toPermissions(response.permissions),
+        acl: toAcl(response.acl),
+      };
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -578,7 +586,7 @@ export class DataLakePathClient extends StorageClient {
         acl: toAclString(acl),
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: options.conditions,
-        ...convertTracingToRequestOptionsBase(updatedOptions),
+        ...updatedOptions,
       });
     } catch (e: any) {
       span.setStatus({
@@ -698,7 +706,7 @@ export class DataLakePathClient extends StorageClient {
         permissions: toPermissionsString(permissions),
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: options.conditions,
-        ...convertTracingToRequestOptionsBase(updatedOptions),
+        ...updatedOptions,
       });
     } catch (e: any) {
       span.setStatus({
@@ -883,7 +891,7 @@ export class DataLakePathClient extends StorageClient {
     const destPathClient = new DataLakePathClient(destinationUrl, this.pipeline);
 
     try {
-      return await destPathClient.pathContext.create({
+      return assertResponse<PathCreateHeaders, PathCreateHeaders>(await destPathClient.pathContext.create({
         mode: "legacy", // By default
         renameSource,
         sourceLeaseId: options.conditions.leaseId,
@@ -895,9 +903,9 @@ export class DataLakePathClient extends StorageClient {
           sourceIfUnmodifiedSince: options.conditions.ifUnmodifiedSince,
         },
         modifiedAccessConditions: options.destinationConditions,
-        ...convertTracingToRequestOptionsBase(updatedOptions),
+        ...updatedOptions,
         abortSignal: options.abortSignal,
-      });
+      }));
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -959,7 +967,7 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
         ...options,
         tracingOptions: {
           ...options.tracingOptions,
-          ...convertTracingToRequestOptionsBase(updatedOptions),
+          ...updatedOptions,
         },
       });
     } catch (e: any) {
@@ -1020,7 +1028,7 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
         ...options,
         tracingOptions: {
           ...options.tracingOptions,
-          ...convertTracingToRequestOptionsBase(updatedOptions),
+          ...updatedOptions,
         },
       });
     } catch (e: any) {
@@ -1215,7 +1223,7 @@ export class DataLakeFileClient extends DataLakePathClient {
         ...options,
         tracingOptions: {
           ...options.tracingOptions,
-          ...convertTracingToRequestOptionsBase(updatedOptions),
+          ...updatedOptions,
         },
       });
     } catch (e: any) {
@@ -1273,7 +1281,7 @@ export class DataLakeFileClient extends DataLakePathClient {
         ...options,
         tracingOptions: {
           ...options.tracingOptions,
-          ...convertTracingToRequestOptionsBase(updatedOptions),
+          ...updatedOptions,
         },
       });
     } catch (e: any) {
@@ -1412,7 +1420,7 @@ export class DataLakeFileClient extends DataLakePathClient {
         proposedLeaseId: options.proposedLeaseId,
         leaseDuration: options.leaseDuration,
         leaseAction: options.leaseAction,
-        ...convertTracingToRequestOptionsBase(updatedOptions),
+        ...updatedOptions,
       });
     } catch (e: any) {
       span.setStatus({
@@ -1452,7 +1460,7 @@ export class DataLakeFileClient extends DataLakePathClient {
         proposedLeaseId: options.proposedLeaseId,
         leaseDuration: options.leaseDuration,
         leaseAction: options.leaseAction,
-        ...convertTracingToRequestOptionsBase(updatedOptions),
+        ...updatedOptions,
       });
     } catch (e: any) {
       span.setStatus({

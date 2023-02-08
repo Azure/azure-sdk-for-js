@@ -3,7 +3,7 @@
 import { AbortSignalLike } from "@azure/abort-controller";
 import { createHttpHeaders, HttpHeaders } from "@azure/core-rest-pipeline";
 import { isNode } from "@azure/core-util";
-import { ContainerEncryptionScope } from "@azure/storage-blob";
+import { ContainerEncryptionScope, WithResponse } from "@azure/storage-blob";
 import { CpkInfo, FileSystemEncryptionScope } from "../models";
 
 import {
@@ -244,16 +244,16 @@ export function appendToURLPath(url: string, name: string): string {
  * @returns An updated URL string.
  */
 export function appendToURLQuery(url: string, queryParts: string): string {
-  const urlParsed = URLBuilder.parse(url);
+  const urlParsed = new URL(url);
 
-  let query = urlParsed.getQuery();
+  let query = urlParsed.search;
   if (query) {
     query += "&" + queryParts;
   } else {
     query = queryParts;
   }
 
-  urlParsed.setQuery(query);
+  urlParsed.search = query;
   return urlParsed.toString();
 }
 
@@ -336,9 +336,9 @@ export function getURLPath(url: string): string | undefined {
  * @param url -
  * @param path -
  */
-export function setURLPath(url: string, path?: string): string {
-  const urlParsed = URLBuilder.parse(url);
-  urlParsed.setPath(path);
+export function setURLPath(url: string, path: string): string {
+  const urlParsed = new URL(url);
+  urlParsed.pathname = path;
   return urlParsed.toString();
 }
 
@@ -418,8 +418,8 @@ export function getURLQueries(url: string): { [key: string]: string } {
  * @param queryString -
  */
 export function setURLQueries(url: string, queryString: string): string {
-  const urlParsed = URLBuilder.parse(url);
-  urlParsed.setQuery(queryString);
+  const urlParsed = new URL(url);
+  urlParsed.search = queryString;
   return urlParsed.toString();
 }
 
@@ -643,4 +643,20 @@ export function EscapePath(pathName: string): string {
     split[i] = encodeURIComponent(split[i]);
   }
   return split.join("/");
+}
+
+/**
+ * A typesafe helper for ensuring that a given response object has
+ * the original _response attached.
+ * @param response - A response object from calling a client operation
+ * @returns The same object, but with known _response property
+ */
+export function assertResponse<T extends object, Headers = undefined, Body = undefined>(
+  response: T
+): WithResponse<T, Headers, Body> {
+  if (`_response` in response) {
+    return response as WithResponse<T, Headers, Body>;
+  }
+
+  throw new TypeError(`Unexpected response object ${response}`);
 }
