@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ElasticSanManagement } = require("@azure/arm-elasticsan");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets a list of ElasticSan operations.
@@ -18,7 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2021-11-20-preview/examples/Operations_List_MaximumSet_Gen.json
  */
 async function operationsListMaximumSetGen() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new ElasticSanManagement(credential, subscriptionId);
   const resArray = new Array();
@@ -27,8 +29,6 @@ async function operationsListMaximumSetGen() {
   }
   console.log(resArray);
 }
-
-operationsListMaximumSetGen().catch(console.error);
 
 /**
  * This sample demonstrates how to Gets a list of ElasticSan operations.
@@ -37,7 +37,8 @@ operationsListMaximumSetGen().catch(console.error);
  * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2021-11-20-preview/examples/Operations_List_MinimumSet_Gen.json
  */
 async function operationsListMinimumSetGen() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new ElasticSanManagement(credential, subscriptionId);
   const resArray = new Array();
@@ -47,4 +48,9 @@ async function operationsListMinimumSetGen() {
   console.log(resArray);
 }
 
-operationsListMinimumSetGen().catch(console.error);
+async function main() {
+  operationsListMaximumSetGen();
+  operationsListMinimumSetGen();
+}
+
+main().catch(console.error);

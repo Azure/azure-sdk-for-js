@@ -890,6 +890,9 @@ export interface FollowerDatabaseListResult {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export interface Identity {
     readonly principalId?: string;
     readonly tenantId?: string;

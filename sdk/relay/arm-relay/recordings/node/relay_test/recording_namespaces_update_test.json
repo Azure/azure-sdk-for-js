@@ -10,8 +10,8 @@
         "Connection": "keep-alive",
         "Content-Length": "58",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-arm-relay/3.1.0 core-rest-pipeline/1.9.1 Node/v16.15.1 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "5d710df1-45de-48fc-b92d-740d8967b86c"
+        "User-Agent": "azsdk-js-arm-relay/3.1.1 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "78c005ec-c8c7-4a81-ad01-d8d014aadfbe"
       },
       "RequestBody": {
         "tags": {
@@ -23,9 +23,9 @@
       "StatusCode": 200,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
-        "Content-Length": "573",
+        "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 08 Jul 2022 07:39:43 GMT",
+        "Date": "Wed, 01 Feb 2023 02:22:04 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": [
@@ -34,11 +34,13 @@
         ],
         "Server-SB": "Service-Bus-Resource-Provider/CH3",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "7fe50a78-f893-4b0e-896b-a74655b20c90",
+        "x-ms-correlation-request-id": "b0e8811e-5509-41ad-bf51-16609153657a",
         "x-ms-ratelimit-remaining-subscription-resource-requests": "48",
-        "x-ms-request-id": "6fba57b9-0ac4-443b-93bc-88a7afd76c7e_M12CH3_M12CH3",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220708T073944Z:7fe50a78-f893-4b0e-896b-a74655b20c90"
+        "x-ms-request-id": "55a039f7-da55-42b8-aaf6-e725fd32dc0d_M11CH3_M11CH3",
+        "x-ms-routing-request-id": "KOREASOUTH:20230201T022205Z:b0e8811e-5509-41ad-bf51-16609153657a"
       },
       "ResponseBody": {
         "sku": {
@@ -57,8 +59,8 @@
         "properties": {
           "provisioningState": "Updating",
           "metricId": "azure_subscription_id:mynamespacexxx",
-          "createdAt": "2022-07-08T07:38:52.287Z",
-          "updatedAt": "2022-07-08T07:39:42.407Z",
+          "createdAt": "2023-02-01T02:21:10.093Z",
+          "updatedAt": "2023-02-01T02:22:03.517Z",
           "serviceBusEndpoint": "https://mynamespacexxx.servicebus.windows.net:443/",
           "status": "Activating"
         }

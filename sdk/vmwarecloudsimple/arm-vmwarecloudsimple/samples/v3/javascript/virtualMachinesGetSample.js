@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { VMwareCloudSimple } = require("@azure/arm-vmwarecloudsimple");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Get virtual machine
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/vmwarecloudsimple/resource-manager/Microsoft.VMwareCloudSimple/stable/2019-04-01/examples/GetVirtualMachine.json
  */
 async function getVirtualMachine() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId = process.env["VMWARECLOUDSIMPLE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["VMWARECLOUDSIMPLE_RESOURCE_GROUP"] || "myResourceGroup";
   const virtualMachineName = "myVirtualMachine";
   const credential = new DefaultAzureCredential();
   const client = new VMwareCloudSimple(credential, subscriptionId);
@@ -27,4 +28,8 @@ async function getVirtualMachine() {
   console.log(result);
 }
 
-getVirtualMachine().catch(console.error);
+async function main() {
+  getVirtualMachine();
+}
+
+main().catch(console.error);

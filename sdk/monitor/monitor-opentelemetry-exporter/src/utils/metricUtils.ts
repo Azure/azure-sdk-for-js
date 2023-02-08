@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { MetricAttributes } from "@opentelemetry/api";
+import { Attributes } from "@opentelemetry/api";
 import { DataPointType, Histogram, ResourceMetrics } from "@opentelemetry/sdk-metrics";
 import {
   TelemetryItem as Envelope,
@@ -17,7 +17,7 @@ import {
 } from "./constants/applicationinsights";
 import { createTagsFromResource, getDependencyTarget } from "./common";
 
-function createPropertiesFromMetricAttributes(attributes?: MetricAttributes): {
+function createPropertiesFromMetricAttributes(attributes?: Attributes): {
   [propertyName: string]: string;
 } {
   const properties: { [propertyName: string]: string } = {};
@@ -110,7 +110,7 @@ export function resourceMetricsToEnvelope(
 
 function createStandardMetricsProperties(
   name: string,
-  attributes: MetricAttributes,
+  attributes: Attributes,
   tags: Tags
 ): {
   [propertyName: string]: string;

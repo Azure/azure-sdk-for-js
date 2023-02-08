@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { DynatraceObservability } from "@azure/arm-dynatrace";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to List MonitorResource resources by resource group
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/stable/2021-09-01/examples/Monitors_ListByResourceGroup_MaximumSet_Gen.json
  */
 async function monitorsListByResourceGroupMaximumSetGen() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["DYNATRACE_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["DYNATRACE_RESOURCE_GROUP"] || "myResourceGroup";
   const credential = new DefaultAzureCredential();
   const client = new DynatraceObservability(credential, subscriptionId);
   const resArray = new Array();
@@ -30,8 +36,6 @@ async function monitorsListByResourceGroupMaximumSetGen() {
   }
   console.log(resArray);
 }
-
-monitorsListByResourceGroupMaximumSetGen().catch(console.error);
 
 /**
  * This sample demonstrates how to List MonitorResource resources by resource group
@@ -40,8 +44,11 @@ monitorsListByResourceGroupMaximumSetGen().catch(console.error);
  * x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/stable/2021-09-01/examples/Monitors_ListByResourceGroup_MinimumSet_Gen.json
  */
 async function monitorsListByResourceGroupMinimumSetGen() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["DYNATRACE_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["DYNATRACE_RESOURCE_GROUP"] || "myResourceGroup";
   const credential = new DefaultAzureCredential();
   const client = new DynatraceObservability(credential, subscriptionId);
   const resArray = new Array();
@@ -53,4 +60,9 @@ async function monitorsListByResourceGroupMinimumSetGen() {
   console.log(resArray);
 }
 
-monitorsListByResourceGroupMinimumSetGen().catch(console.error);
+async function main() {
+  monitorsListByResourceGroupMaximumSetGen();
+  monitorsListByResourceGroupMinimumSetGen();
+}
+
+main().catch(console.error);

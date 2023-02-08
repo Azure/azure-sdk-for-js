@@ -13,17 +13,23 @@ import {
   RecoveryServicesBackupClient
 } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Fetches the backup management usage summaries of the vault.
  *
  * @summary Fetches the backup management usage summaries of the vault.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2022-03-01/examples/Common/BackupProtectionContainers_UsageSummary_Get.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/Common/BackupProtectionContainers_UsageSummary_Get.json
  */
 async function getProtectedContainersUsagesSummary() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const vaultName = "testVault";
-  const resourceGroupName = "testRG";
+  const resourceGroupName =
+    process.env["RECOVERYSERVICESBACKUP_RESOURCE_GROUP"] || "testRG";
   const filter = "type eq 'BackupProtectionContainerCountSummary'";
   const options: BackupUsageSummariesListOptionalParams = { filter };
   const credential = new DefaultAzureCredential();
@@ -39,18 +45,19 @@ async function getProtectedContainersUsagesSummary() {
   console.log(resArray);
 }
 
-getProtectedContainersUsagesSummary().catch(console.error);
-
 /**
  * This sample demonstrates how to Fetches the backup management usage summaries of the vault.
  *
  * @summary Fetches the backup management usage summaries of the vault.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2022-03-01/examples/Common/BackupProtectedItem_UsageSummary_Get.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/Common/BackupProtectedItem_UsageSummary_Get.json
  */
 async function getProtectedItemsUsagesSummary() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const vaultName = "testVault";
-  const resourceGroupName = "testRG";
+  const resourceGroupName =
+    process.env["RECOVERYSERVICESBACKUP_RESOURCE_GROUP"] || "testRG";
   const filter = "type eq 'BackupProtectedItemCountSummary'";
   const options: BackupUsageSummariesListOptionalParams = { filter };
   const credential = new DefaultAzureCredential();
@@ -66,4 +73,9 @@ async function getProtectedItemsUsagesSummary() {
   console.log(resArray);
 }
 
-getProtectedItemsUsagesSummary().catch(console.error);
+async function main() {
+  getProtectedContainersUsagesSummary();
+  getProtectedItemsUsagesSummary();
+}
+
+main().catch(console.error);

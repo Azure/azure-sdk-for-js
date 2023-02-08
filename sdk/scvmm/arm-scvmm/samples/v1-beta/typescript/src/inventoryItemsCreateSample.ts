@@ -14,6 +14,9 @@ import {
   Scvmm
 } from "@azure/arm-scvmm";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create Or Update InventoryItem.
@@ -22,8 +25,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/preview/2020-06-05-preview/examples/CreateInventoryItem.json
  */
 async function createInventoryItem() {
-  const subscriptionId = "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
-  const resourceGroupName = "testrg";
+  const subscriptionId =
+    process.env["SCVMM_SUBSCRIPTION_ID"] ||
+    "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
+  const resourceGroupName = process.env["SCVMM_RESOURCE_GROUP"] || "testrg";
   const vmmServerName = "ContosoVMMServer";
   const inventoryItemName = "12345678-1234-1234-1234-123456789abc";
   const body: InventoryItem = { inventoryType: "Cloud" };
@@ -39,4 +44,8 @@ async function createInventoryItem() {
   console.log(result);
 }
 
-createInventoryItem().catch(console.error);
+async function main() {
+  createInventoryItem();
+}
+
+main().catch(console.error);

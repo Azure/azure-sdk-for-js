@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { RecoveryServicesClient } from "@azure/arm-recoveryservices";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Fetches all the resources of the specified type in the subscription.
@@ -18,7 +21,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2022-04-01/examples/ListBySubscriptionIds.json
  */
 async function listOfRecoveryServicesResourcesInSubscriptionId() {
-  const subscriptionId = "77777777-b0c6-47a2-b37c-d8e65a629c18";
+  const subscriptionId =
+    process.env["RECOVERYSERVICES_SUBSCRIPTION_ID"] ||
+    "77777777-b0c6-47a2-b37c-d8e65a629c18";
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesClient(credential, subscriptionId);
   const resArray = new Array();
@@ -28,4 +33,8 @@ async function listOfRecoveryServicesResourcesInSubscriptionId() {
   console.log(resArray);
 }
 
-listOfRecoveryServicesResourcesInSubscriptionId().catch(console.error);
+async function main() {
+  listOfRecoveryServicesResourcesInSubscriptionId();
+}
+
+main().catch(console.error);

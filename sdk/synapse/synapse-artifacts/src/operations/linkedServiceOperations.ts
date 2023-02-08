@@ -7,7 +7,8 @@
  */
 
 import { tracingClient } from "../tracing";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { LinkedServiceOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -58,25 +59,37 @@ export class LinkedServiceOperationsImpl implements LinkedServiceOperations {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.getLinkedServicesByWorkspacePagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.getLinkedServicesByWorkspacePagingPage(options, settings);
       }
     };
   }
 
   private async *getLinkedServicesByWorkspacePagingPage(
-    options?: LinkedServiceGetLinkedServicesByWorkspaceOptionalParams
+    options?: LinkedServiceGetLinkedServicesByWorkspaceOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<LinkedServiceResource[]> {
-    let result = await this._getLinkedServicesByWorkspace(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: LinkedServiceGetLinkedServicesByWorkspaceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._getLinkedServicesByWorkspace(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._getLinkedServicesByWorkspaceNext(
         continuationToken,
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -532,7 +545,6 @@ const getLinkedServicesByWorkspaceNextOperationSpec: coreClient.OperationSpec = 
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer

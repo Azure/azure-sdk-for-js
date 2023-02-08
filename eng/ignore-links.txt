@@ -40,3 +40,6 @@ https://docs.microsoft.com/javascript/api/@azure/arm-loadtesting?view=azure-node
 https://docs.microsoft.com/javascript/api/@azure/arm-billingbenefits?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-billingbenefits
 https://docs.microsoft.com/javascript/api/@azure/arm-servicenetworking?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure/arm-dataprotection?view=azure-node-preview
+https://github.com/Azure/azure-sdk-tools/blob/main/eng/common/testproxy/transition-scripts/generate-assets-json.ps1
+https://docs.microsoft.com/javascript/api/@azure/arm-liftrqumulo?view=azure-node-preview

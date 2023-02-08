@@ -13,16 +13,22 @@ import {
   AzureMediaServices
 } from "@azure/arm-mediaservices";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Lists the Content Key Policies in the account
  *
  * @summary Lists the Content Key Policies in the account
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2022-08-01/examples/content-key-policies-list-by-lastModified.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2022-08-01/examples/content-key-policies-list-by-lastModified.json
  */
 async function listsContentKeyPoliciesOrderedByLastModified() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "contoso";
+  const subscriptionId =
+    process.env["MEDIASERVICES_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
   const accountName = "contosomedia";
   const orderby = "properties/lastModified";
   const options: ContentKeyPoliciesListOptionalParams = { orderby };
@@ -39,17 +45,18 @@ async function listsContentKeyPoliciesOrderedByLastModified() {
   console.log(resArray);
 }
 
-listsContentKeyPoliciesOrderedByLastModified().catch(console.error);
-
 /**
  * This sample demonstrates how to Lists the Content Key Policies in the account
  *
  * @summary Lists the Content Key Policies in the account
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2022-08-01/examples/content-key-policies-list-in-date-range.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2022-08-01/examples/content-key-policies-list-in-date-range.json
  */
 async function listsContentKeyPoliciesWithCreatedAndLastModifiedFilters() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "contoso";
+  const subscriptionId =
+    process.env["MEDIASERVICES_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
   const accountName = "contosomedia";
   const filter =
     "properties/lastModified gt 2016-06-01 and properties/created lt 2013-07-01";
@@ -67,17 +74,18 @@ async function listsContentKeyPoliciesWithCreatedAndLastModifiedFilters() {
   console.log(resArray);
 }
 
-listsContentKeyPoliciesWithCreatedAndLastModifiedFilters().catch(console.error);
-
 /**
  * This sample demonstrates how to Lists the Content Key Policies in the account
  *
  * @summary Lists the Content Key Policies in the account
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2022-08-01/examples/content-key-policies-list-all.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2022-08-01/examples/content-key-policies-list-all.json
  */
 async function listsAllContentKeyPolicies() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "contoso";
+  const subscriptionId =
+    process.env["MEDIASERVICES_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
   const accountName = "contosomedia";
   const credential = new DefaultAzureCredential();
   const client = new AzureMediaServices(credential, subscriptionId);
@@ -91,4 +99,10 @@ async function listsAllContentKeyPolicies() {
   console.log(resArray);
 }
 
-listsAllContentKeyPolicies().catch(console.error);
+async function main() {
+  listsContentKeyPoliciesOrderedByLastModified();
+  listsContentKeyPoliciesWithCreatedAndLastModifiedFilters();
+  listsAllContentKeyPolicies();
+}
+
+main().catch(console.error);

@@ -7,7 +7,8 @@
  */
 
 import { tracingClient } from "../tracing";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { DataFlowDebugSession } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -19,10 +20,10 @@ import {
   DataFlowDebugSessionInfo,
   DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceNextOptionalParams,
   DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceOptionalParams,
+  DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceResponse,
   CreateDataFlowDebugSessionRequest,
   DataFlowDebugSessionCreateDataFlowDebugSessionOptionalParams,
   DataFlowDebugSessionCreateDataFlowDebugSessionResponse,
-  DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceResponse,
   DataFlowDebugPackage,
   DataFlowDebugSessionAddDataFlowOptionalParams,
   DataFlowDebugSessionAddDataFlowResponse,
@@ -62,25 +63,40 @@ export class DataFlowDebugSessionImpl implements DataFlowDebugSession {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.queryDataFlowDebugSessionsByWorkspacePagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.queryDataFlowDebugSessionsByWorkspacePagingPage(
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *queryDataFlowDebugSessionsByWorkspacePagingPage(
-    options?: DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceOptionalParams
+    options?: DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<DataFlowDebugSessionInfo[]> {
-    let result = await this._queryDataFlowDebugSessionsByWorkspace(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._queryDataFlowDebugSessionsByWorkspace(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._queryDataFlowDebugSessionsByWorkspaceNext(
         continuationToken,
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -479,7 +495,6 @@ const queryDataFlowDebugSessionsByWorkspaceNextOperationSpec: coreClient.Operati
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer

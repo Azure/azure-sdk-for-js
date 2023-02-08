@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ACEProvisioningManagementPartnerAPI } = require("@azure/arm-managementpartner");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to List all the operations.
@@ -27,4 +28,8 @@ async function getOperations() {
   console.log(resArray);
 }
 
-getOperations().catch(console.error);
+async function main() {
+  getOperations();
+}
+
+main().catch(console.error);

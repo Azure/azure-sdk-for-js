@@ -1,12 +1,22 @@
 # Release History
 
-## 2.5.0 (Unreleased)
+## 2.5.2 (Unreleased)
 
 ### Features Added
 
 ### Breaking Changes
 
 ### Bugs Fixed
+
+### Other Changes
+
+## 2.5.1 (2023-02-02)
+
+### Bugs Fixed
+
+- The operation will be considered failed when an HTTP response error is received and not when any arbitrary error is raised.
+
+## 2.5.0 (2023-01-10)
 
 ### Other Changes
 

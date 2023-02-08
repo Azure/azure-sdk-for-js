@@ -31,7 +31,7 @@
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "Azure-AsyncOperation": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+        "Azure-AsyncOperation": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
         "Cache-Control": "no-store, no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json",
@@ -50,7 +50,7 @@
         "x-ms-routing-request-id": "SOUTHEASTASIA:20230104T095839Z:bfed8723-3ae8-4f81-8c85-56dfdb7ca74d"
       },
       "ResponseBody": {
-        "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.DocumentDB/databaseAccounts/myaccountxxyy3",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.DocumentDB/databaseAccounts/myaccountxxyy3",
         "name": "myaccountxxyy3",
         "location": "East US",
         "type": "Microsoft.DocumentDB/databaseAccounts",
@@ -164,7 +164,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -199,7 +199,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -234,7 +234,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -269,7 +269,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -304,7 +304,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -339,7 +339,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -374,7 +374,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -409,7 +409,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -444,7 +444,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -479,7 +479,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -514,7 +514,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -549,7 +549,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -584,7 +584,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -619,7 +619,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -654,7 +654,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -689,7 +689,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -724,7 +724,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -759,7 +759,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -794,7 +794,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -829,7 +829,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -864,7 +864,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -899,7 +899,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -934,7 +934,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -969,7 +969,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1004,7 +1004,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1039,7 +1039,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1074,7 +1074,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1109,7 +1109,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1144,7 +1144,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1179,7 +1179,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1214,7 +1214,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1249,7 +1249,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1284,7 +1284,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1319,7 +1319,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1354,7 +1354,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1389,7 +1389,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1424,7 +1424,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1459,7 +1459,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1494,7 +1494,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1529,7 +1529,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1564,7 +1564,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1599,7 +1599,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1634,7 +1634,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1669,7 +1669,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1704,7 +1704,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1739,7 +1739,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1774,7 +1774,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1809,7 +1809,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1844,7 +1844,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1879,7 +1879,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1914,7 +1914,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1949,7 +1949,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1984,7 +1984,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -2019,7 +2019,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -2054,7 +2054,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -2089,7 +2089,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -2124,7 +2124,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -2159,7 +2159,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -2194,7 +2194,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -2229,7 +2229,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -2264,7 +2264,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -2299,7 +2299,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -2334,7 +2334,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -2369,7 +2369,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -2404,7 +2404,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -2439,7 +2439,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -2474,7 +2474,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -2509,7 +2509,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -2544,7 +2544,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -2579,7 +2579,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -2614,7 +2614,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -2649,7 +2649,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -2684,7 +2684,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -2719,7 +2719,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -2754,7 +2754,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -2789,7 +2789,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -2824,7 +2824,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -2859,7 +2859,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -2894,7 +2894,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -2929,7 +2929,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -2964,7 +2964,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -2999,7 +2999,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -3034,7 +3034,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -3069,7 +3069,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -3104,7 +3104,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -3139,7 +3139,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -3174,7 +3174,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -3209,7 +3209,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -3244,7 +3244,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -3279,7 +3279,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -3314,7 +3314,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -3349,7 +3349,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DocumentDB/locations/eastus/operationsStatus/ce43ad29-fd3d-4213-ab10-0e82655e86a2?api-version=2022-08-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -3415,7 +3415,7 @@
         "x-ms-routing-request-id": "SOUTHEASTASIA:20230104T100212Z:8cb70813-2f4d-4678-a4e4-bae99e1230fb"
       },
       "ResponseBody": {
-        "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.DocumentDB/databaseAccounts/myaccountxxyy3",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.DocumentDB/databaseAccounts/myaccountxxyy3",
         "name": "myaccountxxyy3",
         "location": "East US",
         "type": "Microsoft.DocumentDB/databaseAccounts",

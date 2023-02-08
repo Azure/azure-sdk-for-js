@@ -10,16 +10,22 @@
 // Licensed under the MIT License.
 import { ContentKeyPolicy, AzureMediaServices } from "@azure/arm-mediaservices";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create or update a Content Key Policy in the Media Services account
  *
  * @summary Create or update a Content Key Policy in the Media Services account
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2022-08-01/examples/content-key-policies-create-nodrm-token.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2022-08-01/examples/content-key-policies-create-nodrm-token.json
  */
 async function createsAContentKeyPolicyWithClearKeyOptionAndTokenRestriction() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "contoso";
+  const subscriptionId =
+    process.env["MEDIASERVICES_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
   const accountName = "contosomedia";
   const contentKeyPolicyName = "PolicyWithClearKeyOptionAndSwtTokenRestriction";
   const parameters: ContentKeyPolicy = {
@@ -54,19 +60,18 @@ async function createsAContentKeyPolicyWithClearKeyOptionAndTokenRestriction() {
   console.log(result);
 }
 
-createsAContentKeyPolicyWithClearKeyOptionAndTokenRestriction().catch(
-  console.error
-);
-
 /**
  * This sample demonstrates how to Create or update a Content Key Policy in the Media Services account
  *
  * @summary Create or update a Content Key Policy in the Media Services account
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2022-08-01/examples/content-key-policies-create-playready-open.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2022-08-01/examples/content-key-policies-create-playready-open.json
  */
 async function createsAContentKeyPolicyWithPlayReadyOptionAndOpenRestriction() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "contoso";
+  const subscriptionId =
+    process.env["MEDIASERVICES_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
   const accountName = "contosomedia";
   const contentKeyPolicyName = "PolicyWithPlayReadyOptionAndOpenRestriction";
   const parameters: ContentKeyPolicy = {
@@ -114,19 +119,18 @@ async function createsAContentKeyPolicyWithPlayReadyOptionAndOpenRestriction() {
   console.log(result);
 }
 
-createsAContentKeyPolicyWithPlayReadyOptionAndOpenRestriction().catch(
-  console.error
-);
-
 /**
  * This sample demonstrates how to Create or update a Content Key Policy in the Media Services account
  *
  * @summary Create or update a Content Key Policy in the Media Services account
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2022-08-01/examples/content-key-policies-create-widevine-token.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2022-08-01/examples/content-key-policies-create-widevine-token.json
  */
 async function createsAContentKeyPolicyWithWidevineOptionAndTokenRestriction() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "contoso";
+  const subscriptionId =
+    process.env["MEDIASERVICES_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
   const accountName = "contosomedia";
   const contentKeyPolicyName = "PolicyWithWidevineOptionAndJwtTokenRestriction";
   const parameters: ContentKeyPolicy = {
@@ -170,19 +174,18 @@ async function createsAContentKeyPolicyWithWidevineOptionAndTokenRestriction() {
   console.log(result);
 }
 
-createsAContentKeyPolicyWithWidevineOptionAndTokenRestriction().catch(
-  console.error
-);
-
 /**
  * This sample demonstrates how to Create or update a Content Key Policy in the Media Services account
  *
  * @summary Create or update a Content Key Policy in the Media Services account
- * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2022-08-01/examples/content-key-policies-create-multiple-options.json
+ * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2022-08-01/examples/content-key-policies-create-multiple-options.json
  */
 async function createsAContentKeyPolicyWithMultipleOptions() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "contoso";
+  const subscriptionId =
+    process.env["MEDIASERVICES_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
   const accountName = "contosomedia";
   const contentKeyPolicyName = "PolicyCreatedWithMultipleOptions";
   const parameters: ContentKeyPolicy = {
@@ -228,4 +231,11 @@ async function createsAContentKeyPolicyWithMultipleOptions() {
   console.log(result);
 }
 
-createsAContentKeyPolicyWithMultipleOptions().catch(console.error);
+async function main() {
+  createsAContentKeyPolicyWithClearKeyOptionAndTokenRestriction();
+  createsAContentKeyPolicyWithPlayReadyOptionAndOpenRestriction();
+  createsAContentKeyPolicyWithWidevineOptionAndTokenRestriction();
+  createsAContentKeyPolicyWithMultipleOptions();
+}
+
+main().catch(console.error);

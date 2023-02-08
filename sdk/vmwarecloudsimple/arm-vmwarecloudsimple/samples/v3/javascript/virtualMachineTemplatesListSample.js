@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { VMwareCloudSimple } = require("@azure/arm-vmwarecloudsimple");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Returns list of virtual machine templates in region for private cloud
@@ -18,7 +19,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/vmwarecloudsimple/resource-manager/Microsoft.VMwareCloudSimple/stable/2019-04-01/examples/ListVirtualMachineTemplates.json
  */
 async function listVirtualMachineTemplates() {
-  const subscriptionId = "{subscription-id}";
+  const subscriptionId = process.env["VMWARECLOUDSIMPLE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const pcName = "myPrivateCloud";
   const regionId = "westus2";
   const resourcePoolName =
@@ -32,4 +33,8 @@ async function listVirtualMachineTemplates() {
   console.log(resArray);
 }
 
-listVirtualMachineTemplates().catch(console.error);
+async function main() {
+  listVirtualMachineTemplates();
+}
+
+main().catch(console.error);

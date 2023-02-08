@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { OperationalInsightsManagementClient } from "@azure/arm-operationalinsights";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets recently deleted workspaces in a subscription, available for recovery.
@@ -18,7 +21,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/preview/2021-12-01-preview/examples/WorkspacesSubscriptionList.json
  */
 async function workspacesSubscriptionList() {
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
+  const subscriptionId =
+    process.env["OPERATIONALINSIGHTS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-00000000000";
   const credential = new DefaultAzureCredential();
   const client = new OperationalInsightsManagementClient(
     credential,
@@ -31,4 +36,8 @@ async function workspacesSubscriptionList() {
   console.log(resArray);
 }
 
-workspacesSubscriptionList().catch(console.error);
+async function main() {
+  workspacesSubscriptionList();
+}
+
+main().catch(console.error);

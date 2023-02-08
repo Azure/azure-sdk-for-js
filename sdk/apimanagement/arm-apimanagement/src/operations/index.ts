@@ -68,6 +68,7 @@ export * from "./quotaByCounterKeys";
 export * from "./quotaByPeriodKeys";
 export * from "./region";
 export * from "./reports";
+export * from "./globalSchema";
 export * from "./tenantSettings";
 export * from "./apiManagementSkus";
 export * from "./subscription";

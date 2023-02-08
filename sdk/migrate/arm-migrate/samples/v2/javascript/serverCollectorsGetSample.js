@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { AzureMigrateV2 } = require("@azure/arm-migrate");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Get a Server collector.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/migrate/resource-manager/Microsoft.Migrate/stable/2019-10-01/examples/ServerCollectors_Get.json
  */
 async function serverCollectorsGet() {
-  const subscriptionId = "4bd2aa0f-2bd2-4d67-91a8-5a4533d58600";
-  const resourceGroupName = "pajindtest";
+  const subscriptionId =
+    process.env["MIGRATE_SUBSCRIPTION_ID"] || "4bd2aa0f-2bd2-4d67-91a8-5a4533d58600";
+  const resourceGroupName = process.env["MIGRATE_RESOURCE_GROUP"] || "pajindtest";
   const projectName = "app11141project";
   const serverCollectorName = "app23df4collector";
   const credential = new DefaultAzureCredential();
@@ -32,4 +34,8 @@ async function serverCollectorsGet() {
   console.log(result);
 }
 
-serverCollectorsGet().catch(console.error);
+async function main() {
+  serverCollectorsGet();
+}
+
+main().catch(console.error);

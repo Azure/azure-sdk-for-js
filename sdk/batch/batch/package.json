@@ -33,7 +33,7 @@
     "chai": "^4.3.4",
     "chai-as-promised": "^7.1.1",
     "cross-env": "^7.0.3",
-    "dotenv": "^10.0.0",
+    "dotenv": "^16.0.0",
     "eslint": "^8.0.0",
     "esm": "^3.2.25",
     "karma": "^6.3.4",

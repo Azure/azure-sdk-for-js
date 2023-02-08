@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { PolicyInsightsClient } from "@azure/arm-policyinsights";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets an existing remediation at management group scope.
@@ -18,7 +21,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2021-10-01/examples/Remediations_GetManagementGroupScope.json
  */
 async function getRemediationAtManagementGroupScope() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const managementGroupId = "financeMg";
   const remediationName = "storageRemediation";
   const credential = new DefaultAzureCredential();
@@ -30,4 +35,8 @@ async function getRemediationAtManagementGroupScope() {
   console.log(result);
 }
 
-getRemediationAtManagementGroupScope().catch(console.error);
+async function main() {
+  getRemediationAtManagementGroupScope();
+}
+
+main().catch(console.error);

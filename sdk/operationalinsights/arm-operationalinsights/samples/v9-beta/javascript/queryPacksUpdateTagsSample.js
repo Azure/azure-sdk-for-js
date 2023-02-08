@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { OperationalInsightsManagementClient } = require("@azure/arm-operationalinsights");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Updates an existing QueryPack's tags. To update other fields use the CreateOrUpdate method.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2019-09-01/examples/QueryPacksUpdateTagsOnly.json
  */
 async function queryPackUpdateTagsOnly() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "my-resource-group";
+  const subscriptionId = process.env["OPERATIONALINSIGHTS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["OPERATIONALINSIGHTS_RESOURCE_GROUP"] || "my-resource-group";
   const queryPackName = "my-querypack";
   const queryPackTags = {
     tags: { tag1: "Value1", tag2: "Value2" },
@@ -34,4 +36,8 @@ async function queryPackUpdateTagsOnly() {
   console.log(result);
 }
 
-queryPackUpdateTagsOnly().catch(console.error);
+async function main() {
+  queryPackUpdateTagsOnly();
+}
+
+main().catch(console.error);

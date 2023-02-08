@@ -10,17 +10,23 @@
 // Licensed under the MIT License.
 import { RecoveryServicesBackupClient } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Provides the result of an operation.
  *
  * @summary Provides the result of an operation.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2022-03-01/examples/AzureIaasVm/ProtectionPolicyOperationResults_Get.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/AzureIaasVm/ProtectionPolicyOperationResults_Get.json
  */
 async function getProtectionPolicyOperationResults() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const vaultName = "NetSDKTestRsVault";
-  const resourceGroupName = "SwaggerTestRg";
+  const resourceGroupName =
+    process.env["RECOVERYSERVICESBACKUP_RESOURCE_GROUP"] || "SwaggerTestRg";
   const policyName = "testPolicy1";
   const operationId = "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
@@ -34,4 +40,8 @@ async function getProtectionPolicyOperationResults() {
   console.log(result);
 }
 
-getProtectionPolicyOperationResults().catch(console.error);
+async function main() {
+  getProtectionPolicyOperationResults();
+}
+
+main().catch(console.error);

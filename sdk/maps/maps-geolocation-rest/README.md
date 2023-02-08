@@ -77,7 +77,7 @@ npm install @azure/core-auth
 
 ```javascript
 const MapsGeolocation = require("@azure-rest/maps-geolocation").default;
-const AzureKeyCredential = require("@azure/core-auth");
+const { AzureKeyCredential } = require("@azure/core-auth");
 const credential = new AzureKeyCredential("<subscription-key>");
 const client = MapsGeolocation(credential);
 ```
@@ -93,7 +93,7 @@ const client = MapsGeolocation(credential);
 You can get the country code from a IP address:
 
 ```javascript
-const isUnexpected = require("@azure-rest/maps-geolocation");
+const { isUnexpected } = require("@azure-rest/maps-geolocation");
 
 const result = await client.path("/geolocation/ip/{format}", "json").get({
   queryParameters: { ip: "2001:4898:80e8:b::189" },

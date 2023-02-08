@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { KustoManagementClient } = require("@azure/arm-kusto");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Creates or updates a data connection.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoDataConnectionsCreateOrUpdate.json
  */
 async function kustoDataConnectionsCreateOrUpdate() {
-  const subscriptionId = "12345678-1234-1234-1234-123456789098";
-  const resourceGroupName = "kustorptest";
+  const subscriptionId =
+    process.env["KUSTO_SUBSCRIPTION_ID"] || "12345678-1234-1234-1234-123456789098";
+  const resourceGroupName = process.env["KUSTO_RESOURCE_GROUP"] || "kustorptest";
   const clusterName = "kustoCluster";
   const databaseName = "KustoDatabase8";
   const dataConnectionName = "dataConnectionTest";
@@ -44,8 +46,6 @@ async function kustoDataConnectionsCreateOrUpdate() {
   console.log(result);
 }
 
-kustoDataConnectionsCreateOrUpdate().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates or updates a data connection.
  *
@@ -53,8 +53,9 @@ kustoDataConnectionsCreateOrUpdate().catch(console.error);
  * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoDataConnectionsEventGridCreateOrUpdate.json
  */
 async function kustoDataConnectionsEventGridCreateOrUpdate() {
-  const subscriptionId = "12345678-1234-1234-1234-123456789098";
-  const resourceGroupName = "kustorptest";
+  const subscriptionId =
+    process.env["KUSTO_SUBSCRIPTION_ID"] || "12345678-1234-1234-1234-123456789098";
+  const resourceGroupName = process.env["KUSTO_RESOURCE_GROUP"] || "kustorptest";
   const clusterName = "kustoCluster";
   const databaseName = "KustoDatabase8";
   const dataConnectionName = "dataConnectionTest";
@@ -89,4 +90,9 @@ async function kustoDataConnectionsEventGridCreateOrUpdate() {
   console.log(result);
 }
 
-kustoDataConnectionsEventGridCreateOrUpdate().catch(console.error);
+async function main() {
+  kustoDataConnectionsCreateOrUpdate();
+  kustoDataConnectionsEventGridCreateOrUpdate();
+}
+
+main().catch(console.error);

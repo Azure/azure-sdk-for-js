@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { RecoveryServicesClient } from "@azure/arm-recoveryservices";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Returns the list of available operations.
@@ -18,7 +21,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2022-04-01/examples/ListOperations.json
  */
 async function listOperations() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["RECOVERYSERVICES_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new RecoveryServicesClient(credential, subscriptionId);
   const resArray = new Array();
@@ -28,4 +33,8 @@ async function listOperations() {
   console.log(resArray);
 }
 
-listOperations().catch(console.error);
+async function main() {
+  listOperations();
+}
+
+main().catch(console.error);

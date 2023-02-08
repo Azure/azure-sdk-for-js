@@ -2414,16 +2414,7 @@ matrix(
               messagePattern: /The operation was aborted/,
             }
           );
-          await assertDivergentBehavior({
-            op: poller.pollUntilDone(),
-            throwOnNon2xxResponse,
-            throwing: {
-              messagePattern: /The operation was aborted/,
-            },
-            notThrowing: { result: undefined },
-          });
-          assert.equal(pollCount, 1);
-          assert.ok(poller.isDone());
+          assert.isFalse(poller.isDone());
         });
 
         it("pollUntilDone can be aborted", async () => {
@@ -2470,7 +2461,7 @@ matrix(
             }
           );
           assert.equal(pollCount, 1);
-          assert.ok(poller.isDone());
+          assert.isFalse(poller.isDone());
         });
 
         it("pollUntilDone is aborted when stopPolling() gets called", async () => {
@@ -2516,6 +2507,7 @@ matrix(
            * TODO: revisit this if it becomes an issue.
            */
           assert.equal(pollCount, implName === "createPoller" ? 2 : 1);
+          assert.isFalse(poller.isDone());
         });
       });
       describe("general behavior", function () {

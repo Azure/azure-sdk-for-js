@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { VolumeGroup, ElasticSanManagement } from "@azure/arm-elasticsan";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create a Volume Group.
@@ -18,8 +21,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2021-11-20-preview/examples/VolumeGroups_Create_MaximumSet_Gen.json
  */
 async function volumeGroupsCreateMaximumSetGen() {
-  const subscriptionId = "aaaaaaaaaaaaaaaaaa";
-  const resourceGroupName = "rgelasticsan";
+  const subscriptionId =
+    process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "aaaaaaaaaaaaaaaaaa";
+  const resourceGroupName =
+    process.env["ELASTICSANS_RESOURCE_GROUP"] || "rgelasticsan";
   const elasticSanName = "ti7q-k952-1qB3J_5";
   const volumeGroupName = "u_5I_1j4t3";
   const parameters: VolumeGroup = {
@@ -43,8 +48,6 @@ async function volumeGroupsCreateMaximumSetGen() {
   console.log(result);
 }
 
-volumeGroupsCreateMaximumSetGen().catch(console.error);
-
 /**
  * This sample demonstrates how to Create a Volume Group.
  *
@@ -52,8 +55,10 @@ volumeGroupsCreateMaximumSetGen().catch(console.error);
  * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2021-11-20-preview/examples/VolumeGroups_Create_MinimumSet_Gen.json
  */
 async function volumeGroupsCreateMinimumSetGen() {
-  const subscriptionId = "aaaaaaaaaaaaaaaaaa";
-  const resourceGroupName = "rgelasticsan";
+  const subscriptionId =
+    process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "aaaaaaaaaaaaaaaaaa";
+  const resourceGroupName =
+    process.env["ELASTICSANS_RESOURCE_GROUP"] || "rgelasticsan";
   const elasticSanName = "ti7q-k952-1qB3J_5";
   const volumeGroupName = "u_5I_1j4t3";
   const parameters: VolumeGroup = {};
@@ -68,4 +73,9 @@ async function volumeGroupsCreateMinimumSetGen() {
   console.log(result);
 }
 
-volumeGroupsCreateMinimumSetGen().catch(console.error);
+async function main() {
+  volumeGroupsCreateMaximumSetGen();
+  volumeGroupsCreateMinimumSetGen();
+}
+
+main().catch(console.error);

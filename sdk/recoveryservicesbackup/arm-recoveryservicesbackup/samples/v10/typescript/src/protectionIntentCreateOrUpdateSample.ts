@@ -13,17 +13,23 @@ import {
   RecoveryServicesBackupClient
 } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create Intent for Enabling backup of an item. This is a synchronous operation.
  *
  * @summary Create Intent for Enabling backup of an item. This is a synchronous operation.
- * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2022-03-01/examples/AzureIaasVm/ProtectionIntent_CreateOrUpdate.json
+ * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/AzureIaasVm/ProtectionIntent_CreateOrUpdate.json
  */
 async function createOrUpdateAzureVMProtectionIntent() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const vaultName = "myVault";
-  const resourceGroupName = "myRG";
+  const resourceGroupName =
+    process.env["RECOVERYSERVICESBACKUP_RESOURCE_GROUP"] || "myRG";
   const fabricName = "Azure";
   const intentObjectName = "vm;iaasvmcontainerv2;chamsrgtest;chamscandel";
   const parameters: ProtectionIntentResource = {
@@ -47,4 +53,8 @@ async function createOrUpdateAzureVMProtectionIntent() {
   console.log(result);
 }
 
-createOrUpdateAzureVMProtectionIntent().catch(console.error);
+async function main() {
+  createOrUpdateAzureVMProtectionIntent();
+}
+
+main().catch(console.error);

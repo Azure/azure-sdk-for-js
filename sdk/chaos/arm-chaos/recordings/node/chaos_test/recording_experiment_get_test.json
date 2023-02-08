@@ -8,8 +8,8 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-chaos/1.0.0-beta.2 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "e00f36ae-c005-41f7-83aa-be07d3fb438e"
+        "User-Agent": "azsdk-js-arm-chaos/1.0.0-beta.3 core-rest-pipeline/1.10.1 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "f97085bb-43c1-481d-acf3-d6938aec7aa6"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -18,7 +18,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 19 Oct 2022 08:23:55 GMT",
+        "Date": "Thu, 29 Dec 2022 02:16:53 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Request-Context": "appId=",
@@ -26,23 +26,23 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "ff83f3b7-e29b-4be8-96e4-646b2ae2f140",
+        "x-ms-correlation-request-id": "c049909d-3b46-4bf9-84eb-fef12b4ebaea",
         "x-ms-ratelimit-remaining-subscription-resource-requests": "299",
-        "x-ms-request-id": "ff83f3b7-e29b-4be8-96e4-646b2ae2f140",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20221019T082355Z:ff83f3b7-e29b-4be8-96e4-646b2ae2f140"
+        "x-ms-request-id": "c049909d-3b46-4bf9-84eb-fef12b4ebaea",
+        "x-ms-routing-request-id": "KOREASOUTH:20221229T021654Z:c049909d-3b46-4bf9-84eb-fef12b4ebaea"
       },
       "ResponseBody": {
         "type": "Microsoft.Chaos/experiments",
         "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Chaos/experiments/exampleExperiment",
         "name": "exampleExperiment",
         "systemData": {
-          "createdAt": "2022-10-19T08:23:53.1134901\u002B00:00",
-          "lastModifiedAt": "2022-10-19T08:23:53.1134901\u002B00:00",
+          "createdAt": "2022-12-29T02:16:52.2491232\u002B00:00",
+          "lastModifiedAt": "2022-12-29T02:16:52.2491232\u002B00:00",
           "createdByType": "User"
         },
         "identity": {
           "type": "SystemAssigned",
-          "principalId": "b63d966a-daad-4d2f-a705-a86bec617184",
+          "principalId": "7ce6878f-a453-4514-9495-ae645f67e21b",
           "tenantId": "88888888-8888-8888-8888-888888888888"
         },
         "location": "eastus",

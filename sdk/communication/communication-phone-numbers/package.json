@@ -1,6 +1,6 @@
 {
   "name": "@azure/communication-phone-numbers",
-  "version": "1.2.0-beta.4",
+  "version": "1.2.0-beta.5",
   "description": "SDK for Azure Communication service which facilitates phone number management.",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -87,7 +87,7 @@
     "@types/uuid": "^8.0.0",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
-    "dotenv": "^8.2.0",
+    "dotenv": "^16.0.0",
     "eslint": "^8.0.0",
     "inherits": "^2.0.3",
     "karma-chrome-launcher": "^3.0.0",

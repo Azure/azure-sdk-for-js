@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { Scvmm } = require("@azure/arm-scvmm");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Onboards the ScVmm fabric cloud as an Azure cloud resource.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/preview/2020-06-05-preview/examples/CreateCloud.json
  */
 async function createCloud() {
-  const subscriptionId = "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
-  const resourceGroupName = "testrg";
+  const subscriptionId =
+    process.env["SCVMM_SUBSCRIPTION_ID"] || "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
+  const resourceGroupName = process.env["SCVMM_RESOURCE_GROUP"] || "testrg";
   const cloudName = "HRCloud";
   const body = {
     extendedLocation: {
@@ -37,4 +39,8 @@ async function createCloud() {
   console.log(result);
 }
 
-createCloud().catch(console.error);
+async function main() {
+  createCloud();
+}
+
+main().catch(console.error);
