@@ -2108,6 +2108,12 @@ export const SBNamespace: coreClient.CompositeMapper = {
           className: "SystemData"
         }
       },
+      minimumTlsVersion: {
+        serializedName: "properties.minimumTlsVersion",
+        type: {
+          name: "String"
+        }
+      },
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
@@ -2185,6 +2191,19 @@ export const SBNamespace: coreClient.CompositeMapper = {
         serializedName: "properties.alternateName",
         type: {
           name: "String"
+        }
+      },
+      publicNetworkAccess: {
+        defaultValue: "Enabled",
+        serializedName: "properties.publicNetworkAccess",
+        type: {
+          name: "String"
+        }
+      },
+      premiumMessagingPartitions: {
+        serializedName: "properties.premiumMessagingPartitions",
+        type: {
+          name: "Number"
         }
       }
     }
