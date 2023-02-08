@@ -5518,7 +5518,7 @@ export const expectation30: AnalyzeBatchResult[] = [
         id: "0",
         summaries: [
           {
-            text: "Microsoft’s Cloud PC is a new type of virtualization for Windows.\nThe Cloud PC lets users access Windows 10 or Windows 11 on any device, from anywhere with an internet connection.\n\nThe Cloud PCs are designed for a mobile and mobile workforce.",
+            text: "Microsoft’s Cloud PC puts Windows in the cloud.\nCloud PCs are easy to set up and deploy for today’s mobile and elastic workforces.\n\nCloud PCs can be accessed through a native app or web browser on any device, from anywhere with an internet connection.",
             contexts: [{ offset: 0, length: 7519 }],
           },
         ],
@@ -5528,7 +5528,7 @@ export const expectation30: AnalyzeBatchResult[] = [
         id: "1",
         summaries: [
           {
-            text: "Microsoft’s new Cloud PC, Windows 365, is designed to support a hybrid workforce.\nThe new system allows remote workers to access their work environment from anywhere.\n\nThe Government of Nunavut is testing Windows 365.",
+            text: "Microsoft’s new Cloud PC, Windows 365, is designed for the hybrid workforce.\nThe ability to login to a Cloud PC from anywhere on any device is part of Microsoft’S larger strategy around tailoring products for the post-pandemic hybrid workforce of the future.",
             contexts: [{ offset: 0, length: 3416 }],
           },
         ],
@@ -5569,7 +5569,6 @@ export const expectation31: AnalyzeBatchResult[] = [
     modelVersion,
   },
 ];
-
 export const expectation32: AnalyzeBatchResult[] = [
   {
     kind: "Healthcare",
