@@ -43,10 +43,12 @@ import {
   FileSystemListPathsHeaders,
   LeaseAction,
   ListBlobsHierarchySegmentResponse,
+  PathAppendDataHeaders,
   PathCreateResponse,
   PathDeleteResponse,
   PathGetPropertiesHeaders as PathGetPropertiesHeadersModel,
   PathList as PathListModel,
+  PathSetExpiryHeaders,
   PathUndeleteHeaders,
 } from "./generated/src/models";
 import { DataLakeSASPermissions } from "./sas/DataLakeSASPermissions";
@@ -89,17 +91,18 @@ export {
   PathUpdateHeaders,
   PathAppendDataHeaders,
   PathFlushDataHeaders,
-  PathAppendDataResponse as FileAppendResponse,
   PathFlushDataResponse as FileFlushResponse,
   PathFlushDataResponse as FileUploadResponse,
   PathGetPropertiesAction as PathGetPropertiesActionModel,
   PathRenameMode as PathRenameModeModel,
   PathExpiryOptions as FileExpiryMode,
-  PathSetExpiryResponse as FileSetExpiryResponse,
   PathSetExpiryHeaders as FileSetExpiryHeaders,
 } from "./generated/src/models";
 
 export { PathCreateResponse };
+
+export type FileAppendResponse = WithResponse<PathAppendDataHeaders, PathAppendDataHeaders>;
+export type FileSetExpiryResponse = WithResponse<PathSetExpiryHeaders, PathSetExpiryHeaders>
 
 /**
  * Common options of the {@link FileSystemGenerateSasUrlOptions}, {@link DirectoryGenerateSasUrlOptions}

@@ -101,7 +101,7 @@ import {
   setURLQueries,
 } from "./utils/utils.common";
 import { fsCreateReadStream, fsStat } from "./utils/utils.node";
-import { PathCreateHeaders, PathGetPropertiesHeaders } from "./generated/src";
+import { PathAppendDataHeaders, PathCreateHeaders, PathGetPropertiesHeaders, PathSetExpiryHeaders } from "./generated/src";
 
 /**
  * A DataLakePathClient represents a URL to the Azure Storage path (directory or file).
@@ -1404,7 +1404,7 @@ export class DataLakeFileClient extends DataLakePathClient {
     const { span, updatedOptions } = createSpan("DataLakeFileClient-append", options);
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-      return await this.pathContextInternal.appendData(body, {
+      return assertResponse<PathAppendDataHeaders, PathAppendDataHeaders>(await this.pathContextInternal.appendData(body, {
         pathHttpHeaders: {
           contentMD5: options.transactionalContentMD5,
         },
@@ -1421,7 +1421,7 @@ export class DataLakeFileClient extends DataLakePathClient {
         leaseDuration: options.leaseDuration,
         leaseAction: options.leaseAction,
         ...updatedOptions,
-      });
+      }));
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -2010,10 +2010,10 @@ export class DataLakeFileClient extends DataLakePathClient {
       }
 
       const adaptedOptions = { ...options, expiresOn };
-      return await this.pathContextInternalToBlobEndpoint.setExpiry(mode, {
+      return assertResponse<PathSetExpiryHeaders, PathSetExpiryHeaders>(await this.pathContextInternalToBlobEndpoint.setExpiry(mode, {
         ...adaptedOptions,
         tracingOptions: updatedOptions.tracingOptions,
-      });
+      }));
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
