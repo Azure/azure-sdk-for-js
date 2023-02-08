@@ -82,11 +82,14 @@ export class WorkerPerfProgram implements PerfProgram {
       await exitStage("warmup");
     }
 
-    for (let iteration = 0; iteration < this.options.iterations.value!; ++iteration) {
+    for (let iteration = 0; iteration < this.options.iterations.value; ++iteration) {
       await enterStage("test");
-      await runWithCpuProfile(async () => {
-        await this.runTests(this.options.duration.value!);
-      });
+      const duration = this.options.duration.value;
+      if (this.options.profile.value) {
+        await runWithCpuProfile(() => this.runTests(duration));
+      } else {
+        await this.runTests(duration);
+      }
       await exitStage("test");
     }
 

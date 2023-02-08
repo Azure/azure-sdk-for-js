@@ -79,6 +79,7 @@ export interface DefaultPerfOptions {
   "list-transitive-dependencies": boolean;
   cpus: number;
   "use-worker-threads": boolean;
+  profile: boolean
 }
 
 /**
@@ -143,6 +144,10 @@ export const defaultPerfOptions: PerfOptionDictionary<DefaultPerfOptions> = {
       "Set to true to use the Node worker_thread API when running tests across multiple CPUs. Set to false to use child_process (default).",
     defaultValue: false,
   },
+  profile: {
+    description: "Set to true to profile the perf test.",
+    defaultValue: false
+  }
 };
 
 /**
