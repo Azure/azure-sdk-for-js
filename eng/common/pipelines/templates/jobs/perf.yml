@@ -165,17 +165,6 @@ jobs:
     displayName: Print results.json
     condition: always()
 
-  - script: |
-      node eng/tools/extractPerfProfiles.js
-    displayName: "Extract perf profiles into a zipped folder"
-    condition: always()
-
-  - task: PublishPipelineArtifact@1
-    inputs:
-      targetPath: $(System.DefaultWorkingDirectory)/sdk/profiles
-      artifactName: profiles.zip
-    condition: always()
-
   - task: PublishPipelineArtifact@1
     inputs:
       targetPath: azure-sdk-tools/tools/perf-automation/Azure.Sdk.Tools.PerfAutomation/results
