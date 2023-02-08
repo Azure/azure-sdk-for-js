@@ -12,8 +12,8 @@ export async function runWithCpuProfile(functionToProfile: () => Promise<void>) 
       session.post("Profiler.stop", (err, { profile }) => {
         // Write profile to disk, upload, etc.
         if (!err) {
-          const profileName = `./../../../profiles/${getFormattedDate()}-perfProgram.cpuprofile`;
-          fs.ensureDirSync("./../../../profiles/");
+          const profileName = `./JS-profile/${getFormattedDate()}-perfProgram.cpuprofile`;
+          fs.ensureDirSync("./JS-profile/");
           fs.writeFileSync(profileName, JSON.stringify(profile));
           console.log(`...CPUProfile saved to ${profileName}...`);
         } else {
