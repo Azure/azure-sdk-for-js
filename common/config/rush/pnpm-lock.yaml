@@ -142,6 +142,7 @@ specifiers:
   '@rush-temp/arm-network-1': file:./projects/arm-network-1.tgz
   '@rush-temp/arm-network-profile-2020-09-01-hybrid': file:./projects/arm-network-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-networkfunction': file:./projects/arm-networkfunction.tgz
+  '@rush-temp/arm-newrelic': file:./projects/arm-newrelic.tgz
   '@rush-temp/arm-nginx': file:./projects/arm-nginx.tgz
   '@rush-temp/arm-notificationhubs': file:./projects/arm-notificationhubs.tgz
   '@rush-temp/arm-oep': file:./projects/arm-oep.tgz
@@ -469,6 +470,7 @@ dependencies:
   '@rush-temp/arm-network-1': file:projects/arm-network-1.tgz
   '@rush-temp/arm-network-profile-2020-09-01-hybrid': file:projects/arm-network-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-networkfunction': file:projects/arm-networkfunction.tgz
+  '@rush-temp/arm-newrelic': file:projects/arm-newrelic.tgz
   '@rush-temp/arm-nginx': file:projects/arm-nginx.tgz
   '@rush-temp/arm-notificationhubs': file:projects/arm-notificationhubs.tgz
   '@rush-temp/arm-oep': file:projects/arm-oep.tgz
@@ -13528,6 +13530,33 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-newrelic.tgz:
+    resolution: {integrity: sha512-cehnguJnhXigtde7FrBfTQXyOYuANvCJ4UDa3MFn2NkaXNRnkmVMjKi4mqnqMM1pGSuj2XrNDkMLoqVPnB8r2Q==, tarball: file:projects/arm-newrelic.tgz}
+    name: '@rush-temp/arm-newrelic'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.34.3_@types+node@14.18.36
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.4
+      '@types/node': 14.18.36
+      chai: 4.3.7
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_p2gydaekoyjvl5wd3ixslt7iq4
+      tslib: 2.5.0
+      typescript: 4.8.4
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   file:projects/arm-nginx.tgz:
     resolution: {integrity: sha512-94Y23AdtBO9FWZejGci64JMkZA0f6FBGgrIWAmKlMjRC1ArUGQEjyWJCgxxEptL2Q64JWQbZE/KO38j8NofPzA==, tarball: file:projects/arm-nginx.tgz}
     name: '@rush-temp/arm-nginx'
@@ -16582,7 +16611,7 @@ packages:
     dev: false
 
   file:projects/cosmos.tgz:
-    resolution: {integrity: sha512-dXVFPuOZHo4tN5g/MQLa2PrQ+XohVF/rQzsVd4F0bQYLGSaVN5LX9D9398fbBdPphbKZREveEeuvROBTGH+yjA==, tarball: file:projects/cosmos.tgz}
+    resolution: {integrity: sha512-eRIXj9ZOIB+2R29nFpAx8TzLwZQQZ96HeBk5lhek323XM5B2hKGHdJ+cl48aaWqcw7jt2QMgedJWrRfJjOMfAw==, tarball: file:projects/cosmos.tgz}
     name: '@rush-temp/cosmos'
     version: 0.0.0
     dependencies:
