@@ -168,6 +168,7 @@ export const Constants = {
   // GlobalDB related constants
   WritableLocations: "writableLocations",
   ReadableLocations: "readableLocations",
+  LocationUnavailableExpirationTimeInMs: 5 * 60 * 1000, // 5 minutes
 
   // ServiceDocument Resource
   ENABLE_MULTIPLE_WRITABLE_LOCATIONS: "enableMultipleWriteLocations",

@@ -14,9 +14,10 @@ import {
   RemediationsImpl,
   PolicyEventsImpl,
   PolicyStatesImpl,
-  OperationsImpl,
   PolicyMetadataOperationsImpl,
   PolicyRestrictionsImpl,
+  ComponentPolicyStatesImpl,
+  OperationsImpl,
   AttestationsImpl
 } from "./operations";
 import {
@@ -24,9 +25,10 @@ import {
   Remediations,
   PolicyEvents,
   PolicyStates,
-  Operations,
   PolicyMetadataOperations,
   PolicyRestrictions,
+  ComponentPolicyStates,
+  Operations,
   Attestations
 } from "./operationsInterfaces";
 import { PolicyInsightsClientOptionalParams } from "./models";
@@ -62,22 +64,19 @@ export class PolicyInsightsClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-policyinsights/6.0.0-beta.3`;
+    const packageDetails = `azsdk-js-arm-policyinsights/6.0.0-beta.4`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
         : `${packageDetails}`;
 
-    if (!options.credentialScopes) {
-      options.credentialScopes = ["https://management.azure.com/.default"];
-    }
     const optionsWithDefaults = {
       ...defaults,
       ...options,
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri:
+      endpoint:
         options.endpoint ?? options.baseUri ?? "https://management.azure.com"
     };
     super(optionsWithDefaults);
@@ -103,7 +102,9 @@ export class PolicyInsightsClient extends coreClient.ServiceClient {
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
           credential: credentials,
-          scopes: `${optionsWithDefaults.credentialScopes}`,
+          scopes:
+            optionsWithDefaults.credentialScopes ??
+            `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
               coreClient.authorizeRequestOnClaimChallenge
@@ -120,9 +121,10 @@ export class PolicyInsightsClient extends coreClient.ServiceClient {
     this.remediations = new RemediationsImpl(this);
     this.policyEvents = new PolicyEventsImpl(this);
     this.policyStates = new PolicyStatesImpl(this);
-    this.operations = new OperationsImpl(this);
     this.policyMetadataOperations = new PolicyMetadataOperationsImpl(this);
     this.policyRestrictions = new PolicyRestrictionsImpl(this);
+    this.componentPolicyStates = new ComponentPolicyStatesImpl(this);
+    this.operations = new OperationsImpl(this);
     this.attestations = new AttestationsImpl(this);
   }
 
@@ -130,8 +132,9 @@ export class PolicyInsightsClient extends coreClient.ServiceClient {
   remediations: Remediations;
   policyEvents: PolicyEvents;
   policyStates: PolicyStates;
-  operations: Operations;
   policyMetadataOperations: PolicyMetadataOperations;
   policyRestrictions: PolicyRestrictions;
+  componentPolicyStates: ComponentPolicyStates;
+  operations: Operations;
   attestations: Attestations;
 }

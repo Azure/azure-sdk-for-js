@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { PolicyInsightsClient } = require("@azure/arm-policyinsights");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Cancels a remediation at management group scope.
@@ -18,7 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2021-10-01/examples/Remediations_CancelManagementGroupScope.json
  */
 async function cancelARemediationAtManagementGroupScope() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const managementGroupId = "financeMg";
   const remediationName = "myRemediation";
   const credential = new DefaultAzureCredential();
@@ -30,4 +32,8 @@ async function cancelARemediationAtManagementGroupScope() {
   console.log(result);
 }
 
-cancelARemediationAtManagementGroupScope().catch(console.error);
+async function main() {
+  cancelARemediationAtManagementGroupScope();
+}
+
+main().catch(console.error);

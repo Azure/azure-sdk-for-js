@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { MonitorClient } = require("@azure/arm-monitor");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Get the test notifications by the notification id
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2022-06-01/examples/getTestNotificationsAtActionGroupResourceLevel.json
  */
 async function getNotificationDetailsAtResourceGroupLevel() {
-  const subscriptionId = "11111111-1111-1111-1111-111111111111";
-  const resourceGroupName = "TestRgName";
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] || "11111111-1111-1111-1111-111111111111";
+  const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "TestRgName";
   const actionGroupName = "TestAgName";
   const notificationId = "11000222191287";
   const credential = new DefaultAzureCredential();
@@ -32,4 +34,8 @@ async function getNotificationDetailsAtResourceGroupLevel() {
   console.log(result);
 }
 
-getNotificationDetailsAtResourceGroupLevel().catch(console.error);
+async function main() {
+  getNotificationDetailsAtResourceGroupLevel();
+}
+
+main().catch(console.error);

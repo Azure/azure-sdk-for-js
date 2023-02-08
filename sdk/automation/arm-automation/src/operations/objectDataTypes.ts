@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { ObjectDataTypes } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -15,8 +15,8 @@ import { AutomationClient } from "../automationClient";
 import {
   TypeField,
   ObjectDataTypesListFieldsByModuleAndTypeOptionalParams,
-  ObjectDataTypesListFieldsByTypeOptionalParams,
   ObjectDataTypesListFieldsByModuleAndTypeResponse,
+  ObjectDataTypesListFieldsByTypeOptionalParams,
   ObjectDataTypesListFieldsByTypeResponse
 } from "../models";
 
@@ -62,13 +62,17 @@ export class ObjectDataTypesImpl implements ObjectDataTypes {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listFieldsByModuleAndTypePagingPage(
           resourceGroupName,
           automationAccountName,
           moduleName,
           typeName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -79,9 +83,11 @@ export class ObjectDataTypesImpl implements ObjectDataTypes {
     automationAccountName: string,
     moduleName: string,
     typeName: string,
-    options?: ObjectDataTypesListFieldsByModuleAndTypeOptionalParams
+    options?: ObjectDataTypesListFieldsByModuleAndTypeOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<TypeField[]> {
-    let result = await this._listFieldsByModuleAndType(
+    let result: ObjectDataTypesListFieldsByModuleAndTypeResponse;
+    result = await this._listFieldsByModuleAndType(
       resourceGroupName,
       automationAccountName,
       moduleName,
@@ -135,12 +141,16 @@ export class ObjectDataTypesImpl implements ObjectDataTypes {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listFieldsByTypePagingPage(
           resourceGroupName,
           automationAccountName,
           typeName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -150,9 +160,11 @@ export class ObjectDataTypesImpl implements ObjectDataTypes {
     resourceGroupName: string,
     automationAccountName: string,
     typeName: string,
-    options?: ObjectDataTypesListFieldsByTypeOptionalParams
+    options?: ObjectDataTypesListFieldsByTypeOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<TypeField[]> {
-    let result = await this._listFieldsByType(
+    let result: ObjectDataTypesListFieldsByTypeResponse;
+    result = await this._listFieldsByType(
       resourceGroupName,
       automationAccountName,
       typeName,

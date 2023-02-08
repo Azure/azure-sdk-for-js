@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { ConfigurationProfiles } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -15,7 +15,9 @@ import { AutomanageClient } from "../automanageClient";
 import {
   ConfigurationProfile,
   ConfigurationProfilesListByResourceGroupOptionalParams,
+  ConfigurationProfilesListByResourceGroupResponse,
   ConfigurationProfilesListBySubscriptionOptionalParams,
+  ConfigurationProfilesListBySubscriptionResponse,
   ConfigurationProfilesCreateOrUpdateOptionalParams,
   ConfigurationProfilesCreateOrUpdateResponse,
   ConfigurationProfilesGetOptionalParams,
@@ -23,9 +25,7 @@ import {
   ConfigurationProfilesDeleteOptionalParams,
   ConfigurationProfileUpdate,
   ConfigurationProfilesUpdateOptionalParams,
-  ConfigurationProfilesUpdateResponse,
-  ConfigurationProfilesListByResourceGroupResponse,
-  ConfigurationProfilesListBySubscriptionResponse
+  ConfigurationProfilesUpdateResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -58,17 +58,26 @@ export class ConfigurationProfilesImpl implements ConfigurationProfiles {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: ConfigurationProfilesListByResourceGroupOptionalParams
+    options?: ConfigurationProfilesListByResourceGroupOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<ConfigurationProfile[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
+    let result: ConfigurationProfilesListByResourceGroupResponse;
+    result = await this._listByResourceGroup(resourceGroupName, options);
     yield result.value || [];
   }
 
@@ -99,16 +108,21 @@ export class ConfigurationProfilesImpl implements ConfigurationProfiles {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listBySubscriptionPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBySubscriptionPagingPage(options, settings);
       }
     };
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: ConfigurationProfilesListBySubscriptionOptionalParams
+    options?: ConfigurationProfilesListBySubscriptionOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<ConfigurationProfile[]> {
-    let result = await this._listBySubscription(options);
+    let result: ConfigurationProfilesListBySubscriptionResponse;
+    result = await this._listBySubscription(options);
     yield result.value || [];
   }
 

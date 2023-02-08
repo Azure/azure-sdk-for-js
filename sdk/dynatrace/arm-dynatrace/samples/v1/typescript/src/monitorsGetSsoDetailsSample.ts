@@ -14,6 +14,9 @@ import {
   DynatraceObservability
 } from "@azure/arm-dynatrace";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets the SSO configuration details from the partner.
@@ -22,8 +25,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/stable/2021-09-01/examples/Monitors_GetSSODetails_MaximumSet_Gen.json
  */
 async function monitorsGetSsoDetailsMaximumSetGen() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["DYNATRACE_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["DYNATRACE_RESOURCE_GROUP"] || "myResourceGroup";
   const monitorName = "myMonitor";
   const request: SSODetailsRequest = { userPrincipal: "alice@microsoft.com" };
   const options: MonitorsGetSSODetailsOptionalParams = { request };
@@ -37,8 +43,6 @@ async function monitorsGetSsoDetailsMaximumSetGen() {
   console.log(result);
 }
 
-monitorsGetSsoDetailsMaximumSetGen().catch(console.error);
-
 /**
  * This sample demonstrates how to Gets the SSO configuration details from the partner.
  *
@@ -46,8 +50,11 @@ monitorsGetSsoDetailsMaximumSetGen().catch(console.error);
  * x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/stable/2021-09-01/examples/Monitors_GetSSODetails_MinimumSet_Gen.json
  */
 async function monitorsGetSsoDetailsMinimumSetGen() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["DYNATRACE_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["DYNATRACE_RESOURCE_GROUP"] || "myResourceGroup";
   const monitorName = "myMonitor";
   const request: SSODetailsRequest = {};
   const options: MonitorsGetSSODetailsOptionalParams = { request };
@@ -61,4 +68,9 @@ async function monitorsGetSsoDetailsMinimumSetGen() {
   console.log(result);
 }
 
-monitorsGetSsoDetailsMinimumSetGen().catch(console.error);
+async function main() {
+  monitorsGetSsoDetailsMaximumSetGen();
+  monitorsGetSsoDetailsMinimumSetGen();
+}
+
+main().catch(console.error);

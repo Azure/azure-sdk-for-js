@@ -13,6 +13,9 @@ import {
   VMwareCloudSimple
 } from "@azure/arm-vmwarecloudsimple";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Returns dedicated cloud node by its name
@@ -21,8 +24,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/vmwarecloudsimple/resource-manager/Microsoft.VMwareCloudSimple/stable/2019-04-01/examples/CreateDedicatedCloudNode.json
  */
 async function createDedicatedCloudNode() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["VMWARECLOUDSIMPLE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["VMWARECLOUDSIMPLE_RESOURCE_GROUP"] || "myResourceGroup";
   const referer = "https://management.azure.com/";
   const dedicatedCloudNodeName = "myNode";
   const dedicatedCloudNodeRequest: DedicatedCloudNode = {
@@ -46,4 +51,8 @@ async function createDedicatedCloudNode() {
   console.log(result);
 }
 
-createDedicatedCloudNode().catch(console.error);
+async function main() {
+  createDedicatedCloudNode();
+}
+
+main().catch(console.error);

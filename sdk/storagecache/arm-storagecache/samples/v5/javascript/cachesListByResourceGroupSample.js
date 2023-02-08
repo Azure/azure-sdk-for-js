@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { StorageCacheManagementClient } = require("@azure/arm-storagecache");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Returns all Caches the user has access to under a resource group.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-05-01/examples/Caches_ListByResourceGroup.json
  */
 async function cachesListByResourceGroup() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "scgroup";
+  const subscriptionId =
+    process.env["STORAGECACHE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["STORAGECACHE_RESOURCE_GROUP"] || "scgroup";
   const credential = new DefaultAzureCredential();
   const client = new StorageCacheManagementClient(credential, subscriptionId);
   const resArray = new Array();
@@ -29,4 +31,8 @@ async function cachesListByResourceGroup() {
   console.log(resArray);
 }
 
-cachesListByResourceGroup().catch(console.error);
+async function main() {
+  cachesListByResourceGroup();
+}
+
+main().catch(console.error);

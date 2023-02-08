@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { CommunicationServiceManagementClient } = require("@azure/arm-communication");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Operation to update an existing CommunicationService.
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2022-07-01-preview/examples/communicationServices/update.json
  */
 async function updateResource() {
-  const subscriptionId = "12345";
-  const resourceGroupName = "MyResourceGroup";
+  const subscriptionId = process.env["COMMUNICATION_SUBSCRIPTION_ID"] || "12345";
+  const resourceGroupName = process.env["COMMUNICATION_RESOURCE_GROUP"] || "MyResourceGroup";
   const communicationServiceName = "MyCommunicationResource";
   const parameters = {
     tags: { newTag: "newVal" },
@@ -34,4 +35,8 @@ async function updateResource() {
   console.log(result);
 }
 
-updateResource().catch(console.error);
+async function main() {
+  updateResource();
+}
+
+main().catch(console.error);

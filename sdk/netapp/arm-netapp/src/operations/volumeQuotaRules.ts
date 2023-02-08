@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { VolumeQuotaRules } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -70,13 +70,17 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByVolumePagingPage(
           resourceGroupName,
           accountName,
           poolName,
           volumeName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -87,9 +91,11 @@ export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: VolumeQuotaRulesListByVolumeOptionalParams
+    options?: VolumeQuotaRulesListByVolumeOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<VolumeQuotaRule[]> {
-    let result = await this._listByVolume(
+    let result: VolumeQuotaRulesListByVolumeResponse;
+    result = await this._listByVolume(
       resourceGroupName,
       accountName,
       poolName,

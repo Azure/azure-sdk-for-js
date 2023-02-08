@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { OperationalInsightsManagementClient } = require("@azure/arm-operationalinsights");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets a data export instance.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2020-08-01/examples/DataExportGet.json
  */
 async function dataExportGet() {
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const resourceGroupName = "RgTest1";
+  const subscriptionId =
+    process.env["OPERATIONALINSIGHTS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-00000000000";
+  const resourceGroupName = process.env["OPERATIONALINSIGHTS_RESOURCE_GROUP"] || "RgTest1";
   const workspaceName = "DeWnTest1234";
   const dataExportName = "export1";
   const credential = new DefaultAzureCredential();
@@ -28,4 +30,8 @@ async function dataExportGet() {
   console.log(result);
 }
 
-dataExportGet().catch(console.error);
+async function main() {
+  dataExportGet();
+}
+
+main().catch(console.error);

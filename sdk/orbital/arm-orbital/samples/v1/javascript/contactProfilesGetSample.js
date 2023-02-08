@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { AzureOrbital } = require("@azure/arm-orbital");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets the specified contact Profile in a specified resource group
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/orbital/resource-manager/Microsoft.Orbital/stable/2022-03-01/examples/ContactProfileGet.json
  */
 async function getAContactProfile() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["ORBITAL_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["ORBITAL_RESOURCE_GROUP"] || "rg1";
   const contactProfileName = "AQUA_DIRECTPLAYBACK_WITH_UPLINK";
   const credential = new DefaultAzureCredential();
   const client = new AzureOrbital(credential, subscriptionId);
@@ -27,4 +28,8 @@ async function getAContactProfile() {
   console.log(result);
 }
 
-getAContactProfile().catch(console.error);
+async function main() {
+  getAContactProfile();
+}
+
+main().catch(console.error);

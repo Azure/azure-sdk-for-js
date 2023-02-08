@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Machines } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -59,11 +60,15 @@ export class MachinesImpl implements Machines {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listByProjectPagingPage(
           resourceGroupName,
           projectName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -72,15 +77,22 @@ export class MachinesImpl implements Machines {
   private async *listByProjectPagingPage(
     resourceGroupName: string,
     projectName: string,
-    options?: MachinesListByProjectOptionalParams
+    options?: MachinesListByProjectOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Machine[]> {
-    let result = await this._listByProject(
-      resourceGroupName,
-      projectName,
-      options
-    );
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: MachinesListByProjectResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByProject(
+        resourceGroupName,
+        projectName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByProjectNext(
         resourceGroupName,
@@ -89,7 +101,9 @@ export class MachinesImpl implements Machines {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -226,7 +240,6 @@ const listByProjectNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

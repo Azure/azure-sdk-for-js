@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { DeviceUpdate } = require("@azure/arm-deviceupdate");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Updates instance's tags.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2022-10-01/examples/Instances/Instances_Update.json
  */
 async function updatesInstance() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "test-rg";
+  const subscriptionId =
+    process.env["DEVICEUPDATE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["DEVICEUPDATE_RESOURCE_GROUP"] || "test-rg";
   const accountName = "contoso";
   const instanceName = "blue";
   const tagUpdatePayload = { tags: { tagKey: "tagValue" } };
@@ -34,4 +36,8 @@ async function updatesInstance() {
   console.log(result);
 }
 
-updatesInstance().catch(console.error);
+async function main() {
+  updatesInstance();
+}
+
+main().catch(console.error);

@@ -100,9 +100,10 @@ export interface TestCreateOrUpdateAppComponentsMediaTypesParam {
   contentType?: "application/merge-patch+json";
 }
 
-export type TestCreateOrUpdateAppComponentsParameters = TestCreateOrUpdateAppComponentsMediaTypesParam &
-  TestCreateOrUpdateAppComponentsBodyParam &
-  RequestParameters;
+export type TestCreateOrUpdateAppComponentsParameters =
+  TestCreateOrUpdateAppComponentsMediaTypesParam &
+    TestCreateOrUpdateAppComponentsBodyParam &
+    RequestParameters;
 export type TestListAppComponentsParameters = RequestParameters;
 
 export interface TestCreateOrUpdateServerMetricsConfigBodyParam {
@@ -115,9 +116,10 @@ export interface TestCreateOrUpdateServerMetricsConfigMediaTypesParam {
   contentType?: "application/merge-patch+json";
 }
 
-export type TestCreateOrUpdateServerMetricsConfigParameters = TestCreateOrUpdateServerMetricsConfigMediaTypesParam &
-  TestCreateOrUpdateServerMetricsConfigBodyParam &
-  RequestParameters;
+export type TestCreateOrUpdateServerMetricsConfigParameters =
+  TestCreateOrUpdateServerMetricsConfigMediaTypesParam &
+    TestCreateOrUpdateServerMetricsConfigBodyParam &
+    RequestParameters;
 export type TestListServerMetricsConfigParameters = RequestParameters;
 export type TestRunDeleteParameters = RequestParameters;
 
@@ -233,8 +235,8 @@ export interface TestRunListMetricDimensionValuesQueryParam {
   queryParameters: TestRunListMetricDimensionValuesQueryParamProperties;
 }
 
-export type TestRunListMetricDimensionValuesParameters = TestRunListMetricDimensionValuesQueryParam &
-  RequestParameters;
+export type TestRunListMetricDimensionValuesParameters =
+  TestRunListMetricDimensionValuesQueryParam & RequestParameters;
 
 export interface TestRunCreateOrUpdateAppComponentsBodyParam {
   /** App Component model. */
@@ -246,9 +248,10 @@ export interface TestRunCreateOrUpdateAppComponentsMediaTypesParam {
   contentType?: "application/merge-patch+json";
 }
 
-export type TestRunCreateOrUpdateAppComponentsParameters = TestRunCreateOrUpdateAppComponentsMediaTypesParam &
-  TestRunCreateOrUpdateAppComponentsBodyParam &
-  RequestParameters;
+export type TestRunCreateOrUpdateAppComponentsParameters =
+  TestRunCreateOrUpdateAppComponentsMediaTypesParam &
+    TestRunCreateOrUpdateAppComponentsBodyParam &
+    RequestParameters;
 export type TestRunListAppComponentsParameters = RequestParameters;
 
 export interface TestRunCreateOrUpdateServerMetricsConfigBodyParam {
@@ -261,7 +264,8 @@ export interface TestRunCreateOrUpdateServerMetricsConfigMediaTypesParam {
   contentType?: "application/merge-patch+json";
 }
 
-export type TestRunCreateOrUpdateServerMetricsConfigParameters = TestRunCreateOrUpdateServerMetricsConfigMediaTypesParam &
-  TestRunCreateOrUpdateServerMetricsConfigBodyParam &
-  RequestParameters;
+export type TestRunCreateOrUpdateServerMetricsConfigParameters =
+  TestRunCreateOrUpdateServerMetricsConfigMediaTypesParam &
+    TestRunCreateOrUpdateServerMetricsConfigBodyParam &
+    RequestParameters;
 export type TestRunListServerMetricsConfigParameters = RequestParameters;

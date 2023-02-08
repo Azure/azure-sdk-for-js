@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { NetAppManagementClient } = require("@azure/arm-netapp");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Check if a file path is available.
@@ -18,7 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2022-05-01/examples/CheckFilePathAvailability.json
  */
 async function checkFilePathAvailability() {
-  const subscriptionId = "D633CC2E-722B-4AE1-B636-BBD9E4C60ED9";
+  const subscriptionId =
+    process.env["NETAPP_SUBSCRIPTION_ID"] || "D633CC2E-722B-4AE1-B636-BBD9E4C60ED9";
   const location = "eastus";
   const name = "my-exact-filepth";
   const subnetId =
@@ -29,4 +31,8 @@ async function checkFilePathAvailability() {
   console.log(result);
 }
 
-checkFilePathAvailability().catch(console.error);
+async function main() {
+  checkFilePathAvailability();
+}
+
+main().catch(console.error);

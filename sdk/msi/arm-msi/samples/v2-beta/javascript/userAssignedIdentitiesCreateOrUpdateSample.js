@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ManagedServiceIdentityClient } = require("@azure/arm-msi");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Create or update an identity in the specified subscription and resource group.
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/preview/2022-01-31-preview/examples/IdentityCreate.json
  */
 async function identityCreate() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rgName";
+  const subscriptionId = process.env["MSI_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["MSI_RESOURCE_GROUP"] || "rgName";
   const resourceName = "resourceName";
   const parameters = {
     location: "eastus",
@@ -35,4 +36,8 @@ async function identityCreate() {
   console.log(result);
 }
 
-identityCreate().catch(console.error);
+async function main() {
+  identityCreate();
+}
+
+main().catch(console.error);

@@ -1,5 +1,15 @@
 # Release History
 
+## 1.2.0-beta.5 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 1.2.0-beta.4 (2023-01-10)
 - Adds support for Azure Communication Services Phone Numbers Browse API Methods.
 - Adds support for Direct routing configuration management.

@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Communications } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,10 +19,10 @@ import {
   CommunicationDetails,
   CommunicationsListNextOptionalParams,
   CommunicationsListOptionalParams,
+  CommunicationsListResponse,
   CheckNameAvailabilityInput,
   CommunicationsCheckNameAvailabilityOptionalParams,
   CommunicationsCheckNameAvailabilityResponse,
-  CommunicationsListResponse,
   CommunicationsGetOptionalParams,
   CommunicationsGetResponse,
   CommunicationsCreateOptionalParams,
@@ -64,19 +65,29 @@ export class CommunicationsImpl implements Communications {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listPagingPage(supportTicketName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(supportTicketName, options, settings);
       }
     };
   }
 
   private async *listPagingPage(
     supportTicketName: string,
-    options?: CommunicationsListOptionalParams
+    options?: CommunicationsListOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<CommunicationDetails[]> {
-    let result = await this._list(supportTicketName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: CommunicationsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(supportTicketName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listNext(
         supportTicketName,
@@ -84,7 +95,9 @@ export class CommunicationsImpl implements Communications {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -380,7 +393,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ExceptionResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.top, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
