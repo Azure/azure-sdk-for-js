@@ -25,15 +25,13 @@ import {
   DataProtectionOperationsImpl,
   BackupPoliciesImpl,
   BackupInstancesImpl,
-  BackupInstancesExtensionRoutingImpl,
   RecoveryPointsImpl,
   JobsImpl,
   RestorableTimeRangesImpl,
   ExportJobsImpl,
   ExportJobsOperationResultImpl,
   DeletedBackupInstancesImpl,
-  ResourceGuardsImpl,
-  DppResourceGuardProxyImpl
+  ResourceGuardsImpl
 } from "./operations";
 import {
   BackupVaults,
@@ -46,15 +44,13 @@ import {
   DataProtectionOperations,
   BackupPolicies,
   BackupInstances,
-  BackupInstancesExtensionRouting,
   RecoveryPoints,
   Jobs,
   RestorableTimeRanges,
   ExportJobs,
   ExportJobsOperationResult,
   DeletedBackupInstances,
-  ResourceGuards,
-  DppResourceGuardProxy
+  ResourceGuards
 } from "./operationsInterfaces";
 import { DataProtectionClientOptionalParams } from "./models";
 
@@ -66,7 +62,7 @@ export class DataProtectionClient extends coreClient.ServiceClient {
   /**
    * Initializes a new instance of the DataProtectionClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The subscription Id.
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
    */
   constructor(
@@ -90,7 +86,7 @@ export class DataProtectionClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-dataprotection/1.0.0-beta.1`;
+    const packageDetails = `azsdk-js-arm-dataprotection/1.0.0-beta.2`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -143,7 +139,7 @@ export class DataProtectionClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-11-01-preview";
+    this.apiVersion = options.apiVersion || "2023-01-01";
     this.backupVaults = new BackupVaultsImpl(this);
     this.operationResult = new OperationResultImpl(this);
     this.operationStatus = new OperationStatusImpl(this);
@@ -160,9 +156,6 @@ export class DataProtectionClient extends coreClient.ServiceClient {
     this.dataProtectionOperations = new DataProtectionOperationsImpl(this);
     this.backupPolicies = new BackupPoliciesImpl(this);
     this.backupInstances = new BackupInstancesImpl(this);
-    this.backupInstancesExtensionRouting = new BackupInstancesExtensionRoutingImpl(
-      this
-    );
     this.recoveryPoints = new RecoveryPointsImpl(this);
     this.jobs = new JobsImpl(this);
     this.restorableTimeRanges = new RestorableTimeRangesImpl(this);
@@ -170,7 +163,6 @@ export class DataProtectionClient extends coreClient.ServiceClient {
     this.exportJobsOperationResult = new ExportJobsOperationResultImpl(this);
     this.deletedBackupInstances = new DeletedBackupInstancesImpl(this);
     this.resourceGuards = new ResourceGuardsImpl(this);
-    this.dppResourceGuardProxy = new DppResourceGuardProxyImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -212,7 +204,6 @@ export class DataProtectionClient extends coreClient.ServiceClient {
   dataProtectionOperations: DataProtectionOperations;
   backupPolicies: BackupPolicies;
   backupInstances: BackupInstances;
-  backupInstancesExtensionRouting: BackupInstancesExtensionRouting;
   recoveryPoints: RecoveryPoints;
   jobs: Jobs;
   restorableTimeRanges: RestorableTimeRanges;
@@ -220,5 +211,4 @@ export class DataProtectionClient extends coreClient.ServiceClient {
   exportJobsOperationResult: ExportJobsOperationResult;
   deletedBackupInstances: DeletedBackupInstances;
   resourceGuards: ResourceGuards;
-  dppResourceGuardProxy: DppResourceGuardProxy;
 }

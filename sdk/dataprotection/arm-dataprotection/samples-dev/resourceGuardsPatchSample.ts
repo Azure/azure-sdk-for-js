@@ -9,7 +9,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import {
-  PatchResourceRequestInput,
+  PatchResourceGuardInput,
   DataProtectionClient
 } from "@azure/arm-dataprotection";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Updates a ResourceGuard resource belonging to a resource group. For example, updating tags for a resource.
  *
  * @summary Updates a ResourceGuard resource belonging to a resource group. For example, updating tags for a resource.
- * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/preview/2022-11-01-preview/examples/ResourceGuardCRUD/PatchResourceGuard.json
+ * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2023-01-01/examples/ResourceGuardCRUD/PatchResourceGuard.json
  */
 async function patchResourceGuard() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function patchResourceGuard() {
   const resourceGroupName =
     process.env["DATAPROTECTION_RESOURCE_GROUP"] || "SampleResourceGroup";
   const resourceGuardsName = "swaggerExample";
-  const parameters: PatchResourceRequestInput = { tags: { newKey: "newVal" } };
+  const parameters: PatchResourceGuardInput = { tags: { newKey: "newVal" } };
   const credential = new DefaultAzureCredential();
   const client = new DataProtectionClient(credential, subscriptionId);
   const result = await client.resourceGuards.patch(

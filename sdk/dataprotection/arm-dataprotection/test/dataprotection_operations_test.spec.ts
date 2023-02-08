@@ -62,7 +62,7 @@ describe("DataProtection test", () => {
       resourceGroup,
       vaultName,
       {
-        identity: { type: "None" },
+        // identity: { type: "None" },
         location,
         properties: {
           monitoringSettings: {
@@ -93,7 +93,7 @@ describe("DataProtection test", () => {
 
   it("backupVaults delete test", async function () {
     const resArray = new Array();
-    const res = await client.backupVaults.delete(resourceGroup, vaultName)
+    const res = await client.backupVaults.beginDeleteAndWait(resourceGroup, vaultName)
     for await (let item of client.backupVaults.listInResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
