@@ -23,5 +23,11 @@ interface NavigatorEx extends Navigator {
  */
 export function setPlatformSpecificData(map: Map<string, string>): void {
   const localNavigator = globalThis.navigator as NavigatorEx;
-  map.set("OS", (localNavigator?.userAgentData?.platform ?? localNavigator?.platform ?? "unknown").replace(" ", ""));
+  map.set(
+    "OS",
+    (localNavigator?.userAgentData?.platform ?? localNavigator?.platform ?? "unknown").replace(
+      " ",
+      ""
+    )
+  );
 }
