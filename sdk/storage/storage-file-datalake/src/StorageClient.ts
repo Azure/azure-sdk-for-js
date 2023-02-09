@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import { TokenCredential } from "@azure/core-auth";
 import { StorageClient as StorageClientContext } from "./generated/src";
-import { AnonymousCredential, Pipeline, BlobClient, StoragePipelineOptions } from "@azure/storage-blob";
+import { AnonymousCredential, Pipeline, StoragePipelineOptions, BlobServiceClient } from "@azure/storage-blob";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential"; 
 import { toBlobEndpointUrl, toDfsEndpointUrl } from "./transforms";
 import { escapeURLPath, getAccountNameFromUrl, getURLScheme, iEqual } from "./utils/utils.common";
@@ -91,8 +91,8 @@ export abstract class StorageClient {
     this.dfsEndpointUrl = toDfsEndpointUrl(this.url);
     this.accountName = getAccountNameFromUrl(this.blobEndpointUrl);
     this.pipeline = pipeline;
-    // creating this BlobClient allows us to use the converted V2 Pipeline attached to `pipeline`.
-    const blobClient = new BlobClient(url, pipeline);
+    // creating this BlobServiceClient allows us to use the converted V2 Pipeline attached to `pipeline`.
+    const blobClient = new BlobServiceClient(url, pipeline);
     this.storageClientContext = new StorageClientContext(
       this.dfsEndpointUrl,
       getCoreClientOptions(pipeline)

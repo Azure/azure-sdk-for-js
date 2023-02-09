@@ -24,6 +24,14 @@ import {
 import { ToBlobEndpointHostMappings, ToDfsEndpointHostMappings } from "./utils/constants";
 import { base64encode } from "./utils/utils.common";
 
+// URLBuilder didn't put a trailing slash for URLs with no query string
+function trimTrailingSlash(url: string): string {
+  if (url.endsWith("/")) {
+    return url.slice(0, -1);
+  }
+  return url;
+}
+
 /**
  * Get a blob endpoint URL from incoming blob or dfs endpoint URLs.
  * Only handle known host name pair patterns, add more patterns into ToBlobEndpointHostMappings in constants.ts.
@@ -39,7 +47,13 @@ import { base64encode } from "./utils/utils.common";
  * @param url -
  */
 export function toBlobEndpointUrl(url: string): string {
-  const urlParsed = new URL(url);
+  let urlParsed: URL;
+  try {
+    urlParsed = new URL(url);
+  } catch(e) {
+    // invalid urls are returned unmodified
+    return url;
+  }
 
   let host = urlParsed.hostname;
   if (host === undefined) {
@@ -54,7 +68,7 @@ export function toBlobEndpointUrl(url: string): string {
   }
 
   urlParsed.hostname = host;
-  return urlParsed.toString();
+  return trimTrailingSlash(urlParsed.toString());
 }
 
 /**
@@ -72,7 +86,13 @@ export function toBlobEndpointUrl(url: string): string {
  * @param url -
  */
 export function toDfsEndpointUrl(url: string): string {
-  const urlParsed = new URL(url);
+  let urlParsed: URL;
+  try {
+    urlParsed = new URL(url);
+  } catch(e) {
+    // invalid urls are returned unmodified
+    return url;
+  }
 
   let host = urlParsed.hostname
   if (host === undefined) {
@@ -87,7 +107,7 @@ export function toDfsEndpointUrl(url: string): string {
   }
 
   urlParsed.hostname = host;
-  return urlParsed.toString();
+  return trimTrailingSlash(urlParsed.toString());
 }
 
 function toFileSystemAsyncIterableIterator(

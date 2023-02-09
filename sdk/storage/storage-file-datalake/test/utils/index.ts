@@ -99,7 +99,7 @@ export function getGenericDataLakeServiceClient(
       `getGenericDataLakeServiceClient() doesn't support creating DataLakeServiceClient from connection string.`
     );
   } else {
-    const credential = getGenericCredential(accountType) as StorageSharedKeyCredential;
+    const credential = getGenericCredential(accountType);
     const pipeline = newPipeline(credential, {
       ...pipelineOptions,
       // Enable logger when debugging
