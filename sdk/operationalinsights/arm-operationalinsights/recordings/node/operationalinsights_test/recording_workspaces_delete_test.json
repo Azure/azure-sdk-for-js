@@ -1,33 +1,32 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/Microsoft.OperationalInsights/workspaces/workspacetest?api-version=2021-12-01-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/Microsoft.OperationalInsights/workspaces/oiautorest6685?api-version=2022-10-01",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-operationalinsights/9.0.0-beta.2 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
-        "x-ms-client-request-id": "179b2e2b-08f4-4697-b753-70f54b0a2d2e"
+        "User-Agent": "azsdk-js-arm-operationalinsights/9.0.0 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "744dbc17-6f7c-4c00-8825-55e5d929cceb"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
+        "Access-Control-Allow-Origin": "*",
         "Cache-Control": "no-cache",
         "Content-Length": "0",
-        "Date": "Wed, 18 Jan 2023 06:11:23 GMT",
+        "Date": "Thu, 09 Feb 2023 02:25:01 GMT",
         "Pragma": "no-cache",
-        "Server": [
-          "Microsoft-IIS/10.0",
-          "Microsoft-IIS/10.0"
-        ],
+        "Request-Context": "appId=cid-v1:e6336c63-aab2-45f0-996a-e5dbab2a1508",
+        "Server": "Microsoft-IIS/10.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "868ba505-e5a6-4881-9924-62444442150f",
-        "x-ms-ratelimit-remaining-subscription-deletes": "14999",
-        "x-ms-request-id": "24a825fb-a86d-4654-8407-d65bcc3ccef3",
-        "x-ms-routing-request-id": "KOREASOUTH:20230118T061123Z:868ba505-e5a6-4881-9924-62444442150f",
+        "x-ms-correlation-request-id": "d4aff790-1aa4-49ef-a958-fad9c45579c1",
+        "x-ms-ratelimit-remaining-subscription-deletes": "14998",
+        "x-ms-request-id": "0eee3aec-5a82-44c5-bfc0-fc09c5004a8a",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230209T022501Z:d4aff790-1aa4-49ef-a958-fad9c45579c1",
         "X-Powered-By": [
           "ASP.NET",
           "ASP.NET"
@@ -36,51 +35,50 @@
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/Microsoft.OperationalInsights/workspaces?api-version=2021-12-01-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/Microsoft.OperationalInsights/workspaces?api-version=2022-10-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-operationalinsights/9.0.0-beta.2 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
-        "x-ms-client-request-id": "d1db58b7-1445-48d7-bb69-0c54705f6557"
+        "User-Agent": "azsdk-js-arm-operationalinsights/9.0.0 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "807087c9-00da-4486-87d1-e0faf7c58911"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Access-Control-Allow-Origin": "*",
-        "api-supported-versions": "2021-12-01-preview",
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 18 Jan 2023 06:11:23 GMT",
-        "Expires": "-1",
+        "Content-Type": "application/json",
+        "Date": "Thu, 09 Feb 2023 02:25:01 GMT",
         "Pragma": "no-cache",
         "Request-Context": "appId=cid-v1:e6336c63-aab2-45f0-996a-e5dbab2a1508",
+        "Server": "Microsoft-IIS/10.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
-        "Vary": [
-          "Accept-Encoding",
-          "Accept-Encoding",
-          "Accept-Encoding"
-        ],
+        "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "7dd6e70d-19bc-4da1-a0ab-42eb7a282e64",
-        "x-ms-ratelimit-remaining-subscription-reads": "11997",
-        "x-ms-request-id": "7dd6e70d-19bc-4da1-a0ab-42eb7a282e64",
-        "x-ms-routing-request-id": "KOREASOUTH:20230118T061123Z:7dd6e70d-19bc-4da1-a0ab-42eb7a282e64",
-        "X-Powered-By": "ASP.NET"
+        "x-ms-correlation-request-id": "47f215d9-f427-449e-96d4-8177254bf2ad",
+        "x-ms-ratelimit-remaining-subscription-reads": "11991",
+        "x-ms-request-id": "90ee3559-2221-4712-abe9-931f4dca420c",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230209T022502Z:47f215d9-f427-449e-96d4-8177254bf2ad",
+        "X-Powered-By": [
+          "ASP.NET",
+          "ASP.NET"
+        ]
       },
       "ResponseBody": {
         "value": [
           {
             "properties": {
-              "customerId": "88a935db-3dd0-4916-a50a-05bed14f5490",
+              "source": "Azure",
+              "customerId": "1c4618b2-2e6c-4c5e-8b74-1778209e2b82",
               "provisioningState": "Succeeded",
               "sku": {
-                "name": "PerGB2018",
-                "lastSkuUpdate": "2023-01-16T08:17:46.4633947Z"
+                "name": "pergb2018",
+                "lastSkuUpdate": "Fri, 03 Feb 2023 02:26:07 GMT"
               },
               "retentionInDays": 30,
               "features": {
@@ -90,22 +88,52 @@
               },
               "workspaceCapping": {
                 "dailyQuotaGb": -1.0,
-                "quotaNextResetTime": "2023-01-17T17:00:00Z",
+                "quotaNextResetTime": "Thu, 09 Feb 2023 14:00:00 GMT",
                 "dataIngestionStatus": "RespectQuota"
               },
               "publicNetworkAccessForIngestion": "Enabled",
               "publicNetworkAccessForQuery": "Enabled",
-              "createdDate": "2023-01-16T08:17:46.4633947Z",
-              "modifiedDate": "2023-01-17T07:50:09.8596205Z"
+              "createdDate": "Fri, 03 Feb 2023 02:26:07 GMT",
+              "modifiedDate": "Fri, 03 Feb 2023 02:26:11 GMT"
             },
-            "location": "australiasoutheast",
+            "id": "/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/microsoft.operationalinsights/workspaces/myworkspace",
+            "name": "myWorkspace",
+            "type": "Microsoft.OperationalInsights/workspaces",
+            "location": "eastus",
+            "tags": {}
+          },
+          {
+            "properties": {
+              "source": "Azure",
+              "customerId": "2aaff839-8ff6-4b64-a45d-57c097690304",
+              "provisioningState": "Succeeded",
+              "sku": {
+                "name": "pergb2018",
+                "lastSkuUpdate": "Tue, 17 Jan 2023 07:19:00 GMT"
+              },
+              "retentionInDays": 30,
+              "features": {
+                "legacy": 0,
+                "searchVersion": 1,
+                "enableLogAccessUsingOnlyResourcePermissions": true
+              },
+              "workspaceCapping": {
+                "dailyQuotaGb": -1.0,
+                "quotaNextResetTime": "Thu, 09 Feb 2023 07:00:00 GMT",
+                "dataIngestionStatus": "RespectQuota"
+              },
+              "publicNetworkAccessForIngestion": "Enabled",
+              "publicNetworkAccessForQuery": "Enabled",
+              "createdDate": "Tue, 17 Jan 2023 07:19:00 GMT",
+              "modifiedDate": "Wed, 18 Jan 2023 06:50:07 GMT"
+            },
+            "id": "/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/microsoft.operationalinsights/workspaces/workspacetest",
+            "name": "workspacetest",
+            "type": "Microsoft.OperationalInsights/workspaces",
+            "location": "eastus",
             "tags": {
               "tag1": "val1"
-            },
-            "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.OperationalInsights/workspaces/oiautorest6685",
-            "name": "oiautorest6685",
-            "type": "Microsoft.OperationalInsights/workspaces",
-            "etag": "\u00220200f9ff-0000-1b00-0000-63c64d300000\u0022"
+            }
           }
         ]
       }
