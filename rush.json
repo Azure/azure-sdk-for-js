@@ -1,7 +1,7 @@
 /**
  * This is the main configuration file for Rush.
  * For full documentation, please see https://rushjs.io
- */{
+ */ {
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
   /**
    * (Required) This specifies the version of the Rush engine to be used in this repo.
@@ -14,7 +14,7 @@
    * path segment in the "$schema" field for all your Rush config files.  This will ensure
    * correct error-underlining and tab-completion for editors such as VS Code.
    */
-  "rushVersion": "5.83.4",
+  "rushVersion": "5.89.0",
   /**
    * The next field selects which package manager should be installed and determines its version.
    * Rush installs its own local copy of the package manager to ensure that your build process
@@ -23,35 +23,9 @@
    * Specify one of: "pnpmVersion", "npmVersion", or "yarnVersion".  See the Rush documentation
    * for details about these alternatives.
    */
-  "pnpmVersion": "6.32.3",
+  "pnpmVersion": "7.26.0",
   // "npmVersion": "4.5.0",
   // "yarnVersion": "1.9.4",
-  /**
-   * Options that are only used when the PNPM package manager is selected
-   */
-  "pnpmOptions": {
-    /**
-     * If true, then Rush will add the "--strict-peer-dependencies" option when invoking PNPM.
-     * This causes "rush install" to fail if there are unsatisfied peer dependencies, which is
-     * an invalid state that can cause build failures or incompatible dependency versions.
-     * (For historical reasons, JavaScript package managers generally do not treat this invalid
-     * state as an error.)
-     *
-     * The default value is false to avoid legacy compatibility issues.
-     * It is strongly recommended to set strictPeerDependencies=true.
-     */
-    "strictPeerDependencies": true,
-    /**
-     * Configures the strategy used to select versions during installation.
-     *
-     * This feature requires PNPM version 3.1 or newer.  It corresponds to the "--resolution-strategy" command-line
-     * option for PNPM.  Possible values are "fast" and "fewer-dependencies".  PNPM's default is "fast", but this may
-     * be incompatible with certain packages, for example the "@types" packages from DefinitelyTyped.  Rush's default
-     * is "fewer-dependencies", which causes PNPM to avoid installing a newer version if an already installed version
-     * can be reused; this is more similar to NPM's algorithm.
-     */
-    "resolutionStrategy": "fewer-dependencies"
-  },
   /**
    * Older releases of the NodeJS engine may be missing features required by your system.
    * Other releases may have bugs.  In particular, the "latest" version will not be a
@@ -1932,6 +1906,16 @@
     {
       "packageName": "@azure/arm-servicenetworking",
       "projectFolder": "sdk/servicenetworking/arm-servicenetworking",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-dataprotection",
+      "projectFolder": "sdk/dataprotection/arm-dataprotection",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-liftrqumulo",
+      "projectFolder": "sdk/liftrqumulo/arm-liftrqumulo",
       "versionPolicyName": "management"
     }
   ]

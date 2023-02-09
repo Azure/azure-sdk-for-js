@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { VMwareCloudSimple } from "@azure/arm-vmwarecloudsimple";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Returns list of available resources in region
@@ -18,7 +21,8 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/vmwarecloudsimple/resource-manager/Microsoft.VMwareCloudSimple/stable/2019-04-01/examples/ListAvailabilities.json
  */
 async function listAvailabilities() {
-  const subscriptionId = "{subscription-id}";
+  const subscriptionId =
+    process.env["VMWARECLOUDSIMPLE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const regionId = "westus2";
   const credential = new DefaultAzureCredential();
   const client = new VMwareCloudSimple(credential, subscriptionId);
@@ -29,4 +33,8 @@ async function listAvailabilities() {
   console.log(resArray);
 }
 
-listAvailabilities().catch(console.error);
+async function main() {
+  listAvailabilities();
+}
+
+main().catch(console.error);

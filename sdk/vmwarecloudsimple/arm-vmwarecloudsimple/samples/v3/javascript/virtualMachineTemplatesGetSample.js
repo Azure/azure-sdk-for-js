@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { VMwareCloudSimple } = require("@azure/arm-vmwarecloudsimple");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Returns virtual machine templates by its name
@@ -18,7 +19,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/vmwarecloudsimple/resource-manager/Microsoft.VMwareCloudSimple/stable/2019-04-01/examples/GetVirtualMachineTemplate.json
  */
 async function getVirtualMachineTemplate() {
-  const subscriptionId = "{subscription-id}";
+  const subscriptionId = process.env["VMWARECLOUDSIMPLE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const regionId = "westus2";
   const pcName = "myPrivateCloud";
   const virtualMachineTemplateName = "vm-34";
@@ -32,4 +33,8 @@ async function getVirtualMachineTemplate() {
   console.log(result);
 }
 
-getVirtualMachineTemplate().catch(console.error);
+async function main() {
+  getVirtualMachineTemplate();
+}
+
+main().catch(console.error);

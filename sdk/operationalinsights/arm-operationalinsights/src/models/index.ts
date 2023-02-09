@@ -1077,6 +1077,7 @@ export interface Table extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningStateEnum;
+<<<<<<< HEAD
   /**
    * True - Value originates from workspace retention in days, False - Customer specific.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1087,6 +1088,8 @@ export interface Table extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly totalRetentionInDaysAsDefault?: boolean;
+=======
+>>>>>>> main
 }
 
 /** The top level Log Analytics cluster resource container. */
@@ -1131,8 +1134,11 @@ export interface Cluster extends TrackedResource {
 
 /** The top level Workspace resource container. */
 export interface Workspace extends TrackedResource {
+<<<<<<< HEAD
   /** The identity of the resource. */
   identity?: Identity;
+=======
+>>>>>>> main
   /**
    * Metadata pertaining to creation and last modification of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1185,8 +1191,11 @@ export interface Workspace extends TrackedResource {
 
 /** The top level Workspace resource container. */
 export interface WorkspacePatch extends AzureEntityResource {
+<<<<<<< HEAD
   /** The identity of the resource. */
   identity?: Identity;
+=======
+>>>>>>> main
   /** Resource tags. Optional. */
   tags?: { [propertyName: string]: string };
   /**

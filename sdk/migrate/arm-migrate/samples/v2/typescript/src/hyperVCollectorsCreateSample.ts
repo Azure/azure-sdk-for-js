@@ -14,6 +14,9 @@ import {
   AzureMigrateV2
 } from "@azure/arm-migrate";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create or Update Hyper-V collector
@@ -22,8 +25,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/migrate/resource-manager/Microsoft.Migrate/stable/2019-10-01/examples/HyperVCollectors_Create.json
  */
 async function hyperVCollectorsCreate() {
-  const subscriptionId = "8c3c936a-c09b-4de3-830b-3f5f244d72e9";
-  const resourceGroupName = "contosoithyperv";
+  const subscriptionId =
+    process.env["MIGRATE_SUBSCRIPTION_ID"] ||
+    "8c3c936a-c09b-4de3-830b-3f5f244d72e9";
+  const resourceGroupName =
+    process.env["MIGRATE_RESOURCE_GROUP"] || "contosoithyperv";
   const projectName = "migrateprojectce73project";
   const hyperVCollectorName = "migrateprojectce73collector";
   const collectorBody: HyperVCollector = {
@@ -56,4 +62,8 @@ async function hyperVCollectorsCreate() {
   console.log(result);
 }
 
-hyperVCollectorsCreate().catch(console.error);
+async function main() {
+  hyperVCollectorsCreate();
+}
+
+main().catch(console.error);

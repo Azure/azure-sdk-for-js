@@ -5,8 +5,8 @@ specifiers:
   pretty-quick: ^3.0.0
 
 dependencies:
-  prettier: 2.5.1
-  pretty-quick: 3.0.0_prettier@2.5.1
+  prettier: 2.8.3
+  pretty-quick: 3.0.0_prettier@2.8.3
 
 packages:
 
@@ -231,13 +231,13 @@ packages:
     engines: {node: '>=8'}
     dev: false
 
-  /prettier/2.5.1:
-    resolution: {integrity: sha512-vBZcPRUR5MZJwoyi3ZoyQlc1rXeEck8KgeC9AwwOn+exuxLxq5toTRDTSaVrXHxelDMHy9zlicw8u66yxoSUFg==}
+  /prettier/2.8.3:
+    resolution: {integrity: sha512-tJ/oJ4amDihPoufT5sM0Z1SKEuKay8LfVAMlbbhnnkvt6BUserZylqo2PN+p9KeljLr0OHa2rXHU1T8reeoTrw==}
     engines: {node: '>=10.13.0'}
     hasBin: true
     dev: false
 
-  /pretty-quick/3.0.0_prettier@2.5.1:
+  /pretty-quick/3.0.0_prettier@2.8.3:
     resolution: {integrity: sha512-oIXlGQUcUxt3XpoNfQECEWvH1Q9PtKfelF2pdp6UvC1CSQ5QcB7gUYKu0kuJGlm3LMBZzJaO/vbRkxA61pWlcg==}
     engines: {node: '>=10.13'}
     hasBin: true
@@ -250,7 +250,7 @@ packages:
       ignore: 5.1.8
       mri: 1.1.6
       multimatch: 4.0.0
-      prettier: 2.5.1
+      prettier: 2.8.3
     dev: false
 
   /pump/3.0.0:

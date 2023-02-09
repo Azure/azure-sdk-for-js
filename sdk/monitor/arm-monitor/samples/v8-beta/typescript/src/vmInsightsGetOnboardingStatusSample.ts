@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Retrieves the VM Insights onboarding status for the specified resource or resource scope.
@@ -18,7 +21,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2018-11-27-preview/examples/getOnboardingStatusVMScaleSet.json
  */
 async function getStatusForAVMScaleSetThatIsActivelyReportingData() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const resourceUri =
     "subscriptions/3d51de47-8d1c-4d24-b42f-bcae075dfa87/resourceGroups/my-service-cluster/providers/Microsoft.Compute/virtualMachineScaleSets/scale-set-01";
   const credential = new DefaultAzureCredential();
@@ -27,8 +32,6 @@ async function getStatusForAVMScaleSetThatIsActivelyReportingData() {
   console.log(result);
 }
 
-getStatusForAVMScaleSetThatIsActivelyReportingData().catch(console.error);
-
 /**
  * This sample demonstrates how to Retrieves the VM Insights onboarding status for the specified resource or resource scope.
  *
@@ -36,7 +39,9 @@ getStatusForAVMScaleSetThatIsActivelyReportingData().catch(console.error);
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2018-11-27-preview/examples/getOnboardingStatusSingleVMUnknown.json
  */
 async function getStatusForAVMThatHasNotYetReportedData() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const resourceUri =
     "subscriptions/3d51de47-8d1c-4d24-b42f-bcae075dfa87/resourceGroups/vm-resource-group/providers/Microsoft.Compute/virtualMachines/ubuntu-vm";
   const credential = new DefaultAzureCredential();
@@ -44,8 +49,6 @@ async function getStatusForAVMThatHasNotYetReportedData() {
   const result = await client.vMInsights.getOnboardingStatus(resourceUri);
   console.log(result);
 }
-
-getStatusForAVMThatHasNotYetReportedData().catch(console.error);
 
 /**
  * This sample demonstrates how to Retrieves the VM Insights onboarding status for the specified resource or resource scope.
@@ -54,7 +57,9 @@ getStatusForAVMThatHasNotYetReportedData().catch(console.error);
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2018-11-27-preview/examples/getOnboardingStatusSingleVM.json
  */
 async function getStatusForAVMThatIsActivelyReportingData() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const resourceUri =
     "subscriptions/3d51de47-8d1c-4d24-b42f-bcae075dfa87/resourceGroups/vm-resource-group/providers/Microsoft.Compute/virtualMachines/ubuntu-vm";
   const credential = new DefaultAzureCredential();
@@ -63,8 +68,6 @@ async function getStatusForAVMThatIsActivelyReportingData() {
   console.log(result);
 }
 
-getStatusForAVMThatIsActivelyReportingData().catch(console.error);
-
 /**
  * This sample demonstrates how to Retrieves the VM Insights onboarding status for the specified resource or resource scope.
  *
@@ -72,7 +75,9 @@ getStatusForAVMThatIsActivelyReportingData().catch(console.error);
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2018-11-27-preview/examples/getOnboardingStatusResourceGroup.json
  */
 async function getStatusForAResourceGroupThatHasAtLeastOneVMThatIsActivelyReportingData() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const resourceUri =
     "subscriptions/3d51de47-8d1c-4d24-b42f-bcae075dfa87/resourceGroups/resource-group-with-vms";
   const credential = new DefaultAzureCredential();
@@ -81,10 +86,6 @@ async function getStatusForAResourceGroupThatHasAtLeastOneVMThatIsActivelyReport
   console.log(result);
 }
 
-getStatusForAResourceGroupThatHasAtLeastOneVMThatIsActivelyReportingData().catch(
-  console.error
-);
-
 /**
  * This sample demonstrates how to Retrieves the VM Insights onboarding status for the specified resource or resource scope.
  *
@@ -92,7 +93,9 @@ getStatusForAResourceGroupThatHasAtLeastOneVMThatIsActivelyReportingData().catch
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2018-11-27-preview/examples/getOnboardingStatusSubscription.json
  */
 async function getStatusForASubscriptionThatHasAtLeastOneVMThatIsActivelyReportingData() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const resourceUri = "subscriptions/3d51de47-8d1c-4d24-b42f-bcae075dfa87";
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
@@ -100,6 +103,12 @@ async function getStatusForASubscriptionThatHasAtLeastOneVMThatIsActivelyReporti
   console.log(result);
 }
 
-getStatusForASubscriptionThatHasAtLeastOneVMThatIsActivelyReportingData().catch(
-  console.error
-);
+async function main() {
+  getStatusForAVMScaleSetThatIsActivelyReportingData();
+  getStatusForAVMThatHasNotYetReportedData();
+  getStatusForAVMThatIsActivelyReportingData();
+  getStatusForAResourceGroupThatHasAtLeastOneVMThatIsActivelyReportingData();
+  getStatusForASubscriptionThatHasAtLeastOneVMThatIsActivelyReportingData();
+}
+
+main().catch(console.error);

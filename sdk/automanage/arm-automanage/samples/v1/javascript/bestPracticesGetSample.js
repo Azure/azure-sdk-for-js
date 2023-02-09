@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { AutomanageClient } = require("@azure/arm-automanage");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Get information about a Automanage best practice
@@ -18,7 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/automanage/resource-manager/Microsoft.Automanage/stable/2022-05-04/examples/getBestPractice.json
  */
 async function getAnAutomanageBestPractice() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["AUTOMANAGE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const bestPracticeName = "azureBestPracticesProduction";
   const credential = new DefaultAzureCredential();
   const client = new AutomanageClient(credential, subscriptionId);
@@ -26,4 +28,8 @@ async function getAnAutomanageBestPractice() {
   console.log(result);
 }
 
-getAnAutomanageBestPractice().catch(console.error);
+async function main() {
+  getAnAutomanageBestPractice();
+}
+
+main().catch(console.error);

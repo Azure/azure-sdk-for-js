@@ -1,6 +1,6 @@
 # Release History
 
-## 7.7.4 (Unreleased)
+## 7.8.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,16 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 7.8.0 (2023-02-07)
+
+### Features Added
+
+- Add an option to skip converting Date type into UNIX epoch number for properties in message annotations or application properties. (PR #24539)[https://github.com/Azure/azure-sdk-for-js/pull/24539]
+
+### Bugs Fixed
+
+- Ensure unique `replyTo` when new link is needed in ManagementClient. (PR #24509)[https://github.com/Azure/azure-sdk-for-js/pull/24509]
 
 ## 7.7.3 (2022-11-08)
 

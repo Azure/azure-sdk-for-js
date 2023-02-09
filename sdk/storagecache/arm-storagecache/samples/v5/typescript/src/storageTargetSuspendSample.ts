@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { StorageCacheManagementClient } from "@azure/arm-storagecache";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Suspends client access to a storage target.
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-05-01/examples/StorageTargets_Suspend.json
  */
 async function storageTargetsSuspend() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "scgroup";
+  const subscriptionId =
+    process.env["STORAGECACHE_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["STORAGECACHE_RESOURCE_GROUP"] || "scgroup";
   const cacheName = "sc";
   const storageTargetName = "st1";
   const credential = new DefaultAzureCredential();
@@ -32,4 +38,8 @@ async function storageTargetsSuspend() {
   console.log(result);
 }
 
-storageTargetsSuspend().catch(console.error);
+async function main() {
+  storageTargetsSuspend();
+}
+
+main().catch(console.error);

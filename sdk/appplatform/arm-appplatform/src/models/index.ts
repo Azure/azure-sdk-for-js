@@ -26,6 +26,11 @@ export type ProbeActionUnion =
   | HttpGetAction
   | ExecAction
   | TCPSocketAction;
+export type AcceleratorAuthSettingUnion =
+  | AcceleratorAuthSetting
+  | AcceleratorPublicSetting
+  | AcceleratorBasicAuthSetting
+  | AcceleratorSshSetting;
 export type UploadedUserSourceInfoUnion =
   | UploadedUserSourceInfo
   | JarUploadedUserSourceInfo
@@ -527,6 +532,188 @@ export interface ServiceRegistryResourceCollection {
   nextLink?: string;
 }
 
+/** Object that includes an array of Application Live View resources and a possible link for next set */
+export interface ApplicationLiveViewResourceCollection {
+  /** Collection of Application Live View resources */
+  value?: ApplicationLiveViewResource[];
+  /**
+   * URL client should use to fetch the next page (per server side paging).
+   * It's null for now, added for future use.
+   */
+  nextLink?: string;
+}
+
+/** Application Live View properties payload */
+export interface ApplicationLiveViewProperties {
+  /**
+   * State of the Application Live View.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ApplicationLiveViewProvisioningState;
+  /**
+   * Component details of Application Live View
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly components?: ApplicationLiveViewComponent[];
+}
+
+/** Application Live View properties payload */
+export interface ApplicationLiveViewComponent {
+  /**
+   * Name of the component.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: any;
+  /**
+   * The requested resource quantity for required CPU and Memory.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceRequests?: ApplicationLiveViewResourceRequests;
+  /**
+   * Collection of instances belong to Application Live View.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly instances?: ApplicationLiveViewInstance[];
+}
+
+/** The resource quantity for required CPU and Memory of Application Live View component */
+export interface ApplicationLiveViewResourceRequests {
+  /**
+   * Cpu quantity allocated to each Application Live View component instance. 1 core can be represented by 1 or 1000m.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly cpu?: string;
+  /**
+   * Memory quantity allocated to each Application Live View component instance. 1 GB can be represented by 1Gi or 1024Mi.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly memory?: string;
+  /**
+   * Desired instance count of Application Live View component instance.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly instanceCount?: number;
+}
+
+/** Collection of instances belong to the Application Live View */
+export interface ApplicationLiveViewInstance {
+  /**
+   * Name of the Application Live View instance.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Status of the Application Live View instance. It can be Pending, Running, Succeeded, Failed, Unknown.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: string;
+}
+
+/** Object that includes an array of Dev Tool Portal resources and a possible link for next set */
+export interface DevToolPortalResourceCollection {
+  /** Collection of Dev Tool Portal resources */
+  value?: DevToolPortalResource[];
+  /**
+   * URL client should use to fetch the next page (per server side paging).
+   * It's null for now, added for future use.
+   */
+  nextLink?: string;
+}
+
+/** Dev Tool Portal properties payload */
+export interface DevToolPortalProperties {
+  /**
+   * State of the Dev Tool Portal.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: DevToolPortalProvisioningState;
+  /**
+   * The requested resource quantity for required CPU and Memory.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceRequests?: DevToolPortalResourceRequests;
+  /**
+   * Collection of instances belong to Dev Tool Portal.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly instances?: DevToolPortalInstance[];
+  /** Indicates whether the resource exposes public endpoint */
+  public?: boolean;
+  /**
+   * URL of the resource, exposed when 'public' is true.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly url?: string;
+  /** Single sign-on related configuration */
+  ssoProperties?: DevToolPortalSsoProperties;
+  /** Settings for Dev Tool Portal */
+  features?: DevToolPortalFeatureSettings;
+}
+
+/** The resource quantity for required CPU and Memory of Dev Tool Portal */
+export interface DevToolPortalResourceRequests {
+  /**
+   * Cpu quantity allocated to each Dev Tool Portal instance. 1 core can be represented by 1 or 1000m
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly cpu?: string;
+  /**
+   * Memory quantity allocated to each Dev Tool Portal instance. 1 GB can be represented by 1Gi or 1024Mi.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly memory?: string;
+  /**
+   * Desired instance count of Dev Tool Portal.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly instanceCount?: number;
+}
+
+/** Collection of instances belong to the Dev Tool Portal. */
+export interface DevToolPortalInstance {
+  /**
+   * Name of the Dev Tool Portal instance.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Status of the Dev Tool Portal instance. It can be Pending, Running, Succeeded, Failed, Unknown.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: string;
+}
+
+/** Single sign-on related configuration */
+export interface DevToolPortalSsoProperties {
+  /** It defines the specific actions applications can be allowed to do on a user's behalf */
+  scopes?: string[];
+  /** The public identifier for the application */
+  clientId?: string;
+  /** The secret known only to the application and the authorization server */
+  clientSecret?: string;
+  /** The URI of a JSON file with generic OIDC provider configuration. */
+  metadataUrl?: string;
+}
+
+/** Settings for Dev Tool Portal */
+export interface DevToolPortalFeatureSettings {
+  /** Detail of Accelerator plugin */
+  applicationAccelerator?: DevToolPortalFeatureDetail;
+  /** Detail of App Live View plugin */
+  applicationLiveView?: DevToolPortalFeatureDetail;
+}
+
+/** Detail settings for Dev Tool Portal feature */
+export interface DevToolPortalFeatureDetail {
+  /** State of the plugin */
+  state?: DevToolPortalFeatureState;
+  /**
+   * Route path to visit the plugin
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly route?: string;
+}
+
 /** Object that includes an array of Build service resources and a possible link for next set */
 export interface BuildServiceCollection {
   /** Collection of Build service resources */
@@ -672,6 +859,8 @@ export interface BuildResultProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: BuildResultProvisioningState;
+  /** Error when build is failed. */
+  error?: ErrorModel;
   /** The build pod name which can be used to get the build log streaming. */
   buildPodName?: string;
   /**
@@ -693,6 +882,16 @@ export interface BuildStageProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly status?: KPackBuildStageProvisioningState;
+  /**
+   * The exit code of this build init container.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly exitCode?: string;
+  /**
+   * The reason of this build init container.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly reason?: string;
 }
 
 /** Build result log resource properties payload */
@@ -1628,6 +1827,10 @@ export interface GatewayProperties {
   apiMetadataProperties?: GatewayApiMetadataProperties;
   /** Cross-Origin Resource Sharing property */
   corsProperties?: GatewayCorsProperties;
+  /** Collection of APM type used in Spring Cloud Gateway */
+  apmTypes?: ApmType[];
+  /** Environment variables of Spring Cloud Gateway */
+  environmentVariables?: GatewayPropertiesEnvironmentVariables;
   /** The requested resource quantity for required CPU and Memory. */
   resourceRequests?: GatewayResourceRequests;
   /**
@@ -1682,6 +1885,14 @@ export interface GatewayCorsProperties {
   allowCredentials?: boolean;
   /** HTTP response headers to expose for cross-site requests. */
   exposedHeaders?: string[];
+}
+
+/** Environment variables of Spring Cloud Gateway */
+export interface GatewayPropertiesEnvironmentVariables {
+  /** Non-sensitive properties */
+  properties?: { [propertyName: string]: string };
+  /** Sensitive properties */
+  secrets?: { [propertyName: string]: string };
 }
 
 /** Resource request payload of Spring Cloud Gateway. */
@@ -1765,6 +1976,12 @@ export interface GatewayRouteConfigProperties {
   protocol?: GatewayRouteConfigProtocol;
   /** Array of API routes, each route contains properties such as `title`, `uri`, `ssoEnabled`, `predicates`, `filters`. */
   routes?: GatewayApiRoute[];
+  /** Enable Single Sign-On in app level. */
+  ssoEnabled?: boolean;
+  /** A number of conditions to evaluate a route for each request in app level. Each predicate may be evaluated against request headers and parameter values. All of the predicates associated with a route must evaluate to true for the route to be matched to the request. */
+  predicates?: string[];
+  /** To modify the request before sending it to the target endpoint, or the received response in app level. */
+  filters?: string[];
 }
 
 /** OpenAPI properties of Spring Cloud Gateway route config. */
@@ -1913,6 +2130,142 @@ export interface ApiPortalCustomDomainResourceCollection {
   nextLink?: string;
 }
 
+/** Object that includes an array of application accelerator resources and a possible link for next set */
+export interface ApplicationAcceleratorResourceCollection {
+  /** Collection of application accelerator resources */
+  value?: ApplicationAcceleratorResource[];
+  /**
+   * URL client should use to fetch the next page (per server side paging).
+   * It's null for now, added for future use.
+   */
+  nextLink?: string;
+}
+
+/** Application accelerator properties payload */
+export interface ApplicationAcceleratorProperties {
+  /**
+   * State of the application accelerator.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ApplicationAcceleratorProvisioningState;
+  /**
+   * Collection of components belong to application accelerator.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly components?: ApplicationAcceleratorComponent[];
+}
+
+export interface ApplicationAcceleratorComponent {
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly name?: string;
+  resourceRequests?: ApplicationAcceleratorResourceRequests;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly instances?: ApplicationAcceleratorInstance[];
+}
+
+export interface ApplicationAcceleratorResourceRequests {
+  /**
+   * Cpu allocated to each application accelerator component. 1 core can be represented by 1 or 1000m
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly cpu?: string;
+  /**
+   * Memory allocated to each application accelerator component. 1 GB can be represented by 1Gi or 1024Mi.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly memory?: string;
+  /**
+   * Instance count of the application accelerator component.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly instanceCount?: number;
+}
+
+export interface ApplicationAcceleratorInstance {
+  /**
+   * Name of the Application Accelerator instance.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Status of the Application Accelerator instance. It can be Pending, Running, Succeeded, Failed, Unknown.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: string;
+}
+
+export interface CustomizedAcceleratorResourceCollection {
+  value?: CustomizedAcceleratorResource[];
+  nextLink?: string;
+}
+
+/** Customized accelerator properties payload */
+export interface CustomizedAcceleratorProperties {
+  /**
+   * State of the customized accelerator.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: CustomizedAcceleratorProvisioningState;
+  displayName?: string;
+  description?: string;
+  iconUrl?: string;
+  acceleratorTags?: string[];
+  gitRepository: AcceleratorGitRepository;
+}
+
+export interface AcceleratorGitRepository {
+  /** Git repository URL for the accelerator. */
+  url: string;
+  /** Interval for checking for updates to Git or image repository. */
+  intervalInSeconds?: number;
+  /** Git repository branch to be used. */
+  branch?: string;
+  /** Git repository commit to be used. */
+  commit?: string;
+  /** Git repository tag to be used. */
+  gitTag?: string;
+  /** Properties of the auth setting payload. */
+  authSetting: AcceleratorAuthSettingUnion;
+}
+
+/** Auth setting payload. */
+export interface AcceleratorAuthSetting {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  authType: "Public" | "BasicAuth" | "SSH";
+}
+
+/** Validation result for customized accelerator properties */
+export interface CustomizedAcceleratorValidateResult {
+  /** State of the customized accelerator validation result */
+  state?: CustomizedAcceleratorValidateResultState;
+  /** The detail validation results */
+  errorMessage?: string;
+}
+
+export interface PredefinedAcceleratorResourceCollection {
+  value?: PredefinedAcceleratorResource[];
+  nextLink?: string;
+}
+
+/** Predefined accelerator properties payload */
+export interface PredefinedAcceleratorProperties {
+  /**
+   * Provisioning state of the predefined accelerator.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: PredefinedAcceleratorProvisioningState;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly displayName?: string;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly description?: string;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly iconUrl?: string;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly acceleratorTags?: string[];
+  /** State of the predefined accelerator. */
+  state?: PredefinedAcceleratorState;
+}
+
 /** Custom container payload */
 export interface CustomContainer {
   /** The name of the registry that contains the container image */
@@ -2042,6 +2395,34 @@ export interface TCPSocketAction extends ProbeAction {
   type: "TCPSocketAction";
 }
 
+/** Auth setting for public url. */
+export interface AcceleratorPublicSetting extends AcceleratorAuthSetting {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  authType: "Public";
+}
+
+/** Auth setting for basic auth. */
+export interface AcceleratorBasicAuthSetting extends AcceleratorAuthSetting {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  authType: "BasicAuth";
+  /** Username of git repository basic auth. */
+  username: string;
+  /** Password of git repository basic auth. */
+  password?: string;
+}
+
+/** Auth setting for SSH auth. */
+export interface AcceleratorSshSetting extends AcceleratorAuthSetting {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  authType: "SSH";
+  /** Public SSH Key of git repository. */
+  hostKey?: string;
+  /** SSH Key algorithm of git repository. */
+  hostKeyAlgorithm?: string;
+  /** Private SSH Key algorithm of git repository. */
+  privateKey?: string;
+}
+
 /** Service resource */
 export interface ServiceResource extends TrackedResource {
   /** Properties of the Service resource */
@@ -2066,6 +2447,18 @@ export interface ConfigurationServiceResource extends ProxyResource {
 export interface ServiceRegistryResource extends ProxyResource {
   /** Service Registry properties payload */
   properties?: ServiceRegistryProperties;
+}
+
+/** Application Live View resource */
+export interface ApplicationLiveViewResource extends ProxyResource {
+  /** Application Live View properties payload */
+  properties?: ApplicationLiveViewProperties;
+}
+
+/** Dev Tool Portal resource */
+export interface DevToolPortalResource extends ProxyResource {
+  /** Dev Tool Portal properties payload */
+  properties?: DevToolPortalProperties;
 }
 
 /** Build service resource payload */
@@ -2196,6 +2589,30 @@ export interface ApiPortalResource extends ProxyResource {
 export interface ApiPortalCustomDomainResource extends ProxyResource {
   /** The properties of custom domain for API portal */
   properties?: ApiPortalCustomDomainProperties;
+}
+
+/** Application accelerator resource */
+export interface ApplicationAcceleratorResource extends ProxyResource {
+  /** Application accelerator properties payload */
+  properties?: ApplicationAcceleratorProperties;
+  /** Sku of the application accelerator resource */
+  sku?: Sku;
+}
+
+/** Customized accelerator resource */
+export interface CustomizedAcceleratorResource extends ProxyResource {
+  /** Customized accelerator properties payload */
+  properties?: CustomizedAcceleratorProperties;
+  /** Sku of the customized accelerator resource */
+  sku?: Sku;
+}
+
+/** Predefined accelerator resource */
+export interface PredefinedAcceleratorResource extends ProxyResource {
+  /** Predefined accelerator properties payload */
+  properties?: PredefinedAcceleratorProperties;
+  /** Sku of the predefined accelerator resource */
+  sku?: Sku;
 }
 
 /** Uploaded Jar binary for a deployment */
@@ -2460,6 +2877,84 @@ export enum KnownServiceRegistryProvisioningState {
  */
 export type ServiceRegistryProvisioningState = string;
 
+/** Known values of {@link ApplicationLiveViewProvisioningState} that the service accepts. */
+export enum KnownApplicationLiveViewProvisioningState {
+  /** Creating */
+  Creating = "Creating",
+  /** Updating */
+  Updating = "Updating",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Canceled */
+  Canceled = "Canceled"
+}
+
+/**
+ * Defines values for ApplicationLiveViewProvisioningState. \
+ * {@link KnownApplicationLiveViewProvisioningState} can be used interchangeably with ApplicationLiveViewProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating** \
+ * **Updating** \
+ * **Succeeded** \
+ * **Failed** \
+ * **Deleting** \
+ * **Canceled**
+ */
+export type ApplicationLiveViewProvisioningState = string;
+
+/** Known values of {@link DevToolPortalProvisioningState} that the service accepts. */
+export enum KnownDevToolPortalProvisioningState {
+  /** Creating */
+  Creating = "Creating",
+  /** Updating */
+  Updating = "Updating",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Canceled */
+  Canceled = "Canceled"
+}
+
+/**
+ * Defines values for DevToolPortalProvisioningState. \
+ * {@link KnownDevToolPortalProvisioningState} can be used interchangeably with DevToolPortalProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating** \
+ * **Updating** \
+ * **Succeeded** \
+ * **Failed** \
+ * **Deleting** \
+ * **Canceled**
+ */
+export type DevToolPortalProvisioningState = string;
+
+/** Known values of {@link DevToolPortalFeatureState} that the service accepts. */
+export enum KnownDevToolPortalFeatureState {
+  /** Enable the plugin in Dev Tool Portal. */
+  Enabled = "Enabled",
+  /** Disable the plugin in Dev Tool Portal. */
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for DevToolPortalFeatureState. \
+ * {@link KnownDevToolPortalFeatureState} can be used interchangeably with DevToolPortalFeatureState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled**: Enable the plugin in Dev Tool Portal. \
+ * **Disabled**: Disable the plugin in Dev Tool Portal.
+ */
+export type DevToolPortalFeatureState = string;
+
 /** Known values of {@link BuildServiceProvisioningState} that the service accepts. */
 export enum KnownBuildServiceProvisioningState {
   /** Creating */
@@ -2527,7 +3022,9 @@ export enum KnownBindingType {
   /** NewRelic */
   NewRelic = "NewRelic",
   /** ElasticAPM */
-  ElasticAPM = "ElasticAPM"
+  ElasticAPM = "ElasticAPM",
+  /** CACertificates */
+  CACertificates = "CACertificates"
 }
 
 /**
@@ -2540,7 +3037,8 @@ export enum KnownBindingType {
  * **AppDynamics** \
  * **Dynatrace** \
  * **NewRelic** \
- * **ElasticAPM**
+ * **ElasticAPM** \
+ * **CACertificates**
  */
 export type BindingType = string;
 
@@ -3048,6 +3546,33 @@ export enum KnownGatewayProvisioningState {
  */
 export type GatewayProvisioningState = string;
 
+/** Known values of {@link ApmType} that the service accepts. */
+export enum KnownApmType {
+  /** ApplicationInsights */
+  ApplicationInsights = "ApplicationInsights",
+  /** AppDynamics */
+  AppDynamics = "AppDynamics",
+  /** Dynatrace */
+  Dynatrace = "Dynatrace",
+  /** NewRelic */
+  NewRelic = "NewRelic",
+  /** ElasticAPM */
+  ElasticAPM = "ElasticAPM"
+}
+
+/**
+ * Defines values for ApmType. \
+ * {@link KnownApmType} can be used interchangeably with ApmType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ApplicationInsights** \
+ * **AppDynamics** \
+ * **Dynatrace** \
+ * **NewRelic** \
+ * **ElasticAPM**
+ */
+export type ApmType = string;
+
 /** Known values of {@link GatewayRouteConfigProtocol} that the service accepts. */
 export enum KnownGatewayRouteConfigProtocol {
   /** Http */
@@ -3092,6 +3617,120 @@ export enum KnownApiPortalProvisioningState {
  * **Deleting**
  */
 export type ApiPortalProvisioningState = string;
+
+/** Known values of {@link ApplicationAcceleratorProvisioningState} that the service accepts. */
+export enum KnownApplicationAcceleratorProvisioningState {
+  /** Creating */
+  Creating = "Creating",
+  /** Updating */
+  Updating = "Updating",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Deleting */
+  Deleting = "Deleting"
+}
+
+/**
+ * Defines values for ApplicationAcceleratorProvisioningState. \
+ * {@link KnownApplicationAcceleratorProvisioningState} can be used interchangeably with ApplicationAcceleratorProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating** \
+ * **Updating** \
+ * **Succeeded** \
+ * **Failed** \
+ * **Deleting**
+ */
+export type ApplicationAcceleratorProvisioningState = string;
+
+/** Known values of {@link CustomizedAcceleratorProvisioningState} that the service accepts. */
+export enum KnownCustomizedAcceleratorProvisioningState {
+  /** Creating */
+  Creating = "Creating",
+  /** Updating */
+  Updating = "Updating",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Deleting */
+  Deleting = "Deleting"
+}
+
+/**
+ * Defines values for CustomizedAcceleratorProvisioningState. \
+ * {@link KnownCustomizedAcceleratorProvisioningState} can be used interchangeably with CustomizedAcceleratorProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating** \
+ * **Updating** \
+ * **Succeeded** \
+ * **Failed** \
+ * **Deleting**
+ */
+export type CustomizedAcceleratorProvisioningState = string;
+
+/** Known values of {@link CustomizedAcceleratorValidateResultState} that the service accepts. */
+export enum KnownCustomizedAcceleratorValidateResultState {
+  /** Customized accelerator properties are valid. */
+  Valid = "Valid",
+  /** Customized accelerator properties are invalid. */
+  Invalid = "Invalid"
+}
+
+/**
+ * Defines values for CustomizedAcceleratorValidateResultState. \
+ * {@link KnownCustomizedAcceleratorValidateResultState} can be used interchangeably with CustomizedAcceleratorValidateResultState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Valid**: Customized accelerator properties are valid. \
+ * **Invalid**: Customized accelerator properties are invalid.
+ */
+export type CustomizedAcceleratorValidateResultState = string;
+
+/** Known values of {@link PredefinedAcceleratorProvisioningState} that the service accepts. */
+export enum KnownPredefinedAcceleratorProvisioningState {
+  /** Creating */
+  Creating = "Creating",
+  /** Updating */
+  Updating = "Updating",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed"
+}
+
+/**
+ * Defines values for PredefinedAcceleratorProvisioningState. \
+ * {@link KnownPredefinedAcceleratorProvisioningState} can be used interchangeably with PredefinedAcceleratorProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating** \
+ * **Updating** \
+ * **Succeeded** \
+ * **Failed**
+ */
+export type PredefinedAcceleratorProvisioningState = string;
+
+/** Known values of {@link PredefinedAcceleratorState} that the service accepts. */
+export enum KnownPredefinedAcceleratorState {
+  /** Enable the predefined accelerator. */
+  Enabled = "Enabled",
+  /** Disable the predefined accelerator. */
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for PredefinedAcceleratorState. \
+ * {@link KnownPredefinedAcceleratorState} can be used interchangeably with PredefinedAcceleratorState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled**: Enable the predefined accelerator. \
+ * **Disabled**: Disable the predefined accelerator.
+ */
+export type PredefinedAcceleratorState = string;
 
 /** Known values of {@link HttpSchemeType} that the service accepts. */
 export enum KnownHttpSchemeType {
@@ -3367,6 +4006,90 @@ export interface ServiceRegistriesListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type ServiceRegistriesListNextResponse = ServiceRegistryResourceCollection;
+
+/** Optional parameters. */
+export interface ApplicationLiveViewsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ApplicationLiveViewsListResponse = ApplicationLiveViewResourceCollection;
+
+/** Optional parameters. */
+export interface ApplicationLiveViewsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ApplicationLiveViewsGetResponse = ApplicationLiveViewResource;
+
+/** Optional parameters. */
+export interface ApplicationLiveViewsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ApplicationLiveViewsCreateOrUpdateResponse = ApplicationLiveViewResource;
+
+/** Optional parameters. */
+export interface ApplicationLiveViewsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ApplicationLiveViewsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ApplicationLiveViewsListNextResponse = ApplicationLiveViewResourceCollection;
+
+/** Optional parameters. */
+export interface DevToolPortalsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type DevToolPortalsListResponse = DevToolPortalResourceCollection;
+
+/** Optional parameters. */
+export interface DevToolPortalsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type DevToolPortalsGetResponse = DevToolPortalResource;
+
+/** Optional parameters. */
+export interface DevToolPortalsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type DevToolPortalsCreateOrUpdateResponse = DevToolPortalResource;
+
+/** Optional parameters. */
+export interface DevToolPortalsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface DevToolPortalsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type DevToolPortalsListNextResponse = DevToolPortalResourceCollection;
 
 /** Optional parameters. */
 export interface BuildServiceListBuildServicesOptionalParams
@@ -4062,20 +4785,14 @@ export interface DeploymentsStartJFROptionalParams
 
 /** Optional parameters. */
 export interface DeploymentsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Version of the deployments to be listed */
-  version?: string[];
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type DeploymentsListNextResponse = DeploymentResourceCollection;
 
 /** Optional parameters. */
 export interface DeploymentsListForClusterNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** Version of the deployments to be listed */
-  version?: string[];
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listForClusterNext operation. */
 export type DeploymentsListForClusterNextResponse = DeploymentResourceCollection;
@@ -4141,6 +4858,13 @@ export interface GatewaysDeleteOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Optional parameters. */
+export interface GatewaysListEnvSecretsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listEnvSecrets operation. */
+export type GatewaysListEnvSecretsResponse = { [propertyName: string]: string };
 
 /** Optional parameters. */
 export interface GatewaysListOptionalParams
@@ -4337,6 +5061,136 @@ export interface ApiPortalCustomDomainsListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type ApiPortalCustomDomainsListNextResponse = ApiPortalCustomDomainResourceCollection;
+
+/** Optional parameters. */
+export interface ApplicationAcceleratorsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ApplicationAcceleratorsListResponse = ApplicationAcceleratorResourceCollection;
+
+/** Optional parameters. */
+export interface ApplicationAcceleratorsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ApplicationAcceleratorsGetResponse = ApplicationAcceleratorResource;
+
+/** Optional parameters. */
+export interface ApplicationAcceleratorsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ApplicationAcceleratorsCreateOrUpdateResponse = ApplicationAcceleratorResource;
+
+/** Optional parameters. */
+export interface ApplicationAcceleratorsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ApplicationAcceleratorsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ApplicationAcceleratorsListNextResponse = ApplicationAcceleratorResourceCollection;
+
+/** Optional parameters. */
+export interface CustomizedAcceleratorsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type CustomizedAcceleratorsListResponse = CustomizedAcceleratorResourceCollection;
+
+/** Optional parameters. */
+export interface CustomizedAcceleratorsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type CustomizedAcceleratorsGetResponse = CustomizedAcceleratorResource;
+
+/** Optional parameters. */
+export interface CustomizedAcceleratorsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type CustomizedAcceleratorsCreateOrUpdateResponse = CustomizedAcceleratorResource;
+
+/** Optional parameters. */
+export interface CustomizedAcceleratorsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface CustomizedAcceleratorsValidateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the validate operation. */
+export type CustomizedAcceleratorsValidateResponse = CustomizedAcceleratorValidateResult;
+
+/** Optional parameters. */
+export interface CustomizedAcceleratorsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type CustomizedAcceleratorsListNextResponse = CustomizedAcceleratorResourceCollection;
+
+/** Optional parameters. */
+export interface PredefinedAcceleratorsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type PredefinedAcceleratorsListResponse = PredefinedAcceleratorResourceCollection;
+
+/** Optional parameters. */
+export interface PredefinedAcceleratorsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type PredefinedAcceleratorsGetResponse = PredefinedAcceleratorResource;
+
+/** Optional parameters. */
+export interface PredefinedAcceleratorsDisableOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface PredefinedAcceleratorsEnableOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface PredefinedAcceleratorsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type PredefinedAcceleratorsListNextResponse = PredefinedAcceleratorResourceCollection;
 
 /** Optional parameters. */
 export interface AppPlatformManagementClientOptionalParams

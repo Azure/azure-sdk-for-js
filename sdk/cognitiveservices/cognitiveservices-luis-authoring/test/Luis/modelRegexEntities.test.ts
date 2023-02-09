@@ -14,8 +14,8 @@ const regextEntitySample = {
 };
 
 
-describe("Model Regex Entities Tests", () => {
-  it('should get regex entities', async () => {
+describe("Model Regex Entities Tests", function () {
+  it('should get regex entities', async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const regexEntityId = await client.model.createRegexEntityModel(BaseTest.GlobalAppId, BaseTest.GlobalVersionId, regextEntitySample);
       const regexEntities = await client.model.listRegexEntityInfos(BaseTest.GlobalAppId, BaseTest.GlobalVersionId);
@@ -25,7 +25,7 @@ describe("Model Regex Entities Tests", () => {
   });
 
 
-  it('should create regex entity', async () => {
+  it('should create regex entity', async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const regexEntityId = await client.model.createRegexEntityModel(BaseTest.GlobalAppId, BaseTest.GlobalVersionId, regextEntitySample);
       await client.model.deleteRegexEntityModel(BaseTest.GlobalAppId, BaseTest.GlobalVersionId, regexEntityId.body);
@@ -34,7 +34,7 @@ describe("Model Regex Entities Tests", () => {
   });
 
 
-  it('should get regex entity', async () => {
+  it('should get regex entity', async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const regexEntityId = await client.model.createRegexEntityModel(BaseTest.GlobalAppId, BaseTest.GlobalVersionId, regextEntitySample);
       const regexEntity = await client.model.getRegexEntityEntityInfo(BaseTest.GlobalAppId, BaseTest.GlobalVersionId, regexEntityId.body);
@@ -45,7 +45,7 @@ describe("Model Regex Entities Tests", () => {
   });
 
 
-  it('should update regex entity', async () => {
+  it('should update regex entity', async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const regexEntityId = await client.model.createRegexEntityModel(BaseTest.GlobalAppId, BaseTest.GlobalVersionId, regextEntitySample);
       await client.model.updateRegexEntityModel(BaseTest.GlobalAppId, BaseTest.GlobalVersionId, regexEntityId.body, { name: "regex entity 2", regexPattern: "regex pattern 2" });
@@ -56,7 +56,7 @@ describe("Model Regex Entities Tests", () => {
     });
   });
 
-  it('should delete regex entity', async () => {
+  it('should delete regex entity', async function () {
     await BaseTest.useClientFor(async (client: LUISAuthoringClient) => {
       const regexEntityId = await client.model.createRegexEntityModel(BaseTest.GlobalAppId, BaseTest.GlobalVersionId, regextEntitySample);
       await client.model.deleteRegexEntityModel(BaseTest.GlobalAppId, BaseTest.GlobalVersionId, regexEntityId.body);

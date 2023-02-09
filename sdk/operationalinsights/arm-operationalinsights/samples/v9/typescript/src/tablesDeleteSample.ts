@@ -20,7 +20,11 @@ dotenv.config();
  * @summary Delete a Log Analytics workspace table.
  * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2022-10-01/examples/TablesDelete.json
  */
+<<<<<<< HEAD:sdk/operationalinsights/arm-operationalinsights/samples/v9/typescript/src/tablesDeleteSample.ts
 async function tablesDelete() {
+=======
+async function tablesGet() {
+>>>>>>> main:sdk/operationalinsights/arm-operationalinsights/samples/v9-beta/typescript/src/tablesDeleteSample.ts
   const subscriptionId =
     process.env["OPERATIONALINSIGHTS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-00000000000";
@@ -42,7 +46,11 @@ async function tablesDelete() {
 }
 
 async function main() {
+<<<<<<< HEAD:sdk/operationalinsights/arm-operationalinsights/samples/v9/typescript/src/tablesDeleteSample.ts
   tablesDelete();
+=======
+  tablesGet();
+>>>>>>> main:sdk/operationalinsights/arm-operationalinsights/samples/v9-beta/typescript/src/tablesDeleteSample.ts
 }
 
 main().catch(console.error);

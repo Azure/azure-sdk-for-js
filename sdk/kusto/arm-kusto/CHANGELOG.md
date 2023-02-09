@@ -1,6 +1,6 @@
 # Release History
 
-## 7.2.1 (Unreleased)
+## 7.2.2 (Unreleased)
 
 ### Features Added
 
@@ -10,8 +10,18 @@
 
 ### Other Changes
 
+## 7.2.1 (2023-01-11)
+
+**Features**
+
+  - Exposes `getContinuationToken` helper function to extract continuation token
+
+**Bugs Fixed**
+
+  - A series of small bug fixs relevant to authentication and apiVersion policy
+
 ## 7.2.0 (2022-09-15)
-    
+
 **Features**
 
   - Added Interface AttachedDatabaseConfiguration

@@ -20,7 +20,11 @@ dotenv.config();
  * @summary Migrate a Log Analytics table from support of the Data Collector API and Custom Fields features to support of Data Collection Rule-based Custom Logs.
  * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2022-10-01/examples/TablesMigrate.json
  */
+<<<<<<< HEAD:sdk/operationalinsights/arm-operationalinsights/samples/v9/typescript/src/tablesMigrateSample.ts
 async function tablesMigrate() {
+=======
+async function tablesGet() {
+>>>>>>> main:sdk/operationalinsights/arm-operationalinsights/samples/v9-beta/typescript/src/tablesMigrateSample.ts
   const subscriptionId =
     process.env["OPERATIONALINSIGHTS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-00000000000";
@@ -42,7 +46,11 @@ async function tablesMigrate() {
 }
 
 async function main() {
+<<<<<<< HEAD:sdk/operationalinsights/arm-operationalinsights/samples/v9/typescript/src/tablesMigrateSample.ts
   tablesMigrate();
+=======
+  tablesGet();
+>>>>>>> main:sdk/operationalinsights/arm-operationalinsights/samples/v9-beta/typescript/src/tablesMigrateSample.ts
 }
 
 main().catch(console.error);

@@ -90,7 +90,11 @@ export class OperationalInsightsManagementClient extends coreClient.ServiceClien
       credential: credentials
     };
 
+<<<<<<< HEAD
     const packageDetails = `azsdk-js-arm-operationalinsights/9.0.0`;
+=======
+    const packageDetails = `azsdk-js-arm-operationalinsights/9.0.0-beta.3`;
+>>>>>>> main
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

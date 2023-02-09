@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { StorageCacheManagementClient } from "@azure/arm-storagecache";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Returns all Caches the user has access to under a subscription.
@@ -18,7 +21,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-05-01/examples/Caches_List.json
  */
 async function cachesList() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["STORAGECACHE_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new StorageCacheManagementClient(credential, subscriptionId);
   const resArray = new Array();
@@ -28,4 +33,8 @@ async function cachesList() {
   console.log(resArray);
 }
 
-cachesList().catch(console.error);
+async function main() {
+  cachesList();
+}
+
+main().catch(console.error);

@@ -518,6 +518,9 @@ export interface FilePathAvailabilityRequest {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export interface HourlySchedule {
     minute?: number;
     snapshotsToKeep?: number;

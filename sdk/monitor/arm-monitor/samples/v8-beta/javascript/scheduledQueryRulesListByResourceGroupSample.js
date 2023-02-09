@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { MonitorClient } = require("@azure/arm-monitor");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to List the Log Search rules within a resource group.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2018-04-16/examples/listScheduledQueryRules.json
  */
 async function listRules() {
-  const subscriptionId = "14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7";
-  const resourceGroupName = "gigtest";
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] || "14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7";
+  const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "gigtest";
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
   const resArray = new Array();
@@ -29,4 +31,8 @@ async function listRules() {
   console.log(resArray);
 }
 
-listRules().catch(console.error);
+async function main() {
+  listRules();
+}
+
+main().catch(console.error);

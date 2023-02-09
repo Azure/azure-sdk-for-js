@@ -45,6 +45,8 @@ export interface DevBox {
   projectName?: string;
   /** The name of the Dev Box pool this machine belongs to. */
   poolName: string;
+  /** Indicates whether hibernate is enabled/disabled or unknown. */
+  hibernateSupport?: "Disabled" | "Enabled";
   /** The current provisioning state of the Dev Box. */
   provisioningState?: string;
   /** The current action state of the Dev Box. This is state is based on previous action performed by user. */
@@ -64,7 +66,7 @@ export interface DevBox {
   location?: string;
   /** The operating system type of this Dev Box. */
   osType?: "Windows";
-  /** User identifier of the user this vm is assigned to. */
+  /** The AAD object id of the user this Dev Box is assigned to. */
   user?: string;
   /** Information about the Dev Box's hardware resources */
   hardwareProfile?: HardwareProfile;
@@ -92,8 +94,8 @@ export interface Environment extends EnvironmentUpdateProperties {
   name?: string;
   /** Environment type. */
   environmentType: string;
-  /** Identifier of the owner of this Environment. */
-  owner?: string;
+  /** The AAD object id of the owner of this Environment. */
+  user?: string;
   /** The provisioning state of the environment. */
   provisioningState?: string;
   /** The identifier of the resource group containing the environment's resources. */

@@ -55,6 +55,7 @@ async function workspacePurge() {
   console.log(result);
 }
 
+<<<<<<< HEAD
 /**
  * This sample demonstrates how to Purges data in an Log Analytics workspace by a set of user-defined filters.
 
@@ -101,6 +102,10 @@ async function workspacePurgeResourceId() {
 async function main() {
   workspacePurge();
   workspacePurgeResourceId();
+=======
+async function main() {
+  workspacePurge();
+>>>>>>> main
 }
 
 main().catch(console.error);

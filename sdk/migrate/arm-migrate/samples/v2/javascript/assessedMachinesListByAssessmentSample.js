@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { AzureMigrateV2 } = require("@azure/arm-migrate");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Get list of machines that assessed as part of the specified assessment. Returns a json array of objects of type 'assessedMachine' as specified in the Models section.
@@ -26,8 +27,9 @@ During the period when the assessment is under computation, the list of assessed
  * x-ms-original-file: specification/migrate/resource-manager/Microsoft.Migrate/stable/2019-10-01/examples/AssessedMachines_ListByAssessment.json
  */
 async function assessedMachinesListByAssessment() {
-  const subscriptionId = "6393a73f-8d55-47ef-b6dd-179b3e0c7910";
-  const resourceGroupName = "abgoyal-westEurope";
+  const subscriptionId =
+    process.env["MIGRATE_SUBSCRIPTION_ID"] || "6393a73f-8d55-47ef-b6dd-179b3e0c7910";
+  const resourceGroupName = process.env["MIGRATE_RESOURCE_GROUP"] || "abgoyal-westEurope";
   const projectName = "abgoyalWEselfhostb72bproject";
   const groupName = "Test1";
   const assessmentName = "assessment_5_9_2019_16_22_14";
@@ -45,4 +47,8 @@ async function assessedMachinesListByAssessment() {
   console.log(resArray);
 }
 
-assessedMachinesListByAssessment().catch(console.error);
+async function main() {
+  assessedMachinesListByAssessment();
+}
+
+main().catch(console.error);

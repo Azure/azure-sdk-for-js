@@ -21,8 +21,6 @@ import {
   QueryPacksListByResourceGroupNextOptionalParams,
   QueryPacksListByResourceGroupOptionalParams,
   QueryPacksListByResourceGroupResponse,
-  QueryPacksCreateOrUpdateWithoutNameOptionalParams,
-  QueryPacksCreateOrUpdateWithoutNameResponse,
   QueryPacksDeleteOptionalParams,
   QueryPacksGetOptionalParams,
   QueryPacksGetResponse,
@@ -197,25 +195,6 @@ export class QueryPacksImpl implements QueryPacks {
   }
 
   /**
-   * Creates a Log Analytics QueryPack. Note: You cannot specify a different value for InstrumentationKey
-   * nor AppId in the Put operation.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param logAnalyticsQueryPackPayload Properties that need to be specified to create or update a Log
-   *                                     Analytics QueryPack.
-   * @param options The options parameters.
-   */
-  createOrUpdateWithoutName(
-    resourceGroupName: string,
-    logAnalyticsQueryPackPayload: LogAnalyticsQueryPack,
-    options?: QueryPacksCreateOrUpdateWithoutNameOptionalParams
-  ): Promise<QueryPacksCreateOrUpdateWithoutNameResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, logAnalyticsQueryPackPayload, options },
-      createOrUpdateWithoutNameOperationSpec
-    );
-  }
-
-  /**
    * Deletes a Log Analytics QueryPack.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param queryPackName The name of the Log Analytics QueryPack resource.
@@ -365,29 +344,6 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept],
-  serializer
-};
-const createOrUpdateWithoutNameOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/queryPacks",
-  httpMethod: "PUT",
-  responses: {
-    201: {
-      bodyMapper: Mappers.LogAnalyticsQueryPack
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.logAnalyticsQueryPackPayload,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
   serializer
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
