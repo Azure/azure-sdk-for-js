@@ -34,6 +34,9 @@ function CreateReleases($pkgList, $releaseApiUrl, $releaseSha) {
       body             = $releaseNotes
     }
 
+    Write-Host "\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/"
+    Write-Host $releaseNotes
+
     $headers = @{
       "Content-Type"  = "application/json"
       "Authorization" = "token $($env:GH_TOKEN)"
