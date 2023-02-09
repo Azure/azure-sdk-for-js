@@ -62,7 +62,7 @@ describe("DataProtection test", () => {
       resourceGroup,
       vaultName,
       {
-        // identity: { type: "None" },
+        identity: { type: "None" },
         location,
         properties: {
           monitoringSettings: {
