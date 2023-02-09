@@ -1,9 +1,9 @@
 {
-  "name": "@azure/arm-agrifood",
+  "name": "@azure/arm-agrifoodasdsadsadsad",
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for AgriFoodMgmtClient.",
-  "version": "1.0.0-beta.5",
+  "version": "1.0.0",
   "engines": {
     "node": ">=14.0.0"
   },
