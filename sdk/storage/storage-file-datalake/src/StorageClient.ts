@@ -8,6 +8,7 @@ import { toBlobEndpointUrl, toDfsEndpointUrl } from "./transforms";
 import { escapeURLPath, getAccountNameFromUrl, getURLScheme, iEqual } from "./utils/utils.common";
 import { ExtendedServiceClientOptions } from "@azure/core-http-compat";
 import { HttpClient, Pipeline as CorePipeline } from "@azure/core-rest-pipeline";
+import { dataLakePathParameterWorkaroundPolicy, dataLakePathParameterWorkaroundPolicyName } from "./policies/DataLakePathParameterWorkaroundPolicy";
 
 
 // This function relies on the Pipeline already being initialized by a storage-blob client
@@ -21,6 +22,10 @@ function getCoreClientOptions(pipeline: Pipeline): ExtendedServiceClientOptions 
   let corePipeline: CorePipeline = (pipeline as any)._corePipeline;
   if (!corePipeline) {
     throw new Error("Pipeline not correctly initialized; missing V2 Pipeline");
+  }
+  const hasWorkaroundPolicy = corePipeline.getOrderedPolicies().some(policy => policy.name === dataLakePathParameterWorkaroundPolicyName);
+  if (!hasWorkaroundPolicy) {
+    corePipeline.addPolicy(dataLakePathParameterWorkaroundPolicy());
   }
   return {
     ...restOptions,
