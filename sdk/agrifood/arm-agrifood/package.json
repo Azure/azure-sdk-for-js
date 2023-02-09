@@ -1,5 +1,5 @@
 {
-  "name": "@azure/arm-agrifoodasdsadsadsad",
+  "name": "@azure/arm-agrifood",
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for AgriFoodMgmtClient.",
