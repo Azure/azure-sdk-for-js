@@ -128,8 +128,8 @@ export class ClientCertificateCredential implements TokenCredential {
     const configuration: ClientCertificateCredentialPEMConfiguration = {
       ...(typeof certificatePathOrConfiguration === "string"
         ? {
-          certificatePath: certificatePathOrConfiguration,
-        }
+            certificatePath: certificatePathOrConfiguration,
+          }
         : certificatePathOrConfiguration),
     };
     const certificate: string | undefined = (configuration as ClientCertificatePEMCertificate)

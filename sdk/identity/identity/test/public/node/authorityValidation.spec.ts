@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
 import { Recorder, env } from "@azure-tools/test-recorder";
 import { ClientSecretCredential } from "../../../src";
@@ -18,7 +21,7 @@ describe("AuthorityValidation", function () {
 
   const scope = "https://vault.azure.net/.default";
 
-  it.only("disabled and authenticates", async function () {
+  it("disabled and authenticates", async function () {
     const credential = new ClientSecretCredential(
       env.AZURE_TENANT_ID!,
       env.AZURE_CLIENT_ID!,
@@ -28,7 +31,8 @@ describe("AuthorityValidation", function () {
 
     const token = await credential.getToken(scope);
     assert.ok(token?.token);
-    assert.ok(token?.expiresOnTimestamp! > Date.now());
+    assert.isNotNaN(token?.expiresOnTimestamp);
+    assert.isNotNull(token?.expiresOnTimestamp);
+    assert.ok(token?.expiresOnTimestamp > Date.now());
   });
-
 });
