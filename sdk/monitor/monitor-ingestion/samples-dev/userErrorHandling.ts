@@ -7,7 +7,6 @@
 
 import { DefaultAzureCredential } from "@azure/identity";
 import {
-  AggregateUploadLogsError,
   isAggregateUploadLogsError,
   LogsIngestionClient,
   UploadLogsError,
