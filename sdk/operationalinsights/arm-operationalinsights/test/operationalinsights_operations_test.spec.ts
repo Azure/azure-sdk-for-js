@@ -84,7 +84,7 @@ describe("operationalinsights test", () => {
     for await (let item of client.workspaces.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
-    // There are two workspace work for other services on the portal, so now after creating this service ,it is 3 .Next time it will be revert to 1
+    // There are two workspace work for other services on the portal, so now after creating this service ,it is 3 .Next time it will be reverted to 1
     assert.equal(resArray.length, 3);
   });
 
@@ -102,7 +102,7 @@ describe("operationalinsights test", () => {
     for await (let item of client.workspaces.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
-    // There are two workspace work for other services on the portal, so it is 2. Next time it will be revert to 0
+    // There are two workspace work for other services on the portal, so it is 2. Next time it will be reverted to 0
     assert.equal(resArray.length, 2);
   });
 })
