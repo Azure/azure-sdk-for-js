@@ -1,6 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { AbortSignalLike } from "@azure/abort-controller";
 import { createHttpHeaders, HttpHeaders } from "@azure/core-rest-pipeline";
 import { isNode } from "@azure/core-util";
 import { ContainerEncryptionScope, WithResponse } from "@azure/storage-blob";
@@ -479,43 +478,6 @@ export function generateBlockID(blockIDPrefix: string, blockIndex: number): stri
     blockIDPrefix +
     blockIndex.toString().padStart(maxSourceStringLength - blockIDPrefix.length, "0");
   return base64encode(res);
-}
-
-/**
- * Delay specified time interval.
- *
- * @param timeInMs -
- * @param aborter -
- * @param abortError -
- */
-export async function delay(
-  timeInMs: number,
-  aborter?: AbortSignalLike,
-  abortError?: Error
-): Promise<void> {
-  return new Promise<void>((resolve, reject) => {
-    /* eslint-disable-next-line prefer-const*/
-    let timeout: any;
-
-    const abortHandler = () => {
-      if (timeout !== undefined) {
-        clearTimeout(timeout);
-      }
-      reject(abortError);
-    };
-
-    const resolveHandler = () => {
-      if (aborter !== undefined) {
-        aborter.removeEventListener("abort", abortHandler);
-      }
-      resolve();
-    };
-
-    timeout = setTimeout(resolveHandler, timeInMs);
-    if (aborter !== undefined) {
-      aborter.addEventListener("abort", abortHandler);
-    }
-  });
 }
 
 export function sanitizeURL(url: string): string {
