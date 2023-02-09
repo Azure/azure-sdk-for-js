@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.DataProtection/backupVaults/swaggerExample?api-version=2023-01-01",
+      "RequestUri": "https://management.azure.com/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/myjstest/providers/Microsoft.DataProtection/backupVaults/swaggerExample?api-version=2023-01-01",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -9,31 +9,31 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-arm-dataprotection/1.0.0-beta.2 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "4a8f5096-4564-4985-b2f9-c21d9d8ff862"
+        "x-ms-client-request-id": "30702c0a-295c-4dd8-a20f-f249df2b3cf2"
       },
       "RequestBody": null,
       "StatusCode": 202,
       "ResponseHeaders": {
-        "Azure-AsyncOperation": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.DataProtection/locations/eastus/operationStatus/MTU1YjUwYWUtZTk0Ny00NDJmLTliNGEtZGJlYWM2MmQxYWY1OzRiMmIxMDA1LWE2YTctNDRiZi1iODlhLWIxNjJhYTg1NDFhYw==?api-version=2023-01-01",
+        "Azure-AsyncOperation": "https://management.azure.com/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/myjstest/providers/Microsoft.DataProtection/locations/eastus/operationStatus/ODFjNzdmYzMtODJlZC00OGRjLWI2ZDUtNjRlZGE2MTI5ODE5OzM3OWI2NzhhLThlYzItNGMxMi1iMmViLTQwNGZkMzMwOTNlZA==?api-version=2023-01-01",
         "Cache-Control": "no-cache",
         "Content-Length": "0",
-        "Date": "Thu, 09 Feb 2023 02:36:55 GMT",
+        "Date": "Thu, 09 Feb 2023 09:13:07 GMT",
         "Expires": "-1",
-        "Location": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DataProtection/locations/eastus/operationResults/MTU1YjUwYWUtZTk0Ny00NDJmLTliNGEtZGJlYWM2MmQxYWY1OzRiMmIxMDA1LWE2YTctNDRiZi1iODlhLWIxNjJhYTg1NDFhYw==?api-version=2023-01-01",
+        "Location": "https://management.azure.com/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/providers/Microsoft.DataProtection/locations/eastus/operationResults/ODFjNzdmYzMtODJlZC00OGRjLWI2ZDUtNjRlZGE2MTI5ODE5OzM3OWI2NzhhLThlYzItNGMxMi1iMmViLTQwNGZkMzMwOTNlZA==?api-version=2023-01-01",
         "Pragma": "no-cache",
         "Retry-After": "30",
         "Server": "Kestrel",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "a7e08a5a-e1e9-406a-81bb-ab5cf02216cc",
+        "x-ms-correlation-request-id": "0188e391-fc8f-457f-ba17-c2c095142ca0",
         "x-ms-ratelimit-remaining-subscription-resource-requests": "99",
-        "x-ms-request-id": "a7e08a5a-e1e9-406a-81bb-ab5cf02216cc",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20230209T023655Z:a7e08a5a-e1e9-406a-81bb-ab5cf02216cc"
+        "x-ms-request-id": "0188e391-fc8f-457f-ba17-c2c095142ca0",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230209T091307Z:0188e391-fc8f-457f-ba17-c2c095142ca0"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.DataProtection/locations/eastus/operationStatus/MTU1YjUwYWUtZTk0Ny00NDJmLTliNGEtZGJlYWM2MmQxYWY1OzRiMmIxMDA1LWE2YTctNDRiZi1iODlhLWIxNjJhYTg1NDFhYw==?api-version=2023-01-01",
+      "RequestUri": "https://management.azure.com/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/myjstest/providers/Microsoft.DataProtection/locations/eastus/operationStatus/ODFjNzdmYzMtODJlZC00OGRjLWI2ZDUtNjRlZGE2MTI5ODE5OzM3OWI2NzhhLThlYzItNGMxMi1iMmViLTQwNGZkMzMwOTNlZA==?api-version=2023-01-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -41,7 +41,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-arm-dataprotection/1.0.0-beta.2 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "79d05ff8-4988-49a7-9204-ef898d7819fd"
+        "x-ms-client-request-id": "67ac82df-32e7-46ea-b110-7622503c5203"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -49,7 +49,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 09 Feb 2023 02:36:55 GMT",
+        "Date": "Thu, 09 Feb 2023 09:13:07 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "Kestrel",
@@ -57,21 +57,21 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "6ff2edbc-ccf5-40b4-b8b0-04576722ae48",
+        "x-ms-correlation-request-id": "622ce549-8838-4327-aef5-21a46a29e4f9",
         "x-ms-ratelimit-remaining-subscription-resource-requests": "14999",
-        "x-ms-request-id": "6ff2edbc-ccf5-40b4-b8b0-04576722ae48",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20230209T023656Z:6ff2edbc-ccf5-40b4-b8b0-04576722ae48"
+        "x-ms-request-id": "622ce549-8838-4327-aef5-21a46a29e4f9",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230209T091308Z:622ce549-8838-4327-aef5-21a46a29e4f9"
       },
       "ResponseBody": {
-        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.DataProtection/locations/eastus/operationStatus/MTU1YjUwYWUtZTk0Ny00NDJmLTliNGEtZGJlYWM2MmQxYWY1OzRiMmIxMDA1LWE2YTctNDRiZi1iODlhLWIxNjJhYTg1NDFhYw==",
-        "name": "MTU1YjUwYWUtZTk0Ny00NDJmLTliNGEtZGJlYWM2MmQxYWY1OzRiMmIxMDA1LWE2YTctNDRiZi1iODlhLWIxNjJhYTg1NDFhYw==",
+        "id": "/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/myjstest/providers/Microsoft.DataProtection/locations/eastus/operationStatus/ODFjNzdmYzMtODJlZC00OGRjLWI2ZDUtNjRlZGE2MTI5ODE5OzM3OWI2NzhhLThlYzItNGMxMi1iMmViLTQwNGZkMzMwOTNlZA==",
+        "name": "ODFjNzdmYzMtODJlZC00OGRjLWI2ZDUtNjRlZGE2MTI5ODE5OzM3OWI2NzhhLThlYzItNGMxMi1iMmViLTQwNGZkMzMwOTNlZA==",
         "status": "Inprogress",
-        "startTime": "2023-02-09T02:36:55.5059865Z",
+        "startTime": "2023-02-09T09:13:07.4768748Z",
         "endTime": "0001-01-01T00:00:00Z"
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.DataProtection/locations/eastus/operationStatus/MTU1YjUwYWUtZTk0Ny00NDJmLTliNGEtZGJlYWM2MmQxYWY1OzRiMmIxMDA1LWE2YTctNDRiZi1iODlhLWIxNjJhYTg1NDFhYw==?api-version=2023-01-01",
+      "RequestUri": "https://management.azure.com/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/myjstest/providers/Microsoft.DataProtection/locations/eastus/operationStatus/ODFjNzdmYzMtODJlZC00OGRjLWI2ZDUtNjRlZGE2MTI5ODE5OzM3OWI2NzhhLThlYzItNGMxMi1iMmViLTQwNGZkMzMwOTNlZA==?api-version=2023-01-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -79,7 +79,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-arm-dataprotection/1.0.0-beta.2 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "f2f6d156-012c-441f-b31f-4bb7b4540223"
+        "x-ms-client-request-id": "f62e1e00-aeab-4c8e-9c67-b3eb30da27c5"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -87,7 +87,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 09 Feb 2023 02:36:56 GMT",
+        "Date": "Thu, 09 Feb 2023 09:13:08 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "Kestrel",
@@ -95,21 +95,21 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "b3d426c7-455c-48ed-b6a4-cb1ebb880137",
+        "x-ms-correlation-request-id": "8c002031-6d7b-495e-8378-f8169fc1d75d",
         "x-ms-ratelimit-remaining-subscription-resource-requests": "14998",
-        "x-ms-request-id": "b3d426c7-455c-48ed-b6a4-cb1ebb880137",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20230209T023656Z:b3d426c7-455c-48ed-b6a4-cb1ebb880137"
+        "x-ms-request-id": "8c002031-6d7b-495e-8378-f8169fc1d75d",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230209T091308Z:8c002031-6d7b-495e-8378-f8169fc1d75d"
       },
       "ResponseBody": {
-        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.DataProtection/locations/eastus/operationStatus/MTU1YjUwYWUtZTk0Ny00NDJmLTliNGEtZGJlYWM2MmQxYWY1OzRiMmIxMDA1LWE2YTctNDRiZi1iODlhLWIxNjJhYTg1NDFhYw==",
-        "name": "MTU1YjUwYWUtZTk0Ny00NDJmLTliNGEtZGJlYWM2MmQxYWY1OzRiMmIxMDA1LWE2YTctNDRiZi1iODlhLWIxNjJhYTg1NDFhYw==",
+        "id": "/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/myjstest/providers/Microsoft.DataProtection/locations/eastus/operationStatus/ODFjNzdmYzMtODJlZC00OGRjLWI2ZDUtNjRlZGE2MTI5ODE5OzM3OWI2NzhhLThlYzItNGMxMi1iMmViLTQwNGZkMzMwOTNlZA==",
+        "name": "ODFjNzdmYzMtODJlZC00OGRjLWI2ZDUtNjRlZGE2MTI5ODE5OzM3OWI2NzhhLThlYzItNGMxMi1iMmViLTQwNGZkMzMwOTNlZA==",
         "status": "Succeeded",
-        "startTime": "2023-02-09T02:36:55.5059865Z",
-        "endTime": "2023-02-09T02:36:56Z"
+        "startTime": "2023-02-09T09:13:07.4768748Z",
+        "endTime": "2023-02-09T09:13:08Z"
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.DataProtection/backupVaults?api-version=2023-01-01",
+      "RequestUri": "https://management.azure.com/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/myjstest/providers/Microsoft.DataProtection/backupVaults?api-version=2023-01-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -117,7 +117,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-arm-dataprotection/1.0.0-beta.2 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "f09dbea1-fe55-4f56-bc72-70f8a6e0092d"
+        "x-ms-client-request-id": "86121761-02f6-406f-be5f-3fb80f076724"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -125,7 +125,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 09 Feb 2023 02:36:56 GMT",
+        "Date": "Thu, 09 Feb 2023 09:13:08 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "Kestrel",
@@ -133,10 +133,10 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "ccc8b018-c7d1-413d-8e39-dc0c6c17d5b6",
+        "x-ms-correlation-request-id": "64f3fd35-b000-4134-aff4-f3b7e80d9207",
         "x-ms-ratelimit-remaining-subscription-resource-requests": "496",
-        "x-ms-request-id": "ccc8b018-c7d1-413d-8e39-dc0c6c17d5b6",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20230209T023657Z:ccc8b018-c7d1-413d-8e39-dc0c6c17d5b6"
+        "x-ms-request-id": "64f3fd35-b000-4134-aff4-f3b7e80d9207",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230209T091309Z:64f3fd35-b000-4134-aff4-f3b7e80d9207"
       },
       "ResponseBody": {
         "value": []

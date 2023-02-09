@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.DataProtection/backupVaults/swaggerExample?api-version=2023-01-01",
+      "RequestUri": "https://management.azure.com/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/myjstest/providers/Microsoft.DataProtection/backupVaults/swaggerExample?api-version=2023-01-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -9,7 +9,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-arm-dataprotection/1.0.0-beta.2 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "b2960f97-0b95-4fce-9629-6355f8780484"
+        "x-ms-client-request-id": "6ee3af71-1e3d-4202-9263-f217a0d577e9"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,7 +17,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 09 Feb 2023 02:36:50 GMT",
+        "Date": "Thu, 09 Feb 2023 09:13:03 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "Kestrel",
@@ -25,10 +25,10 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "5c077da9-9a4a-4ee3-9b08-1facaf7c7e96",
+        "x-ms-correlation-request-id": "ebf6b05c-d8c3-4930-bfc4-9e2d06949544",
         "x-ms-ratelimit-remaining-subscription-resource-requests": "498",
-        "x-ms-request-id": "5c077da9-9a4a-4ee3-9b08-1facaf7c7e96",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20230209T023651Z:5c077da9-9a4a-4ee3-9b08-1facaf7c7e96"
+        "x-ms-request-id": "ebf6b05c-d8c3-4930-bfc4-9e2d06949544",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230209T091303Z:ebf6b05c-d8c3-4930-bfc4-9e2d06949544"
       },
       "ResponseBody": {
         "location": "eastus",
@@ -56,7 +56,7 @@
             }
           }
         },
-        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.DataProtection/backupVaults/swaggerExample",
+        "id": "/subscriptions/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX/resourceGroups/myjstest/providers/Microsoft.DataProtection/backupVaults/swaggerExample",
         "name": "swaggerExample",
         "type": "Microsoft.DataProtection/backupVaults"
       }
