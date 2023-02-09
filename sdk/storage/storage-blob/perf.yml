@@ -6,6 +6,7 @@ parameters:
   # default: 'Linux, Windows'
   default: 'Linux'
 - name: LanguageVersion
+  displayName: LanguageVersion (14, 16, 18)
   type: string
   default: '18'
 - name: PackageVersions

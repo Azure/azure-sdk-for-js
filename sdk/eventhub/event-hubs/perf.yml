@@ -4,6 +4,7 @@ parameters:
   type: string
   default: 'Linux'
 - name: LanguageVersion
+  displayName: LanguageVersion (14, 16, 18)
   type: string
   default: '18'
 - name: PackageVersions
