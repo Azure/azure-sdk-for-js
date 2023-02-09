@@ -137,6 +137,13 @@ The standard for Azure SDKs going forward is the following:
 - `/api` - The client context and single method exports
 - `/models` - The models and factories
 
+For packages that may have multiple service clients, each service client will be then put in a folder to itself, such as the following if we have an `Admin` client and a `Messaging` client.
+
+- `/admin/api` - The Admin client context and single method exports
+- `/admin/models` - The Admin models and factories
+- `/messaging/api` - The Messaging client context and single method exports
+- `/messaging/models` - The Messaging models and factories
+
 The standard approach should be to expose each public method on a `ServiceClient` as its own standalone function export.  The modular approach should create an interface which contains the minimal set of data to talk to the backend and expose through a factory method to create.
 
 The `ServiceClient` should be exposed at the top level through the exports which will then take the place of our current `"main"` entry point in the `package.json` for both CommonJS and ES Modules.
@@ -178,6 +185,10 @@ This could then be imported such as the following:
 ```typescript
 import { Installation, createAppleInstallation } from "@azure/notification-hubs/models";
 ```
+
+## Shipping Experimental Features
+
+Another aspect of this design is to allow us to ship experimental features with modular development.  We can ship preview features in either `experimental` or `preview` subpath exports which allow us to ship features that do not collide with our top level exports nor our standard APIs.  Once these features have been approved for GA, they will be removed from the `experimental` or `preview` subpath.
 
 ## Onboarding Azure SDK Packages to Subpath Exports
 
