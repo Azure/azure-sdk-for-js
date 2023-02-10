@@ -7,7 +7,7 @@
  */
 
 const { DefaultAzureCredential } = require("@azure/identity");
-const { LogsIngestionClient } = require("@azure/monitor-ingestion");
+const { isAggregateUploadLogsError, LogsIngestionClient } = require("@azure/monitor-ingestion");
 
 require("dotenv").config();
 
@@ -40,9 +40,25 @@ async function main() {
   // The logs will be split into multiple batches and uploaded concurrently. By default,
   // the maximum number of concurrent uploads is 5.
 
-  await client.upload("immutable-id-123", streamName, logs, {
-    onError: errorCallback,
-  });
+  try {
+    await client.upload("immutable-id-123", streamName, logs, {
+      onError: errorCallback,
+    });
+  } catch (e) {
+    let aggregateErrors = isAggregateUploadLogsError(e) ? e.errors : [];
+    if (aggregateErrors.length > 0) {
+      console.log(
+        "Some logs have failed to complete ingestion. Number of error batches=",
+        aggregateErrors.length
+      );
+      for (const errors of aggregateErrors) {
+        console.log(`Error - ${JSON.stringify(errors.cause)}`);
+        console.log(`Log - ${JSON.stringify(errors.failedLogs)}`);
+      }
+    } else {
+      console.log(e);
+    }
+  }
 
   if (failedLogs.length > 0) {
     try {
