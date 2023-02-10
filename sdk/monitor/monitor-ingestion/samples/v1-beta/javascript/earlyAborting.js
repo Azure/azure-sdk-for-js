@@ -2,7 +2,8 @@
 // Licensed under the MIT license.
 
 /**
- * @summary Demonstrates aborting additional processing early if user handle the error and decide continuing is hopeless
+ * @summary Demonstrates aborting additional processing early if
+ * user handles the error and decides that continuing further is hopeless.
  */
 
 const { DefaultAzureCredential } = require("@azure/identity");
@@ -17,14 +18,14 @@ async function main() {
   const client = new LogsIngestionClient(logsIngestionEndpoint, credential);
   let abortController = new AbortController();
 
-  const errorCallback = async function errorCallback(uploadLogsError) {
+  function errorCallback(uploadLogsError) {
     if (
       uploadLogsError.cause.message ===
       "Data collection rule with immutable Id 'immutable-id-123' not found."
     ) {
       abortController.abort();
     }
-  };
+  }
   // Constructing a large number of logs to ensure batching takes place
   const logs = [];
   for (let i = 0; i < 100000; ++i) {

@@ -81,7 +81,7 @@ export class LogsIngestionClient {
           });
         } catch (e: any) {
           if (options?.onError) {
-            await options.onError({ failedLogs: eachChunk, cause: isError(e) ? e : new Error(e) });
+            options.onError({ failedLogs: eachChunk, cause: isError(e) ? e : new Error(e) });
           }
           uploadResultErrors.push({
             cause: e,

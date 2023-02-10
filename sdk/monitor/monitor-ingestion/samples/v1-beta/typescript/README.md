@@ -2,14 +2,14 @@
 
 These sample programs show how to use the TypeScript client libraries for Monitor Ingestion in some common scenarios.
 
-| **File Name**                                       | **Description**                                                                                                         |
-| --------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| [defaultConcurrency.ts][defaultconcurrency]         | Demonstrates uploading a large number of logs where the logs are split into multiple batches and uploaded concurrently. |
-| [earlyAborting.ts][earlyaborting]                   | Demonstrates aborting additional processing early if user handle the error and decide continuing is hopeless            |
-| [logsIngestionClient.ts][logsingestionclient]       | Demonstrates how to upload logs to a Monitor Resource (Log Analytics workspace). The user can track failed log entries. |
-| [uploadCustomLogs.ts][uploadcustomlogs]             | Demonstrates how to upload logs to a Monitor Resource (Log Analytics workspace). The user can track failed log entries. |
-| [userDefinedConcurrency.ts][userdefinedconcurrency] | Demonstrates how to control the number of concurrent requests using the maxConcurrency option                           |
-| [userErrorHandling.ts][usererrorhandling]           | Demonstrates error handling via a user defined error handler.                                                           |
+| **File Name**                                       | **Description**                                                                                                                                                                                  |
+| --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [defaultConcurrency.ts][defaultconcurrency]         | Demonstrates uploading a large number of logs where the logs are split into multiple batches and log batches are uploaded concurrently.                                                          |
+| [earlyAborting.ts][earlyaborting]                   | Demonstrates aborting additional processing early if user handles the error and decides that continuing further is hopeless.                                                                     |
+| [logsIngestionClient.ts][logsingestionclient]       | Demonstrates how to upload logs to a Monitor Resource (Log Analytics workspace). The user can track failed log entries and the associated error message via the AggregateUploadLogsError Object  |
+| [uploadCustomLogs.ts][uploadcustomlogs]             | Demonstrates how to upload logs to a Monitor Resource (Log Analytics workspace). The user can track failed log entries and the associated error message via the AggregateUploadLogsError Object. |
+| [userDefinedConcurrency.ts][userdefinedconcurrency] | Demonstrates how to control the number of concurrent requests using the maxConcurrency option.                                                                                                   |
+| [userErrorHandling.ts][usererrorhandling]           | Demonstrates error handling via a user defined error handler. User can track failed log entries with each error handler.                                                                         |
 
 ## Prerequisites
 

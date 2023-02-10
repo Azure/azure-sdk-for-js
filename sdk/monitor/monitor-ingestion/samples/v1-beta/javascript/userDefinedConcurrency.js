@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 /**
- * @summary Demonstrates how to control the number of concurrent requests using the maxConcurrency option
+ * @summary Demonstrates how to control the number of concurrent requests using the maxConcurrency option.
  */
 
 const { DefaultAzureCredential } = require("@azure/identity");

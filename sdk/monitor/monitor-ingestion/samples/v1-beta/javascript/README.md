@@ -2,14 +2,14 @@
 
 These sample programs show how to use the JavaScript client libraries for Monitor Ingestion in some common scenarios.
 
-| **File Name**                                       | **Description**                                                                                                         |
-| --------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| [defaultConcurrency.js][defaultconcurrency]         | Demonstrates uploading a large number of logs where the logs are split into multiple batches and uploaded concurrently. |
-| [earlyAborting.js][earlyaborting]                   | Demonstrates aborting additional processing early if user handle the error and decide continuing is hopeless            |
-| [logsIngestionClient.js][logsingestionclient]       | Demonstrates how to upload logs to a Monitor Resource (Log Analytics workspace). The user can track failed log entries. |
-| [uploadCustomLogs.js][uploadcustomlogs]             | Demonstrates how to upload logs to a Monitor Resource (Log Analytics workspace). The user can track failed log entries. |
-| [userDefinedConcurrency.js][userdefinedconcurrency] | Demonstrates how to control the number of concurrent requests using the maxConcurrency option                           |
-| [userErrorHandling.js][usererrorhandling]           | Demonstrates error handling via a user defined error handler.                                                           |
+| **File Name**                                       | **Description**                                                                                                                                                                                  |
+| --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [defaultConcurrency.js][defaultconcurrency]         | Demonstrates uploading a large number of logs where the logs are split into multiple batches and log batches are uploaded concurrently.                                                          |
+| [earlyAborting.js][earlyaborting]                   | Demonstrates aborting additional processing early if user handles the error and decides that continuing further is hopeless.                                                                     |
+| [logsIngestionClient.js][logsingestionclient]       | Demonstrates how to upload logs to a Monitor Resource (Log Analytics workspace). The user can track failed log entries and the associated error message via the AggregateUploadLogsError Object  |
+| [uploadCustomLogs.js][uploadcustomlogs]             | Demonstrates how to upload logs to a Monitor Resource (Log Analytics workspace). The user can track failed log entries and the associated error message via the AggregateUploadLogsError Object. |
+| [userDefinedConcurrency.js][userdefinedconcurrency] | Demonstrates how to control the number of concurrent requests using the maxConcurrency option.                                                                                                   |
+| [userErrorHandling.js][usererrorhandling]           | Demonstrates error handling via a user defined error handler. User can track failed log entries with each error handler.                                                                         |
 
 ## Prerequisites
 

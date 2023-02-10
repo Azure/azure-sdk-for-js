@@ -159,19 +159,14 @@ describe("LogsIngestionClient live tests", function () {
     const concurrency = 3;
 
     let errorCallbackCount = 0;
+    let failedLogs: Record<string, unknown>[] = [];
     const errorCallback = async function errorCallback(uploadLogsError: UploadLogsError): Promise<void> {
       if (
         (uploadLogsError.cause as Error).message ===
         "Data collection rule with immutable Id 'immutable-id-123' not found."
       ) {
-        try {
-          await client.upload(getDcrId(), "Custom-MyTableRawData", uploadLogsError.failedLogs, {
-            maxConcurrency: 1,
-          });
-          ++errorCallbackCount;
-        } finally {
-          // do nothing
-        }
+        ++errorCallbackCount;
+        failedLogs.concat(uploadLogsError.failedLogs);
       }
     };
 
@@ -194,6 +189,16 @@ describe("LogsIngestionClient live tests", function () {
       }
     }
     assert.equal(errorCallbackCount, concurrency);
+    if(failedLogs.length > 0){
+      try {
+        await client.upload(getDcrId(), "Custom-MyTableRawData", failedLogs, {
+          maxConcurrency: 1,
+        });
+       
+      } finally {
+        // do nothing
+      }
+    }
     assert.equal(uploadSinon.callCount, 4);
   });
 
@@ -204,7 +209,7 @@ describe("LogsIngestionClient live tests", function () {
 
     const abortController = new AbortController();
     let errorCallbackCount = 0;
-    const errorCallback = async function errorCallback(): Promise<void> {
+    const errorCallback = function errorCallback(): void {
       abortController.abort();
       ++errorCallbackCount;
     };
