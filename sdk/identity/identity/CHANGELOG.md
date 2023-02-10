@@ -5,7 +5,7 @@
 ### Features Added
 
 - Added support to disable instance discovery on AAD credentials.
-- [https://github.com/Azure/azure-sdk-for-js/pull/24180] Added Azure `Developer CLI Credential` and added to `DefaultAzureCredential` [https://github.com/Azure/azure-sdk-for-js/pull/24826]
+- Added `AzureDeveloperCliCredential` [#24180](https://github.com/Azure/azure-sdk-for-js/pull/24180) and added it to the `DefaultAzureCredential` [#24826](https://github.com/Azure/azure-sdk-for-js/pull/24826) auth flow
 ### Breaking Changes
 
 ### Bugs Fixed
