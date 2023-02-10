@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 /**
- * @summary Demonstrates uploading a large number of logs where the logs are split into multiple batches 
+ * @summary Demonstrates uploading a large number of logs where the logs are split into multiple batches
  * and log batches are uploaded concurrently.
  */
 

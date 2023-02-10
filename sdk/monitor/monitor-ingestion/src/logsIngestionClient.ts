@@ -84,7 +84,7 @@ export class LogsIngestionClient {
             options.onError({ failedLogs: eachChunk, cause: isError(e) ? e : new Error(e) });
           }
           uploadResultErrors.push({
-            cause: e,
+            cause: isError(e) ? e : new Error(e),
             failedLogs: eachChunk,
           });
         }

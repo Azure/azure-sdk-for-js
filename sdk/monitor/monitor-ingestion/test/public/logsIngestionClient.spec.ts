@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AggregateUploadLogsError, LogsIngestionClient, UploadLogsError } from "../../src";
+import { isAggregateUploadLogsError, LogsIngestionClient, UploadLogsError } from "../../src";
 import { Context } from "mocha";
 import { assert } from "chai";
 import { AdditionalPolicyConfig } from "@azure/core-client";
@@ -53,44 +53,34 @@ describe("LogsIngestionClient live tests", function () {
   });
 
   it("sends empty data", async function () {
-
     await client.upload(getDcrId(), "Custom-MyTableRawData", []);
-
   });
 
   it("sends basic data", async function () {
-    try {
-      await client.upload(getDcrId(), "Custom-MyTableRawData", [
-        {
-          Time: "2021-12-08T23:51:14.1104269Z",
-          Computer: "Computer1",
-          AdditionalContext: "kaghiya-1",
+    await client.upload(getDcrId(), "Custom-MyTableRawData", [
+      {
+        Time: "2021-12-08T23:51:14.1104269Z",
+        Computer: "Computer1",
+        AdditionalContext: "kaghiya-1",
+      },
+      {
+        Time: "2021-12-08T23:51:14.1104269Z",
+        Computer: "Computer2",
+        AdditionalContext: {
+          InstanceName: "kaghiya-2",
+          TimeZone: "Central Time",
+          Level: 3,
+          CounterName: "test",
+          CounterValue: 23.5,
         },
-        {
-          Time: "2021-12-08T23:51:14.1104269Z",
-          Computer: "Computer2",
-          AdditionalContext: {
-            InstanceName: "kaghiya-2",
-            TimeZone: "Central Time",
-            Level: 3,
-            CounterName: "test",
-            CounterValue: 23.5,
-          },
-        },
-      ]);
-    } catch (e: any) {
-      assert.fail(e);
-    }
+      },
+    ]);
   });
 
   it("Success Test - divides huge data into chunks", async function () {
-    try {
-      await client.upload(getDcrId(), "Custom-MyTableRawData", getObjects(10000), {
-        maxConcurrency: 3,
-      });
-    } catch (e: any) {
-      assert.fail(e);
-    }
+    await client.upload(getDcrId(), "Custom-MyTableRawData", getObjects(10000), {
+      maxConcurrency: 3,
+    });
   });
 
   it("Partial Fail Test - when dcr id is incorrect for alternate requests", async function () {
@@ -110,7 +100,7 @@ describe("LogsIngestionClient live tests", function () {
         maxConcurrency: 3,
       });
     } catch (e: any) {
-      const result = (e as AggregateUploadLogsError).errors;
+      const result = isAggregateUploadLogsError(e) ? e.errors : [];
       if (result.length > 0) {
         result.forEach((err) => {
           assert.equal(
@@ -139,7 +129,7 @@ describe("LogsIngestionClient live tests", function () {
         maxConcurrency: 3,
       });
     } catch (e: any) {
-      const result = (e as AggregateUploadLogsError).errors;
+      const result = isAggregateUploadLogsError(e) ? e.errors : [];
       if (result.length > 0) {
         result.forEach((err) => {
           assert.equal(
@@ -159,8 +149,9 @@ describe("LogsIngestionClient live tests", function () {
     const concurrency = 3;
 
     let errorCallbackCount = 0;
-    let failedLogs: Record<string, unknown>[] = [];
-    const errorCallback = async function errorCallback(uploadLogsError: UploadLogsError): Promise<void> {
+    const failedLogs: Record<string, unknown>[] = [];
+
+    function errorCallback(uploadLogsError: UploadLogsError): void {
       if (
         (uploadLogsError.cause as Error).message ===
         "Data collection rule with immutable Id 'immutable-id-123' not found."
@@ -168,7 +159,7 @@ describe("LogsIngestionClient live tests", function () {
         ++errorCallbackCount;
         failedLogs.concat(uploadLogsError.failedLogs);
       }
-    };
+    }
 
     const uploadSinon = Sinon.spy(LogsIngestionClient.prototype, "upload");
 
@@ -178,7 +169,7 @@ describe("LogsIngestionClient live tests", function () {
         onError: errorCallback,
       });
     } catch (e: any) {
-      const result = (e as AggregateUploadLogsError).errors;
+      const result = isAggregateUploadLogsError(e) ? e.errors : [];
       if (result.length > 0) {
         result.forEach((err) => {
           assert.equal(
@@ -189,12 +180,11 @@ describe("LogsIngestionClient live tests", function () {
       }
     }
     assert.equal(errorCallbackCount, concurrency);
-    if(failedLogs.length > 0){
+    if (failedLogs.length > 0) {
       try {
         await client.upload(getDcrId(), "Custom-MyTableRawData", failedLogs, {
           maxConcurrency: 1,
         });
-       
       } finally {
         // do nothing
       }
@@ -209,10 +199,11 @@ describe("LogsIngestionClient live tests", function () {
 
     const abortController = new AbortController();
     let errorCallbackCount = 0;
-    const errorCallback = function errorCallback(): void {
+
+    function errorCallback(): void {
       abortController.abort();
       ++errorCallbackCount;
-    };
+    }
     try {
       await client.upload("immutable-id-123", "Custom-MyTableRawData", logData, {
         maxConcurrency: concurrency,
@@ -220,7 +211,7 @@ describe("LogsIngestionClient live tests", function () {
         abortSignal: abortController.signal,
       });
     } catch (e: any) {
-      const result = (e as AggregateUploadLogsError).errors;
+      const result = isAggregateUploadLogsError(e) ? e.errors : [];
       if (result.length > 0) {
         assert.equal(
           result[0].cause.message,

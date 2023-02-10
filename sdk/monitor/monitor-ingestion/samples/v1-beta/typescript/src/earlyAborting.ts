@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 /**
- * @summary Demonstrates aborting additional processing early if 
+ * @summary Demonstrates aborting additional processing early if
  * user handles the error and decides that continuing further is hopeless.
  */
 
@@ -29,7 +29,7 @@ async function main() {
     ) {
       abortController.abort();
     }
-  };
+  }
   // Constructing a large number of logs to ensure batching takes place
   const logs = [];
   for (let i = 0; i < 100000; ++i) {

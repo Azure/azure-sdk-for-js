@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 /**
- * @summary Demonstrates how to upload logs to a Monitor Resource (Log Analytics workspace). 
+ * @summary Demonstrates how to upload logs to a Monitor Resource (Log Analytics workspace).
  * The user can track failed log entries and the associated error message via the AggregateUploadLogsError Object.
  */
 import { DefaultAzureCredential } from "@azure/identity";

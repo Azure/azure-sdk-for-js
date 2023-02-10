@@ -7,14 +7,9 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import {
-  LogsIngestionClient,
-  UploadLogsError,
-} from "@azure/monitor-ingestion";
+import { LogsIngestionClient, UploadLogsError } from "@azure/monitor-ingestion";
 
 require("dotenv").config();
-
-
 
 async function main() {
   const logsIngestionEndpoint = process.env.LOGS_INGESTION_ENDPOINT || "logs_ingestion_endpoint";
@@ -32,7 +27,7 @@ async function main() {
     });
   }
 
-  let failedLogs: Record<string,unknown>[] = [];
+  let failedLogs: Record<string, unknown>[] = [];
   async function errorCallback(uploadLogsError: UploadLogsError) {
     if (
       (uploadLogsError.cause as Error).message ===
@@ -49,7 +44,7 @@ async function main() {
     onError: errorCallback,
   });
 
-  if(failedLogs.length > 0){
+  if (failedLogs.length > 0) {
     try {
       await client.upload(ruleId, "Custom-MyTableRawData", failedLogs, {
         maxConcurrency: 1,
@@ -58,8 +53,6 @@ async function main() {
     }
   }
 }
-
-
 
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
