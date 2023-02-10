@@ -21,8 +21,8 @@ flowchart LR;
     classDef developer fill:#F5AF6F, stroke:#EB7C39;
 
     %% Add API ref links to credential type boxes
-    click A "https://docs.microsoft.com/javascript/api/@azure/identity/environmentcredential?view=azure-node-latest" _blank;
-    click B "https://docs.microsoft.com/javascript/api/@azure/identity/managedidentitycredential?view=azure-node-latest" _blank;
-    click D "https://docs.microsoft.com/javascript/api/@azure/identity/azureclicredential?view=azure-node-latest" _blank;
-    click E "https://docs.microsoft.com/javascript/api/@azure/identity/azurepowershellcredential?view=azure-node-latest" _blank;
+    click A "https://learn.microsoft.com/javascript/api/@azure/identity/environmentcredential?view=azure-node-latest" _blank;
+    click B "https://learn.microsoft.com/javascript/api/@azure/identity/managedidentitycredential?view=azure-node-latest" _blank;
+    click D "https://learn.microsoft.com/javascript/api/@azure/identity/azureclicredential?view=azure-node-latest" _blank;
+    click E "https://learn.microsoft.com/javascript/api/@azure/identity/azurepowershellcredential?view=azure-node-latest" _blank;
 ```
