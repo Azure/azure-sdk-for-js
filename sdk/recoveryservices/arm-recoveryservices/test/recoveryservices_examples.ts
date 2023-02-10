@@ -60,7 +60,7 @@ describe("Recoveryservices test", () => {
   it("vaults create test", async function () {
     const res = await client.vaults.beginCreateOrUpdateAndWait(resourceGroup, vaultsName, {
       location: location,
-      properties: {},
+      properties: { publicNetworkAccess: "Enabled" },
       sku: {
         name: "Standard"
       },
