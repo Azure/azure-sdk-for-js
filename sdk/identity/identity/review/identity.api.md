@@ -59,7 +59,7 @@ export interface AuthenticationRequiredErrorOptions {
 // @public
 export interface AuthorityValidationOptions {
     // (undocumented)
-    instanceDiscovery?: boolean;
+    disableInstanceDiscovery?: boolean;
 }
 
 // @public
