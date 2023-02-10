@@ -79,9 +79,7 @@ export function delay(timeInMs: number, options?: DelayOptions): Promise<void> {
   const { abortSignal, abortErrorMsg } = options || {};
   return createAbortablePromise<void>({
     buildPromise: ({ resolve }) => {
-      token = setTimeout(() => {
-        resolve();
-      }, timeInMs);
+      token = setTimeout(resolve, timeInMs);
     },
     cleanupBeforeAbort: () => clearTimeout(token),
   })({

@@ -11,9 +11,7 @@ describe("createAbortablePromise", function () {
   const delayTime = 2500;
   const createPromise = createAbortablePromise<void>({
     buildPromise: ({ resolve }) => {
-      token = setTimeout(() => {
-        resolve();
-      }, delayTime);
+      token = setTimeout(resolve, delayTime);
     },
     cleanupBeforeAbort: () => clearTimeout(token),
   });
