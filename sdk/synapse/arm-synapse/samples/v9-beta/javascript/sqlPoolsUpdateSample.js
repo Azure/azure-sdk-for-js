@@ -13,27 +13,38 @@ const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
 /**
- * This sample demonstrates how to Get all private link resources for a workspaces
+ * This sample demonstrates how to Apply a partial update to a SQL pool
  *
- * @summary Get all private link resources for a workspaces
- * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/ListPrivateLinkResources.json
+ * @summary Apply a partial update to a SQL pool
+ * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/UpdateSqlPool.json
  */
-async function getPrivateLinkResourcesForWorkspace() {
+async function updateASqlAnalyticsPool() {
   const subscriptionId =
     process.env["SYNAPSE_SUBSCRIPTION_ID"] || "01234567-89ab-4def-0123-456789abcdef";
   const resourceGroupName = process.env["SYNAPSE_RESOURCE_GROUP"] || "ExampleResourceGroup";
   const workspaceName = "ExampleWorkspace";
+  const sqlPoolName = "ExampleSqlPool";
+  const sqlPoolInfo = {
+    collation: "",
+    location: "West US 2",
+    maxSizeBytes: 0,
+    restorePointInTime: new Date("1970-01-01T00:00:00.000Z"),
+    sku: { name: "", tier: "" },
+    tags: {},
+  };
   const credential = new DefaultAzureCredential();
   const client = new SynapseManagementClient(credential, subscriptionId);
-  const resArray = new Array();
-  for await (let item of client.privateLinkResources.list(resourceGroupName, workspaceName)) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+  const result = await client.sqlPools.beginUpdateAndWait(
+    resourceGroupName,
+    workspaceName,
+    sqlPoolName,
+    sqlPoolInfo
+  );
+  console.log(result);
 }
 
 async function main() {
-  getPrivateLinkResourcesForWorkspace();
+  updateASqlAnalyticsPool();
 }
 
 main().catch(console.error);

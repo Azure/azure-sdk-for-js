@@ -8,14 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  BigDataPoolResourceInfo,
-  SynapseManagementClient
-} from "@azure/arm-synapse";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+const { SynapseManagementClient } = require("@azure/arm-synapse");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Create a new Big Data pool.
@@ -25,13 +20,11 @@ dotenv.config();
  */
 async function createOrUpdateABigDataPool() {
   const subscriptionId =
-    process.env["SYNAPSE_SUBSCRIPTION_ID"] ||
-    "01234567-89ab-4def-0123-456789abcdef";
-  const resourceGroupName =
-    process.env["SYNAPSE_RESOURCE_GROUP"] || "ExampleResourceGroup";
+    process.env["SYNAPSE_SUBSCRIPTION_ID"] || "01234567-89ab-4def-0123-456789abcdef";
+  const resourceGroupName = process.env["SYNAPSE_RESOURCE_GROUP"] || "ExampleResourceGroup";
   const workspaceName = "ExampleWorkspace";
   const bigDataPoolName = "ExamplePool";
-  const bigDataPoolInfo: BigDataPoolResourceInfo = {
+  const bigDataPoolInfo = {
     autoPause: { delayInMinutes: 15, enabled: true },
     autoScale: { enabled: true, maxNodeCount: 50, minNodeCount: 3 },
     defaultSparkLogFolder: "/logs",
@@ -43,7 +36,7 @@ async function createOrUpdateABigDataPool() {
     nodeSizeFamily: "MemoryOptimized",
     sparkEventsFolder: "/events",
     sparkVersion: "2.4",
-    tags: { key: "value" }
+    tags: { key: "value" },
   };
   const credential = new DefaultAzureCredential();
   const client = new SynapseManagementClient(credential, subscriptionId);

@@ -15,31 +15,33 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Get a firewall rule
+ * This sample demonstrates how to Lists all Kusto pool PrivateLinkResources.
  *
- * @summary Get a firewall rule
- * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/GetIpFirewallRule.json
+ * @summary Lists all Kusto pool PrivateLinkResources.
+ * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/preview/2021-06-01-preview/examples/KustoPoolPrivateLinkResourcesList.json
  */
-async function getIPFirewallRule() {
+async function kustoPoolPrivateLinkResourcesList() {
   const subscriptionId =
     process.env["SYNAPSE_SUBSCRIPTION_ID"] ||
-    "01234567-89ab-4def-0123-456789abcdef";
-  const resourceGroupName =
-    process.env["SYNAPSE_RESOURCE_GROUP"] || "ExampleResourceGroup";
-  const workspaceName = "ExampleWorkspace";
-  const ruleName = "ExampleIpFirewallRule";
+    "7a587823-959d-4ad0-85bd-cf2a7cef436a";
+  const resourceGroupName = process.env["SYNAPSE_RESOURCE_GROUP"] || "DP-900";
+  const workspaceName = "synapse-ws-ebi-data";
+  const kustoPoolName = "dataexplorerpool900";
   const credential = new DefaultAzureCredential();
   const client = new SynapseManagementClient(credential, subscriptionId);
-  const result = await client.ipFirewallRules.get(
+  const resArray = new Array();
+  for await (let item of client.kustoPoolPrivateLinkResourcesOperations.list(
     resourceGroupName,
     workspaceName,
-    ruleName
-  );
-  console.log(result);
+    kustoPoolName
+  )) {
+    resArray.push(item);
+  }
+  console.log(resArray);
 }
 
 async function main() {
-  getIPFirewallRule();
+  kustoPoolPrivateLinkResourcesList();
 }
 
 main().catch(console.error);

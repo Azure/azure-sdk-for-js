@@ -3894,7 +3894,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20230208
+      typescript: 5.0.0-dev.20230209
     dev: false
 
   /downlevel-dts/0.7.0:
@@ -8779,8 +8779,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20230208:
-    resolution: {integrity: sha512-FkUy5kJ7XmLYxej9g9Lq4FMw3P6YjKuesa+1YoLvz2lHZuRuf91VxLsj9DWtknGCmjOVvyu+eefaeVknGTiI/Q==}
+  /typescript/5.0.0-dev.20230209:
+    resolution: {integrity: sha512-EKEs7zC40JV4BTgxULx8oDWSya4r2FeqSVpwuK7ZRu4OBErBo8n59wBAR6r+NBbkxG8JzxMOE2+fazbu/nLi9A==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -9540,7 +9540,7 @@ packages:
     dev: false
 
   file:projects/ai-language-conversations.tgz:
-    resolution: {integrity: sha512-yY5M/gHRLivJs1GxX0ON4tUQ4cHf5jopKrZXfcYjbpPYH4dAIStK1QeWFiG3S79MQ7fTNJMCQb/7RhIL3Gtnrw==, tarball: file:projects/ai-language-conversations.tgz}
+    resolution: {integrity: sha512-BC/j++g/PniHxRt71g8JwkBoi/8VY4QtE6jGA9H4DXcQkptS8F425OsM1rxIzEvFkLnlXPn0voeCHsEKgt9teg==, tarball: file:projects/ai-language-conversations.tgz}
     name: '@rush-temp/ai-language-conversations'
     version: 0.0.0
     dependencies:
@@ -15156,7 +15156,7 @@ packages:
     dev: false
 
   file:projects/arm-synapse.tgz:
-    resolution: {integrity: sha512-C+FlyMV2WA8legPeScAJBSvn4PfRbADxlb6Xy8YKkbW7V/HgQGaTHScKG8UZudhJHBJFcqYXC+uGgO+wVcDJTw==, tarball: file:projects/arm-synapse.tgz}
+    resolution: {integrity: sha512-Hr69M835rmk5CBhOpM331KYs3qJKVtJe5ryZoNM6AV3MAWqSThH6tiyM0UFG6RiP+neZr8FyxfmOXOKUfgm/KA==, tarball: file:projects/arm-synapse.tgz}
     name: '@rush-temp/arm-synapse'
     version: 0.0.0
     dependencies:
@@ -15170,7 +15170,7 @@ packages:
       '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
-      dotenv: 16.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -15756,7 +15756,7 @@ packages:
     dev: false
 
   file:projects/communication-network-traversal.tgz:
-    resolution: {integrity: sha512-EvMiSy2kO8Rqsti4PvmNyb9ftsF47yNGKh857/IbNscxHRSBi73Dbu84ayET/UvRCqTKLwyA2rBLMBs3hM4zaw==, tarball: file:projects/communication-network-traversal.tgz}
+    resolution: {integrity: sha512-j/4HA05kscsrZahh1azdeLjO8ATvGcDxr45jHC30HmwGAkMXjc5ukuNq6yI8TPvwrAPqgKry5uY65kfhISTIUQ==, tarball: file:projects/communication-network-traversal.tgz}
     name: '@rush-temp/communication-network-traversal'
     version: 0.0.0
     dependencies:

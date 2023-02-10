@@ -8,11 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { SynapseManagementClient } from "@azure/arm-synapse";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+const { SynapseManagementClient } = require("@azure/arm-synapse");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Get a firewall rule
@@ -22,19 +20,13 @@ dotenv.config();
  */
 async function getIPFirewallRule() {
   const subscriptionId =
-    process.env["SYNAPSE_SUBSCRIPTION_ID"] ||
-    "01234567-89ab-4def-0123-456789abcdef";
-  const resourceGroupName =
-    process.env["SYNAPSE_RESOURCE_GROUP"] || "ExampleResourceGroup";
+    process.env["SYNAPSE_SUBSCRIPTION_ID"] || "01234567-89ab-4def-0123-456789abcdef";
+  const resourceGroupName = process.env["SYNAPSE_RESOURCE_GROUP"] || "ExampleResourceGroup";
   const workspaceName = "ExampleWorkspace";
   const ruleName = "ExampleIpFirewallRule";
   const credential = new DefaultAzureCredential();
   const client = new SynapseManagementClient(credential, subscriptionId);
-  const result = await client.ipFirewallRules.get(
-    resourceGroupName,
-    workspaceName,
-    ruleName
-  );
+  const result = await client.ipFirewallRules.get(resourceGroupName, workspaceName, ruleName);
   console.log(result);
 }
 

@@ -8,9 +8,11 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-const { SynapseManagementClient } = require("@azure/arm-synapse");
-const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+import { SqlPoolPatchInfo, SynapseManagementClient } from "@azure/arm-synapse";
+import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Apply a partial update to a SQL pool
@@ -20,21 +22,23 @@ require("dotenv").config();
  */
 async function updateASqlAnalyticsPool() {
   const subscriptionId =
-    process.env["SYNAPSE_SUBSCRIPTION_ID"] || "01234567-89ab-4def-0123-456789abcdef";
-  const resourceGroupName = process.env["SYNAPSE_RESOURCE_GROUP"] || "ExampleResourceGroup";
+    process.env["SYNAPSE_SUBSCRIPTION_ID"] ||
+    "01234567-89ab-4def-0123-456789abcdef";
+  const resourceGroupName =
+    process.env["SYNAPSE_RESOURCE_GROUP"] || "ExampleResourceGroup";
   const workspaceName = "ExampleWorkspace";
   const sqlPoolName = "ExampleSqlPool";
-  const sqlPoolInfo = {
+  const sqlPoolInfo: SqlPoolPatchInfo = {
     collation: "",
     location: "West US 2",
     maxSizeBytes: 0,
     restorePointInTime: new Date("1970-01-01T00:00:00.000Z"),
     sku: { name: "", tier: "" },
-    tags: {},
+    tags: {}
   };
   const credential = new DefaultAzureCredential();
   const client = new SynapseManagementClient(credential, subscriptionId);
-  const result = await client.sqlPools.update(
+  const result = await client.sqlPools.beginUpdateAndWait(
     resourceGroupName,
     workspaceName,
     sqlPoolName,

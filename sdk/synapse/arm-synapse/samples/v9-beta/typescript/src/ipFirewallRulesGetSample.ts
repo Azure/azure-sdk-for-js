@@ -8,47 +8,38 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { SqlPoolPatchInfo, SynapseManagementClient } from "@azure/arm-synapse";
+import { SynapseManagementClient } from "@azure/arm-synapse";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
 dotenv.config();
 
 /**
- * This sample demonstrates how to Apply a partial update to a SQL pool
+ * This sample demonstrates how to Get a firewall rule
  *
- * @summary Apply a partial update to a SQL pool
- * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/UpdateSqlPool.json
+ * @summary Get a firewall rule
+ * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/GetIpFirewallRule.json
  */
-async function updateASqlAnalyticsPool() {
+async function getIPFirewallRule() {
   const subscriptionId =
     process.env["SYNAPSE_SUBSCRIPTION_ID"] ||
     "01234567-89ab-4def-0123-456789abcdef";
   const resourceGroupName =
     process.env["SYNAPSE_RESOURCE_GROUP"] || "ExampleResourceGroup";
   const workspaceName = "ExampleWorkspace";
-  const sqlPoolName = "ExampleSqlPool";
-  const sqlPoolInfo: SqlPoolPatchInfo = {
-    collation: "",
-    location: "West US 2",
-    maxSizeBytes: 0,
-    restorePointInTime: new Date("1970-01-01T00:00:00.000Z"),
-    sku: { name: "", tier: "" },
-    tags: {}
-  };
+  const ruleName = "ExampleIpFirewallRule";
   const credential = new DefaultAzureCredential();
   const client = new SynapseManagementClient(credential, subscriptionId);
-  const result = await client.sqlPools.update(
+  const result = await client.ipFirewallRules.get(
     resourceGroupName,
     workspaceName,
-    sqlPoolName,
-    sqlPoolInfo
+    ruleName
   );
   console.log(result);
 }
 
 async function main() {
-  updateASqlAnalyticsPool();
+  getIPFirewallRule();
 }
 
 main().catch(console.error);

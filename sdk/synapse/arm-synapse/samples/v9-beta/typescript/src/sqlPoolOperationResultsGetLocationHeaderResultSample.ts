@@ -8,9 +8,11 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-const { SynapseManagementClient } = require("@azure/arm-synapse");
-const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+import { SynapseManagementClient } from "@azure/arm-synapse";
+import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Get the status of a SQL pool operation
@@ -20,14 +22,16 @@ require("dotenv").config();
  */
 async function getTheResultOfAnOperationOnASqlAnalyticsPool() {
   const subscriptionId =
-    process.env["SYNAPSE_SUBSCRIPTION_ID"] || "01234567-89ab-4def-0123-456789abcdef";
-  const resourceGroupName = process.env["SYNAPSE_RESOURCE_GROUP"] || "ExampleResourceGroup";
+    process.env["SYNAPSE_SUBSCRIPTION_ID"] ||
+    "01234567-89ab-4def-0123-456789abcdef";
+  const resourceGroupName =
+    process.env["SYNAPSE_RESOURCE_GROUP"] || "ExampleResourceGroup";
   const workspaceName = "ExampleWorkspace";
   const sqlPoolName = "ExampleSqlPool";
   const operationId = "fedcba98-7654-4210-fedc-ba9876543210";
   const credential = new DefaultAzureCredential();
   const client = new SynapseManagementClient(credential, subscriptionId);
-  const result = await client.sqlPoolOperationResults.getLocationHeaderResult(
+  const result = await client.sqlPoolOperationResults.beginGetLocationHeaderResultAndWait(
     resourceGroupName,
     workspaceName,
     sqlPoolName,

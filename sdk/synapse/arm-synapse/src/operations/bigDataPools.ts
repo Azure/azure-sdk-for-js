@@ -499,24 +499,16 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   httpMethod: "DELETE",
   responses: {
     200: {
-      bodyMapper: {
-        type: { name: "Dictionary", value: { type: { name: "any" } } }
-      }
+      bodyMapper: Mappers.BigDataPoolResourceInfo
     },
     201: {
-      bodyMapper: {
-        type: { name: "Dictionary", value: { type: { name: "any" } } }
-      }
+      bodyMapper: Mappers.BigDataPoolResourceInfo
     },
     202: {
-      bodyMapper: {
-        type: { name: "Dictionary", value: { type: { name: "any" } } }
-      }
+      bodyMapper: Mappers.BigDataPoolResourceInfo
     },
     204: {
-      bodyMapper: {
-        type: { name: "Dictionary", value: { type: { name: "any" } } }
-      }
+      bodyMapper: Mappers.BigDataPoolResourceInfo
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

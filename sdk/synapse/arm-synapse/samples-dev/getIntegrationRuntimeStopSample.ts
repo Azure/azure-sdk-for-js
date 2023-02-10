@@ -15,31 +15,33 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Get private link resource in workspace
+ * This sample demonstrates how to Get an integration runtime stop operation status
  *
- * @summary Get private link resource in workspace
- * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/GetPrivateLinkResource.json
+ * @summary Get an integration runtime stop operation status
+ * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/preview/2021-06-01-preview/examples/IntegrationRuntimes_Stop_OperationStatus.json
  */
-async function getPrivateLinkResourcesForWorkspace() {
+async function getIntegrationRuntimeOperationStatus() {
   const subscriptionId =
     process.env["SYNAPSE_SUBSCRIPTION_ID"] ||
-    "01234567-89ab-4def-0123-456789abcdef";
+    "2d03866b-587b-4e1f-a2fe-0a55958c655e";
   const resourceGroupName =
-    process.env["SYNAPSE_RESOURCE_GROUP"] || "ExampleResourceGroup";
-  const workspaceName = "ExampleWorkspace";
-  const privateLinkResourceName = "sql";
+    process.env["SYNAPSE_RESOURCE_GROUP"] || "drage-felles-prod-rg";
+  const workspaceName = "felles-prod-synapse-workspace";
+  const integrationRuntimeName = "SSIS-intergrationRuntime-Drage";
+  const integrationRuntimeOperationId = "5752dcdf918e4aecb941245ddf6ebb83";
   const credential = new DefaultAzureCredential();
   const client = new SynapseManagementClient(credential, subscriptionId);
-  const result = await client.privateLinkResources.get(
+  const result = await client.get.integrationRuntimeStop(
     resourceGroupName,
     workspaceName,
-    privateLinkResourceName
+    integrationRuntimeName,
+    integrationRuntimeOperationId
   );
   console.log(result);
 }
 
 async function main() {
-  getPrivateLinkResourcesForWorkspace();
+  getIntegrationRuntimeOperationStatus();
 }
 
 main().catch(console.error);

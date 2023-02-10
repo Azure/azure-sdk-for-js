@@ -13,43 +13,29 @@ const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
 /**
- * This sample demonstrates how to Create a new Big Data pool.
+ * This sample demonstrates how to Get private link resource in workspace
  *
- * @summary Create a new Big Data pool.
- * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/preview/2021-06-01-preview/examples/CreateOrUpdateBigDataPool.json
+ * @summary Get private link resource in workspace
+ * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/GetPrivateLinkResource.json
  */
-async function createOrUpdateABigDataPool() {
+async function getPrivateLinkResourcesForWorkspace() {
   const subscriptionId =
     process.env["SYNAPSE_SUBSCRIPTION_ID"] || "01234567-89ab-4def-0123-456789abcdef";
   const resourceGroupName = process.env["SYNAPSE_RESOURCE_GROUP"] || "ExampleResourceGroup";
   const workspaceName = "ExampleWorkspace";
-  const bigDataPoolName = "ExamplePool";
-  const bigDataPoolInfo = {
-    autoPause: { delayInMinutes: 15, enabled: true },
-    autoScale: { enabled: true, maxNodeCount: 50, minNodeCount: 3 },
-    defaultSparkLogFolder: "/logs",
-    libraryRequirements: { content: "", filename: "requirements.txt" },
-    location: "West US 2",
-    nodeCount: 4,
-    nodeSize: "Medium",
-    nodeSizeFamily: "MemoryOptimized",
-    sparkEventsFolder: "/events",
-    sparkVersion: "2.4",
-    tags: { key: "value" },
-  };
+  const privateLinkResourceName = "sql";
   const credential = new DefaultAzureCredential();
   const client = new SynapseManagementClient(credential, subscriptionId);
-  const result = await client.bigDataPools.beginCreateOrUpdateAndWait(
+  const result = await client.privateLinkResourcesOperations.get(
     resourceGroupName,
     workspaceName,
-    bigDataPoolName,
-    bigDataPoolInfo
+    privateLinkResourceName
   );
   console.log(result);
 }
 
 async function main() {
-  createOrUpdateABigDataPool();
+  getPrivateLinkResourcesForWorkspace();
 }
 
 main().catch(console.error);

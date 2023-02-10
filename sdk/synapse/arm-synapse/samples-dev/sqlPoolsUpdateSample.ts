@@ -38,7 +38,7 @@ async function updateASqlAnalyticsPool() {
   };
   const credential = new DefaultAzureCredential();
   const client = new SynapseManagementClient(credential, subscriptionId);
-  const result = await client.sqlPools.update(
+  const result = await client.sqlPools.beginUpdateAndWait(
     resourceGroupName,
     workspaceName,
     sqlPoolName,
