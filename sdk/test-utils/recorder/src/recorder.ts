@@ -21,7 +21,7 @@ import {
   RecordingStateManager,
 } from "./utils/utils";
 import { Test } from "mocha";
-import { sessionFilePath } from "./utils/sessionFilePath";
+import { assetsJsonPath, sessionFilePath } from "./utils/sessionFilePath";
 import { SanitizerOptions } from "./utils/utils";
 import { paths } from "./utils/paths";
 import { addSanitizers, transformsInfo } from "./sanitizer";
@@ -43,7 +43,6 @@ import { isNode } from "@azure/core-util";
 import { env } from "./utils/env";
 import { decodeBase64 } from "./utils/encoding";
 import { isHttpHeadersLike } from "./utils/typeGuards";
-import { relativeAssetsPath } from "./utils/relativePathCalculator";
 
 /**
  * This client manages the recorder life cycle and interacts with the proxy-tool to do the recording,
@@ -70,7 +69,7 @@ export class Recorder {
     if (isRecordMode() || isPlaybackMode()) {
       if (this.testContext) {
         this.sessionFile = sessionFilePath(this.testContext);
-        this.assetsJson = relativeAssetsPath();
+        this.assetsJson = assetsJsonPath();
 
         logger.info(`[Recorder#constructor] Using a session file located at ${this.sessionFile}`);
         this.httpClient = createDefaultHttpClient();
@@ -260,10 +259,39 @@ export class Recorder {
         logger.verbose("[Recorder#start] Setting redirect mode");
         await setRecordingOptions(Recorder.url, this.httpClient, { handleRedirects: !isNode });
         logger.verbose("[Recorder#start] Sending the start request to the test proxy");
-        const rsp = await this.httpClient.sendRequest({
+        let rsp = await this.httpClient.sendRequest({
           ...req,
           allowInsecureConnection: true,
         });
+
+        // If the error is due to the assets.json not existing, try again without specifying an assets.json. This will
+        // occur with SDKs that have not migrated to asset sync yet.
+        // TODO: remove once everyone has migrated to asset sync
+        if (rsp.status === 400 && rsp.headers.get("x-request-known-exception") === "true") {
+          const errorMessage = decodeBase64(rsp.headers.get("x-request-known-exception-error")!);
+          if (
+            errorMessage.includes("The provided assets") &&
+            errorMessage.includes("does not exist")
+          ) {
+            logger.info(
+              "[Recorder#start] start request failed, trying again without assets.json specified"
+            );
+
+            const retryRequest = createRecordingRequest(
+              startUri,
+              this.sessionFile,
+              this.recordingId,
+              "POST",
+              undefined
+            );
+
+            rsp = await this.httpClient.sendRequest({
+              ...retryRequest,
+              allowInsecureConnection: true,
+            });
+          }
+        }
+
         if (rsp.status !== 200) {
           logger.error("[Recorder#start] Could not start the recorder", rsp);
           throw new RecorderError("Start request failed.");

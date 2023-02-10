@@ -30,7 +30,7 @@
         "x-ms-routing-request-id": "KOREASOUTH:20221228T013331Z:5be030e0-1e95-4d5b-9b3a-31086e5074f7"
       },
       "ResponseBody": {
-        "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.AVS/privateClouds/cloud1",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AVS/privateClouds/cloud1",
         "identity": {
           "principalId": "bf34f8f7-cdd0-489e-aa35-84b45e0bd984",
           "tenantId": "88888888-8888-8888-8888-888888888888",

@@ -4,7 +4,7 @@
 import { ServiceClient } from "@azure/core-client";
 import { env, isPlaybackMode, Recorder } from "../src";
 import { TestMode } from "../src/utils/utils";
-import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./utils/utils";
+import { TEST_SERVER_URL, makeRequestAndVerifyResponse, setTestMode } from "./utils/utils";
 import { v4 as generateUuid } from "uuid";
 
 // These tests require the following to be running in parallel
@@ -24,7 +24,7 @@ import { v4 as generateUuid } from "uuid";
 
     beforeEach(async function () {
       recorder = new Recorder(this.currentTest);
-      client = new ServiceClient(recorder.configureClientOptions({ baseUri: getTestServerUrl() }));
+      client = new ServiceClient(recorder.configureClientOptions({ baseUri: TEST_SERVER_URL }));
       currentValue = isPlaybackMode() ? fakeSecretValue : secretValue;
     });
 
@@ -181,7 +181,7 @@ import { v4 as generateUuid } from "uuid";
           client,
           {
             url: isPlaybackMode()
-              ? getTestServerUrl().replace(secretEndpoint, fakeEndpoint) + pathToHit
+              ? TEST_SERVER_URL.replace(secretEndpoint, fakeEndpoint) + pathToHit
               : undefined,
             path: pathToHit,
             method: "POST",

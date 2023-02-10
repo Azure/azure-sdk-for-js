@@ -60,7 +60,7 @@
               "provisioningState": "Succeeded",
               "buildTimeoutInMinutes": 0,
               "stagingResourceGroup": "",
-              "exactStagingResourceGroup": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/IT_myjstest_myimageTemplatexxxz_9eded134-5c02-4bbf-9482-8af8380f2e32"
+              "exactStagingResourceGroup": "/subscriptions/azure_subscription_id/resourceGroups/IT_myjstest_myimageTemplatexxxz_9eded134-5c02-4bbf-9482-8af8380f2e32"
             },
             "identity": {
               "type": "UserAssigned",
@@ -76,7 +76,7 @@
               "tag2": "IT2_T2"
             },
             "location": "eastus",
-            "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourcegroups/myjstest/providers/Microsoft.VirtualMachineImages/imageTemplates/myimageTemplatexxxz",
+            "id": "/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/Microsoft.VirtualMachineImages/imageTemplates/myimageTemplatexxxz",
             "name": "myimageTemplatexxxz",
             "type": "Microsoft.VirtualMachineImages/imageTemplates"
           }

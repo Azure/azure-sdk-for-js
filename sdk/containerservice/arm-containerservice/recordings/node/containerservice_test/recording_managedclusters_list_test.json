@@ -33,7 +33,7 @@
       "ResponseBody": {
         "value": [
           {
-            "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourcegroups/myjstest/providers/Microsoft.ContainerService/managedClusters/myreourcexyz",
+            "id": "/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/Microsoft.ContainerService/managedClusters/myreourcexyz",
             "location": "eastus",
             "name": "myreourcexyz",
             "type": "Microsoft.ContainerService/ManagedClusters",
@@ -87,7 +87,7 @@
                   },
                   "effectiveOutboundIPs": [
                     {
-                      "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/MC_myjstest_myreourcexyz_eastus/providers/Microsoft.Network/publicIPAddresses/69178596-d780-4baf-a021-de067c75aa63"
+                      "id": "/subscriptions/azure_subscription_id/resourceGroups/MC_myjstest_myreourcexyz_eastus/providers/Microsoft.Network/publicIPAddresses/69178596-d780-4baf-a021-de067c75aa63"
                     }
                   ],
                   "backendPoolType": "nodeIPConfiguration"
@@ -97,9 +97,15 @@
                 "dnsServiceIP": "10.0.0.10",
                 "dockerBridgeCidr": "172.17.0.1/16",
                 "outboundType": "loadBalancer",
-                "podCidrs": ["10.244.0.0/16"],
-                "serviceCidrs": ["10.0.0.0/16"],
-                "ipFamilies": ["IPv4"]
+                "podCidrs": [
+                  "10.244.0.0/16"
+                ],
+                "serviceCidrs": [
+                  "10.0.0.0/16"
+                ],
+                "ipFamilies": [
+                  "IPv4"
+                ]
               },
               "maxAgentPools": 100,
               "securityProfile": {},

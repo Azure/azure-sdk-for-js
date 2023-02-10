@@ -30,7 +30,7 @@
       "StatusCode": 200,
       "ResponseHeaders": {
         "Azure-AsyncNotification": "Enabled",
-        "Azure-AsyncOperation": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.Compute/locations/eastus/operations/1af53af3-7845-46c2-b6ae-c91d739cf06b?p=f8cfeb74-5cf7-40e0-89b1-3d95a1060fe7\u0026api-version=2022-11-01",
+        "Azure-AsyncOperation": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.Compute/locations/eastus/operations/1af53af3-7845-46c2-b6ae-c91d739cf06b?p=f8cfeb74-5cf7-40e0-89b1-3d95a1060fe7\u0026api-version=2022-11-01",
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
@@ -53,7 +53,7 @@
       },
       "ResponseBody": {
         "name": "virtualmachinex",
-        "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Compute/virtualMachines/virtualmachinex",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Compute/virtualMachines/virtualmachinex",
         "type": "Microsoft.Compute/virtualMachines",
         "location": "eastus",
         "tags": {
@@ -80,7 +80,7 @@
               "caching": "ReadWrite",
               "managedDisk": {
                 "storageAccountType": "Standard_LRS",
-                "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Compute/disks/myVMosdisk"
+                "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Compute/disks/myVMosdisk"
               },
               "deleteOption": "Detach",
               "diskSizeGB": 127
@@ -93,7 +93,7 @@
                 "caching": "None",
                 "managedDisk": {
                   "storageAccountType": "Standard_LRS",
-                  "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Compute/disks/virtualmachinex_disk2_dece6b76277945daa291a30d0a7c7a0c"
+                  "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Compute/disks/virtualmachinex_disk2_dece6b76277945daa291a30d0a7c7a0c"
                 },
                 "deleteOption": "Detach",
                 "diskSizeGB": 1023,
@@ -106,7 +106,7 @@
                 "caching": "None",
                 "managedDisk": {
                   "storageAccountType": "Standard_LRS",
-                  "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Compute/disks/virtualmachinex_disk3_0489e7cff4de4582890719b69d329c40"
+                  "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Compute/disks/virtualmachinex_disk3_0489e7cff4de4582890719b69d329c40"
                 },
                 "deleteOption": "Detach",
                 "diskSizeGB": 1023,
@@ -133,7 +133,7 @@
           "networkProfile": {
             "networkInterfaces": [
               {
-                "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Network/networkInterfaces/interfacex",
+                "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/networkInterfaces/interfacex",
                 "properties": {
                   "primary": true
                 }
@@ -146,7 +146,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.Compute/locations/eastus/operations/1af53af3-7845-46c2-b6ae-c91d739cf06b?p=f8cfeb74-5cf7-40e0-89b1-3d95a1060fe7\u0026api-version=2022-11-01",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.Compute/locations/eastus/operations/1af53af3-7845-46c2-b6ae-c91d739cf06b?p=f8cfeb74-5cf7-40e0-89b1-3d95a1060fe7\u0026api-version=2022-11-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -223,7 +223,7 @@
       },
       "ResponseBody": {
         "name": "virtualmachinex",
-        "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Compute/virtualMachines/virtualmachinex",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Compute/virtualMachines/virtualmachinex",
         "type": "Microsoft.Compute/virtualMachines",
         "location": "eastus",
         "tags": {
@@ -250,7 +250,7 @@
               "caching": "ReadWrite",
               "managedDisk": {
                 "storageAccountType": "Standard_LRS",
-                "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Compute/disks/myVMosdisk"
+                "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Compute/disks/myVMosdisk"
               },
               "deleteOption": "Detach",
               "diskSizeGB": 127
@@ -263,7 +263,7 @@
                 "caching": "None",
                 "managedDisk": {
                   "storageAccountType": "Standard_LRS",
-                  "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Compute/disks/virtualmachinex_disk2_dece6b76277945daa291a30d0a7c7a0c"
+                  "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Compute/disks/virtualmachinex_disk2_dece6b76277945daa291a30d0a7c7a0c"
                 },
                 "deleteOption": "Detach",
                 "diskSizeGB": 1023,
@@ -276,7 +276,7 @@
                 "caching": "None",
                 "managedDisk": {
                   "storageAccountType": "Standard_LRS",
-                  "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Compute/disks/virtualmachinex_disk3_0489e7cff4de4582890719b69d329c40"
+                  "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Compute/disks/virtualmachinex_disk3_0489e7cff4de4582890719b69d329c40"
                 },
                 "deleteOption": "Detach",
                 "diskSizeGB": 1023,
@@ -303,7 +303,7 @@
           "networkProfile": {
             "networkInterfaces": [
               {
-                "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Network/networkInterfaces/interfacex",
+                "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/networkInterfaces/interfacex",
                 "properties": {
                   "primary": true
                 }

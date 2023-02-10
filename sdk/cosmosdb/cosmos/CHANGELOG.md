@@ -9,6 +9,8 @@
 
 ### Bugs Fixed
 
+- Fix issue with GlobalEndpointManager never makes endpoints available after they fall-back [#22726](https://github.com/Azure/azure-sdk-for-js/issues/22726)
+
 ### Other Changes
 
 ## 3.17.2 (2022-11-15)

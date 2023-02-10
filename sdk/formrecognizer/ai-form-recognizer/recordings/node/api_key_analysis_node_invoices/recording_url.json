@@ -10,134 +10,110 @@
         "Content-Length": "73",
         "Content-Type": "application/json",
         "Ocp-Apim-Subscription-Key": "api_key",
-        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Linux-5.19.6-200.fc36.x86_64)",
-        "x-ms-client-request-id": "4bb2c214-9123-42d6-beb2-0038126763b8"
+        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0 core-rest-pipeline/1.10.2 Node/v18.12.1 OS/(x64-Linux-5.4.0-1100-azure)",
+        "x-ms-client-request-id": "f5539b17-55f9-4014-882c-9fc8396a2f2a"
       },
       "RequestBody": {
         "urlSource": "https://storageaccount/testingdata/Invoice_1.pdf?sastoken"
       },
       "StatusCode": 202,
       "ResponseHeaders": {
-        "apim-request-id": "8df7fd38-74ca-4666-84c1-d89cffc012b5",
+        "apim-request-id": "1fb6db26-b372-4245-b0eb-00bd1723188b",
         "Content-Length": "0",
-        "Date": "Thu, 08 Sep 2022 00:30:34 GMT",
-        "Operation-Location": "https://endpoint/formrecognizer/documentModels/prebuilt-invoice/analyzeResults/8df7fd38-74ca-4666-84c1-d89cffc012b5?api-version=2022-08-31",
+        "Date": "Fri, 03 Feb 2023 04:30:13 GMT",
+        "Operation-Location": "https://endpoint/formrecognizer/documentModels/prebuilt-invoice/analyzeResults/1fb6db26-b372-4245-b0eb-00bd1723188b?api-version=2022-08-31",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "282"
+        "x-envoy-upstream-service-time": "143",
+        "x-ms-region": "West US"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://endpoint/formrecognizer/documentModels/prebuilt-invoice/analyzeResults/8df7fd38-74ca-4666-84c1-d89cffc012b5?api-version=2022-08-31",
+      "RequestUri": "https://endpoint/formrecognizer/documentModels/prebuilt-invoice/analyzeResults/1fb6db26-b372-4245-b0eb-00bd1723188b?api-version=2022-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
         "Ocp-Apim-Subscription-Key": "api_key",
-        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Linux-5.19.6-200.fc36.x86_64)",
-        "x-ms-client-request-id": "84e8e497-6a9c-41b3-a4e2-212370364078"
+        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0 core-rest-pipeline/1.10.2 Node/v18.12.1 OS/(x64-Linux-5.4.0-1100-azure)",
+        "x-ms-client-request-id": "8abe9395-3fce-4a76-b0f5-b948c871151c"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "3c5a8738-7f19-444f-b1f0-53c4e972754b",
+        "apim-request-id": "fe172ed9-c4d7-43dc-9dc0-b46b0c272244",
         "Content-Length": "106",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 08 Sep 2022 00:30:34 GMT",
+        "Date": "Fri, 03 Feb 2023 04:30:13 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "13"
+        "x-envoy-upstream-service-time": "22",
+        "x-ms-region": "West US"
       },
       "ResponseBody": {
         "status": "running",
-        "createdDateTime": "2022-09-08T00:30:35Z",
-        "lastUpdatedDateTime": "2022-09-08T00:30:35Z"
+        "createdDateTime": "2023-02-03T04:30:13Z",
+        "lastUpdatedDateTime": "2023-02-03T04:30:13Z"
       }
     },
     {
-      "RequestUri": "https://endpoint/formrecognizer/documentModels/prebuilt-invoice/analyzeResults/8df7fd38-74ca-4666-84c1-d89cffc012b5?api-version=2022-08-31",
+      "RequestUri": "https://endpoint/formrecognizer/documentModels/prebuilt-invoice/analyzeResults/1fb6db26-b372-4245-b0eb-00bd1723188b?api-version=2022-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
         "Ocp-Apim-Subscription-Key": "api_key",
-        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Linux-5.19.6-200.fc36.x86_64)",
-        "x-ms-client-request-id": "cc87e451-1730-498b-8132-e9d3c21528db"
+        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0 core-rest-pipeline/1.10.2 Node/v18.12.1 OS/(x64-Linux-5.4.0-1100-azure)",
+        "x-ms-client-request-id": "df54ced7-0b3a-42c4-acb8-fb12f915b1c1"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "96a48057-d845-484d-b588-3ef4d2ac7dc1",
+        "apim-request-id": "c504a2ba-fe60-4ecf-8b9b-600681f6da80",
         "Content-Length": "106",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 08 Sep 2022 00:30:35 GMT",
+        "Date": "Fri, 03 Feb 2023 04:30:13 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "13"
+        "x-envoy-upstream-service-time": "11",
+        "x-ms-region": "West US"
       },
       "ResponseBody": {
         "status": "running",
-        "createdDateTime": "2022-09-08T00:30:35Z",
-        "lastUpdatedDateTime": "2022-09-08T00:30:35Z"
+        "createdDateTime": "2023-02-03T04:30:13Z",
+        "lastUpdatedDateTime": "2023-02-03T04:30:13Z"
       }
     },
     {
-      "RequestUri": "https://endpoint/formrecognizer/documentModels/prebuilt-invoice/analyzeResults/8df7fd38-74ca-4666-84c1-d89cffc012b5?api-version=2022-08-31",
+      "RequestUri": "https://endpoint/formrecognizer/documentModels/prebuilt-invoice/analyzeResults/1fb6db26-b372-4245-b0eb-00bd1723188b?api-version=2022-08-31",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
         "Ocp-Apim-Subscription-Key": "api_key",
-        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Linux-5.19.6-200.fc36.x86_64)",
-        "x-ms-client-request-id": "6269d775-b788-4821-81bb-4b2ef6b22474"
+        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0 core-rest-pipeline/1.10.2 Node/v18.12.1 OS/(x64-Linux-5.4.0-1100-azure)",
+        "x-ms-client-request-id": "97bab6b0-fecd-465a-9bb2-fc58b16ffecf"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "63bf0411-7efa-4e43-97fd-31d2fd64dd5d",
-        "Content-Length": "106",
+        "apim-request-id": "526e72ef-a8bc-42fb-bc98-18ee60f3dda0",
+        "Content-Length": "19307",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 08 Sep 2022 00:30:40 GMT",
+        "Date": "Fri, 03 Feb 2023 04:30:18 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "15"
-      },
-      "ResponseBody": {
-        "status": "running",
-        "createdDateTime": "2022-09-08T00:30:35Z",
-        "lastUpdatedDateTime": "2022-09-08T00:30:39Z"
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/formrecognizer/documentModels/prebuilt-invoice/analyzeResults/8df7fd38-74ca-4666-84c1-d89cffc012b5?api-version=2022-08-31",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
-        "Connection": "keep-alive",
-        "Ocp-Apim-Subscription-Key": "api_key",
-        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Linux-5.19.6-200.fc36.x86_64)",
-        "x-ms-client-request-id": "8ed794f8-f611-4f7c-8400-1bd734b9d53b"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "apim-request-id": "c3ca31c1-2605-4d96-9ba8-252afe23a502",
-        "Content-Length": "19055",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 08 Sep 2022 00:30:45 GMT",
-        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
-        "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "44"
+        "x-envoy-upstream-service-time": "37",
+        "x-ms-region": "West US"
       },
       "ResponseBody": {
         "status": "succeeded",
-        "createdDateTime": "2022-09-08T00:30:35Z",
-        "lastUpdatedDateTime": "2022-09-08T00:30:41Z",
+        "createdDateTime": "2023-02-03T04:30:13Z",
+        "lastUpdatedDateTime": "2023-02-03T04:30:18Z",
         "analyzeResult": {
           "apiVersion": "2022-08-31",
           "modelId": "prebuilt-invoice",
@@ -2223,7 +2199,7 @@
                       ]
                     }
                   ],
-                  "confidence": 0.803,
+                  "confidence": 0.756,
                   "spans": [
                     {
                       "offset": 83,
@@ -2255,7 +2231,7 @@
                       ]
                     }
                   ],
-                  "confidence": 0.987,
+                  "confidence": 0.757,
                   "spans": [
                     {
                       "offset": 73,
@@ -2282,7 +2258,7 @@
                       ]
                     }
                   ],
-                  "confidence": 0.987,
+                  "confidence": 0.757,
                   "spans": [
                     {
                       "offset": 73,
@@ -2336,7 +2312,7 @@
                       ]
                     }
                   ],
-                  "confidence": 0.44,
+                  "confidence": 0.987,
                   "spans": [
                     {
                       "offset": 193,
@@ -2363,7 +2339,7 @@
                       ]
                     }
                   ],
-                  "confidence": 0.987,
+                  "confidence": 0.984,
                   "spans": [
                     {
                       "offset": 184,
@@ -2393,7 +2369,7 @@
                       ]
                     }
                   ],
-                  "confidence": 0.422,
+                  "confidence": 0.588,
                   "spans": [
                     {
                       "offset": 213,
@@ -2439,19 +2415,19 @@
                         },
                         "Date": {
                           "type": "date",
-                          "valueDate": "2017-06-18",
-                          "content": "6/18/2017",
+                          "valueDate": "2017-06-24",
+                          "content": "6/24/2017",
                           "boundingRegions": [
                             {
                               "pageNumber": 1,
                               "polygon": [
-                                1.9455,
+                                3.346,
                                 3.41,
-                                2.551,
+                                3.9514,
                                 3.41,
-                                2.551,
+                                3.9514,
                                 3.5144,
-                                1.9455,
+                                3.346,
                                 3.5144
                               ]
                             }
@@ -2459,7 +2435,7 @@
                           "confidence": 0.984,
                           "spans": [
                             {
-                              "offset": 193,
+                              "offset": 203,
                               "length": 9
                             }
                           ]
@@ -2483,11 +2459,41 @@
                               ]
                             }
                           ],
-                          "confidence": 0.444,
+                          "confidence": 0.66,
                           "spans": [
                             {
                               "offset": 184,
                               "length": 8
+                            }
+                          ]
+                        },
+                        "Tax": {
+                          "type": "currency",
+                          "valueCurrency": {
+                            "currencySymbol": "",
+                            "amount": 0.0
+                          },
+                          "content": "PT",
+                          "boundingRegions": [
+                            {
+                              "pageNumber": 1,
+                              "polygon": [
+                                6.2285,
+                                3.4114,
+                                6.3919,
+                                3.4114,
+                                6.3919,
+                                3.5119,
+                                6.2285,
+                                3.5119
+                              ]
+                            }
+                          ],
+                          "confidence": 0.925,
+                          "spans": [
+                            {
+                              "offset": 224,
+                              "length": 2
                             }
                           ]
                         }
@@ -2536,7 +2542,7 @@
                       ]
                     }
                   ],
-                  "confidence": 0.308,
+                  "confidence": 0.306,
                   "spans": [
                     {
                       "offset": 17,
@@ -2572,7 +2578,7 @@
                       ]
                     }
                   ],
-                  "confidence": 0.673,
+                  "confidence": 0.668,
                   "spans": [
                     {
                       "offset": 0,
