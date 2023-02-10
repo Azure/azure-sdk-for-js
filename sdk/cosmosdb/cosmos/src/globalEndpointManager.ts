@@ -3,7 +3,7 @@
 import { OperationType, ResourceType, isReadRequest } from "./common";
 import { CosmosClientOptions } from "./CosmosClientOptions";
 import { Location, DatabaseAccount } from "./documents";
-import { RequestOptions } from "./index";
+import { Constants, RequestOptions } from "./index";
 import { ResourceResponse } from "./request";
 
 /**
@@ -27,6 +27,8 @@ export class GlobalEndpointManager {
   private preferredLocations: string[];
   private writeableLocations: Location[] = [];
   private readableLocations: Location[] = [];
+  private unavailableReadableLocations: Location[] = [];
+  private unavailableWriteableLocations: Location[] = [];
 
   /**
    * @param options - The document client instance.
@@ -71,6 +73,8 @@ export class GlobalEndpointManager {
     const location = this.readableLocations.find((loc) => loc.databaseAccountEndpoint === endpoint);
     if (location) {
       location.unavailable = true;
+      location.lastUnavailabilityTimestampInMs = Date.now();
+      this.unavailableReadableLocations.push(location);
     }
   }
 
@@ -81,6 +85,8 @@ export class GlobalEndpointManager {
     );
     if (location) {
       location.unavailable = true;
+      location.lastUnavailabilityTimestampInMs = Date.now();
+      this.unavailableWriteableLocations.push(location);
     }
   }
 
@@ -147,23 +153,23 @@ export class GlobalEndpointManager {
         return loc.unavailable !== true;
       });
     }
-
     return location ? location.databaseAccountEndpoint : this.defaultEndpoint;
   }
 
   /**
-   * Refreshes the endpoint list by retrieving the writable and readable locations
-   *  from the geo-replicated database account and then updating the locations cache.
-   *   We skip the refreshing if enableEndpointDiscovery is set to False
+   * Refreshes the endpoint list by clearning stale unavailability and then
+   *  retrieving the writable and readable locations from the geo-replicated database account
+   *  and then updating the locations cache.
+   *  We skip the refreshing if enableEndpointDiscovery is set to False
    */
   public async refreshEndpointList(): Promise<void> {
     if (!this.isRefreshing && this.enableEndpointDiscovery) {
       this.isRefreshing = true;
       const databaseAccount = await this.getDatabaseAccountFromAnyEndpoint();
       if (databaseAccount) {
+        this.refreshStaleUnavailableLocations();
         this.refreshEndpoints(databaseAccount);
       }
-
       this.isRefreshing = false;
     }
   }
@@ -181,6 +187,51 @@ export class GlobalEndpointManager {
         this.readableLocations.push(location);
       }
     }
+  }
+
+  private refreshStaleUnavailableLocations(): void {
+    const now = Date.now();
+    this.updateLocation(now, this.unavailableReadableLocations, this.readableLocations);
+    this.unavailableReadableLocations = this.cleanUnavailableLocationList(
+      now,
+      this.unavailableReadableLocations
+    );
+
+    this.updateLocation(now, this.unavailableWriteableLocations, this.writeableLocations);
+    this.unavailableWriteableLocations = this.cleanUnavailableLocationList(
+      now,
+      this.unavailableWriteableLocations
+    );
+  }
+
+  /**
+   * update the locationUnavailability to undefined if the location is available again
+   * @param now - current time
+   * @param unavailableLocations - list of unavailable locations
+   * @param allLocations - list of all locations
+   */
+  private updateLocation(now: number, unavailableLocations: Location[], allLocations: Location[]) {
+    for (const location of unavailableLocations) {
+      const unavaialableLocation = allLocations.find((loc) => loc.name === location.name);
+      if (
+        unavaialableLocation &&
+        now - unavaialableLocation.lastUnavailabilityTimestampInMs >
+          Constants.LocationUnavailableExpirationTimeInMs
+      ) {
+        unavaialableLocation.unavailable = false;
+      }
+    }
+  }
+
+  private cleanUnavailableLocationList(now: number, unavailableLocations: Location[]): Location[] {
+    return unavailableLocations.filter((loc) => {
+      if (
+        loc &&
+        now - loc.lastUnavailabilityTimestampInMs >= Constants.LocationUnavailableExpirationTimeInMs
+      ) {
+        return true;
+      }
+    });
   }
 
   /**
