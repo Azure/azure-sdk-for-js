@@ -20,52 +20,56 @@ export interface DelayOptions {
 }
 
 /**
- *
- * @param inputs - The inputs for creating an abortable promise are the
- *                 buildPromise function and the cleanupBeforeAbort function.
- *                 buildPromise takes both the resolve and reject functions as
- *                 parameters. cleanupBeforeAbort is called right before the
- *                 promise is rejected.
- * @returns a function that takes an optional DelayOptions parameter and returns
- *          a promise that can be aborted.
+ * Creates an abortable promise.
+ * @param buildPromise - A function that takes the resolve and reject functions as parameters.
+ * @param options - The options for the abortable promise.
+ * @returns A promise that can be aborted.
  * @internal
  */
-export function createAbortablePromise<T>(inputs: {
-  buildPromise: (inputs: {
-    resolve: (value: T | PromiseLike<T>) => void;
-    reject: (reason?: any) => void;
-  }) => void;
-  cleanupBeforeAbort?: () => void;
-}): (options?: DelayOptions) => Promise<T> {
-  const { buildPromise, cleanupBeforeAbort } = inputs;
-  return ({ abortSignal, abortErrorMsg } = {}) =>
-    new Promise((resolve, reject) => {
-      function rejectOnAbort(): void {
-        reject(new AbortError(abortErrorMsg ?? "The operation was aborted."));
-      }
-      function removeListeners(): void {
-        abortSignal?.removeEventListener("abort", onAbort);
-      }
-      function onAbort(): void {
-        cleanupBeforeAbort?.();
-        removeListeners();
-        rejectOnAbort();
-      }
-      if (abortSignal?.aborted) {
-        return rejectOnAbort();
-      }
-      buildPromise({
-        resolve: (x) => {
+export function createAbortablePromise<T>(
+  buildPromise: (
+    resolve: (value: T | PromiseLike<T>) => void,
+    reject: (reason?: any) => void
+  ) => void,
+  options: {
+    cleanupBeforeAbort?: () => void;
+    abortSignal?: AbortSignalLike;
+    abortErrorMsg?: string;
+  }
+): Promise<T> {
+  const { cleanupBeforeAbort, abortSignal, abortErrorMsg } = options;
+  return new Promise((resolve, reject) => {
+    function rejectOnAbort(): void {
+      reject(new AbortError(abortErrorMsg ?? "The operation was aborted."));
+    }
+    function removeListeners(): void {
+      abortSignal?.removeEventListener("abort", onAbort);
+    }
+    function onAbort(): void {
+      cleanupBeforeAbort?.();
+      removeListeners();
+      rejectOnAbort();
+    }
+    if (abortSignal?.aborted) {
+      return rejectOnAbort();
+    }
+    try {
+      buildPromise(
+        (x) => {
           removeListeners();
           resolve(x);
         },
-        reject: (x) => {
+        (x) => {
           removeListeners();
           reject(x);
-        },
-      });
-      abortSignal?.addEventListener("abort", onAbort);
-    });
+        }
+      );
+    } catch (err) {
+      reject(err);
+    }
+
+    abortSignal?.addEventListener("abort", onAbort);
+  });
 }
 
 /**
@@ -77,13 +81,14 @@ export function createAbortablePromise<T>(inputs: {
 export function delay(timeInMs: number, options?: DelayOptions): Promise<void> {
   let token: ReturnType<typeof setTimeout>;
   const { abortSignal, abortErrorMsg } = options || {};
-  return createAbortablePromise<void>({
-    buildPromise: ({ resolve }) => {
+  return createAbortablePromise<void>(
+    (resolve) => {
       token = setTimeout(resolve, timeInMs);
     },
-    cleanupBeforeAbort: () => clearTimeout(token),
-  })({
-    abortSignal,
-    abortErrorMsg: abortErrorMsg ?? StandardAbortMessage,
-  });
+    {
+      cleanupBeforeAbort: () => clearTimeout(token),
+      abortSignal,
+      abortErrorMsg: abortErrorMsg ?? StandardAbortMessage,
+    }
+  );
 }

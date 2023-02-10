@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import * as sinon from "sinon";
-import { AbortController } from "@azure/abort-controller";
+import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { createAbortablePromise } from "../../src/delay";
@@ -13,12 +13,20 @@ const { assert } = chai;
 describe("createAbortablePromise", function () {
   let token: ReturnType<typeof setTimeout>;
   const delayTime = 2500;
-  const createPromise = createAbortablePromise<void>({
-    buildPromise: ({ resolve }) => {
-      token = setTimeout(resolve, delayTime);
-    },
-    cleanupBeforeAbort: () => clearTimeout(token),
-  });
+  const createPromise = ({
+    abortSignal,
+    abortErrorMsg,
+  }: { abortSignal?: AbortSignalLike; abortErrorMsg?: string } = {}) =>
+    createAbortablePromise<void>(
+      (resolve) => {
+        token = setTimeout(resolve, delayTime);
+      },
+      {
+        cleanupBeforeAbort: () => clearTimeout(token),
+        abortSignal,
+        abortErrorMsg,
+      }
+    );
   afterEach(function () {
     sinon.restore();
   });
@@ -34,12 +42,12 @@ describe("createAbortablePromise", function () {
 
   it("should reject when aborted", async function () {
     const aborter = new AbortController();
-    const abortErrorMsg = "The operation was aborted.";
+    const abortErrorMsg = "The test operation was aborted.";
     const promise = createPromise({
       abortSignal: aborter.signal,
       abortErrorMsg,
     });
     aborter.abort();
-    await assert.isRejected(promise, new RegExp(abortErrorMsg));
+    await assert.isRejected(promise, abortErrorMsg);
   });
 });
