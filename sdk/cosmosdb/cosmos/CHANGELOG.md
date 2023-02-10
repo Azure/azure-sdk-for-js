@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- Expose delete by partition key feature
+- Expose delete by partition key value feature
 
 ### Breaking Changes
 
