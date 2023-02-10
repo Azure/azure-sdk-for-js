@@ -56,8 +56,8 @@ export function createAbortablePromise<T>(inputs: {
       }
       buildPromise({
         resolve: (x) => {
-          resolve(x);
           removeListeners();
+          resolve(x);
         },
         reject: (x) => {
           removeListeners();
