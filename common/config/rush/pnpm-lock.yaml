@@ -194,6 +194,7 @@ specifiers:
   '@rush-temp/arm-storage-profile-2020-09-01-hybrid': file:./projects/arm-storage-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-storagecache': file:./projects/arm-storagecache.tgz
   '@rush-temp/arm-storageimportexport': file:./projects/arm-storageimportexport.tgz
+  '@rush-temp/arm-storagemover': file:./projects/arm-storagemover.tgz
   '@rush-temp/arm-storagesync': file:./projects/arm-storagesync.tgz
   '@rush-temp/arm-storsimple1200series': file:./projects/arm-storsimple1200series.tgz
   '@rush-temp/arm-storsimple8000series': file:./projects/arm-storsimple8000series.tgz
@@ -521,6 +522,7 @@ dependencies:
   '@rush-temp/arm-storage-profile-2020-09-01-hybrid': file:projects/arm-storage-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-storagecache': file:projects/arm-storagecache.tgz
   '@rush-temp/arm-storageimportexport': file:projects/arm-storageimportexport.tgz
+  '@rush-temp/arm-storagemover': file:projects/arm-storagemover.tgz
   '@rush-temp/arm-storagesync': file:projects/arm-storagesync.tgz
   '@rush-temp/arm-storsimple1200series': file:projects/arm-storsimple1200series.tgz
   '@rush-temp/arm-storsimple8000series': file:projects/arm-storsimple8000series.tgz
@@ -14940,6 +14942,34 @@ packages:
   file:projects/arm-storageimportexport.tgz:
     resolution: {integrity: sha512-ZpYavwG75cJfHZvLZQo4YAbxfdCWNbn4X6wGPiyQSEgzcWh+okQRYqIgYXfZIaHzDGCQBwVnHmU9H+dJhCI8ZA==, tarball: file:projects/arm-storageimportexport.tgz}
     name: '@rush-temp/arm-storageimportexport'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.34.3_@types+node@14.18.36
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.4
+      '@types/node': 14.18.36
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 8.6.0
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_p2gydaekoyjvl5wd3ixslt7iq4
+      tslib: 2.5.0
+      typescript: 4.8.4
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  file:projects/arm-storagemover.tgz:
+    resolution: {integrity: sha512-cXP6J+f3Ey4/lzoizhS4youf3EUBb2Arxa6OEoW32NLr1qTdGVFxsvj570zcr6woAb/fZVNV+RQdyQ3i1pwr5w==, tarball: file:projects/arm-storagemover.tgz}
+    name: '@rush-temp/arm-storagemover'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
