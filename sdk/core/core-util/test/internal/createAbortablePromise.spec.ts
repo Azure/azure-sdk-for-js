@@ -27,7 +27,7 @@ describe("createAbortablePromise", function () {
     const time = await clock.nextAsync();
     clock.restore();
     assert.strictEqual(time, delayTime);
-    await promise;
+    await assert.isFulfilled(promise);
   });
 
   it("should reject when aborted", async function () {
@@ -38,6 +38,6 @@ describe("createAbortablePromise", function () {
       abortErrorMsg,
     });
     aborter.abort();
-    assert.isRejected(promise, new RegExp(abortErrorMsg));
+    await assert.isRejected(promise, new RegExp(abortErrorMsg));
   });
 });
