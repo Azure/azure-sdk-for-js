@@ -65,7 +65,7 @@
     "position": "11",
     "action": "flush"
    },
-   "requestBody": "",
+   "requestBody": null,
    "status": 409,
    "response": "{\"error\":{\"code\":\"BlobUsesCustomerSpecifiedEncryption\",\"message\":\"The blob is encrypted with customer specified encryption, but it was not provided in the request.\\nRequestId:db8a1f94-701f-0008-433b-44c247000000\\nTime:2022-03-30T13:37:34.1908667Z\"}}",
    "responseHeaders": {
