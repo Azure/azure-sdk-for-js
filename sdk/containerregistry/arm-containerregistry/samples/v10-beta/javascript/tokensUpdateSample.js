@@ -10,16 +10,18 @@
 // Licensed under the MIT License.
 const { ContainerRegistryManagementClient } = require("@azure/arm-containerregistry");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Updates a token with the specified parameters.
  *
  * @summary Updates a token with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2022-02-01-preview/examples/TokenUpdate.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-01-01-preview/examples/TokenUpdate.json
  */
 async function tokenUpdate() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
   const tokenName = "myToken";
   const tokenUpdateParameters = {
@@ -46,4 +48,8 @@ async function tokenUpdate() {
   console.log(result);
 }
 
-tokenUpdate().catch(console.error);
+async function main() {
+  tokenUpdate();
+}
+
+main().catch(console.error);

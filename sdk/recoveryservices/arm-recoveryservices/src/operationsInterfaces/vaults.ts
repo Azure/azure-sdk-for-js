@@ -34,8 +34,7 @@ export interface Vaults {
   ): PagedAsyncIterableIterator<Vault>;
   /**
    * Retrieve a list of Vaults.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   listByResourceGroup(
@@ -44,8 +43,7 @@ export interface Vaults {
   ): PagedAsyncIterableIterator<Vault>;
   /**
    * Get the Vault details.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the recovery services vault.
    * @param options The options parameters.
    */
@@ -56,8 +54,7 @@ export interface Vaults {
   ): Promise<VaultsGetResponse>;
   /**
    * Creates or updates a Recovery Services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the recovery services vault.
    * @param vault Recovery Services Vault to be created.
    * @param options The options parameters.
@@ -75,8 +72,7 @@ export interface Vaults {
   >;
   /**
    * Creates or updates a Recovery Services vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the recovery services vault.
    * @param vault Recovery Services Vault to be created.
    * @param options The options parameters.
@@ -89,8 +85,7 @@ export interface Vaults {
   ): Promise<VaultsCreateOrUpdateResponse>;
   /**
    * Deletes a vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the recovery services vault.
    * @param options The options parameters.
    */
@@ -101,8 +96,7 @@ export interface Vaults {
   ): Promise<void>;
   /**
    * Updates the vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the recovery services vault.
    * @param vault Recovery Services Vault to be created.
    * @param options The options parameters.
@@ -117,8 +111,7 @@ export interface Vaults {
   >;
   /**
    * Updates the vault.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the recovery services vault.
    * @param vault Recovery Services Vault to be created.
    * @param options The options parameters.

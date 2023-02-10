@@ -8,8 +8,8 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-reservations/7.2.0 core-rest-pipeline/1.9.3 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "f66b3603-995f-41ff-9139-ed1029ff5ec9"
+        "User-Agent": "azsdk-js-arm-reservations/8.0.0 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
+        "x-ms-client-request-id": "a0b1dea3-2c5e-408e-a8b3-4479f46e2182"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,8 +17,8 @@
         "Cache-Control": "no-store, must-revalidate, no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json",
-        "Date": "Mon, 19 Sep 2022 07:52:02 GMT",
-        "MS-RequestId": "1Mr35cyODkyyWeeaJpHuAg.0",
+        "Date": "Wed, 01 Feb 2023 08:25:51 GMT",
+        "MS-RequestId": "qg-1DIq2gk63wE3iAAo38Q.0",
         "Server": "Kestrel",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -27,10 +27,10 @@
           "Accept-Encoding"
         ],
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "67a53c18-2a37-4703-a039-5f48499339f9",
-        "x-ms-ratelimit-remaining-subscription-reads": "11999",
-        "x-ms-request-id": "67a53c18-2a37-4703-a039-5f48499339f9",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20220919T075202Z:67a53c18-2a37-4703-a039-5f48499339f9"
+        "x-ms-correlation-request-id": "47d78055-503f-4131-a21e-5cf31cdfdcd7",
+        "x-ms-ratelimit-remaining-subscription-reads": "11998",
+        "x-ms-request-id": "47d78055-503f-4131-a21e-5cf31cdfdcd7",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230201T082552Z:47d78055-503f-4131-a21e-5cf31cdfdcd7"
       },
       "ResponseBody": {
         "value": [
@@ -38,7 +38,7 @@
             "id": "/subscriptions/azure_subscription_id/providers/Microsoft.Capacity/resourceProviders/Microsoft.Compute/locations/eastus/serviceLimits",
             "name": "cores",
             "properties": {
-              "currentValue": 8,
+              "currentValue": 1,
               "limit": 300,
               "name": {
                 "value": "cores",
@@ -66,13 +66,13 @@
           },
           {
             "id": "/subscriptions/azure_subscription_id/providers/Microsoft.Capacity/resourceProviders/Microsoft.Compute/locations/eastus/serviceLimits",
-            "name": "standardDSv2Family",
+            "name": "standardBSFamily",
             "properties": {
-              "currentValue": 8,
+              "currentValue": 1,
               "limit": 100,
               "name": {
-                "value": "standardDSv2Family",
-                "localizedValue": "Standard DSv2 Family vCPUs"
+                "value": "standardBSFamily",
+                "localizedValue": "Standard BS Family vCPUs"
               },
               "properties": {},
               "unit": "Count"
@@ -163,6 +163,21 @@
               "name": {
                 "value": "standardDSFamily",
                 "localizedValue": "Standard DS Family vCPUs"
+              },
+              "properties": {},
+              "unit": "Count"
+            },
+            "type": "Microsoft.Capacity/ServiceLimits"
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/providers/Microsoft.Capacity/resourceProviders/Microsoft.Compute/locations/eastus/serviceLimits",
+            "name": "standardDSv2Family",
+            "properties": {
+              "currentValue": 0,
+              "limit": 100,
+              "name": {
+                "value": "standardDSv2Family",
+                "localizedValue": "Standard DSv2 Family vCPUs"
               },
               "properties": {},
               "unit": "Count"
@@ -493,21 +508,6 @@
               "name": {
                 "value": "standardEDSv4Family",
                 "localizedValue": "Standard EDSv4 Family vCPUs"
-              },
-              "properties": {},
-              "unit": "Count"
-            },
-            "type": "Microsoft.Capacity/ServiceLimits"
-          },
-          {
-            "id": "/subscriptions/azure_subscription_id/providers/Microsoft.Capacity/resourceProviders/Microsoft.Compute/locations/eastus/serviceLimits",
-            "name": "standardBSFamily",
-            "properties": {
-              "currentValue": 0,
-              "limit": 100,
-              "name": {
-                "value": "standardBSFamily",
-                "localizedValue": "Standard BS Family vCPUs"
               },
               "properties": {},
               "unit": "Count"

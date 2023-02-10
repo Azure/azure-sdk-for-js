@@ -194,6 +194,7 @@ specifiers:
   '@rush-temp/arm-storage-profile-2020-09-01-hybrid': file:./projects/arm-storage-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-storagecache': file:./projects/arm-storagecache.tgz
   '@rush-temp/arm-storageimportexport': file:./projects/arm-storageimportexport.tgz
+  '@rush-temp/arm-storagemover': file:./projects/arm-storagemover.tgz
   '@rush-temp/arm-storagesync': file:./projects/arm-storagesync.tgz
   '@rush-temp/arm-storsimple1200series': file:./projects/arm-storsimple1200series.tgz
   '@rush-temp/arm-storsimple8000series': file:./projects/arm-storsimple8000series.tgz
@@ -521,6 +522,7 @@ dependencies:
   '@rush-temp/arm-storage-profile-2020-09-01-hybrid': file:projects/arm-storage-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-storagecache': file:projects/arm-storagecache.tgz
   '@rush-temp/arm-storageimportexport': file:projects/arm-storageimportexport.tgz
+  '@rush-temp/arm-storagemover': file:projects/arm-storagemover.tgz
   '@rush-temp/arm-storagesync': file:projects/arm-storagesync.tgz
   '@rush-temp/arm-storsimple1200series': file:projects/arm-storsimple1200series.tgz
   '@rush-temp/arm-storsimple8000series': file:projects/arm-storsimple8000series.tgz
@@ -6537,6 +6539,12 @@ packages:
     hasBin: true
     dev: false
 
+  /mkdirp/2.1.3:
+    resolution: {integrity: sha512-sjAkg21peAG9HS+Dkx7hlG9Ztx7HLeKnvB3NQRcu/mltCVmvkF0pisbiTSfDVYTT86XEfZrTUosLdZLStquZUw==}
+    engines: {node: '>=10'}
+    hasBin: true
+    dev: false
+
   /mocha-junit-reporter/1.23.3_mocha@7.2.0:
     resolution: {integrity: sha512-ed8LqbRj1RxZfjt/oC9t12sfrWsjZ3gNnbhV1nuj9R/Jb5/P3Xb4duv2eCfCDMYH+fEu0mqca7m4wsiVjsxsvA==}
     peerDependencies:
@@ -11117,7 +11125,7 @@ packages:
     dev: false
 
   file:projects/arm-containerregistry.tgz:
-    resolution: {integrity: sha512-GdIZ08PrNkQvwrvWvjBWhtiRAmiRuNmIpFHA6VEyge8h0RXp/7SKKpcttFoActctqAo29AWbavERfaX2r6bPmg==, tarball: file:projects/arm-containerregistry.tgz}
+    resolution: {integrity: sha512-aafU9Vc6ExRvKpH14gdPXSncN18huZCpNYIpa0jSEmbgdDEEwPwQVJBEo7rOHSuxVPXqGej8/DNZrIdeEln2dg==, tarball: file:projects/arm-containerregistry.tgz}
     name: '@rush-temp/arm-containerregistry'
     version: 0.0.0
     dependencies:
@@ -11131,7 +11139,8 @@ packages:
       '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.3
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -14178,29 +14187,30 @@ packages:
     dev: false
 
   file:projects/arm-reservations.tgz:
-    resolution: {integrity: sha512-sWCPpvqJjw3kVxnOZVHqpXVVdO8x74IENh0BZ7k5FTiT4PxMRcEL+DRsXKh8yT4M/VKWfO9QoovfFw4L/Ik1IQ==, tarball: file:projects/arm-reservations.tgz}
+    resolution: {integrity: sha512-N4PO4IVbpdm5QGtcyu1Z+4Ov1kNaX9Mvf1u1BUEcNFUgWcoIf+VRv+ZDH8BeYabHtS3GoFkUOv20KOgTowjqCg==, tarball: file:projects/arm-reservations.tgz}
     name: '@rush-temp/arm-reservations'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.3
+      '@microsoft/api-extractor': 7.34.3_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
+      '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_p2gydaekoyjvl5wd3ixslt7iq4
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
@@ -14562,7 +14572,7 @@ packages:
     dev: false
 
   file:projects/arm-servicebus.tgz:
-    resolution: {integrity: sha512-2ax8h+OFGYTcmFAgtJ/bbkeY2NVwljsH6JFFsiIwIXd6/0I81bnj8QQA3EfssrLqIi2xzwxmko/kpIBGe50bQA==, tarball: file:projects/arm-servicebus.tgz}
+    resolution: {integrity: sha512-zgN/fXPx4lFcOJbtnmKhSIIHBDLq48aCEu4bfVVeErdjPc82VBd7tBnPheXp+6jyIiA1QGEjg/dKZ4tllzteFQ==, tarball: file:projects/arm-servicebus.tgz}
     name: '@rush-temp/arm-servicebus'
     version: 0.0.0
     dependencies:
@@ -14576,6 +14586,7 @@ packages:
       '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -14963,6 +14974,34 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-storagemover.tgz:
+    resolution: {integrity: sha512-cXP6J+f3Ey4/lzoizhS4youf3EUBb2Arxa6OEoW32NLr1qTdGVFxsvj570zcr6woAb/fZVNV+RQdyQ3i1pwr5w==, tarball: file:projects/arm-storagemover.tgz}
+    name: '@rush-temp/arm-storagemover'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.34.3_@types+node@14.18.36
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@types/chai': 4.3.4
+      '@types/node': 14.18.36
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 8.6.0
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_p2gydaekoyjvl5wd3ixslt7iq4
+      tslib: 2.5.0
+      typescript: 4.8.4
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   file:projects/arm-storagesync.tgz:
     resolution: {integrity: sha512-EOW3XvhcXM+eWvE7NRSc/CBMAGhsIOD7/df7ZrFyH/xNTXINkiAzZFOeTKyRHexM/4PeNyRq3U22pIR0wirETw==, tarball: file:projects/arm-storagesync.tgz}
     name: '@rush-temp/arm-storagesync'
@@ -15155,7 +15194,7 @@ packages:
     dev: false
 
   file:projects/arm-synapse.tgz:
-    resolution: {integrity: sha512-C+FlyMV2WA8legPeScAJBSvn4PfRbADxlb6Xy8YKkbW7V/HgQGaTHScKG8UZudhJHBJFcqYXC+uGgO+wVcDJTw==, tarball: file:projects/arm-synapse.tgz}
+    resolution: {integrity: sha512-Hr69M835rmk5CBhOpM331KYs3qJKVtJe5ryZoNM6AV3MAWqSThH6tiyM0UFG6RiP+neZr8FyxfmOXOKUfgm/KA==, tarball: file:projects/arm-synapse.tgz}
     name: '@rush-temp/arm-synapse'
     version: 0.0.0
     dependencies:
@@ -15169,7 +15208,7 @@ packages:
       '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
-      dotenv: 16.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
@@ -19085,7 +19124,7 @@ packages:
     dev: false
 
   file:projects/storage-blob-changefeed.tgz:
-    resolution: {integrity: sha512-k7neOXIEDERco/4Ac756pbPxlb0v1c9DlMrTbssvWcVfpYPpkIWMQ8Gsqlw4qChdA5gSyvx7vr3tRDrUIcZYFQ==, tarball: file:projects/storage-blob-changefeed.tgz}
+    resolution: {integrity: sha512-TXNy2Pvp5CIqX4OIpz1VRsPRwAvygZolQrZt3CIw4omVh6NbThB567Ftu8TSOMz+1UiRyXdz80hCGgT5rYDCnQ==, tarball: file:projects/storage-blob-changefeed.tgz}
     name: '@rush-temp/storage-blob-changefeed'
     version: 0.0.0
     dependencies:

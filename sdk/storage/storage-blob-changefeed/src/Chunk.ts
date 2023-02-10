@@ -4,7 +4,7 @@
 import { AvroReader } from "../../storage-internal-avro/src";
 import { BlobChangeFeedEvent } from "./models/BlobChangeFeedEvent";
 import { CommonOptions } from "@azure/storage-blob";
-import { AbortSignalLike } from "@azure/core-http";
+import { AbortSignalLike } from "@azure/abort-controller";
 import { AvroParseOptions } from "../../storage-internal-avro/src/AvroReader";
 import { rawEventToBlobChangeFeedEvent } from "./utils/utils.common";
 

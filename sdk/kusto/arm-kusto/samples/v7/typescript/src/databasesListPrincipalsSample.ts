@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Returns a list of database principals of the given Kusto cluster and database.
  *
  * @summary Returns a list of database principals of the given Kusto cluster and database.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoDatabaseListPrincipals.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-12-29/examples/KustoDatabaseListPrincipals.json
  */
 async function kustoDatabaseListPrincipals() {
   const subscriptionId =
