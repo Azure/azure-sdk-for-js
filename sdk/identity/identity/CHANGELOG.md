@@ -1,9 +1,10 @@
 # Release History
 
-## 3.1.4 (Unreleased)
+## 4.0.0-beta.1 (Unreleased)
 
 ### Features Added
 
+- Added support to disable instance discovery on AAD credentials.
 ### Breaking Changes
 
 ### Bugs Fixed
