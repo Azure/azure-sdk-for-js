@@ -16,7 +16,6 @@ import { BrowserLoginStyle } from "../../credentials/interactiveBrowserCredentia
 import { CredentialFlowGetTokenOptions } from "../credentials";
 import { DefaultTenantId } from "../../constants";
 import { MultiTenantTokenCredentialOptions } from "../../credentials/multiTenantTokenCredentialOptions";
-import { setDefaultInstanceDisovery } from "../../credentials/authorityValidationOptions";
 
 /**
  * Union of the constructor parameters that all MSAL flow types take.
@@ -55,7 +54,7 @@ export function defaultBrowserMsalConfig(
       knownAuthorities: getKnownAuthorities(
         tenantId,
         authority,
-        setDefaultInstanceDisovery(options.instanceDiscovery)
+        options.disableInstanceDiscovery
       ),
       // If the users picked redirect as their login style,
       // but they didn't provide a redirectUri,

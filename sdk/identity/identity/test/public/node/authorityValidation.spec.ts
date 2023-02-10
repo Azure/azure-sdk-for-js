@@ -26,7 +26,7 @@ describe("AuthorityValidation", function () {
       env.AZURE_TENANT_ID!,
       env.AZURE_CLIENT_ID!,
       env.AZURE_CLIENT_SECRET!,
-      recorder.configureClientOptions({ instanceDiscovery: false })
+      recorder.configureClientOptions({ disableInstanceDiscovery: true })
     );
 
     const token = await credential.getToken(scope);

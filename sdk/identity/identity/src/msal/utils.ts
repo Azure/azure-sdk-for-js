@@ -77,9 +77,9 @@ export function getAuthority(tenantId: string, host?: string): string {
 export function getKnownAuthorities(
   tenantId: string,
   authorityHost: string,
-  instanceDiscovery?: boolean
+  disableInstanceDiscovery?: boolean
 ): string[] {
-  if ((tenantId === "adfs" && authorityHost) || instanceDiscovery === false) {
+  if ((tenantId === "adfs" && authorityHost) || disableInstanceDiscovery) {
     return [authorityHost];
   }
   return [];

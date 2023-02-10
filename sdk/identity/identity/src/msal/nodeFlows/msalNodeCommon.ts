@@ -30,7 +30,6 @@ import { LogPolicyOptions } from "@azure/core-rest-pipeline";
 import { MultiTenantTokenCredentialOptions } from "../../credentials/multiTenantTokenCredentialOptions";
 import { RegionalAuthority } from "../../regionalAuthority";
 import { TokenCachePersistenceOptions } from "./tokenCachePersistenceOptions";
-import { setDefaultInstanceDisovery } from "../../credentials/authorityValidationOptions";
 
 /**
  * Union of the constructor parameters that all MSAL flow types for Node.
@@ -161,7 +160,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
         knownAuthorities: getKnownAuthorities(
           tenantId,
           authority,
-          setDefaultInstanceDisovery(options.instanceDiscovery)
+          options.disableInstanceDiscovery
         ),
         clientCapabilities,
       },
