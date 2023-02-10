@@ -3,8 +3,12 @@
 
 import * as sinon from "sinon";
 import { AbortController } from "@azure/abort-controller";
-import { assert } from "@azure/test-utils";
+import chai from "chai";
+import chaiAsPromised from "chai-as-promised";
 import { createAbortablePromise } from "../../src/delay";
+
+chai.use(chaiAsPromised);
+const { assert } = chai;
 
 describe("createAbortablePromise", function () {
   let token: ReturnType<typeof setTimeout>;
