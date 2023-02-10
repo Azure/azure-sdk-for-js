@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Replication,
   ReplicationsListOptionalParams,
@@ -26,7 +26,7 @@ import {
 export interface Replications {
   /**
    * Lists all the replications for the specified container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param options The options parameters.
    */
@@ -37,7 +37,7 @@ export interface Replications {
   ): PagedAsyncIterableIterator<Replication>;
   /**
    * Gets the properties of the specified replication.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param replicationName The name of the replication.
    * @param options The options parameters.
@@ -50,7 +50,7 @@ export interface Replications {
   ): Promise<ReplicationsGetResponse>;
   /**
    * Creates a replication for a container registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param replicationName The name of the replication.
    * @param replication The parameters for creating a replication.
@@ -63,14 +63,14 @@ export interface Replications {
     replication: Replication,
     options?: ReplicationsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationsCreateResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationsCreateResponse>,
       ReplicationsCreateResponse
     >
   >;
   /**
    * Creates a replication for a container registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param replicationName The name of the replication.
    * @param replication The parameters for creating a replication.
@@ -85,7 +85,7 @@ export interface Replications {
   ): Promise<ReplicationsCreateResponse>;
   /**
    * Deletes a replication from a container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param replicationName The name of the replication.
    * @param options The options parameters.
@@ -95,10 +95,10 @@ export interface Replications {
     registryName: string,
     replicationName: string,
     options?: ReplicationsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a replication from a container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param replicationName The name of the replication.
    * @param options The options parameters.
@@ -111,7 +111,7 @@ export interface Replications {
   ): Promise<void>;
   /**
    * Updates a replication for a container registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param replicationName The name of the replication.
    * @param replicationUpdateParameters The parameters for updating a replication.
@@ -124,14 +124,14 @@ export interface Replications {
     replicationUpdateParameters: ReplicationUpdateParameters,
     options?: ReplicationsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationsUpdateResponse>,
       ReplicationsUpdateResponse
     >
   >;
   /**
    * Updates a replication for a container registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param replicationName The name of the replication.
    * @param replicationUpdateParameters The parameters for updating a replication.

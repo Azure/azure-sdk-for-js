@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   PipelineRun,
   PipelineRunsListOptionalParams,
@@ -23,7 +23,7 @@ import {
 export interface PipelineRuns {
   /**
    * Lists all the pipeline runs for the specified container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param options The options parameters.
    */
@@ -34,7 +34,7 @@ export interface PipelineRuns {
   ): PagedAsyncIterableIterator<PipelineRun>;
   /**
    * Gets the detailed information for a given pipeline run.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param pipelineRunName The name of the pipeline run.
    * @param options The options parameters.
@@ -47,7 +47,7 @@ export interface PipelineRuns {
   ): Promise<PipelineRunsGetResponse>;
   /**
    * Creates a pipeline run for a container registry with the specified parameters
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param pipelineRunName The name of the pipeline run.
    * @param pipelineRunCreateParameters The parameters for creating a pipeline run.
@@ -60,14 +60,14 @@ export interface PipelineRuns {
     pipelineRunCreateParameters: PipelineRun,
     options?: PipelineRunsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PipelineRunsCreateResponse>,
+    SimplePollerLike<
+      OperationState<PipelineRunsCreateResponse>,
       PipelineRunsCreateResponse
     >
   >;
   /**
    * Creates a pipeline run for a container registry with the specified parameters
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param pipelineRunName The name of the pipeline run.
    * @param pipelineRunCreateParameters The parameters for creating a pipeline run.
@@ -82,7 +82,7 @@ export interface PipelineRuns {
   ): Promise<PipelineRunsCreateResponse>;
   /**
    * Deletes a pipeline run from a container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param pipelineRunName The name of the pipeline run.
    * @param options The options parameters.
@@ -92,10 +92,10 @@ export interface PipelineRuns {
     registryName: string,
     pipelineRunName: string,
     options?: PipelineRunsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a pipeline run from a container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param pipelineRunName The name of the pipeline run.
    * @param options The options parameters.
