@@ -600,9 +600,8 @@ export class DataLakeFileSystemClient extends StorageClient {
     try {
       const rawResponse = await this.fileSystemContext.listPaths(options.recursive || false, {
         continuation,
-        ...options,
-        upn: options.userPrincipalName,
         ...updatedOptions,
+        upn: options.userPrincipalName,
       });
 
       const response = rawResponse as FileSystemListPathsResponse;
@@ -752,9 +751,8 @@ export class DataLakeFileSystemClient extends StorageClient {
     try {
       const rawResponse = await this.fileSystemContextToBlobEndpoint.listBlobHierarchySegment({
         marker: continuation,
-        ...options,
-        prefix: options.prefix === "" ? undefined : options.prefix,
         ...updatedOptions,
+        prefix: options.prefix === "" ? undefined : options.prefix,
       });
 
       const response = rawResponse as FileSystemListDeletedPathsResponse;

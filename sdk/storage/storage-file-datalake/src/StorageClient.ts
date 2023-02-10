@@ -10,6 +10,14 @@ import { ExtendedServiceClientOptions } from "@azure/core-http-compat";
 import { HttpClient, Pipeline as CorePipeline } from "@azure/core-rest-pipeline";
 import { dataLakePathParameterWorkaroundPolicy, dataLakePathParameterWorkaroundPolicyName } from "./policies/DataLakePathParameterWorkaroundPolicy";
 
+let testOnlyHttpClient: HttpClient | undefined;
+/**
+ * @internal 
+ * Set a custom default http client for testing purposes
+ */
+export function setTestOnlySetHttpClient(httpClient: HttpClient) {
+  testOnlyHttpClient = httpClient;
+}
 
 // This function relies on the Pipeline already being initialized by a storage-blob client
 function getCoreClientOptions(pipeline: Pipeline): ExtendedServiceClientOptions {
@@ -17,6 +25,12 @@ function getCoreClientOptions(pipeline: Pipeline): ExtendedServiceClientOptions 
   let httpClient: HttpClient = (pipeline as any)._coreHttpClient;
   if (!httpClient) {
     throw new Error("Pipeline not correctly initialized; missing V2 HttpClient");
+  }
+
+  // check if we're running in a browser test mode and use the xhr client
+  if (testOnlyHttpClient && httpClient !== testOnlyHttpClient) {
+    httpClient = testOnlyHttpClient;
+    (pipeline as any)._coreHttpClient = testOnlyHttpClient;
   }
 
   let corePipeline: CorePipeline = (pipeline as any)._corePipeline;

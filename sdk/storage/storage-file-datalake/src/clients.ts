@@ -161,12 +161,11 @@ export class DataLakePathClient extends StorageClient {
         let response;
         try {
           response = await this.pathContext.setAccessControlRecursive(mode, {
-            ...options,
+            ...updatedOptions,
             acl: toAclString(acl as PathAccessControlItem[]),
             maxRecords: options.batchSize,
             continuation: continuationToken,
             forceFlag: options.continueOnFailure,
-            ...updatedOptions,
           });
         } catch (e: any) {
           throw new DataLakeAclChangeFailedError(e, continuationToken);
@@ -464,11 +463,11 @@ export class DataLakePathClient extends StorageClient {
       // How to handle long delete loop?
       do {
         response = await this.pathContext.delete({
+          ...updatedOptions,
           continuation,
           recursive,
           leaseAccessConditions: options.conditions,
           modifiedAccessConditions: options.conditions,
-          ...updatedOptions,
           abortSignal: options.abortSignal,
         });
         continuation = response.continuation;
@@ -542,11 +541,11 @@ export class DataLakePathClient extends StorageClient {
     const { span, updatedOptions } = createSpan("DataLakePathClient-getAccessControl", options);
     try {
       const response = assertResponse<PathGetPropertiesHeaders, PathGetPropertiesHeaders>(await this.pathContext.getProperties({
+        ...updatedOptions,
         action: "getAccessControl",
         upn: options.userPrincipalName,
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: options.conditions,
-        ...updatedOptions,
         abortSignal: options.abortSignal,
       }));
       return {
@@ -582,11 +581,10 @@ export class DataLakePathClient extends StorageClient {
     const { span, updatedOptions } = createSpan("DataLakePathClient-setAccessControl", options);
     try {
       return await this.pathContext.setAccessControl({
-        ...options,
+        ...updatedOptions,
         acl: toAclString(acl),
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: options.conditions,
-        ...updatedOptions,
       });
     } catch (e: any) {
       span.setStatus({
@@ -702,11 +700,10 @@ export class DataLakePathClient extends StorageClient {
     const { span, updatedOptions } = createSpan("DataLakePathClient-setPermissions", options);
     try {
       return await this.pathContext.setAccessControl({
-        ...options,
+        ...updatedOptions,
         permissions: toPermissionsString(permissions),
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: options.conditions,
-        ...updatedOptions,
       });
     } catch (e: any) {
       span.setStatus({
@@ -892,6 +889,7 @@ export class DataLakePathClient extends StorageClient {
 
     try {
       return assertResponse<PathCreateHeaders, PathCreateHeaders>(await destPathClient.pathContext.create({
+        ...updatedOptions,
         mode: "legacy", // By default
         renameSource,
         sourceLeaseId: options.conditions.leaseId,
@@ -903,7 +901,6 @@ export class DataLakePathClient extends StorageClient {
           sourceIfUnmodifiedSince: options.conditions.ifUnmodifiedSince,
         },
         modifiedAccessConditions: options.destinationConditions,
-        ...updatedOptions,
         abortSignal: options.abortSignal,
       }));
     } catch (e: any) {
@@ -964,11 +961,7 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
     const { span, updatedOptions } = createSpan("DataLakeDirectoryClient-create", options);
     try {
       return await super.create("directory", {
-        ...options,
-        tracingOptions: {
-          ...options.tracingOptions,
-          ...updatedOptions,
-        },
+        ...updatedOptions,
       });
     } catch (e: any) {
       span.setStatus({
@@ -1025,11 +1018,7 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
     );
     try {
       return await super.createIfNotExists("directory", {
-        ...options,
-        tracingOptions: {
-          ...options.tracingOptions,
-          ...updatedOptions,
-        },
+        ...updatedOptions,
       });
     } catch (e: any) {
       span.setStatus({
@@ -1220,11 +1209,7 @@ export class DataLakeFileClient extends DataLakePathClient {
     const { span, updatedOptions } = createSpan("DataLakeFileClient-create", options);
     try {
       return await super.create("file", {
-        ...options,
-        tracingOptions: {
-          ...options.tracingOptions,
-          ...updatedOptions,
-        },
+        ...updatedOptions,
       });
     } catch (e: any) {
       span.setStatus({
@@ -1278,11 +1263,7 @@ export class DataLakeFileClient extends DataLakePathClient {
     const { span, updatedOptions } = createSpan("DataLakeFileClient-createIfNotExists", options);
     try {
       return await super.createIfNotExists("file", {
-        ...options,
-        tracingOptions: {
-          ...options.tracingOptions,
-          ...updatedOptions,
-        },
+        ...updatedOptions,
       });
     } catch (e: any) {
       span.setStatus({
@@ -1405,6 +1386,7 @@ export class DataLakeFileClient extends DataLakePathClient {
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
       return assertResponse<PathAppendDataHeaders, PathAppendDataHeaders>(await this.pathContextInternal.appendData(body, {
+        ...updatedOptions,
         pathHttpHeaders: {
           contentMD5: options.transactionalContentMD5,
         },
@@ -1420,7 +1402,6 @@ export class DataLakeFileClient extends DataLakePathClient {
         proposedLeaseId: options.proposedLeaseId,
         leaseDuration: options.leaseDuration,
         leaseAction: options.leaseAction,
-        ...updatedOptions,
       }));
     } catch (e: any) {
       span.setStatus({
@@ -1451,7 +1432,7 @@ export class DataLakeFileClient extends DataLakePathClient {
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
       return await this.pathContextInternal.flushData({
-        ...options,
+        ...updatedOptions,
         position,
         contentLength: 0,
         leaseAccessConditions: options.conditions,
@@ -1460,7 +1441,6 @@ export class DataLakeFileClient extends DataLakePathClient {
         proposedLeaseId: options.proposedLeaseId,
         leaseDuration: options.leaseDuration,
         leaseAction: options.leaseAction,
-        ...updatedOptions,
       });
     } catch (e: any) {
       span.setStatus({

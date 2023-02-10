@@ -10,6 +10,7 @@ export const testPollerProperties = {
 
 const mockAccountName = "fakestorageaccount";
 const mockAccountKey = "aaaaa";
+const mockSas = "fakeSasToken";
 export const recorderEnvSetup: RecorderEnvironmentSetup = {
   replaceableVariables: {
     // Used in record and playback modes
@@ -17,7 +18,7 @@ export const recorderEnvSetup: RecorderEnvironmentSetup = {
     // 2. If the env variables are present in the recordings as plain strings, they will be replaced with the provided values in record mode
     DFS_ACCOUNT_NAME: `${mockAccountName}`,
     DFS_ACCOUNT_KEY: `${mockAccountKey}`,
-    DFS_ACCOUNT_SAS: `${mockAccountKey}`,
+    DFS_ACCOUNT_SAS: `${mockSas}`,
     DFS_STORAGE_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${mockAccountName};AccountKey=${mockAccountKey};EndpointSuffix=core.windows.net`,
     ENCRYPTION_SCOPE_1: "antjoscope1",
     ENCRYPTION_SCOPE_2: "antjoscope2",
@@ -26,7 +27,7 @@ export const recorderEnvSetup: RecorderEnvironmentSetup = {
     DFS_ACCOUNT_TOKEN: `${mockAccountKey}`,
     DFS_SOFT_DELETE_ACCOUNT_NAME: `${mockAccountName}`,
     DFS_SOFT_DELETE_ACCOUNT_KEY: `${mockAccountKey}`,
-    DFS_SOFT_DELETE_ACCOUNT_SAS: `${mockAccountKey}`,
+    DFS_SOFT_DELETE_ACCOUNT_SAS: `${mockSas}`,
     AZURE_CLIENT_ID: `${mockAccountKey}`,
     AZURE_TENANT_ID: `${mockAccountKey}`,
     AZURE_CLIENT_SECRET: `${mockAccountKey}`,
