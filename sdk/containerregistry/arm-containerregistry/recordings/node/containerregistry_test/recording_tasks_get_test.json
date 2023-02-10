@@ -8,8 +8,8 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-containerregistry/10.1.0-beta.4 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "e478b329-77c9-420e-85bb-d372dc21fc37"
+        "User-Agent": "azsdk-js-arm-containerregistry/10.1.0-beta.5 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "abb16a04-4f85-42cb-8d8b-abfc4f4c0701"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,23 +17,23 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 18 Nov 2022 06:53:32 GMT",
+        "Date": "Fri, 10 Feb 2023 03:05:21 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "d7a1e282-9cbc-46c8-a05f-ee8ee31d8a38",
+        "x-ms-correlation-request-id": "f2e0ac56-cc9d-428b-a218-15702c725f9a",
         "x-ms-ratelimit-remaining-subscription-reads": "11999",
-        "x-ms-request-id": "ca47e06a-273d-4162-8def-19853f630fb0",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20221118T065332Z:d7a1e282-9cbc-46c8-a05f-ee8ee31d8a38"
+        "x-ms-request-id": "ced7e2e6-6514-40ca-8268-ee635573c6ae",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230210T030522Z:f2e0ac56-cc9d-428b-a218-15702c725f9a"
       },
       "ResponseBody": {
         "type": "Microsoft.ContainerRegistry/registries/tasks",
         "properties": {
           "provisioningState": "Succeeded",
-          "creationDate": "2022-11-18T06:53:28.5282602\u002B00:00",
+          "creationDate": "2023-02-10T03:05:18.6101961\u002B00:00",
           "status": "Enabled",
           "platform": {
             "os": "Linux",
@@ -71,10 +71,10 @@
         "systemData": {
           "createdBy": "azure_client_id",
           "createdByType": "Application",
-          "createdAt": "2022-11-18T06:53:27.6521971\u002B00:00",
+          "createdAt": "2023-02-10T03:05:17.7512157\u002B00:00",
           "lastModifiedBy": "azure_client_id",
           "lastModifiedByType": "Application",
-          "lastModifiedAt": "2022-11-18T06:53:27.6521971\u002B00:00"
+          "lastModifiedAt": "2023-02-10T03:05:17.7512157\u002B00:00"
         }
       }
     }

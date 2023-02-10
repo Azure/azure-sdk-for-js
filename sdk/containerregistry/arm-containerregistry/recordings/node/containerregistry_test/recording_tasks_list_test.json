@@ -8,8 +8,8 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-containerregistry/10.1.0-beta.4 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "bf1a0d7f-57f0-4489-8d53-fd5c5d892b46"
+        "User-Agent": "azsdk-js-arm-containerregistry/10.1.0-beta.5 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "a4f23a7e-0e33-4643-9d67-15db33ef8db9"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,17 +17,17 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 18 Nov 2022 06:53:33 GMT",
+        "Date": "Fri, 10 Feb 2023 03:05:23 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "a92e0473-410b-4624-b9e6-fa67d4afc25f",
+        "x-ms-correlation-request-id": "fd431088-d2fb-4405-90c9-678a0bde1239",
         "x-ms-ratelimit-remaining-subscription-reads": "11998",
-        "x-ms-request-id": "14284b37-0000-45b5-905a-941144f124aa",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20221118T065333Z:a92e0473-410b-4624-b9e6-fa67d4afc25f"
+        "x-ms-request-id": "46acebc5-897d-4c38-ada9-eb41b64f1f88",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230210T030523Z:fd431088-d2fb-4405-90c9-678a0bde1239"
       },
       "ResponseBody": {
         "value": [
@@ -35,7 +35,7 @@
             "type": "Microsoft.ContainerRegistry/registries/tasks",
             "properties": {
               "provisioningState": "Succeeded",
-              "creationDate": "2022-11-18T06:53:28.5282602\u002B00:00",
+              "creationDate": "2023-02-10T03:05:18.6101961\u002B00:00",
               "status": "Enabled",
               "platform": {
                 "os": "Linux",
@@ -73,10 +73,10 @@
             "systemData": {
               "createdBy": "azure_client_id",
               "createdByType": "Application",
-              "createdAt": "2022-11-18T06:53:27.6521971\u002B00:00",
+              "createdAt": "2023-02-10T03:05:17.7512157\u002B00:00",
               "lastModifiedBy": "azure_client_id",
               "lastModifiedByType": "Application",
-              "lastModifiedAt": "2022-11-18T06:53:27.6521971\u002B00:00"
+              "lastModifiedAt": "2023-02-10T03:05:17.7512157\u002B00:00"
             }
           }
         ]

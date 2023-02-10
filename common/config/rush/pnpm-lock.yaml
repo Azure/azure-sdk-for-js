@@ -3894,7 +3894,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20230208
+      typescript: 5.0.0-dev.20230209
     dev: false
 
   /downlevel-dts/0.7.0:
@@ -6537,6 +6537,12 @@ packages:
     hasBin: true
     dev: false
 
+  /mkdirp/2.1.3:
+    resolution: {integrity: sha512-sjAkg21peAG9HS+Dkx7hlG9Ztx7HLeKnvB3NQRcu/mltCVmvkF0pisbiTSfDVYTT86XEfZrTUosLdZLStquZUw==}
+    engines: {node: '>=10'}
+    hasBin: true
+    dev: false
+
   /mocha-junit-reporter/1.23.3_mocha@7.2.0:
     resolution: {integrity: sha512-ed8LqbRj1RxZfjt/oC9t12sfrWsjZ3gNnbhV1nuj9R/Jb5/P3Xb4duv2eCfCDMYH+fEu0mqca7m4wsiVjsxsvA==}
     peerDependencies:
@@ -8779,8 +8785,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20230208:
-    resolution: {integrity: sha512-FkUy5kJ7XmLYxej9g9Lq4FMw3P6YjKuesa+1YoLvz2lHZuRuf91VxLsj9DWtknGCmjOVvyu+eefaeVknGTiI/Q==}
+  /typescript/5.0.0-dev.20230209:
+    resolution: {integrity: sha512-EKEs7zC40JV4BTgxULx8oDWSya4r2FeqSVpwuK7ZRu4OBErBo8n59wBAR6r+NBbkxG8JzxMOE2+fazbu/nLi9A==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -9540,7 +9546,7 @@ packages:
     dev: false
 
   file:projects/ai-language-conversations.tgz:
-    resolution: {integrity: sha512-yY5M/gHRLivJs1GxX0ON4tUQ4cHf5jopKrZXfcYjbpPYH4dAIStK1QeWFiG3S79MQ7fTNJMCQb/7RhIL3Gtnrw==, tarball: file:projects/ai-language-conversations.tgz}
+    resolution: {integrity: sha512-BC/j++g/PniHxRt71g8JwkBoi/8VY4QtE6jGA9H4DXcQkptS8F425OsM1rxIzEvFkLnlXPn0voeCHsEKgt9teg==, tarball: file:projects/ai-language-conversations.tgz}
     name: '@rush-temp/ai-language-conversations'
     version: 0.0.0
     dependencies:
@@ -11117,7 +11123,7 @@ packages:
     dev: false
 
   file:projects/arm-containerregistry.tgz:
-    resolution: {integrity: sha512-GdIZ08PrNkQvwrvWvjBWhtiRAmiRuNmIpFHA6VEyge8h0RXp/7SKKpcttFoActctqAo29AWbavERfaX2r6bPmg==, tarball: file:projects/arm-containerregistry.tgz}
+    resolution: {integrity: sha512-aafU9Vc6ExRvKpH14gdPXSncN18huZCpNYIpa0jSEmbgdDEEwPwQVJBEo7rOHSuxVPXqGej8/DNZrIdeEln2dg==, tarball: file:projects/arm-containerregistry.tgz}
     name: '@rush-temp/arm-containerregistry'
     version: 0.0.0
     dependencies:
@@ -11131,7 +11137,8 @@ packages:
       '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.0.3
+      mkdirp: 2.1.3
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
@@ -15755,7 +15762,7 @@ packages:
     dev: false
 
   file:projects/communication-network-traversal.tgz:
-    resolution: {integrity: sha512-EvMiSy2kO8Rqsti4PvmNyb9ftsF47yNGKh857/IbNscxHRSBi73Dbu84ayET/UvRCqTKLwyA2rBLMBs3hM4zaw==, tarball: file:projects/communication-network-traversal.tgz}
+    resolution: {integrity: sha512-j/4HA05kscsrZahh1azdeLjO8ATvGcDxr45jHC30HmwGAkMXjc5ukuNq6yI8TPvwrAPqgKry5uY65kfhISTIUQ==, tarball: file:projects/communication-network-traversal.tgz}
     name: '@rush-temp/communication-network-traversal'
     version: 0.0.0
     dependencies:
@@ -17192,7 +17199,7 @@ packages:
     dev: false
 
   file:projects/identity.tgz:
-    resolution: {integrity: sha512-brF7QRLqUk7tKTDBJoHl35fVdUUJ9uK98o4/oMYrweDl+ZYc6onnpV4CPOxecFeVzz+P2JkgmgRIazQ7XIK5bg==, tarball: file:projects/identity.tgz}
+    resolution: {integrity: sha512-eKTRjpsseEkPzt/cDZQG2h1k2xQceTqrKhg9LnYC64/e11VhthO824QCA0kwNMxRI1m3vy1D07UGwXEOap8x3A==, tarball: file:projects/identity.tgz}
     name: '@rush-temp/identity'
     version: 0.0.0
     dependencies:
