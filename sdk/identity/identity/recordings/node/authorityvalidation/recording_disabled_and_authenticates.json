@@ -7,7 +7,7 @@
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
         "User-Agent": "User-Agent",
-        "x-ms-client-request-id": "d0408cb2-aca1-4cc9-83c1-0ff3abc5ab0d"
+        "x-ms-client-request-id": "8c65b605-fb28-4ed6-b290-a916f157569c"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,13 +17,13 @@
         "Cache-Control": "max-age=86400, private",
         "Content-Length": "1753",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 09 Feb 2023 21:14:58 GMT",
+        "Date": "Fri, 10 Feb 2023 20:01:49 GMT",
         "P3P": "CP=\u0022DSP CUR OTPi IND OTRi ONL FIN\u0022",
-        "Set-Cookie": "fpc=secret_cookie; expires=Sat, 11-Mar-2023 21:14:58 GMT; path=/; secure; HttpOnly; SameSite=None",
+        "Set-Cookie": "fpc=secret_cookie; expires=Sun, 12-Mar-2023 20:01:50 GMT; path=/; secure; HttpOnly; SameSite=None",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-ests-server": "2.1.14601.8 - EUS ProdSlices",
-        "x-ms-request-id": "cd4361f5-c28a-4a3f-b485-885e95c56302",
+        "x-ms-ests-server": "2.1.14601.9 - SCUS ProdSlices",
+        "x-ms-request-id": "be857314-7132-4de4-92bb-7bc013d72100",
         "X-XSS-Protection": "0"
       },
       "ResponseBody": {
@@ -100,27 +100,27 @@
       "RequestHeaders": {
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
-        "Content-Length": "510",
+        "Content-Length": "489",
         "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
         "User-Agent": "User-Agent",
-        "x-ms-client-request-id": "f8235f84-6eee-4c65-8a69-3ec88d366ee1"
+        "x-ms-client-request-id": "9a82a3c9-9fa7-4006-af61-16fb1267aebe"
       },
-      "RequestBody": "client_id=azure_client_id\u0026scope=https%3A%2F%2Fvault.azure.net%2F.default\u0026grant_type=client_credentials\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|771,2,,,|,\u0026x-client-last-telemetry=5|0|||0,0\u0026client-request-id=client-request-id\u0026client_secret=s%3F%3Dq2ZAdO%3D-Vn8ecVgo0Hv64-%3D4ril2t\u0026claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D",
+      "RequestBody": "client_id=azure_client_id\u0026scope=https%3A%2F%2Fvault.azure.net%2F.default\u0026grant_type=client_credentials\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|771,2,,,|,\u0026x-client-last-telemetry=5|0|||0,0\u0026client-request-id=client-request-id\u0026client_secret=azure_client_secret\u0026claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D",
       "StatusCode": 200,
       "ResponseHeaders": {
         "Cache-Control": "no-store, no-cache",
         "Content-Length": "95",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 09 Feb 2023 21:14:58 GMT",
+        "Date": "Fri, 10 Feb 2023 20:01:49 GMT",
         "Expires": "-1",
         "P3P": "CP=\u0022DSP CUR OTPi IND OTRi ONL FIN\u0022",
         "Pragma": "no-cache",
-        "Set-Cookie": "fpc=secret_cookie; expires=Sat, 11-Mar-2023 21:14:58 GMT; path=/; secure; HttpOnly; SameSite=None",
+        "Set-Cookie": "fpc=secret_cookie; expires=Sun, 12-Mar-2023 20:01:50 GMT; path=/; secure; HttpOnly; SameSite=None",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
         "x-ms-clitelem": "1,0,0,,",
-        "x-ms-ests-server": "2.1.14601.8 - EUS ProdSlices",
-        "x-ms-request-id": "2d008cec-0e90-44a0-9126-ad8b5f5b7f02",
+        "x-ms-ests-server": "2.1.14601.9 - WUS2 ProdSlices",
+        "x-ms-request-id": "cabac6d2-50f6-45e4-9036-597ab2c02000",
         "X-XSS-Protection": "0"
       },
       "ResponseBody": {
