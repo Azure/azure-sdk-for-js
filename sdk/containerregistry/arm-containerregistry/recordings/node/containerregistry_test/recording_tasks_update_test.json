@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ContainerRegistry/registries/myregistryxxxyy/tasks/mytaskxxx?api-version=2019-06-01-preview",
+      "RequestUri": "https://management.azure.com/subscriptions/88888888-8888-8888-8888-888888888888/resourceGroups/myjstest/providers/Microsoft.ContainerRegistry/registries/myregistryxxxyy/tasks/mytaskxxx?api-version=2019-06-01-preview",
       "RequestMethod": "PATCH",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -11,7 +11,7 @@
         "Content-Length": "476",
         "Content-Type": "application/json",
         "User-Agent": "azsdk-js-arm-containerregistry/10.1.0-beta.5 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "96f44d00-604b-4758-8105-e64da9aa5787"
+        "x-ms-client-request-id": "7fb1f8b3-1190-42e3-b1a5-4e95d93f8a4c"
       },
       "RequestBody": {
         "tags": {
@@ -51,23 +51,23 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 10 Feb 2023 03:05:26 GMT",
+        "Date": "Fri, 10 Feb 2023 06:18:46 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "3576eafb-8a86-4dfa-93ad-9528221b3162",
+        "x-ms-correlation-request-id": "494c63de-ccdc-4c85-afc1-bb4a80a9531f",
         "x-ms-ratelimit-remaining-subscription-writes": "1197",
-        "x-ms-request-id": "2d7b305c-9f5c-4837-8ed6-6d95026ee4a9",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20230210T030526Z:3576eafb-8a86-4dfa-93ad-9528221b3162"
+        "x-ms-request-id": "22fe8e38-b1a0-49da-9b43-3504900bb6b2",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230210T061847Z:494c63de-ccdc-4c85-afc1-bb4a80a9531f"
       },
       "ResponseBody": {
         "type": "Microsoft.ContainerRegistry/registries/tasks",
         "properties": {
           "provisioningState": "Succeeded",
-          "creationDate": "2023-02-10T03:05:18.6101961\u002B00:00",
+          "creationDate": "2023-02-10T06:18:39.6662275\u002B00:00",
           "status": "Enabled",
           "platform": {
             "os": "Linux",
@@ -96,7 +96,7 @@
             }
           }
         },
-        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.ContainerRegistry/registries/myregistryxxxyy/tasks/mytaskxxx",
+        "id": "/subscriptions/88888888-8888-8888-8888-888888888888/resourceGroups/myjstest/providers/Microsoft.ContainerRegistry/registries/myregistryxxxyy/tasks/mytaskxxx",
         "name": "mytaskxxx",
         "tags": {
           "testkey": "value"
@@ -105,10 +105,10 @@
         "systemData": {
           "createdBy": "azure_client_id",
           "createdByType": "Application",
-          "createdAt": "2023-02-10T03:05:17.7512157\u002B00:00",
+          "createdAt": "2023-02-10T06:18:38.659972\u002B00:00",
           "lastModifiedBy": "azure_client_id",
           "lastModifiedByType": "Application",
-          "lastModifiedAt": "2023-02-10T03:05:25.3449554\u002B00:00"
+          "lastModifiedAt": "2023-02-10T06:18:45.9568306\u002B00:00"
         }
       }
     }
