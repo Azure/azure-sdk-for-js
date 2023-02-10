@@ -93,9 +93,11 @@
   "dependencies": {
     "@azure/storage-blob": "^12.12.0",
     "@azure/abort-controller": "^1.0.0",
-    "@azure/core-http": "^3.0.0",
+    "@azure/core-auth": "^1.4.0",
+    "@azure/core-http-compat": "^2.0.0",
     "@azure/core-lro": "^2.2.0",
     "@azure/core-paging": "^1.1.1",
+    "@azure/core-rest-pipeline": "^1.10.1",
     "@azure/core-tracing": "1.0.0-preview.13",
     "@azure/logger": "^1.0.0",
     "events": "^3.0.0",

@@ -3,7 +3,7 @@
 
 import { Readable, ReadableOptions } from "stream";
 import { BlobClient, CommonOptions } from "@azure/storage-blob";
-import { AbortSignalLike } from "@azure/core-http";
+import { AbortSignalLike } from "@azure/abort-controller";
 import { createSpan } from "./utils/tracing";
 import { SpanStatusCode } from "@azure/core-tracing";
 
