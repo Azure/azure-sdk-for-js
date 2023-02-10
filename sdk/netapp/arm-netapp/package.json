@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for NetAppManagementClient.",
-  "version": "17.0.1",
+  "version": "17.0.2",
   "engines": {
     "node": ">=14.0.0"
   },

@@ -1,0 +1,170 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/providers/Qumulo.Storage/operations?api-version=2022-10-12-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-liftrqumulo/1.0.0-beta.1 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "d4e4aa49-54f8-4331-8309-ff7217948e96"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 06 Feb 2023 08:21:44 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "718d8f04-6d26-49e8-9f44-d3c77f101dbb",
+        "x-ms-providerhub-traffic": "True",
+        "x-ms-ratelimit-remaining-tenant-reads": "11999",
+        "x-ms-request-id": "fc2d0e9b-f210-47ee-bc73-6a6ab568015c",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230206T082144Z:718d8f04-6d26-49e8-9f44-d3c77f101dbb"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "name": "Qumulo.Storage/registeredSubscriptions/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Qumulo.Storage",
+              "resource": "registeredSubscriptions",
+              "operation": "read_registeredSubscriptions",
+              "description": "read registeredSubscriptions"
+            }
+          },
+          {
+            "name": "Qumulo.Storage/locations/operationStatuses/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Qumulo.Storage",
+              "resource": "locations/operationStatuses",
+              "operation": "read_operationStatuses",
+              "description": "read operationStatuses"
+            }
+          },
+          {
+            "name": "Qumulo.Storage/locations/operationStatuses/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Qumulo.Storage",
+              "resource": "locations/operationStatuses",
+              "operation": "write_operationStatuses",
+              "description": "write operationStatuses"
+            }
+          },
+          {
+            "name": "Qumulo.Storage/checkNameAvailability/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Qumulo.Storage",
+              "resource": "checkNameAvailability",
+              "operation": "action_checkNameAvailability",
+              "description": "action checkNameAvailability"
+            }
+          },
+          {
+            "name": "Qumulo.Storage/operations/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Qumulo.Storage",
+              "resource": "operations",
+              "operation": "read_operations",
+              "description": "read operations"
+            }
+          },
+          {
+            "name": "Qumulo.Storage/fileSystems/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Qumulo.Storage",
+              "resource": "fileSystems",
+              "operation": "FileSystems_ListBySubscription",
+              "description": "List FileSystemResource resources by subscription ID"
+            }
+          },
+          {
+            "name": "Qumulo.Storage/fileSystems/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Qumulo.Storage",
+              "resource": "fileSystems",
+              "operation": "FileSystems_ListByResourceGroup",
+              "description": "List FileSystemResource resources by resource group"
+            }
+          },
+          {
+            "name": "Qumulo.Storage/fileSystems/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Qumulo.Storage",
+              "resource": "fileSystems",
+              "operation": "FileSystems_Get",
+              "description": "Get a FileSystemResource"
+            }
+          },
+          {
+            "name": "Qumulo.Storage/fileSystems/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Qumulo.Storage",
+              "resource": "fileSystems",
+              "operation": "FileSystems_CreateOrUpdate",
+              "description": "Create a FileSystemResource"
+            }
+          },
+          {
+            "name": "Qumulo.Storage/fileSystems/delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "Qumulo.Storage",
+              "resource": "fileSystems",
+              "operation": "FileSystems_Delete",
+              "description": "Delete a FileSystemResource"
+            }
+          },
+          {
+            "name": "Qumulo.Storage/fileSystems/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Qumulo.Storage",
+              "resource": "fileSystems",
+              "operation": "FileSystems_Update",
+              "description": "Update a FileSystemResource"
+            }
+          },
+          {
+            "name": "Qumulo.Storage/register/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Qumulo.Storage",
+              "resource": "Qumulo.Storage",
+              "operation": "Register the Qumulo.Storage",
+              "description": "Register the subscription for Qumulo.Storage"
+            }
+          },
+          {
+            "name": "Qumulo.Storage/unregister/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Qumulo.Storage",
+              "resource": "Qumulo.Storage",
+              "operation": "Unregister the Qumulo.Storage",
+              "description": "Unregister the subscription for Qumulo.Storage"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

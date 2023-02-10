@@ -1,5 +1,15 @@
 # Release History
 
+## 7.8.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 7.8.0 (2023-02-07)
 
 ### Features Added

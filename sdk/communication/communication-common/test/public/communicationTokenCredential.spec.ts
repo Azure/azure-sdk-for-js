@@ -34,26 +34,26 @@ const exposeInternalUpdatePromise = async (
   }
 };
 
-describe("CommunicationTokenCredential", () => {
+describe("CommunicationTokenCredential", function () {
   let clock: sinon.SinonFakeTimers;
 
-  beforeEach(() => {
+  beforeEach(function () {
     clock = sinon.useFakeTimers();
   });
 
-  afterEach(() => {
+  afterEach(function () {
     clock.restore();
   });
 
-  it("handles valid JWT strings", async () => {
+  it("handles valid JWT strings", async function () {
     new AzureCommunicationTokenCredential(generateToken(60));
   });
 
-  it("throws if non-JWT token", async () => {
+  it("throws if non-JWT token", async function () {
     assert.throws(() => new AzureCommunicationTokenCredential("IAmNotAToken"), /Invalid token/);
   });
 
-  it("throws if non-JWT passed as lambda", async () => {
+  it("throws if non-JWT passed as lambda", async function () {
     await assert.isRejected(
       new AzureCommunicationTokenCredential({
         tokenRefresher: async () => "IAmNotAToken",
@@ -61,14 +61,14 @@ describe("CommunicationTokenCredential", () => {
     );
   });
 
-  it("returns token as expected", async () => {
+  it("returns token as expected", async function () {
     const token = generateToken(60);
     const tokenCredential = new AzureCommunicationTokenCredential(token);
     const tokenResult = (await tokenCredential.getToken()).token;
     assert.strictEqual(tokenResult, token);
   });
 
-  it("returns token as expected when using lambda", async () => {
+  it("returns token as expected when using lambda", async function () {
     const token = generateToken(60);
     const tokenRefresher = sinon.stub().resolves(token);
     const tokenCredential = new AzureCommunicationTokenCredential({
@@ -79,7 +79,7 @@ describe("CommunicationTokenCredential", () => {
     sinon.assert.calledOnce(tokenRefresher);
   });
 
-  it("uses initial token as expected", async () => {
+  it("uses initial token as expected", async function () {
     const token = generateToken(60);
     const tokenRefresher = sinon.stub().resolves(generateToken(120));
     const tokenCredential = new AzureCommunicationTokenCredential({
@@ -92,7 +92,7 @@ describe("CommunicationTokenCredential", () => {
     sinon.assert.notCalled(tokenRefresher);
   });
 
-  it("no proactive refresh, accepts expired token", async () => {
+  it("no proactive refresh, accepts expired token", async function () {
     const tokenRefresher = sinon.stub().resolves(generateToken(-1));
     new AzureCommunicationTokenCredential({
       tokenRefresher,
@@ -101,7 +101,7 @@ describe("CommunicationTokenCredential", () => {
     sinon.assert.notCalled(tokenRefresher);
   });
 
-  it("with proactive refresh, passing an expired token to constructor triggers immediate refresh", async () => {
+  it("with proactive refresh, passing an expired token to constructor triggers immediate refresh", async function () {
     const tokenRefresher = sinon.stub().resolves(generateToken(30));
     new AzureCommunicationTokenCredential({
       tokenRefresher,
@@ -113,7 +113,7 @@ describe("CommunicationTokenCredential", () => {
     sinon.assert.calledOnce(tokenRefresher);
   });
 
-  it("throws if tokenRefresher returns an expired token", async () => {
+  it("throws if tokenRefresher returns an expired token", async function () {
     const tokenRefresher = sinon.stub().resolves(generateToken(-1));
     const credential = new AzureCommunicationTokenCredential({
       tokenRefresher: tokenRefresher,
@@ -127,14 +127,14 @@ describe("CommunicationTokenCredential", () => {
     sinon.assert.calledOnce(tokenRefresher);
   });
 
-  it("returns expired token when not using a lambda", async () => {
+  it("returns expired token when not using a lambda", async function () {
     const token = generateToken(-1);
     const tokenCredential = new AzureCommunicationTokenCredential(token);
     const tokenResult = (await tokenCredential.getToken()).token;
     assert.strictEqual(tokenResult, token);
   });
 
-  it("passes abortSignal through to tokenRefresher", async () => {
+  it("passes abortSignal through to tokenRefresher", async function () {
     const tokenRefresher = sinon.stub().resolves(generateToken(60));
     const tokenCredential = new AzureCommunicationTokenCredential({
       tokenRefresher,
@@ -144,7 +144,7 @@ describe("CommunicationTokenCredential", () => {
     sinon.assert.calledOnceWithExactly(tokenRefresher, options.abortSignal);
   });
 
-  it("throws if disposed", async () => {
+  it("throws if disposed", async function () {
     const withStatic = new AzureCommunicationTokenCredential(generateToken(60));
     const withLambda = new AzureCommunicationTokenCredential({
       tokenRefresher: async () => generateToken(60),
@@ -155,7 +155,7 @@ describe("CommunicationTokenCredential", () => {
     await assert.isRejected(withLambda.getToken());
   });
 
-  it("doesn't swallow error from tokenRefresher", async () => {
+  it("doesn't swallow error from tokenRefresher", async function () {
     const tokenRefresher = sinon.stub().throws(new Error("No token for you!"));
     const tokenCredential = new AzureCommunicationTokenCredential({
       tokenRefresher,
@@ -163,7 +163,7 @@ describe("CommunicationTokenCredential", () => {
     await assert.isRejected(tokenCredential.getToken());
   });
 
-  it("requests new token when token is about to expire", async () => {
+  it("requests new token when token is about to expire", async function () {
     const token = generateToken(20);
     const newToken = generateToken(60);
     const tokenRefresher = sinon.stub().resolves(token);
@@ -188,7 +188,7 @@ describe("CommunicationTokenCredential", () => {
     sinon.assert.calledTwice(tokenRefresher);
   });
 
-  it("proactively refreshes token when it is about to expire", async () => {
+  it("proactively refreshes token when it is about to expire", async function () {
     const token = (): string => generateToken(20);
     const tokenRefresher = sinon.stub().resolves(token());
     new AzureCommunicationTokenCredential({
@@ -202,7 +202,7 @@ describe("CommunicationTokenCredential", () => {
     sinon.assert.calledOnce(tokenRefresher);
   });
 
-  it("repeats proactive refreshing", async () => {
+  it("repeats proactive refreshing", async function () {
     const token = (): string => generateToken(20);
     const tokenRefresher = sinon.stub().resolves(token());
     const tokenCredential = new AzureCommunicationTokenCredential({
@@ -223,7 +223,7 @@ describe("CommunicationTokenCredential", () => {
     assert.notEqual(internalTimeout, newInternalTimeout);
   });
 
-  it("dispose cancels timer", async () => {
+  it("dispose cancels timer", async function () {
     const token = (): string => generateToken(20);
     const tokenRefresher = sinon.stub().resolves(token());
     const tokenCredential = new AzureCommunicationTokenCredential({
@@ -238,7 +238,7 @@ describe("CommunicationTokenCredential", () => {
     sinon.assert.notCalled(tokenRefresher);
   });
 
-  it("multiple calls to getToken call tokenRefresher only once", async () => {
+  it("multiple calls to getToken call tokenRefresher only once", async function () {
     const tokenRefresher = sinon.stub().resolves(generateToken(60));
     const tokenCredential = new AzureCommunicationTokenCredential({ tokenRefresher });
 
@@ -249,7 +249,7 @@ describe("CommunicationTokenCredential", () => {
     sinon.assert.calledOnce(tokenRefresher);
   });
 
-  it("calls tokenRefresher only once when proactive refreshing is in progress", async () => {
+  it("calls tokenRefresher only once when proactive refreshing is in progress", async function () {
     const tokenRefresher = sinon.stub().resolves(generateToken(20));
     const tokenCredential = new AzureCommunicationTokenCredential({
       tokenRefresher,
@@ -262,7 +262,7 @@ describe("CommunicationTokenCredential", () => {
     sinon.assert.calledOnce(tokenRefresher);
   });
 
-  it("applies fractional backoff when the token is about to expire", async () => {
+  it("applies fractional backoff when the token is about to expire", async function () {
     const defaultRefreshAfterLifetimePercentage = 0.5;
     const tokenExpirationMinutes = 20;
     const expectedPreBackOffCallCount = 1;
