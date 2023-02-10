@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export interface AccessPolicyResponse {
@@ -455,8 +455,10 @@ export interface AzureBlobFSWriteSettings extends StoreWriteSettings {
 export interface AzureBlobStorageLinkedService extends LinkedService {
     accountKey?: AzureKeyVaultSecretReference;
     accountKind?: string;
+    authenticationType?: AzureStorageAuthenticationType;
     azureCloudType?: any;
     connectionString?: any;
+    containerUri?: any;
     credential?: CredentialReference;
     encryptedCredential?: string;
     sasToken?: AzureKeyVaultSecretReference;
@@ -1025,6 +1027,9 @@ export interface AzureSqlTableDataset extends Dataset {
     tableName?: any;
     type: "AzureSqlTable";
 }
+
+// @public
+export type AzureStorageAuthenticationType = string;
 
 // @public
 export interface AzureStorageLinkedService extends LinkedService {
@@ -1786,9 +1791,9 @@ export interface DataFlowDebugResource extends SubResourceDebugResource {
 // @public
 export interface DataFlowDebugSession {
     addDataFlow(resourceGroupName: string, factoryName: string, request: DataFlowDebugPackage, options?: DataFlowDebugSessionAddDataFlowOptionalParams): Promise<DataFlowDebugSessionAddDataFlowResponse>;
-    beginCreate(resourceGroupName: string, factoryName: string, request: CreateDataFlowDebugSessionRequest, options?: DataFlowDebugSessionCreateOptionalParams): Promise<PollerLike<PollOperationState<DataFlowDebugSessionCreateResponse>, DataFlowDebugSessionCreateResponse>>;
+    beginCreate(resourceGroupName: string, factoryName: string, request: CreateDataFlowDebugSessionRequest, options?: DataFlowDebugSessionCreateOptionalParams): Promise<SimplePollerLike<OperationState<DataFlowDebugSessionCreateResponse>, DataFlowDebugSessionCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, factoryName: string, request: CreateDataFlowDebugSessionRequest, options?: DataFlowDebugSessionCreateOptionalParams): Promise<DataFlowDebugSessionCreateResponse>;
-    beginExecuteCommand(resourceGroupName: string, factoryName: string, request: DataFlowDebugCommandRequest, options?: DataFlowDebugSessionExecuteCommandOptionalParams): Promise<PollerLike<PollOperationState<DataFlowDebugSessionExecuteCommandResponse>, DataFlowDebugSessionExecuteCommandResponse>>;
+    beginExecuteCommand(resourceGroupName: string, factoryName: string, request: DataFlowDebugCommandRequest, options?: DataFlowDebugSessionExecuteCommandOptionalParams): Promise<SimplePollerLike<OperationState<DataFlowDebugSessionExecuteCommandResponse>, DataFlowDebugSessionExecuteCommandResponse>>;
     beginExecuteCommandAndWait(resourceGroupName: string, factoryName: string, request: DataFlowDebugCommandRequest, options?: DataFlowDebugSessionExecuteCommandOptionalParams): Promise<DataFlowDebugSessionExecuteCommandResponse>;
     delete(resourceGroupName: string, factoryName: string, request: DeleteDataFlowDebugSessionRequest, options?: DataFlowDebugSessionDeleteOptionalParams): Promise<void>;
     listQueryByFactory(resourceGroupName: string, factoryName: string, options?: DataFlowDebugSessionQueryByFactoryOptionalParams): PagedAsyncIterableIterator<DataFlowDebugSessionInfo>;
@@ -3746,7 +3751,7 @@ export type IntegrationRuntimeNodesUpdateResponse = SelfHostedIntegrationRuntime
 
 // @public
 export interface IntegrationRuntimeObjectMetadata {
-    beginRefresh(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: IntegrationRuntimeObjectMetadataRefreshOptionalParams): Promise<PollerLike<PollOperationState<IntegrationRuntimeObjectMetadataRefreshResponse>, IntegrationRuntimeObjectMetadataRefreshResponse>>;
+    beginRefresh(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: IntegrationRuntimeObjectMetadataRefreshOptionalParams): Promise<SimplePollerLike<OperationState<IntegrationRuntimeObjectMetadataRefreshResponse>, IntegrationRuntimeObjectMetadataRefreshResponse>>;
     beginRefreshAndWait(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: IntegrationRuntimeObjectMetadataRefreshOptionalParams): Promise<IntegrationRuntimeObjectMetadataRefreshResponse>;
     get(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: IntegrationRuntimeObjectMetadataGetOptionalParams): Promise<IntegrationRuntimeObjectMetadataGetResponse>;
 }
@@ -3811,9 +3816,9 @@ export interface IntegrationRuntimeResource extends SubResource {
 
 // @public
 export interface IntegrationRuntimes {
-    beginStart(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: IntegrationRuntimesStartOptionalParams): Promise<PollerLike<PollOperationState<IntegrationRuntimesStartResponse>, IntegrationRuntimesStartResponse>>;
+    beginStart(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: IntegrationRuntimesStartOptionalParams): Promise<SimplePollerLike<OperationState<IntegrationRuntimesStartResponse>, IntegrationRuntimesStartResponse>>;
     beginStartAndWait(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: IntegrationRuntimesStartOptionalParams): Promise<IntegrationRuntimesStartResponse>;
-    beginStop(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: IntegrationRuntimesStopOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginStop(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: IntegrationRuntimesStopOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginStopAndWait(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, options?: IntegrationRuntimesStopOptionalParams): Promise<void>;
     createLinkedIntegrationRuntime(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, createLinkedIntegrationRuntimeRequest: CreateLinkedIntegrationRuntimeRequest, options?: IntegrationRuntimesCreateLinkedIntegrationRuntimeOptionalParams): Promise<IntegrationRuntimesCreateLinkedIntegrationRuntimeResponse>;
     createOrUpdate(resourceGroupName: string, factoryName: string, integrationRuntimeName: string, integrationRuntime: IntegrationRuntimeResource, options?: IntegrationRuntimesCreateOrUpdateOptionalParams): Promise<IntegrationRuntimesCreateOrUpdateResponse>;
@@ -4126,6 +4131,15 @@ export enum KnownAzureFunctionActivityMethod {
 export enum KnownAzureSearchIndexWriteBehaviorType {
     Merge = "Merge",
     Upload = "Upload"
+}
+
+// @public
+export enum KnownAzureStorageAuthenticationType {
+    AccountKey = "AccountKey",
+    Anonymous = "Anonymous",
+    Msi = "Msi",
+    SasUri = "SasUri",
+    ServicePrincipal = "ServicePrincipal"
 }
 
 // @public
@@ -7998,13 +8012,13 @@ export type TriggerRuntimeState = string;
 
 // @public
 export interface Triggers {
-    beginStart(resourceGroupName: string, factoryName: string, triggerName: string, options?: TriggersStartOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginStart(resourceGroupName: string, factoryName: string, triggerName: string, options?: TriggersStartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginStartAndWait(resourceGroupName: string, factoryName: string, triggerName: string, options?: TriggersStartOptionalParams): Promise<void>;
-    beginStop(resourceGroupName: string, factoryName: string, triggerName: string, options?: TriggersStopOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginStop(resourceGroupName: string, factoryName: string, triggerName: string, options?: TriggersStopOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginStopAndWait(resourceGroupName: string, factoryName: string, triggerName: string, options?: TriggersStopOptionalParams): Promise<void>;
-    beginSubscribeToEvents(resourceGroupName: string, factoryName: string, triggerName: string, options?: TriggersSubscribeToEventsOptionalParams): Promise<PollerLike<PollOperationState<TriggersSubscribeToEventsResponse>, TriggersSubscribeToEventsResponse>>;
+    beginSubscribeToEvents(resourceGroupName: string, factoryName: string, triggerName: string, options?: TriggersSubscribeToEventsOptionalParams): Promise<SimplePollerLike<OperationState<TriggersSubscribeToEventsResponse>, TriggersSubscribeToEventsResponse>>;
     beginSubscribeToEventsAndWait(resourceGroupName: string, factoryName: string, triggerName: string, options?: TriggersSubscribeToEventsOptionalParams): Promise<TriggersSubscribeToEventsResponse>;
-    beginUnsubscribeFromEvents(resourceGroupName: string, factoryName: string, triggerName: string, options?: TriggersUnsubscribeFromEventsOptionalParams): Promise<PollerLike<PollOperationState<TriggersUnsubscribeFromEventsResponse>, TriggersUnsubscribeFromEventsResponse>>;
+    beginUnsubscribeFromEvents(resourceGroupName: string, factoryName: string, triggerName: string, options?: TriggersUnsubscribeFromEventsOptionalParams): Promise<SimplePollerLike<OperationState<TriggersUnsubscribeFromEventsResponse>, TriggersUnsubscribeFromEventsResponse>>;
     beginUnsubscribeFromEventsAndWait(resourceGroupName: string, factoryName: string, triggerName: string, options?: TriggersUnsubscribeFromEventsOptionalParams): Promise<TriggersUnsubscribeFromEventsResponse>;
     createOrUpdate(resourceGroupName: string, factoryName: string, triggerName: string, trigger: TriggerResource, options?: TriggersCreateOrUpdateOptionalParams): Promise<TriggersCreateOrUpdateResponse>;
     delete(resourceGroupName: string, factoryName: string, triggerName: string, options?: TriggersDeleteOptionalParams): Promise<void>;

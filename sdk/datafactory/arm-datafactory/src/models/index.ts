@@ -4118,6 +4118,10 @@ export interface AzureBlobStorageLinkedService extends LinkedService {
   encryptedCredential?: string;
   /** The credential reference containing authentication information. */
   credential?: CredentialReference;
+  /** The type used for authentication. Type: string. */
+  authenticationType?: AzureStorageAuthenticationType;
+  /** Container uri of the Azure Blob Storage resource only support for anonymous access. Type: string (or Expression with resultType string). */
+  containerUri?: any;
 }
 
 /** The azure table storage linked service. */
@@ -11492,6 +11496,33 @@ export enum KnownIntegrationRuntimeInternalChannelEncryptionMode {
  * **NotEncrypted**
  */
 export type IntegrationRuntimeInternalChannelEncryptionMode = string;
+
+/** Known values of {@link AzureStorageAuthenticationType} that the service accepts. */
+export enum KnownAzureStorageAuthenticationType {
+  /** Anonymous */
+  Anonymous = "Anonymous",
+  /** AccountKey */
+  AccountKey = "AccountKey",
+  /** SasUri */
+  SasUri = "SasUri",
+  /** ServicePrincipal */
+  ServicePrincipal = "ServicePrincipal",
+  /** Msi */
+  Msi = "Msi"
+}
+
+/**
+ * Defines values for AzureStorageAuthenticationType. \
+ * {@link KnownAzureStorageAuthenticationType} can be used interchangeably with AzureStorageAuthenticationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Anonymous** \
+ * **AccountKey** \
+ * **SasUri** \
+ * **ServicePrincipal** \
+ * **Msi**
+ */
+export type AzureStorageAuthenticationType = string;
 
 /** Known values of {@link SqlAlwaysEncryptedAkvAuthType} that the service accepts. */
 export enum KnownSqlAlwaysEncryptedAkvAuthType {

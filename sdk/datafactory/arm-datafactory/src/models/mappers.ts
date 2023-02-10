@@ -8157,6 +8157,18 @@ export const AzureBlobStorageLinkedService: coreClient.CompositeMapper = {
           name: "Composite",
           className: "CredentialReference"
         }
+      },
+      authenticationType: {
+        serializedName: "typeProperties.authenticationType",
+        type: {
+          name: "String"
+        }
+      },
+      containerUri: {
+        serializedName: "typeProperties.containerUri",
+        type: {
+          name: "any"
+        }
       }
     }
   }
