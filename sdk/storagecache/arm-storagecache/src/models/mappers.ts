@@ -1812,6 +1812,18 @@ export const Nfs3Target: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      verificationTimer: {
+        serializedName: "verificationTimer",
+        type: {
+          name: "Number"
+        }
+      },
+      writeBackTimer: {
+        serializedName: "writeBackTimer",
+        type: {
+          name: "Number"
+        }
       }
     }
   }
@@ -1863,6 +1875,18 @@ export const BlobNfsTarget: coreClient.CompositeMapper = {
         serializedName: "usageModel",
         type: {
           name: "String"
+        }
+      },
+      verificationTimer: {
+        serializedName: "verificationTimer",
+        type: {
+          name: "Number"
+        }
+      },
+      writeBackTimer: {
+        serializedName: "writeBackTimer",
+        type: {
+          name: "Number"
         }
       }
     }
@@ -2015,6 +2039,132 @@ export const StorageTarget: coreClient.CompositeMapper = {
   }
 };
 
+export const CachesDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CachesDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CachesUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CachesUpdateHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CachesDebugInfoHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CachesDebugInfoHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CachesFlushHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CachesFlushHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CachesStartHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CachesStartHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CachesStopHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CachesStopHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const CachesStartPrimingJobHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2099,10 +2249,178 @@ export const CachesResumePrimingJobHeaders: coreClient.CompositeMapper = {
   }
 };
 
+export const CachesUpgradeFirmwareHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CachesUpgradeFirmwareHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const CachesSpaceAllocationHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CachesSpaceAllocationHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const StorageTargetsDnsRefreshHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StorageTargetsDnsRefreshHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const StorageTargetsDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StorageTargetsDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const StorageTargetsRestoreDefaultsHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StorageTargetsRestoreDefaultsHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const StorageTargetFlushHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StorageTargetFlushHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const StorageTargetSuspendHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StorageTargetSuspendHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const StorageTargetResumeHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StorageTargetResumeHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const StorageTargetInvalidateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StorageTargetInvalidateHeaders",
     modelProperties: {
       location: {
         serializedName: "location",
