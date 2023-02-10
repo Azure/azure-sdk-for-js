@@ -14178,29 +14178,30 @@ packages:
     dev: false
 
   file:projects/arm-reservations.tgz:
-    resolution: {integrity: sha512-sWCPpvqJjw3kVxnOZVHqpXVVdO8x74IENh0BZ7k5FTiT4PxMRcEL+DRsXKh8yT4M/VKWfO9QoovfFw4L/Ik1IQ==, tarball: file:projects/arm-reservations.tgz}
+    resolution: {integrity: sha512-N4PO4IVbpdm5QGtcyu1Z+4Ov1kNaX9Mvf1u1BUEcNFUgWcoIf+VRv+ZDH8BeYabHtS3GoFkUOv20KOgTowjqCg==, tarball: file:projects/arm-reservations.tgz}
     name: '@rush-temp/arm-reservations'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.34.3
+      '@microsoft/api-extractor': 7.34.3_@types+node@14.18.36
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.79.1
       '@rollup/plugin-json': 4.1.0_rollup@2.79.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@types/chai': 4.3.4
+      '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.79.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.79.1
+      rollup-plugin-sourcemaps: 0.6.3_p2gydaekoyjvl5wd3ixslt7iq4
       tslib: 2.5.0
-      typescript: 4.6.4
+      typescript: 4.8.4
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@types/node'
       - supports-color
     dev: false
 
