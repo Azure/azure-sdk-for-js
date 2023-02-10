@@ -1,4 +1,7 @@
-## 3.17.3 (Unreleased)
+# Release History
+
+## 3.17.3 (2023-02-13)
+- Fix add timeout message in timeout error
 
 ### Features Added
 - Changes in bulk api to honour size restictions (i.e 2Mb) while creating individual batches.[#23923](https://github.com/Azure/azure-sdk-for-js/issues/23923)
@@ -6,24 +9,11 @@
 
 ### Bugs Fixed
 
-### Other Changes
-# Release History
-
-## 3.17.3 (Unreleased)
-- Fix add timeout message in timeout error
-
-### Features Added
-
-- Expose delete by partition key value feature
-
-### Breaking Changes
-
-### Bugs Fixed
-
+- Removed excessive log warnings during bulk operations on a container with no partitionkey set.
 - Fix issue with GlobalEndpointManager never makes endpoints available after they fall-back [#22726](https://github.com/Azure/azure-sdk-for-js/issues/22726)
 
 ### Other Changes
-
+- Error handling guidelines are added in README.md
 ## 3.17.2 (2022-11-15)
 
 ### Bugs Fixed
