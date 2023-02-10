@@ -95,25 +95,25 @@ export const defaultLoggerCallback: (
   platform?: "Node" | "Browser"
 ) => msalCommon.ILoggerCallback =
   (logger: CredentialLogger, platform: "Node" | "Browser" = isNode ? "Node" : "Browser") =>
-    (level, message, containsPii): void => {
-      if (containsPii) {
+  (level, message, containsPii): void => {
+    if (containsPii) {
+      return;
+    }
+    switch (level) {
+      case msalCommon.LogLevel.Error:
+        logger.info(`MSAL ${platform} V2 error: ${message}`);
         return;
-      }
-      switch (level) {
-        case msalCommon.LogLevel.Error:
-          logger.info(`MSAL ${platform} V2 error: ${message}`);
-          return;
-        case msalCommon.LogLevel.Info:
-          logger.info(`MSAL ${platform} V2 info message: ${message}`);
-          return;
-        case msalCommon.LogLevel.Verbose:
-          logger.info(`MSAL ${platform} V2 verbose message: ${message}`);
-          return;
-        case msalCommon.LogLevel.Warning:
-          logger.info(`MSAL ${platform} V2 warning: ${message}`);
-          return;
-      }
-    };
+      case msalCommon.LogLevel.Info:
+        logger.info(`MSAL ${platform} V2 info message: ${message}`);
+        return;
+      case msalCommon.LogLevel.Verbose:
+        logger.info(`MSAL ${platform} V2 verbose message: ${message}`);
+        return;
+      case msalCommon.LogLevel.Warning:
+        logger.info(`MSAL ${platform} V2 warning: ${message}`);
+        return;
+    }
+  };
 
 /**
  * @internal
