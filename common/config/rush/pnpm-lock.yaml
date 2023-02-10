@@ -14563,7 +14563,7 @@ packages:
     dev: false
 
   file:projects/arm-servicebus.tgz:
-    resolution: {integrity: sha512-2ax8h+OFGYTcmFAgtJ/bbkeY2NVwljsH6JFFsiIwIXd6/0I81bnj8QQA3EfssrLqIi2xzwxmko/kpIBGe50bQA==, tarball: file:projects/arm-servicebus.tgz}
+    resolution: {integrity: sha512-zgN/fXPx4lFcOJbtnmKhSIIHBDLq48aCEu4bfVVeErdjPc82VBd7tBnPheXp+6jyIiA1QGEjg/dKZ4tllzteFQ==, tarball: file:projects/arm-servicebus.tgz}
     name: '@rush-temp/arm-servicebus'
     version: 0.0.0
     dependencies:
@@ -14577,6 +14577,7 @@ packages:
       '@types/node': 14.18.36
       chai: 4.3.7
       cross-env: 7.0.3
+      dotenv: 8.6.0
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
