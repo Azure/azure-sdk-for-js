@@ -1,15 +1,15 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Kusto/clusters/mytestclustername5?api-version=2022-07-07",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Kusto/clusters/mytestclustername5?api-version=2022-12-29",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-kusto/7.2.1 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
-        "x-ms-client-request-id": "89fd9d19-9865-40ac-8c6d-015b6506d55c"
+        "User-Agent": "azsdk-js-arm-kusto/7.3.0 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "0141b1d8-cb9b-483e-b7c1-d901a3c2e474"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,8 +17,8 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 11 Jan 2023 06:16:38 GMT",
-        "ETag": "\u00222023-01-11T06:08:03.0114966Z\u0022",
+        "Date": "Tue, 07 Feb 2023 02:26:40 GMT",
+        "ETag": "\u00222023-02-07T02:16:13.9959662Z\u0022",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "Microsoft-HTTPAPI/2.0",
@@ -26,16 +26,16 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "6d95be0b-7066-4708-8f84-3fffc92a99c2",
+        "x-ms-correlation-request-id": "a4895784-6abe-4ada-8480-8edef8e7a529",
         "x-ms-ratelimit-remaining-subscription-resource-requests": "298",
-        "x-ms-request-id": "f5d26427-5371-4b03-974e-d1dca1cc836a",
-        "x-ms-routing-request-id": "KOREASOUTH:20230111T061638Z:6d95be0b-7066-4708-8f84-3fffc92a99c2"
+        "x-ms-request-id": "7f9a28fd-d921-4a00-8ff9-4853e46bfbf3",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230207T022641Z:a4895784-6abe-4ada-8480-8edef8e7a529"
       },
       "ResponseBody": {
         "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Kusto/Clusters/mytestclustername5",
         "name": "mytestclustername5",
         "type": "Microsoft.Kusto/Clusters",
-        "etag": "\u00222023-01-11T06:08:03.0114966Z\u0022",
+        "etag": "\u00222023-02-07T02:16:13.9959662Z\u0022",
         "location": "West Europe",
         "sku": {
           "name": "Standard_L8s_v2",
@@ -72,7 +72,7 @@
           "provisioningState": "Succeeded"
         },
         "identity": {
-          "principalId": "dfa4a13e-1036-4371-9703-5c5aae550bd4",
+          "principalId": "4e099304-2937-42f6-b925-2b0a2998df4a",
           "tenantId": "88888888-8888-8888-8888-888888888888",
           "type": "SystemAssigned"
         }

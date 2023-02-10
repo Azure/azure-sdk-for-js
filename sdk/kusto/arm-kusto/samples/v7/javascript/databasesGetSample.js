@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Returns a database.
  *
  * @summary Returns a database.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoDatabasesGet.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-12-29/examples/KustoDatabasesGet.json
  */
 async function kustoDatabasesGet() {
   const subscriptionId =
