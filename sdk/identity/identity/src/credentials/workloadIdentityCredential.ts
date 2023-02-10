@@ -34,7 +34,7 @@ export class WorkloadIdentityCredential implements TokenCredential {
   ) {
     if (!tenantId || !clientId || !federatedTokenFilePath) {
       throw new Error(
-        "WorkloadIdentityCredentialOptions: tenantId, clientId, and federatedTokenFilePath are required parameters."
+        "WorkloadIdentityCredential: tenantId, clientId, and federatedTokenFilePath are required parameters."
       );
     }
 
