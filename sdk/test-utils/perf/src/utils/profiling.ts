@@ -15,8 +15,8 @@ export async function runWithCpuProfile(functionToProfile: () => Promise<void>) 
           // ./azure-sdk-for-js/sdk/storage/perf-tests/storage-blob/../../../../JS-profile
           // =>
           // ./azure-sdk-for-js/JS-profile
-          const profileName = `./../../../../JS-profile/${getFormattedDate()}-perfProgram.cpuprofile`;
-          fs.ensureDirSync("./../../../../JS-profile/");
+          const profileName = `./../../../../profile/${getFormattedDate()}-perfProgram.cpuprofile`;
+          fs.ensureDirSync("./../../../../profile/");
           fs.writeFileSync(profileName, JSON.stringify(profile));
           console.log(`...CPUProfile saved to ${profileName}...`);
         } else {
