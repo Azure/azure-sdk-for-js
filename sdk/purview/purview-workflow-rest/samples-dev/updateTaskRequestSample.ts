@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createPurviewWorkflowClient, {
-  UpdateTaskRequestParameters
+  UpdateTaskRequestParameters,
 } from "@azure-rest/purview-workflow";
 import { UsernamePasswordCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -28,7 +28,7 @@ async function taskRequestUpdate() {
   const client = createPurviewWorkflowClient(endpoint, credential);
   const taskId = "d5bd0215-df84-4245-8e18-3a8f012be376";
   const options: UpdateTaskRequestParameters = {
-    body: { comment: "Thanks!", newStatus: "In Progress" }
+    body: { comment: "Thanks!", newStatus: "In Progress" },
   };
   const result = await client
     .path("/workflowtasks/{taskId}/change-task-status", taskId)

@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createPurviewWorkflowClient, {
-  ReleaseDsarTaskRequestParameters
+  ReleaseDsarTaskRequestParameters,
 } from "@azure-rest/purview-workflow";
 import { UsernamePasswordCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -28,11 +28,9 @@ async function dsarTaskRequestRelease() {
   const client = createPurviewWorkflowClient(endpoint, credential);
   const taskId = "5cc7992a-7f5e-11ed-a1eb-0242ac120002";
   const options: ReleaseDsarTaskRequestParameters = {
-    body: { comment: "Thanks!" }
+    body: { comment: "Thanks!" },
   };
-  const result = await client
-    .path("/workflowtasks/{taskId}/release-task", taskId)
-    .post(options);
+  const result = await client.path("/workflowtasks/{taskId}/release-task", taskId).post(options);
   console.log(result);
 }
 

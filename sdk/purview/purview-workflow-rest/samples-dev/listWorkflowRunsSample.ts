@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 import createPurviewWorkflowClient, {
   ListWorkflowRunsParameters,
-  paginate
+  paginate,
 } from "@azure-rest/purview-workflow";
 import { UsernamePasswordCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -31,8 +31,8 @@ async function workflowRunsList() {
     queryParameters: {
       timeWindow: "30d",
       orderby: "startTime desc",
-      maxpagesize: 1000
-    }
+      maxpagesize: 1000,
+    },
   };
   const initialResponse = await client.path("/workflowruns").get(options);
   const pageData = paginate(client, initialResponse);

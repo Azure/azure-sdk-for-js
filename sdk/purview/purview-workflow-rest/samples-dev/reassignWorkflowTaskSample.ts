@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createPurviewWorkflowClient, {
-  ReassignWorkflowTaskParameters
+  ReassignWorkflowTaskParameters,
 } from "@azure-rest/purview-workflow";
 import { UsernamePasswordCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -32,14 +32,12 @@ async function approvalRequestReassign() {
       reassignments: [
         {
           reassignFrom: "eece94d9-0619-4669-bb8a-d6ecec5220bc",
-          reassignTo: "7645223c-cdca-43e9-98c8-bd4d97e79e5e"
-        }
-      ]
-    }
+          reassignTo: "7645223c-cdca-43e9-98c8-bd4d97e79e5e",
+        },
+      ],
+    },
   };
-  const result = await client
-    .path("/workflowtasks/{taskId}/reassign", taskId)
-    .post(options);
+  const result = await client.path("/workflowtasks/{taskId}/reassign", taskId).post(options);
   console.log(result);
 }
 

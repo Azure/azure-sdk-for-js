@@ -449,18 +449,9 @@ export interface DsarTaskDetailOutput {
    */
   dsarTaskId: string;
   /** The dsar task status. */
-  status:
-    | "NotStarted"
-    | "InProgress"
-    | "Completed"
-    | "NotApplicable"
-    | "Approved"
-    | "Reopened";
+  status: "NotStarted" | "InProgress" | "Completed" | "NotApplicable" | "Approved" | "Reopened";
   changeHistory: Array<TaskChangeEventOutput>;
 }
 
 /** An actionable item assigned to assignees. It is created when approval or task action starts to execute. Approval is one kind of task. */
-export type WorkflowTaskOutput =
-  | ApprovalOutput
-  | SimpleTaskOutput
-  | DsarTaskOutput;
+export type WorkflowTaskOutput = ApprovalOutput | SimpleTaskOutput | DsarTaskOutput;

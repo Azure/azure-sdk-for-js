@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createPurviewWorkflowClient, {
-  RejectApprovalTaskParameters
+  RejectApprovalTaskParameters,
 } from "@azure-rest/purview-workflow";
 import { UsernamePasswordCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -28,11 +28,9 @@ async function approvalRequestReject() {
   const client = createPurviewWorkflowClient(endpoint, credential);
   const taskId = "98d98e2c-23fa-4157-a3f8-ff8ce5cc095c";
   const options: RejectApprovalTaskParameters = {
-    body: { comment: "Thanks for raising this!" }
+    body: { comment: "Thanks for raising this!" },
   };
-  const result = await client
-    .path("/workflowtasks/{taskId}/reject-approval", taskId)
-    .post(options);
+  const result = await client.path("/workflowtasks/{taskId}/reject-approval", taskId).post(options);
   console.log(result);
 }
 

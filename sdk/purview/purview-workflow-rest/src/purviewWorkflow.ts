@@ -21,8 +21,8 @@ export default function createClient(
   options = {
     ...options,
     credentials: {
-      scopes: ["https://purview.azure.net/.default"]
-    }
+      scopes: ["https://purview.azure.net/.default"],
+    },
   };
 
   const userAgentInfo = `azsdk-js-purview-workflow-rest/1.0.0-beta.1`;
@@ -33,15 +33,11 @@ export default function createClient(
   options = {
     ...options,
     userAgentOptions: {
-      userAgentPrefix
-    }
+      userAgentPrefix,
+    },
   };
 
-  const client = getClient(
-    baseUrl,
-    credentials,
-    options
-  ) as PurviewWorkflowClient;
+  const client = getClient(baseUrl, credentials, options) as PurviewWorkflowClient;
 
   return client;
 }

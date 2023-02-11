@@ -10,7 +10,7 @@ import {
   ReassignCommand,
   TaskUpdateCommand,
   DsarTaskClaimCommand,
-  DsarTaskReleaseCommand
+  DsarTaskReleaseCommand,
 } from "./models";
 
 export type ListWorkflowsParameters = RequestParameters;
@@ -86,8 +86,7 @@ export interface ListWorkflowRunsQueryParam {
   queryParameters?: ListWorkflowRunsQueryParamProperties;
 }
 
-export type ListWorkflowRunsParameters = ListWorkflowRunsQueryParam &
-  RequestParameters;
+export type ListWorkflowRunsParameters = ListWorkflowRunsQueryParam & RequestParameters;
 export type GetWorkflowRunParameters = RequestParameters;
 
 export interface CancelWorkflowRunBodyParam {
@@ -125,12 +124,7 @@ export interface ListWorkflowTasksQueryParamProperties {
     | "createdTime asc";
   /** Filter items by workflow task type. */
   taskTypes?: Array<
-    | "Approval"
-    | "SimpleTask"
-    | "DsarTask"
-    | "approval"
-    | "simpleTask"
-    | "dsarTask"
+    "Approval" | "SimpleTask" | "DsarTask" | "approval" | "simpleTask" | "dsarTask"
   >;
   /** Filter workflow tasks by status. */
   taskStatuses?: Array<
@@ -156,8 +150,7 @@ export interface ListWorkflowTasksQueryParam {
   queryParameters?: ListWorkflowTasksQueryParamProperties;
 }
 
-export type ListWorkflowTasksParameters = ListWorkflowTasksQueryParam &
-  RequestParameters;
+export type ListWorkflowTasksParameters = ListWorkflowTasksQueryParam & RequestParameters;
 export type GetWorkflowTaskParameters = RequestParameters;
 
 export interface ApproveApprovalTaskBodyParam {

@@ -25,9 +25,7 @@ async function workflowRunGet() {
   const credential = new UsernamePasswordCredential(tenantId, clientId, username, password);
   const client = createPurviewWorkflowClient(endpoint, credential);
   const workflowRunId = "04334a74-3400-11ed-a261-0242ac120002";
-  const result = await client
-    .path("/workflowruns/{workflowRunId}", workflowRunId)
-    .get();
+  const result = await client.path("/workflowruns/{workflowRunId}", workflowRunId).get();
   console.log(result);
 }
 

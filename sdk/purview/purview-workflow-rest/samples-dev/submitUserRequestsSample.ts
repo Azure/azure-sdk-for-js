@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createPurviewWorkflowClient, {
-  SubmitUserRequestsParameters
+  SubmitUserRequestsParameters,
 } from "@azure-rest/purview-workflow";
 import { UsernamePasswordCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -37,12 +37,12 @@ async function userRequestsSubmit() {
               name: "term",
               anchor: { glossaryGuid: "20031e20-b4df-4a66-a61d-1b0716f3fa48" },
               nickName: "term",
-              status: "Approved"
-            }
-          }
-        }
-      ]
-    }
+              status: "Approved",
+            },
+          },
+        },
+      ],
+    },
   };
   const result = await client.path("/userrequests").post(options);
   console.log(result);

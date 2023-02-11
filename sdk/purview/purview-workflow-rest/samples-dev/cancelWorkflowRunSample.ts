@@ -4,9 +4,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createPurviewWorkflowClient, {
-  CancelWorkflowRunParameters
+  CancelWorkflowRunParameters,
 } from "@azure-rest/purview-workflow";
-import { UsernamePasswordCredential} from "@azure/identity";
+import { UsernamePasswordCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
 dotenv.config();

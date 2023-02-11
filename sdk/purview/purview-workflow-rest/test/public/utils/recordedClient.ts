@@ -16,7 +16,7 @@ const envSetupForPlayback: Record<string, string> = {
 };
 
 const recorderEnvSetup: RecorderStartOptions = {
-  envSetupForPlayback
+  envSetupForPlayback,
 };
 
 export async function createClient(
