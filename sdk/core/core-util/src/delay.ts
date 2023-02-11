@@ -31,13 +31,13 @@ export function createAbortablePromise<T>(
     resolve: (value: T | PromiseLike<T>) => void,
     reject: (reason?: any) => void
   ) => void,
-  options: {
+  options?: {
     cleanupBeforeAbort?: () => void;
     abortSignal?: AbortSignalLike;
     abortErrorMsg?: string;
   }
 ): Promise<T> {
-  const { cleanupBeforeAbort, abortSignal, abortErrorMsg } = options;
+  const { cleanupBeforeAbort, abortSignal, abortErrorMsg } = options ?? {};
   return new Promise((resolve, reject) => {
     function rejectOnAbort(): void {
       reject(new AbortError(abortErrorMsg ?? "The operation was aborted."));
@@ -67,7 +67,6 @@ export function createAbortablePromise<T>(
     } catch (err) {
       reject(err);
     }
-
     abortSignal?.addEventListener("abort", onAbort);
   });
 }
@@ -81,7 +80,7 @@ export function createAbortablePromise<T>(
 export function delay(timeInMs: number, options?: DelayOptions): Promise<void> {
   let token: ReturnType<typeof setTimeout>;
   const { abortSignal, abortErrorMsg } = options || {};
-  return createAbortablePromise<void>(
+  return createAbortablePromise(
     (resolve) => {
       token = setTimeout(resolve, timeInMs);
     },
