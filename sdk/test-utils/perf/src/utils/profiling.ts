@@ -16,10 +16,14 @@ export async function runWithCpuProfile(functionToProfile: () => Promise<void>, 
           // ./azure-sdk-for-js/sdk/storage/perf-tests/storage-blob/../../../../JS-profile
           // =>
           // ./azure-sdk-for-js/JS-profile
-          const profileFilepath = `./../../../../profile/${filePath}`;
-          fs.ensureDirSync(profileFilepath);
-          fs.writeFileSync(profileFilepath, JSON.stringify(profile));
-          console.log(`...CPUProfile saved to ${profileFilepath}...`);
+          // const profileFilepath = `./../../../../profile/${filePath}`;
+          if (!filePath) {
+            throw Error("filePath is not provided")
+          } else {
+            fs.ensureDirSync(filePath.substring(0, filePath.lastIndexOf("/") + 1));
+            fs.writeFileSync(filePath, JSON.stringify(profile));
+            console.log(`...CPUProfile saved to ${filePath}...`);
+          }
         } else {
           console.log(err);
         }
