@@ -298,6 +298,7 @@ specifiers:
   '@rush-temp/purview-administration': file:./projects/purview-administration.tgz
   '@rush-temp/purview-catalog': file:./projects/purview-catalog.tgz
   '@rush-temp/purview-scanning': file:./projects/purview-scanning.tgz
+  '@rush-temp/purview-workflow': file:./projects/purview-workflow.tgz
   '@rush-temp/quantum-jobs': file:./projects/quantum-jobs.tgz
   '@rush-temp/schema-registry': file:./projects/schema-registry.tgz
   '@rush-temp/schema-registry-avro': file:./projects/schema-registry-avro.tgz
@@ -623,6 +624,7 @@ dependencies:
   '@rush-temp/purview-administration': file:projects/purview-administration.tgz
   '@rush-temp/purview-catalog': file:projects/purview-catalog.tgz
   '@rush-temp/purview-scanning': file:projects/purview-scanning.tgz
+  '@rush-temp/purview-workflow': file:projects/purview-workflow.tgz
   '@rush-temp/quantum-jobs': file:projects/quantum-jobs.tgz
   '@rush-temp/schema-registry': file:projects/schema-registry.tgz
   '@rush-temp/schema-registry-avro': file:projects/schema-registry-avro.tgz
@@ -3923,7 +3925,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20230203
+      typescript: 5.0.0-dev.20230210
     dev: false
 
   /downlevel-dts/0.7.0:
@@ -6566,6 +6568,12 @@ packages:
     hasBin: true
     dev: false
 
+  /mkdirp/2.1.3:
+    resolution: {integrity: sha512-sjAkg21peAG9HS+Dkx7hlG9Ztx7HLeKnvB3NQRcu/mltCVmvkF0pisbiTSfDVYTT86XEfZrTUosLdZLStquZUw==}
+    engines: {node: '>=10'}
+    hasBin: true
+    dev: false
+
   /mocha-junit-reporter/1.23.3_mocha@7.2.0:
     resolution: {integrity: sha512-ed8LqbRj1RxZfjt/oC9t12sfrWsjZ3gNnbhV1nuj9R/Jb5/P3Xb4duv2eCfCDMYH+fEu0mqca7m4wsiVjsxsvA==}
     peerDependencies:
@@ -8814,8 +8822,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20230203:
-    resolution: {integrity: sha512-B+UiFUnk+joGpmluibAIauIFWHdmhisuC9GB3BZVNqvOYMPCtg/HokU1P5cxsw/07TesqdWkjAWQqW5kJrm2qA==}
+  /typescript/5.0.0-dev.20230210:
+    resolution: {integrity: sha512-FjXPw8PFeIuT1cxouvP4LRu8J1G+FsWVEGwlJ9GcVywRNDfD3Hh6flQFUympS+3QnAIiG/+CHs9ZS2EQIT733g==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -18776,6 +18784,48 @@ packages:
       mkdirp: 1.0.4
       mocha: 7.2.0
       mocha-junit-reporter: 2.2.0_mocha@7.2.0
+      nyc: 15.1.0
+      prettier: 2.8.3
+      rimraf: 3.0.2
+      source-map-support: 0.5.21
+      tslib: 2.5.0
+      typescript: 4.8.4
+    transitivePeerDependencies:
+      - bufferutil
+      - debug
+      - supports-color
+      - utf-8-validate
+    dev: false
+
+  file:projects/purview-workflow.tgz:
+    resolution: {integrity: sha512-gFoepExHBqs+3kEoBecutW8qoOWAbQnkND57GHm81FGdBIQmIc1JtWuS+MevMaldZIqVfZEk8kNhZUtldH8HKw==, tarball: file:projects/purview-workflow.tgz}
+    name: '@rush-temp/purview-workflow'
+    version: 0.0.0
+    dependencies:
+      '@azure-rest/core-client': 1.0.0-beta.10
+      '@azure/identity': 2.1.0
+      '@microsoft/api-extractor': 7.34.2_@types+node@14.18.36
+      '@types/chai': 4.3.4
+      '@types/mocha': 7.0.2
+      '@types/node': 14.18.36
+      autorest: 3.6.3
+      chai: 4.3.7
+      cross-env: 7.0.3
+      dotenv: 16.0.3
+      eslint: 8.33.0
+      karma: 6.4.1
+      karma-chrome-launcher: 3.1.1
+      karma-coverage: 2.2.0
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-junit-reporter: 2.0.1_karma@6.4.1
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.4.1
+      karma-source-map-support: 1.4.0
+      karma-sourcemap-loader: 0.3.8
+      mkdirp: 2.1.3
+      mocha: 7.2.0
+      mocha-junit-reporter: 1.23.3_mocha@7.2.0
       nyc: 15.1.0
       prettier: 2.8.3
       rimraf: 3.0.2

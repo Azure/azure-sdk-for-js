@@ -6,9 +6,10 @@ import { TokenCredential } from "@azure/core-auth";
 import { PurviewWorkflowClient } from "./clientDefinitions";
 
 /**
- * Initialize a new instance of the class PurviewWorkflowClient class.
- * @param endpoint type: string The account endpoint of your Purview account. Example: https://{accountName}.purview.azure.com/
- * @param credentials type: TokenCredential
+ * Initialize a new instance of `PurviewWorkflowClient`
+ * @param endpoint type: string, The account endpoint of your Purview account. Example: https://{accountName}.purview.azure.com/
+ * @param credentials type: TokenCredential, uniquely identify client credential
+ * @param options type: ClientOptions, the parameter for all optional parameters
  */
 export default function createClient(
   endpoint: string,
