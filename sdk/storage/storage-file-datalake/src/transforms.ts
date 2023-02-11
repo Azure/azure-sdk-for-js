@@ -50,7 +50,7 @@ export function toBlobEndpointUrl(url: string): string {
   let urlParsed: URL;
   try {
     urlParsed = new URL(url);
-  } catch(e) {
+  } catch (e) {
     // invalid urls are returned unmodified
     return url;
   }
@@ -89,12 +89,12 @@ export function toDfsEndpointUrl(url: string): string {
   let urlParsed: URL;
   try {
     urlParsed = new URL(url);
-  } catch(e) {
+  } catch (e) {
     // invalid urls are returned unmodified
     return url;
   }
 
-  let host = urlParsed.hostname
+  let host = urlParsed.hostname;
   if (host === undefined) {
     throw RangeError(`toDfsEndpointUrl() parameter url ${url} doesn't include valid host.`);
   }

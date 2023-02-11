@@ -2,8 +2,14 @@
 // Licensed under the MIT license.
 import { TokenCredential } from "@azure/core-auth";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { ContainerClient, AnonymousCredential, newPipeline, Pipeline, StoragePipelineOptions } from "@azure/storage-blob";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential"; 
+import {
+  ContainerClient,
+  AnonymousCredential,
+  newPipeline,
+  Pipeline,
+  StoragePipelineOptions,
+} from "@azure/storage-blob";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { SpanStatusCode } from "@azure/core-tracing";
 
 import { DataLakeLeaseClient } from "./DataLakeLeaseClient";
@@ -805,11 +811,13 @@ export class DataLakeFileSystemClient extends StorageClient {
         this.pipeline
       );
 
-      const rawResponse = assertResponse<PathUndeleteHeaders, PathUndeleteHeaders>(await pathClient.blobPathContext.undelete({
-        undeleteSource: "?" + DeletionIdKey + "=" + deletionId,
-        ...options,
-        tracingOptions: updatedOptions.tracingOptions,
-      }));
+      const rawResponse = assertResponse<PathUndeleteHeaders, PathUndeleteHeaders>(
+        await pathClient.blobPathContext.undelete({
+          undeleteSource: "?" + DeletionIdKey + "=" + deletionId,
+          ...options,
+          tracingOptions: updatedOptions.tracingOptions,
+        })
+      );
 
       if (rawResponse.resourceType === PathResultTypeConstants.DirectoryResourceType) {
         return {

@@ -3,8 +3,15 @@
 import { TokenCredential } from "@azure/core-auth";
 import { RequestBodyType as HttpRequestBody } from "@azure/core-rest-pipeline";
 import { isNode } from "@azure/core-util";
-import { AnonymousCredential, BlobClient, BlockBlobClient, newPipeline, Pipeline, StoragePipelineOptions } from "@azure/storage-blob";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential"; 
+import {
+  AnonymousCredential,
+  BlobClient,
+  BlockBlobClient,
+  newPipeline,
+  Pipeline,
+  StoragePipelineOptions,
+} from "@azure/storage-blob";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { Readable } from "stream";
 
@@ -101,7 +108,12 @@ import {
   setURLQueries,
 } from "./utils/utils.common";
 import { fsCreateReadStream, fsStat } from "./utils/utils.node";
-import { PathAppendDataHeaders, PathCreateHeaders, PathGetPropertiesHeaders, PathSetExpiryHeaders } from "./generated/src";
+import {
+  PathAppendDataHeaders,
+  PathCreateHeaders,
+  PathGetPropertiesHeaders,
+  PathSetExpiryHeaders,
+} from "./generated/src";
 
 /**
  * A DataLakePathClient represents a URL to the Azure Storage path (directory or file).
@@ -347,17 +359,19 @@ export class DataLakePathClient extends StorageClient {
         }
       }
 
-      return assertResponse<PathCreateHeaders, PathCreateHeaders>(await this.pathContext.create({
-        ...updatedOptions,
-        resource: resourceType,
-        leaseAccessConditions: options.conditions,
-        modifiedAccessConditions: options.conditions,
-        properties: toProperties(options.metadata),
-        cpkInfo: options.customerProvidedKey,
-        acl: options.acl ? toAclString(options.acl) : undefined,
-        expiryOptions: expiryOptions,
-        expiresOn: expiresOn,
-      }));
+      return assertResponse<PathCreateHeaders, PathCreateHeaders>(
+        await this.pathContext.create({
+          ...updatedOptions,
+          resource: resourceType,
+          leaseAccessConditions: options.conditions,
+          modifiedAccessConditions: options.conditions,
+          properties: toProperties(options.metadata),
+          cpkInfo: options.customerProvidedKey,
+          acl: options.acl ? toAclString(options.acl) : undefined,
+          expiryOptions: expiryOptions,
+          expiresOn: expiresOn,
+        })
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -540,14 +554,16 @@ export class DataLakePathClient extends StorageClient {
     options.conditions = options.conditions || {};
     const { span, updatedOptions } = createSpan("DataLakePathClient-getAccessControl", options);
     try {
-      const response = assertResponse<PathGetPropertiesHeaders, PathGetPropertiesHeaders>(await this.pathContext.getProperties({
-        ...updatedOptions,
-        action: "getAccessControl",
-        upn: options.userPrincipalName,
-        leaseAccessConditions: options.conditions,
-        modifiedAccessConditions: options.conditions,
-        abortSignal: options.abortSignal,
-      }));
+      const response = assertResponse<PathGetPropertiesHeaders, PathGetPropertiesHeaders>(
+        await this.pathContext.getProperties({
+          ...updatedOptions,
+          action: "getAccessControl",
+          upn: options.userPrincipalName,
+          leaseAccessConditions: options.conditions,
+          modifiedAccessConditions: options.conditions,
+          abortSignal: options.abortSignal,
+        })
+      );
       return {
         ...response,
         _response: response._response,
@@ -888,21 +904,23 @@ export class DataLakePathClient extends StorageClient {
     const destPathClient = new DataLakePathClient(destinationUrl, this.pipeline);
 
     try {
-      return assertResponse<PathCreateHeaders, PathCreateHeaders>(await destPathClient.pathContext.create({
-        ...updatedOptions,
-        mode: "legacy", // By default
-        renameSource,
-        sourceLeaseId: options.conditions.leaseId,
-        leaseAccessConditions: options.destinationConditions,
-        sourceModifiedAccessConditions: {
-          sourceIfMatch: options.conditions.ifMatch,
-          sourceIfNoneMatch: options.conditions.ifNoneMatch,
-          sourceIfModifiedSince: options.conditions.ifModifiedSince,
-          sourceIfUnmodifiedSince: options.conditions.ifUnmodifiedSince,
-        },
-        modifiedAccessConditions: options.destinationConditions,
-        abortSignal: options.abortSignal,
-      }));
+      return assertResponse<PathCreateHeaders, PathCreateHeaders>(
+        await destPathClient.pathContext.create({
+          ...updatedOptions,
+          mode: "legacy", // By default
+          renameSource,
+          sourceLeaseId: options.conditions.leaseId,
+          leaseAccessConditions: options.destinationConditions,
+          sourceModifiedAccessConditions: {
+            sourceIfMatch: options.conditions.ifMatch,
+            sourceIfNoneMatch: options.conditions.ifNoneMatch,
+            sourceIfModifiedSince: options.conditions.ifModifiedSince,
+            sourceIfUnmodifiedSince: options.conditions.ifUnmodifiedSince,
+          },
+          modifiedAccessConditions: options.destinationConditions,
+          abortSignal: options.abortSignal,
+        })
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -1385,24 +1403,26 @@ export class DataLakeFileClient extends DataLakePathClient {
     const { span, updatedOptions } = createSpan("DataLakeFileClient-append", options);
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-      return assertResponse<PathAppendDataHeaders, PathAppendDataHeaders>(await this.pathContextInternal.appendData(body, {
-        ...updatedOptions,
-        pathHttpHeaders: {
-          contentMD5: options.transactionalContentMD5,
-        },
-        abortSignal: options.abortSignal,
-        position: offset,
-        contentLength: length,
-        leaseAccessConditions: options.conditions,
-        requestOptions: {
-          onUploadProgress: options.onProgress,
-        },
-        cpkInfo: options.customerProvidedKey,
-        flush: options.flush,
-        proposedLeaseId: options.proposedLeaseId,
-        leaseDuration: options.leaseDuration,
-        leaseAction: options.leaseAction,
-      }));
+      return assertResponse<PathAppendDataHeaders, PathAppendDataHeaders>(
+        await this.pathContextInternal.appendData(body, {
+          ...updatedOptions,
+          pathHttpHeaders: {
+            contentMD5: options.transactionalContentMD5,
+          },
+          abortSignal: options.abortSignal,
+          position: offset,
+          contentLength: length,
+          leaseAccessConditions: options.conditions,
+          requestOptions: {
+            onUploadProgress: options.onProgress,
+          },
+          cpkInfo: options.customerProvidedKey,
+          flush: options.flush,
+          proposedLeaseId: options.proposedLeaseId,
+          leaseDuration: options.leaseDuration,
+          leaseAction: options.leaseAction,
+        })
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -1990,10 +2010,12 @@ export class DataLakeFileClient extends DataLakePathClient {
       }
 
       const adaptedOptions = { ...options, expiresOn };
-      return assertResponse<PathSetExpiryHeaders, PathSetExpiryHeaders>(await this.pathContextInternalToBlobEndpoint.setExpiry(mode, {
-        ...adaptedOptions,
-        tracingOptions: updatedOptions.tracingOptions,
-      }));
+      return assertResponse<PathSetExpiryHeaders, PathSetExpiryHeaders>(
+        await this.pathContextInternalToBlobEndpoint.setExpiry(mode, {
+          ...adaptedOptions,
+          tracingOptions: updatedOptions.tracingOptions,
+        })
+      );
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,

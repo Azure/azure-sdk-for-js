@@ -13,9 +13,11 @@ import {
   ServiceGetPropertiesOptions,
   ServiceSetPropertiesOptions,
   ServiceSetPropertiesResponse,
-  Pipeline, StoragePipelineOptions, newPipeline
+  Pipeline,
+  StoragePipelineOptions,
+  newPipeline,
 } from "@azure/storage-blob";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential"; 
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 
 import { DataLakeFileSystemClient } from "./DataLakeFileSystemClient";
 import {

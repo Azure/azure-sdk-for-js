@@ -12,7 +12,7 @@ import {
   ContainerRenameResponse,
   ContainerUndeleteResponse,
   CommonOptions,
-  WithResponse
+  WithResponse,
 } from "@azure/storage-blob";
 import { DataLakePathClient } from "./clients";
 export type ModifiedAccessConditions = Omit<ModifiedAccessConditionsModel, "ifTags">;
@@ -102,7 +102,7 @@ export {
 export { PathCreateResponse };
 
 export type FileAppendResponse = WithResponse<PathAppendDataHeaders, PathAppendDataHeaders>;
-export type FileSetExpiryResponse = WithResponse<PathSetExpiryHeaders, PathSetExpiryHeaders>
+export type FileSetExpiryResponse = WithResponse<PathSetExpiryHeaders, PathSetExpiryHeaders>;
 
 /**
  * Common options of the {@link FileSystemGenerateSasUrlOptions}, {@link DirectoryGenerateSasUrlOptions}
@@ -258,8 +258,11 @@ export interface ServiceListFileSystemsSegmentHeaders {
   version?: string;
 }
 
-export type ServiceListFileSystemsSegmentResponse = WithResponse<ListFileSystemsSegmentResponse &
-  ServiceListFileSystemsSegmentHeaders, ServiceListFileSystemsSegmentHeaders, ListFileSystemsSegmentResponse>
+export type ServiceListFileSystemsSegmentResponse = WithResponse<
+  ListFileSystemsSegmentResponse & ServiceListFileSystemsSegmentHeaders,
+  ServiceListFileSystemsSegmentHeaders,
+  ListFileSystemsSegmentResponse
+>;
 
 /**
  * Options to configure {@link DataLakeServiceClient.generateAccountSasUrl} operation.
@@ -331,7 +334,10 @@ export interface FileSystemCreateHeaders {
   date?: Date;
 }
 
-export type FileSystemCreateResponse = WithResponse<FileSystemCreateHeaders, FileSystemCreateHeaders>;
+export type FileSystemCreateResponse = WithResponse<
+  FileSystemCreateHeaders,
+  FileSystemCreateHeaders
+>;
 
 export interface FileSystemDeleteOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
@@ -345,7 +351,10 @@ export interface FileSystemDeleteHeaders {
   date?: Date;
 }
 
-export type FileSystemDeleteResponse = WithResponse<FileSystemDeleteHeaders, FileSystemDeleteHeaders>;
+export type FileSystemDeleteResponse = WithResponse<
+  FileSystemDeleteHeaders,
+  FileSystemDeleteHeaders
+>;
 
 export interface FileSystemGetPropertiesOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
@@ -372,7 +381,10 @@ export interface FileSystemGetPropertiesHeaders {
   defaultEncryptionScope?: string;
 }
 
-export type FileSystemGetPropertiesResponse = WithResponse<FileSystemGetPropertiesHeaders, FileSystemGetPropertiesHeaders>;
+export type FileSystemGetPropertiesResponse = WithResponse<
+  FileSystemGetPropertiesHeaders,
+  FileSystemGetPropertiesHeaders
+>;
 
 export interface FileSystemSetMetadataOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
@@ -388,7 +400,10 @@ export interface FileSystemSetMetadataHeaders {
   date?: Date;
 }
 
-export type FileSystemSetMetadataResponse = WithResponse<FileSystemSetMetadataHeaders, FileSystemSetMetadataHeaders>;
+export type FileSystemSetMetadataResponse = WithResponse<
+  FileSystemSetMetadataHeaders,
+  FileSystemSetMetadataHeaders
+>;
 
 export interface FileSystemGetAccessPolicyOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
@@ -422,9 +437,13 @@ export interface SignedIdentifier<T> {
   accessPolicy: T;
 }
 
-export type FileSystemGetAccessPolicyResponse = WithResponse<{
-  signedIdentifiers: SignedIdentifier<AccessPolicy>[];
-} & FileSystemGetAccessPolicyHeaders, FileSystemGetAccessPolicyHeaders, SignedIdentifier<RawAccessPolicy>[]>;
+export type FileSystemGetAccessPolicyResponse = WithResponse<
+  {
+    signedIdentifiers: SignedIdentifier<AccessPolicy>[];
+  } & FileSystemGetAccessPolicyHeaders,
+  FileSystemGetAccessPolicyHeaders,
+  SignedIdentifier<RawAccessPolicy>[]
+>;
 
 export interface FileSystemSetAccessPolicyOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
@@ -440,7 +459,10 @@ export interface FileSystemSetAccessPolicyHeaders {
   date?: Date;
 }
 
-export type FileSystemSetAccessPolicyResponse = WithResponse<FileSystemSetAccessPolicyHeaders, FileSystemSetAccessPolicyHeaders>;
+export type FileSystemSetAccessPolicyResponse = WithResponse<
+  FileSystemSetAccessPolicyHeaders,
+  FileSystemSetAccessPolicyHeaders
+>;
 
 export interface ListPathsOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
@@ -480,8 +502,11 @@ export interface PathList {
   pathItems?: Path[];
 }
 
-export type FileSystemListPathsResponse = WithResponse<PathList &
-  FileSystemListPathsHeaders, FileSystemListPathsHeaders, PathListModel>;
+export type FileSystemListPathsResponse = WithResponse<
+  PathList & FileSystemListPathsHeaders,
+  FileSystemListPathsHeaders,
+  PathListModel
+>;
 
 export interface ListDeletedPathsOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
@@ -504,15 +529,22 @@ export interface DeletedPathList {
   pathItems?: DeletedPath[];
 }
 
-export type FileSystemListDeletedPathsResponse = WithResponse<DeletedPathList &
-  FileSystemListBlobHierarchySegmentHeaders &
-  ListBlobsHierarchySegmentResponse &  { continuation?: string }, FileSystemListBlobHierarchySegmentHeaders, ListBlobsHierarchySegmentResponse>;
+export type FileSystemListDeletedPathsResponse = WithResponse<
+  DeletedPathList &
+    FileSystemListBlobHierarchySegmentHeaders &
+    ListBlobsHierarchySegmentResponse & { continuation?: string },
+  FileSystemListBlobHierarchySegmentHeaders,
+  ListBlobsHierarchySegmentResponse
+>;
 
 export interface FileSystemUndeletePathOption extends CommonOptions {
   abortSignal?: AbortSignalLike;
 }
 
-export type FileSystemUndeletePathResponse = WithResponse<PathUndeleteHeaders & { pathClient: DataLakePathClient; }, PathUndeleteHeaders>;
+export type FileSystemUndeletePathResponse = WithResponse<
+  PathUndeleteHeaders & { pathClient: DataLakePathClient },
+  PathUndeleteHeaders
+>;
 
 /**
  * Option interface for Data Lake file system exists operations
@@ -736,8 +768,10 @@ export interface PathAccessControl {
   acl: PathAccessControlItem[];
 }
 
-export type PathGetAccessControlResponse = WithResponse<PathAccessControl &
-  PathGetAccessControlHeaders, PathGetPropertiesHeadersModel>;
+export type PathGetAccessControlResponse = WithResponse<
+  PathAccessControl & PathGetAccessControlHeaders,
+  PathGetPropertiesHeadersModel
+>;
 
 export interface PathSetAccessControlOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
@@ -921,7 +955,10 @@ export interface PathGetPropertiesHeaders {
   expiresOn?: Date;
 }
 
-export type PathGetPropertiesResponse = WithResponse<PathGetPropertiesHeaders, PathGetPropertiesHeaders>;
+export type PathGetPropertiesResponse = WithResponse<
+  PathGetPropertiesHeaders,
+  PathGetPropertiesHeaders
+>;
 
 export interface PathSetHttpHeadersOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
@@ -946,7 +983,10 @@ export interface PathSetHttpHeadersHeaders {
   date?: Date;
 }
 
-export type PathSetHttpHeadersResponse = WithResponse<PathSetHttpHeadersHeaders, PathSetHttpHeadersHeaders>;
+export type PathSetHttpHeadersResponse = WithResponse<
+  PathSetHttpHeadersHeaders,
+  PathSetHttpHeadersHeaders
+>;
 
 export interface PathSetMetadataOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
@@ -1127,10 +1167,13 @@ export interface FileReadHeaders {
   contentCrc64?: Uint8Array;
 }
 
-export type FileReadResponse = WithResponse<FileReadHeaders & {
-  contentAsBlob?: Promise<Blob>;
-  readableStreamBody?: NodeJS.ReadableStream;
-}, FileReadHeaders>;
+export type FileReadResponse = WithResponse<
+  FileReadHeaders & {
+    contentAsBlob?: Promise<Blob>;
+    readableStreamBody?: NodeJS.ReadableStream;
+  },
+  FileReadHeaders
+>;
 
 export interface FileAppendOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;

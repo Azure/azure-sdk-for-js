@@ -2,17 +2,25 @@
 // Licensed under the MIT license.
 import { TokenCredential } from "@azure/core-auth";
 import { StorageClient as StorageClientContext } from "./generated/src";
-import { AnonymousCredential, Pipeline, StoragePipelineOptions, BlobServiceClient } from "@azure/storage-blob";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential"; 
+import {
+  AnonymousCredential,
+  Pipeline,
+  StoragePipelineOptions,
+  BlobServiceClient,
+} from "@azure/storage-blob";
+import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { toBlobEndpointUrl, toDfsEndpointUrl } from "./transforms";
 import { escapeURLPath, getAccountNameFromUrl, getURLScheme, iEqual } from "./utils/utils.common";
 import { ExtendedServiceClientOptions } from "@azure/core-http-compat";
 import { HttpClient, Pipeline as CorePipeline } from "@azure/core-rest-pipeline";
-import { dataLakePathParameterWorkaroundPolicy, dataLakePathParameterWorkaroundPolicyName } from "./policies/DataLakePathParameterWorkaroundPolicy";
+import {
+  dataLakePathParameterWorkaroundPolicy,
+  dataLakePathParameterWorkaroundPolicyName,
+} from "./policies/DataLakePathParameterWorkaroundPolicy";
 
 let testOnlyHttpClient: HttpClient | undefined;
 /**
- * @internal 
+ * @internal
  * Set a custom default http client for testing purposes
  */
 export function setTestOnlySetHttpClient(httpClient: HttpClient): void {
@@ -37,7 +45,9 @@ function getCoreClientOptions(pipeline: Pipeline): ExtendedServiceClientOptions 
   if (!corePipeline) {
     throw new Error("Pipeline not correctly initialized; missing V2 Pipeline");
   }
-  const hasWorkaroundPolicy = corePipeline.getOrderedPolicies().some(policy => policy.name === dataLakePathParameterWorkaroundPolicyName);
+  const hasWorkaroundPolicy = corePipeline
+    .getOrderedPolicies()
+    .some((policy) => policy.name === dataLakePathParameterWorkaroundPolicyName);
   if (!hasWorkaroundPolicy) {
     corePipeline.addPolicy(dataLakePathParameterWorkaroundPolicy());
   }
@@ -116,7 +126,7 @@ export abstract class StorageClient {
       this.dfsEndpointUrl,
       getCoreClientOptions(pipeline)
     );
-    
+
     this.storageClientContextToBlobEndpoint = new StorageClientContext(
       this.blobEndpointUrl,
       getCoreClientOptions(pipeline)

@@ -6,11 +6,7 @@ import { record, Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
 
-import {
-  DataLakeFileSystemClient,
-  FileSystemSASPermissions,
-  newPipeline,
-} from "../../src";
+import { DataLakeFileSystemClient, FileSystemSASPermissions, newPipeline } from "../../src";
 import { PublicAccessType } from "../../src/models";
 import { getDataLakeServiceClient, recorderEnvSetup } from "../utils";
 import { assertClientUsesTokenCredential } from "../utils/assert";

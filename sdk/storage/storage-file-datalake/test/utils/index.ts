@@ -9,7 +9,11 @@ import * as path from "path";
 import { DefaultAzureCredential } from "@azure/identity";
 
 import { DataLakeServiceClient } from "../../src/DataLakeServiceClient";
-import { newPipeline, StoragePipelineOptions, StorageSharedKeyCredential } from "@azure/storage-blob";
+import {
+  newPipeline,
+  StoragePipelineOptions,
+  StorageSharedKeyCredential,
+} from "@azure/storage-blob";
 import { getUniqueName, SimpleTokenCredential } from "./testutils.common";
 import {
   AccountSASPermissions,
