@@ -15,7 +15,7 @@ let testOnlyHttpClient: HttpClient | undefined;
  * @internal 
  * Set a custom default http client for testing purposes
  */
-export function setTestOnlySetHttpClient(httpClient: HttpClient) {
+export function setTestOnlySetHttpClient(httpClient: HttpClient): void {
   testOnlyHttpClient = httpClient;
 }
 
@@ -33,7 +33,7 @@ function getCoreClientOptions(pipeline: Pipeline): ExtendedServiceClientOptions 
     (pipeline as any)._coreHttpClient = testOnlyHttpClient;
   }
 
-  let corePipeline: CorePipeline = (pipeline as any)._corePipeline;
+  const corePipeline: CorePipeline = (pipeline as any)._corePipeline;
   if (!corePipeline) {
     throw new Error("Pipeline not correctly initialized; missing V2 Pipeline");
   }
