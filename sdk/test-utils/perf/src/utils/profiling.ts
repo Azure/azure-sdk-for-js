@@ -1,7 +1,7 @@
 import { Session } from "node:inspector";
 import * as fs from "fs-extra";
 
-export async function runWithCpuProfile(functionToProfile: () => Promise<void>) {
+export async function runWithCpuProfile(functionToProfile: () => Promise<void>, filePath: string | undefined) {
   const session = new Session();
   session.connect();
   session.post("Profiler.enable", () => {
@@ -12,6 +12,7 @@ export async function runWithCpuProfile(functionToProfile: () => Promise<void>) 
       session.post("Profiler.stop", (err, { profile }) => {
         // Write profile to disk, upload, etc.
         if (!err) {
+          console.log(filePath);
           // ./azure-sdk-for-js/sdk/storage/perf-tests/storage-blob/../../../../JS-profile
           // =>
           // ./azure-sdk-for-js/JS-profile

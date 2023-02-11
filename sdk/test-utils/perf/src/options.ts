@@ -79,7 +79,8 @@ export interface DefaultPerfOptions {
   "list-transitive-dependencies": boolean;
   cpus: number;
   "use-worker-threads": boolean;
-  profile: boolean
+  profile: boolean;
+  "profile-filepath": string
 }
 
 /**
@@ -147,6 +148,10 @@ export const defaultPerfOptions: PerfOptionDictionary<DefaultPerfOptions> = {
   profile: {
     description: "Set to true to profile the perf test. When set to true, `cpus` will be overriden to 1.",
     defaultValue: false
+  },
+  "profile-filepath": {
+    description: "Used as the artifact path",
+    defaultValue: undefined
   }
 };
 

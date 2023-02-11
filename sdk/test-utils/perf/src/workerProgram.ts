@@ -86,7 +86,7 @@ export class WorkerPerfProgram implements PerfProgram {
       await enterStage("test");
       const duration = this.options.duration.value;
       if (this.options.profile.value) {
-        await runWithCpuProfile(() => this.runTests(duration));
+        await runWithCpuProfile(() => this.runTests(duration), this.options["profile-filepath"].value);
       } else {
         await this.runTests(duration);
       }
