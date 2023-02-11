@@ -16,10 +16,10 @@ export async function runWithCpuProfile(functionToProfile: () => Promise<void>, 
           // ./azure-sdk-for-js/sdk/storage/perf-tests/storage-blob/../../../../JS-profile
           // =>
           // ./azure-sdk-for-js/JS-profile
-          const profileName = `./../../../../profile/${getFormattedDate()}-perfProgram.cpuprofile`;
-          fs.ensureDirSync("./../../../../profile/");
-          fs.writeFileSync(profileName, JSON.stringify(profile));
-          console.log(`...CPUProfile saved to ${profileName}...`);
+          const profileFilepath = `./../../../../profile/${filePath}`;
+          fs.ensureDirSync(profileFilepath);
+          fs.writeFileSync(profileFilepath, JSON.stringify(profile));
+          console.log(`...CPUProfile saved to ${profileFilepath}...`);
         } else {
           console.log(err);
         }
@@ -27,5 +27,3 @@ export async function runWithCpuProfile(functionToProfile: () => Promise<void>, 
     });
   });
 }
-
-const getFormattedDate = () => { return new Date().toISOString().replace(/[:\-.]/g, "_"); };
