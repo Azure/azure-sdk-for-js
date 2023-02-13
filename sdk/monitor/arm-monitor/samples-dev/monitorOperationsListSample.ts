@@ -15,29 +15,26 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Deletes a scheduled query rule.
+ * This sample demonstrates how to Lists available Operations for this Resource Provider
  *
- * @summary Deletes a scheduled query rule.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2022-08-01-preview/examples/deleteScheduledQueryRule.json
+ * @summary Lists available Operations for this Resource Provider
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Monitor/preview/2021-06-03-preview/examples/OperationsGet.json
  */
-async function deleteAScheduledQueryRule() {
+async function getOperationsList() {
   const subscriptionId =
     process.env["MONITOR_SUBSCRIPTION_ID"] ||
-    "dd4bfc94-a096-412b-9c43-4bd13e35afbc";
-  const resourceGroupName =
-    process.env["MONITOR_RESOURCE_GROUP"] || "QueryResourceGroupName";
-  const ruleName = "heartbeat";
+    "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
-  const result = await client.scheduledQueryRules.delete(
-    resourceGroupName,
-    ruleName
-  );
-  console.log(result);
+  const resArray = new Array();
+  for await (let item of client.monitorOperations.list()) {
+    resArray.push(item);
+  }
+  console.log(resArray);
 }
 
 async function main() {
-  deleteAScheduledQueryRule();
+  getOperationsList();
 }
 
 main().catch(console.error);
