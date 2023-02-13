@@ -16447,16 +16447,18 @@ packages:
     dev: false
 
   file:projects/core-util.tgz:
-    resolution: {integrity: sha512-FkPZZQzYvVGk7cUsJK7FfpbGrSbXGzJGcrU7t8DbWFVdxUpg7XPV07woocPHb4ls8SL9EOXkOcWONyo1oxq8tA==, tarball: file:projects/core-util.tgz}
+    resolution: {integrity: sha512-ls9WIyXDKJV4cNotjJO+kOzz8YrgYkYQJRTh5+rih0ilTbXnESQEeYvU4lFbx070XnszCOnbVEFg3Oli7UKvRA==, tarball: file:projects/core-util.tgz}
     name: '@rush-temp/core-util'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.34.3_@types+node@14.18.36
       '@types/chai': 4.3.4
+      '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
       '@types/node': 14.18.36
       '@types/sinon': 9.0.11
       chai: 4.3.7
+      chai-as-promised: 7.1.1_chai@4.3.7
       cross-env: 7.0.3
       downlevel-dts: 0.10.1
       eslint: 8.33.0
