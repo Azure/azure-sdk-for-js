@@ -2,10 +2,9 @@
 process.env.CHROME_BIN = require("puppeteer").executablePath();
 require("dotenv").config();
 
-const { relativeRecordingsPath, relativeAssetsPath } = require("@azure-tools/test-recorder");
+const { relativeRecordingsPath } = require("@azure-tools/test-recorder");
 
 process.env.RECORDINGS_RELATIVE_PATH = relativeRecordingsPath();
-process.env.RECORDING_ASSETS_PATH = relativeAssetsPath();
 
 module.exports = function (config) {
   config.set({
@@ -48,7 +47,6 @@ module.exports = function (config) {
       "TEST_MODE",
       "AZURE_AUTHORITY_HOST",
       "RECORDINGS_RELATIVE_PATH",
-      "RECORDING_ASSETS_PATH",
     ],
 
     reporters: ["mocha", "coverage", "junit"],
