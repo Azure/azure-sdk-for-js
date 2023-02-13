@@ -94,17 +94,15 @@ export class KeyVaultSettingsClient {
   /**
    * Updates the named account setting.
    *
-   * @param settingName - the name of the account setting. Must be a valid settings option.
-   * @param value - the value of the pool setting.
+   * @param setting - the setting to update. The name of the setting must be a valid settings option.
    * @param options - the optional parameters.
    */
   async updateSetting(
-    settingName: string,
-    value: boolean,
+    setting: KeyVaultSetting,
     options: UpdateSettingOptions = {}
   ): Promise<KeyVaultSetting> {
     return makeSetting(
-      await this.client.updateSetting(this.vaultUrl, settingName, String(value), options)
+      await this.client.updateSetting(this.vaultUrl, setting.name, String(setting.value), options)
     );
   }
 
