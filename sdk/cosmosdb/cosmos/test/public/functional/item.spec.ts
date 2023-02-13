@@ -3,6 +3,7 @@
 import assert from "assert";
 import { Suite } from "mocha";
 import {
+  Constants,
   Container,
   CosmosClient,
   OperationResponse,
@@ -26,7 +27,7 @@ import {
 import { BulkOperationType, OperationInput } from "../../../src";
 import { endpoint } from "../common/_testConfig";
 import { masterKey } from "../common/_fakeTestSecrets";
-
+import { generateOperationOfSize } from "../../internal/unit/utils/batch.spec";
 interface TestItem {
   id?: string;
   name?: string;
@@ -229,6 +230,67 @@ describe("Item CRUD", function (this: Suite) {
 });
 
 describe("bulk/batch item operations", function () {
+  describe("Check size based splitting of batches", function () {
+    let container: Container;
+    before(async function () {
+      container = await getTestContainer("bulk container", undefined, {
+        partitionKey: {
+          paths: ["/key"],
+          version: undefined,
+        },
+        throughput: 400,
+      });
+    });
+    after(async () => {
+      await container.database.delete();
+    });
+    it("Check case when cumulative size of all operations is less than threshold", async function () {
+      const operations: OperationInput[] = [...Array(10).keys()].map(
+        () =>
+          ({
+            ...generateOperationOfSize(100, { partitionKey: "key_value" }, { key: "key_value" }),
+          } as any)
+      );
+      const response = await container.items.bulk(operations);
+      // Create
+      response.forEach((res, index) =>
+        assert.strictEqual(res.statusCode, 201, `Status should be 201 for operation ${index}`)
+      );
+    });
+    it("Check case when cumulative size of all operations is greater than threshold", async function () {
+      const operations: OperationInput[] = [...Array(10).keys()].map(
+        () =>
+          ({
+            ...generateOperationOfSize(
+              Math.floor(Constants.DefaultMaxBulkRequestBodySizeInBytes / 2)
+            ),
+            partitionKey: {},
+          } as any)
+      );
+      const response = await container.items.bulk(operations);
+      // Create
+      response.forEach((res, index) =>
+        assert.strictEqual(res.statusCode, 201, `Status should be 201 for operation ${index}`)
+      );
+    });
+    it("Check case when cumulative size of all operations is greater than threshold", async function () {
+      const operations: OperationInput[] = [...Array(50).keys()].map(
+        () =>
+          ({
+            ...generateOperationOfSize(
+              Math.floor(Constants.DefaultMaxBulkRequestBodySizeInBytes / 2),
+              {},
+              { key: "key_value" }
+            ),
+          } as any)
+      );
+      const response = await container.items.bulk(operations);
+      // Create
+      response.forEach((res, index) =>
+        assert.strictEqual(res.statusCode, 201, `Status should be 201 for operation ${index}`)
+      );
+    });
+  });
   describe("with v1 container", function () {
     let container: Container;
     let readItemId: string;

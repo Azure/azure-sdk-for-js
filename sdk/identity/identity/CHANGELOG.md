@@ -1,9 +1,11 @@
 # Release History
 
-## 3.1.4 (Unreleased)
+## 4.0.0-beta.1 (Unreleased)
 
 ### Features Added
 
+- Added support to disable instance discovery on AAD credentials.
+- Added `AzureDeveloperCliCredential` [#24180](https://github.com/Azure/azure-sdk-for-js/pull/24180) and added it to the `DefaultAzureCredential` [#24826](https://github.com/Azure/azure-sdk-for-js/pull/24826) auth flow
 ### Breaking Changes
 
 ### Bugs Fixed

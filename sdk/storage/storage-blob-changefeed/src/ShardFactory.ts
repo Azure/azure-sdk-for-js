@@ -6,7 +6,7 @@ import { ShardCursor } from "./models/ChangeFeedCursor";
 import { Shard } from "./Shard";
 import { ContainerClient, CommonOptions } from "@azure/storage-blob";
 import { Chunk } from "./Chunk";
-import { AbortSignalLike } from "@azure/core-http";
+import { AbortSignalLike } from "@azure/abort-controller";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { createSpan } from "./utils/tracing";
 

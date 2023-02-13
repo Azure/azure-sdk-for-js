@@ -84,7 +84,7 @@
     "mocha-junit-reporter": "^2.0.0",
     "puppeteer": "^19.2.2",
     "rimraf": "^3.0.0",
-    "typescript": "~4.6.0",
+    "typescript": "~4.8.0",
     "util": "^0.12.1",
     "sinon": "^9.0.2",
     "@types/sinon": "^9.0.4",
