@@ -117,7 +117,8 @@ function Get-ChangeLogEntryAsString {
     [Parameter(Mandatory = $true)]
     [String]$VersionString
   )
-
+  Write-Host "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+  Write-Host "in Get-ChangeLogEntryAsString"
   $changeLogEntry = Get-ChangeLogEntry -ChangeLogLocation $ChangeLogLocation -VersionString $VersionString
   return ChangeLogEntryAsString $changeLogEntry
 }
