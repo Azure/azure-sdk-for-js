@@ -16,9 +16,6 @@
 /documentation/ @jeremymeng
 /samples/       @jeremymeng
 
-# Add owners for notifications for specific pipelines
-/eng/pipelines/aggregate-reports.yml @jeremymeng @xirzec
-
 ################
 # Automation
 ################
