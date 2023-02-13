@@ -9,7 +9,10 @@
 import {
   CheckNameAvailabilityParameters,
   RecoveryServicesCheckNameAvailabilityOptionalParams,
-  RecoveryServicesCheckNameAvailabilityResponse
+  RecoveryServicesCheckNameAvailabilityResponse,
+  ResourceCapabilities,
+  RecoveryServicesCapabilitiesOptionalParams,
+  RecoveryServicesCapabilitiesResponse
 } from "../models";
 
 /** Interface representing a RecoveryServices. */
@@ -20,8 +23,7 @@ export interface RecoveryServices {
    * Type
    * or if one or more such resources exist, each of these must be GC'd and their time of deletion be
    * more than 24 Hours Ago
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param location Location of the resource
    * @param input Contains information about Resource type and Resource name
    * @param options The options parameters.
@@ -32,4 +34,15 @@ export interface RecoveryServices {
     input: CheckNameAvailabilityParameters,
     options?: RecoveryServicesCheckNameAvailabilityOptionalParams
   ): Promise<RecoveryServicesCheckNameAvailabilityResponse>;
+  /**
+   * API to get details about capabilities provided by Microsoft.RecoveryServices RP
+   * @param location Location of the resource
+   * @param input Contains information about Resource type and properties to get capabilities
+   * @param options The options parameters.
+   */
+  capabilities(
+    location: string,
+    input: ResourceCapabilities,
+    options?: RecoveryServicesCapabilitiesOptionalParams
+  ): Promise<RecoveryServicesCapabilitiesResponse>;
 }

@@ -22,6 +22,9 @@ function makeBrowserTestConfigPatch() {
   const config = { ...makeBrowserTestConfig(require("./package.json")) };
   config.plugins = [
     multiEntry({ exports: false }),
+    typescript({
+      exclude: ["test/**/*.spec.ts"],
+    }),
     sourcemaps(),
     replace({
       preventAssignment: true,
@@ -53,9 +56,6 @@ function makeBrowserTestConfigPatch() {
       exclude: ["./**/package.json"],
     }),
     json(),
-    typescript({
-      exclude: ["test/**/*.spec.ts"],
-    }),
   ];
 
   return config;

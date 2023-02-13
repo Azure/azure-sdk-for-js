@@ -9,7 +9,7 @@ import { Segment } from "./Segment";
 import { SegmentCursor } from "./models/ChangeFeedCursor";
 import { bodyToString } from "./utils/utils.node";
 import { parseDateFromSegmentPath } from "./utils/utils.common";
-import { AbortSignalLike } from "@azure/core-http";
+import { AbortSignalLike } from "@azure/abort-controller";
 import { createSpan } from "./utils/tracing";
 import { SpanStatusCode } from "@azure/core-tracing";
 

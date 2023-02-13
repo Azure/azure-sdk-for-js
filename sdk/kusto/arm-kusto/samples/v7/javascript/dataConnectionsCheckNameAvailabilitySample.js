@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Checks that the data connection name is valid and is not already in use.
  *
  * @summary Checks that the data connection name is valid and is not already in use.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoDataConnectionsCheckNameAvailability.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-12-29/examples/KustoDataConnectionsCheckNameAvailability.json
  */
 async function kustoDataConnectionsCheckNameAvailability() {
   const subscriptionId =

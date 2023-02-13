@@ -13,16 +13,22 @@ import {
   ContainerRegistryManagementClient
 } from "@azure/arm-containerregistry";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates an import pipeline for a container registry with the specified parameters.
  *
  * @summary Creates an import pipeline for a container registry with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2022-02-01-preview/examples/ImportPipelineCreate.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-01-01-preview/examples/ImportPipelineCreate.json
  */
 async function importPipelineCreate() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
   const importPipelineName = "myImportPipeline";
   const importPipelineCreateParameters: ImportPipeline = {
@@ -54,4 +60,8 @@ async function importPipelineCreate() {
   console.log(result);
 }
 
-importPipelineCreate().catch(console.error);
+async function main() {
+  importPipelineCreate();
+}
+
+main().catch(console.error);

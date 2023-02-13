@@ -1,58 +1,240 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.RecoveryServices/vaults/myvaultxxx?api-version=2022-04-01",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.RecoveryServices/vaults/myvaultxxx?api-version=2023-01-01",
       "RequestMethod": "PUT",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "100",
+        "Content-Length": "131",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-arm-recoveryservices/5.1.1 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
-        "x-ms-client-request-id": "4799e7f2-b38e-4adf-aff4-49a57d2ab485"
+        "User-Agent": "azsdk-js-arm-recoveryservices/5.2.0 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "6ee51971-e7a1-4603-be5f-2fb06c3a8d64"
       },
       "RequestBody": {
         "location": "eastus",
         "identity": {
           "type": "SystemAssigned"
         },
-        "properties": {},
+        "properties": {
+          "publicNetworkAccess": "Enabled"
+        },
         "sku": {
           "name": "Standard"
         }
       },
       "StatusCode": 201,
       "ResponseHeaders": {
+        "Azure-AsyncOperation": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.RecoveryServices/vaults/myvaultxxx/operationStatus/MjA0NztlYWYzZmQ3OC03YTk1LTRlYTItOWRkZi04ZjEzNDllYzU1MmI=?api-version=2023-01-01",
         "Cache-Control": "no-cache",
-        "Content-Length": "562",
+        "Content-Length": "597",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 31 Jan 2023 08:18:56 GMT",
+        "Date": "Tue, 07 Feb 2023 06:22:29 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
+        "Retry-After": "60",
         "Server": "Kestrel",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-client-request-id": "4799e7f2-b38e-4adf-aff4-49a57d2ab485",
-        "x-ms-correlation-request-id": "fbcc7902-feeb-4fcd-85dc-10260b71ac1c",
+        "x-ms-client-request-id": "6ee51971-e7a1-4603-be5f-2fb06c3a8d64",
+        "x-ms-correlation-request-id": "57a7a7f1-0f2d-4710-a6b8-b6468f4e0f20",
         "x-ms-ratelimit-remaining-subscription-resource-requests": "209",
-        "x-ms-request-id": "fbcc7902-feeb-4fcd-85dc-10260b71ac1c",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20230131T081857Z:fbcc7902-feeb-4fcd-85dc-10260b71ac1c"
+        "x-ms-request-id": "57a7a7f1-0f2d-4710-a6b8-b6468f4e0f20",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230207T062229Z:57a7a7f1-0f2d-4710-a6b8-b6468f4e0f20"
       },
       "ResponseBody": {
         "location": "eastus",
         "name": "myvaultxxx",
-        "etag": "W/\u0022datetime\u00272023-01-31T08%3A18%3A56.0555653Z\u0027\u0022",
+        "etag": "W/\u0022datetime\u00272023-02-07T06%3A22%3A28.4613601Z\u0027\u0022",
         "identity": {
           "tenantId": "88888888-8888-8888-8888-888888888888",
-          "principalId": "54056929-ec59-4d59-9953-de3a6c2048cd",
+          "principalId": "84eac9ef-e8f9-4bc4-911a-b57cb0325550",
+          "type": "SystemAssigned"
+        },
+        "properties": {
+          "provisioningState": "Provisioning",
+          "privateEndpointStateForBackup": "None",
+          "privateEndpointStateForSiteRecovery": "None",
+          "publicNetworkAccess": "Enabled"
+        },
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.RecoveryServices/vaults/myvaultxxx",
+        "type": "Microsoft.RecoveryServices/vaults",
+        "sku": {
+          "name": "Standard"
+        }
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.RecoveryServices/vaults/myvaultxxx/operationStatus/MjA0NztlYWYzZmQ3OC03YTk1LTRlYTItOWRkZi04ZjEzNDllYzU1MmI=?api-version=2023-01-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-recoveryservices/5.2.0 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "be8f7944-f1e3-4953-9080-4e6e2eed9b61"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Azure-AsyncOperation": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.RecoveryServices/vaults/myvaultxxx/operationStatus/MjA0NztlYWYzZmQ3OC03YTk1LTRlYTItOWRkZi04ZjEzNDllYzU1MmI=?api-version=2023-01-01",
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 07 Feb 2023 06:22:29 GMT",
+        "Expires": "-1",
+        "Location": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.RecoveryServices/vaults/myvaultxxx/operationResults/MjA0NztlYWYzZmQ3OC03YTk1LTRlYTItOWRkZi04ZjEzNDllYzU1MmI=?api-version=2023-01-01",
+        "Pragma": "no-cache",
+        "Retry-After": "60",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "be8f7944-f1e3-4953-9080-4e6e2eed9b61",
+        "x-ms-correlation-request-id": "b84ee3f3-be61-4854-ac48-6b933798db66",
+        "x-ms-ratelimit-remaining-subscription-reads": "11999",
+        "x-ms-request-id": "b84ee3f3-be61-4854-ac48-6b933798db66",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230207T062230Z:b84ee3f3-be61-4854-ac48-6b933798db66"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.RecoveryServices/vaults/myvaultxxx/operationStatus/MjA0NztlYWYzZmQ3OC03YTk1LTRlYTItOWRkZi04ZjEzNDllYzU1MmI=",
+        "name": "MjA0NztlYWYzZmQ3OC03YTk1LTRlYTItOWRkZi04ZjEzNDllYzU1MmI=",
+        "status": "InProgress",
+        "percentComplete": 0.0
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.RecoveryServices/vaults/myvaultxxx/operationStatus/MjA0NztlYWYzZmQ3OC03YTk1LTRlYTItOWRkZi04ZjEzNDllYzU1MmI=?api-version=2023-01-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-recoveryservices/5.2.0 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "e62cc020-3e91-4acc-94c7-667eb4053fc8"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Azure-AsyncOperation": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.RecoveryServices/vaults/myvaultxxx/operationStatus/MjA0NztlYWYzZmQ3OC03YTk1LTRlYTItOWRkZi04ZjEzNDllYzU1MmI=?api-version=2023-01-01",
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 07 Feb 2023 06:22:30 GMT",
+        "Expires": "-1",
+        "Location": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.RecoveryServices/vaults/myvaultxxx/operationResults/MjA0NztlYWYzZmQ3OC03YTk1LTRlYTItOWRkZi04ZjEzNDllYzU1MmI=?api-version=2023-01-01",
+        "Pragma": "no-cache",
+        "Retry-After": "60",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "e62cc020-3e91-4acc-94c7-667eb4053fc8",
+        "x-ms-correlation-request-id": "c20cfb74-afbe-4237-ac54-8cb2bd67d5d1",
+        "x-ms-ratelimit-remaining-subscription-reads": "11998",
+        "x-ms-request-id": "c20cfb74-afbe-4237-ac54-8cb2bd67d5d1",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230207T062231Z:c20cfb74-afbe-4237-ac54-8cb2bd67d5d1"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.RecoveryServices/vaults/myvaultxxx/operationStatus/MjA0NztlYWYzZmQ3OC03YTk1LTRlYTItOWRkZi04ZjEzNDllYzU1MmI=",
+        "name": "MjA0NztlYWYzZmQ3OC03YTk1LTRlYTItOWRkZi04ZjEzNDllYzU1MmI=",
+        "status": "InProgress",
+        "percentComplete": 0.0
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.RecoveryServices/vaults/myvaultxxx/operationStatus/MjA0NztlYWYzZmQ3OC03YTk1LTRlYTItOWRkZi04ZjEzNDllYzU1MmI=?api-version=2023-01-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-recoveryservices/5.2.0 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "0ef4513b-9751-47db-bee0-d0b42ff4ff3e"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 07 Feb 2023 06:23:32 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "0ef4513b-9751-47db-bee0-d0b42ff4ff3e",
+        "x-ms-correlation-request-id": "a0c6563a-92b3-4d41-8a7a-003232e13c86",
+        "x-ms-ratelimit-remaining-subscription-reads": "11997",
+        "x-ms-request-id": "a0c6563a-92b3-4d41-8a7a-003232e13c86",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230207T062332Z:a0c6563a-92b3-4d41-8a7a-003232e13c86"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.RecoveryServices/vaults/myvaultxxx/operationStatus/MjA0NztlYWYzZmQ3OC03YTk1LTRlYTItOWRkZi04ZjEzNDllYzU1MmI=",
+        "name": "MjA0NztlYWYzZmQ3OC03YTk1LTRlYTItOWRkZi04ZjEzNDllYzU1MmI=",
+        "status": "Succeeded",
+        "percentComplete": 0.0
+      }
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.RecoveryServices/vaults/myvaultxxx?api-version=2023-01-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-recoveryservices/5.2.0 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "d7b15027-26fd-4bd1-959e-85d540e55568"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 07 Feb 2023 06:23:32 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "d7b15027-26fd-4bd1-959e-85d540e55568",
+        "x-ms-correlation-request-id": "25172621-4ac9-4e84-8727-7960b2d2e4c5",
+        "x-ms-ratelimit-remaining-subscription-reads": "11996",
+        "x-ms-request-id": "25172621-4ac9-4e84-8727-7960b2d2e4c5",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230207T062333Z:25172621-4ac9-4e84-8727-7960b2d2e4c5"
+      },
+      "ResponseBody": {
+        "location": "eastus",
+        "name": "myvaultxxx",
+        "etag": "W/\u0022datetime\u00272023-02-07T06%3A23%3A29.9297009Z\u0027\u0022",
+        "identity": {
+          "tenantId": "88888888-8888-8888-8888-888888888888",
+          "principalId": "84eac9ef-e8f9-4bc4-911a-b57cb0325550",
           "type": "SystemAssigned"
         },
         "properties": {
           "provisioningState": "Succeeded",
           "privateEndpointStateForBackup": "None",
-          "privateEndpointStateForSiteRecovery": "None"
+          "privateEndpointStateForSiteRecovery": "None",
+          "publicNetworkAccess": "Enabled"
         },
         "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.RecoveryServices/vaults/myvaultxxx",
         "type": "Microsoft.RecoveryServices/vaults",

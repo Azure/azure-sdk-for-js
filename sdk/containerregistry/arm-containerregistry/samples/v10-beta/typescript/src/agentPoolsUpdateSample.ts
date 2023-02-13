@@ -13,6 +13,9 @@ import {
   ContainerRegistryManagementClient
 } from "@azure/arm-containerregistry";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Updates an agent pool with the specified parameters.
@@ -21,8 +24,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/AgentPoolsUpdate.json
  */
 async function agentPoolsUpdate() {
-  const subscriptionId = "4385cf00-2d3a-425a-832f-f4285b1c9dce";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
+    "4385cf00-2d3a-425a-832f-f4285b1c9dce";
+  const resourceGroupName =
+    process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
   const agentPoolName = "myAgentPool";
   const updateParameters: AgentPoolUpdateParameters = { count: 1 };
@@ -40,4 +46,8 @@ async function agentPoolsUpdate() {
   console.log(result);
 }
 
-agentPoolsUpdate().catch(console.error);
+async function main() {
+  agentPoolsUpdate();
+}
+
+main().catch(console.error);
