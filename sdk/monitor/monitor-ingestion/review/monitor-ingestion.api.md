@@ -18,6 +18,9 @@ export class AggregateUploadLogsError extends Error {
 export const AggregateUploadLogsErrorName = "AggregateUploadLogsError";
 
 // @public
+export function isAggregateUploadLogsError(e: unknown): e is AggregateUploadLogsError;
+
+// @public
 export class LogsIngestionClient {
     constructor(endpoint: string, tokenCredential: TokenCredential, options?: LogsIngestionClientOptions);
     upload(ruleId: string, streamName: string, logs: Record<string, unknown>[], options?: UploadLogsOptions): Promise<void>;
@@ -36,8 +39,8 @@ export interface UploadLogsError {
 
 // @public
 export interface UploadLogsOptions extends OperationOptions {
-    errorCallback?: (uploadLogsError: UploadLogsError) => Promise<void>;
     maxConcurrency?: number;
+    onError?: (uploadLogsError: UploadLogsError) => void;
 }
 
 ```
