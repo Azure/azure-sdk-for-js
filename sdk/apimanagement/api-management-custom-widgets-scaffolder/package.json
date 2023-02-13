@@ -81,7 +81,7 @@
     "prettier": "^2.5.1",
     "nyc": "^15.0.0",
     "rimraf": "^3.0.0",
-    "typescript": "~4.6.0",
+    "typescript": "~4.8.0",
     "util": "^0.12.1",
     "dotenv": "^16.0.0",
     "@azure/test-utils": "^1.0.0",
@@ -94,12 +94,12 @@
     "prettier": "^2.5.1",
     "glob": "^8.0.0",
     "tslib": "^2.2.0",
-    "typescript": "~4.6.4",
+    "typescript": "~4.8.0",
     "chalk": "^4.1.2",
     "inquirer": "^8.2.4",
     "yargs": "^17.0.1",
     "yargs-parser": "^21.0.1",
-    "rollup": "~2.75.5",
-    "@rollup/plugin-node-resolve": "~13.3.0"
+    "rollup": "^2.66.1",
+    "@rollup/plugin-node-resolve": "^13.1.3"
   }
 }

@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { ContainerRegistryManagementClient } from "@azure/arm-containerregistry";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Lists all the task runs for a specified container registry.
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/TaskRunsList.json
  */
 async function taskRunsList() {
-  const subscriptionId = "4385cf00-2d3a-425a-832f-f4285b1c9dce";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
+    "4385cf00-2d3a-425a-832f-f4285b1c9dce";
+  const resourceGroupName =
+    process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
   const credential = new DefaultAzureCredential();
   const client = new ContainerRegistryManagementClient(
@@ -36,4 +42,8 @@ async function taskRunsList() {
   console.log(resArray);
 }
 
-taskRunsList().catch(console.error);
+async function main() {
+  taskRunsList();
+}
+
+main().catch(console.error);

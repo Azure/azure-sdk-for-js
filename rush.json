@@ -1917,6 +1917,11 @@
       "packageName": "@azure/arm-liftrqumulo",
       "projectFolder": "sdk/liftrqumulo/arm-liftrqumulo",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-storagemover",
+      "projectFolder": "sdk/storagemover/arm-storagemover",
+      "versionPolicyName": "management"
     }
   ]
 }

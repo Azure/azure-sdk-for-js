@@ -414,6 +414,7 @@ export const Constants: {
     AzurePackageName: string;
     SDKName: string;
     SDKVersion: string;
+    DefaultMaxBulkRequestBodySizeInBytes: number;
     Quota: {
         CollectionSize: string;
     };

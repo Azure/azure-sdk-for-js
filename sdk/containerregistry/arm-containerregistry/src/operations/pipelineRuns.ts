@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ContainerRegistryManagementClient } from "../containerRegistryManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   PipelineRun,
   PipelineRunsListNextOptionalParams,
@@ -43,7 +47,7 @@ export class PipelineRunsImpl implements PipelineRuns {
 
   /**
    * Lists all the pipeline runs for the specified container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param options The options parameters.
    */
@@ -119,7 +123,7 @@ export class PipelineRunsImpl implements PipelineRuns {
 
   /**
    * Lists all the pipeline runs for the specified container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param options The options parameters.
    */
@@ -136,7 +140,7 @@ export class PipelineRunsImpl implements PipelineRuns {
 
   /**
    * Gets the detailed information for a given pipeline run.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param pipelineRunName The name of the pipeline run.
    * @param options The options parameters.
@@ -155,7 +159,7 @@ export class PipelineRunsImpl implements PipelineRuns {
 
   /**
    * Creates a pipeline run for a container registry with the specified parameters
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param pipelineRunName The name of the pipeline run.
    * @param pipelineRunCreateParameters The parameters for creating a pipeline run.
@@ -168,8 +172,8 @@ export class PipelineRunsImpl implements PipelineRuns {
     pipelineRunCreateParameters: PipelineRun,
     options?: PipelineRunsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PipelineRunsCreateResponse>,
+    SimplePollerLike<
+      OperationState<PipelineRunsCreateResponse>,
       PipelineRunsCreateResponse
     >
   > {
@@ -179,7 +183,7 @@ export class PipelineRunsImpl implements PipelineRuns {
     ): Promise<PipelineRunsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -212,20 +216,24 @@ export class PipelineRunsImpl implements PipelineRuns {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         registryName,
         pipelineRunName,
         pipelineRunCreateParameters,
         options
       },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      PipelineRunsCreateResponse,
+      OperationState<PipelineRunsCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -233,7 +241,7 @@ export class PipelineRunsImpl implements PipelineRuns {
 
   /**
    * Creates a pipeline run for a container registry with the specified parameters
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param pipelineRunName The name of the pipeline run.
    * @param pipelineRunCreateParameters The parameters for creating a pipeline run.
@@ -258,7 +266,7 @@ export class PipelineRunsImpl implements PipelineRuns {
 
   /**
    * Deletes a pipeline run from a container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param pipelineRunName The name of the pipeline run.
    * @param options The options parameters.
@@ -268,14 +276,14 @@ export class PipelineRunsImpl implements PipelineRuns {
     registryName: string,
     pipelineRunName: string,
     options?: PipelineRunsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -308,14 +316,15 @@ export class PipelineRunsImpl implements PipelineRuns {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, registryName, pipelineRunName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, registryName, pipelineRunName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -323,7 +332,7 @@ export class PipelineRunsImpl implements PipelineRuns {
 
   /**
    * Deletes a pipeline run from a container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param pipelineRunName The name of the pipeline run.
    * @param options The options parameters.
@@ -345,7 +354,7 @@ export class PipelineRunsImpl implements PipelineRuns {
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -479,7 +488,6 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

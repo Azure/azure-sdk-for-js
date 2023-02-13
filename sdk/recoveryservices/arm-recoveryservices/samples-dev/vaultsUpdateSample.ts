@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Updates the vault.
  *
  * @summary Updates the vault.
- * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2022-04-01/examples/PATCHVault.json
+ * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/PATCHVault.json
  */
 async function updateResource() {
   const subscriptionId =
@@ -45,7 +45,7 @@ async function updateResource() {
  * This sample demonstrates how to Updates the vault.
  *
  * @summary Updates the vault.
- * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2022-04-01/examples/PATCHVault_WithCMK.json
+ * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/PATCHVault_WithCMK.json
  */
 async function updateResourceWithCustomerManagedKeys() {
   const subscriptionId =
@@ -90,7 +90,7 @@ async function updateResourceWithCustomerManagedKeys() {
  * This sample demonstrates how to Updates the vault.
  *
  * @summary Updates the vault.
- * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2022-04-01/examples/PatchVault_WithCMK2.json
+ * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/PatchVault_WithCMK2.json
  */
 async function updateResourceWithCustomerManagedKeys2() {
   const subscriptionId =
@@ -120,7 +120,7 @@ async function updateResourceWithCustomerManagedKeys2() {
  * This sample demonstrates how to Updates the vault.
  *
  * @summary Updates the vault.
- * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2022-04-01/examples/PATCHVault_WithCMK3.json
+ * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/PATCHVault_WithCMK3.json
  */
 async function updateResourceWithCustomerManagedKeys3() {
   const subscriptionId =
@@ -160,7 +160,7 @@ async function updateResourceWithCustomerManagedKeys3() {
  * This sample demonstrates how to Updates the vault.
  *
  * @summary Updates the vault.
- * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2022-04-01/examples/PATCHVault_WithUserAssignedIdentity.json
+ * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/PATCHVault_WithUserAssignedIdentity.json
  */
 async function updateResourceWithUserAssignedIdentity() {
   const subscriptionId =
@@ -192,7 +192,7 @@ async function updateResourceWithUserAssignedIdentity() {
  * This sample demonstrates how to Updates the vault.
  *
  * @summary Updates the vault.
- * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2022-04-01/examples/PATCHVault_WithMonitoringSettings.json
+ * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/PATCHVault_WithMonitoringSettings.json
  */
 async function updateVaultWithMonitoringSetting() {
   const subscriptionId =
