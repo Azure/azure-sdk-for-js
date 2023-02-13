@@ -79,42 +79,20 @@ export class ChangeFeed {
   }
 
   private async advanceSegmentIfNecessary(options: ChangeFeedGetChangeOptions = {}): Promise<void> {
-    return tracingClient.withSpan("ChangeFeed-advanceSegmentIfNecessary", options, async (updatedOptions) => {
-      if (!this.currentSegment) {
-        throw new Error("Empty Change Feed shouldn't call this function.");
-      }
+    return tracingClient.withSpan(
+      "ChangeFeed-advanceSegmentIfNecessary",
+      options,
+      async (updatedOptions) => {
+        if (!this.currentSegment) {
+          throw new Error("Empty Change Feed shouldn't call this function.");
+        }
 
-      // If the current segment has more Events, we don't need to do anything.
-      if (this.currentSegment.hasNext()) {
-        return;
-      }
+        // If the current segment has more Events, we don't need to do anything.
+        if (this.currentSegment.hasNext()) {
+          return;
+        }
 
-      // If the current segment is completed, remove it
-      if (this.segments.length > 0) {
-        this.currentSegment = await this.segmentFactory!.create(
-          this.containerClient!,
-          this.segments.shift()!,
-          undefined,
-          {
-            abortSignal: options.abortSignal,
-            tracingOptions: updatedOptions.tracingOptions,
-          }
-        );
-      }
-      // If segments is empty, refill it
-      else if (this.segments.length === 0 && this.years.length > 0) {
-        const year = this.years.shift();
-        this.segments = await getSegmentsInYear(
-          this.containerClient!,
-          year!,
-          this.startTime,
-          this.end,
-          {
-            abortSignal: options.abortSignal,
-            tracingOptions: updatedOptions.tracingOptions,
-          }
-        );
-
+        // If the current segment is completed, remove it
         if (this.segments.length > 0) {
           this.currentSegment = await this.segmentFactory!.create(
             this.containerClient!,
@@ -125,12 +103,37 @@ export class ChangeFeed {
               tracingOptions: updatedOptions.tracingOptions,
             }
           );
-        } else {
-          this.currentSegment = undefined;
+        }
+        // If segments is empty, refill it
+        else if (this.segments.length === 0 && this.years.length > 0) {
+          const year = this.years.shift();
+          this.segments = await getSegmentsInYear(
+            this.containerClient!,
+            year!,
+            this.startTime,
+            this.end,
+            {
+              abortSignal: options.abortSignal,
+              tracingOptions: updatedOptions.tracingOptions,
+            }
+          );
+
+          if (this.segments.length > 0) {
+            this.currentSegment = await this.segmentFactory!.create(
+              this.containerClient!,
+              this.segments.shift()!,
+              undefined,
+              {
+                abortSignal: options.abortSignal,
+                tracingOptions: updatedOptions.tracingOptions,
+              }
+            );
+          } else {
+            this.currentSegment = undefined;
+          }
         }
       }
-
-    });
+    );
   }
 
   public hasNext(): boolean {

@@ -70,29 +70,33 @@ export class LazyLoadingBlobStream extends Readable {
   }
 
   private async downloadBlock(options: LazyLoadingBlobStreamDownloadBlockOptions = {}) {
-    return tracingClient.withSpan("LazyLoadingBlobStream-downloadBlock", options, async (updatedOptions) => {
-      const properties = await this.blobClient.getProperties({
-        abortSignal: options.abortSignal,
-        tracingOptions: updatedOptions.tracingOptions,
-      });
-      this.blobLength = properties.contentLength!;
-
-      this.lastDownloadBytes = Math.min(this.blockSize, this.blobLength - this.offset);
-      if (this.lastDownloadBytes === 0) {
-        this.lastDownloadData = undefined;
-        return;
-      }
-
-      this.lastDownloadData = await this.blobClient.downloadToBuffer(
-        this.offset,
-        this.lastDownloadBytes,
-        {
+    return tracingClient.withSpan(
+      "LazyLoadingBlobStream-downloadBlock",
+      options,
+      async (updatedOptions) => {
+        const properties = await this.blobClient.getProperties({
           abortSignal: options.abortSignal,
           tracingOptions: updatedOptions.tracingOptions,
+        });
+        this.blobLength = properties.contentLength!;
+
+        this.lastDownloadBytes = Math.min(this.blockSize, this.blobLength - this.offset);
+        if (this.lastDownloadBytes === 0) {
+          this.lastDownloadData = undefined;
+          return;
         }
-      );
-      this.offset += this.lastDownloadBytes;
-    });
+
+        this.lastDownloadData = await this.blobClient.downloadToBuffer(
+          this.offset,
+          this.lastDownloadBytes,
+          {
+            abortSignal: options.abortSignal,
+            tracingOptions: updatedOptions.tracingOptions,
+          }
+        );
+        this.offset += this.lastDownloadBytes;
+      }
+    );
   }
 
   /**
@@ -101,36 +105,39 @@ export class LazyLoadingBlobStream extends Readable {
    * @param size - Optional. The size of data to be read
    */
   public async _read(size?: number): Promise<void> {
-    return tracingClient.withSpan("LazyLoadingBlobStream-read", this.options ?? {}, async (updatedOptions) => {
-      if (!size) {
-        size = this.readableHighWaterMark;
-      }
-      let count = 0;
-      let chunkSize = 0;
-      const chunksToPush = [];
-      do {
-        if (this.lastDownloadData === undefined || this.lastDownloadData?.byteLength === 0) {
-          await this.downloadBlock({
-            abortSignal: this.options?.abortSignal,
-            tracingOptions: updatedOptions?.tracingOptions,
-          });
+    return tracingClient.withSpan(
+      "LazyLoadingBlobStream-read",
+      this.options ?? {},
+      async (updatedOptions) => {
+        if (!size) {
+          size = this.readableHighWaterMark;
         }
-        if (this.lastDownloadData?.byteLength) {
-          chunkSize = Math.min(size - count, this.lastDownloadData?.byteLength);
-          chunksToPush.push(this.lastDownloadData.slice(0, chunkSize));
-          this.lastDownloadData = this.lastDownloadData.slice(chunkSize);
-          count += chunkSize;
-        } else {
-          chunkSize = 0;
+        let count = 0;
+        let chunkSize = 0;
+        const chunksToPush = [];
+        do {
+          if (this.lastDownloadData === undefined || this.lastDownloadData?.byteLength === 0) {
+            await this.downloadBlock({
+              abortSignal: this.options?.abortSignal,
+              tracingOptions: updatedOptions?.tracingOptions,
+            });
+          }
+          if (this.lastDownloadData?.byteLength) {
+            chunkSize = Math.min(size - count, this.lastDownloadData?.byteLength);
+            chunksToPush.push(this.lastDownloadData.slice(0, chunkSize));
+            this.lastDownloadData = this.lastDownloadData.slice(chunkSize);
+            count += chunkSize;
+          } else {
+            chunkSize = 0;
+          }
+        } while (chunkSize > 0 && count < size);
+
+        this.push(Buffer.concat(chunksToPush));
+
+        if (count < size) {
+          this.push(null);
         }
-      } while (chunkSize > 0 && count < size);
-
-      this.push(Buffer.concat(chunksToPush));
-
-      if (count < size) {
-        this.push(null);
       }
-
-    });
+    );
   }
 }
