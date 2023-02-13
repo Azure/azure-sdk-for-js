@@ -12,7 +12,9 @@ describe("effectivePartitionKey", function () {
         output: "22E342F38A486A088463DFF7838A5963",
       },
       {
-        key: ["aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"],
+        key: [
+          "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        ],
         output: "0BA3E9CA8EE4C14538828D1612A4B652",
       },
       {

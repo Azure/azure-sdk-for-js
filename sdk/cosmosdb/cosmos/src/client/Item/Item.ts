@@ -9,7 +9,7 @@ import {
   ResourceType,
   StatusCodes,
 } from "../../common";
-import { PartitionKey, PartitionKeyInternal,  convertToInternalPartitionKey } from "../../documents";
+import { PartitionKey, PartitionKeyInternal, convertToInternalPartitionKey } from "../../documents";
 import { extractPartitionKey, undefinedPartitionKey } from "../../extractPartitionKey";
 import { RequestOptions, Response } from "../../request";
 import { PatchRequestBody } from "../../utils/patch";
@@ -42,9 +42,10 @@ export class Item {
     public readonly container: Container,
     public readonly id: string,
     private readonly clientContext: ClientContext,
-    partitionKey?: PartitionKey,
+    partitionKey?: PartitionKey
   ) {
-    this.partitionKey = partitionKey === undefined ? undefined :  convertToInternalPartitionKey(partitionKey);
+    this.partitionKey =
+      partitionKey === undefined ? undefined : convertToInternalPartitionKey(partitionKey);
   }
 
   /**

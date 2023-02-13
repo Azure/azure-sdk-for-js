@@ -288,7 +288,7 @@ export class Items {
       this.container,
       (response.result as any).id,
       this.clientContext,
-      partitionKey,
+      partitionKey
     );
     return new ItemResponse(
       response.result,
@@ -360,7 +360,7 @@ export class Items {
       this.container,
       (response.result as any).id,
       this.clientContext,
-      partitionKey,
+      partitionKey
     );
     return new ItemResponse(
       response.result,
@@ -449,7 +449,8 @@ export class Items {
             // partition key types as well since we don't support them, so for now we throw
             if (err.code === 410) {
               throw new Error(
-                "Partition key error. Either the partitions have split or an operation has an unsupported partitionKey type" +  err.message
+                "Partition key error. Either the partitions have split or an operation has an unsupported partitionKey type" +
+                  err.message
               );
             }
             throw new Error(`Bulk request errored with: ${err.message}`);
@@ -466,17 +467,34 @@ export class Items {
    * @param options - Request options for bulk request.
    * @param batches - Groups to be filled with operations.
    */
-  private groupOperationsBasedOnPartitionKey(operations: OperationInput[], partitionDefinition: PartitionKeyDefinition, options: RequestOptions | undefined, batches: Batch[]) {
-    operations
-      .forEach((operationInput, index: number) => {
-        const { operation, partitionKey } = prepareOperations(operationInput, partitionDefinition, options);
-        const hashed = hashPartitionKey(assertNotUndefined(partitionKey, "undefined value for PartitionKey not expected during grouping of bulk operations."), partitionDefinition);
-        const batchForKey = assertNotUndefined(batches.find((batch: Batch) => {
+  private groupOperationsBasedOnPartitionKey(
+    operations: OperationInput[],
+    partitionDefinition: PartitionKeyDefinition,
+    options: RequestOptions | undefined,
+    batches: Batch[]
+  ) {
+    operations.forEach((operationInput, index: number) => {
+      const { operation, partitionKey } = prepareOperations(
+        operationInput,
+        partitionDefinition,
+        options
+      );
+      const hashed = hashPartitionKey(
+        assertNotUndefined(
+          partitionKey,
+          "undefined value for PartitionKey not expected during grouping of bulk operations."
+        ),
+        partitionDefinition
+      );
+      const batchForKey = assertNotUndefined(
+        batches.find((batch: Batch) => {
           return isKeyInRange(batch.min, batch.max, hashed);
-        }), "No suitable Batch found.");
-        batchForKey.operations.push(operation);
-        batchForKey.indexes.push(index);
-      });
+        }),
+        "No suitable Batch found."
+      );
+      batchForKey.operations.push(operation);
+      batchForKey.indexes.push(index);
+    });
   }
 
   /**

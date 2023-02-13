@@ -7,13 +7,12 @@ import { BytePrefix } from "./encoding/prefix";
 import MurmurHash from "./murmurHash";
 
 export function hashV2PartitionKey(partitionKey: PrimitivePartitionKeyValue[]): string {
-  const toHash: Buffer = Buffer.concat(partitionKey.map(prefixKeyByType))
+  const toHash: Buffer = Buffer.concat(partitionKey.map(prefixKeyByType));
   const hash = MurmurHash.x64.hash128(toHash);
   const reverseBuff: Buffer = reverse(Buffer.from(hash, "hex"));
   reverseBuff[0] &= 0x3f;
   return reverseBuff.toString("hex").toUpperCase();
 }
-
 
 function prefixKeyByType(key: PrimitivePartitionKeyValue): Buffer {
   let bytes: Buffer;

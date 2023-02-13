@@ -3,7 +3,13 @@
 
 import { JSONObject } from "../queryExecutionContext";
 import { extractPartitionKey } from "../extractPartitionKey";
-import { NonePartitionKeyLiteral, PartitionKey, PartitionKeyDefinition, PrimitivePartitionKeyValue,  convertToInternalPartitionKey } from "../documents";
+import {
+  NonePartitionKeyLiteral,
+  PartitionKey,
+  PartitionKeyDefinition,
+  PrimitivePartitionKeyValue,
+  convertToInternalPartitionKey,
+} from "../documents";
 import { RequestOptions } from "..";
 import { PatchRequestBody } from "./patch";
 import { v4 } from "uuid";
@@ -17,7 +23,6 @@ export type Operation =
   | DeleteOperation
   | ReplaceOperation
   | BulkPatchOperation;
-
 
 export interface Batch {
   min: string;
@@ -158,44 +163,46 @@ export function hasResource(
   );
 }
 /**
- * Maps OperationInput to Operation by 
+ * Maps OperationInput to Operation by
  * - generating Ids if needed.
- * - choosing partitionKey which can be used to choose which batch this 
- * operation should be part of. The order is - 
+ * - choosing partitionKey which can be used to choose which batch this
+ * operation should be part of. The order is -
  *   1. If the operationInput itself has partitionKey field set it is used.
  *   2. Other wise for create/replace/upsert it is extracted from resource body.
  *   3. For read/delete/patch type operations undefined partitionKey is used.
- * - Here one nuance is that, the partitionKey field inside Operation needs to 
+ * - Here one nuance is that, the partitionKey field inside Operation needs to
  *  be serialized as a JSON string.
  * @param operationInput - OperationInput
  * @param definition - PartitionKeyDefinition
  * @param options - RequestOptions
- * @returns 
+ * @returns
  */
 export function prepareOperations(
   operationInput: OperationInput,
   definition: PartitionKeyDefinition,
   options: RequestOptions = {}
 ): {
-  operation: Operation,
-  partitionKey: PrimitivePartitionKeyValue[]
+  operation: Operation;
+  partitionKey: PrimitivePartitionKeyValue[];
 } {
-
   populateIdsIfNeeded(operationInput, options);
 
   let partitionKey: PrimitivePartitionKeyValue[];
-  if(Object.prototype.hasOwnProperty.call(operationInput, "partitionKey")) {
-    if(operationInput.partitionKey === undefined) {
-      partitionKey = definition.paths.map(() => NonePartitionKeyLiteral)
+  if (Object.prototype.hasOwnProperty.call(operationInput, "partitionKey")) {
+    if (operationInput.partitionKey === undefined) {
+      partitionKey = definition.paths.map(() => NonePartitionKeyLiteral);
     } else {
-      partitionKey =  convertToInternalPartitionKey(operationInput.partitionKey)
+      partitionKey = convertToInternalPartitionKey(operationInput.partitionKey);
     }
   } else {
     switch (operationInput.operationType) {
       case BulkOperationType.Create:
       case BulkOperationType.Replace:
       case BulkOperationType.Upsert:
-        partitionKey = assertNotUndefined(extractPartitionKey(operationInput.resourceBody, definition), "");
+        partitionKey = assertNotUndefined(
+          extractPartitionKey(operationInput.resourceBody, definition),
+          ""
+        );
         break;
       case BulkOperationType.Read:
       case BulkOperationType.Delete:
@@ -205,8 +212,8 @@ export function prepareOperations(
   }
   return {
     operation: { ...operationInput, partitionKey: JSON.stringify(partitionKey) } as Operation,
-    partitionKey
-  }
+    partitionKey,
+  };
 }
 
 /**
@@ -215,10 +222,14 @@ export function prepareOperations(
  * @param options - RequestOptions
  */
 function populateIdsIfNeeded(operationInput: OperationInput, options: RequestOptions) {
-  if (operationInput.operationType === BulkOperationType.Create ||
-    operationInput.operationType === BulkOperationType.Upsert) {
-    if ((operationInput.resourceBody.id === undefined || operationInput.resourceBody.id === "") &&
-      !options.disableAutomaticIdGeneration) {
+  if (
+    operationInput.operationType === BulkOperationType.Create ||
+    operationInput.operationType === BulkOperationType.Upsert
+  ) {
+    if (
+      (operationInput.resourceBody.id === undefined || operationInput.resourceBody.id === "") &&
+      !options.disableAutomaticIdGeneration
+    ) {
       operationInput.resourceBody.id = uuid();
     }
   }
@@ -241,4 +252,3 @@ export function decorateBatchOperation(
   }
   return operation as Operation;
 }
-
