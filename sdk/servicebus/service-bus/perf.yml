@@ -2,7 +2,7 @@ parameters:
 - name: OperatingSystems
   displayName: OperatingSystems (list of operating systems to run)
   type: string
-  default: 'Linux, Windows'
+  default: 'Linux'
 - name: LanguageVersion
   displayName: LanguageVersion (14, 16, 18)
   type: string
@@ -10,15 +10,15 @@ parameters:
 - name: PackageVersions
   displayName: PackageVersions (regex of package versions to run)
   type: string
-  default: '12|source'
+  default: '7|source'
 - name: Tests
   displayName: Tests (regex of tests to run)
   type: string
-  default: '^(download|upload)$'
+  default: '^(send-event-batch|subscribe|receive-batch)$'
 - name: Arguments
   displayName: Arguments (regex of arguments to run)
   type: string
-  default: '(10240)|(10485760)|(1073741824)' 
+  default: '.*'
 - name: Iterations
   displayName: Iterations (times to run each test)
   type: number
@@ -31,11 +31,11 @@ parameters:
 extends:
   template: /eng/pipelines/templates/jobs/perf.yml
   parameters:
-    OperatingSystems: ${{ parameters.OperatingSystems }}
-    ServiceDirectory: storage/storage-file-datalake
+    OperatingSystems: ${{ parameters.operatingSystems }}
+    ServiceDirectory: servicebus/service-bus
     LanguageVersion: ${{ parameters.LanguageVersion }}
-    PackageVersions: ${{ parameters.PackageVersions }}
-    Tests: ${{ parameters.Tests }}
-    Arguments: ${{ parameters.Arguments }}
-    Iterations: ${{ parameters.Iterations }}
-    AdditionalArguments: ${{ parameters.AdditionalArguments }}
+    PackageVersions: ${{ parameters.packageVersions }}
+    Tests: ${{ parameters.tests }}
+    Arguments: ${{ parameters.arguments }}
+    Iterations: ${{ parameters.iterations }}
+    AdditionalArguments: ${{ parameters.additionalArguments }}
