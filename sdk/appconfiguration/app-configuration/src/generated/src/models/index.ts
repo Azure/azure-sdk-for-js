@@ -98,12 +98,12 @@ export interface Snapshot {
    * The time that the snapshot was created.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly created?: Date;
+  readonly createdAt?: Date;
   /**
    * The time that the snapshot will expire.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly expires?: Date;
+  readonly expired?: Date;
   /** The amount of time, in seconds, that a snapshot will remain in the archived state before expiring. This property is only writable during the creation of a snapshot. If not specified, the default lifetime of key-value revisions will be used. */
   retentionPeriod?: number;
   /**
@@ -115,7 +115,7 @@ export interface Snapshot {
    * The amount of key-values in the snapshot.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly itemsCount?: number;
+  readonly itemCount?: number;
   /** The tags of the snapshot. */
   tags?: { [propertyName: string]: string };
   /**

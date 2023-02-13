@@ -31,7 +31,8 @@ import {
   SetConfigurationSettingResponse,
   SetReadOnlyOptions,
   SetReadOnlyResponse,
-  SnapshotFilter,
+  SnapshotId,
+  SnapshotNameandEtag,
   UpdateSnapshotOptions,
   UpdateSnapshotResponse,
 } from "./models";
@@ -521,8 +522,7 @@ export class AppConfigurationClient {
    * @param options - Optional parameters for the request.
    */
   createSnapshot(
-    name: string,
-    snapshot: SnapshotFilter,
+    snapshot: SnapshotId,
     options: CreateSnapshotOptions = {}
   ): Promise<CreateSnapshotResponse> {
     return tracingClient.withSpan(
@@ -530,7 +530,7 @@ export class AppConfigurationClient {
       options,
       async (updatedOptions) => {
         logger.info("[createSnapshot] Creating snapshot");
-        const originalResponse = await this.client.createSnapshot(name, snapshot, {
+        const originalResponse = await this.client.createSnapshot(snapshot.name, snapshot, {
           ...updatedOptions,
         });
         const response = transformSnapshotResponse(originalResponse);
@@ -577,7 +577,7 @@ export class AppConfigurationClient {
    * @param options - Optional parameters for the request.
    */
   recoverSnapshot(
-    name: string,
+    snapshot: SnapshotNameandEtag,
     options: UpdateSnapshotOptions = {}
   ): Promise<UpdateSnapshotResponse> {
     return tracingClient.withSpan(
@@ -586,10 +586,11 @@ export class AppConfigurationClient {
       async (updatedOptions) => {
         logger.info("[recoverSnapshot] Recover a snapshot");
         const originalResponse = await this.client.updateSnapshot(
-          name,
+          snapshot.name,
           { status: "ready" },
           {
             ...updatedOptions,
+            ...checkAndFormatIfAndIfNoneMatch({ etag: snapshot.etag as string }, options),
           }
         );
         const response = transformSnapshotResponse(originalResponse);
@@ -610,7 +611,7 @@ export class AppConfigurationClient {
    * @param options - Optional parameters for the request.
    */
   archiveSnapshot(
-    name: string,
+    snapshot: SnapshotNameandEtag,
     options: UpdateSnapshotOptions = {}
   ): Promise<UpdateSnapshotResponse> {
     return tracingClient.withSpan(
@@ -619,10 +620,11 @@ export class AppConfigurationClient {
       async (updatedOptions) => {
         logger.info("[archiveSnapshot] Archive a snapshot");
         const originalResponse = await this.client.updateSnapshot(
-          name,
+          snapshot.name,
           { status: "archived" },
           {
             ...updatedOptions,
+            ...checkAndFormatIfAndIfNoneMatch({ etag: snapshot.etag as string }, options),
           }
         );
         const response = transformSnapshotResponse(originalResponse);
@@ -675,7 +677,6 @@ export class AppConfigurationClient {
       async (updatedOptions) => {
         const response = await this.client.getSnapshots({
           ...updatedOptions,
-          ...formatAcceptDateTime(options),
           ...formatFiltersAndSelect(options),
           after: pageLink,
         });

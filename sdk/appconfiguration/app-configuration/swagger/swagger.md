@@ -101,3 +101,14 @@ directive:
       $["304"]["headers"]["Last-Modified"]["description"] = "A UTC datetime that specifies the last time the resource was modified.";
       $["304"]["headers"]["Last-Modified"]["type"] = "string";
 ```
+### Rename Properties created -> createdAt, expires -> expired
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.Snapshot.properties
+    transform: >
+      $.created["x-ms-client-name"] = "createdAt";
+      $.items_count["x-ms-client-name"] = "itemCount";
+      $.expires["x-ms-client-name"] = "expired";
+```

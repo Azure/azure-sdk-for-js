@@ -252,14 +252,14 @@ export const Snapshot: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      created: {
+      createdAt: {
         serializedName: "created",
         readOnly: true,
         type: {
           name: "DateTime"
         }
       },
-      expires: {
+      expired: {
         serializedName: "expires",
         readOnly: true,
         nullable: true,
@@ -284,7 +284,7 @@ export const Snapshot: coreClient.CompositeMapper = {
           name: "Number"
         }
       },
-      itemsCount: {
+      itemCount: {
         serializedName: "items_count",
         readOnly: true,
         type: {

@@ -5,7 +5,13 @@ import { CompatResponse } from "@azure/core-http-compat";
 import { FeatureFlagValue } from "./featureFlag";
 import { OperationOptions } from "@azure/core-client";
 import { SecretReferenceValue } from "./secretReference";
-import { CompositionType, KeyValueFilter, Snapshot, SnapshotStatus } from "./generated/src";
+import {
+  CompositionType,
+  GetSnapshotsOptionalParams,
+  KeyValueFilter,
+  Snapshot,
+  SnapshotStatus,
+} from "./generated/src";
 /**
  * Fields that uniquely identify a configuration setting
  */
@@ -274,7 +280,7 @@ export interface ListSettingsOptions extends OptionalFields {
   /**
    * Filters for snapshots.
    */
-  snapshotFilter?: string;
+  snapshotName?: string;
 }
 
 /**
@@ -289,7 +295,7 @@ export interface ListConfigurationSettingsOptions extends OperationOptions, List
  * Also provides `fields` which allows you to selectively choose which fields are populated in the
  * result.
  */
-export interface ListSnapshotsOptions extends OperationOptions, ListSettingsOptions {}
+export interface ListSnapshotsOptions extends OperationOptions, GetSnapshotsOptionalParams {}
 
 /**
  * An interface that tracks the settings for paged iteration
@@ -386,7 +392,15 @@ export interface CreateSnapshotResponse
 /**
  * Options used when getting a Snapshot.
  */
-export interface GetSnapshotOptions extends OperationOptions {}
+export interface GetSnapshotOptions
+  extends OperationOptions,
+    HttpOnlyIfChangedField,
+    OptionalFields {
+  /**
+   * Requests the server to respond with the state of the resource at the specified time.
+   */
+  acceptDateTime?: Date;
+}
 
 /**
  * Response from getting a Snapshot.
@@ -399,7 +413,7 @@ export interface GetSnapshotResponse
 /**
  * Options used when upadting a Snapshot.
  */
-export interface UpdateSnapshotOptions extends OperationOptions {}
+export interface UpdateSnapshotOptions extends HttpOnlyIfUnchangedField, OperationOptions {}
 
 /**
  * Response from updating a Snapshot.
@@ -411,7 +425,18 @@ export interface UpdateSnapshotResponse
 
 export { Snapshot, KeyValueFilter, CompositionType, SnapshotStatus };
 
-export interface SnapshotFilter {
+export interface EtagEntity {
+  etag: string;
+}
+
+/**
+ * Fields that uniquely identify a snapshot
+ */
+export interface SnapshotId {
+  /**
+   * The name for this snapshot
+   */
+  name: string;
   /** A list of filters used to filter the key-values included in the snapshot. */
   filters: KeyValueFilter[];
   /** The composition type describes how the key-values within the snapshot are composed. The 'all' composition type includes all key-values. The 'group_by_key' composition type ensures there are no two key-values containing the same key. */
@@ -420,4 +445,17 @@ export interface SnapshotFilter {
   retentionPeriod?: number;
   /** The tags of the snapshot. */
   tags?: { [propertyName: string]: string };
+}
+/**
+ * Fields for the snapshot
+ */
+export interface SnapshotNameandEtag {
+  /**
+   * The name for this snapshot
+   */
+  name: string;
+  /**
+   * The etag for this snapshot
+   */
+  etag?: string;
 }

@@ -3,8 +3,8 @@
 
 import {
   ConfigurationSetting,
-  ConfigurationSettingId,
   ConfigurationSettingParam,
+  EtagEntity,
   HttpOnlyIfChangedField,
   HttpOnlyIfUnchangedField,
   HttpResponseField,
@@ -51,7 +51,7 @@ export function quoteETag(etag: string | undefined): string | undefined {
  * @internal
  */
 export function checkAndFormatIfAndIfNoneMatch(
-  configurationSetting: ConfigurationSettingId,
+  objectWithEtag: EtagEntity,
   options: HttpOnlyIfChangedField & HttpOnlyIfUnchangedField
 ): { ifMatch: string | undefined; ifNoneMatch: string | undefined } {
   if (options.onlyIfChanged && options.onlyIfUnchanged) {
@@ -67,11 +67,11 @@ export function checkAndFormatIfAndIfNoneMatch(
   let ifNoneMatch;
 
   if (options.onlyIfUnchanged) {
-    ifMatch = quoteETag(configurationSetting.etag);
+    ifMatch = quoteETag(objectWithEtag.etag);
   }
 
   if (options.onlyIfChanged) {
-    ifNoneMatch = quoteETag(configurationSetting.etag);
+    ifNoneMatch = quoteETag(objectWithEtag.etag);
   }
 
   return {
@@ -101,7 +101,7 @@ export function formatFiltersAndSelect(
   return {
     key: listConfigOptions.keyFilter,
     label: listConfigOptions.labelFilter,
-    snapshot: listConfigOptions.snapshotFilter,
+    snapshot: listConfigOptions.snapshotName,
     acceptDatetime,
     select: formatFieldsForSelect(listConfigOptions.fields),
   };
