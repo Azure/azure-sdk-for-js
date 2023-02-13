@@ -85,7 +85,7 @@
     "puppeteer": "^19.2.2",
     "rimraf": "^3.0.0",
     "sinon": "^9.0.2",
-    "typescript": "~4.6.0",
+    "typescript": "~4.8.0",
     "util": "^0.12.1"
   }
 }

@@ -150,13 +150,14 @@ describe("Test Run Creation", () => {
       contentType: "application/merge-patch+json",
       body: {
         components: {
-          "/subscriptions/{SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo": {
-            resourceId:
-              "/subscriptions/{SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo",
-            resourceName: "App-Service-Sample-Demo",
-            resourceType: "Microsoft.Web/sites",
-            subscriptionId: SUBSCRIPTION_ID,
-          },
+          "/subscriptions/{SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo":
+            {
+              resourceId:
+                "/subscriptions/{SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo",
+              resourceName: "App-Service-Sample-Demo",
+              resourceType: "Microsoft.Web/sites",
+              subscriptionId: SUBSCRIPTION_ID,
+            },
         },
       },
     });

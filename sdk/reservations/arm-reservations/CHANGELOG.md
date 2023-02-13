@@ -1,15 +1,78 @@
 # Release History
+    
+## 8.0.0 (2023-02-01)
+    
+**Features**
 
-## 7.2.1 (Unreleased)
+  - Added operation Return.beginPost
+  - Added operation Return.beginPostAndWait
+  - Added Interface AppliedScopeProperties
+  - Added Interface CatalogsResult
+  - Added Interface Commitment
+  - Added Interface GetCatalogNextOptionalParams
+  - Added Interface ProxyResource
+  - Added Interface ReservationMergeHeaders
+  - Added Interface ReservationOrderPurchaseHeaders
+  - Added Interface ReservationSplitHeaders
+  - Added Interface ReservationSwapProperties
+  - Added Interface ReservationUpdateHeaders
+  - Added Interface Resource
+  - Added Interface SavingsPlanPurchaseRequest
+  - Added Interface SavingsPlanToPurchaseCalculateExchange
+  - Added Interface SavingsPlanToPurchaseExchange
+  - Added Type Alias BillingPlan
+  - Added Type Alias CommitmentGrain
+  - Added Type Alias GetCatalogNextResponse
+  - Added Type Alias SavingsPlanTerm
+  - Interface CalculateExchangeRequestProperties has a new optional parameter savingsPlansToPurchase
+  - Interface CalculateExchangeResponseProperties has a new optional parameter savingsPlansToPurchase
+  - Interface ExchangeResponseProperties has a new optional parameter savingsPlansToPurchase
+  - Interface GetCatalogOptionalParams has a new optional parameter filter
+  - Interface GetCatalogOptionalParams has a new optional parameter skip
+  - Interface GetCatalogOptionalParams has a new optional parameter take
+  - Interface Patch has a new optional parameter appliedScopeProperties
+  - Interface Patch has a new optional parameter reviewDateTime
+  - Interface PurchaseRequest has a new optional parameter appliedScopeProperties
+  - Interface PurchaseRequest has a new optional parameter reviewDateTime
+  - Interface ReservationOrderResponse has a new optional parameter expiryDateTime
+  - Interface ReservationOrderResponse has a new optional parameter reviewDateTime
+  - Interface ReservationsProperties has a new optional parameter appliedScopeProperties
+  - Interface ReservationsProperties has a new optional parameter expiryDateTime
+  - Interface ReservationsProperties has a new optional parameter purchaseDateTime
+  - Interface ReservationsProperties has a new optional parameter reviewDateTime
+  - Interface ReservationsProperties has a new optional parameter swapProperties
+  - Interface ReservationSummary has a new optional parameter noBenefitCount
+  - Interface ReservationSummary has a new optional parameter warningCount
+  - Interface ReturnPostOptionalParams has a new optional parameter resumeFrom
+  - Interface ReturnPostOptionalParams has a new optional parameter updateIntervalInMs
+  - Added Enum KnownBillingPlan
+  - Added Enum KnownCommitmentGrain
+  - Added Enum KnownSavingsPlanTerm
+  - Enum KnownAppliedScopeType has a new value ManagementGroup
+  - Enum KnownDisplayProvisioningState has a new value NoBenefit
+  - Enum KnownDisplayProvisioningState has a new value Warning
+  - Added function getContinuationToken
+  - Interface QuotaRequestStatusListNextOptionalParams no longer has parameter filter
+  - Interface QuotaRequestStatusListNextOptionalParams no longer has parameter skiptoken
+  - Interface QuotaRequestStatusListNextOptionalParams no longer has parameter top
+  - Interface ReservationListAllNextOptionalParams no longer has parameter filter
+  - Interface ReservationListAllNextOptionalParams no longer has parameter orderby
+  - Interface ReservationListAllNextOptionalParams no longer has parameter refreshSummary
+  - Interface ReservationListAllNextOptionalParams no longer has parameter selectedState
+  - Interface ReservationListAllNextOptionalParams no longer has parameter skiptoken
+  - Interface ReservationListAllNextOptionalParams no longer has parameter take
+  - Interface ReservationResponse no longer has parameter id
+  - Interface ReservationResponse no longer has parameter name
+  - Interface ReservationResponse no longer has parameter systemData
+  - Interface ReservationResponse no longer has parameter type
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation Return.post
+  - Operation Reservation.listRevisions has a new signature
+  - Operation Reservation.get has a new signature
+  
+    
 ## 7.2.0 (2022-09-19)
     
 **Features**

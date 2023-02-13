@@ -5,6 +5,10 @@ parameters:
   # Hang in storage-blob 1GB parallel=8 upload perf tests on Windows (#22146)
   # default: 'Linux, Windows'
   default: 'Linux'
+- name: LanguageVersion
+  displayName: LanguageVersion (14, 16, 18)
+  type: string
+  default: '18'
 - name: PackageVersions
   displayName: PackageVersions (regex of package versions to run)
   type: string
@@ -31,7 +35,7 @@ extends:
   parameters:
     OperatingSystems: ${{ parameters.OperatingSystems }}
     ServiceDirectory: storage/storage-blob
-    Services: "^storage-blob$"
+    LanguageVersion: ${{ parameters.LanguageVersion }}
     PackageVersions: ${{ parameters.PackageVersions }}
     Tests: ${{ parameters.Tests }}
     Arguments: ${{ parameters.Arguments }}

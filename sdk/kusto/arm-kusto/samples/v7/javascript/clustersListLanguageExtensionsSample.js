@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Returns a list of language extensions that can run within KQL queries.
  *
  * @summary Returns a list of language extensions that can run within KQL queries.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoClusterListLanguageExtensions.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-12-29/examples/KustoClusterListLanguageExtensions.json
  */
 async function kustoClusterListLanguageExtensions() {
   const subscriptionId =

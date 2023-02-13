@@ -6,6 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   RefundRequest,
   ReturnPostOptionalParams,
@@ -15,12 +16,25 @@ import {
 /** Interface representing a Return. */
 export interface Return {
   /**
-   * Return a reservation.
+   * Return a reservation and get refund information.
    * @param reservationOrderId Order Id of the reservation
    * @param body Information needed for returning reservation.
    * @param options The options parameters.
    */
-  post(
+  beginPost(
+    reservationOrderId: string,
+    body: RefundRequest,
+    options?: ReturnPostOptionalParams
+  ): Promise<
+    PollerLike<PollOperationState<ReturnPostResponse>, ReturnPostResponse>
+  >;
+  /**
+   * Return a reservation and get refund information.
+   * @param reservationOrderId Order Id of the reservation
+   * @param body Information needed for returning reservation.
+   * @param options The options parameters.
+   */
+  beginPostAndWait(
     reservationOrderId: string,
     body: RefundRequest,
     options?: ReturnPostOptionalParams

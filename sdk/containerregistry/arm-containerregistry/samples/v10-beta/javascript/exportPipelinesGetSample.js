@@ -10,16 +10,18 @@
 // Licensed under the MIT License.
 const { ContainerRegistryManagementClient } = require("@azure/arm-containerregistry");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Gets the properties of the export pipeline.
  *
  * @summary Gets the properties of the export pipeline.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2022-02-01-preview/examples/ExportPipelineGet.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-01-01-preview/examples/ExportPipelineGet.json
  */
 async function exportPipelineGet() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
   const exportPipelineName = "myExportPipeline";
   const credential = new DefaultAzureCredential();
@@ -32,4 +34,8 @@ async function exportPipelineGet() {
   console.log(result);
 }
 
-exportPipelineGet().catch(console.error);
+async function main() {
+  exportPipelineGet();
+}
+
+main().catch(console.error);

@@ -1,0 +1,71 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.DataProtection/backupVaults/swaggerExample?api-version=2022-11-01-preview",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-dataprotection/1.0.0-beta.1 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "cfb4b495-f2cd-47ed-bd7a-a6a0317775fc"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Azure-AsyncOperation": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.DataProtection/locations/eastus/operationStatus/NmFjMjBiMDQtODg0Yy00ZTM5LWJjZDEtNGIzZjUzZjIxN2YyOzU3MWY4ZTY5LWQwNTItNDg0ZC04MTIwLWYwZTcyNzI1MmQ4NQ==?api-version=2022-11-01-preview",
+        "Cache-Control": "no-cache",
+        "Content-Length": "0",
+        "Date": "Mon, 06 Feb 2023 07:08:38 GMT",
+        "Expires": "-1",
+        "Location": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DataProtection/locations/eastus/operationResults/NmFjMjBiMDQtODg0Yy00ZTM5LWJjZDEtNGIzZjUzZjIxN2YyOzU3MWY4ZTY5LWQwNTItNDg0ZC04MTIwLWYwZTcyNzI1MmQ4NQ==?api-version=2022-11-01-preview",
+        "Pragma": "no-cache",
+        "Retry-After": "30",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "6b9943df-e961-41dd-b2ac-b2b54bb962eb",
+        "x-ms-ratelimit-remaining-subscription-resource-requests": "99",
+        "x-ms-request-id": "6b9943df-e961-41dd-b2ac-b2b54bb962eb",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230206T070838Z:6b9943df-e961-41dd-b2ac-b2b54bb962eb"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.DataProtection/backupVaults?api-version=2022-11-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-dataprotection/1.0.0-beta.1 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "58170afd-9a2c-4f4a-9f4a-3b2f0f507f73"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 06 Feb 2023 07:08:39 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "c389d155-539f-49ce-9f15-c6adc34b4785",
+        "x-ms-ratelimit-remaining-subscription-resource-requests": "496",
+        "x-ms-request-id": "c389d155-539f-49ce-9f15-c6adc34b4785",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230206T070839Z:c389d155-539f-49ce-9f15-c6adc34b4785"
+      },
+      "ResponseBody": {
+        "value": []
+      }
+    }
+  ],
+  "Variables": {}
+}
