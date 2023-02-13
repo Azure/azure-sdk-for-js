@@ -38,7 +38,7 @@
         "value": [
           {
             "name": "availabilitySets123",
-            "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Compute/availabilitySets/availabilitySets123",
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Compute/availabilitySets/availabilitySets123",
             "type": "Microsoft.Compute/availabilitySets",
             "location": "eastus",
             "properties": {

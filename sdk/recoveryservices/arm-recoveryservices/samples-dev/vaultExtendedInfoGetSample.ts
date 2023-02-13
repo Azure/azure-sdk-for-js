@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get the vault extended info.
  *
  * @summary Get the vault extended info.
- * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2022-04-01/examples/GETVaultExtendedInfo.json
+ * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/GETVaultExtendedInfo.json
  */
 async function getExtendedInfoOfResource() {
   const subscriptionId =

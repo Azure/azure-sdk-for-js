@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Returns a specified private link resource that need to be created for Backup and SiteRecovery
  *
  * @summary Returns a specified private link resource that need to be created for Backup and SiteRecovery
- * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2022-04-01/examples/GetPrivateLinkResources.json
+ * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/GetPrivateLinkResources.json
  */
 async function getPrivateLinkResource() {
   const subscriptionId =

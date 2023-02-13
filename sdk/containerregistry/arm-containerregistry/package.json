@@ -8,10 +8,10 @@
     "node": ">=14.0.0"
   },
   "dependencies": {
-    "@azure/core-lro": "^2.2.0",
+    "@azure/core-lro": "^2.5.0",
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-paging": "^1.2.0",
-    "@azure/core-client": "^1.6.1",
+    "@azure/core-client": "^1.7.0",
     "@azure/core-auth": "^1.3.0",
     "@azure/core-rest-pipeline": "^1.8.0",
     "tslib": "^2.2.0"
@@ -29,16 +29,17 @@
   "types": "./types/arm-containerregistry.d.ts",
   "devDependencies": {
     "@microsoft/api-extractor": "^7.31.1",
-    "@rollup/plugin-commonjs": "^21.0.1",
-    "@rollup/plugin-json": "^4.1.0",
-    "@rollup/plugin-multi-entry": "^4.1.0",
+    "@rollup/plugin-commonjs": "^24.0.0",
+    "@rollup/plugin-json": "^6.0.0",
+    "@rollup/plugin-multi-entry": "^6.0.0",
     "@rollup/plugin-node-resolve": "^13.1.3",
-    "mkdirp": "^1.0.4",
+    "mkdirp": "^2.1.2",
     "rollup": "^2.66.1",
     "rollup-plugin-sourcemaps": "^0.6.3",
     "typescript": "~4.8.0",
     "uglify-js": "^3.4.9",
     "rimraf": "^3.0.0",
+    "dotenv": "^16.0.0",
     "@azure/identity": "^2.0.1",
     "@azure-tools/test-recorder": "^2.0.0",
     "@azure-tools/test-credential": "^1.0.0",
@@ -49,7 +50,6 @@
     "@types/node": "^14.0.0",
     "@azure/dev-tool": "^1.0.0"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/containerregistry/arm-containerregistry",
   "repository": {
     "type": "git",
     "url": "https://github.com/Azure/azure-sdk-for-js.git"
@@ -111,6 +111,7 @@
     ]
   },
   "autoPublish": true,
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/containerregistry/arm-containerregistry",
   "//sampleConfiguration": {
     "productName": "",
     "productSlugs": [

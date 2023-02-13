@@ -29,3 +29,12 @@ export function recordingFilePath(testContext: Mocha.Test): string {
     testContext.title
   );
 }
+
+export function assetsJsonPath(): string {
+  // Hacky solution using substring works around the fact that:
+  // 1) the relativeRecordingsPath may not exist on disk (so relativeRecordingsPath()/../assets.json might not exist either, can't use ..)
+  // 2) `path` (and therefore `path.dirname`) is not available in the browser.
+  const recordingsPath = relativeRecordingsPath();
+  const sdkDir = recordingsPath.substring(0, recordingsPath.lastIndexOf("/"));
+  return `${sdkDir}/assets.json`;
+}

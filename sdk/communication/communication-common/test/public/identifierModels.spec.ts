@@ -15,8 +15,8 @@ import {
 } from "../../src";
 import { assert } from "chai";
 
-describe("Identifier models", () => {
-  it("type guards", () => {
+describe("Identifier models", function () {
+  it("type guards", function () {
     const communicationUser = { communicationUserId: "alice" };
     assert.isTrue(isCommunicationUserIdentifier(communicationUser));
     assert.isFalse(isPhoneNumberIdentifier(communicationUser));
@@ -24,7 +24,7 @@ describe("Identifier models", () => {
     assert.isFalse(isUnknownIdentifier(communicationUser));
   });
 
-  it("get kind", () => {
+  it("get kind", function () {
     const phoneNumber = { phoneNumber: "123" };
     const identifierKind = getIdentifierKind(phoneNumber);
     assert.strictEqual(identifierKind.kind, "phoneNumber");
@@ -34,7 +34,7 @@ describe("Identifier models", () => {
     );
   });
 
-  it("get raw id of identifier", () => {
+  it("get raw id of identifier", function () {
     const assertRawId = (identifier: CommunicationIdentifier, expectedRawId: string) =>
       assert.strictEqual(getIdentifierRawId(identifier), expectedRawId);
 
@@ -158,7 +158,7 @@ describe("Identifier models", () => {
     );
   });
 
-  it("create identifier from raw id", () => {
+  it("create identifier from raw id", function () {
     const assertIdentifier = (rawId: string, expectedIdentifier: CommunicationIdentifierKind) =>
       assert.deepStrictEqual(createIdentifierFromRawId(rawId), expectedIdentifier);
 
@@ -262,7 +262,7 @@ describe("Identifier models", () => {
     assert.throws(() => createIdentifierFromRawId(null as unknown as string));
   });
 
-  it("rawId stays the same after conversion to identifier and back", () => {
+  it("rawId stays the same after conversion to identifier and back", function () {
     const assertRoundtrip = (rawId: string) =>
       assert.strictEqual(getIdentifierRawId(createIdentifierFromRawId(rawId)), rawId);
 

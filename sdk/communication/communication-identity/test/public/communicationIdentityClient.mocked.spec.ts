@@ -12,22 +12,22 @@ import { assert } from "chai";
 import { isNode } from "@azure/core-util";
 import sinon from "sinon";
 
-describe("CommunicationIdentityClient [Mocked]", () => {
+describe("CommunicationIdentityClient [Mocked]", function () {
   const dateHeader = "x-ms-date";
   const user: CommunicationUserIdentifier = { communicationUserId: "ACS_ID" };
 
-  afterEach(() => {
+  afterEach(function () {
     sinon.restore();
   });
 
-  it("creates instance of CommunicationIdentityClient", () => {
+  it("creates instance of CommunicationIdentityClient", function () {
     const client = new CommunicationIdentityClient(
       "endpoint=https://contoso.spool.azure.local;accesskey=banana"
     );
     assert.instanceOf(client, CommunicationIdentityClient);
   });
 
-  it("sets correct headers", async () => {
+  it("sets correct headers", async function () {
     const client = new TestCommunicationIdentityClient();
     const spy = sinon.spy(getTokenHttpClient, "sendRequest");
 
@@ -48,7 +48,7 @@ describe("CommunicationIdentityClient [Mocked]", () => {
     );
   });
 
-  it("sends scopes in issue token request", async () => {
+  it("sends scopes in issue token request", async function () {
     const client = new TestCommunicationIdentityClient();
     const spy = sinon.spy(getTokenHttpClient, "sendRequest");
     const response = await client.getTokenTest(user, ["chat"]);
@@ -61,14 +61,14 @@ describe("CommunicationIdentityClient [Mocked]", () => {
     assert.deepEqual(JSON.parse(request.body as string), { scopes: ["chat"] });
   });
 
-  it("[getToken] excludes _response from results", async () => {
+  it("[getToken] excludes _response from results", async function () {
     const client = new TestCommunicationIdentityClient();
     const response = await client.getTokenTest(user, ["chat"]);
 
     assert.isFalse("_response" in response);
   });
 
-  it("[createUser] excludes _response from results", async () => {
+  it("[createUser] excludes _response from results", async function () {
     const client = new TestCommunicationIdentityClient();
     const newUser = await client.createUserTest();
 
@@ -77,7 +77,7 @@ describe("CommunicationIdentityClient [Mocked]", () => {
     assert.isFalse("_response" in newUser);
   });
 
-  it("exchanges Teams token for ACS token", async () => {
+  it("exchanges Teams token for ACS token", async function () {
     const client = new TestCommunicationIdentityClient();
     const spy = sinon.spy(getTokenForTeamsUserHttpClient, "sendRequest");
     const response = await client.getTokenForTeamsUserTest("TeamsToken", "appId", "userId");
@@ -87,7 +87,7 @@ describe("CommunicationIdentityClient [Mocked]", () => {
     sinon.assert.calledOnce(spy);
   });
 
-  it("[getTokenForTeamsUser] excludes _response from results", async () => {
+  it("[getTokenForTeamsUser] excludes _response from results", async function () {
     const client = new TestCommunicationIdentityClient();
     const response = await client.getTokenForTeamsUserTest("TeamsToken", "appId", "userId");
 

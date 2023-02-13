@@ -110,7 +110,7 @@
       "ResponseBody": {
         "value": [
           {
-            "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/anf-secondary-rg/providers/Microsoft.NetApp/netAppAccounts/SecondaryANFAccount",
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/anf-secondary-rg/providers/Microsoft.NetApp/netAppAccounts/SecondaryANFAccount",
             "name": "SecondaryANFAccount",
             "type": "Microsoft.NetApp/netAppAccounts",
             "etag": "W/\u0022datetime\u00272022-06-22T14%3A47%3A01.8936205Z\u0027\u0022",
@@ -135,7 +135,7 @@
             }
           },
           {
-            "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/anf-primary-rg/providers/Microsoft.NetApp/netAppAccounts/PrimaryANFAccount",
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/anf-primary-rg/providers/Microsoft.NetApp/netAppAccounts/PrimaryANFAccount",
             "name": "PrimaryANFAccount",
             "type": "Microsoft.NetApp/netAppAccounts",
             "etag": "W/\u0022datetime\u00272022-06-22T14%3A41%3A19.69571Z\u0027\u0022",

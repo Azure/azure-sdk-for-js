@@ -16,6 +16,7 @@ import { AzurePowerShellCredential } from "./azurePowerShellCredential";
 import { ChainedTokenCredential } from "./chainedTokenCredential";
 import { EnvironmentCredential } from "./environmentCredential";
 import { TokenCredential } from "@azure/core-auth";
+import { AzureDeveloperCliCredential } from "./azureDeveloperCliCredential";
 
 /**
  * The type of a class that implements TokenCredential and accepts either
@@ -71,6 +72,7 @@ export class DefaultManagedIdentityCredential extends ManagedIdentityCredential 
 export const defaultCredentials: DefaultCredentialConstructor[] = [
   EnvironmentCredential,
   DefaultManagedIdentityCredential,
+  AzureDeveloperCliCredential,
   AzureCliCredential,
   AzurePowerShellCredential,
 ];
@@ -90,6 +92,7 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
    *
    * - {@link EnvironmentCredential}
    * - {@link ManagedIdentityCredential}
+   * - {@link AzureDeveloperCliCredential}
    * - {@link AzureCliCredential}
    * - {@link AzurePowerShellCredential}
    *
@@ -110,6 +113,7 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
    *
    * - {@link EnvironmentCredential}
    * - {@link ManagedIdentityCredential}
+   * - {@link AzureDeveloperCliCredential}
    * - {@link AzureCliCredential}
    * - {@link AzurePowerShellCredential}
    *
@@ -130,6 +134,7 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
    *
    * - {@link EnvironmentCredential}
    * - {@link ManagedIdentityCredential}
+   * - {@link AzureDeveloperCliCredential}
    * - {@link AzureCliCredential}
    * - {@link AzurePowerShellCredential}
    *
