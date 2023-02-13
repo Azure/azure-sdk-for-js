@@ -1469,3 +1469,6 @@
 /**/tsconfig.json @witemple-msft @deyaaeldeen
 /**/tsconfig.strict.json @deyaaeldeen
 /.scripts/ @mikeharder @ckairen
+
+# Add owners for notifications for specific pipelines
+/eng/pipelines/aggregate-reports.yml         @xirzec @jeremymeng
