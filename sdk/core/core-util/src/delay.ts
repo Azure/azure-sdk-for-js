@@ -79,7 +79,7 @@ export function createAbortablePromise<T>(
  */
 export function delay(timeInMs: number, options?: DelayOptions): Promise<void> {
   let token: ReturnType<typeof setTimeout>;
-  const { abortSignal, abortErrorMsg } = options || {};
+  const { abortSignal, abortErrorMsg } = options ?? {};
   return createAbortablePromise(
     (resolve) => {
       token = setTimeout(resolve, timeInMs);
