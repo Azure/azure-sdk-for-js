@@ -8,8 +8,7 @@ import { BlobChangeFeedEvent } from "./models/BlobChangeFeedEvent";
 import { ChangeFeedCursor } from "./models/ChangeFeedCursor";
 import { getSegmentsInYear, minDate, getHost } from "./utils/utils.common";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { createSpan } from "./utils/tracing";
-import { SpanStatusCode } from "@azure/core-tracing";
+import { tracingClient } from "./utils/tracing";
 
 /**
  * Options to configure {@link ChangeFeed.getChange} operation.
@@ -80,8 +79,7 @@ export class ChangeFeed {
   }
 
   private async advanceSegmentIfNecessary(options: ChangeFeedGetChangeOptions = {}): Promise<void> {
-    const { span, updatedOptions } = createSpan("ChangeFeed-advanceSegmentIfNecessary", options);
-    try {
+    return tracingClient.withSpan("ChangeFeed-advanceSegmentIfNecessary", options, async (updatedOptions) => {
       if (!this.currentSegment) {
         throw new Error("Empty Change Feed shouldn't call this function.");
       }
@@ -131,15 +129,8 @@ export class ChangeFeed {
           this.currentSegment = undefined;
         }
       }
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+
+    });
   }
 
   public hasNext(): boolean {
@@ -158,8 +149,7 @@ export class ChangeFeed {
   public async getChange(
     options: ChangeFeedGetChangeOptions = {}
   ): Promise<BlobChangeFeedEvent | undefined> {
-    const { span, updatedOptions } = createSpan("ChangeFeed-getChange", options);
-    try {
+    return tracingClient.withSpan("ChangeFeed-getChange", options, async (updatedOptions) => {
       let event: BlobChangeFeedEvent | undefined = undefined;
       while (event === undefined && this.hasNext()) {
         event = await this.currentSegment!.getChange({
@@ -172,15 +162,7 @@ export class ChangeFeed {
         });
       }
       return event;
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   public getCursor(): ChangeFeedCursor {

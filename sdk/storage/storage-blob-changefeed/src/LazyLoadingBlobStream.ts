@@ -4,8 +4,7 @@
 import { Readable, ReadableOptions } from "stream";
 import { BlobClient, CommonOptions } from "@azure/storage-blob";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { createSpan } from "./utils/tracing";
-import { SpanStatusCode } from "@azure/core-tracing";
+import { tracingClient } from "./utils/tracing";
 
 /**
  * Options to configure the LazyLoadingBlobStream.
@@ -71,8 +70,7 @@ export class LazyLoadingBlobStream extends Readable {
   }
 
   private async downloadBlock(options: LazyLoadingBlobStreamDownloadBlockOptions = {}) {
-    const { span, updatedOptions } = createSpan("LazyLoadingBlobStream-downloadBlock", options);
-    try {
+    return tracingClient.withSpan("LazyLoadingBlobStream-downloadBlock", options, async (updatedOptions) => {
       const properties = await this.blobClient.getProperties({
         abortSignal: options.abortSignal,
         tracingOptions: updatedOptions.tracingOptions,
@@ -94,15 +92,7 @@ export class LazyLoadingBlobStream extends Readable {
         }
       );
       this.offset += this.lastDownloadBytes;
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -111,9 +101,7 @@ export class LazyLoadingBlobStream extends Readable {
    * @param size - Optional. The size of data to be read
    */
   public async _read(size?: number): Promise<void> {
-    const { span, updatedOptions } = createSpan("LazyLoadingBlobStream-read", this.options);
-
-    try {
+    return tracingClient.withSpan("LazyLoadingBlobStream-read", this.options ?? {}, async (updatedOptions) => {
       if (!size) {
         size = this.readableHighWaterMark;
       }
@@ -142,14 +130,7 @@ export class LazyLoadingBlobStream extends Readable {
       if (count < size) {
         this.push(null);
       }
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      this.emit("error", e);
-    } finally {
-      span.end();
-    }
+
+    });
   }
 }
