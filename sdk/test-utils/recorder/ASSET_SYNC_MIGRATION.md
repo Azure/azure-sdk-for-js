@@ -6,40 +6,9 @@ Recordings take up a large amount of space in our repository and generate a lot 
 
 ## Performing the migration
 
-Firstly, the package you are migrating needs to be using the new version of the recorder that uses the test proxy (`@azure-tools/test-recorder@^2.0.0`). Most packages are using the new recorder already; if yours is not you should migrate as soon as possible. More detail on migrating to the new recorder can be found in the [recorder 2.0 migration guide].
+The package you are migrating needs to be using the new version of the recorder that uses the test proxy (`@azure-tools/test-recorder@^2.0.0`). Most packages are using the new recorder already; if yours is not you should migrate as soon as possible. More detail on migrating to the new recorder can be found in the [recorder 2.0 migration guide].
 
-Migrating the recordings to the assets repository is simple. There are two things you need to do:
-
-### Step 1. Add environment variable to `karma.conf.js` for browser tests
-
-An additional environment variable needs to be exposed to the browser in your Karma configuration, to tell the test proxy where the `assets.json` file is located. Add the `RECORDING_ASSETS_PATH` environment variable in the same way you would have added the `RECORDINGS_RELATIVE_PATH` environment variable when migrating to the v2 recorder. After the change, the top of your Karma configuration should have something like:
-
-```js
-const { relativeRecordingsPath, relativeAssetsPath } = require("@azure-tools/test-recorder");
-
-process.env.RECORDINGS_RELATIVE_PATH = relativeRecordingsPath();
-process.env.RECORDING_ASSETS_PATH = relativeAssetsPath();
-```
-
-and the `envPreprocessor` property of the config should have entries for both `"RECORDINGS_RELATIVE_PATH"` and `"RECORDING_ASSETS_PATH"`:
-
-```js
-module.exports = function (config) {
-  config.set({
-    // ... other config options omitted
-
-    envPreprocessor: [
-      // ... other environment variables omitted
-      "RECORDINGS_RELATIVE_PATH",
-      "RECORDING_ASSETS_PATH",
-    ],
-  });
-};
-```
-
-### Step 2. Migrate the assets using `dev-tool`
-
-The second step will remove your recordings from the repo and move them to the assets repository. With `dev-tool` and Powershell installed, run the following in your package directory:
+To migrate, there is just one command to run. With [`dev-tool`] and [Powershell] installed, run the following in your package directory:
 
 ```bash
 $ npx dev-tool test-proxy migrate --initial-push
@@ -49,21 +18,40 @@ Once this is done, validate that your recorded tests still pass, and create a PR
 
 ## Workflow with asset sync enabled
 
-There are a couple of extra steps that need to be taken when making changes to recordings (adding new tests or re-recording) to keep the assets repo in sync.
-
-### Workflow when updating recordings
-
-The only real change to the workflow of updating recordings is having to push the recordings to the assets repo before you push your branch. Re-record your recordings as normal, then once you're happy with what you have and your tests are passing, run
+With asset sync enabled, there is one extra step that must be taken before you create a PR with changes to recorded tests: you must push the new recordings to the assets repo. This is done with the following command:
 
 ```bash
 $ npx dev-tool test-proxy push
 ```
 
-This command will push the new recordings to the assets repo and update the tag in `assets.json`. Include the change to `assets.json` in your PR.
+This command will:
 
-### `test-proxy` commands
+1. Push your local recordings to a tag in the `Azure/azure-sdk-assets` repo, and
+1. Update the `assets.json` in your package root to reference the newly created tag.
 
-A couple of commands have been added to `dev-tool` to facilitate pushing and fetching the recordings to and from your local:
+You should stage and commit the `assets.json` update as part of your PR. If you don't run the `push` command before creating a PR, the CI (and anyone else who tries to run your recorded tests) will use the old recordings, which will cause failures.
+
+This diagram describes the new workflow (new steps highlighted):
+
+```mermaid
+graph LR
+record[Record tests<pre>TEST_MODE=record rushx test</pre>] -->
+playback[Inspect recordings and test in playback<pre>TEST_MODE=playback rushx test</pre>]
+
+playback -- Tests don't work, re-record --> record
+playback -- Tests pass in playback\nand are properly sanitized --> push
+
+subgraph New steps
+push[Push recordings to asset sync repo<pre>npx dev-tool test-proxy push</pre>] -->
+assets[Commit <code>assets.json</code> change]
+end
+
+assets --> pr[Push branch and\ncreate PR]
+```
+
+### Other `test-proxy` commands
+
+A few commands have been added to `dev-tool` to facilitate pushing and fetching the recordings to and from your local:
 
 - `dev-tool test-proxy push`: use this command to push recordings to the assets repo when you have finished re-recording. This command will push your changes to the assets repo and update the tag in `assets.json` to reference the newly pushed recordings. The change to `assets.json` must be checked in for the test proxy to use the new recordings outside of your local environment.
 - `dev-tool test-proxy restore`: this command will pull the recordings from the assets repo that are referenced in your `assets.json`. Typically this will be done automatically when you first run recorded tests if the recordings haven't been downloaded already, but you can run this command in advance if you'd like to download them earlier, for example for offline work.
@@ -81,3 +69,5 @@ Offline work is supported out-of-the-box. Of course, however, you won't be able 
 
 [recorder 2.0 migration guide]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/MIGRATION.md
 [asset-sync-reference]: https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy/documentation/asset-sync
+[powershell]: https://github.com/PowerShell/PowerShell
+[`dev-tool`]: https://github.com/Azure/azure-sdk-for-js/tree/main/common/tools/dev-tool
