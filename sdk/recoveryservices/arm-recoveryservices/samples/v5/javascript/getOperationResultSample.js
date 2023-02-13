@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the operation result for a resource.
  *
  * @summary Gets the operation result for a resource.
- * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2022-04-01/examples/GetOperationResult.json
+ * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/GetOperationResult.json
  */
 async function getOperationResult() {
   const subscriptionId =

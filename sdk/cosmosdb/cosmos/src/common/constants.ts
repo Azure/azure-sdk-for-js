@@ -187,6 +187,9 @@ export const Constants = {
   SDKName: "azure-cosmos-js",
   SDKVersion: "3.17.3",
 
+  // Bulk Operations
+  DefaultMaxBulkRequestBodySizeInBytes: 220201,
+
   Quota: {
     CollectionSize: "collectionSize",
   },

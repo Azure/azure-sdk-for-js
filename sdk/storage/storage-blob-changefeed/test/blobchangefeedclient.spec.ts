@@ -7,7 +7,7 @@ import { recorderEnvSetup, getBlobChangeFeedClient, streamToString } from "./uti
 import { BlobChangeFeedClient, BlobChangeFeedEvent, BlobChangeFeedEventPage } from "../src";
 import { AbortController } from "@azure/abort-controller";
 import { setTracer } from "@azure/test-utils";
-import { BlobServiceClient } from "@azure/storage-blob";
+import { BlobServiceClient, RequestPolicy } from "@azure/storage-blob";
 import { SDK_VERSION } from "../src/utils/constants";
 import { setSpan, context } from "@azure/core-tracing";
 import * as fs from "fs";
@@ -15,7 +15,8 @@ import * as path from "path";
 
 import { Context } from "mocha";
 import { rawEventToBlobChangeFeedEvent } from "../src/utils/utils.common";
-import { HttpHeaders, RequestPolicy, RestError } from "@azure/core-http";
+import { createHttpHeaders, RestError } from "@azure/core-rest-pipeline";
+import { toHttpHeadersLike } from "@azure/core-http-compat";
 
 const timeoutForLargeFileUploadingTest = 20 * 60 * 1000;
 
@@ -148,7 +149,7 @@ describe("BlobChangeFeedClient", async () => {
       sendRequest(request) {
         return Promise.resolve({
           request,
-          headers: new HttpHeaders(),
+          headers: toHttpHeadersLike(createHttpHeaders()),
           status: 418,
         });
       },

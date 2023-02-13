@@ -1,15 +1,15 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.RecoveryServices/vaults/myvaultxxx/extendedInformation/vaultExtendedInfo?api-version=2022-04-01",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.RecoveryServices/vaults/myvaultxxx/extendedInformation/vaultExtendedInfo?api-version=2023-01-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-recoveryservices/5.1.1 core-rest-pipeline/1.10.2 Node/v18.10.0 OS/(x64-Windows_NT-10.0.19042)",
-        "x-ms-client-request-id": "172fa1d7-285b-472b-b127-4a30ea75b029"
+        "User-Agent": "azsdk-js-arm-recoveryservices/5.2.0 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "e05089ea-8f5a-4c9d-b95d-a2ffba2f2b11"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,7 +17,7 @@
         "Cache-Control": "no-cache",
         "Content-Encoding": "gzip",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 31 Jan 2023 08:19:05 GMT",
+        "Date": "Tue, 07 Feb 2023 06:23:39 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Server": "Kestrel",
@@ -25,16 +25,16 @@
         "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-client-request-id": "172fa1d7-285b-472b-b127-4a30ea75b029",
-        "x-ms-correlation-request-id": "5f013761-ecb5-4e62-a9ed-8c0f65046f8e",
-        "x-ms-ratelimit-remaining-subscription-reads": "11997",
-        "x-ms-request-id": "5f013761-ecb5-4e62-a9ed-8c0f65046f8e",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20230131T081906Z:5f013761-ecb5-4e62-a9ed-8c0f65046f8e"
+        "x-ms-client-request-id": "e05089ea-8f5a-4c9d-b95d-a2ffba2f2b11",
+        "x-ms-correlation-request-id": "ae57e3b8-348e-4561-8293-8a4989faff7b",
+        "x-ms-ratelimit-remaining-subscription-reads": "11993",
+        "x-ms-request-id": "ae57e3b8-348e-4561-8293-8a4989faff7b",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230207T062340Z:ae57e3b8-348e-4561-8293-8a4989faff7b"
       },
       "ResponseBody": {
         "location": null,
         "name": "vaultExtendedInfo",
-        "etag": "46015cee-eea5-490c-9fce-091bc226a4b1",
+        "etag": "6bd02aad-a05f-42e3-9b30-acc9728925ae",
         "tags": null,
         "identity": null,
         "properties": {
