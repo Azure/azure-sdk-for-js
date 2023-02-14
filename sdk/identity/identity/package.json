@@ -24,6 +24,7 @@
     "./dist-esm/src/credentials/azurePowerShellCredential.js": "./dist-esm/src/credentials/azurePowerShellCredential.browser.js",
     "./dist-esm/src/credentials/azureApplicationCredential.js": "./dist-esm/src/credentials/azureApplicationCredential.browser.js",
     "./dist-esm/src/credentials/onBehalfOfCredential.js": "./dist-esm/src/credentials/onBehalfOfCredential.browser.js",
+    "./dist-esm/src/credentials/workloadIdentityCredential.js": "./dist-esm/src/credentials/workloadIdentityCredential.browser.js",
     "./dist-esm/src/util/authHostEnv.js": "./dist-esm/src/util/authHostEnv.browser.js",
     "./dist-esm/src/util/processMultiTenantRequest.js": "./dist-esm/src/util/processMultiTenantRequest.browser.js",
     "./dist-esm/src/tokenCache/TokenCachePersistence.js": "./dist-esm/src/tokenCache/TokenCachePersistence.browser.js",
