@@ -3928,7 +3928,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20230210
+      typescript: 5.0.0-dev.20230213
     dev: false
 
   /downlevel-dts/0.7.0:
@@ -8712,8 +8712,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20230210:
-    resolution: {integrity: sha512-FjXPw8PFeIuT1cxouvP4LRu8J1G+FsWVEGwlJ9GcVywRNDfD3Hh6flQFUympS+3QnAIiG/+CHs9ZS2EQIT733g==}
+  /typescript/5.0.0-dev.20230213:
+    resolution: {integrity: sha512-6winpoAguZ2b0juVOseKRELa6eIx8st5j42fHikEhzBb2NcuG7tSGMAjIo748WNXVija2L8T5D7vyaDGYftaDQ==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -18067,11 +18067,17 @@ packages:
     dev: false
 
   file:projects/notification-hubs.tgz:
-    resolution: {integrity: sha512-Hk58e2Ak1pA9XiZCK4ZUViKtzjSouqL9m0wZyVUi4yrWQlWgBtIJQXr+MbxHjFTFAssO1igik48jpBe0wmbIfg==, tarball: file:projects/notification-hubs.tgz}
+    resolution: {integrity: sha512-PHnVd0DWUr3ckEBxU4LmMsJ/9MB0NQ/P8SkRn5T0FrhBbqT8Cu443t6oAfz6Pcw3wlub+7D3hOf/Lg2xRhk/yQ==, tarball: file:projects/notification-hubs.tgz}
     name: '@rush-temp/notification-hubs'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.34.3_@types+node@14.18.36
+      '@rollup/plugin-commonjs': 24.0.1_rollup@2.79.1
+      '@rollup/plugin-inject': 5.0.3_rollup@2.79.1
+      '@rollup/plugin-json': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-multi-entry': 6.0.0_rollup@2.79.1
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
+      '@rollup/plugin-replace': 5.0.2_rollup@2.79.1
       '@rollup/plugin-typescript': 11.0.0_6cslydldi7sjtrphlipqm26hmy
       '@types/chai': 4.3.4
       '@types/mocha': 7.0.2
