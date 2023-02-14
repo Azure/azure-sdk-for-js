@@ -39,11 +39,6 @@ describe("Error scenarios", function () {
       },
       recorder,
     });
-    await recorder.start({ envSetupForPlayback: {} });
-  });
-
-  afterEach(async function () {
-    await recorder.stop();
   });
 
   describe("Schema validation", function () {

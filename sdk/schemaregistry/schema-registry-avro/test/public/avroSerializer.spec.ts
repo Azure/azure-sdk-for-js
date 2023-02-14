@@ -25,16 +25,11 @@ describe("AvroSerializer", async function () {
 
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
-    await recorder.start({ envSetupForPlayback: {} });
     registry = createTestRegistry({ recorder });
     noAutoRegisterOptions = {
       serializerOptions: { autoRegisterSchemas: false, groupName: testGroup },
       recorder,
     };
-  });
-
-  afterEach(async function () {
-    await recorder.stop();
   });
 
   it("serializes to the expected format", async () => {

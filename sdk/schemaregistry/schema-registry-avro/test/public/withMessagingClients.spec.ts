@@ -167,11 +167,6 @@ describe("With messaging clients", function () {
           },
           recorder,
         });
-        await recorder.start({ envSetupForPlayback: {} });
-      });
-
-      beforeEach(async function () {
-        await recorder.stop();
       });
 
       it("Test schema with fields of type int/string/boolean/float/bytes", async () => {
