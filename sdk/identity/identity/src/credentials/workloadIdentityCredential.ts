@@ -4,11 +4,7 @@
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import { ClientAssertionCredential } from "./clientAssertionCredential";
 import { WorkloadIdentityCredentialOptions } from "./workloadIdentityCredentialOptions";
-import fs from "fs/promises";
-
-async function readFileContents(filePath: string): Promise<string> {
-  return fs.readFile(filePath, "utf8");
-}
+import { readFile } from "fs/promises";
 
 /**
  * WorkloadIdentityCredential supports Azure workload identity authentication on Kubernetes.
@@ -17,6 +13,9 @@ async function readFileContents(filePath: string): Promise<string> {
  */
 export class WorkloadIdentityCredential implements TokenCredential {
   private client: ClientAssertionCredential;
+  private federatedTokenFilePath: string;
+  private azureFederatedTokenFileContent: string | undefined = undefined;
+  private cacheDate: number | undefined = undefined;
 
   /**
    * WorkloadIdentityCredential supports Azure workload identity on Kubernetes.
@@ -38,10 +37,11 @@ export class WorkloadIdentityCredential implements TokenCredential {
       );
     }
 
+    this.federatedTokenFilePath = federatedTokenFilePath;
     this.client = new ClientAssertionCredential(
       tenantId,
       clientId,
-      () => readFileContents(federatedTokenFilePath),
+      this.readFileContents.bind(this),
       options
     );
   }
@@ -56,5 +56,23 @@ export class WorkloadIdentityCredential implements TokenCredential {
    */
   getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null> {
     return this.client.getToken(scopes, options);
+  }
+
+  private async readFileContents(): Promise<string> {
+    // Cached assertions expire after 5 minutes
+    if (this.cacheDate !== undefined && Date.now() - this.cacheDate >= 1000 * 60 * 5) {
+      this.azureFederatedTokenFileContent = undefined;
+    }
+    if (!this.azureFederatedTokenFileContent) {
+      const file = await readFile(this.federatedTokenFilePath, "utf8");
+      const value = file.trim();
+      if (!value) {
+        throw new Error(`No content on the file ${this.federatedTokenFilePath}.`);
+      } else {
+        this.azureFederatedTokenFileContent = value;
+        this.cacheDate = Date.now();
+      }
+    }
+    return this.azureFederatedTokenFileContent;
   }
 }
