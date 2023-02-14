@@ -109,6 +109,7 @@ export class ManagerPerfProgram implements PerfProgram {
     const elapsedTime = formatDuration(new Date().getTime() - this.startMillis);
 
     this.lastCompleted = totalCompleted;
+
     console.log(
       `${elapsedTime}\t\t${currentCompleted}\t\t${totalCompleted}\t\t${averageCompleted.toFixed(2)}`
     );
