@@ -31,3 +31,15 @@ export async function runWithCpuProfile(
 const getFormattedDate = () => {
   return new Date().toISOString().replace(/[:\-.]/g, "_");
 };
+
+
+export const monitorFunc = async (func: () => Promise<void>, doProfile: boolean, profileFilePath: undefined | string) => {
+  if (doProfile) {
+    await runWithCpuProfile(
+      func,
+      profileFilePath
+    );
+  } else {
+    await func();
+  }
+}
