@@ -85,9 +85,7 @@ export class WorkerPerfProgram implements PerfProgram {
     for (let iteration = 0; iteration < this.options.iterations.value; ++iteration) {
       await enterStage("test");
       const duration = this.options.duration.value;
-
       await monitorFunc(() => this.runTests(duration), this.options.profile.value, this.options["profile-filepath"].value)
-
       await exitStage("test");
     }
 
