@@ -73,4 +73,4 @@ Offline work is supported out-of-the-box. Of course, however, you won't be able 
 [recorder 2.0 migration guide]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/MIGRATION.md
 [asset-sync-reference]: https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy/documentation/asset-sync
 [powershell]: https://github.com/PowerShell/PowerShell
-[`dev-tool`]: https://github.com/Azure/azure-sdk-for-js/tree/main/common/tools/dev-tool
+[`dev-tool`]: https://github.com/Azure/azure-sdk-for-js/tree/main/common/tools/dev-tool#installation
