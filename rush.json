@@ -2210,6 +2210,11 @@
       "packageName": "@azure/arm-storageactions",
       "projectFolder": "sdk/storageactions/arm-storageactions",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure-rest/batch",
+      "projectFolder": "sdk/batch/batch-rest",
+      "versionPolicyName": "client"
     }
   ]
 }

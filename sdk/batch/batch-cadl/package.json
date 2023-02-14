@@ -1,0 +1,17 @@
+{
+  "name": "batch-cadl",
+  "author": "Microsoft Corporation",
+  "description": "CADL project for emitting batch RLC SDK",
+  "license": "MIT",
+  "dependencies": {
+    "@azure-tools/cadl-autorest": "0.25.0",
+    "@azure-tools/cadl-azure-core": "0.25.0",
+    "@azure-tools/cadl-typescript": "1.0.0-beta.9",
+    "@azure-tools/cadl-dpg": "0.25.0",
+    "@cadl-lang/compiler": "0.39.0",
+    "@cadl-lang/prettier-plugin-cadl": "latest",
+    "@cadl-lang/rest": "0.39.0",
+    "@cadl-lang/versioning": "0.39.0"
+  },
+  "private": true
+}
