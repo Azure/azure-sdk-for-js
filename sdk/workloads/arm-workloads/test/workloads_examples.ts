@@ -41,6 +41,7 @@ describe("workloads test", () => {
   let resourceGroup: string;
   let monitorName: string;
   let monitorParameter: Monitor;
+  let sapvirtualinstance: string;
 
 
   beforeEach(async function (this: Context) {
@@ -52,6 +53,7 @@ describe("workloads test", () => {
     client = new WorkloadsClient(credential, subscriptionId, recorder.configureClientOptions({}));
     resourceGroup = "myjstest";
     monitorName = "myMonitor";
+    sapvirtualinstance = "VI1";
   });
 
   afterEach(async function () {
@@ -102,5 +104,11 @@ describe("workloads test", () => {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
+  });
+
+  //create sapvirtualinstance
+  it("sapvirtualinstance create test", async function () {
+    const res = await client.monitors.beginCreateAndWait(resourceGroup, monitorName, monitorParameter)
+    assert.equal(res.name, monitorName);
   });
 });

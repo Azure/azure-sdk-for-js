@@ -1865,7 +1865,7 @@
     },
     {
       "packageName": "@azure-rest/load-testing",
-      "projectFolder": "sdk/loadtestservice/load-testing-rest",
+      "projectFolder": "sdk/loadtesting/load-testing-rest",
       "versionPolicyName": "client"
     },
     {
@@ -1890,7 +1890,7 @@
     },
     {
       "packageName": "@azure/arm-loadtesting",
-      "projectFolder": "sdk/loadtestservice/arm-loadtesting",
+      "projectFolder": "sdk/loadtesting/arm-loadtesting",
       "versionPolicyName": "management"
     },
     {
