@@ -42,47 +42,51 @@ describe("WorkloadIdentityCredential (internal)", () => {
   });
 
   it("sends an authorization request correctly if token file path is available", async function (this: Context) {
-      const testTitle = this.test?.title || Date.now().toString();
-      const tempDir = mkdtempSync(join(tmpdir(), testTitle));
-      const tempFile = join(tempDir, testTitle);
-      const expectedAssertion = "{}";
-      writeFileSync(tempFile, expectedAssertion, { encoding: "utf8" });
+    const testTitle = this.test?.title || Date.now().toString();
+    const tempDir = mkdtempSync(join(tmpdir(), testTitle));
+    const tempFile = join(tempDir, testTitle);
+    const expectedAssertion = "{}";
+    writeFileSync(tempFile, expectedAssertion, { encoding: "utf8" });
 
-      // Trigger token file path by setting environment variables
-      process.env.AZURE_TENANT_ID = "my-tenant-id";
-      process.env.AZURE_FEDERATED_TOKEN_FILE = tempFile;
-      process.env.AZURE_AUTHORITY_HOST = AzureAuthorityHosts.AzureGovernment;
+    // Trigger token file path by setting environment variables
+    process.env.AZURE_TENANT_ID = "my-tenant-id";
+    process.env.AZURE_FEDERATED_TOKEN_FILE = tempFile;
+    process.env.AZURE_AUTHORITY_HOST = AzureAuthorityHosts.AzureGovernment;
 
-      const parameterClientId = "client";
+    const parameterClientId = "client";
 
-      const authDetails = await testContext.sendCredentialRequests({
-        scopes: ["https://service/.default"],
-        credential: new WorkloadIdentityCredential(process.env.AZURE_TENANT_ID!, parameterClientId, tempFile),
-        secureResponses: [
-          createResponse(200, {
-            access_token: "token",
-            expires_in: 1,
-          }),
-        ],
-      });
+    const authDetails = await testContext.sendCredentialRequests({
+      scopes: ["https://service/.default"],
+      credential: new WorkloadIdentityCredential(
+        process.env.AZURE_TENANT_ID!,
+        parameterClientId,
+        tempFile
+      ),
+      secureResponses: [
+        createResponse(200, {
+          access_token: "token",
+          expires_in: 1,
+        }),
+      ],
+    });
 
-      const authRequest = authDetails.requests[0];
+    const authRequest = authDetails.requests[0];
 
-      const body = new URLSearchParams(authRequest.body);
+    const body = new URLSearchParams(authRequest.body);
 
-      assert.strictEqual(
-        authRequest.url,
-        `${AzureAuthorityHosts.AzureGovernment}/${"my-tenant-id"}/oauth2/v2.0/token`
-      );
-      assert.strictEqual(authRequest.method, "POST");
-      assert.strictEqual(decodeURIComponent(body.get("client_id")!), parameterClientId);
-      assert.strictEqual(decodeURIComponent(body.get("client_assertion")!), expectedAssertion);
-      assert.strictEqual(
-        decodeURIComponent(body.get("client_assertion_type")!),
-        "urn:ietf:params:oauth:client-assertion-type:jwt-bearer"
-      );
-      assert.strictEqual(decodeURIComponent(body.get("scope")!), "https://service/.default");
-      assert.strictEqual(authDetails.result!.token, "token");
-      assert.strictEqual(authDetails.result!.expiresOnTimestamp, 1000);
+    assert.strictEqual(
+      authRequest.url,
+      `${AzureAuthorityHosts.AzureGovernment}/${"my-tenant-id"}/oauth2/v2.0/token`
+    );
+    assert.strictEqual(authRequest.method, "POST");
+    assert.strictEqual(decodeURIComponent(body.get("client_id")!), parameterClientId);
+    assert.strictEqual(decodeURIComponent(body.get("client_assertion")!), expectedAssertion);
+    assert.strictEqual(
+      decodeURIComponent(body.get("client_assertion_type")!),
+      "urn:ietf:params:oauth:client-assertion-type:jwt-bearer"
+    );
+    assert.strictEqual(decodeURIComponent(body.get("scope")!), "https://service/.default");
+    assert.strictEqual(authDetails.result!.token, "token");
+    assert.strictEqual(authDetails.result!.expiresOnTimestamp, 1000);
   });
 });
