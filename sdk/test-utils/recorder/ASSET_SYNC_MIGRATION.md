@@ -6,9 +6,12 @@ Recordings take up a large amount of space in our repository and generate a lot 
 
 ## Performing the migration
 
-The package you are migrating needs to be using the new version of the recorder that uses the test proxy (`@azure-tools/test-recorder@^2.0.0`). Most packages are using the new recorder already; if yours is not you should migrate as soon as possible. More detail on migrating to the new recorder can be found in the [recorder 2.0 migration guide].
+The package you are migrating needs to be using the new version of the recorder that uses the test proxy (`@azure-tools/test-recorder@^2.0.0`). Most packages are using the new recorder already; if yours is not you should migrate as soon as possible. More detail on migrating to the new recorder can be found in the [recorder 2.0 migration guide]. To run the migration script, you will need both [Powershell] and [`dev-tool`] installed. If you haven't installed `dev-tool` yet, you can install it as follows:
 
-To migrate, there is just one command to run. With [`dev-tool`] and [Powershell] installed, run the following in your package directory:
+```bash
+$ cd common/tools/dev-tool # (from your azure-sdk-for-js repo root)
+$ npm install -g
+```
 
 ```bash
 $ npx dev-tool test-proxy migrate --initial-push
@@ -34,7 +37,7 @@ You should stage and commit the `assets.json` update as part of your PR. If you 
 This diagram describes the new workflow (new steps highlighted):
 
 ```mermaid
-graph LR
+graph TD
 record[Record tests<pre>TEST_MODE=record rushx test</pre>] -->
 playback[Inspect recordings and test in playback<pre>TEST_MODE=playback rushx test</pre>]
 
