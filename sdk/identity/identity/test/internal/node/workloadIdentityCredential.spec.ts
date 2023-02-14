@@ -1,127 +1,88 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as fs from "fs/promises";
-import * as jwt from "jsonwebtoken";
-import * as net from "net";
-import * as os from "os";
-import * as path from "path";
-import * as tls from "tls";
-import { msalNodeTestSetup, MsalTestCleanup } from "../../msalTestUtils";
-import { ConfidentialClientApplication } from "@azure/msal-node";
+import { IdentityTestContextInterface, createResponse } from "../../httpRequestsCommon";
+import { mkdtempSync, writeFileSync } from "fs";
+import { AzureAuthorityHosts } from "../../../src/constants";
 import { Context } from "mocha";
-import { MsalNode } from "../../../src/msal/nodeFlows/msalNodeCommon";
-import Sinon from "sinon";
+import { IdentityTestContext } from "../../httpRequests";
 import { WorkloadIdentityCredential } from "../../../src/credentials/workloadIdentityCredential";
 import { assert } from "chai";
-import { env } from "@azure-tools/test-recorder";
-import ms from "ms";
-import { v4 as uuid } from "uuid";
+import { join } from "path";
+import { tmpdir } from "os";
 
 describe("WorkloadIdentityCredential (internal)", () => {
-  let cleanup: MsalTestCleanup;
-  let getTokenSilentSpy: Sinon.SinonSpy;
-  let doGetTokenSpy: Sinon.SinonSpy;
+  let testContext: IdentityTestContextInterface;
+  let envCopy: string = "";
 
-  beforeEach(async function (this: Context) {
-    const setup = await msalNodeTestSetup(this.currentTest);
-    cleanup = setup.cleanup;
-
-    getTokenSilentSpy = setup.sandbox.spy(MsalNode.prototype, "getTokenSilent");
-    doGetTokenSpy = Sinon.spy(
-      ConfidentialClientApplication.prototype,
-      "acquireTokenByClientCredential"
-    );
+  beforeEach(async function () {
+    envCopy = JSON.stringify(process.env);
+    delete process.env.AZURE_CLIENT_ID;
+    delete process.env.AZURE_TENANT_ID;
+    delete process.env.AZURE_CLIENT_SECRET;
+    delete process.env.IDENTITY_ENDPOINT;
+    delete process.env.IDENTITY_HEADER;
+    delete process.env.MSI_ENDPOINT;
+    delete process.env.MSI_SECRET;
+    delete process.env.IDENTITY_SERVER_THUMBPRINT;
+    delete process.env.IMDS_ENDPOINT;
+    delete process.env.AZURE_AUTHORITY_HOST;
+    delete process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST;
+    delete process.env.AZURE_FEDERATED_TOKEN_FILE;
+    testContext = new IdentityTestContext({});
   });
+
   afterEach(async function () {
-    await cleanup();
-    Sinon.restore();
+    const env = JSON.parse(envCopy);
+    // Useful for record mode.
+    process.env.AZURE_CLIENT_ID = env.AZURE_CLIENT_ID;
+    process.env.AZURE_TENANT_ID = env.AZURE_TENANT_ID;
+    process.env.AZURE_CLIENT_SECRET = env.AZURE_CLIENT_SECRET;
+    await testContext.restore();
   });
 
-  it("Should throw if the parameteres are not correctly specified", async function () {
-    const errors: Error[] = [];
-    try {
-      new WorkloadIdentityCredential(undefined as any, env.AZURE_CLIENT_ID ?? "client", "file.txt");
-    } catch (e: any) {
-      errors.push(e);
-    }
-    try {
-      new WorkloadIdentityCredential(env.AZURE_TENANT_ID ?? "tenant", undefined as any, "file.txt");
-    } catch (e: any) {
-      errors.push(e);
-    }
-    try {
-      new WorkloadIdentityCredential(
-        env.AZURE_TENANT_ID ?? "tenant",
-        env.AZURE_CLIENT_ID ?? "client",
-        undefined as any
+  it("sends an authorization request correctly if token file path is available", async function (this: Context) {
+      const testTitle = this.test?.title || Date.now().toString();
+      const tempDir = mkdtempSync(join(tmpdir(), testTitle));
+      const tempFile = join(tempDir, testTitle);
+      const expectedAssertion = "{}";
+      writeFileSync(tempFile, expectedAssertion, { encoding: "utf8" });
+
+      // Trigger token file path by setting environment variables
+      process.env.AZURE_TENANT_ID = "my-tenant-id";
+      process.env.AZURE_FEDERATED_TOKEN_FILE = tempFile;
+      process.env.AZURE_AUTHORITY_HOST = AzureAuthorityHosts.AzureGovernment;
+
+      const parameterClientId = "client";
+
+      const authDetails = await testContext.sendCredentialRequests({
+        scopes: ["https://service/.default"],
+        credential: new WorkloadIdentityCredential(process.env.AZURE_TENANT_ID!, parameterClientId, tempFile),
+        secureResponses: [
+          createResponse(200, {
+            access_token: "token",
+            expires_in: 1,
+          }),
+        ],
+      });
+
+      const authRequest = authDetails.requests[0];
+
+      const body = new URLSearchParams(authRequest.body);
+
+      assert.strictEqual(
+        authRequest.url,
+        `${AzureAuthorityHosts.AzureGovernment}/${"my-tenant-id"}/oauth2/v2.0/token`
       );
-    } catch (e: any) {
-      errors.push(e);
-    }
-    try {
-      new WorkloadIdentityCredential(undefined as any, undefined as any, undefined as any);
-    } catch (e: any) {
-      errors.push(e);
-    }
-    assert.equal(errors.length, 4);
-    errors.forEach((e) => {
-      assert.equal(
-        e.message,
-        "WorkloadIdentityCredential: tenantId, clientId, and federatedTokenFilePath are required parameters."
+      assert.strictEqual(authRequest.method, "POST");
+      assert.strictEqual(decodeURIComponent(body.get("client_id")!), parameterClientId);
+      assert.strictEqual(decodeURIComponent(body.get("client_assertion")!), expectedAssertion);
+      assert.strictEqual(
+        decodeURIComponent(body.get("client_assertion_type")!),
+        "urn:ietf:params:oauth:client-assertion-type:jwt-bearer"
       );
-    });
-  });
-
-  it("should send the correct parameters", async () => {
-    const tenantId = env.IDENTITY_SP_TENANT_ID || env.AZURE_TENANT_ID!;
-    const clientId = env.IDENTITY_SP_CLIENT_ID || env.AZURE_CLIENT_ID!;
-    const certificatePath = env.IDENTITY_SP_CERT_PEM || path.join("assets", "fake-cert.pem");
-    const authorityHost = `https://login.microsoftonline.com/${tenantId}`;
-
-    const jwtoken = await createJWTTokenFromCertificate(authorityHost, clientId, certificatePath);
-    const filePath = path.join(os.tmpdir(), "jwt.txt");
-    await fs.writeFile(filePath, jwtoken, { encoding: "utf-8" });
-
-    const credential = new WorkloadIdentityCredential(tenantId, clientId, filePath);
-
-    try {
-      await credential.getToken("https://vault.azure.net/.default");
-    } catch (e: any) {
-      // We're ignoring errors since our main goal here is to ensure that we send the correct parameters to MSAL.
-      console.log("error", e);
-    }
-
-    assert.equal(getTokenSilentSpy.callCount, 1);
-    assert.equal(doGetTokenSpy.callCount, 1);
+      assert.strictEqual(decodeURIComponent(body.get("scope")!), "https://service/.default");
+      assert.strictEqual(authDetails.result!.token, "token");
+      assert.strictEqual(authDetails.result!.expiresOnTimestamp, 1000);
   });
 });
-
-async function createJWTTokenFromCertificate(
-  authorityHost: string,
-  clientId: string,
-  certificatePath: string
-): Promise<string> {
-  const privateKeyPemCert = await fs.readFile(certificatePath);
-  const audience = `${authorityHost}/v2.0`;
-  const secureContext = tls.createSecureContext({
-    cert: privateKeyPemCert,
-  });
-  const secureSocket = new tls.TLSSocket(new net.Socket(), { secureContext });
-  const cert = secureSocket.getCertificate() as tls.PeerCertificate;
-  secureSocket.destroy();
-  const signedCert = jwt.sign({}, privateKeyPemCert, {
-    header: {
-      alg: "RS256",
-      typ: "JWT",
-      x5t: Buffer.from(cert.fingerprint256, "hex").toString("base64"),
-    },
-    algorithm: "RS256",
-    audience: audience,
-    jwtid: uuid(),
-    expiresIn: ms("1 h"),
-    subject: clientId,
-    issuer: clientId,
-  });
-  return signedCert;
-}
