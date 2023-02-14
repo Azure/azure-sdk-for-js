@@ -19,7 +19,7 @@ const perfProgram = createPerfProgram(
   StorageBlobDownloadWithSASTest,
   CoreHTTPDownloadWithSASTest,
   CoreHTTPSDownloadWithSASTest,
-  NodeFetchDownloadWithSASTest,
+  NodeFetchDownloadWithSASTest
 );
 
 perfProgram.run();

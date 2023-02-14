@@ -1,7 +1,10 @@
 import { Session } from "node:inspector";
 import * as fs from "fs-extra";
 
-export async function runWithCpuProfile(functionToProfile: () => Promise<void>, profileFilePath: string | undefined) {
+export async function runWithCpuProfile(
+  functionToProfile: () => Promise<void>,
+  profileFilePath: string | undefined
+) {
   const session = new Session();
   session.connect();
   session.post("Profiler.enable", () => {
@@ -12,7 +15,8 @@ export async function runWithCpuProfile(functionToProfile: () => Promise<void>, 
       session.post("Profiler.stop", (err, { profile }) => {
         // Write profile to disk, upload, etc.
         if (!err) {
-          profileFilePath = profileFilePath ?? `./profile/${getFormattedDate()}-perfProgram.cpuprofile`;
+          profileFilePath =
+            profileFilePath ?? `./profile/${getFormattedDate()}-perfProgram.cpuprofile`;
           fs.ensureDirSync(profileFilePath.substring(0, profileFilePath.lastIndexOf("/") + 1));
           fs.writeFileSync(profileFilePath, JSON.stringify(profile));
           console.log(`...CPUProfile saved to ${profileFilePath}...`);
@@ -24,4 +28,6 @@ export async function runWithCpuProfile(functionToProfile: () => Promise<void>, 
   });
 }
 
-const getFormattedDate = () => { return new Date().toISOString().replace(/[:\-.]/g, "_"); };
+const getFormattedDate = () => {
+  return new Date().toISOString().replace(/[:\-.]/g, "_");
+};
