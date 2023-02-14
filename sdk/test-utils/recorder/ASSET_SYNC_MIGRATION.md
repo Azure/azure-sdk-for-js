@@ -52,6 +52,18 @@ end
 assets --> pr[Push branch and\ncreate PR]
 ```
 
+### Inspecting recordings with asset sync enabled
+
+Often, when re-recording tests, you will want to inspect the recordings that have been made, either to debug something or to make sure secrets have been sanitized properly. With asset sync enabled, the recordings are no longer stored in the same place as your SDK. You'll need to follow the following process to find them:
+
+1. Navigate to the root of the `azure-sdk-for-js` repo.
+1. Go into the `.assets` directory. This will contain a file called `.breadcrumb`; open it and find the entry that matches your SDK. This will give you the name of the directory within `.assets` that your recordings are located in.
+1. Once in that directory, you can do a `git status` to see what uncommitted changes you have made to the recordings, and you can inspect the recordings in whatever way you'd like.
+
+There is an [open issue](https://github.com/Azure/azure-sdk-tools/issues/4652) to streamline this process by providing tooling to get you to the right directory without you having to look inside the `.breadcrumb` file. Watch this space.
+
+For more information on this topic, see the [asset sync reference documentation][asset-sync-reference].
+
 ### Other `test-proxy` commands
 
 A few commands have been added to `dev-tool` to facilitate pushing and fetching the recordings to and from your local:
