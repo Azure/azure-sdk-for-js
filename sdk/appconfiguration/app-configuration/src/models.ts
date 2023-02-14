@@ -425,14 +425,10 @@ export interface UpdateSnapshotResponse
 
 export { Snapshot, KeyValueFilter, CompositionType, SnapshotStatus };
 
-export interface EtagEntity {
-  etag: string;
-}
-
 /**
  * Fields that uniquely identify a snapshot
  */
-export interface SnapshotId {
+export interface SnapshotInfo {
   /**
    * The name for this snapshot
    */
@@ -449,7 +445,7 @@ export interface SnapshotId {
 /**
  * Fields for the snapshot
  */
-export interface SnapshotNameandEtag {
+export interface SnapshotId {
   /**
    * The name for this snapshot
    */

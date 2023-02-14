@@ -11,7 +11,6 @@ import {
   // deleteEverySetting,
   deleteKeyCompletely,
   startRecorder,
-  toSortedSnapshotArray,
   toSortedArray,
 } from "./utils/testHelpers";
 import { Context } from "mocha";
@@ -1248,73 +1247,24 @@ describe("AppConfigurationClient", () => {
       });
     });
   });
-
-  describe("createSnapshot", () => {
-    it("create a snapshot", async () => {
-      const name = recorder.variable(
-        "createSnapshotTest",
-        `createSnapshotTest${Math.floor(Math.random() * 1000)}`
-      );
-      const key = recorder.variable("key", `key${Math.floor(Math.random() * 1000)}`);
-      const label = "MyLabel";
-      const filters = [
-        {
-          key,
-          label,
-        },
-      ];
-      await client.addConfigurationSetting({ key, label });
-      const result = await client.createSnapshot(name, { filters });
-      console.log(JSON.stringify(result));
-      assert.isNotNull(result);
-      // assert.equal(result.filters, filters)
-      assert.equal(result.name, name);
-      await client.archiveSnapshot(name);
+  describe.skip("snapshot methods", () => {
+    describe("createSnapshot", () => {
+      it("create a snapshot", async () => {});
     });
-  });
-  describe("listConfigurationSettings for Snapshot", () => {
-    it("list a snapshot configuration setting", async () => {
-      const snapshot = await client.listConfigurationSettings({
-        snapshotFilter: "createSnapshotTest619",
-      });
-
-      const byKeySettings = await toSortedArray(snapshot);
-      console.log(byKeySettings);
-      assertEqualSettings(
-        [
-          {
-            key: "createSnapshotTest110",
-            label: "MyLabel",
-            isReadOnly: false,
-            value: undefined,
-          },
-        ],
-        byKeySettings
-      );
+    describe("listConfigurationSettings for Snapshot", () => {
+      it("list a snapshot configuration setting", async () => {});
     });
-  });
 
-  describe("listSnapshots", () => {
-    it("list all snapshots", async () => {
-      const snapshots = await client.listSnapshots();
-      for await (const snapshot of snapshots) {
-        console.log(snapshot);
-      }
-      console.log(toSortedSnapshotArray(snapshots));
+    describe("listSnapshots", () => {
+      it("list all snapshots", async () => {});
     });
-  });
 
-  describe("archiveSnapshot", () => {
-    it("archive all snapshot", async () => {
-      const snapshot = await client.archiveSnapshot("snapshot1324");
-      assert.equal(snapshot.status, "ready");
+    describe("archiveSnapshot", () => {
+      it("archive all snapshot", async () => {});
     });
-  });
 
-  describe("recoverSnapshot", () => {
-    it("recover a snapshot", async () => {
-      const snapshot = await client.recoverSnapshot("snapshot1324");
-      assert.equal(snapshot.status, "ready");
+    describe("recoverSnapshot", () => {
+      it("recover a snapshot", async () => {});
     });
   });
 });

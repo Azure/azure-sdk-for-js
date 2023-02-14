@@ -4,7 +4,6 @@
 import {
   ConfigurationSetting,
   ConfigurationSettingParam,
-  EtagEntity,
   HttpOnlyIfChangedField,
   HttpOnlyIfUnchangedField,
   HttpResponseField,
@@ -23,6 +22,12 @@ import {
 import { isDefined } from "@azure/core-util";
 import { logger } from "../logger";
 
+/**
+ * Entity with etag. Represent both ConfigurationSetting and Snapshot
+ */
+interface EtagEntity {
+  etag?: string;
+}
 /**
  * Formats the etag so it can be used with a If-Match/If-None-Match header
  * @internal
