@@ -76,7 +76,7 @@ export class WorkerPerfProgram implements PerfProgram {
     await Promise.all(this.tests.map((test) => test.postSetup?.()));
     await exitStage("postSetup");
 
-    if (this.options.warmup.value! > 0) {
+    if (this.options.warmup.value > 0) {
       await enterStage("warmup");
       await this.runTests(this.options.warmup.value!);
       await exitStage("warmup");
