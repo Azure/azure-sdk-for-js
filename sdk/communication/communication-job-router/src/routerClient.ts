@@ -6,7 +6,7 @@ import {
   CommunicationTokenCredential,
   createCommunicationAuthPolicy,
   isKeyCredential,
-  parseClientArguments,
+  parseClientArguments
 } from "@azure/communication-common";
 
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
@@ -27,7 +27,7 @@ import {
   JobRouterReclassifyJobActionResponse,
   QueueStatistics,
   RouterJobItem,
-  RouterWorkerItem,
+  RouterWorkerItem
 } from "./generated/src";
 import { logger } from "./models/logger";
 import {
@@ -41,7 +41,7 @@ import {
   ReclassifyJobOptions,
   RouterClientOptions,
   UpdateJobOptions,
-  UpdateWorkerOptions,
+  UpdateWorkerOptions
 } from "./models/options";
 import { RouterJobResponse, RouterWorkerResponse, UnAssignJobResponse } from "./models/responses";
 
@@ -128,8 +128,8 @@ export class RouterClient {
       ...options,
       userAgentOptions,
       loggingOptions: {
-        logger: logger.info,
-      },
+        logger: logger.info
+      }
     };
 
     const authPolicy = createCommunicationAuthPolicy(credential);
@@ -270,7 +270,7 @@ export class RouterClient {
     const result = await this.client.jobRouter.unassignJobAction(jobId, assignmentId, options);
     return {
       jobId: result.jobId,
-      unAssignmentCount: result.unassignmentCount,
+      unAssignmentCount: result.unassignmentCount
     };
   }
 
@@ -353,7 +353,7 @@ export class RouterClient {
     options: OperationOptions = {}
   ): Promise<RouterWorkerResponse> {
     const worker = {
-      availableForOffers: true,
+      availableForOffers: true
     };
     const workerResult = await this.client.jobRouter.upsertWorker(workerId, worker, options);
     return <RouterWorkerResponse>workerResult;
@@ -370,7 +370,7 @@ export class RouterClient {
     options: OperationOptions = {}
   ): Promise<RouterWorkerResponse> {
     const worker = {
-      availableForOffers: false,
+      availableForOffers: false
     };
     const workerResult = await this.client.jobRouter.upsertWorker(workerId, worker, options);
     return <RouterWorkerResponse>workerResult;
