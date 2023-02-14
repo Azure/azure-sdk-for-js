@@ -4,7 +4,7 @@
 import { TokenCredential } from "@azure/core-auth";
 import { CommonClientOptions } from "@azure/core-client";
 import { GeneratedMonitorIngestionClient } from "./generated";
-import { AggregateUploadLogsError, UploadLogsError, UploadLogsOptions } from "./models";
+import { AggregateUploadLogsError, UploadLogsFailure, UploadLogsOptions } from "./models";
 import { GZippingPolicy } from "./gZippingPolicy";
 import { concurrentRun } from "./utils/concurrentPoolHelper";
 import { splitDataToChunks } from "./utils/splitDataToChunksHelper";
@@ -69,7 +69,7 @@ export class LogsIngestionClient {
     const chunkArray = splitDataToChunks(logs);
     const concurrency = Math.max(options?.maxConcurrency ?? DEFAULT_MAX_CONCURRENCY, 1);
 
-    const uploadResultErrors: Array<UploadLogsError> = [];
+    const uploadResultErrors: Array<UploadLogsFailure> = [];
     await concurrentRun(
       concurrency,
       chunkArray,

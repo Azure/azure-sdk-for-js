@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isAggregateUploadLogsError, LogsIngestionClient, UploadLogsError } from "../../src";
+import { isAggregateUploadLogsError, LogsIngestionClient, UploadLogsFailure } from "../../src";
 import { Context } from "mocha";
 import { assert } from "chai";
 import { AdditionalPolicyConfig } from "@azure/core-client";
@@ -151,7 +151,7 @@ describe("LogsIngestionClient live tests", function () {
     let errorCallbackCount = 0;
     const failedLogs: Record<string, unknown>[] = [];
 
-    function errorCallback(uploadLogsError: UploadLogsError): void {
+    function errorCallback(uploadLogsError: UploadLogsFailure): void {
       if (
         (uploadLogsError.cause as Error).message ===
         "Data collection rule with immutable Id 'immutable-id-123' not found."

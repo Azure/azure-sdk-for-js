@@ -10,8 +10,8 @@ import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export class AggregateUploadLogsError extends Error {
-    constructor(errors: UploadLogsError[], errorMessage?: string);
-    errors: UploadLogsError[];
+    constructor(errors: UploadLogsFailure[], errorMessage?: string);
+    errors: UploadLogsFailure[];
 }
 
 // @public
@@ -32,7 +32,7 @@ export interface LogsIngestionClientOptions extends CommonClientOptions {
 }
 
 // @public
-export interface UploadLogsError {
+export interface UploadLogsFailure {
     cause: Error;
     failedLogs: Record<string, unknown>[];
 }
@@ -40,7 +40,7 @@ export interface UploadLogsError {
 // @public
 export interface UploadLogsOptions extends OperationOptions {
     maxConcurrency?: number;
-    onError?: (uploadLogsError: UploadLogsError) => void;
+    onError?: (uploadLogsError: UploadLogsFailure) => void;
 }
 
 ```

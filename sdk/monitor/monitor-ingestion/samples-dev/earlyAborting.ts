@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 import {
   isAggregateUploadLogsError,
   LogsIngestionClient,
-  UploadLogsError,
+  UploadLogsFailure,
 } from "@azure/monitor-ingestion";
 
 require("dotenv").config();
@@ -22,7 +22,7 @@ async function main() {
   const client = new LogsIngestionClient(logsIngestionEndpoint, credential);
   let abortController = new AbortController();
 
-  function errorCallback(uploadLogsError: UploadLogsError) {
+  function errorCallback(uploadLogsError: UploadLogsFailure) {
     if (
       (uploadLogsError.cause as Error).message ===
       "Data collection rule with immutable Id 'immutable-id-123' not found."

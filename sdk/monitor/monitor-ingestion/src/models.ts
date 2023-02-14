@@ -14,16 +14,16 @@ export interface UploadLogsOptions extends OperationOptions {
   maxConcurrency?: number;
   /**
    * Callback function for error handling when logs fail to upload
-   * @param uploadLogsError - This is the {@link UploadLogsError} object
+   * @param uploadLogsError - This is the {@link UploadLogsFailure} object
    * @returns void
    */
-  onError?: (uploadLogsError: UploadLogsError) => void;
+  onError?: (uploadLogsError: UploadLogsFailure) => void;
 }
 
 /**
  * Error for each log upload request to service
  */
-export interface UploadLogsError {
+export interface UploadLogsFailure {
   /**
    * List of failed logs
    */
@@ -44,17 +44,17 @@ export const AggregateUploadLogsErrorName = "AggregateUploadLogsError";
  */
 export class AggregateUploadLogsError extends Error {
   /**
-   * List of {@link UploadLogsError} returned from
+   * List of {@link UploadLogsFailure} returned from
    * individual upload requests to service
    */
-  errors: UploadLogsError[];
+  errors: UploadLogsFailure[];
 
   /**
    *
-   * @param errors - list of {@link UploadLogsError}
+   * @param errors - list of {@link UploadLogsFailure}
    * @param errorMessage - error message
    */
-  constructor(errors: UploadLogsError[], errorMessage?: string) {
+  constructor(errors: UploadLogsFailure[], errorMessage?: string) {
     super(`${errorMessage}\n}`);
     this.errors = errors;
     this.name = AggregateUploadLogsErrorName;
