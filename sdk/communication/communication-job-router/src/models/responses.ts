@@ -7,14 +7,14 @@ import {
   ExceptionPolicy,
   JobQueue,
   RouterJob,
-  RouterWorker,
+  RouterWorker
 } from "../generated/src";
 
 export {
   JobRouterCancelJobActionResponse,
   JobRouterCloseJobActionResponse,
   JobRouterCompleteJobActionResponse,
-  JobRouterDeclineJobActionResponse,
+  JobRouterDeclineJobActionResponse
 } from "../generated/src/models";
 
 export interface UnAssignJobResponse {
