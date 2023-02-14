@@ -19,7 +19,7 @@ import {
   QueueSelectorAttachmentUnion,
   RouterJob,
   WorkerSelector,
-  WorkerStateSelector,
+  WorkerStateSelector
 } from "../generated/src";
 import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 
