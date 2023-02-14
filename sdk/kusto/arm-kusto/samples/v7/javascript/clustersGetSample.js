@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets a Kusto cluster.
  *
  * @summary Gets a Kusto cluster.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoClustersGet.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-12-29/examples/KustoClustersGet.json
  */
 async function kustoClustersGet() {
   const subscriptionId =

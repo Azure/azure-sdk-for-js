@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ExportPipeline,
   ExportPipelinesListOptionalParams,
@@ -23,7 +23,7 @@ import {
 export interface ExportPipelines {
   /**
    * Lists all export pipelines for the specified container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param options The options parameters.
    */
@@ -34,7 +34,7 @@ export interface ExportPipelines {
   ): PagedAsyncIterableIterator<ExportPipeline>;
   /**
    * Gets the properties of the export pipeline.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param exportPipelineName The name of the export pipeline.
    * @param options The options parameters.
@@ -47,7 +47,7 @@ export interface ExportPipelines {
   ): Promise<ExportPipelinesGetResponse>;
   /**
    * Creates an export pipeline for a container registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param exportPipelineName The name of the export pipeline.
    * @param exportPipelineCreateParameters The parameters for creating an export pipeline.
@@ -60,14 +60,14 @@ export interface ExportPipelines {
     exportPipelineCreateParameters: ExportPipeline,
     options?: ExportPipelinesCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ExportPipelinesCreateResponse>,
+    SimplePollerLike<
+      OperationState<ExportPipelinesCreateResponse>,
       ExportPipelinesCreateResponse
     >
   >;
   /**
    * Creates an export pipeline for a container registry with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param exportPipelineName The name of the export pipeline.
    * @param exportPipelineCreateParameters The parameters for creating an export pipeline.
@@ -82,7 +82,7 @@ export interface ExportPipelines {
   ): Promise<ExportPipelinesCreateResponse>;
   /**
    * Deletes an export pipeline from a container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param exportPipelineName The name of the export pipeline.
    * @param options The options parameters.
@@ -92,10 +92,10 @@ export interface ExportPipelines {
     registryName: string,
     exportPipelineName: string,
     options?: ExportPipelinesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an export pipeline from a container registry.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
    * @param exportPipelineName The name of the export pipeline.
    * @param options The options parameters.

@@ -1,15 +1,18 @@
 # Release History
+    
+## 6.2.0-beta.1 (2023-02-08)
+    
+**Features**
 
-## 6.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Type Alias PublicNetworkAccess
+  - Added Type Alias TlsVersion
+  - Interface SBNamespace has a new optional parameter minimumTlsVersion
+  - Interface SBNamespace has a new optional parameter premiumMessagingPartitions
+  - Interface SBNamespace has a new optional parameter publicNetworkAccess
+  - Added Enum KnownPublicNetworkAccess
+  - Added Enum KnownTlsVersion
+    
+    
 ## 6.1.0 (2022-12-09)
     
 **Features**

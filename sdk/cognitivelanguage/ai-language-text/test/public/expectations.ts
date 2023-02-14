@@ -2085,7 +2085,6 @@ export const expectation24: AnalyzeBatchResult[] = [
     modelVersion,
   },
 ];
-
 export const expectation25: AnalyzeBatchResult[] = [
   {
     kind: "Healthcare",
@@ -2094,199 +2093,59 @@ export const expectation25: AnalyzeBatchResult[] = [
         entities: [
           {
             dataSources: [
-              {
-                name: "UMLS",
-                entityId: "C0020538",
-              },
-              {
-                name: "AOD",
-                entityId: "0000023317",
-              },
-              {
-                name: "BI",
-                entityId: "BI00001",
-              },
-              {
-                name: "CCPSS",
-                entityId: "1017493",
-              },
-              {
-                name: "CCS",
-                entityId: "7.1",
-              },
-              {
-                name: "CHV",
-                entityId: "0000015800",
-              },
-              {
-                name: "COSTAR",
-                entityId: "397",
-              },
-              {
-                name: "CSP",
-                entityId: "0571-5243",
-              },
-              {
-                name: "CST",
-                entityId: "HYPERTENS",
-              },
-              {
-                name: "DXP",
-                entityId: "U002034",
-              },
-              {
-                name: "HPO",
-                entityId: "HP:0000822",
-              },
-              {
-                name: "ICD10",
-                entityId: "I10-I15.9",
-              },
-              {
-                name: "ICD10AM",
-                entityId: "I10-I15.9",
-              },
-              {
-                name: "ICD10CM",
-                entityId: "I10",
-              },
-              {
-                name: "ICD9CM",
-                entityId: "997.91",
-              },
-              {
-                name: "ICPC2ICD10ENG",
-                entityId: "MTHU035456",
-              },
-              {
-                name: "ICPC2P",
-                entityId: "K85004",
-              },
-              {
-                name: "LCH",
-                entityId: "U002317",
-              },
-              {
-                name: "LCH_NW",
-                entityId: "sh85063723",
-              },
-              {
-                name: "LNC",
-                entityId: "LA14293-7",
-              },
-              {
-                name: "MDR",
-                entityId: "10020772",
-              },
-              {
-                name: "MEDCIN",
-                entityId: "33288",
-              },
-              {
-                name: "MEDLINEPLUS",
-                entityId: "34",
-              },
-              {
-                name: "MSH",
-                entityId: "D006973",
-              },
-              {
-                name: "MTH",
-                entityId: "005",
-              },
-              {
-                name: "MTHICD9",
-                entityId: "997.91",
-              },
-              {
-                name: "NANDA-I",
-                entityId: "00905",
-              },
-              {
-                name: "NCI",
-                entityId: "C3117",
-              },
-              {
-                name: "NCI_CPTAC",
-                entityId: "C3117",
-              },
-              {
-                name: "NCI_CTCAE",
-                entityId: "E13785",
-              },
-              {
-                name: "NCI_CTRP",
-                entityId: "C3117",
-              },
-              {
-                name: "NCI_FDA",
-                entityId: "1908",
-              },
-              {
-                name: "NCI_GDC",
-                entityId: "C3117",
-              },
-              {
-                name: "NCI_NCI-GLOSS",
-                entityId: "CDR0000458091",
-              },
-              {
-                name: "NCI_NICHD",
-                entityId: "C3117",
-              },
-              {
-                name: "NCI_caDSR",
-                entityId: "C3117",
-              },
-              {
-                name: "NOC",
-                entityId: "060808",
-              },
-              {
-                name: "OMIM",
-                entityId: "MTHU002068",
-              },
-              {
-                name: "PCDS",
-                entityId: "PRB_11000.06",
-              },
-              {
-                name: "PDQ",
-                entityId: "CDR0000686951",
-              },
-              {
-                name: "PSY",
-                entityId: "23830",
-              },
-              {
-                name: "RCD",
-                entityId: "XE0Ub",
-              },
-              {
-                name: "SNM",
-                entityId: "F-70700",
-              },
-              {
-                name: "SNMI",
-                entityId: "D3-02000",
-              },
-              {
-                name: "SNOMEDCT_US",
-                entityId: "38341003",
-              },
-              {
-                name: "WHO",
-                entityId: "0210",
-              },
+              { name: "UMLS", entityId: "C0020538" },
+              { name: "AOD", entityId: "0000023317" },
+              { name: "BI", entityId: "BI00001" },
+              { name: "CCPSS", entityId: "1017493" },
+              { name: "CCS", entityId: "7.1" },
+              { name: "CHV", entityId: "0000015800" },
+              { name: "COSTAR", entityId: "397" },
+              { name: "CSP", entityId: "0571-5243" },
+              { name: "CST", entityId: "HYPERTENS" },
+              { name: "DXP", entityId: "U002034" },
+              { name: "HPO", entityId: "HP:0000822" },
+              { name: "ICD10", entityId: "I10-I15.9" },
+              { name: "ICD10AM", entityId: "I10-I15.9" },
+              { name: "ICD10CM", entityId: "I10" },
+              { name: "ICD9CM", entityId: "997.91" },
+              { name: "ICPC2ICD10ENG", entityId: "MTHU035456" },
+              { name: "ICPC2P", entityId: "K85004" },
+              { name: "LCH", entityId: "U002317" },
+              { name: "LCH_NW", entityId: "sh85063723" },
+              { name: "LNC", entityId: "LA14293-7" },
+              { name: "MDR", entityId: "10020772" },
+              { name: "MEDCIN", entityId: "33288" },
+              { name: "MEDLINEPLUS", entityId: "34" },
+              { name: "MSH", entityId: "D006973" },
+              { name: "MTH", entityId: "005" },
+              { name: "MTHICD9", entityId: "997.91" },
+              { name: "NANDA-I", entityId: "00905" },
+              { name: "NCI", entityId: "C3117" },
+              { name: "NCI_CPTAC", entityId: "C3117" },
+              { name: "NCI_CTCAE", entityId: "E13785" },
+              { name: "NCI_CTRP", entityId: "C3117" },
+              { name: "NCI_FDA", entityId: "1908" },
+              { name: "NCI_GDC", entityId: "C3117" },
+              { name: "NCI_NCI-GLOSS", entityId: "CDR0000458091" },
+              { name: "NCI_NICHD", entityId: "C3117" },
+              { name: "NCI_caDSR", entityId: "C3117" },
+              { name: "NOC", entityId: "060808" },
+              { name: "OMIM", entityId: "MTHU002068" },
+              { name: "PCDS", entityId: "PRB_11000.06" },
+              { name: "PDQ", entityId: "CDR0000686951" },
+              { name: "PSY", entityId: "23830" },
+              { name: "RCD", entityId: "XE0Ub" },
+              { name: "SNM", entityId: "F-70700" },
+              { name: "SNMI", entityId: "D3-02000" },
+              { name: "SNOMEDCT_US", entityId: "38341003" },
+              { name: "WHO", entityId: "0210" },
             ],
             text: "high blood pressure",
             category: "SymptomOrSign",
             offset: 29,
             length: 19,
             confidenceScore: 1,
-            assertion: {
-              certainty: "negative",
-            },
+            assertion: { certainty: "negative" },
             normalizedText: "Hypertensive disease",
           },
         ],
@@ -2295,45 +2154,40 @@ export const expectation25: AnalyzeBatchResult[] = [
         warnings: [],
         fhirBundle: {
           resourceType: "Bundle",
-          id: "7bd29b2d-172c-4cd0-869d-6813d05463f0",
-          meta: {
-            profile: ["http://hl7.org/fhir/4.0.1/StructureDefinition/Bundle"],
-          },
+          id: "402da07a-dd7d-4872-b6f0-cdac0c6d60c1",
+          meta: { profile: ["http://hl7.org/fhir/4.0.1/StructureDefinition/Bundle"] },
           identifier: {
             system: "urn:ietf:rfc:3986",
-            value: "urn:uuid:7bd29b2d-172c-4cd0-869d-6813d05463f0",
+            value: "urn:uuid:402da07a-dd7d-4872-b6f0-cdac0c6d60c1",
           },
           type: "document",
           entry: [
             {
-              fullUrl: "Composition/cbc0f79a-1440-4b55-8380-eee05febc27c",
+              fullUrl: "Composition/6d38391b-7644-45d3-b944-8c34a1202787",
               resource: {
                 resourceType: "Composition",
-                id: "cbc0f79a-1440-4b55-8380-eee05febc27c",
+                id: "6d38391b-7644-45d3-b944-8c34a1202787",
+                language: "en",
                 status: "final",
                 type: {
                   coding: [
-                    {
-                      system: "http://loinc.org",
-                      code: "11526-1",
-                      display: "Pathology study",
-                    },
+                    { system: "http://loinc.org", code: "11526-1", display: "Pathology study" },
                   ],
                   text: "Pathology study",
                 },
                 subject: {
-                  reference: "Patient/e400ac6e-6e20-4378-949e-276bfdef56fd",
+                  reference: "Patient/08753679-6896-4364-88cb-1a6ab88161ee",
                   type: "Patient",
                 },
                 encounter: {
-                  reference: "Encounter/8b86cc70-9633-4f90-8104-63acb374bd67",
+                  reference: "Encounter/272b0e3f-a564-45f8-8c0d-125eb30c7315",
                   type: "Encounter",
                   display: "unknown",
                 },
-                date: "2022-10-08",
+                date: "0001-01-01T00:00:00+00:00",
                 author: [
                   {
-                    reference: "Practitioner/d46df9b5-c61a-4d49-8bb6-859e457077a9",
+                    reference: "Practitioner/238c9e8e-512e-4d6a-a21b-86a6a130b2fa",
                     type: "Practitioner",
                     display: "Unknown",
                   },
@@ -2343,12 +2197,7 @@ export const expectation25: AnalyzeBatchResult[] = [
                   {
                     title: "General",
                     code: {
-                      coding: [
-                        {
-                          system: "",
-                          display: "Unrecognized Section",
-                        },
-                      ],
+                      coding: [{ system: "", display: "Unrecognized Section" }],
                       text: "General",
                     },
                     text: {
@@ -2357,7 +2206,7 @@ export const expectation25: AnalyzeBatchResult[] = [
                     },
                     entry: [
                       {
-                        reference: "List/c3bc8724-5cb3-476d-9f71-5a4d40ba0ce2",
+                        reference: "List/be590686-b660-4125-b31c-70e68dd7fcf0",
                         type: "List",
                         display: "General",
                       },
@@ -2367,31 +2216,26 @@ export const expectation25: AnalyzeBatchResult[] = [
               },
             },
             {
-              fullUrl: "Practitioner/d46df9b5-c61a-4d49-8bb6-859e457077a9",
+              fullUrl: "Practitioner/238c9e8e-512e-4d6a-a21b-86a6a130b2fa",
               resource: {
                 resourceType: "Practitioner",
-                id: "d46df9b5-c61a-4d49-8bb6-859e457077a9",
-                name: [
-                  {
-                    text: "Unknown",
-                    family: "Unknown",
-                  },
-                ],
+                id: "238c9e8e-512e-4d6a-a21b-86a6a130b2fa",
+                name: [{ text: "Unknown", family: "Unknown" }],
               },
             },
             {
-              fullUrl: "Patient/e400ac6e-6e20-4378-949e-276bfdef56fd",
+              fullUrl: "Patient/08753679-6896-4364-88cb-1a6ab88161ee",
               resource: {
                 resourceType: "Patient",
-                id: "e400ac6e-6e20-4378-949e-276bfdef56fd",
+                id: "08753679-6896-4364-88cb-1a6ab88161ee",
                 gender: "unknown",
               },
             },
             {
-              fullUrl: "Encounter/8b86cc70-9633-4f90-8104-63acb374bd67",
+              fullUrl: "Encounter/272b0e3f-a564-45f8-8c0d-125eb30c7315",
               resource: {
                 resourceType: "Encounter",
-                id: "8b86cc70-9633-4f90-8104-63acb374bd67",
+                id: "272b0e3f-a564-45f8-8c0d-125eb30c7315",
                 meta: {
                   profile: ["http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"],
                 },
@@ -2401,31 +2245,22 @@ export const expectation25: AnalyzeBatchResult[] = [
                   display: "unknown",
                 },
                 subject: {
-                  reference: "Patient/e400ac6e-6e20-4378-949e-276bfdef56fd",
+                  reference: "Patient/08753679-6896-4364-88cb-1a6ab88161ee",
                   type: "Patient",
-                },
-                period: {
-                  start: "2022-10-08",
-                  end: "2022-10-08",
                 },
               },
             },
             {
-              fullUrl: "Observation/1b5bb510-1658-44a0-8326-8938b570a69d",
+              fullUrl: "Observation/ca8e76f1-5dde-40bc-af4e-d10b743f29b3",
               resource: {
                 resourceType: "Observation",
-                id: "1b5bb510-1658-44a0-8326-8938b570a69d",
+                id: "ca8e76f1-5dde-40bc-af4e-d10b743f29b3",
+                language: "en",
                 extension: [
                   {
                     extension: [
-                      {
-                        url: "offset",
-                        valueInteger: 29,
-                      },
-                      {
-                        url: "length",
-                        valueInteger: 19,
-                      },
+                      { url: "offset", valueInteger: 29 },
+                      { url: "length", valueInteger: 19 },
                     ],
                     url: "http://hl7.org/fhir/StructureDefinition/derivation-reference",
                   },
@@ -2450,195 +2285,63 @@ export const expectation25: AnalyzeBatchResult[] = [
                       code: "C0020538",
                       display: "Hypertensive disease",
                     },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/aod",
-                      code: "0000023317",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/bi",
-                      code: "BI00001",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/ccpss",
-                      code: "1017493",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/ccs",
-                      code: "7.1",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/chv",
-                      code: "0000015800",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/costar",
-                      code: "397",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/csp",
-                      code: "0571-5243",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/cst",
-                      code: "HYPERTENS",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/dxp",
-                      code: "U002034",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/hpo",
-                      code: "HP:0000822",
-                    },
-                    {
-                      system: "http://hl7.org/fhir/sid/icd-10",
-                      code: "I10-I15.9",
-                    },
-                    {
-                      system: "http://hl7.org/fhir/sid/icd-10-am",
-                      code: "I10-I15.9",
-                    },
-                    {
-                      system: "http://hl7.org/fhir/sid/icd-10-cm",
-                      code: "I10",
-                    },
-                    {
-                      system: "http://hl7.org/fhir/sid/icd-9-cm",
-                      code: "997.91",
-                    },
-                    {
-                      system: "http://hl7.org/fhir/sid/icpc2icd10eng",
-                      code: "MTHU035456",
-                    },
-                    {
-                      system: "http://hl7.org/fhir/sid/icpc-2p",
-                      code: "K85004",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/lch",
-                      code: "U002317",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/lch_nw",
-                      code: "sh85063723",
-                    },
-                    {
-                      system: "http://loinc.org",
-                      code: "LA14293-7",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/mdr",
-                      code: "10020772",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/medcin",
-                      code: "33288",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/medlineplus",
-                      code: "34",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/msh",
-                      code: "D006973",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/mth",
-                      code: "005",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/mthicd9",
-                      code: "997.91",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/nanda-i",
-                      code: "00905",
-                    },
-                    {
-                      system: "http://ncimeta.nci.nih.gov",
-                      code: "C3117",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/nci_cptac",
-                      code: "C3117",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/nci_ctcae",
-                      code: "E13785",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/nci_ctrp",
-                      code: "C3117",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/nci_fda",
-                      code: "1908",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/nci_gdc",
-                      code: "C3117",
-                    },
+                    { system: "http://www.nlm.nih.gov/research/umls/aod", code: "0000023317" },
+                    { system: "http://www.nlm.nih.gov/research/umls/bi", code: "BI00001" },
+                    { system: "http://www.nlm.nih.gov/research/umls/ccpss", code: "1017493" },
+                    { system: "http://www.nlm.nih.gov/research/umls/ccs", code: "7.1" },
+                    { system: "http://www.nlm.nih.gov/research/umls/chv", code: "0000015800" },
+                    { system: "http://www.nlm.nih.gov/research/umls/costar", code: "397" },
+                    { system: "http://www.nlm.nih.gov/research/umls/csp", code: "0571-5243" },
+                    { system: "http://www.nlm.nih.gov/research/umls/cst", code: "HYPERTENS" },
+                    { system: "http://www.nlm.nih.gov/research/umls/dxp", code: "U002034" },
+                    { system: "http://www.nlm.nih.gov/research/umls/hpo", code: "HP:0000822" },
+                    { system: "http://hl7.org/fhir/sid/icd-10", code: "I10-I15.9" },
+                    { system: "http://hl7.org/fhir/sid/icd-10-am", code: "I10-I15.9" },
+                    { system: "http://hl7.org/fhir/sid/icd-10-cm", code: "I10" },
+                    { system: "http://hl7.org/fhir/sid/icd-9-cm", code: "997.91" },
+                    { system: "http://hl7.org/fhir/sid/icpc2icd10eng", code: "MTHU035456" },
+                    { system: "http://hl7.org/fhir/sid/icpc-2p", code: "K85004" },
+                    { system: "http://www.nlm.nih.gov/research/umls/lch", code: "U002317" },
+                    { system: "http://www.nlm.nih.gov/research/umls/lch_nw", code: "sh85063723" },
+                    { system: "http://loinc.org", code: "LA14293-7" },
+                    { system: "http://www.nlm.nih.gov/research/umls/mdr", code: "10020772" },
+                    { system: "http://www.nlm.nih.gov/research/umls/medcin", code: "33288" },
+                    { system: "http://www.nlm.nih.gov/research/umls/medlineplus", code: "34" },
+                    { system: "http://www.nlm.nih.gov/research/umls/msh", code: "D006973" },
+                    { system: "http://www.nlm.nih.gov/research/umls/mth", code: "005" },
+                    { system: "http://www.nlm.nih.gov/research/umls/mthicd9", code: "997.91" },
+                    { system: "http://www.nlm.nih.gov/research/umls/nanda-i", code: "00905" },
+                    { system: "http://ncimeta.nci.nih.gov", code: "C3117" },
+                    { system: "http://www.nlm.nih.gov/research/umls/nci_cptac", code: "C3117" },
+                    { system: "http://www.nlm.nih.gov/research/umls/nci_ctcae", code: "E13785" },
+                    { system: "http://www.nlm.nih.gov/research/umls/nci_ctrp", code: "C3117" },
+                    { system: "http://www.nlm.nih.gov/research/umls/nci_fda", code: "1908" },
+                    { system: "http://www.nlm.nih.gov/research/umls/nci_gdc", code: "C3117" },
                     {
                       system: "http://www.nlm.nih.gov/research/umls/nci_nci-gloss",
                       code: "CDR0000458091",
                     },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/nci_nichd",
-                      code: "C3117",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/nci_cadsr",
-                      code: "C3117",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/noc",
-                      code: "060808",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/omim",
-                      code: "MTHU002068",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/pcds",
-                      code: "PRB_11000.06",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/pdq",
-                      code: "CDR0000686951",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/psy",
-                      code: "23830",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/rcd",
-                      code: "XE0Ub",
-                    },
-                    {
-                      system: "http://snomed.info/sct",
-                      code: "F-70700",
-                    },
-                    {
-                      system: "http://snomed.info/sct",
-                      code: "D3-02000",
-                    },
-                    {
-                      system: "http://snomed.info/sct",
-                      code: "38341003",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/who",
-                      code: "0210",
-                    },
+                    { system: "http://www.nlm.nih.gov/research/umls/nci_nichd", code: "C3117" },
+                    { system: "http://www.nlm.nih.gov/research/umls/nci_cadsr", code: "C3117" },
+                    { system: "http://www.nlm.nih.gov/research/umls/noc", code: "060808" },
+                    { system: "http://www.nlm.nih.gov/research/umls/omim", code: "MTHU002068" },
+                    { system: "http://www.nlm.nih.gov/research/umls/pcds", code: "PRB_11000.06" },
+                    { system: "http://www.nlm.nih.gov/research/umls/pdq", code: "CDR0000686951" },
+                    { system: "http://www.nlm.nih.gov/research/umls/psy", code: "23830" },
+                    { system: "http://www.nlm.nih.gov/research/umls/rcd", code: "XE0Ub" },
+                    { system: "http://www.nlm.nih.gov/research/umls/snm", code: "F-70700" },
+                    { system: "http://snomed.info/sct/900000000000207008", code: "D3-02000" },
+                    { system: "http://snomed.info/sct", code: "38341003" },
+                    { system: "http://www.nlm.nih.gov/research/umls/who", code: "0210" },
                   ],
                   text: "high blood pressure",
                 },
                 subject: {
-                  reference: "Patient/e400ac6e-6e20-4378-949e-276bfdef56fd",
+                  reference: "Patient/08753679-6896-4364-88cb-1a6ab88161ee",
                   type: "Patient",
                 },
                 encounter: {
-                  reference: "Encounter/8b86cc70-9633-4f90-8104-63acb374bd67",
+                  reference: "Encounter/272b0e3f-a564-45f8-8c0d-125eb30c7315",
                   type: "Encounter",
                   display: "unknown",
                 },
@@ -2658,26 +2361,26 @@ export const expectation25: AnalyzeBatchResult[] = [
               },
             },
             {
-              fullUrl: "List/c3bc8724-5cb3-476d-9f71-5a4d40ba0ce2",
+              fullUrl: "List/be590686-b660-4125-b31c-70e68dd7fcf0",
               resource: {
                 resourceType: "List",
-                id: "c3bc8724-5cb3-476d-9f71-5a4d40ba0ce2",
+                id: "be590686-b660-4125-b31c-70e68dd7fcf0",
                 status: "current",
                 mode: "snapshot",
                 title: "General",
                 subject: {
-                  reference: "Patient/e400ac6e-6e20-4378-949e-276bfdef56fd",
+                  reference: "Patient/08753679-6896-4364-88cb-1a6ab88161ee",
                   type: "Patient",
                 },
                 encounter: {
-                  reference: "Encounter/8b86cc70-9633-4f90-8104-63acb374bd67",
+                  reference: "Encounter/272b0e3f-a564-45f8-8c0d-125eb30c7315",
                   type: "Encounter",
                   display: "unknown",
                 },
                 entry: [
                   {
                     item: {
-                      reference: "Observation/1b5bb510-1658-44a0-8326-8938b570a69d",
+                      reference: "Observation/ca8e76f1-5dde-40bc-af4e-d10b743f29b3",
                       type: "Observation",
                       display: "high blood pressure",
                     },
@@ -2700,126 +2403,36 @@ export const expectation25: AnalyzeBatchResult[] = [
           },
           {
             dataSources: [
-              {
-                name: "UMLS",
-                entityId: "C0020740",
-              },
-              {
-                name: "AOD",
-                entityId: "0000019879",
-              },
-              {
-                name: "ATC",
-                entityId: "M01AE01",
-              },
-              {
-                name: "CCPSS",
-                entityId: "0046165",
-              },
-              {
-                name: "CHV",
-                entityId: "0000006519",
-              },
-              {
-                name: "CSP",
-                entityId: "2270-2077",
-              },
-              {
-                name: "DRUGBANK",
-                entityId: "DB01050",
-              },
-              {
-                name: "GS",
-                entityId: "1611",
-              },
-              {
-                name: "LCH_NW",
-                entityId: "sh97005926",
-              },
-              {
-                name: "LNC",
-                entityId: "LP16165-0",
-              },
-              {
-                name: "MEDCIN",
-                entityId: "40458",
-              },
-              {
-                name: "MMSL",
-                entityId: "d00015",
-              },
-              {
-                name: "MSH",
-                entityId: "D007052",
-              },
-              {
-                name: "MTHSPL",
-                entityId: "WK2XYI10QM",
-              },
-              {
-                name: "NCI",
-                entityId: "C561",
-              },
-              {
-                name: "NCI_CTRP",
-                entityId: "C561",
-              },
-              {
-                name: "NCI_DCP",
-                entityId: "00803",
-              },
-              {
-                name: "NCI_DTP",
-                entityId: "NSC0256857",
-              },
-              {
-                name: "NCI_FDA",
-                entityId: "WK2XYI10QM",
-              },
-              {
-                name: "NCI_NCI-GLOSS",
-                entityId: "CDR0000613511",
-              },
-              {
-                name: "NDDF",
-                entityId: "002377",
-              },
-              {
-                name: "PDQ",
-                entityId: "CDR0000040475",
-              },
-              {
-                name: "RCD",
-                entityId: "x02MO",
-              },
-              {
-                name: "RXNORM",
-                entityId: "5640",
-              },
-              {
-                name: "SNM",
-                entityId: "E-7772",
-              },
-              {
-                name: "SNMI",
-                entityId: "C-603C0",
-              },
-              {
-                name: "SNOMEDCT_US",
-                entityId: "387207008",
-              },
-              {
-                name: "USP",
-                entityId: "m39860",
-              },
-              {
-                name: "USPMG",
-                entityId: "MTHU000060",
-              },
-              {
-                name: "VANDF",
-                entityId: "4017840",
-              },
+              { name: "UMLS", entityId: "C0020740" },
+              { name: "AOD", entityId: "0000019879" },
+              { name: "ATC", entityId: "M01AE01" },
+              { name: "CCPSS", entityId: "0046165" },
+              { name: "CHV", entityId: "0000006519" },
+              { name: "CSP", entityId: "2270-2077" },
+              { name: "DRUGBANK", entityId: "DB01050" },
+              { name: "GS", entityId: "1611" },
+              { name: "LCH_NW", entityId: "sh97005926" },
+              { name: "LNC", entityId: "LP16165-0" },
+              { name: "MEDCIN", entityId: "40458" },
+              { name: "MMSL", entityId: "d00015" },
+              { name: "MSH", entityId: "D007052" },
+              { name: "MTHSPL", entityId: "WK2XYI10QM" },
+              { name: "NCI", entityId: "C561" },
+              { name: "NCI_CTRP", entityId: "C561" },
+              { name: "NCI_DCP", entityId: "00803" },
+              { name: "NCI_DTP", entityId: "NSC0256857" },
+              { name: "NCI_FDA", entityId: "WK2XYI10QM" },
+              { name: "NCI_NCI-GLOSS", entityId: "CDR0000613511" },
+              { name: "NDDF", entityId: "002377" },
+              { name: "PDQ", entityId: "CDR0000040475" },
+              { name: "RCD", entityId: "x02MO" },
+              { name: "RXNORM", entityId: "5640" },
+              { name: "SNM", entityId: "E-7772" },
+              { name: "SNMI", entityId: "C-603C0" },
+              { name: "SNOMEDCT_US", entityId: "387207008" },
+              { name: "USP", entityId: "m39860" },
+              { name: "USPMG", entityId: "MTHU000060" },
+              { name: "VANDF", entityId: "4017840" },
             ],
             text: "ibuprofen",
             category: "MedicationName",
@@ -2856,126 +2469,36 @@ export const expectation25: AnalyzeBatchResult[] = [
               {
                 entity: {
                   dataSources: [
-                    {
-                      name: "UMLS",
-                      entityId: "C0020740",
-                    },
-                    {
-                      name: "AOD",
-                      entityId: "0000019879",
-                    },
-                    {
-                      name: "ATC",
-                      entityId: "M01AE01",
-                    },
-                    {
-                      name: "CCPSS",
-                      entityId: "0046165",
-                    },
-                    {
-                      name: "CHV",
-                      entityId: "0000006519",
-                    },
-                    {
-                      name: "CSP",
-                      entityId: "2270-2077",
-                    },
-                    {
-                      name: "DRUGBANK",
-                      entityId: "DB01050",
-                    },
-                    {
-                      name: "GS",
-                      entityId: "1611",
-                    },
-                    {
-                      name: "LCH_NW",
-                      entityId: "sh97005926",
-                    },
-                    {
-                      name: "LNC",
-                      entityId: "LP16165-0",
-                    },
-                    {
-                      name: "MEDCIN",
-                      entityId: "40458",
-                    },
-                    {
-                      name: "MMSL",
-                      entityId: "d00015",
-                    },
-                    {
-                      name: "MSH",
-                      entityId: "D007052",
-                    },
-                    {
-                      name: "MTHSPL",
-                      entityId: "WK2XYI10QM",
-                    },
-                    {
-                      name: "NCI",
-                      entityId: "C561",
-                    },
-                    {
-                      name: "NCI_CTRP",
-                      entityId: "C561",
-                    },
-                    {
-                      name: "NCI_DCP",
-                      entityId: "00803",
-                    },
-                    {
-                      name: "NCI_DTP",
-                      entityId: "NSC0256857",
-                    },
-                    {
-                      name: "NCI_FDA",
-                      entityId: "WK2XYI10QM",
-                    },
-                    {
-                      name: "NCI_NCI-GLOSS",
-                      entityId: "CDR0000613511",
-                    },
-                    {
-                      name: "NDDF",
-                      entityId: "002377",
-                    },
-                    {
-                      name: "PDQ",
-                      entityId: "CDR0000040475",
-                    },
-                    {
-                      name: "RCD",
-                      entityId: "x02MO",
-                    },
-                    {
-                      name: "RXNORM",
-                      entityId: "5640",
-                    },
-                    {
-                      name: "SNM",
-                      entityId: "E-7772",
-                    },
-                    {
-                      name: "SNMI",
-                      entityId: "C-603C0",
-                    },
-                    {
-                      name: "SNOMEDCT_US",
-                      entityId: "387207008",
-                    },
-                    {
-                      name: "USP",
-                      entityId: "m39860",
-                    },
-                    {
-                      name: "USPMG",
-                      entityId: "MTHU000060",
-                    },
-                    {
-                      name: "VANDF",
-                      entityId: "4017840",
-                    },
+                    { name: "UMLS", entityId: "C0020740" },
+                    { name: "AOD", entityId: "0000019879" },
+                    { name: "ATC", entityId: "M01AE01" },
+                    { name: "CCPSS", entityId: "0046165" },
+                    { name: "CHV", entityId: "0000006519" },
+                    { name: "CSP", entityId: "2270-2077" },
+                    { name: "DRUGBANK", entityId: "DB01050" },
+                    { name: "GS", entityId: "1611" },
+                    { name: "LCH_NW", entityId: "sh97005926" },
+                    { name: "LNC", entityId: "LP16165-0" },
+                    { name: "MEDCIN", entityId: "40458" },
+                    { name: "MMSL", entityId: "d00015" },
+                    { name: "MSH", entityId: "D007052" },
+                    { name: "MTHSPL", entityId: "WK2XYI10QM" },
+                    { name: "NCI", entityId: "C561" },
+                    { name: "NCI_CTRP", entityId: "C561" },
+                    { name: "NCI_DCP", entityId: "00803" },
+                    { name: "NCI_DTP", entityId: "NSC0256857" },
+                    { name: "NCI_FDA", entityId: "WK2XYI10QM" },
+                    { name: "NCI_NCI-GLOSS", entityId: "CDR0000613511" },
+                    { name: "NDDF", entityId: "002377" },
+                    { name: "PDQ", entityId: "CDR0000040475" },
+                    { name: "RCD", entityId: "x02MO" },
+                    { name: "RXNORM", entityId: "5640" },
+                    { name: "SNM", entityId: "E-7772" },
+                    { name: "SNMI", entityId: "C-603C0" },
+                    { name: "SNOMEDCT_US", entityId: "387207008" },
+                    { name: "USP", entityId: "m39860" },
+                    { name: "USPMG", entityId: "MTHU000060" },
+                    { name: "VANDF", entityId: "4017840" },
                   ],
                   text: "ibuprofen",
                   category: "MedicationName",
@@ -2995,126 +2518,36 @@ export const expectation25: AnalyzeBatchResult[] = [
               {
                 entity: {
                   dataSources: [
-                    {
-                      name: "UMLS",
-                      entityId: "C0020740",
-                    },
-                    {
-                      name: "AOD",
-                      entityId: "0000019879",
-                    },
-                    {
-                      name: "ATC",
-                      entityId: "M01AE01",
-                    },
-                    {
-                      name: "CCPSS",
-                      entityId: "0046165",
-                    },
-                    {
-                      name: "CHV",
-                      entityId: "0000006519",
-                    },
-                    {
-                      name: "CSP",
-                      entityId: "2270-2077",
-                    },
-                    {
-                      name: "DRUGBANK",
-                      entityId: "DB01050",
-                    },
-                    {
-                      name: "GS",
-                      entityId: "1611",
-                    },
-                    {
-                      name: "LCH_NW",
-                      entityId: "sh97005926",
-                    },
-                    {
-                      name: "LNC",
-                      entityId: "LP16165-0",
-                    },
-                    {
-                      name: "MEDCIN",
-                      entityId: "40458",
-                    },
-                    {
-                      name: "MMSL",
-                      entityId: "d00015",
-                    },
-                    {
-                      name: "MSH",
-                      entityId: "D007052",
-                    },
-                    {
-                      name: "MTHSPL",
-                      entityId: "WK2XYI10QM",
-                    },
-                    {
-                      name: "NCI",
-                      entityId: "C561",
-                    },
-                    {
-                      name: "NCI_CTRP",
-                      entityId: "C561",
-                    },
-                    {
-                      name: "NCI_DCP",
-                      entityId: "00803",
-                    },
-                    {
-                      name: "NCI_DTP",
-                      entityId: "NSC0256857",
-                    },
-                    {
-                      name: "NCI_FDA",
-                      entityId: "WK2XYI10QM",
-                    },
-                    {
-                      name: "NCI_NCI-GLOSS",
-                      entityId: "CDR0000613511",
-                    },
-                    {
-                      name: "NDDF",
-                      entityId: "002377",
-                    },
-                    {
-                      name: "PDQ",
-                      entityId: "CDR0000040475",
-                    },
-                    {
-                      name: "RCD",
-                      entityId: "x02MO",
-                    },
-                    {
-                      name: "RXNORM",
-                      entityId: "5640",
-                    },
-                    {
-                      name: "SNM",
-                      entityId: "E-7772",
-                    },
-                    {
-                      name: "SNMI",
-                      entityId: "C-603C0",
-                    },
-                    {
-                      name: "SNOMEDCT_US",
-                      entityId: "387207008",
-                    },
-                    {
-                      name: "USP",
-                      entityId: "m39860",
-                    },
-                    {
-                      name: "USPMG",
-                      entityId: "MTHU000060",
-                    },
-                    {
-                      name: "VANDF",
-                      entityId: "4017840",
-                    },
+                    { name: "UMLS", entityId: "C0020740" },
+                    { name: "AOD", entityId: "0000019879" },
+                    { name: "ATC", entityId: "M01AE01" },
+                    { name: "CCPSS", entityId: "0046165" },
+                    { name: "CHV", entityId: "0000006519" },
+                    { name: "CSP", entityId: "2270-2077" },
+                    { name: "DRUGBANK", entityId: "DB01050" },
+                    { name: "GS", entityId: "1611" },
+                    { name: "LCH_NW", entityId: "sh97005926" },
+                    { name: "LNC", entityId: "LP16165-0" },
+                    { name: "MEDCIN", entityId: "40458" },
+                    { name: "MMSL", entityId: "d00015" },
+                    { name: "MSH", entityId: "D007052" },
+                    { name: "MTHSPL", entityId: "WK2XYI10QM" },
+                    { name: "NCI", entityId: "C561" },
+                    { name: "NCI_CTRP", entityId: "C561" },
+                    { name: "NCI_DCP", entityId: "00803" },
+                    { name: "NCI_DTP", entityId: "NSC0256857" },
+                    { name: "NCI_FDA", entityId: "WK2XYI10QM" },
+                    { name: "NCI_NCI-GLOSS", entityId: "CDR0000613511" },
+                    { name: "NDDF", entityId: "002377" },
+                    { name: "PDQ", entityId: "CDR0000040475" },
+                    { name: "RCD", entityId: "x02MO" },
+                    { name: "RXNORM", entityId: "5640" },
+                    { name: "SNM", entityId: "E-7772" },
+                    { name: "SNMI", entityId: "C-603C0" },
+                    { name: "SNOMEDCT_US", entityId: "387207008" },
+                    { name: "USP", entityId: "m39860" },
+                    { name: "USPMG", entityId: "MTHU000060" },
+                    { name: "VANDF", entityId: "4017840" },
                   ],
                   text: "ibuprofen",
                   category: "MedicationName",
@@ -3143,45 +2576,40 @@ export const expectation25: AnalyzeBatchResult[] = [
         warnings: [],
         fhirBundle: {
           resourceType: "Bundle",
-          id: "2d625a4a-39d4-48c2-9ec9-b09ceded1923",
-          meta: {
-            profile: ["http://hl7.org/fhir/4.0.1/StructureDefinition/Bundle"],
-          },
+          id: "7cc37cac-fbb3-4a86-ae18-40d65b40b76d",
+          meta: { profile: ["http://hl7.org/fhir/4.0.1/StructureDefinition/Bundle"] },
           identifier: {
             system: "urn:ietf:rfc:3986",
-            value: "urn:uuid:2d625a4a-39d4-48c2-9ec9-b09ceded1923",
+            value: "urn:uuid:7cc37cac-fbb3-4a86-ae18-40d65b40b76d",
           },
           type: "document",
           entry: [
             {
-              fullUrl: "Composition/c2bbbf05-ed68-4efa-b2fe-c63e8c30bfc7",
+              fullUrl: "Composition/d4644e42-4bf7-4d1b-a880-a8c760ccaa2b",
               resource: {
                 resourceType: "Composition",
-                id: "c2bbbf05-ed68-4efa-b2fe-c63e8c30bfc7",
+                id: "d4644e42-4bf7-4d1b-a880-a8c760ccaa2b",
+                language: "en",
                 status: "final",
                 type: {
                   coding: [
-                    {
-                      system: "http://loinc.org",
-                      code: "11526-1",
-                      display: "Pathology study",
-                    },
+                    { system: "http://loinc.org", code: "11526-1", display: "Pathology study" },
                   ],
                   text: "Pathology study",
                 },
                 subject: {
-                  reference: "Patient/25a33aa6-366f-4b6a-bcd0-75127fb62118",
+                  reference: "Patient/6f809212-1d61-42c3-b417-e607f047a899",
                   type: "Patient",
                 },
                 encounter: {
-                  reference: "Encounter/9f4ffa88-6422-4c70-a5e1-4c8c1b7c768d",
+                  reference: "Encounter/1efe56b1-af4f-4ddc-85e1-ef5f06a16d6e",
                   type: "Encounter",
                   display: "unknown",
                 },
-                date: "2022-10-08",
+                date: "0001-01-01T00:00:00+00:00",
                 author: [
                   {
-                    reference: "Practitioner/b335a2b3-98f9-460d-a3ca-ea5e00d917e3",
+                    reference: "Practitioner/ce4fe3b8-afaf-42c3-944b-22a5f3b3e4dc",
                     type: "Practitioner",
                     display: "Unknown",
                   },
@@ -3191,12 +2619,7 @@ export const expectation25: AnalyzeBatchResult[] = [
                   {
                     title: "General",
                     code: {
-                      coding: [
-                        {
-                          system: "",
-                          display: "Unrecognized Section",
-                        },
-                      ],
+                      coding: [{ system: "", display: "Unrecognized Section" }],
                       text: "General",
                     },
                     text: {
@@ -3205,7 +2628,7 @@ export const expectation25: AnalyzeBatchResult[] = [
                     },
                     entry: [
                       {
-                        reference: "List/b2e73b7b-999b-440d-8522-dd08a675b63d",
+                        reference: "List/688c71ee-9ac0-4f21-8252-33588d538b1d",
                         type: "List",
                         display: "General",
                       },
@@ -3215,31 +2638,26 @@ export const expectation25: AnalyzeBatchResult[] = [
               },
             },
             {
-              fullUrl: "Practitioner/b335a2b3-98f9-460d-a3ca-ea5e00d917e3",
+              fullUrl: "Practitioner/ce4fe3b8-afaf-42c3-944b-22a5f3b3e4dc",
               resource: {
                 resourceType: "Practitioner",
-                id: "b335a2b3-98f9-460d-a3ca-ea5e00d917e3",
-                name: [
-                  {
-                    text: "Unknown",
-                    family: "Unknown",
-                  },
-                ],
+                id: "ce4fe3b8-afaf-42c3-944b-22a5f3b3e4dc",
+                name: [{ text: "Unknown", family: "Unknown" }],
               },
             },
             {
-              fullUrl: "Patient/25a33aa6-366f-4b6a-bcd0-75127fb62118",
+              fullUrl: "Patient/6f809212-1d61-42c3-b417-e607f047a899",
               resource: {
                 resourceType: "Patient",
-                id: "25a33aa6-366f-4b6a-bcd0-75127fb62118",
+                id: "6f809212-1d61-42c3-b417-e607f047a899",
                 gender: "unknown",
               },
             },
             {
-              fullUrl: "Encounter/9f4ffa88-6422-4c70-a5e1-4c8c1b7c768d",
+              fullUrl: "Encounter/1efe56b1-af4f-4ddc-85e1-ef5f06a16d6e",
               resource: {
                 resourceType: "Encounter",
-                id: "9f4ffa88-6422-4c70-a5e1-4c8c1b7c768d",
+                id: "1efe56b1-af4f-4ddc-85e1-ef5f06a16d6e",
                 meta: {
                   profile: ["http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"],
                 },
@@ -3249,31 +2667,22 @@ export const expectation25: AnalyzeBatchResult[] = [
                   display: "unknown",
                 },
                 subject: {
-                  reference: "Patient/25a33aa6-366f-4b6a-bcd0-75127fb62118",
+                  reference: "Patient/6f809212-1d61-42c3-b417-e607f047a899",
                   type: "Patient",
-                },
-                period: {
-                  start: "2022-10-08",
-                  end: "2022-10-08",
                 },
               },
             },
             {
-              fullUrl: "MedicationStatement/6e48775e-9788-4d75-b2e1-9304656c6800",
+              fullUrl: "MedicationStatement/7cda64d3-6144-4992-acb6-28c12ebc194f",
               resource: {
                 resourceType: "MedicationStatement",
-                id: "6e48775e-9788-4d75-b2e1-9304656c6800",
+                id: "7cda64d3-6144-4992-acb6-28c12ebc194f",
+                language: "en",
                 extension: [
                   {
                     extension: [
-                      {
-                        url: "offset",
-                        valueInteger: 17,
-                      },
-                      {
-                        url: "length",
-                        valueInteger: 9,
-                      },
+                      { url: "offset", valueInteger: 17 },
+                      { url: "length", valueInteger: 9 },
                     ],
                     url: "http://hl7.org/fhir/StructureDefinition/derivation-reference",
                   },
@@ -3286,131 +2695,47 @@ export const expectation25: AnalyzeBatchResult[] = [
                       code: "C0020740",
                       display: "ibuprofen",
                     },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/aod",
-                      code: "0000019879",
-                    },
-                    {
-                      system: "http://www.whocc.no/atc",
-                      code: "M01AE01",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/ccpss",
-                      code: "0046165",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/chv",
-                      code: "0000006519",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/csp",
-                      code: "2270-2077",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/drugbank",
-                      code: "DB01050",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/gs",
-                      code: "1611",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/lch_nw",
-                      code: "sh97005926",
-                    },
-                    {
-                      system: "http://loinc.org",
-                      code: "LP16165-0",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/medcin",
-                      code: "40458",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/mmsl",
-                      code: "d00015",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/msh",
-                      code: "D007052",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/mthspl",
-                      code: "WK2XYI10QM",
-                    },
-                    {
-                      system: "http://ncimeta.nci.nih.gov",
-                      code: "C561",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/nci_ctrp",
-                      code: "C561",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/nci_dcp",
-                      code: "00803",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/nci_dtp",
-                      code: "NSC0256857",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/nci_fda",
-                      code: "WK2XYI10QM",
-                    },
+                    { system: "http://www.nlm.nih.gov/research/umls/aod", code: "0000019879" },
+                    { system: "http://www.whocc.no/atc", code: "M01AE01" },
+                    { system: "http://www.nlm.nih.gov/research/umls/ccpss", code: "0046165" },
+                    { system: "http://www.nlm.nih.gov/research/umls/chv", code: "0000006519" },
+                    { system: "http://www.nlm.nih.gov/research/umls/csp", code: "2270-2077" },
+                    { system: "http://www.nlm.nih.gov/research/umls/drugbank", code: "DB01050" },
+                    { system: "http://www.nlm.nih.gov/research/umls/gs", code: "1611" },
+                    { system: "http://www.nlm.nih.gov/research/umls/lch_nw", code: "sh97005926" },
+                    { system: "http://loinc.org", code: "LP16165-0" },
+                    { system: "http://www.nlm.nih.gov/research/umls/medcin", code: "40458" },
+                    { system: "http://www.nlm.nih.gov/research/umls/mmsl", code: "d00015" },
+                    { system: "http://www.nlm.nih.gov/research/umls/msh", code: "D007052" },
+                    { system: "http://www.nlm.nih.gov/research/umls/mthspl", code: "WK2XYI10QM" },
+                    { system: "http://ncimeta.nci.nih.gov", code: "C561" },
+                    { system: "http://www.nlm.nih.gov/research/umls/nci_ctrp", code: "C561" },
+                    { system: "http://www.nlm.nih.gov/research/umls/nci_dcp", code: "00803" },
+                    { system: "http://www.nlm.nih.gov/research/umls/nci_dtp", code: "NSC0256857" },
+                    { system: "http://www.nlm.nih.gov/research/umls/nci_fda", code: "WK2XYI10QM" },
                     {
                       system: "http://www.nlm.nih.gov/research/umls/nci_nci-gloss",
                       code: "CDR0000613511",
                     },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/nddf",
-                      code: "002377",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/pdq",
-                      code: "CDR0000040475",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/rcd",
-                      code: "x02MO",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/rxnorm",
-                      code: "5640",
-                    },
-                    {
-                      system: "http://snomed.info/sct",
-                      code: "E-7772",
-                    },
-                    {
-                      system: "http://snomed.info/sct",
-                      code: "C-603C0",
-                    },
-                    {
-                      system: "http://snomed.info/sct",
-                      code: "387207008",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/usp",
-                      code: "m39860",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/uspmg",
-                      code: "MTHU000060",
-                    },
-                    {
-                      system: "http://hl7.org/fhir/ndfrt",
-                      code: "4017840",
-                    },
+                    { system: "http://www.nlm.nih.gov/research/umls/nddf", code: "002377" },
+                    { system: "http://www.nlm.nih.gov/research/umls/pdq", code: "CDR0000040475" },
+                    { system: "http://www.nlm.nih.gov/research/umls/rcd", code: "x02MO" },
+                    { system: "http://www.nlm.nih.gov/research/umls/rxnorm", code: "5640" },
+                    { system: "http://www.nlm.nih.gov/research/umls/snm", code: "E-7772" },
+                    { system: "http://snomed.info/sct/900000000000207008", code: "C-603C0" },
+                    { system: "http://snomed.info/sct", code: "387207008" },
+                    { system: "http://www.nlm.nih.gov/research/umls/usp", code: "m39860" },
+                    { system: "http://www.nlm.nih.gov/research/umls/uspmg", code: "MTHU000060" },
+                    { system: "http://hl7.org/fhir/ndfrt", code: "4017840" },
                   ],
                   text: "ibuprofen",
                 },
                 subject: {
-                  reference: "Patient/25a33aa6-366f-4b6a-bcd0-75127fb62118",
+                  reference: "Patient/6f809212-1d61-42c3-b417-e607f047a899",
                   type: "Patient",
                 },
                 context: {
-                  reference: "Encounter/9f4ffa88-6422-4c70-a5e1-4c8c1b7c768d",
+                  reference: "Encounter/1efe56b1-af4f-4ddc-85e1-ef5f06a16d6e",
                   type: "Encounter",
                   display: "unknown",
                 },
@@ -3418,47 +2743,35 @@ export const expectation25: AnalyzeBatchResult[] = [
                   {
                     text: "100mg",
                     timing: {
-                      repeat: {
-                        frequency: 2,
-                        period: 1,
-                        periodUnit: "d",
-                      },
-                      code: {
-                        text: "twice daily",
-                      },
+                      repeat: { frequency: 2, period: 1, periodUnit: "d" },
+                      code: { text: "twice daily" },
                     },
-                    doseAndRate: [
-                      {
-                        doseQuantity: {
-                          value: 100,
-                        },
-                      },
-                    ],
+                    doseAndRate: [{ doseQuantity: { value: 100 } }],
                   },
                 ],
               },
             },
             {
-              fullUrl: "List/b2e73b7b-999b-440d-8522-dd08a675b63d",
+              fullUrl: "List/688c71ee-9ac0-4f21-8252-33588d538b1d",
               resource: {
                 resourceType: "List",
-                id: "b2e73b7b-999b-440d-8522-dd08a675b63d",
+                id: "688c71ee-9ac0-4f21-8252-33588d538b1d",
                 status: "current",
                 mode: "snapshot",
                 title: "General",
                 subject: {
-                  reference: "Patient/25a33aa6-366f-4b6a-bcd0-75127fb62118",
+                  reference: "Patient/6f809212-1d61-42c3-b417-e607f047a899",
                   type: "Patient",
                 },
                 encounter: {
-                  reference: "Encounter/9f4ffa88-6422-4c70-a5e1-4c8c1b7c768d",
+                  reference: "Encounter/1efe56b1-af4f-4ddc-85e1-ef5f06a16d6e",
                   type: "Encounter",
                   display: "unknown",
                 },
                 entry: [
                   {
                     item: {
-                      reference: "MedicationStatement/6e48775e-9788-4d75-b2e1-9304656c6800",
+                      reference: "MedicationStatement/7cda64d3-6144-4992-acb6-28c12ebc194f",
                       type: "MedicationStatement",
                       display: "ibuprofen",
                     },
@@ -3473,62 +2786,20 @@ export const expectation25: AnalyzeBatchResult[] = [
         entities: [
           {
             dataSources: [
-              {
-                name: "UMLS",
-                entityId: "C0021270",
-              },
-              {
-                name: "AOD",
-                entityId: "0000005273",
-              },
-              {
-                name: "CCPSS",
-                entityId: "0030805",
-              },
-              {
-                name: "CHV",
-                entityId: "0000006675",
-              },
-              {
-                name: "DXP",
-                entityId: "U002089",
-              },
-              {
-                name: "LCH",
-                entityId: "U002421",
-              },
-              {
-                name: "LCH_NW",
-                entityId: "sh85066022",
-              },
-              {
-                name: "LNC",
-                entityId: "LA19747-7",
-              },
-              {
-                name: "MDR",
-                entityId: "10021731",
-              },
-              {
-                name: "MSH",
-                entityId: "D007223",
-              },
-              {
-                name: "NCI",
-                entityId: "C27956",
-              },
-              {
-                name: "NCI_FDA",
-                entityId: "C27956",
-              },
-              {
-                name: "NCI_NICHD",
-                entityId: "C27956",
-              },
-              {
-                name: "SNOMEDCT_US",
-                entityId: "133931009",
-              },
+              { name: "UMLS", entityId: "C0021270" },
+              { name: "AOD", entityId: "0000005273" },
+              { name: "CCPSS", entityId: "0030805" },
+              { name: "CHV", entityId: "0000006675" },
+              { name: "DXP", entityId: "U002089" },
+              { name: "LCH", entityId: "U002421" },
+              { name: "LCH_NW", entityId: "sh85066022" },
+              { name: "LNC", entityId: "LA19747-7" },
+              { name: "MDR", entityId: "10021731" },
+              { name: "MSH", entityId: "D007223" },
+              { name: "NCI", entityId: "C27956" },
+              { name: "NCI_FDA", entityId: "C27956" },
+              { name: "NCI_NICHD", entityId: "C27956" },
+              { name: "SNOMEDCT_US", entityId: "133931009" },
             ],
             text: "Baby",
             category: "Age",
@@ -3539,391 +2810,110 @@ export const expectation25: AnalyzeBatchResult[] = [
           },
           {
             dataSources: [
-              {
-                name: "UMLS",
-                entityId: "C0025289",
-              },
-              {
-                name: "AOD",
-                entityId: "0000006185",
-              },
-              {
-                name: "BI",
-                entityId: "BI00546",
-              },
-              {
-                name: "CCPSS",
-                entityId: "1018016",
-              },
-              {
-                name: "CCSR_10",
-                entityId: "NVS001",
-              },
-              {
-                name: "CCSR_ICD10CM",
-                entityId: "NVS001",
-              },
-              {
-                name: "CHV",
-                entityId: "0000007932",
-              },
-              {
-                name: "COSTAR",
-                entityId: "478",
-              },
-              {
-                name: "CSP",
-                entityId: "2042-5301",
-              },
-              {
-                name: "CST",
-                entityId: "MENINGITIS",
-              },
-              {
-                name: "DXP",
-                entityId: "U002543",
-              },
-              {
-                name: "HPO",
-                entityId: "HP:0001287",
-              },
-              {
-                name: "ICD10",
-                entityId: "G03.9",
-              },
-              {
-                name: "ICD10AM",
-                entityId: "G03.9",
-              },
-              {
-                name: "ICD10CM",
-                entityId: "G03.9",
-              },
-              {
-                name: "ICD9CM",
-                entityId: "322.9",
-              },
-              {
-                name: "ICPC2ICD10ENG",
-                entityId: "MTHU048434",
-              },
-              {
-                name: "ICPC2P",
-                entityId: "N71002",
-              },
-              {
-                name: "LCH",
-                entityId: "U002901",
-              },
-              {
-                name: "LCH_NW",
-                entityId: "sh85083562",
-              },
-              {
-                name: "LNC",
-                entityId: "LP20756-0",
-              },
-              {
-                name: "MDR",
-                entityId: "10027199",
-              },
-              {
-                name: "MEDCIN",
-                entityId: "31192",
-              },
-              {
-                name: "MEDLINEPLUS",
-                entityId: "324",
-              },
-              {
-                name: "MSH",
-                entityId: "D008581",
-              },
-              {
-                name: "NANDA-I",
-                entityId: "02899",
-              },
-              {
-                name: "NCI",
-                entityId: "C26828",
-              },
-              {
-                name: "NCI_CPTAC",
-                entityId: "C26828",
-              },
-              {
-                name: "NCI_CTCAE",
-                entityId: "E11458",
-              },
-              {
-                name: "NCI_FDA",
-                entityId: "2389",
-              },
-              {
-                name: "NCI_NCI-GLOSS",
-                entityId: "CDR0000471780",
-              },
-              {
-                name: "NCI_NICHD",
-                entityId: "C26828",
-              },
-              {
-                name: "NCI_caDSR",
-                entityId: "C26828",
-              },
-              {
-                name: "OMIM",
-                entityId: "MTHU005994",
-              },
-              {
-                name: "PSY",
-                entityId: "30660",
-              },
-              {
-                name: "RCD",
-                entityId: "X000H",
-              },
-              {
-                name: "SNM",
-                entityId: "M-40000",
-              },
-              {
-                name: "SNMI",
-                entityId: "DA-10010",
-              },
-              {
-                name: "SNOMEDCT_US",
-                entityId: "7180009",
-              },
-              {
-                name: "WHO",
-                entityId: "0955",
-              },
+              { name: "UMLS", entityId: "C0025289" },
+              { name: "AOD", entityId: "0000006185" },
+              { name: "BI", entityId: "BI00546" },
+              { name: "CCPSS", entityId: "1018016" },
+              { name: "CCSR_10", entityId: "NVS001" },
+              { name: "CCSR_ICD10CM", entityId: "NVS001" },
+              { name: "CHV", entityId: "0000007932" },
+              { name: "COSTAR", entityId: "478" },
+              { name: "CSP", entityId: "2042-5301" },
+              { name: "CST", entityId: "MENINGITIS" },
+              { name: "DXP", entityId: "U002543" },
+              { name: "HPO", entityId: "HP:0001287" },
+              { name: "ICD10", entityId: "G03.9" },
+              { name: "ICD10AM", entityId: "G03.9" },
+              { name: "ICD10CM", entityId: "G03.9" },
+              { name: "ICD9CM", entityId: "322.9" },
+              { name: "ICPC2ICD10ENG", entityId: "MTHU048434" },
+              { name: "ICPC2P", entityId: "N71002" },
+              { name: "LCH", entityId: "U002901" },
+              { name: "LCH_NW", entityId: "sh85083562" },
+              { name: "LNC", entityId: "LP20756-0" },
+              { name: "MDR", entityId: "10027199" },
+              { name: "MEDCIN", entityId: "31192" },
+              { name: "MEDLINEPLUS", entityId: "324" },
+              { name: "MSH", entityId: "D008581" },
+              { name: "NANDA-I", entityId: "02899" },
+              { name: "NCI", entityId: "C26828" },
+              { name: "NCI_CPTAC", entityId: "C26828" },
+              { name: "NCI_CTCAE", entityId: "E11458" },
+              { name: "NCI_FDA", entityId: "2389" },
+              { name: "NCI_NCI-GLOSS", entityId: "CDR0000471780" },
+              { name: "NCI_NICHD", entityId: "C26828" },
+              { name: "NCI_caDSR", entityId: "C26828" },
+              { name: "OMIM", entityId: "MTHU005994" },
+              { name: "PSY", entityId: "30660" },
+              { name: "RCD", entityId: "X000H" },
+              { name: "SNM", entityId: "M-40000" },
+              { name: "SNMI", entityId: "DA-10010" },
+              { name: "SNOMEDCT_US", entityId: "7180009" },
+              { name: "WHO", entityId: "0955" },
             ],
             text: "Meningitis",
             category: "Diagnosis",
             offset: 24,
             length: 10,
             confidenceScore: 1,
-            assertion: {
-              certainty: "negativePossible",
-            },
+            assertion: { certainty: "negativePossible" },
             normalizedText: "Meningitis",
           },
           {
             dataSources: [
-              {
-                name: "UMLS",
-                entityId: "C0015967",
-              },
-              {
-                name: "AIR",
-                entityId: "FEVER",
-              },
-              {
-                name: "AOD",
-                entityId: "0000004396",
-              },
-              {
-                name: "BI",
-                entityId: "BI00751",
-              },
-              {
-                name: "CCC",
-                entityId: "K25.2",
-              },
-              {
-                name: "CCPSS",
-                entityId: "1017166",
-              },
-              {
-                name: "CCSR_10",
-                entityId: "SYM002",
-              },
-              {
-                name: "CCSR_ICD10CM",
-                entityId: "SYM002",
-              },
-              {
-                name: "CHV",
-                entityId: "0000005010",
-              },
-              {
-                name: "COSTAR",
-                entityId: "300",
-              },
-              {
-                name: "CPM",
-                entityId: "65287",
-              },
-              {
-                name: "CSP",
-                entityId: "2871-4310",
-              },
-              {
-                name: "CST",
-                entityId: "FEVER",
-              },
-              {
-                name: "DXP",
-                entityId: "U001483",
-              },
-              {
-                name: "GO",
-                entityId: "GO:0001660",
-              },
-              {
-                name: "HPO",
-                entityId: "HP:0001945",
-              },
-              {
-                name: "ICD10",
-                entityId: "R50.9",
-              },
-              {
-                name: "ICD10AM",
-                entityId: "R50.9",
-              },
-              {
-                name: "ICD10CM",
-                entityId: "R50.9",
-              },
-              {
-                name: "ICD9CM",
-                entityId: "780.60",
-              },
-              {
-                name: "ICNP",
-                entityId: "10041539",
-              },
-              {
-                name: "ICPC",
-                entityId: "A03",
-              },
-              {
-                name: "ICPC2EENG",
-                entityId: "A03",
-              },
-              {
-                name: "ICPC2ICD10ENG",
-                entityId: "MTHU041751",
-              },
-              {
-                name: "ICPC2P",
-                entityId: "A03002",
-              },
-              {
-                name: "LCH",
-                entityId: "U001776",
-              },
-              {
-                name: "LCH_NW",
-                entityId: "sh85047994",
-              },
-              {
-                name: "LNC",
-                entityId: "MTHU013518",
-              },
-              {
-                name: "MDR",
-                entityId: "10005911",
-              },
-              {
-                name: "MEDCIN",
-                entityId: "6005",
-              },
-              {
-                name: "MEDLINEPLUS",
-                entityId: "511",
-              },
-              {
-                name: "MSH",
-                entityId: "D005334",
-              },
-              {
-                name: "MTHICD9",
-                entityId: "780.60",
-              },
-              {
-                name: "NANDA-I",
-                entityId: "01128",
-              },
-              {
-                name: "NCI",
-                entityId: "C3038",
-              },
-              {
-                name: "NCI_CTCAE",
-                entityId: "E11102",
-              },
-              {
-                name: "NCI_FDA",
-                entityId: "1858",
-              },
-              {
-                name: "NCI_GDC",
-                entityId: "C3038",
-              },
-              {
-                name: "NCI_NCI-GLOSS",
-                entityId: "CDR0000450108",
-              },
-              {
-                name: "NCI_NICHD",
-                entityId: "C3038",
-              },
-              {
-                name: "NCI_caDSR",
-                entityId: "C3038",
-              },
-              {
-                name: "NOC",
-                entityId: "070307",
-              },
-              {
-                name: "OMIM",
-                entityId: "MTHU005439",
-              },
-              {
-                name: "OMS",
-                entityId: "50.03",
-              },
-              {
-                name: "PCDS",
-                entityId: "PRB_11020.02",
-              },
-              {
-                name: "PDQ",
-                entityId: "CDR0000775882",
-              },
-              {
-                name: "PSY",
-                entityId: "23840",
-              },
-              {
-                name: "QMR",
-                entityId: "Q0200115",
-              },
-              {
-                name: "RCD",
-                entityId: "X76EI",
-              },
-              {
-                name: "SNM",
-                entityId: "F-03003",
-              },
-              {
-                name: "SNMI",
-                entityId: "F-03003",
-              },
-              {
-                name: "SNOMEDCT_US",
-                entityId: "386661006",
-              },
-              {
-                name: "WHO",
-                entityId: "0725",
-              },
+              { name: "UMLS", entityId: "C0015967" },
+              { name: "AIR", entityId: "FEVER" },
+              { name: "AOD", entityId: "0000004396" },
+              { name: "BI", entityId: "BI00751" },
+              { name: "CCC", entityId: "K25.2" },
+              { name: "CCPSS", entityId: "1017166" },
+              { name: "CCSR_10", entityId: "SYM002" },
+              { name: "CCSR_ICD10CM", entityId: "SYM002" },
+              { name: "CHV", entityId: "0000005010" },
+              { name: "COSTAR", entityId: "300" },
+              { name: "CPM", entityId: "65287" },
+              { name: "CSP", entityId: "2871-4310" },
+              { name: "CST", entityId: "FEVER" },
+              { name: "DXP", entityId: "U001483" },
+              { name: "GO", entityId: "GO:0001660" },
+              { name: "HPO", entityId: "HP:0001945" },
+              { name: "ICD10", entityId: "R50.9" },
+              { name: "ICD10AM", entityId: "R50.9" },
+              { name: "ICD10CM", entityId: "R50.9" },
+              { name: "ICD9CM", entityId: "780.60" },
+              { name: "ICNP", entityId: "10041539" },
+              { name: "ICPC", entityId: "A03" },
+              { name: "ICPC2EENG", entityId: "A03" },
+              { name: "ICPC2ICD10ENG", entityId: "MTHU041751" },
+              { name: "ICPC2P", entityId: "A03002" },
+              { name: "LCH", entityId: "U001776" },
+              { name: "LCH_NW", entityId: "sh85047994" },
+              { name: "LNC", entityId: "MTHU013518" },
+              { name: "MDR", entityId: "10005911" },
+              { name: "MEDCIN", entityId: "6005" },
+              { name: "MEDLINEPLUS", entityId: "511" },
+              { name: "MSH", entityId: "D005334" },
+              { name: "MTHICD9", entityId: "780.60" },
+              { name: "NANDA-I", entityId: "01128" },
+              { name: "NCI", entityId: "C3038" },
+              { name: "NCI_CTCAE", entityId: "E11102" },
+              { name: "NCI_FDA", entityId: "1858" },
+              { name: "NCI_GDC", entityId: "C3038" },
+              { name: "NCI_NCI-GLOSS", entityId: "CDR0000450108" },
+              { name: "NCI_NICHD", entityId: "C3038" },
+              { name: "NCI_caDSR", entityId: "C3038" },
+              { name: "NOC", entityId: "070307" },
+              { name: "OMIM", entityId: "MTHU005439" },
+              { name: "OMS", entityId: "50.03" },
+              { name: "PCDS", entityId: "PRB_11020.02" },
+              { name: "PDQ", entityId: "CDR0000775882" },
+              { name: "PSY", entityId: "23840" },
+              { name: "QMR", entityId: "Q0200115" },
+              { name: "RCD", entityId: "X76EI" },
+              { name: "SNM", entityId: "F-03003" },
+              { name: "SNMI", entityId: "F-03003" },
+              { name: "SNOMEDCT_US", entityId: "386661006" },
+              { name: "WHO", entityId: "0725" },
             ],
             text: "fever",
             category: "SymptomOrSign",
@@ -3934,78 +2924,24 @@ export const expectation25: AnalyzeBatchResult[] = [
           },
           {
             dataSources: [
-              {
-                name: "UMLS",
-                entityId: "C0026591",
-              },
-              {
-                name: "AOD",
-                entityId: "0000027173",
-              },
-              {
-                name: "CCPSS",
-                entityId: "U000286",
-              },
-              {
-                name: "CHV",
-                entityId: "0000008266",
-              },
-              {
-                name: "CSP",
-                entityId: "1124-5492",
-              },
-              {
-                name: "HL7V3.0",
-                entityId: "MTH",
-              },
-              {
-                name: "LCH",
-                entityId: "U003028",
-              },
-              {
-                name: "LCH_NW",
-                entityId: "sh85087526",
-              },
-              {
-                name: "LNC",
-                entityId: "LA10417-6",
-              },
-              {
-                name: "MSH",
-                entityId: "D009035",
-              },
-              {
-                name: "NCI",
-                entityId: "C25189",
-              },
-              {
-                name: "NCI_CDISC",
-                entityId: "C25189",
-              },
-              {
-                name: "NCI_GDC",
-                entityId: "C25189",
-              },
-              {
-                name: "NCI_caDSR",
-                entityId: "C25189",
-              },
-              {
-                name: "PSY",
-                entityId: "32140",
-              },
-              {
-                name: "RCD",
-                entityId: "X78ym",
-              },
-              {
-                name: "SNMI",
-                entityId: "S-10120",
-              },
-              {
-                name: "SNOMEDCT_US",
-                entityId: "72705000",
-              },
+              { name: "UMLS", entityId: "C0026591" },
+              { name: "AOD", entityId: "0000027173" },
+              { name: "CCPSS", entityId: "U000286" },
+              { name: "CHV", entityId: "0000008266" },
+              { name: "CSP", entityId: "1124-5492" },
+              { name: "HL7V3.0", entityId: "MTH" },
+              { name: "LCH", entityId: "U003028" },
+              { name: "LCH_NW", entityId: "sh85087526" },
+              { name: "LNC", entityId: "LA10417-6" },
+              { name: "MSH", entityId: "D009035" },
+              { name: "NCI", entityId: "C25189" },
+              { name: "NCI_CDISC", entityId: "C25189" },
+              { name: "NCI_GDC", entityId: "C25189" },
+              { name: "NCI_caDSR", entityId: "C25189" },
+              { name: "PSY", entityId: "32140" },
+              { name: "RCD", entityId: "X78ym" },
+              { name: "SNMI", entityId: "S-10120" },
+              { name: "SNOMEDCT_US", entityId: "72705000" },
             ],
             text: "mother",
             category: "FamilyRelation",
@@ -4016,167 +2952,54 @@ export const expectation25: AnalyzeBatchResult[] = [
           },
           {
             dataSources: [
-              {
-                name: "UMLS",
-                entityId: "C0030842",
-              },
-              {
-                name: "AOD",
-                entityId: "0000019206",
-              },
-              {
-                name: "ATC",
-                entityId: "J01C",
-              },
-              {
-                name: "CCPSS",
-                entityId: "0014106",
-              },
-              {
-                name: "CHV",
-                entityId: "0000009423",
-              },
-              {
-                name: "CSP",
-                entityId: "0199-8025",
-              },
-              {
-                name: "GS",
-                entityId: "4011",
-              },
-              {
-                name: "LCH",
-                entityId: "U003521",
-              },
-              {
-                name: "LCH_NW",
-                entityId: "sh85099402",
-              },
-              {
-                name: "LNC",
-                entityId: "LP14319-5",
-              },
-              {
-                name: "MEDCIN",
-                entityId: "40319",
-              },
-              {
-                name: "MMSL",
-                entityId: "d00116",
-              },
-              {
-                name: "MSH",
-                entityId: "D010406",
-              },
-              {
-                name: "NCI",
-                entityId: "C1500",
-              },
-              {
-                name: "NCI_DTP",
-                entityId: "NSC0402815",
-              },
-              {
-                name: "NCI_NCI-GLOSS",
-                entityId: "CDR0000045296",
-              },
-              {
-                name: "NDDF",
-                entityId: "016121",
-              },
-              {
-                name: "PSY",
-                entityId: "37190",
-              },
-              {
-                name: "RCD",
-                entityId: "x009C",
-              },
-              {
-                name: "SNM",
-                entityId: "E-7260",
-              },
-              {
-                name: "SNMI",
-                entityId: "C-54000",
-              },
-              {
-                name: "SNOMEDCT_US",
-                entityId: "764146007",
-              },
-              {
-                name: "VANDF",
-                entityId: "4019880",
-              },
+              { name: "UMLS", entityId: "C0030842" },
+              { name: "AOD", entityId: "0000019206" },
+              { name: "ATC", entityId: "J01C" },
+              { name: "CCPSS", entityId: "0014106" },
+              { name: "CHV", entityId: "0000009423" },
+              { name: "CSP", entityId: "0199-8025" },
+              { name: "GS", entityId: "4011" },
+              { name: "LCH", entityId: "U003521" },
+              { name: "LCH_NW", entityId: "sh85099402" },
+              { name: "LNC", entityId: "LP14319-5" },
+              { name: "MEDCIN", entityId: "40319" },
+              { name: "MMSL", entityId: "d00116" },
+              { name: "MSH", entityId: "D010406" },
+              { name: "NCI", entityId: "C1500" },
+              { name: "NCI_DTP", entityId: "NSC0402815" },
+              { name: "NCI_NCI-GLOSS", entityId: "CDR0000045296" },
+              { name: "NDDF", entityId: "016121" },
+              { name: "PSY", entityId: "37190" },
+              { name: "RCD", entityId: "x009C" },
+              { name: "SNM", entityId: "E-7260" },
+              { name: "SNMI", entityId: "C-54000" },
+              { name: "SNOMEDCT_US", entityId: "764146007" },
+              { name: "VANDF", entityId: "4019880" },
             ],
             text: "Penicillin",
             category: "MedicationName",
             offset: 77,
             length: 10,
             confidenceScore: 0.84,
-            assertion: {
-              certainty: "neutralPossible",
-            },
+            assertion: { certainty: "neutralPossible" },
             normalizedText: "penicillins",
           },
           {
             dataSources: [
-              {
-                name: "UMLS",
-                entityId: "C0021270",
-              },
-              {
-                name: "AOD",
-                entityId: "0000005273",
-              },
-              {
-                name: "CCPSS",
-                entityId: "0030805",
-              },
-              {
-                name: "CHV",
-                entityId: "0000006675",
-              },
-              {
-                name: "DXP",
-                entityId: "U002089",
-              },
-              {
-                name: "LCH",
-                entityId: "U002421",
-              },
-              {
-                name: "LCH_NW",
-                entityId: "sh85066022",
-              },
-              {
-                name: "LNC",
-                entityId: "LA19747-7",
-              },
-              {
-                name: "MDR",
-                entityId: "10021731",
-              },
-              {
-                name: "MSH",
-                entityId: "D007223",
-              },
-              {
-                name: "NCI",
-                entityId: "C27956",
-              },
-              {
-                name: "NCI_FDA",
-                entityId: "C27956",
-              },
-              {
-                name: "NCI_NICHD",
-                entityId: "C27956",
-              },
-              {
-                name: "SNOMEDCT_US",
-                entityId: "133931009",
-              },
+              { name: "UMLS", entityId: "C0021270" },
+              { name: "AOD", entityId: "0000005273" },
+              { name: "CCPSS", entityId: "0030805" },
+              { name: "CHV", entityId: "0000006675" },
+              { name: "DXP", entityId: "U002089" },
+              { name: "LCH", entityId: "U002421" },
+              { name: "LCH_NW", entityId: "sh85066022" },
+              { name: "LNC", entityId: "LA19747-7" },
+              { name: "MDR", entityId: "10021731" },
+              { name: "MSH", entityId: "D007223" },
+              { name: "NCI", entityId: "C27956" },
+              { name: "NCI_FDA", entityId: "C27956" },
+              { name: "NCI_NICHD", entityId: "C27956" },
+              { name: "SNOMEDCT_US", entityId: "133931009" },
             ],
             text: "baby",
             category: "FamilyRelation",
@@ -4191,45 +3014,40 @@ export const expectation25: AnalyzeBatchResult[] = [
         warnings: [],
         fhirBundle: {
           resourceType: "Bundle",
-          id: "96684605-4d17-47e5-b93c-41cd6adce346",
-          meta: {
-            profile: ["http://hl7.org/fhir/4.0.1/StructureDefinition/Bundle"],
-          },
+          id: "df9abed4-38ba-40a0-a5dd-7792fb17f381",
+          meta: { profile: ["http://hl7.org/fhir/4.0.1/StructureDefinition/Bundle"] },
           identifier: {
             system: "urn:ietf:rfc:3986",
-            value: "urn:uuid:96684605-4d17-47e5-b93c-41cd6adce346",
+            value: "urn:uuid:df9abed4-38ba-40a0-a5dd-7792fb17f381",
           },
           type: "document",
           entry: [
             {
-              fullUrl: "Composition/558c82b5-4f10-49bc-a9ba-a1e83a0a2839",
+              fullUrl: "Composition/ad516356-e360-4b1e-a2f7-e9ee94fd0e40",
               resource: {
                 resourceType: "Composition",
-                id: "558c82b5-4f10-49bc-a9ba-a1e83a0a2839",
+                id: "ad516356-e360-4b1e-a2f7-e9ee94fd0e40",
+                language: "en",
                 status: "final",
                 type: {
                   coding: [
-                    {
-                      system: "http://loinc.org",
-                      code: "11526-1",
-                      display: "Pathology study",
-                    },
+                    { system: "http://loinc.org", code: "11526-1", display: "Pathology study" },
                   ],
                   text: "Pathology study",
                 },
                 subject: {
-                  reference: "Patient/4a7e292e-8925-46c7-8a5c-cf256ee612b5",
+                  reference: "Patient/fb8e02d0-057a-40e5-a941-d4885687447c",
                   type: "Patient",
                 },
                 encounter: {
-                  reference: "Encounter/8d75645e-a6f3-4893-821c-369a3d2bb2aa",
+                  reference: "Encounter/dc753fd2-748e-4a01-9e77-6bf8ff2005c9",
                   type: "Encounter",
                   display: "unknown",
                 },
-                date: "2022-10-08",
+                date: "0001-01-01T00:00:00+00:00",
                 author: [
                   {
-                    reference: "Practitioner/49882566-5685-4268-9966-f5e9bf404626",
+                    reference: "Practitioner/d29dbdf8-cbb3-453c-a5ff-465eb646d841",
                     type: "Practitioner",
                     display: "Unknown",
                   },
@@ -4239,12 +3057,7 @@ export const expectation25: AnalyzeBatchResult[] = [
                   {
                     title: "General",
                     code: {
-                      coding: [
-                        {
-                          system: "",
-                          display: "Unrecognized Section",
-                        },
-                      ],
+                      coding: [{ system: "", display: "Unrecognized Section" }],
                       text: "General",
                     },
                     text: {
@@ -4253,7 +3066,7 @@ export const expectation25: AnalyzeBatchResult[] = [
                     },
                     entry: [
                       {
-                        reference: "List/fd55a7ac-f237-4208-aa38-fbf4a7c51a82",
+                        reference: "List/5e0d7db4-283b-4228-98e7-15c9f5de73b3",
                         type: "List",
                         display: "General",
                       },
@@ -4263,31 +3076,26 @@ export const expectation25: AnalyzeBatchResult[] = [
               },
             },
             {
-              fullUrl: "Practitioner/49882566-5685-4268-9966-f5e9bf404626",
+              fullUrl: "Practitioner/d29dbdf8-cbb3-453c-a5ff-465eb646d841",
               resource: {
                 resourceType: "Practitioner",
-                id: "49882566-5685-4268-9966-f5e9bf404626",
-                name: [
-                  {
-                    text: "Unknown",
-                    family: "Unknown",
-                  },
-                ],
+                id: "d29dbdf8-cbb3-453c-a5ff-465eb646d841",
+                name: [{ text: "Unknown", family: "Unknown" }],
               },
             },
             {
-              fullUrl: "Patient/4a7e292e-8925-46c7-8a5c-cf256ee612b5",
+              fullUrl: "Patient/fb8e02d0-057a-40e5-a941-d4885687447c",
               resource: {
                 resourceType: "Patient",
-                id: "4a7e292e-8925-46c7-8a5c-cf256ee612b5",
+                id: "fb8e02d0-057a-40e5-a941-d4885687447c",
                 gender: "unknown",
               },
             },
             {
-              fullUrl: "Encounter/8d75645e-a6f3-4893-821c-369a3d2bb2aa",
+              fullUrl: "Encounter/dc753fd2-748e-4a01-9e77-6bf8ff2005c9",
               resource: {
                 resourceType: "Encounter",
-                id: "8d75645e-a6f3-4893-821c-369a3d2bb2aa",
+                id: "dc753fd2-748e-4a01-9e77-6bf8ff2005c9",
                 meta: {
                   profile: ["http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"],
                 },
@@ -4297,34 +3105,25 @@ export const expectation25: AnalyzeBatchResult[] = [
                   display: "unknown",
                 },
                 subject: {
-                  reference: "Patient/4a7e292e-8925-46c7-8a5c-cf256ee612b5",
+                  reference: "Patient/fb8e02d0-057a-40e5-a941-d4885687447c",
                   type: "Patient",
-                },
-                period: {
-                  start: "2022-10-08",
-                  end: "2022-10-08",
                 },
               },
             },
             {
-              fullUrl: "Condition/1418363e-c718-4760-b18c-a433928d1068",
+              fullUrl: "Condition/a5343e33-ee37-41c7-ada3-ce9e582ec461",
               resource: {
                 resourceType: "Condition",
-                id: "1418363e-c718-4760-b18c-a433928d1068",
+                id: "a5343e33-ee37-41c7-ada3-ce9e582ec461",
                 meta: {
                   profile: ["http://hl7.org/fhir/us/core/StructureDefinition/us-core-condition"],
                 },
+                language: "en",
                 extension: [
                   {
                     extension: [
-                      {
-                        url: "offset",
-                        valueInteger: 24,
-                      },
-                      {
-                        url: "length",
-                        valueInteger: 10,
-                      },
+                      { url: "offset", valueInteger: 24 },
+                      { url: "length", valueInteger: 10 },
                     ],
                     url: "http://hl7.org/fhir/StructureDefinition/derivation-reference",
                   },
@@ -4358,192 +3157,73 @@ export const expectation25: AnalyzeBatchResult[] = [
                       code: "C0025289",
                       display: "Meningitis",
                     },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/aod",
-                      code: "0000006185",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/bi",
-                      code: "BI00546",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/ccpss",
-                      code: "1018016",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/ccsr_10",
-                      code: "NVS001",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/ccsr_icd10cm",
-                      code: "NVS001",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/chv",
-                      code: "0000007932",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/costar",
-                      code: "478",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/csp",
-                      code: "2042-5301",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/cst",
-                      code: "MENINGITIS",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/dxp",
-                      code: "U002543",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/hpo",
-                      code: "HP:0001287",
-                    },
-                    {
-                      system: "http://hl7.org/fhir/sid/icd-10",
-                      code: "G03.9",
-                    },
-                    {
-                      system: "http://hl7.org/fhir/sid/icd-10-am",
-                      code: "G03.9",
-                    },
-                    {
-                      system: "http://hl7.org/fhir/sid/icd-10-cm",
-                      code: "G03.9",
-                    },
-                    {
-                      system: "http://hl7.org/fhir/sid/icd-9-cm",
-                      code: "322.9",
-                    },
-                    {
-                      system: "http://hl7.org/fhir/sid/icpc2icd10eng",
-                      code: "MTHU048434",
-                    },
-                    {
-                      system: "http://hl7.org/fhir/sid/icpc-2p",
-                      code: "N71002",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/lch",
-                      code: "U002901",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/lch_nw",
-                      code: "sh85083562",
-                    },
-                    {
-                      system: "http://loinc.org",
-                      code: "LP20756-0",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/mdr",
-                      code: "10027199",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/medcin",
-                      code: "31192",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/medlineplus",
-                      code: "324",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/msh",
-                      code: "D008581",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/nanda-i",
-                      code: "02899",
-                    },
-                    {
-                      system: "http://ncimeta.nci.nih.gov",
-                      code: "C26828",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/nci_cptac",
-                      code: "C26828",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/nci_ctcae",
-                      code: "E11458",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/nci_fda",
-                      code: "2389",
-                    },
+                    { system: "http://www.nlm.nih.gov/research/umls/aod", code: "0000006185" },
+                    { system: "http://www.nlm.nih.gov/research/umls/bi", code: "BI00546" },
+                    { system: "http://www.nlm.nih.gov/research/umls/ccpss", code: "1018016" },
+                    { system: "http://www.nlm.nih.gov/research/umls/ccsr_10", code: "NVS001" },
+                    { system: "http://www.nlm.nih.gov/research/umls/ccsr_icd10cm", code: "NVS001" },
+                    { system: "http://www.nlm.nih.gov/research/umls/chv", code: "0000007932" },
+                    { system: "http://www.nlm.nih.gov/research/umls/costar", code: "478" },
+                    { system: "http://www.nlm.nih.gov/research/umls/csp", code: "2042-5301" },
+                    { system: "http://www.nlm.nih.gov/research/umls/cst", code: "MENINGITIS" },
+                    { system: "http://www.nlm.nih.gov/research/umls/dxp", code: "U002543" },
+                    { system: "http://www.nlm.nih.gov/research/umls/hpo", code: "HP:0001287" },
+                    { system: "http://hl7.org/fhir/sid/icd-10", code: "G03.9" },
+                    { system: "http://hl7.org/fhir/sid/icd-10-am", code: "G03.9" },
+                    { system: "http://hl7.org/fhir/sid/icd-10-cm", code: "G03.9" },
+                    { system: "http://hl7.org/fhir/sid/icd-9-cm", code: "322.9" },
+                    { system: "http://hl7.org/fhir/sid/icpc2icd10eng", code: "MTHU048434" },
+                    { system: "http://hl7.org/fhir/sid/icpc-2p", code: "N71002" },
+                    { system: "http://www.nlm.nih.gov/research/umls/lch", code: "U002901" },
+                    { system: "http://www.nlm.nih.gov/research/umls/lch_nw", code: "sh85083562" },
+                    { system: "http://loinc.org", code: "LP20756-0" },
+                    { system: "http://www.nlm.nih.gov/research/umls/mdr", code: "10027199" },
+                    { system: "http://www.nlm.nih.gov/research/umls/medcin", code: "31192" },
+                    { system: "http://www.nlm.nih.gov/research/umls/medlineplus", code: "324" },
+                    { system: "http://www.nlm.nih.gov/research/umls/msh", code: "D008581" },
+                    { system: "http://www.nlm.nih.gov/research/umls/nanda-i", code: "02899" },
+                    { system: "http://ncimeta.nci.nih.gov", code: "C26828" },
+                    { system: "http://www.nlm.nih.gov/research/umls/nci_cptac", code: "C26828" },
+                    { system: "http://www.nlm.nih.gov/research/umls/nci_ctcae", code: "E11458" },
+                    { system: "http://www.nlm.nih.gov/research/umls/nci_fda", code: "2389" },
                     {
                       system: "http://www.nlm.nih.gov/research/umls/nci_nci-gloss",
                       code: "CDR0000471780",
                     },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/nci_nichd",
-                      code: "C26828",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/nci_cadsr",
-                      code: "C26828",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/omim",
-                      code: "MTHU005994",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/psy",
-                      code: "30660",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/rcd",
-                      code: "X000H",
-                    },
-                    {
-                      system: "http://snomed.info/sct",
-                      code: "M-40000",
-                    },
-                    {
-                      system: "http://snomed.info/sct",
-                      code: "DA-10010",
-                    },
-                    {
-                      system: "http://snomed.info/sct",
-                      code: "7180009",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/who",
-                      code: "0955",
-                    },
+                    { system: "http://www.nlm.nih.gov/research/umls/nci_nichd", code: "C26828" },
+                    { system: "http://www.nlm.nih.gov/research/umls/nci_cadsr", code: "C26828" },
+                    { system: "http://www.nlm.nih.gov/research/umls/omim", code: "MTHU005994" },
+                    { system: "http://www.nlm.nih.gov/research/umls/psy", code: "30660" },
+                    { system: "http://www.nlm.nih.gov/research/umls/rcd", code: "X000H" },
+                    { system: "http://www.nlm.nih.gov/research/umls/snm", code: "M-40000" },
+                    { system: "http://snomed.info/sct/900000000000207008", code: "DA-10010" },
+                    { system: "http://snomed.info/sct", code: "7180009" },
+                    { system: "http://www.nlm.nih.gov/research/umls/who", code: "0955" },
                   ],
                   text: "Meningitis",
                 },
                 subject: {
-                  reference: "Patient/4a7e292e-8925-46c7-8a5c-cf256ee612b5",
+                  reference: "Patient/fb8e02d0-057a-40e5-a941-d4885687447c",
                   type: "Patient",
                 },
                 encounter: {
-                  reference: "Encounter/8d75645e-a6f3-4893-821c-369a3d2bb2aa",
+                  reference: "Encounter/dc753fd2-748e-4a01-9e77-6bf8ff2005c9",
                   type: "Encounter",
                   display: "unknown",
                 },
               },
             },
             {
-              fullUrl: "Observation/99a0b903-03db-4cff-8eac-065c57c01385",
+              fullUrl: "Observation/a0913311-4fc8-4cdb-97b7-0ea5cff27ba8",
               resource: {
                 resourceType: "Observation",
-                id: "99a0b903-03db-4cff-8eac-065c57c01385",
+                id: "a0913311-4fc8-4cdb-97b7-0ea5cff27ba8",
+                language: "en",
                 extension: [
                   {
                     extension: [
-                      {
-                        url: "offset",
-                        valueInteger: 47,
-                      },
-                      {
-                        url: "length",
-                        valueInteger: 5,
-                      },
+                      { url: "offset", valueInteger: 47 },
+                      { url: "length", valueInteger: 5 },
                     ],
                     url: "http://hl7.org/fhir/StructureDefinition/derivation-reference",
                   },
@@ -4568,223 +3248,70 @@ export const expectation25: AnalyzeBatchResult[] = [
                       code: "C0015967",
                       display: "Fever",
                     },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/air",
-                      code: "FEVER",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/aod",
-                      code: "0000004396",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/bi",
-                      code: "BI00751",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/ccc",
-                      code: "K25.2",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/ccpss",
-                      code: "1017166",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/ccsr_10",
-                      code: "SYM002",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/ccsr_icd10cm",
-                      code: "SYM002",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/chv",
-                      code: "0000005010",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/costar",
-                      code: "300",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/cpm",
-                      code: "65287",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/csp",
-                      code: "2871-4310",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/cst",
-                      code: "FEVER",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/dxp",
-                      code: "U001483",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/go",
-                      code: "GO:0001660",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/hpo",
-                      code: "HP:0001945",
-                    },
-                    {
-                      system: "http://hl7.org/fhir/sid/icd-10",
-                      code: "R50.9",
-                    },
-                    {
-                      system: "http://hl7.org/fhir/sid/icd-10-am",
-                      code: "R50.9",
-                    },
-                    {
-                      system: "http://hl7.org/fhir/sid/icd-10-cm",
-                      code: "R50.9",
-                    },
-                    {
-                      system: "http://hl7.org/fhir/sid/icd-9-cm",
-                      code: "780.60",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/icnp",
-                      code: "10041539",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/icpc",
-                      code: "A03",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/icpc2eeng",
-                      code: "A03",
-                    },
-                    {
-                      system: "http://hl7.org/fhir/sid/icpc2icd10eng",
-                      code: "MTHU041751",
-                    },
-                    {
-                      system: "http://hl7.org/fhir/sid/icpc-2p",
-                      code: "A03002",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/lch",
-                      code: "U001776",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/lch_nw",
-                      code: "sh85047994",
-                    },
-                    {
-                      system: "http://loinc.org",
-                      code: "MTHU013518",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/mdr",
-                      code: "10005911",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/medcin",
-                      code: "6005",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/medlineplus",
-                      code: "511",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/msh",
-                      code: "D005334",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/mthicd9",
-                      code: "780.60",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/nanda-i",
-                      code: "01128",
-                    },
-                    {
-                      system: "http://ncimeta.nci.nih.gov",
-                      code: "C3038",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/nci_ctcae",
-                      code: "E11102",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/nci_fda",
-                      code: "1858",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/nci_gdc",
-                      code: "C3038",
-                    },
+                    { system: "http://www.nlm.nih.gov/research/umls/air", code: "FEVER" },
+                    { system: "http://www.nlm.nih.gov/research/umls/aod", code: "0000004396" },
+                    { system: "http://www.nlm.nih.gov/research/umls/bi", code: "BI00751" },
+                    { system: "http://www.nlm.nih.gov/research/umls/ccc", code: "K25.2" },
+                    { system: "http://www.nlm.nih.gov/research/umls/ccpss", code: "1017166" },
+                    { system: "http://www.nlm.nih.gov/research/umls/ccsr_10", code: "SYM002" },
+                    { system: "http://www.nlm.nih.gov/research/umls/ccsr_icd10cm", code: "SYM002" },
+                    { system: "http://www.nlm.nih.gov/research/umls/chv", code: "0000005010" },
+                    { system: "http://www.nlm.nih.gov/research/umls/costar", code: "300" },
+                    { system: "http://www.nlm.nih.gov/research/umls/cpm", code: "65287" },
+                    { system: "http://www.nlm.nih.gov/research/umls/csp", code: "2871-4310" },
+                    { system: "http://www.nlm.nih.gov/research/umls/cst", code: "FEVER" },
+                    { system: "http://www.nlm.nih.gov/research/umls/dxp", code: "U001483" },
+                    { system: "http://www.nlm.nih.gov/research/umls/go", code: "GO:0001660" },
+                    { system: "http://www.nlm.nih.gov/research/umls/hpo", code: "HP:0001945" },
+                    { system: "http://hl7.org/fhir/sid/icd-10", code: "R50.9" },
+                    { system: "http://hl7.org/fhir/sid/icd-10-am", code: "R50.9" },
+                    { system: "http://hl7.org/fhir/sid/icd-10-cm", code: "R50.9" },
+                    { system: "http://hl7.org/fhir/sid/icd-9-cm", code: "780.60" },
+                    { system: "http://www.nlm.nih.gov/research/umls/icnp", code: "10041539" },
+                    { system: "http://www.nlm.nih.gov/research/umls/icpc", code: "A03" },
+                    { system: "http://www.nlm.nih.gov/research/umls/icpc2eeng", code: "A03" },
+                    { system: "http://hl7.org/fhir/sid/icpc2icd10eng", code: "MTHU041751" },
+                    { system: "http://hl7.org/fhir/sid/icpc-2p", code: "A03002" },
+                    { system: "http://www.nlm.nih.gov/research/umls/lch", code: "U001776" },
+                    { system: "http://www.nlm.nih.gov/research/umls/lch_nw", code: "sh85047994" },
+                    { system: "http://loinc.org", code: "MTHU013518" },
+                    { system: "http://www.nlm.nih.gov/research/umls/mdr", code: "10005911" },
+                    { system: "http://www.nlm.nih.gov/research/umls/medcin", code: "6005" },
+                    { system: "http://www.nlm.nih.gov/research/umls/medlineplus", code: "511" },
+                    { system: "http://www.nlm.nih.gov/research/umls/msh", code: "D005334" },
+                    { system: "http://www.nlm.nih.gov/research/umls/mthicd9", code: "780.60" },
+                    { system: "http://www.nlm.nih.gov/research/umls/nanda-i", code: "01128" },
+                    { system: "http://ncimeta.nci.nih.gov", code: "C3038" },
+                    { system: "http://www.nlm.nih.gov/research/umls/nci_ctcae", code: "E11102" },
+                    { system: "http://www.nlm.nih.gov/research/umls/nci_fda", code: "1858" },
+                    { system: "http://www.nlm.nih.gov/research/umls/nci_gdc", code: "C3038" },
                     {
                       system: "http://www.nlm.nih.gov/research/umls/nci_nci-gloss",
                       code: "CDR0000450108",
                     },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/nci_nichd",
-                      code: "C3038",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/nci_cadsr",
-                      code: "C3038",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/noc",
-                      code: "070307",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/omim",
-                      code: "MTHU005439",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/oms",
-                      code: "50.03",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/pcds",
-                      code: "PRB_11020.02",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/pdq",
-                      code: "CDR0000775882",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/psy",
-                      code: "23840",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/qmr",
-                      code: "Q0200115",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/rcd",
-                      code: "X76EI",
-                    },
-                    {
-                      system: "http://snomed.info/sct",
-                      code: "F-03003",
-                    },
-                    {
-                      system: "http://snomed.info/sct",
-                      code: "F-03003",
-                    },
-                    {
-                      system: "http://snomed.info/sct",
-                      code: "386661006",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/who",
-                      code: "0725",
-                    },
+                    { system: "http://www.nlm.nih.gov/research/umls/nci_nichd", code: "C3038" },
+                    { system: "http://www.nlm.nih.gov/research/umls/nci_cadsr", code: "C3038" },
+                    { system: "http://www.nlm.nih.gov/research/umls/noc", code: "070307" },
+                    { system: "http://www.nlm.nih.gov/research/umls/omim", code: "MTHU005439" },
+                    { system: "http://www.nlm.nih.gov/research/umls/oms", code: "50.03" },
+                    { system: "http://www.nlm.nih.gov/research/umls/pcds", code: "PRB_11020.02" },
+                    { system: "http://www.nlm.nih.gov/research/umls/pdq", code: "CDR0000775882" },
+                    { system: "http://www.nlm.nih.gov/research/umls/psy", code: "23840" },
+                    { system: "http://www.nlm.nih.gov/research/umls/qmr", code: "Q0200115" },
+                    { system: "http://www.nlm.nih.gov/research/umls/rcd", code: "X76EI" },
+                    { system: "http://www.nlm.nih.gov/research/umls/snm", code: "F-03003" },
+                    { system: "http://snomed.info/sct/900000000000207008", code: "F-03003" },
+                    { system: "http://snomed.info/sct", code: "386661006" },
+                    { system: "http://www.nlm.nih.gov/research/umls/who", code: "0725" },
                   ],
                   text: "fever",
                 },
                 subject: {
-                  reference: "Patient/4a7e292e-8925-46c7-8a5c-cf256ee612b5",
+                  reference: "Patient/fb8e02d0-057a-40e5-a941-d4885687447c",
                   type: "Patient",
                 },
                 encounter: {
-                  reference: "Encounter/8d75645e-a6f3-4893-821c-369a3d2bb2aa",
+                  reference: "Encounter/dc753fd2-748e-4a01-9e77-6bf8ff2005c9",
                   type: "Encounter",
                   display: "unknown",
                 },
@@ -4804,21 +3331,16 @@ export const expectation25: AnalyzeBatchResult[] = [
               },
             },
             {
-              fullUrl: "MedicationStatement/9e0910da-742e-45e9-adfc-608188e1be2b",
+              fullUrl: "MedicationStatement/8a624b1d-3fb1-49ec-97cc-a4dc6907e69d",
               resource: {
                 resourceType: "MedicationStatement",
-                id: "9e0910da-742e-45e9-adfc-608188e1be2b",
+                id: "8a624b1d-3fb1-49ec-97cc-a4dc6907e69d",
+                language: "en",
                 extension: [
                   {
                     extension: [
-                      {
-                        url: "offset",
-                        valueInteger: 77,
-                      },
-                      {
-                        url: "length",
-                        valueInteger: 10,
-                      },
+                      { url: "offset", valueInteger: 77 },
+                      { url: "length", valueInteger: 10 },
                     ],
                     url: "http://hl7.org/fhir/StructureDefinition/derivation-reference",
                   },
@@ -4831,143 +3353,80 @@ export const expectation25: AnalyzeBatchResult[] = [
                       code: "C0030842",
                       display: "penicillins",
                     },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/aod",
-                      code: "0000019206",
-                    },
-                    {
-                      system: "http://www.whocc.no/atc",
-                      code: "J01C",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/ccpss",
-                      code: "0014106",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/chv",
-                      code: "0000009423",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/csp",
-                      code: "0199-8025",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/gs",
-                      code: "4011",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/lch",
-                      code: "U003521",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/lch_nw",
-                      code: "sh85099402",
-                    },
-                    {
-                      system: "http://loinc.org",
-                      code: "LP14319-5",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/medcin",
-                      code: "40319",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/mmsl",
-                      code: "d00116",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/msh",
-                      code: "D010406",
-                    },
-                    {
-                      system: "http://ncimeta.nci.nih.gov",
-                      code: "C1500",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/nci_dtp",
-                      code: "NSC0402815",
-                    },
+                    { system: "http://www.nlm.nih.gov/research/umls/aod", code: "0000019206" },
+                    { system: "http://www.whocc.no/atc", code: "J01C" },
+                    { system: "http://www.nlm.nih.gov/research/umls/ccpss", code: "0014106" },
+                    { system: "http://www.nlm.nih.gov/research/umls/chv", code: "0000009423" },
+                    { system: "http://www.nlm.nih.gov/research/umls/csp", code: "0199-8025" },
+                    { system: "http://www.nlm.nih.gov/research/umls/gs", code: "4011" },
+                    { system: "http://www.nlm.nih.gov/research/umls/lch", code: "U003521" },
+                    { system: "http://www.nlm.nih.gov/research/umls/lch_nw", code: "sh85099402" },
+                    { system: "http://loinc.org", code: "LP14319-5" },
+                    { system: "http://www.nlm.nih.gov/research/umls/medcin", code: "40319" },
+                    { system: "http://www.nlm.nih.gov/research/umls/mmsl", code: "d00116" },
+                    { system: "http://www.nlm.nih.gov/research/umls/msh", code: "D010406" },
+                    { system: "http://ncimeta.nci.nih.gov", code: "C1500" },
+                    { system: "http://www.nlm.nih.gov/research/umls/nci_dtp", code: "NSC0402815" },
                     {
                       system: "http://www.nlm.nih.gov/research/umls/nci_nci-gloss",
                       code: "CDR0000045296",
                     },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/nddf",
-                      code: "016121",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/psy",
-                      code: "37190",
-                    },
-                    {
-                      system: "http://www.nlm.nih.gov/research/umls/rcd",
-                      code: "x009C",
-                    },
-                    {
-                      system: "http://snomed.info/sct",
-                      code: "E-7260",
-                    },
-                    {
-                      system: "http://snomed.info/sct",
-                      code: "C-54000",
-                    },
-                    {
-                      system: "http://snomed.info/sct",
-                      code: "764146007",
-                    },
-                    {
-                      system: "http://hl7.org/fhir/ndfrt",
-                      code: "4019880",
-                    },
+                    { system: "http://www.nlm.nih.gov/research/umls/nddf", code: "016121" },
+                    { system: "http://www.nlm.nih.gov/research/umls/psy", code: "37190" },
+                    { system: "http://www.nlm.nih.gov/research/umls/rcd", code: "x009C" },
+                    { system: "http://www.nlm.nih.gov/research/umls/snm", code: "E-7260" },
+                    { system: "http://snomed.info/sct/900000000000207008", code: "C-54000" },
+                    { system: "http://snomed.info/sct", code: "764146007" },
+                    { system: "http://hl7.org/fhir/ndfrt", code: "4019880" },
                   ],
                   text: "Penicillin",
                 },
                 subject: {
-                  reference: "Patient/4a7e292e-8925-46c7-8a5c-cf256ee612b5",
+                  reference: "Patient/fb8e02d0-057a-40e5-a941-d4885687447c",
                   type: "Patient",
                 },
                 context: {
-                  reference: "Encounter/8d75645e-a6f3-4893-821c-369a3d2bb2aa",
+                  reference: "Encounter/dc753fd2-748e-4a01-9e77-6bf8ff2005c9",
                   type: "Encounter",
                   display: "unknown",
                 },
               },
             },
             {
-              fullUrl: "List/fd55a7ac-f237-4208-aa38-fbf4a7c51a82",
+              fullUrl: "List/5e0d7db4-283b-4228-98e7-15c9f5de73b3",
               resource: {
                 resourceType: "List",
-                id: "fd55a7ac-f237-4208-aa38-fbf4a7c51a82",
+                id: "5e0d7db4-283b-4228-98e7-15c9f5de73b3",
                 status: "current",
                 mode: "snapshot",
                 title: "General",
                 subject: {
-                  reference: "Patient/4a7e292e-8925-46c7-8a5c-cf256ee612b5",
+                  reference: "Patient/fb8e02d0-057a-40e5-a941-d4885687447c",
                   type: "Patient",
                 },
                 encounter: {
-                  reference: "Encounter/8d75645e-a6f3-4893-821c-369a3d2bb2aa",
+                  reference: "Encounter/dc753fd2-748e-4a01-9e77-6bf8ff2005c9",
                   type: "Encounter",
                   display: "unknown",
                 },
                 entry: [
                   {
                     item: {
-                      reference: "Condition/1418363e-c718-4760-b18c-a433928d1068",
+                      reference: "Condition/a5343e33-ee37-41c7-ada3-ce9e582ec461",
                       type: "Condition",
                       display: "Meningitis",
                     },
                   },
                   {
                     item: {
-                      reference: "Observation/99a0b903-03db-4cff-8eac-065c57c01385",
+                      reference: "Observation/a0913311-4fc8-4cdb-97b7-0ea5cff27ba8",
                       type: "Observation",
                       display: "fever",
                     },
                   },
                   {
                     item: {
-                      reference: "MedicationStatement/9e0910da-742e-45e9-adfc-608188e1be2b",
+                      reference: "MedicationStatement/8a624b1d-3fb1-49ec-97cc-a4dc6907e69d",
                       type: "MedicationStatement",
                       display: "Penicillin",
                     },
@@ -5518,7 +3977,7 @@ export const expectation30: AnalyzeBatchResult[] = [
         id: "0",
         summaries: [
           {
-            text: "Microsoft’s Cloud PC is a new type of virtualization for Windows.\nThe Cloud PC lets users access Windows 10 or Windows 11 on any device, from anywhere with an internet connection.\n\nThe Cloud PCs are designed for a mobile and mobile workforce.",
+            text: "Microsoft’s Cloud PC puts Windows in the cloud.\nCloud PCs are easy to set up and deploy for today’s mobile and elastic workforces.\n\nCloud PCs can be accessed through a native app or web browser on any device, from anywhere with an internet connection.",
             contexts: [{ offset: 0, length: 7519 }],
           },
         ],
@@ -5528,7 +3987,7 @@ export const expectation30: AnalyzeBatchResult[] = [
         id: "1",
         summaries: [
           {
-            text: "Microsoft’s new Cloud PC, Windows 365, is designed to support a hybrid workforce.\nThe new system allows remote workers to access their work environment from anywhere.\n\nThe Government of Nunavut is testing Windows 365.",
+            text: "Microsoft’s new Cloud PC, Windows 365, is designed for the hybrid workforce.\nThe ability to login to a Cloud PC from anywhere on any device is part of Microsoft’S larger strategy around tailoring products for the post-pandemic hybrid workforce of the future.",
             contexts: [{ offset: 0, length: 3416 }],
           },
         ],
@@ -5832,48 +4291,45 @@ export const expectation32: AnalyzeBatchResult[] = [
         warnings: [],
         fhirBundle: {
           resourceType: "Bundle",
-          id: "89c34c86-7860-44a2-8e0f-0381c45929d5",
+          id: "de09cedf-3bdd-4fb9-902a-0cebb94c621d",
           meta: { profile: ["http://hl7.org/fhir/4.0.1/StructureDefinition/Bundle"] },
           identifier: {
             system: "urn:ietf:rfc:3986",
-            value: "urn:uuid:89c34c86-7860-44a2-8e0f-0381c45929d5",
+            value: "urn:uuid:de09cedf-3bdd-4fb9-902a-0cebb94c621d",
           },
           type: "document",
           entry: [
             {
-              fullUrl: "Composition/891e115b-d9f4-48c2-b775-5d4b8acea4f5",
+              fullUrl: "Composition/5f5bbb7c-0ef5-473a-bdba-788ab0d61863",
               resource: {
                 resourceType: "Composition",
-                id: "891e115b-d9f4-48c2-b775-5d4b8acea4f5",
+                id: "5f5bbb7c-0ef5-473a-bdba-788ab0d61863",
+                language: "en",
                 status: "final",
                 type: {
                   coding: [
-                    {
-                      system: "http://loinc.org",
-                      code: "34117-2",
-                      display: "History and physical note",
-                    },
+                    { system: "http://loinc.org", code: "18842-5", display: "Discharge summary" },
                   ],
-                  text: "History and physical note",
+                  text: "Discharge summary",
                 },
                 subject: {
-                  reference: "Patient/bf5a6ab0-1886-4b54-bace-98a0732e9c52",
+                  reference: "Patient/51881afd-5713-4966-9e36-4564ffe12400",
                   type: "Patient",
                 },
                 encounter: {
-                  reference: "Encounter/1cbae571-8e4d-4b7c-9830-b4921d5b0943",
+                  reference: "Encounter/18210bfc-0fe1-4bf5-9439-774379af575a",
                   type: "Encounter",
                   display: "unknown",
                 },
-                date: "2022-10-20",
+                date: "0001-01-01T00:00:00+00:00",
                 author: [
                   {
-                    reference: "Practitioner/69178986-49dc-4ca1-9769-10b757b8c5cf",
+                    reference: "Practitioner/0a60b7b0-d6c4-4384-85f6-163a51def135",
                     type: "Practitioner",
                     display: "Unknown",
                   },
                 ],
-                title: "History and physical note",
+                title: "Discharge summary",
                 section: [
                   {
                     title: "General",
@@ -5887,7 +4343,7 @@ export const expectation32: AnalyzeBatchResult[] = [
                     },
                     entry: [
                       {
-                        reference: "List/cba47f79-db0d-4c1a-8850-e19021b36b21",
+                        reference: "List/aae5fe83-71bb-4ddc-aa47-c425dbc11b37",
                         type: "List",
                         display: "General",
                       },
@@ -5897,26 +4353,26 @@ export const expectation32: AnalyzeBatchResult[] = [
               },
             },
             {
-              fullUrl: "Practitioner/69178986-49dc-4ca1-9769-10b757b8c5cf",
+              fullUrl: "Practitioner/0a60b7b0-d6c4-4384-85f6-163a51def135",
               resource: {
                 resourceType: "Practitioner",
-                id: "69178986-49dc-4ca1-9769-10b757b8c5cf",
+                id: "0a60b7b0-d6c4-4384-85f6-163a51def135",
                 name: [{ text: "Unknown", family: "Unknown" }],
               },
             },
             {
-              fullUrl: "Patient/bf5a6ab0-1886-4b54-bace-98a0732e9c52",
+              fullUrl: "Patient/51881afd-5713-4966-9e36-4564ffe12400",
               resource: {
                 resourceType: "Patient",
-                id: "bf5a6ab0-1886-4b54-bace-98a0732e9c52",
-                gender: "unknown",
+                id: "51881afd-5713-4966-9e36-4564ffe12400",
+                gender: "male",
               },
             },
             {
-              fullUrl: "Encounter/1cbae571-8e4d-4b7c-9830-b4921d5b0943",
+              fullUrl: "Encounter/18210bfc-0fe1-4bf5-9439-774379af575a",
               resource: {
                 resourceType: "Encounter",
-                id: "1cbae571-8e4d-4b7c-9830-b4921d5b0943",
+                id: "18210bfc-0fe1-4bf5-9439-774379af575a",
                 meta: {
                   profile: ["http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"],
                 },
@@ -5926,17 +4382,17 @@ export const expectation32: AnalyzeBatchResult[] = [
                   display: "unknown",
                 },
                 subject: {
-                  reference: "Patient/bf5a6ab0-1886-4b54-bace-98a0732e9c52",
+                  reference: "Patient/51881afd-5713-4966-9e36-4564ffe12400",
                   type: "Patient",
                 },
-                period: { start: "2022-10-20", end: "2022-10-20" },
               },
             },
             {
-              fullUrl: "Observation/57b0413c-8e10-4596-9242-9b7aa8ad943b",
+              fullUrl: "Observation/765e2c26-0e90-4921-9e90-b30358ab476e",
               resource: {
                 resourceType: "Observation",
-                id: "57b0413c-8e10-4596-9242-9b7aa8ad943b",
+                id: "765e2c26-0e90-4921-9e90-b30358ab476e",
+                language: "en",
                 extension: [
                   {
                     extension: [
@@ -6006,19 +4462,19 @@ export const expectation32: AnalyzeBatchResult[] = [
                     { system: "http://www.nlm.nih.gov/research/umls/qmr", code: "Q0300326" },
                     { system: "http://www.nlm.nih.gov/research/umls/rcd", code: "G33.." },
                     { system: "http://www.nlm.nih.gov/research/umls/rcdae", code: "Ua1eH" },
-                    { system: "http://snomed.info/sct", code: "F-71500" },
-                    { system: "http://snomed.info/sct", code: "D3-12000" },
+                    { system: "http://www.nlm.nih.gov/research/umls/snm", code: "F-71500" },
+                    { system: "http://snomed.info/sct/900000000000207008", code: "D3-12000" },
                     { system: "http://snomed.info/sct", code: "194828000" },
                     { system: "http://www.nlm.nih.gov/research/umls/who", code: "0422" },
                   ],
                   text: "angina",
                 },
                 subject: {
-                  reference: "Patient/bf5a6ab0-1886-4b54-bace-98a0732e9c52",
+                  reference: "Patient/51881afd-5713-4966-9e36-4564ffe12400",
                   type: "Patient",
                 },
                 encounter: {
-                  reference: "Encounter/1cbae571-8e4d-4b7c-9830-b4921d5b0943",
+                  reference: "Encounter/18210bfc-0fe1-4bf5-9439-774379af575a",
                   type: "Encounter",
                   display: "unknown",
                 },
@@ -6054,26 +4510,26 @@ export const expectation32: AnalyzeBatchResult[] = [
               },
             },
             {
-              fullUrl: "List/cba47f79-db0d-4c1a-8850-e19021b36b21",
+              fullUrl: "List/aae5fe83-71bb-4ddc-aa47-c425dbc11b37",
               resource: {
                 resourceType: "List",
-                id: "cba47f79-db0d-4c1a-8850-e19021b36b21",
+                id: "aae5fe83-71bb-4ddc-aa47-c425dbc11b37",
                 status: "current",
                 mode: "snapshot",
                 title: "General",
                 subject: {
-                  reference: "Patient/bf5a6ab0-1886-4b54-bace-98a0732e9c52",
+                  reference: "Patient/51881afd-5713-4966-9e36-4564ffe12400",
                   type: "Patient",
                 },
                 encounter: {
-                  reference: "Encounter/1cbae571-8e4d-4b7c-9830-b4921d5b0943",
+                  reference: "Encounter/18210bfc-0fe1-4bf5-9439-774379af575a",
                   type: "Encounter",
                   display: "unknown",
                 },
                 entry: [
                   {
                     item: {
-                      reference: "Observation/57b0413c-8e10-4596-9242-9b7aa8ad943b",
+                      reference: "Observation/765e2c26-0e90-4921-9e90-b30358ab476e",
                       type: "Observation",
                       display: "angina",
                     },
@@ -6269,44 +4725,45 @@ export const expectation32: AnalyzeBatchResult[] = [
         warnings: [],
         fhirBundle: {
           resourceType: "Bundle",
-          id: "efbff2f2-21fa-435d-9998-d23244d44327",
+          id: "2ab7e599-8b93-405a-99c0-3e0aa15e5357",
           meta: { profile: ["http://hl7.org/fhir/4.0.1/StructureDefinition/Bundle"] },
           identifier: {
             system: "urn:ietf:rfc:3986",
-            value: "urn:uuid:efbff2f2-21fa-435d-9998-d23244d44327",
+            value: "urn:uuid:2ab7e599-8b93-405a-99c0-3e0aa15e5357",
           },
           type: "document",
           entry: [
             {
-              fullUrl: "Composition/55e49b56-2a2b-42c8-b2b6-cfed58577bed",
+              fullUrl: "Composition/05a2583b-2950-468b-84e7-0d0e8c93d565",
               resource: {
                 resourceType: "Composition",
-                id: "55e49b56-2a2b-42c8-b2b6-cfed58577bed",
+                id: "05a2583b-2950-468b-84e7-0d0e8c93d565",
+                language: "en",
                 status: "final",
                 type: {
                   coding: [
-                    { system: "http://loinc.org", code: "11526-1", display: "Pathology study" },
+                    { system: "http://loinc.org", code: "18842-5", display: "Discharge summary" },
                   ],
-                  text: "Pathology study",
+                  text: "Discharge summary",
                 },
                 subject: {
-                  reference: "Patient/28eab72a-00e0-49e8-b148-a842ae0bff3f",
+                  reference: "Patient/b934435a-7dcf-4377-adab-ff9472cf3788",
                   type: "Patient",
                 },
                 encounter: {
-                  reference: "Encounter/81a94f75-83a8-4b5e-81e3-2887468f9f95",
+                  reference: "Encounter/67140a2c-7a7d-4da1-9457-9f77d8412325",
                   type: "Encounter",
                   display: "unknown",
                 },
-                date: "2022-10-20",
+                date: "0001-01-01T00:00:00+00:00",
                 author: [
                   {
-                    reference: "Practitioner/6ee026e2-c7eb-42b3-81b3-7e40a26c05e8",
+                    reference: "Practitioner/d7e36f71-78a7-4813-840f-aff949879ce6",
                     type: "Practitioner",
                     display: "Unknown",
                   },
                 ],
-                title: "Pathology study",
+                title: "Discharge summary",
                 section: [
                   {
                     title: "General",
@@ -6320,7 +4777,7 @@ export const expectation32: AnalyzeBatchResult[] = [
                     },
                     entry: [
                       {
-                        reference: "List/651ec020-0c69-44d9-9d2c-c0c40b50725a",
+                        reference: "List/76345e65-1dc8-4fae-bc14-e61f347518c8",
                         type: "List",
                         display: "General",
                       },
@@ -6330,26 +4787,26 @@ export const expectation32: AnalyzeBatchResult[] = [
               },
             },
             {
-              fullUrl: "Practitioner/6ee026e2-c7eb-42b3-81b3-7e40a26c05e8",
+              fullUrl: "Practitioner/d7e36f71-78a7-4813-840f-aff949879ce6",
               resource: {
                 resourceType: "Practitioner",
-                id: "6ee026e2-c7eb-42b3-81b3-7e40a26c05e8",
+                id: "d7e36f71-78a7-4813-840f-aff949879ce6",
                 name: [{ text: "Unknown", family: "Unknown" }],
               },
             },
             {
-              fullUrl: "Patient/28eab72a-00e0-49e8-b148-a842ae0bff3f",
+              fullUrl: "Patient/b934435a-7dcf-4377-adab-ff9472cf3788",
               resource: {
                 resourceType: "Patient",
-                id: "28eab72a-00e0-49e8-b148-a842ae0bff3f",
+                id: "b934435a-7dcf-4377-adab-ff9472cf3788",
                 gender: "unknown",
               },
             },
             {
-              fullUrl: "Encounter/81a94f75-83a8-4b5e-81e3-2887468f9f95",
+              fullUrl: "Encounter/67140a2c-7a7d-4da1-9457-9f77d8412325",
               resource: {
                 resourceType: "Encounter",
-                id: "81a94f75-83a8-4b5e-81e3-2887468f9f95",
+                id: "67140a2c-7a7d-4da1-9457-9f77d8412325",
                 meta: {
                   profile: ["http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"],
                 },
@@ -6359,17 +4816,17 @@ export const expectation32: AnalyzeBatchResult[] = [
                   display: "unknown",
                 },
                 subject: {
-                  reference: "Patient/28eab72a-00e0-49e8-b148-a842ae0bff3f",
+                  reference: "Patient/b934435a-7dcf-4377-adab-ff9472cf3788",
                   type: "Patient",
                 },
-                period: { start: "2022-10-20", end: "2022-10-20" },
               },
             },
             {
-              fullUrl: "MedicationStatement/1a5cbdcd-8020-4a8d-8f86-f0c0460bfa64",
+              fullUrl: "MedicationStatement/23fdeb0c-2f4a-43ff-bdca-33b8fecf34c7",
               resource: {
                 resourceType: "MedicationStatement",
-                id: "1a5cbdcd-8020-4a8d-8f86-f0c0460bfa64",
+                id: "23fdeb0c-2f4a-43ff-bdca-33b8fecf34c7",
+                language: "en",
                 extension: [
                   {
                     extension: [
@@ -6413,8 +4870,8 @@ export const expectation32: AnalyzeBatchResult[] = [
                     { system: "http://www.nlm.nih.gov/research/umls/pdq", code: "CDR0000040475" },
                     { system: "http://www.nlm.nih.gov/research/umls/rcd", code: "x02MO" },
                     { system: "http://www.nlm.nih.gov/research/umls/rxnorm", code: "5640" },
-                    { system: "http://snomed.info/sct", code: "E-7772" },
-                    { system: "http://snomed.info/sct", code: "C-603C0" },
+                    { system: "http://www.nlm.nih.gov/research/umls/snm", code: "E-7772" },
+                    { system: "http://snomed.info/sct/900000000000207008", code: "C-603C0" },
                     { system: "http://snomed.info/sct", code: "387207008" },
                     { system: "http://www.nlm.nih.gov/research/umls/usp", code: "m39860" },
                     { system: "http://www.nlm.nih.gov/research/umls/uspmg", code: "MTHU000060" },
@@ -6423,11 +4880,11 @@ export const expectation32: AnalyzeBatchResult[] = [
                   text: "ibuprofen",
                 },
                 subject: {
-                  reference: "Patient/28eab72a-00e0-49e8-b148-a842ae0bff3f",
+                  reference: "Patient/b934435a-7dcf-4377-adab-ff9472cf3788",
                   type: "Patient",
                 },
                 context: {
-                  reference: "Encounter/81a94f75-83a8-4b5e-81e3-2887468f9f95",
+                  reference: "Encounter/67140a2c-7a7d-4da1-9457-9f77d8412325",
                   type: "Encounter",
                   display: "unknown",
                 },
@@ -6444,26 +4901,26 @@ export const expectation32: AnalyzeBatchResult[] = [
               },
             },
             {
-              fullUrl: "List/651ec020-0c69-44d9-9d2c-c0c40b50725a",
+              fullUrl: "List/76345e65-1dc8-4fae-bc14-e61f347518c8",
               resource: {
                 resourceType: "List",
-                id: "651ec020-0c69-44d9-9d2c-c0c40b50725a",
+                id: "76345e65-1dc8-4fae-bc14-e61f347518c8",
                 status: "current",
                 mode: "snapshot",
                 title: "General",
                 subject: {
-                  reference: "Patient/28eab72a-00e0-49e8-b148-a842ae0bff3f",
+                  reference: "Patient/b934435a-7dcf-4377-adab-ff9472cf3788",
                   type: "Patient",
                 },
                 encounter: {
-                  reference: "Encounter/81a94f75-83a8-4b5e-81e3-2887468f9f95",
+                  reference: "Encounter/67140a2c-7a7d-4da1-9457-9f77d8412325",
                   type: "Encounter",
                   display: "unknown",
                 },
                 entry: [
                   {
                     item: {
-                      reference: "MedicationStatement/1a5cbdcd-8020-4a8d-8f86-f0c0460bfa64",
+                      reference: "MedicationStatement/23fdeb0c-2f4a-43ff-bdca-33b8fecf34c7",
                       type: "MedicationStatement",
                       display: "ibuprofen",
                     },
@@ -6539,44 +4996,45 @@ export const expectation32: AnalyzeBatchResult[] = [
         warnings: [],
         fhirBundle: {
           resourceType: "Bundle",
-          id: "62eb9018-ac07-40d6-b483-1b869ea63b39",
+          id: "bd0a5e35-b396-4c73-bca3-50fdb14ceb6c",
           meta: { profile: ["http://hl7.org/fhir/4.0.1/StructureDefinition/Bundle"] },
           identifier: {
             system: "urn:ietf:rfc:3986",
-            value: "urn:uuid:62eb9018-ac07-40d6-b483-1b869ea63b39",
+            value: "urn:uuid:bd0a5e35-b396-4c73-bca3-50fdb14ceb6c",
           },
           type: "document",
           entry: [
             {
-              fullUrl: "Composition/f4927af1-ea3c-4c7f-93b4-7ae4299c6aee",
+              fullUrl: "Composition/77baaef8-7741-44bb-999e-95d454aa7e35",
               resource: {
                 resourceType: "Composition",
-                id: "f4927af1-ea3c-4c7f-93b4-7ae4299c6aee",
+                id: "77baaef8-7741-44bb-999e-95d454aa7e35",
+                language: "en",
                 status: "final",
                 type: {
                   coding: [
-                    { system: "http://loinc.org", code: "11526-1", display: "Pathology study" },
+                    { system: "http://loinc.org", code: "18842-5", display: "Discharge summary" },
                   ],
-                  text: "Pathology study",
+                  text: "Discharge summary",
                 },
                 subject: {
-                  reference: "Patient/71844b70-37b7-4a1a-b31f-83504fe21beb",
+                  reference: "Patient/9478fbe5-39c6-4638-bc3b-e7b27c48b794",
                   type: "Patient",
                 },
                 encounter: {
-                  reference: "Encounter/95928a4d-6b6d-443b-8877-2a2e470a5224",
+                  reference: "Encounter/72a7ac25-5a47-4974-b28c-f5b4ccbdfc7c",
                   type: "Encounter",
                   display: "unknown",
                 },
-                date: "2022-10-20",
+                date: "0001-01-01T00:00:00+00:00",
                 author: [
                   {
-                    reference: "Practitioner/50b72cc2-b2a3-4c86-a768-526c975c6c4a",
+                    reference: "Practitioner/95bf16a2-5b8e-4422-814f-0531f9084f5c",
                     type: "Practitioner",
                     display: "Unknown",
                   },
                 ],
-                title: "Pathology study",
+                title: "Discharge summary",
                 section: [
                   {
                     title: "General",
@@ -6590,7 +5048,7 @@ export const expectation32: AnalyzeBatchResult[] = [
                     },
                     entry: [
                       {
-                        reference: "List/eb4713f7-09c7-4ca9-89ed-88f82fe57424",
+                        reference: "List/b3135a26-3ae8-4b4e-b675-07c87cf187a6",
                         type: "List",
                         display: "General",
                       },
@@ -6600,26 +5058,26 @@ export const expectation32: AnalyzeBatchResult[] = [
               },
             },
             {
-              fullUrl: "Practitioner/50b72cc2-b2a3-4c86-a768-526c975c6c4a",
+              fullUrl: "Practitioner/95bf16a2-5b8e-4422-814f-0531f9084f5c",
               resource: {
                 resourceType: "Practitioner",
-                id: "50b72cc2-b2a3-4c86-a768-526c975c6c4a",
+                id: "95bf16a2-5b8e-4422-814f-0531f9084f5c",
                 name: [{ text: "Unknown", family: "Unknown" }],
               },
             },
             {
-              fullUrl: "Patient/71844b70-37b7-4a1a-b31f-83504fe21beb",
+              fullUrl: "Patient/9478fbe5-39c6-4638-bc3b-e7b27c48b794",
               resource: {
                 resourceType: "Patient",
-                id: "71844b70-37b7-4a1a-b31f-83504fe21beb",
+                id: "9478fbe5-39c6-4638-bc3b-e7b27c48b794",
                 gender: "unknown",
               },
             },
             {
-              fullUrl: "Encounter/95928a4d-6b6d-443b-8877-2a2e470a5224",
+              fullUrl: "Encounter/72a7ac25-5a47-4974-b28c-f5b4ccbdfc7c",
               resource: {
                 resourceType: "Encounter",
-                id: "95928a4d-6b6d-443b-8877-2a2e470a5224",
+                id: "72a7ac25-5a47-4974-b28c-f5b4ccbdfc7c",
                 meta: {
                   profile: ["http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"],
                 },
@@ -6629,17 +5087,17 @@ export const expectation32: AnalyzeBatchResult[] = [
                   display: "unknown",
                 },
                 subject: {
-                  reference: "Patient/71844b70-37b7-4a1a-b31f-83504fe21beb",
+                  reference: "Patient/9478fbe5-39c6-4638-bc3b-e7b27c48b794",
                   type: "Patient",
                 },
-                period: { start: "2022-10-20", end: "2022-10-20" },
               },
             },
             {
-              fullUrl: "Observation/fa006d11-b85a-486c-9878-ed09d9ed1196",
+              fullUrl: "Observation/debb4346-ac9a-4367-ad7c-9b4c4593bef8",
               resource: {
                 resourceType: "Observation",
-                id: "fa006d11-b85a-486c-9878-ed09d9ed1196",
+                id: "debb4346-ac9a-4367-ad7c-9b4c4593bef8",
+                language: "en",
                 extension: [
                   {
                     extension: [
@@ -6713,19 +5171,19 @@ export const expectation32: AnalyzeBatchResult[] = [
                     { system: "http://www.nlm.nih.gov/research/umls/pdq", code: "CDR0000686951" },
                     { system: "http://www.nlm.nih.gov/research/umls/psy", code: "23830" },
                     { system: "http://www.nlm.nih.gov/research/umls/rcd", code: "XE0Ub" },
-                    { system: "http://snomed.info/sct", code: "F-70700" },
-                    { system: "http://snomed.info/sct", code: "D3-02000" },
+                    { system: "http://www.nlm.nih.gov/research/umls/snm", code: "F-70700" },
+                    { system: "http://snomed.info/sct/900000000000207008", code: "D3-02000" },
                     { system: "http://snomed.info/sct", code: "38341003" },
                     { system: "http://www.nlm.nih.gov/research/umls/who", code: "0210" },
                   ],
                   text: "high blood pressure",
                 },
                 subject: {
-                  reference: "Patient/71844b70-37b7-4a1a-b31f-83504fe21beb",
+                  reference: "Patient/9478fbe5-39c6-4638-bc3b-e7b27c48b794",
                   type: "Patient",
                 },
                 encounter: {
-                  reference: "Encounter/95928a4d-6b6d-443b-8877-2a2e470a5224",
+                  reference: "Encounter/72a7ac25-5a47-4974-b28c-f5b4ccbdfc7c",
                   type: "Encounter",
                   display: "unknown",
                 },
@@ -6745,26 +5203,26 @@ export const expectation32: AnalyzeBatchResult[] = [
               },
             },
             {
-              fullUrl: "List/eb4713f7-09c7-4ca9-89ed-88f82fe57424",
+              fullUrl: "List/b3135a26-3ae8-4b4e-b675-07c87cf187a6",
               resource: {
                 resourceType: "List",
-                id: "eb4713f7-09c7-4ca9-89ed-88f82fe57424",
+                id: "b3135a26-3ae8-4b4e-b675-07c87cf187a6",
                 status: "current",
                 mode: "snapshot",
                 title: "General",
                 subject: {
-                  reference: "Patient/71844b70-37b7-4a1a-b31f-83504fe21beb",
+                  reference: "Patient/9478fbe5-39c6-4638-bc3b-e7b27c48b794",
                   type: "Patient",
                 },
                 encounter: {
-                  reference: "Encounter/95928a4d-6b6d-443b-8877-2a2e470a5224",
+                  reference: "Encounter/72a7ac25-5a47-4974-b28c-f5b4ccbdfc7c",
                   type: "Encounter",
                   display: "unknown",
                 },
                 entry: [
                   {
                     item: {
-                      reference: "Observation/fa006d11-b85a-486c-9878-ed09d9ed1196",
+                      reference: "Observation/debb4346-ac9a-4367-ad7c-9b4c4593bef8",
                       type: "Observation",
                       display: "high blood pressure",
                     },
@@ -6780,7 +5238,6 @@ export const expectation32: AnalyzeBatchResult[] = [
     modelVersion,
   },
 ];
-
 export const expectation33: AnalyzeBatchResult[] = [
   {
     kind: "EntityRecognition",

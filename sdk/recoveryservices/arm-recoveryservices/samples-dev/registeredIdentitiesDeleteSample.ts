@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Unregisters the given container from your Recovery Services vault.
  *
  * @summary Unregisters the given container from your Recovery Services vault.
- * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2022-04-01/examples/DeleteRegisteredIdentities.json
+ * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/DeleteRegisteredIdentities.json
  */
 async function deleteRegisteredIdentity() {
   const subscriptionId =
