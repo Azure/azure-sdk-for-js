@@ -17,7 +17,7 @@ export async function runWithCpuProfile(
         if (!err) {
           profileFilePath =
             profileFilePath ?? `./profile/${getFormattedDate()}-perfProgram.cpuprofile`;
-            // If none provided, gets generated at the "/sdk/<service>/perf-tests/<package>/profile/"
+          // If none provided, profiles get generated at the "/sdk/<service>/perf-tests/<package>/profile/"
           fs.ensureDirSync(profileFilePath.substring(0, profileFilePath.lastIndexOf("/") + 1));
           fs.writeFileSync(profileFilePath, JSON.stringify(profile));
           console.log(`...CPUProfile saved to ${profileFilePath}...`);
@@ -32,7 +32,6 @@ export async function runWithCpuProfile(
 const getFormattedDate = () => {
   return new Date().toISOString().replace(/[:\-.]/g, "_");
 };
-
 
 export const monitorFunc = async (func: () => Promise<void>, doProfile: boolean, profileFilePath: undefined | string) => {
   if (doProfile) {
