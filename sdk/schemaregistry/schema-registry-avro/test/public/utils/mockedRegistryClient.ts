@@ -11,11 +11,10 @@ import {
   SchemaRegistry,
   SchemaRegistryClient,
 } from "@azure/schema-registry";
-import { ClientSecretCredential } from "@azure/identity";
-import { env } from "./env";
-import { isLive } from "./isLive";
+import { createTestCredential } from "@azure-tools/test-credential";
 import { testSchemaIds } from "./dummies";
 import { v4 as uuid } from "uuid";
+import { Recorder, env, isLiveMode } from "@azure-tools/test-recorder";
 
 type UpdatedSchemaDescription = Required<Omit<SchemaDescription, "version">>;
 
@@ -31,18 +30,17 @@ function createLiveTestRegistry(settings: {
   registerSchemaOptions?: RegisterSchemaOptions;
   getSchemaPropertiesOptions?: GetSchemaPropertiesOptions;
   getSchemaOptions?: GetSchemaOptions;
+  recorder?: Recorder;
 }): SchemaRegistry {
-  const { getSchemaOptions, getSchemaPropertiesOptions, registerSchemaOptions } = settings;
+  const { getSchemaOptions, getSchemaPropertiesOptions, registerSchemaOptions, recorder } =
+    settings;
   // NOTE: These tests don't record, they use a mocked schema registry
   // implemented below, but if we're running live, then use the real
   // service for end-to-end integration testing.
   const client = new SchemaRegistryClient(
     getEnvVar("SCHEMAREGISTRY_AVRO_FULLY_QUALIFIED_NAMESPACE"),
-    new ClientSecretCredential(
-      getEnvVar("AZURE_TENANT_ID"),
-      getEnvVar("AZURE_CLIENT_ID"),
-      getEnvVar("AZURE_CLIENT_SECRET")
-    )
+    createTestCredential(),
+    recorder?.configureClientOptions({})
   );
   return {
     getSchema: (id: string) => client.getSchema(id, getSchemaOptions),
@@ -120,6 +118,7 @@ export function createTestRegistry(
     registerSchemaOptions?: RegisterSchemaOptions;
     getSchemaPropertiesOptions?: GetSchemaPropertiesOptions;
     getSchemaOptions?: GetSchemaOptions;
+    recorder?: Recorder;
   } = {}
 ): SchemaRegistry {
   const {
@@ -127,12 +126,14 @@ export function createTestRegistry(
     getSchemaOptions,
     getSchemaPropertiesOptions,
     registerSchemaOptions,
+    recorder,
   } = settings;
-  return !neverLive && isLive
+  return !neverLive && isLiveMode()
     ? createLiveTestRegistry({
         getSchemaOptions,
         getSchemaPropertiesOptions,
         registerSchemaOptions,
+        recorder,
       })
     : createMockedTestRegistry();
 }
