@@ -109,9 +109,8 @@ export class ManagerPerfProgram implements PerfProgram {
     const elapsedTime = formatDuration(new Date().getTime() - this.startMillis);
 
     this.lastCompleted = totalCompleted;
-    const { heapUsed, rss } = process.memoryUsage();
     console.log(
-      `${elapsedTime}\t\t${currentCompleted}\t\t${totalCompleted}\t\t${averageCompleted.toFixed(2)}\t\t${heapUsed}\t\t${rss}`
+      `${elapsedTime}\t\t${currentCompleted}\t\t${totalCompleted}\t\t${averageCompleted.toFixed(2)}`
     );
   }
 
@@ -169,7 +168,7 @@ export class ManagerPerfProgram implements PerfProgram {
       `\n=== ${title} mode, iteration ${iterationIndex + 1}. Logs every ${millisecondsToLog / 1000
       }s ===`
     );
-    console.log(`ElapsedTime\tCurrent\t\tTotal\t\tAverage\t\tHeapUsed\t\tRSS`);
+    console.log(`ElapsedTime\tCurrent\t\tTotal\t\tAverage`);
 
     let done = false;
 

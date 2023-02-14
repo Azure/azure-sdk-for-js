@@ -12,7 +12,7 @@ export async function runWithCpuProfile(functionToProfile: () => Promise<void>, 
       session.post("Profiler.stop", (err, { profile }) => {
         // Write profile to disk, upload, etc.
         if (!err) {
-          profileFilePath = profileFilePath ? profileFilePath : `./profile/${getFormattedDate()}-perfProgram.cpuprofile`;
+          profileFilePath = profileFilePath ?? `./profile/${getFormattedDate()}-perfProgram.cpuprofile`;
           fs.ensureDirSync(profileFilePath.substring(0, profileFilePath.lastIndexOf("/") + 1));
           fs.writeFileSync(profileFilePath, JSON.stringify(profile));
           console.log(`...CPUProfile saved to ${profileFilePath}...`);
