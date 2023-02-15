@@ -95,10 +95,10 @@ export class ManagerPerfProgram implements PerfProgram {
       `Completed ${totalOperations.toLocaleString(undefined, {
         maximumFractionDigits: 0,
       })} ` +
-        `operations in a weighted-average of ` +
-        `${formatNumber(weightedAverage, 4)}s ` +
-        `(${formatNumber(operationsPerSecond, 4)} ops/s, ` +
-        `${formatNumber(secondsPerOperation, 4)} s/op)`
+      `operations in a weighted-average of ` +
+      `${formatNumber(weightedAverage, 4)}s ` +
+      `(${formatNumber(operationsPerSecond, 4)} ops/s, ` +
+      `${formatNumber(secondsPerOperation, 4)} s/op)`
     );
   }
 
@@ -120,6 +120,9 @@ export class ManagerPerfProgram implements PerfProgram {
     const parallels = this.parsedOptions.parallel.value ?? 1;
 
     if (this.parsedOptions.profile.value) {
+      if (this.parsedOptions.cpus.value !== 1) {
+        throw new Error(`Unexpected value for "cpus" provided, you can only set "cpus = 1" when "profile = true". Please re-run the test command without the cpus option.`);
+      }
       // Overriding to 1 core
       // since there is no point in observing profiling artifacts of all the cores that do the same thing
       cpuOption = 1;
@@ -166,8 +169,7 @@ export class ManagerPerfProgram implements PerfProgram {
     // of operations running.
     const millisecondsToLog = Number(this.parsedOptions["milliseconds-to-log"].value);
     console.log(
-      `\n=== ${title} mode, iteration ${iterationIndex + 1}. Logs every ${
-        millisecondsToLog / 1000
+      `\n=== ${title} mode, iteration ${iterationIndex + 1}. Logs every ${millisecondsToLog / 1000
       }s ===`
     );
     console.log(`ElapsedTime\tCurrent\t\tTotal\t\tAverage`);
