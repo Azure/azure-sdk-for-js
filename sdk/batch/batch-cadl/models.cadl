@@ -9,7 +9,7 @@ using Cadl.Versioning;
 using Azure.Core;
 using OpenAPI;
 
-namespace BatchServiceClient;
+namespace BatchService;
 
 
 enum OSType {
