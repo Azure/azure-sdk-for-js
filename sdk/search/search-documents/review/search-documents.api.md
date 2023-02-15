@@ -533,6 +533,11 @@ export type EntityRecognitionSkillV3 = BaseSearchIndexerSkill & {
 // @public (undocumented)
 export type ExcludedODataTypes = Date | GeographyPoint;
 
+// @public (undocumented)
+export type ExtractDocumentKey<Model> = {
+    [K in keyof Model as Model[K] extends string | undefined ? K : never]: Model[K];
+};
+
 // @public
 export interface FacetResult {
     [property: string]: any;
@@ -2408,8 +2413,6 @@ export type SearchMode = "any" | "all";
 // @public
 export type SearchOptions<Model extends object, Fields extends SelectFields<Model> = SelectFields<Model>> = OperationOptions & SearchRequestOptions<Model, Fields>;
 
-// Warning: (ae-forgotten-export) The symbol "UnionToIntersection" needs to be exported by the entry point index.d.ts
-//
 // @public
 export type SearchPick<T extends object, Paths extends SelectFields<T>> = [T] extends [never] ? object : // We're going to get a union of individual interfaces for each field in T that's selected, so convert that to an intersection.
 UnionToIntersection<Paths extends `${infer FieldName}/${infer RestPaths}` ? FieldName extends Exclude<keyof T, symbol | number> ? NonNullable<T[FieldName]> extends Array<infer U> ? U extends object ? RestPaths extends SelectFields<U> ? {
@@ -2685,8 +2688,6 @@ export interface SuggestDocumentsResult<Model extends object, Fields extends Sel
     readonly results: SuggestResult<Model, Fields>[];
 }
 
-// Warning: (ae-forgotten-export) The symbol "ExtractDocumentKey" needs to be exported by the entry point index.d.ts
-//
 // @public (undocumented)
 export type SuggestNarrowedModel<Model extends object, Fields extends SelectFields<Model> = SelectFields<Model>> = [Model] extends [never] ? object : [
 Fields
@@ -2782,6 +2783,9 @@ export type UaxUrlEmailTokenizer = BaseLexicalTokenizer & {
     odatatype: "#Microsoft.Azure.Search.UaxUrlEmailTokenizer";
     maxTokenLength?: number;
 };
+
+// @public (undocumented)
+export type UnionToIntersection<U> = (U extends unknown ? (_: U) => unknown : never) extends (_: infer I) => unknown ? I : never;
 
 // @public
 export type UniqueTokenFilter = BaseTokenFilter & {
