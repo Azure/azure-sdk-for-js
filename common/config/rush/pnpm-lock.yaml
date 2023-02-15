@@ -327,6 +327,7 @@ specifiers:
   '@rush-temp/web-pubsub': file:./projects/web-pubsub.tgz
   '@rush-temp/web-pubsub-client': file:./projects/web-pubsub-client.tgz
   '@rush-temp/web-pubsub-express': file:./projects/web-pubsub-express.tgz
+  puppeteer: 19.6.3
 
 dependencies:
   '@rush-temp/abort-controller': file:projects/abort-controller.tgz
@@ -655,6 +656,7 @@ dependencies:
   '@rush-temp/web-pubsub': file:projects/web-pubsub.tgz
   '@rush-temp/web-pubsub-client': file:projects/web-pubsub-client.tgz
   '@rush-temp/web-pubsub-express': file:projects/web-pubsub-express.tgz
+  puppeteer: 19.6.3
 
 packages:
 
@@ -3928,7 +3930,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20230213
+      typescript: 5.0.0-dev.20230214
     dev: false
 
   /downlevel-dts/0.7.0:
@@ -8712,8 +8714,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20230213:
-    resolution: {integrity: sha512-6winpoAguZ2b0juVOseKRELa6eIx8st5j42fHikEhzBb2NcuG7tSGMAjIo748WNXVija2L8T5D7vyaDGYftaDQ==}
+  /typescript/5.0.0-dev.20230214:
+    resolution: {integrity: sha512-CpXBmHZVBTjAslhkSqAaiR4zZgr5G46QvfKB51L4+alGm5F2Jqbdhy6+cIFzU3AiN1D/iEmA88E19N0/e5bttQ==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
