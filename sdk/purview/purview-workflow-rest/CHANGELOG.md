@@ -4,10 +4,4 @@
 
 ### Features Added
 
-- Initial release of the Purview Workflow client library for JavaScript
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- Initial release of the Purview Workflow client library for JavaScript.
