@@ -29,7 +29,7 @@ import {
   ReassignWorkflowTask200Response,
   ReassignWorkflowTaskDefaultResponse,
   UpdateTaskStatus200Response,
-  UpdateTaskStatusDefaultResponse
+  UpdateTaskStatusDefaultResponse,
 } from "./responses";
 
 const responseMap: Record<string, string[]> = {
@@ -46,7 +46,7 @@ const responseMap: Record<string, string[]> = {
   "POST /workflowtasks/{taskId}/approve-approval": ["200"],
   "POST /workflowtasks/{taskId}/reject-approval": ["200"],
   "POST /workflowtasks/{taskId}/reassign": ["200"],
-  "POST /workflowtasks/{taskId}/change-task-status": ["200"]
+  "POST /workflowtasks/{taskId}/change-task-status": ["200"],
 };
 
 export function isUnexpected(
@@ -56,9 +56,7 @@ export function isUnexpected(
   response: GetWorkflow200Response | GetWorkflowDefaultResponse
 ): response is GetWorkflowDefaultResponse;
 export function isUnexpected(
-  response:
-    | CreateOrReplaceWorkflow200Response
-    | CreateOrReplaceWorkflowDefaultResponse
+  response: CreateOrReplaceWorkflow200Response | CreateOrReplaceWorkflowDefaultResponse
 ): response is CreateOrReplaceWorkflowDefaultResponse;
 export function isUnexpected(
   response: DeleteWorkflow204Response | DeleteWorkflowDefaultResponse
@@ -88,9 +86,7 @@ export function isUnexpected(
   response: RejectApprovalTask200Response | RejectApprovalTaskDefaultResponse
 ): response is RejectApprovalTaskDefaultResponse;
 export function isUnexpected(
-  response:
-    | ReassignWorkflowTask200Response
-    | ReassignWorkflowTaskDefaultResponse
+  response: ReassignWorkflowTask200Response | ReassignWorkflowTaskDefaultResponse
 ): response is ReassignWorkflowTaskDefaultResponse;
 export function isUnexpected(
   response: UpdateTaskStatus200Response | UpdateTaskStatusDefaultResponse
@@ -172,24 +168,17 @@ function getParametrizedPathSuccess(method: string, path: string): string[] {
 
     // track if we have found a match to return the values found.
     let found = true;
-    for (
-      let i = candidateParts.length - 1, j = pathParts.length - 1;
-      i >= 1 && j >= 1;
-      i--, j--
-    ) {
-      if (
-        candidateParts[i]?.startsWith("{") &&
-        candidateParts[i]?.indexOf("}") !== -1
-      ) {
+    for (let i = candidateParts.length - 1, j = pathParts.length - 1; i >= 1 && j >= 1; i--, j--) {
+      if (candidateParts[i]?.startsWith("{") && candidateParts[i]?.indexOf("}") !== -1) {
         const start = candidateParts[i]!.indexOf("}") + 1,
           end = candidateParts[i]?.length;
         // If the current part of the candidate is a "template" part
         // Try to use the suffix of pattern to match the path
         // {guid} ==> $
         // {guid}:export ==> :export$
-        const isMatched = new RegExp(
-          `${candidateParts[i]?.slice(start, end)}`
-        ).test(pathParts[j] || "");
+        const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
+          pathParts[j] || ""
+        );
 
         if (!isMatched) {
           found = false;

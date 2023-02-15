@@ -10,7 +10,7 @@ import {
   WorkflowRunListOutput,
   WorkflowRunOutput,
   TasksListOutput,
-  WorkflowTaskOutput
+  WorkflowTaskOutput,
 } from "./outputModels";
 
 /** List all workflows. */
