@@ -1,6 +1,6 @@
 # Azure Monitor Ingestion client library for JS
 
-The Azure Monitor Ingestion client library is used to send custom logs to [Azure Monitor][azure_monitor_overview].
+The Azure Monitor Ingestion client library is used to send custom logs to [Azure Monitor][azure_monitor_overview] using the [Logs Ingestion API][ingestion_overview].
 
 This library allows you to send data from virtually any source to supported built-in tables or to custom tables that you create in Log Analytics workspace. You can even extend the schema of built-in tables with custom columns.
 
@@ -16,9 +16,9 @@ This library allows you to send data from virtually any source to supported buil
 ### Prerequisites
 
 - An [Azure subscription](https://azure.microsoft.com/free)
-- A [Data Collection Endpoint](https://docs.microsoft.com/azure/azure-monitor/essentials/data-collection-endpoint-overview)
-- A [Data Collection Rule](https://docs.microsoft.com/azure/azure-monitor/essentials/data-collection-rule-overview)
-- A [Log Analytics workspace](https://docs.microsoft.com/azure/azure-monitor/logs/log-analytics-workspace-overview)
+- A [Data Collection Endpoint](https://learn.microsoft.com/azure/azure-monitor/essentials/data-collection-endpoint-overview)
+- A [Data Collection Rule](https://learn.microsoft.com/azure/azure-monitor/essentials/data-collection-rule-overview)
+- A [Log Analytics workspace](https://learn.microsoft.com/azure/azure-monitor/logs/log-analytics-workspace-overview)
 
 ### Install the package
 
@@ -30,7 +30,7 @@ npm install @azure/monitor-ingestion
 
 ### Authenticate the client
 
-An authenticated client is required to ingest data. To authenticate, create an instance of a [TokenCredential](https://docs.microsoft.com/javascript/api/@azure/core-auth/tokencredential?view=azure-node-latest) class (see [@azure/identity](https://www.npmjs.com/package/@azure/identity) for `DefaultAzureCredential` and other `TokenCredential` implementations). Pass it to the constructor of your client class.
+An authenticated client is required to ingest data. To authenticate, create an instance of a [TokenCredential](https://learn.microsoft.com/javascript/api/@azure/core-auth/tokencredential?view=azure-node-latest) class (see [@azure/identity](https://www.npmjs.com/package/@azure/identity) for `DefaultAzureCredential` and other `TokenCredential` implementations). Pass it to the constructor of your client class.
 
 To authenticate, the following example uses `DefaultAzureCredential` from the [@azure/identity](https://www.npmjs.com/package/@azure/identity) package:
 
@@ -65,17 +65,17 @@ The DCR must understand the structure of the input data and the structure of the
 it can use a transformation to convert the source data to match the target table. You may also use the transform to
 filter source data and perform any other calculations or conversions.
 
-For more details, refer to [Data collection rules in Azure Monitor][data_collection_rule].
+For more details, refer to [Data collection rules in Azure Monitor][data_collection_rule].For information on how to retrieve a DCR ID, see [this tutorial][data_collection_rule_tutorial].
 
 ### Log Analytics workspace tables
 
 Custom logs can send data to any custom table that you create and to certain built-in tables in your Log Analytics
 workspace. The target table must exist before you can send data to it. The following built-in tables are currently supported:
 
-- [CommonSecurityLog](https://docs.microsoft.com/azure/azure-monitor/reference/tables/commonsecuritylog)
-- [SecurityEvents](https://docs.microsoft.com/azure/azure-monitor/reference/tables/securityevent)
-- [Syslog](https://docs.microsoft.com/azure/azure-monitor/reference/tables/syslog)
-- [WindowsEvents](https://docs.microsoft.com/azure/azure-monitor/reference/tables/windowsevent)
+- [CommonSecurityLog](https://learn.microsoft.com/azure/azure-monitor/reference/tables/commonsecuritylog)
+- [SecurityEvents](https://learn.microsoft.com/azure/azure-monitor/reference/tables/securityevent)
+- [Syslog](https://learn.microsoft.com/azure/azure-monitor/reference/tables/syslog)
+- [WindowsEvents](https://learn.microsoft.com/azure/azure-monitor/reference/tables/windowsevent)
 
 ## Examples
 
@@ -86,7 +86,7 @@ You can familiarize yourself with different APIs using [Samples](https://github.
 
 ### Upload custom logs
 
-You can create a client and call the client's `Upload` method. Take note of the data ingestion [limits](https://docs.microsoft.com/azure/azure-monitor/service-limits#custom-logs).
+You can create a client and call the client's `Upload` method. Take note of the data ingestion [limits](https://learn.microsoft.com/azure/azure-monitor/service-limits#custom-logs).
 
 ```js
 const { isAggregateUploadLogsError, DefaultAzureCredential } = require("@azure/identity");
@@ -266,9 +266,11 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 <!-- LINKS -->
 
-[azure_monitor_overview]: https://docs.microsoft.com/azure/azure-monitor/overview
-[data_collection_endpoint]: https://docs.microsoft.com/azure/azure-monitor/essentials/data-collection-endpoint-overview
-[data_collection_rule]: https://docs.microsoft.com/azure/azure-monitor/essentials/data-collection-rule-overview
+[azure_monitor_overview]: https://learn.microsoft.com/azure/azure-monitor/overview
+[data_collection_endpoint]: https://learn.microsoft.com/azure/azure-monitor/essentials/data-collection-endpoint-overview
+[data_collection_rule]: https://learn.microsoft.com/azure/azure-monitor/essentials/data-collection-rule-overview
+[data_collection_rule_tutorial]: https://learn.microsoft.com/azure/azure-monitor/logs/tutorial-logs-ingestion-portal#collect-information-from-the-dcr
+[ingestion_overview]: https://learn.microsoft.com/azure/azure-monitor/logs/logs-ingestion-api-overview
 [azure_monitor_samples]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/monitor-ingestion/samples/v1-beta
 [monitor_query]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/monitor-query
 
