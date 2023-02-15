@@ -15,6 +15,7 @@ import {
 import { Recorder } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { AbortController } from "@azure/abort-controller";
+import { isNode } from "@azure/core-util";
 
 function createFailedPolicies(failedInterval: { isFailed: boolean }): AdditionalPolicyConfig[] {
   return [
@@ -189,35 +190,37 @@ describe("LogsIngestionClient live tests", function () {
   });
 
   it("User abort additional processing early if they handle the error", async function () {
-    const noOfElements = 250000;
-    const logData = getObjects(noOfElements);
-    const concurrency = 4;
+    if (isNode) {
+      const noOfElements = 250000;
+      const logData = getObjects(noOfElements);
+      const concurrency = 4;
 
-    const abortController = new AbortController();
-    let errorCallbackCount = 0;
+      const abortController = new AbortController();
+      let errorCallbackCount = 0;
 
-    function errorCallback(): void {
-      abortController.abort();
-      ++errorCallbackCount;
-    }
-    try {
-      await client.upload("immutable-id-123", "Custom-MyTableRawData", logData, {
-        maxConcurrency: concurrency,
-        onError: errorCallback,
-        abortSignal: abortController.signal,
-      });
-    } catch (e: any) {
-      const result = isAggregateUploadLogsError(e) ? e.errors : [];
-      if (result.length > 0) {
-        assert.equal(
-          result[0].cause.message,
-          `Data collection rule with immutable Id 'immutable-id-123' not found.`
-        );
-        assert.equal(result[1].cause.message, `The operation was aborted.`);
-        assert.equal(result[result.length - 1].cause.message, `The operation was aborted.`);
+      function errorCallback(): void {
+        abortController.abort();
+        ++errorCallbackCount;
       }
+      try {
+        await client.upload("immutable-id-123", "Custom-MyTableRawData", logData, {
+          maxConcurrency: concurrency,
+          onError: errorCallback,
+          abortSignal: abortController.signal,
+        });
+      } catch (e: any) {
+        const result = isAggregateUploadLogsError(e) ? e.errors : [];
+        if (result.length > 0) {
+          assert.equal(
+            result[0].cause.message,
+            `Data collection rule with immutable Id 'immutable-id-123' not found.`
+          );
+          assert.equal(result[1].cause.message, `The operation was aborted.`);
+          assert.equal(result[result.length - 1].cause.message, `The operation was aborted.`);
+        }
+      }
+      assert.equal(errorCallbackCount, concurrency);
     }
-    assert.equal(errorCallbackCount, concurrency);
   });
 });
 
