@@ -60,10 +60,7 @@
   "dependencies": {
     "tslib": "^2.2.0",
     "@azure/logger": "^1.0.0",
-    "@azure/abort-controller": "^1.0.0",
-    "@azure/core-util": "^1.1.1",
     "@azure/web-pubsub-client": "^1.0.0-beta.2",
-    "ws": "^7.4.5",
     "buffer": "^6.0.0",
     "protobufjs": "~7.1.2",
     "long": "^5.2.1"
