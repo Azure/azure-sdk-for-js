@@ -11,6 +11,12 @@ import {
 } from "@azure/core-rest-pipeline";
 import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
 
+export type QueryParameterCollectionFormat = "multi" | "csv" | "pipe";
+
+export interface InternalRequestParameters {
+  queryCollectionFormat?: QueryParameterCollectionFormat;
+}
+
 /**
  * Shape of the default request parameters, this may be overriden by the specific
  * request types to provide strong types

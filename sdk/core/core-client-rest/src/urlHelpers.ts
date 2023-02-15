@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RequestParameters } from "./common";
+import {
+  InternalRequestParameters,
+  QueryParameterCollectionFormat,
+  RequestParameters,
+} from "./common";
 
 /**
  * Builds the request url, filling in query and path parameters
@@ -15,7 +19,7 @@ export function buildRequestUrl(
   baseUrl: string,
   routePath: string,
   pathParameters: string[],
-  options: RequestParameters = {}
+  options: RequestParameters & InternalRequestParameters = {}
 ): string {
   if (routePath.startsWith("https://") || routePath.startsWith("http://")) {
     return routePath;
@@ -33,21 +37,21 @@ export function buildRequestUrl(
   );
 }
 
-function appendQueryParams(url: string, options: RequestParameters = {}) {
+function appendQueryParams(
+  url: string,
+  options: RequestParameters & InternalRequestParameters = {}
+) {
   if (!options.queryParameters) {
     return url;
   }
   let parsedUrl = new URL(url);
   const queryParams = options.queryParameters;
   for (const key of Object.keys(queryParams)) {
-    const param = queryParams[key] as any;
+    let param = queryParams[key] as any;
     if (param === undefined || param === null) {
       continue;
     }
-    if (!param.toString || typeof param.toString !== "function") {
-      throw new Error(`Query parameters must be able to be represented as string, ${key} can't`);
-    }
-    const value = param.toISOString !== undefined ? param.toISOString() : param.toString();
+    const value = formatQueryParams(param, key, options.queryCollectionFormat);
     parsedUrl.searchParams.append(key, value);
   }
 
@@ -55,6 +59,32 @@ function appendQueryParams(url: string, options: RequestParameters = {}) {
     parsedUrl = skipQueryParameterEncoding(parsedUrl);
   }
   return parsedUrl.toString();
+}
+
+const collectionToken = {
+  csv: ",",
+  pipe: "|",
+};
+
+function formatQueryParams(
+  param: any,
+  key: string,
+  format: QueryParameterCollectionFormat = "csv"
+): string {
+  if (Array.isArray(param)) {
+    if (format === "multi") {
+      return param.join(`&${key}=`);
+    }
+
+    return param.join(`${collectionToken[format]}`);
+  }
+
+  if (!param.toString || typeof param.toString !== "function") {
+    throw new Error(`Query parameters must be able to be represented as string, ${key} can't`);
+  }
+  const value = param.toISOString !== undefined ? param.toISOString() : param.toString();
+
+  return value;
 }
 
 function skipQueryParameterEncoding(url: URL) {

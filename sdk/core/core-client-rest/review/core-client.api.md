@@ -90,6 +90,12 @@ export interface InnerError {
     innererror?: InnerError;
 }
 
+// @public (undocumented)
+export interface InternalRequestParameters {
+    // (undocumented)
+    queryCollectionFormat?: QueryParameterCollectionFormat;
+}
+
 // @public
 export type PathParameters<TRoute extends string> = TRoute extends `${infer _Head}/{${infer _Param}}${infer Tail}` ? [
 pathParameter: string,
@@ -104,6 +110,9 @@ export type PathUnchecked = <TPath extends string>(path: TPath, ...args: PathPar
 export type PathUncheckedResponse = HttpResponse & {
     body: any;
 };
+
+// @public (undocumented)
+export type QueryParameterCollectionFormat = "multi" | "csv" | "pipe";
 
 // @public
 export type RequestParameters = {

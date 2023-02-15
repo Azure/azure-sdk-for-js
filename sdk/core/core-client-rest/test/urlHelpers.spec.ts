@@ -89,6 +89,41 @@ describe("urlHelpers", () => {
     assert.equal(result, `https://example.org/foo?existing=hey&foo=1&bar=two`);
   });
 
+  it("should build url with simple qsp collection ", () => {
+    let result = buildRequestUrl(mockBaseUrl, "/foo", [], {
+      skipUrlEncoding: true,
+      queryParameters: {
+        bar: ["1", "2", "3", "4", "5"],
+      },
+    });
+
+    assert.equal(result, `https://example.org/foo?bar=1,2,3,4,5`);
+  });
+
+  it("should build url with simple qsp collection with multi format", () => {
+    let result = buildRequestUrl(mockBaseUrl, "/foo", [], {
+      skipUrlEncoding: true,
+      queryParameters: {
+        bar: ["1", "2", "3", "4", "5"],
+      },
+      queryCollectionFormat: "multi",
+    });
+
+    assert.equal(result, `https://example.org/foo?bar=1&bar=2&bar=3&bar=4&bar=5`);
+  });
+
+  it("should build url with simple qsp collection with pipe format", () => {
+    let result = buildRequestUrl(mockBaseUrl, "/foo", [], {
+      skipUrlEncoding: true,
+      queryParameters: {
+        bar: ["1", "2", "3", "4", "5"],
+      },
+      queryCollectionFormat: "pipe",
+    });
+
+    assert.equal(result, `https://example.org/foo?bar=1|2|3|4|5`);
+  });
+
   it("should build url with array queries", () => {
     const testArray = ["ArrayQuery1", "begin!*'();:@ &=+$,/?#[]end", null as any, ""] as string[];
     let result = buildRequestUrl(mockBaseUrl, "/foo?existing=hey", [], {
