@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createPurviewWorkflowClient, {
-  CreateOrReplaceWorkflowParameters
+  CreateOrReplaceWorkflowParameters,
 } from "@azure-rest/purview-workflow";
 import { UsernamePasswordCredential } from "@azure/identity";
 import { randomUUID } from "crypto";
@@ -44,14 +44,12 @@ async function workflowCreateOrUpdate() {
                   parameters: {
                     emailMessage:
                       "Your request for Glossary Term @{triggerBody()['request']['term']['name']} is approved.",
-                    emailRecipients: [
-                      "@{triggerBody()['request']['requestor']}"
-                    ],
-                    emailSubject: "Glossary Term Create - APPROVED"
-                  }
+                    emailRecipients: ["@{triggerBody()['request']['requestor']}"],
+                    emailSubject: "Glossary Term Create - APPROVED",
+                  },
                 },
-                runAfter: { "Create glossary term": ["Succeeded"] }
-              }
+                runAfter: { "Create glossary term": ["Succeeded"] },
+              },
             },
             else: {
               actions: {
@@ -61,27 +59,25 @@ async function workflowCreateOrUpdate() {
                     parameters: {
                       emailMessage:
                         "Your request for Glossary Term @{triggerBody()['request']['term']['name']} is rejected.",
-                      emailRecipients: [
-                        "@{triggerBody()['request']['requestor']}"
-                      ],
-                      emailSubject: "Glossary Term Create - REJECTED"
-                    }
+                      emailRecipients: ["@{triggerBody()['request']['requestor']}"],
+                      emailSubject: "Glossary Term Create - REJECTED",
+                    },
                   },
-                  runAfter: {}
-                }
-              }
+                  runAfter: {},
+                },
+              },
             },
             expression: {
               and: [
                 {
                   equals: [
                     "@outputs('Start and wait for an approval')['body/outcome']",
-                    "Approved"
-                  ]
-                }
-              ]
+                    "Approved",
+                  ],
+                },
+              ],
             },
-            runAfter: { "Start and wait for an approval": ["Succeeded"] }
+            runAfter: { "Start and wait for an approval": ["Succeeded"] },
           },
           "Start and wait for an approval": {
             type: "Approval",
@@ -89,26 +85,23 @@ async function workflowCreateOrUpdate() {
               parameters: {
                 approvalType: "PendingOnAll",
                 assignedTo: ["eece94d9-0619-4669-bb8a-d6ecec5220bc"],
-                title: "Approval Request for Create Glossary Term"
-              }
+                title: "Approval Request for Create Glossary Term",
+              },
             },
-            runAfter: {}
-          }
-        }
+            runAfter: {},
+          },
+        },
       },
       isEnabled: true,
       triggers: [
         {
           type: "when_term_creation_is_requested",
-          underGlossaryHierarchy:
-            "/glossaries/20031e20-b4df-4a66-a61d-1b0716f3fa48"
-        }
-      ]
-    }
+          underGlossaryHierarchy: "/glossaries/20031e20-b4df-4a66-a61d-1b0716f3fa48",
+        },
+      ],
+    },
   };
-  const result = await client
-    .path("/workflows/{workflowId}", workflowId)
-    .put(options);
+  const result = await client.path("/workflows/{workflowId}", workflowId).put(options);
   console.log(result);
 }
 

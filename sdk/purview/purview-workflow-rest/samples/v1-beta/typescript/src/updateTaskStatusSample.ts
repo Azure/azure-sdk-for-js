@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createPurviewWorkflowClient, {
-  ReleaseDsarTaskRequestParameters
+  UpdateTaskStatusParameters,
 } from "@azure-rest/purview-workflow";
 import { UsernamePasswordCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -12,10 +12,10 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Release a DSAR task request.
+ * This sample demonstrates how to Update the status of a workflow task request.
  *
- * @summary Release a DSAR task request.
- * x-ms-original-file: specification/purview/data-plane/Azure.Analytics.Purview.Workflow/preview/2022-05-01-preview/examples/ReleaseDSARTaskRequest.json
+ * @summary Update the status of a workflow task request.
+ * x-ms-original-file: specification/purview/data-plane/Azure.Analytics.Purview.Workflow/preview/2022-05-01-preview/examples/UpdateTaskRequest.json
  */
 const endpoint = process.env["ENDPOINT"] || "";
 const tenantId = process.env["TENANTID"] || "";
@@ -23,17 +23,17 @@ const clientId = process.env["CLIENTID"] || "";
 const username = process.env["USERNAME"] || "";
 const password = process.env["PASSWORD"] || "";
 
-async function dsarTaskRequestRelease() {
+async function taskRequestUpdate() {
   const credential = new UsernamePasswordCredential(tenantId, clientId, username, password);
   const client = createPurviewWorkflowClient(endpoint, credential);
-  const taskId = "5cc7992a-7f5e-11ed-a1eb-0242ac120002";
-  const options: ReleaseDsarTaskRequestParameters = {
-    body: { comment: "Thanks!" }
+  const taskId = "d5bd0215-df84-4245-8e18-3a8f012be376";
+  const options: UpdateTaskStatusParameters = {
+    body: { comment: "Thanks!", newStatus: "InProgress" },
   };
   const result = await client
-    .path("/workflowtasks/{taskId}/release-task", taskId)
+    .path("/workflowtasks/{taskId}/change-task-status", taskId)
     .post(options);
   console.log(result);
 }
 
-dsarTaskRequestRelease().catch(console.error);
+taskRequestUpdate().catch(console.error);

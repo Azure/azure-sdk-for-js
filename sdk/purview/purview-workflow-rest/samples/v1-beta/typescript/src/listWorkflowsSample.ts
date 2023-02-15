@@ -3,9 +3,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import createPurviewWorkflowClient, {
-  paginate
-} from "@azure-rest/purview-workflow";
+import createPurviewWorkflowClient, { paginate } from "@azure-rest/purview-workflow";
 import { UsernamePasswordCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 

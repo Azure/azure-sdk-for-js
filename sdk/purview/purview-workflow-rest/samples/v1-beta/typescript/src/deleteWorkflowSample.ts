@@ -25,9 +25,7 @@ async function workflowDelete() {
   const credential = new UsernamePasswordCredential(tenantId, clientId, username, password);
   const client = createPurviewWorkflowClient(endpoint, credential);
   const workflowId = "4afb5752-e47f-43a1-8ba7-c696bf8d2745";
-  const result = await client
-    .path("/workflows/{workflowId}", workflowId)
-    .delete();
+  const result = await client.path("/workflows/{workflowId}", workflowId).delete();
   console.log(result);
 }
 
