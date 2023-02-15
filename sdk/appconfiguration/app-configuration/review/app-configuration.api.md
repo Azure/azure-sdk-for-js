@@ -8,6 +8,7 @@
 
 import { CommonClientOptions } from '@azure/core-client';
 import { CompatResponse } from '@azure/core-http-compat';
+import * as coreClient from '@azure/core-client';
 import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { TokenCredential } from '@azure/core-auth';
@@ -28,15 +29,15 @@ export class AppConfigurationClient {
     constructor(connectionString: string, options?: AppConfigurationClientOptions);
     constructor(endpoint: string, tokenCredential: TokenCredential, options?: AppConfigurationClientOptions);
     addConfigurationSetting(configurationSetting: AddConfigurationSettingParam | AddConfigurationSettingParam<FeatureFlagValue> | AddConfigurationSettingParam<SecretReferenceValue>, options?: AddConfigurationSettingOptions): Promise<AddConfigurationSettingResponse>;
-    archiveSnapshot(name: string, options?: UpdateSnapshotOptions): Promise<UpdateSnapshotResponse>;
-    createSnapshot(name: string, snapshot: SnapshotFilter, options?: CreateSnapshotOptions): Promise<CreateSnapshotResponse>;
+    archiveSnapshot(snapshot: SnapshotId, options?: UpdateSnapshotOptions): Promise<UpdateSnapshotResponse>;
+    createSnapshot(snapshot: SnapshotInfo, options?: CreateSnapshotOptions): Promise<CreateSnapshotResponse>;
     deleteConfigurationSetting(id: ConfigurationSettingId, options?: DeleteConfigurationSettingOptions): Promise<DeleteConfigurationSettingResponse>;
     getConfigurationSetting(id: ConfigurationSettingId, options?: GetConfigurationSettingOptions): Promise<GetConfigurationSettingResponse>;
-    getSnapshot(name: string, options?: GetSnapshotOptions): Promise<GetSnapshotResponse>;
+    getSnapshot(snapshot: SnapshotId, options?: GetSnapshotOptions): Promise<GetSnapshotResponse>;
     listConfigurationSettings(options?: ListConfigurationSettingsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings>;
     listRevisions(options?: ListRevisionsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListRevisionsPage, PageSettings>;
     listSnapshots(options?: ListSnapshotsOptions): PagedAsyncIterableIterator<Snapshot, ListSnapshotsPage, PageSettings>;
-    recoverSnapshot(name: string, options?: UpdateSnapshotOptions): Promise<UpdateSnapshotResponse>;
+    recoverSnapshot(snapshot: SnapshotId, options?: UpdateSnapshotOptions): Promise<UpdateSnapshotResponse>;
     setConfigurationSetting(configurationSetting: SetConfigurationSettingParam | SetConfigurationSettingParam<FeatureFlagValue> | SetConfigurationSettingParam<SecretReferenceValue>, options?: SetConfigurationSettingOptions): Promise<SetConfigurationSettingResponse>;
     setReadOnly(id: ConfigurationSettingId, readOnly: boolean, options?: SetReadOnlyOptions): Promise<SetReadOnlyResponse>;
     updateSyncToken(syncToken: string): void;
@@ -125,7 +126,8 @@ export interface GetConfigurationSettingResponse extends ConfigurationSetting, G
 }
 
 // @public
-export interface GetSnapshotOptions extends OperationOptions {
+export interface GetSnapshotOptions extends OperationOptions, HttpOnlyIfChangedField, OptionalFields {
+    acceptDateTime?: Date;
 }
 
 // @public
@@ -190,11 +192,13 @@ export interface ListSettingsOptions extends OptionalFields {
     acceptDateTime?: Date;
     keyFilter?: string;
     labelFilter?: string;
-    snapshotFilter?: string;
+    snapshotName?: string;
 }
 
+// Warning: (ae-forgotten-export) The symbol "GetSnapshotsOptionalParams" needs to be exported by the entry point index.d.ts
+//
 // @public
-export interface ListSnapshotsOptions extends OperationOptions, ListSettingsOptions {
+export interface ListSnapshotsOptions extends OperationOptions, GetSnapshotsOptionalParams {
 }
 
 // @public
@@ -254,11 +258,11 @@ export interface SetReadOnlyResponse extends ConfigurationSetting, SyncTokenHead
 // @public (undocumented)
 export interface Snapshot {
     compositionType?: CompositionType;
-    readonly created?: Date;
+    readonly createdOn?: Date;
     readonly etag?: string;
-    readonly expires?: Date;
+    readonly expiresOn?: Date;
     filters: KeyValueFilter[];
-    readonly itemsCount?: number;
+    readonly itemCount?: number;
     readonly name?: string;
     retentionPeriod?: number;
     readonly size?: number;
@@ -269,10 +273,17 @@ export interface Snapshot {
     };
 }
 
-// @public (undocumented)
-export interface SnapshotFilter {
+// @public
+export interface SnapshotId {
+    etag?: string;
+    name: string;
+}
+
+// @public
+export interface SnapshotInfo {
     compositionType?: CompositionType;
     filters: KeyValueFilter[];
+    name: string;
     retentionPeriod?: number;
     tags?: {
         [propertyName: string]: string;
@@ -288,7 +299,7 @@ export interface SyncTokenHeaderField {
 }
 
 // @public
-export interface UpdateSnapshotOptions extends OperationOptions {
+export interface UpdateSnapshotOptions extends HttpOnlyIfUnchangedField, OperationOptions {
 }
 
 // @public

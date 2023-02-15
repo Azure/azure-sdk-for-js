@@ -8,6 +8,7 @@ import {
   HttpResponseFields,
   featureFlagContentType,
   secretReferenceContentType,
+  ConfigurationSettingId,
 } from "../../src";
 import {
   checkAndFormatIfAndIfNoneMatch,
@@ -29,13 +30,14 @@ import { assert } from "chai";
 describe("helper methods", () => {
   it("checkAndFormatIfAndIfNoneMatch", () => {
     const key = "ignored";
-
+    const object: ConfigurationSettingId = { key }
+    const objectWithEtag: ConfigurationSettingId = { key, etag: "hello" };
     assert.deepEqual(
       {
         ifMatch: undefined,
         ifNoneMatch: undefined,
       },
-      checkAndFormatIfAndIfNoneMatch({ key }, {})
+      checkAndFormatIfAndIfNoneMatch(object, {})
     );
 
     assert.deepEqual(
@@ -43,12 +45,9 @@ describe("helper methods", () => {
         ifMatch: '"hello"',
         ifNoneMatch: undefined,
       },
-      checkAndFormatIfAndIfNoneMatch(
-        { key, etag: "hello" },
-        {
-          onlyIfUnchanged: true,
-        }
-      )
+      checkAndFormatIfAndIfNoneMatch(objectWithEtag, {
+        onlyIfUnchanged: true,
+      })
     );
 
     assert.deepEqual(
@@ -56,27 +55,22 @@ describe("helper methods", () => {
         ifNoneMatch: '"hello"',
         ifMatch: undefined,
       },
-      checkAndFormatIfAndIfNoneMatch(
-        { key, etag: "hello" },
-        {
-          onlyIfChanged: true,
-        }
-      )
+      checkAndFormatIfAndIfNoneMatch(objectWithEtag, {
+        onlyIfChanged: true,
+      })
     );
   });
 
   it("checkAndFormatIfAndIfNoneMatch - mutually exclusive", () => {
     const key = "ignored";
-
+  const objectWithEtag: ConfigurationSettingId = { key, etag: "won't get used" };
+    
     assert.throws(
       () =>
-        checkAndFormatIfAndIfNoneMatch(
-          { key, etag: "won't get used" },
-          {
-            onlyIfChanged: true,
-            onlyIfUnchanged: true,
-          }
-        ),
+        checkAndFormatIfAndIfNoneMatch(objectWithEtag, {
+          onlyIfChanged: true,
+          onlyIfUnchanged: true,
+        }),
       /onlyIfChanged and onlyIfUnchanged are mutually-exclusive/
     );
   });
