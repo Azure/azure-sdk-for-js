@@ -1,10 +1,7 @@
-import { 
-  DefaultAzureCredential, 
-  WorkloadIdentityCredential 
-} from "@azure/identity";
+import { DefaultAzureCredential, WorkloadIdentityCredential } from "@azure/identity";
+import dotenv from "dotenv";
 
-// Load the .env file if it exists
-require("dotenv").config();
+dotenv.config();
 
 async function testDefaultCredential() {
   const credential = new DefaultAzureCredential();
