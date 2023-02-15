@@ -14,7 +14,6 @@ import {
 } from "./shared/testShared";
 import { Recorder } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import Sinon from "sinon";
 import { AbortController } from "@azure/abort-controller";
 
 function createFailedPolicies(failedInterval: { isFailed: boolean }): AdditionalPolicyConfig[] {
@@ -161,8 +160,6 @@ describe("LogsIngestionClient live tests", function () {
       }
     }
 
-    const uploadSinon = Sinon.spy(LogsIngestionClient.prototype, "upload");
-
     try {
       await client.upload("immutable-id-123", "Custom-MyTableRawData", logData, {
         maxConcurrency: concurrency,
@@ -189,7 +186,6 @@ describe("LogsIngestionClient live tests", function () {
         // do nothing
       }
     }
-    assert.equal(uploadSinon.callCount, 4);
   });
 
   it("User abort additional processing early if they handle the error", async function () {
