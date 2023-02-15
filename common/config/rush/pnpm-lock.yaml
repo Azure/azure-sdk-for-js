@@ -326,6 +326,7 @@ specifiers:
   '@rush-temp/web-pubsub': file:./projects/web-pubsub.tgz
   '@rush-temp/web-pubsub-client': file:./projects/web-pubsub-client.tgz
   '@rush-temp/web-pubsub-express': file:./projects/web-pubsub-express.tgz
+  '@types/trusted-types': 2.0.2
   puppeteer: 19.6.3
 
 dependencies:
@@ -654,6 +655,7 @@ dependencies:
   '@rush-temp/web-pubsub': file:projects/web-pubsub.tgz
   '@rush-temp/web-pubsub-client': file:projects/web-pubsub-client.tgz
   '@rush-temp/web-pubsub-express': file:projects/web-pubsub-express.tgz
+  '@types/trusted-types': 2.0.2
   puppeteer: 19.6.3
 
 packages:
@@ -3928,7 +3930,7 @@ packages:
     dependencies:
       semver: 7.3.8
       shelljs: 0.8.5
-      typescript: 5.0.0-dev.20230214
+      typescript: 5.0.0-dev.20230215
     dev: false
 
   /downlevel-dts/0.7.0:
@@ -8712,8 +8714,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20230214:
-    resolution: {integrity: sha512-CpXBmHZVBTjAslhkSqAaiR4zZgr5G46QvfKB51L4+alGm5F2Jqbdhy6+cIFzU3AiN1D/iEmA88E19N0/e5bttQ==}
+  /typescript/5.0.0-dev.20230215:
+    resolution: {integrity: sha512-rbuBEuyaLltNQkRsBCxysSHGGEaizuGaVEMO+8bBmTXQRSzITTl1WOg2UFXr9p0pwz8l0KJtOem8MggaGz1/XA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
