@@ -43,7 +43,7 @@ function appendQueryParams(
   let parsedUrl = new URL(url);
   const queryParams = options.queryParameters;
   for (const key of Object.keys(queryParams)) {
-    let param = queryParams[key] as any;
+    const param = queryParams[key] as any;
     if (param === undefined || param === null) {
       continue;
     }

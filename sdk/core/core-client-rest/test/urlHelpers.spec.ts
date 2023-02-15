@@ -90,7 +90,7 @@ describe("urlHelpers", () => {
   });
 
   it("should build url with simple qsp collection ", () => {
-    let result = buildRequestUrl(mockBaseUrl, "/foo", [], {
+    const result = buildRequestUrl(mockBaseUrl, "/foo", [], {
       skipUrlEncoding: true,
       queryParameters: {
         bar: ["1", "2", "3", "4", "5"],
@@ -101,7 +101,7 @@ describe("urlHelpers", () => {
   });
 
   it("should build url with simple qsp collection with multi format", () => {
-    let result = buildRequestUrl(mockBaseUrl, "/foo", [], {
+    const result = buildRequestUrl(mockBaseUrl, "/foo", [], {
       skipUrlEncoding: true,
       queryParameters: {
         bar: ["1", "2", "3", "4", "5"],
@@ -113,7 +113,7 @@ describe("urlHelpers", () => {
   });
 
   it("should build url with simple qsp collection with pipe format", () => {
-    let result = buildRequestUrl(mockBaseUrl, "/foo", [], {
+    const result = buildRequestUrl(mockBaseUrl, "/foo", [], {
       skipUrlEncoding: true,
       queryParameters: {
         bar: ["1", "2", "3", "4", "5"],
