@@ -29,7 +29,7 @@ export async function runWithCpuProfile(
   });
 }
 
-const getFormattedDate = () => {
+function getFormattedDate() {
   return new Date().toISOString().replace(/[:\-.]/g, "_");
 };
 
