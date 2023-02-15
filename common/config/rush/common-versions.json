@@ -16,6 +16,8 @@
      * instead of the latest version.
      */
     // "some-library": "1.2.3"
+    "@types/trusted-types": "2.0.2", // #24872
+    "puppeteer": "19.6.3"
   },
   /**
    * When set to true, for all projects in the repo, all dependencies will be automatically added as preferredVersions,
