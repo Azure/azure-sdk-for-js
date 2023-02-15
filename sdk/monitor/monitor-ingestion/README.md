@@ -258,7 +258,7 @@ For detailed instructions on how to enable logs, see the [@azure/logger package 
 
 ## Next steps
 
-To learn more about Azure Monitor, see the [Azure Monitor service documentation][azure_monitor_overview].
+To learn more about Azure Monitor, see the [Azure Monitor service documentation][azure_monitor_overview]. Please take a look at the samples directory for detailed [examples][azure_monitor_samples] on how to use this library.
 
 ## Contributing
 
@@ -269,6 +269,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 [azure_monitor_overview]: https://docs.microsoft.com/azure/azure-monitor/overview
 [data_collection_endpoint]: https://docs.microsoft.com/azure/azure-monitor/essentials/data-collection-endpoint-overview
 [data_collection_rule]: https://docs.microsoft.com/azure/azure-monitor/essentials/data-collection-rule-overview
+[azure_monitor_samples]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/monitor-ingestion/samples/v1-beta
 [monitor_query]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/monitor-query
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/monitor/monitor-ingestion/README.png)
