@@ -8822,8 +8822,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript/5.0.0-dev.20230210:
-    resolution: {integrity: sha512-FjXPw8PFeIuT1cxouvP4LRu8J1G+FsWVEGwlJ9GcVywRNDfD3Hh6flQFUympS+3QnAIiG/+CHs9ZS2EQIT733g==}
+  /typescript/5.0.0-dev.20230215:
+    resolution: {integrity: sha512-rbuBEuyaLltNQkRsBCxysSHGGEaizuGaVEMO+8bBmTXQRSzITTl1WOg2UFXr9p0pwz8l0KJtOem8MggaGz1/XA==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
