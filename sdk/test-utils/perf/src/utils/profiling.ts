@@ -31,4 +31,4 @@ export async function runWithCpuProfile(
 
 function getFormattedDate() {
   return new Date().toISOString().replace(/[:\-.]/g, "_");
-};
+}
