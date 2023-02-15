@@ -596,11 +596,6 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/maps-search",
-      "projectFolder": "sdk/maps/maps-search",
-      "versionPolicyName": "client"
-    },
-    {
       "packageName": "@azure-rest/maps-route",
       "projectFolder": "sdk/maps/maps-route-rest",
       "versionPolicyName": "client"
