@@ -326,6 +326,7 @@ specifiers:
   '@rush-temp/web-pubsub': file:./projects/web-pubsub.tgz
   '@rush-temp/web-pubsub-client': file:./projects/web-pubsub-client.tgz
   '@rush-temp/web-pubsub-express': file:./projects/web-pubsub-express.tgz
+  puppeteer: 19.6.3
 
 dependencies:
   '@rush-temp/abort-controller': file:projects/abort-controller.tgz
@@ -653,6 +654,7 @@ dependencies:
   '@rush-temp/web-pubsub': file:projects/web-pubsub.tgz
   '@rush-temp/web-pubsub-client': file:projects/web-pubsub-client.tgz
   '@rush-temp/web-pubsub-express': file:projects/web-pubsub-express.tgz
+  puppeteer: 19.6.3
 
 packages:
 
