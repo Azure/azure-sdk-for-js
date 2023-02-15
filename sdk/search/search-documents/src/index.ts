@@ -13,6 +13,7 @@ export {
   CountDocumentsOptions,
   DeleteDocumentsOptions,
   ExcludedODataTypes,
+  ExtractDocumentKey,
   GetDocumentOptions,
   IndexDocumentsAction,
   ListSearchResultsPageSettings,
@@ -42,6 +43,7 @@ export {
   SearchPick,
   SelectFields,
   SuggestNarrowedModel,
+  UnionToIntersection,
 } from "./indexModels";
 export { SearchIndexingBufferedSender, IndexDocumentsClient } from "./searchIndexingBufferedSender";
 export { SearchIndexClient, SearchIndexClientOptions } from "./searchIndexClient";

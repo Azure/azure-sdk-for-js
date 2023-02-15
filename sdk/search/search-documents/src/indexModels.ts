@@ -826,7 +826,7 @@ export type SearchPick<T extends object, Paths extends SelectFields<T>> = [T] ex
       // at all, only the display string of the type.
     };
 
-type ExtractDocumentKey<Model> = {
+export type ExtractDocumentKey<Model> = {
   [K in keyof Model as Model[K] extends string | undefined ? K : never]: Model[K];
 };
 
