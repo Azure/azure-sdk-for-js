@@ -1932,6 +1932,11 @@
       "packageName": "@azure/arm-voiceservices",
       "projectFolder": "sdk/voiceservices/arm-voiceservices",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/web-pubsub-client-protobuf",
+      "projectFolder": "sdk/web-pubsub/web-pubsub-client-protobuf",
+      "versionPolicyName": "client"
     }
   ]
 }

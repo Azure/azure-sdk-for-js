@@ -1,0 +1,15 @@
+{
+  "extends": "../../../tsconfig.package",
+  "compilerOptions": {
+    "declarationDir": "./types",
+    "outDir": "./dist-esm",
+    "rootDir": ".",
+    "allowJs": true,
+    "importHelpers": true,
+    "lib": ["DOM", "ES2017"],
+    "paths": {
+      "@azure/web-pubsub-client-protobuf": ["./src/index"]
+    }
+  },
+  "include": ["src/clientProto.js", "src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]
+}
