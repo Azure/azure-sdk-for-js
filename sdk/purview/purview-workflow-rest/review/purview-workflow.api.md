@@ -16,7 +16,7 @@ import { TokenCredential } from '@azure/core-auth';
 // @public
 export interface ApprovalDetailOutput {
     approvalType: "PendingOnAny" | "PendingOnAll";
-    approvers: Record<string, unknown>;
+    approvers: Record<string, ApproverResponseOutput>;
     status: "Pending" | "Approved" | "Rejected" | "Canceled";
 }
 
@@ -66,6 +66,13 @@ export interface ApproveApprovalTaskMediaTypesParam {
 // @public (undocumented)
 export type ApproveApprovalTaskParameters = ApproveApprovalTaskMediaTypesParam & ApproveApprovalTaskBodyParam & RequestParameters;
 
+// @public
+export interface ApproverResponseOutput {
+    comment?: string;
+    reply: "Approved" | "Rejected" | "Pending";
+    responseTime?: string;
+}
+
 // @public (undocumented)
 export interface CancelWorkflowRun {
     post(options: CancelWorkflowRunParameters): StreamableMethod<CancelWorkflowRun200Response | CancelWorkflowRunDefaultResponse>;
@@ -99,40 +106,6 @@ export interface CancelWorkflowRunMediaTypesParam {
 
 // @public (undocumented)
 export type CancelWorkflowRunParameters = CancelWorkflowRunMediaTypesParam & CancelWorkflowRunBodyParam & RequestParameters;
-
-// @public (undocumented)
-export interface ClaimDsarTaskRequest {
-    post(options: ClaimDsarTaskRequestParameters): StreamableMethod<ClaimDsarTaskRequest200Response | ClaimDsarTaskRequestDefaultResponse>;
-}
-
-// @public
-export interface ClaimDsarTaskRequest200Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface ClaimDsarTaskRequestBodyParam {
-    body: DsarTaskClaimCommand;
-}
-
-// @public
-export interface ClaimDsarTaskRequestDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseOutput;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export interface ClaimDsarTaskRequestMediaTypesParam {
-    contentType?: "application/json";
-}
-
-// @public (undocumented)
-export type ClaimDsarTaskRequestParameters = ClaimDsarTaskRequestMediaTypesParam & ClaimDsarTaskRequestBodyParam & RequestParameters;
 
 // @public
 function createClient(endpoint: string, credentials: TokenCredential, options?: ClientOptions): PurviewWorkflowClient;
@@ -185,36 +158,6 @@ export interface DeleteWorkflowDefaultResponse extends HttpResponse {
 
 // @public (undocumented)
 export type DeleteWorkflowParameters = RequestParameters;
-
-// @public (undocumented)
-export interface DsarTaskClaimCommand {
-    comment?: string;
-}
-
-// @public
-export interface DsarTaskDetailOutput {
-    approvers: Array<string>;
-    assignedTo: Array<string>;
-    // (undocumented)
-    changeHistory: Array<TaskChangeEventOutput>;
-    claimedBy?: string;
-    dsarId: string;
-    dsarTaskId: string;
-    status: "NotStarted" | "InProgress" | "Completed" | "NotApplicable" | "Approved" | "Reopened";
-    taskBody: string;
-}
-
-// @public
-export interface DsarTaskOutput extends WorkflowTaskOutputParent {
-    taskDetail?: DsarTaskDetailOutput;
-    // (undocumented)
-    type: "DsarTask";
-}
-
-// @public (undocumented)
-export interface DsarTaskReleaseCommand {
-    comment?: string;
-}
 
 // @public
 export interface ErrorModelOutput {
@@ -352,13 +295,7 @@ export function isUnexpected(response: RejectApprovalTask200Response | RejectApp
 export function isUnexpected(response: ReassignWorkflowTask200Response | ReassignWorkflowTaskDefaultResponse): response is ReassignWorkflowTaskDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: UpdateTaskRequest200Response | UpdateTaskRequestDefaultResponse): response is UpdateTaskRequestDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: ClaimDsarTaskRequest200Response | ClaimDsarTaskRequestDefaultResponse): response is ClaimDsarTaskRequestDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: ReleaseDsarTaskRequest200Response | ReleaseDsarTaskRequestDefaultResponse): response is ReleaseDsarTaskRequestDefaultResponse;
+export function isUnexpected(response: UpdateTaskStatus200Response | UpdateTaskStatusDefaultResponse): response is UpdateTaskStatusDefaultResponse;
 
 // @public (undocumented)
 export interface ListWorkflowRuns {
@@ -396,7 +333,6 @@ export interface ListWorkflowRunsQueryParamProperties {
     orderby?: "status desc" | "status asc" | "requestor desc" | "requestor asc" | "startTime desc" | "startTime asc" | "createdTime desc" | "createdTime asc";
     runStatuses?: Array<"InProgress" | "Failed" | "Completed" | "NotStarted" | "Canceling" | "CancellationFailed" | "Canceled" | "Pending" | "Approved" | "Rejected" | "sent" | "received" | "history">;
     timeWindow?: "1d" | "7d" | "30d" | "90d";
-    userRequestIds?: Array<string>;
     workflowIds?: Array<string>;
 }
 
@@ -459,7 +395,7 @@ export interface ListWorkflowTasksQueryParamProperties {
     maxpagesize?: number;
     orderby?: "status desc" | "status asc" | "requestor desc" | "requestor asc" | "startTime desc" | "startTime asc" | "createdTime desc" | "createdTime asc";
     taskStatuses?: Array<"InProgress" | "Failed" | "Completed" | "NotStarted" | "Canceling" | "CancellationFailed" | "Canceled" | "Pending" | "Approved" | "Rejected" | "sent" | "received" | "history">;
-    taskTypes?: Array<"Approval" | "SimpleTask" | "DsarTask" | "approval" | "simpleTask" | "dsarTask">;
+    taskTypes?: Array<"Approval" | "SimpleTask" | "approval" | "simpleTask">;
     timeWindow?: "1d" | "7d" | "30d" | "90d";
     viewMode?: string;
     workflowIds?: Array<string>;
@@ -469,7 +405,7 @@ export interface ListWorkflowTasksQueryParamProperties {
 // @public
 export interface Operation {
     payload: Record<string, unknown>;
-    type: "CreateTerm" | "UpdateTerm" | "DeleteTerm" | "ImportTerms" | "UpdateAsset" | "GrantDataAccess" | "DSARDelete" | "DSARExport";
+    type: "CreateTerm" | "UpdateTerm" | "DeleteTerm" | "ImportTerms" | "UpdateAsset" | "GrantDataAccess";
 }
 
 // @public
@@ -572,40 +508,6 @@ export interface RejectApprovalTaskMediaTypesParam {
 export type RejectApprovalTaskParameters = RejectApprovalTaskMediaTypesParam & RejectApprovalTaskBodyParam & RequestParameters;
 
 // @public (undocumented)
-export interface ReleaseDsarTaskRequest {
-    post(options: ReleaseDsarTaskRequestParameters): StreamableMethod<ReleaseDsarTaskRequest200Response | ReleaseDsarTaskRequestDefaultResponse>;
-}
-
-// @public
-export interface ReleaseDsarTaskRequest200Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface ReleaseDsarTaskRequestBodyParam {
-    body: DsarTaskReleaseCommand;
-}
-
-// @public
-export interface ReleaseDsarTaskRequestDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseOutput;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export interface ReleaseDsarTaskRequestMediaTypesParam {
-    contentType?: "application/json";
-}
-
-// @public (undocumented)
-export type ReleaseDsarTaskRequestParameters = ReleaseDsarTaskRequestMediaTypesParam & ReleaseDsarTaskRequestBodyParam & RequestParameters;
-
-// @public (undocumented)
 export interface Routes {
     (path: "/workflows"): ListWorkflows;
     (path: "/workflows/{workflowId}", workflowId: string): GetWorkflow;
@@ -618,16 +520,14 @@ export interface Routes {
     (path: "/workflowtasks/{taskId}/approve-approval", taskId: string): ApproveApprovalTask;
     (path: "/workflowtasks/{taskId}/reject-approval", taskId: string): RejectApprovalTask;
     (path: "/workflowtasks/{taskId}/reassign", taskId: string): ReassignWorkflowTask;
-    (path: "/workflowtasks/{taskId}/change-task-status", taskId: string): UpdateTaskRequest;
-    (path: "/workflowtasks/{taskId}/claim-task", taskId: string): ClaimDsarTaskRequest;
-    (path: "/workflowtasks/{taskId}/release-task", taskId: string): ReleaseDsarTaskRequest;
+    (path: "/workflowtasks/{taskId}/change-task-status", taskId: string): UpdateTaskStatus;
 }
 
 // @public
 export interface SimpleTaskDetailOutput {
     assignedTo: Array<string>;
     // (undocumented)
-    changeHistory: Array<TaskChangeEventOutput>;
+    changeHistory: Array<Record<string, unknown>>;
     status: "NotStarted" | "InProgress" | "Completed" | "Canceled";
     taskBody: string;
 }
@@ -674,20 +574,10 @@ export interface SubmitUserRequestsMediaTypesParam {
 export type SubmitUserRequestsParameters = SubmitUserRequestsMediaTypesParam & SubmitUserRequestsBodyParam & RequestParameters;
 
 // @public
-export interface TaskChangeEventOutput {
-    change: Record<string, unknown>;
-    // (undocumented)
-    type: "ApproveApproval" | "RejectApproval" | "Reassign" | "ChangeTaskStatus" | "ClaimTask" | "ReleaseTask";
-    updatedBy: string;
-    // (undocumented)
-    updatedTime: string;
-}
-
-// @public
 export interface TaskPayloadOutput {
     payload?: Record<string, unknown>;
     targetValue: string;
-    type: "CreateTerm" | "UpdateTerm" | "DeleteTerm" | "ImportTerms" | "UpdateAsset" | "GrantDataAccess" | "DSARDelete" | "DSARExport";
+    type: "CreateTerm" | "UpdateTerm" | "DeleteTerm" | "ImportTerms" | "UpdateAsset" | "GrantDataAccess";
 }
 
 // @public (undocumented)
@@ -699,13 +589,13 @@ export interface TasksListOutput {
 // @public (undocumented)
 export interface TaskUpdateCommand {
     comment?: string;
-    newStatus: "Not Started" | "In Progress" | "Completed" | "Canceled";
+    newStatus: "NotStarted" | "InProgress" | "Completed" | "Canceled";
 }
 
 // @public
 export interface Trigger {
     // (undocumented)
-    type: "when_term_creation_is_requested" | "when_term_deletion_is_requested" | "when_term_update_is_requested" | "when_terms_import_is_requested" | "when_data_access_grant_is_requested" | "when_asset_update_is_requested" | "when_dsar_deletion_is_requested" | "when_dsar_export_is_requested";
+    type: "when_term_creation_is_requested" | "when_term_deletion_is_requested" | "when_term_update_is_requested" | "when_terms_import_is_requested" | "when_data_access_grant_is_requested" | "when_asset_update_is_requested";
     underCollection?: string;
     underGlossary?: string;
     underGlossaryHierarchy?: string;
@@ -714,19 +604,19 @@ export interface Trigger {
 // @public
 export interface TriggerOutput {
     // (undocumented)
-    type: "when_term_creation_is_requested" | "when_term_deletion_is_requested" | "when_term_update_is_requested" | "when_terms_import_is_requested" | "when_data_access_grant_is_requested" | "when_asset_update_is_requested" | "when_dsar_deletion_is_requested" | "when_dsar_export_is_requested";
+    type: "when_term_creation_is_requested" | "when_term_deletion_is_requested" | "when_term_update_is_requested" | "when_terms_import_is_requested" | "when_data_access_grant_is_requested" | "when_asset_update_is_requested";
     underCollection?: string;
     underGlossary?: string;
     underGlossaryHierarchy?: string;
 }
 
 // @public (undocumented)
-export interface UpdateTaskRequest {
-    post(options: UpdateTaskRequestParameters): StreamableMethod<UpdateTaskRequest200Response | UpdateTaskRequestDefaultResponse>;
+export interface UpdateTaskStatus {
+    post(options: UpdateTaskStatusParameters): StreamableMethod<UpdateTaskStatus200Response | UpdateTaskStatusDefaultResponse>;
 }
 
 // @public
-export interface UpdateTaskRequest200Response extends HttpResponse {
+export interface UpdateTaskStatus200Response extends HttpResponse {
     // (undocumented)
     body: Record<string, unknown>;
     // (undocumented)
@@ -734,12 +624,12 @@ export interface UpdateTaskRequest200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface UpdateTaskRequestBodyParam {
+export interface UpdateTaskStatusBodyParam {
     body: TaskUpdateCommand;
 }
 
 // @public
-export interface UpdateTaskRequestDefaultResponse extends HttpResponse {
+export interface UpdateTaskStatusDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
@@ -747,12 +637,12 @@ export interface UpdateTaskRequestDefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface UpdateTaskRequestMediaTypesParam {
+export interface UpdateTaskStatusMediaTypesParam {
     contentType?: "application/json";
 }
 
 // @public (undocumented)
-export type UpdateTaskRequestParameters = UpdateTaskRequestMediaTypesParam & UpdateTaskRequestBodyParam & RequestParameters;
+export type UpdateTaskStatusParameters = UpdateTaskStatusMediaTypesParam & UpdateTaskStatusBodyParam & RequestParameters;
 
 // @public (undocumented)
 export interface UserRequestPayload {
@@ -763,7 +653,7 @@ export interface UserRequestPayload {
 // @public
 export interface UserRequestResponseOperationsItemOutput {
     payload: Record<string, unknown>;
-    type: "CreateTerm" | "UpdateTerm" | "DeleteTerm" | "ImportTerms" | "UpdateAsset" | "GrantDataAccess" | "DSARDelete" | "DSARExport";
+    type: "CreateTerm" | "UpdateTerm" | "DeleteTerm" | "ImportTerms" | "UpdateAsset" | "GrantDataAccess";
     // (undocumented)
     workflowRunIds?: Array<string>;
 }
@@ -794,15 +684,15 @@ export interface WorkflowMetadataListOutput {
 
 // @public
 export interface WorkflowMetadataOutput {
-    createdBy: string;
-    createdTime: string;
+    createdBy?: string;
+    createdTime?: string;
     description: string;
     id: string;
     isEnabled: boolean;
-    lastUpdateTime: string;
+    lastUpdateTime?: string;
     name: string;
     triggers: Array<TriggerOutput>;
-    updatedBy: string;
+    updatedBy?: string;
 }
 
 // @public
@@ -860,14 +750,14 @@ export interface WorkflowRunOutput {
 // @public
 export interface WorkflowRunPayloadOutput {
     targetValue: string;
-    type: "CreateTerm" | "UpdateTerm" | "DeleteTerm" | "ImportTerms" | "UpdateAsset" | "GrantDataAccess" | "DSARDelete" | "DSARExport";
+    type: "CreateTerm" | "UpdateTerm" | "DeleteTerm" | "ImportTerms" | "UpdateAsset" | "GrantDataAccess";
 }
 
 // @public
 export interface WorkflowRunRunPayloadOutput {
     payload: Record<string, unknown>;
     targetValue: string;
-    type: "CreateTerm" | "UpdateTerm" | "DeleteTerm" | "ImportTerms" | "UpdateAsset" | "GrantDataAccess" | "DSARDelete" | "DSARExport";
+    type: "CreateTerm" | "UpdateTerm" | "DeleteTerm" | "ImportTerms" | "UpdateAsset" | "GrantDataAccess";
 }
 
 // @public (undocumented)
@@ -887,7 +777,7 @@ export interface WorkflowTaskExpiryInfoOutput {
 }
 
 // @public
-export type WorkflowTaskOutput = ApprovalOutput | SimpleTaskOutput | DsarTaskOutput;
+export type WorkflowTaskOutput = ApprovalOutput | SimpleTaskOutput;
 
 // @public
 export interface WorkflowTaskOutputParent {
@@ -900,7 +790,7 @@ export interface WorkflowTaskOutputParent {
     requestor: string;
     title?: string;
     // (undocumented)
-    type: "WorkflowTask" | "Approval" | "SimpleTask" | "DsarTask";
+    type: "WorkflowTask" | "Approval" | "SimpleTask";
     workflowId: string;
     workflowRunId: string;
 }

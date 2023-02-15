@@ -10,7 +10,7 @@ import {
   WorkflowRunListOutput,
   WorkflowRunOutput,
   TasksListOutput,
-  WorkflowTaskOutput,
+  WorkflowTaskOutput
 } from "./outputModels";
 
 /** List all workflows. */
@@ -170,37 +170,13 @@ export interface ReassignWorkflowTaskDefaultResponse extends HttpResponse {
 }
 
 /** Update the status of a workflow task request. */
-export interface UpdateTaskRequest200Response extends HttpResponse {
+export interface UpdateTaskStatus200Response extends HttpResponse {
   status: "200";
   body: Record<string, unknown>;
 }
 
 /** Update the status of a workflow task request. */
-export interface UpdateTaskRequestDefaultResponse extends HttpResponse {
-  status: string;
-  body: ErrorResponseOutput;
-}
-
-/** Claim a DSAR task request. */
-export interface ClaimDsarTaskRequest200Response extends HttpResponse {
-  status: "200";
-  body: Record<string, unknown>;
-}
-
-/** Claim a DSAR task request. */
-export interface ClaimDsarTaskRequestDefaultResponse extends HttpResponse {
-  status: string;
-  body: ErrorResponseOutput;
-}
-
-/** Release a DSAR task request. */
-export interface ReleaseDsarTaskRequest200Response extends HttpResponse {
-  status: "200";
-  body: Record<string, unknown>;
-}
-
-/** Release a DSAR task request. */
-export interface ReleaseDsarTaskRequestDefaultResponse extends HttpResponse {
+export interface UpdateTaskStatusDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }

@@ -8,9 +8,7 @@ import {
   WorkflowRunCancelRequest,
   ApprovalResponseComment,
   ReassignCommand,
-  TaskUpdateCommand,
-  DsarTaskClaimCommand,
-  DsarTaskReleaseCommand,
+  TaskUpdateCommand
 } from "./models";
 
 export type ListWorkflowsParameters = RequestParameters;
@@ -74,8 +72,6 @@ export interface ListWorkflowRunsQueryParamProperties {
     | "received"
     | "history"
   >;
-  /** Filter items by user request id list. */
-  userRequestIds?: Array<string>;
   /** Filter items by workflow id list. */
   workflowIds?: Array<string>;
   /** The maximum page size to get the items at one time. */
@@ -86,7 +82,8 @@ export interface ListWorkflowRunsQueryParam {
   queryParameters?: ListWorkflowRunsQueryParamProperties;
 }
 
-export type ListWorkflowRunsParameters = ListWorkflowRunsQueryParam & RequestParameters;
+export type ListWorkflowRunsParameters = ListWorkflowRunsQueryParam &
+  RequestParameters;
 export type GetWorkflowRunParameters = RequestParameters;
 
 export interface CancelWorkflowRunBodyParam {
@@ -123,9 +120,7 @@ export interface ListWorkflowTasksQueryParamProperties {
     | "createdTime desc"
     | "createdTime asc";
   /** Filter items by workflow task type. */
-  taskTypes?: Array<
-    "Approval" | "SimpleTask" | "DsarTask" | "approval" | "simpleTask" | "dsarTask"
-  >;
+  taskTypes?: Array<"Approval" | "SimpleTask" | "approval" | "simpleTask">;
   /** Filter workflow tasks by status. */
   taskStatuses?: Array<
     | "InProgress"
@@ -150,7 +145,8 @@ export interface ListWorkflowTasksQueryParam {
   queryParameters?: ListWorkflowTasksQueryParamProperties;
 }
 
-export type ListWorkflowTasksParameters = ListWorkflowTasksQueryParam & RequestParameters;
+export type ListWorkflowTasksParameters = ListWorkflowTasksQueryParam &
+  RequestParameters;
 export type GetWorkflowTaskParameters = RequestParameters;
 
 export interface ApproveApprovalTaskBodyParam {
@@ -195,44 +191,16 @@ export type ReassignWorkflowTaskParameters = ReassignWorkflowTaskMediaTypesParam
   ReassignWorkflowTaskBodyParam &
   RequestParameters;
 
-export interface UpdateTaskRequestBodyParam {
+export interface UpdateTaskStatusBodyParam {
   /** Request body of updating workflow task request. */
   body: TaskUpdateCommand;
 }
 
-export interface UpdateTaskRequestMediaTypesParam {
+export interface UpdateTaskStatusMediaTypesParam {
   /** Request content type */
   contentType?: "application/json";
 }
 
-export type UpdateTaskRequestParameters = UpdateTaskRequestMediaTypesParam &
-  UpdateTaskRequestBodyParam &
-  RequestParameters;
-
-export interface ClaimDsarTaskRequestBodyParam {
-  /** Request body of claiming DSAR task request. */
-  body: DsarTaskClaimCommand;
-}
-
-export interface ClaimDsarTaskRequestMediaTypesParam {
-  /** Request content type */
-  contentType?: "application/json";
-}
-
-export type ClaimDsarTaskRequestParameters = ClaimDsarTaskRequestMediaTypesParam &
-  ClaimDsarTaskRequestBodyParam &
-  RequestParameters;
-
-export interface ReleaseDsarTaskRequestBodyParam {
-  /** Request body of releasing DSAR task request. */
-  body: DsarTaskReleaseCommand;
-}
-
-export interface ReleaseDsarTaskRequestMediaTypesParam {
-  /** Request content type */
-  contentType?: "application/json";
-}
-
-export type ReleaseDsarTaskRequestParameters = ReleaseDsarTaskRequestMediaTypesParam &
-  ReleaseDsarTaskRequestBodyParam &
+export type UpdateTaskStatusParameters = UpdateTaskStatusMediaTypesParam &
+  UpdateTaskStatusBodyParam &
   RequestParameters;

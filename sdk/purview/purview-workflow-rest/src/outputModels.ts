@@ -20,13 +20,13 @@ export interface WorkflowMetadataOutput {
   /** It describes under what condition a workflow will run.  */
   triggers: Array<TriggerOutput>;
   /** The created time of workflow. */
-  createdTime: string;
+  createdTime?: string;
   /** The person who created the workflow. */
-  createdBy: string;
+  createdBy?: string;
   /** The last update time. */
-  lastUpdateTime: string;
+  lastUpdateTime?: string;
   /** The person who updated the workflow. */
-  updatedBy: string;
+  updatedBy?: string;
   /** The name of a workflow. */
   name: string;
   /** Whether the workflow is enabled or not. */
@@ -43,9 +43,7 @@ export interface TriggerOutput {
     | "when_term_update_is_requested"
     | "when_terms_import_is_requested"
     | "when_data_access_grant_is_requested"
-    | "when_asset_update_is_requested"
-    | "when_dsar_deletion_is_requested"
-    | "when_dsar_export_is_requested";
+    | "when_asset_update_is_requested";
   /** Glossary term hierarchy path. */
   underGlossaryHierarchy?: string;
   /** The collection name. */
@@ -116,9 +114,7 @@ export interface UserRequestResponseOperationsItemOutput {
     | "DeleteTerm"
     | "ImportTerms"
     | "UpdateAsset"
-    | "GrantDataAccess"
-    | "DSARDelete"
-    | "DSARExport";
+    | "GrantDataAccess";
   /** The payload of each operation which user want to submit. */
   payload: Record<string, unknown>;
   workflowRunIds?: Array<string>;
@@ -187,9 +183,7 @@ export interface WorkflowRunPayloadOutput {
     | "DeleteTerm"
     | "ImportTerms"
     | "UpdateAsset"
-    | "GrantDataAccess"
-    | "DSARDelete"
-    | "DSARExport";
+    | "GrantDataAccess";
   /** The target value which need involve workflow to update. */
   targetValue: string;
 }
@@ -254,9 +248,7 @@ export interface WorkflowRunRunPayloadOutput {
     | "DeleteTerm"
     | "ImportTerms"
     | "UpdateAsset"
-    | "GrantDataAccess"
-    | "DSARDelete"
-    | "DSARExport";
+    | "GrantDataAccess";
   /** The target value which need involve workflow to update. */
   targetValue: string;
   /** The payload of each operation which user want to submit. */
@@ -316,7 +308,7 @@ export interface WorkflowTaskOutputParent {
   reminderInfo?: WorkflowTaskReminderInfoOutput;
   /** Info of task expiry. */
   expiryInfo?: WorkflowTaskExpiryInfoOutput;
-  type: "WorkflowTask" | "Approval" | "SimpleTask" | "DsarTask";
+  type: "WorkflowTask" | "Approval" | "SimpleTask";
 }
 
 /** Info and material that helps assignees to take action. */
@@ -328,9 +320,7 @@ export interface TaskPayloadOutput {
     | "DeleteTerm"
     | "ImportTerms"
     | "UpdateAsset"
-    | "GrantDataAccess"
-    | "DSARDelete"
-    | "DSARExport";
+    | "GrantDataAccess";
   /** The target value of entity which user want to involve workflow to update. */
   targetValue: string;
   /** The payload of the task. */
@@ -378,7 +368,17 @@ export interface ApprovalDetailOutput {
   /** The status of an approval task. */
   status: "Pending" | "Approved" | "Rejected" | "Canceled";
   /** The list of approvers with reply. */
-  approvers: Record<string, unknown>;
+  approvers: Record<string, ApproverResponseOutput>;
+}
+
+/** The response of approvers for a workflow task. */
+export interface ApproverResponseOutput {
+  /** The response for an approval task. */
+  reply: "Approved" | "Rejected" | "Pending";
+  /** The comment of approving or rejecting an approval request. */
+  comment?: string;
+  /** The reply time of approver to a workflow task. */
+  responseTime?: string;
 }
 
 /** The workflow simple task properties. */
@@ -396,62 +396,8 @@ export interface SimpleTaskDetailOutput {
   assignedTo: Array<string>;
   /** Simple task status. */
   status: "NotStarted" | "InProgress" | "Completed" | "Canceled";
-  changeHistory: Array<TaskChangeEventOutput>;
-}
-
-/** History of changes made on task. */
-export interface TaskChangeEventOutput {
-  /** Value may contain a UUID */
-  updatedBy: string;
-  updatedTime: string;
-  type:
-    | "ApproveApproval"
-    | "RejectApproval"
-    | "Reassign"
-    | "ChangeTaskStatus"
-    | "ClaimTask"
-    | "ReleaseTask";
-  /** The changes made on this task. */
-  change: Record<string, unknown>;
-}
-
-/** The workflow dsar task properties. */
-export interface DsarTaskOutput extends WorkflowTaskOutputParent {
-  /** Workflow dsar task details. */
-  taskDetail?: DsarTaskDetailOutput;
-  type: "DsarTask";
-}
-
-/** Workflow dsar task details. */
-export interface DsarTaskDetailOutput {
-  /** The dsar task body. */
-  taskBody: string;
-  /** The users or groups were assigned the dsar task. */
-  assignedTo: Array<string>;
-  /**
-   * The user who claimed the dsar task.
-   *
-   * Value may contain a UUID
-   */
-  claimedBy?: string;
-  /** The list of approvers. */
-  approvers: Array<string>;
-  /**
-   * The dsar id.
-   *
-   * Value may contain a UUID
-   */
-  dsarId: string;
-  /**
-   * The dsar task id.
-   *
-   * Value may contain a UUID
-   */
-  dsarTaskId: string;
-  /** The dsar task status. */
-  status: "NotStarted" | "InProgress" | "Completed" | "NotApplicable" | "Approved" | "Reopened";
-  changeHistory: Array<TaskChangeEventOutput>;
+  changeHistory: Array<Record<string, unknown>>;
 }
 
 /** An actionable item assigned to assignees. It is created when approval or task action starts to execute. Approval is one kind of task. */
-export type WorkflowTaskOutput = ApprovalOutput | SimpleTaskOutput | DsarTaskOutput;
+export type WorkflowTaskOutput = ApprovalOutput | SimpleTaskOutput;

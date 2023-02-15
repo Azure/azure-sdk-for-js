@@ -9,9 +9,7 @@ export interface Trigger {
     | "when_term_update_is_requested"
     | "when_terms_import_is_requested"
     | "when_data_access_grant_is_requested"
-    | "when_asset_update_is_requested"
-    | "when_dsar_deletion_is_requested"
-    | "when_dsar_export_is_requested";
+    | "when_asset_update_is_requested";
   /** Glossary term hierarchy path. */
   underGlossaryHierarchy?: string;
   /** The collection name. */
@@ -50,9 +48,7 @@ export interface Operation {
     | "DeleteTerm"
     | "ImportTerms"
     | "UpdateAsset"
-    | "GrantDataAccess"
-    | "DSARDelete"
-    | "DSARExport";
+    | "GrantDataAccess";
   /** The payload of each operation which user want to submit. */
   payload: Record<string, unknown>;
 }
@@ -90,17 +86,7 @@ export interface ReassignCommandReassignmentsItem {
 
 export interface TaskUpdateCommand {
   /** The new status will be used to update the task. */
-  newStatus: "Not Started" | "In Progress" | "Completed" | "Canceled";
+  newStatus: "NotStarted" | "InProgress" | "Completed" | "Canceled";
   /** The comment when update a task. */
-  comment?: string;
-}
-
-export interface DsarTaskClaimCommand {
-  /** The comment when claiming a DSAR task. */
-  comment?: string;
-}
-
-export interface DsarTaskReleaseCommand {
-  /** The comment when releasing a DSAR task. */
   comment?: string;
 }
