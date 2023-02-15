@@ -4,12 +4,12 @@ Azure Storage is a Microsoft-managed service providing cloud storage that is hig
 
 This project provides client libraries in JavaScript that makes it easy to consume Microsoft Azure Storage service.
 
-**Note: Current Azure Storage client libraries are published from [feature/storage/stable](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/stable/sdk/storage/) branch.**
+**Note: Current Azure Storage client libraries are published from [storage/stable](https://github.com/Azure/azure-sdk-for-js/tree/storage/stable/sdk/storage/) branch.**
 
-- [Source Code - Blob](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/stable/sdk/storage/storage-blob)
-- [Source Code - File Data Lake](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/stable/sdk/storage/storage-file-datalake)
-- [Source Code - File Share](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/stable/sdk/storage/storage-file-share)
-- [Source Code - Queue](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/stable/sdk/storage/storage-queue)
+- [Source Code - Blob](https://github.com/Azure/azure-sdk-for-js/tree/storage/stable/sdk/storage/storage-blob)
+- [Source Code - File Data Lake](https://github.com/Azure/azure-sdk-for-js/tree/storage/stable/sdk/storage/storage-file-datalake)
+- [Source Code - File Share](https://github.com/Azure/azure-sdk-for-js/tree/storage/stable/sdk/storage/storage-file-share)
+- [Source Code - Queue](https://github.com/Azure/azure-sdk-for-js/tree/storage/stable/sdk/storage/storage-queue)
 - [Product documentation](https://docs.microsoft.com/azure/storage)
 - @azure/storage-blob [Package (npm)](https://www.npmjs.com/package/@azure/storage-blob)
 - @azure/storage-file-datalake [Package (npm)](https://www.npmjs.com/package/@azure/storage-file-datalake)
@@ -61,14 +61,14 @@ The Azure Storage client libraries for JavaScript provides low-level and high-le
 
 Please check out examples for each libraries
 
-- [Blob Storage Examples](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/stable/sdk/storage/storage-blob/samples)
-- [Blob Storage Examples - Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/stable/sdk/storage/storage-blob/test/)
-- [Data Lake Storage Examples](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/stable/sdk/storage/storage-file-datalake/samples)
-- [Data Lake Storage Examples - Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/stable/sdk/storage/storage-file-datalake/test)
-- [File Storage Examples](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/stable/sdk/storage/storage-file-share/samples)
-- [File Storage Examples - Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/stable/sdk/storage/storage-file-share/test)
-- [Queue Storage Examples](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/stable/sdk/storage/storage-queue/samples)
-- [Queue Storage Examples - Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/feature/storage/stable/sdk/storage/storage-queue/test)
+- [Blob Storage Examples](https://github.com/Azure/azure-sdk-for-js/tree/storage/stable/sdk/storage/storage-blob/samples)
+- [Blob Storage Examples - Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/storage/stable/sdk/storage/storage-blob/test/)
+- [Data Lake Storage Examples](https://github.com/Azure/azure-sdk-for-js/tree/storage/stable/sdk/storage/storage-file-datalake/samples)
+- [Data Lake Storage Examples - Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/storage/stable/sdk/storage/storage-file-datalake/test)
+- [File Storage Examples](https://github.com/Azure/azure-sdk-for-js/tree/storage/stable/sdk/storage/storage-file-share/samples)
+- [File Storage Examples - Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/storage/stable/sdk/storage/storage-file-share/test)
+- [Queue Storage Examples](https://github.com/Azure/azure-sdk-for-js/tree/storage/stable/sdk/storage/storage-queue/samples)
+- [Queue Storage Examples - Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/storage/stable/sdk/storage/storage-queue/test)
 
 ## Contributing
 

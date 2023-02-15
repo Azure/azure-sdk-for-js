@@ -16,9 +16,6 @@
 /documentation/ @jeremymeng
 /samples/       @jeremymeng
 
-# Add owners for notifications for specific pipelines
-/eng/pipelines/aggregate-reports.yml @jeremymeng @xirzec
-
 ################
 # Automation
 ################
@@ -222,8 +219,9 @@
 /sdk/appplatform/ci.mgmt.yml @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/appservice/arm-appservice/ @qiaozha @dw511214992 @MaryGao
-/sdk/appservice/ci.mgmt.yml @qiaozha @dw511214992 @MaryGao
+/sdk/appservice/arm-appservice/      @qiaozha @dw511214992 @MaryGao
+/sdk/appservice/arm-appservice-rest/ @qiaozha @dw511214992 @MaryGao
+/sdk/appservice/ci.mgmt.yml          @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/appservice/arm-appservice-profile-2019-03-01-hybrid/ @qiaozha @dw511214992 @MaryGao
@@ -300,8 +298,9 @@
 /sdk/communication/ci.mgmt.yml @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/compute/arm-compute/ @qiaozha @dw511214992 @MaryGao
-/sdk/compute/ci.mgmt.yml @qiaozha @dw511214992 @MaryGao
+/sdk/compute/arm-compute/      @qiaozha @dw511214992 @MaryGao
+/sdk/compute/arm-compute-rest/ @qiaozha @dw511214992 @MaryGao
+/sdk/compute/ci.mgmt.yml       @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/compute/arm-compute-profile-2019-03-01-hybrid/ @qiaozha @dw511214992 @MaryGao
@@ -326,8 +325,9 @@
 /sdk/containerregistry/ci.mgmt.yml @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/containerservice/arm-containerservice/ @qiaozha @dw511214992 @MaryGao
-/sdk/containerservice/ci.mgmt.yml @qiaozha @dw511214992 @MaryGao
+/sdk/containerservice/arm-containerservice/      @qiaozha @dw511214992 @MaryGao
+/sdk/containerservice/arm-containerservice-rest/ @qiaozha @dw511214992 @MaryGao
+/sdk/containerservice/ci.mgmt.yml                @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/cosmosdb/arm-cosmosdb/ @qiaozha @dw511214992 @MaryGao
@@ -577,16 +577,18 @@
 /sdk/msi/ci.mgmt.yml @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/mysql/arm-mysql/  @qiaozha @dw511214992 @MaryGao
-/sdk/mysql/ci.mgmt.yml @qiaozha @dw511214992 @MaryGao
+/sdk/mysql/arm-mysql/      @qiaozha @dw511214992 @MaryGao
+/sdk/mysql/arm-mysql-rest/ @qiaozha @dw511214992 @MaryGao
+/sdk/mysql/ci.mgmt.yml     @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/netapp/arm-netapp/ @qiaozha @dw511214992 @MaryGao
 /sdk/netapp/ci.mgmt.yml @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/network/arm-network/ @qiaozha @dw511214992 @MaryGao
-/sdk/network/ci.mgmt.yml  @qiaozha @dw511214992 @MaryGao
+/sdk/network/arm-network/      @qiaozha @dw511214992 @MaryGao
+/sdk/network/arm-network-rest/ @qiaozha @dw511214992 @MaryGao
+/sdk/network/ci.mgmt.yml       @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/network/arm-network-profile-2019-03-01-hybrid/ @qiaozha @dw511214992 @MaryGao
@@ -714,8 +716,9 @@
 /sdk/servicebus/ci.mgmt.yml @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/servicefabric/arm-servicefabric/ @qiaozha @dw511214992 @MaryGao
-/sdk/servicefabric/ci.mgmt.yml @qiaozha @dw511214992 @MaryGao
+/sdk/servicefabric/arm-servicefabric/      @qiaozha @dw511214992 @MaryGao
+/sdk/servicefabric/arm-servicefabric-rest/ @qiaozha @dw511214992 @MaryGao
+/sdk/servicefabric/ci.mgmt.yml             @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/servicefabricmesh/arm-servicefabricmesh/ @qiaozha @dw511214992 @MaryGao
@@ -1469,3 +1472,6 @@
 /**/tsconfig.json @witemple-msft @deyaaeldeen
 /**/tsconfig.strict.json @deyaaeldeen
 /.scripts/ @mikeharder @ckairen
+
+# Add owners for notifications for specific pipelines
+/eng/pipelines/aggregate-reports.yml         @xirzec @jeremymeng
