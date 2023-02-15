@@ -148,10 +148,6 @@
       "path": "sdk/maps/maps-common"
     },
     {
-      "name": "maps-search",
-      "path": "sdk/maps/maps-search"
-    },
-    {
       "name": "maps-route-rest",
       "path": "sdk/maps/maps-route-rest"
     },
