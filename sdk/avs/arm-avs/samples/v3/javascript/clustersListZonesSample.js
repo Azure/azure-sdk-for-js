@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { AzureVMwareSolutionAPI } = require("@azure/arm-avs");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to List hosts by zone in a cluster
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2022-05-01/examples/Clusters_ListZones.json
  */
 async function clustersListZoneData() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "group1";
+  const subscriptionId =
+    process.env["AVS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["AVS_RESOURCE_GROUP"] || "group1";
   const privateCloudName = "cloud1";
   const clusterName = "cluster1";
   const credential = new DefaultAzureCredential();
@@ -27,8 +29,6 @@ async function clustersListZoneData() {
   const result = await client.clusters.listZones(resourceGroupName, privateCloudName, clusterName);
   console.log(result);
 }
-
-clustersListZoneData().catch(console.error);
 
 /**
  * This sample demonstrates how to List hosts by zone in a cluster
@@ -37,8 +37,9 @@ clustersListZoneData().catch(console.error);
  * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2022-05-01/examples/Clusters_ListZones_Stretched.json
  */
 async function clustersListZoneDataStretched() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "group1";
+  const subscriptionId =
+    process.env["AVS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["AVS_RESOURCE_GROUP"] || "group1";
   const privateCloudName = "cloud1";
   const clusterName = "cluster1";
   const credential = new DefaultAzureCredential();
@@ -47,4 +48,9 @@ async function clustersListZoneDataStretched() {
   console.log(result);
 }
 
-clustersListZoneDataStretched().catch(console.error);
+async function main() {
+  clustersListZoneData();
+  clustersListZoneDataStretched();
+}
+
+main().catch(console.error);

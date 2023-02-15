@@ -14,6 +14,9 @@ import {
   VMwareCloudSimple
 } from "@azure/arm-vmwarecloudsimple";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Power off virtual machine, options: shutdown, poweroff, and suspend
@@ -22,8 +25,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/vmwarecloudsimple/resource-manager/Microsoft.VMwareCloudSimple/stable/2019-04-01/examples/StopInBodyVirtualMachine.json
  */
 async function stopInBodyVirtualMachine() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["VMWARECLOUDSIMPLE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["VMWARECLOUDSIMPLE_RESOURCE_GROUP"] || "myResourceGroup";
   const referer = "https://management.azure.com/";
   const virtualMachineName = "myVirtualMachine";
   const m: VirtualMachineStopMode = {};
@@ -39,8 +44,6 @@ async function stopInBodyVirtualMachine() {
   console.log(result);
 }
 
-stopInBodyVirtualMachine().catch(console.error);
-
 /**
  * This sample demonstrates how to Power off virtual machine, options: shutdown, poweroff, and suspend
  *
@@ -48,8 +51,10 @@ stopInBodyVirtualMachine().catch(console.error);
  * x-ms-original-file: specification/vmwarecloudsimple/resource-manager/Microsoft.VMwareCloudSimple/stable/2019-04-01/examples/StopInQueryVirtualMachine.json
  */
 async function stopInQueryVirtualMachine() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["VMWARECLOUDSIMPLE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["VMWARECLOUDSIMPLE_RESOURCE_GROUP"] || "myResourceGroup";
   const referer = "https://management.azure.com/";
   const virtualMachineName = "myVirtualMachine";
   const mode = "suspend";
@@ -65,4 +70,9 @@ async function stopInQueryVirtualMachine() {
   console.log(result);
 }
 
-stopInQueryVirtualMachine().catch(console.error);
+async function main() {
+  stopInBodyVirtualMachine();
+  stopInQueryVirtualMachine();
+}
+
+main().catch(console.error);

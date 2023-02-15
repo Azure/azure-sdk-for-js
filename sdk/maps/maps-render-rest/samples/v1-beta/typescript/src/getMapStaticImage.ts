@@ -5,6 +5,8 @@ import { AzureKeyCredential } from "@azure/core-auth";
 import { createWriteStream } from "fs";
 import MapsRender, { createPathQuery, createPinsQuery } from "@azure-rest/maps-render";
 import { LatLon } from "@azure/maps-common";
+import * as dotenv from "dotenv";
+dotenv.config();
 
 /**
  * @summary How to get the map static image with pins and paths specified.

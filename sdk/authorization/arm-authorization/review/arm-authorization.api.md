@@ -34,8 +34,12 @@ export interface ApprovalStage {
 export type AssignmentType = string;
 
 // @public (undocumented)
-export class AuthorizationManagementClient extends AuthorizationManagementClientContext {
+export class AuthorizationManagementClient extends coreClient.ServiceClient {
+    // (undocumented)
+    $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AuthorizationManagementClientOptionalParams);
+    // (undocumented)
+    apiVersion: string;
     // (undocumented)
     eligibleChildResources: EligibleChildResources;
     // (undocumented)
@@ -56,15 +60,6 @@ export class AuthorizationManagementClient extends AuthorizationManagementClient
     roleManagementPolicies: RoleManagementPolicies;
     // (undocumented)
     roleManagementPolicyAssignments: RoleManagementPolicyAssignments;
-}
-
-// @public (undocumented)
-export class AuthorizationManagementClientContext extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AuthorizationManagementClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
     // (undocumented)
     subscriptionId: string;
 }
@@ -101,7 +96,6 @@ export interface EligibleChildResources {
 
 // @public
 export interface EligibleChildResourcesGetNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -174,196 +168,128 @@ export interface ExpandedPropertiesScope {
 }
 
 // @public
+export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
 export enum KnownApprovalMode {
-    // (undocumented)
     NoApproval = "NoApproval",
-    // (undocumented)
     Parallel = "Parallel",
-    // (undocumented)
     Serial = "Serial",
-    // (undocumented)
     SingleStage = "SingleStage"
 }
 
 // @public
 export enum KnownAssignmentType {
-    // (undocumented)
     Activated = "Activated",
-    // (undocumented)
     Assigned = "Assigned"
 }
 
 // @public
 export enum KnownEnablementRules {
-    // (undocumented)
     Justification = "Justification",
-    // (undocumented)
     MultiFactorAuthentication = "MultiFactorAuthentication",
-    // (undocumented)
     Ticketing = "Ticketing"
 }
 
 // @public
 export enum KnownMemberType {
-    // (undocumented)
     Direct = "Direct",
-    // (undocumented)
     Group = "Group",
-    // (undocumented)
     Inherited = "Inherited"
 }
 
 // @public
 export enum KnownNotificationDeliveryMechanism {
-    // (undocumented)
     Email = "Email"
 }
 
 // @public
 export enum KnownNotificationLevel {
-    // (undocumented)
     All = "All",
-    // (undocumented)
     Critical = "Critical",
-    // (undocumented)
     None = "None"
 }
 
 // @public
 export enum KnownPrincipalType {
-    // (undocumented)
     Application = "Application",
-    // (undocumented)
     Device = "Device",
-    // (undocumented)
     DirectoryObjectOrGroup = "DirectoryObjectOrGroup",
-    // (undocumented)
     DirectoryRoleTemplate = "DirectoryRoleTemplate",
-    // (undocumented)
     Everyone = "Everyone",
-    // (undocumented)
     ForeignGroup = "ForeignGroup",
-    // (undocumented)
     Group = "Group",
-    // (undocumented)
     MSI = "MSI",
-    // (undocumented)
     ServicePrincipal = "ServicePrincipal",
-    // (undocumented)
     Unknown = "Unknown",
-    // (undocumented)
     User = "User"
 }
 
 // @public
 export enum KnownRecipientType {
-    // (undocumented)
     Admin = "Admin",
-    // (undocumented)
     Approver = "Approver",
-    // (undocumented)
     Requestor = "Requestor"
 }
 
 // @public
 export enum KnownRequestType {
-    // (undocumented)
     AdminAssign = "AdminAssign",
-    // (undocumented)
     AdminExtend = "AdminExtend",
-    // (undocumented)
     AdminRemove = "AdminRemove",
-    // (undocumented)
     AdminRenew = "AdminRenew",
-    // (undocumented)
     AdminUpdate = "AdminUpdate",
-    // (undocumented)
     SelfActivate = "SelfActivate",
-    // (undocumented)
     SelfDeactivate = "SelfDeactivate",
-    // (undocumented)
     SelfExtend = "SelfExtend",
-    // (undocumented)
     SelfRenew = "SelfRenew"
 }
 
 // @public
 export enum KnownRoleManagementPolicyRuleType {
-    // (undocumented)
     RoleManagementPolicyApprovalRule = "RoleManagementPolicyApprovalRule",
-    // (undocumented)
     RoleManagementPolicyAuthenticationContextRule = "RoleManagementPolicyAuthenticationContextRule",
-    // (undocumented)
     RoleManagementPolicyEnablementRule = "RoleManagementPolicyEnablementRule",
-    // (undocumented)
     RoleManagementPolicyExpirationRule = "RoleManagementPolicyExpirationRule",
-    // (undocumented)
     RoleManagementPolicyNotificationRule = "RoleManagementPolicyNotificationRule"
 }
 
 // @public
 export enum KnownStatus {
-    // (undocumented)
     Accepted = "Accepted",
-    // (undocumented)
     AdminApproved = "AdminApproved",
-    // (undocumented)
     AdminDenied = "AdminDenied",
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Denied = "Denied",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     FailedAsResourceIsLocked = "FailedAsResourceIsLocked",
-    // (undocumented)
     Granted = "Granted",
-    // (undocumented)
     Invalid = "Invalid",
-    // (undocumented)
     PendingAdminDecision = "PendingAdminDecision",
-    // (undocumented)
     PendingApproval = "PendingApproval",
-    // (undocumented)
     PendingApprovalProvisioning = "PendingApprovalProvisioning",
-    // (undocumented)
     PendingEvaluation = "PendingEvaluation",
-    // (undocumented)
     PendingExternalProvisioning = "PendingExternalProvisioning",
-    // (undocumented)
     PendingProvisioning = "PendingProvisioning",
-    // (undocumented)
     PendingRevocation = "PendingRevocation",
-    // (undocumented)
     PendingScheduleCreation = "PendingScheduleCreation",
-    // (undocumented)
     Provisioned = "Provisioned",
-    // (undocumented)
     ProvisioningStarted = "ProvisioningStarted",
-    // (undocumented)
     Revoked = "Revoked",
-    // (undocumented)
     ScheduleCreated = "ScheduleCreated",
-    // (undocumented)
     TimedOut = "TimedOut"
 }
 
 // @public
 export enum KnownType {
-    // (undocumented)
     AfterDateTime = "AfterDateTime",
-    // (undocumented)
     AfterDuration = "AfterDuration",
-    // (undocumented)
     NoExpiration = "NoExpiration"
 }
 
 // @public
 export enum KnownUserType {
-    // (undocumented)
     Group = "Group",
-    // (undocumented)
     User = "User"
 }
 
@@ -578,7 +504,6 @@ export type RoleAssignmentScheduleInstancesGetResponse = RoleAssignmentScheduleI
 
 // @public
 export interface RoleAssignmentScheduleInstancesListForScopeNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -684,7 +609,6 @@ export type RoleAssignmentScheduleRequestsGetResponse = RoleAssignmentScheduleRe
 
 // @public
 export interface RoleAssignmentScheduleRequestsListForScopeNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -713,7 +637,6 @@ export type RoleAssignmentSchedulesGetResponse = RoleAssignmentSchedule;
 
 // @public
 export interface RoleAssignmentSchedulesListForScopeNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -775,8 +698,6 @@ export type RoleAssignmentsGetResponse = RoleAssignment;
 
 // @public
 export interface RoleAssignmentsListForResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    tenantId?: string;
 }
 
 // @public
@@ -793,8 +714,6 @@ export type RoleAssignmentsListForResourceGroupResponse = RoleAssignmentListResu
 
 // @public
 export interface RoleAssignmentsListForResourceNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    tenantId?: string;
 }
 
 // @public
@@ -811,8 +730,6 @@ export type RoleAssignmentsListForResourceResponse = RoleAssignmentListResult;
 
 // @public
 export interface RoleAssignmentsListForScopeNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    tenantId?: string;
 }
 
 // @public
@@ -829,8 +746,6 @@ export type RoleAssignmentsListForScopeResponse = RoleAssignmentListResult;
 
 // @public
 export interface RoleAssignmentsListForSubscriptionNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    tenantId?: string;
 }
 
 // @public
@@ -936,7 +851,6 @@ export type RoleEligibilityScheduleInstancesGetResponse = RoleEligibilitySchedul
 
 // @public
 export interface RoleEligibilityScheduleInstancesListForScopeNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -1041,7 +955,6 @@ export type RoleEligibilityScheduleRequestsGetResponse = RoleEligibilitySchedule
 
 // @public
 export interface RoleEligibilityScheduleRequestsListForScopeNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -1070,7 +983,6 @@ export type RoleEligibilitySchedulesGetResponse = RoleEligibilitySchedule;
 
 // @public
 export interface RoleEligibilitySchedulesListForScopeNextOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
 }
 
 // @public
@@ -1141,10 +1053,10 @@ export interface RoleManagementPolicy {
 }
 
 // @public
-export type RoleManagementPolicyApprovalRule = RoleManagementPolicyRule & {
+export interface RoleManagementPolicyApprovalRule extends RoleManagementPolicyRule {
     ruleType: "RoleManagementPolicyApprovalRule";
     setting?: ApprovalSettings;
-};
+}
 
 // @public
 export interface RoleManagementPolicyAssignment {
@@ -1204,24 +1116,24 @@ export interface RoleManagementPolicyAssignmentsListForScopeOptionalParams exten
 export type RoleManagementPolicyAssignmentsListForScopeResponse = RoleManagementPolicyAssignmentListResult;
 
 // @public
-export type RoleManagementPolicyAuthenticationContextRule = RoleManagementPolicyRule & {
-    ruleType: "RoleManagementPolicyAuthenticationContextRule";
-    isEnabled?: boolean;
+export interface RoleManagementPolicyAuthenticationContextRule extends RoleManagementPolicyRule {
     claimValue?: string;
-};
+    isEnabled?: boolean;
+    ruleType: "RoleManagementPolicyAuthenticationContextRule";
+}
 
 // @public
-export type RoleManagementPolicyEnablementRule = RoleManagementPolicyRule & {
-    ruleType: "RoleManagementPolicyEnablementRule";
+export interface RoleManagementPolicyEnablementRule extends RoleManagementPolicyRule {
     enabledRules?: EnablementRules[];
-};
+    ruleType: "RoleManagementPolicyEnablementRule";
+}
 
 // @public
-export type RoleManagementPolicyExpirationRule = RoleManagementPolicyRule & {
-    ruleType: "RoleManagementPolicyExpirationRule";
+export interface RoleManagementPolicyExpirationRule extends RoleManagementPolicyRule {
     isExpirationRequired?: boolean;
     maximumDuration?: string;
-};
+    ruleType: "RoleManagementPolicyExpirationRule";
+}
 
 // @public
 export interface RoleManagementPolicyListResult {
@@ -1230,14 +1142,14 @@ export interface RoleManagementPolicyListResult {
 }
 
 // @public
-export type RoleManagementPolicyNotificationRule = RoleManagementPolicyRule & {
-    ruleType: "RoleManagementPolicyNotificationRule";
-    notificationType?: NotificationDeliveryMechanism;
-    notificationLevel?: NotificationLevel;
-    recipientType?: RecipientType;
-    notificationRecipients?: string[];
+export interface RoleManagementPolicyNotificationRule extends RoleManagementPolicyRule {
     isDefaultRecipientsEnabled?: boolean;
-};
+    notificationLevel?: NotificationLevel;
+    notificationRecipients?: string[];
+    notificationType?: NotificationDeliveryMechanism;
+    recipientType?: RecipientType;
+    ruleType: "RoleManagementPolicyNotificationRule";
+}
 
 // @public
 export interface RoleManagementPolicyRule {
@@ -1290,7 +1202,6 @@ export interface ValidationResponseErrorInfo {
     readonly code?: string;
     readonly message?: string;
 }
-
 
 // (No @packageDocumentation comment for this package)
 

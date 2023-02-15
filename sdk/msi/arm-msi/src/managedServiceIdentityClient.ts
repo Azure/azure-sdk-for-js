@@ -60,7 +60,7 @@ export class ManagedServiceIdentityClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-msi/2.1.0-beta.3`;
+    const packageDetails = `azsdk-js-arm-msi/2.1.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -113,7 +113,7 @@ export class ManagedServiceIdentityClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-01-31-preview";
+    this.apiVersion = options.apiVersion || "2023-01-31";
     this.systemAssignedIdentities = new SystemAssignedIdentitiesImpl(this);
     this.operations = new OperationsImpl(this);
     this.userAssignedIdentities = new UserAssignedIdentitiesImpl(this);

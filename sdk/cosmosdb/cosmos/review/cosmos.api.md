@@ -90,7 +90,7 @@ export class ClientContext {
     batch<T>({ body, path, partitionKey, resourceId, options, }: {
         body: T;
         path: string;
-        partitionKey: PartitionKey;
+        partitionKey: string;
         resourceId: string;
         options?: RequestOptions;
     }): Promise<Response_2<any>>;
@@ -404,6 +404,7 @@ export const Constants: {
     };
     WritableLocations: string;
     ReadableLocations: string;
+    LocationUnavailableExpirationTimeInMs: number;
     ENABLE_MULTIPLE_WRITABLE_LOCATIONS: string;
     DefaultUnavailableLocationExpirationTimeMS: number;
     ThrottleRetryCount: string;
@@ -413,6 +414,7 @@ export const Constants: {
     AzurePackageName: string;
     SDKName: string;
     SDKVersion: string;
+    DefaultMaxBulkRequestBodySizeInBytes: number;
     Quota: {
         CollectionSize: string;
     };
@@ -584,7 +586,7 @@ export interface CreateOperationInput {
     // (undocumented)
     operationType: typeof BulkOperationType.Create;
     // (undocumented)
-    partitionKey?: PartitionKey;
+    partitionKey?: string | number | null | Record<string, unknown> | undefined;
     // (undocumented)
     resourceBody: JSONObject;
 }
@@ -694,7 +696,7 @@ export interface DeleteOperationInput {
     // (undocumented)
     operationType: typeof BulkOperationType.Delete;
     // (undocumented)
-    partitionKey?: PartitionKey;
+    partitionKey?: string | number | null | Record<string, unknown> | undefined;
 }
 
 // @public (undocumented)
@@ -734,10 +736,8 @@ export type ExistingKeyOperation = {
     path: string;
 };
 
-// Warning: (ae-forgotten-export) The symbol "PartitionKeyInternal" needs to be exported by the entry point index.d.ts
-//
-// @public
-export function extractPartitionKey(document: unknown, partitionKeyDefinition?: PartitionKeyDefinition): PartitionKeyInternal | undefined;
+// @public (undocumented)
+export function extractPartitionKey(document: unknown, partitionKeyDefinition: PartitionKeyDefinition): PartitionKey[];
 
 // @public
 export interface FeedOptions extends SharedOptions {
@@ -754,7 +754,7 @@ export interface FeedOptions extends SharedOptions {
     forceQueryPlan?: boolean;
     maxDegreeOfParallelism?: number;
     maxItemCount?: number;
-    partitionKey?: PartitionKey;
+    partitionKey?: any;
     populateQueryMetrics?: boolean;
     useIncrementalFeed?: boolean;
 }
@@ -872,7 +872,7 @@ export enum IndexKind {
 
 // @public
 export class Item {
-    constructor(container: Container, id: string, clientContext: ClientContext, partitionKey?: PartitionKey);
+    constructor(container: Container, id: string, partitionKey: PartitionKey, clientContext: ClientContext);
     // (undocumented)
     readonly container: Container;
     delete<T extends ItemDefinition = any>(options?: RequestOptions): Promise<ItemResponse<T>>;
@@ -902,7 +902,7 @@ export class ItemResponse<T extends ItemDefinition> extends ResourceResponse<T &
 // @public
 export class Items {
     constructor(container: Container, clientContext: ClientContext);
-    batch(operations: OperationInput[], partitionKey?: PartitionKey, options?: RequestOptions): Promise<Response_2<OperationResponse[]>>;
+    batch(operations: OperationInput[], partitionKey?: string, options?: RequestOptions): Promise<Response_2<OperationResponse[]>>;
     bulk(operations: OperationInput[], bulkOptions?: BulkOptions, options?: RequestOptions): Promise<OperationResponse[]>;
     changeFeed(partitionKey: string | number | boolean, changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
     changeFeed(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
@@ -944,6 +944,8 @@ export type JSONValue = boolean | number | string | null | JSONArray | JSONObjec
 interface Location_2 {
     // (undocumented)
     databaseAccountEndpoint: string;
+    // (undocumented)
+    lastUnavailabilityTimestampInMs?: number;
     // (undocumented)
     name: string;
     // (undocumented)
@@ -1076,20 +1078,15 @@ export interface PartitionedQueryExecutionInfo {
     queryRanges: QueryRange[];
 }
 
-// Warning: (ae-forgotten-export) The symbol "PrimitivePartitionKeyValue" needs to be exported by the entry point index.d.ts
-//
 // @public (undocumented)
-export type PartitionKey = PrimitivePartitionKeyValue | PrimitivePartitionKeyValue[];
+export type PartitionKey = PartitionKeyDefinition | string | number | unknown;
 
 // @public (undocumented)
 export interface PartitionKeyDefinition {
-    // Warning: (ae-forgotten-export) The symbol "PartitionKeyKind" needs to be exported by the entry point index.d.ts
-    kind?: PartitionKeyKind;
     paths: string[];
     // (undocumented)
     systemKey?: boolean;
-    // Warning: (ae-forgotten-export) The symbol "PartitionKeyDefinitionVersion" needs to be exported by the entry point index.d.ts
-    version?: PartitionKeyDefinitionVersion;
+    version?: number;
 }
 
 // @public (undocumented)
@@ -1134,7 +1131,7 @@ export interface PatchOperationInput {
     // (undocumented)
     operationType: typeof BulkOperationType.Patch;
     // (undocumented)
-    partitionKey?: PartitionKey;
+    partitionKey?: string | number | null | Record<string, unknown> | undefined;
     // (undocumented)
     resourceBody: PatchRequestBody;
 }
@@ -1388,7 +1385,7 @@ export interface ReadOperationInput {
     // (undocumented)
     operationType: typeof BulkOperationType.Read;
     // (undocumented)
-    partitionKey?: PartitionKey;
+    partitionKey?: string | number | boolean | null | Record<string, unknown> | undefined;
 }
 
 // @public (undocumented)
@@ -1414,7 +1411,7 @@ export interface ReplaceOperationInput {
     // (undocumented)
     operationType: typeof BulkOperationType.Replace;
     // (undocumented)
-    partitionKey?: PartitionKey;
+    partitionKey?: string | number | null | Record<string, unknown> | undefined;
     // (undocumented)
     resourceBody: JSONObject;
 }
@@ -2021,7 +2018,7 @@ export interface UpsertOperationInput {
     // (undocumented)
     operationType: typeof BulkOperationType.Upsert;
     // (undocumented)
-    partitionKey?: PartitionKey;
+    partitionKey?: string | number | null | Record<string, unknown> | undefined;
     // (undocumented)
     resourceBody: JSONObject;
 }

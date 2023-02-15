@@ -50,7 +50,7 @@
           "name": "Standard",
           "tier": "Standard"
         },
-        "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Relay/namespaces/mynamespacexxx",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Relay/namespaces/mynamespacexxx",
         "name": "mynamespacexxx",
         "type": "Microsoft.Relay/Namespaces",
         "location": "East US",
@@ -59,7 +59,7 @@
         },
         "properties": {
           "provisioningState": "Created",
-          "metricId": "92f95d8f-3c67-4124-91c7-8cf07cdbf241:mynamespacexxx",
+          "metricId": "azure_subscription_id:mynamespacexxx",
           "createdAt": "2023-02-01T02:21:10.093Z",
           "updatedAt": "2023-02-01T02:21:10.093Z",
           "serviceBusEndpoint": "https://mynamespacexxx.servicebus.windows.net:443/",
@@ -107,7 +107,7 @@
           "name": "Standard",
           "tier": "Standard"
         },
-        "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Relay/namespaces/mynamespacexxx",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Relay/namespaces/mynamespacexxx",
         "name": "mynamespacexxx",
         "type": "Microsoft.Relay/Namespaces",
         "location": "East US",
@@ -116,7 +116,7 @@
         },
         "properties": {
           "provisioningState": "Created",
-          "metricId": "92f95d8f-3c67-4124-91c7-8cf07cdbf241:mynamespacexxx",
+          "metricId": "azure_subscription_id:mynamespacexxx",
           "createdAt": "2023-02-01T02:21:10.093Z",
           "updatedAt": "2023-02-01T02:21:10.093Z",
           "serviceBusEndpoint": "https://mynamespacexxx.servicebus.windows.net:443/",
@@ -164,7 +164,7 @@
           "name": "Standard",
           "tier": "Standard"
         },
-        "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Relay/namespaces/mynamespacexxx",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Relay/namespaces/mynamespacexxx",
         "name": "mynamespacexxx",
         "type": "Microsoft.Relay/Namespaces",
         "location": "East US",
@@ -173,7 +173,7 @@
         },
         "properties": {
           "provisioningState": "Created",
-          "metricId": "92f95d8f-3c67-4124-91c7-8cf07cdbf241:mynamespacexxx",
+          "metricId": "azure_subscription_id:mynamespacexxx",
           "createdAt": "2023-02-01T02:21:10.093Z",
           "updatedAt": "2023-02-01T02:21:10.093Z",
           "serviceBusEndpoint": "https://mynamespacexxx.servicebus.windows.net:443/",
@@ -221,7 +221,7 @@
           "name": "Standard",
           "tier": "Standard"
         },
-        "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Relay/namespaces/mynamespacexxx",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Relay/namespaces/mynamespacexxx",
         "name": "mynamespacexxx",
         "type": "Microsoft.Relay/Namespaces",
         "location": "East US",
@@ -230,7 +230,7 @@
         },
         "properties": {
           "provisioningState": "Created",
-          "metricId": "92f95d8f-3c67-4124-91c7-8cf07cdbf241:mynamespacexxx",
+          "metricId": "azure_subscription_id:mynamespacexxx",
           "createdAt": "2023-02-01T02:21:10.093Z",
           "updatedAt": "2023-02-01T02:21:10.093Z",
           "serviceBusEndpoint": "https://mynamespacexxx.servicebus.windows.net:443/",
@@ -278,7 +278,7 @@
           "name": "Standard",
           "tier": "Standard"
         },
-        "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Relay/namespaces/mynamespacexxx",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Relay/namespaces/mynamespacexxx",
         "name": "mynamespacexxx",
         "type": "Microsoft.Relay/Namespaces",
         "location": "East US",
@@ -287,7 +287,7 @@
         },
         "properties": {
           "provisioningState": "Created",
-          "metricId": "92f95d8f-3c67-4124-91c7-8cf07cdbf241:mynamespacexxx",
+          "metricId": "azure_subscription_id:mynamespacexxx",
           "createdAt": "2023-02-01T02:21:10.093Z",
           "updatedAt": "2023-02-01T02:21:10.093Z",
           "serviceBusEndpoint": "https://mynamespacexxx.servicebus.windows.net:443/",
@@ -335,7 +335,7 @@
           "name": "Standard",
           "tier": "Standard"
         },
-        "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Relay/namespaces/mynamespacexxx",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Relay/namespaces/mynamespacexxx",
         "name": "mynamespacexxx",
         "type": "Microsoft.Relay/Namespaces",
         "location": "East US",
@@ -344,7 +344,7 @@
         },
         "properties": {
           "provisioningState": "Created",
-          "metricId": "92f95d8f-3c67-4124-91c7-8cf07cdbf241:mynamespacexxx",
+          "metricId": "azure_subscription_id:mynamespacexxx",
           "createdAt": "2023-02-01T02:21:10.093Z",
           "updatedAt": "2023-02-01T02:21:10.093Z",
           "serviceBusEndpoint": "https://mynamespacexxx.servicebus.windows.net:443/",
@@ -392,7 +392,7 @@
           "name": "Standard",
           "tier": "Standard"
         },
-        "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Relay/namespaces/mynamespacexxx",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Relay/namespaces/mynamespacexxx",
         "name": "mynamespacexxx",
         "type": "Microsoft.Relay/Namespaces",
         "location": "East US",
@@ -401,7 +401,7 @@
         },
         "properties": {
           "provisioningState": "Created",
-          "metricId": "92f95d8f-3c67-4124-91c7-8cf07cdbf241:mynamespacexxx",
+          "metricId": "azure_subscription_id:mynamespacexxx",
           "createdAt": "2023-02-01T02:21:10.093Z",
           "updatedAt": "2023-02-01T02:21:10.093Z",
           "serviceBusEndpoint": "https://mynamespacexxx.servicebus.windows.net:443/",
@@ -449,7 +449,7 @@
           "name": "Standard",
           "tier": "Standard"
         },
-        "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Relay/namespaces/mynamespacexxx",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Relay/namespaces/mynamespacexxx",
         "name": "mynamespacexxx",
         "type": "Microsoft.Relay/Namespaces",
         "location": "East US",
@@ -458,7 +458,7 @@
         },
         "properties": {
           "provisioningState": "Created",
-          "metricId": "92f95d8f-3c67-4124-91c7-8cf07cdbf241:mynamespacexxx",
+          "metricId": "azure_subscription_id:mynamespacexxx",
           "createdAt": "2023-02-01T02:21:10.093Z",
           "updatedAt": "2023-02-01T02:21:10.093Z",
           "serviceBusEndpoint": "https://mynamespacexxx.servicebus.windows.net:443/",
@@ -506,7 +506,7 @@
           "name": "Standard",
           "tier": "Standard"
         },
-        "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Relay/namespaces/mynamespacexxx",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Relay/namespaces/mynamespacexxx",
         "name": "mynamespacexxx",
         "type": "Microsoft.Relay/Namespaces",
         "location": "East US",
@@ -515,7 +515,7 @@
         },
         "properties": {
           "provisioningState": "Created",
-          "metricId": "92f95d8f-3c67-4124-91c7-8cf07cdbf241:mynamespacexxx",
+          "metricId": "azure_subscription_id:mynamespacexxx",
           "createdAt": "2023-02-01T02:21:10.093Z",
           "updatedAt": "2023-02-01T02:21:10.093Z",
           "serviceBusEndpoint": "https://mynamespacexxx.servicebus.windows.net:443/",
@@ -563,7 +563,7 @@
           "name": "Standard",
           "tier": "Standard"
         },
-        "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Relay/namespaces/mynamespacexxx",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Relay/namespaces/mynamespacexxx",
         "name": "mynamespacexxx",
         "type": "Microsoft.Relay/Namespaces",
         "location": "East US",
@@ -572,7 +572,7 @@
         },
         "properties": {
           "provisioningState": "Created",
-          "metricId": "92f95d8f-3c67-4124-91c7-8cf07cdbf241:mynamespacexxx",
+          "metricId": "azure_subscription_id:mynamespacexxx",
           "createdAt": "2023-02-01T02:21:10.093Z",
           "updatedAt": "2023-02-01T02:21:10.093Z",
           "serviceBusEndpoint": "https://mynamespacexxx.servicebus.windows.net:443/",
@@ -620,7 +620,7 @@
           "name": "Standard",
           "tier": "Standard"
         },
-        "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Relay/namespaces/mynamespacexxx",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Relay/namespaces/mynamespacexxx",
         "name": "mynamespacexxx",
         "type": "Microsoft.Relay/Namespaces",
         "location": "East US",
@@ -629,7 +629,7 @@
         },
         "properties": {
           "provisioningState": "Created",
-          "metricId": "92f95d8f-3c67-4124-91c7-8cf07cdbf241:mynamespacexxx",
+          "metricId": "azure_subscription_id:mynamespacexxx",
           "createdAt": "2023-02-01T02:21:10.093Z",
           "updatedAt": "2023-02-01T02:21:10.093Z",
           "serviceBusEndpoint": "https://mynamespacexxx.servicebus.windows.net:443/",
@@ -677,7 +677,7 @@
           "name": "Standard",
           "tier": "Standard"
         },
-        "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Relay/namespaces/mynamespacexxx",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Relay/namespaces/mynamespacexxx",
         "name": "mynamespacexxx",
         "type": "Microsoft.Relay/Namespaces",
         "location": "East US",
@@ -686,7 +686,7 @@
         },
         "properties": {
           "provisioningState": "Created",
-          "metricId": "92f95d8f-3c67-4124-91c7-8cf07cdbf241:mynamespacexxx",
+          "metricId": "azure_subscription_id:mynamespacexxx",
           "createdAt": "2023-02-01T02:21:10.093Z",
           "updatedAt": "2023-02-01T02:21:10.093Z",
           "serviceBusEndpoint": "https://mynamespacexxx.servicebus.windows.net:443/",
@@ -734,7 +734,7 @@
           "name": "Standard",
           "tier": "Standard"
         },
-        "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Relay/namespaces/mynamespacexxx",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Relay/namespaces/mynamespacexxx",
         "name": "mynamespacexxx",
         "type": "Microsoft.Relay/Namespaces",
         "location": "East US",
@@ -743,7 +743,7 @@
         },
         "properties": {
           "provisioningState": "Created",
-          "metricId": "92f95d8f-3c67-4124-91c7-8cf07cdbf241:mynamespacexxx",
+          "metricId": "azure_subscription_id:mynamespacexxx",
           "createdAt": "2023-02-01T02:21:10.093Z",
           "updatedAt": "2023-02-01T02:21:10.093Z",
           "serviceBusEndpoint": "https://mynamespacexxx.servicebus.windows.net:443/",
@@ -791,7 +791,7 @@
           "name": "Standard",
           "tier": "Standard"
         },
-        "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Relay/namespaces/mynamespacexxx",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Relay/namespaces/mynamespacexxx",
         "name": "mynamespacexxx",
         "type": "Microsoft.Relay/Namespaces",
         "location": "East US",
@@ -800,7 +800,7 @@
         },
         "properties": {
           "provisioningState": "Created",
-          "metricId": "92f95d8f-3c67-4124-91c7-8cf07cdbf241:mynamespacexxx",
+          "metricId": "azure_subscription_id:mynamespacexxx",
           "createdAt": "2023-02-01T02:21:10.093Z",
           "updatedAt": "2023-02-01T02:21:10.093Z",
           "serviceBusEndpoint": "https://mynamespacexxx.servicebus.windows.net:443/",
@@ -848,7 +848,7 @@
           "name": "Standard",
           "tier": "Standard"
         },
-        "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Relay/namespaces/mynamespacexxx",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Relay/namespaces/mynamespacexxx",
         "name": "mynamespacexxx",
         "type": "Microsoft.Relay/Namespaces",
         "location": "East US",
@@ -857,7 +857,7 @@
         },
         "properties": {
           "provisioningState": "Created",
-          "metricId": "92f95d8f-3c67-4124-91c7-8cf07cdbf241:mynamespacexxx",
+          "metricId": "azure_subscription_id:mynamespacexxx",
           "createdAt": "2023-02-01T02:21:10.093Z",
           "updatedAt": "2023-02-01T02:21:10.093Z",
           "serviceBusEndpoint": "https://mynamespacexxx.servicebus.windows.net:443/",
@@ -905,7 +905,7 @@
           "name": "Standard",
           "tier": "Standard"
         },
-        "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Relay/namespaces/mynamespacexxx",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Relay/namespaces/mynamespacexxx",
         "name": "mynamespacexxx",
         "type": "Microsoft.Relay/Namespaces",
         "location": "East US",
@@ -914,7 +914,7 @@
         },
         "properties": {
           "provisioningState": "Created",
-          "metricId": "92f95d8f-3c67-4124-91c7-8cf07cdbf241:mynamespacexxx",
+          "metricId": "azure_subscription_id:mynamespacexxx",
           "createdAt": "2023-02-01T02:21:10.093Z",
           "updatedAt": "2023-02-01T02:21:10.093Z",
           "serviceBusEndpoint": "https://mynamespacexxx.servicebus.windows.net:443/",
@@ -962,7 +962,7 @@
           "name": "Standard",
           "tier": "Standard"
         },
-        "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Relay/namespaces/mynamespacexxx",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Relay/namespaces/mynamespacexxx",
         "name": "mynamespacexxx",
         "type": "Microsoft.Relay/Namespaces",
         "location": "East US",
@@ -971,7 +971,7 @@
         },
         "properties": {
           "provisioningState": "Created",
-          "metricId": "92f95d8f-3c67-4124-91c7-8cf07cdbf241:mynamespacexxx",
+          "metricId": "azure_subscription_id:mynamespacexxx",
           "createdAt": "2023-02-01T02:21:10.093Z",
           "updatedAt": "2023-02-01T02:21:10.093Z",
           "serviceBusEndpoint": "https://mynamespacexxx.servicebus.windows.net:443/",
@@ -1019,7 +1019,7 @@
           "name": "Standard",
           "tier": "Standard"
         },
-        "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Relay/namespaces/mynamespacexxx",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Relay/namespaces/mynamespacexxx",
         "name": "mynamespacexxx",
         "type": "Microsoft.Relay/Namespaces",
         "location": "East US",
@@ -1028,7 +1028,7 @@
         },
         "properties": {
           "provisioningState": "Created",
-          "metricId": "92f95d8f-3c67-4124-91c7-8cf07cdbf241:mynamespacexxx",
+          "metricId": "azure_subscription_id:mynamespacexxx",
           "createdAt": "2023-02-01T02:21:10.093Z",
           "updatedAt": "2023-02-01T02:21:10.093Z",
           "serviceBusEndpoint": "https://mynamespacexxx.servicebus.windows.net:443/",
@@ -1076,7 +1076,7 @@
           "name": "Standard",
           "tier": "Standard"
         },
-        "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Relay/namespaces/mynamespacexxx",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Relay/namespaces/mynamespacexxx",
         "name": "mynamespacexxx",
         "type": "Microsoft.Relay/Namespaces",
         "location": "East US",
@@ -1085,7 +1085,7 @@
         },
         "properties": {
           "provisioningState": "Created",
-          "metricId": "92f95d8f-3c67-4124-91c7-8cf07cdbf241:mynamespacexxx",
+          "metricId": "azure_subscription_id:mynamespacexxx",
           "createdAt": "2023-02-01T02:21:10.093Z",
           "updatedAt": "2023-02-01T02:21:10.093Z",
           "serviceBusEndpoint": "https://mynamespacexxx.servicebus.windows.net:443/",
@@ -1133,7 +1133,7 @@
           "name": "Standard",
           "tier": "Standard"
         },
-        "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Relay/namespaces/mynamespacexxx",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Relay/namespaces/mynamespacexxx",
         "name": "mynamespacexxx",
         "type": "Microsoft.Relay/Namespaces",
         "location": "East US",
@@ -1142,7 +1142,7 @@
         },
         "properties": {
           "provisioningState": "Succeeded",
-          "metricId": "92f95d8f-3c67-4124-91c7-8cf07cdbf241:mynamespacexxx",
+          "metricId": "azure_subscription_id:mynamespacexxx",
           "createdAt": "2023-02-01T02:21:10.093Z",
           "updatedAt": "2023-02-01T02:21:54.477Z",
           "serviceBusEndpoint": "https://mynamespacexxx.servicebus.windows.net:443/",

@@ -40,7 +40,7 @@
       "ResponseBody": {
         "value": [
           {
-            "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Dynatrace.Observability/monitors/myMonitormtest1",
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Dynatrace.Observability/monitors/myMonitormtest1",
             "name": "myMonitormtest1",
             "type": "dynatrace.observability/monitors",
             "location": "eastus",

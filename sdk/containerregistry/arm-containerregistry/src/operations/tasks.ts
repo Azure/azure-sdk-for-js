@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ContainerRegistryManagementClient } from "../containerRegistryManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   Task,
   TasksListNextOptionalParams,
@@ -173,7 +177,7 @@ export class TasksImpl implements Tasks {
     taskCreateParameters: Task,
     options?: TasksCreateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<TasksCreateResponse>, TasksCreateResponse>
+    SimplePollerLike<OperationState<TasksCreateResponse>, TasksCreateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -181,7 +185,7 @@ export class TasksImpl implements Tasks {
     ): Promise<TasksCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -214,19 +218,22 @@ export class TasksImpl implements Tasks {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         registryName,
         taskName,
         taskCreateParameters,
         options
       },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      TasksCreateResponse,
+      OperationState<TasksCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -270,14 +277,14 @@ export class TasksImpl implements Tasks {
     registryName: string,
     taskName: string,
     options?: TasksDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -310,13 +317,13 @@ export class TasksImpl implements Tasks {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, registryName, taskName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, registryName, taskName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -360,7 +367,7 @@ export class TasksImpl implements Tasks {
     taskUpdateParameters: TaskUpdateParameters,
     options?: TasksUpdateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<TasksUpdateResponse>, TasksUpdateResponse>
+    SimplePollerLike<OperationState<TasksUpdateResponse>, TasksUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -368,7 +375,7 @@ export class TasksImpl implements Tasks {
     ): Promise<TasksUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -401,19 +408,22 @@ export class TasksImpl implements Tasks {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         registryName,
         taskName,
         taskUpdateParameters,
         options
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      TasksUpdateResponse,
+      OperationState<TasksUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -502,8 +512,8 @@ const listOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.registryName
+    Parameters.registryName,
+    Parameters.resourceGroupName1
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -524,8 +534,8 @@ const getOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.registryName,
+    Parameters.resourceGroupName1,
     Parameters.taskName
   ],
   headerParameters: [Parameters.accept],
@@ -557,8 +567,8 @@ const createOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.registryName,
+    Parameters.resourceGroupName1,
     Parameters.taskName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -582,8 +592,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.registryName,
+    Parameters.resourceGroupName1,
     Parameters.taskName
   ],
   headerParameters: [Parameters.accept],
@@ -615,8 +625,8 @@ const updateOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.registryName,
+    Parameters.resourceGroupName1,
     Parameters.taskName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -639,8 +649,8 @@ const getDetailsOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.registryName,
+    Parameters.resourceGroupName1,
     Parameters.taskName
   ],
   headerParameters: [Parameters.accept],
@@ -657,13 +667,12 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.resourceGroupName1
   ],
   headerParameters: [Parameters.accept],
   serializer

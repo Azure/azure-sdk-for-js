@@ -34,7 +34,7 @@
         "value": [
           {
             "name": "examplefactorytest",
-            "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.DataFactory/factories/examplefactorytest",
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.DataFactory/factories/examplefactorytest",
             "type": "Microsoft.DataFactory/factories",
             "properties": {
               "provisioningState": "Succeeded",

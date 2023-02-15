@@ -213,13 +213,6 @@ const listByTagsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.filter,
-    Parameters.top,
-    Parameters.skip,
-    Parameters.apiVersion,
-    Parameters.includeNotTaggedOperations
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

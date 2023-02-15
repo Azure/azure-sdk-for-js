@@ -205,9 +205,12 @@ export class WebPubSubClient {
       return;
     }
 
+    // TODO: Maybe we need a better logic for stopping control
     this._isStopping = true;
-    if (this._wsClient) {
+    if (this._wsClient && this._wsClient.isOpen()) {
       this._wsClient.close();
+    } else {
+      this._isStopping = false;
     }
   }
 

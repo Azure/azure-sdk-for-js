@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { Appliances } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -18,13 +19,13 @@ import {
   ApplianceOperation,
   AppliancesListOperationsNextOptionalParams,
   AppliancesListOperationsOptionalParams,
+  AppliancesListOperationsResponse,
   Appliance,
   AppliancesListBySubscriptionNextOptionalParams,
   AppliancesListBySubscriptionOptionalParams,
+  AppliancesListBySubscriptionResponse,
   AppliancesListByResourceGroupNextOptionalParams,
   AppliancesListByResourceGroupOptionalParams,
-  AppliancesListOperationsResponse,
-  AppliancesListBySubscriptionResponse,
   AppliancesListByResourceGroupResponse,
   AppliancesGetOptionalParams,
   AppliancesGetResponse,
@@ -72,22 +73,34 @@ export class AppliancesImpl implements Appliances {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listOperationsPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listOperationsPagingPage(options, settings);
       }
     };
   }
 
   private async *listOperationsPagingPage(
-    options?: AppliancesListOperationsOptionalParams
+    options?: AppliancesListOperationsOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<ApplianceOperation[]> {
-    let result = await this._listOperations(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AppliancesListOperationsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listOperations(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listOperationsNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -115,22 +128,34 @@ export class AppliancesImpl implements Appliances {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listBySubscriptionPagingPage(options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listBySubscriptionPagingPage(options, settings);
       }
     };
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: AppliancesListBySubscriptionOptionalParams
+    options?: AppliancesListBySubscriptionOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Appliance[]> {
-    let result = await this._listBySubscription(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AppliancesListBySubscriptionResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listBySubscription(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listBySubscriptionNext(continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -160,19 +185,33 @@ export class AppliancesImpl implements Appliances {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
-        return this.listByResourceGroupPagingPage(resourceGroupName, options);
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(
+          resourceGroupName,
+          options,
+          settings
+        );
       }
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: AppliancesListByResourceGroupOptionalParams
+    options?: AppliancesListByResourceGroupOptionalParams,
+    settings?: PageSettings
   ): AsyncIterableIterator<Appliance[]> {
-    let result = await this._listByResourceGroup(resourceGroupName, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
+    let result: AppliancesListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
     while (continuationToken) {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
@@ -180,7 +219,9 @@ export class AppliancesImpl implements Appliances {
         options
       );
       continuationToken = result.nextLink;
-      yield result.value || [];
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
     }
   }
 
@@ -791,7 +832,6 @@ const listOperationsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer
@@ -807,7 +847,6 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -827,7 +866,6 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
