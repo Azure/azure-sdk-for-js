@@ -19,6 +19,7 @@ import {
   DownloadBlobResult,
   DownloadManifestOptions,
   DownloadManifestResult,
+  KnownManifestMediaType,
   OciManifest,
   UploadBlobOptions,
   UploadBlobResult,
@@ -35,10 +36,6 @@ import crypto from "crypto";
 const LATEST_API_VERSION = "2021-07-01";
 
 const CHUNK_SIZE = 4 * 1024 * 1024; // 4 MB
-
-enum KnownManifestMediaType {
-  OciManifestMediaType = "application/vnd.oci.image.manifest.v1+json",
-}
 
 function isReadableStream(body: any): body is NodeJS.ReadableStream {
   return body && typeof body.pipe === "function";
@@ -187,12 +184,12 @@ export class ContainerRegistryBlobClient {
    * @param manifest - the manifest to upload. If a resettable stream (a factory function that returns a stream) is provided, it may be called multiple times. Each time the function is called, a fresh stream should be returned.
    */
   public async uploadManifest(
-    manifest: (() => NodeJS.ReadableStream) | NodeJS.ReadableStream | OciManifest,
-    options?: UploadManifestOptions
+    manifest: NodeJS.ReadableStream | OciManifest,
+    options: UploadManifestOptions = {}
   ): Promise<UploadManifestResult> {
     return tracingClient.withSpan(
       "ContainerRegistryBlobClient.uploadManifest",
-      options ?? {},
+      options,
       async (updatedOptions) => {
         let manifestBody: Buffer | (() => NodeJS.ReadableStream);
         let tagOrDigest: string | undefined = options?.tag;
@@ -200,9 +197,6 @@ export class ContainerRegistryBlobClient {
         if (isReadableStream(manifest)) {
           manifestBody = await readStreamToEnd(manifest);
           tagOrDigest ??= await calculateDigest(manifestBody);
-        } else if (typeof manifest === "function") {
-          manifestBody = manifest;
-          tagOrDigest ??= await calculateDigest(manifestBody());
         } else {
           const serialized = serializer.serialize(Mappers.OCIManifest, manifest);
           manifestBody = Buffer.from(JSON.stringify(serialized));
@@ -213,7 +207,10 @@ export class ContainerRegistryBlobClient {
           this.repositoryName,
           tagOrDigest,
           manifestBody,
-          { contentType: KnownManifestMediaType.OciManifestMediaType, ...updatedOptions }
+          {
+            contentType: options?.mediaType ?? KnownManifestMediaType.OciManifest,
+            ...updatedOptions,
+          }
         );
 
         assertHasProperty(createManifestResult, "dockerContentDigest");
@@ -239,7 +236,7 @@ export class ContainerRegistryBlobClient {
       async (updatedOptions) => {
         const { dockerContentDigest, readableStreamBody } =
           await this.client.containerRegistry.getManifest(this.repositoryName, tagOrDigest, {
-            accept: KnownManifestMediaType.OciManifestMediaType,
+            accept: options.mediaType ?? KnownManifestMediaType.OciManifest,
             ...updatedOptions,
           });
 
@@ -255,11 +252,18 @@ export class ContainerRegistryBlobClient {
           );
         }
 
-        const manifest = serializer.deserialize(
-          Mappers.OCIManifest,
-          JSON.parse(bodyData.toString()),
-          "OCIManifest"
-        );
+        let manifest: OciManifest | undefined = undefined;
+
+        if (
+          options.mediaType === undefined ||
+          options.mediaType === KnownManifestMediaType.OciManifest
+        ) {
+          manifest = serializer.deserialize(
+            Mappers.OCIManifest,
+            JSON.parse(bodyData.toString()),
+            "OCIManifest"
+          );
+        }
 
         return {
           digest: dockerContentDigest,

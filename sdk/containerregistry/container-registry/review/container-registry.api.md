@@ -67,7 +67,7 @@ export class ContainerRegistryBlobClient {
     readonly endpoint: string;
     readonly repositoryName: string;
     uploadBlob(blobStream: NodeJS.ReadableStream, options?: UploadBlobOptions): Promise<UploadBlobResult>;
-    uploadManifest(manifest: (() => NodeJS.ReadableStream) | NodeJS.ReadableStream | OciManifest, options?: UploadManifestOptions): Promise<UploadManifestResult>;
+    uploadManifest(manifest: NodeJS.ReadableStream | OciManifest, options?: UploadManifestOptions): Promise<UploadManifestResult>;
 }
 
 // @public
@@ -155,12 +155,13 @@ export interface DownloadBlobResult {
 
 // @public
 export interface DownloadManifestOptions extends OperationOptions {
+    mediaType?: string;
 }
 
 // @public
 export interface DownloadManifestResult {
     digest: string;
-    manifest: OciManifest;
+    manifest?: OciManifest;
     manifestStream: NodeJS.ReadableStream;
 }
 
@@ -217,6 +218,12 @@ export enum KnownContainerRegistryAudience {
     AzureResourceManagerGermany = "https://management.microsoftazure.de",
     AzureResourceManagerGovernment = "https://management.usgovcloudapi.net",
     AzureResourceManagerPublicCloud = "https://management.azure.com"
+}
+
+// @public
+export enum KnownManifestMediaType {
+    DockerManifest = "application/vnd.docker.distribution.manifest.v2+json",
+    OciManifest = "application/vnd.oci.image.manifest.v1+json"
 }
 
 // @public
@@ -331,7 +338,8 @@ export interface UploadBlobResult {
 
 // @public
 export interface UploadManifestOptions extends OperationOptions {
-    tag: string;
+    mediaType?: string;
+    tag?: string;
 }
 
 // @public

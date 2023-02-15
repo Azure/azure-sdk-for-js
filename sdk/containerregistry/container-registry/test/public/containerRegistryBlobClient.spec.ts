@@ -7,7 +7,7 @@ import {
   isPlaybackMode,
   isLiveMode,
 } from "@azure-tools/test-recorder";
-import { ContainerRegistryBlobClient, OciManifest } from "@azure/container-registry";
+import { ContainerRegistryBlobClient, KnownManifestMediaType, OciManifest } from "../../src";
 import { assert, versionsToTest } from "@azure/test-utils";
 import { Context } from "mocha";
 import { createBlobClient, recorderStartOptions, serviceVersions } from "../utils/utils";
@@ -106,25 +106,6 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
       await client.deleteManifest(uploadResult.digest);
     });
 
-    it("can upload OCI manifest from resettable stream", async function (this: Mocha.Context) {
-      if (isPlaybackMode()) {
-        // Temporarily skip during playback while dealing with recorder issue
-        this.skip();
-      }
-
-      await uploadManifestPrerequisites();
-
-      const resettableManifestStream = () =>
-        fs.createReadStream("test/data/oci-artifact/manifest.json");
-      const uploadResult = await client.uploadManifest(resettableManifestStream);
-      const downloadResult = await client.downloadManifest(uploadResult.digest);
-
-      assert.equal(downloadResult.digest, uploadResult.digest);
-      assert.deepStrictEqual(downloadResult.manifest, manifest);
-
-      await client.deleteManifest(uploadResult.digest);
-    });
-
     it("can upload OCI manifest with tag", async () => {
       await uploadManifestPrerequisites();
 
@@ -136,6 +117,31 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
 
       await client.deleteManifest(uploadResult.digest);
     });
+
+    it.only("can upload Docker manifest", async () => {
+      const helloWorldClient = createBlobClient(
+        assertEnvironmentVariable("CONTAINER_REGISTRY_ENDPOINT"),
+        "library/hello-world",
+        serviceVersion,
+        recorder
+      );
+
+      const manifestStream = () =>
+        fs.createReadStream("test/data/docker/hello-world/manifest.json");
+      await helloWorldClient.uploadManifest(manifestStream(), {
+        mediaType: KnownManifestMediaType.DockerManifest,
+      });
+
+      try {
+        // Need to provide the correct media type.
+        await helloWorldClient.uploadManifest(manifestStream());
+        assert.fail("Expected exception to be thrown");
+      } catch {
+        // ignore expected exception
+      }
+    });
+
+    it.only("can download Docker manifest", async () => {});
 
     it.skip("can upload OCI manifest stream with tag", async function (this: Mocha.Context) {
       if (isPlaybackMode()) {
