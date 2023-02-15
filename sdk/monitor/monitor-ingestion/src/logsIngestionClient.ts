@@ -91,6 +91,9 @@ export class LogsIngestionClient {
       },
       options?.abortSignal
     );
-    if (uploadResultErrors.length > 0) throw new AggregateUploadLogsError(uploadResultErrors);
+    if (uploadResultErrors.length > 0) {
+      console.dir(uploadResultErrors);
+      throw new AggregateUploadLogsError(uploadResultErrors);
+    }
   }
 }
