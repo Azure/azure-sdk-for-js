@@ -28,7 +28,7 @@ pr:
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
-    ServiceDirectory: loadtestservice
+    ServiceDirectory: loadtesting
     Artifacts:
       - name: azure-rest-load-testing
         safeName: azurerestloadtesting
