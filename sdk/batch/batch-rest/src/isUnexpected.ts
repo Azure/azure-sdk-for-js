@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import {
-  ApplicationOperationsList200Response,
-  ApplicationOperationsListDefaultResponse,
-  ApplicationOperationsGet200Response,
-  ApplicationOperationsGetDefaultResponse,
+  ApplicationsList200Response,
+  ApplicationsListDefaultResponse,
+  ApplicationsGet200Response,
+  ApplicationsGetDefaultResponse,
   PoolListUsageMetrics200Response,
   PoolListUsageMetricsDefaultResponse,
   PoolGetAllLifetimeStatistics200Response,
@@ -16,6 +16,7 @@ import {
   PoolListDefaultResponse,
   PoolDelete202Response,
   PoolDeleteDefaultResponse,
+  PoolExists200Response,
   PoolExists404Response,
   PoolExistsDefaultResponse,
   PoolGet200Response,
@@ -28,13 +29,13 @@ import {
   PoolEnableAutoScaleDefaultResponse,
   PoolEvaluateAutoScale200Response,
   PoolEvaluateAutoScaleDefaultResponse,
-  PoolResize200Response,
+  PoolResize202Response,
   PoolResizeDefaultResponse,
-  PoolStopResize200Response,
+  PoolStopResize202Response,
   PoolStopResizeDefaultResponse,
-  PoolUpdateProperties200Response,
+  PoolUpdateProperties204Response,
   PoolUpdatePropertiesDefaultResponse,
-  PoolRemoveNodes200Response,
+  PoolRemoveNodes202Response,
   PoolRemoveNodesDefaultResponse,
   AccountListSupportedImages200Response,
   AccountListSupportedImagesDefaultResponse,
@@ -66,16 +67,16 @@ import {
   JobListPreparationAndReleaseTaskStatusDefaultResponse,
   JobGetTaskCounts200Response,
   JobGetTaskCountsDefaultResponse,
-  CertificateOperationsAdd201Response,
-  CertificateOperationsAddDefaultResponse,
-  CertificateOperationsList200Response,
-  CertificateOperationsListDefaultResponse,
-  CertificateOperationsCancelDeletion204Response,
-  CertificateOperationsCancelDeletionDefaultResponse,
-  CertificateOperationsDelete202Response,
-  CertificateOperationsDeleteDefaultResponse,
-  CertificateOperationsGet200Response,
-  CertificateOperationsGetDefaultResponse,
+  CertificatesAdd201Response,
+  CertificatesAddDefaultResponse,
+  CertificatesList200Response,
+  CertificatesListDefaultResponse,
+  CertificatesCancelDeletion204Response,
+  CertificatesCancelDeletionDefaultResponse,
+  CertificatesDelete202Response,
+  CertificatesDeleteDefaultResponse,
+  CertificatesGet200Response,
+  CertificatesGetDefaultResponse,
   FileDeleteFromTask200Response,
   FileDeleteFromTaskDefaultResponse,
   FileGetFromTask200Response,
@@ -93,7 +94,7 @@ import {
   FileListFromComputeNode200Response,
   FileListFromComputeNodeDefaultResponse,
   JobScheduleExists200Response,
-  JobScheduleExists204Response,
+  JobScheduleExists404Response,
   JobScheduleExistsDefaultResponse,
   JobScheduleDelete202Response,
   JobScheduleDeleteDefaultResponse,
@@ -131,34 +132,34 @@ import {
   TaskTerminateDefaultResponse,
   TaskReactivate204Response,
   TaskReactivateDefaultResponse,
-  ComputeNodeOperationsAddUser201Response,
-  ComputeNodeOperationsAddUserDefaultResponse,
-  ComputeNodeOperationsDeleteUser200Response,
-  ComputeNodeOperationsDeleteUserDefaultResponse,
-  ComputeNodeOperationsUpdateUser200Response,
-  ComputeNodeOperationsUpdateUserDefaultResponse,
-  ComputeNodeOperationsGet200Response,
-  ComputeNodeOperationsGetDefaultResponse,
-  ComputeNodeOperationsReboot202Response,
-  ComputeNodeOperationsRebootDefaultResponse,
-  ComputeNodeOperationsReimage202Response,
-  ComputeNodeOperationsReimageDefaultResponse,
-  ComputeNodeOperationsDisableScheduling200Response,
-  ComputeNodeOperationsDisableSchedulingDefaultResponse,
-  ComputeNodeOperationsEnableScheduling200Response,
-  ComputeNodeOperationsEnableSchedulingDefaultResponse,
-  ComputeNodeOperationsGetRemoteLoginSettings200Response,
-  ComputeNodeOperationsGetRemoteLoginSettingsDefaultResponse,
-  ComputeNodeOperationsGetRemoteDesktop200Response,
-  ComputeNodeOperationsGetRemoteDesktopDefaultResponse,
-  ComputeNodeOperationsUploadBatchServiceLogs200Response,
-  ComputeNodeOperationsUploadBatchServiceLogsDefaultResponse,
-  ComputeNodeOperationsList200Response,
-  ComputeNodeOperationsListDefaultResponse,
-  ComputeNodeExtensionOperationsGet200Response,
-  ComputeNodeExtensionOperationsGetDefaultResponse,
-  ComputeNodeExtensionOperationsList200Response,
-  ComputeNodeExtensionOperationsListDefaultResponse,
+  ComputeNodesAddUser201Response,
+  ComputeNodesAddUserDefaultResponse,
+  ComputeNodesDeleteUser200Response,
+  ComputeNodesDeleteUserDefaultResponse,
+  ComputeNodesUpdateUser200Response,
+  ComputeNodesUpdateUserDefaultResponse,
+  ComputeNodesGet200Response,
+  ComputeNodesGetDefaultResponse,
+  ComputeNodesReboot202Response,
+  ComputeNodesRebootDefaultResponse,
+  ComputeNodesReimage202Response,
+  ComputeNodesReimageDefaultResponse,
+  ComputeNodesDisableScheduling200Response,
+  ComputeNodesDisableSchedulingDefaultResponse,
+  ComputeNodesEnableScheduling200Response,
+  ComputeNodesEnableSchedulingDefaultResponse,
+  ComputeNodesGetRemoteLoginSettings200Response,
+  ComputeNodesGetRemoteLoginSettingsDefaultResponse,
+  ComputeNodesGetRemoteDesktop200Response,
+  ComputeNodesGetRemoteDesktopDefaultResponse,
+  ComputeNodesUploadBatchServiceLogs200Response,
+  ComputeNodesUploadBatchServiceLogsDefaultResponse,
+  ComputeNodesList200Response,
+  ComputeNodesListDefaultResponse,
+  ComputeNodeExtensionsGet200Response,
+  ComputeNodeExtensionsGetDefaultResponse,
+  ComputeNodeExtensionsList200Response,
+  ComputeNodeExtensionsListDefaultResponse,
 } from "./responses";
 
 const responseMap: Record<string, string[]> = {
@@ -169,16 +170,16 @@ const responseMap: Record<string, string[]> = {
   "POST /pools": ["201"],
   "GET /pools": ["200"],
   "DELETE /pools/{poolId}": ["202"],
-  "HEAD /pools/{poolId}": ["404"],
+  "HEAD /pools/{poolId}": ["200", "404"],
   "GET /pools/{poolId}": ["200"],
   "PATCH /pools/{poolId}": ["200"],
   "POST /pools/{poolId}/disableautoscale": ["200"],
   "POST /pools/{poolId}/enableautoscale": ["200"],
   "POST /pools/{poolId}/evaluateautoscale": ["200"],
-  "POST /pools/{poolId}/resize": ["200"],
-  "POST /pools/{poolId}/stopresize": ["200"],
-  "POST /pools/{poolId}/updateproperties": ["200"],
-  "POST /pools/{poolId}/removenodes": ["200"],
+  "POST /pools/{poolId}/resize": ["202"],
+  "POST /pools/{poolId}/stopresize": ["202"],
+  "POST /pools/{poolId}/updateproperties": ["204"],
+  "POST /pools/{poolId}/removenodes": ["202"],
   "GET /supportedimages": ["200"],
   "GET /nodecounts": ["200"],
   "GET /lifetimejobstats": ["200"],
@@ -210,7 +211,7 @@ const responseMap: Record<string, string[]> = {
   "HEAD /pools/{poolId}/nodes/{nodeId}/files/{filePath}": ["200"],
   "GET /jobs/{jobId}/tasks/{taskId}/files": ["200"],
   "GET /pools/{poolId}/nodes/{nodeId}/files": ["200"],
-  "HEAD /jobschedules/{jobScheduleId}": ["200", "204"],
+  "HEAD /jobschedules/{jobScheduleId}": ["200", "404"],
   "DELETE /jobschedules/{jobScheduleId}": ["202"],
   "GET /jobschedules/{jobScheduleId}": ["200"],
   "PATCH /jobschedules/{jobScheduleId}": ["200"],
@@ -246,15 +247,11 @@ const responseMap: Record<string, string[]> = {
 };
 
 export function isUnexpected(
-  response:
-    | ApplicationOperationsList200Response
-    | ApplicationOperationsListDefaultResponse
-): response is ApplicationOperationsListDefaultResponse;
+  response: ApplicationsList200Response | ApplicationsListDefaultResponse
+): response is ApplicationsListDefaultResponse;
 export function isUnexpected(
-  response:
-    | ApplicationOperationsGet200Response
-    | ApplicationOperationsGetDefaultResponse
-): response is ApplicationOperationsGetDefaultResponse;
+  response: ApplicationsGet200Response | ApplicationsGetDefaultResponse
+): response is ApplicationsGetDefaultResponse;
 export function isUnexpected(
   response:
     | PoolListUsageMetrics200Response
@@ -275,7 +272,10 @@ export function isUnexpected(
   response: PoolDelete202Response | PoolDeleteDefaultResponse
 ): response is PoolDeleteDefaultResponse;
 export function isUnexpected(
-  response: PoolExists404Response | PoolExistsDefaultResponse
+  response:
+    | PoolExists200Response
+    | PoolExists404Response
+    | PoolExistsDefaultResponse
 ): response is PoolExistsDefaultResponse;
 export function isUnexpected(
   response: PoolGet200Response | PoolGetDefaultResponse
@@ -297,18 +297,18 @@ export function isUnexpected(
     | PoolEvaluateAutoScaleDefaultResponse
 ): response is PoolEvaluateAutoScaleDefaultResponse;
 export function isUnexpected(
-  response: PoolResize200Response | PoolResizeDefaultResponse
+  response: PoolResize202Response | PoolResizeDefaultResponse
 ): response is PoolResizeDefaultResponse;
 export function isUnexpected(
-  response: PoolStopResize200Response | PoolStopResizeDefaultResponse
+  response: PoolStopResize202Response | PoolStopResizeDefaultResponse
 ): response is PoolStopResizeDefaultResponse;
 export function isUnexpected(
   response:
-    | PoolUpdateProperties200Response
+    | PoolUpdateProperties204Response
     | PoolUpdatePropertiesDefaultResponse
 ): response is PoolUpdatePropertiesDefaultResponse;
 export function isUnexpected(
-  response: PoolRemoveNodes200Response | PoolRemoveNodesDefaultResponse
+  response: PoolRemoveNodes202Response | PoolRemoveNodesDefaultResponse
 ): response is PoolRemoveNodesDefaultResponse;
 export function isUnexpected(
   response:
@@ -366,30 +366,22 @@ export function isUnexpected(
   response: JobGetTaskCounts200Response | JobGetTaskCountsDefaultResponse
 ): response is JobGetTaskCountsDefaultResponse;
 export function isUnexpected(
-  response:
-    | CertificateOperationsAdd201Response
-    | CertificateOperationsAddDefaultResponse
-): response is CertificateOperationsAddDefaultResponse;
+  response: CertificatesAdd201Response | CertificatesAddDefaultResponse
+): response is CertificatesAddDefaultResponse;
+export function isUnexpected(
+  response: CertificatesList200Response | CertificatesListDefaultResponse
+): response is CertificatesListDefaultResponse;
 export function isUnexpected(
   response:
-    | CertificateOperationsList200Response
-    | CertificateOperationsListDefaultResponse
-): response is CertificateOperationsListDefaultResponse;
+    | CertificatesCancelDeletion204Response
+    | CertificatesCancelDeletionDefaultResponse
+): response is CertificatesCancelDeletionDefaultResponse;
 export function isUnexpected(
-  response:
-    | CertificateOperationsCancelDeletion204Response
-    | CertificateOperationsCancelDeletionDefaultResponse
-): response is CertificateOperationsCancelDeletionDefaultResponse;
+  response: CertificatesDelete202Response | CertificatesDeleteDefaultResponse
+): response is CertificatesDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | CertificateOperationsDelete202Response
-    | CertificateOperationsDeleteDefaultResponse
-): response is CertificateOperationsDeleteDefaultResponse;
-export function isUnexpected(
-  response:
-    | CertificateOperationsGet200Response
-    | CertificateOperationsGetDefaultResponse
-): response is CertificateOperationsGetDefaultResponse;
+  response: CertificatesGet200Response | CertificatesGetDefaultResponse
+): response is CertificatesGetDefaultResponse;
 export function isUnexpected(
   response: FileDeleteFromTask200Response | FileDeleteFromTaskDefaultResponse
 ): response is FileDeleteFromTaskDefaultResponse;
@@ -427,7 +419,7 @@ export function isUnexpected(
 export function isUnexpected(
   response:
     | JobScheduleExists200Response
-    | JobScheduleExists204Response
+    | JobScheduleExists404Response
     | JobScheduleExistsDefaultResponse
 ): response is JobScheduleExistsDefaultResponse;
 export function isUnexpected(
@@ -487,81 +479,71 @@ export function isUnexpected(
   response: TaskReactivate204Response | TaskReactivateDefaultResponse
 ): response is TaskReactivateDefaultResponse;
 export function isUnexpected(
-  response:
-    | ComputeNodeOperationsAddUser201Response
-    | ComputeNodeOperationsAddUserDefaultResponse
-): response is ComputeNodeOperationsAddUserDefaultResponse;
+  response: ComputeNodesAddUser201Response | ComputeNodesAddUserDefaultResponse
+): response is ComputeNodesAddUserDefaultResponse;
 export function isUnexpected(
   response:
-    | ComputeNodeOperationsDeleteUser200Response
-    | ComputeNodeOperationsDeleteUserDefaultResponse
-): response is ComputeNodeOperationsDeleteUserDefaultResponse;
+    | ComputeNodesDeleteUser200Response
+    | ComputeNodesDeleteUserDefaultResponse
+): response is ComputeNodesDeleteUserDefaultResponse;
 export function isUnexpected(
   response:
-    | ComputeNodeOperationsUpdateUser200Response
-    | ComputeNodeOperationsUpdateUserDefaultResponse
-): response is ComputeNodeOperationsUpdateUserDefaultResponse;
+    | ComputeNodesUpdateUser200Response
+    | ComputeNodesUpdateUserDefaultResponse
+): response is ComputeNodesUpdateUserDefaultResponse;
+export function isUnexpected(
+  response: ComputeNodesGet200Response | ComputeNodesGetDefaultResponse
+): response is ComputeNodesGetDefaultResponse;
+export function isUnexpected(
+  response: ComputeNodesReboot202Response | ComputeNodesRebootDefaultResponse
+): response is ComputeNodesRebootDefaultResponse;
+export function isUnexpected(
+  response: ComputeNodesReimage202Response | ComputeNodesReimageDefaultResponse
+): response is ComputeNodesReimageDefaultResponse;
 export function isUnexpected(
   response:
-    | ComputeNodeOperationsGet200Response
-    | ComputeNodeOperationsGetDefaultResponse
-): response is ComputeNodeOperationsGetDefaultResponse;
+    | ComputeNodesDisableScheduling200Response
+    | ComputeNodesDisableSchedulingDefaultResponse
+): response is ComputeNodesDisableSchedulingDefaultResponse;
 export function isUnexpected(
   response:
-    | ComputeNodeOperationsReboot202Response
-    | ComputeNodeOperationsRebootDefaultResponse
-): response is ComputeNodeOperationsRebootDefaultResponse;
+    | ComputeNodesEnableScheduling200Response
+    | ComputeNodesEnableSchedulingDefaultResponse
+): response is ComputeNodesEnableSchedulingDefaultResponse;
 export function isUnexpected(
   response:
-    | ComputeNodeOperationsReimage202Response
-    | ComputeNodeOperationsReimageDefaultResponse
-): response is ComputeNodeOperationsReimageDefaultResponse;
+    | ComputeNodesGetRemoteLoginSettings200Response
+    | ComputeNodesGetRemoteLoginSettingsDefaultResponse
+): response is ComputeNodesGetRemoteLoginSettingsDefaultResponse;
 export function isUnexpected(
   response:
-    | ComputeNodeOperationsDisableScheduling200Response
-    | ComputeNodeOperationsDisableSchedulingDefaultResponse
-): response is ComputeNodeOperationsDisableSchedulingDefaultResponse;
+    | ComputeNodesGetRemoteDesktop200Response
+    | ComputeNodesGetRemoteDesktopDefaultResponse
+): response is ComputeNodesGetRemoteDesktopDefaultResponse;
 export function isUnexpected(
   response:
-    | ComputeNodeOperationsEnableScheduling200Response
-    | ComputeNodeOperationsEnableSchedulingDefaultResponse
-): response is ComputeNodeOperationsEnableSchedulingDefaultResponse;
+    | ComputeNodesUploadBatchServiceLogs200Response
+    | ComputeNodesUploadBatchServiceLogsDefaultResponse
+): response is ComputeNodesUploadBatchServiceLogsDefaultResponse;
+export function isUnexpected(
+  response: ComputeNodesList200Response | ComputeNodesListDefaultResponse
+): response is ComputeNodesListDefaultResponse;
 export function isUnexpected(
   response:
-    | ComputeNodeOperationsGetRemoteLoginSettings200Response
-    | ComputeNodeOperationsGetRemoteLoginSettingsDefaultResponse
-): response is ComputeNodeOperationsGetRemoteLoginSettingsDefaultResponse;
+    | ComputeNodeExtensionsGet200Response
+    | ComputeNodeExtensionsGetDefaultResponse
+): response is ComputeNodeExtensionsGetDefaultResponse;
 export function isUnexpected(
   response:
-    | ComputeNodeOperationsGetRemoteDesktop200Response
-    | ComputeNodeOperationsGetRemoteDesktopDefaultResponse
-): response is ComputeNodeOperationsGetRemoteDesktopDefaultResponse;
+    | ComputeNodeExtensionsList200Response
+    | ComputeNodeExtensionsListDefaultResponse
+): response is ComputeNodeExtensionsListDefaultResponse;
 export function isUnexpected(
   response:
-    | ComputeNodeOperationsUploadBatchServiceLogs200Response
-    | ComputeNodeOperationsUploadBatchServiceLogsDefaultResponse
-): response is ComputeNodeOperationsUploadBatchServiceLogsDefaultResponse;
-export function isUnexpected(
-  response:
-    | ComputeNodeOperationsList200Response
-    | ComputeNodeOperationsListDefaultResponse
-): response is ComputeNodeOperationsListDefaultResponse;
-export function isUnexpected(
-  response:
-    | ComputeNodeExtensionOperationsGet200Response
-    | ComputeNodeExtensionOperationsGetDefaultResponse
-): response is ComputeNodeExtensionOperationsGetDefaultResponse;
-export function isUnexpected(
-  response:
-    | ComputeNodeExtensionOperationsList200Response
-    | ComputeNodeExtensionOperationsListDefaultResponse
-): response is ComputeNodeExtensionOperationsListDefaultResponse;
-export function isUnexpected(
-  response:
-    | ApplicationOperationsList200Response
-    | ApplicationOperationsListDefaultResponse
-    | ApplicationOperationsGet200Response
-    | ApplicationOperationsGetDefaultResponse
+    | ApplicationsList200Response
+    | ApplicationsListDefaultResponse
+    | ApplicationsGet200Response
+    | ApplicationsGetDefaultResponse
     | PoolListUsageMetrics200Response
     | PoolListUsageMetricsDefaultResponse
     | PoolGetAllLifetimeStatistics200Response
@@ -572,6 +554,7 @@ export function isUnexpected(
     | PoolListDefaultResponse
     | PoolDelete202Response
     | PoolDeleteDefaultResponse
+    | PoolExists200Response
     | PoolExists404Response
     | PoolExistsDefaultResponse
     | PoolGet200Response
@@ -584,13 +567,13 @@ export function isUnexpected(
     | PoolEnableAutoScaleDefaultResponse
     | PoolEvaluateAutoScale200Response
     | PoolEvaluateAutoScaleDefaultResponse
-    | PoolResize200Response
+    | PoolResize202Response
     | PoolResizeDefaultResponse
-    | PoolStopResize200Response
+    | PoolStopResize202Response
     | PoolStopResizeDefaultResponse
-    | PoolUpdateProperties200Response
+    | PoolUpdateProperties204Response
     | PoolUpdatePropertiesDefaultResponse
-    | PoolRemoveNodes200Response
+    | PoolRemoveNodes202Response
     | PoolRemoveNodesDefaultResponse
     | AccountListSupportedImages200Response
     | AccountListSupportedImagesDefaultResponse
@@ -622,16 +605,16 @@ export function isUnexpected(
     | JobListPreparationAndReleaseTaskStatusDefaultResponse
     | JobGetTaskCounts200Response
     | JobGetTaskCountsDefaultResponse
-    | CertificateOperationsAdd201Response
-    | CertificateOperationsAddDefaultResponse
-    | CertificateOperationsList200Response
-    | CertificateOperationsListDefaultResponse
-    | CertificateOperationsCancelDeletion204Response
-    | CertificateOperationsCancelDeletionDefaultResponse
-    | CertificateOperationsDelete202Response
-    | CertificateOperationsDeleteDefaultResponse
-    | CertificateOperationsGet200Response
-    | CertificateOperationsGetDefaultResponse
+    | CertificatesAdd201Response
+    | CertificatesAddDefaultResponse
+    | CertificatesList200Response
+    | CertificatesListDefaultResponse
+    | CertificatesCancelDeletion204Response
+    | CertificatesCancelDeletionDefaultResponse
+    | CertificatesDelete202Response
+    | CertificatesDeleteDefaultResponse
+    | CertificatesGet200Response
+    | CertificatesGetDefaultResponse
     | FileDeleteFromTask200Response
     | FileDeleteFromTaskDefaultResponse
     | FileGetFromTask200Response
@@ -649,7 +632,7 @@ export function isUnexpected(
     | FileListFromComputeNode200Response
     | FileListFromComputeNodeDefaultResponse
     | JobScheduleExists200Response
-    | JobScheduleExists204Response
+    | JobScheduleExists404Response
     | JobScheduleExistsDefaultResponse
     | JobScheduleDelete202Response
     | JobScheduleDeleteDefaultResponse
@@ -687,37 +670,37 @@ export function isUnexpected(
     | TaskTerminateDefaultResponse
     | TaskReactivate204Response
     | TaskReactivateDefaultResponse
-    | ComputeNodeOperationsAddUser201Response
-    | ComputeNodeOperationsAddUserDefaultResponse
-    | ComputeNodeOperationsDeleteUser200Response
-    | ComputeNodeOperationsDeleteUserDefaultResponse
-    | ComputeNodeOperationsUpdateUser200Response
-    | ComputeNodeOperationsUpdateUserDefaultResponse
-    | ComputeNodeOperationsGet200Response
-    | ComputeNodeOperationsGetDefaultResponse
-    | ComputeNodeOperationsReboot202Response
-    | ComputeNodeOperationsRebootDefaultResponse
-    | ComputeNodeOperationsReimage202Response
-    | ComputeNodeOperationsReimageDefaultResponse
-    | ComputeNodeOperationsDisableScheduling200Response
-    | ComputeNodeOperationsDisableSchedulingDefaultResponse
-    | ComputeNodeOperationsEnableScheduling200Response
-    | ComputeNodeOperationsEnableSchedulingDefaultResponse
-    | ComputeNodeOperationsGetRemoteLoginSettings200Response
-    | ComputeNodeOperationsGetRemoteLoginSettingsDefaultResponse
-    | ComputeNodeOperationsGetRemoteDesktop200Response
-    | ComputeNodeOperationsGetRemoteDesktopDefaultResponse
-    | ComputeNodeOperationsUploadBatchServiceLogs200Response
-    | ComputeNodeOperationsUploadBatchServiceLogsDefaultResponse
-    | ComputeNodeOperationsList200Response
-    | ComputeNodeOperationsListDefaultResponse
-    | ComputeNodeExtensionOperationsGet200Response
-    | ComputeNodeExtensionOperationsGetDefaultResponse
-    | ComputeNodeExtensionOperationsList200Response
-    | ComputeNodeExtensionOperationsListDefaultResponse
+    | ComputeNodesAddUser201Response
+    | ComputeNodesAddUserDefaultResponse
+    | ComputeNodesDeleteUser200Response
+    | ComputeNodesDeleteUserDefaultResponse
+    | ComputeNodesUpdateUser200Response
+    | ComputeNodesUpdateUserDefaultResponse
+    | ComputeNodesGet200Response
+    | ComputeNodesGetDefaultResponse
+    | ComputeNodesReboot202Response
+    | ComputeNodesRebootDefaultResponse
+    | ComputeNodesReimage202Response
+    | ComputeNodesReimageDefaultResponse
+    | ComputeNodesDisableScheduling200Response
+    | ComputeNodesDisableSchedulingDefaultResponse
+    | ComputeNodesEnableScheduling200Response
+    | ComputeNodesEnableSchedulingDefaultResponse
+    | ComputeNodesGetRemoteLoginSettings200Response
+    | ComputeNodesGetRemoteLoginSettingsDefaultResponse
+    | ComputeNodesGetRemoteDesktop200Response
+    | ComputeNodesGetRemoteDesktopDefaultResponse
+    | ComputeNodesUploadBatchServiceLogs200Response
+    | ComputeNodesUploadBatchServiceLogsDefaultResponse
+    | ComputeNodesList200Response
+    | ComputeNodesListDefaultResponse
+    | ComputeNodeExtensionsGet200Response
+    | ComputeNodeExtensionsGetDefaultResponse
+    | ComputeNodeExtensionsList200Response
+    | ComputeNodeExtensionsListDefaultResponse
 ): response is
-  | ApplicationOperationsListDefaultResponse
-  | ApplicationOperationsGetDefaultResponse
+  | ApplicationsListDefaultResponse
+  | ApplicationsGetDefaultResponse
   | PoolListUsageMetricsDefaultResponse
   | PoolGetAllLifetimeStatisticsDefaultResponse
   | PoolAddDefaultResponse
@@ -748,11 +731,11 @@ export function isUnexpected(
   | JobListFromJobScheduleDefaultResponse
   | JobListPreparationAndReleaseTaskStatusDefaultResponse
   | JobGetTaskCountsDefaultResponse
-  | CertificateOperationsAddDefaultResponse
-  | CertificateOperationsListDefaultResponse
-  | CertificateOperationsCancelDeletionDefaultResponse
-  | CertificateOperationsDeleteDefaultResponse
-  | CertificateOperationsGetDefaultResponse
+  | CertificatesAddDefaultResponse
+  | CertificatesListDefaultResponse
+  | CertificatesCancelDeletionDefaultResponse
+  | CertificatesDeleteDefaultResponse
+  | CertificatesGetDefaultResponse
   | FileDeleteFromTaskDefaultResponse
   | FileGetFromTaskDefaultResponse
   | FileGetPropertiesFromTaskDefaultResponse
@@ -780,20 +763,20 @@ export function isUnexpected(
   | TaskListSubtasksDefaultResponse
   | TaskTerminateDefaultResponse
   | TaskReactivateDefaultResponse
-  | ComputeNodeOperationsAddUserDefaultResponse
-  | ComputeNodeOperationsDeleteUserDefaultResponse
-  | ComputeNodeOperationsUpdateUserDefaultResponse
-  | ComputeNodeOperationsGetDefaultResponse
-  | ComputeNodeOperationsRebootDefaultResponse
-  | ComputeNodeOperationsReimageDefaultResponse
-  | ComputeNodeOperationsDisableSchedulingDefaultResponse
-  | ComputeNodeOperationsEnableSchedulingDefaultResponse
-  | ComputeNodeOperationsGetRemoteLoginSettingsDefaultResponse
-  | ComputeNodeOperationsGetRemoteDesktopDefaultResponse
-  | ComputeNodeOperationsUploadBatchServiceLogsDefaultResponse
-  | ComputeNodeOperationsListDefaultResponse
-  | ComputeNodeExtensionOperationsGetDefaultResponse
-  | ComputeNodeExtensionOperationsListDefaultResponse {
+  | ComputeNodesAddUserDefaultResponse
+  | ComputeNodesDeleteUserDefaultResponse
+  | ComputeNodesUpdateUserDefaultResponse
+  | ComputeNodesGetDefaultResponse
+  | ComputeNodesRebootDefaultResponse
+  | ComputeNodesReimageDefaultResponse
+  | ComputeNodesDisableSchedulingDefaultResponse
+  | ComputeNodesEnableSchedulingDefaultResponse
+  | ComputeNodesGetRemoteLoginSettingsDefaultResponse
+  | ComputeNodesGetRemoteDesktopDefaultResponse
+  | ComputeNodesUploadBatchServiceLogsDefaultResponse
+  | ComputeNodesListDefaultResponse
+  | ComputeNodeExtensionsGetDefaultResponse
+  | ComputeNodeExtensionsListDefaultResponse {
   const lroOriginal = response.headers["x-ms-original-url"];
   const url = new URL(lroOriginal ?? response.request.url);
   const method = response.request.method;

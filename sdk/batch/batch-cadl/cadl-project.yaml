@@ -4,7 +4,7 @@ options:
   "@azure-tools/cadl-typescript":
     azureSdkForJs: true
     title: BatchGeneratedClient
-    generateMetadata: true
+    generateMetadata: false
     generateTest: true
     "emitter-output-dir": "{output-dir}"
     packageDetails:

@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import {
-  ApplicationOperationsListParameters,
-  ApplicationOperationsGetParameters,
+  ApplicationsListParameters,
+  ApplicationsGetParameters,
   PoolListUsageMetricsParameters,
   PoolGetAllLifetimeStatisticsParameters,
   PoolAddParameters,
@@ -34,11 +34,11 @@ import {
   JobListFromJobScheduleParameters,
   JobListPreparationAndReleaseTaskStatusParameters,
   JobGetTaskCountsParameters,
-  CertificateOperationsAddParameters,
-  CertificateOperationsListParameters,
-  CertificateOperationsCancelDeletionParameters,
-  CertificateOperationsDeleteParameters,
-  CertificateOperationsGetParameters,
+  CertificatesAddParameters,
+  CertificatesListParameters,
+  CertificatesCancelDeletionParameters,
+  CertificatesDeleteParameters,
+  CertificatesGetParameters,
   FileDeleteFromTaskParameters,
   FileGetFromTaskParameters,
   FileGetPropertiesFromTaskParameters,
@@ -66,26 +66,26 @@ import {
   TaskListSubtasksParameters,
   TaskTerminateParameters,
   TaskReactivateParameters,
-  ComputeNodeOperationsAddUserParameters,
-  ComputeNodeOperationsDeleteUserParameters,
-  ComputeNodeOperationsUpdateUserParameters,
-  ComputeNodeOperationsGetParameters,
-  ComputeNodeOperationsRebootParameters,
-  ComputeNodeOperationsReimageParameters,
-  ComputeNodeOperationsDisableSchedulingParameters,
-  ComputeNodeOperationsEnableSchedulingParameters,
-  ComputeNodeOperationsGetRemoteLoginSettingsParameters,
-  ComputeNodeOperationsGetRemoteDesktopParameters,
-  ComputeNodeOperationsUploadBatchServiceLogsParameters,
-  ComputeNodeOperationsListParameters,
-  ComputeNodeExtensionOperationsGetParameters,
-  ComputeNodeExtensionOperationsListParameters,
+  ComputeNodesAddUserParameters,
+  ComputeNodesDeleteUserParameters,
+  ComputeNodesUpdateUserParameters,
+  ComputeNodesGetParameters,
+  ComputeNodesRebootParameters,
+  ComputeNodesReimageParameters,
+  ComputeNodesDisableSchedulingParameters,
+  ComputeNodesEnableSchedulingParameters,
+  ComputeNodesGetRemoteLoginSettingsParameters,
+  ComputeNodesGetRemoteDesktopParameters,
+  ComputeNodesUploadBatchServiceLogsParameters,
+  ComputeNodesListParameters,
+  ComputeNodeExtensionsGetParameters,
+  ComputeNodeExtensionsListParameters,
 } from "./parameters";
 import {
-  ApplicationOperationsList200Response,
-  ApplicationOperationsListDefaultResponse,
-  ApplicationOperationsGet200Response,
-  ApplicationOperationsGetDefaultResponse,
+  ApplicationsList200Response,
+  ApplicationsListDefaultResponse,
+  ApplicationsGet200Response,
+  ApplicationsGetDefaultResponse,
   PoolListUsageMetrics200Response,
   PoolListUsageMetricsDefaultResponse,
   PoolGetAllLifetimeStatistics200Response,
@@ -96,6 +96,7 @@ import {
   PoolListDefaultResponse,
   PoolDelete202Response,
   PoolDeleteDefaultResponse,
+  PoolExists200Response,
   PoolExists404Response,
   PoolExistsDefaultResponse,
   PoolGet200Response,
@@ -108,13 +109,13 @@ import {
   PoolEnableAutoScaleDefaultResponse,
   PoolEvaluateAutoScale200Response,
   PoolEvaluateAutoScaleDefaultResponse,
-  PoolResize200Response,
+  PoolResize202Response,
   PoolResizeDefaultResponse,
-  PoolStopResize200Response,
+  PoolStopResize202Response,
   PoolStopResizeDefaultResponse,
-  PoolUpdateProperties200Response,
+  PoolUpdateProperties204Response,
   PoolUpdatePropertiesDefaultResponse,
-  PoolRemoveNodes200Response,
+  PoolRemoveNodes202Response,
   PoolRemoveNodesDefaultResponse,
   AccountListSupportedImages200Response,
   AccountListSupportedImagesDefaultResponse,
@@ -146,16 +147,16 @@ import {
   JobListPreparationAndReleaseTaskStatusDefaultResponse,
   JobGetTaskCounts200Response,
   JobGetTaskCountsDefaultResponse,
-  CertificateOperationsAdd201Response,
-  CertificateOperationsAddDefaultResponse,
-  CertificateOperationsList200Response,
-  CertificateOperationsListDefaultResponse,
-  CertificateOperationsCancelDeletion204Response,
-  CertificateOperationsCancelDeletionDefaultResponse,
-  CertificateOperationsDelete202Response,
-  CertificateOperationsDeleteDefaultResponse,
-  CertificateOperationsGet200Response,
-  CertificateOperationsGetDefaultResponse,
+  CertificatesAdd201Response,
+  CertificatesAddDefaultResponse,
+  CertificatesList200Response,
+  CertificatesListDefaultResponse,
+  CertificatesCancelDeletion204Response,
+  CertificatesCancelDeletionDefaultResponse,
+  CertificatesDelete202Response,
+  CertificatesDeleteDefaultResponse,
+  CertificatesGet200Response,
+  CertificatesGetDefaultResponse,
   FileDeleteFromTask200Response,
   FileDeleteFromTaskDefaultResponse,
   FileGetFromTask200Response,
@@ -173,7 +174,7 @@ import {
   FileListFromComputeNode200Response,
   FileListFromComputeNodeDefaultResponse,
   JobScheduleExists200Response,
-  JobScheduleExists204Response,
+  JobScheduleExists404Response,
   JobScheduleExistsDefaultResponse,
   JobScheduleDelete202Response,
   JobScheduleDeleteDefaultResponse,
@@ -211,38 +212,38 @@ import {
   TaskTerminateDefaultResponse,
   TaskReactivate204Response,
   TaskReactivateDefaultResponse,
-  ComputeNodeOperationsAddUser201Response,
-  ComputeNodeOperationsAddUserDefaultResponse,
-  ComputeNodeOperationsDeleteUser200Response,
-  ComputeNodeOperationsDeleteUserDefaultResponse,
-  ComputeNodeOperationsUpdateUser200Response,
-  ComputeNodeOperationsUpdateUserDefaultResponse,
-  ComputeNodeOperationsGet200Response,
-  ComputeNodeOperationsGetDefaultResponse,
-  ComputeNodeOperationsReboot202Response,
-  ComputeNodeOperationsRebootDefaultResponse,
-  ComputeNodeOperationsReimage202Response,
-  ComputeNodeOperationsReimageDefaultResponse,
-  ComputeNodeOperationsDisableScheduling200Response,
-  ComputeNodeOperationsDisableSchedulingDefaultResponse,
-  ComputeNodeOperationsEnableScheduling200Response,
-  ComputeNodeOperationsEnableSchedulingDefaultResponse,
-  ComputeNodeOperationsGetRemoteLoginSettings200Response,
-  ComputeNodeOperationsGetRemoteLoginSettingsDefaultResponse,
-  ComputeNodeOperationsGetRemoteDesktop200Response,
-  ComputeNodeOperationsGetRemoteDesktopDefaultResponse,
-  ComputeNodeOperationsUploadBatchServiceLogs200Response,
-  ComputeNodeOperationsUploadBatchServiceLogsDefaultResponse,
-  ComputeNodeOperationsList200Response,
-  ComputeNodeOperationsListDefaultResponse,
-  ComputeNodeExtensionOperationsGet200Response,
-  ComputeNodeExtensionOperationsGetDefaultResponse,
-  ComputeNodeExtensionOperationsList200Response,
-  ComputeNodeExtensionOperationsListDefaultResponse,
+  ComputeNodesAddUser201Response,
+  ComputeNodesAddUserDefaultResponse,
+  ComputeNodesDeleteUser200Response,
+  ComputeNodesDeleteUserDefaultResponse,
+  ComputeNodesUpdateUser200Response,
+  ComputeNodesUpdateUserDefaultResponse,
+  ComputeNodesGet200Response,
+  ComputeNodesGetDefaultResponse,
+  ComputeNodesReboot202Response,
+  ComputeNodesRebootDefaultResponse,
+  ComputeNodesReimage202Response,
+  ComputeNodesReimageDefaultResponse,
+  ComputeNodesDisableScheduling200Response,
+  ComputeNodesDisableSchedulingDefaultResponse,
+  ComputeNodesEnableScheduling200Response,
+  ComputeNodesEnableSchedulingDefaultResponse,
+  ComputeNodesGetRemoteLoginSettings200Response,
+  ComputeNodesGetRemoteLoginSettingsDefaultResponse,
+  ComputeNodesGetRemoteDesktop200Response,
+  ComputeNodesGetRemoteDesktopDefaultResponse,
+  ComputeNodesUploadBatchServiceLogs200Response,
+  ComputeNodesUploadBatchServiceLogsDefaultResponse,
+  ComputeNodesList200Response,
+  ComputeNodesListDefaultResponse,
+  ComputeNodeExtensionsGet200Response,
+  ComputeNodeExtensionsGetDefaultResponse,
+  ComputeNodeExtensionsList200Response,
+  ComputeNodeExtensionsListDefaultResponse,
 } from "./responses";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
-export interface ApplicationOperationsList {
+export interface ApplicationsList {
   /**
    * This operation returns only Applications and versions that are available for
    * use on Compute Nodes; that is, that can be used in an Package reference. For
@@ -251,14 +252,13 @@ export interface ApplicationOperationsList {
    * API.
    */
   get(
-    options?: ApplicationOperationsListParameters
+    options?: ApplicationsListParameters
   ): StreamableMethod<
-    | ApplicationOperationsList200Response
-    | ApplicationOperationsListDefaultResponse
+    ApplicationsList200Response | ApplicationsListDefaultResponse
   >;
 }
 
-export interface ApplicationOperationsGet {
+export interface ApplicationsGet {
   /**
    * This operation returns only Applications and versions that are available for
    * use on Compute Nodes; that is, that can be used in an Package reference. For
@@ -267,10 +267,9 @@ export interface ApplicationOperationsGet {
    * API.
    */
   get(
-    options?: ApplicationOperationsGetParameters
+    options?: ApplicationsGetParameters
   ): StreamableMethod<
-    | ApplicationOperationsGet200Response
-    | ApplicationOperationsGetDefaultResponse
+    ApplicationsGet200Response | ApplicationsGetDefaultResponse
   >;
 }
 
@@ -341,10 +340,12 @@ export interface PoolDelete {
   /** Gets basic properties of a Pool. */
   head(
     options?: PoolExistsParameters
-  ): StreamableMethod<PoolExists404Response | PoolExistsDefaultResponse>;
+  ): StreamableMethod<
+    PoolExists200Response | PoolExists404Response | PoolExistsDefaultResponse
+  >;
   /** Gets information about the specified Pool. */
   get(
-    options: PoolGetParameters
+    options?: PoolGetParameters
   ): StreamableMethod<PoolGet200Response | PoolGetDefaultResponse>;
   /**
    * This only replaces the Pool properties specified in the request. For example,
@@ -406,7 +407,7 @@ export interface PoolResize {
    */
   post(
     options: PoolResizeParameters
-  ): StreamableMethod<PoolResize200Response | PoolResizeDefaultResponse>;
+  ): StreamableMethod<PoolResize202Response | PoolResizeDefaultResponse>;
 }
 
 export interface PoolStopResize {
@@ -422,7 +423,7 @@ export interface PoolStopResize {
   post(
     options?: PoolStopResizeParameters
   ): StreamableMethod<
-    PoolStopResize200Response | PoolStopResizeDefaultResponse
+    PoolStopResize202Response | PoolStopResizeDefaultResponse
   >;
 }
 
@@ -435,7 +436,7 @@ export interface PoolUpdateProperties {
   post(
     options: PoolUpdatePropertiesParameters
   ): StreamableMethod<
-    PoolUpdateProperties200Response | PoolUpdatePropertiesDefaultResponse
+    PoolUpdateProperties204Response | PoolUpdatePropertiesDefaultResponse
   >;
 }
 
@@ -448,7 +449,7 @@ export interface PoolRemoveNodes {
   post(
     options: PoolRemoveNodesParameters
   ): StreamableMethod<
-    PoolRemoveNodes200Response | PoolRemoveNodesDefaultResponse
+    PoolRemoveNodes202Response | PoolRemoveNodesDefaultResponse
   >;
 }
 
@@ -567,7 +568,7 @@ export interface JobTerminate {
    * Tasks cannot be added and any remaining active Tasks will not be scheduled.
    */
   post(
-    options: JobTerminateParameters
+    options?: JobTerminateParameters
   ): StreamableMethod<JobTerminate202Response | JobTerminateDefaultResponse>;
 }
 
@@ -588,14 +589,14 @@ export interface JobAdd {
   ): StreamableMethod<JobAdd201Response | JobAddDefaultResponse>;
   /** Lists all of the Jobs in the specified Account. */
   get(
-    options: JobListParameters
+    options?: JobListParameters
   ): StreamableMethod<JobList200Response | JobListDefaultResponse>;
 }
 
 export interface JobListFromJobSchedule {
   /** Lists the Jobs that have been created under the specified Job Schedule. */
   get(
-    options: JobListFromJobScheduleParameters
+    options?: JobListFromJobScheduleParameters
   ): StreamableMethod<
     JobListFromJobSchedule200Response | JobListFromJobScheduleDefaultResponse
   >;
@@ -611,7 +612,7 @@ export interface JobListPreparationAndReleaseTaskStatus {
    * JobPreparationTaskNotSpecified.
    */
   get(
-    options: JobListPreparationAndReleaseTaskStatusParameters
+    options?: JobListPreparationAndReleaseTaskStatusParameters
   ): StreamableMethod<
     | JobListPreparationAndReleaseTaskStatus200Response
     | JobListPreparationAndReleaseTaskStatusDefaultResponse
@@ -632,24 +633,22 @@ export interface JobGetTaskCounts {
   >;
 }
 
-export interface CertificateOperationsAdd {
+export interface CertificatesAdd {
   /** Adds a Certificate to the specified Account. */
   post(
-    options: CertificateOperationsAddParameters
+    options: CertificatesAddParameters
   ): StreamableMethod<
-    | CertificateOperationsAdd201Response
-    | CertificateOperationsAddDefaultResponse
+    CertificatesAdd201Response | CertificatesAddDefaultResponse
   >;
   /** Lists all of the Certificates that have been added to the specified Account. */
   get(
-    options: CertificateOperationsListParameters
+    options?: CertificatesListParameters
   ): StreamableMethod<
-    | CertificateOperationsList200Response
-    | CertificateOperationsListDefaultResponse
+    CertificatesList200Response | CertificatesListDefaultResponse
   >;
 }
 
-export interface CertificateOperationsCancelDeletion {
+export interface CertificatesCancelDeletion {
   /**
    * If you try to delete a Certificate that is being used by a Pool or Compute
    * Node, the status of the Certificate changes to deleteFailed. If you decide that
@@ -660,14 +659,14 @@ export interface CertificateOperationsCancelDeletion {
    * then you can try again to delete the Certificate.
    */
   post(
-    options?: CertificateOperationsCancelDeletionParameters
+    options?: CertificatesCancelDeletionParameters
   ): StreamableMethod<
-    | CertificateOperationsCancelDeletion204Response
-    | CertificateOperationsCancelDeletionDefaultResponse
+    | CertificatesCancelDeletion204Response
+    | CertificatesCancelDeletionDefaultResponse
   >;
 }
 
-export interface CertificateOperationsDelete {
+export interface CertificatesDelete {
   /**
    * You cannot delete a Certificate if a resource (Pool or Compute Node) is using
    * it. Before you can delete a Certificate, you must therefore make sure that the
@@ -680,24 +679,22 @@ export interface CertificateOperationsDelete {
    * active if you decide that you want to continue using the Certificate.
    */
   delete(
-    options?: CertificateOperationsDeleteParameters
+    options?: CertificatesDeleteParameters
   ): StreamableMethod<
-    | CertificateOperationsDelete202Response
-    | CertificateOperationsDeleteDefaultResponse
+    CertificatesDelete202Response | CertificatesDeleteDefaultResponse
   >;
   /** Gets information about the specified Certificate. */
   get(
-    options: CertificateOperationsGetParameters
+    options?: CertificatesGetParameters
   ): StreamableMethod<
-    | CertificateOperationsGet200Response
-    | CertificateOperationsGetDefaultResponse
+    CertificatesGet200Response | CertificatesGetDefaultResponse
   >;
 }
 
 export interface FileDeleteFromTask {
   /** Deletes the specified Task file from the Compute Node where the Task ran. */
   delete(
-    options: FileDeleteFromTaskParameters
+    options?: FileDeleteFromTaskParameters
   ): StreamableMethod<
     FileDeleteFromTask200Response | FileDeleteFromTaskDefaultResponse
   >;
@@ -742,7 +739,7 @@ export interface FileDeleteFromComputeNode {
 export interface FileListFromTask {
   /** Lists the files in a Task's directory on its Compute Node. */
   get(
-    options: FileListFromTaskParameters
+    options?: FileListFromTaskParameters
   ): StreamableMethod<
     FileListFromTask200Response | FileListFromTaskDefaultResponse
   >;
@@ -751,7 +748,7 @@ export interface FileListFromTask {
 export interface FileListFromComputeNode {
   /** Lists all of the files in Task directories on the specified Compute Node. */
   get(
-    options: FileListFromComputeNodeParameters
+    options?: FileListFromComputeNodeParameters
   ): StreamableMethod<
     FileListFromComputeNode200Response | FileListFromComputeNodeDefaultResponse
   >;
@@ -763,7 +760,7 @@ export interface JobScheduleExists {
     options?: JobScheduleExistsParameters
   ): StreamableMethod<
     | JobScheduleExists200Response
-    | JobScheduleExists204Response
+    | JobScheduleExists404Response
     | JobScheduleExistsDefaultResponse
   >;
   /**
@@ -957,29 +954,27 @@ export interface TaskReactivate {
   >;
 }
 
-export interface ComputeNodeOperationsAddUser {
+export interface ComputeNodesAddUser {
   /**
    * You can add a user Account to a Compute Node only when it is in the idle or
    * running state.
    */
   post(
-    options: ComputeNodeOperationsAddUserParameters
+    options: ComputeNodesAddUserParameters
   ): StreamableMethod<
-    | ComputeNodeOperationsAddUser201Response
-    | ComputeNodeOperationsAddUserDefaultResponse
+    ComputeNodesAddUser201Response | ComputeNodesAddUserDefaultResponse
   >;
 }
 
-export interface ComputeNodeOperationsDeleteUser {
+export interface ComputeNodesDeleteUser {
   /**
    * You can delete a user Account to a Compute Node only when it is in the idle or
    * running state.
    */
   delete(
-    options?: ComputeNodeOperationsDeleteUserParameters
+    options?: ComputeNodesDeleteUserParameters
   ): StreamableMethod<
-    | ComputeNodeOperationsDeleteUser200Response
-    | ComputeNodeOperationsDeleteUserDefaultResponse
+    ComputeNodesDeleteUser200Response | ComputeNodesDeleteUserDefaultResponse
   >;
   /**
    * This operation replaces of all the updatable properties of the Account. For
@@ -988,74 +983,70 @@ export interface ComputeNodeOperationsDeleteUser {
    * Account on a Compute Node only when it is in the idle or running state.
    */
   put(
-    options: ComputeNodeOperationsUpdateUserParameters
+    options: ComputeNodesUpdateUserParameters
   ): StreamableMethod<
-    | ComputeNodeOperationsUpdateUser200Response
-    | ComputeNodeOperationsUpdateUserDefaultResponse
+    ComputeNodesUpdateUser200Response | ComputeNodesUpdateUserDefaultResponse
   >;
 }
 
-export interface ComputeNodeOperationsGet {
+export interface ComputeNodesGet {
   /** Gets information about the specified Compute Node. */
   get(
-    options?: ComputeNodeOperationsGetParameters
+    options?: ComputeNodesGetParameters
   ): StreamableMethod<
-    | ComputeNodeOperationsGet200Response
-    | ComputeNodeOperationsGetDefaultResponse
+    ComputeNodesGet200Response | ComputeNodesGetDefaultResponse
   >;
 }
 
-export interface ComputeNodeOperationsReboot {
+export interface ComputeNodesReboot {
   /** You can restart a Compute Node only if it is in an idle or running state. */
   post(
-    options: ComputeNodeOperationsRebootParameters
+    options?: ComputeNodesRebootParameters
   ): StreamableMethod<
-    | ComputeNodeOperationsReboot202Response
-    | ComputeNodeOperationsRebootDefaultResponse
+    ComputeNodesReboot202Response | ComputeNodesRebootDefaultResponse
   >;
 }
 
-export interface ComputeNodeOperationsReimage {
+export interface ComputeNodesReimage {
   /**
    * You can reinstall the operating system on a Compute Node only if it is in an
    * idle or running state. This API can be invoked only on Pools created with the
    * cloud service configuration property.
    */
   post(
-    options: ComputeNodeOperationsReimageParameters
+    options?: ComputeNodesReimageParameters
   ): StreamableMethod<
-    | ComputeNodeOperationsReimage202Response
-    | ComputeNodeOperationsReimageDefaultResponse
+    ComputeNodesReimage202Response | ComputeNodesReimageDefaultResponse
   >;
 }
 
-export interface ComputeNodeOperationsDisableScheduling {
+export interface ComputeNodesDisableScheduling {
   /**
    * You can disable Task scheduling on a Compute Node only if its current
    * scheduling state is enabled.
    */
   post(
-    options: ComputeNodeOperationsDisableSchedulingParameters
+    options?: ComputeNodesDisableSchedulingParameters
   ): StreamableMethod<
-    | ComputeNodeOperationsDisableScheduling200Response
-    | ComputeNodeOperationsDisableSchedulingDefaultResponse
+    | ComputeNodesDisableScheduling200Response
+    | ComputeNodesDisableSchedulingDefaultResponse
   >;
 }
 
-export interface ComputeNodeOperationsEnableScheduling {
+export interface ComputeNodesEnableScheduling {
   /**
    * You can enable Task scheduling on a Compute Node only if its current scheduling
    * state is disabled
    */
   post(
-    options?: ComputeNodeOperationsEnableSchedulingParameters
+    options?: ComputeNodesEnableSchedulingParameters
   ): StreamableMethod<
-    | ComputeNodeOperationsEnableScheduling200Response
-    | ComputeNodeOperationsEnableSchedulingDefaultResponse
+    | ComputeNodesEnableScheduling200Response
+    | ComputeNodesEnableSchedulingDefaultResponse
   >;
 }
 
-export interface ComputeNodeOperationsGetRemoteLoginSettings {
+export interface ComputeNodesGetRemoteLoginSettings {
   /**
    * Before you can remotely login to a Compute Node using the remote login
    * settings, you must create a user Account on the Compute Node. This API can be
@@ -1064,14 +1055,14 @@ export interface ComputeNodeOperationsGetRemoteLoginSettings {
    * API.
    */
   get(
-    options?: ComputeNodeOperationsGetRemoteLoginSettingsParameters
+    options?: ComputeNodesGetRemoteLoginSettingsParameters
   ): StreamableMethod<
-    | ComputeNodeOperationsGetRemoteLoginSettings200Response
-    | ComputeNodeOperationsGetRemoteLoginSettingsDefaultResponse
+    | ComputeNodesGetRemoteLoginSettings200Response
+    | ComputeNodesGetRemoteLoginSettingsDefaultResponse
   >;
 }
 
-export interface ComputeNodeOperationsGetRemoteDesktop {
+export interface ComputeNodesGetRemoteDesktop {
   /**
    * Before you can access a Compute Node by using the RDP file, you must create a
    * user Account on the Compute Node. This API can only be invoked on Pools created
@@ -1079,14 +1070,14 @@ export interface ComputeNodeOperationsGetRemoteDesktop {
    * configuration, see the GetRemoteLoginSettings API.
    */
   get(
-    options?: ComputeNodeOperationsGetRemoteDesktopParameters
+    options?: ComputeNodesGetRemoteDesktopParameters
   ): StreamableMethod<
-    | ComputeNodeOperationsGetRemoteDesktop200Response
-    | ComputeNodeOperationsGetRemoteDesktopDefaultResponse
+    | ComputeNodesGetRemoteDesktop200Response
+    | ComputeNodesGetRemoteDesktopDefaultResponse
   >;
 }
 
-export interface ComputeNodeOperationsUploadBatchServiceLogs {
+export interface ComputeNodesUploadBatchServiceLogs {
   /**
    * This is for gathering Azure Batch service log files in an automated fashion
    * from Compute Nodes if you are experiencing an error and wish to escalate to
@@ -1094,51 +1085,50 @@ export interface ComputeNodeOperationsUploadBatchServiceLogs {
    * support to aid in debugging issues with the Batch service.
    */
   post(
-    options: ComputeNodeOperationsUploadBatchServiceLogsParameters
+    options: ComputeNodesUploadBatchServiceLogsParameters
   ): StreamableMethod<
-    | ComputeNodeOperationsUploadBatchServiceLogs200Response
-    | ComputeNodeOperationsUploadBatchServiceLogsDefaultResponse
+    | ComputeNodesUploadBatchServiceLogs200Response
+    | ComputeNodesUploadBatchServiceLogsDefaultResponse
   >;
 }
 
-export interface ComputeNodeOperationsList {
+export interface ComputeNodesList {
   /** Lists the Compute Nodes in the specified Pool. */
   get(
-    options: ComputeNodeOperationsListParameters
+    options?: ComputeNodesListParameters
   ): StreamableMethod<
-    | ComputeNodeOperationsList200Response
-    | ComputeNodeOperationsListDefaultResponse
+    ComputeNodesList200Response | ComputeNodesListDefaultResponse
   >;
 }
 
-export interface ComputeNodeExtensionOperationsGet {
+export interface ComputeNodeExtensionsGet {
   /** Gets information about the specified Compute Node Extension. */
   get(
-    options?: ComputeNodeExtensionOperationsGetParameters
+    options?: ComputeNodeExtensionsGetParameters
   ): StreamableMethod<
-    | ComputeNodeExtensionOperationsGet200Response
-    | ComputeNodeExtensionOperationsGetDefaultResponse
+    | ComputeNodeExtensionsGet200Response
+    | ComputeNodeExtensionsGetDefaultResponse
   >;
 }
 
-export interface ComputeNodeExtensionOperationsList {
+export interface ComputeNodeExtensionsList {
   /** Lists the Compute Nodes Extensions in the specified Pool. */
   get(
-    options?: ComputeNodeExtensionOperationsListParameters
+    options?: ComputeNodeExtensionsListParameters
   ): StreamableMethod<
-    | ComputeNodeExtensionOperationsList200Response
-    | ComputeNodeExtensionOperationsListDefaultResponse
+    | ComputeNodeExtensionsList200Response
+    | ComputeNodeExtensionsListDefaultResponse
   >;
 }
 
 export interface Routes {
   /** Resource for '/applications' has methods for the following verbs: get */
-  (path: "/applications"): ApplicationOperationsList;
+  (path: "/applications"): ApplicationsList;
   /** Resource for '/applications/\{applicationId\}' has methods for the following verbs: get */
   (
     path: "/applications/{applicationId}",
     applicationId: string
-  ): ApplicationOperationsGet;
+  ): ApplicationsGet;
   /** Resource for '/poolusagemetrics' has methods for the following verbs: get */
   (path: "/poolusagemetrics"): PoolListUsageMetrics;
   /** Resource for '/lifetimepoolstats' has methods for the following verbs: get */
@@ -1202,19 +1192,19 @@ export interface Routes {
   /** Resource for '/jobs/\{jobId\}/taskcounts' has methods for the following verbs: get */
   (path: "/jobs/{jobId}/taskcounts", jobId: string): JobGetTaskCounts;
   /** Resource for '/certificates' has methods for the following verbs: post, get */
-  (path: "/certificates"): CertificateOperationsAdd;
+  (path: "/certificates"): CertificatesAdd;
   /** Resource for '/certificates(thumbprintAlgorithm=\{thumbprintAlgorithm\},thumbprint=\{thumbprint\})/canceldelete' has methods for the following verbs: post */
   (
     path: "/certificates(thumbprintAlgorithm={thumbprintAlgorithm},thumbprint={thumbprint})/canceldelete",
     thumbprintAlgorithm: string,
     thumbprint: string
-  ): CertificateOperationsCancelDeletion;
+  ): CertificatesCancelDeletion;
   /** Resource for '/certificates(thumbprintAlgorithm=\{thumbprintAlgorithm\},thumbprint=\{thumbprint\})' has methods for the following verbs: delete, get */
   (
     path: "/certificates(thumbprintAlgorithm={thumbprintAlgorithm},thumbprint={thumbprint})",
     thumbprintAlgorithm: string,
     thumbprint: string
-  ): CertificateOperationsDelete;
+  ): CertificatesDelete;
   /** Resource for '/jobs/\{jobId\}/tasks/\{taskId\}/files/\{filePath\}' has methods for the following verbs: delete, get, head */
   (
     path: "/jobs/{jobId}/tasks/{taskId}/files/{filePath}",
@@ -1296,77 +1286,77 @@ export interface Routes {
     path: "/pools/{poolId}/nodes/{nodeId}/users",
     poolId: string,
     nodeId: string
-  ): ComputeNodeOperationsAddUser;
+  ): ComputeNodesAddUser;
   /** Resource for '/pools/\{poolId\}/nodes/\{nodeId\}/users/\{userName\}' has methods for the following verbs: delete, put */
   (
     path: "/pools/{poolId}/nodes/{nodeId}/users/{userName}",
     poolId: string,
     nodeId: string,
     userName: string
-  ): ComputeNodeOperationsDeleteUser;
+  ): ComputeNodesDeleteUser;
   /** Resource for '/pools/\{poolId\}/nodes/\{nodeId\}' has methods for the following verbs: get */
   (
     path: "/pools/{poolId}/nodes/{nodeId}",
     poolId: string,
     nodeId: string
-  ): ComputeNodeOperationsGet;
+  ): ComputeNodesGet;
   /** Resource for '/pools/\{poolId\}/nodes/\{nodeId\}/reboot' has methods for the following verbs: post */
   (
     path: "/pools/{poolId}/nodes/{nodeId}/reboot",
     poolId: string,
     nodeId: string
-  ): ComputeNodeOperationsReboot;
+  ): ComputeNodesReboot;
   /** Resource for '/pools/\{poolId\}/nodes/\{nodeId\}/reimage' has methods for the following verbs: post */
   (
     path: "/pools/{poolId}/nodes/{nodeId}/reimage",
     poolId: string,
     nodeId: string
-  ): ComputeNodeOperationsReimage;
+  ): ComputeNodesReimage;
   /** Resource for '/pools/\{poolId\}/nodes/\{nodeId\}/disablescheduling' has methods for the following verbs: post */
   (
     path: "/pools/{poolId}/nodes/{nodeId}/disablescheduling",
     poolId: string,
     nodeId: string
-  ): ComputeNodeOperationsDisableScheduling;
+  ): ComputeNodesDisableScheduling;
   /** Resource for '/pools/\{poolId\}/nodes/\{nodeId\}/enablescheduling' has methods for the following verbs: post */
   (
     path: "/pools/{poolId}/nodes/{nodeId}/enablescheduling",
     poolId: string,
     nodeId: string
-  ): ComputeNodeOperationsEnableScheduling;
+  ): ComputeNodesEnableScheduling;
   /** Resource for '/pools/\{poolId\}/nodes/\{nodeId\}/remoteloginsettings' has methods for the following verbs: get */
   (
     path: "/pools/{poolId}/nodes/{nodeId}/remoteloginsettings",
     poolId: string,
     nodeId: string
-  ): ComputeNodeOperationsGetRemoteLoginSettings;
+  ): ComputeNodesGetRemoteLoginSettings;
   /** Resource for '/pools/\{poolId\}/nodes/\{nodeId\}/rdp' has methods for the following verbs: get */
   (
     path: "/pools/{poolId}/nodes/{nodeId}/rdp",
     poolId: string,
     nodeId: string
-  ): ComputeNodeOperationsGetRemoteDesktop;
+  ): ComputeNodesGetRemoteDesktop;
   /** Resource for '/pools/\{poolId\}/nodes/\{nodeId\}/uploadbatchservicelogs' has methods for the following verbs: post */
   (
     path: "/pools/{poolId}/nodes/{nodeId}/uploadbatchservicelogs",
     poolId: string,
     nodeId: string
-  ): ComputeNodeOperationsUploadBatchServiceLogs;
+  ): ComputeNodesUploadBatchServiceLogs;
   /** Resource for '/pools/\{poolId\}/nodes' has methods for the following verbs: get */
-  (path: "/pools/{poolId}/nodes", poolId: string): ComputeNodeOperationsList;
+  (path: "/pools/{poolId}/nodes", poolId: string): ComputeNodesList;
   /** Resource for '/pools/\{poolId\}/nodes/\{nodeId\}/extensions/\{extensionName\}' has methods for the following verbs: get */
   (
     path: "/pools/{poolId}/nodes/{nodeId}/extensions/{extensionName}",
     poolId: string,
     nodeId: string,
     extensionName: string
-  ): ComputeNodeExtensionOperationsGet;
+  ): ComputeNodeExtensionsGet;
   /** Resource for '/pools/\{poolId\}/nodes/\{nodeId\}/extensions' has methods for the following verbs: get */
   (
     path: "/pools/{poolId}/nodes/{nodeId}/extensions",
     poolId: string,
     nodeId: string
-  ): ComputeNodeExtensionOperationsList;
+  ): ComputeNodeExtensionsList;
 }
 
 export type BatchGeneratedClient = Client & {
