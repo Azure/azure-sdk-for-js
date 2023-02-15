@@ -23,6 +23,14 @@ export function dataLakePathParameterWorkaroundPolicy(): PipelinePolicy {
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       if (request.url.includes("/%7Bfilesystem%7D/%7Bpath%7D")) {
         request.url = request.url.replace("/%7Bfilesystem%7D/%7Bpath%7D", "");
+        // special case: sometimes we concatenate the path from the operation spec (/{filesystem}/{path})
+        // but when we remove it, we don't want to remove the trailing slash from the URL
+        // since it is important when referencing the root directory.
+        const parsedUrl = new URL(request.url);
+        if (parsedUrl.pathname.lastIndexOf("/") === 0) {
+          parsedUrl.pathname = parsedUrl.pathname + "/";
+          request.url = parsedUrl.toString();
+        }
       } else if (request.url.includes("/%7Bfilesystem%7D")) {
         request.url = request.url.replace("/%7Bfilesystem%7D", "");
       }

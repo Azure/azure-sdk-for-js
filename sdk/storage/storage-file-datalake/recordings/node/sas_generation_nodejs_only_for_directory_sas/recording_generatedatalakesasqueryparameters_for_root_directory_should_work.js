@@ -65,7 +65,7 @@ nock('https://fakestorageaccount.dfs.core.windows.net:443', {"encodedQueryParams
   '0' ]);
 
 nock('https://fakestorageaccount.dfs.core.windows.net:443', {"encodedQueryParams":true})
-  .head('/filesystem160793974124704491')
+  .head('/filesystem160793974124704491/')
   .query(true)
   .reply(200, "", [ 'Last-Modified',
   'Mon, 14 Dec 2020 09:55:42 GMT',

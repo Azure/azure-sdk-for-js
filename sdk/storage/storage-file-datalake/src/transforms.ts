@@ -24,14 +24,6 @@ import {
 import { ToBlobEndpointHostMappings, ToDfsEndpointHostMappings } from "./utils/constants";
 import { base64encode } from "./utils/utils.common";
 
-// URLBuilder didn't put a trailing slash for URLs with no query string
-function trimTrailingSlash(url: string): string {
-  if (url.endsWith("/")) {
-    return url.slice(0, -1);
-  }
-  return url;
-}
-
 /**
  * Get a blob endpoint URL from incoming blob or dfs endpoint URLs.
  * Only handle known host name pair patterns, add more patterns into ToBlobEndpointHostMappings in constants.ts.
@@ -47,28 +39,7 @@ function trimTrailingSlash(url: string): string {
  * @param url -
  */
 export function toBlobEndpointUrl(url: string): string {
-  let urlParsed: URL;
-  try {
-    urlParsed = new URL(url);
-  } catch (e) {
-    // invalid urls are returned unmodified
-    return url;
-  }
-
-  let host = urlParsed.hostname;
-  if (host === undefined) {
-    throw RangeError(`toBlobEndpointUrl() parameter url ${url} doesn't include valid host.`);
-  }
-
-  for (const mapping of ToBlobEndpointHostMappings) {
-    if (host.includes(mapping[0])) {
-      host = host.replace(mapping[0], mapping[1]);
-      break;
-    }
-  }
-
-  urlParsed.hostname = host;
-  return trimTrailingSlash(urlParsed.toString());
+  return mapHostUrl(url, ToBlobEndpointHostMappings, "toBlobEndpointUrl");
 }
 
 /**
@@ -86,6 +57,10 @@ export function toBlobEndpointUrl(url: string): string {
  * @param url -
  */
 export function toDfsEndpointUrl(url: string): string {
+  return mapHostUrl(url, ToDfsEndpointHostMappings, "toDfsEndpointUrl");
+}
+
+function mapHostUrl(url: string, hostMappings: string[][], callerMethodName: string): string {
   let urlParsed: URL;
   try {
     urlParsed = new URL(url);
@@ -96,18 +71,23 @@ export function toDfsEndpointUrl(url: string): string {
 
   let host = urlParsed.hostname;
   if (host === undefined) {
-    throw RangeError(`toDfsEndpointUrl() parameter url ${url} doesn't include valid host.`);
+    throw RangeError(`${callerMethodName}() parameter url ${url} doesn't include valid host.`);
   }
 
-  for (const mapping of ToDfsEndpointHostMappings) {
+  for (const mapping of hostMappings) {
     if (host.includes(mapping[0])) {
       host = host.replace(mapping[0], mapping[1]);
       break;
     }
   }
-
   urlParsed.hostname = host;
-  return trimTrailingSlash(urlParsed.toString());
+  const result = urlParsed.toString();
+  // don't add a trailing slash if one wasn't already present
+  if (!url.endsWith("/") && result.endsWith("/")) {
+    return result.slice(0, -1);
+  } else {
+    return result;
+  }
 }
 
 function toFileSystemAsyncIterableIterator(

@@ -1568,7 +1568,6 @@ describe("SAS generation Node.js only for delegation SAS", () => {
       },
     ];
     await rootDirectoryClient.setAccessControl(acl);
-
     const fileSystemSAS = generateDataLakeSASQueryParameters(
       {
         fileSystemName: fileSystemClient.name,
@@ -1602,6 +1601,7 @@ describe("SAS generation Node.js only for delegation SAS", () => {
     const newFileClientWithSAS2 = new DataLakeFileClient(`${newFileClient.url}?${fileSystemSAS2}`);
     try {
       await newFileClientWithSAS2.createIfNotExists();
+      assert.fail("Expected createdIfNotExists to fail");
     } catch (err: any) {
       assert.deepStrictEqual(err.details.errorCode, "AuthorizationPermissionMismatch");
     }
