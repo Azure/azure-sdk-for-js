@@ -6,9 +6,12 @@ dotenv.config();
 async function testDefaultCredential() {
   const credential = new DefaultAzureCredential();
 
-  const token = await credential.getToken("https://storage.azure.com/.default");
-
-  console.log(token);
+  try {
+    const token = await credential.getToken("https://storage.azure.com/.default");
+    console.log(token);
+  } catch (err) {
+    console.log("Error with DefaultAzureCredential:", err);
+  }
 }
 
 async function testWorkloadCredential() {
@@ -18,9 +21,12 @@ async function testWorkloadCredential() {
     process.env.AZURE_FEDERATED_TOKEN_FILE_PATH!
   );
 
-  const token = await credential.getToken("https://storage.azure.com/.default");
-
-  console.log(token);
+  try {
+    const token = await credential.getToken("https://storage.azure.com/.default");
+    console.log(token);
+  } catch (err) {
+    console.log("Error with WorkloadIdentityCredential:", err);
+  }
 }
 
 async function main() {
