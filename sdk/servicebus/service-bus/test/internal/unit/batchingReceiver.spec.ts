@@ -93,6 +93,7 @@ describe("BatchingReceiver unit tests", () => {
           receiveMode: "peekLock",
           lockRenewer: undefined,
           skipParsingBodyAsJson: false,
+          skipConvertingDate: false,
         }
       );
 
@@ -118,6 +119,7 @@ describe("BatchingReceiver unit tests", () => {
           receiveMode: "peekLock",
           lockRenewer: undefined,
           skipParsingBodyAsJson: false,
+          skipConvertingDate: false,
         }
       );
       closeables.push(receiver);
@@ -209,6 +211,7 @@ describe("BatchingReceiver unit tests", () => {
             receiveMode: lockMode,
             lockRenewer: undefined,
             skipParsingBodyAsJson: false,
+            skipConvertingDate: false,
           }
         );
         closeables.push(batchingReceiver);
@@ -243,6 +246,7 @@ describe("BatchingReceiver unit tests", () => {
             receiveMode: lockMode,
             lockRenewer: undefined,
             skipParsingBodyAsJson: false,
+            skipConvertingDate: false,
           }
         );
         closeables.push(receiver);
@@ -277,6 +281,7 @@ describe("BatchingReceiver unit tests", () => {
               receiveMode: lockMode,
               lockRenewer: undefined,
               skipParsingBodyAsJson: false,
+              skipConvertingDate: false,
             }
           );
           closeables.push(batchingReceiver);
@@ -327,6 +332,7 @@ describe("BatchingReceiver unit tests", () => {
             receiveMode: lockMode,
             lockRenewer: undefined,
             skipParsingBodyAsJson: false,
+            skipConvertingDate: false,
           }
         );
         closeables.push(batchingReceiver);
@@ -383,6 +389,7 @@ describe("BatchingReceiver unit tests", () => {
               receiveMode: lockMode,
               lockRenewer: undefined,
               skipParsingBodyAsJson: false,
+              skipConvertingDate: false,
             }
           );
           closeables.push(batchingReceiver);
@@ -550,6 +557,7 @@ describe("BatchingReceiver unit tests", () => {
           return fakeRheaReceiver;
         },
         "peekLock",
+        false,
         false
       );
 
@@ -581,6 +589,7 @@ describe("BatchingReceiver unit tests", () => {
           return fakeRheaReceiver;
         },
         "peekLock",
+        false,
         false
       );
 
@@ -617,6 +626,7 @@ describe("BatchingReceiver unit tests", () => {
           return fakeRheaReceiver;
         },
         "peekLock",
+        false,
         false
       );
 
@@ -671,6 +681,7 @@ describe("BatchingReceiver unit tests", () => {
           return fakeRheaReceiver;
         },
         "peekLock",
+        false,
         false
       );
 
@@ -733,6 +744,7 @@ describe("BatchingReceiver unit tests", () => {
         return fakeRheaReceiver;
       },
       "peekLock",
+      false,
       false
     );
 

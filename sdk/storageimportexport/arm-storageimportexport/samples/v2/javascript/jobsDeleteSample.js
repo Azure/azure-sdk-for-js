@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { StorageImportExport } = require("@azure/arm-storageimportexport");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Deletes an existing job. Only jobs in the Creating or Completed states can be deleted.
@@ -18,13 +19,18 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/storageimportexport/resource-manager/Microsoft.ImportExport/preview/2021-01-01/examples/DeleteJob.json
  */
 async function deleteJob() {
-  const subscriptionId = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
+  const subscriptionId =
+    process.env["STORAGEIMPORTEXPORT_SUBSCRIPTION_ID"] || "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
   const jobName = "myJob";
-  const resourceGroupName = "myResourceGroup";
+  const resourceGroupName = process.env["STORAGEIMPORTEXPORT_RESOURCE_GROUP"] || "myResourceGroup";
   const credential = new DefaultAzureCredential();
   const client = new StorageImportExport(credential, subscriptionId);
   const result = await client.jobs.delete(jobName, resourceGroupName);
   console.log(result);
 }
 
-deleteJob().catch(console.error);
+async function main() {
+  deleteJob();
+}
+
+main().catch(console.error);

@@ -13,6 +13,9 @@ import {
   PolicyInsightsClient
 } from "@azure/arm-policyinsights";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Checks what restrictions Azure Policy will place on a resource within a resource group. Use this when the resource group the resource will be created in is already known.
@@ -21,8 +24,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2022-03-01/examples/PolicyRestrictions_CheckAtResourceGroupScope.json
  */
 async function checkPolicyRestrictionsAtResourceGroupScope() {
-  const subscriptionId = "35ee058e-5fa0-414c-8145-3ebb8d09b6e2";
-  const resourceGroupName = "vmRg";
+  const subscriptionId =
+    process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
+    "35ee058e-5fa0-414c-8145-3ebb8d09b6e2";
+  const resourceGroupName =
+    process.env["POLICYINSIGHTS_RESOURCE_GROUP"] || "vmRg";
   const parameters: CheckRestrictionsRequest = {
     pendingFields: [
       { field: "name", values: ["myVMName"] },
@@ -49,4 +55,8 @@ async function checkPolicyRestrictionsAtResourceGroupScope() {
   console.log(result);
 }
 
-checkPolicyRestrictionsAtResourceGroupScope().catch(console.error);
+async function main() {
+  checkPolicyRestrictionsAtResourceGroupScope();
+}
+
+main().catch(console.error);

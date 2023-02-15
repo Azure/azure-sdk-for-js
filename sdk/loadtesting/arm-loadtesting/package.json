@@ -1,0 +1,123 @@
+{
+  "name": "@azure/arm-loadtesting",
+  "sdk-type": "mgmt",
+  "author": "Microsoft Corporation",
+  "description": "A generated SDK for LoadTestClient.",
+  "version": "1.0.1",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "dependencies": {
+    "@azure/core-lro": "^2.2.0",
+    "@azure/abort-controller": "^1.0.0",
+    "@azure/core-paging": "^1.2.0",
+    "@azure/core-client": "^1.6.1",
+    "@azure/core-auth": "^1.3.0",
+    "@azure/core-rest-pipeline": "^1.8.0",
+    "tslib": "^2.2.0"
+  },
+  "keywords": [
+    "node",
+    "azure",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "module": "./dist-esm/src/index.js",
+  "types": "./types/arm-loadtesting.d.ts",
+  "devDependencies": {
+    "@microsoft/api-extractor": "^7.31.1",
+    "@rollup/plugin-commonjs": "^24.0.0",
+    "@rollup/plugin-json": "^6.0.0",
+    "@rollup/plugin-multi-entry": "^6.0.0",
+    "@rollup/plugin-node-resolve": "^13.1.3",
+    "mkdirp": "^1.0.4",
+    "rollup": "^2.66.1",
+    "rollup-plugin-sourcemaps": "^0.6.3",
+    "typescript": "~4.8.0",
+    "uglify-js": "^3.4.9",
+    "rimraf": "^3.0.0",
+    "dotenv": "^8.2.0",
+    "@azure/identity": "^2.0.1",
+    "@azure-tools/test-recorder": "^2.0.0",
+    "@azure-tools/test-credential": "^1.0.0",
+    "mocha": "^7.1.1",
+    "@types/chai": "^4.2.8",
+    "chai": "^4.2.0",
+    "cross-env": "^7.0.2",
+    "@types/node": "^14.0.0",
+    "@azure/dev-tool": "^1.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Azure/azure-sdk-for-js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "files": [
+    "dist/**/*.js",
+    "dist/**/*.js.map",
+    "dist/**/*.d.ts",
+    "dist/**/*.d.ts.map",
+    "dist-esm/**/*.js",
+    "dist-esm/**/*.js.map",
+    "dist-esm/**/*.d.ts",
+    "dist-esm/**/*.d.ts.map",
+    "src/**/*.ts",
+    "README.md",
+    "LICENSE",
+    "rollup.config.js",
+    "tsconfig.json",
+    "review/*",
+    "CHANGELOG.md",
+    "types/*"
+  ],
+  "scripts": {
+    "build": "npm run clean && tsc && rollup -c 2>&1 && npm run minify && mkdirp ./review && npm run extract-api",
+    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js",
+    "prepack": "npm run build",
+    "pack": "npm pack 2>&1",
+    "extract-api": "api-extractor run --local",
+    "lint": "echo skipped",
+    "audit": "echo skipped",
+    "clean": "rimraf dist dist-browser dist-esm test-dist temp types *.tgz *.log",
+    "build:node": "echo skipped",
+    "build:browser": "echo skipped",
+    "build:test": "echo skipped",
+    "build:samples": "echo skipped.",
+    "check-format": "echo skipped",
+    "execute:samples": "echo skipped",
+    "format": "echo skipped",
+    "test": "npm run integration-test",
+    "test:node": "echo skipped",
+    "test:browser": "echo skipped",
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
+    "unit-test:node": "cross-env TEST_MODE=playback npm run integration-test:node",
+    "unit-test:browser": "echo skipped",
+    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
+    "integration-test:node": "dev-tool run test:node-ts-input -- --timeout 1200000 'test/*.ts'",
+    "integration-test:browser": "echo skipped"
+  },
+  "sideEffects": false,
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/loadTestClient.ts",
+        "prefix": "packageDetails"
+      }
+    ]
+  },
+  "autoPublish": true,
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/loadtesting/arm-loadtesting",
+  "//sampleConfiguration": {
+    "productName": "",
+    "productSlugs": [
+      "azure"
+    ],
+    "disableDocsMs": true,
+    "apiRefLink": "https://docs.microsoft.com/javascript/api/@azure/arm-loadtesting?view=azure-node-preview"
+  }
+}

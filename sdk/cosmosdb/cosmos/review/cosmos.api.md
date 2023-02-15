@@ -404,6 +404,7 @@ export const Constants: {
     };
     WritableLocations: string;
     ReadableLocations: string;
+    LocationUnavailableExpirationTimeInMs: number;
     ENABLE_MULTIPLE_WRITABLE_LOCATIONS: string;
     DefaultUnavailableLocationExpirationTimeMS: number;
     ThrottleRetryCount: string;
@@ -413,6 +414,7 @@ export const Constants: {
     AzurePackageName: string;
     SDKName: string;
     SDKVersion: string;
+    DefaultMaxBulkRequestBodySizeInBytes: number;
     Quota: {
         CollectionSize: string;
     };
@@ -942,6 +944,8 @@ export type JSONValue = boolean | number | string | null | JSONArray | JSONObjec
 interface Location_2 {
     // (undocumented)
     databaseAccountEndpoint: string;
+    // (undocumented)
+    lastUnavailabilityTimestampInMs?: number;
     // (undocumented)
     name: string;
     // (undocumented)

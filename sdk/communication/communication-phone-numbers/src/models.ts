@@ -67,6 +67,20 @@ export interface ListLocalitiesOptions extends OperationOptions {
   administrativeDivision?: string;
 }
 
+export interface ListSipRoutesOptions extends OperationOptions {
+  /** An optional parameter for how many entries to skip, for pagination purposes. The default value is 0. */
+  skip?: number;
+  /** An optional parameter for how many entries to return, for pagination purposes. The default value is 100. */
+  maxPageSize?: number;
+}
+
+export interface ListSipTrunksOptions extends OperationOptions {
+    /** An optional parameter for how many entries to skip, for pagination purposes. The default value is 0. */
+    skip?: number;
+    /** An optional parameter for how many entries to return, for pagination purposes. The default value is 100. */
+    maxPageSize?: number;
+}
+
 /**
  * Additional options that can be passed to the available offerings request.
  */

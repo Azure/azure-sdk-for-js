@@ -26,7 +26,7 @@
       "StatusCode": 201,
       "ResponseHeaders": {
         "Azure-AsyncNotification": "Enabled",
-        "Azure-AsyncOperation": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.Network/locations/eastus/operations/f32e6630-1a48-4b16-9950-05c63a9f0a67?api-version=2021-05-01",
+        "Azure-AsyncOperation": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.Network/locations/eastus/operations/f32e6630-1a48-4b16-9950-05c63a9f0a67?api-version=2021-05-01",
         "Cache-Control": "no-cache",
         "Content-Length": "612",
         "Content-Type": "application/json; charset=utf-8",
@@ -48,7 +48,7 @@
       },
       "ResponseBody": {
         "name": "networknamexx",
-        "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Network/virtualNetworks/networknamexx",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/virtualNetworks/networknamexx",
         "etag": "W/\u0022b9d336a7-65b7-457b-8388-d05c792c82ff\u0022",
         "type": "Microsoft.Network/virtualNetworks",
         "location": "eastus",
@@ -67,7 +67,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.Network/locations/eastus/operations/f32e6630-1a48-4b16-9950-05c63a9f0a67?api-version=2021-05-01",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.Network/locations/eastus/operations/f32e6630-1a48-4b16-9950-05c63a9f0a67?api-version=2021-05-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -107,7 +107,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.Network/locations/eastus/operations/f32e6630-1a48-4b16-9950-05c63a9f0a67?api-version=2021-05-01",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.Network/locations/eastus/operations/f32e6630-1a48-4b16-9950-05c63a9f0a67?api-version=2021-05-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -183,7 +183,7 @@
       },
       "ResponseBody": {
         "name": "networknamexx",
-        "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Network/virtualNetworks/networknamexx",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/virtualNetworks/networknamexx",
         "etag": "W/\u00228dfe27e6-7608-4750-8d59-474bf44929b7\u0022",
         "type": "Microsoft.Network/virtualNetworks",
         "location": "eastus",
@@ -222,7 +222,7 @@
       "StatusCode": 201,
       "ResponseHeaders": {
         "Azure-AsyncNotification": "Enabled",
-        "Azure-AsyncOperation": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.Network/locations/eastus/operations/8a27d0c4-11c1-4dcb-b9a2-492b71d45063?api-version=2021-05-01",
+        "Azure-AsyncOperation": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.Network/locations/eastus/operations/8a27d0c4-11c1-4dcb-b9a2-492b71d45063?api-version=2021-05-01",
         "Cache-Control": "no-cache",
         "Content-Length": "537",
         "Content-Type": "application/json; charset=utf-8",
@@ -244,7 +244,7 @@
       },
       "ResponseBody": {
         "name": "subnetnamexx",
-        "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Network/virtualNetworks/networknamexx/subnets/subnetnamexx",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/virtualNetworks/networknamexx/subnets/subnetnamexx",
         "etag": "W/\u002207e6cb91-4dd0-4e7e-8f3a-b052c1821b81\u0022",
         "properties": {
           "provisioningState": "Updating",
@@ -257,7 +257,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.Network/locations/eastus/operations/8a27d0c4-11c1-4dcb-b9a2-492b71d45063?api-version=2021-05-01",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.Network/locations/eastus/operations/8a27d0c4-11c1-4dcb-b9a2-492b71d45063?api-version=2021-05-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -297,7 +297,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.Network/locations/eastus/operations/8a27d0c4-11c1-4dcb-b9a2-492b71d45063?api-version=2021-05-01",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.Network/locations/eastus/operations/8a27d0c4-11c1-4dcb-b9a2-492b71d45063?api-version=2021-05-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -373,7 +373,7 @@
       },
       "ResponseBody": {
         "name": "subnetnamexx",
-        "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Network/virtualNetworks/networknamexx/subnets/subnetnamexx",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/virtualNetworks/networknamexx/subnets/subnetnamexx",
         "etag": "W/\u002282ec571a-70f2-4bb1-a77f-682989f8f26d\u0022",
         "properties": {
           "provisioningState": "Succeeded",
@@ -417,7 +417,7 @@
       "StatusCode": 201,
       "ResponseHeaders": {
         "Azure-AsyncNotification": "Enabled",
-        "Azure-AsyncOperation": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.Network/locations/eastus/operations/468e28ec-8658-4464-849c-d97163557190?api-version=2021-05-01",
+        "Azure-AsyncOperation": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.Network/locations/eastus/operations/468e28ec-8658-4464-849c-d97163557190?api-version=2021-05-01",
         "Cache-Control": "no-cache",
         "Content-Length": "1667",
         "Content-Type": "application/json; charset=utf-8",
@@ -438,7 +438,7 @@
       },
       "ResponseBody": {
         "name": "interfacex",
-        "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Network/networkInterfaces/interfacex",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/networkInterfaces/interfacex",
         "etag": "W/\u00222488c635-be54-4af9-afba-dea8989d796c\u0022",
         "properties": {
           "provisioningState": "Succeeded",
@@ -446,7 +446,7 @@
           "ipConfigurations": [
             {
               "name": "MyIpConfig",
-              "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Network/networkInterfaces/interfacex/ipConfigurations/MyIpConfig",
+              "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/networkInterfaces/interfacex/ipConfigurations/MyIpConfig",
               "etag": "W/\u00222488c635-be54-4af9-afba-dea8989d796c\u0022",
               "type": "Microsoft.Network/networkInterfaces/ipConfigurations",
               "properties": {
@@ -454,7 +454,7 @@
                 "privateIPAddress": "10.0.0.4",
                 "privateIPAllocationMethod": "Dynamic",
                 "subnet": {
-                  "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Network/virtualNetworks/networknamexx/subnets/subnetnamexx"
+                  "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/virtualNetworks/networknamexx/subnets/subnetnamexx"
                 },
                 "primary": true,
                 "privateIPAddressVersion": "IPv4"
@@ -478,7 +478,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.Network/locations/eastus/operations/468e28ec-8658-4464-849c-d97163557190?api-version=2021-05-01",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.Network/locations/eastus/operations/468e28ec-8658-4464-849c-d97163557190?api-version=2021-05-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -554,7 +554,7 @@
       },
       "ResponseBody": {
         "name": "interfacex",
-        "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Network/networkInterfaces/interfacex",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/networkInterfaces/interfacex",
         "etag": "W/\u00222488c635-be54-4af9-afba-dea8989d796c\u0022",
         "properties": {
           "provisioningState": "Succeeded",
@@ -562,7 +562,7 @@
           "ipConfigurations": [
             {
               "name": "MyIpConfig",
-              "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Network/networkInterfaces/interfacex/ipConfigurations/MyIpConfig",
+              "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/networkInterfaces/interfacex/ipConfigurations/MyIpConfig",
               "etag": "W/\u00222488c635-be54-4af9-afba-dea8989d796c\u0022",
               "type": "Microsoft.Network/networkInterfaces/ipConfigurations",
               "properties": {
@@ -570,7 +570,7 @@
                 "privateIPAddress": "10.0.0.4",
                 "privateIPAllocationMethod": "Dynamic",
                 "subnet": {
-                  "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Network/virtualNetworks/networknamexx/subnets/subnetnamexx"
+                  "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/virtualNetworks/networknamexx/subnets/subnetnamexx"
                 },
                 "primary": true,
                 "privateIPAddressVersion": "IPv4"
@@ -663,7 +663,7 @@
       "StatusCode": 201,
       "ResponseHeaders": {
         "Azure-AsyncNotification": "Enabled",
-        "Azure-AsyncOperation": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.Compute/locations/eastus/operations/ffc3c2d2-6f05-4dcb-b5c6-a5b7ab5472cb?p=f8cfeb74-5cf7-40e0-89b1-3d95a1060fe7\u0026api-version=2022-11-01",
+        "Azure-AsyncOperation": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.Compute/locations/eastus/operations/ffc3c2d2-6f05-4dcb-b5c6-a5b7ab5472cb?p=f8cfeb74-5cf7-40e0-89b1-3d95a1060fe7\u0026api-version=2022-11-01",
         "Cache-Control": "no-cache",
         "Content-Length": "2550",
         "Content-Type": "application/json; charset=utf-8",
@@ -685,7 +685,7 @@
       },
       "ResponseBody": {
         "name": "virtualmachinex",
-        "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Compute/virtualMachines/virtualmachinex",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Compute/virtualMachines/virtualmachinex",
         "type": "Microsoft.Compute/virtualMachines",
         "location": "eastus",
         "tags": {
@@ -760,7 +760,7 @@
           "networkProfile": {
             "networkInterfaces": [
               {
-                "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Network/networkInterfaces/interfacex",
+                "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/networkInterfaces/interfacex",
                 "properties": {
                   "primary": true
                 }
@@ -773,7 +773,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.Compute/locations/eastus/operations/ffc3c2d2-6f05-4dcb-b5c6-a5b7ab5472cb?p=f8cfeb74-5cf7-40e0-89b1-3d95a1060fe7\u0026api-version=2022-11-01",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.Compute/locations/eastus/operations/ffc3c2d2-6f05-4dcb-b5c6-a5b7ab5472cb?p=f8cfeb74-5cf7-40e0-89b1-3d95a1060fe7\u0026api-version=2022-11-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -815,7 +815,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.Compute/locations/eastus/operations/ffc3c2d2-6f05-4dcb-b5c6-a5b7ab5472cb?p=f8cfeb74-5cf7-40e0-89b1-3d95a1060fe7\u0026api-version=2022-11-01",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.Compute/locations/eastus/operations/ffc3c2d2-6f05-4dcb-b5c6-a5b7ab5472cb?p=f8cfeb74-5cf7-40e0-89b1-3d95a1060fe7\u0026api-version=2022-11-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -856,7 +856,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.Compute/locations/eastus/operations/ffc3c2d2-6f05-4dcb-b5c6-a5b7ab5472cb?p=f8cfeb74-5cf7-40e0-89b1-3d95a1060fe7\u0026api-version=2022-11-01",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.Compute/locations/eastus/operations/ffc3c2d2-6f05-4dcb-b5c6-a5b7ab5472cb?p=f8cfeb74-5cf7-40e0-89b1-3d95a1060fe7\u0026api-version=2022-11-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -897,7 +897,7 @@
       }
     },
     {
-      "RequestUri": "https://management.azure.com/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/providers/Microsoft.Compute/locations/eastus/operations/ffc3c2d2-6f05-4dcb-b5c6-a5b7ab5472cb?p=f8cfeb74-5cf7-40e0-89b1-3d95a1060fe7\u0026api-version=2022-11-01",
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.Compute/locations/eastus/operations/ffc3c2d2-6f05-4dcb-b5c6-a5b7ab5472cb?p=f8cfeb74-5cf7-40e0-89b1-3d95a1060fe7\u0026api-version=2022-11-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -975,7 +975,7 @@
       },
       "ResponseBody": {
         "name": "virtualmachinex",
-        "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Compute/virtualMachines/virtualmachinex",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Compute/virtualMachines/virtualmachinex",
         "type": "Microsoft.Compute/virtualMachines",
         "location": "eastus",
         "tags": {
@@ -1002,7 +1002,7 @@
               "caching": "ReadWrite",
               "managedDisk": {
                 "storageAccountType": "Standard_LRS",
-                "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Compute/disks/myVMosdisk"
+                "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Compute/disks/myVMosdisk"
               },
               "deleteOption": "Detach",
               "diskSizeGB": 127
@@ -1015,7 +1015,7 @@
                 "caching": "None",
                 "managedDisk": {
                   "storageAccountType": "Standard_LRS",
-                  "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Compute/disks/virtualmachinex_disk2_dece6b76277945daa291a30d0a7c7a0c"
+                  "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Compute/disks/virtualmachinex_disk2_dece6b76277945daa291a30d0a7c7a0c"
                 },
                 "deleteOption": "Detach",
                 "diskSizeGB": 1023,
@@ -1028,7 +1028,7 @@
                 "caching": "None",
                 "managedDisk": {
                   "storageAccountType": "Standard_LRS",
-                  "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Compute/disks/virtualmachinex_disk3_0489e7cff4de4582890719b69d329c40"
+                  "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Compute/disks/virtualmachinex_disk3_0489e7cff4de4582890719b69d329c40"
                 },
                 "deleteOption": "Detach",
                 "diskSizeGB": 1023,
@@ -1055,7 +1055,7 @@
           "networkProfile": {
             "networkInterfaces": [
               {
-                "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.Network/networkInterfaces/interfacex",
+                "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/networkInterfaces/interfacex",
                 "properties": {
                   "primary": true
                 }

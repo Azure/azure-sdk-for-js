@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { NetAppAccountPatch, NetAppManagementClient } from "@azure/arm-netapp";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Patch the specified NetApp account
@@ -18,8 +21,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2022-05-01/examples/Accounts_Update.json
  */
 async function accountsUpdate() {
-  const subscriptionId = "D633CC2E-722B-4AE1-B636-BBD9E4C60ED9";
-  const resourceGroupName = "myRG";
+  const subscriptionId =
+    process.env["NETAPP_SUBSCRIPTION_ID"] ||
+    "D633CC2E-722B-4AE1-B636-BBD9E4C60ED9";
+  const resourceGroupName = process.env["NETAPP_RESOURCE_GROUP"] || "myRG";
   const accountName = "account1";
   const body: NetAppAccountPatch = { tags: { tag1: "Value1" } };
   const credential = new DefaultAzureCredential();
@@ -32,4 +37,8 @@ async function accountsUpdate() {
   console.log(result);
 }
 
-accountsUpdate().catch(console.error);
+async function main() {
+  accountsUpdate();
+}
+
+main().catch(console.error);

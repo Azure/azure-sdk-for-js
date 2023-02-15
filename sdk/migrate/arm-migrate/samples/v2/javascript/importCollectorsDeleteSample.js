@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { AzureMigrateV2 } = require("@azure/arm-migrate");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Delete a Import collector from the project.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/migrate/resource-manager/Microsoft.Migrate/stable/2019-10-01/examples/ImportCollectors_Delete.json
  */
 async function importCollectorsDelete() {
-  const subscriptionId = "31be0ff4-c932-4cb3-8efc-efa411d79280";
-  const resourceGroupName = "markusavstestrg";
+  const subscriptionId =
+    process.env["MIGRATE_SUBSCRIPTION_ID"] || "31be0ff4-c932-4cb3-8efc-efa411d79280";
+  const resourceGroupName = process.env["MIGRATE_RESOURCE_GROUP"] || "markusavstestrg";
   const projectName = "rajoshCCY9671project";
   const importCollectorName = "importCollector2952";
   const credential = new DefaultAzureCredential();
@@ -32,4 +34,8 @@ async function importCollectorsDelete() {
   console.log(result);
 }
 
-importCollectorsDelete().catch(console.error);
+async function main() {
+  importCollectorsDelete();
+}
+
+main().catch(console.error);

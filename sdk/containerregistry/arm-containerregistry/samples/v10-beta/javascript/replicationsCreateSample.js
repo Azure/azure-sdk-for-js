@@ -10,16 +10,18 @@
 // Licensed under the MIT License.
 const { ContainerRegistryManagementClient } = require("@azure/arm-containerregistry");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Creates a replication for a container registry with the specified parameters.
  *
  * @summary Creates a replication for a container registry with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2022-02-01-preview/examples/ReplicationCreate.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-01-01-preview/examples/ReplicationCreate.json
  */
 async function replicationCreate() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
   const replicationName = "myReplication";
   const replication = {
@@ -37,17 +39,16 @@ async function replicationCreate() {
   console.log(result);
 }
 
-replicationCreate().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates a replication for a container registry with the specified parameters.
  *
  * @summary Creates a replication for a container registry with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2022-02-01-preview/examples/ReplicationCreateZoneRedundant.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-01-01-preview/examples/ReplicationCreateZoneRedundant.json
  */
 async function replicationCreateZoneRedundant() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
   const replicationName = "myReplication";
   const replication = {
@@ -67,4 +68,9 @@ async function replicationCreateZoneRedundant() {
   console.log(result);
 }
 
-replicationCreateZoneRedundant().catch(console.error);
+async function main() {
+  replicationCreate();
+  replicationCreateZoneRedundant();
+}
+
+main().catch(console.error);

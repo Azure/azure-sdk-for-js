@@ -7,6 +7,8 @@ import { PartitionKeyDefinition } from "../documents";
 import { RequestOptions } from "..";
 import { PatchRequestBody } from "./patch";
 import { v4 } from "uuid";
+import { bodyFromData } from "../request/request";
+import { Constants } from "../common/constants";
 const uuid = v4;
 
 export type Operation =
@@ -208,6 +210,53 @@ export function decorateOperation(
     return { ...operation, partitionKey: "[{}]" };
   }
   return operation as Operation;
+}
+
+/**
+ * Splits a batch into array of batches based on cumulative size of its operations by making sure
+ * cumulative size of an individual batch is not larger than {@link Constants.DefaultMaxBulkRequestBodySizeInBytes}.
+ * If a single operation itself is larger than {@link Constants.DefaultMaxBulkRequestBodySizeInBytes}, that
+ * operation would be moved into a batch containing only that operation.
+ * @param originalBatch - A batch of operations needed to be checked.
+ * @returns
+ * @hidden
+ */
+export function splitBatchBasedOnBodySize(originalBatch: Batch): Batch[] {
+  if (originalBatch?.operations === undefined || originalBatch.operations.length < 1) return [];
+  let currentBatchSize = calculateObjectSizeInBytes(originalBatch.operations[0]);
+  let currentBatch: Batch = {
+    ...originalBatch,
+    operations: [originalBatch.operations[0]],
+    indexes: [originalBatch.indexes[0]],
+  };
+  const processedBatches: Batch[] = [];
+  processedBatches.push(currentBatch);
+
+  for (let index = 1; index < originalBatch.operations.length; index++) {
+    const operation = originalBatch.operations[index];
+    const currentOpSize = calculateObjectSizeInBytes(operation);
+    if (currentBatchSize + currentOpSize > Constants.DefaultMaxBulkRequestBodySizeInBytes) {
+      currentBatch = {
+        ...originalBatch,
+        operations: [],
+        indexes: [],
+      };
+      processedBatches.push(currentBatch);
+      currentBatchSize = 0;
+    }
+    currentBatch.operations.push(operation);
+    currentBatch.indexes.push(originalBatch.indexes[index]);
+    currentBatchSize += currentOpSize;
+  }
+  return processedBatches;
+}
+
+/**
+ * Calculates size of an JSON object in bytes with utf-8 encoding.
+ * @hidden
+ */
+export function calculateObjectSizeInBytes(obj: unknown): number {
+  return new TextEncoder().encode(bodyFromData(obj as any)).length;
 }
 
 export function decorateBatchOperation(

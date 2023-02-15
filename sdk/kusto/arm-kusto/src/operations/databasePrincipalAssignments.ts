@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { DatabasePrincipalAssignments } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
@@ -17,6 +17,7 @@ import { LroImpl } from "../lroImpl";
 import {
   DatabasePrincipalAssignment,
   DatabasePrincipalAssignmentsListOptionalParams,
+  DatabasePrincipalAssignmentsListResponse,
   DatabasePrincipalAssignmentCheckNameRequest,
   DatabasePrincipalAssignmentsCheckNameAvailabilityOptionalParams,
   DatabasePrincipalAssignmentsCheckNameAvailabilityResponse,
@@ -24,8 +25,7 @@ import {
   DatabasePrincipalAssignmentsGetResponse,
   DatabasePrincipalAssignmentsCreateOrUpdateOptionalParams,
   DatabasePrincipalAssignmentsCreateOrUpdateResponse,
-  DatabasePrincipalAssignmentsDeleteOptionalParams,
-  DatabasePrincipalAssignmentsListResponse
+  DatabasePrincipalAssignmentsDeleteOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -68,12 +68,16 @@ export class DatabasePrincipalAssignmentsImpl
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: () => {
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
         return this.listPagingPage(
           resourceGroupName,
           clusterName,
           databaseName,
-          options
+          options,
+          settings
         );
       }
     };
@@ -83,9 +87,11 @@ export class DatabasePrincipalAssignmentsImpl
     resourceGroupName: string,
     clusterName: string,
     databaseName: string,
-    options?: DatabasePrincipalAssignmentsListOptionalParams
+    options?: DatabasePrincipalAssignmentsListOptionalParams,
+    _settings?: PageSettings
   ): AsyncIterableIterator<DatabasePrincipalAssignment[]> {
-    let result = await this._list(
+    let result: DatabasePrincipalAssignmentsListResponse;
+    result = await this._list(
       resourceGroupName,
       clusterName,
       databaseName,

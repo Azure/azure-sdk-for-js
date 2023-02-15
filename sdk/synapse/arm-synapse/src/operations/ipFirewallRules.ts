@@ -539,24 +539,16 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   httpMethod: "DELETE",
   responses: {
     200: {
-      bodyMapper: {
-        type: { name: "Dictionary", value: { type: { name: "any" } } }
-      }
+      bodyMapper: Mappers.IpFirewallRuleInfo
     },
     201: {
-      bodyMapper: {
-        type: { name: "Dictionary", value: { type: { name: "any" } } }
-      }
+      bodyMapper: Mappers.IpFirewallRuleInfo
     },
     202: {
-      bodyMapper: {
-        type: { name: "Dictionary", value: { type: { name: "any" } } }
-      }
+      bodyMapper: Mappers.IpFirewallRuleInfo
     },
     204: {
-      bodyMapper: {
-        type: { name: "Dictionary", value: { type: { name: "any" } } }
-      }
+      bodyMapper: Mappers.IpFirewallRuleInfo
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

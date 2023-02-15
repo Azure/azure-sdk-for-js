@@ -33,7 +33,7 @@
       "ResponseBody": {
         "value": [
           {
-            "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.DocumentDB/databaseAccounts/myaccountxxyy2",
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.DocumentDB/databaseAccounts/myaccountxxyy2",
             "name": "myaccountxxyy2",
             "location": "East US",
             "type": "Microsoft.DocumentDB/databaseAccounts",

@@ -58,7 +58,7 @@ export interface SipTrunkHealth {
   /** The status of SIP OPTIONS message sent by Trunk. */
   ping: SipTrunkPing;
   /** The activity status of Trunk. */
-  overall: SipTrunkActivity;
+  activity: SipTrunkActivity;
 }
 
 /** The status of the TLS connections of the Trunk. */

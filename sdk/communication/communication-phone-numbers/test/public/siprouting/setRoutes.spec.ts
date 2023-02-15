@@ -66,7 +66,7 @@ matrix([[true, false]], async function (useAad) {
       const setRoutes = await client.setRoutes(routes);
       assert.deepEqual(setRoutes, routes);
 
-      const storedRoutes = await client.getRoutes();
+      const storedRoutes = await listAllRoutes();
       assert.deepEqual(storedRoutes, routes);
     });
 
@@ -99,7 +99,7 @@ matrix([[true, false]], async function (useAad) {
       const setRoutes = await client.setRoutes(expectedRoutes);
       assert.deepEqual(setRoutes, expectedRoutes);
 
-      const storedRoutes = await client.getRoutes();
+      const storedRoutes = await listAllRoutes();
       assert.deepEqual(storedRoutes, expectedRoutes);
     });
 
@@ -117,7 +117,7 @@ matrix([[true, false]], async function (useAad) {
         trunks: [firstFqdn],
       };
       assert.deepEqual(await client.setRoutes([route]), [route]);
-      assert.deepEqual(await client.getRoutes(), [route]);
+      assert.deepEqual(await listAllRoutes(), [route]);
     });
 
     it("can set empty routes when empty before", async () => {
@@ -125,7 +125,7 @@ matrix([[true, false]], async function (useAad) {
 
       await client.setRoutes([]);
 
-      const storedRoutes = await client.getRoutes();
+      const storedRoutes = await listAllRoutes();
       assert.isNotNull(storedRoutes);
       assert.isArray(storedRoutes);
       assert.isEmpty(storedRoutes);
@@ -150,7 +150,7 @@ matrix([[true, false]], async function (useAad) {
 
       await client.setRoutes([]);
 
-      const storedRoutes = await client.getRoutes();
+      const storedRoutes = await listAllRoutes();
       assert.isNotNull(storedRoutes);
       assert.isArray(storedRoutes);
       assert.isEmpty(storedRoutes);
@@ -167,7 +167,7 @@ matrix([[true, false]], async function (useAad) {
         await client.setRoutes([invalidRoute]);
       } catch (error: any) {
         assert.equal(error.code, "UnprocessableConfiguration");
-        const storedRoutes = await client.getRoutes();
+        const storedRoutes = await listAllRoutes();
         assert.isUndefined(storedRoutes.find((item) => item.name === ""));
         return;
       }
@@ -184,7 +184,7 @@ matrix([[true, false]], async function (useAad) {
         await client.setRoutes([invalidRoute]);
       } catch (error: any) {
         assert.equal(error.code, "UnprocessableConfiguration");
-        const storedRoutes = await client.getRoutes();
+        const storedRoutes = await listAllRoutes();
         assert.isUndefined(storedRoutes.find((item) => item.name === "invalidNumberPatternRoute"));
         return;
       }
@@ -207,7 +207,7 @@ matrix([[true, false]], async function (useAad) {
         await client.setRoutes(invalidRoutes);
       } catch (error: any) {
         assert.equal(error.code, "UnprocessableConfiguration");
-        const storedRoutes = await client.getRoutes();
+        const storedRoutes = await listAllRoutes();
         assert.isUndefined(storedRoutes.find((item) => item.name === "sameNameRoute"));
         return;
       }
@@ -231,7 +231,7 @@ matrix([[true, false]], async function (useAad) {
         await client.setRoutes([invalidRoute]);
       } catch (error: any) {
         assert.equal(error.code, "UnprocessableConfiguration");
-        const storedRoutes = await client.getRoutes();
+        const storedRoutes = await listAllRoutes();
         assert.isUndefined(
           storedRoutes.find((item) => item.name === "invalidDuplicatedRoutingTrunksRoute")
         );
@@ -251,7 +251,7 @@ matrix([[true, false]], async function (useAad) {
         await client.setRoutes([invalidRoute]);
       } catch (error: any) {
         assert.equal(error.code, "UnprocessableConfiguration");
-        const storedRoutes = await client.getRoutes();
+        const storedRoutes = await listAllRoutes();
         assert.isUndefined(storedRoutes.find((item) => item.name === "invalidRoutingTrunkRoute"));
         return;
       }
@@ -287,8 +287,28 @@ matrix([[true, false]], async function (useAad) {
       ];
       await client.setRoutes(routes);
 
-      assert.deepEqual(await client.getTrunks(), trunks);
-      assert.deepEqual(await client.getRoutes(), routes);
+      assert.deepEqual(await listAllTrunks(), trunks);
+      assert.deepEqual(await listAllRoutes(), routes);
     });
+
+    async function listAllTrunks() : Promise<SipTrunk[]>
+    {
+      let result = [];
+      for await (const trunk of client.listTrunks())
+      {
+        result.push(trunk);
+      }
+      return result;
+    }
+
+    async function listAllRoutes() : Promise<SipTrunkRoute[]>
+    {
+      let result = [];
+      for await (const route of client.listRoutes())
+      {
+        result.push(route);
+      }
+      return result;
+    }
   });
 });

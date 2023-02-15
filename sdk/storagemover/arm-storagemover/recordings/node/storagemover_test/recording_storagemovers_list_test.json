@@ -1,0 +1,66 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.StorageMover/storageMovers?api-version=2022-07-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-storagemover/1.0.0-beta.1 core-rest-pipeline/1.10.2 Node/v16.17.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "27e2b590-3b65-4239-b73e-e057120ba9a9"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Length": "609",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 07 Feb 2023 09:24:51 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "0b66baa0-ac5d-4f22-ba35-277bbe1eb152",
+        "x-ms-original-request-ids": [
+          "8afaa9ba-2483-431a-8922-975fb1849745",
+          "2411ecf1-302c-4371-8f70-bb051ecaf90d",
+          "a53aa2eb-5498-4e93-a8c0-a09b0ce9d1cc"
+        ],
+        "x-ms-ratelimit-remaining-subscription-reads": "11998",
+        "x-ms-request-id": "0b66baa0-ac5d-4f22-ba35-277bbe1eb152",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20230207T092452Z:0b66baa0-ac5d-4f22-ba35-277bbe1eb152"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.StorageMover/storageMovers/storageMoverName",
+            "name": "storageMoverName",
+            "type": "microsoft.storagemover/storagemovers",
+            "location": "eastus",
+            "tags": {
+              "key1": "value1",
+              "key2": "value2"
+            },
+            "systemData": {
+              "createdBy": "azure_client_id",
+              "createdByType": "Application",
+              "createdAt": "2023-02-07T09:24:45.695118Z",
+              "lastModifiedBy": "azure_client_id",
+              "lastModifiedByType": "Application",
+              "lastModifiedAt": "2023-02-07T09:24:45.695118Z"
+            },
+            "properties": {
+              "description": "Example Storage Mover Description",
+              "provisioningState": "Succeeded"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

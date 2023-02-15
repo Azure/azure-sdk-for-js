@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ImageBuilderClient } = require("@azure/arm-imagebuilder");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to List all run outputs for the specified Image Template resource
@@ -18,8 +19,8 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2022-02-14/examples/ListRunOutputs.json
  */
 async function retrieveAListOfAllOutputsCreatedByTheLastRunOfAnImageTemplate() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId = process.env["IMAGEBUILDER_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["IMAGEBUILDER_RESOURCE_GROUP"] || "myResourceGroup";
   const imageTemplateName = "myImageTemplate";
   const credential = new DefaultAzureCredential();
   const client = new ImageBuilderClient(credential, subscriptionId);
@@ -33,4 +34,8 @@ async function retrieveAListOfAllOutputsCreatedByTheLastRunOfAnImageTemplate() {
   console.log(resArray);
 }
 
-retrieveAListOfAllOutputsCreatedByTheLastRunOfAnImageTemplate().catch(console.error);
+async function main() {
+  retrieveAListOfAllOutputsCreatedByTheLastRunOfAnImageTemplate();
+}
+
+main().catch(console.error);

@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { MonitorClient } = require("@azure/arm-monitor");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Creates or updates an log search rule.
@@ -18,8 +19,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2018-04-16/examples/createOrUpdateScheduledQueryRules.json
  */
 async function createOrUpdateRuleAlertingAction() {
-  const subscriptionId = "b67f7fec-69fc-4974-9099-a26bd6ffeda3";
-  const resourceGroupName = "Rac46PostSwapRG";
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] || "b67f7fec-69fc-4974-9099-a26bd6ffeda3";
+  const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "Rac46PostSwapRG";
   const ruleName = "logalertfoo";
   const parameters = {
     description: "log alert description",
@@ -64,8 +66,6 @@ async function createOrUpdateRuleAlertingAction() {
   console.log(result);
 }
 
-createOrUpdateRuleAlertingAction().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates or updates an log search rule.
  *
@@ -73,8 +73,9 @@ createOrUpdateRuleAlertingAction().catch(console.error);
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2018-04-16/examples/createOrUpdateScheduledQueryRuleswithCrossResource.json
  */
 async function createOrUpdateRuleAlertingActionWithCrossResource() {
-  const subscriptionId = "b67f7fec-69fc-4974-9099-a26bd6ffeda3";
-  const resourceGroupName = "Rac46PostSwapRG";
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] || "b67f7fec-69fc-4974-9099-a26bd6ffeda3";
+  const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "Rac46PostSwapRG";
   const ruleName = "SampleCrossResourceAlert";
   const parameters = {
     description: "Sample Cross Resource alert",
@@ -115,8 +116,6 @@ async function createOrUpdateRuleAlertingActionWithCrossResource() {
   console.log(result);
 }
 
-createOrUpdateRuleAlertingActionWithCrossResource().catch(console.error);
-
 /**
  * This sample demonstrates how to Creates or updates an log search rule.
  *
@@ -124,8 +123,9 @@ createOrUpdateRuleAlertingActionWithCrossResource().catch(console.error);
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2018-04-16/examples/createOrUpdateScheduledQueryRule-LogToMetricAction.json
  */
 async function createOrUpdateRuleLogToMetricAction() {
-  const subscriptionId = "af52d502-a447-4bc6-8cb7-4780fbb00490";
-  const resourceGroupName = "alertsweu";
+  const subscriptionId =
+    process.env["MONITOR_SUBSCRIPTION_ID"] || "af52d502-a447-4bc6-8cb7-4780fbb00490";
+  const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "alertsweu";
   const ruleName = "logtometricfoo";
   const parameters = {
     description: "log to metric description",
@@ -152,4 +152,10 @@ async function createOrUpdateRuleLogToMetricAction() {
   console.log(result);
 }
 
-createOrUpdateRuleLogToMetricAction().catch(console.error);
+async function main() {
+  createOrUpdateRuleAlertingAction();
+  createOrUpdateRuleAlertingActionWithCrossResource();
+  createOrUpdateRuleLogToMetricAction();
+}
+
+main().catch(console.error);

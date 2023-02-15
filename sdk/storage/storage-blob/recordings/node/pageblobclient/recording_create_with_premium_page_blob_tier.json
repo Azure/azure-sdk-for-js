@@ -1,0 +1,102 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://fakestorageaccount.blob.core.windows.net/container167485843657707301?restype=container",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/xml",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "0",
+        "User-Agent": "azsdk-js-azure-storage-blob/12.13.0 core-rest-pipeline/1.10.2 Node/v16.18.0 OS/(x64-Linux-5.4.0-1100-azure)",
+        "x-ms-client-request-id": "cb143b29-2b17-4ff2-80fe-72b9339d7309",
+        "x-ms-date": "Fri, 27 Jan 2023 22:27:16 GMT",
+        "x-ms-version": "2021-12-02"
+      },
+      "RequestBody": null,
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "Content-Length": "0",
+        "Date": "Fri, 27 Jan 2023 22:27:16 GMT",
+        "ETag": "\u00220x8DB00B5A5571DFA\u0022",
+        "Last-Modified": "Fri, 27 Jan 2023 22:27:16 GMT",
+        "Server": [
+          "Windows-Azure-Blob/1.0",
+          "Microsoft-HTTPAPI/2.0"
+        ],
+        "x-ms-client-request-id": "cb143b29-2b17-4ff2-80fe-72b9339d7309",
+        "x-ms-request-id": "1dc567ef-001e-0004-649e-3247b6000000",
+        "x-ms-version": "2021-12-02"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://fakestorageaccount.blob.core.windows.net/container167485843657707301/blob167485843664402894",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/xml",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "0",
+        "User-Agent": "azsdk-js-azure-storage-blob/12.13.0 core-rest-pipeline/1.10.2 Node/v16.18.0 OS/(x64-Linux-5.4.0-1100-azure)",
+        "x-ms-access-tier": "P20",
+        "x-ms-blob-content-length": "512",
+        "x-ms-blob-type": "PageBlob",
+        "x-ms-client-request-id": "44c71937-0eb2-40e6-878f-030ae7008edb",
+        "x-ms-date": "Fri, 27 Jan 2023 22:27:16 GMT",
+        "x-ms-version": "2021-12-02"
+      },
+      "RequestBody": null,
+      "StatusCode": 400,
+      "ResponseHeaders": {
+        "Content-Length": "254",
+        "Content-Type": "application/xml",
+        "Date": "Fri, 27 Jan 2023 22:27:16 GMT",
+        "Server": [
+          "Windows-Azure-Blob/1.0",
+          "Microsoft-HTTPAPI/2.0"
+        ],
+        "x-ms-client-request-id": "44c71937-0eb2-40e6-878f-030ae7008edb",
+        "x-ms-error-code": "AccessTierNotSupportedForBlobType",
+        "x-ms-request-id": "1dc56845-001e-0004-359e-3247b6000000",
+        "x-ms-version": "2021-12-02"
+      },
+      "ResponseBody": [
+        "\uFEFF\u003C?xml version=\u00221.0\u0022 encoding=\u0022utf-8\u0022?\u003E\u003CError\u003E\u003CCode\u003EAccessTierNotSupportedForBlobType\u003C/Code\u003E\u003CMessage\u003EThe access tier is not supported for this blob type.\n",
+        "RequestId:1dc56845-001e-0004-359e-3247b6000000\n",
+        "Time:2023-01-27T22:27:16.6737308Z\u003C/Message\u003E\u003C/Error\u003E"
+      ]
+    },
+    {
+      "RequestUri": "https://fakestorageaccount.blob.core.windows.net/container167485843657707301?restype=container",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/xml",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-azure-storage-blob/12.13.0 core-rest-pipeline/1.10.2 Node/v16.18.0 OS/(x64-Linux-5.4.0-1100-azure)",
+        "x-ms-client-request-id": "76eb6d52-ff95-45e6-b099-66cc9252f022",
+        "x-ms-date": "Fri, 27 Jan 2023 22:27:16 GMT",
+        "x-ms-version": "2021-12-02"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Content-Length": "0",
+        "Date": "Fri, 27 Jan 2023 22:27:16 GMT",
+        "Server": [
+          "Windows-Azure-Blob/1.0",
+          "Microsoft-HTTPAPI/2.0"
+        ],
+        "x-ms-client-request-id": "76eb6d52-ff95-45e6-b099-66cc9252f022",
+        "x-ms-request-id": "1dc56896-001e-0004-809e-3247b6000000",
+        "x-ms-version": "2021-12-02"
+      },
+      "ResponseBody": null
+    }
+  ],
+  "Variables": {
+    "blob": "blob167485843664402894",
+    "container": "container167485843657707301"
+  }
+}

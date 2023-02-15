@@ -107,7 +107,7 @@ matrix([[true, false]], async function (useAad) {
       const expectedHealth = {
         tls: { status: "unknown" as TlsStatus },
         ping: { status: "unknown" as PingStatus },
-        overall: { status: "unknown" as ActivityStatus },
+        activity: { status: "unknown" as ActivityStatus },
       } as SipTrunkHealth;
       await client.setTrunk({ fqdn: fourthFqdn, sipSignalingPort: 4567 } as SipTrunk);
 
@@ -122,7 +122,7 @@ matrix([[true, false]], async function (useAad) {
       const expectedHealth = {
         tls: { status: "unknown" as TlsStatus },
         ping: { status: "unknown" as PingStatus },
-        overall: { status: "unknown" as ActivityStatus },
+        activity: { status: "unknown" as ActivityStatus },
       } as SipTrunkHealth;
       const expectedTrunks = [
         {

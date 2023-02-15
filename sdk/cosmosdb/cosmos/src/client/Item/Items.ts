@@ -24,6 +24,7 @@ import {
   OperationInput,
   BulkOptions,
   decorateBatchOperation,
+  splitBatchBasedOnBodySize,
 } from "../../utils/batch";
 import { hashV1PartitionKey } from "../../utils/hashing/v1";
 import { hashV2PartitionKey } from "../../utils/hashing/v2";
@@ -438,6 +439,7 @@ export class Items {
     await Promise.all(
       batches
         .filter((batch: Batch) => batch.operations.length)
+        .flatMap((batch: Batch) => splitBatchBasedOnBodySize(batch))
         .map(async (batch: Batch) => {
           if (batch.operations.length > 100) {
             throw new Error("Cannot run bulk request with more than 100 operations per partition");

@@ -82,7 +82,7 @@ node dist/dnsForwardingRulesetsCreateOrUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env  node dist/dnsForwardingRulesetsCreateOrUpdateSample.js
+npx cross-env DNSRESOLVER_SUBSCRIPTION_ID="<dnsresolver subscription id>" DNSRESOLVER_RESOURCE_GROUP="<dnsresolver resource group>" node dist/dnsForwardingRulesetsCreateOrUpdateSample.js
 ```
 
 ## Next Steps

@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { StorageCacheManagementClient } from "@azure/arm-storagecache";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Get the list of StorageCache.Cache SKUs available to this subscription.
@@ -18,7 +21,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-05-01/examples/Skus_List.json
  */
 async function skusList() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId =
+    process.env["STORAGECACHE_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new StorageCacheManagementClient(credential, subscriptionId);
   const resArray = new Array();
@@ -28,4 +33,8 @@ async function skusList() {
   console.log(resArray);
 }
 
-skusList().catch(console.error);
+async function main() {
+  skusList();
+}
+
+main().catch(console.error);

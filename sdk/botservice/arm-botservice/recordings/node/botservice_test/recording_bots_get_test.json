@@ -34,7 +34,7 @@
         "x-ms-routing-request-id": "SOUTHEASTASIA:20230116T031735Z:db2a3a01-c7b2-409d-a42b-6951e63c4b6a"
       },
       "ResponseBody": {
-        "id": "/subscriptions/92f95d8f-3c67-4124-91c7-8cf07cdbf241/resourceGroups/myjstest/providers/Microsoft.BotService/botServices/mybotxxx",
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.BotService/botServices/mybotxxx",
         "name": "mybotxxx",
         "type": "Microsoft.BotService/botServices",
         "etag": "\u002218000c52-0000-1800-0000-63c4c1cc0000\u0022",

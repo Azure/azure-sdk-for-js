@@ -127,7 +127,6 @@ export class ReportsImpl implements Reports {
       result = await this._listByApiNext(
         resourceGroupName,
         serviceName,
-        filter,
         continuationToken,
         options
       );
@@ -232,7 +231,6 @@ export class ReportsImpl implements Reports {
       result = await this._listByUserNext(
         resourceGroupName,
         serviceName,
-        filter,
         continuationToken,
         options
       );
@@ -336,7 +334,6 @@ export class ReportsImpl implements Reports {
       result = await this._listByOperationNext(
         resourceGroupName,
         serviceName,
-        filter,
         continuationToken,
         options
       );
@@ -440,7 +437,6 @@ export class ReportsImpl implements Reports {
       result = await this._listByProductNext(
         resourceGroupName,
         serviceName,
-        filter,
         continuationToken,
         options
       );
@@ -544,7 +540,6 @@ export class ReportsImpl implements Reports {
       result = await this._listByGeoNext(
         resourceGroupName,
         serviceName,
-        filter,
         continuationToken,
         options
       );
@@ -648,7 +643,6 @@ export class ReportsImpl implements Reports {
       result = await this._listBySubscriptionNext(
         resourceGroupName,
         serviceName,
-        filter,
         continuationToken,
         options
       );
@@ -760,8 +754,6 @@ export class ReportsImpl implements Reports {
       result = await this._listByTimeNext(
         resourceGroupName,
         serviceName,
-        filter,
-        interval,
         continuationToken,
         options
       );
@@ -1099,19 +1091,17 @@ export class ReportsImpl implements Reports {
    * ListByApiNext
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param filter The filter to apply on the operation.
    * @param nextLink The nextLink from the previous successful call to the ListByApi method.
    * @param options The options parameters.
    */
   private _listByApiNext(
     resourceGroupName: string,
     serviceName: string,
-    filter: string,
     nextLink: string,
     options?: ReportsListByApiNextOptionalParams
   ): Promise<ReportsListByApiNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, filter, nextLink, options },
+      { resourceGroupName, serviceName, nextLink, options },
       listByApiNextOperationSpec
     );
   }
@@ -1120,31 +1110,17 @@ export class ReportsImpl implements Reports {
    * ListByUserNext
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param filter |   Field     |     Usage     |     Supported operators     |     Supported functions
-   *                  |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter | ge, le
-   *               |     | </br>| displayName | select, orderBy |     |     | </br>| userId | select, filter | eq |
-   *               | </br>| apiRegion | filter | eq |     | </br>| productId | filter | eq |     | </br>|
-   *               subscriptionId | filter | eq |     | </br>| apiId | filter | eq |     | </br>| operationId | filter
-   *               | eq |     | </br>| callCountSuccess | select, orderBy |     |     | </br>| callCountBlocked |
-   *               select, orderBy |     |     | </br>| callCountFailed | select, orderBy |     |     | </br>|
-   *               callCountOther | select, orderBy |     |     | </br>| callCountTotal | select, orderBy |     |     |
-   *               </br>| bandwidth | select, orderBy |     |     | </br>| cacheHitsCount | select |     |     | </br>|
-   *               cacheMissCount | select |     |     | </br>| apiTimeAvg | select, orderBy |     |     | </br>|
-   *               apiTimeMin | select |     |     | </br>| apiTimeMax | select |     |     | </br>| serviceTimeAvg |
-   *               select |     |     | </br>| serviceTimeMin | select |     |     | </br>| serviceTimeMax | select |
-   *                 |     | </br>
    * @param nextLink The nextLink from the previous successful call to the ListByUser method.
    * @param options The options parameters.
    */
   private _listByUserNext(
     resourceGroupName: string,
     serviceName: string,
-    filter: string,
     nextLink: string,
     options?: ReportsListByUserNextOptionalParams
   ): Promise<ReportsListByUserNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, filter, nextLink, options },
+      { resourceGroupName, serviceName, nextLink, options },
       listByUserNextOperationSpec
     );
   }
@@ -1153,30 +1129,17 @@ export class ReportsImpl implements Reports {
    * ListByOperationNext
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param filter |   Field     |     Usage     |     Supported operators     |     Supported functions
-   *                  |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter | ge, le
-   *               |     | </br>| displayName | select, orderBy |     |     | </br>| apiRegion | filter | eq |     |
-   *               </br>| userId | filter | eq |     | </br>| productId | filter | eq |     | </br>| subscriptionId |
-   *               filter | eq |     | </br>| apiId | filter | eq |     | </br>| operationId | select, filter | eq |
-   *                | </br>| callCountSuccess | select, orderBy |     |     | </br>| callCountBlocked | select, orderBy
-   *               |     |     | </br>| callCountFailed | select, orderBy |     |     | </br>| callCountOther | select,
-   *               orderBy |     |     | </br>| callCountTotal | select, orderBy |     |     | </br>| bandwidth |
-   *               select, orderBy |     |     | </br>| cacheHitsCount | select |     |     | </br>| cacheMissCount |
-   *               select |     |     | </br>| apiTimeAvg | select, orderBy |     |     | </br>| apiTimeMin | select |
-   *                  |     | </br>| apiTimeMax | select |     |     | </br>| serviceTimeAvg | select |     |     |
-   *               </br>| serviceTimeMin | select |     |     | </br>| serviceTimeMax | select |     |     | </br>
    * @param nextLink The nextLink from the previous successful call to the ListByOperation method.
    * @param options The options parameters.
    */
   private _listByOperationNext(
     resourceGroupName: string,
     serviceName: string,
-    filter: string,
     nextLink: string,
     options?: ReportsListByOperationNextOptionalParams
   ): Promise<ReportsListByOperationNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, filter, nextLink, options },
+      { resourceGroupName, serviceName, nextLink, options },
       listByOperationNextOperationSpec
     );
   }
@@ -1185,30 +1148,17 @@ export class ReportsImpl implements Reports {
    * ListByProductNext
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param filter |   Field     |     Usage     |     Supported operators     |     Supported functions
-   *                  |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter | ge, le
-   *               |     | </br>| displayName | select, orderBy |     |     | </br>| apiRegion | filter | eq |     |
-   *               </br>| userId | filter | eq |     | </br>| productId | select, filter | eq |     | </br>|
-   *               subscriptionId | filter | eq |     | </br>| callCountSuccess | select, orderBy |     |     | </br>|
-   *               callCountBlocked | select, orderBy |     |     | </br>| callCountFailed | select, orderBy |     |
-   *                | </br>| callCountOther | select, orderBy |     |     | </br>| callCountTotal | select, orderBy |
-   *                 |     | </br>| bandwidth | select, orderBy |     |     | </br>| cacheHitsCount | select |     |
-   *                | </br>| cacheMissCount | select |     |     | </br>| apiTimeAvg | select, orderBy |     |     |
-   *               </br>| apiTimeMin | select |     |     | </br>| apiTimeMax | select |     |     | </br>|
-   *               serviceTimeAvg | select |     |     | </br>| serviceTimeMin | select |     |     | </br>|
-   *               serviceTimeMax | select |     |     | </br>
    * @param nextLink The nextLink from the previous successful call to the ListByProduct method.
    * @param options The options parameters.
    */
   private _listByProductNext(
     resourceGroupName: string,
     serviceName: string,
-    filter: string,
     nextLink: string,
     options?: ReportsListByProductNextOptionalParams
   ): Promise<ReportsListByProductNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, filter, nextLink, options },
+      { resourceGroupName, serviceName, nextLink, options },
       listByProductNextOperationSpec
     );
   }
@@ -1217,30 +1167,17 @@ export class ReportsImpl implements Reports {
    * ListByGeoNext
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param filter |   Field     |     Usage     |     Supported operators     |     Supported functions
-   *                  |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter | ge, le
-   *               |     | </br>| country | select |     |     | </br>| region | select |     |     | </br>| zip |
-   *               select |     |     | </br>| apiRegion | filter | eq |     | </br>| userId | filter | eq |     |
-   *               </br>| productId | filter | eq |     | </br>| subscriptionId | filter | eq |     | </br>| apiId |
-   *               filter | eq |     | </br>| operationId | filter | eq |     | </br>| callCountSuccess | select |
-   *               |     | </br>| callCountBlocked | select |     |     | </br>| callCountFailed | select |     |     |
-   *               </br>| callCountOther | select |     |     | </br>| bandwidth | select, orderBy |     |     | </br>|
-   *               cacheHitsCount | select |     |     | </br>| cacheMissCount | select |     |     | </br>| apiTimeAvg
-   *               | select |     |     | </br>| apiTimeMin | select |     |     | </br>| apiTimeMax | select |     |
-   *                 | </br>| serviceTimeAvg | select |     |     | </br>| serviceTimeMin | select |     |     | </br>|
-   *               serviceTimeMax | select |     |     | </br>
    * @param nextLink The nextLink from the previous successful call to the ListByGeo method.
    * @param options The options parameters.
    */
   private _listByGeoNext(
     resourceGroupName: string,
     serviceName: string,
-    filter: string,
     nextLink: string,
     options?: ReportsListByGeoNextOptionalParams
   ): Promise<ReportsListByGeoNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, filter, nextLink, options },
+      { resourceGroupName, serviceName, nextLink, options },
       listByGeoNextOperationSpec
     );
   }
@@ -1249,30 +1186,17 @@ export class ReportsImpl implements Reports {
    * ListBySubscriptionNext
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param filter |   Field     |     Usage     |     Supported operators     |     Supported functions
-   *                  |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter | ge, le
-   *               |     | </br>| displayName | select, orderBy |     |     | </br>| apiRegion | filter | eq |     |
-   *               </br>| userId | select, filter | eq |     | </br>| productId | select, filter | eq |     | </br>|
-   *               subscriptionId | select, filter | eq |     | </br>| callCountSuccess | select, orderBy |     |     |
-   *               </br>| callCountBlocked | select, orderBy |     |     | </br>| callCountFailed | select, orderBy |
-   *                 |     | </br>| callCountOther | select, orderBy |     |     | </br>| callCountTotal | select,
-   *               orderBy |     |     | </br>| bandwidth | select, orderBy |     |     | </br>| cacheHitsCount |
-   *               select |     |     | </br>| cacheMissCount | select |     |     | </br>| apiTimeAvg | select,
-   *               orderBy |     |     | </br>| apiTimeMin | select |     |     | </br>| apiTimeMax | select |     |
-   *                | </br>| serviceTimeAvg | select |     |     | </br>| serviceTimeMin | select |     |     | </br>|
-   *               serviceTimeMax | select |     |     | </br>
    * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
    * @param options The options parameters.
    */
   private _listBySubscriptionNext(
     resourceGroupName: string,
     serviceName: string,
-    filter: string,
     nextLink: string,
     options?: ReportsListBySubscriptionNextOptionalParams
   ): Promise<ReportsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, filter, nextLink, options },
+      { resourceGroupName, serviceName, nextLink, options },
       listBySubscriptionNextOperationSpec
     );
   }
@@ -1281,34 +1205,17 @@ export class ReportsImpl implements Reports {
    * ListByTimeNext
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param filter |   Field     |     Usage     |     Supported operators     |     Supported functions
-   *                  |</br>|-------------|-------------|-------------|-------------|</br>| timestamp | filter, select
-   *               | ge, le |     | </br>| interval | select |     |     | </br>| apiRegion | filter | eq |     |
-   *               </br>| userId | filter | eq |     | </br>| productId | filter | eq |     | </br>| subscriptionId |
-   *               filter | eq |     | </br>| apiId | filter | eq |     | </br>| operationId | filter | eq |     |
-   *               </br>| callCountSuccess | select |     |     | </br>| callCountBlocked | select |     |     | </br>|
-   *               callCountFailed | select |     |     | </br>| callCountOther | select |     |     | </br>| bandwidth
-   *               | select, orderBy |     |     | </br>| cacheHitsCount | select |     |     | </br>| cacheMissCount |
-   *               select |     |     | </br>| apiTimeAvg | select |     |     | </br>| apiTimeMin | select |     |
-   *               | </br>| apiTimeMax | select |     |     | </br>| serviceTimeAvg | select |     |     | </br>|
-   *               serviceTimeMin | select |     |     | </br>| serviceTimeMax | select |     |     | </br>
-   * @param interval By time interval. Interval must be multiple of 15 minutes and may not be zero. The
-   *                 value should be in ISO  8601 format (http://en.wikipedia.org/wiki/ISO_8601#Durations).This code can
-   *                 be used to convert TimeSpan to a valid interval string: XmlConvert.ToString(new TimeSpan(hours,
-   *                 minutes, seconds)).
    * @param nextLink The nextLink from the previous successful call to the ListByTime method.
    * @param options The options parameters.
    */
   private _listByTimeNext(
     resourceGroupName: string,
     serviceName: string,
-    filter: string,
-    interval: string,
     nextLink: string,
     options?: ReportsListByTimeNextOptionalParams
   ): Promise<ReportsListByTimeNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, filter, interval, nextLink, options },
+      { resourceGroupName, serviceName, nextLink, options },
       listByTimeNextOperationSpec
     );
   }
@@ -1550,13 +1457,6 @@ const listByApiNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.top,
-    Parameters.skip,
-    Parameters.apiVersion,
-    Parameters.filter1,
-    Parameters.orderby
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -1578,13 +1478,6 @@ const listByUserNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.top,
-    Parameters.skip,
-    Parameters.apiVersion,
-    Parameters.filter1,
-    Parameters.orderby
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -1606,13 +1499,6 @@ const listByOperationNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.top,
-    Parameters.skip,
-    Parameters.apiVersion,
-    Parameters.filter1,
-    Parameters.orderby
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -1634,13 +1520,6 @@ const listByProductNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.top,
-    Parameters.skip,
-    Parameters.apiVersion,
-    Parameters.filter1,
-    Parameters.orderby
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -1662,12 +1541,6 @@ const listByGeoNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.top,
-    Parameters.skip,
-    Parameters.apiVersion,
-    Parameters.filter1
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -1689,13 +1562,6 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.top,
-    Parameters.skip,
-    Parameters.apiVersion,
-    Parameters.filter1,
-    Parameters.orderby
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -1717,14 +1583,6 @@ const listByTimeNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.top,
-    Parameters.skip,
-    Parameters.apiVersion,
-    Parameters.filter1,
-    Parameters.orderby,
-    Parameters.interval
-  ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

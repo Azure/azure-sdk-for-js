@@ -1,0 +1,137 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://fakestorageaccount.blob.core.windows.net/container167485776389608241?restype=container",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/xml",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "0",
+        "User-Agent": "azsdk-js-azure-storage-blob/12.13.0 core-rest-pipeline/1.10.2 Node/v16.18.0 OS/(x64-Linux-5.4.0-1100-azure)",
+        "x-ms-client-request-id": "533172e7-ae04-465c-b533-476f87c1dc19",
+        "x-ms-date": "Fri, 27 Jan 2023 22:16:03 GMT",
+        "x-ms-version": "2021-12-02"
+      },
+      "RequestBody": null,
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "Content-Length": "0",
+        "Date": "Fri, 27 Jan 2023 22:16:03 GMT",
+        "ETag": "\u00220x8DB00B414655054\u0022",
+        "Last-Modified": "Fri, 27 Jan 2023 22:16:03 GMT",
+        "Server": [
+          "Windows-Azure-Blob/1.0",
+          "Microsoft-HTTPAPI/2.0"
+        ],
+        "x-ms-client-request-id": "533172e7-ae04-465c-b533-476f87c1dc19",
+        "x-ms-request-id": "346ba8b2-001e-002b-149c-324a7d000000",
+        "x-ms-version": "2021-12-02"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://fakestorageaccount.blob.core.windows.net/container167485776389608241/blob167485776397606656",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/xml",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "11",
+        "Content-Type": "application/octet-stream",
+        "User-Agent": "azsdk-js-azure-storage-blob/12.13.0 core-rest-pipeline/1.10.2 Node/v16.18.0 OS/(x64-Linux-5.4.0-1100-azure)",
+        "x-ms-blob-type": "BlockBlob",
+        "x-ms-client-request-id": "df085064-788f-4a36-8ba9-941ecf6c72b9",
+        "x-ms-date": "Fri, 27 Jan 2023 22:16:03 GMT",
+        "x-ms-version": "2021-12-02"
+      },
+      "RequestBody": "SGVsbG8gV29ybGQ=",
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "Content-Length": "0",
+        "Content-MD5": "sQqNsWTgdUEFt6mb5y4/5Q==",
+        "Date": "Fri, 27 Jan 2023 22:16:03 GMT",
+        "ETag": "\u00220x8DB00B414791E11\u0022",
+        "Last-Modified": "Fri, 27 Jan 2023 22:16:04 GMT",
+        "Server": [
+          "Windows-Azure-Blob/1.0",
+          "Microsoft-HTTPAPI/2.0"
+        ],
+        "x-ms-client-request-id": "df085064-788f-4a36-8ba9-941ecf6c72b9",
+        "x-ms-content-crc64": "YeJLfssylmU=",
+        "x-ms-request-id": "346ba911-001e-002b-6b9c-324a7d000000",
+        "x-ms-request-server-encrypted": "true",
+        "x-ms-version": "2021-12-02",
+        "x-ms-version-id": "2023-01-27T22:16:04.0652305Z"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://fakestorageaccount.blob.core.windows.net/container167485776389608241/blob167485776397606656",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/xml",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "0",
+        "Content-Type": "application/octet-stream",
+        "User-Agent": "azsdk-js-azure-storage-blob/12.13.0 core-rest-pipeline/1.10.2 Node/v16.18.0 OS/(x64-Linux-5.4.0-1100-azure)",
+        "x-ms-blob-type": "BlockBlob",
+        "x-ms-client-request-id": "829b9eee-71ef-4196-af7f-88b08fbe0eb7",
+        "x-ms-date": "Fri, 27 Jan 2023 22:16:04 GMT",
+        "x-ms-version": "2021-12-02"
+      },
+      "RequestBody": null,
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "Content-Length": "0",
+        "Content-MD5": "1B2M2Y8AsgTpgAmY7PhCfg==",
+        "Date": "Fri, 27 Jan 2023 22:16:03 GMT",
+        "ETag": "\u00220x8DB00B414859F66\u0022",
+        "Last-Modified": "Fri, 27 Jan 2023 22:16:04 GMT",
+        "Server": [
+          "Windows-Azure-Blob/1.0",
+          "Microsoft-HTTPAPI/2.0"
+        ],
+        "x-ms-client-request-id": "829b9eee-71ef-4196-af7f-88b08fbe0eb7",
+        "x-ms-content-crc64": "AAAAAAAAAAA=",
+        "x-ms-request-id": "346ba9af-001e-002b-6d9c-324a7d000000",
+        "x-ms-request-server-encrypted": "true",
+        "x-ms-version": "2021-12-02",
+        "x-ms-version-id": "2023-01-27T22:16:04.1481846Z"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://fakestorageaccount.blob.core.windows.net/container167485776389608241?restype=container",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/xml",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-azure-storage-blob/12.13.0 core-rest-pipeline/1.10.2 Node/v16.18.0 OS/(x64-Linux-5.4.0-1100-azure)",
+        "x-ms-client-request-id": "c5791462-229f-49cb-b42b-86684bf1ccb8",
+        "x-ms-date": "Fri, 27 Jan 2023 22:16:04 GMT",
+        "x-ms-version": "2021-12-02"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Content-Length": "0",
+        "Date": "Fri, 27 Jan 2023 22:16:04 GMT",
+        "Server": [
+          "Windows-Azure-Blob/1.0",
+          "Microsoft-HTTPAPI/2.0"
+        ],
+        "x-ms-client-request-id": "c5791462-229f-49cb-b42b-86684bf1ccb8",
+        "x-ms-request-id": "346baa49-001e-002b-7b9c-324a7d000000",
+        "x-ms-version": "2021-12-02"
+      },
+      "ResponseBody": null
+    }
+  ],
+  "Variables": {
+    "blob": "blob167485776397606656",
+    "container": "container167485776389608241"
+  }
+}

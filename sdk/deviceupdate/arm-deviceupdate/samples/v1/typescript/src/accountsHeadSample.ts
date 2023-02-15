@@ -10,6 +10,9 @@
 // Licensed under the MIT License.
 import { DeviceUpdate } from "@azure/arm-deviceupdate";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Checks whether account exists.
@@ -18,8 +21,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2022-10-01/examples/Accounts/Accounts_Head.json
  */
 async function checksWhetherAccountExists() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "test-rg";
+  const subscriptionId =
+    process.env["DEVICEUPDATE_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["DEVICEUPDATE_RESOURCE_GROUP"] || "test-rg";
   const accountName = "contoso";
   const credential = new DefaultAzureCredential();
   const client = new DeviceUpdate(credential, subscriptionId);
@@ -27,4 +33,8 @@ async function checksWhetherAccountExists() {
   console.log(result);
 }
 
-checksWhetherAccountExists().catch(console.error);
+async function main() {
+  checksWhetherAccountExists();
+}
+
+main().catch(console.error);

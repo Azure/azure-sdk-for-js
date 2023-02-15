@@ -7,9 +7,10 @@ import {
   parseClientArguments,
 } from "@azure/communication-common";
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SipRoutingClient as SipRoutingGeneratedClient } from "./generated/src/siprouting/sipRoutingClient";
 import { SipConfigurationPatch, SipRoutingError } from "./generated/src/siprouting/models";
-import { SipTrunk, SipTrunkRoute, GetSipTrunksOptions } from "./models";
+import { ListSipRoutesOptions, ListSipTrunksOptions, SipTrunk, SipTrunkRoute, GetSipTrunksOptions } from "./models";
 import { transformFromRestModel, transformIntoRestModel } from "./mappers";
 import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
@@ -99,14 +100,22 @@ export class SipRoutingClient {
   }
 
   /**
-   * Gets the SIP trunks.
+   * Lists the SIP trunks.
    * @param options - The options parameters.
    */
-  public async getTrunks(options: GetSipTrunksOptions = {}): Promise<SipTrunk[]> {
-    return tracingClient.withSpan("SipRoutingClient-getTrunks", options, async (updatedOptions) => {
-      const config = await this.client.sipRouting.get(updatedOptions);
-      return transformFromRestModel(config.trunks);
-    });
+  public listTrunks(options: GetSipTrunksOptions = {}): PagedAsyncIterableIterator<SipTrunk> {
+    const iter = this.listTrunksPagingAll(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: () => {
+        return this.listTrunksPagingPage(options);
+      }
+    };
   }
 
   /**
@@ -116,7 +125,7 @@ export class SipRoutingClient {
    */
   public async getTrunk(fqdn: string, options: GetSipTrunksOptions = {}): Promise<SipTrunk> {
     return tracingClient.withSpan("SipRoutingClient-getTrunk", options, async (updatedOptions) => {
-      const trunks = await this.getTrunks(updatedOptions);
+      const trunks = await this.getTrunksInternal(updatedOptions);
       const trunk = trunks.find((value: SipTrunk) => value.fqdn === fqdn);
       if (trunk) {
         return trunk;
@@ -130,11 +139,19 @@ export class SipRoutingClient {
    * Gets the SIP trunk routes.
    * @param options - The options parameters.
    */
-  public async getRoutes(options: OperationOptions = {}): Promise<SipTrunkRoute[]> {
-    return tracingClient.withSpan("SipRoutingClient-getRoutes", options, async (updatedOptions) => {
-      const config = await this.client.sipRouting.get(updatedOptions);
-      return config.routes || [];
-    });
+  public listRoutes(options: ListSipRoutesOptions = {}): PagedAsyncIterableIterator<SipTrunkRoute>  {
+    const iter = this.listRoutesPagingAll(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: () => {
+        return this.listRoutesPagingPage(options);
+      }
+    };
   }
 
   /**
@@ -212,7 +229,7 @@ export class SipRoutingClient {
         ...patch,
       };
       const config = await this.client.sipRouting.patch(payload);
-      const storedRoutes = config.routes || (await this.getRoutes(updatedOptions));
+      const storedRoutes = config.routes || (await this.getRoutesInternal(updatedOptions));
       return storedRoutes;
     });
   }
@@ -240,5 +257,99 @@ export class SipRoutingClient {
         await this.client.sipRouting.patch(payload);
       }
     );
+  }
+
+  private async getRoutesInternal(options :OperationOptions)
+  {
+    return await tracingClient.withSpan("SipRoutingClient-getRoutes", options, async (updatedOptions) => {
+      const config = await this.client.sipRouting.get(updatedOptions);
+      return config.routes || [];
+    });
+  }
+
+  private async getTrunksInternal(options :OperationOptions)
+  {
+    return tracingClient.withSpan("SipRoutingClient-getTrunks", options, async (updatedOptions) => {
+      const config = await this.client.sipRouting.get(updatedOptions);
+      return transformFromRestModel(config.trunks);
+    });
+  }
+
+  private async *listRoutesPagingAll(
+    options?: ListSipRoutesOptions
+  ): AsyncIterableIterator<SipTrunkRoute> {
+    for await (const page of this.listRoutesPagingPage(options)) {
+      yield* page;
+    }
+  }
+
+  private async *listTrunksPagingAll(
+    options?: ListSipTrunksOptions
+  ): AsyncIterableIterator<SipTrunk> {
+    for await (const page of this.listTrunksPagingPage(options)) {
+      yield* page;
+    }
+  }
+
+  private async *listTrunksPagingPage(
+    options : ListSipTrunksOptions = {}
+  ): AsyncIterableIterator<SipTrunk[]> {
+    let apiResult = await this.getTrunksInternal(options as OperationOptions)
+
+    const pageSize = options.maxPageSize ?? 100;
+    const offset = options.skip ?? 0;
+
+    if(offset > apiResult.length)
+    {
+      return [];
+    }
+
+    if(pageSize > (apiResult.length-offset))
+    {
+      return apiResult;
+    }
+
+    const pageCount = Math.ceil((apiResult.length - offset) / pageSize);
+    
+    for(let j = 0; j < pageCount; j++)
+    {   
+      let page = [];
+      for(let k = offset + j*pageSize; k <= apiResult.length; k++)
+      {
+        page.push(apiResult[k]);
+      }
+      yield page;
+    }
+  }
+
+  private async *listRoutesPagingPage(
+    options : ListSipRoutesOptions = {}
+  ): AsyncIterableIterator<SipTrunkRoute[]> {
+    let apiResult = await this.getRoutesInternal(options as OperationOptions)
+
+    const pageSize = options.maxPageSize ?? 100;
+    const offset = options.skip ?? 0;
+
+    if(offset > apiResult.length)
+    {
+      return [];
+    }
+
+    if(pageSize > (apiResult.length-offset))
+    {
+      return apiResult;
+    }
+
+    const pageCount = Math.ceil((apiResult.length - offset) / pageSize);
+    
+    for(let j = 0; j < pageCount; j++)
+    {   
+      let page = [];
+      for(let k = offset + j*pageSize; k <= apiResult.length; k++)
+      {
+        page.push(apiResult[k]);
+      }
+      yield page;
+    }
   }
 }

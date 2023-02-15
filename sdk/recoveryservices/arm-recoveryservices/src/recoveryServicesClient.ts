@@ -54,7 +54,7 @@ export class RecoveryServicesClient extends coreClient.ServiceClient {
   /**
    * Initializes a new instance of the RecoveryServicesClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The subscription Id.
+   * @param subscriptionId The ID of the target subscription.
    * @param options The parameter options
    */
   constructor(
@@ -78,22 +78,19 @@ export class RecoveryServicesClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-recoveryservices/5.1.0`;
+    const packageDetails = `azsdk-js-arm-recoveryservices/5.2.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
         : `${packageDetails}`;
 
-    if (!options.credentialScopes) {
-      options.credentialScopes = ["https://management.azure.com/.default"];
-    }
     const optionsWithDefaults = {
       ...defaults,
       ...options,
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri:
+      endpoint:
         options.endpoint ?? options.baseUri ?? "https://management.azure.com"
     };
     super(optionsWithDefaults);
@@ -119,7 +116,9 @@ export class RecoveryServicesClient extends coreClient.ServiceClient {
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
           credential: credentials,
-          scopes: `${optionsWithDefaults.credentialScopes}`,
+          scopes:
+            optionsWithDefaults.credentialScopes ??
+            `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
               coreClient.authorizeRequestOnClaimChallenge
@@ -132,7 +131,7 @@ export class RecoveryServicesClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-04-01";
+    this.apiVersion = options.apiVersion || "2023-01-01";
     this.vaultCertificates = new VaultCertificatesImpl(this);
     this.registeredIdentities = new RegisteredIdentitiesImpl(this);
     this.replicationUsages = new ReplicationUsagesImpl(this);
@@ -177,8 +176,7 @@ export class RecoveryServicesClient extends coreClient.ServiceClient {
 
   /**
    * Gets the operation status for a resource.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the recovery services vault.
    * @param operationId
    * @param options The options parameters.
@@ -197,8 +195,7 @@ export class RecoveryServicesClient extends coreClient.ServiceClient {
 
   /**
    * Gets the operation result for a resource.
-   * @param resourceGroupName The name of the resource group where the recovery services vault is
-   *                          present.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vaultName The name of the recovery services vault.
    * @param operationId
    * @param options The options parameters.
