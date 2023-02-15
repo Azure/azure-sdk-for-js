@@ -13,7 +13,14 @@ import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
 
 export type QueryParameterCollectionFormat = "multi" | "csv" | "pipe";
 
-export interface InternalRequestParameters {
+/** 
+ * Internal options for customizing the client. 
+ * This is meant to be used by code generators 
+ */
+export interface InternalClientOptions extends ClientOptions {
+  /**
+   * Default format to use when serializing Array query parameter values
+   */
   queryCollectionFormat?: QueryParameterCollectionFormat;
 }
 

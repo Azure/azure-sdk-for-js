@@ -90,9 +90,8 @@ export interface InnerError {
     innererror?: InnerError;
 }
 
-// @public (undocumented)
-export interface InternalRequestParameters {
-    // (undocumented)
+// @public
+export interface InternalClientOptions extends ClientOptions {
     queryCollectionFormat?: QueryParameterCollectionFormat;
 }
 

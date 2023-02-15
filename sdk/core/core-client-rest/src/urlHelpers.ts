@@ -1,11 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  InternalRequestParameters,
-  QueryParameterCollectionFormat,
-  RequestParameters,
-} from "./common";
+import { QueryParameterCollectionFormat, RequestParameters } from "./common";
 
 /**
  * Builds the request url, filling in query and path parameters
@@ -19,7 +15,7 @@ export function buildRequestUrl(
   baseUrl: string,
   routePath: string,
   pathParameters: string[],
-  options: RequestParameters & InternalRequestParameters = {}
+  options: RequestParameters & { queryCollectionFormat?: QueryParameterCollectionFormat } = {}
 ): string {
   if (routePath.startsWith("https://") || routePath.startsWith("http://")) {
     return routePath;
@@ -39,7 +35,7 @@ export function buildRequestUrl(
 
 function appendQueryParams(
   url: string,
-  options: RequestParameters & InternalRequestParameters = {}
+  options: RequestParameters & { queryCollectionFormat?: QueryParameterCollectionFormat } = {}
 ) {
   if (!options.queryParameters) {
     return url;
