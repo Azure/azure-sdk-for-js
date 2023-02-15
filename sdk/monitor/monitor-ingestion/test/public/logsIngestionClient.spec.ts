@@ -190,18 +190,16 @@ describe("LogsIngestionClient live tests", function () {
   });
 
   it("User abort additional processing early if they handle the error", async function () {
+    const abortController = new AbortController();
+    let errorCallbackCount = 0;
+    function errorCallback(): void {
+      abortController.abort();
+      ++errorCallbackCount;
+    }
     if (isNode) {
       const noOfElements = 250000;
       const logData = getObjects(noOfElements);
       const concurrency = 4;
-
-      const abortController = new AbortController();
-      let errorCallbackCount = 0;
-
-      function errorCallback(): void {
-        abortController.abort();
-        ++errorCallbackCount;
-      }
       try {
         await client.upload("immutable-id-123", "Custom-MyTableRawData", logData, {
           maxConcurrency: concurrency,
