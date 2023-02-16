@@ -21,6 +21,9 @@ export function dataLakePathParameterWorkaroundPolicy(): PipelinePolicy {
   return {
     name: dataLakePathParameterWorkaroundPolicyName,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
+      if (request.headers.has("Content-Length") && request.headers.get("Content-Length") === "0" && request.body === undefined) {
+        request.body = "";
+      }
       if (request.url.includes("/%7Bfilesystem%7D/%7Bpath%7D")) {
         request.url = request.url.replace("/%7Bfilesystem%7D/%7Bpath%7D", "");
         // special case: sometimes we concatenate the path from the operation spec (/{filesystem}/{path})

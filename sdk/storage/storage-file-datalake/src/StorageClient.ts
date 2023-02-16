@@ -49,7 +49,7 @@ function getCoreClientOptions(pipeline: Pipeline): ExtendedServiceClientOptions 
     .getOrderedPolicies()
     .some((policy) => policy.name === dataLakePathParameterWorkaroundPolicyName);
   if (!hasWorkaroundPolicy) {
-    corePipeline.addPolicy(dataLakePathParameterWorkaroundPolicy());
+    corePipeline.addPolicy(dataLakePathParameterWorkaroundPolicy(), {beforePolicies: ["storageBrowserPolicy"]});
   }
   return {
     ...restOptions,
