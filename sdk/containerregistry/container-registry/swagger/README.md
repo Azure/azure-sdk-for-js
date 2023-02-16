@@ -195,6 +195,11 @@ directive:
       "Docker-Content-Digest": {
         "type": "string",
         "description": "Identifies the docker upload uuid for the current request."
+      },
+      "Content-Type": {
+        "type": "string",
+        "description": "Content type of the uploaded media",
+        "x-ms-client-name": "MediaType"
       }
     };
 ```

@@ -1621,6 +1621,12 @@ export const ContainerRegistryGetManifestHeaders: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      mediaType: {
+        serializedName: "content-type",
+        type: {
+          name: "String"
+        }
       }
     }
   }
