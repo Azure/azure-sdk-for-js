@@ -10,7 +10,7 @@ export class StorageContextClient extends StorageClient {
     operationArguments: OperationArguments,
     operationSpec: OperationSpec
   ): Promise<T> {
-    let operationSpecToSend = { ...operationSpec };
+    const operationSpecToSend = { ...operationSpec };
 
     if (
       !isNode &&
