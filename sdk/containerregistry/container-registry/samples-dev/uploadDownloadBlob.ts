@@ -31,10 +31,7 @@ async function main() {
     }
   );
 
-  // uploadBlob takes in a "resettable stream": a factory function that returns a new stream each time.
-  // It can also take in a plain ReadableStream, but this will cause the entire stream to be loaded
-  // into memory for the computation of the digest. Passing a factory function removes this limitation.
-  const uploadResult = await client.uploadBlob(() => Readable.from(BLOB_CONTENT));
+  const uploadResult = await client.uploadBlob(Readable.from(BLOB_CONTENT));
 
   // Calling downloadBlob on the uploaded blob (identified by the digest) gives a readable stream containing the blob's content.
   const downloadResult = await client.downloadBlob(uploadResult.digest);

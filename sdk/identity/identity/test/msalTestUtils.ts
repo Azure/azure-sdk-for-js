@@ -135,6 +135,11 @@ export async function msalNodeTestSetup(
       bodySanitizers: [
         {
           regex: true,
+          target: 'client_secret=[^&"]+',
+          value: "client_secret=azure_client_secret",
+        },
+        {
+          regex: true,
           target: `client_assertion=[a-zA-Z0-9-._]*`,
           value: "client_assertion=client_assertion",
         },

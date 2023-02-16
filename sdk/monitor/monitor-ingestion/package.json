@@ -1,6 +1,6 @@
 {
   "name": "@azure/monitor-ingestion",
-  "version": "1.0.0-beta.4",
+  "version": "1.0.0",
   "description": "Azure Monitor Ingestion library",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -44,7 +44,7 @@
     "build": "npm run clean && tsc -p . && npm run build:nodebrowser && api-extractor run --local && npm run build:types",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* temp types *.tgz *.log",
-    "execute:samples": "echo Obselete",
+    "execute:samples": "echo Obsolete",
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "generate:client": "autorest --typescript ./swagger/README.md",
@@ -87,16 +87,17 @@
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
+    "@azure/abort-controller": "^1.1.0",
     "@azure/core-auth": "^1.3.0",
     "@azure/core-client": "^1.5.0",
     "@azure/core-rest-pipeline": "^1.4.0",
     "@azure/core-tracing": "^1.0.0",
+    "@azure/core-util": "^1.0.0",
     "@azure/logger": "^1.0.0",
     "tslib": "^2.2.0",
     "pako": "^2.0.4"
   },
   "devDependencies": {
-    "@azure/core-util": "^1.0.0",
     "@azure-tools/test-credential": "~1.0.0",
     "@azure-tools/test-recorder": "^2.0.0",
     "@azure/dev-tool": "^1.0.0",
@@ -109,6 +110,7 @@
     "@types/mocha": "^7.0.2",
     "@types/node": "^14.0.0",
     "@types/pako": "^2.0.0",
+    "@types/sinon": "^9.0.4",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
     "dotenv": "^16.0.0",
@@ -133,8 +135,9 @@
     "nyc": "^15.0.0",
     "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
+    "sinon": "^9.0.2",
     "source-map-support": "^0.5.9",
-    "typescript": "~4.6.0",
+    "typescript": "~4.8.0",
     "util": "^0.12.1"
   },
   "//sampleConfiguration": {

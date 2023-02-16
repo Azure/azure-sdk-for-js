@@ -17,6 +17,7 @@ import * as coreAuth from "@azure/core-auth";
 import {
   ClustersImpl,
   ClusterPrincipalAssignmentsImpl,
+  SkusImpl,
   DatabasesImpl,
   AttachedDatabaseConfigurationsImpl,
   ManagedPrivateEndpointsImpl,
@@ -32,6 +33,7 @@ import {
 import {
   Clusters,
   ClusterPrincipalAssignments,
+  Skus,
   Databases,
   AttachedDatabaseConfigurations,
   ManagedPrivateEndpoints,
@@ -79,7 +81,7 @@ export class KustoManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-kusto/7.2.2`;
+    const packageDetails = `azsdk-js-arm-kusto/7.3.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -132,11 +134,12 @@ export class KustoManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-07-07";
+    this.apiVersion = options.apiVersion || "2022-12-29";
     this.clusters = new ClustersImpl(this);
     this.clusterPrincipalAssignments = new ClusterPrincipalAssignmentsImpl(
       this
     );
+    this.skus = new SkusImpl(this);
     this.databases = new DatabasesImpl(this);
     this.attachedDatabaseConfigurations = new AttachedDatabaseConfigurationsImpl(
       this
@@ -185,6 +188,7 @@ export class KustoManagementClient extends coreClient.ServiceClient {
 
   clusters: Clusters;
   clusterPrincipalAssignments: ClusterPrincipalAssignments;
+  skus: Skus;
   databases: Databases;
   attachedDatabaseConfigurations: AttachedDatabaseConfigurations;
   managedPrivateEndpoints: ManagedPrivateEndpoints;

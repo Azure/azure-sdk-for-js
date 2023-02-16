@@ -64,6 +64,14 @@ For advanced authentication workflows in the browser, we have a section where we
 
 While we recommend using managed identity or service principal authentication in your production application, it is typical for a developer to use their own account for authenticating calls to Azure services when debugging and executing code locally. There are several developer tools which can be used to perform this authentication in your development environment.
 
+#### Authenticate via the Azure Developer CLI
+
+Developers coding outside of an IDE can also use the [Azure Developer CLI][azure_developer_cli] to authenticate. Applications using the `DefaultAzureCredential` or the `AzureDeveloperCliCredential` can then use this account to authenticate calls in their application when running locally.
+
+To authenticate with the [Azure Developer CLI][azure_developer_cli], users can run the command `azd login`. For users running on a system with a default web browser, the Azure Developer CLI will launch the browser to authenticate the user.
+
+For systems without a default web browser, the `azd login --use-device-code` command will use the device code authentication flow.
+
 #### Authenticate via the Azure CLI
 
 Applications using the `AzureCliCredential`, whether directly or via the `DefaultAzureCredential`, can use the Azure CLI account to authenticate calls in the application when running locally.
@@ -124,6 +132,7 @@ If used from Node.js, the `DefaultAzureCredential` will attempt to authenticate 
 
 1. **Environment** - The `DefaultAzureCredential` will read account information specified via [environment variables](#environment-variables) and use it to authenticate.
 1. **Managed Identity** - If the application is deployed to an Azure host with Managed Identity enabled, the `DefaultAzureCredential` will authenticate with that account.
+1. **Azure Developer CLI** - If the developer has authenticated an account via the Azure Developer CLI `azd login` command, the `DefaultAzureCredential` will authenticate with that account.
 1. **Azure CLI** - If the developer has authenticated an account via the Azure CLI `az login` command, the `DefaultAzureCredential` will authenticate with that account.
 1. **Azure PowerShell** - If the developer has authenticated using the Azure PowerShell module `Connect-AzAccount` command, the `DefaultAzureCredential` will authenticate with that account.
 
@@ -250,6 +259,7 @@ Not all credentials require this configuration. Credentials that authenticate th
 
 | Credential                                                                                                                                | Usage                                                             | Example                                                                                                                                                                   | Reference                                                                                           |
 | ----------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| `AzureDeveloperCliCredential`        | Authenticate in a development environment with the enabled user or service principal in Azure Developer CLI.     |         | [Azure Developer CLI Reference](https://learn.microsoft.com/azure/developer/azure-developer-cli/reference)             |
 | [`AzureCliCredential`](https://learn.microsoft.com/javascript/api/@azure/identity/azureclicredential?view=azure-node-latest)               | Authenticate in a development environment with the Azure CLI.     | [example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-a-user-account-with-azure-cli)        | [Azure CLI authentication](https://learn.microsoft.com/cli/azure/authenticate-azure-cli)             |
 | [`AzurePowerShellCredential`](https://learn.microsoft.com/javascript/api/@azure/identity/azurepowershellcredential?view=azure-node-latest) | Authenticate in a development environment using Azure PowerShell. | [example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-a-user-account-with-azure-powershell) | [Azure PowerShell authentication](https://learn.microsoft.com/powershell/azure/authenticate-azureps) |
 | [`VisualStudioCodeCredential`](https://learn.microsoft.com/javascript/api/@azure/identity/visualstudiocodecredential?view=azure-node-latest)	| Authenticates as the user signed in to the Visual Studio Code Azure Account extension.|  |	[VS Code Azure Account extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode.azure-account)
@@ -379,5 +389,4 @@ If you'd like to contribute to this library, please read the [contributing guide
 [azureclilogindevicecode_image]: https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/identity/identity/images/AzureCliLoginDeviceCode.png
 [azurepowershelllogin_image]: https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/identity/identity/images/AzurePowerShellLogin.png
 [defaultauthflow_image]: https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/identity/identity/images/mermaidjs/DefaultAzureCredentialAuthFlow.svg
-
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fidentity%2Fidentity%2FREADME.png)

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Fetches all the resources of the specified type in the subscription.
  *
  * @summary Fetches all the resources of the specified type in the subscription.
- * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2022-04-01/examples/ListBySubscriptionIds.json
+ * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2023-01-01/examples/ListBySubscriptionIds.json
  */
 async function listOfRecoveryServicesResourcesInSubscriptionId() {
   const subscriptionId =
