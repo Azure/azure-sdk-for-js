@@ -38,6 +38,11 @@ export interface DownloadManifestResult {
   digest: string;
 
   /**
+   * Media type of the downloaded manifest.
+   */
+  mediaType: string;
+
+  /**
    * The OCI manifest that was downloaded. If the requested media type was not KnownMediaType.OciManifest, this will be left undefined.
    */
   manifest?: OciManifest;
@@ -155,7 +160,6 @@ export interface DownloadBlobOptions extends OperationOptions {}
 export interface DownloadManifestOptions extends OperationOptions {
   /**
    * Media type of the manifest to download. Refer to {@link KnownManifestMediaType} for known media types.
-   * Defaults to KnownManifestMediaType.OciManifest ("application/vnd.oci.image.manifest.v1+json").
    */
   mediaType?: string;
 }

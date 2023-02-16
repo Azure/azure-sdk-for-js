@@ -234,11 +234,18 @@ export class ContainerRegistryBlobClient {
       "ContainerRegistryBlobClient.downloadManifest",
       options,
       async (updatedOptions) => {
-        const { dockerContentDigest, readableStreamBody } =
-          await this.client.containerRegistry.getManifest(this.repositoryName, tagOrDigest, {
-            accept: options.mediaType ?? KnownManifestMediaType.OciManifest,
-            ...updatedOptions,
-          });
+        const {
+          dockerContentDigest,
+          readableStreamBody,
+          mediaType: receivedMediaType,
+        } = await this.client.containerRegistry.getManifest(this.repositoryName, tagOrDigest, {
+          accept: options.mediaType,
+          ...updatedOptions,
+        });
+
+        if (!receivedMediaType) {
+          throw new RestError("Expected content-type header to be present on response");
+        }
 
         const bodyData = readableStreamBody
           ? await readStreamToEnd(readableStreamBody)
@@ -254,10 +261,7 @@ export class ContainerRegistryBlobClient {
 
         let manifest: OciManifest | undefined = undefined;
 
-        if (
-          options.mediaType === undefined ||
-          options.mediaType === KnownManifestMediaType.OciManifest
-        ) {
+        if (receivedMediaType === KnownManifestMediaType.OciManifest) {
           manifest = serializer.deserialize(
             Mappers.OCIManifest,
             JSON.parse(bodyData.toString()),
@@ -267,6 +271,7 @@ export class ContainerRegistryBlobClient {
 
         return {
           digest: dockerContentDigest,
+          mediaType: receivedMediaType,
           manifest,
           manifestStream: Readable.from(bodyData),
         };

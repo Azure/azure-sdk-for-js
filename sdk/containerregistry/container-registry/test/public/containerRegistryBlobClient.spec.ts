@@ -118,7 +118,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
       await client.deleteManifest(uploadResult.digest);
     });
 
-    it.only("can upload Docker manifest", async () => {
+    it("can upload Docker manifest", async () => {
       const helloWorldClient = createBlobClient(
         assertEnvironmentVariable("CONTAINER_REGISTRY_ENDPOINT"),
         "library/hello-world",
@@ -141,7 +141,23 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
       }
     });
 
-    it.only("can download Docker manifest", async () => {});
+    it("can download Docker manifest", async () => {
+      const helloWorldClient = createBlobClient(
+        assertEnvironmentVariable("CONTAINER_REGISTRY_ENDPOINT"),
+        "library/hello-world",
+        serviceVersion,
+        recorder
+      );
+
+      const digest = "sha256:f54a58bc1aac5ea1a25d796ae155dc228b3f0e11d046ae276b39c4bf2f13d8c4";
+
+      const result = await helloWorldClient.downloadManifest(digest);
+
+      assert.equal(result.digest, digest);
+
+      // Since this is not an OCI manifest we expect `manifest` to be undefined.
+      assert.isUndefined(result.manifest);
+    });
 
     it.skip("can upload OCI manifest stream with tag", async function (this: Mocha.Context) {
       if (isPlaybackMode()) {
