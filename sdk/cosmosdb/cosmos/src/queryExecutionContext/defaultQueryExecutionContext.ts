@@ -109,7 +109,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
     );
   }
 
-  /**
+  /**``
    * Fetches the next batch of the feed and pass them as an array to a callback
    */
   public async fetchMore(): Promise<Response<any>> {
