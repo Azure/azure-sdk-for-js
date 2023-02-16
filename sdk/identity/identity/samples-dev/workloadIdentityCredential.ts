@@ -18,8 +18,8 @@ async function testWorkloadCredential() {
   const credential = new WorkloadIdentityCredential({
     tenantId: process.env.AZURE_TENANT_ID!,
     clientId: process.env.AZURE_CLIENT_ID!,
-    federatedTokenFilePath: process.env.AZURE_FEDERATED_TOKEN_FILE!
-});
+    federatedTokenFilePath: process.env.AZURE_FEDERATED_TOKEN_FILE!,
+  });
 
   try {
     const token = await credential.getToken("https://storage.azure.com/.default");

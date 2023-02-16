@@ -22,9 +22,7 @@ export class WorkloadIdentityCredential implements TokenCredential {
    *
    * @param options - The identity client options to use for authentication.
    */
-  constructor(
-    options: WorkloadIdentityCredentialOptions = {}
-  ) {
+  constructor(options: WorkloadIdentityCredentialOptions = {}) {
     if (!options.tenantId || !options.clientId || !options.federatedTokenFilePath) {
       throw new Error(
         "WorkloadIdentityCredential: tenantId, clientId, and federatedTokenFilePath are required parameters."

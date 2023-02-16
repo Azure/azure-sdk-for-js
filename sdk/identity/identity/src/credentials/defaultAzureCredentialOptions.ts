@@ -48,9 +48,10 @@ export interface DefaultAzureCredentialOptions
  * Provides options to configure the {@link DefaultAzureCredential} class.
  * This variation supports `managedIdentityClientId` and `workloadFile` and not `managedIdentityResourceId`, since only one of both is supported.
  */
-export interface DefaultAzureWorkloadCredentialOptions extends DefaultAzureCredentialClientIdOptions {
+export interface DefaultAzureWorkloadCredentialOptions
+  extends DefaultAzureCredentialClientIdOptions {
   /**
    * The path to a file containing a Kubernetes service account token that authenticates the identity.
-   */  
+   */
   federatedTokenFilePath?: string;
 }

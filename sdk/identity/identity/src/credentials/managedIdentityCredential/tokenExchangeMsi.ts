@@ -17,7 +17,9 @@ export function tokenExchangeMsi(): MSI {
     async isAvailable({ clientId }): Promise<boolean> {
       const env = process.env;
       const result = Boolean(
-        (clientId || env.AZURE_CLIENT_ID) && env.AZURE_TENANT_ID && process.env.AZURE_FEDERATED_TOKEN_FILE
+        (clientId || env.AZURE_CLIENT_ID) &&
+          env.AZURE_TENANT_ID &&
+          process.env.AZURE_FEDERATED_TOKEN_FILE
       );
       if (!result) {
         logger.info(
@@ -35,7 +37,7 @@ export function tokenExchangeMsi(): MSI {
       const workloadIdentityCredential = new WorkloadIdentityCredential({
         clientId,
         tenantId: process.env.AZURE_TENANT_ID,
-        federatedTokenFilePath: process.env.AZURE_FEDERATED_TOKEN_FILE
+        federatedTokenFilePath: process.env.AZURE_FEDERATED_TOKEN_FILE,
       });
 
       return workloadIdentityCredential.getToken(scopes, getTokenOptions);
