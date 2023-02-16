@@ -28,6 +28,8 @@ import { LeaseOperationOptions } from '@azure/storage-blob';
 import { LeaseOperationResponse } from '@azure/storage-blob';
 import { ModifiedAccessConditions as ModifiedAccessConditions_3 } from '@azure/storage-blob';
 import { newPipeline } from '@azure/storage-blob';
+import { OperationArguments } from '@azure/core-client';
+import { OperationSpec } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { Pipeline } from '@azure/storage-blob';
 import { Readable } from 'stream';

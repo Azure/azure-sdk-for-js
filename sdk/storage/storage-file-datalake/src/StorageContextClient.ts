@@ -5,6 +5,9 @@ import { OperationArguments, OperationSpec } from "@azure/core-client";
 import { isNode } from "@azure/core-util";
 import { StorageClient } from "./generated/src";
 
+/**
+ * @internal
+ */
 export class StorageContextClient extends StorageClient {
   async sendOperationRequest<T>(
     operationArguments: OperationArguments,
