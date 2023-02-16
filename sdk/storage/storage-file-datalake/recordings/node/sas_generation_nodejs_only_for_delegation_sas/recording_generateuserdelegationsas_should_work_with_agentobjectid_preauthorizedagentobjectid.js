@@ -209,7 +209,7 @@ nock('https://fakestorageaccount.dfs.core.windows.net:443', {"encodedQueryParams
 ]);
 
 nock('https://fakestorageaccount.dfs.core.windows.net:443', {"encodedQueryParams":true})
-  .patch('/filesystem166538928145502913/')
+  .patch('/filesystem166538928145502913//')
   .query(true)
   .reply(200, "", [
   'Last-Modified',
